@@ -144,7 +144,6 @@
     <string name="no_url_handler">Instalirajte web preglednik da bi ste otvorili ovaj URL.</string>
     <string name="select_database_file">Otvori postojeću bazu podataka</string>
     <string name="create_keepass_file">Stvori novu bazu podataka</string>
-    <string name="omit_backup_search_title">Ne pretražuj kopije unosa</string>
     <string name="progress_create">Stvaranje nove baze podataka …</string>
     <string name="protection">Zaštita</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplicirane UUID-ove.</string>
@@ -258,7 +257,6 @@
     <string name="menu_move">Premjesti</string>
     <string name="menu_cancel">Otkaži</string>
     <string name="menu_file_selection_read_only">Zaštićeno od pisanja</string>
-    <string name="omit_backup_search_summary">Izostavi grupe \"Backup\" i \"Recycle bin\" iz rezultata pretraživanja</string>
     <string name="progress_title">Rad u tijeku …</string>
     <string name="read_only">Zaštićeno od pisanja</string>
     <string name="read_only_warning">Ovisno o upravitelju datoteka, KeePassDX možda neće moći pisati u tvoje spremište.</string>

@@ -111,8 +111,6 @@
     <string name="never">Ποτέ</string>
     <string name="no_results">Δεν βρέθηκαν αποτελέσματα αναζήτησης</string>
     <string name="no_url_handler">Εγκαταστήστε ένα πρόγραμμα περιήγησης για να ανοίξετε αυτήν τη διεύθυνση URL.</string>
-    <string name="omit_backup_search_title">Να μην γίνει αναζήτηση μέσα από τις καταχωρήσεις αντιγραφών ασφαλείας</string>
-    <string name="omit_backup_search_summary">Παράληψη ομάδας \"Αντίγραφο Ασφαλείας\" και \"Κάδος Ανακύκλωσης\" από τα αποτελέσματα αναζήτησης</string>
     <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>

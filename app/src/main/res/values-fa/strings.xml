@@ -63,8 +63,6 @@
     <string name="subdomain_search_title">جستجوی زیردریایی</string>
     <string name="auto_focus_search_summary">درخواست جستجو در هنگام باز کردن یک پایگاه داده</string>
     <string name="auto_focus_search_title">جستجوی سریع</string>
-    <string name="omit_backup_search_summary">Omits \"پشتیبان گیری\" و \"سطل بازیافت\" گروه از نتایج جستجو</string>
-    <string name="omit_backup_search_title">از طریق ورودی های پشتیبان جستجو نکنید</string>
     <string name="create_keepass_file">ایجاد پایگاه داده جدید</string>
     <string name="select_database_file">باز کردن پایگاه داده موجود</string>
     <string name="no_url_handler">برای باز کردن این URL یک مرورگر وب نصب کنید.</string>

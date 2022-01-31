@@ -111,8 +111,6 @@
     <string name="never">Ei koskaan</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Asenna web-selain avataksesi URL:n.</string>
-    <string name="omit_backup_search_title">Älä etsi varmuuskopioista eikä roskakorista</string>
-    <string name="omit_backup_search_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
     <string name="progress_create">Luodaan uutta tietokantaa…</string>
     <string name="progress_title">Työskennellään…</string>
     <string name="protection">Suojaus</string>

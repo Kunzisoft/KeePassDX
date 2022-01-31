@@ -113,8 +113,6 @@
     <string name="never">Mai</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Installa un browser web per aprire questo URL.</string>
-    <string name="omit_backup_search_title">Non cercare nelle voci di backup</string>
-    <string name="omit_backup_search_summary">Ometti i gruppi «Backup» e «Cestino» dai risultati di ricerca</string>
     <string name="progress_create">Creazione di un nuovo database…</string>
     <string name="progress_title">In corso…</string>
     <string name="protection">Protezione</string>

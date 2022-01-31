@@ -118,8 +118,6 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
-    <string name="omit_backup_search_title">Papierkorb und Backup nicht durchsuchen</string>
-    <string name="omit_backup_search_summary">Die Gruppen „Backup“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
     <string name="progress_create">Neue Datenbank anlegen …</string>

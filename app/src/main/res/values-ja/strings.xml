@@ -196,8 +196,6 @@
     <string name="no_url_handler">この URL を開くにはウェブブラウザをインストールしてください。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="create_keepass_file">新しいデータベースを作成</string>
-    <string name="omit_backup_search_title">バックアップ エントリーを検索しない</string>
-    <string name="omit_backup_search_summary">検索結果から [バックアップ] と [ゴミ箱] のグループを省きます</string>
     <string name="auto_focus_search_title">クイック検索</string>
     <string name="auto_focus_search_summary">データベースを開いたとき、検索を促します</string>
     <string name="subdomain_search_title">サブドメイン検索</string>

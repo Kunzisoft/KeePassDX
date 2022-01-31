@@ -22,6 +22,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.SearchManager
 import android.app.TimePickerDialog
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
@@ -40,7 +41,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -112,56 +112,81 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var actionNodeMode: ActionMode? = null
 
-    // Nodes
+    // Manage group
+    private var mSearchState: SearchState? = null
     private var mCurrentGroupState: GroupState? = null
     private var mRootGroup: Group? = null
     private var mCurrentGroup: Group? = null
-    private var mSearchGroup: Group? = null
     private var mPreviousGroupsIds = mutableListOf<GroupState>()
     private var mOldGroupToUpdate: Group? = null
 
+    private var mLockSearchListeners = false
     private val mOnSearchQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
-            if (query != null) {
-                searchFiltersView?.setQuery(query)
+            if (query != null && !mLockSearchListeners) {
+                mSearchState?.let { searchState ->
+                    searchState.searchParameters.searchQuery = query
+                    mGroupViewModel.loadSearchGroup(mDatabase,
+                        searchState.searchParameters,
+                        searchState.firstVisibleItem)
+                }
             }
             return true
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            if (newText != null) {
-                searchFiltersView?.setQuery(newText)
-            }
+            onQueryTextSubmit(newText)
             return true
         }
     }
     private val mOnSearchFiltersChangeListener = object : ((SearchParameters) -> Unit) {
         override fun invoke(searchParameters: SearchParameters) {
-            mGroupViewModel.loadGroupFromSearch(
-                mDatabase,
-                searchParameters,
-                PreferencesUtil.omitBackup(this@GroupActivity)
-            )
+            mSearchState?.let { searchState ->
+                searchParameters.searchQuery = searchState.searchParameters.searchQuery
+                searchState.searchParameters = searchParameters
+                mGroupViewModel.loadSearchGroup(mDatabase,
+                    searchState.searchParameters,
+                    searchState.firstVisibleItem)
+            }
         }
     }
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
             toolbarBreadcrumb?.hideByFading()
-            searchFiltersView?.isVisible = true
+            searchFiltersView?.visibility = View.VISIBLE
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
-                return true
+
+            addSearch()
+            //loadGroup()
+            return true
         }
 
         override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
             searchFiltersView?.onParametersChangeListener = null
             searchView?.setOnQueryTextListener(null)
-            searchFiltersView?.isVisible = false
+            searchFiltersView?.visibility = View.GONE
             toolbarBreadcrumb?.showByFading()
 
             removeSearch()
-            loadGroup(mDatabase)
+            loadGroup()
             return true
+        }
+    }
+
+    private fun addSearch() {
+        if (mSearchState == null) {
+            mSearchState = SearchState(searchFiltersView?.searchParameters
+                ?: SearchParameters(), 0)
+        }
+    }
+
+    private fun removeSearch() {
+        mSearchState = null
+        intent.removeExtra(AUTO_SEARCH_KEY)
+        if (Intent.ACTION_SEARCH == intent.action) {
+            intent.action = Intent.ACTION_DEFAULT
+            intent.removeExtra(SearchManager.QUERY)
         }
     }
 
@@ -284,24 +309,23 @@ class GroupActivity : DatabaseLockActivity(),
         // Observe group
         mGroupViewModel.group.observe(this) {
             val currentGroup = it.group
+            mCurrentGroup = currentGroup
             if (!currentGroup.isVirtual) {
-
-                mCurrentGroup = currentGroup
                 mRecyclingBinIsCurrentGroup = it.isRecycleBin
-
-                // Save group id if real group
+                // Save group state
                 mCurrentGroupState = GroupState(currentGroup.nodeId, it.showFromPosition)
-
                 // Update last access time.
                 currentGroup.touch(modified = false, touchParents = false)
             } else {
-                mSearchGroup = currentGroup
+                mSearchState = SearchState(it.searchParameters, it.showFromPosition)
+                searchFiltersView?.searchParameters = it.searchParameters
             }
 
             loadingView?.hideByFading()
         }
 
         mGroupViewModel.firstPositionVisible.observe(this) { firstPositionVisible ->
+            mSearchState?.firstVisibleItem = firstPositionVisible
             mCurrentGroupState?.firstVisibleItem = firstPositionVisible
         }
 
@@ -420,21 +444,27 @@ class GroupActivity : DatabaseLockActivity(),
         return rootContainerView
     }
 
-    private fun loadGroup(database: Database?) {
+    private fun loadGroup() {
+        val searchState = mSearchState
+        val currentGroupState = mCurrentGroupState
         when {
-            Intent.ACTION_SEARCH == intent.action -> {
+            searchState != null -> {
                 finishNodeAction()
-                searchFiltersView?.setQuery(
-                    intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
+                mGroupViewModel.loadSearchGroup(mDatabase,
+                    searchState.searchParameters,
+                    searchState.firstVisibleItem
                 )
             }
-            mCurrentGroupState == null -> {
-                mRootGroup?.let { rootGroup ->
-                    mGroupViewModel.loadGroup(database, rootGroup, 0)
-                }
+            currentGroupState != null -> {
+                mGroupViewModel.loadMainGroup(mDatabase,
+                    currentGroupState.groupId,
+                    currentGroupState.firstVisibleItem)
             }
             else -> {
-                mGroupViewModel.loadGroup(database, mCurrentGroupState)
+                mGroupViewModel.loadMainGroup(mDatabase,
+                    null,
+                    0
+                )
             }
         }
     }
@@ -448,7 +478,7 @@ class GroupActivity : DatabaseLockActivity(),
                 && database?.isRecycleBinEnabled == true
 
         mRootGroup = database?.rootGroup
-        loadGroup(database)
+        loadGroup()
 
         // Search suggestion
         database?.let {
@@ -569,7 +599,16 @@ class GroupActivity : DatabaseLockActivity(),
             }
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
             transformSearchInfoIntent(intent)
-            loadGroup(mDatabase)
+            // Get search query
+            if (intent.action == Intent.ACTION_SEARCH) {
+                val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
+                intent.action = Intent.ACTION_DEFAULT
+                intent.removeExtra(SearchManager.QUERY)
+                mSearchState = SearchState(SearchParameters().apply {
+                    searchQuery = stringQuery
+                }, mSearchState?.firstVisibleItem ?: 0)
+            }
+            loadGroup()
         }
     }
 
@@ -590,15 +629,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onGroupRefreshed() {
-        if (mSearchGroup != null) {
-            assignGroupViewElements(mSearchGroup)
-        } else {
-            assignGroupViewElements(mCurrentGroup)
-        }
-    }
-
-    private fun assignGroupViewElements(group: Group?) {
-        // TODO in real time
+        val group = mCurrentGroup
         // Assign title
         if (group?.isVirtual == true) {
             searchFiltersView?.setNumbers(SearchHelper.showNumberOfSearchResults(group.numberOfChildEntries))
@@ -656,7 +687,7 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 // Open child group
-                mGroupViewModel.loadGroup(database, group, 0)
+                mGroupViewModel.loadMainGroup(database, group, 0)
 
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
@@ -999,28 +1030,34 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Get the SearchView and set the searchable configuration
         menu.findItem(R.id.menu_search)?.let {
+            mLockSearchListeners = true
             it.setOnActionExpandListener(mOnSearchActionExpandListener)
             searchView = it.actionView as SearchView?
             searchView?.apply {
-                /*
                 val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
                 (searchManager?.getSearchableInfo(
                     ComponentName(this@GroupActivity, GroupActivity::class.java)
                 ))?.let { searchableInfo ->
                     setSearchableInfo(searchableInfo)
                 }
-
-                 */
-                isIconified = false
+                val searchState = mSearchState
+                // Expand the search view if defined in settings
+                if (mRequestStartupSearch
+                    && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)
+                ) {
+                    // To request search only one time
+                    mRequestStartupSearch = false
+                    it.expandActionView()
+                }
+                // Or already open
+                else if (searchState != null) {
+                    it.expandActionView()
+                    setQuery(searchState.searchParameters.searchQuery, false)
+                    searchFiltersView?.visibility = View.VISIBLE
+                }
+                setOnQueryTextListener(mOnSearchQueryTextListener)
             }
-            // Expand the search view if defined in settings
-            if (mRequestStartupSearch
-                && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)
-            ) {
-                // To request search only one time
-                mRequestStartupSearch = false
-                it.expandActionView()
-            }
+            mLockSearchListeners = false
         }
 
         super.onCreateOptionsMenu(menu)
@@ -1159,24 +1196,9 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun removeSearch() {
-        mSearchGroup = null
-        intent.removeExtra(AUTO_SEARCH_KEY)
-        if (Intent.ACTION_SEARCH == intent.action) {
-            intent.action = Intent.ACTION_DEFAULT
-            intent.removeExtra(SearchManager.QUERY)
-        }
-    }
-
     private fun reloadCurrentGroup() {
-        // Remove search in intent
         removeSearch()
-        // Reload real group
-        try {
-            mGroupViewModel.loadGroup(mDatabase, mCurrentGroupState)
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to rebuild the group", e)
-        }
+        loadGroup()
     }
 
     override fun onBackPressed() {
@@ -1195,7 +1217,11 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                     else -> {
                         // Load the previous group
-                        mGroupViewModel.loadGroup(mDatabase, mPreviousGroupsIds.removeLast())
+                        val previousGroupState = mPreviousGroupsIds.removeLast()
+                        mGroupViewModel.loadMainGroup(mDatabase,
+                            previousGroupState.groupId,
+                            previousGroupState.firstVisibleItem
+                        )
                     }
                 }
             }
@@ -1210,6 +1236,35 @@ class GroupActivity : DatabaseLockActivity(),
                 } else {
                     backToTheAppCaller()
                 }
+            }
+        }
+    }
+
+    data class SearchState(
+        var searchParameters: SearchParameters,
+        var firstVisibleItem: Int?
+    ) : Parcelable {
+
+        private constructor(parcel: Parcel) : this(
+            parcel.readParcelable<SearchParameters>
+                (SearchParameters::class.java.classLoader) ?: SearchParameters(),
+            parcel.readInt()
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeParcelable(searchParameters, flags)
+            parcel.writeInt(firstVisibleItem ?: 0)
+        }
+
+        override fun describeContents() = 0
+
+        companion object CREATOR : Parcelable.Creator<SearchState> {
+            override fun createFromParcel(parcel: Parcel): SearchState {
+                return SearchState(parcel)
+            }
+
+            override fun newArray(size: Int): Array<SearchState?> {
+                return arrayOfNulls(size)
             }
         }
     }

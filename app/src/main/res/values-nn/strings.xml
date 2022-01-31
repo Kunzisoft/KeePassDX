@@ -101,8 +101,6 @@
     <string name="never">Aldri</string>
     <string name="no_results">Ingen søkjeresultat</string>
     <string name="no_url_handler">Ingen behandlar for denne adressa.</string>
-    <string name="omit_backup_search_title">Søk ikkje i kopipostane eller søppelbøtta</string>
-    <string name="omit_backup_search_summary">Søkjeresultatet inneheld ikkje oppføringar frå \'Backup\' eller søppelbøtta</string>
     <string name="progress_create">Lager ny database …</string>
     <string name="progress_title">Arbeider …</string>
     <string name="content_description_remove_from_list">Ta vekk</string>

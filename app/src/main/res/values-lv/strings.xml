@@ -108,8 +108,6 @@
     <string name="never">Nekad</string>
     <string name="no_results">Nav meklēšanas rezultātu</string>
     <string name="no_url_handler">Neizdevās atvērt saiti.</string>
-    <string name="omit_backup_search_title">Nemeklēt kopijās un atkritnē</string>
-    <string name="omit_backup_search_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
     <string name="progress_create">Izveido jaunu datu bāzi…</string>
     <string name="progress_title">Darbojas…</string>
     <string name="protection">Aizsardzība</string>

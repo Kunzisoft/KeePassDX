@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 
@@ -38,11 +38,11 @@ class GroupViewModel: ViewModel() {
     val firstPositionVisible : LiveData<Int> get() = _firstPositionVisible
     private val _firstPositionVisible = MutableLiveData<Int>()
 
-    fun loadGroup(database: Database?,
-                  groupState: GroupActivity.GroupState?) {
+    fun loadMainGroup(database: Database?,
+                      groupId: NodeId<*>?,
+                      showFromPosition: Int?) {
         IOActionTask(
             {
-                val groupId = groupState?.groupId
                 if (groupId != null) {
                     database?.getGroupById(groupId)
                 } else {
@@ -53,32 +53,27 @@ class GroupViewModel: ViewModel() {
                 if (group != null) {
                     _group.value = SuperGroup(group,
                         database?.recycleBin == group,
-                        groupState?.firstVisibleItem)
+                        showFromPosition)
                 }
             }
         ).execute()
     }
 
-    fun loadGroup(database: Database?,
-                  group: Group,
-                  showFromPosition: Int?) {
+    fun loadMainGroup(database: Database?,
+                      group: Group,
+                      showFromPosition: Int?) {
         _group.value = SuperGroup(group,
             database?.recycleBin == group,
             showFromPosition)
     }
 
-    fun assignPosition(position: Int) {
-        _firstPositionVisible.value = position
-    }
-
-    fun loadGroupFromSearch(database: Database?,
-                            searchParameters: SearchParameters,
-                            omitBackup: Boolean) {
+    fun loadSearchGroup(database: Database?,
+                        searchParameters: SearchParameters,
+                        showFromPosition: Int?) {
         IOActionTask(
             {
                 database?.createVirtualGroupFromSearch(
                     searchParameters,
-                    omitBackup,
                     SearchHelper.MAX_SEARCH_ENTRY
                 )
             },
@@ -86,13 +81,21 @@ class GroupViewModel: ViewModel() {
                 if (group != null) {
                     _group.value = SuperGroup(group,
                         database?.recycleBin == group,
-                        0)
+                        showFromPosition,
+                        searchParameters)
                 }
             }
         ).execute()
     }
 
-    data class SuperGroup(val group: Group, val isRecycleBin: Boolean, var showFromPosition: Int?)
+    fun assignPosition(position: Int) {
+        _firstPositionVisible.value = position
+    }
+
+    data class SuperGroup(val group: Group,
+                          val isRecycleBin: Boolean,
+                          var showFromPosition: Int?,
+                          var searchParameters: SearchParameters = SearchParameters())
 
     companion object {
         private val TAG = GroupViewModel::class.java.name

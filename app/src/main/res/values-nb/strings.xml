@@ -130,8 +130,6 @@
     <string name="no_results">Ingen søkeresultater</string>
     <string name="no_url_handler">Kan ikke håndtere denne nettadressen.</string>
     <string name="select_database_file">Velg en eksisterende database</string>
-    <string name="omit_backup_search_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
-    <string name="omit_backup_search_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
     <string name="progress_create">Oppretter ny database…</string>
     <string name="progress_title">Arbeider…</string>
     <string name="protection">Beskyttelse</string>

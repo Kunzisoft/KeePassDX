@@ -158,7 +158,6 @@
     <string name="menu_open_file_read_and_write">قابل للتعديل</string>
     <string name="select_database_file">فتح قاعدة بيانات موجودة</string>
     <string name="create_keepass_file">انشاء قاعدة بيانات</string>
-    <string name="omit_backup_search_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePassDX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>
@@ -301,7 +300,6 @@
     <string name="contains_duplicate_uuid_procedure">للمتابعة هل تريد حل المشكلة بتوليد UUID للعناصر المكررة ؟</string>
     <string name="contains_duplicate_uuid">تحتوي قاعدة البيانات على UUID مكرر.</string>
     <string name="auto_focus_search_title">البحث السريع</string>
-    <string name="omit_backup_search_summary">أزِل مجموعتي \"سلة المحذوفات\" و\" النسخ الاحتياطي\" من نتائج البحث</string>
     <string name="menu_delete_entry_history">احذف السجل</string>
     <string name="menu_restore_entry_history">استعادة السجل</string>
     <string name="menu_empty_recycle_bin">أفرغ سلة المحذوفات</string>

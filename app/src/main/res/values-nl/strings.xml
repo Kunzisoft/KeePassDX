@@ -104,8 +104,6 @@
     <string name="never">Nooit</string>
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Installeer een webbrowser om deze URL te openen.</string>
-    <string name="omit_backup_search_title">Back-upitems niet doorzoeken</string>
-    <string name="omit_backup_search_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
     <string name="progress_create">Nieuwe database aanmaken…</string>
     <string name="progress_title">Bezig met verwerken…</string>
     <string name="content_description_remove_from_list">Verwijderen</string>

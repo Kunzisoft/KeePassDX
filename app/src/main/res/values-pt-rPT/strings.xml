@@ -112,8 +112,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
-    <string name="omit_backup_search_title">Não procurar por entradas na cópia de segurança e lixo</string>
-    <string name="omit_backup_search_summary">Omite os grupos \"Cópia de segurança\" e \"Caixote da reciclagem\" dos resultados da busca</string>
     <string name="progress_create">A criar nova base de dados…</string>
     <string name="progress_title">Em funcionamento…</string>
     <string name="protection">Proteção</string>

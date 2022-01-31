@@ -306,8 +306,6 @@
     <string name="contains_duplicate_uuid">ഡാറ്റാബേസിൽ തനിപ്പകർപ്പ് UUID-കൾ അടങ്ങിയിരിക്കുന്നു.</string>
     <string name="read_only_warning">നിങ്ങളുടെ ഫയൽ മാനേജരെ ആശ്രയിച്ച്, നിങ്ങളുടെ സ്റ്റോറേജിൽ എഴുതാൻ KeePassDX-നെ അനുവദിച്ചേക്കില്ല.</string>
     <string name="auto_focus_search_summary">ഡാറ്റാബേസ് തുറക്കുമ്പോൾ തിരയൽ അഭ്യർത്ഥിക്കുക</string>
-    <string name="omit_backup_search_summary">തിരയൽ ഫലങ്ങളിൽ നിന്ന് \"ബാക്കപ്പ്\", \"റീസൈക്കിൾ ബിൻ\" ഗ്രൂപ്പുകൾ ഒഴിവാക്കുക</string>
-    <string name="omit_backup_search_title">ബാക്കപ്പ് എൻ‌ട്രികളിലൂടെ തിരയരുത്</string>
     <string name="menu_open_file_read_and_write">പരിഷ്‌ക്കരിക്കാവുന്ന</string>
     <string name="menu_file_selection_read_only">റൈറ്റ്-പരിരക്ഷിതമാണ്</string>
     <string name="error_otp_digits">ടോക്കണിൽ %1$d മുതൽ %2$d അക്കങ്ങൾ വരെ ഉണ്ടായിരിക്കണം.</string>

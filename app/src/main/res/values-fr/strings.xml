@@ -119,8 +119,6 @@
     <string name="no_results">Aucun résultat</string>
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
-    <string name="omit_backup_search_title">Ne pas rechercher dans les entrées sauvegardées</string>
-    <string name="omit_backup_search_summary">Omet les groupes \"Sauvegarde\" et \"Corbeille\" des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>

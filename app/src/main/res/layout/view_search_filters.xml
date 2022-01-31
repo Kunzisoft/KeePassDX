@@ -135,6 +135,20 @@
                 android:checked="false"
                 style="@style/KeepassDXStyle.Chip.Filter"
                 android:text="@string/tags"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_chip_template"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                style="@style/KeepassDXStyle.Chip.Filter"
+                android:text="@string/template"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_chip_recycle_bin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                style="@style/KeepassDXStyle.Chip.Filter"
+                android:text="@string/recycle_bin"/>
         </com.google.android.material.chip.ChipGroup>
     </FrameLayout>
 </LinearLayout>

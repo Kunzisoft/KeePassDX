@@ -110,8 +110,6 @@
     <string name="never">Aldrig</string>
     <string name="no_results">Inget sökresultat</string>
     <string name="no_url_handler">Installera en webbläsare för att öppna denna URL.</string>
-    <string name="omit_backup_search_title">Sök inte efter backup-poster</string>
-    <string name="omit_backup_search_summary">Utelämnar poster i grupperna \"Backup\" och \"Papperskorg\"</string>
     <string name="progress_create">Skapar ny databas…</string>
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>

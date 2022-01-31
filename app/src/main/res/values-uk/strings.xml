@@ -102,8 +102,6 @@
     <string name="never">Ніколи</string>
     <string name="no_results">Нічого не знайдено</string>
     <string name="no_url_handler">Щоб відкрити цю URL-адресу, встановіть переглядач Інтернету.</string>
-    <string name="omit_backup_search_title">Не шукати у записах резервних копій</string>
-    <string name="omit_backup_search_summary">Не шукати у групах «Резервна копія» та «Кошик»</string>
     <string name="progress_create">Створення нової бази даних…</string>
     <string name="progress_title">Працює…</string>
     <string name="content_description_remove_from_list">Вилучити</string>

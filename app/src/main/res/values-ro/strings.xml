@@ -406,8 +406,6 @@
     <string name="icon_pack_choose_summary">Pachet de pictograme folosit în aplicație</string>
     <string name="hide_expired_entries_title">Ascundeți intrările expirate</string>
     <string name="hide_expired_entries_summary">Înscrierile expirate vor fi ascunse</string>
-    <string name="omit_backup_search_title">Nu căutați prin intrări de rezervă</string>
-    <string name="omit_backup_search_summary">Omite grupurile „Backup” și „Recycle bin” din rezultatele căutării</string>
     <string name="auto_focus_search_title">Căutare rapidă</string>
     <string name="auto_focus_search_summary">Solicitați o căutare atunci când deschideți o bază de date</string>
     <string name="remember_database_locations_title">Salvați locația bazelor de date</string>

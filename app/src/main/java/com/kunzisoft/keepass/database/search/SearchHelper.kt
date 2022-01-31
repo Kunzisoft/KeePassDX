@@ -37,7 +37,6 @@ class SearchHelper {
 
     fun createVirtualGroupWithSearchResult(database: Database,
                                            searchParameters: SearchParameters,
-                                           omitBackup: Boolean,
                                            max: Int): Group? {
 
         val searchGroup = database.createGroup()
@@ -65,7 +64,8 @@ class SearchHelper {
                     override fun operate(node: Group): Boolean {
                         return when {
                             incrementEntry >= max -> false
-                            database.isGroupSearchable(node, omitBackup) -> true
+                            // TODO searchInTemplate
+                            database.isGroupSearchable(node, !searchParameters.searchInRecycleBin) -> true
                             else -> false
                         }
                     }
@@ -122,7 +122,6 @@ class SearchHelper {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
                             searchInfo.toString(),
-                            PreferencesUtil.omitBackup(context),
                             MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->
                         if (searchGroup.numberOfChildEntries > 0) {

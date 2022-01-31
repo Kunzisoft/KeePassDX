@@ -71,7 +71,6 @@
     <string name="subdomain_search_title">ਅਧੀਨ-ਡੋਮੇਨ ਖੋਜ</string>
     <string name="auto_focus_search_summary">ਜਦੋਂ ਡਾਟਾਬੇਸ ਖੋਲ੍ਹਣਾ ਹੋਵੇ ਤਾਂ ਖੋਜ ਦੀ ਮੰਗ ਕਰੋ</string>
     <string name="auto_focus_search_title">ਫ਼ੌਰੀ ਖੋਜ</string>
-    <string name="omit_backup_search_title">ਬੈਕਐਪ ਐਂਟਰੀਆਂ ਰਾਹੀਂ ਨਾ ਖੋਜੋ</string>
     <string name="create_keepass_file">ਨਵਾਂ ਡਾਟਾਬੇਸ ਬਣਾਓ</string>
     <string name="select_database_file">ਮੌਜੂਦਾ ਡਾਟਾਬੇਸ ਨੂੰ ਖੋਲ੍ਹੋ</string>
     <string name="no_url_handler">ਇਹ URL ਖੋਲ੍ਹਣ ਲਈ ਵੈੱਬ ਬਰਾਊਜ਼ਰ ਇੰਸਟਾਲ ਕਰੋ।</string>

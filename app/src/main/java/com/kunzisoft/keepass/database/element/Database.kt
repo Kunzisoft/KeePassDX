@@ -782,21 +782,19 @@ class Database {
         }
     }
 
-    fun isGroupSearchable(group: Group, omitBackup: Boolean): Boolean {
-        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, omitBackup) ?:
-        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, omitBackup) ?:
+    fun isGroupSearchable(group: Group, omitRecycleBin: Boolean): Boolean {
+        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, omitRecycleBin) ?:
+        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, omitRecycleBin) ?:
         false
     }
 
     fun createVirtualGroupFromSearch(searchParameters: SearchParameters,
-                                     omitBackup: Boolean,
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-            searchParameters,omitBackup, max)
+            searchParameters, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
-                                         omitBackup: Boolean,
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
                 SearchParameters().apply {
@@ -811,7 +809,8 @@ class Database {
                     searchInUUIDs = false
                     searchInTags = false
                     searchInTemplates = false
-                }, omitBackup, max)
+                    searchInRecycleBin = false
+                }, max)
     }
 
     val tagPool: Tags

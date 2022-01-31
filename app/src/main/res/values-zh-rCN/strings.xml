@@ -152,8 +152,6 @@
     <string name="menu_showpass">显示密码</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
-    <string name="omit_backup_search_title">搜索时忽略备份条目</string>
-    <string name="omit_backup_search_summary">从搜索结果中忽略“备份”和“回收站”群组</string>
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
     <string name="read_only_warning">根据您的文件管理器，KeePassDX 可能不允许在您的存储中写入数据。</string>

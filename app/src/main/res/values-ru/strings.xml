@@ -112,8 +112,6 @@
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
-    <string name="omit_backup_search_title">Не искать в резервных копиях</string>
-    <string name="omit_backup_search_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>

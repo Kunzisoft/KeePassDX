@@ -104,8 +104,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Instale un navegador web para abrir esta URL.</string>
-    <string name="omit_backup_search_title">No buscar en las entradas de respaldo</string>
-    <string name="omit_backup_search_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
     <string name="progress_create">Creando nueva base de datos…</string>
     <string name="progress_title">Trabajando…</string>
     <string name="content_description_remove_from_list">Quitar</string>

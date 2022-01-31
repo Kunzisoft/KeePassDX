@@ -69,8 +69,6 @@
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>
     <bool name="enable_keep_screen_on_default" translatable="false">false</bool>
-    <string name="omit_backup_search_key" translatable="false">omit_backup_search_key</string>
-    <bool name="omit_backup_search_default" translatable="false">true</bool>
     <string name="auto_focus_search_key" translatable="false">auto_focus_search_key</string>
     <bool name="auto_focus_search_default" translatable="false">false</bool>
     <string name="subdomain_search_key" translatable="false">subdomain_search_key</string>

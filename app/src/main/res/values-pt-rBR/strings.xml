@@ -102,8 +102,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sem resultados na busca</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
-    <string name="omit_backup_search_title">Não buscar por entradas no backup ou na lixeira</string>
-    <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
     <string name="content_description_remove_from_list">Remover</string>
