@@ -606,7 +606,7 @@ class GroupActivity : DatabaseLockActivity(),
         // TODO in real time
         // Assign title
         if (group?.isVirtual == true) {
-            searchNumbers?.text = group.numberOfChildEntries.toString()
+            searchNumbers?.text = SearchHelper.showNumberOfSearchResults(group.numberOfChildEntries)
             toolbarBreadcrumb?.navigationIcon = null
         } else {
             // Add breadcrumb
@@ -1043,7 +1043,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun loadSearchGroup(query: String?) {
-        if (query != null && query.isNotEmpty()) {
+        if (query != null) {
             mGroupViewModel.loadGroupFromSearch(
                 mDatabase,
                 query,

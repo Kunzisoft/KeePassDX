@@ -92,6 +92,17 @@ class SearchHelper {
         const val MAX_SEARCH_ENTRY = 100
 
         /**
+         * Method to show the number of search results with max results
+         */
+        fun showNumberOfSearchResults(number: Int): String {
+            return if (number >= MAX_SEARCH_ENTRY) {
+                (MAX_SEARCH_ENTRY-1).toString() + "+"
+            } else {
+                number.toString()
+            }
+        }
+
+        /**
          * Utility method to perform actions if item is found or not after an auto search in [database]
          */
         fun checkAutoSearchInfo(context: Context,
@@ -133,9 +144,9 @@ class SearchHelper {
         fun searchInEntry(entry: Entry,
                           searchParameters: SearchParameters): Boolean {
             val searchQuery = searchParameters.searchQuery
-            // Entry don't contains string if the search string is empty
+            // Entry contains string if the search string is empty
             if (searchQuery.isEmpty())
-                return false
+                return true
 
             // Search all strings in the KDBX entry
             if (searchParameters.searchInTitles) {
