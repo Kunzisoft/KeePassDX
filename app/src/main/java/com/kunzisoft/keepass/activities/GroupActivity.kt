@@ -294,74 +294,6 @@ class GroupActivity : DatabaseLockActivity(),
 
                 // Update last access time.
                 currentGroup.touch(modified = false, touchParents = false)
-
-                // Add listeners to the add buttons
-                addNodeButtonView?.setAddGroupClickListener {
-                    launchDialogForGroupCreation(currentGroup)
-                }
-                addNodeButtonView?.setAddEntryClickListener {
-                    mDatabase?.let { database ->
-                        EntrySelectionHelper.doSpecialAction(intent,
-                            {
-                                mCurrentGroup?.nodeId?.let { currentParentGroupId ->
-                                    mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                                        EntryEditActivity.launchToCreate(
-                                            this@GroupActivity,
-                                            database,
-                                            currentParentGroupId,
-                                            resultLauncher
-                                        )
-                                    }
-                                }
-                            },
-                            {
-                                // Search not used
-                            },
-                            { searchInfo ->
-                                EntryEditActivity.launchToCreateForSave(
-                                    this@GroupActivity,
-                                    database,
-                                    currentGroup.nodeId,
-                                    searchInfo
-                                )
-                                onLaunchActivitySpecialMode()
-                            },
-                            { searchInfo ->
-                                EntryEditActivity.launchForKeyboardSelectionResult(
-                                    this@GroupActivity,
-                                    database,
-                                    currentGroup.nodeId,
-                                    searchInfo
-                                )
-                                onLaunchActivitySpecialMode()
-                            },
-                            { searchInfo, autofillComponent ->
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                    EntryEditActivity.launchForAutofillResult(
-                                        this@GroupActivity,
-                                        database,
-                                        mAutofillActivityResultLauncher,
-                                        autofillComponent,
-                                        currentGroup.nodeId,
-                                        searchInfo
-                                    )
-                                    onLaunchActivitySpecialMode()
-                                } else {
-                                    onCancelSpecialMode()
-                                }
-                            },
-                            { searchInfo ->
-                                EntryEditActivity.launchToCreateForRegistration(
-                                    this@GroupActivity,
-                                    database,
-                                    currentGroup.nodeId,
-                                    searchInfo
-                                )
-                                onLaunchActivitySpecialMode()
-                            }
-                        )
-                    }
-                }
             } else {
                 mSearchGroup = currentGroup
             }
@@ -410,6 +342,78 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
         }
+
+        // Add listeners to the add buttons
+        addNodeButtonView?.setAddGroupClickListener {
+            mCurrentGroup?.let { currentGroup ->
+                launchDialogForGroupCreation(currentGroup)
+            }
+        }
+        addNodeButtonView?.setAddEntryClickListener {
+            mDatabase?.let { database ->
+                mCurrentGroup?.let { currentGroup ->
+                    EntrySelectionHelper.doSpecialAction(intent,
+                        {
+                            mCurrentGroup?.nodeId?.let { currentParentGroupId ->
+                                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
+                                    EntryEditActivity.launchToCreate(
+                                        this@GroupActivity,
+                                        database,
+                                        currentParentGroupId,
+                                        resultLauncher
+                                    )
+                                }
+                            }
+                        },
+                        {
+                            // Search not used
+                        },
+                        { searchInfo ->
+                            EntryEditActivity.launchToCreateForSave(
+                                this@GroupActivity,
+                                database,
+                                currentGroup.nodeId,
+                                searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
+                        },
+                        { searchInfo ->
+                            EntryEditActivity.launchForKeyboardSelectionResult(
+                                this@GroupActivity,
+                                database,
+                                currentGroup.nodeId,
+                                searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
+                        },
+                        { searchInfo, autofillComponent ->
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                EntryEditActivity.launchForAutofillResult(
+                                    this@GroupActivity,
+                                    database,
+                                    mAutofillActivityResultLauncher,
+                                    autofillComponent,
+                                    currentGroup.nodeId,
+                                    searchInfo
+                                )
+                                onLaunchActivitySpecialMode()
+                            } else {
+                                onCancelSpecialMode()
+                            }
+                        },
+                        { searchInfo ->
+                            EntryEditActivity.launchToCreateForRegistration(
+                                this@GroupActivity,
+                                database,
+                                currentGroup.nodeId,
+                                searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
+                        }
+                    )
+                }
+            }
+        }
     }
 
     override fun viewToInvalidateTimeout(): View? {
@@ -417,7 +421,6 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun loadGroup(database: Database?) {
-        loadingView?.showByFading()
         when {
             Intent.ACTION_SEARCH == intent.action -> {
                 finishNodeAction()
