@@ -89,7 +89,7 @@ class SearchHelper {
     }
 
     companion object {
-        const val MAX_SEARCH_ENTRY = 100
+        const val MAX_SEARCH_ENTRY = 500
 
         /**
          * Method to show the number of search results with max results
