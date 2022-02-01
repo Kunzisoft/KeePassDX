@@ -40,8 +40,7 @@ class SearchHelper {
                                            omitBackup: Boolean,
                                            max: Int): Group? {
 
-        val searchGroup = database.createGroup()
-        searchGroup?.isVirtual = true
+        val searchGroup = database.createGroup(virtual = true)
         searchGroup?.title = "\"" + searchParameters.searchQuery + "\""
 
         // Search all entries

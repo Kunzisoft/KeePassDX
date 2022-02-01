@@ -994,20 +994,25 @@ class Database {
         return null
     }
 
-    fun createGroup(): Group? {
-        dataModifiedSinceLastLoading = true
+    fun createGroup(virtual: Boolean = false): Group? {
+        if (!virtual) {
+            dataModifiedSinceLastLoading = true
+        }
+        var group: Group? = null
         mDatabaseKDB?.let { database ->
-            return Group(database.createGroup()).apply {
+            group = Group(database.createGroup()).apply {
                 setNodeId(database.newGroupId())
             }
         }
         mDatabaseKDBX?.let { database ->
-            return Group(database.createGroup()).apply {
+            group = Group(database.createGroup()).apply {
                 setNodeId(database.newGroupId())
             }
         }
+        if (virtual)
+            group?.isVirtual = virtual
 
-        return null
+        return group
     }
 
     fun getEntryById(id: NodeId<UUID>): Entry? {
