@@ -49,7 +49,6 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
-import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
@@ -92,12 +91,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var kdfParameters: KdfParameters? = null
 
     override var kdfEngine: KdfEngine?
-        get() = try {
-            getEngineKDBX4(kdfParameters)
-        } catch (unknownKDF: UnknownKDF) {
-            Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF)
-            null
-        }
+        get() = getKdfEngineFromParameters(kdfParameters)
         set(value) {
             value?.let {
                 if (kdfParameters?.uuid != value.defaultParameters.uuid)
@@ -108,18 +102,16 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             }
         }
 
-    @Throws(UnknownKDF::class)
-    fun getEngineKDBX4(kdfParameters: KdfParameters?): KdfEngine {
-        val unknownKDFException = UnknownKDF()
+    private fun getKdfEngineFromParameters(kdfParameters: KdfParameters?): KdfEngine? {
         if (kdfParameters == null) {
-            throw unknownKDFException
+            return null
         }
         for (engine in kdfAvailableList) {
             if (engine.uuid == kdfParameters.uuid) {
                 return engine
             }
         }
-        throw unknownKDFException
+        return null
     }
 
     fun randomizeKdfParameters() {
@@ -553,7 +545,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     fun makeFinalKey(masterSeed: ByteArray) {
 
         kdfParameters?.let { keyDerivationFunctionParameters ->
-            val kdfEngine = getEngineKDBX4(keyDerivationFunctionParameters)
+            val kdfEngine = getKdfEngineFromParameters(keyDerivationFunctionParameters)
+                ?: throw IOException("Unknown key derivation function")
 
             var transformedMasterKey = kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
             if (transformedMasterKey.size != 32) {
