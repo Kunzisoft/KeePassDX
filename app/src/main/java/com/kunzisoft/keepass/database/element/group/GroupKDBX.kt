@@ -102,8 +102,9 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
     }
 
-    fun updateWith(source: GroupKDBX) {
-        super.updateWith(source)
+    fun updateWith(source: GroupKDBX,
+                   updateParents: Boolean = true) {
+        super.updateWith(source, updateParents)
         usageCount = source.usageCount
         locationChanged = DateInstant(source.locationChanged)
         // Add all custom elements in map

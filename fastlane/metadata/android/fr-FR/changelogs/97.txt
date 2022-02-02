@@ -1,0 +1,7 @@
+ * Gestion de la fusion des données #840 #977
+ * Gestion des Tags #633
+ * Héritage des couleurs et icone du gabarit #1213
+ * Paramètre des couleurs d'entrée #1207
+ * Paramètre pour garder l'écran allumé sur une entrée #1119
+ * Ajout du chemin dans la recherche rapide
+ * Petits correctifs

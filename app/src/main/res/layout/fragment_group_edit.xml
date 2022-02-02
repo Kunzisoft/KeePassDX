@@ -44,8 +44,6 @@
 				android:id="@+id/group_edit_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="4dp"
-				android:layout_marginStart="4dp"
 				android:inputType="text"
 				android:maxLines="1"
 				android:singleLine="true"
@@ -59,8 +57,6 @@
 				android:id="@+id/group_edit_note"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="4dp"
-				android:layout_marginStart="4dp"
 				android:inputType="textMultiLine"
 				android:maxLines="3"
 				android:hint="@string/entry_notes"/>
@@ -68,8 +64,17 @@
 		<com.kunzisoft.keepass.view.DateTimeEditFieldView
 			android:id="@+id/group_edit_expiration"
 			android:layout_width="match_parent"
+			android:layout_height="wrap_content" />
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/group_tags_label"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="4dp"
-			android:layout_marginStart="4dp" />
+			android:hint="@string/tags"
+			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu">
+			<com.kunzisoft.keepass.view.TagsCompletionView
+				android:id="@+id/group_tags_completion_view"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+		</com.google.android.material.textfield.TextInputLayout>
 	</LinearLayout>
 </androidx.core.widget.NestedScrollView>

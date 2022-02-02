@@ -40,6 +40,11 @@
             android:key="@string/setting_icon_pack_choose_key"
             android:title="@string/icon_pack_choose_title"
             android:summary="@string/icon_pack_choose_summary" />
+        <SwitchPreference
+            android:key="@string/show_entry_colors_key"
+            android:title="@string/show_entry_colors_title"
+            android:summary="@string/show_entry_colors_summary"
+            android:defaultValue="@bool/show_entry_colors_default"/>
 
     </PreferenceCategory>
 
@@ -56,6 +61,16 @@
             android:title="@string/list_groups_show_number_entries_title"
             android:summary="@string/list_groups_show_number_entries_summary"
             android:defaultValue="@bool/list_groups_show_number_entries_default"/>
+        <SwitchPreference
+            android:key="@string/show_otp_token_key"
+            android:title="@string/show_otp_token_title"
+            android:summary="@string/show_otp_token_summary"
+            android:defaultValue="@bool/show_otp_token_default"/>
+        <SwitchPreference
+            android:key="@string/show_uuid_key"
+            android:title="@string/show_uuid_title"
+            android:summary="@string/show_uuid_summary"
+            android:defaultValue="@bool/show_uuid_default"/>
         <ListPreference
             android:key="@string/list_size_key"
             android:title="@string/list_size_title"
@@ -80,16 +95,6 @@
             android:title="@string/hide_expired_entries_title"
             android:summary="@string/hide_expired_entries_summary"
             android:defaultValue="@bool/hide_expired_entries_default"/>
-        <SwitchPreference
-            android:key="@string/show_otp_token_key"
-            android:title="@string/show_otp_token_title"
-            android:summary="@string/show_otp_token_summary"
-            android:defaultValue="@bool/show_otp_token_default"/>
-        <SwitchPreference
-            android:key="@string/show_uuid_key"
-            android:title="@string/show_uuid_title"
-            android:summary="@string/show_uuid_summary"
-            android:defaultValue="@bool/show_uuid_default"/>
         <SwitchPreference
             android:key="@string/enable_education_screens_key"
             android:title="@string/enable_education_screens_title"

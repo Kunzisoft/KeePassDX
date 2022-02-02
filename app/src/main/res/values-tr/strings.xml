@@ -385,7 +385,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Aygıt klavye ayarları</string>
     <string name="error_save_database">Veri tabanı kaydedilemedi.</string>
-    <string name="menu_save_database">Veri tabanını kaydet</string>
+    <string name="menu_save_database">Verileri kaydet</string>
     <string name="menu_empty_recycle_bin">Geri dönüşüm kutusunu boşalt</string>
     <string name="command_execution">Komut çalıştırılıyor…</string>
     <string name="warning_permanently_delete_nodes">Seçilen düğümler kalıcı olarak silinsin mi\?</string>
@@ -526,9 +526,9 @@
     <string name="autofill_inline_suggestions_summary">Doğrudan uyumlu bir klavyeden otomatik doldurma önerileri görüntülemeye çalış</string>
     <string name="autofill_inline_suggestions_title">Satır içi öneriler</string>
     <string name="warning_database_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi, veri tabanını kapatın ve bulunduğu yerden yeniden açın.</string>
-    <string name="warning_database_info_changed_options">Veri tabanını kaydederek veya en son değişikliklerle yeniden yükleyerek harici değişikliklerin üzerine yazın.</string>
+    <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle veri tabanını yeniden yükleyin.</string>
     <string name="warning_database_info_changed">Veri tabanı dosyanızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
-    <string name="menu_reload_database">Veri tabanını yeniden yükle</string>
+    <string name="menu_reload_database">Verileri yeniden yükle</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
@@ -600,4 +600,9 @@
     <string name="hint_icon_name">Simge adı</string>
     <string name="warning_exact_alarm">Uygulamanın tam bir alarm kullanmasına izin vermediniz. Sonuç olarak zamanlayıcı gerektiren özellikler kesin bir süre ile yapılmayacaktır.</string>
     <string name="permission">İzinler</string>
+    <string name="content_description_entry_foreground_color">Girdi ön plan rengi</string>
+    <string name="content_description_database_color">Veri tabanı rengi</string>
+    <string name="content_description_entry_background_color">Girdi arka plan rengi</string>
+    <string name="menu_merge_database">Verileri birleştir</string>
+    <string name="warning_database_info_reloaded">Veri tabanını yeniden yüklemek, yerel olarak değiştirilen verileri silecektir.</string>
 </resources>

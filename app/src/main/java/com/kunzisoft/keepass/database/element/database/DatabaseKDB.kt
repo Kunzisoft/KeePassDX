@@ -34,11 +34,32 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
-import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
-    private var kdfListV3: MutableList<KdfEngine> = ArrayList()
+    override var encryptionAlgorithm: EncryptionAlgorithm = EncryptionAlgorithm.AESRijndael
+
+    override val availableEncryptionAlgorithms: List<EncryptionAlgorithm> = listOf(
+        EncryptionAlgorithm.AESRijndael,
+        EncryptionAlgorithm.Twofish
+    )
+
+    override var kdfEngine: KdfEngine?
+        get() = kdfAvailableList[0]
+        set(value) {
+            value?.let {
+                numberKeyEncryptionRounds = value.defaultKeyRounds
+            }
+        }
+
+    override val kdfAvailableList: List<KdfEngine> = listOf(
+        KdfFactory.aesKdf
+    )
+
+    override val passwordEncoding: String
+        get() = "ISO-8859-1"
+
+    override var numberKeyEncryptionRounds = 300L
 
     override val version: String
         get() = "V1"
@@ -48,7 +69,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         rootGroup = createGroup().apply {
             icon.standard = getStandardIcon(IconImageStandard.DATABASE_ID)
         }
-        kdfListV3.add(KdfFactory.aesKdf)
     }
 
     val backupGroup: GroupKDB?
@@ -64,29 +84,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     var defaultUserName: String = ""
 
     var color: Int? = null
-
-    override val kdfEngine: KdfEngine
-        get() = kdfListV3[0]
-
-    override val kdfAvailableList: List<KdfEngine>
-        get() = kdfListV3
-
-    override val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
-        get() {
-            val list = ArrayList<EncryptionAlgorithm>()
-            list.add(EncryptionAlgorithm.AESRijndael)
-            list.add(EncryptionAlgorithm.Twofish)
-            return list
-        }
-
-    override val passwordEncoding: String
-        get() = "ISO-8859-1"
-
-    override var numberKeyEncryptionRounds = 300L
-
-    init {
-        algorithm = EncryptionAlgorithm.AESRijndael
-    }
 
     /**
      * Generates an unused random tree id
@@ -212,29 +209,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         return true
     }
 
-    fun recycle(group: GroupKDB) {
-        removeGroupFrom(group, group.parent)
-        addGroupTo(group, backupGroup)
-        group.afterAssignNewParent()
-    }
-
-    fun recycle(entry: EntryKDB) {
-        removeEntryFrom(entry, entry.parent)
-        addEntryTo(entry, backupGroup)
-        entry.afterAssignNewParent()
-    }
-
-    fun undoRecycle(group: GroupKDB, origParent: GroupKDB) {
-        removeGroupFrom(group, backupGroup)
-        addGroupTo(group, origParent)
-    }
-
-    fun undoRecycle(entry: EntryKDB, origParent: GroupKDB) {
-        removeEntryFrom(entry, backupGroup)
-        addEntryTo(entry, origParent)
-    }
-
-    fun buildNewAttachment(): BinaryData {
+    fun buildNewBinaryAttachment(): BinaryData {
         // Generate an unique new file
         return attachmentPool.put { uniqueBinaryId ->
             binaryCache.getBinaryData(uniqueBinaryId, false)

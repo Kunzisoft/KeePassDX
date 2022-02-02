@@ -185,7 +185,7 @@
     <string name="menu_empty_recycle_bin">Спорожнити кошик</string>
     <string name="menu_open_file_read_and_write">Дозволити зміни</string>
     <string name="menu_file_selection_read_only">Захищено від запису</string>
-    <string name="menu_save_database">Зберегти базу даних</string>
+    <string name="menu_save_database">Зберегти дані</string>
     <string name="menu_cancel">Скасувати</string>
     <string name="menu_paste">Вставити</string>
     <string name="menu_move">Перемістити</string>
@@ -531,9 +531,9 @@
     <string name="autofill_inline_suggestions_summary">Спробувати показ пропозицій автозаповнення безпосередньо з сумісної клавіатури</string>
     <string name="autofill_inline_suggestions_title">Вбудовані пропозиції</string>
     <string name="warning_database_revoked">Доступ до файлу скасовано менеджером файлів, закрийте базу даних і знову відкрийте її з її розташування.</string>
-    <string name="warning_database_info_changed_options">Перезаписати зовнішні зміни, зберігши базу даних або перезавантажте її з найновішими змінами.</string>
+    <string name="warning_database_info_changed_options">Об\'єднати дані, перезаписати зовнішні зміни, зберігши базу даних або перезавантажити базу даних з найновішими змінами.</string>
     <string name="warning_database_info_changed">Відомості, що містяться у файлі бази даних, змінено за межами застосунку.</string>
-    <string name="menu_reload_database">Перезавантажити базу даних</string>
+    <string name="menu_reload_database">Перезавантажити дані</string>
     <string name="unit_gibibyte">ГіБ</string>
     <string name="unit_mebibyte">МіБ</string>
     <string name="unit_kibibyte">КіБ</string>
@@ -605,4 +605,9 @@
     <string name="hint_icon_name">Назва піктограми</string>
     <string name="permission">Дозвіл</string>
     <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
+    <string name="content_description_database_color">Колір бази даних</string>
+    <string name="content_description_entry_background_color">Колір тла запису</string>
+    <string name="content_description_entry_foreground_color">Колір тексту запису</string>
+    <string name="menu_merge_database">Об\'єднати дані</string>
+    <string name="warning_database_info_reloaded">Перезавантаження бази даних видалить локально змінені дані.</string>
 </resources>

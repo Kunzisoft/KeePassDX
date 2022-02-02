@@ -43,6 +43,7 @@ class MoveNodesRunnable constructor(
         foreachNode@ for(nodeToMove in mNodesToMove) {
             // Move node in new parent
             mOldParent = nodeToMove.parent
+            nodeToMove.touch(modified = true, touchParents = true)
 
             when (nodeToMove.type) {
                 Type.GROUP -> {
@@ -52,9 +53,9 @@ class MoveNodesRunnable constructor(
                             // and if not in the current group
                             && groupToMove != mNewParent
                             && !mNewParent.isContainedIn(groupToMove)) {
-                        groupToMove.touch(modified = true, touchParents = true)
                         database.moveGroupTo(groupToMove, mNewParent)
                         groupToMove.setPreviousParentGroup(mOldParent)
+                        groupToMove.touch(modified = true, touchParents = true)
                     } else {
                         // Only finish thread
                         setError(MoveGroupDatabaseException())
@@ -67,9 +68,9 @@ class MoveNodesRunnable constructor(
                     if (mOldParent != mNewParent
                             // and root can contains entry
                             && (mNewParent != database.rootGroup || database.rootCanContainsEntry())) {
-                        entryToMove.touch(modified = true, touchParents = true)
                         database.moveEntryTo(entryToMove, mNewParent)
                         entryToMove.setPreviousParentGroup(mOldParent)
+                        entryToMove.touch(modified = true, touchParents = true)
                     } else {
                         // Only finish thread
                         setError(MoveEntryDatabaseException())

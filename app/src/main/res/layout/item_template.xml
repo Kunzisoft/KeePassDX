@@ -26,7 +26,8 @@
         android:layout_height="wrap_content"
         style="?attr/cardViewStyle">
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
+            android:id="@+id/template_background"
+            android:layout_width="match_parent"
             android:layout_height="42dp"
             android:orientation="horizontal">
             <ImageView

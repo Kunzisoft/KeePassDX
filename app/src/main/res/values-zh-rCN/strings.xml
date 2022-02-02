@@ -393,7 +393,7 @@
     <string name="compression_gzip">Gzip压缩</string>
     <string name="device_keyboard_setting_title">设备键盘设置</string>
     <string name="error_save_database">无法保存数据库。</string>
-    <string name="menu_save_database">保存数据库</string>
+    <string name="menu_save_database">保存数据</string>
     <string name="menu_empty_recycle_bin">清空回收站</string>
     <string name="command_execution">正在执行命令……</string>
     <string name="warning_permanently_delete_nodes">是否永久删除选中的条目？</string>
@@ -531,9 +531,9 @@
     <string name="autofill_inline_suggestions_summary">尝试直接从兼容的键盘显示自动填充建议</string>
     <string name="autofill_inline_suggestions_title">内联建议</string>
     <string name="warning_database_revoked">文件管理器撤销了对此文件的访问，关闭数据库并从其位置重新打开它。</string>
-    <string name="warning_database_info_changed_options">通过保存数据库或用最新的更改重新加载数据库来覆盖外部修改。</string>
+    <string name="warning_database_info_changed_options">保存数据库或重新加载包含最新更改的数据库来合并数据和覆盖外部修改。</string>
     <string name="warning_database_info_changed">数据库文件中包含的信息已在应用之外被修改。</string>
-    <string name="menu_reload_database">重新加载数据库</string>
+    <string name="menu_reload_database">重新加载数据</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">兆字节</string>
     <string name="unit_kibibyte">千位字节</string>
@@ -605,4 +605,9 @@
     <string name="hint_icon_name">图标名称</string>
     <string name="warning_exact_alarm">你尚未允许该应用使用精确闹钟。 因此，需要计时器的功能不会在精确的时间完成。</string>
     <string name="permission">权限</string>
+    <string name="content_description_database_color">数据库颜色</string>
+    <string name="content_description_entry_foreground_color">条目前景色</string>
+    <string name="content_description_entry_background_color">条目背景色</string>
+    <string name="menu_merge_database">合并数据</string>
+    <string name="warning_database_info_reloaded">重新加载数据库将删除本地修改的数据。</string>
 </resources>

@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.binary
 
-class AttachmentPool(binaryCache: BinaryCache) : BinaryPool<Int>(binaryCache) {
+class AttachmentPool : BinaryPool<Int>() {
 
     /**
      * Utility method to find an unused key in the pool

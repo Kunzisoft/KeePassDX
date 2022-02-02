@@ -26,7 +26,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
@@ -75,6 +74,7 @@ class NodesAdapter (private val context: Context,
     private var mNumberChildrenTextDefaultDimension: Float = 0F
     private var mIconDefaultDimension: Float = 0F
 
+    private var mShowEntryColors: Boolean = true
     private var mShowUserNames: Boolean = true
     private var mShowNumberEntries: Boolean = true
     private var mShowOTP: Boolean = false
@@ -98,7 +98,7 @@ class NodesAdapter (private val context: Context,
     @ColorInt
     private val mColorAccentLight: Int
     @ColorInt
-    private val mTextColorInverse: Int
+    private val mTextColorSelected: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -134,8 +134,8 @@ class NodesAdapter (private val context: Context,
         this.mColorAccentLight = taSelectionColor.getColor(0, Color.GRAY)
         taSelectionColor.recycle()
         // To get text color for selection
-        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        this.mTextColorInverse = taSelectionTextColor.getColor(0, Color.WHITE)
+        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
+        this.mTextColorSelected = taSelectionTextColor.getColor(0, Color.WHITE)
         taSelectionTextColor.recycle()
     }
 
@@ -151,6 +151,7 @@ class NodesAdapter (private val context: Context,
                         )
                 )
 
+        this.mShowEntryColors = PreferencesUtil.showEntryColors(context)
         this.mShowUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
@@ -437,7 +438,7 @@ class NodesAdapter (private val context: Context,
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            val backgroundColor = entry.backgroundColor
+            val backgroundColor = if (mShowEntryColors) entry.backgroundColor else null
             if (!holder.container.isSelected) {
                 if (backgroundColor != null) {
                     holder.container.setBackgroundColor(backgroundColor)
@@ -447,7 +448,7 @@ class NodesAdapter (private val context: Context,
             } else {
                 holder.container.setBackgroundColor(mColorAccentLight)
             }
-            val foregroundColor = entry.foregroundColor
+            val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
                     holder.text.setTextColor(foregroundColor)
@@ -472,12 +473,12 @@ class NodesAdapter (private val context: Context,
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mTextColorInverse)
-                holder.subText?.setTextColor(mTextColorInverse)
-                holder.otpToken?.setTextColor(mTextColorInverse)
-                holder.otpProgress?.setIndicatorColor(mTextColorInverse)
-                holder.attachmentIcon?.setColorFilter(mTextColorInverse)
-                holder.meta.setTextColor(mTextColorInverse)
+                holder.text.setTextColor(mTextColorSelected)
+                holder.subText?.setTextColor(mTextColorSelected)
+                holder.otpToken?.setTextColor(mTextColorSelected)
+                holder.otpProgress?.setIndicatorColor(mTextColorSelected)
+                holder.attachmentIcon?.setColorFilter(mTextColorSelected)
+                holder.meta.setTextColor(mTextColorSelected)
             }
 
             database.stopManageEntry(entry)

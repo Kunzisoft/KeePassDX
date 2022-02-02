@@ -409,7 +409,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Gerätetastatur-Einstellungen</string>
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
-    <string name="menu_save_database">Datenbank speichern</string>
+    <string name="menu_save_database">Daten speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
     <string name="command_execution">Befehl ausführen …</string>
     <string name="warning_permanently_delete_nodes">Sollen die ausgewählten Knoten wirklich gelöscht werden\?</string>
@@ -544,8 +544,8 @@
     <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten mit Daten aus moderner Entsperrung extrahieren</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
-    <string name="menu_reload_database">Datenbank neu laden</string>
-    <string name="warning_database_info_changed_options">Überschreiben Sie die externen Änderungen durch Speichern der Datenbank oder laden Sie sie mit den neuesten Änderungen neu.</string>
+    <string name="menu_reload_database">Daten neu laden</string>
+    <string name="warning_database_info_changed_options">Führen Sie die Daten zusammen, überschreiben Sie die externen Änderungen durch Speichern der Datenbank oder laden Sie sie mit den neuesten Änderungen neu.</string>
     <string name="error_file_to_big">Die Datei, die hochgeladen werden soll, ist zu groß.</string>
     <string name="warning_database_info_changed">Die in Ihrer Datenbank enthaltenen Informationen wurden außerhalb der App geändert.</string>
     <string name="error_remove_file">Beim Löschen der Datei trat ein Fehler auf.</string>
@@ -616,4 +616,9 @@
     <string name="hint_icon_name">Symbolname</string>
     <string name="permission">Erlaubnis</string>
     <string name="warning_exact_alarm">Sie haben der App nicht erlaubt, einen genauen Alarm zu verwenden. Deshalb werden die Funktionen, die einen Timer erfordern, nicht zu einer genauen Zeit ausgeführt.</string>
+    <string name="content_description_database_color">Datenbankfarbe</string>
+    <string name="content_description_entry_foreground_color">Vordergrundfarbe des Eintrags</string>
+    <string name="content_description_entry_background_color">Hintergrundfarbe des Eintrags</string>
+    <string name="menu_merge_database">Daten zusammenführen</string>
+    <string name="warning_database_info_reloaded">Erneutes Laden der Datenbank wird die lokal durchgeführten Datenänderungen löschen.</string>
 </resources>

@@ -51,12 +51,15 @@ abstract class GroupVersioned
         dest.writeString(titleGroup)
     }
 
-    protected fun updateWith(source: GroupVersioned<GroupId, EntryId, Group, Entry>) {
-        super.updateWith(source)
+    protected fun updateWith(source: GroupVersioned<GroupId, EntryId, Group, Entry>,
+                             updateParents: Boolean = true) {
+        super.updateWith(source, updateParents)
         titleGroup = source.titleGroup
-        removeChildren()
-        childGroups.addAll(source.childGroups)
-        childEntries.addAll(source.childEntries)
+        if (updateParents) {
+            removeChildren()
+            childGroups.addAll(source.childGroups)
+            childEntries.addAll(source.childEntries)
+        }
     }
 
     override var title: String

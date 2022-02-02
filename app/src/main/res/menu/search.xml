@@ -22,9 +22,9 @@
     <item android:id="@+id/menu_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/menu_search"
-        app:showAsAction="always|collapseActionView"
         android:orderInCategory="31"
         android:iconifiedByDefault="true"
         app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

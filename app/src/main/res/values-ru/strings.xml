@@ -152,7 +152,7 @@
     <string name="error_autofill_enable_service">Служба автозаполнения не может быть включена.</string>
     <string name="copy_field">%1$s скопировано</string>
     <string name="menu_form_filling_settings">Заполнение форм</string>
-    <string name="encryption_explanation">Алгоритм шифрования базы для всех данных.</string>
+    <string name="encryption_explanation">Алгоритм шифрования всех данных базы.</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
     <string name="memory_usage">Использование памяти</string>
     <string name="memory_usage_explanation">Объём памяти, который будет использоваться функцией формирования ключа.</string>
@@ -391,7 +391,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Настройки клавиатур устройства</string>
     <string name="error_save_database">Невозможно сохранить базу.</string>
-    <string name="menu_save_database">Сохранить базу</string>
+    <string name="menu_save_database">Сохранить данные</string>
     <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
     <string name="command_execution">Выполнение команды…</string>
     <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные элементы\?</string>
@@ -465,13 +465,13 @@
 \nЕсли добавить этот файл, база станет очень большой и снизится производительность.</string>
     <string name="warning_replace_file">Добавление этого файла заменит существующий.</string>
     <string name="warning_sure_add_file">Добавить файл в любом случае\?</string>
-    <string name="database_data_remove_unlinked_attachments_summary">Удаляет вложения, содержащиеся в базе данных, но не связанные с записью</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Удалить вложения, содержащиеся в базе, но не связанные с записью</string>
     <string name="database_data_remove_unlinked_attachments_title">Удалить несвязанные данные</string>
     <string name="data">Данные</string>
     <string name="warning_empty_keyfile_explanation">Содержимое ключевого файла никогда не должно изменяться и в лучшем случае должно содержать случайно сгенерированные данные.</string>
     <string name="warning_empty_keyfile">Не рекомендуется добавлять пустой ключевой файл.</string>
     <string name="warning_sure_remove_data">Всё равно удалить эти данные\?</string>
-    <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер вашей базы данных, но также может удалить данные, используемые для плагинов KeePass.</string>
+    <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер базы, но также может удалить данные, используемые для плагинов KeePass.</string>
     <string name="content_description_credentials_information">Информация об учётных данных</string>
     <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
     <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
@@ -531,9 +531,9 @@
     <string name="autofill_inline_suggestions_summary">Показывать предложения автозаполнения непосредственно в совместимой клавиатуре</string>
     <string name="autofill_inline_suggestions_title">Встроенные предложения</string>
     <string name="warning_database_revoked">Доступ к файлу отозван файловым менеджером, закройте базу и снова откройте.</string>
-    <string name="warning_database_info_changed_options">Сохранить базу, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
+    <string name="warning_database_info_changed_options">Объединить данные, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
     <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
-    <string name="menu_reload_database">Перезагрузить базу</string>
+    <string name="menu_reload_database">Перезагрузить данные</string>
     <string name="error_otp_type">Существующий тип OTP не распознаётся данной формой, его проверка больше не может корректно генерировать токен.</string>
     <string name="unit_gibibyte">ГиБ</string>
     <string name="unit_mebibyte">МиБ</string>
@@ -562,7 +562,7 @@
     <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой.</string>
     <string name="error_move_group_here">Сюда группу переместить невозможно.</string>
     <string name="error_word_reserved">Это слово зарезервировано и не может быть использовано.</string>
-    <string name="templates_group_enable_summary">Используйте динамические шаблоны для заполнения полей записи</string>
+    <string name="templates_group_enable_summary">Использовать динамические шаблоны для заполнения полей записи</string>
     <string name="standard">Стандарт</string>
     <string name="membership">Членство</string>
     <string name="secure_note">Защищённая заметка</string>
@@ -572,7 +572,7 @@
     <string name="place_of_issue">Место выдачи</string>
     <string name="templates">Шаблоны</string>
     <string name="templates_group_uuid_title">Группа шаблонов</string>
-    <string name="templates_group_enable_title">Использование шаблонов</string>
+    <string name="templates_group_enable_title">Использовать шаблоны</string>
     <string name="version">Версия</string>
     <string name="template">Шаблон</string>
     <string name="international_bank_account_number">IBAN</string>
@@ -596,13 +596,18 @@
     <string name="holder">Владелец</string>
     <string name="debit_credit_card">Банковская карта</string>
     <string name="template_group_name">Шаблоны</string>
-    <string name="show_otp_token_title">Показывать токен OTP</string>
+    <string name="show_otp_token_title">Показывать OTP</string>
     <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
     <string name="menu_external_icon">Внешний значок</string>
     <string name="autofill_select_entry">Выбор записи…</string>
-    <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запить из базы</string>
+    <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запись из базы</string>
     <string name="autofill_manual_selection_title">Ручной выбор</string>
     <string name="hint_icon_name">Название значка</string>
     <string name="permission">Разрешение</string>
     <string name="warning_exact_alarm">Вы не разрешили приложению использовать точный сигнал будильника. В результате требующие этого функции не будут выполняться с точным временем.</string>
+    <string name="content_description_entry_background_color">Цвет фона записи</string>
+    <string name="content_description_database_color">Цвет базы</string>
+    <string name="content_description_entry_foreground_color">Цвет текста записи</string>
+    <string name="menu_merge_database">Объединить данные</string>
+    <string name="warning_database_info_reloaded">Перезагрузка базы удалит локально изменённые данные.</string>
 </resources>

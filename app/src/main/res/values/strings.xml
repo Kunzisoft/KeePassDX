@@ -94,6 +94,7 @@
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
+    <string name="tags">Tags</string>
     <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
@@ -155,9 +156,9 @@
     <string name="error_label_exists">This label already exists.</string>
     <string name="error_wrong_length">Enter a positive integer number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
-    <string name="error_move_group_here">You can not move a group here.</string>
-    <string name="error_move_entry_here">You can not move an entry here.</string>
-    <string name="error_copy_entry_here">You can not copy an entry here.</string>
+    <string name="error_move_group_here">You cannot move a group here.</string>
+    <string name="error_move_entry_here">You cannot move an entry here.</string>
+    <string name="error_copy_entry_here">You cannot copy an entry here.</string>
     <string name="error_copy_group_here">You cannot copy a group here.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
@@ -197,9 +198,13 @@
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
     <string name="list_entries_show_username_title">Show usernames</string>
-    <string name="list_entries_show_username_summary">Show usernames in entry lists</string>
+    <string name="list_entries_show_username_summary">Displays usernames in entry lists</string>
     <string name="list_groups_show_number_entries_title">Show number of entries</string>
-    <string name="list_groups_show_number_entries_summary">Show the number of entries in a group</string>
+    <string name="show_otp_token_title">Show OTP Token</string>
+    <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
+    <string name="show_uuid_title">Show UUID</string>
+    <string name="show_uuid_summary">Displays the UUID linked to an entry or a group</string>
+    <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
     <string name="list_size_title">Size of list items</string>
     <string name="list_size_summary">Text size in the element list</string>
     <string name="creating_database">Creating database…</string>
@@ -226,8 +231,9 @@
     <string name="menu_cancel">Cancel</string>
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
-    <string name="menu_save_database">Save database</string>
-    <string name="menu_reload_database">Reload database</string>
+    <string name="menu_save_database">Save data</string>
+    <string name="menu_merge_database">Merge data</string>
+    <string name="menu_reload_database">Reload data</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
@@ -326,9 +332,11 @@
     <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
-    <string name="warning_database_info_changed_options">Overwrite the external modifications by saving the database or reload it with the latest changes.</string>
+    <string name="warning_database_info_changed_options">Merge the data, overwrite the external modifications by saving the database or reload it with the latest changes.</string>
+    <string name="warning_database_info_reloaded">Reloading the database will delete the locally modified data.</string>
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
+    <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
@@ -342,7 +350,7 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extract database credential with advanced unlock data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="advanced_unlock_invalid_key">Can not read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
+    <string name="advanced_unlock_invalid_key">Cannot read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="advanced_unlock_not_recognized">Could not recognize advanced unlock print</string>
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
@@ -516,6 +524,8 @@
     <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
+    <string name="enable_keep_screen_on_title">Keep screen on</string>
+    <string name="enable_keep_screen_on_summary">Keep the screen on when watching the entry</string>
     <string name="enable_education_screens_title">Educational hints</string>
     <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational hints</string>
@@ -631,10 +641,8 @@
     <string name="icon_section_custom">Custom</string>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
+    <string name="show_entry_colors_title">Entry colors</string>
+    <string name="show_entry_colors_summary">Displays foreground and background colors in an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
-    <string name="show_uuid_title">Show UUID</string>
-    <string name="show_uuid_summary">Displays the UUID linked to an entry or a group</string>
-    <string name="show_otp_token_title">Show OTP Token</string>
-    <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
 </resources>

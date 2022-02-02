@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -463,6 +462,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupInfo.expires = expires
         groupInfo.expiryTime = expiryTime
         groupInfo.notes = notes
+        groupInfo.tags = tags
         return groupInfo
     }
 
@@ -475,6 +475,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         expires = groupInfo.expires
         expiryTime = groupInfo.expiryTime
         notes = groupInfo.notes
+        tags = groupInfo.tags
     }
 
     override fun equals(other: Any?): Boolean {

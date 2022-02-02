@@ -69,6 +69,8 @@
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
+        <item name="colorOnAccentColor">@color/white</item>
+
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
@@ -132,6 +134,8 @@
         <item name="android:textColorHintInverse">@color/green_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
+
+        <item name="colorOnAccentColor">@color/white</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
@@ -246,12 +250,22 @@
     <style name="ThemeOverlay.KeepassDXTheme.TextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
         <item name="colorControlActivated">?attr/colorAccent</item>
     </style>
+    <style name="ThemeOverlay.KeepassDXTheme.CompleteTextView" parent="ThemeOverlay.MaterialComponents.AutoCompleteTextView.OutlinedBox">
+        <item name="colorControlActivated">?attr/colorAccent</item>
+    </style>
     <style name="KeepassDXStyle.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:paddingTop">2dp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
         <item name="hintTextColor">?attr/colorAccent</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.TextInputEditText</item>
+    </style>
+    <style name="KeepassDXStyle.TextInputLayout.ExposedMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
+        <item name="hintTextColor">?attr/colorAccent</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.CompleteTextView</item>
     </style>
 
     <!-- Dialog -->
@@ -516,6 +530,18 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!-- Keyboard -->
+    <style name="KeepassDXStyle.Keyboard" parent="Theme.AppCompat">
+        <item name="android:paddingTop">4dp</item>
+        <item name="background">@color/grey_blue_dark</item>
+        <item name="keyBackground">@drawable/key_background</item>
+        <item name="keyTextSize">22sp</item>
+        <item name="keyTextColor">@color/white</item>
+        <item name="labelTextSize">14sp</item>
+        <item name="verticalCorrection">-10dip</item>
+        <item name="popupLayout">@layout/keyboard_popup_fields</item>
     </style>
 
 </resources>

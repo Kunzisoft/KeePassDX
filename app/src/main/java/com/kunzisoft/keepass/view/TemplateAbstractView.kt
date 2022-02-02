@@ -93,6 +93,7 @@ abstract class TemplateAbstractView<
     fun setTemplate(template: Template?) {
         if (mTemplate != template) {
             mTemplate = template
+            applyTemplateParametersToEntry()
             if (mEntryInfo != null) {
                 populateEntryInfoWithViews(templateFieldNotEmpty = true,
                                            retrieveDefaultValues = false)
@@ -102,6 +103,16 @@ abstract class TemplateAbstractView<
             (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager?)
                 ?.hideSoftInputFromWindow(windowToken, 0)
         }
+    }
+
+    private fun applyTemplateParametersToEntry() {
+        // Change the entry icon by the template icon
+        mTemplate?.icon?.let { templateIcon ->
+            mEntryInfo?.icon = templateIcon
+        }
+        // Change the entry color by the template color
+        mEntryInfo?.backgroundColor = mTemplate?.backgroundColor
+        mEntryInfo?.foregroundColor = mTemplate?.foregroundColor
     }
 
     private fun buildTemplate() {
@@ -401,8 +412,6 @@ abstract class TemplateAbstractView<
                                                   retrieveDefaultValues: Boolean) {
         if (mEntryInfo == null)
             mEntryInfo = EntryInfo()
-
-        // Icon already populate
 
         try {
             val titleView: TEntryFieldView? = findViewWithTag(FIELD_TITLE_TAG)

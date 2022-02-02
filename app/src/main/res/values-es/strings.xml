@@ -607,4 +607,7 @@
     <string name="hint_icon_name">Nombre del icono</string>
     <string name="warning_exact_alarm">No ha permitido que la app use una alarma exacta. Como resultado, las funciones que requieren un temporizador no se harán con una hora exacta.</string>
     <string name="permission">Permiso</string>
+    <string name="content_description_database_color">Color de la base de datos</string>
+    <string name="content_description_entry_foreground_color">Color de primer plano de la entrada</string>
+    <string name="content_description_entry_background_color">Color de fondo de la entrada</string>
 </resources>

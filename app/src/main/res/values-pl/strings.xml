@@ -391,7 +391,7 @@
     <string name="settings_database_force_changing_master_key_next_time_title">Wymuś odnowienie następnym razem</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Wymagaj zmiany klucza głównego następnym razem (raz)</string>
     <string name="error_save_database">Nie można zapisać bazy danych.</string>
-    <string name="menu_save_database">Zapisz bazę danych</string>
+    <string name="menu_save_database">Zapisz dane</string>
     <string name="menu_empty_recycle_bin">Opróżnij kosz</string>
     <string name="command_execution">Wykonywanie polecenia…</string>
     <string name="warning_permanently_delete_nodes">Czy trwale usunąć wybrane węzły\?</string>
@@ -531,9 +531,9 @@
     <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
-    <string name="warning_database_info_changed_options">Nadpisz zewnętrzne modyfikacje, zapisując bazę danych lub przeładuj ją z najnowszymi zmianami.</string>
+    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj bazę danych z najnowszymi zmianam.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
-    <string name="menu_reload_database">Załaduj ponownie bazę danych</string>
+    <string name="menu_reload_database">Ponownie załaduj dane</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
@@ -605,4 +605,9 @@
     <string name="hint_icon_name">Nazwa ikony</string>
     <string name="warning_exact_alarm">Nie zezwolono aplikacji na użycie dokładnego alarmu. W rezultacie funkcje wymagające czasomierza nie będą wykonywane z dokładnym czasem.</string>
     <string name="permission">Uprawnienie</string>
+    <string name="content_description_entry_background_color">Kolor tła wpisu</string>
+    <string name="content_description_entry_foreground_color">Kolor pierwszego planu wpisu</string>
+    <string name="content_description_database_color">Kolor bazy danych</string>
+    <string name="warning_database_info_reloaded">Ponowne załadowanie bazy danych spowoduje usunięcie lokalnie zmodyfikowanych danych.</string>
+    <string name="menu_merge_database">Scal dane</string>
 </resources>

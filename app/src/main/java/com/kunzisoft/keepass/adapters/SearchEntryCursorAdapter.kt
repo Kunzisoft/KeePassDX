@@ -21,27 +21,29 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.database.Cursor
+import android.database.MatrixCursor
 import android.graphics.Color
+import android.provider.BaseColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cursoradapter.widget.CursorAdapter
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.cursor.EntryCursorKDB
-import com.kunzisoft.keepass.database.cursor.EntryCursorKDBX
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.database.DatabaseKDB
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
+import java.util.*
 
 class SearchEntryCursorAdapter(private val context: Context,
                                private val database: Database)
-    : androidx.cursoradapter.widget.CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
+    : CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
     private val cursorInflater: LayoutInflater? = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -70,12 +72,13 @@ class SearchEntryCursorAdapter(private val context: Context,
         viewHolder.imageViewIcon = view.findViewById(R.id.entry_icon)
         viewHolder.textViewTitle = view.findViewById(R.id.entry_text)
         viewHolder.textViewSubTitle = view.findViewById(R.id.entry_subtext)
+        viewHolder.textViewPath = view.findViewById(R.id.entry_path)
         view.tag = viewHolder
 
         return view
     }
 
-    override fun bindView(view: View, context: Context, cursor: Cursor) {
+    override fun bindView(view: View, context: Context, cursor: Cursor?) {
         getEntryFrom(cursor)?.let { currentEntry ->
             val viewHolder = view.tag as ViewHolder
 
@@ -101,47 +104,27 @@ class SearchEntryCursorAdapter(private val context: Context,
                 visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
                 strikeOut(currentEntry.isCurrentlyExpires)
             }
+
+            viewHolder.textViewPath?.apply {
+                text = currentEntry.getPathString()
+            }
         }
     }
 
-    private fun getEntryFrom(cursor: Cursor): Entry? {
-        return database.createEntry()?.apply {
-            entryKDB?.let { entryKDB ->
-                (cursor as EntryCursorKDB).populateEntry(entryKDB,
-                        { standardIconId ->
-                            database.getStandardIcon(standardIconId)
-                        },
-                        { customIconId ->
-                            database.getCustomIcon(customIconId)
-                        }
-                )
-            }
-            entryKDBX?.let { entryKDBX ->
-                (cursor as EntryCursorKDBX).populateEntry(entryKDBX,
-                        { standardIconId ->
-                            database.getStandardIcon(standardIconId)
-                        },
-                        { customIconId ->
-                            database.getCustomIcon(customIconId)
-                        }
-                )
-            }
+    private fun getEntryFrom(cursor: Cursor?): Entry? {
+        val entryCursor = cursor as? EntryCursor?
+        entryCursor?.getNodeId()?.let {
+            return database.getEntryById(it)
         }
+        return null
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
         return searchEntries(context, constraint.toString())
     }
 
-    private fun searchEntries(context: Context, query: String): Cursor? {
-        var cursorKDB: EntryCursorKDB? = null
-        var cursorKDBX: EntryCursorKDBX? = null
-
-        if (database.type == DatabaseKDB.TYPE)
-            cursorKDB = EntryCursorKDB()
-        if (database.type == DatabaseKDBX.TYPE)
-            cursorKDBX = EntryCursorKDBX()
-
+    private fun searchEntries(context: Context, query: String): Cursor {
+        val cursor = EntryCursor()
         val searchGroup = database.createVirtualGroupFromSearch(query,
                 mOmitBackup,
                 SearchHelper.MAX_SEARCH_ENTRY)
@@ -149,17 +132,11 @@ class SearchEntryCursorAdapter(private val context: Context,
             // Search in hide entries but not meta-stream
             for (entry in searchGroup.getFilteredChildEntries(Group.ChildFilter.getDefaults(context))) {
                 database.startManageEntry(entry)
-                entry.entryKDB?.let {
-                    cursorKDB?.addEntry(it)
-                }
-                entry.entryKDBX?.let {
-                    cursorKDBX?.addEntry(it)
-                }
+                cursor.addEntry(entry)
                 database.stopManageEntry(entry)
             }
         }
-
-        return cursorKDB ?: cursorKDBX
+        return cursor
     }
 
     fun getEntryFromPosition(position: Int): Entry? {
@@ -176,5 +153,37 @@ class SearchEntryCursorAdapter(private val context: Context,
         var imageViewIcon: ImageView? = null
         var textViewTitle: TextView? = null
         var textViewSubTitle: TextView? = null
+        var textViewPath: TextView? = null
+    }
+
+    private class EntryCursor : MatrixCursor(arrayOf(
+        ID,
+        COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS,
+        COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS
+    )) {
+
+        private var entryId: Long = 0
+
+        fun addEntry(entry: Entry) {
+            addRow(arrayOf(
+                entryId,
+                entry.nodeId.id.mostSignificantBits,
+                entry.nodeId.id.leastSignificantBits
+            ))
+            entryId++
+        }
+
+        fun getNodeId(): NodeId<UUID> {
+            return NodeIdUUID(
+                UUID(getLong(getColumnIndex(COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
+                    getLong(getColumnIndex(COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS)))
+            )
+        }
+
+        companion object {
+            const val ID = BaseColumns._ID
+            const val COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS = "UUID_most_significant_bits"
+            const val COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS = "UUID_least_significant_bits"
+        }
     }
 }

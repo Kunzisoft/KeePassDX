@@ -410,7 +410,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Paramètres du clavier de l’appareil</string>
     <string name="error_save_database">Impossible d’enregistrer la base de données.</string>
-    <string name="menu_save_database">Enregistrer la base de données</string>
+    <string name="menu_save_database">Enregistrer les données</string>
     <string name="menu_empty_recycle_bin">Vider la corbeille</string>
     <string name="command_execution">Exécution de la commande…</string>
     <string name="warning_permanently_delete_nodes">Supprimer définitivement les nœuds sélectionnés \?</string>
@@ -543,10 +543,10 @@
     <string name="autofill_inline_suggestions_keyboard">Suggestions de remplissage automatique ajoutées.</string>
     <string name="autofill_inline_suggestions_summary">Tente d\'afficher des suggestions de remplissage automatique dans la barre de suggestions des claviers compatibles</string>
     <string name="autofill_inline_suggestions_title">Suggestions en ligne</string>
-    <string name="warning_database_info_changed_options">Écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
+    <string name="warning_database_info_changed_options">Fusionner les données, écraser les modifications externes en sauvegardant la base de données ou recharger-la avec les dernières modifications.</string>
     <string name="warning_database_revoked">Accès au dossier révoqué par le gestionnaire de fichiers, fermer la base de données et la rouvrir à partir de son emplacement.</string>
     <string name="warning_database_info_changed">Les informations contenues dans votre fichier de base de données ont été modifiées en dehors de l\'application.</string>
-    <string name="menu_reload_database">Recharger la base de données</string>
+    <string name="menu_reload_database">Recharger les données</string>
     <string name="unit_gibibyte">Gibioctets</string>
     <string name="unit_mebibyte">Mébioctets</string>
     <string name="unit_kibibyte">Kibioctets</string>
@@ -610,4 +610,17 @@
     <string name="autofill_manual_selection_summary">Afficher l\'option permettant à l\'utilisateur de sélectionner l\'entrée de la base de données</string>
     <string name="autofill_manual_selection_title">Sélection manuelle</string>
     <string name="hint_icon_name">Nom de l\'icône</string>
+    <string name="content_description_database_color">Couleur de la base de données</string>
+    <string name="content_description_entry_foreground_color">Couleur de premier plan de l\'entrée</string>
+    <string name="permission">Permission</string>
+    <string name="warning_exact_alarm">Vous n\'avez pas autorisé l\'application à utiliser une alarme exacte. Par conséquent, les fonctions nécessitant une minuterie ne seront pas effectuées avec une heure exacte.</string>
+    <string name="content_description_entry_background_color">Couleur d\'arrière plan de l\'entrée</string>
+    <string name="tags">Étiquettes</string>
+    <string name="menu_merge_database">Fusionner les données</string>
+    <string name="enable_keep_screen_on_summary">Maintiens l\'écran allumé lorsque l\'entrée est visionnée</string>
+    <string name="warning_keyfile_integrity">Le hachage du fichier n\'est pas garanti car Android peut modifier ses données à la volée. Changez l\'extension du fichier en .bin pour une intégrité correcte.</string>
+    <string name="enable_keep_screen_on_title">Maintenir l\'écran allumé</string>
+    <string name="show_entry_colors_summary">Affiche les couleurs de premier plan et d\'arrière-plan dans une entrée</string>
+    <string name="warning_database_info_reloaded">Le rechargement de la base de données supprimera les données modifiées localement.</string>
+    <string name="show_entry_colors_title">Couleurs d\'entrée</string>
 </resources>
