@@ -615,5 +615,5 @@
     <string name="enable_keep_screen_on_title">Держать экран включённым</string>
     <string name="enable_keep_screen_on_summary">Не отключать экран при просмотре записи</string>
     <string name="show_entry_colors_title">Цвета записей</string>
-    <string name="show_entry_colors_summary">Цвета текста и фона записи</string>
+    <string name="show_entry_colors_summary">Показывать цвета текста и фона записи</string>
 </resources>
