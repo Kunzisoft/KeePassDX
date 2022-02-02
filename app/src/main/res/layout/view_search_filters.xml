@@ -27,30 +27,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             tools:text="3" />
-        <com.google.android.material.chip.ChipGroup
+        <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/search_expand"
             app:layout_constraintStart_toEndOf="@+id/search_numbers"
             app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/search_chip_case_sensitive"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:layout_width="wrap_content"
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/case_sensitive" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/search_chip_expires"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/entry_expires" />
-        </com.google.android.material.chip.ChipGroup>
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginLeft="@dimen/default_margin"
+                app:singleLine="true">
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/search_chip_current_group"
+                    style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                    app:closeIcon="@drawable/ic_current_folder_white_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/current_group" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/search_chip_case_sensitive"
+                    style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                    app:closeIcon="@drawable/ic_case_sensitive_white_24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/case_sensitive" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
         <ImageButton
             android:id="@+id/search_expand"
             android:layout_width="wrap_content"
@@ -59,14 +64,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             style="@style/KeepassDXStyle.ImageButton.Simple"
+            android:contentDescription="@string/search_filters"
             android:src="@drawable/ic_list_white_24dp"
             app:tint="?attr/textColorInverse"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/search_advance_filters"
         android:layout_width="match_parent"
         android:layout_height="@dimen/advanced_search_height"
         android:background="?attr/colorPrimary"
+        android:orientation="vertical"
         android:visibility="gone">
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
@@ -119,6 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
+                android:enabled="false"
                 style="@style/KeepassDXStyle.Chip.Filter"
                 android:text="@string/other"/>
             <com.google.android.material.chip.Chip
@@ -133,22 +141,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
+                android:enabled="false"
                 style="@style/KeepassDXStyle.Chip.Filter"
                 android:text="@string/tags"/>
+        </com.google.android.material.chip.ChipGroup>
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipSpacingVertical="16dp"
+            android:paddingTop="6dp"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:paddingBottom="@dimen/default_margin">
             <com.google.android.material.chip.Chip
-                android:id="@+id/search_chip_template"
+                android:id="@+id/search_chip_expires"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/template"/>
+                style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                app:closeIcon="@drawable/ic_warning_white_24dp"
+                android:text="@string/entry_expires" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_recycle_bin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                app:closeIcon="@drawable/ic_content_delete_white_24dp"
                 android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
                 android:text="@string/recycle_bin"/>
+            <com.google.android.material.chip.Chip
+                android:id="@+id/search_chip_template"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.Chip.Filter.Icon"
+                app:closeIcon="@drawable/ic_templates_white_24dp"
+                android:checked="false"
+                android:enabled="false"
+                android:text="@string/template"/>
         </com.google.android.material.chip.ChipGroup>
-    </FrameLayout>
+    </LinearLayout>
 </LinearLayout>

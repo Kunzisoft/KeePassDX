@@ -33,7 +33,6 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
-        <item name="chipFilterBackgroundColor">@color/purple_light</item>
         <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
@@ -41,6 +40,10 @@
         <item name="cardBackgroundTransparentColor">@color/white_purple_light_transparent</item>
         <item name="educationCircleColor">@color/purple_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white_purple_light</item>
+        <item name="chipFilterBackgroundColor">@color/purple_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/purple</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
@@ -107,7 +110,6 @@
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple.Dark</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple.Dark</item>
-        <item name="chipFilterBackgroundColor">@color/purple_dark</item>
         <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
@@ -115,6 +117,10 @@
         <item name="cardBackgroundTransparentColor">@color/black_purple_transparent</item>
         <item name="educationCircleColor">@color/black_purple</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white_purple_light</item>
+        <item name="chipFilterBackgroundColor">@color/purple_dark</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/purple_darker</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
