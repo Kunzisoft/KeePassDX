@@ -43,8 +43,8 @@ class SearchParameters() : Parcelable{
     var searchInUUIDs = false
     var searchInTags = false
 
-    var searchInTemplates = false
     var searchInRecycleBin = false
+    var searchInTemplates = false
 
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
@@ -60,8 +60,8 @@ class SearchParameters() : Parcelable{
         searchInOther = parcel.readByte() != 0.toByte()
         searchInUUIDs = parcel.readByte() != 0.toByte()
         searchInTags = parcel.readByte() != 0.toByte()
-        searchInTemplates = parcel.readByte() != 0.toByte()
         searchInRecycleBin = parcel.readByte() != 0.toByte()
+        searchInTemplates = parcel.readByte() != 0.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -78,8 +78,8 @@ class SearchParameters() : Parcelable{
         parcel.writeByte(if (searchInOther) 1 else 0)
         parcel.writeByte(if (searchInUUIDs) 1 else 0)
         parcel.writeByte(if (searchInTags) 1 else 0)
-        parcel.writeByte(if (searchInTemplates) 1 else 0)
         parcel.writeByte(if (searchInRecycleBin) 1 else 0)
+        parcel.writeByte(if (searchInTemplates) 1 else 0)
     }
 
     override fun describeContents(): Int {

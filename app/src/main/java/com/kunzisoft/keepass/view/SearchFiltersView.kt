@@ -32,8 +32,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchOther: CompoundButton
     private var searchUUID: CompoundButton
     private var searchTag: CompoundButton
-    private var searchTemplate: CompoundButton
     private var searchRecycleBin: CompoundButton
+    private var searchTemplate: CompoundButton
 
     var searchParameters = SearchParameters()
         get() {
@@ -49,8 +49,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 this.searchInOther = searchOther.isChecked
                 this.searchInUUIDs = searchUUID.isChecked
                 this.searchInTags = searchTag.isChecked
-                this.searchInTemplates = searchTemplate.isChecked
                 this.searchInRecycleBin = searchRecycleBin.isChecked
+                this.searchInTemplates = searchTemplate.isChecked
             }
         }
         set(value) {
@@ -68,8 +68,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchOther.isChecked = value.searchInOther
             searchUUID.isChecked = value.searchInUUIDs
             searchTag.isChecked = value.searchInTags
-            searchTemplate.isChecked = value.searchInTemplates
             searchRecycleBin.isChecked = value.searchInRecycleBin
+            searchTemplate.isChecked = value.searchInTemplates
             onParametersChangeListener = tempListener
         }
 
@@ -94,8 +94,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchUUID = findViewById(R.id.search_chip_uuid)
         searchOther = findViewById(R.id.search_chip_other)
         searchTag = findViewById(R.id.search_chip_tag)
-        searchTemplate = findViewById(R.id.search_chip_template)
         searchRecycleBin = findViewById(R.id.search_chip_recycle_bin)
+        searchTemplate = findViewById(R.id.search_chip_template)
 
         // Expand menu with button
         searchExpandButton.setOnClickListener {
@@ -153,12 +153,12 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.searchInTags = isChecked
             onParametersChangeListener?.invoke(searchParameters)
         }
-        searchTemplate.setOnCheckedChangeListener { _, isChecked ->
-            searchParameters.searchInTemplates = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
-        }
         searchRecycleBin.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInRecycleBin = isChecked
+            onParametersChangeListener?.invoke(searchParameters)
+        }
+        searchTemplate.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.searchInTemplates = isChecked
             onParametersChangeListener?.invoke(searchParameters)
         }
     }
