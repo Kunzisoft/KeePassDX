@@ -20,10 +20,10 @@
     <string name="homepage">الصفحة الرئيسة</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
-    <string name="encryption">التعمية</string>
-    <string name="encryption_algorithm">خوارزمية التعمية</string>
+    <string name="encryption">التشفير</string>
+    <string name="encryption_algorithm">خوارزمية التشفير</string>
     <string name="application">التطبيق</string>
-    <string name="brackets">أقواس</string>
+    <string name="brackets">الأقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
     <string name="allow">السماح</string>
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
@@ -106,13 +106,13 @@
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
-    <string name="feedback">التغذية الراجعة</string>
+    <string name="feedback">ردود الفعل</string>
     <string name="about_description">التنفيذ لمُدير كلمات المرور «كي‌ باس» على نظام أندرويد</string>
-    <string name="add_entry">إضافة مدخلة</string>
-    <string name="edit_entry">تحرير مدخلة</string>
+    <string name="add_entry">إضافة إدخال</string>
+    <string name="edit_entry">تحرير الإدخال</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
-    <string name="app_timeout">انتهت المهلة</string>
-    <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
+    <string name="app_timeout">المهلة</string>
+    <string name="app_timeout_summary">مدة الخمول قبل قفل قاعدة البيانات</string>
     <string name="file_manager_install_description">المحرر الذي يمتلك صلاحتي ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانشاء, وفتح وحفض قواعد البيانات.</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
@@ -316,7 +316,7 @@
     <string name="otp_type">نوع كلمة المرور لمرة واحدة</string>
     <string name="error_disallow_no_credentials">عين اعتماد واحد على الأقل.</string>
     <string name="contribution">ساهم</string>
-    <string name="contact">‮تواصل معنا</string>
+    <string name="contact">الإتصال بنا</string>
     <string name="biometric">البصمة</string>
     <string name="warning_empty_keyfile_explanation">يجب ألا تغير محتوى ملف المفتاح، في أحسن الحالات يجب أن يحتوي بيانات مولدة عشوائيا.</string>
     <string name="warning_empty_keyfile">من غير المستحسن اضافة ملف مفتاح فارغ.</string>
@@ -430,7 +430,7 @@
     <string name="error_duplicate_file">بيانات الملف موجودة سلفًا.</string>
     <string name="error_remove_file">حدث خطأ أثناء إزالة بيانات الملف.</string>
     <string name="error_start_database_action">حدث خطأ أثناء تنفيذ إجراء على قاعدة البيانات.</string>
-    <string name="content_description_otp_information">معلومات السر لمرة واحدة</string>
+    <string name="content_description_otp_information">معلومات كلمة المرور لمرة واحدة</string>
     <string name="membership">العضوية</string>
     <string name="name">الاسم</string>
     <string name="email">البريد الإلكتروني</string>
@@ -489,4 +489,5 @@
     <string name="warning_empty_recycle_bin">هل تريد حذف جميع العقد نهائيًا من سلة المهملات؟</string>
     <string name="autofill_save_search_info_title">احفظ معلومات البحث</string>
     <string name="autofill_ask_to_save_data_title">اسأل لحفظ البيانات</string>
+    <string name="content_description_database_color">لون قاعدة البيانات</string>
 </resources>

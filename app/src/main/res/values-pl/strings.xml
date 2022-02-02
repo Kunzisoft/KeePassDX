@@ -146,7 +146,7 @@
     <string name="invalid_algorithm">Błędny algorytm.</string>
     <string name="keyfile_is_empty">Plik klucza jest pusty.</string>
     <string name="list_entries_show_username_title">Pokaż nazwy użytkowników</string>
-    <string name="list_entries_show_username_summary">Pokaż nazwy użytkowników na listach wpisów</string>
+    <string name="list_entries_show_username_summary">Wyświetla nazwy użytkowników na listach wpisów</string>
     <string name="copy_field">Skopiowano %1$s</string>
     <string name="menu_form_filling_settings">Wypełnianie formularzy</string>
     <string name="menu_copy">Kopiuj</string>
@@ -326,12 +326,12 @@
     <string name="content_description_remove_field">Usuń pole</string>
     <string name="error_copy_entry_here">Nie możesz tutaj skopiować wpisu.</string>
     <string name="list_groups_show_number_entries_title">Pokaż liczbę wpisów</string>
-    <string name="list_groups_show_number_entries_summary">Pokaż liczbę wpisów w grupie</string>
+    <string name="list_groups_show_number_entries_summary">Wyświetla liczbę wpisów w grupie</string>
     <string name="selection_mode">Tryb wyboru</string>
     <string name="content_description_add_node">Dodaj węzeł</string>
     <string name="content_description_repeat_toggle_password_visibility">Powtórz przełączanie widoczności hasła</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">W to miejsce nie można przenieść wpisu.</string>
+    <string name="error_move_entry_here">Nie możesz tutaj przenieść wpisu.</string>
     <string name="content_description_password_checkbox">Pole hasła</string>
     <string name="content_description_keyfile_checkbox">Pole pliku klucza</string>
     <string name="content_description_background">Tło</string>
@@ -356,7 +356,7 @@
     <string name="otp_digits">Cyfry</string>
     <string name="otp_algorithm">Algorytm</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_copy_group_here">Tutaj nie można skopiować grupy.</string>
+    <string name="error_copy_group_here">Nie możesz tutaj skopiować grupy.</string>
     <string name="creating_database">Tworzenie bazy danych…</string>
     <string name="menu_security_settings">Ustawienia zabezpieczeń</string>
     <string name="menu_master_key_settings">Ustawienia klucza głównego</string>
@@ -506,7 +506,7 @@
     <string name="device_credential">Uwierzytelnienie urządzenia</string>
     <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij ten przycisk.</string>
     <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
-    <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowuj. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
+    <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowującego. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
     <string name="advanced_unlock_prompt_store_credential_message">Ostrzeżenie: Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać hasło główne.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Zaawansowane rozpoznawanie odblokowania</string>
@@ -531,7 +531,7 @@
     <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
-    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj bazę danych z najnowszymi zmianam.</string>
+    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianam.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
     <string name="menu_reload_database">Ponownie załaduj dane</string>
     <string name="unit_gibibyte">GiB</string>
@@ -610,4 +610,10 @@
     <string name="content_description_database_color">Kolor bazy danych</string>
     <string name="warning_database_info_reloaded">Ponowne załadowanie bazy danych spowoduje usunięcie lokalnie zmodyfikowanych danych.</string>
     <string name="menu_merge_database">Scal dane</string>
+    <string name="show_entry_colors_title">Kolory wpisu</string>
+    <string name="warning_keyfile_integrity">Hash pliku nie jest gwarantowany, ponieważ system Android może zmieniać swoje dane w locie. Zmień rozszerzenie pliku na .bin, aby uzyskać prawidłową integralność.</string>
+    <string name="enable_keep_screen_on_summary">Nie wyłączaj ekranu podczas oglądania wpisu</string>
+    <string name="tags">Znaczniki</string>
+    <string name="enable_keep_screen_on_title">Nie wyłączaj ekranu</string>
+    <string name="show_entry_colors_summary">Wyświetla kolory pierwszego planu i tła we wpisie</string>
 </resources>
