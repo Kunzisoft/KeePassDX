@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 
 class SearchFiltersView @JvmOverloads constructor(context: Context,
@@ -163,8 +164,12 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setNumbers(stringNumbers: String) {
-        searchNumbers.text = stringNumbers
+    fun setNumbers(numbers: Int) {
+        searchNumbers.text = SearchHelper.showNumberOfSearchResults(numbers)
+    }
+
+    fun setCurrentGroupText(text: String) {
+        searchCurrentGroup.text = if (text.length > 8) text.substring(0, 8) + "…" else text
     }
 
     override fun setVisibility(visibility: Int) {

@@ -114,9 +114,9 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Manage group
     private var mSearchState: SearchState? = null
-    private var mCurrentGroupState: GroupState? = null
-    private var mRootGroup: Group? = null
-    private var mCurrentGroup: Group? = null
+    private var mMainGroupState: GroupState? = null // Group in the tree, not a search
+    private var mRootGroup: Group? = null // Root group in the tree
+    private var mCurrentGroup: Group? = null // Group currently visible (search or main group)
     private var mPreviousGroupsIds = mutableListOf<GroupState>()
     private var mOldGroupToUpdate: Group? = null
 
@@ -128,7 +128,7 @@ class GroupActivity : DatabaseLockActivity(),
                     searchState.searchParameters.searchQuery = query
                     mGroupViewModel.loadSearchGroup(mDatabase,
                         searchState.searchParameters,
-                        mCurrentGroupState?.groupId,
+                        mMainGroupState?.groupId,
                         searchState.firstVisibleItem)
                 }
             }
@@ -147,7 +147,7 @@ class GroupActivity : DatabaseLockActivity(),
                 searchState.searchParameters = searchParameters
                 mGroupViewModel.loadSearchGroup(mDatabase,
                     searchState.searchParameters,
-                    mCurrentGroupState?.groupId,
+                    mMainGroupState?.groupId,
                     searchState.firstVisibleItem)
             }
         }
@@ -315,7 +315,7 @@ class GroupActivity : DatabaseLockActivity(),
             if (!currentGroup.isVirtual) {
                 mRecyclingBinIsCurrentGroup = it.isRecycleBin
                 // Save group state
-                mCurrentGroupState = GroupState(currentGroup.nodeId, it.showFromPosition)
+                mMainGroupState = GroupState(currentGroup.nodeId, it.showFromPosition)
                 // Update last access time.
                 currentGroup.touch(modified = false, touchParents = false)
             } else {
@@ -328,7 +328,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         mGroupViewModel.firstPositionVisible.observe(this) { firstPositionVisible ->
             mSearchState?.firstVisibleItem = firstPositionVisible
-            mCurrentGroupState?.firstVisibleItem = firstPositionVisible
+            mMainGroupState?.firstVisibleItem = firstPositionVisible
         }
 
         mGroupEditViewModel.requestIconSelection.observe(this) { iconImage ->
@@ -448,13 +448,13 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun loadGroup() {
         val searchState = mSearchState
-        val currentGroupState = mCurrentGroupState
+        val currentGroupState = mMainGroupState
         when {
             searchState != null -> {
                 finishNodeAction()
                 mGroupViewModel.loadSearchGroup(mDatabase,
                     searchState.searchParameters,
-                    mCurrentGroupState?.groupId,
+                    mMainGroupState?.groupId,
                     searchState.firstVisibleItem
                 )
             }
@@ -597,7 +597,7 @@ class GroupActivity : DatabaseLockActivity(),
     private fun manageIntent(intent: Intent?) {
         intent?.let {
             if (intent.extras?.containsKey(GROUP_STATE_KEY) == true) {
-                mCurrentGroupState = intent.getParcelableExtra(GROUP_STATE_KEY)
+                mMainGroupState = intent.getParcelableExtra(GROUP_STATE_KEY)
                 intent.removeExtra(GROUP_STATE_KEY)
             }
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
@@ -635,7 +635,9 @@ class GroupActivity : DatabaseLockActivity(),
         val group = mCurrentGroup
         // Assign title
         if (group?.isVirtual == true) {
-            searchFiltersView?.setNumbers(SearchHelper.showNumberOfSearchResults(group.numberOfChildEntries))
+            searchFiltersView?.setNumbers(group.numberOfChildEntries)
+            // TODO current group title
+            //  searchFiltersView?.setCurrentGroupText("Title with a large text")
             toolbarBreadcrumb?.navigationIcon = null
         } else {
             // Add breadcrumb
@@ -685,7 +687,7 @@ class GroupActivity : DatabaseLockActivity(),
                 val group = node as Group
                 // Save the last not virtual group and it's position
                 if (mCurrentGroup?.isVirtual == false) {
-                    mCurrentGroupState?.let {
+                    mMainGroupState?.let {
                         mPreviousGroupsIds.add(it)
                     }
                 }
