@@ -177,6 +177,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun addSearch() {
+        finishNodeAction()
         if (mSearchState == null) {
             mSearchState = SearchState(searchFiltersView?.searchParameters
                 ?: SearchParameters(), 0)
@@ -184,6 +185,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun removeSearch() {
+        finishNodeAction()
         mSearchState = null
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
