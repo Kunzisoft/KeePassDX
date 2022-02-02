@@ -638,6 +638,9 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.setNumbers(group.numberOfChildEntries)
             // TODO current group title
             //  searchFiltersView?.setCurrentGroupText("Title with a large text")
+            searchFiltersView?.enableOther(mDatabase?.allowEntryCustomFields() ?: false)
+            searchFiltersView?.enableTags(mDatabase?.tagPool?.isEmpty() ?: false)
+            searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
             toolbarBreadcrumb?.navigationIcon = null
         } else {
             // Add breadcrumb

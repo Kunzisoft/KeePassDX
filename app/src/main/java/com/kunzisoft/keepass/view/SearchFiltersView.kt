@@ -172,6 +172,18 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchCurrentGroup.text = if (text.length > 8) text.substring(0, 8) + "…" else text
     }
 
+    fun enableOther(enable: Boolean) {
+        searchOther.isEnabled = enable
+    }
+
+    fun enableTags(enable: Boolean) {
+        searchTag.isEnabled = enable
+    }
+
+    fun enableTemplates(enable: Boolean) {
+        searchTemplate.isEnabled = enable
+    }
+
     override fun setVisibility(visibility: Int) {
         //super.setVisibility(visibility)
         when (visibility) {
