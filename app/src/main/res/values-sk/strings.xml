@@ -109,7 +109,6 @@
     <string name="rounds_explanation">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
     <string name="saving_database">Ukladám databázu…</string>
     <string name="space">Miesto</string>
-    <string name="search_label">Hľadať</string>
     <string name="sort_db">DB zoradenie poradia</string>
     <string name="special">Špeciálne</string>
     <string name="search">Záznam názov/popis</string>

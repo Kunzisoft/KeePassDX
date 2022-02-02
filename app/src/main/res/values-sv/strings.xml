@@ -119,7 +119,6 @@
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot bruteforce-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
     <string name="saving_database">Sparar databas…</string>
     <string name="space">Mellanslag</string>
-    <string name="search_label">Sök</string>
     <string name="sort_db">Naturlig ordning</string>
     <string name="special">Specialtecken</string>
     <string name="search">Postens titel/beskrivning</string>

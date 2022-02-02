@@ -225,7 +225,6 @@
     <string name="sort_last_modify_time">Modifikasi</string>
     <string name="sort_username">Nama pengguna</string>
     <string name="sort_title">Judul</string>
-    <string name="search_label">Cari</string>
     <string name="do_not_kill_app">Jangan tutup aplikasi…</string>
     <string name="command_execution">Menjalankan perintah…</string>
     <string name="saving_database">Menyimpan basisdata…</string>

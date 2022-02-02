@@ -109,7 +109,6 @@
     <string name="rounds_explanation">更多的迭代次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
-    <string name="search_label">搜索</string>
     <string name="sort_db">自然排序</string>
     <string name="special">特殊符号</string>
     <string name="search">搜索</string>

@@ -120,7 +120,6 @@
     <string name="rounds_explanation">Lisätty kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
     <string name="saving_database">Tallennetaan tietokantaa…</string>
     <string name="space">Tila</string>
-    <string name="search_label">Etsi</string>
     <string name="sort_db">Luonnollinen järjestys</string>
     <string name="special">Erityistä</string>
     <string name="search">Tietueen otsikko/kuvaus</string>

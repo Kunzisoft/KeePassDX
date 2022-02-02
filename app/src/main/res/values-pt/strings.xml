@@ -119,7 +119,6 @@
     <string name="sort_groups_before">Grupos primeiro</string>
     <string name="sort_ascending">Mais baixo primeiro ↓</string>
     <string name="sort_menu">Ordenar</string>
-    <string name="search_label">Pesquisar</string>
     <string name="space">Espaço</string>
     <string name="saving_database">A guardar a base de dados…</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>

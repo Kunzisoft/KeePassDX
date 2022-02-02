@@ -147,7 +147,6 @@
     <string name="parallelism_explanation">Anahtar türev fonksiyonu tarafından kullanılan paralellik derecesi (yani iplik sayısı).</string>
     <string name="saving_database">Veri tabanı kaydediliyor…</string>
     <string name="space">Boşluk</string>
-    <string name="search_label">Ara</string>
     <string name="sort_menu">Sırala</string>
     <string name="sort_ascending">Önce en düşük ↓</string>
     <string name="sort_groups_before">Grup önce</string>

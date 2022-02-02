@@ -136,7 +136,6 @@
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
-    <string name="search_label">Rechercher</string>
     <string name="sort_menu">Trier</string>
     <string name="sort_ascending">Ascendant ↓</string>
     <string name="sort_groups_before">Groupes avant</string>

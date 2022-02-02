@@ -52,7 +52,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/search_label">
+        android:title="@string/search">
 
         <SwitchPreference
             android:key="@string/auto_focus_search_key"

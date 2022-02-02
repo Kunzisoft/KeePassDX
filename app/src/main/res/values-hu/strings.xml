@@ -122,7 +122,6 @@
     <string name="rounds_explanation">A további titkosítási körök magasabb védelmet biztosítanak a nyers erőt használó támadások ellen, ugyanakkor jelentősen lassíthatják az adatbázis betöltését vagy mentését.</string>
     <string name="saving_database">Adatbázis mentése…</string>
     <string name="space">Szóköz</string>
-    <string name="search_label">Keresés</string>
     <string name="sort_db">Természetes rendezés</string>
     <string name="special">Speciális</string>
     <string name="search">Keresés</string>

@@ -110,7 +110,6 @@
     <string name="rounds_explanation">Més passades d\'encriptació donen protecció addicional contra atacs de força bruta, però poden alentir molt la càrrega i el desat de la base de dades.</string>
     <string name="saving_database">Guardant la base de dades…</string>
     <string name="space">Espai</string>
-    <string name="search_label">Cerca</string>
     <string name="sort_db">Ordre natural</string>
     <string name="special">Especial</string>
     <string name="search">Cerca</string>

@@ -123,7 +123,6 @@
     <string name="rounds_explanation">Дополнительные раунды шифрования – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение.</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
-    <string name="search_label">Поиск</string>
     <string name="sort_db">Естественный порядок</string>
     <string name="special">$пеци@льные</string>
     <string name="search">Поиск</string>

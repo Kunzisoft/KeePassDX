@@ -10,7 +10,6 @@
     <string name="sort_title">Titolo</string>
     <string name="sort_db">Naturala ordo</string>
     <string name="sort_menu">Ordigi</string>
-    <string name="search_label">Serĉi</string>
     <string name="do_not_kill_app">Ne ĉesigu la aplikaĵon…</string>
     <string name="saving_database">Datumbaza konservado…</string>
     <string name="parallelism">Paralelado</string>

@@ -143,7 +143,6 @@
     <string name="memory_usage_explanation">바이너리 바이트 단위의 메모리 용량이 키 파생 기능에 사용됩니다.</string>
     <string name="saving_database">데이터베이스 저장 중…</string>
     <string name="space">공간</string>
-    <string name="search_label">검색</string>
     <string name="sort_menu">정렬</string>
     <string name="sort_ascending">오름차순 ↓</string>
     <string name="content_description_open_file">파일 열기</string>

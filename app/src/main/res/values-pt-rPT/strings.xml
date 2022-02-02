@@ -123,7 +123,6 @@
     <string name="rounds_explanation">As rodadas adicionais de encriptação fornecem mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e guardar mais lentos.</string>
     <string name="saving_database">A guardar a base de dados…</string>
     <string name="space">Espaço</string>
-    <string name="search_label">Pesquisar</string>
     <string name="sort_db">Ordenação natural</string>
     <string name="special">Especiais</string>
     <string name="search">Pesquisar</string>

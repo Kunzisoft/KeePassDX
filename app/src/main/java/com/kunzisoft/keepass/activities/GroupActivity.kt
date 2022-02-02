@@ -41,6 +41,8 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -123,20 +125,25 @@ class GroupActivity : DatabaseLockActivity(),
     private var mLockSearchListeners = false
     private val mOnSearchQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
-            if (query != null && !mLockSearchListeners) {
+            onQueryTextChange(query)
+            // Collapse the search filters
+            searchFiltersView?.closeAdvancedFilters()
+            // Close the keyboard
+            WindowInsetsControllerCompat(window, window.decorView)
+                .hide(WindowInsetsCompat.Type.ime())
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            if (newText != null && !mLockSearchListeners) {
                 mSearchState?.let { searchState ->
-                    searchState.searchParameters.searchQuery = query
+                    searchState.searchParameters.searchQuery = newText
                     mGroupViewModel.loadSearchGroup(mDatabase,
                         searchState.searchParameters,
                         mMainGroupState?.groupId,
                         searchState.firstVisibleItem)
                 }
             }
-            return true
-        }
-
-        override fun onQueryTextChange(newText: String?): Boolean {
-            onQueryTextSubmit(newText)
             return true
         }
     }

@@ -147,7 +147,6 @@
     <string name="parallelism_explanation">Graden av parallellitet (dvs. antallet tråder) brukt av nøkkelutledingsfunksjonen.</string>
     <string name="saving_database">Lagrer database…</string>
     <string name="space">Mellomrom</string>
-    <string name="search_label">Søk</string>
     <string name="sort_menu">Sorter</string>
     <string name="sort_ascending">Laveste først ↓</string>
     <string name="sort_groups_before">Grupper før</string>

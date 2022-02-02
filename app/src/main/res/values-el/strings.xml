@@ -121,7 +121,6 @@
     <string name="rounds_explanation">Επιπλέον κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
     <string name="saving_database">Αποθήκευση βάσης δεδομένων…</string>
     <string name="space">Κενό</string>
-    <string name="search_label">Αναζήτηση</string>
     <string name="sort_db">Κανονική ταξινόμηση</string>
     <string name="special">Ειδικοί</string>
     <string name="search">Αναζήτηση</string>

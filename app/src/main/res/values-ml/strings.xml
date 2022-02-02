@@ -253,7 +253,6 @@
     <string name="lock_database_screen_off_title">സ്ക്രീൻ ലോക്ക്</string>
     <string name="education_entry_edit_title">എൻ‌ട്രി തിരുത്തുക</string>
     <string name="file_name">ഫയലിന്റെ പേര്</string>
-    <string name="search_label">തിരയുക</string>
     <string name="content_description_add_entry">എൻ‌ട്രി ചേർക്കുക</string>
     <string name="lock_database_back_root_title">ലോക്കുചെയ്യുന്നതിന് \'തിരികെ\' അമർത്തുക</string>
     <string name="clipboard_error_title">ക്ലിപ്പ്ബോർഡ് തകരാർ</string>

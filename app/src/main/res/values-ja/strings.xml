@@ -230,7 +230,6 @@
     <string name="command_execution">コマンドを実行しています…</string>
     <string name="do_not_kill_app">アプリを終了しないでください…</string>
     <string name="space">スペース</string>
-    <string name="search_label">検索</string>
     <string name="filter">フィルタ</string>
     <string name="sort_menu">並べ替え</string>
     <string name="sort_ascending">昇順 ↓</string>

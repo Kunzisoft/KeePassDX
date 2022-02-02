@@ -493,7 +493,6 @@
     <string name="save_mode">保存模式</string>
     <string name="saving_database">正在保存資料庫…</string>
     <string name="search">條目名稱/說明</string>
-    <string name="search_label">搜尋</string>
     <string name="search_mode">搜尋模式</string>
     <string name="secure_note">安全註記</string>
     <string name="security">安全</string>

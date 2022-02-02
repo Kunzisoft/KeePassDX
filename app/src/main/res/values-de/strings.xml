@@ -131,7 +131,6 @@
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
     <string name="saving_database">Datenbank wird gespeichert …</string>
     <string name="space">Leerzeichen</string>
-    <string name="search_label">Suchen</string>
     <string name="sort_db">Natürliche Sortierung</string>
     <string name="special">Spezialsymbole</string>
     <string name="search">Suchen</string>

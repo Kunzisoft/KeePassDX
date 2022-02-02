@@ -120,7 +120,6 @@
     <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
     <string name="saving_database">Datubasea gordetzen…</string>
     <string name="space">Lekua</string>
-    <string name="search_label">Bilatu</string>
     <string name="sort_db">DB-a antolatzeko ordena</string>
     <string name="special">Berezia</string>
     <string name="search">Sarreraren Izena / Deskribapena</string>

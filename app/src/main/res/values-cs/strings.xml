@@ -119,7 +119,6 @@
     <string name="rounds_explanation">Vyšší počet šifrovacích průchodů zvýší odolnost proti útoku zkoušením všech možných hesel, ale může výrazně zpomalit načítání a ukládání.</string>
     <string name="saving_database">Ukládání databáze…</string>
     <string name="space">Mezera</string>
-    <string name="search_label">Hledat</string>
     <string name="sort_db">Přirozené řazení</string>
     <string name="special">Speciální</string>
     <string name="search">Hledat</string>

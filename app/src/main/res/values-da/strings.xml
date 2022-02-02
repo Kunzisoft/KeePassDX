@@ -118,7 +118,6 @@
     <string name="rounds_explanation">Yderligere krypteringsrunder giver højere beskyttelse mod brute-force angreb, men kan virkelig forsinke læsnings- og skrivehastigheden.</string>
     <string name="saving_database">Gemmer database…</string>
     <string name="space">Mellemrum</string>
-    <string name="search_label">Søg</string>
     <string name="sort_db">Naturlig rækkefølge</string>
     <string name="special">Speciel</string>
     <string name="search">Søg</string>

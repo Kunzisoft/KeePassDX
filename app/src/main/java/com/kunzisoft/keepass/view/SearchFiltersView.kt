@@ -102,12 +102,9 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchExpandButton.setOnClickListener {
             val isVisible = searchAdvanceFiltersContainer.visibility == View.VISIBLE
             if (isVisible)
-                searchAdvanceFiltersContainer.collapse()
-            else {
-                searchAdvanceFiltersContainer.expand(true,
-                    resources.getDimension(R.dimen.advanced_search_height).toInt()
-                )
-            }
+                closeAdvancedFilters()
+            else
+                openAdvancedFilters()
         }
 
         searchCurrentGroup.setOnCheckedChangeListener { _, isChecked ->
@@ -182,6 +179,16 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
     fun enableTemplates(enable: Boolean) {
         searchTemplate.isEnabled = enable
+    }
+
+    fun closeAdvancedFilters() {
+        searchAdvanceFiltersContainer.collapse()
+    }
+
+    fun openAdvancedFilters() {
+        searchAdvanceFiltersContainer.expand(true,
+            resources.getDimension(R.dimen.advanced_search_height).toInt()
+        )
     }
 
     override fun setVisibility(visibility: Int) {

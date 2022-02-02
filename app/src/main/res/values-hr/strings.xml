@@ -155,7 +155,6 @@
     <string name="saving_database">Spremanje baze podataka …</string>
     <string name="command_execution">Izvršavanje naredbe …</string>
     <string name="space">Razmak</string>
-    <string name="search_label">Pretraga</string>
     <string name="sort_menu">Sortiraj po</string>
     <string name="sort_ascending">Počevši s najnižim ↓</string>
     <string name="sort_groups_before">Grupe prije</string>

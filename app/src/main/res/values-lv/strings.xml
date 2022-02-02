@@ -117,7 +117,6 @@
     <string name="rounds_explanation">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
     <string name="saving_database">Datu bāzes saglabāšana…</string>
     <string name="space">Atstarpe</string>
-    <string name="search_label">Meklēt</string>
     <string name="sort_db">Izejas</string>
     <string name="special">Speciālie</string>
     <string name="search">Ieraksta nosaukums/apraksts</string>

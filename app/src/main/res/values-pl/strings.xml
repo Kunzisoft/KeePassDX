@@ -108,7 +108,6 @@
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
     <string name="saving_database">Zapisywanie bazy danych…</string>
     <string name="space">Spacja</string>
-    <string name="search_label">Szukaj</string>
     <string name="sort_db">Porządek naturalny</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>

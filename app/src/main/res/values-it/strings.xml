@@ -124,7 +124,6 @@
     <string name="rounds_explanation">Livelli di cifratura aggiuntivi forniscono una maggiore protezione contro attacchi di tipo forza bruta, ma può rallentare il caricamento e il salvataggio.</string>
     <string name="saving_database">Salvataggio del database…</string>
     <string name="space">Spazio</string>
-    <string name="search_label">Cerca</string>
     <string name="sort_db">Ordine naturale</string>
     <string name="special">Speciali</string>
     <string name="search">Cerca</string>

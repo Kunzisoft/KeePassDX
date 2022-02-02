@@ -112,7 +112,6 @@
     <string name="rounds_explanation">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
     <string name="saving_database">Guardando base de datos…</string>
     <string name="space">Espacio</string>
-    <string name="search_label">Buscar</string>
     <string name="sort_db">Orden natural</string>
     <string name="special">Especial</string>
     <string name="search">Búsqueda</string>

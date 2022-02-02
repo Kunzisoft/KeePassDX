@@ -110,7 +110,6 @@
     <string name="rounds_explanation">Додаткова кількість циклів шифрування забезпечує кращий захист від грубих атак, але може дещо уповільнити завантаження та збереження.</string>
     <string name="saving_database">Збереження бази даних…</string>
     <string name="space">Пробіл</string>
-    <string name="search_label">Пошук</string>
     <string name="sort_db">Звичайний порядок</string>
     <string name="special">Спеціальний</string>
     <string name="search">Введіть заголовок/опис</string>

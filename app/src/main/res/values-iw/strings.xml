@@ -118,7 +118,6 @@
     <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
     <string name="saving_database">שומר מסד נתונים…</string>
     <string name="space">גודל</string>
-    <string name="search_label">חיפוש</string>
     <string name="sort_db">סדר מיון מסד נתונים</string>
     <string name="special">מיוחד</string>
     <string name="underline">קו תחתון</string>

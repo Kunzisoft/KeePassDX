@@ -110,7 +110,6 @@
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Espaço</string>
-    <string name="search_label">Busca</string>
     <string name="sort_db">Ordenação natural</string>
     <string name="special">Especial</string>
     <string name="search">Buscar</string>

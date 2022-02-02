@@ -112,7 +112,6 @@
     <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
     <string name="saving_database">Database opslaan…</string>
     <string name="space">Ruimte</string>
-    <string name="search_label">Zoeken</string>
     <string name="sort_db">Natuurlijke volgorde</string>
     <string name="special">Speciaal</string>
     <string name="search">Zoeken</string>
