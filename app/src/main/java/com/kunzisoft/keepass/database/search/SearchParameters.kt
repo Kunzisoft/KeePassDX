@@ -27,57 +27,55 @@ import android.os.Parcelable
  */
 class SearchParameters() : Parcelable{
     var searchQuery: String = ""
-
-    var searchInCurrentGroup = false
-
     var caseSensitive = false
-    var excludeExpired = false
 
     var searchInTitles = true
     var searchInUsernames = true
     var searchInPasswords = false
     var searchInUrls = true
+    var excludeExpired = false
     var searchInNotes = true
     var searchInOTP = false
     var searchInOther = true
     var searchInUUIDs = false
     var searchInTags = false
 
+    var searchInCurrentGroup = false
     var searchInRecycleBin = false
     var searchInTemplates = false
 
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
-        searchInCurrentGroup = parcel.readByte() != 0.toByte()
         caseSensitive = parcel.readByte() != 0.toByte()
-        excludeExpired = parcel.readByte() != 0.toByte()
         searchInTitles = parcel.readByte() != 0.toByte()
         searchInUsernames = parcel.readByte() != 0.toByte()
         searchInPasswords = parcel.readByte() != 0.toByte()
         searchInUrls = parcel.readByte() != 0.toByte()
+        excludeExpired = parcel.readByte() != 0.toByte()
         searchInNotes = parcel.readByte() != 0.toByte()
         searchInOTP = parcel.readByte() != 0.toByte()
         searchInOther = parcel.readByte() != 0.toByte()
         searchInUUIDs = parcel.readByte() != 0.toByte()
         searchInTags = parcel.readByte() != 0.toByte()
+        searchInCurrentGroup = parcel.readByte() != 0.toByte()
         searchInRecycleBin = parcel.readByte() != 0.toByte()
         searchInTemplates = parcel.readByte() != 0.toByte()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(searchQuery)
-        parcel.writeByte(if (searchInCurrentGroup) 1 else 0)
         parcel.writeByte(if (caseSensitive) 1 else 0)
-        parcel.writeByte(if (excludeExpired) 1 else 0)
         parcel.writeByte(if (searchInTitles) 1 else 0)
         parcel.writeByte(if (searchInUsernames) 1 else 0)
         parcel.writeByte(if (searchInPasswords) 1 else 0)
         parcel.writeByte(if (searchInUrls) 1 else 0)
+        parcel.writeByte(if (excludeExpired) 1 else 0)
         parcel.writeByte(if (searchInNotes) 1 else 0)
         parcel.writeByte(if (searchInOTP) 1 else 0)
         parcel.writeByte(if (searchInOther) 1 else 0)
         parcel.writeByte(if (searchInUUIDs) 1 else 0)
         parcel.writeByte(if (searchInTags) 1 else 0)
+        parcel.writeByte(if (searchInCurrentGroup) 1 else 0)
         parcel.writeByte(if (searchInRecycleBin) 1 else 0)
         parcel.writeByte(if (searchInTemplates) 1 else 0)
     }

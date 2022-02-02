@@ -24,11 +24,11 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchNumbers: TextView
     private var searchCurrentGroup: CompoundButton
     private var searchCaseSensitive: CompoundButton
-    private var searchExpires: CompoundButton
     private var searchTitle: CompoundButton
     private var searchUsername: CompoundButton
     private var searchPassword: CompoundButton
     private var searchURL: CompoundButton
+    private var searchExpires: CompoundButton
     private var searchNotes: CompoundButton
     private var searchOther: CompoundButton
     private var searchUUID: CompoundButton
@@ -41,11 +41,11 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             return field.apply {
                 this.searchInCurrentGroup = searchCurrentGroup.isChecked
                 this.caseSensitive = searchCaseSensitive.isChecked
-                this.excludeExpired = !(searchExpires.isChecked)
                 this.searchInTitles = searchTitle.isChecked
                 this.searchInUsernames = searchUsername.isChecked
                 this.searchInPasswords = searchPassword.isChecked
                 this.searchInUrls = searchURL.isChecked
+                this.excludeExpired = !(searchExpires.isChecked)
                 this.searchInNotes = searchNotes.isChecked
                 this.searchInOther = searchOther.isChecked
                 this.searchInUUIDs = searchUUID.isChecked
@@ -60,11 +60,11 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             onParametersChangeListener = null
             searchCurrentGroup.isChecked = value.searchInCurrentGroup
             searchCaseSensitive.isChecked = value.caseSensitive
-            searchExpires.isChecked = !value.excludeExpired
             searchTitle.isChecked = value.searchInTitles
             searchUsername.isChecked = value.searchInUsernames
             searchPassword.isChecked = value.searchInPasswords
             searchURL.isChecked = value.searchInUrls
+            searchExpires.isChecked = !value.excludeExpired
             searchNotes.isChecked = value.searchInNotes
             searchOther.isChecked = value.searchInOther
             searchUUID.isChecked = value.searchInUUIDs
@@ -86,11 +86,11 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchNumbers = findViewById(R.id.search_numbers)
         searchCurrentGroup = findViewById(R.id.search_chip_current_group)
         searchCaseSensitive = findViewById(R.id.search_chip_case_sensitive)
-        searchExpires = findViewById(R.id.search_chip_expires)
         searchTitle = findViewById(R.id.search_chip_title)
         searchUsername = findViewById(R.id.search_chip_username)
         searchPassword = findViewById(R.id.search_chip_password)
         searchURL = findViewById(R.id.search_chip_url)
+        searchExpires = findViewById(R.id.search_chip_expires)
         searchNotes = findViewById(R.id.search_chip_note)
         searchUUID = findViewById(R.id.search_chip_uuid)
         searchOther = findViewById(R.id.search_chip_other)
@@ -118,10 +118,6 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.caseSensitive = isChecked
             onParametersChangeListener?.invoke(searchParameters)
         }
-        searchExpires.setOnCheckedChangeListener { _, isChecked ->
-            searchParameters.excludeExpired = !isChecked
-            onParametersChangeListener?.invoke(searchParameters)
-        }
         searchTitle.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInTitles = isChecked
             onParametersChangeListener?.invoke(searchParameters)
@@ -136,6 +132,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
         searchURL.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInUrls = isChecked
+            onParametersChangeListener?.invoke(searchParameters)
+        }
+        searchExpires.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.excludeExpired = !isChecked
             onParametersChangeListener?.invoke(searchParameters)
         }
         searchNotes.setOnCheckedChangeListener { _, isChecked ->

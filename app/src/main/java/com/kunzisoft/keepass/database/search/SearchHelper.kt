@@ -71,7 +71,6 @@ class SearchHelper {
                     override fun operate(node: Group): Boolean {
                         return when {
                             incrementEntry >= max -> false
-                            // TODO searchInTemplate
                             database.isGroupSearchable(node, !searchParameters.searchInRecycleBin) -> true
                             else -> false
                         }
