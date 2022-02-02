@@ -21,6 +21,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchAdvanceFiltersContainer: ViewGroup
     private var searchExpandButton: ImageView
     private var searchNumbers: TextView
+    private var searchCurrentGroup: CompoundButton
     private var searchCaseSensitive: CompoundButton
     private var searchExpires: CompoundButton
     private var searchTitle: CompoundButton
@@ -37,6 +38,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     var searchParameters = SearchParameters()
         get() {
             return field.apply {
+                this.searchInCurrentGroup = searchCurrentGroup.isChecked
                 this.caseSensitive = searchCaseSensitive.isChecked
                 this.excludeExpired = !(searchExpires.isChecked)
                 this.searchInTitles = searchTitle.isChecked
@@ -55,6 +57,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             field = value
             val tempListener = onParametersChangeListener
             onParametersChangeListener = null
+            searchCurrentGroup.isChecked = value.searchInCurrentGroup
             searchCaseSensitive.isChecked = value.caseSensitive
             searchExpires.isChecked = !value.excludeExpired
             searchTitle.isChecked = value.searchInTitles
@@ -80,6 +83,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchAdvanceFiltersContainer = findViewById(R.id.search_advance_filters)
         searchExpandButton = findViewById(R.id.search_expand)
         searchNumbers = findViewById(R.id.search_numbers)
+        searchCurrentGroup = findViewById(R.id.search_chip_current_group)
         searchCaseSensitive = findViewById(R.id.search_chip_case_sensitive)
         searchExpires = findViewById(R.id.search_chip_expires)
         searchTitle = findViewById(R.id.search_chip_title)
@@ -105,6 +109,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             }
         }
 
+        searchCurrentGroup.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.searchInCurrentGroup = isChecked
+            onParametersChangeListener?.invoke(searchParameters)
+        }
         searchCaseSensitive.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.caseSensitive = isChecked
             onParametersChangeListener?.invoke(searchParameters)

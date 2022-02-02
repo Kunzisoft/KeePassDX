@@ -128,6 +128,7 @@ class GroupActivity : DatabaseLockActivity(),
                     searchState.searchParameters.searchQuery = query
                     mGroupViewModel.loadSearchGroup(mDatabase,
                         searchState.searchParameters,
+                        mCurrentGroupState?.groupId,
                         searchState.firstVisibleItem)
                 }
             }
@@ -146,6 +147,7 @@ class GroupActivity : DatabaseLockActivity(),
                 searchState.searchParameters = searchParameters
                 mGroupViewModel.loadSearchGroup(mDatabase,
                     searchState.searchParameters,
+                    mCurrentGroupState?.groupId,
                     searchState.firstVisibleItem)
             }
         }
@@ -452,6 +454,7 @@ class GroupActivity : DatabaseLockActivity(),
                 finishNodeAction()
                 mGroupViewModel.loadSearchGroup(mDatabase,
                     searchState.searchParameters,
+                    mCurrentGroupState?.groupId,
                     searchState.firstVisibleItem
                 )
             }

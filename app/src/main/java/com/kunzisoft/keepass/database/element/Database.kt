@@ -789,9 +789,10 @@ class Database {
     }
 
     fun createVirtualGroupFromSearch(searchParameters: SearchParameters,
+                                     fromGroup: NodeId<*>? = null,
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-            searchParameters, max)
+            searchParameters, fromGroup, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
@@ -810,7 +811,7 @@ class Database {
                     searchInTags = false
                     searchInTemplates = false
                     searchInRecycleBin = false
-                }, max)
+                }, null, max)
     }
 
     val tagPool: Tags

@@ -69,11 +69,13 @@ class GroupViewModel: ViewModel() {
 
     fun loadSearchGroup(database: Database?,
                         searchParameters: SearchParameters,
+                        fromGroup: NodeId<*>?,
                         showFromPosition: Int?) {
         IOActionTask(
             {
                 database?.createVirtualGroupFromSearch(
                     searchParameters,
+                    fromGroup,
                     SearchHelper.MAX_SEARCH_ENTRY
                 )
             },

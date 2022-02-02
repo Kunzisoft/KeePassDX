@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
@@ -37,6 +38,7 @@ class SearchHelper {
 
     fun createVirtualGroupWithSearchResult(database: Database,
                                            searchParameters: SearchParameters,
+                                           fromGroup: NodeId<*>? = null,
                                            max: Int): Group? {
 
         val searchGroup = database.createGroup(virtual = true)
@@ -44,7 +46,13 @@ class SearchHelper {
 
         // Search all entries
         incrementEntry = 0
-        database.rootGroup?.doForEachChild(
+
+        val startGroup = if (searchParameters.searchInCurrentGroup && fromGroup != null) {
+            database.getGroupById(fromGroup) ?: database.rootGroup
+        } else {
+            database.rootGroup
+        }
+        startGroup?.doForEachChild(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
@@ -202,7 +210,6 @@ class SearchHelper {
             // TODO Search settings
             var regularExpression = false
             var removeAccents = true <- Too much time, to study
-            var searchOnlyInCurrentGroup = false
             */
             return stringToCheck.isNotEmpty()
                     && stringToCheck.contains(
