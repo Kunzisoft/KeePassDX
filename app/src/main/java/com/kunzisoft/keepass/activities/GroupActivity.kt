@@ -654,8 +654,7 @@ class GroupActivity : DatabaseLockActivity(),
         // Assign title
         if (group?.isVirtual == true) {
             searchFiltersView?.setNumbers(group.numberOfChildEntries)
-            // TODO current group title
-            //  searchFiltersView?.setCurrentGroupText("Title with a large text")
+            searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: "")
             searchFiltersView?.enableOther(mDatabase?.allowEntryCustomFields() ?: false)
             searchFiltersView?.enableTags(mDatabase?.tagPool?.isEmpty() ?: false)
             searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
