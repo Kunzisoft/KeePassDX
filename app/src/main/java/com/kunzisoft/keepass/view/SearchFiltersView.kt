@@ -176,9 +176,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     }
 
     fun setCurrentGroupText(text: String) {
+        val maxChars = 12
         searchCurrentGroup.text = when {
             text.isEmpty() -> context.getString(R.string.current_group)
-            text.length > 8 -> text.substring(0, 8) + "…"
+            text.length > maxChars -> text.substring(0, maxChars) + "…"
             else -> text
         }
     }
