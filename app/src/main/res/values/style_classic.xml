@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- Classic Clear Style -->
-    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v23" />
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v27" />
+    <style name="KeepassDXStyle.Clear.v27" parent="KeepassDXStyle.Clear.v23" />
     <style name="KeepassDXStyle.Clear.v23" parent="KeepassDXStyle.Clear.v21" />
     <style name="KeepassDXStyle.Clear.v21" parent="KeepassDXStyle.Clear.Base" />
     <style name="KeepassDXStyle.Clear.Base" parent="KeepassDXStyle.Light" >

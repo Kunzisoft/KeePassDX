@@ -69,6 +69,7 @@
     <color name="red">#e53935</color>
     <color name="red_dark">#d32f2f</color>
 
+    <color name="orange_lightest">#FFCC80</color>
     <color name="orange_light">#ffa726</color>
     <color name="orange">#fb8c00</color>
     <color name="orange_dark">#ef6c00</color>
