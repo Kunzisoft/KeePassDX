@@ -51,6 +51,8 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.core.graphics.drawable.DrawableCompat
 
 import android.graphics.drawable.Drawable
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 
 
@@ -113,8 +115,7 @@ fun View.collapse(animate: Boolean = true,
                   onCollapseFinished: (() -> Unit)? = null) {
     val recordViewHeight = layoutParams.height
     val slideAnimator = ValueAnimator.ofInt(height, 0)
-    if (animate)
-        slideAnimator.duration = 300L
+    slideAnimator.duration = if (animate) 300L else 0L
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
         requestLayout()
@@ -143,8 +144,7 @@ fun View.expand(animate: Boolean = true,
     layoutParams.height = 0
     val slideAnimator = ValueAnimator
             .ofInt(0, viewHeight)
-    if (animate)
-        slideAnimator.duration = 300L
+    slideAnimator.duration = if (animate) 300L else 0L
     var alreadyVisible = false
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
@@ -166,6 +166,25 @@ fun View.expand(animate: Boolean = true,
             override fun onAnimationCancel(animation: Animator?) {}
         })
     }.start()
+}
+
+/***
+ * This function returns the actual height the layout.
+ * The getHeight() function returns the current height which might be zero if
+ * the layout's visibility is GONE
+ */
+fun ViewGroup.getFullHeight(): Int {
+    measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    val initialVisibility = visibility
+    visibility = LinearLayout.VISIBLE
+    val desiredWidth = View.MeasureSpec.makeMeasureSpec(
+        width,
+        View.MeasureSpec.AT_MOST
+    )
+    measure(desiredWidth, View.MeasureSpec.UNSPECIFIED)
+    val totalHeight = measuredHeight
+    visibility = initialVisibility
+    return totalHeight
 }
 
 fun View.hideByFading() {

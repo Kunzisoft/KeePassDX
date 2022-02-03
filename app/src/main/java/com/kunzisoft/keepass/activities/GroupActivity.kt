@@ -240,6 +240,8 @@ class GroupActivity : DatabaseLockActivity(),
         toolbar?.title = ""
         setSupportActionBar(toolbar)
 
+        searchFiltersView?.visibility = View.GONE
+
         mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
             // Open group on breadcrumb click
             onItemClickListener = { node, _ ->

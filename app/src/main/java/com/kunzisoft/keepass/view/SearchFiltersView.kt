@@ -19,7 +19,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     : LinearLayout(context, attrs, defStyle) {
 
     private var searchContainer: ViewGroup
-    private var searchAdvanceFiltersContainer: ViewGroup
+    private var searchAdvanceFiltersContainer: ViewGroup? = null
     private var searchExpandButton: ImageView
     private var searchNumbers: TextView
     private var searchCurrentGroup: CompoundButton
@@ -56,8 +56,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             field = value
-            val tempListener = onParametersChangeListener
-            onParametersChangeListener = null
+            val tempListener = mOnParametersChangeListener
+            mOnParametersChangeListener = null
             searchCurrentGroup.isChecked = value.searchInCurrentGroup
             searchCaseSensitive.isChecked = value.caseSensitive
             searchTitle.isChecked = value.searchInTitles
@@ -71,10 +71,20 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchTag.isChecked = value.searchInTags
             searchRecycleBin.isChecked = value.searchInRecycleBin
             searchTemplate.isChecked = value.searchInTemplates
-            onParametersChangeListener = tempListener
+            mOnParametersChangeListener = tempListener
         }
 
     var onParametersChangeListener: ((searchParameters: SearchParameters) -> Unit)? = null
+    private var mOnParametersChangeListener: ((searchParameters: SearchParameters) -> Unit)? = {
+        // To recalculate height
+        if (searchAdvanceFiltersContainer?.visibility == View.VISIBLE) {
+            searchAdvanceFiltersContainer?.expand(
+                false,
+                searchAdvanceFiltersContainer?.getFullHeight()
+            )
+        }
+        onParametersChangeListener?.invoke(searchParameters)
+    }
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -100,7 +110,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
         // Expand menu with button
         searchExpandButton.setOnClickListener {
-            val isVisible = searchAdvanceFiltersContainer.visibility == View.VISIBLE
+            val isVisible = searchAdvanceFiltersContainer?.visibility == View.VISIBLE
             if (isVisible)
                 closeAdvancedFilters()
             else
@@ -109,55 +119,55 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
         searchCurrentGroup.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInCurrentGroup = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchCaseSensitive.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.caseSensitive = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchTitle.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInTitles = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchUsername.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInUsernames = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchPassword.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInPasswords = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchURL.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInUrls = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchExpires.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.excludeExpired = !isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchNotes.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInNotes = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchUUID.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInUUIDs = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchOther.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInOther = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchTag.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInTags = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchRecycleBin.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInRecycleBin = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchTemplate.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInTemplates = isChecked
-            onParametersChangeListener?.invoke(searchParameters)
+            mOnParametersChangeListener?.invoke(searchParameters)
         }
     }
 
@@ -182,27 +192,26 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     }
 
     fun closeAdvancedFilters() {
-        searchAdvanceFiltersContainer.collapse()
+        searchAdvanceFiltersContainer?.collapse()
     }
 
-    fun openAdvancedFilters() {
-        searchAdvanceFiltersContainer.expand(true,
-            resources.getDimension(R.dimen.advanced_search_height).toInt()
+    private fun openAdvancedFilters() {
+        searchAdvanceFiltersContainer?.expand(true,
+            searchAdvanceFiltersContainer?.getFullHeight()
         )
     }
 
     override fun setVisibility(visibility: Int) {
-        //super.setVisibility(visibility)
         when (visibility) {
             View.VISIBLE -> {
-                searchAdvanceFiltersContainer.visibility = View.GONE
+                searchAdvanceFiltersContainer?.visibility = View.GONE
                 searchContainer.showByFading()
             }
             else -> {
                 searchContainer.hideByFading()
-                if (searchAdvanceFiltersContainer.visibility == View.VISIBLE) {
-                    searchAdvanceFiltersContainer.visibility = View.INVISIBLE
-                    searchAdvanceFiltersContainer.collapse()
+                if (searchAdvanceFiltersContainer?.visibility == View.VISIBLE) {
+                    searchAdvanceFiltersContainer?.visibility = View.INVISIBLE
+                    searchAdvanceFiltersContainer?.collapse()
                 }
             }
         }

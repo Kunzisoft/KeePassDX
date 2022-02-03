@@ -73,10 +73,9 @@
     <LinearLayout
         android:id="@+id/search_advance_filters"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/advanced_search_height"
+        android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
