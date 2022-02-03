@@ -141,10 +141,7 @@ class GroupActivity : DatabaseLockActivity(),
             if (newText != null && !mLockSearchListeners) {
                 mSearchState?.let { searchState ->
                     searchState.searchParameters.searchQuery = newText
-                    mGroupViewModel.loadSearchGroup(mDatabase,
-                        searchState.searchParameters,
-                        mMainGroupState?.groupId,
-                        searchState.firstVisibleItem)
+                    loadSearchGroup(searchState)
                 }
             }
             return true
@@ -155,10 +152,7 @@ class GroupActivity : DatabaseLockActivity(),
             mSearchState?.let { searchState ->
                 searchParameters.searchQuery = searchState.searchParameters.searchQuery
                 searchState.searchParameters = searchParameters
-                mGroupViewModel.loadSearchGroup(mDatabase,
-                    searchState.searchParameters,
-                    mMainGroupState?.groupId,
-                    searchState.firstVisibleItem)
+                loadSearchGroup(searchState)
             }
         }
     }
@@ -474,28 +468,32 @@ class GroupActivity : DatabaseLockActivity(),
         return rootContainerView
     }
 
+    private fun loadMainGroup(groupState: GroupState) {
+        mGroupViewModel.loadMainGroup(mDatabase,
+            groupState.groupId,
+            groupState.firstVisibleItem)
+    }
+
+    private fun loadSearchGroup(searchState: SearchState) {
+        mGroupViewModel.loadSearchGroup(mDatabase,
+            searchState.searchParameters,
+            mMainGroupState?.groupId,
+            searchState.firstVisibleItem)
+    }
+
     private fun loadGroup() {
         val searchState = mSearchState
         val currentGroupState = mMainGroupState
         when {
             searchState != null -> {
                 finishNodeAction()
-                mGroupViewModel.loadSearchGroup(mDatabase,
-                    searchState.searchParameters,
-                    mMainGroupState?.groupId,
-                    searchState.firstVisibleItem
-                )
+                loadSearchGroup(searchState)
             }
             currentGroupState != null -> {
-                mGroupViewModel.loadMainGroup(mDatabase,
-                    currentGroupState.groupId,
-                    currentGroupState.firstVisibleItem)
+                loadMainGroup(currentGroupState)
             }
             else -> {
-                mGroupViewModel.loadMainGroup(mDatabase,
-                    null,
-                    0
-                )
+                loadMainGroup(GroupState(null, 0))
             }
         }
     }
@@ -722,7 +720,7 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
                 // Open child group
-                mGroupViewModel.loadMainGroup(database, group, 0)
+                loadMainGroup(GroupState(group.nodeId, 0))
 
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
@@ -1245,11 +1243,7 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                     else -> {
                         // Load the previous group
-                        val previousGroupState = mPreviousGroupsIds.removeLast()
-                        mGroupViewModel.loadMainGroup(mDatabase,
-                            previousGroupState.groupId,
-                            previousGroupState.firstVisibleItem
-                        )
+                        loadMainGroup(mPreviousGroupsIds.removeLast())
                     }
                 }
             }

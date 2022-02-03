@@ -63,15 +63,6 @@ class GroupViewModel: ViewModel() {
         ).execute()
     }
 
-    fun loadMainGroup(database: Database?,
-                      group: Group,
-                      showFromPosition: Int?) {
-        _mainGroup.value = SuperGroup(group,
-            database?.recycleBin == group,
-            showFromPosition)
-        _group.value = _mainGroup.value
-    }
-
     fun loadSearchGroup(database: Database?,
                         searchParameters: SearchParameters,
                         fromGroup: NodeId<*>?,
