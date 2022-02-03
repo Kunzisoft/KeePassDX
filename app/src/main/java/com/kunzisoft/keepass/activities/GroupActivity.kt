@@ -107,6 +107,8 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
 
+    private var mSearchMenuItem: MenuItem? = null
+
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
     private var mRecyclingBinIsCurrentGroup = false
@@ -340,6 +342,14 @@ class GroupActivity : DatabaseLockActivity(),
                 searchFiltersView?.searchParameters = it.searchParameters
             }
             // Main group in activity is managed with another variable to keep value during orientation
+
+            // Expand the search view if defined in settings
+            if (mRequestStartupSearch
+                && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
+                // To request search only one time
+                mRequestStartupSearch = false
+                mSearchMenuItem?.expandActionView()
+            }
 
             loadingView?.hideByFading()
         }
@@ -1056,6 +1066,7 @@ class GroupActivity : DatabaseLockActivity(),
         // Get the SearchView and set the searchable configuration
         menu.findItem(R.id.menu_search)?.let {
             mLockSearchListeners = true
+            mSearchMenuItem = it
             it.setOnActionExpandListener(mOnSearchActionExpandListener)
             searchView = it.actionView as SearchView?
             searchView?.apply {
@@ -1066,16 +1077,8 @@ class GroupActivity : DatabaseLockActivity(),
                     setSearchableInfo(searchableInfo)
                 }
                 val searchState = mSearchState
-                // Expand the search view if defined in settings
-                if (mRequestStartupSearch
-                    && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)
-                ) {
-                    // To request search only one time
-                    mRequestStartupSearch = false
-                    it.expandActionView()
-                }
-                // Or already open
-                else if (searchState != null) {
+                // already open
+                if (searchState != null) {
                     it.expandActionView()
                     setQuery(searchState.searchParameters.searchQuery, false)
                     searchFiltersView?.visibility = View.VISIBLE
