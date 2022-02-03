@@ -259,9 +259,9 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private fun rebuildList() {
         try {
             // Add elements to the list
-            mCurrentGroup?.let { mainGroup ->
+            mCurrentGroup?.let { currentGroup ->
                 // Thrown an exception when sort cannot be performed
-                mAdapter?.rebuildList(mainGroup)
+                mAdapter?.rebuildList(currentGroup)
             }
         } catch (e:Exception) {
             Log.e(TAG, "Unable to rebuild the list", e)

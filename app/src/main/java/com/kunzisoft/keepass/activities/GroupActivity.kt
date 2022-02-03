@@ -116,8 +116,9 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Manage group
     private var mSearchState: SearchState? = null
-    private var mMainGroupState: GroupState? = null // Group in the tree, not a search
+    private var mMainGroupState: GroupState? = null // Group state, not a search
     private var mRootGroup: Group? = null // Root group in the tree
+    private var mMainGroup: Group? = null // Main group currently in memory
     private var mCurrentGroup: Group? = null // Group currently visible (search or main group)
     private var mPreviousGroupsIds = mutableListOf<GroupState>()
     private var mOldGroupToUpdate: Group? = null
@@ -246,7 +247,7 @@ class GroupActivity : DatabaseLockActivity(),
             // Open group on breadcrumb click
             onItemClickListener = { node, _ ->
                 // If last item & not a virtual root group
-                val currentGroup = mCurrentGroup
+                val currentGroup = mMainGroup
                 if (currentGroup != null && node == currentGroup
                     && (currentGroup != mDatabase?.rootGroup
                             || mDatabase?.rootGroupIsVirtual == false)
@@ -263,7 +264,7 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
             onLongItemClickListener = { node, position ->
-                val currentGroup = mCurrentGroup
+                val currentGroup = mMainGroup
                 if (currentGroup != null && node == currentGroup
                     && (currentGroup != mDatabase?.rootGroup
                             || mDatabase?.rootGroupIsVirtual == false)
@@ -319,20 +320,26 @@ class GroupActivity : DatabaseLockActivity(),
             GROUP_FRAGMENT_TAG
         ).commit()
 
+        // Observe main group
+        mGroupViewModel.mainGroup.observe(this) {
+            val mainGroup = it.group
+            mMainGroup = mainGroup
+            mRecyclingBinIsCurrentGroup = it.isRecycleBin
+            // Save group state
+            mMainGroupState = GroupState(mainGroup.nodeId, it.showFromPosition)
+            // Update last access time.
+            mainGroup.touch(modified = false, touchParents = false)
+        }
+
         // Observe group
         mGroupViewModel.group.observe(this) {
             val currentGroup = it.group
             mCurrentGroup = currentGroup
-            if (!currentGroup.isVirtual) {
-                mRecyclingBinIsCurrentGroup = it.isRecycleBin
-                // Save group state
-                mMainGroupState = GroupState(currentGroup.nodeId, it.showFromPosition)
-                // Update last access time.
-                currentGroup.touch(modified = false, touchParents = false)
-            } else {
+            if (currentGroup.isVirtual) {
                 mSearchState = SearchState(it.searchParameters, it.showFromPosition)
                 searchFiltersView?.searchParameters = it.searchParameters
             }
+            // Main group in activity is managed with another variable to keep value during orientation
 
             loadingView?.hideByFading()
         }
@@ -366,7 +373,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         mGroupEditViewModel.onGroupCreated.observe(this) { groupInfo ->
             if (groupInfo.title.isNotEmpty()) {
-                mCurrentGroup?.let { currentGroup ->
+                mMainGroup?.let { currentGroup ->
                     createGroup(currentGroup, groupInfo)
                 }
             }
@@ -374,7 +381,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         mGroupEditViewModel.onGroupUpdated.observe(this) { groupInfo ->
             if (groupInfo.title.isNotEmpty()) {
-                mOldGroupToUpdate?.let { oldGroupToUpdate ->
+                mMainGroup?.let { oldGroupToUpdate ->
                     updateGroup(oldGroupToUpdate, groupInfo)
                 }
             }
@@ -382,16 +389,16 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Add listeners to the add buttons
         addNodeButtonView?.setAddGroupClickListener {
-            mCurrentGroup?.let { currentGroup ->
+            mMainGroup?.let { currentGroup ->
                 launchDialogForGroupCreation(currentGroup)
             }
         }
         addNodeButtonView?.setAddEntryClickListener {
             mDatabase?.let { database ->
-                mCurrentGroup?.let { currentGroup ->
+                mMainGroup?.let { currentGroup ->
                     EntrySelectionHelper.doSpecialAction(intent,
                         {
-                            mCurrentGroup?.nodeId?.let { currentParentGroupId ->
+                            mMainGroup?.nodeId?.let { currentParentGroupId ->
                                 mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
                                     EntryEditActivity.launchToCreate(
                                         this@GroupActivity,
@@ -571,7 +578,7 @@ class GroupActivity : DatabaseLockActivity(),
             ACTION_DATABASE_UPDATE_GROUP_TASK -> {
                 if (result.isSuccess) {
                     try {
-                        if (mCurrentGroup == newNodes[0] as Group)
+                        if (mMainGroup == newNodes[0] as Group)
                             reloadCurrentGroup()
                     } catch (e: Exception) {
                         Log.e(
@@ -977,13 +984,13 @@ class GroupActivity : DatabaseLockActivity(),
         when (pasteMode) {
             GroupFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
-                mCurrentGroup?.let { newParent ->
+                mMainGroup?.let { newParent ->
                     copyNodes(nodes, newParent)
                 }
             }
             GroupFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
-                mCurrentGroup?.let { newParent ->
+                mMainGroup?.let { newParent ->
                     moveNodes(nodes, newParent)
                 }
             }
@@ -1176,7 +1183,7 @@ class GroupActivity : DatabaseLockActivity(),
             }
             R.id.menu_empty_recycle_bin -> {
                 if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
-                    mCurrentGroup?.getChildren()?.let { listChildren ->
+                    mMainGroup?.getChildren()?.let { listChildren ->
                         // Automatically delete all elements
                         deleteNodes(listChildren, true)
                         finishNodeAction()

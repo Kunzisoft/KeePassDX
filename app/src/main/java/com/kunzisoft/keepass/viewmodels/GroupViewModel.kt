@@ -32,6 +32,9 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 
 class GroupViewModel: ViewModel() {
 
+    val mainGroup : LiveData<SuperGroup> get() = _mainGroup
+    private val _mainGroup = MutableLiveData<SuperGroup>()
+
     val group : LiveData<SuperGroup> get() = _group
     private val _group = MutableLiveData<SuperGroup>()
 
@@ -51,9 +54,10 @@ class GroupViewModel: ViewModel() {
             },
             { group ->
                 if (group != null) {
-                    _group.value = SuperGroup(group,
+                    _mainGroup.value = SuperGroup(group,
                         database?.recycleBin == group,
                         showFromPosition)
+                    _group.value = _mainGroup.value
                 }
             }
         ).execute()
@@ -62,9 +66,10 @@ class GroupViewModel: ViewModel() {
     fun loadMainGroup(database: Database?,
                       group: Group,
                       showFromPosition: Int?) {
-        _group.value = SuperGroup(group,
+        _mainGroup.value = SuperGroup(group,
             database?.recycleBin == group,
             showFromPosition)
+        _group.value = _mainGroup.value
     }
 
     fun loadSearchGroup(database: Database?,
