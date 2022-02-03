@@ -108,8 +108,6 @@
     <string name="never">Aldrig</string>
     <string name="no_results">Ingen søgeresultater</string>
     <string name="no_url_handler">Installer en web-browser til at åbne URL.</string>
-    <string name="omit_backup_search_title">Gennemsøg ikke backup poster</string>
-    <string name="omit_backup_search_summary">Udelader \"Sikkerhedskopiering\" og \"Papirkurv\" - grupper fra søgeresultater</string>
     <string name="progress_create">Opretter ny database…</string>
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>
@@ -120,11 +118,9 @@
     <string name="rounds_explanation">Yderligere krypteringsrunder giver højere beskyttelse mod brute-force angreb, men kan virkelig forsinke læsnings- og skrivehastigheden.</string>
     <string name="saving_database">Gemmer database…</string>
     <string name="space">Mellemrum</string>
-    <string name="search_label">Søg</string>
     <string name="sort_db">Naturlig rækkefølge</string>
     <string name="special">Speciel</string>
     <string name="search">Søg</string>
-    <string name="search_results">Søgeresultater</string>
     <string name="underline">Understregning</string>
     <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>

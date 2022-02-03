@@ -107,7 +107,6 @@
     <string name="uppercase">Maiúsculas</string>
     <string name="unsupported_db_version">Versão da base de dados não suportada.</string>
     <string name="underline">Sublinhado</string>
-    <string name="search_results">Resultados da pesquisa</string>
     <string name="search">Pesquisar</string>
     <string name="special">Especiais</string>
     <string name="sort_last_access_time">Último acesso</string>
@@ -120,7 +119,6 @@
     <string name="sort_groups_before">Grupos primeiro</string>
     <string name="sort_ascending">Mais baixo primeiro ↓</string>
     <string name="sort_menu">Ordenar</string>
-    <string name="search_label">Pesquisar</string>
     <string name="space">Espaço</string>
     <string name="saving_database">A guardar a base de dados…</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
@@ -254,8 +252,6 @@
     <string name="show_recent_files_title">Mostrar ficheiros recentes</string>
     <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>
     <string name="auto_focus_search_title">Pesquisa rápida</string>
-    <string name="omit_backup_search_summary">Omite os grupos \"Cópia de segurança\" e \"Caixote da reciclagem\" dos resultados da busca</string>
-    <string name="omit_backup_search_title">Não procurar por entradas na cópia de segurança e lixo</string>
     <string name="about">Sobre</string>
     <string name="hide_password_summary">Mascarar palavras-passe (***) por predefinição</string>
     <string name="hide_password_title">Ocultar palavras-passe</string>

@@ -112,8 +112,6 @@
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
-    <string name="omit_backup_search_title">Не искать в резервных копиях</string>
-    <string name="omit_backup_search_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>
@@ -125,11 +123,9 @@
     <string name="rounds_explanation">Дополнительные раунды шифрования – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение.</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
-    <string name="search_label">Поиск</string>
     <string name="sort_db">Естественный порядок</string>
     <string name="special">$пеци@льные</string>
     <string name="search">Поиск</string>
-    <string name="search_results">Результаты поиска</string>
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы.</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>

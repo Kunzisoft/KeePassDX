@@ -782,29 +782,26 @@ class Database {
         }
     }
 
-    fun isGroupSearchable(group: Group, omitBackup: Boolean): Boolean {
-        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, omitBackup) ?:
-        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, omitBackup) ?:
+    fun isGroupSearchable(group: Group, omitRecycleBin: Boolean): Boolean {
+        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, omitRecycleBin) ?:
+        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, omitRecycleBin) ?:
         false
     }
 
-    fun createVirtualGroupFromSearch(searchQuery: String,
-                                     omitBackup: Boolean,
+    fun createVirtualGroupFromSearch(searchParameters: SearchParameters,
+                                     fromGroup: NodeId<*>? = null,
                                      max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
-                SearchParameters().apply {
-                    this.searchQuery = searchQuery
-                }, omitBackup, max)
+            searchParameters, fromGroup, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
-                                         omitBackup: Boolean,
                                          max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.createVirtualGroupWithSearchResult(this,
                 SearchParameters().apply {
                     searchQuery = searchInfoString
                     searchInTitles = true
-                    searchInUserNames = false
+                    searchInUsernames = false
                     searchInPasswords = false
                     searchInUrls = true
                     searchInNotes = true
@@ -813,7 +810,8 @@ class Database {
                     searchInUUIDs = false
                     searchInTags = false
                     searchInTemplates = false
-                }, omitBackup, max)
+                    searchInRecycleBin = false
+                }, null, max)
     }
 
     val tagPool: Tags

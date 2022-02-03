@@ -5,13 +5,11 @@
     <string name="version_label">Versio %1$s</string>
     <string name="warning">Averto</string>
     <string name="uppercase">Majuskloj</string>
-    <string name="search_results">Serĉrezultoj</string>
     <string name="search">Serĉi</string>
     <string name="sort_username">Uzantnomo</string>
     <string name="sort_title">Titolo</string>
     <string name="sort_db">Naturala ordo</string>
     <string name="sort_menu">Ordigi</string>
-    <string name="search_label">Serĉi</string>
     <string name="do_not_kill_app">Ne ĉesigu la aplikaĵon…</string>
     <string name="saving_database">Datumbaza konservado…</string>
     <string name="parallelism">Paralelado</string>

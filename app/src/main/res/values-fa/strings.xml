@@ -17,7 +17,6 @@
     <string name="uppercase">بزرگ</string>
     <string name="unsupported_db_version">نسخه پایگاه داده پشتیبانی نمی شود.</string>
     <string name="underline">زیر خط بزنید</string>
-    <string name="search_results">نتایج جستجو</string>
     <string name="search">جستجو</string>
     <string name="special">ویژه</string>
     <string name="sort_last_access_time">دسترسی</string>
@@ -30,7 +29,6 @@
     <string name="sort_groups_before">گروه های قبل</string>
     <string name="sort_ascending">اول کمترین</string>
     <string name="sort_menu">مرتب سازی</string>
-    <string name="search_label">جستجو</string>
     <string name="space">فاصله</string>
     <string name="do_not_kill_app">برنامه را نکشید</string>
     <string name="command_execution">اجرای فرمان…</string>
@@ -64,8 +62,6 @@
     <string name="subdomain_search_title">جستجوی زیردریایی</string>
     <string name="auto_focus_search_summary">درخواست جستجو در هنگام باز کردن یک پایگاه داده</string>
     <string name="auto_focus_search_title">جستجوی سریع</string>
-    <string name="omit_backup_search_summary">Omits \"پشتیبان گیری\" و \"سطل بازیافت\" گروه از نتایج جستجو</string>
-    <string name="omit_backup_search_title">از طریق ورودی های پشتیبان جستجو نکنید</string>
     <string name="create_keepass_file">ایجاد پایگاه داده جدید</string>
     <string name="select_database_file">باز کردن پایگاه داده موجود</string>
     <string name="no_url_handler">برای باز کردن این URL یک مرورگر وب نصب کنید.</string>

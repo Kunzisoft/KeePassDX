@@ -68,8 +68,6 @@
     <string name="menu_url">Eiti į URL</string>
     <string name="never">Niekada</string>
     <string name="protection">Apsauga</string>
-    <string name="search_label">Paieška</string>
-    <string name="search_results">Paieškos rezultatai</string>
     <string name="version_label">Versija %1$s</string>
     <string name="warning">Įspėjimas</string>
     <string name="select_database_file">Atidaryti esamą duomenų bazę</string>
@@ -87,7 +85,6 @@
     <string name="app_timeout">Programėlės neveiklumas</string>
     <string name="clipboard_error_clear">Nepavyko išvalyti iškarpinės</string>
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
-    <string name="omit_backup_search_title">Neiškoti atkūrimo įrašuose</string>
     <string name="error_can_not_handle_uri">KeePassDX negali apdoroti šio URI.</string>
     <string name="entry_not_found">Įrašo duomenys nerasti.</string>
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>

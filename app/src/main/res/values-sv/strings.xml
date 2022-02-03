@@ -110,8 +110,6 @@
     <string name="never">Aldrig</string>
     <string name="no_results">Inget sökresultat</string>
     <string name="no_url_handler">Installera en webbläsare för att öppna denna URL.</string>
-    <string name="omit_backup_search_title">Sök inte efter backup-poster</string>
-    <string name="omit_backup_search_summary">Utelämnar poster i grupperna \"Backup\" och \"Papperskorg\"</string>
     <string name="progress_create">Skapar ny databas…</string>
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>
@@ -121,11 +119,9 @@
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot bruteforce-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
     <string name="saving_database">Sparar databas…</string>
     <string name="space">Mellanslag</string>
-    <string name="search_label">Sök</string>
     <string name="sort_db">Naturlig ordning</string>
     <string name="special">Specialtecken</string>
     <string name="search">Postens titel/beskrivning</string>
-    <string name="search_results">Sökresultat</string>
     <string name="underline">Understreck</string>
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>

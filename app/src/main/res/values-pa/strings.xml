@@ -39,7 +39,6 @@
     <string name="uppercase">ਵੱਡੇ ਅੱਖਰ (ਅੰਗਰੇਜ਼ੀ)</string>
     <string name="unsupported_db_version">ਗ਼ੈਰ-ਸਹਾਇਕ ਡਾਟਾਬੇਸ ਵਰਜ਼ਨ ਹੈ।</string>
     <string name="underline">ਹੇਠਾਂ ਲਾਈਨ</string>
-    <string name="search_results">ਖੋਜ ਨਤੀਜੇ</string>
     <string name="search">ਖੋਜ</string>
     <string name="special">ਖਾਸ</string>
     <string name="sort_last_access_time">ਪਹੁੰਚ</string>
@@ -50,7 +49,6 @@
     <string name="sort_ascending">ਸਭ ਤੋਂ ਘੱਟ ਪਹਿਲਾਂ ↓</string>
     <string name="sort_menu">ਲੜੀਬੱਧ</string>
     <string name="filter">ਫਿਲਟਰ</string>
-    <string name="search_label">ਖੋਜੋ</string>
     <string name="space">ਥਾਂ</string>
     <string name="saving_database">…ਡਾਟਾਬੇਸ ਸੰਭਾਲਿਆ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="memory_usage">ਮੈਮੋਰੀ ਵਰਤੋਂ</string>
@@ -72,7 +70,6 @@
     <string name="subdomain_search_title">ਅਧੀਨ-ਡੋਮੇਨ ਖੋਜ</string>
     <string name="auto_focus_search_summary">ਜਦੋਂ ਡਾਟਾਬੇਸ ਖੋਲ੍ਹਣਾ ਹੋਵੇ ਤਾਂ ਖੋਜ ਦੀ ਮੰਗ ਕਰੋ</string>
     <string name="auto_focus_search_title">ਫ਼ੌਰੀ ਖੋਜ</string>
-    <string name="omit_backup_search_title">ਬੈਕਐਪ ਐਂਟਰੀਆਂ ਰਾਹੀਂ ਨਾ ਖੋਜੋ</string>
     <string name="create_keepass_file">ਨਵਾਂ ਡਾਟਾਬੇਸ ਬਣਾਓ</string>
     <string name="select_database_file">ਮੌਜੂਦਾ ਡਾਟਾਬੇਸ ਨੂੰ ਖੋਲ੍ਹੋ</string>
     <string name="no_url_handler">ਇਹ URL ਖੋਲ੍ਹਣ ਲਈ ਵੈੱਬ ਬਰਾਊਜ਼ਰ ਇੰਸਟਾਲ ਕਰੋ।</string>

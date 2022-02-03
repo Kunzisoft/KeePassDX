@@ -177,8 +177,6 @@
     <string name="contact">Kontak</string>
     <string name="auto_focus_search_summary">Minta pencarian saat membuka database</string>
     <string name="auto_focus_search_title">Pencarian cepat</string>
-    <string name="omit_backup_search_summary">Menghilangkan grup \"Cadangan\" dan \"Tempat sampah\" dari hasil penelusuran</string>
-    <string name="omit_backup_search_title">Jangan mencari melalui entri cadangan</string>
     <string name="create_keepass_file">Buat basisdata baru</string>
     <string name="select_database_file">Buka basisdata yang sudah ada</string>
     <string name="no_url_handler">Pasang browser web untuk membuka URL ini.</string>
@@ -222,13 +220,11 @@
     <string name="warning_sure_remove_data">Hapus data ini\?</string>
     <string name="warning">Peringatan</string>
     <string name="unsupported_db_version">Versi database tidak di dukung.</string>
-    <string name="search_results">Hasil pencarian</string>
     <string name="search">Cari</string>
     <string name="sort_last_access_time">Akses</string>
     <string name="sort_last_modify_time">Modifikasi</string>
     <string name="sort_username">Nama pengguna</string>
     <string name="sort_title">Judul</string>
-    <string name="search_label">Cari</string>
     <string name="do_not_kill_app">Jangan tutup aplikasi…</string>
     <string name="command_execution">Menjalankan perintah…</string>
     <string name="saving_database">Menyimpan basisdata…</string>

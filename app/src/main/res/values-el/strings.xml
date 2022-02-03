@@ -111,8 +111,6 @@
     <string name="never">Ποτέ</string>
     <string name="no_results">Δεν βρέθηκαν αποτελέσματα αναζήτησης</string>
     <string name="no_url_handler">Εγκαταστήστε ένα πρόγραμμα περιήγησης για να ανοίξετε αυτήν τη διεύθυνση URL.</string>
-    <string name="omit_backup_search_title">Να μην γίνει αναζήτηση μέσα από τις καταχωρήσεις αντιγραφών ασφαλείας</string>
-    <string name="omit_backup_search_summary">Παράληψη ομάδας \"Αντίγραφο Ασφαλείας\" και \"Κάδος Ανακύκλωσης\" από τα αποτελέσματα αναζήτησης</string>
     <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>
@@ -123,11 +121,9 @@
     <string name="rounds_explanation">Επιπλέον κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
     <string name="saving_database">Αποθήκευση βάσης δεδομένων…</string>
     <string name="space">Κενό</string>
-    <string name="search_label">Αναζήτηση</string>
     <string name="sort_db">Κανονική ταξινόμηση</string>
     <string name="special">Ειδικοί</string>
     <string name="search">Αναζήτηση</string>
-    <string name="search_results">Αποτελέσματα αναζήτησης</string>
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>

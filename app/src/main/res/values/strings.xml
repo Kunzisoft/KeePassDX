@@ -103,7 +103,10 @@
     <string name="otp_period">Period (seconds)</string>
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
+    <string name="search_filters">Search filters</string>
     <string name="otp_algorithm">Algorithm</string>
+    <string name="current_group">Current group</string>
+    <string name="case_sensitive">Case sensitive</string>
     <string name="debit_credit_card">Debit / Credit Card</string>
     <string name="holder">Holder</string>
     <string name="number">Number</string>
@@ -251,8 +254,6 @@
     <string name="no_url_handler">Install a web browser to open this URL.</string>
     <string name="select_database_file">Open existing database</string>
     <string name="create_keepass_file">Create new database</string>
-    <string name="omit_backup_search_title">Don\'t search through backup entries</string>
-    <string name="omit_backup_search_summary">Omits \"Backup\" and \"Recycle bin\" groups from search results</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="subdomain_search_title">Subdomain search</string>
@@ -298,7 +299,6 @@
     <string name="command_execution">Executing the command…</string>
     <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
-    <string name="search_label">Search</string>
     <string name="filter">Filter</string>
     <string name="sort_menu">Sort</string>
     <string name="sort_ascending">Lowest first ↓</string>
@@ -312,7 +312,6 @@
     <string name="sort_last_access_time">Access</string>
     <string name="special">Special</string>
     <string name="search">Search</string>
-    <string name="search_results">Search results</string>
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>

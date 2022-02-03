@@ -65,7 +65,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
@@ -88,8 +88,13 @@
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
+        <!-- Chip -->
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/green_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/green</item>
+
         <!-- Education Hint -->
-        <item name="educationCircleColor">@color/green_light</item>
+        <item name="educationCircleColor">@color/green_lighter</item>
         <item name="educationTextColor">@color/white</item>
 
         <!-- Edit Text -->
@@ -131,7 +136,7 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
         <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
@@ -153,6 +158,11 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+
+        <!-- Chip -->
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/green_lighter</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/green</item>
 
         <!-- Education Hint -->
         <item name="educationCircleColor">@color/green_light</item>
@@ -183,7 +193,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/green_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
@@ -191,7 +201,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/green_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
 
@@ -266,6 +276,30 @@
         <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
         <item name="hintTextColor">?attr/colorAccent</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.CompleteTextView</item>
+    </style>
+
+    <!-- Chip -->
+    <style name="KeepassDXStyle.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipBackgroundColor">@color/background_color_chip</item>
+        <item name="android:textColor">?attr/chipFilterTextColor</item>
+        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
+        <item name="checkedIconTint">?attr/chipFilterTextColor</item>
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconSize">24dp</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+    </style>
+    <style name="KeepassDXStyle.Chip.Filter.Icon" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipBackgroundColor">@color/background_color_chip</item>
+        <item name="android:textColor">?attr/chipFilterTextColor</item>
+        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
+        <item name="checkedIconTint">?attr/chipFilterTextColor</item>
+        <item name="chipIconVisible">true</item>
+        <item name="closeIconVisible">true</item>
+        <item name="closeIconSize">24dp</item>
+        <item name="closeIconTint">?attr/chipFilterTextColor</item>
+        <item name="ensureMinTouchTargetSize">false</item>
     </style>
 
     <!-- Dialog -->

@@ -27,7 +27,7 @@
         <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:textColorHintInverse">@color/red_lighter</item>
+        <item name="android:textColorHintInverse">@color/red_lightest</item>
         <item name="android:windowBackground">@color/white_dark</item>
         <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
@@ -38,15 +38,19 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/red_lighter</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/red</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red" parent="KeepassDXStyle.Red">
-        <item name="colorControlActivated">@color/red_lighter</item>
+        <item name="colorControlActivated">@color/red_lightest</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/red_lighter</item>
+        <item name="android:textColorHint">@color/red_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Home Red -->
@@ -87,7 +91,7 @@
         <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:textColorHintInverse">@color/red_lighter</item>
+        <item name="android:textColorHintInverse">@color/red_lightest</item>
         <item name="android:windowBackground">@color/grey_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red.Night</item>
@@ -97,15 +101,19 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/red_lighter</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/red</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
-        <item name="colorControlActivated">@color/red_lighter</item>
+        <item name="colorControlActivated">@color/red_lightest</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/red_lighter</item>
+        <item name="android:textColorHint">@color/red_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Home Red -->

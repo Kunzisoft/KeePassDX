@@ -53,6 +53,10 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
+
+        <item name="chipFilterTextColor">@color/grey_light</item>
+        <item name="chipFilterBackgroundColor">@color/white_darkest</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/white</item>
     </style>
     <!-- Toolbar Style White -->
     <style name="KeepassDXStyle.Toolbar.White" parent="KeepassDXStyle.White">
@@ -121,6 +125,10 @@
         <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
         <item name="educationCircleColor">@color/orange_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/grey_darker</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/black_light</item>
     </style>
     <!-- Toolbar Style Black -->
     <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
@@ -128,7 +136,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/grey_lighter</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/green_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Popup menu -->

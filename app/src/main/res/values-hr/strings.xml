@@ -144,7 +144,6 @@
     <string name="no_url_handler">Instalirajte web preglednik da bi ste otvorili ovaj URL.</string>
     <string name="select_database_file">Otvori postojeću bazu podataka</string>
     <string name="create_keepass_file">Stvori novu bazu podataka</string>
-    <string name="omit_backup_search_title">Ne pretražuj kopije unosa</string>
     <string name="progress_create">Stvaranje nove baze podataka …</string>
     <string name="protection">Zaštita</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplicirane UUID-ove.</string>
@@ -156,7 +155,6 @@
     <string name="saving_database">Spremanje baze podataka …</string>
     <string name="command_execution">Izvršavanje naredbe …</string>
     <string name="space">Razmak</string>
-    <string name="search_label">Pretraga</string>
     <string name="sort_menu">Sortiraj po</string>
     <string name="sort_ascending">Počevši s najnižim ↓</string>
     <string name="sort_groups_before">Grupe prije</string>
@@ -167,7 +165,6 @@
     <string name="sort_creation_time">Vremenu kreiranja</string>
     <string name="sort_last_modify_time">Zadnja promjena</string>
     <string name="search">Pretraga</string>
-    <string name="search_results">Rezultati pretrage</string>
     <string name="unsupported_db_version">Nepodržana verzija baze podataka.</string>
     <string name="warning">Upozorenje</string>
     <string name="warning_empty_password">Nastaviti bez zaštitite otključavanja lozinkom\?</string>
@@ -259,7 +256,6 @@
     <string name="menu_move">Premjesti</string>
     <string name="menu_cancel">Otkaži</string>
     <string name="menu_file_selection_read_only">Zaštićeno od pisanja</string>
-    <string name="omit_backup_search_summary">Izostavi grupe \"Backup\" i \"Recycle bin\" iz rezultata pretraživanja</string>
     <string name="progress_title">Rad u tijeku …</string>
     <string name="read_only">Zaštićeno od pisanja</string>
     <string name="read_only_warning">Ovisno o upravitelju datoteka, KeePassDX možda neće moći pisati u tvoje spremište.</string>

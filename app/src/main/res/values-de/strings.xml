@@ -118,8 +118,6 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
-    <string name="omit_backup_search_title">Papierkorb und Backup nicht durchsuchen</string>
-    <string name="omit_backup_search_summary">Die Gruppen „Backup“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
     <string name="progress_create">Neue Datenbank anlegen …</string>
@@ -133,11 +131,9 @@
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
     <string name="saving_database">Datenbank wird gespeichert …</string>
     <string name="space">Leerzeichen</string>
-    <string name="search_label">Suchen</string>
     <string name="sort_db">Natürliche Sortierung</string>
     <string name="special">Spezialsymbole</string>
     <string name="search">Suchen</string>
-    <string name="search_results">Suchergebnisse</string>
     <string name="underline">Unterstriche</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>

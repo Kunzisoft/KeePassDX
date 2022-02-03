@@ -100,8 +100,6 @@
     <string name="never">Nigdy</string>
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Zainstaluj przeglądarkę internetową, aby otworzyć ten adres URL.</string>
-    <string name="omit_backup_search_title">Nie wyszukuj wpisów kopii zapasowej</string>
-    <string name="omit_backup_search_summary">Pomija grupy \"Kopia zapasowa\" i \"Kosz\" z wyników wyszukiwania</string>
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
     <string name="content_description_remove_from_list">Usuń</string>
@@ -110,7 +108,6 @@
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
     <string name="saving_database">Zapisywanie bazy danych…</string>
     <string name="space">Spacja</string>
-    <string name="search_label">Szukaj</string>
     <string name="sort_db">Porządek naturalny</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>
@@ -170,7 +167,6 @@
     <string name="sort_creation_time">Utwórz</string>
     <string name="sort_last_modify_time">Modyfikacja</string>
     <string name="sort_last_access_time">Dostęp</string>
-    <string name="search_results">Wyniki wyszukiwania</string>
     <string name="warning">Ostrzeżenie</string>
     <string name="warning_password_encoding">Unikaj znaków hasła spoza formatu kodowania tekstu w pliku bazy danych (nierozpoznane znaki są konwertowane na tę samą literę).</string>
     <string name="sort_recycle_bin_bottom">Kosz na dole</string>

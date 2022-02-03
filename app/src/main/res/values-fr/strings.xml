@@ -119,8 +119,6 @@
     <string name="no_results">Aucun résultat</string>
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
-    <string name="omit_backup_search_title">Ne pas rechercher dans les entrées sauvegardées</string>
-    <string name="omit_backup_search_summary">Omet les groupes \"Sauvegarde\" et \"Corbeille\" des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>
@@ -138,7 +136,6 @@
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
-    <string name="search_label">Rechercher</string>
     <string name="sort_menu">Trier</string>
     <string name="sort_ascending">Ascendant ↓</string>
     <string name="sort_groups_before">Groupes avant</string>
@@ -151,7 +148,6 @@
     <string name="sort_last_access_time">Accès</string>en
     <string name="special">Spéciaux</string>
     <string name="search">Rechercher</string>
-    <string name="search_results">Résultats de recherche</string>
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non prise en charge.</string>
     <string name="uppercase">Majuscules</string>

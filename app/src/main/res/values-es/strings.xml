@@ -104,8 +104,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Instale un navegador web para abrir esta URL.</string>
-    <string name="omit_backup_search_title">No buscar en las entradas de respaldo</string>
-    <string name="omit_backup_search_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
     <string name="progress_create">Creando nueva base de datos…</string>
     <string name="progress_title">Trabajando…</string>
     <string name="content_description_remove_from_list">Quitar</string>
@@ -114,7 +112,6 @@
     <string name="rounds_explanation">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
     <string name="saving_database">Guardando base de datos…</string>
     <string name="space">Espacio</string>
-    <string name="search_label">Buscar</string>
     <string name="sort_db">Orden natural</string>
     <string name="special">Especial</string>
     <string name="search">Búsqueda</string>
@@ -164,7 +161,6 @@
     <string name="sort_creation_time">Creación</string>
     <string name="sort_last_modify_time">Modificación</string>
     <string name="sort_last_access_time">Acceso</string>
-    <string name="search_results">Resultados de búsqueda</string>
     <string name="warning">Atención</string>
     <string name="entry_not_found">No se pudieron encontrar los datos de entrada.</string>
     <string name="warning_password_encoding">Evite los caracteres de la contraseña fuera del formato de codificación de texto en el archivo de la base de datos (los caracteres no reconocidos se convierten a la misma letra).</string>

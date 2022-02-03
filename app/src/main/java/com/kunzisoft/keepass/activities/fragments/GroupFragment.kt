@@ -152,7 +152,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 mAdapter = NodesAdapter(context, database).apply {
                     setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                         override fun onNodeClick(database: Database, node: Node) {
-                            if (nodeActionSelectionMode) {
+                            if (mCurrentGroup?.isVirtual == false
+                                && nodeActionSelectionMode) {
                                 if (listActionNodes.contains(node)) {
                                     // Remove selected item if already selected
                                     listActionNodes.remove(node)
@@ -169,7 +170,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                         }
 
                         override fun onNodeLongClick(database: Database, node: Node): Boolean {
-                            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                            if (mCurrentGroup?.isVirtual == false
+                                && nodeActionPasteMode == PasteMode.UNDEFINED) {
                                 // Select the first item after a long click
                                 if (!listActionNodes.contains(node))
                                     listActionNodes.add(node)
@@ -257,9 +259,9 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private fun rebuildList() {
         try {
             // Add elements to the list
-            mCurrentGroup?.let { mainGroup ->
+            mCurrentGroup?.let { currentGroup ->
                 // Thrown an exception when sort cannot be performed
-                mAdapter?.rebuildList(mainGroup)
+                mAdapter?.rebuildList(currentGroup)
             }
         } catch (e:Exception) {
             Log.e(TAG, "Unable to rebuild the list", e)

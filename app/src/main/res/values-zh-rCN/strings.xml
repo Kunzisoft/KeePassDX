@@ -109,7 +109,6 @@
     <string name="rounds_explanation">更多的迭代次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
-    <string name="search_label">搜索</string>
     <string name="sort_db">自然排序</string>
     <string name="special">特殊符号</string>
     <string name="search">搜索</string>
@@ -152,8 +151,6 @@
     <string name="menu_showpass">显示密码</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
-    <string name="omit_backup_search_title">搜索时忽略备份条目</string>
-    <string name="omit_backup_search_summary">从搜索结果中忽略“备份”和“回收站”群组</string>
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
     <string name="read_only_warning">根据您的文件管理器，KeePassDX 可能不允许在您的存储中写入数据。</string>
@@ -171,7 +168,6 @@
     <string name="sort_creation_time">新建时间</string>
     <string name="sort_last_modify_time">修改时间</string>
     <string name="sort_last_access_time">访问时间</string>
-    <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
     <string name="database_history">历史</string>

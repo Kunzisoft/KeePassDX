@@ -112,8 +112,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
-    <string name="omit_backup_search_title">Não procurar por entradas na cópia de segurança e lixo</string>
-    <string name="omit_backup_search_summary">Omite os grupos \"Cópia de segurança\" e \"Caixote da reciclagem\" dos resultados da busca</string>
     <string name="progress_create">A criar nova base de dados…</string>
     <string name="progress_title">Em funcionamento…</string>
     <string name="protection">Proteção</string>
@@ -125,11 +123,9 @@
     <string name="rounds_explanation">As rodadas adicionais de encriptação fornecem mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e guardar mais lentos.</string>
     <string name="saving_database">A guardar a base de dados…</string>
     <string name="space">Espaço</string>
-    <string name="search_label">Pesquisar</string>
     <string name="sort_db">Ordenação natural</string>
     <string name="special">Especiais</string>
     <string name="search">Pesquisar</string>
-    <string name="search_results">Resultados da pesquisa</string>
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão da base de dados não suportada.</string>
     <string name="uppercase">Maiúsculas</string>

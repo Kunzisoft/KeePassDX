@@ -38,6 +38,10 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="educationCircleColor">@color/blue_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/blue_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/blue</item>
     </style>
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue" parent="KeepassDXStyle.Blue">
@@ -98,6 +102,10 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
         <item name="educationCircleColor">@color/blue_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/blue_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/blue</item>
     </style>
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue.Night" parent="KeepassDXStyle.Blue.Night">

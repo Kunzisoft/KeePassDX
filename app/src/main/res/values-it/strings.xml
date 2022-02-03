@@ -113,8 +113,6 @@
     <string name="never">Mai</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Installa un browser web per aprire questo URL.</string>
-    <string name="omit_backup_search_title">Non cercare nelle voci di backup</string>
-    <string name="omit_backup_search_summary">Ometti i gruppi «Backup» e «Cestino» dai risultati di ricerca</string>
     <string name="progress_create">Creazione di un nuovo database…</string>
     <string name="progress_title">In corso…</string>
     <string name="protection">Protezione</string>
@@ -126,11 +124,9 @@
     <string name="rounds_explanation">Livelli di cifratura aggiuntivi forniscono una maggiore protezione contro attacchi di tipo forza bruta, ma può rallentare il caricamento e il salvataggio.</string>
     <string name="saving_database">Salvataggio del database…</string>
     <string name="space">Spazio</string>
-    <string name="search_label">Cerca</string>
     <string name="sort_db">Ordine naturale</string>
     <string name="special">Speciali</string>
     <string name="search">Cerca</string>
-    <string name="search_results">Risultati della ricerca</string>
     <string name="underline">Trattino basso</string>
     <string name="unsupported_db_version">Versione del database non supportata.</string>
     <string name="uppercase">Maiuscole</string>

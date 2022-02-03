@@ -92,12 +92,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.remember_keyfile_locations_default))
     }
 
-    fun omitBackup(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.omit_backup_search_key),
-                context.resources.getBoolean(R.bool.omit_backup_search_default))
-    }
-
     fun automaticallyFocusSearch(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.auto_focus_search_key),
@@ -608,7 +602,6 @@ object PreferencesUtil {
                 context.getString(R.string.enable_read_only_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.omit_backup_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.subdomain_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.app_timeout_key) -> editor.putString(name, value.toLong().toString())

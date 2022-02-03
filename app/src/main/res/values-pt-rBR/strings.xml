@@ -102,8 +102,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sem resultados na busca</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
-    <string name="omit_backup_search_title">Não buscar por entradas no backup ou na lixeira</string>
-    <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
     <string name="content_description_remove_from_list">Remover</string>
@@ -112,7 +110,6 @@
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Espaço</string>
-    <string name="search_label">Busca</string>
     <string name="sort_db">Ordenação natural</string>
     <string name="special">Especial</string>
     <string name="search">Buscar</string>
@@ -171,7 +168,6 @@
     <string name="sort_creation_time">Data de criação</string>
     <string name="sort_last_modify_time">Última modificação</string>
     <string name="sort_last_access_time">Último acesso</string>
-    <string name="search_results">Resultados da busca</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>

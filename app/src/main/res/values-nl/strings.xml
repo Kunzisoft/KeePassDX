@@ -104,8 +104,6 @@
     <string name="never">Nooit</string>
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Installeer een webbrowser om deze URL te openen.</string>
-    <string name="omit_backup_search_title">Back-upitems niet doorzoeken</string>
-    <string name="omit_backup_search_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
     <string name="progress_create">Nieuwe database aanmaken…</string>
     <string name="progress_title">Bezig met verwerken…</string>
     <string name="content_description_remove_from_list">Verwijderen</string>
@@ -114,7 +112,6 @@
     <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
     <string name="saving_database">Database opslaan…</string>
     <string name="space">Ruimte</string>
-    <string name="search_label">Zoeken</string>
     <string name="sort_db">Natuurlijke volgorde</string>
     <string name="special">Speciaal</string>
     <string name="search">Zoeken</string>
@@ -178,7 +175,6 @@
     <string name="sort_creation_time">Gecreëerd op</string>
     <string name="sort_last_modify_time">Aangepast om</string>
     <string name="sort_last_access_time">Geopend om</string>
-    <string name="search_results">Zoekresultaten</string>
     <string name="warning">Waarschuwing</string>
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>

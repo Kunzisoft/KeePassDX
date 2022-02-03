@@ -130,8 +130,6 @@
     <string name="no_url_handler">Bu URL\'u açmak için bir web tarayıcısı yükleyin.</string>
     <string name="select_database_file">Mevcut veri tabanını aç</string>
     <string name="create_keepass_file">Yeni veri tabanı oluştur</string>
-    <string name="omit_backup_search_title">Yedek girdilerde arama</string>
-    <string name="omit_backup_search_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri dönüşüm kutusu\" gruplarını atlar</string>
     <string name="progress_create">Yeni veri tabanı oluşturuluyor…</string>
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>
@@ -149,7 +147,6 @@
     <string name="parallelism_explanation">Anahtar türev fonksiyonu tarafından kullanılan paralellik derecesi (yani iplik sayısı).</string>
     <string name="saving_database">Veri tabanı kaydediliyor…</string>
     <string name="space">Boşluk</string>
-    <string name="search_label">Ara</string>
     <string name="sort_menu">Sırala</string>
     <string name="sort_ascending">Önce en düşük ↓</string>
     <string name="sort_groups_before">Grup önce</string>
@@ -162,7 +159,6 @@
     <string name="sort_last_access_time">Erişim</string>
     <string name="special">Özel</string>
     <string name="search">Ara</string>
-    <string name="search_results">Arama Sonuçları</string>
     <string name="minus">Eksi</string>
     <string name="underline">Altı çizili</string>
     <string name="unsupported_db_version">Desteklenmeyen veri tabanı sürümü.</string>
