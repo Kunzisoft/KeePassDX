@@ -72,7 +72,9 @@
     <color name="orange_lightest">#FFCC80</color>
     <color name="orange_light">#ffa726</color>
     <color name="orange">#fb8c00</color>
-    <color name="orange_dark">#ef6c00</color>
+    <color name="orange_dark">#F57C00</color>
+    <color name="orange_darker">#ef6c00</color>
+    <color name="orange_darkest">#E65100</color>
 
     <color name="white_purple">#F2EDFA</color>
     <color name="white_purple_light">#F7F3FD</color>

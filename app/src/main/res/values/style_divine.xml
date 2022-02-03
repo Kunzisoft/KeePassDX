@@ -30,9 +30,9 @@
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlNormal">@color/grey_light</item>
-        <item name="colorControlActivated">@color/green</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
-        <item name="android:textColorHintInverse">@color/green_light</item>
+        <item name="colorControlActivated">@color/grey_light</item>
+        <item name="android:textColorPrimary">@color/orange_dark</item>
+        <item name="android:textColorHintInverse">@color/grey_light</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="toolbarColorControl">@color/grey_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.White</item>
@@ -65,7 +65,7 @@
         <item name="android:textColorPrimary">@color/grey_light</item>
         <item name="android:textColorSecondary">@color/grey_lighter</item>
         <item name="android:editTextColor">@color/grey_light</item>
-        <item name="android:textColorHint">@color/green_light</item>
+        <item name="android:textColorHint">@color/grey_lighter</item>
         <item name="android:tint">@color/grey_light</item>
         <item name="tint">@color/grey_light</item>
     </style>
@@ -94,9 +94,14 @@
     <!-- Dialog -->
     <style name="KeepassDXStyle.White.Dialog" parent="KeepassDXStyle.Light.Dialog">
         <item name="colorAccent">@color/orange</item>
-        <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:textColorPrimary">@color/grey_light</item>
         <item name="android:background">@color/white</item>
         <item name="background">@color/white</item>
+    </style>
+    <style name="KeepassDXStyle.White.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:textColorPrimary">@color/orange_darker</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.White" parent="KeepassDXStyle.Cardview">
@@ -108,12 +113,12 @@
     <style name="KeepassDXStyle.Black.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/black_light</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/orange_dark</item>
+        <item name="colorAccent">@color/orange_darker</item>
         <item name="colorAccentLight">@color/orange</item>
         <item name="colorControlNormal">@color/grey_light</item>
-        <item name="colorControlActivated">@color/green_darker</item>
-        <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:textColorHintInverse">@color/green_light</item>
+        <item name="colorControlActivated">@color/white_dark</item>
+        <item name="android:textColorPrimary">@color/orange_light</item>
+        <item name="android:textColorHintInverse">@color/white</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Black</item>
@@ -124,7 +129,7 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Black</item>
         <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
-        <item name="educationCircleColor">@color/orange_dark</item>
+        <item name="educationCircleColor">@color/orange_darker</item>
         <item name="educationTextColor">@color/white</item>
 
         <item name="chipFilterTextColor">@color/white</item>
@@ -137,7 +142,7 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/grey_lighter</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/green_lightest</item>
+        <item name="android:textColorHint">@color/white</item>
         <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Popup menu -->
@@ -164,10 +169,15 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/orange_dark</item>
-        <item name="android:textColorPrimary">@color/green_dark</item>
+        <item name="colorAccent">@color/orange_darker</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <item name="android:background">@color/black_lighter</item>
         <item name="background">@color/black_lighter</item>
+    </style>
+    <style name="KeepassDXStyle.Black.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/orange_darker</item>
+        <item name="android:textColorPrimary">@color/orange</item>
+        <item name="android:windowBackground">@color/black_lighter</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Black" parent="KeepassDXStyle.Cardview">

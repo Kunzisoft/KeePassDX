@@ -321,7 +321,7 @@
         <item name="android:windowBackground">@color/white_dark</item>
     </style>
     <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.MaterialComponents.Dialog.Bridge">
-        <item name="colorAccent">@color/orange_dark</item>
+        <item name="colorAccent">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:windowBackground">@color/grey_dark</item>
     </style>
