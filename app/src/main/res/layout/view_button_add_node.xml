@@ -50,6 +50,7 @@
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_key_white_24dp"
+            android:tint="?attr/colorOnAccentColor"
             android:contentDescription="@string/add_entry"
             app:fabSize="mini"
             app:useCompatPadding="true" />
@@ -81,6 +82,7 @@
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_folder_white_24dp"
+            android:tint="?attr/colorOnAccentColor"
             android:contentDescription="@string/add_group"
             app:fabSize="mini"
             app:useCompatPadding="true" />
@@ -88,15 +90,16 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
+        style="@style/KeepassDXStyle.Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add_white_24dp"
-        android:contentDescription="@string/content_description_add_node"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        app:useCompatPadding="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:contentDescription="@string/content_description_add_node"
+        android:src="@drawable/ic_add_white_24dp"
+        android:tint="?attr/colorOnAccentColor"
         app:fabSize="normal"
-        style="@style/KeepassDXStyle.Fab" />
+        app:useCompatPadding="true" />
 
 </RelativeLayout>

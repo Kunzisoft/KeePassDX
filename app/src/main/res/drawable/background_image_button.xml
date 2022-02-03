@@ -3,7 +3,7 @@
     <item android:state_pressed="true">
         <shape
             android:shape="oval">
-            <stroke android:color="@color/orange_light" android:width="1dp"/>
+            <stroke android:color="@color/orange_lighter" android:width="1dp"/>
             <padding
                 android:left="12dp"
                 android:right="12dp"

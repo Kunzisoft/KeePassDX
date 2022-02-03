@@ -46,7 +46,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_light</item>
+        <item name="colorAccentLight">@color/orange_lighter</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -117,7 +117,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_light</item>
+        <item name="colorAccentLight">@color/orange_lighter</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>

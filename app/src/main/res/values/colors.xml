@@ -70,7 +70,8 @@
     <color name="red_dark">#d32f2f</color>
 
     <color name="orange_lightest">#FFCC80</color>
-    <color name="orange_light">#ffa726</color>
+    <color name="orange_lighter">#ffa726</color>
+    <color name="orange_light">#FF9800</color>
     <color name="orange">#fb8c00</color>
     <color name="orange_dark">#F57C00</color>
     <color name="orange_darker">#ef6c00</color>
