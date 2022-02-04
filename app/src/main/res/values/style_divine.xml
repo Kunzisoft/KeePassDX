@@ -31,7 +31,7 @@
         <item name="colorAccentLight">@color/orange_lighter</item>
         <item name="colorControlNormal">@color/grey_light</item>
         <item name="colorControlActivated">@color/grey_light</item>
-        <item name="android:textColorPrimary">@color/orange_dark</item>
+        <item name="android:textColorPrimary">@color/green</item>
         <item name="android:textColorHintInverse">@color/grey_light</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="toolbarColorControl">@color/grey_light</item>
@@ -117,7 +117,7 @@
         <item name="colorAccentLight">@color/orange</item>
         <item name="colorControlNormal">@color/grey_light</item>
         <item name="colorControlActivated">@color/white_dark</item>
-        <item name="android:textColorPrimary">@color/orange_light</item>
+        <item name="android:textColorPrimary">@color/green_lighter</item>
         <item name="android:textColorHintInverse">@color/white</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
