@@ -286,7 +286,7 @@
     <string name="error_load_database">Não foi possível carregar seu banco de dados.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de usuário em listas de entrada</string>
+    <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
@@ -329,10 +329,10 @@
     <string name="entry_add_field">Adicionar campo</string>
     <string name="content_description_remove_field">Excluir campo</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
-    <string name="error_copy_entry_here">Você não pode copiar uma entrada daqui.</string>
+    <string name="error_move_entry_here">Você não pode mover uma entrada aqui.</string>
+    <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
-    <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
+    <string name="list_groups_show_number_entries_summary">Exibe o número de entradas em um grupo</string>
     <string name="content_description_node_children">Nó filho</string>
     <string name="content_description_password_checkbox">Caixa de seleção da senha</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
@@ -522,7 +522,7 @@
     <string name="advanced_unlock_prompt_not_initialized">Incapaz de inicializar o prompt de desbloqueio avançado.</string>
     <string name="advanced_unlock_scanning_error">Erro de desbloqueio avançado: %1$s</string>
     <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio avançado</string>
-    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançado. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
+    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançada. Por favor, apague-a e repita o procedimento de reconhecimento de desbloqueio.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraia credencial de banco de dados com dados de desbloqueio avançado</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
     <string name="advanced_unlock_prompt_store_credential_message">Aviso: você ainda precisa lembrar sua senha mestra se usar o reconhecimento de desbloqueio avançado.</string>
@@ -608,4 +608,12 @@
     <string name="content_description_entry_background_color">Cor de plano de fundo da entrada</string>
     <string name="warning_database_info_reloaded">Recarregar o banco de dados excluirá os dados modificados localmente.</string>
     <string name="menu_merge_database">Mesclar dados</string>
+    <string name="tags">Etiquetas</string>
+    <string name="enable_keep_screen_on_title">Mantenha a tela ligada</string>
+    <string name="enable_keep_screen_on_summary">Mantenha a tela ligada enquanto estiver vendo a entrada</string>
+    <string name="show_entry_colors_title">Cores de entrada</string>
+    <string name="show_entry_colors_summary">Exibe as cores de primeiro plano e de fundo em uma entrada</string>
+    <string name="error_move_group_here">Você não pode mover um grupo aqui.</string>
+    <string name="wireless">Wi-fi</string>
+    <string name="warning_keyfile_integrity">O hash do arquivo não é garantido porque o Android pode alterar seus dados em tempo real. Altere a extensão do arquivo para .bin para obter a integridade correta.</string>
 </resources>
