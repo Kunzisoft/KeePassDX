@@ -224,7 +224,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private inner class GroupOperationHandler: NodeOperationHandler<GroupKDBX>() {
         var containsTags = false
         override fun operate(node: GroupKDBX): Boolean {
-            if (!node.tags.isEmpty())
+            if (node.tags.isNotEmpty())
                 containsTags = true
             return super.operate(node)
         }

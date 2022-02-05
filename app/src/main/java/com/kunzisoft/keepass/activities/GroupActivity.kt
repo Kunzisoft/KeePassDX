@@ -666,7 +666,7 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.setNumbers(group.numberOfChildEntries)
             searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: "")
             searchFiltersView?.enableOther(mDatabase?.allowEntryCustomFields() ?: false)
-            searchFiltersView?.enableTags(mDatabase?.tagPool?.isEmpty() ?: false)
+            searchFiltersView?.enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
             searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
             toolbarBreadcrumb?.navigationIcon = null
         } else {
