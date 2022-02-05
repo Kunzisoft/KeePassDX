@@ -1,5 +1,6 @@
 KeePassDX(3.3.0)
  * Quick search and dynamic filters #163 #462 #521
+ * Keep search context #1141
 
 KeePassDX(3.2.0)
  * Manage data merge #840 #977

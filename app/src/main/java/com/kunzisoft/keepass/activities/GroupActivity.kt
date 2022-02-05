@@ -327,15 +327,17 @@ class GroupActivity : DatabaseLockActivity(),
             mainGroup.touch(modified = false, touchParents = false)
         }
 
-        // Observe group
+        // Observe current group (main or search group visible)
         mGroupViewModel.group.observe(this) {
             val currentGroup = it.group
             mCurrentGroup = currentGroup
             if (currentGroup.isVirtual) {
-                mSearchState = SearchState(it.searchParameters, it.showFromPosition)
-                searchFiltersView?.searchParameters = it.searchParameters
+                val searchParameters = it.searchParameters
+                mSearchState = SearchState(searchParameters, it.showFromPosition)
+                addSearchParametersInView(searchParameters)
             }
-            // Main group in activity is managed with another variable to keep value during orientation
+            // Main and search groups in activity are managed with another variables
+            // to keep values during orientation
 
             // Expand the search view if defined in settings
             if (mRequestStartupSearch
@@ -1035,6 +1037,15 @@ class GroupActivity : DatabaseLockActivity(),
         super.onPause()
 
         finishNodeAction()
+        searchView?.setOnQueryTextListener(null)
+    }
+
+    private fun addSearchParametersInView(searchParameters: SearchParameters) {
+        searchView?.setOnQueryTextListener(null)
+        searchView?.setQuery(searchParameters.searchQuery, false)
+        searchFiltersView?.searchParameters = searchParameters
+        searchFiltersView?.visibility = View.VISIBLE
+        searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -1078,10 +1089,8 @@ class GroupActivity : DatabaseLockActivity(),
                 // already open
                 if (searchState != null) {
                     it.expandActionView()
-                    setQuery(searchState.searchParameters.searchQuery, false)
-                    searchFiltersView?.visibility = View.VISIBLE
+                    addSearchParametersInView(searchState.searchParameters)
                 }
-                setOnQueryTextListener(mOnSearchQueryTextListener)
             }
             mLockSearchListeners = false
         }
