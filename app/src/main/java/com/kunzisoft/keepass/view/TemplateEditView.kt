@@ -40,6 +40,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         this.mOnPasswordGenerationActionClickListener = listener
     }
 
+    private var mOnDownloadIconActionClickListener: ((String) -> Unit)? = null
+    fun setOnDownloadIconActionClickListener(listener: ((String) -> Unit)?) {
+        this.mOnDownloadIconActionClickListener = listener
+    }
+
     private var mOnDateInstantClickListener: ((DateInstant) -> Unit)? = null
     fun setOnDateInstantClickListener(listener: ((DateInstant) -> Unit)?) {
         this.mOnDateInstantClickListener = listener
@@ -164,6 +169,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                     mOnPasswordGenerationActionClickListener?.invoke(field)
                 }, R.drawable.ic_generate_password_white_24dp)
             }
+            if (templateAttribute.options.isLink()) {
+                setOnActionClickListener({
+                    mOnDownloadIconActionClickListener?.invoke(value)
+                }, R.drawable.ic_downloading_white_24dp)
+            }
         }
     }
 
@@ -203,6 +213,13 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     fun getPasswordField(): Field {
         val passwordView: TextEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
         return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
+    }
+
+    fun setDownloadIconProgressVisible(visible: Boolean) {
+        val urlView: TextEditFieldView? = findViewWithTag(FIELD_URL_TAG)
+        if (urlView != null) {
+            urlView.isProgressVisible = visible
+        }
     }
 
     private fun setCurrentDateTimeSelection(action: (dateInstant: DateInstant) -> DateInstant) {

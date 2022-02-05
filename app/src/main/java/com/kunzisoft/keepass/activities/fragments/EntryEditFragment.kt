@@ -29,6 +29,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
@@ -114,6 +115,9 @@ class EntryEditFragment: DatabaseFragment() {
             setOnPasswordGenerationActionClickListener { field ->
                 mEntryEditViewModel.requestPasswordSelection(field)
             }
+            setOnDownloadIconActionClickListener { url ->
+                mEntryEditViewModel.requestDownloadIcon(url, requireContext(), mDatabase)
+            }
             setOnDateInstantClickListener { dateInstant ->
                 mEntryEditViewModel.requestDateTimeSelection(dateInstant)
             }
@@ -167,6 +171,31 @@ class EntryEditFragment: DatabaseFragment() {
 
         mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->
             templateView.setPasswordField(passwordField)
+        }
+
+        mEntryEditViewModel.onIconDownloaded.observe(viewLifecycleOwner) { state ->
+            when (state.downloadState) {
+                EntryEditViewModel.DownloadState.NONE -> {
+                    // Do nothing
+                }
+                EntryEditViewModel.DownloadState.START -> {
+                    templateView.setDownloadIconProgressVisible(true)
+                }
+                EntryEditViewModel.DownloadState.COMPLETE -> {
+                    templateView.setDownloadIconProgressVisible(false)
+                    Snackbar
+                        .make(rootView, R.string.download_complete, Snackbar.LENGTH_LONG)
+                        .asSuccess()
+                        .show()
+                }
+                EntryEditViewModel.DownloadState.ERROR -> {
+                    templateView.setDownloadIconProgressVisible(false)
+                    Snackbar
+                        .make(rootView, R.string.download_icon_error, Snackbar.LENGTH_LONG)
+                        .asError()
+                        .show()
+                }
+            }
         }
 
         mEntryEditViewModel.onDateSelected.observe(viewLifecycleOwner) { viewModelDate ->

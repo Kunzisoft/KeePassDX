@@ -37,6 +37,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
@@ -101,6 +102,14 @@ fun TextView.customLink(listener: (View) -> Unit) {
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
     this.movementMethod = LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
     this.setText(spannableString, TextView.BufferType.SPANNABLE)
+}
+
+fun Snackbar.asSuccess(): Snackbar {
+    this.view.apply {
+        setBackgroundColor(ContextCompat.getColor(context, R.color.blue_light))
+        findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
+    }
+    return this
 }
 
 fun Snackbar.asError(): Snackbar {
