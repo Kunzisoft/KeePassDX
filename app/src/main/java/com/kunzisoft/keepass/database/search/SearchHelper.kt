@@ -182,10 +182,8 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUUIDs) {
-                val hexString = UuidUtil.toHexString(entry.nodeId.id)
-                if (hexString != null
-                    && hexString.contains(searchQuery, true)
-                )
+                val hexString = UuidUtil.toHexString(entry.nodeId.id) ?: ""
+                if (checkSearchQuery(hexString, searchParameters))
                     return true
             }
             if (searchParameters.searchInOther) {
