@@ -334,7 +334,6 @@ class GroupActivity : DatabaseLockActivity(),
             if (currentGroup.isVirtual) {
                 val searchParameters = it.searchParameters
                 mSearchState = SearchState(searchParameters, it.showFromPosition)
-                addSearchParametersInView(searchParameters)
             }
             // Main and search groups in activity are managed with another variables
             // to keep values during orientation
@@ -1040,10 +1039,9 @@ class GroupActivity : DatabaseLockActivity(),
         searchView?.setOnQueryTextListener(null)
     }
 
-    private fun addSearchParametersInView(searchParameters: SearchParameters) {
+    private fun addSearchQueryInSearchView(searchQuery: String) {
         searchView?.setOnQueryTextListener(null)
-        searchView?.setQuery(searchParameters.searchQuery, false)
-        searchFiltersView?.searchParameters = searchParameters
+        searchView?.setQuery(searchQuery, false)
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
@@ -1088,7 +1086,8 @@ class GroupActivity : DatabaseLockActivity(),
                 // already open
                 if (searchState != null) {
                     it.expandActionView()
-                    addSearchParametersInView(searchState.searchParameters)
+                    addSearchQueryInSearchView(searchState.searchParameters.searchQuery)
+                    searchFiltersView?.searchParameters = searchState.searchParameters
                     searchFiltersView?.visibility = View.VISIBLE
                 }
             }
