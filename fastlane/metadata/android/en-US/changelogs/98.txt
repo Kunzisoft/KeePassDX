@@ -1,3 +1,4 @@
  * Quick search and dynamic filters #163 #462 #521
  * Keep search context #1141
  * Search with regular expression #175
+ * Fix styles
