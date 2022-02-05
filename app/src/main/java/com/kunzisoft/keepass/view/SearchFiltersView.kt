@@ -24,6 +24,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchNumbers: TextView
     private var searchCurrentGroup: CompoundButton
     private var searchCaseSensitive: CompoundButton
+    private var searchRegex: CompoundButton
     private var searchTitle: CompoundButton
     private var searchUsername: CompoundButton
     private var searchPassword: CompoundButton
@@ -41,6 +42,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             return field.apply {
                 this.searchInCurrentGroup = searchCurrentGroup.isChecked
                 this.caseSensitive = searchCaseSensitive.isChecked
+                this.isRegex = searchRegex.isChecked
                 this.searchInTitles = searchTitle.isChecked
                 this.searchInUsernames = searchUsername.isChecked
                 this.searchInPasswords = searchPassword.isChecked
@@ -60,6 +62,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             mOnParametersChangeListener = null
             searchCurrentGroup.isChecked = value.searchInCurrentGroup
             searchCaseSensitive.isChecked = value.caseSensitive
+            searchRegex.isChecked = value.isRegex
             searchTitle.isChecked = value.searchInTitles
             searchUsername.isChecked = value.searchInUsernames
             searchPassword.isChecked = value.searchInPasswords
@@ -96,6 +99,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchNumbers = findViewById(R.id.search_numbers)
         searchCurrentGroup = findViewById(R.id.search_chip_current_group)
         searchCaseSensitive = findViewById(R.id.search_chip_case_sensitive)
+        searchRegex = findViewById(R.id.search_chip_regex)
         searchTitle = findViewById(R.id.search_chip_title)
         searchUsername = findViewById(R.id.search_chip_username)
         searchPassword = findViewById(R.id.search_chip_password)
@@ -123,6 +127,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
         searchCaseSensitive.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.caseSensitive = isChecked
+            mOnParametersChangeListener?.invoke(searchParameters)
+        }
+        searchRegex.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.isRegex = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchTitle.setOnCheckedChangeListener { _, isChecked ->

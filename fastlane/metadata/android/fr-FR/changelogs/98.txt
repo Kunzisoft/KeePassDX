@@ -1,2 +1,3 @@
  * Recherche rapide et filtres dynamiques #163 #462 #521
  * Garde le contexte de recherche #1141
+ * Recherche avec expression régulière #175

@@ -107,6 +107,7 @@
     <string name="otp_algorithm">Algorithm</string>
     <string name="current_group">Current group</string>
     <string name="case_sensitive">Case sensitive</string>
+    <string name="regex">Regular expression</string>
     <string name="debit_credit_card">Debit / Credit Card</string>
     <string name="holder">Holder</string>
     <string name="number">Number</string>

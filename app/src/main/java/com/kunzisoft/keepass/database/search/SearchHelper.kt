@@ -207,12 +207,21 @@ class SearchHelper {
         private fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
             /*
             // TODO Search settings
-            var regularExpression = false
             var removeAccents = true <- Too much time, to study
             */
-            return stringToCheck.isNotEmpty()
-                    && stringToCheck.contains(
-                        searchParameters.searchQuery, !searchParameters.caseSensitive)
+            if (stringToCheck.isEmpty())
+                return false
+            return if (searchParameters.isRegex) {
+                val regex = if (searchParameters.caseSensitive) {
+                    searchParameters.searchQuery.toRegex(RegexOption.DOT_MATCHES_ALL)
+                } else {
+                    searchParameters.searchQuery
+                        .toRegex(setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
+                }
+                regex.matches(stringToCheck)
+            } else {
+                stringToCheck.contains(searchParameters.searchQuery, !searchParameters.caseSensitive)
+            }
         }
     }
 }

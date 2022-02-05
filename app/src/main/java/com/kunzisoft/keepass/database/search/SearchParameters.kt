@@ -28,6 +28,7 @@ import android.os.Parcelable
 class SearchParameters() : Parcelable{
     var searchQuery: String = ""
     var caseSensitive = false
+    var isRegex = false
 
     var searchInTitles = true
     var searchInUsernames = true
