@@ -113,6 +113,7 @@
         <item name="colorControlActivated">@color/cyan_lightest</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:textColorHintInverse">@color/cyan_lightest</item>
+        <item name="android:textColorSecondaryInverse">@color/white_dark</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Dark</item>

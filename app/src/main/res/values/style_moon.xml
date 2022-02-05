@@ -28,6 +28,7 @@
         <item name="colorControlActivated">@color/blue_white</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
+        <item name="android:textColorSecondaryInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/white_dark</item>
         <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
@@ -93,6 +94,7 @@
         <item name="colorControlActivated">@color/blue_white</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
+        <item name="android:textColorSecondaryInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/grey_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue.Night</item>

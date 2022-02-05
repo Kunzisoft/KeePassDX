@@ -28,6 +28,7 @@
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
+        <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
         <item name="android:windowBackground">@color/white_dark</item>
         <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
@@ -92,6 +93,7 @@
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
+        <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
         <item name="android:windowBackground">@color/grey_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red.Night</item>

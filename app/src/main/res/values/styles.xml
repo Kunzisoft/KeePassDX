@@ -62,7 +62,7 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
+        <item name="android:textColorSecondaryInverse">@color/green_lightest</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
         <item name="android:textColorHintInverse">@color/green_lightest</item>
 
@@ -132,7 +132,7 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
-        <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
+        <item name="android:textColorSecondaryInverse">@color/green_lightest</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
         <item name="android:textColorHintInverse">@color/green_lightest</item>
 
@@ -197,7 +197,7 @@
 
     <!-- Toolbar Home -->
     <style name="KeepassDXStyle.Toolbar.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="tint">?android:attr/textColorHintInverse</item>
+        <item name="tint">?android:attr/textColorSecondaryInverse</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Home.Light" parent="KeepassDXStyle.Toolbar.Light">
         <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
@@ -342,7 +342,7 @@
         <item name="android:drawablePadding">8dp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:textColor">?android:attr/textColorHintInverse</item>
+        <item name="android:textColor">?android:attr/textColorSecondaryInverse</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>

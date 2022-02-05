@@ -71,8 +71,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/file_information_button"
                 android:button="@drawable/checkbox_star"
-                android:buttonTint="?android:attr/textColorHintInverse"
-                app:buttonTint="?android:attr/textColorHintInverse"
+                android:buttonTint="?android:attr/textColorSecondaryInverse"
+                app:buttonTint="?android:attr/textColorSecondaryInverse"
                 android:gravity="center"
                 android:contentDescription="@string/default_checkbox" />
             <androidx.appcompat.widget.AppCompatImageButton
@@ -170,14 +170,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/entry_modified"
-                android:textColor="?android:attr/textColorHintInverse"
+                android:textColor="?android:attr/textColorSecondaryInverse"
                 android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/file_modification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?android:attr/textColorHintInverse"
+                android:textColor="?android:attr/textColorSecondaryInverse"
                 tools:text="Aug 21, 2020 3:40:14 PM" />
         </LinearLayout>
 
@@ -189,7 +189,7 @@
             android:paddingTop="8dp"
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:textColor="?android:attr/textColorHintInverse"
+            android:textColor="?android:attr/textColorSecondaryInverse"
             app:layout_constraintBottom_toBottomOf="@+id/file_modification_container"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="8 bytes" />
@@ -202,7 +202,7 @@
             android:src="@drawable/ic_content_delete_white_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:tint="?android:attr/textColorHintInverse"
+            android:tint="?android:attr/textColorSecondaryInverse"
             style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -219,7 +219,7 @@
             app:layout_constraintStart_toEndOf="@+id/file_delete_button"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="/path/to/DatabaseName.kdbx"
-            android:textColor="?android:attr/textColorHintInverse"
+            android:textColor="?android:attr/textColorSecondaryInverse"
             android:gravity="center_vertical|end"
             android:textStyle="italic"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
