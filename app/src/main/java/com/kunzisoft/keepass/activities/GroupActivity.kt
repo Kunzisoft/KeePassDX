@@ -1044,7 +1044,6 @@ class GroupActivity : DatabaseLockActivity(),
         searchView?.setOnQueryTextListener(null)
         searchView?.setQuery(searchParameters.searchQuery, false)
         searchFiltersView?.searchParameters = searchParameters
-        searchFiltersView?.visibility = View.VISIBLE
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
@@ -1090,6 +1089,7 @@ class GroupActivity : DatabaseLockActivity(),
                 if (searchState != null) {
                     it.expandActionView()
                     addSearchParametersInView(searchState.searchParameters)
+                    searchFiltersView?.visibility = View.VISIBLE
                 }
             }
             mLockSearchListeners = false
