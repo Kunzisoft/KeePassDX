@@ -66,6 +66,42 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" />
 		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/group_edit_searchable_container"
+			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
+			android:hint="@string/searchable"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.kunzisoft.keepass.view.InheritedCompletionView
+				android:id="@+id/group_edit_searchable"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="none" />
+		</com.google.android.material.textfield.TextInputLayout>
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/group_edit_auto_type_inherited_container"
+			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
+			android:hint="@string/auto_type"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.kunzisoft.keepass.view.InheritedCompletionView
+				android:id="@+id/group_edit_auto_type_inherited"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="none" />
+		</com.google.android.material.textfield.TextInputLayout>
+		<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/group_edit_auto_type_sequence_container"
+			android:hint="@string/auto_type_sequence"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/group_edit_auto_type_sequence"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:maxLines="1"/>
+		</com.google.android.material.textfield.TextInputLayout>
+		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/group_tags_label"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

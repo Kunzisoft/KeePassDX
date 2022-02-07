@@ -53,6 +53,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var expirationView: DateTimeFieldView
     private lateinit var creationView: TextView
     private lateinit var modificationView: TextView
+    private lateinit var searchableView: TextView
+    private lateinit var autoTypeView: TextView
     private lateinit var uuidContainerView: ViewGroup
     private lateinit var uuidReferenceView: TextView
 
@@ -75,6 +77,8 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             expirationView = root.findViewById(R.id.group_expiration)
             creationView = root.findViewById(R.id.group_created)
             modificationView = root.findViewById(R.id.group_modified)
+            searchableView = root.findViewById(R.id.group_searchable)
+            autoTypeView = root.findViewById(R.id.group_auto_type)
             uuidContainerView = root.findViewById(R.id.group_UUID_container)
             uuidReferenceView = root.findViewById(R.id.group_UUID_reference)
 
@@ -123,6 +127,9 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             expirationView.dateTime = mGroupInfo.expiryTime
             creationView.text = mGroupInfo.creationTime.getDateTimeString(resources)
             modificationView.text = mGroupInfo.lastModificationTime.getDateTimeString(resources)
+            searchableView.text = stringFromInheritableBoolean(mGroupInfo.searchable)
+            autoTypeView.text = stringFromInheritableBoolean(mGroupInfo.enableAutoType,
+                mGroupInfo.defaultAutoTypeSequence)
             val uuid = UuidUtil.toHexString(mGroupInfo.id)
             if (uuid == null || uuid.isEmpty()) {
                 uuidContainerView.visibility = View.GONE
@@ -141,6 +148,15 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun stringFromInheritableBoolean(enable: Boolean?, value: String? = null): String {
+        val valueString = if (value != null && value.isNotEmpty()) " [$value]" else ""
+        return when {
+            enable == null -> getString(R.string.inherited) + valueString
+            enable -> getString(R.string.enable) + valueString
+            else -> getString(R.string.disable)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

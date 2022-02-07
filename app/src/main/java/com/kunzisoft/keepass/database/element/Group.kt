@@ -434,13 +434,23 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.nodeId = id
     }
 
-    fun setEnableAutoType(enableAutoType: Boolean?) {
-        groupKDBX?.enableAutoType = enableAutoType
-    }
+    var searchable: Boolean?
+        get() = groupKDBX?.enableSearching
+        set(value) {
+            groupKDBX?.enableSearching = value
+        }
 
-    fun setEnableSearching(enableSearching: Boolean?) {
-        groupKDBX?.enableSearching = enableSearching
-    }
+    var enableAutoType: Boolean?
+        get() = groupKDBX?.enableAutoType
+        set(value) {
+            groupKDBX?.enableAutoType = value
+        }
+
+    var defaultAutoTypeSequence: String
+        get() = groupKDBX?.defaultAutoTypeSequence ?: ""
+        set(value) {
+            groupKDBX?.defaultAutoTypeSequence = value
+        }
 
     fun setExpanded(expanded: Boolean) {
         groupKDBX?.isExpanded = expanded
@@ -462,6 +472,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupInfo.expires = expires
         groupInfo.expiryTime = expiryTime
         groupInfo.notes = notes
+        groupInfo.searchable = searchable
+        groupInfo.enableAutoType = enableAutoType
+        groupInfo.defaultAutoTypeSequence = defaultAutoTypeSequence
         groupInfo.tags = tags
         return groupInfo
     }
@@ -475,6 +488,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         expires = groupInfo.expires
         expiryTime = groupInfo.expiryTime
         notes = groupInfo.notes
+        searchable = groupInfo.searchable
+        enableAutoType = groupInfo.enableAutoType
+        defaultAutoTypeSequence = groupInfo.defaultAutoTypeSequence
         tags = groupInfo.tags
     }
 

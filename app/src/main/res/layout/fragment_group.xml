@@ -130,6 +130,32 @@
 				android:layout_height="wrap_content"
 				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 
+			<!-- Search -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_searchable_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/searchable"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_searchable"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+
+			<!-- Auto-type -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_auto_type_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/auto_type"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/group_auto_type"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+
 			<!-- UUID -->
 			<LinearLayout
 				android:id="@+id/group_UUID_container"
