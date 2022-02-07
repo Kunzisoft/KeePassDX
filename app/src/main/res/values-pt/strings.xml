@@ -281,7 +281,7 @@
     <string name="warning_permanently_delete_nodes">Eliminar permanentemente os nós selecionados\?</string>
     <string name="command_execution">A executar o comando…</string>
     <string name="menu_empty_recycle_bin">Esvaziar caixote da reciclagem</string>
-    <string name="menu_save_database">Guardar base de dados</string>
+    <string name="menu_save_database">Guardar dados</string>
     <string name="error_save_database">Não foi possível guardar a base de dados.</string>
     <string name="education_advanced_unlock_summary">Ligue a sua palavra-passe às suas credenciais biométricas ou do dispositivo para desbloquear rapidamente a sua base de dados.</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do dispositivo</string>
@@ -351,7 +351,7 @@
     <string name="content_description_update_from_list">Atualizar</string>
     <string name="content_description_background">Plano de fundo</string>
     <string name="file_manager_install_description">Um gestor de ficheiros que aceita a ação intencional ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT é necessário para criar, abrir e gravar ficheiros da base de dados.</string>
-    <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
+    <string name="list_groups_show_number_entries_summary">Mostra o número de entradas dentro de um grupo</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="error_copy_entry_here">Não se pode copiar uma entrada aqui.</string>
     <string name="error_move_entry_here">Não se pode mover uma entrada para aqui.</string>
@@ -400,7 +400,7 @@
     <string name="build_label">Compilação %1$s</string>
     <string name="retrieving_db_key">A criar a chave da base de dados…</string>
     <string name="clipboard">Área de transferência</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador na lista entradas</string>
+    <string name="list_entries_show_username_summary">Mostra nomes de utilizador nas listas de entradas</string>
     <string name="list_entries_show_username_title">Mostrar nomes de utilizador</string>
     <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente diminuir o \"Uso de memória\" do KDF.</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
@@ -466,14 +466,14 @@
     <string name="biometric_security_update_required">É necessária uma atualização de segurança biométrica.</string>
     <string name="configure_biometric">Não está registada nenhuma credencial biométrica ou de dispositivo.</string>
     <string name="warning_database_revoked">Acesso ao ficheiro revogado pelo gestor de ficheiros. Feche a base de dados e reabra-a a partir da sua localização.</string>
-    <string name="warning_database_info_changed_options">Substitua as alterações externas, guardando a base de dados ou recarregando-a com as últimas alterações.</string>
+    <string name="warning_database_info_changed_options">Unir os dados, substituir as alterações externas guardado a base de dados ou recarregá-los com as últimas alterações.</string>
     <string name="warning_database_info_changed">A informação contida no seu ficheiro da base de dados foi alterada fora da aplicação.</string>
     <string name="warning_empty_recycle_bin">Eliminar permanentemente todos os nós do caixote da reciclagem\?</string>
     <string name="registration_mode">Modo de registo</string>
     <string name="save_mode">Modo de guardar</string>
     <string name="search_mode">Modo de pesquisa</string>
     <string name="menu_keystore_remove_key">Eliminar chave de desbloqueio avançada</string>
-    <string name="menu_reload_database">Recarregar base de dados</string>
+    <string name="menu_reload_database">Recarregar dados</string>
     <string name="error_rebuild_list">Não foi possível reconstruir adequadamente a lista.</string>
     <string name="error_database_uri_null">Não foi possível recuperar o URI da base de dados.</string>
     <string name="error_field_name_already_exists">O nome do campo já existe.</string>
@@ -580,5 +580,18 @@
     <string name="content_description_otp_information">Informação de palavra-passe de uso único</string>
     <string name="hint_icon_name">Nome do ícone</string>
     <string name="permission">Permissão</string>
-    <string name="warning_exact_alarm">Não permitiu que a app usasse um alarme exato. Como resultado, as funcionalidades que requerem um temporizador não serão feitas com um tempo exato.</string>
+    <string name="warning_exact_alarm">Não permitiu que a aplicação usasse um alarme exato. Como resultado, as funcionalidades que requerem um temporizador não serão feitas com um tempo exato.</string>
+    <string name="warning_keyfile_integrity">O hash do ficheiro não é garantido porque o Android pode alterar os seus dados em tempo real. Altere a extensão do ficheiro para .bin para obter a integridade correta.</string>
+    <string name="show_entry_colors_summary">Mostra as cores de fundo e de primeiro plano numa entrada</string>
+    <string name="tags">Etiquetas</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="menu_merge_database">Unir dados</string>
+    <string name="warning_database_info_reloaded">Recarregar a base de dados irá eliminar os dados alterados localmente.</string>
+    <string name="enable_keep_screen_on_title">Manter o ecrã ligado</string>
+    <string name="enable_keep_screen_on_summary">Manter o ecrã ligado ao ver uma entrada</string>
+    <string name="show_entry_colors_title">Cores da entrada</string>
+    <string name="error_move_group_here">Não se pode mover um grupo para aqui.</string>
+    <string name="content_description_database_color">Cor da base de dados</string>
+    <string name="content_description_entry_foreground_color">Cor do primeiro plano da página inicial</string>
+    <string name="content_description_entry_background_color">Cor do fundo da página inicial</string>
 </resources>
