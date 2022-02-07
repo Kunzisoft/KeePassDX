@@ -666,6 +666,7 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: "")
             searchFiltersView?.enableOther(mDatabase?.allowEntryCustomFields() ?: false)
             searchFiltersView?.enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
+            searchFiltersView?.enableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
             searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
             toolbarBreadcrumb?.navigationIcon = null
         } else {

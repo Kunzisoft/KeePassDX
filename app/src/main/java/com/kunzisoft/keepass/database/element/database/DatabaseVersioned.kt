@@ -325,14 +325,6 @@ abstract class DatabaseVersioned<
 
     abstract fun isInRecycleBin(group: Group): Boolean
 
-    fun isGroupSearchable(group: Group?, omitRecycleBin: Boolean): Boolean {
-        if (group == null)
-            return false
-        if (omitRecycleBin && isInRecycleBin(group))
-            return false
-        return true
-    }
-
     fun clearIconsCache() {
         iconsManager.doForEachCustomIcon { _, binary ->
             try {

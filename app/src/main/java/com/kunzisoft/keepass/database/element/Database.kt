@@ -62,7 +62,6 @@ import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import java.io.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class Database {
@@ -782,10 +781,23 @@ class Database {
         }
     }
 
-    fun isGroupSearchable(group: Group, omitRecycleBin: Boolean): Boolean {
-        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, omitRecycleBin) ?:
-        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, omitRecycleBin) ?:
-        false
+    fun groupIsInRecycleBin(group: Group): Boolean {
+        val groupKDB = group.groupKDB
+        val groupKDBX = group.groupKDBX
+        if (groupKDB != null) {
+            return mDatabaseKDB?.isInRecycleBin(groupKDB) ?: false
+        } else if (groupKDBX != null) {
+            return mDatabaseKDBX?.isInRecycleBin(groupKDBX) ?: false
+        }
+        return false
+    }
+
+    fun groupIsInTemplates(group: Group): Boolean {
+        val groupKDBX = group.groupKDBX
+        if (groupKDBX != null) {
+            return mDatabaseKDBX?.getTemplatesGroup() == groupKDBX
+        }
+        return false
     }
 
     fun createVirtualGroupFromSearch(searchParameters: SearchParameters,
@@ -809,8 +821,10 @@ class Database {
                     searchInOther = true
                     searchInUUIDs = false
                     searchInTags = false
-                    searchInTemplates = false
+                    searchInCurrentGroup = false
+                    searchInSearchableGroup = true
                     searchInRecycleBin = false
+                    searchInTemplates = false
                 }, null, max)
     }
 
@@ -1240,6 +1254,10 @@ class Database {
      * @return true if database allows custom field
      */
     fun allowEntryCustomFields(): Boolean {
+        return mDatabaseKDBX != null
+    }
+
+    fun allowCustomSearchableGroup(): Boolean {
         return mDatabaseKDBX != null
     }
 
