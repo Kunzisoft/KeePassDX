@@ -440,6 +440,20 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             groupKDBX?.enableSearching = value
         }
 
+    fun isSearchable(): Boolean {
+        val parenGroup = parent
+        val searchableGroup = searchable
+        if (searchableGroup == null) {
+            if (parenGroup == null)
+                return true
+            else
+                parenGroup.isSearchable()
+        } else if (searchableGroup) {
+            return true
+        }
+        return false
+    }
+
     var enableAutoType: Boolean?
         get() = groupKDBX?.enableAutoType
         set(value) {

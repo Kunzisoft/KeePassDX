@@ -42,6 +42,7 @@ class SearchParameters() : Parcelable{
     var searchInTags = false
 
     var searchInCurrentGroup = false
+    var searchInSearchableGroup = true
     var searchInRecycleBin = false
     var searchInTemplates = false
 
@@ -59,6 +60,7 @@ class SearchParameters() : Parcelable{
         searchInUUIDs = parcel.readByte() != 0.toByte()
         searchInTags = parcel.readByte() != 0.toByte()
         searchInCurrentGroup = parcel.readByte() != 0.toByte()
+        searchInSearchableGroup = parcel.readByte() != 0.toByte()
         searchInRecycleBin = parcel.readByte() != 0.toByte()
         searchInTemplates = parcel.readByte() != 0.toByte()
     }
@@ -77,6 +79,7 @@ class SearchParameters() : Parcelable{
         parcel.writeByte(if (searchInUUIDs) 1 else 0)
         parcel.writeByte(if (searchInTags) 1 else 0)
         parcel.writeByte(if (searchInCurrentGroup) 1 else 0)
+        parcel.writeByte(if (searchInSearchableGroup) 1 else 0)
         parcel.writeByte(if (searchInRecycleBin) 1 else 0)
         parcel.writeByte(if (searchInTemplates) 1 else 0)
     }

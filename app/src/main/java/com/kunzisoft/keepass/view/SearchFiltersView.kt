@@ -34,6 +34,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchOther: CompoundButton
     private var searchUUID: CompoundButton
     private var searchTag: CompoundButton
+    private var searchGroupSearchable: CompoundButton
     private var searchRecycleBin: CompoundButton
     private var searchTemplate: CompoundButton
 
@@ -72,6 +73,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchOther.isChecked = value.searchInOther
             searchUUID.isChecked = value.searchInUUIDs
             searchTag.isChecked = value.searchInTags
+            searchGroupSearchable.isChecked = value.searchInRecycleBin
             searchRecycleBin.isChecked = value.searchInRecycleBin
             searchTemplate.isChecked = value.searchInTemplates
             mOnParametersChangeListener = tempListener
@@ -109,6 +111,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchUUID = findViewById(R.id.search_chip_uuid)
         searchOther = findViewById(R.id.search_chip_other)
         searchTag = findViewById(R.id.search_chip_tag)
+        searchGroupSearchable = findViewById(R.id.search_chip_group_searchable)
         searchRecycleBin = findViewById(R.id.search_chip_recycle_bin)
         searchTemplate = findViewById(R.id.search_chip_template)
 
@@ -169,6 +172,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.searchInTags = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
+        searchGroupSearchable.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.searchInSearchableGroup = isChecked
+            mOnParametersChangeListener?.invoke(searchParameters)
+        }
         searchRecycleBin.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInRecycleBin = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
@@ -198,6 +205,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
     fun enableTags(enable: Boolean) {
         searchTag.isEnabled = enable
+    }
+
+    fun enableSearchableGroup(enable: Boolean) {
+        searchGroupSearchable.isEnabled = enable
     }
 
     fun enableTemplates(enable: Boolean) {
