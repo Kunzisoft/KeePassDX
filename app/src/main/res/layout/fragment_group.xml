@@ -143,17 +143,19 @@
 				android:layout_height="wrap_content"
 				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 
-			<!-- Auto-type -->
+			<!-- TODO Auto-type -->
 			<androidx.appcompat.widget.AppCompatTextView
 				android:id="@+id/group_auto_type_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/auto_type"
+				android:visibility="gone"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 			<androidx.appcompat.widget.AppCompatTextView
 				android:id="@+id/group_auto_type"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:visibility="gone"
 				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 
 			<!-- UUID -->

@@ -65,6 +65,7 @@
 			android:id="@+id/group_edit_expiration"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content" />
+		<!-- TODO Auto-type -->
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/group_edit_searchable_container"
 			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
@@ -80,6 +81,7 @@
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/group_edit_auto_type_inherited_container"
 			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
+			android:visibility="gone"
 			android:hint="@string/auto_type"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
@@ -91,6 +93,7 @@
 		</com.google.android.material.textfield.TextInputLayout>
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/group_edit_auto_type_sequence_container"
+			android:visibility="gone"
 			android:hint="@string/auto_type_sequence"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
