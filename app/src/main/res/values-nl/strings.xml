@@ -34,7 +34,7 @@
     <string name="file_manager_install_description">Bestandsbeheer dat de Intent-actie ACTION_CREATE_DOCUMENT en ACTION_OPEN_DOCUMENT accepteert, is nodig om databasebestanden aan te maken, te openen en op te slaan.</string>
     <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Time-out van het klembord</string>
-    <string name="clipboard_timeout_summary">Tijd van opslag op het klembord (indien ondersteund op dit apparaat)</string>
+    <string name="clipboard_timeout_summary">Duur van opslag op het klembord (indien ondersteund op dit apparaat)</string>
     <string name="select_to_copy">Selecteer om %1$s naar klembord te kopiëren</string>
     <string name="retrieving_db_key">Databasesleutel ophalen…</string>
     <string name="database">Database</string>
@@ -288,8 +288,8 @@
     <string name="contribute">Bijdragen</string>
     <string name="style_choose_title">App-thema</string>
     <string name="style_choose_summary">Thema gebruikt in de app</string>
-    <string name="icon_pack_choose_title">Icon pack</string>
-    <string name="icon_pack_choose_summary">Gebruikt Icon Pack</string>
+    <string name="icon_pack_choose_title">Pictogrammenpakket</string>
+    <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -410,8 +410,8 @@
     <string name="autofill_auto_search_summary">Automatisch zoekresultaten voorstellen vanuit het webdomein of de toepassings-ID</string>
     <string name="autofill_auto_search_title">Automatisch zoeken</string>
     <string name="recycle_bin_group_title">Prullenbak</string>
-    <string name="lock_database_show_button_summary">Geef de vergrendelknop weer in de gebruikersinterface</string>
-    <string name="lock_database_show_button_title">Vergrendelknop weergeven</string>
+    <string name="lock_database_show_button_summary">Toont de vergrendelknop in de gebruikersinterface</string>
+    <string name="lock_database_show_button_title">Vergrendelknop tonen</string>
     <string name="autofill_preference_title">Instellingen voor automatisch aanvullen</string>
     <string name="keystore_not_accessible">De sleutelopslag is niet correct geïnitialiseerd.</string>
     <string name="warning_permanently_delete_nodes">Geselecteerde knooppunten definitief verwijderen\?</string>
@@ -475,7 +475,7 @@
     <string name="data">Gegevens</string>
     <string name="database_data_remove_unlinked_attachments_title">Niet-gekoppelde gegevens verwijderen</string>
     <string name="database_data_remove_unlinked_attachments_summary">Verwijdert bijlagen die in de database staan, maar niet aan een item zijn gekoppeld</string>
-    <string name="show_uuid_summary">Geeft de UUID weer die is gekoppeld aan een item of een groep</string>
+    <string name="show_uuid_summary">Toont de UUID die is gekoppeld aan een item of een groep</string>
     <string name="show_uuid_title">UUID tonen</string>
     <string name="autofill_read_only_save">Het opslaan van gegevens is niet toegestaan voor een database die is geopend als alleen-lezen.</string>
     <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer een formulier is gevalideerd</string>
@@ -567,8 +567,8 @@
     <string name="id_card">Identiteitskaart</string>
     <string name="personal_identification_number">Pincode</string>
     <string name="holder">Kaarthouder</string>
-    <string name="show_otp_token_summary">Geeft OTP-tokens weer in de lijst met items</string>
-    <string name="show_otp_token_title">OTP-token weergeven</string>
+    <string name="show_otp_token_summary">Toont OTP-tokens in de lijst met items</string>
+    <string name="show_otp_token_title">OTP-token tonen</string>
     <string name="autofill_manual_selection_summary">Toon optie om de gebruiker een database-item te laten selecteren</string>
     <string name="autofill_manual_selection_title">Handmatige selectie</string>
     <string name="templates">Sjablonen</string>
@@ -616,6 +616,6 @@
     <string name="enable_keep_screen_on_title">Houd het scherm aan</string>
     <string name="enable_keep_screen_on_summary">Houd het scherm aan bij het bekijken van een item</string>
     <string name="show_entry_colors_title">Itemkleuren</string>
-    <string name="show_entry_colors_summary">Geeft voorgrond- en achtergrondkleuren weer in een item</string>
+    <string name="show_entry_colors_summary">Toont voorgrond- en achtergrondkleuren in een item</string>
     <string name="wireless">Wi-Fi</string>
 </resources>
