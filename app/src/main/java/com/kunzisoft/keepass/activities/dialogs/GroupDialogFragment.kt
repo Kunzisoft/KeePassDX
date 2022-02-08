@@ -53,7 +53,9 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var expirationView: DateTimeFieldView
     private lateinit var creationView: TextView
     private lateinit var modificationView: TextView
+    private lateinit var searchableLabelView: TextView
     private lateinit var searchableView: TextView
+    private lateinit var autoTypeLabelView: TextView
     private lateinit var autoTypeView: TextView
     private lateinit var uuidContainerView: ViewGroup
     private lateinit var uuidReferenceView: TextView
@@ -64,6 +66,25 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconView, mGroupInfo.icon)
+
+        if (database?.allowCustomSearchableGroup() == true) {
+            searchableLabelView.visibility = View.VISIBLE
+            searchableView.visibility = View.VISIBLE
+        } else {
+            searchableLabelView.visibility = View.GONE
+            searchableView.visibility = View.GONE
+        }
+
+        // TODO Auto-Type
+        /*
+        if (database?.allowAutoType() == true) {
+            autoTypeLabelView.visibility = View.VISIBLE
+            autoTypeView.visibility = View.VISIBLE
+        } else {
+            autoTypeLabelView.visibility = View.GONE
+            autoTypeView.visibility = View.GONE
+        }
+         */
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -77,7 +98,9 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             expirationView = root.findViewById(R.id.group_expiration)
             creationView = root.findViewById(R.id.group_created)
             modificationView = root.findViewById(R.id.group_modified)
+            searchableLabelView = root.findViewById(R.id.group_searchable_label)
             searchableView = root.findViewById(R.id.group_searchable)
+            autoTypeLabelView = root.findViewById(R.id.group_auto_type_label)
             autoTypeView = root.findViewById(R.id.group_auto_type)
             uuidContainerView = root.findViewById(R.id.group_UUID_container)
             uuidReferenceView = root.findViewById(R.id.group_UUID_reference)
