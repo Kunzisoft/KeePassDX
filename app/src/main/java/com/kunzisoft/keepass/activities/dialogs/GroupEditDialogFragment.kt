@@ -23,6 +23,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
@@ -57,9 +58,12 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
     private lateinit var notesTextLayoutView: TextInputLayout
     private lateinit var notesTextView: TextView
     private lateinit var expirationView: DateTimeEditFieldView
+    private lateinit var searchableContainerView: TextInputLayout
     private lateinit var searchableView: InheritedCompletionView
+    private lateinit var autoTypeContainerView: ViewGroup
     private lateinit var autoTypeInheritedView: InheritedCompletionView
     private lateinit var autoTypeSequenceView: TextView
+    private lateinit var tagsContainerView: TextInputLayout
     private lateinit var tagsCompletionView: TagsCompletionView
     private var tagsAdapter: FilteredArrayAdapter<String>? = null
 
@@ -120,10 +124,27 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         }
         mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
 
+        searchableContainerView.visibility = if (database?.allowCustomSearchableGroup() == true) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+
+        if (database?.allowAutoType() == true) {
+            autoTypeContainerView.visibility = View.VISIBLE
+        } else {
+            autoTypeContainerView.visibility = View.GONE
+        }
+
         tagsAdapter = TagsProposalAdapter(requireContext(), database?.tagPool)
         tagsCompletionView.apply {
             threshold = 1
             setAdapter(tagsAdapter)
+        }
+        tagsContainerView.visibility = if (database?.allowTags() == true) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 
@@ -136,9 +157,12 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             notesTextLayoutView = root.findViewById(R.id.group_edit_note_container)
             notesTextView = root.findViewById(R.id.group_edit_note)
             expirationView = root.findViewById(R.id.group_edit_expiration)
+            searchableContainerView = root.findViewById(R.id.group_edit_searchable_container)
             searchableView = root.findViewById(R.id.group_edit_searchable)
+            autoTypeContainerView = root.findViewById(R.id.group_edit_auto_type_container)
             autoTypeInheritedView = root.findViewById(R.id.group_edit_auto_type_inherited)
             autoTypeSequenceView = root.findViewById(R.id.group_edit_auto_type_sequence)
+            tagsContainerView = root.findViewById(R.id.group_tags_label)
             tagsCompletionView = root.findViewById(R.id.group_tags_completion_view)
 
             // Retrieve the textColor to tint the icon

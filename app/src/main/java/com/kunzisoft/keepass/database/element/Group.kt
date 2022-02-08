@@ -435,7 +435,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     }
 
     var searchable: Boolean?
-        get() = groupKDBX?.enableSearching
+        get() = if (groupKDB != null) true else groupKDBX?.enableSearching
         set(value) {
             groupKDBX?.enableSearching = value
         }

@@ -1261,6 +1261,14 @@ class Database {
         return mDatabaseKDBX != null
     }
 
+    fun allowAutoType(): Boolean {
+        return mDatabaseKDBX != null
+    }
+
+    fun allowTags(): Boolean {
+        return mDatabaseKDBX != null
+    }
+
     /**
      * Remove oldest history for each entry if more than max items or max memory
      */
