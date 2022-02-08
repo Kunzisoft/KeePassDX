@@ -70,15 +70,18 @@ class SearchHelper {
                 },
                 object : NodeHandler<Group>() {
                     override fun operate(node: Group): Boolean {
-                        val inRecycleBin = database.groupIsInRecycleBin(node)
-                        val inTemplates = database.groupIsInTemplates(node)
-                        return when {
-                            incrementEntry >= max -> false
-                            searchParameters.searchInRecycleBin -> inRecycleBin
-                            searchParameters.searchInTemplates -> inTemplates
-                            (allowSearchable && searchParameters.searchInSearchableGroup) -> node.isSearchable()
-                            else -> !inRecycleBin && !inTemplates
-                        }
+                        return if (incrementEntry >= max)
+                            false
+                        else if (database.groupIsInRecycleBin(node))
+                            searchParameters.searchInRecycleBin
+                        else if (database.groupIsInTemplates(node))
+                            searchParameters.searchInTemplates
+                        else if (!allowSearchable)
+                            true
+                        else if (searchParameters.searchInSearchableGroup)
+                            node.isSearchable()
+                        else
+                            true
                     }
                 },
                 false)
@@ -100,7 +103,7 @@ class SearchHelper {
     }
 
     companion object {
-        const val MAX_SEARCH_ENTRY = 500
+        const val MAX_SEARCH_ENTRY = 1000
 
         /**
          * Method to show the number of search results with max results
