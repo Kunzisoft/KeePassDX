@@ -104,6 +104,7 @@ def room_version = "2.4.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "com.android.support:multidex:1.0.3"
     implementation "androidx.appcompat:appcompat:$android_appcompat_version"
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.cardview:cardview:1.0.0'
