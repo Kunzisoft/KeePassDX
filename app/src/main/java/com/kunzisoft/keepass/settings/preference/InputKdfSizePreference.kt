@@ -30,7 +30,7 @@ class InputKdfSizePreference @JvmOverloads constructor(context: Context,
                                                        defStyleRes: Int = defStyleAttr)
     : InputKdfNumberPreference(context, attrs, defStyleAttr, defStyleRes) {
 
-    override fun setSummary(summary: CharSequence) {
+    override fun setSummary(summary: CharSequence?) {
         if (summary == UNKNOWN_VALUE_STRING) {
             super.setSummary(summary)
         } else {

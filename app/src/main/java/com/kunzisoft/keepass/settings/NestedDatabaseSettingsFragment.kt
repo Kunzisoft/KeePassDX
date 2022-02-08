@@ -155,18 +155,22 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Database name
         dbNamePref = findPreference(getString(R.string.database_name_key))
-        if (database.allowName) {
-            dbNamePref?.summary = database.name
-        } else {
-            dbGeneralPrefCategory?.removePreference(dbNamePref)
+        dbNamePref?.let { namePreference ->
+            if (database.allowName) {
+                namePreference.summary = database.name
+            } else {
+                dbGeneralPrefCategory?.removePreference(namePreference)
+            }
         }
 
         // Database description
         dbDescriptionPref = findPreference(getString(R.string.database_description_key))
-        if (database.allowDescription) {
-            dbDescriptionPref?.summary = database.description
-        } else {
-            dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
+        dbDescriptionPref?.let { descriptionPreference ->
+            if (database.allowDescription) {
+                dbDescriptionPref?.summary = database.description
+            } else {
+                dbGeneralPrefCategory?.removePreference(descriptionPreference)
+            }
         }
 
         // Database default username
@@ -355,7 +359,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         try {
@@ -565,13 +569,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
+    override fun onDisplayPreferenceDialog(preference: Preference) {
 
         var otherDialogFragment = false
 
         var dialogFragment: DialogFragment? = null
         // Main Preferences
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.database_name_key) -> {
                 dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.key)
             }
@@ -687,9 +691,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
         // To reload group when database settings are modified
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.database_name_key),
             getString(R.string.database_description_key),
             getString(R.string.database_default_username_key),

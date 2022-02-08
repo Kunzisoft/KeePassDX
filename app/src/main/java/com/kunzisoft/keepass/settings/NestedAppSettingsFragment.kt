@@ -437,9 +437,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
         // To reload group when appearance settings are modified
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.setting_style_key),
             getString(R.string.setting_style_brightness_key),
             getString(R.string.setting_icon_pack_choose_key),
@@ -459,13 +459,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         return super.onPreferenceTreeClick(preference)
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
+    override fun onDisplayPreferenceDialog(preference: Preference) {
 
         var otherDialogFragment = false
 
         var dialogFragment: DialogFragment? = null
         // Main Preferences
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.app_timeout_key),
             getString(R.string.clipboard_timeout_key),
             getString(R.string.temp_advanced_unlock_timeout_key) -> {

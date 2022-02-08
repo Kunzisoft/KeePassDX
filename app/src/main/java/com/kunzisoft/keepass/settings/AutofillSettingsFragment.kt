@@ -41,12 +41,12 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
+    override fun onDisplayPreferenceDialog(preference: Preference) {
         var otherDialogFragment = false
 
         var dialogFragment: DialogFragment? = null
 
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.autofill_application_id_blocklist_key) -> {
                 dialogFragment = AutofillBlocklistAppIdPreferenceDialogFragmentCompat.newInstance(preference.key)
             }

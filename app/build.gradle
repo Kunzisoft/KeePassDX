@@ -106,7 +106,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.android.support:multidex:1.0.3"
     implementation "androidx.appcompat:appcompat:$android_appcompat_version"
-    implementation 'androidx.preference:preference-ktx:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
@@ -115,7 +115,7 @@ dependencies {
     implementation 'androidx.media:media:1.4.3'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
-    implementation 'androidx.fragment:fragment-ktx:1.4.0'
+    implementation 'androidx.fragment:fragment-ktx:1.4.1'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
     // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed

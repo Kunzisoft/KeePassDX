@@ -34,13 +34,13 @@ class MagikeyboardSettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences_keyboard, rootKey)
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
+    override fun onDisplayPreferenceDialog(preference: Preference) {
 
         var otherDialogFragment = false
 
         var dialogFragment: DialogFragment? = null
         // Main Preferences
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.keyboard_entry_timeout_key) -> {
                 dialogFragment = DurationDialogFragmentCompat.newInstance(preference.key)
             }
