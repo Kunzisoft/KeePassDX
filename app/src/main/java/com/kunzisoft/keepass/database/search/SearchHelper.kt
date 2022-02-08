@@ -47,13 +47,14 @@ class SearchHelper {
         // Search all entries
         incrementEntry = 0
 
-        val allowSearchable = database.allowCustomSearchableGroup()
+        val allowCustomSearchable = database.allowCustomSearchableGroup()
         val startGroup = if (searchParameters.searchInCurrentGroup && fromGroup != null) {
             database.getGroupById(fromGroup) ?: database.rootGroup
         } else {
             database.rootGroup
         }
-        startGroup?.doForEachChild(
+        if (groupConditions(database, startGroup, searchParameters, allowCustomSearchable, max)) {
+            startGroup?.doForEachChild(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
@@ -70,24 +71,41 @@ class SearchHelper {
                 },
                 object : NodeHandler<Group>() {
                     override fun operate(node: Group): Boolean {
-                        return if (incrementEntry >= max)
-                            false
-                        else if (database.groupIsInRecycleBin(node))
-                            searchParameters.searchInRecycleBin
-                        else if (database.groupIsInTemplates(node))
-                            searchParameters.searchInTemplates
-                        else if (!allowSearchable)
-                            true
-                        else if (searchParameters.searchInSearchableGroup)
-                            node.isSearchable()
-                        else
-                            true
+                        return groupConditions(database,
+                            node,
+                            searchParameters,
+                            allowCustomSearchable,
+                            max
+                        )
                     }
                 },
-                false)
+                false
+            )
+        }
 
         searchGroup?.refreshNumberOfChildEntries()
         return searchGroup
+    }
+
+    private fun groupConditions(database: Database,
+                                group: Group?,
+                                searchParameters: SearchParameters,
+                                allowCustomSearchable: Boolean,
+                                max: Int): Boolean {
+        return if (group == null)
+            false
+        else if (incrementEntry >= max)
+            false
+        else if (database.groupIsInRecycleBin(group))
+            searchParameters.searchInRecycleBin
+        else if (database.groupIsInTemplates(group))
+            searchParameters.searchInTemplates
+        else if (!allowCustomSearchable)
+            true
+        else if (searchParameters.searchInSearchableGroup)
+            group.isSearchable()
+        else
+            true
     }
 
     private fun entryContainsString(database: Database,
