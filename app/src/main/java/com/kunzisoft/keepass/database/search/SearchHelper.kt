@@ -47,6 +47,7 @@ class SearchHelper {
         // Search all entries
         incrementEntry = 0
 
+        val allowSearchable = database.allowCustomSearchableGroup()
         val startGroup = if (searchParameters.searchInCurrentGroup && fromGroup != null) {
             database.getGroupById(fromGroup) ?: database.rootGroup
         } else {
@@ -69,12 +70,14 @@ class SearchHelper {
                 },
                 object : NodeHandler<Group>() {
                     override fun operate(node: Group): Boolean {
+                        val inRecycleBin = database.groupIsInRecycleBin(node)
+                        val inTemplates = database.groupIsInTemplates(node)
                         return when {
                             incrementEntry >= max -> false
-                            searchParameters.searchInRecycleBin -> database.groupIsInRecycleBin(node)
-                            searchParameters.searchInTemplates -> database.groupIsInTemplates(node)
-                            searchParameters.searchInSearchableGroup -> node.isSearchable()
-                            else -> true
+                            searchParameters.searchInRecycleBin -> inRecycleBin
+                            searchParameters.searchInTemplates -> inTemplates
+                            (allowSearchable && searchParameters.searchInSearchableGroup) -> node.isSearchable()
+                            else -> !inRecycleBin && !inTemplates
                         }
                     }
                 },

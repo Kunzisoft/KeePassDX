@@ -9,6 +9,7 @@ import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
@@ -199,16 +200,24 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun enableOther(enable: Boolean) {
-        searchOther.isEnabled = enable
+    fun availableOther(available: Boolean) {
+        searchOther.isVisible = available
+    }
+
+    fun availableTags(available: Boolean) {
+        searchTag.isVisible = available
     }
 
     fun enableTags(enable: Boolean) {
         searchTag.isEnabled = enable
     }
 
-    fun enableSearchableGroup(enable: Boolean) {
-        searchGroupSearchable.isEnabled = enable
+    fun availableSearchableGroup(available: Boolean) {
+        searchGroupSearchable.isVisible = available
+    }
+
+    fun availableTemplates(available: Boolean) {
+        searchTemplate.isVisible = available
     }
 
     fun enableTemplates(enable: Boolean) {

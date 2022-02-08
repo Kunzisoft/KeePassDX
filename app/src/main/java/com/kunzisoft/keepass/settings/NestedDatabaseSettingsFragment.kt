@@ -238,7 +238,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         // Templates
         val templatesGroupPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_templates_key))
         templatesGroupPref = findPreference(getString(R.string.templates_group_uuid_key))
-        if (database.allowConfigurableTemplatesGroup) {
+        if (database.allowTemplatesGroup) {
             val templatesEnablePref: SwitchPreference? = findPreference(getString(R.string.templates_group_enable_key))
             templatesEnablePref?.apply {
                 isChecked = database.isTemplatesEnabled

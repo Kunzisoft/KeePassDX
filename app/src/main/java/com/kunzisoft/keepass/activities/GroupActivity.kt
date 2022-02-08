@@ -664,9 +664,11 @@ class GroupActivity : DatabaseLockActivity(),
         if (group?.isVirtual == true) {
             searchFiltersView?.setNumbers(group.numberOfChildEntries)
             searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: "")
-            searchFiltersView?.enableOther(mDatabase?.allowEntryCustomFields() ?: false)
+            searchFiltersView?.availableOther(mDatabase?.allowEntryCustomFields() ?: false)
+            searchFiltersView?.availableTags(mDatabase?.allowTags() ?: false)
             searchFiltersView?.enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
-            searchFiltersView?.enableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
+            searchFiltersView?.availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
+            searchFiltersView?.availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
             searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
             toolbarBreadcrumb?.navigationIcon = null
         } else {

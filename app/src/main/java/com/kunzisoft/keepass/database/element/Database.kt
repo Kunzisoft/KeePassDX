@@ -495,7 +495,7 @@ class Database {
      * Determine if a configurable templates group is available or not for this version of database
      * @return true if a configurable templates group available
      */
-    val allowConfigurableTemplatesGroup: Boolean
+    val allowTemplatesGroup: Boolean
         get() = mDatabaseKDBX != null
 
     // Maybe another templates method with KDBX5
