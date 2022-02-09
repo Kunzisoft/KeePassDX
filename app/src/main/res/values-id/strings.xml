@@ -12,7 +12,7 @@
     <string name="menu_showpass">Tampilkan Kata Sandi</string>
     <string name="menu_search">Cari</string>
     <string name="menu_open">Buka</string>
-    <string name="menu_save_database">Simpan Basisdata</string>
+    <string name="menu_save_database">Simpan Database</string>
     <string name="menu_lock">Basisdata Terkunci</string>
     <string name="menu_hide_password">Sembunyikan Kata Sandi</string>
     <string name="menu_cancel">Batal</string>
@@ -41,7 +41,7 @@
     <string name="list_size_title">Ukuran daftar item</string>
     <string name="list_groups_show_number_entries_summary">Tampilkan jumlah entri dalam sebuah grup</string>
     <string name="list_groups_show_number_entries_title">Tampilkan jumlah entri</string>
-    <string name="list_entries_show_username_summary">Tampilkan nama pengguna dalam daftar entri</string>
+    <string name="list_entries_show_username_summary">Tampilkan nama pengguna di daftar entri</string>
     <string name="list_entries_show_username_title">Tampilkan nama pengguna</string>
     <string name="length">Panjangnya</string>
     <string name="keyfile_is_empty">File Kunci kosong.</string>
@@ -300,7 +300,7 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
-    <string name="show_uuid_summary">Menampilkan UUID yang ditautkan ke entri</string>
+    <string name="show_uuid_summary">Tampilkan UUID yang ditautkan ke entri atau grup</string>
     <string name="warning_password_encoding">Hindari karakter kata sandi di luar format pengkodean teks dalam file database (karakter yang tidak dikenal dikonversi ke huruf yang sama).</string>
     <string name="uppercase">Huruf besar</string>
     <string name="sort_creation_time">Penciptaan</string>
@@ -315,7 +315,7 @@
     <string name="save_mode">Mode simpan</string>
     <string name="search_mode">Mode pencarian</string>
     <string name="menu_keystore_remove_key">Hapus pembuka kunci lanjutan</string>
-    <string name="menu_reload_database">Muat ulang database</string>
+    <string name="menu_reload_database">Muat ulang data</string>
     <string name="error_database_uri_null">URI database tidak dapat diambil.</string>
     <string name="error_field_name_already_exists">Nama bidang sudah ada.</string>
     <string name="error_registration_read_only">Menyimpan item baru tidak diperbolehkan dalam database read-only</string>
@@ -401,7 +401,7 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Buka basisdata dengan pengenalan pembuka kunci tingkat lanjut</string>
     <string name="advanced_unlock_prompt_store_credential_message">Peringatan: Anda tetap harus mengingat kata sandi induk Anda jika Anda menggunakan pengenalan pembukaan kunci tingkat lanjut.</string>
     <string name="warning_database_revoked">Akses ke berkas dicabut oleh pengelola berkas, tutup basisdata dan buka kembali dari lokasi tempatnya.</string>
-    <string name="warning_database_info_changed_options">Timpa modifikasi eksternal dengan cara menyimpan basisdata atau muat balik dengan perubahan terakhir.</string>
+    <string name="warning_database_info_changed_options">Gabungkan data, timpa perubahan dengan cara menyimpan database atau muat ulang dengan perubahan terbaru.</string>
     <string name="warning_database_info_changed">Informasi yang tersimpan di berkas basisdata Anda sudah diubah di luar aplikasi.</string>
     <string name="warning_no_encryption_key">Lanjut tanpa kunci enkripsi\?</string>
     <string name="warning_empty_password">Lanjut tanpa proteksi buka kunci dengan kata sandi\?</string>
@@ -500,7 +500,7 @@
     <string name="allow_copy_password_warning">Peringatan: Papan klip dipakai oleh semua aplikasi. Jika data sensitif disalin, perangkat lunak lain mungkin dapat mendapatkannya.</string>
     <string name="education_lock_summary">Kunci basis data Anda dengan cepat, Anda bisa mengatur aplikasi untuk mengunci sendiri setelah beberapa saat dan ketika layar berubah mati.</string>
     <string name="education_sort_summary">Pilih bagaimana entri dan grup diurut.</string>
-    <string name="warning_exact_alarm">Anda belum mengizinkan aplikasi untuk menggunakan alarm yang tepat. Sebagai hasilnya, fitur yang membutuhkan pewaktu tidak akan dilakukan dengan waktu yang tepat.</string>
+    <string name="warning_exact_alarm">Anda belum mengizinkan aplikasi untuk menggunakan alarm. Sebagai hasilnya, fitur yang membutuhkan timer tidak bisa dilakukan tepat waktu.</string>
     <string name="permission">Izin</string>
     <string name="settings_database_recommend_changing_master_key_title">Rekomendasi pembaruan</string>
     <string name="settings_database_recommend_changing_master_key_summary">Rekomendasi mengubah kunci utama (hari)</string>
@@ -534,4 +534,12 @@
     <string name="html_text_dev_feature_buy_pro">Dengan membeli versi <strong>pro</strong>,</string>
     <string name="content_description_database_color">Warna basis data</string>
     <string name="menu_merge_database">Gabung data</string>
+    <string name="warning_database_info_reloaded">Memuat ulang database akan menghapus data yang diubah secara lokal.</string>
+    <string name="warning_keyfile_integrity">Hash file tidak terjamin karena Android dapat mengubah datanya saat itu juga. Ubah ekstensi file menjadi .bin agar integritas bisa dihasilkan secara tepat.</string>
+    <string name="content_description_entry_foreground_color">Warna latar depan entri</string>
+    <string name="content_description_entry_background_color">Warna latar belakang entri</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="tags">Label</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Buka penguncian lanjutan untuk menyimpan kredensial</string>
+    <string name="warning_permanently_delete_nodes">Hapus permanen node yang dipilih\?</string>
 </resources>
