@@ -268,7 +268,7 @@
     <string name="error_load_database">No se pudo cargar la base de datos.</string>
     <string name="error_load_database_KDF_memory">No se pudo cargar la clave. Intente disminuir el uso de memoria de KDF.</string>
     <string name="list_entries_show_username_title">Enseña nombres de usuario</string>
-    <string name="list_entries_show_username_summary">Enseña nombres de usuador en las listras de entradas</string>
+    <string name="list_entries_show_username_summary">Muestra los nombres de usuario en las listas de entrada</string>
     <string name="menu_copy">Copiar</string>
     <string name="menu_move">Mover</string>
     <string name="menu_paste">Pegar</string>
@@ -327,10 +327,10 @@
     <string name="entry_add_field">Añadir campo</string>
     <string name="content_description_remove_field">Eliminar el campo</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">No puede mover una entrada aquí.</string>
+    <string name="error_move_entry_here">No se puede mover una entrada aquí.</string>
     <string name="error_copy_entry_here">No puede copiar una entrada aquí.</string>
     <string name="list_groups_show_number_entries_title">Mostrar el número de entradas</string>
-    <string name="list_groups_show_number_entries_summary">Mostrar el número de entradas en un grupo</string>
+    <string name="list_groups_show_number_entries_summary">Muestra el número de entradas de un grupo</string>
     <string name="content_description_background">Fondo</string>
     <string name="content_description_update_from_list">Actualizar</string>
     <string name="content_description_keyboard_close_fields">Cerrar campos</string>
@@ -400,7 +400,7 @@
     <string name="contains_duplicate_uuid">La base de datos contiene UUIDs duplicados.</string>
     <string name="menu_restore_entry_history">Restaurar historial</string>
     <string name="menu_empty_recycle_bin">Vaciar papelera de reciclaje</string>
-    <string name="menu_save_database">Guardar base de datos</string>
+    <string name="menu_save_database">Guardar datos</string>
     <string name="creating_database">Creando base de datos…</string>
     <string name="invalid_db_same_uuid">%1$s con la misma UUID %2$s ya existe.</string>
     <string name="error_label_exists">Esta etiqueta ya existe.</string>
@@ -462,7 +462,7 @@
     <string name="advanced_unlock_prompt_not_initialized">No se pudo inicializar el indicador de desbloqueo avanzado.</string>
     <string name="advanced_unlock_scanning_error">Error de desbloqueo avanzado: %1$s</string>
     <string name="advanced_unlock_not_recognized">No se pudo reconocer la impresión de desbloqueo avanzado</string>
-    <string name="advanced_unlock_invalid_key">No se pudo leer la llave de desbloqueo avanzada. Por favor, bórrela y repita el procedimiento de reconocimiento de desbloqueo.</string>
+    <string name="advanced_unlock_invalid_key">No se puede leer la clave de desbloqueo avanzada. Por favor, bórrela y repita el procedimiento de reconocimiento del desbloqueo.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraer la credencial de la base de datos con datos de desbloqueo avanzado</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Abrir la base de datos con reconocimiento de desbloqueo avanzado</string>
     <string name="advanced_unlock_prompt_store_credential_message">Advertencia: Aún debes recordar tu contraseña maestra si usas el reconocimiento de desbloqueo avanzado.</string>
@@ -537,9 +537,9 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="autofill_inline_suggestions_title">Sugerencias en línea</string>
-    <string name="warning_database_info_changed_options">Sobrescribir las modificaciones externas guardando la base de datos o recargándola con los últimos cambios.</string>
+    <string name="warning_database_info_changed_options">Fusionar los datos, sobrescribir las modificaciones externas guardando la base de datos o recargarla con los últimos cambios.</string>
     <string name="warning_database_info_changed">La información contenida en su archivo de base de datos ha sido modificada fuera de la aplicación.</string>
-    <string name="menu_reload_database">Recargar la base de datos</string>
+    <string name="menu_reload_database">Recargar datos</string>
     <string name="error_otp_type">El tipo de OTP existente no es reconocido por este formulario, su validación ya no puede generar correctamente el token.</string>
     <string name="download_canceled">¡Cancelado!</string>
     <string name="error_duplicate_file">Los datos del archivo ya existen.</string>
@@ -610,4 +610,12 @@
     <string name="content_description_database_color">Color de la base de datos</string>
     <string name="content_description_entry_foreground_color">Color de primer plano de la entrada</string>
     <string name="content_description_entry_background_color">Color de fondo de la entrada</string>
+    <string name="tags">Etiquetas</string>
+    <string name="warning_database_info_reloaded">La recarga de la base de datos borrará los datos modificados localmente.</string>
+    <string name="warning_keyfile_integrity">El hash del archivo no está garantizado porque Android puede cambiar sus datos sobre la marcha. Cambia la extensión del archivo a .bin para una correcta integridad.</string>
+    <string name="enable_keep_screen_on_title">Mantener la pantalla encendida</string>
+    <string name="enable_keep_screen_on_summary">Mantenga la pantalla encendida cuando vea la entrada</string>
+    <string name="show_entry_colors_summary">Muestra los colores de primer y segundo plano en una entrada</string>
+    <string name="show_entry_colors_title">Colores de entrada</string>
+    <string name="menu_merge_database">Fusionar datos</string>
 </resources>
