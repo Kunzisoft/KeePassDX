@@ -33,7 +33,6 @@ import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
-import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
@@ -43,6 +42,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -343,13 +343,13 @@ class DatabaseTaskProvider {
     fun startDatabaseLoad(databaseUri: Uri,
                           mainCredential: MainCredential,
                           readOnly: Boolean,
-                          cipherEntity: CipherDatabaseEntity?,
+                          cipherEncryptDatabase: CipherEncryptDatabase?,
                           fixDuplicateUuid: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
             putBoolean(DatabaseTaskNotificationService.READ_ONLY_KEY, readOnly)
-            putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
+            putParcelable(DatabaseTaskNotificationService.CIPHER_DATABASE_KEY, cipherEncryptDatabase)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
                 , ACTION_DATABASE_LOAD_TASK)

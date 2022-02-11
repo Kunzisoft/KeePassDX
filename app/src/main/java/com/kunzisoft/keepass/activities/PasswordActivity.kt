@@ -26,14 +26,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.view.*
-import android.view.KeyEvent.KEYCODE_ENTER
-import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -44,10 +44,11 @@ import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
-import com.kunzisoft.keepass.activities.helpers.*
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
+import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
@@ -55,11 +56,9 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.model.MainCredential
-import com.kunzisoft.keepass.model.RegisterInfo
-import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_DATABASE_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
@@ -68,7 +67,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.KeyFileSelectionView
+import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
@@ -80,11 +79,8 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     // Views
     private var toolbar: Toolbar? = null
     private var filenameView: TextView? = null
-    private var passwordView: EditText? = null
-    private var keyFileSelectionView: KeyFileSelectionView? = null
+    private var mainCredentialView: MainCredentialView? = null
     private var confirmButtonView: Button? = null
-    private var checkboxPasswordView: CompoundButton? = null
-    private var checkboxKeyFileView: CompoundButton? = null
     private var infoContainerView: ViewGroup? = null
     private lateinit var coordinatorLayout: CoordinatorLayout
     private var advancedUnlockFragment: AdvancedUnlockFragment? = null
@@ -94,7 +90,6 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
     private var mDefaultDatabase: Boolean = false
     private var mDatabaseFileUri: Uri? = null
-    private var mDatabaseKeyFileUri: Uri? = null
 
     private var mRememberKeyFile: Boolean = false
     private var mExternalFileHelper: ExternalFileHelper? = null
@@ -118,12 +113,9 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
-        passwordView = findViewById(R.id.password)
-        keyFileSelectionView = findViewById(R.id.keyfile_selection)
-        checkboxPasswordView = findViewById(R.id.password_checkbox)
-        checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
+        mainCredentialView = findViewById(R.id.activity_password_credentials)
+        confirmButtonView = findViewById(R.id.activity_password_open_button)
         infoContainerView = findViewById(R.id.activity_password_info_container)
         coordinatorLayout = findViewById(R.id.activity_password_coordinator_layout)
 
@@ -137,38 +129,16 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
         mExternalFileHelper?.buildOpenDocument { uri ->
             if (uri != null) {
-                mDatabaseKeyFileUri = uri
-                populateKeyFileTextView(uri)
+                mainCredentialView?.populateKeyFileTextView(uri)
             }
         }
-        keyFileSelectionView?.setOpenDocumentClickListener(mExternalFileHelper)
-
-        passwordView?.setOnEditorActionListener(onEditorActionListener)
-        passwordView?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun afterTextChanged(editable: Editable) {
-                if (editable.toString().isNotEmpty() && checkboxPasswordView?.isChecked != true)
-                    checkboxPasswordView?.isChecked = true
-            }
-        })
-        passwordView?.setOnKeyListener { _, _, keyEvent ->
-            var handled = false
-            if (keyEvent.action == KeyEvent.ACTION_DOWN
-                && keyEvent?.keyCode == KEYCODE_ENTER) {
-                verifyCheckboxesAndLoadDatabase()
-                handled = true
-            }
-            handled
+        mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
+        mainCredentialView?.onValidateListener = {
+            loadDatabase()
         }
 
         // If is a view intent
         getUriFromIntent(intent)
-        if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
-            mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
-        }
 
         // Init Biometric elements
         advancedUnlockFragment = supportFragmentManager
@@ -183,10 +153,11 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         }
 
         // Listen password checkbox to init advanced unlock and confirmation button
-        checkboxPasswordView?.setOnCheckedChangeListener { _, _ ->
-            mAdvancedUnlockViewModel.checkUnlockAvailability()
-            enableOrNotTheConfirmationButton()
-        }
+        mainCredentialView?.onPasswordChecked =
+            CompoundButton.OnCheckedChangeListener { _, _ ->
+                mAdvancedUnlockViewModel.checkUnlockAvailability()
+                enableConfirmationButton()
+            }
 
         // Observe if default database
         mDatabaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
@@ -211,12 +182,13 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             invalidateOptionsMenu()
 
             // Post init uri with KeyFile only if needed
+            val databaseKeyFileUri = mainCredentialView?.getMainCredential()?.keyFileUri
             val keyFileUri =
                     if (mRememberKeyFile
-                            && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {
+                            && (databaseKeyFileUri == null || databaseKeyFileUri.toString().isEmpty())) {
                         databaseFile?.keyFileUri
                     } else {
-                        mDatabaseKeyFileUri
+                        databaseKeyFileUri
                     }
 
             // Define title
@@ -271,7 +243,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
                 if (result.isSuccess) {
                     launchGroupActivityIfLoaded(database)
                 } else {
-                    passwordView?.requestFocusFromTouch()
+                    mainCredentialView?.requestPasswordFocus()
 
                     var resultError = ""
                     val resultException = result.exception
@@ -288,7 +260,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
                                     var databaseUri: Uri? = null
                                     var mainCredential = MainCredential()
                                     var readOnly = true
-                                    var cipherEntity: CipherDatabaseEntity? = null
+                                    var cipherEncryptDatabase: CipherEncryptDatabase? = null
 
                                     result.data?.let { resultData ->
                                         databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
@@ -296,8 +268,8 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
                                             resultData.getParcelable(MAIN_CREDENTIAL_KEY)
                                                 ?: mainCredential
                                         readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                        cipherEntity =
-                                            resultData.getParcelable(CIPHER_ENTITY_KEY)
+                                        cipherEncryptDatabase =
+                                            resultData.getParcelable(CIPHER_DATABASE_KEY)
                                     }
 
                                     databaseUri?.let { databaseFileUri ->
@@ -305,7 +277,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
                                             databaseFileUri,
                                             mainCredential,
                                             readOnly,
-                                            cipherEntity,
+                                            cipherEncryptDatabase,
                                             true
                                         )
                                     }
@@ -341,11 +313,16 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         if (action != null
                 && action == VIEW_INTENT) {
             mDatabaseFileUri = intent.data
-            mDatabaseKeyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
+            mainCredentialView?.populateKeyFileTextView(UriUtil.getUriFromIntent(intent, KEY_KEYFILE))
         } else {
             mDatabaseFileUri = intent?.getParcelableExtra(KEY_FILENAME)
-            mDatabaseKeyFileUri = intent?.getParcelableExtra(KEY_KEYFILE)
+            intent?.getParcelableExtra<Uri?>(KEY_KEYFILE)?.let {
+                mainCredentialView?.populateKeyFileTextView(it)
+            }
         }
+        try {
+            intent?.removeExtra(KEY_KEYFILE)
+        } catch (e: Exception) {}
         mDatabaseFileUri?.let {
             mDatabaseFileViewModel.checkIfIsDefaultDatabase(it)
         }
@@ -380,51 +357,68 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         finish()
     }
 
-    override fun retrieveCredentialForEncryption(): String {
-        return passwordView?.text?.toString() ?: ""
+    override fun retrieveCredentialForEncryption(): ByteArray {
+        return mainCredentialView?.retrieveCredentialForStorage(credentialStorageListener)
+            ?: byteArrayOf()
     }
 
     override fun conditionToStoreCredential(): Boolean {
-        return checkboxPasswordView?.isChecked == true
+        return mainCredentialView?.conditionToStoreCredential() == true
     }
 
-    override fun onCredentialEncrypted(databaseUri: Uri,
-                                       encryptedCredential: String,
-                                       ivSpec: String) {
+    override fun onCredentialEncrypted(cipherEncryptDatabase: CipherEncryptDatabase) {
         // Load the database if password is registered with biometric
-        verifyCheckboxesAndLoadDatabase(
-                CipherDatabaseEntity(
-                        databaseUri.toString(),
-                        encryptedCredential,
-                        ivSpec)
+        loadDatabase(mDatabaseFileUri,
+            mainCredentialView?.getMainCredential(),
+            cipherEncryptDatabase
         )
     }
 
-    override fun onCredentialDecrypted(databaseUri: Uri,
-                                       decryptedCredential: String) {
-        // Load the database if password is retrieve from biometric
-        // Retrieve from biometric
-        verifyKeyFileCheckboxAndLoadDatabase(decryptedCredential)
+    private val credentialStorageListener = object: MainCredentialView.CredentialStorageListener {
+        override fun passwordToStore(password: String?): ByteArray? {
+            return password?.toByteArray()
+        }
+
+        override fun keyfileToStore(keyfile: Uri?): ByteArray? {
+            // TODO create byte array to store keyfile
+            return null
+        }
+
+        override fun hardwareKeyToStore(): ByteArray? {
+            // TODO create byte array to store hardware key
+            return null
+        }
     }
 
-    private val onEditorActionListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == IME_ACTION_DONE) {
-                verifyCheckboxesAndLoadDatabase()
-                return true
+    override fun onCredentialDecrypted(cipherDecryptDatabase: CipherDecryptDatabase) {
+        // Load the database if password is retrieve from biometric
+        // Retrieve from biometric
+        val mainCredential = mainCredentialView?.getMainCredential() ?: MainCredential()
+        when (cipherDecryptDatabase.credentialStorage) {
+            CredentialStorage.PASSWORD -> {
+                mainCredential.masterPassword = String(cipherDecryptDatabase.decryptedValue)
             }
-            return false
+            CredentialStorage.KEY_FILE -> {
+                // TODO advanced unlock key file
+            }
+            CredentialStorage.HARDWARE_KEY -> {
+                // TODO advanced unlock hardware key
+            }
         }
+        loadDatabase(mDatabaseFileUri,
+            mainCredential,
+            null
+        )
     }
 
     private fun onDatabaseFileLoaded(databaseFileUri: Uri?, keyFileUri: Uri?) {
         // Define Key File text
         if (mRememberKeyFile) {
-            populateKeyFileTextView(keyFileUri)
+            mainCredentialView?.populateKeyFileTextView(keyFileUri)
         }
 
         // Define listener for validate button
-        confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
+        confirmButtonView?.setOnClickListener { loadDatabase() }
 
         // If Activity is launch with a password and want to open directly
         val intent = intent
@@ -433,66 +427,33 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         intent.removeExtra(KEY_PASSWORD)
         val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
         if (password != null) {
-            populatePasswordTextView(password)
+            mainCredentialView?.populatePasswordTextView(password)
         }
         if (launchImmediately) {
-            verifyCheckboxesAndLoadDatabase(password, keyFileUri)
+            loadDatabase()
         } else {
             // Init Biometric elements
             mAdvancedUnlockViewModel.databaseFileLoaded(databaseFileUri)
         }
 
-        enableOrNotTheConfirmationButton()
+        enableConfirmationButton()
 
-        // Auto select the password field and open keyboard
-        passwordView?.postDelayed({
-            passwordView?.requestFocusFromTouch()
-            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager?
-            inputMethodManager?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
-        }, 100)
+        mainCredentialView?.focusPasswordFieldAndOpenKeyboard()
     }
 
-    private fun enableOrNotTheConfirmationButton() {
+    private fun enableConfirmationButton() {
         // Enable or not the open button if setting is checked
         if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
-            checkboxPasswordView?.let {
-                confirmButtonView?.isEnabled = (checkboxPasswordView?.isChecked == true
-                        || checkboxKeyFileView?.isChecked == true)
-            }
+            confirmButtonView?.isEnabled = mainCredentialView?.isFill() ?: false
         } else {
             confirmButtonView?.isEnabled = true
         }
     }
 
     private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile) {
-        populatePasswordTextView(null)
+        mainCredentialView?.populatePasswordTextView(null)
         if (clearKeyFile) {
-            mDatabaseKeyFileUri = null
-            populateKeyFileTextView(null)
-        }
-    }
-
-    private fun populatePasswordTextView(text: String?) {
-        if (text == null || text.isEmpty()) {
-            passwordView?.setText("")
-            if (checkboxPasswordView?.isChecked == true)
-                checkboxPasswordView?.isChecked = false
-        } else {
-            passwordView?.setText(text)
-            if (checkboxPasswordView?.isChecked != true)
-                checkboxPasswordView?.isChecked = true
-        }
-    }
-
-    private fun populateKeyFileTextView(uri: Uri?) {
-        if (uri == null || uri.toString().isEmpty()) {
-            keyFileSelectionView?.uri = null
-            if (checkboxKeyFileView?.isChecked == true)
-                checkboxKeyFileView?.isChecked = false
-        } else {
-            keyFileSelectionView?.uri = uri
-            if (checkboxKeyFileView?.isChecked != true)
-                checkboxKeyFileView?.isChecked = true
+            mainCredentialView?.populateKeyFileTextView(null)
         }
     }
 
@@ -504,41 +465,20 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mDatabaseKeyFileUri?.let {
-            outState.putString(KEY_KEYFILE, it.toString())
-        }
         outState.putBoolean(KEY_READ_ONLY, mReadOnly)
         super.onSaveInstanceState(outState)
     }
 
-    private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
-        val password: String? = passwordView?.text?.toString()
-        val keyFile: Uri? = keyFileSelectionView?.uri
-        verifyCheckboxesAndLoadDatabase(password, keyFile, cipherDatabaseEntity)
-    }
-
-    private fun verifyCheckboxesAndLoadDatabase(password: String?,
-                                                keyFile: Uri?,
-                                                cipherDatabaseEntity: CipherDatabaseEntity? = null) {
-        val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
-        verifyKeyFileCheckbox(keyFile)
-        loadDatabase(mDatabaseFileUri, keyPassword, mDatabaseKeyFileUri, cipherDatabaseEntity)
-    }
-
-    private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
-        val keyFile: Uri? = keyFileSelectionView?.uri
-        verifyKeyFileCheckbox(keyFile)
-        loadDatabase(mDatabaseFileUri, password, mDatabaseKeyFileUri)
-    }
-
-    private fun verifyKeyFileCheckbox(keyFile: Uri?) {
-        mDatabaseKeyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+    private fun loadDatabase() {
+        loadDatabase(mDatabaseFileUri,
+            mainCredentialView?.getMainCredential(),
+            null
+        )
     }
 
     private fun loadDatabase(databaseFileUri: Uri?,
-                             password: String?,
-                             keyFileUri: Uri?,
-                             cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+                             mainCredential: MainCredential?,
+                             cipherEncryptDatabase: CipherEncryptDatabase?) {
 
         if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
             clearCredentialsViews()
@@ -556,11 +496,12 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             databaseFileUri?.let { databaseUri ->
                 // Show the progress dialog and load the database
                 showProgressDialogAndLoadDatabase(
-                        databaseUri,
-                        MainCredential(password, keyFileUri),
-                        mReadOnly,
-                        cipherDatabaseEntity,
-                        false)
+                    databaseUri,
+                    mainCredential ?: MainCredential(),
+                    mReadOnly,
+                    cipherEncryptDatabase,
+                    false
+                )
             }
         }
     }
@@ -568,14 +509,14 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
                                                   mainCredential: MainCredential,
                                                   readOnly: Boolean,
-                                                  cipherDatabaseEntity: CipherDatabaseEntity?,
+                                                  cipherEncryptDatabase: CipherEncryptDatabase?,
                                                   fixDuplicateUUID: Boolean) {
         loadDatabase(
-                databaseUri,
-                mainCredential,
-                readOnly,
-                cipherDatabaseEntity,
-                fixDuplicateUUID
+            databaseUri,
+            mainCredential,
+            readOnly,
+            cipherEncryptDatabase,
+            fixDuplicateUUID
         )
     }
 
