@@ -245,8 +245,8 @@
     <string name="menu_save_database">Save data</string>
     <string name="menu_merge_database">Merge data</string>
     <string name="menu_reload_database">Reload data</string>
-    <string name="menu_merge_from">Merge from file</string>
-    <string name="menu_save_to">Save to file</string>
+    <string name="menu_merge_from">Merge from …</string>
+    <string name="menu_save_copy_to">Save a copy to …</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
