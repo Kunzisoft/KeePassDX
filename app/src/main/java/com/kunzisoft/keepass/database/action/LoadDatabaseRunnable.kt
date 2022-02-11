@@ -22,12 +22,11 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
-import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -39,7 +38,7 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mUri: Uri,
                            private val mMainCredential: MainCredential,
                            private val mReadonly: Boolean,
-                           private val mCipherEntity: CipherDatabaseEntity?,
+                           private val mCipherEncryptDatabase: CipherEncryptDatabase?,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
                            private val mLoadDatabaseResult: ((Result) -> Unit)?)
@@ -76,9 +75,9 @@ class LoadDatabaseRunnable(private val context: Context,
             }
 
             // Register the biometric
-            mCipherEntity?.let { cipherDatabaseEntity ->
+            mCipherEncryptDatabase?.let { cipherDatabase ->
                 CipherDatabaseAction.getInstance(context)
-                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) // return value not called
+                        .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
             }
 
             // Register the current time to init the lock timer
