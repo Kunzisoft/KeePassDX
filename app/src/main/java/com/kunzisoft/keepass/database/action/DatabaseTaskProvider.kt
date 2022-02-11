@@ -84,7 +84,6 @@ import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
@@ -356,9 +355,11 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
-    fun startDatabaseMerge(fixDuplicateUuid: Boolean) {
+    fun startDatabaseMerge(fromDatabaseUri: Uri? = null) {
         start(Bundle().apply {
-            putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
+            if (fromDatabaseUri != null) {
+                putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
+            }
         }
             , ACTION_DATABASE_MERGE_TASK)
     }
@@ -693,9 +694,12 @@ class DatabaseTaskProvider {
     /**
      * Save Database without parameter
      */
-    fun startDatabaseSave(save: Boolean) {
+    fun startDatabaseSave(save: Boolean, saveToUri: Uri? = null) {
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+            if (saveToUri != null) {
+                putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
+            }
         }
                 , ACTION_DATABASE_SAVE)
     }

@@ -22,7 +22,10 @@ package com.kunzisoft.keepass.services
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.Binder
+import android.os.Build
+import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
@@ -44,11 +47,13 @@ import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
+import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
@@ -226,7 +231,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
-            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(database)
+            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(intent, database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
@@ -606,10 +611,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseMergeActionTask(database: Database): ActionRunnable {
+    private fun buildDatabaseMergeActionTask(intent: Intent, database: Database): ActionRunnable {
+        var databaseToMergeUri: Uri? = null
+        if (intent.hasExtra(DATABASE_URI_KEY)) {
+            databaseToMergeUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+        }
+
         return MergeDatabaseRunnable(
             this,
             database,
+            databaseToMergeUri,
             this
         ) { result ->
             // No need to add each info to reload database
@@ -911,9 +922,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      */
     private fun buildDatabaseSave(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+
+            var databaseCopyUri: Uri? = null
+            if (intent.hasExtra(DATABASE_URI_KEY)) {
+                databaseCopyUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+            }
+
             SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                databaseCopyUri)
         } else {
             null
         }

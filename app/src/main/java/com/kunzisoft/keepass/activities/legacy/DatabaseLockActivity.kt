@@ -88,8 +88,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
-        mDatabaseViewModel.mergeDatabase.observe(this) { fixDuplicateUuid ->
-            mDatabaseTaskProvider?.startDatabaseMerge(fixDuplicateUuid)
+        mDatabaseViewModel.mergeDatabase.observe(this) {
+            mDatabaseTaskProvider?.startDatabaseMerge()
         }
 
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
@@ -263,8 +263,16 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseSave(true)
     }
 
+    fun saveDatabaseTo(uri: Uri) {
+        mDatabaseTaskProvider?.startDatabaseSave(true, uri)
+    }
+
     fun mergeDatabase() {
-        mDatabaseTaskProvider?.startDatabaseMerge(false)
+        mDatabaseTaskProvider?.startDatabaseMerge()
+    }
+
+    fun mergeDatabaseFrom(uri: Uri) {
+        mDatabaseTaskProvider?.startDatabaseMerge(uri)
     }
 
     fun reloadDatabase() {

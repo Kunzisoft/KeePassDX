@@ -671,7 +671,8 @@ class Database {
     }
 
     @Throws(LoadDatabaseException::class)
-    fun mergeData(contentResolver: ContentResolver,
+    fun mergeData(databaseToMergeUri: Uri?,
+                  contentResolver: ContentResolver,
                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
                   progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -681,7 +682,7 @@ class Database {
 
         // New database instance to get new changes
         val databaseToMerge = Database()
-        databaseToMerge.fileUri = this.fileUri
+        databaseToMerge.fileUri = databaseToMergeUri ?: this.fileUri
 
         try {
             databaseToMerge.fileUri?.let { databaseUri ->
@@ -867,64 +868,63 @@ class Database {
     }
 
     @Throws(DatabaseOutputException::class)
-    fun saveData(contentResolver: ContentResolver) {
+    fun saveData(uri: Uri?, contentResolver: ContentResolver) {
         try {
-            this.fileUri?.let {
-                saveData(contentResolver, it)
+            (uri ?: this.fileUri)?.let { saveUri ->
+                if (saveUri.scheme == "file") {
+                    saveUri.path?.let { filename ->
+                        val tempFile = File("$filename.tmp")
+
+                        var fileOutputStream: FileOutputStream? = null
+                        try {
+                            fileOutputStream = FileOutputStream(tempFile)
+                            val pmo = mDatabaseKDB?.let { DatabaseOutputKDB(it, fileOutputStream) }
+                                ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, fileOutputStream) }
+                            pmo?.output()
+                        } catch (e: Exception) {
+                            throw IOException(e)
+                        } finally {
+                            fileOutputStream?.close()
+                        }
+
+                        // Force data to disk before continuing
+                        try {
+                            fileOutputStream?.fd?.sync()
+                        } catch (e: SyncFailedException) {
+                            // Ignore if fsync fails. We tried.
+                        }
+
+                        if (!tempFile.renameTo(File(filename))) {
+                            throw IOException()
+                        }
+                    }
+                } else {
+                    var outputStream: OutputStream? = null
+                    try {
+                        outputStream = contentResolver.openOutputStream(saveUri, "rwt")
+                        outputStream?.let { definedOutputStream ->
+                            val databaseOutput =
+                                mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
+                                    ?: mDatabaseKDBX?.let {
+                                        DatabaseOutputKDBX(
+                                            it,
+                                            definedOutputStream
+                                        )
+                                    }
+                            databaseOutput?.output()
+                        }
+                    } catch (e: Exception) {
+                        throw IOException(e)
+                    } finally {
+                        outputStream?.close()
+                    }
+                }
+                this.dataModifiedSinceLastLoading = false
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to save database", e)
             throw DatabaseOutputException(e)
         }
-    }
-
-    @Throws(IOException::class, DatabaseOutputException::class)
-    private fun saveData(contentResolver: ContentResolver, uri: Uri) {
-
-        if (uri.scheme == "file") {
-            uri.path?.let { filename ->
-                val tempFile = File("$filename.tmp")
-
-                var fileOutputStream: FileOutputStream? = null
-                try {
-                    fileOutputStream = FileOutputStream(tempFile)
-                    val pmo = mDatabaseKDB?.let { DatabaseOutputKDB(it, fileOutputStream) }
-                            ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, fileOutputStream) }
-                    pmo?.output()
-                } catch (e: Exception) {
-                    throw IOException(e)
-                } finally {
-                    fileOutputStream?.close()
-                }
-
-                // Force data to disk before continuing
-                try {
-                    fileOutputStream?.fd?.sync()
-                } catch (e: SyncFailedException) {
-                    // Ignore if fsync fails. We tried.
-                }
-    
-                if (!tempFile.renameTo(File(filename))) {
-                    throw IOException()
-                }
-            }
-        } else {
-            var outputStream: OutputStream? = null
-            try {
-                outputStream = contentResolver.openOutputStream(uri, "rwt")
-                outputStream?.let { definedOutputStream ->
-                    val databaseOutput = mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
-                                    ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, definedOutputStream) }
-                    databaseOutput?.output()
-                }
-            } catch (e: Exception) {
-                throw IOException(e)
-            } finally {
-                outputStream?.close()
-            }
-        }
-        this.fileUri = uri
-        this.dataModifiedSinceLastLoading = false
     }
 
     fun clearIndexesAndBinaries(filesDirectory: File? = null) {

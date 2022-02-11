@@ -20,17 +20,17 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.Context
+import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.element.binary.LoadedKey
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UriUtil
 
 class MergeDatabaseRunnable(private val context: Context,
                             private val mDatabase: Database,
+                            private val mDatabaseToMergeUri: Uri?,
                             private val progressTaskUpdater: ProgressTaskUpdater?,
                             private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
@@ -41,7 +41,7 @@ class MergeDatabaseRunnable(private val context: Context,
 
     override fun onActionRun() {
         try {
-            mDatabase.mergeData(context.contentResolver,
+            mDatabase.mergeData(mDatabaseToMergeUri, context.contentResolver,
                     { memoryWanted ->
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },

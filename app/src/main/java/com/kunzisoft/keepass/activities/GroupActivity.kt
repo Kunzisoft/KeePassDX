@@ -51,6 +51,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
@@ -122,6 +123,9 @@ class GroupActivity : DatabaseLockActivity(),
     private var mRequestStartupSearch = true
 
     private var actionNodeMode: ActionMode? = null
+
+    // Manage merge
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     // Manage group
     private var mSearchState: SearchState? = null
@@ -253,6 +257,19 @@ class GroupActivity : DatabaseLockActivity(),
         drawerLayout?.addDrawerListener(toggle)
         toggle.syncState()
 
+        // Manage 'merge from" and "save to"
+        mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            uri?.let {
+                mergeDatabaseFrom(it)
+            }
+        }
+        mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
+            uri?.let {
+                saveDatabaseTo(it)
+            }
+        }
+
         // Menu in drawer
         databaseNavView?.apply {
             inflateMenu(R.menu.settings)
@@ -263,6 +280,15 @@ class GroupActivity : DatabaseLockActivity(),
                     R.id.menu_app_settings -> {
                         // To avoid flickering when launch settings in a LockingActivity
                         SettingsActivity.launch(this@GroupActivity, true)
+                    }
+                    R.id.menu_merge_from -> {
+                        mExternalFileHelper?.openDocument()
+                    }
+                    R.id.menu_save_copy_to -> {
+                        mExternalFileHelper?.createDocument(
+                            getString(R.string.database_file_name_default) +
+                            getString(R.string.database_file_name_copy) +
+                                    getString(R.string.database_file_extension_default))
                     }
                     R.id.menu_contribute -> {
                         UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)
