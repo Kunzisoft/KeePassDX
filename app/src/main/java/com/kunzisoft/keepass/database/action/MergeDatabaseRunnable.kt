@@ -41,7 +41,7 @@ class MergeDatabaseRunnable(private val context: Context,
 
     override fun onActionRun() {
         try {
-            mDatabase.mergeData(mDatabaseToMergeUri, context.contentResolver,
+            mDatabase.mergeData(mDatabaseToMergeUri, null, context.contentResolver,
                     { memoryWanted ->
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },

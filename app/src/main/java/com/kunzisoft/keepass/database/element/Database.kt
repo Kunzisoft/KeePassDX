@@ -634,9 +634,13 @@ class Database {
                         }
                         DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
-                                mainCredential.masterPassword,
-                                keyFileInputStream,
-                                progressTaskUpdater)
+                                progressTaskUpdater
+                            ) {
+                                databaseKDB.retrieveMasterKey(
+                                    mainCredential.masterPassword,
+                                    keyFileInputStream
+                                )
+                            }
                         databaseKDB
                     },
                     { databaseInputStream ->
@@ -647,9 +651,12 @@ class Database {
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream,
-                                mainCredential.masterPassword,
-                                keyFileInputStream,
-                                progressTaskUpdater)
+                                progressTaskUpdater) {
+                                databaseKDBX.retrieveMasterKey(
+                                    mainCredential.masterPassword,
+                                    keyFileInputStream,
+                                )
+                            }
                         }
                         databaseKDBX
                     }
@@ -672,6 +679,7 @@ class Database {
 
     @Throws(LoadDatabaseException::class)
     fun mergeData(databaseToMergeUri: Uri?,
+                  databaseToMergeMainCredential: MainCredential?,
                   contentResolver: ContentResolver,
                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
                   progressTaskUpdater: ProgressTaskUpdater?) {
@@ -684,26 +692,45 @@ class Database {
         val databaseToMerge = Database()
         databaseToMerge.fileUri = databaseToMergeUri ?: this.fileUri
 
+        // Pass KeyFile Uri as InputStreams
+        var keyFileInputStream: InputStream? = null
         try {
             databaseToMerge.fileUri?.let { databaseUri ->
 
                 val databaseKDB = DatabaseKDB()
                 val databaseKDBX = DatabaseKDBX()
 
+                if (databaseToMergeMainCredential != null) {
+                    // Get keyFile inputStream
+                    databaseToMergeMainCredential.keyFileUri?.let { keyFile ->
+                        keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyFile)
+                    }
+                }
+
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
                         DatabaseInputKDB(databaseKDB)
-                            .openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            .openDatabase(databaseInputStream, progressTaskUpdater) {
+                                if (databaseToMergeMainCredential != null) {
+                                    databaseKDB.retrieveMasterKey(
+                                        databaseToMergeMainCredential.masterPassword,
+                                        keyFileInputStream,
+                                    )
+                                }
+                            }
                         databaseKDB
                     },
                     { databaseInputStream ->
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            openDatabase(databaseInputStream, progressTaskUpdater) {
+                                if (databaseToMergeMainCredential != null) {
+                                    databaseKDBX.retrieveMasterKey(
+                                        databaseToMergeMainCredential.masterPassword,
+                                        keyFileInputStream,
+                                    )
+                                }
+                            }
                         }
                         databaseKDBX
                     }
@@ -730,6 +757,7 @@ class Database {
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
+            keyFileInputStream?.close()
             databaseToMerge.clearAndClose()
         }
     }
@@ -749,9 +777,9 @@ class Database {
                             databaseKDB.binaryCache = it.binaryCache
                         }
                         DatabaseInputKDB(databaseKDB)
-                            .openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            .openDatabase(databaseInputStream, progressTaskUpdater) {
+                                databaseKDB.masterKey = masterKey
+                            }
                         databaseKDB
                     },
                     { databaseInputStream ->
@@ -761,9 +789,9 @@ class Database {
                         }
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            openDatabase(databaseInputStream, progressTaskUpdater) {
+                                databaseKDBX.masterKey = masterKey
+                            }
                         }
                         databaseKDBX
                     }
