@@ -19,16 +19,18 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_app_settings"
-        android:icon="@drawable/ic_settings_white_24dp"
-        android:title="@string/settings"
-        android:orderInCategory="91"
-        app:iconTint="?attr/colorControlNormal"
-        app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_about"
-        android:icon="@drawable/ic_help_white_24dp"
-        android:title="@string/about"
-        android:orderInCategory="101"
-        app:iconTint="?attr/colorControlNormal"
-        app:showAsAction="ifRoom" />
+    <group android:id="@+id/group_merge">
+        <item android:id="@+id/menu_merge_from_database"
+            android:icon="@drawable/ic_merge_white_24dp"
+            android:title="@string/menu_merge_from"
+            android:orderInCategory="80"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
+        <item android:id="@+id/menu_merge_from_xml"
+            android:icon="@drawable/ic_saving_white_24dp"
+            android:title="@string/menu_save_to"
+            android:orderInCategory="81"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
+    </group>
 </menu>

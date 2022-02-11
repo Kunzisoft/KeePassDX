@@ -66,7 +66,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.changeControlColor
@@ -370,7 +369,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onCreateOptionsMenu(menu)
         if (mEntryLoaded) {
             val inflater = menuInflater
-            MenuUtil.contributionMenuInflater(inflater, menu)
 
             inflater.inflate(R.menu.entry, menu)
             inflater.inflate(R.menu.database, menu)
@@ -443,10 +441,6 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> {
-                MenuUtil.onContributionItemSelected(this)
-                return true
-            }
             R.id.menu_edit -> {
                 mDatabase?.let { database ->
                     mMainEntryId?.let { entryId ->

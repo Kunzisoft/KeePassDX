@@ -36,14 +36,21 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
@@ -68,13 +75,15 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
+
 
 class GroupActivity : DatabaseLockActivity(),
         DatePickerDialog.OnDateSetListener,
@@ -86,6 +95,13 @@ class GroupActivity : DatabaseLockActivity(),
         SortDialogFragment.SortSelectionListener {
 
     // Views
+    private var drawerLayout: DrawerLayout? = null
+    private var databaseNavView: NavigationView? = null
+    private var databaseNavContainerView: View? = null
+    private var databaseNavIconView: ImageView? = null
+    private var databaseNavColorView: ImageView? = null
+    private var databaseNavNameView: TextView? = null
+    private var databaseNavVersionView: TextView? = null
     private var rootContainerView: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
@@ -101,6 +117,8 @@ class GroupActivity : DatabaseLockActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var breadcrumbListView: RecyclerView? = null
     private var loadingView: ProgressBar? = null
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
@@ -215,6 +233,13 @@ class GroupActivity : DatabaseLockActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        drawerLayout = findViewById(R.id.drawer_layout)
+        databaseNavView = findViewById(R.id.database_nav_view)
+        databaseNavContainerView = databaseNavView?.getHeaderView(0)
+        databaseNavIconView = databaseNavContainerView?.findViewById(R.id.nav_database_icon)
+        databaseNavColorView = databaseNavContainerView?.findViewById(R.id.nav_database_color)
+        databaseNavNameView = databaseNavContainerView?.findViewById(R.id.nav_database_name)
+        databaseNavVersionView = databaseNavContainerView?.findViewById(R.id.nav_database_version)
         rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
@@ -236,6 +261,35 @@ class GroupActivity : DatabaseLockActivity(),
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout?.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Menu in drawer
+        databaseNavView?.apply {
+            inflateMenu(R.menu.settings)
+            inflateMenu(R.menu.database_extra)
+            inflateMenu(R.menu.about)
+            setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.menu_app_settings -> {
+                        // To avoid flickering when launch settings in a LockingActivity
+                        SettingsActivity.launch(this@GroupActivity, true)
+                    }
+                    R.id.menu_contribute -> {
+                        UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)
+                    }
+                    R.id.menu_about -> {
+                        startActivity(Intent(this@GroupActivity, AboutActivity::class.java))
+                    }
+                }
+                false
+            }
+        }
 
         searchFiltersView?.closeAdvancedFilters()
 
@@ -512,15 +566,22 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Search suggestion
         database?.let {
-            databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
+            val databaseName = it.name.ifEmpty { getString(R.string.database) }
+            databaseNavNameView?.text = databaseName
+            databaseNameView?.text = databaseName
+            databaseNavVersionView?.text = it.version
             val customColor = it.customColor
             if (customColor != null) {
+                databaseNavColorView?.drawable?.colorFilter = BlendModeColorFilterCompat
+                    .createBlendModeColorFilterCompat(customColor, BlendModeCompat.SRC_IN)
+                databaseNavColorView?.visibility = View.VISIBLE
                 databaseColorView?.visibility = View.VISIBLE
                 databaseColorView?.setColorFilter(
                     customColor,
                     PorterDuff.Mode.SRC_IN
                 )
             } else {
+                databaseNavColorView?.visibility = View.GONE
                 databaseColorView?.visibility = View.GONE
             }
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
@@ -1060,9 +1121,7 @@ class GroupActivity : DatabaseLockActivity(),
         if (!mMergeDataAllowed) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
         }
-        if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(inflater, menu)
-        } else {
+        if (mSpecialMode != SpecialMode.DEFAULT) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
             menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
@@ -1174,7 +1233,7 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // TODO change database
+                drawerLayout?.openDrawer(GravityCompat.START)
                 return true
             }
             R.id.menu_search -> {
@@ -1203,8 +1262,6 @@ class GroupActivity : DatabaseLockActivity(),
                 return true
             }
             else -> {
-                // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true)
                 return super.onOptionsItemSelected(item)
             }
         }

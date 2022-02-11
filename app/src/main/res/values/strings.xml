@@ -61,6 +61,9 @@
     <string name="content_description_database_color">Database color</string>
     <string name="content_description_entry_foreground_color">Entry foreground color</string>
     <string name="content_description_entry_background_color">Entry background color</string>
+    <string name="content_description_nav_header">Navigation header</string>
+    <string name="navigation_drawer_open">Navigation drawer open</string>
+    <string name="navigation_drawer_close">Navigation drawer close</string>
     <string name="validate">Validate</string>
     <string name="discard_changes">Discard changes?</string>
     <string name="discard">Discard</string>
@@ -242,6 +245,8 @@
     <string name="menu_save_database">Save data</string>
     <string name="menu_merge_database">Merge data</string>
     <string name="menu_reload_database">Reload data</string>
+    <string name="menu_merge_from">Merge from file</string>
+    <string name="menu_save_to">Save to file</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
