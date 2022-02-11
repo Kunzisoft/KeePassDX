@@ -42,15 +42,11 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.navigation.NavigationView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
@@ -96,12 +92,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Views
     private var drawerLayout: DrawerLayout? = null
-    private var databaseNavView: NavigationView? = null
-    private var databaseNavContainerView: View? = null
-    private var databaseNavIconView: ImageView? = null
-    private var databaseNavColorView: ImageView? = null
-    private var databaseNavNameView: TextView? = null
-    private var databaseNavVersionView: TextView? = null
+    private var databaseNavView: NavigationDatabaseView? = null
     private var rootContainerView: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
@@ -117,8 +108,6 @@ class GroupActivity : DatabaseLockActivity(),
     private var addNodeButtonView: AddNodeButtonView? = null
     private var breadcrumbListView: RecyclerView? = null
     private var loadingView: ProgressBar? = null
-
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
@@ -235,11 +224,6 @@ class GroupActivity : DatabaseLockActivity(),
         // Initialize views
         drawerLayout = findViewById(R.id.drawer_layout)
         databaseNavView = findViewById(R.id.database_nav_view)
-        databaseNavContainerView = databaseNavView?.getHeaderView(0)
-        databaseNavIconView = databaseNavContainerView?.findViewById(R.id.nav_database_icon)
-        databaseNavColorView = databaseNavContainerView?.findViewById(R.id.nav_database_color)
-        databaseNavNameView = databaseNavContainerView?.findViewById(R.id.nav_database_name)
-        databaseNavVersionView = databaseNavContainerView?.findViewById(R.id.nav_database_version)
         rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
@@ -567,21 +551,18 @@ class GroupActivity : DatabaseLockActivity(),
         // Search suggestion
         database?.let {
             val databaseName = it.name.ifEmpty { getString(R.string.database) }
-            databaseNavNameView?.text = databaseName
+            databaseNavView?.setDatabaseName(databaseName)
             databaseNameView?.text = databaseName
-            databaseNavVersionView?.text = it.version
+            databaseNavView?.setDatabaseVersion(it.version)
             val customColor = it.customColor
+            databaseNavView?.setDatabaseColor(customColor)
             if (customColor != null) {
-                databaseNavColorView?.drawable?.colorFilter = BlendModeColorFilterCompat
-                    .createBlendModeColorFilterCompat(customColor, BlendModeCompat.SRC_IN)
-                databaseNavColorView?.visibility = View.VISIBLE
                 databaseColorView?.visibility = View.VISIBLE
                 databaseColorView?.setColorFilter(
                     customColor,
                     PorterDuff.Mode.SRC_IN
                 )
             } else {
-                databaseNavColorView?.visibility = View.GONE
                 databaseColorView?.visibility = View.GONE
             }
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory

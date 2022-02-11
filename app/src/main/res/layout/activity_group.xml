@@ -164,12 +164,11 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.navigation.NavigationView
+    <com.kunzisoft.keepass.view.NavigationDatabaseView
         android:id="@+id/database_nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_main"
         app:itemTextColor="?android:attr/textColor"
         app:subheaderColor="?attr/colorAccent"
         android:fitsSystemWindows="true" />

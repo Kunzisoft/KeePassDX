@@ -29,7 +29,8 @@
         android:paddingRight="8dp"
         style="@style/KeepassDXStyle.TextAppearance.Info"
         android:textSize="10sp"
-        tools:text="version" />
+        tools:text="version"
+        tools:ignore="SmallSp" />
 
     <ImageView
         android:id="@+id/nav_database_icon"
