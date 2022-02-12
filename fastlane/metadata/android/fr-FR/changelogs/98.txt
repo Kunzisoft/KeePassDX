@@ -2,4 +2,5 @@
  * Garde le contexte de recherche #1141
  * Ajout des groupes cherchables #905 #1006
  * Recherche avec expression régulière #175
- * Correction des styles
+ * Fusion depuis un fichier et sauvegarde de copie #1221 #1204 #840
+ * Nouvelle interface utilisateur et correction des styles

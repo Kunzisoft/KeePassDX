@@ -2,4 +2,5 @@
  * Keep search context #1141
  * Add searchable groups #905 #1006
  * Search with regular expression #175
- * Fix styles
+ * Merge from file and save as copy #1221 #1204 #840
+ * New UI and fix styles
