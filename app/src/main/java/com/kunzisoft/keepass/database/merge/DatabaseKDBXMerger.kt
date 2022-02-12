@@ -92,31 +92,34 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         val entry = database.getEntryById(entryId)
 
         databaseToMerge.getEntryById(entryId)?.let { srcEntryToMerge ->
-            // Retrieve parent in current database
-            var parentEntryToMerge: GroupKDBX? = null
-            srcEntryToMerge.parent?.nodeId?.let {
-                val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
-                parentEntryToMerge = database.getGroupById(parentGroupIdToMerge)
-            }
-            val entryToMerge = EntryKDBX().apply {
-                this.nodeId = srcEntryToMerge.nodeId
-                this.icon = srcEntryToMerge.icon
-                this.creationTime = DateInstant(srcEntryToMerge.creationTime)
-                this.lastModificationTime = DateInstant(srcEntryToMerge.lastModificationTime)
-                this.lastAccessTime = DateInstant(srcEntryToMerge.lastAccessTime)
-                this.expiryTime = DateInstant(srcEntryToMerge.expiryTime)
-                this.expires = srcEntryToMerge.expires
-                this.title = srcEntryToMerge.title
-                this.username = srcEntryToMerge.username
-                this.password = srcEntryToMerge.password
-                this.url = srcEntryToMerge.url
-                this.notes = srcEntryToMerge.notes
-                // TODO attachment
-            }
-            if (entry != null) {
-                entry.updateWith(entryToMerge, false)
-            } else if (parentEntryToMerge != null) {
-                database.addEntryTo(entryToMerge, parentEntryToMerge)
+            // Do not merge meta stream elements
+            if (!srcEntryToMerge.isMetaStream()) {
+                // Retrieve parent in current database
+                var parentEntryToMerge: GroupKDBX? = null
+                srcEntryToMerge.parent?.nodeId?.let {
+                    val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
+                    parentEntryToMerge = database.getGroupById(parentGroupIdToMerge)
+                }
+                val entryToMerge = EntryKDBX().apply {
+                    this.nodeId = srcEntryToMerge.nodeId
+                    this.icon = srcEntryToMerge.icon
+                    this.creationTime = DateInstant(srcEntryToMerge.creationTime)
+                    this.lastModificationTime = DateInstant(srcEntryToMerge.lastModificationTime)
+                    this.lastAccessTime = DateInstant(srcEntryToMerge.lastAccessTime)
+                    this.expiryTime = DateInstant(srcEntryToMerge.expiryTime)
+                    this.expires = srcEntryToMerge.expires
+                    this.title = srcEntryToMerge.title
+                    this.username = srcEntryToMerge.username
+                    this.password = srcEntryToMerge.password
+                    this.url = srcEntryToMerge.url
+                    this.notes = srcEntryToMerge.notes
+                    // TODO attachment
+                }
+                if (entry != null) {
+                    entry.updateWith(entryToMerge, false)
+                } else if (parentEntryToMerge != null) {
+                    database.addEntryTo(entryToMerge, parentEntryToMerge)
+                }
             }
         }
     }
