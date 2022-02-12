@@ -115,9 +115,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     this.notes = srcEntryToMerge.notes
                     // TODO attachment
                 }
-                if (entry != null) {
-                    entry.updateWith(entryToMerge, false)
-                } else if (parentEntryToMerge != null) {
+                if (entry == null && parentEntryToMerge != null) {
                     database.addEntryTo(entryToMerge, parentEntryToMerge)
                 }
             }
@@ -148,9 +146,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 this.expires = srcGroupToMerge.expires
                 this.title = srcGroupToMerge.title
             }
-            if (group != null) {
-                // Normally not append
-            } else if (parentGroupToMerge != null) {
+            if (group == null && parentGroupToMerge != null) {
                 database.addGroupTo(groupToMerge, parentGroupToMerge)
             }
         }
