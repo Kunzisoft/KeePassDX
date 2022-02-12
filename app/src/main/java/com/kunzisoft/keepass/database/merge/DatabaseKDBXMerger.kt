@@ -172,7 +172,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 this.title = srcGroupToMerge.title
             }
             if (group != null) {
-                // Normally not append
+                group.updateWith(groupToMerge, false)
             } else if (parentGroupToMerge != null) {
                 database.addGroupTo(groupToMerge, parentGroupToMerge)
             }
