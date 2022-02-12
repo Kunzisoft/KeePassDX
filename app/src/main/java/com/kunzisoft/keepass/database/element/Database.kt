@@ -748,11 +748,15 @@ class Database {
                     }
                     databaseToMerge.mDatabaseKDB?.let { databaseKDBToMerge ->
                         databaseMerger.merge(databaseKDBToMerge)
-                        this.dataModifiedSinceLastLoading = true
+                        if (databaseToMergeUri != null) {
+                            this.dataModifiedSinceLastLoading = true
+                        }
                     }
                     databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
                         databaseMerger.merge(databaseKDBXToMerge)
-                        this.dataModifiedSinceLastLoading = true
+                        if (databaseToMergeUri != null) {
+                            this.dataModifiedSinceLastLoading = true
+                        }
                     }
                 }
             } else {
