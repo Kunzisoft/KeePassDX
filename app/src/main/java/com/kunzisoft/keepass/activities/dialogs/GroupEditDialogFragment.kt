@@ -141,11 +141,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             threshold = 1
             setAdapter(tagsAdapter)
         }
-        tagsContainerView.visibility = if (database?.allowTags() == true) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        tagsContainerView.visibility = if (database?.allowTags() == true) View.VISIBLE else View.GONE
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
