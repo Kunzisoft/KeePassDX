@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.readAllBytes
 import java.io.IOException
@@ -43,7 +44,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
      * Merge a KDB database in a KDBX database, by default all data are copied from the KDB
      */
     fun merge(databaseToMerge: DatabaseKDB) {
-        // TODO Test KDB merge
         val rootGroup = database.rootGroup
         val rootGroupId = rootGroup?.nodeId
         val rootGroupToMerge = databaseToMerge.rootGroup
@@ -52,6 +52,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         if (rootGroupId == null || rootGroupIdToMerge == null) {
             throw IOException("Database is not open")
         }
+
+        // Replace the UUID of the KDB root group to init seed
+        databaseToMerge.removeGroupIndex(rootGroupToMerge)
+        rootGroupToMerge.nodeId = NodeIdInt(0)
+        databaseToMerge.addGroupIndex(rootGroupToMerge)
 
         // Merge children
         rootGroupToMerge.doForEachChild(
@@ -141,7 +146,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 this.title = srcGroupToMerge.title
             }
             if (group != null) {
-                group.updateWith(groupToMerge, false)
+                // Normally not append
             } else if (parentGroupToMerge != null) {
                 database.addGroupTo(groupToMerge, parentGroupToMerge)
             }

@@ -695,11 +695,8 @@ class Database {
         // Pass KeyFile Uri as InputStreams
         var keyFileInputStream: InputStream? = null
         try {
-            databaseToMerge.fileUri?.let { databaseUri ->
-
-                val databaseKDB = DatabaseKDB()
-                val databaseKDBX = DatabaseKDBX()
-
+            val databaseUri = databaseToMerge.fileUri
+            if (databaseUri != null) {
                 if (databaseToMergeMainCredential != null) {
                     // Get keyFile inputStream
                     databaseToMergeMainCredential.keyFileUri?.let { keyFile ->
@@ -709,34 +706,36 @@ class Database {
 
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(databaseKDB)
+                        val databaseToMergeKDB = DatabaseKDB()
+                        DatabaseInputKDB(databaseToMergeKDB)
                             .openDatabase(databaseInputStream, progressTaskUpdater) {
                                 if (databaseToMergeMainCredential != null) {
-                                    databaseKDB.retrieveMasterKey(
+                                    databaseToMergeKDB.retrieveMasterKey(
                                         databaseToMergeMainCredential.masterPassword,
                                         keyFileInputStream,
                                     )
                                 } else {
-                                    databaseKDB.masterKey = masterKey
+                                    databaseToMergeKDB.masterKey = masterKey
                                 }
                             }
-                        databaseKDB
+                        databaseToMergeKDB
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(databaseKDBX).apply {
+                        val databaseToMergeKDBX = DatabaseKDBX()
+                        DatabaseInputKDBX(databaseToMergeKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream, progressTaskUpdater) {
                                 if (databaseToMergeMainCredential != null) {
-                                    databaseKDBX.retrieveMasterKey(
+                                    databaseToMergeKDBX.retrieveMasterKey(
                                         databaseToMergeMainCredential.masterPassword,
                                         keyFileInputStream,
                                     )
                                 } else {
-                                    databaseKDBX.masterKey = masterKey
+                                    databaseToMergeKDBX.masterKey = masterKey
                                 }
                             }
                         }
-                        databaseKDBX
+                        databaseToMergeKDBX
                     }
                 )
 
@@ -751,8 +750,8 @@ class Database {
                         databaseMerger.merge(databaseKDBXToMerge)
                     }
                 }
-            } ?: run {
-                throw IODatabaseException("Database URI is null, database cannot be reloaded")
+            } else {
+                throw IODatabaseException("Database URI is null, database cannot be merged")
             }
         } catch (e: FileNotFoundException) {
             throw FileNotFoundDatabaseException("Unable to load the keyfile")
@@ -773,7 +772,8 @@ class Database {
 
         // Retrieve the stream from the old database URI
         try {
-            fileUri?.let { oldDatabaseUri ->
+            val oldDatabaseUri = fileUri
+            if (oldDatabaseUri != null) {
                 readDatabaseStream(contentResolver, oldDatabaseUri,
                     { databaseInputStream ->
                         val databaseKDB = DatabaseKDB()
@@ -800,7 +800,7 @@ class Database {
                         databaseKDBX
                     }
                 )
-            } ?: run {
+            } else {
                 throw IODatabaseException("Database URI is null, database cannot be reloaded")
             }
         } catch (e: FileNotFoundException) {
