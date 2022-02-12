@@ -613,14 +613,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseMergeActionTask(intent: Intent, database: Database): ActionRunnable {
         var databaseToMergeUri: Uri? = null
+        var databaseToMergeMainCredential: MainCredential? = null
         if (intent.hasExtra(DATABASE_URI_KEY)) {
             databaseToMergeUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+        }
+        if (intent.hasExtra(MAIN_CREDENTIAL_KEY)) {
+            databaseToMergeMainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY)
         }
 
         return MergeDatabaseRunnable(
             this,
             database,
             databaseToMergeUri,
+            databaseToMergeMainCredential,
             this
         ) { result ->
             // No need to add each info to reload database

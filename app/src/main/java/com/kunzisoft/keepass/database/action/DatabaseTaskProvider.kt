@@ -355,10 +355,14 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
-    fun startDatabaseMerge(fromDatabaseUri: Uri? = null) {
+    fun startDatabaseMerge(fromDatabaseUri: Uri? = null,
+                           mainCredential: MainCredential? = null) {
         start(Bundle().apply {
             if (fromDatabaseUri != null) {
                 putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
+            }
+            if (mainCredential != null) {
+                putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
             }
         }
             , ACTION_DATABASE_MERGE_TASK)

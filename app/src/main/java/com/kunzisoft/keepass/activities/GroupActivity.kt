@@ -26,6 +26,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.os.*
 import android.util.Log
 import android.view.Menu
@@ -65,6 +66,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -89,7 +91,8 @@ class GroupActivity : DatabaseLockActivity(),
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
         GroupFragment.GroupRefreshedListener,
-        SortDialogFragment.SortSelectionListener {
+        SortDialogFragment.SortSelectionListener,
+        AskMainCredentialDialogFragment.AskMainCredentialDialogListener {
 
     // Views
     private var drawerLayout: DrawerLayout? = null
@@ -260,9 +263,7 @@ class GroupActivity : DatabaseLockActivity(),
         // Manage 'merge from" and "save to"
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
-            uri?.let {
-                mergeDatabaseFrom(it)
-            }
+            launchDialogToAskMainCredential(uri)
         }
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
             uri?.let {
@@ -1035,6 +1036,11 @@ class GroupActivity : DatabaseLockActivity(),
             .show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
     }
 
+    private fun launchDialogToAskMainCredential(uri: Uri?) {
+        AskMainCredentialDialogFragment.getInstance(uri)
+            .show(supportFragmentManager, AskMainCredentialDialogFragment.TAG_ASK_MAIN_CREDENTIAL)
+    }
+
     override fun onCopyMenuClick(
         database: Database,
         nodes: List<Node>
@@ -1089,6 +1095,16 @@ class GroupActivity : DatabaseLockActivity(),
         reloadGroupIfSearch()
         return true
     }
+
+    override fun onAskMainCredentialDialogPositiveClick(databaseUri: Uri?,
+                                                        mainCredential: MainCredential) {
+        databaseUri?.let {
+            mergeDatabaseFrom(it, mainCredential)
+        }
+    }
+
+    override fun onAskMainCredentialDialogNegativeClick(databaseUri: Uri?,
+                                                        mainCredential: MainCredential) { }
 
     override fun onResume() {
         super.onResume()

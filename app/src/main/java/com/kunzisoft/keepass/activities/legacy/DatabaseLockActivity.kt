@@ -271,8 +271,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseMerge()
     }
 
-    fun mergeDatabaseFrom(uri: Uri) {
-        mDatabaseTaskProvider?.startDatabaseMerge(uri)
+    fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
+        mDatabaseTaskProvider?.startDatabaseMerge(uri, mainCredential)
     }
 
     fun reloadDatabase() {

@@ -716,6 +716,8 @@ class Database {
                                         databaseToMergeMainCredential.masterPassword,
                                         keyFileInputStream,
                                     )
+                                } else {
+                                    databaseKDB.masterKey = masterKey
                                 }
                             }
                         databaseKDB
@@ -729,6 +731,8 @@ class Database {
                                         databaseToMergeMainCredential.masterPassword,
                                         keyFileInputStream,
                                     )
+                                } else {
+                                    databaseKDBX.masterKey = masterKey
                                 }
                             }
                         }
