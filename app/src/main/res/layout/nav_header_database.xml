@@ -27,7 +27,7 @@
         android:paddingLeft="8dp"
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
-        style="@style/KeepassDXStyle.TextAppearance.Info"
+        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
         android:textSize="11sp"
         tools:text="version" />
 
@@ -39,9 +39,12 @@
         app:layout_constraintTop_toBottomOf="@+id/nav_database_version"
         app:layout_constraintBottom_toTopOf="@+id/nav_database_name"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
         android:layout_marginBottom="12dp"
-        app:srcCompat="@drawable/ic_database_white_48dp"
-        app:tint="?attr/textColorInverse"/>
+        app:srcCompat="@drawable/ic_database_white_36dp"
+        style="@style/KeepassDXStyle.Icon"
+        app:tint="?attr/colorAccent" />
 
     <ImageView
         android:id="@+id/nav_database_modified"
