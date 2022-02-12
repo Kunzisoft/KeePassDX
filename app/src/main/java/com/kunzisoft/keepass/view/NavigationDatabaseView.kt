@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.isVisible
 import com.google.android.material.navigation.NavigationView
 import com.kunzisoft.keepass.R
 
@@ -17,6 +18,7 @@ class NavigationDatabaseView @JvmOverloads constructor(context: Context,
 
     private var databaseNavContainerView: View? = null
     private var databaseNavIconView: ImageView? = null
+    private var databaseNavModifiedView: ImageView? = null
     private var databaseNavColorView: ImageView? = null
     private var databaseNavNameView: TextView? = null
     private var databaseNavVersionView: TextView? = null
@@ -24,6 +26,7 @@ class NavigationDatabaseView @JvmOverloads constructor(context: Context,
     init {
         inflateHeaderView(R.layout.nav_header_database)
         databaseNavIconView = databaseNavContainerView?.findViewById(R.id.nav_database_icon)
+        databaseNavModifiedView = databaseNavContainerView?.findViewById(R.id.nav_database_modified)
         databaseNavColorView = databaseNavContainerView?.findViewById(R.id.nav_database_color)
         databaseNavNameView = databaseNavContainerView?.findViewById(R.id.nav_database_name)
         databaseNavVersionView = databaseNavContainerView?.findViewById(R.id.nav_database_version)
@@ -41,6 +44,10 @@ class NavigationDatabaseView @JvmOverloads constructor(context: Context,
 
     fun setDatabaseVersion(version: String) {
         databaseNavVersionView?.text = version
+    }
+
+    fun setDatabaseModifiedSinceLastLoading(modified: Boolean) {
+        databaseNavModifiedView?.isVisible = modified
     }
 
     fun setDatabaseColor(color: Int?) {

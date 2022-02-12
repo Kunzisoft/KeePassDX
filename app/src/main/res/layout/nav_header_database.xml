@@ -44,14 +44,26 @@
         app:tint="?attr/textColorInverse"/>
 
     <ImageView
+        android:id="@+id/nav_database_modified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/save"
+        android:src="@drawable/ic_modified_white_12dp"
+        android:tint="?attr/textColorInverse"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/nav_database_icon"
+        app:layout_constraintStart_toEndOf="@+id/nav_database_icon"
+        app:layout_constraintTop_toTopOf="@+id/nav_database_icon" />
+
+    <ImageView
         android:id="@+id/nav_database_color"
         android:layout_width="18dp"
         android:layout_height="18dp"
+        android:layout_gravity="center"
         android:contentDescription="@string/content_description_database_color"
         android:src="@drawable/background_icon"
         app:layout_constraintBottom_toBottomOf="@+id/nav_database_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nav_database_name" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/nav_database_name"
