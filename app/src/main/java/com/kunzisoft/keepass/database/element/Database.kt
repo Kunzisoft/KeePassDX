@@ -909,9 +909,10 @@ class Database {
     }
 
     @Throws(DatabaseOutputException::class)
-    fun saveData(uri: Uri?, contentResolver: ContentResolver) {
+    fun saveData(databaseCopyUri: Uri?, contentResolver: ContentResolver) {
         try {
-            (uri ?: this.fileUri)?.let { saveUri ->
+            val saveUri = databaseCopyUri ?: this.fileUri
+            if (saveUri != null) {
                 if (saveUri.scheme == "file") {
                     saveUri.path?.let { filename ->
                         val tempFile = File("$filename.tmp")
@@ -960,7 +961,9 @@ class Database {
                         outputStream?.close()
                     }
                 }
-                this.dataModifiedSinceLastLoading = false
+                if (databaseCopyUri == null) {
+                    this.dataModifiedSinceLastLoading = false
+                }
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to save database", e)

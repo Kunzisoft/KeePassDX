@@ -358,12 +358,8 @@ class DatabaseTaskProvider {
     fun startDatabaseMerge(fromDatabaseUri: Uri? = null,
                            mainCredential: MainCredential? = null) {
         start(Bundle().apply {
-            if (fromDatabaseUri != null) {
-                putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
-            }
-            if (mainCredential != null) {
-                putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
-            }
+            putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
+            putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
             , ACTION_DATABASE_MERGE_TASK)
     }
@@ -701,9 +697,7 @@ class DatabaseTaskProvider {
     fun startDatabaseSave(save: Boolean, saveToUri: Uri? = null) {
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
-            if (saveToUri != null) {
-                putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
-            }
+            putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
         }
                 , ACTION_DATABASE_SAVE)
     }
