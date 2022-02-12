@@ -28,9 +28,8 @@
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
         style="@style/KeepassDXStyle.TextAppearance.Info"
-        android:textSize="10sp"
-        tools:text="version"
-        tools:ignore="SmallSp" />
+        android:textSize="11sp"
+        tools:text="version" />
 
     <ImageView
         android:id="@+id/nav_database_icon"
@@ -57,8 +56,10 @@
     <TextView
         android:id="@+id/nav_database_name"
         style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/database"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nav_database_color"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
