@@ -19,6 +19,7 @@ class NavigationDatabaseView @JvmOverloads constructor(context: Context,
     private var databaseNavIconView: ImageView? = null
     private var databaseNavColorView: ImageView? = null
     private var databaseNavNameView: TextView? = null
+    private var databaseNavPathView: TextView? = null
     private var databaseNavVersionView: TextView? = null
 
     init {
@@ -26,6 +27,7 @@ class NavigationDatabaseView @JvmOverloads constructor(context: Context,
         databaseNavIconView = databaseNavContainerView?.findViewById(R.id.nav_database_icon)
         databaseNavColorView = databaseNavContainerView?.findViewById(R.id.nav_database_color)
         databaseNavNameView = databaseNavContainerView?.findViewById(R.id.nav_database_name)
+        databaseNavPathView = databaseNavContainerView?.findViewById(R.id.nav_database_path)
         databaseNavVersionView = databaseNavContainerView?.findViewById(R.id.nav_database_version)
     }
 
@@ -37,6 +39,15 @@ class NavigationDatabaseView @JvmOverloads constructor(context: Context,
 
     fun setDatabaseName(name: String) {
         databaseNavNameView?.text = name
+    }
+
+    fun setDatabasePath(path: String?) {
+        if (path != null) {
+            databaseNavPathView?.text = path
+            databaseNavPathView?.visibility = View.VISIBLE
+        } else {
+            databaseNavPathView?.visibility = View.GONE
+        }
     }
 
     fun setDatabaseVersion(version: String) {

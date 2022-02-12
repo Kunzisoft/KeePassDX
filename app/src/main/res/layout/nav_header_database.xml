@@ -57,8 +57,21 @@
     <TextView
         android:id="@+id/nav_database_name"
         style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:maxLines="2"
+        android:text="@string/database"
+        app:layout_constraintBottom_toTopOf="@+id/nav_database_path"
+        app:layout_constraintEnd_toStartOf="@+id/nav_database_color"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/nav_database_path"
+        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/database"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="11sp"
+        android:text="@string/path"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

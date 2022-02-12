@@ -580,6 +580,7 @@ class GroupActivity : DatabaseLockActivity(),
             val databaseName = it.name.ifEmpty { getString(R.string.database) }
             databaseNavView?.setDatabaseName(databaseName)
             databaseNameView?.text = databaseName
+            databaseNavView?.setDatabasePath(it.fileUri?.toString())
             databaseNavView?.setDatabaseVersion(it.version)
             val customColor = it.customColor
             databaseNavView?.setDatabaseColor(customColor)
