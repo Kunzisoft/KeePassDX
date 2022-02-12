@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:layout_marginTop="18dp"
+    android:layout_marginBottom="6dp"
+    android:elevation="4dp"
+    android:paddingLeft="@dimen/default_margin"
+    android:paddingTop="@dimen/default_margin"
+    android:paddingRight="@dimen/default_margin"
+    android:paddingBottom="@dimen/default_margin"
+    tools:ignore="UnusedAttribute">
+
+    <TextView
+        android:id="@+id/nav_database_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        style="@style/KeepassDXStyle.TextAppearance.Info"
+        android:textSize="11sp"
+        tools:text="version" />
+
+    <ImageView
+        android:id="@+id/nav_database_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description_nav_header"
+        app:layout_constraintTop_toBottomOf="@+id/nav_database_version"
+        app:layout_constraintBottom_toTopOf="@+id/nav_database_name"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="12dp"
+        app:srcCompat="@drawable/ic_database_white_48dp"
+        app:tint="?attr/textColorInverse"/>
+
+    <ImageView
+        android:id="@+id/nav_database_color"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:contentDescription="@string/content_description_database_color"
+        android:src="@drawable/background_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/nav_database_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nav_database_name" />
+
+    <TextView
+        android:id="@+id/nav_database_name"
+        style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/database"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/nav_database_color"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

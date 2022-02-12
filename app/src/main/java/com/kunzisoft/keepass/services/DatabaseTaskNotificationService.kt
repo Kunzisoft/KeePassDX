@@ -231,7 +231,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
-            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(database)
+            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(intent, database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
@@ -611,10 +611,21 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseMergeActionTask(database: Database): ActionRunnable {
+    private fun buildDatabaseMergeActionTask(intent: Intent, database: Database): ActionRunnable {
+        var databaseToMergeUri: Uri? = null
+        var databaseToMergeMainCredential: MainCredential? = null
+        if (intent.hasExtra(DATABASE_URI_KEY)) {
+            databaseToMergeUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+        }
+        if (intent.hasExtra(MAIN_CREDENTIAL_KEY)) {
+            databaseToMergeMainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY)
+        }
+
         return MergeDatabaseRunnable(
             this,
             database,
+            databaseToMergeUri,
+            databaseToMergeMainCredential,
             this
         ) { result ->
             // No need to add each info to reload database
@@ -916,9 +927,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      */
     private fun buildDatabaseSave(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+
+            var databaseCopyUri: Uri? = null
+            if (intent.hasExtra(DATABASE_URI_KEY)) {
+                databaseCopyUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+            }
+
             SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                databaseCopyUri)
         } else {
             null
         }

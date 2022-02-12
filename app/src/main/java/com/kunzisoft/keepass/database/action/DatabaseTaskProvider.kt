@@ -355,9 +355,15 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
-    fun startDatabaseMerge(fixDuplicateUuid: Boolean) {
+    fun startDatabaseMerge(fromDatabaseUri: Uri? = null,
+                           mainCredential: MainCredential? = null) {
         start(Bundle().apply {
-            putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
+            if (fromDatabaseUri != null) {
+                putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
+            }
+            if (mainCredential != null) {
+                putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
+            }
         }
             , ACTION_DATABASE_MERGE_TASK)
     }
@@ -692,9 +698,12 @@ class DatabaseTaskProvider {
     /**
      * Save Database without parameter
      */
-    fun startDatabaseSave(save: Boolean) {
+    fun startDatabaseSave(save: Boolean, saveToUri: Uri? = null) {
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+            if (saveToUri != null) {
+                putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
+            }
         }
                 , ACTION_DATABASE_SAVE)
     }

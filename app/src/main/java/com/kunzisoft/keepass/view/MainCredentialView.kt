@@ -30,13 +30,16 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.model.MainCredential
 
 class MainCredentialView @JvmOverloads constructor(context: Context,
                                                    attrs: AttributeSet? = null,
@@ -55,7 +58,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_credentials, this)
+        inflater?.inflate(R.layout.view_main_credentials, this)
 
         passwordView = findViewById(R.id.password)
         keyFileSelectionView = findViewById(R.id.keyfile_selection)

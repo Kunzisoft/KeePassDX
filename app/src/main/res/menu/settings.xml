@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2018 Jeremy Jamet / Kunzisoft.
-
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+     
  This file is part of KeePassDX.
 
   KeePassDX is free software: you can redistribute it and/or modify
@@ -19,10 +19,10 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_open_file_read_mode_key"
-        android:icon="@drawable/ic_read_write_white_24dp"
-        android:title="@string/menu_open_file_read_and_write"
-        android:orderInCategory="61"
-        app:iconTint="?attr/colorControlNormal"
-        app:showAsAction="ifRoom" />
+        <item android:id="@+id/menu_app_settings"
+            android:icon="@drawable/ic_settings_white_24dp"
+            android:title="@string/settings"
+            android:orderInCategory="71"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
 </menu>

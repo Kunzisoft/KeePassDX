@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
@@ -673,19 +672,21 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
             }
             R.id.menu_merge_database -> {
                 mergeDatabase()
-                return true
+                true
             }
             R.id.menu_reload_database -> {
                 reloadDatabase()
-                return true
+                true
             }
-
-            else -> {
+            R.id.menu_app_settings -> {
                 // Check the time lock before launching settings
                 // TODO activity menu
                 (activity as SettingsActivity?)?.let {
-                    MenuUtil.onDefaultMenuOptionsItemSelected(it, item, true)
+                    SettingsActivity.launch(it, true)
                 }
+                true
+            }
+            else -> {
                 super.onOptionsItemSelected(item)
             }
         }

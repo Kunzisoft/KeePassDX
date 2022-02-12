@@ -274,6 +274,9 @@ class Database {
         }
     }
 
+    val defaultFileExtension: String
+        get() = mDatabaseKDB?.defaultFileExtension ?: mDatabaseKDBX?.defaultFileExtension ?: ".bin"
+
     val type: Class<*>?
         get() = mDatabaseKDB?.javaClass ?: mDatabaseKDBX?.javaClass
 
@@ -634,9 +637,13 @@ class Database {
                         }
                         DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
-                                mainCredential.masterPassword,
-                                keyFileInputStream,
-                                progressTaskUpdater)
+                                progressTaskUpdater
+                            ) {
+                                databaseKDB.retrieveMasterKey(
+                                    mainCredential.masterPassword,
+                                    keyFileInputStream
+                                )
+                            }
                         databaseKDB
                     },
                     { databaseInputStream ->
@@ -647,9 +654,12 @@ class Database {
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream,
-                                mainCredential.masterPassword,
-                                keyFileInputStream,
-                                progressTaskUpdater)
+                                progressTaskUpdater) {
+                                databaseKDBX.retrieveMasterKey(
+                                    mainCredential.masterPassword,
+                                    keyFileInputStream,
+                                )
+                            }
                         }
                         databaseKDBX
                     }
@@ -671,7 +681,9 @@ class Database {
     }
 
     @Throws(LoadDatabaseException::class)
-    fun mergeData(contentResolver: ContentResolver,
+    fun mergeData(databaseToMergeUri: Uri?,
+                  databaseToMergeMainCredential: MainCredential?,
+                  contentResolver: ContentResolver,
                   isRAMSufficient: (memoryWanted: Long) -> Boolean,
                   progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -681,30 +693,52 @@ class Database {
 
         // New database instance to get new changes
         val databaseToMerge = Database()
-        databaseToMerge.fileUri = this.fileUri
+        databaseToMerge.fileUri = databaseToMergeUri ?: this.fileUri
 
+        // Pass KeyFile Uri as InputStreams
+        var keyFileInputStream: InputStream? = null
         try {
-            databaseToMerge.fileUri?.let { databaseUri ->
-
-                val databaseKDB = DatabaseKDB()
-                val databaseKDBX = DatabaseKDBX()
+            val databaseUri = databaseToMerge.fileUri
+            if (databaseUri != null) {
+                if (databaseToMergeMainCredential != null) {
+                    // Get keyFile inputStream
+                    databaseToMergeMainCredential.keyFileUri?.let { keyFile ->
+                        keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyFile)
+                    }
+                }
 
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
-                        DatabaseInputKDB(databaseKDB)
-                            .openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
-                        databaseKDB
+                        val databaseToMergeKDB = DatabaseKDB()
+                        DatabaseInputKDB(databaseToMergeKDB)
+                            .openDatabase(databaseInputStream, progressTaskUpdater) {
+                                if (databaseToMergeMainCredential != null) {
+                                    databaseToMergeKDB.retrieveMasterKey(
+                                        databaseToMergeMainCredential.masterPassword,
+                                        keyFileInputStream,
+                                    )
+                                } else {
+                                    databaseToMergeKDB.masterKey = masterKey
+                                }
+                            }
+                        databaseToMergeKDB
                     },
                     { databaseInputStream ->
-                        DatabaseInputKDBX(databaseKDBX).apply {
+                        val databaseToMergeKDBX = DatabaseKDBX()
+                        DatabaseInputKDBX(databaseToMergeKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            openDatabase(databaseInputStream, progressTaskUpdater) {
+                                if (databaseToMergeMainCredential != null) {
+                                    databaseToMergeKDBX.retrieveMasterKey(
+                                        databaseToMergeMainCredential.masterPassword,
+                                        keyFileInputStream,
+                                    )
+                                } else {
+                                    databaseToMergeKDBX.masterKey = masterKey
+                                }
+                            }
                         }
-                        databaseKDBX
+                        databaseToMergeKDBX
                     }
                 )
 
@@ -714,13 +748,15 @@ class Database {
                     }
                     databaseToMerge.mDatabaseKDB?.let { databaseKDBToMerge ->
                         databaseMerger.merge(databaseKDBToMerge)
+                        this.dataModifiedSinceLastLoading = true
                     }
                     databaseToMerge.mDatabaseKDBX?.let { databaseKDBXToMerge ->
                         databaseMerger.merge(databaseKDBXToMerge)
+                        this.dataModifiedSinceLastLoading = true
                     }
                 }
-            } ?: run {
-                throw IODatabaseException("Database URI is null, database cannot be reloaded")
+            } else {
+                throw IODatabaseException("Database URI is null, database cannot be merged")
             }
         } catch (e: FileNotFoundException) {
             throw FileNotFoundDatabaseException("Unable to load the keyfile")
@@ -729,6 +765,7 @@ class Database {
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
+            keyFileInputStream?.close()
             databaseToMerge.clearAndClose()
         }
     }
@@ -740,7 +777,8 @@ class Database {
 
         // Retrieve the stream from the old database URI
         try {
-            fileUri?.let { oldDatabaseUri ->
+            val oldDatabaseUri = fileUri
+            if (oldDatabaseUri != null) {
                 readDatabaseStream(contentResolver, oldDatabaseUri,
                     { databaseInputStream ->
                         val databaseKDB = DatabaseKDB()
@@ -748,9 +786,9 @@ class Database {
                             databaseKDB.binaryCache = it.binaryCache
                         }
                         DatabaseInputKDB(databaseKDB)
-                            .openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            .openDatabase(databaseInputStream, progressTaskUpdater) {
+                                databaseKDB.masterKey = masterKey
+                            }
                         databaseKDB
                     },
                     { databaseInputStream ->
@@ -760,14 +798,14 @@ class Database {
                         }
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream,
-                                masterKey,
-                                progressTaskUpdater)
+                            openDatabase(databaseInputStream, progressTaskUpdater) {
+                                databaseKDBX.masterKey = masterKey
+                            }
                         }
                         databaseKDBX
                     }
                 )
-            } ?: run {
+            } else {
                 throw IODatabaseException("Database URI is null, database cannot be reloaded")
             }
         } catch (e: FileNotFoundException) {
@@ -867,64 +905,63 @@ class Database {
     }
 
     @Throws(DatabaseOutputException::class)
-    fun saveData(contentResolver: ContentResolver) {
+    fun saveData(uri: Uri?, contentResolver: ContentResolver) {
         try {
-            this.fileUri?.let {
-                saveData(contentResolver, it)
+            (uri ?: this.fileUri)?.let { saveUri ->
+                if (saveUri.scheme == "file") {
+                    saveUri.path?.let { filename ->
+                        val tempFile = File("$filename.tmp")
+
+                        var fileOutputStream: FileOutputStream? = null
+                        try {
+                            fileOutputStream = FileOutputStream(tempFile)
+                            val pmo = mDatabaseKDB?.let { DatabaseOutputKDB(it, fileOutputStream) }
+                                ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, fileOutputStream) }
+                            pmo?.output()
+                        } catch (e: Exception) {
+                            throw IOException(e)
+                        } finally {
+                            fileOutputStream?.close()
+                        }
+
+                        // Force data to disk before continuing
+                        try {
+                            fileOutputStream?.fd?.sync()
+                        } catch (e: SyncFailedException) {
+                            // Ignore if fsync fails. We tried.
+                        }
+
+                        if (!tempFile.renameTo(File(filename))) {
+                            throw IOException()
+                        }
+                    }
+                } else {
+                    var outputStream: OutputStream? = null
+                    try {
+                        outputStream = contentResolver.openOutputStream(saveUri, "rwt")
+                        outputStream?.let { definedOutputStream ->
+                            val databaseOutput =
+                                mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
+                                    ?: mDatabaseKDBX?.let {
+                                        DatabaseOutputKDBX(
+                                            it,
+                                            definedOutputStream
+                                        )
+                                    }
+                            databaseOutput?.output()
+                        }
+                    } catch (e: Exception) {
+                        throw IOException(e)
+                    } finally {
+                        outputStream?.close()
+                    }
+                }
+                this.dataModifiedSinceLastLoading = false
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to save database", e)
             throw DatabaseOutputException(e)
         }
-    }
-
-    @Throws(IOException::class, DatabaseOutputException::class)
-    private fun saveData(contentResolver: ContentResolver, uri: Uri) {
-
-        if (uri.scheme == "file") {
-            uri.path?.let { filename ->
-                val tempFile = File("$filename.tmp")
-
-                var fileOutputStream: FileOutputStream? = null
-                try {
-                    fileOutputStream = FileOutputStream(tempFile)
-                    val pmo = mDatabaseKDB?.let { DatabaseOutputKDB(it, fileOutputStream) }
-                            ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, fileOutputStream) }
-                    pmo?.output()
-                } catch (e: Exception) {
-                    throw IOException(e)
-                } finally {
-                    fileOutputStream?.close()
-                }
-
-                // Force data to disk before continuing
-                try {
-                    fileOutputStream?.fd?.sync()
-                } catch (e: SyncFailedException) {
-                    // Ignore if fsync fails. We tried.
-                }
-    
-                if (!tempFile.renameTo(File(filename))) {
-                    throw IOException()
-                }
-            }
-        } else {
-            var outputStream: OutputStream? = null
-            try {
-                outputStream = contentResolver.openOutputStream(uri, "rwt")
-                outputStream?.let { definedOutputStream ->
-                    val databaseOutput = mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
-                                    ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, definedOutputStream) }
-                    databaseOutput?.output()
-                }
-            } catch (e: Exception) {
-                throw IOException(e)
-            } finally {
-                outputStream?.close()
-            }
-        }
-        this.fileUri = uri
-        this.dataModifiedSinceLastLoading = false
     }
 
     fun clearIndexesAndBinaries(filesDirectory: File? = null) {

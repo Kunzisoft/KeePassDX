@@ -26,6 +26,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.os.*
 import android.util.Log
 import android.view.Menu
@@ -36,18 +37,22 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
@@ -61,6 +66,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -68,13 +74,15 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
+
 
 class GroupActivity : DatabaseLockActivity(),
         DatePickerDialog.OnDateSetListener,
@@ -83,9 +91,12 @@ class GroupActivity : DatabaseLockActivity(),
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
         GroupFragment.GroupRefreshedListener,
-        SortDialogFragment.SortSelectionListener {
+        SortDialogFragment.SortSelectionListener,
+        AskMainCredentialDialogFragment.AskMainCredentialDialogListener {
 
     // Views
+    private var drawerLayout: DrawerLayout? = null
+    private var databaseNavView: NavigationDatabaseView? = null
     private var rootContainerView: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
@@ -115,6 +126,9 @@ class GroupActivity : DatabaseLockActivity(),
     private var mRequestStartupSearch = true
 
     private var actionNodeMode: ActionMode? = null
+
+    // Manage merge
+    private var mExternalFileHelper: ExternalFileHelper? = null
 
     // Manage group
     private var mSearchState: SearchState? = null
@@ -215,6 +229,8 @@ class GroupActivity : DatabaseLockActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        drawerLayout = findViewById(R.id.drawer_layout)
+        databaseNavView = findViewById(R.id.database_nav_view)
         rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
@@ -236,6 +252,55 @@ class GroupActivity : DatabaseLockActivity(),
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout?.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Manage 'merge from" and "save to"
+        mExternalFileHelper = ExternalFileHelper(this)
+        mExternalFileHelper?.buildOpenDocument { uri ->
+            launchDialogToAskMainCredential(uri)
+        }
+        mExternalFileHelper?.buildCreateDocument("application/x-keepass") { uri ->
+            uri?.let {
+                saveDatabaseTo(it)
+            }
+        }
+
+        // Menu in drawer
+        databaseNavView?.apply {
+            inflateMenu(R.menu.settings)
+            inflateMenu(R.menu.database_extra)
+            inflateMenu(R.menu.about)
+            setNavigationItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.menu_app_settings -> {
+                        // To avoid flickering when launch settings in a LockingActivity
+                        SettingsActivity.launch(this@GroupActivity, true)
+                    }
+                    R.id.menu_merge_from -> {
+                        mExternalFileHelper?.openDocument()
+                    }
+                    R.id.menu_save_copy_to -> {
+                        mExternalFileHelper?.createDocument(
+                            getString(R.string.database_file_name_default) +
+                            getString(R.string.database_file_name_copy) +
+                            mDatabase?.defaultFileExtension)
+                    }
+                    R.id.menu_contribute -> {
+                        UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)
+                    }
+                    R.id.menu_about -> {
+                        startActivity(Intent(this@GroupActivity, AboutActivity::class.java))
+                    }
+                }
+                false
+            }
+        }
 
         searchFiltersView?.closeAdvancedFilters()
 
@@ -512,8 +577,12 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Search suggestion
         database?.let {
-            databaseNameView?.text = if (it.name.isNotEmpty()) it.name else getString(R.string.database)
+            val databaseName = it.name.ifEmpty { getString(R.string.database) }
+            databaseNavView?.setDatabaseName(databaseName)
+            databaseNameView?.text = databaseName
+            databaseNavView?.setDatabaseVersion(it.version)
             val customColor = it.customColor
+            databaseNavView?.setDatabaseColor(customColor)
             if (customColor != null) {
                 databaseColorView?.visibility = View.VISIBLE
                 databaseColorView?.setColorFilter(
@@ -524,6 +593,12 @@ class GroupActivity : DatabaseLockActivity(),
                 databaseColorView?.visibility = View.GONE
             }
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
+        }
+
+        databaseNavView?.apply {
+            if (!mMergeDataAllowed) {
+                menu.findItem(R.id.menu_merge_from)?.isVisible = false
+            }
         }
 
         invalidateOptionsMenu()
@@ -967,6 +1042,11 @@ class GroupActivity : DatabaseLockActivity(),
             .show(supportFragmentManager, GroupEditDialogFragment.TAG_CREATE_GROUP)
     }
 
+    private fun launchDialogToAskMainCredential(uri: Uri?) {
+        AskMainCredentialDialogFragment.getInstance(uri)
+            .show(supportFragmentManager, AskMainCredentialDialogFragment.TAG_ASK_MAIN_CREDENTIAL)
+    }
+
     override fun onCopyMenuClick(
         database: Database,
         nodes: List<Node>
@@ -1022,6 +1102,16 @@ class GroupActivity : DatabaseLockActivity(),
         return true
     }
 
+    override fun onAskMainCredentialDialogPositiveClick(databaseUri: Uri?,
+                                                        mainCredential: MainCredential) {
+        databaseUri?.let {
+            mergeDatabaseFrom(it, mainCredential)
+        }
+    }
+
+    override fun onAskMainCredentialDialogNegativeClick(databaseUri: Uri?,
+                                                        mainCredential: MainCredential) { }
+
     override fun onResume() {
         super.onResume()
 
@@ -1060,9 +1150,7 @@ class GroupActivity : DatabaseLockActivity(),
         if (!mMergeDataAllowed) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
         }
-        if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(inflater, menu)
-        } else {
+        if (mSpecialMode != SpecialMode.DEFAULT) {
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
             menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
@@ -1174,7 +1262,7 @@ class GroupActivity : DatabaseLockActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // TODO change database
+                drawerLayout?.openDrawer(GravityCompat.START)
                 return true
             }
             R.id.menu_search -> {
@@ -1203,8 +1291,6 @@ class GroupActivity : DatabaseLockActivity(),
                 return true
             }
             else -> {
-                // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, true)
                 return super.onOptionsItemSelected(item)
             }
         }
