@@ -100,6 +100,27 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
                     parentEntryToMerge = database.getGroupById(parentGroupIdToMerge)
                 }
+                // Copy attachment
+                var newAttachment: Attachment? = null
+                srcEntryToMerge.getAttachment(databaseToMerge.attachmentPool)?.let { attachment ->
+                    val binarySize = attachment.binaryData.getSize()
+                    val binaryData = database.buildNewBinaryAttachment(
+                        isRAMSufficient.invoke(binarySize),
+                        attachment.binaryData.isCompressed,
+                        attachment.binaryData.isProtected
+                    )
+                    attachment.binaryData.getInputDataStream(databaseToMerge.binaryCache)
+                        .use { inputStream ->
+                            binaryData.getOutputDataStream(database.binaryCache)
+                                .use { outputStream ->
+                                    inputStream.readAllBytes { buffer ->
+                                        outputStream.write(buffer)
+                                    }
+                                }
+                        }
+                    newAttachment = Attachment(attachment.name, binaryData)
+                }
+                // Create new entry format
                 val entryToMerge = EntryKDBX().apply {
                     this.nodeId = srcEntryToMerge.nodeId
                     this.icon = srcEntryToMerge.icon
@@ -113,7 +134,9 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     this.password = srcEntryToMerge.password
                     this.url = srcEntryToMerge.url
                     this.notes = srcEntryToMerge.notes
-                    // TODO attachment
+                    newAttachment?.let {
+                        this.putAttachment(it, database.attachmentPool)
+                    }
                 }
                 if (entry == null && parentEntryToMerge != null) {
                     database.addEntryTo(entryToMerge, parentEntryToMerge)
