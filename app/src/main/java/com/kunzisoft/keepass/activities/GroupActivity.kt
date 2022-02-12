@@ -276,9 +276,6 @@ class GroupActivity : DatabaseLockActivity(),
             inflateMenu(R.menu.settings)
             inflateMenu(R.menu.database_extra)
             inflateMenu(R.menu.about)
-            if (!mMergeDataAllowed) {
-                menu.findItem(R.id.menu_merge_from)?.isVisible = false
-            }
             setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_app_settings -> {
@@ -596,6 +593,12 @@ class GroupActivity : DatabaseLockActivity(),
                 databaseColorView?.visibility = View.GONE
             }
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
+        }
+
+        databaseNavView?.apply {
+            if (!mMergeDataAllowed) {
+                menu.findItem(R.id.menu_merge_from)?.isVisible = false
+            }
         }
 
         invalidateOptionsMenu()
