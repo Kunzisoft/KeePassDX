@@ -276,6 +276,9 @@ class GroupActivity : DatabaseLockActivity(),
             inflateMenu(R.menu.settings)
             inflateMenu(R.menu.database_extra)
             inflateMenu(R.menu.about)
+            if (!mMergeDataAllowed) {
+                menu.findItem(R.id.menu_merge_from)?.isVisible = false
+            }
             setNavigationItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_app_settings -> {
@@ -289,7 +292,7 @@ class GroupActivity : DatabaseLockActivity(),
                         mExternalFileHelper?.createDocument(
                             getString(R.string.database_file_name_default) +
                             getString(R.string.database_file_name_copy) +
-                                    getString(R.string.database_file_extension_default))
+                            mDatabase?.defaultFileExtension)
                     }
                     R.id.menu_contribute -> {
                         UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)

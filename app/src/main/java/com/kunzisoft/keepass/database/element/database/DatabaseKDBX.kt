@@ -201,6 +201,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             return "V2 - KDBX$kdbxStringVersion"
         }
 
+    override val defaultFileExtension: String
+        get() = ".kdbx"
+
     private open class NodeOperationHandler<T: NodeKDBXInterface> : NodeHandler<T>() {
         var containsCustomData = false
         override fun operate(node: T): Boolean {

@@ -62,6 +62,7 @@ abstract class DatabaseVersioned<
         protected set
 
     abstract val version: String
+    abstract val defaultFileExtension: String
 
     /**
      * To manage binaries in faster way

@@ -274,6 +274,9 @@ class Database {
         }
     }
 
+    val defaultFileExtension: String
+        get() = mDatabaseKDB?.defaultFileExtension ?: mDatabaseKDBX?.defaultFileExtension ?: ".bin"
+
     val type: Class<*>?
         get() = mDatabaseKDB?.javaClass ?: mDatabaseKDBX?.javaClass
 
