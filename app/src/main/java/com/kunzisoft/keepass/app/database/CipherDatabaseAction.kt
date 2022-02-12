@@ -130,22 +130,36 @@ class CipherDatabaseAction(context: Context) {
                           cipherDatabaseResultListener: (CipherEncryptDatabase?) -> Unit) {
         if (useTempDao) {
             serviceActionTask {
-                val cipherDatabaseEntity = mBinder?.getCipherDatabase(databaseUri)
-                val cipherDatabase = CipherEncryptDatabase().apply {
-                    this.databaseUri = Uri.parse(cipherDatabaseEntity?.databaseUri)
-                    this.encryptedValue = Base64.decode(cipherDatabaseEntity?.encryptedValue, Base64.NO_WRAP)
-                    this.specParameters = Base64.decode(cipherDatabaseEntity?.specParameters, Base64.NO_WRAP)
+                mBinder?.getCipherDatabase(databaseUri)?.let { cipherDatabaseEntity ->
+                    val cipherDatabase = CipherEncryptDatabase().apply {
+                        this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
+                        this.encryptedValue = Base64.decode(
+                            cipherDatabaseEntity.encryptedValue,
+                            Base64.NO_WRAP
+                        )
+                        this.specParameters = Base64.decode(
+                            cipherDatabaseEntity.specParameters,
+                            Base64.NO_WRAP
+                        )
+                    }
+                    cipherDatabaseResultListener.invoke(cipherDatabase)
                 }
-                cipherDatabaseResultListener.invoke(cipherDatabase)
             }
         } else {
             IOActionTask(
                     {
-                        val cipherDatabaseEntity = cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
-                        CipherEncryptDatabase().apply {
-                            this.databaseUri = Uri.parse(cipherDatabaseEntity?.databaseUri)
-                            this.encryptedValue = Base64.decode(cipherDatabaseEntity?.encryptedValue, Base64.NO_WRAP)
-                            this.specParameters = Base64.decode(cipherDatabaseEntity?.specParameters, Base64.NO_WRAP)
+                        cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())?.let { cipherDatabaseEntity ->
+                            CipherEncryptDatabase().apply {
+                                this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
+                                this.encryptedValue = Base64.decode(
+                                    cipherDatabaseEntity.encryptedValue,
+                                    Base64.NO_WRAP
+                                )
+                                this.specParameters = Base64.decode(
+                                    cipherDatabaseEntity.specParameters,
+                                    Base64.NO_WRAP
+                                )
+                            }
                         }
                     },
                     {
