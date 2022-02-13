@@ -103,7 +103,7 @@ object TemplateField {
             LABEL_SSID.equals(name, true) -> context.getString(R.string.ssid)
             LABEL_TYPE.equals(name, true) -> context.getString(R.string.type)
             LABEL_CRYPTOCURRENCY.equals(name, true) -> context.getString(R.string.cryptocurrency)
-            LABEL_TOKEN.equals(name, true) -> context.getString(R.string.token)
+            LABEL_TOKEN.equals(name, false) -> context.getString(R.string.token)
             LABEL_PUBLIC_KEY.equals(name, true) -> context.getString(R.string.public_key)
             LABEL_PRIVATE_KEY.equals(name, true) -> context.getString(R.string.private_key)
             LABEL_SEED.equals(name, true) -> context.getString(R.string.seed)
