@@ -60,16 +60,31 @@
             </FrameLayout>
         </androidx.appcompat.widget.Toolbar>
 
-        <ImageView
-            android:id="@+id/database_color"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginStart="54dp"
-            android:layout_marginLeft="54dp"
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="?attr/actionBarSize"
             android:layout_below="@+id/special_mode_view"
-            android:src="@drawable/background_rounded_square"
-            android:contentDescription="@string/content_description_database_color"/>
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp">
+            <ImageView
+                android:id="@+id/database_color"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|start"
+                android:src="@drawable/background_rounded_square"
+                android:contentDescription="@string/content_description_database_color"/>
+            <ImageView
+                android:id="@+id/database_modified"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_gravity="center_vertical|start"
+                android:visibility="gone"
+                android:src="@drawable/ic_modified_white_12dp"
+                android:tint="?attr/textColorInverse"
+                android:contentDescription="@string/save"/>
+        </FrameLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/group_coordinator"

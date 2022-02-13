@@ -46,6 +46,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
@@ -102,6 +103,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var databaseNameContainer: ViewGroup? = null
+    private var databaseModifiedView: ImageView? = null
     private var databaseColorView: ImageView? = null
     private var databaseNameView: TextView? = null
     private var searchView: SearchView? = null
@@ -237,6 +239,7 @@ class GroupActivity : DatabaseLockActivity(),
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
         databaseNameContainer = findViewById(R.id.database_name_container)
+        databaseModifiedView = findViewById(R.id.database_modified)
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
         searchFiltersView = findViewById(R.id.search_filters)
@@ -575,13 +578,29 @@ class GroupActivity : DatabaseLockActivity(),
         mRootGroup = database?.rootGroup
         loadGroup()
 
-        // Search suggestion
+        // Update view
         database?.let {
+            mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
+        }
+        databaseNavView?.apply {
+            if (!mMergeDataAllowed) {
+                menu.findItem(R.id.menu_merge_from)?.isVisible = false
+            }
+        }
+        refreshDatabaseViews()
+        invalidateOptionsMenu()
+    }
+
+    private fun refreshDatabaseViews() {
+        mDatabase?.let {
             val databaseName = it.name.ifEmpty { getString(R.string.database) }
             databaseNavView?.setDatabaseName(databaseName)
             databaseNameView?.text = databaseName
             databaseNavView?.setDatabasePath(it.fileUri?.toString())
             databaseNavView?.setDatabaseVersion(it.version)
+            val modified = it.dataModifiedSinceLastLoading
+            databaseNavView?.setDatabaseModifiedSinceLastLoading(modified)
+            databaseModifiedView?.isVisible = modified
             val customColor = it.customColor
             databaseNavView?.setDatabaseColor(customColor)
             if (customColor != null) {
@@ -593,16 +612,7 @@ class GroupActivity : DatabaseLockActivity(),
             } else {
                 databaseColorView?.visibility = View.GONE
             }
-            mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
         }
-
-        databaseNavView?.apply {
-            if (!mMergeDataAllowed) {
-                menu.findItem(R.id.menu_merge_from)?.isVisible = false
-            }
-        }
-
-        invalidateOptionsMenu()
     }
 
     override fun onDatabaseActionFinished(
@@ -750,6 +760,7 @@ class GroupActivity : DatabaseLockActivity(),
         } else {
             // Add breadcrumb
             setBreadcrumbNode(group)
+            refreshDatabaseViews()
             invalidateOptionsMenu()
         }
         initAddButton(group)
