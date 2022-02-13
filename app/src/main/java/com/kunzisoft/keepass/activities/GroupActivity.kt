@@ -294,6 +294,9 @@ class GroupActivity : DatabaseLockActivity(),
                             getString(R.string.database_file_name_copy) +
                             mDatabase?.defaultFileExtension)
                     }
+                    R.id.menu_lock_all -> {
+                        lockAndExit()
+                    }
                     R.id.menu_contribute -> {
                         UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)
                     }
