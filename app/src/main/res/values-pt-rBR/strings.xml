@@ -76,7 +76,7 @@
     <string name="hint_length">Comprimento</string>
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
-    <string name="invalid_credentials">Não foi possível ler credenciais.</string>
+    <string name="invalid_credentials">Não foi possível ler as credenciais.</string>
     <string name="invalid_db_sig">Não foi possível reconhecer o formato do banco de dados.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
