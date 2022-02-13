@@ -36,7 +36,10 @@ class CustomData : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        ParcelableUtil.readStringParcelableMap(parcel, CustomDataItem::class.java)
+        mCustomDataItems.clear()
+        mCustomDataItems.putAll(ParcelableUtil
+            .readStringParcelableMap(parcel, CustomDataItem::class.java)
+        )
     }
 
     fun get(key: String): CustomDataItem? {
@@ -63,6 +66,10 @@ class CustomData : Parcelable {
         for ((_, value) in mCustomDataItems) {
             action.invoke(value)
         }
+    }
+
+    override fun toString(): String {
+        return mCustomDataItems.toString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

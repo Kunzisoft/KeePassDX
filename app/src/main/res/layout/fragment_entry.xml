@@ -109,6 +109,32 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" />
 
+	<!-- TODO Custom data
+	<androidx.cardview.widget.CardView
+		android:id="@+id/entry_custom_data_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		style="?attr/cardViewStyle">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/card_view_padding"
+			android:orientation="vertical">
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_custom_data_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/custom_data"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_custom_data"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+	-->
+
 	<androidx.cardview.widget.CardView
 		android:id="@+id/entry_UUID_container"
 		android:layout_width="match_parent"

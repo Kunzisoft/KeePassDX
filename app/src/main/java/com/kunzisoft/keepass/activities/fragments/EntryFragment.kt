@@ -41,6 +41,8 @@ class EntryFragment: DatabaseFragment() {
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
 
+    private lateinit var customDataView: TextView
+
     private lateinit var uuidContainerView: View
     private lateinit var uuidReferenceView: TextView
 
@@ -82,6 +84,9 @@ class EntryFragment: DatabaseFragment() {
 
         creationDateView = view.findViewById(R.id.entry_created)
         modificationDateView = view.findViewById(R.id.entry_modified)
+
+        // TODO Custom data
+        // customDataView = view.findViewById(R.id.entry_custom_data)
 
         uuidContainerView = view.findViewById(R.id.entry_UUID_container)
         uuidContainerView.apply {
@@ -154,11 +159,14 @@ class EntryFragment: DatabaseFragment() {
         assignAttachments(entryInfo?.attachments ?: listOf())
 
         // Assign dates
-        assignCreationDate(entryInfo?.creationTime)
-        assignModificationDate(entryInfo?.lastModificationTime)
+        creationDateView.text = entryInfo?.creationTime?.getDateTimeString(resources)
+        modificationDateView.text = entryInfo?.lastModificationTime?.getDateTimeString(resources)
+
+        // TODO Custom data
+        // customDataView.text = entryInfo?.customData?.toString()
 
         // Assign special data
-        assignUUID(entryInfo?.id)
+        uuidReferenceView.text = UuidUtil.toHexString(entryInfo?.id)
     }
 
     private fun showClipboardDialog() {
@@ -187,18 +195,6 @@ class EntryFragment: DatabaseFragment() {
         dialog.dismiss()
         loadTemplateSettings()
         templateView.reload()
-    }
-
-    private fun assignCreationDate(date: DateInstant?) {
-        creationDateView.text = date?.getDateTimeString(resources)
-    }
-
-    private fun assignModificationDate(date: DateInstant?) {
-        modificationDateView.text = date?.getDateTimeString(resources)
-    }
-
-    private fun assignUUID(uuid: UUID?) {
-        uuidReferenceView.text = UuidUtil.toHexString(uuid)
     }
 
     /* -------------

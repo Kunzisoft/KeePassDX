@@ -21,6 +21,10 @@ class CustomDataItem : Parcelable {
         this.lastModificationTime = lastModificationTime
     }
 
+    override fun toString(): String {
+        return value
+    }
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(key)
         parcel.writeString(value)
