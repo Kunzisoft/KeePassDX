@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.utils.UuidUtil
@@ -15,6 +16,7 @@ open class NodeInfo() : Parcelable {
     var lastModificationTime: DateInstant = DateInstant()
     var expires: Boolean = false
     var expiryTime: DateInstant = DateInstant.IN_ONE_MONTH_DATE_TIME
+    var customData: CustomData = CustomData()
 
     constructor(parcel: Parcel) : this() {
         title = parcel.readString() ?: title
@@ -23,6 +25,7 @@ open class NodeInfo() : Parcelable {
         lastModificationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: lastModificationTime
         expires = parcel.readInt() != 0
         expiryTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: expiryTime
+        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: customData
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -32,6 +35,7 @@ open class NodeInfo() : Parcelable {
         parcel.writeParcelable(lastModificationTime, flags)
         parcel.writeInt(if (expires) 1 else 0)
         parcel.writeParcelable(expiryTime, flags)
+        parcel.writeParcelable(customData, flags)
     }
 
     override fun describeContents(): Int {
@@ -48,6 +52,7 @@ open class NodeInfo() : Parcelable {
         if (lastModificationTime != other.lastModificationTime) return false
         if (expires != other.expires) return false
         if (expiryTime != other.expiryTime) return false
+        if (customData != other.customData) return false
 
         return true
     }
@@ -59,6 +64,7 @@ open class NodeInfo() : Parcelable {
         result = 31 * result + lastModificationTime.hashCode()
         result = 31 * result + expires.hashCode()
         result = 31 * result + expiryTime.hashCode()
+        result = 31 * result + customData.hashCode()
         return result
     }
 

@@ -262,6 +262,12 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             }
         }
 
+    var customData: CustomData
+        get() = groupKDBX?.customData ?: CustomData()
+        set(value) {
+            groupKDBX?.customData = value
+        }
+
     override fun getChildGroups(): List<Group> {
         return groupKDB?.getChildGroups()?.map {
             Group(it)
@@ -489,6 +495,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupInfo.enableAutoType = enableAutoType
         groupInfo.defaultAutoTypeSequence = defaultAutoTypeSequence
         groupInfo.tags = tags
+        groupInfo.customData = customData
         return groupInfo
     }
 
@@ -505,6 +512,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         enableAutoType = groupInfo.enableAutoType
         defaultAutoTypeSequence = groupInfo.defaultAutoTypeSequence
         tags = groupInfo.tags
+        customData = groupInfo.customData
     }
 
     override fun equals(other: Any?): Boolean {

@@ -276,6 +276,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
             }
         }
 
+    var customData: CustomData
+        get() = entryKDBX?.customData ?: CustomData()
+        set(value) {
+            entryKDBX?.customData = value
+        }
+
     private fun isTan(): Boolean {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
@@ -460,6 +466,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.tags = tags
             entryInfo.backgroundColor = backgroundColor
             entryInfo.foregroundColor = foregroundColor
+            entryInfo.customData = customData
             entryInfo.customFields = getExtraFields().toMutableList()
             // Add otpElement to generate token
             entryInfo.otpModel = getOtpElement()?.otpModel
@@ -497,6 +504,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
         tags = newEntryInfo.tags
         backgroundColor = newEntryInfo.backgroundColor
         foregroundColor = newEntryInfo.foregroundColor
+        customData = newEntryInfo.customData
         addExtraFields(newEntryInfo.customFields)
         database?.attachmentPool?.let { binaryPool ->
             newEntryInfo.attachments.forEach { attachment ->
