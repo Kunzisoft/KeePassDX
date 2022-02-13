@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
@@ -42,6 +43,7 @@ class EntryInfo : NodeInfo {
     var foregroundColor: Int? = null
     var customFields: MutableList<Field> = mutableListOf()
     var attachments: MutableList<Attachment> = mutableListOf()
+    var autoType: AutoType = AutoType()
     var otpModel: OtpModel? = null
     var isTemplate: Boolean = false
 
@@ -60,6 +62,7 @@ class EntryInfo : NodeInfo {
         foregroundColor = if (readFgColor == -1) null else readFgColor
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
+        autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
         isTemplate = parcel.readByte().toInt() != 0
     }
@@ -80,6 +83,7 @@ class EntryInfo : NodeInfo {
         parcel.writeInt(foregroundColor ?: -1)
         parcel.writeList(customFields)
         parcel.writeList(attachments)
+        parcel.writeParcelable(autoType, flags)
         parcel.writeParcelable(otpModel, flags)
         parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }
@@ -209,6 +213,7 @@ class EntryInfo : NodeInfo {
         if (foregroundColor != other.foregroundColor) return false
         if (customFields != other.customFields) return false
         if (attachments != other.attachments) return false
+        if (autoType != other.autoType) return false
         if (otpModel != other.otpModel) return false
         if (isTemplate != other.isTemplate) return false
 
@@ -227,6 +232,7 @@ class EntryInfo : NodeInfo {
         result = 31 * result + foregroundColor.hashCode()
         result = 31 * result + customFields.hashCode()
         result = 31 * result + attachments.hashCode()
+        result = 31 * result + autoType.hashCode()
         result = 31 * result + (otpModel?.hashCode() ?: 0)
         result = 31 * result + isTemplate.hashCode()
         return result
