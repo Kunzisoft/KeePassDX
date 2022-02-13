@@ -74,7 +74,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
 
 
-class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
+class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -105,7 +105,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_password)
+        setContentView(R.layout.activity_main_credential)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar?.title = getString(R.string.app_name)
@@ -126,7 +126,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
         }
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
-        mExternalFileHelper = ExternalFileHelper(this@PasswordActivity)
+        mExternalFileHelper = ExternalFileHelper(this@MainCredentialActivity)
         mExternalFileHelper?.buildOpenDocument { uri ->
             if (uri != null) {
                 mainCredentialView?.populateKeyFileTextView(uri)
@@ -201,10 +201,10 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
     override fun onResume() {
         super.onResume()
 
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this@PasswordActivity)
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this@MainCredentialActivity)
 
         // Back to previous keyboard is setting activated
-        if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@PasswordActivity)) {
+        if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@MainCredentialActivity)) {
             sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
         }
 
@@ -443,7 +443,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
     private fun enableConfirmationButton() {
         // Enable or not the open button if setting is checked
-        if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
+        if (!PreferencesUtil.emptyPasswordAllowed(this@MainCredentialActivity)) {
             confirmButtonView?.isEnabled = mainCredentialView?.isFill() ?: false
         } else {
             confirmButtonView?.isEnabled = true
@@ -623,7 +623,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
     companion object {
 
-        private val TAG = PasswordActivity::class.java.name
+        private val TAG = MainCredentialActivity::class.java.name
 
         private const val UNLOCK_FRAGMENT_TAG = "UNLOCK_FRAGMENT_TAG"
 
@@ -637,7 +637,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
-            val intent = Intent(activity, PasswordActivity::class.java)
+            val intent = Intent(activity, MainCredentialActivity::class.java)
             intent.putExtra(KEY_FILENAME, databaseFile)
             if (keyFile != null)
                 intent.putExtra(KEY_KEYFILE, keyFile)
@@ -773,30 +773,30 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
             try {
                 EntrySelectionHelper.doSpecialAction(activity.intent,
                         {
-                            PasswordActivity.launch(activity,
+                            MainCredentialActivity.launch(activity,
                                     databaseUri, keyFile)
                         },
                         { searchInfo -> // Search Action
-                            PasswordActivity.launchForSearchResult(activity,
+                            MainCredentialActivity.launchForSearchResult(activity,
                                     databaseUri, keyFile,
                                     searchInfo)
                             onLaunchActivitySpecialMode()
                         },
                         { searchInfo -> // Save Action
-                            PasswordActivity.launchForSaveResult(activity,
+                            MainCredentialActivity.launchForSaveResult(activity,
                                     databaseUri, keyFile,
                                     searchInfo)
                             onLaunchActivitySpecialMode()
                         },
                         { searchInfo -> // Keyboard Selection Action
-                            PasswordActivity.launchForKeyboardResult(activity,
+                            MainCredentialActivity.launchForKeyboardResult(activity,
                                     databaseUri, keyFile,
                                     searchInfo)
                             onLaunchActivitySpecialMode()
                         },
                         { searchInfo, autofillComponent -> // Autofill Selection Action
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                PasswordActivity.launchForAutofillResult(activity,
+                                MainCredentialActivity.launchForAutofillResult(activity,
                                         databaseUri, keyFile,
                                         autofillActivityResultLauncher,
                                         autofillComponent,
@@ -807,7 +807,7 @@ class PasswordActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderL
                             }
                         },
                         { registerInfo -> // Registration Action
-                            PasswordActivity.launchForRegistration(activity,
+                            MainCredentialActivity.launchForRegistration(activity,
                                     databaseUri, keyFile,
                                     registerInfo)
                             onLaunchActivitySpecialMode()

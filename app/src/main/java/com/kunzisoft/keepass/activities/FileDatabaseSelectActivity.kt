@@ -42,7 +42,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.AssignMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -69,7 +69,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : DatabaseModeActivity(),
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
+        AssignMainCredentialDialogFragment.AssignMainCredentialDialogListener {
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -124,7 +124,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { databaseFileCreatedUri ->
             mDatabaseFileUri = databaseFileCreatedUri
             if (mDatabaseFileUri != null) {
-                AssignMasterKeyDialogFragment.getInstance(true)
+                AssignMainCredentialDialogFragment.getInstance(true)
                     .show(supportFragmentManager, "passwordDialog")
             } else {
                 val error = getString(R.string.error_create_database)
@@ -291,7 +291,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
-        PasswordActivity.launch(this,
+        MainCredentialActivity.launch(this,
                 databaseUri,
                 keyFile,
                 { exception ->

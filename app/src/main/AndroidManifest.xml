@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kunzisoft.keepass.activities.PasswordActivity"
+            android:name="com.kunzisoft.keepass.activities.MainCredentialActivity"
             android:exported="true"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustResize|stateUnchanged">

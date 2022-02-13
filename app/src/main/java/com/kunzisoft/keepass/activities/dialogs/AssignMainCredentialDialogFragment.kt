@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
-class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
+class AssignMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var mMasterPassword: String? = null
     private var mKeyFile: Uri? = null
@@ -56,7 +56,7 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
     private var keyFileCheckBox: CompoundButton? = null
     private var keyFileSelectionView: KeyFileSelectionView? = null
 
-    private var mListener: AssignPasswordDialogListener? = null
+    private var mListener: AssignMainCredentialDialogListener? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
@@ -74,7 +74,7 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    interface AssignPasswordDialogListener {
+    interface AssignMainCredentialDialogListener {
         fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential)
         fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential)
     }
@@ -82,10 +82,10 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
     override fun onAttach(activity: Context) {
         super.onAttach(activity)
         try {
-            mListener = activity as AssignPasswordDialogListener
+            mListener = activity as AssignMainCredentialDialogListener
         } catch (e: ClassCastException) {
             throw ClassCastException(activity.toString()
-                    + " must implement " + AssignPasswordDialogListener::class.java.name)
+                    + " must implement " + AssignMainCredentialDialogListener::class.java.name)
         }
     }
 
@@ -254,7 +254,7 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         if (!verifyKeyFile()) {
                             mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
-                            this@AssignMasterKeyDialogFragment.dismiss()
+                            this@AssignMainCredentialDialogFragment.dismiss()
                         }
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
@@ -269,7 +269,7 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
-                        this@AssignMasterKeyDialogFragment.dismiss()
+                        this@AssignMainCredentialDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
             mNoKeyConfirmationDialog = builder.create()
@@ -301,8 +301,8 @@ class AssignMasterKeyDialogFragment : DatabaseDialogFragment() {
 
         private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
 
-        fun getInstance(allowNoMasterKey: Boolean): AssignMasterKeyDialogFragment {
-            val fragment = AssignMasterKeyDialogFragment()
+        fun getInstance(allowNoMasterKey: Boolean): AssignMainCredentialDialogFragment {
+            val fragment = AssignMainCredentialDialogFragment()
             val args = Bundle()
             args.putBoolean(ALLOW_NO_MASTER_KEY_ARG, allowNoMasterKey)
             fragment.arguments = args

@@ -30,7 +30,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.AssignMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -337,7 +337,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
             isEnabled = if (!mDatabaseReadOnly) {
                 onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                    AssignMasterKeyDialogFragment.getInstance(database.allowNoMasterKey)
+                    AssignMainCredentialDialogFragment.getInstance(database.allowNoMasterKey)
                             .show(parentFragmentManager, "passwordDialog")
                     false
                 }

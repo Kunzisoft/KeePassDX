@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 
-open class AssignPasswordInDatabaseRunnable (
+open class AssignMainCredentialInDatabaseRunnable (
         context: Context,
         database: Database,
         protected val mDatabaseUri: Uri,

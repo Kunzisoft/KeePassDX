@@ -649,7 +649,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
-            AssignPasswordInDatabaseRunnable(this,
+            AssignMainCredentialInDatabaseRunnable(this,
                 database,
                 databaseUri,
                 intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
