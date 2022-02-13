@@ -42,7 +42,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMainCredentialDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -69,7 +69,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : DatabaseModeActivity(),
-        AssignMainCredentialDialogFragment.AssignMainCredentialDialogListener {
+        SetMainCredentialDialogFragment.AssignMainCredentialDialogListener {
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -124,7 +124,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { databaseFileCreatedUri ->
             mDatabaseFileUri = databaseFileCreatedUri
             if (mDatabaseFileUri != null) {
-                AssignMainCredentialDialogFragment.getInstance(true)
+                SetMainCredentialDialogFragment.getInstance(true)
                     .show(supportFragmentManager, "passwordDialog")
             } else {
                 val error = getString(R.string.error_create_database)

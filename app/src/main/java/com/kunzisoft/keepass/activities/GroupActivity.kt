@@ -93,7 +93,7 @@ class GroupActivity : DatabaseLockActivity(),
         GroupFragment.OnScrollListener,
         GroupFragment.GroupRefreshedListener,
         SortDialogFragment.SortSelectionListener,
-        AskMainCredentialDialogFragment.AskMainCredentialDialogListener {
+        MainCredentialDialogFragment.AskMainCredentialDialogListener {
 
     // Views
     private var drawerLayout: DrawerLayout? = null
@@ -1058,8 +1058,8 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun launchDialogToAskMainCredential(uri: Uri?) {
-        AskMainCredentialDialogFragment.getInstance(uri)
-            .show(supportFragmentManager, AskMainCredentialDialogFragment.TAG_ASK_MAIN_CREDENTIAL)
+        MainCredentialDialogFragment.getInstance(uri)
+            .show(supportFragmentManager, MainCredentialDialogFragment.TAG_ASK_MAIN_CREDENTIAL)
     }
 
     override fun onCopyMenuClick(

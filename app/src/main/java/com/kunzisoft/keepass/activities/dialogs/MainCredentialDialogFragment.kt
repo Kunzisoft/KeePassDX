@@ -23,13 +23,15 @@ import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.MainCredentialView
 
-class AskMainCredentialDialogFragment : DatabaseDialogFragment() {
+class MainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var mainCredentialView: MainCredentialView? = null
 
@@ -68,11 +70,13 @@ class AskMainCredentialDialogFragment : DatabaseDialogFragment() {
 
             val builder = AlertDialog.Builder(activity)
 
-            mainCredentialView = MainCredentialView(activity)
+            val root = activity.layoutInflater.inflate(R.layout.fragment_main_credential, null)
+            mainCredentialView = root.findViewById(R.id.main_credential_view)
             databaseUri?.let {
-                builder.setTitle(UriUtil.getFileData(requireContext(), it)?.name)
+                root.findViewById<TextView>(R.id.title_database)?.text =
+                    UriUtil.getFileData(requireContext(), it)?.name
             }
-            builder.setView(mainCredentialView)
+            builder.setView(root)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAskMainCredentialDialogPositiveClick(
@@ -111,8 +115,8 @@ class AskMainCredentialDialogFragment : DatabaseDialogFragment() {
         private const val KEY_ASK_CREDENTIAL_URI = "KEY_ASK_CREDENTIAL_URI"
         const val TAG_ASK_MAIN_CREDENTIAL = "TAG_ASK_MAIN_CREDENTIAL"
 
-        fun getInstance(uri: Uri?): AskMainCredentialDialogFragment {
-            val fragment = AskMainCredentialDialogFragment()
+        fun getInstance(uri: Uri?): MainCredentialDialogFragment {
+            val fragment = MainCredentialDialogFragment()
             val args = Bundle()
             args.putParcelable(KEY_ASK_CREDENTIAL_URI, uri)
             fragment.arguments = args

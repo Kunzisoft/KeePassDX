@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
-class AssignMainCredentialDialogFragment : DatabaseDialogFragment() {
+class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var mMasterPassword: String? = null
     private var mKeyFile: Uri? = null
@@ -112,7 +112,7 @@ class AssignMainCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
 
-            rootView = inflater.inflate(R.layout.fragment_set_password, null)
+            rootView = inflater.inflate(R.layout.fragment_set_main_credential, null)
             builder.setView(rootView)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
@@ -254,7 +254,7 @@ class AssignMainCredentialDialogFragment : DatabaseDialogFragment() {
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         if (!verifyKeyFile()) {
                             mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
-                            this@AssignMainCredentialDialogFragment.dismiss()
+                            this@SetMainCredentialDialogFragment.dismiss()
                         }
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
@@ -269,7 +269,7 @@ class AssignMainCredentialDialogFragment : DatabaseDialogFragment() {
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
-                        this@AssignMainCredentialDialogFragment.dismiss()
+                        this@SetMainCredentialDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
             mNoKeyConfirmationDialog = builder.create()
@@ -301,8 +301,8 @@ class AssignMainCredentialDialogFragment : DatabaseDialogFragment() {
 
         private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
 
-        fun getInstance(allowNoMasterKey: Boolean): AssignMainCredentialDialogFragment {
-            val fragment = AssignMainCredentialDialogFragment()
+        fun getInstance(allowNoMasterKey: Boolean): SetMainCredentialDialogFragment {
+            val fragment = SetMainCredentialDialogFragment()
             val args = Bundle()
             args.putBoolean(ALLOW_NO_MASTER_KEY_ARG, allowNoMasterKey)
             fragment.arguments = args

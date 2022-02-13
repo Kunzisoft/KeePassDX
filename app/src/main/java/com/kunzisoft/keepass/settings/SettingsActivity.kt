@@ -32,7 +32,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMainCredentialDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -46,7 +46,7 @@ import java.util.*
 open class SettingsActivity
     : DatabaseLockActivity(),
         MainPreferenceFragment.Callback,
-        AssignMainCredentialDialogFragment.AssignMainCredentialDialogListener {
+        SetMainCredentialDialogFragment.AssignMainCredentialDialogListener {
 
     private var backupManager: BackupManager? = null
     private var mExternalFileHelper: ExternalFileHelper? = null
