@@ -597,4 +597,18 @@
     <string name="menu_external_icon">外部アイコン</string>
     <string name="template">テンプレート</string>
     <string name="hint_icon_name">アイコン名</string>
+    <string name="tags">タグ</string>
+    <string name="menu_merge_database">マージする</string>
+    <string name="warning_keyfile_integrity">Android は実行中にデータを変更しうるため、ファイルのハッシュ値は保証されません。整合性を正しく保つにはファイルの拡張子を.binに変更してください。</string>
+    <string name="permission">権限</string>
+    <string name="enable_keep_screen_on_title">画面の表示を保つ</string>
+    <string name="enable_keep_screen_on_summary">エントリーを開いているときは画面をオンのままにします</string>
+    <string name="content_description_database_color">データベース カラー</string>
+    <string name="content_description_entry_foreground_color">エントリーのフォアグラウンド カラー</string>
+    <string name="content_description_entry_background_color">エントリーのバックグラウンド カラー</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="warning_database_info_reloaded">データベースを再度読み込むとローカルで変更されたデータが削除されます。</string>
+    <string name="warning_exact_alarm">アプリに正確なアラームの使用を許可していません。その結果、タイマーを必要とする機能が正確な時間で行われなくなります。</string>
+    <string name="show_entry_colors_title">エントリー カラー</string>
+    <string name="show_entry_colors_summary">フォアグラウンド・バックグラウンド カラーをエントリー内に表示します</string>
 </resources>

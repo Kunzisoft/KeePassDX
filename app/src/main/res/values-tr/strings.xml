@@ -96,7 +96,7 @@
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>
     <string name="length">Uzunluk</string>
     <string name="list_entries_show_username_title">Kullanıcı adlarını göster</string>
-    <string name="list_entries_show_username_summary">Girdi listelerinde kullanıcı adlarını göster</string>
+    <string name="list_entries_show_username_summary">Girdi listelerinde kullanıcı adlarını görüntüler</string>
     <string name="list_size_title">Liste ögelerinin boyutu</string>
     <string name="list_size_summary">Öge listesindeki metin boyutu</string>
     <string name="loading_database">Veri tabanı yükleniyor…</string>
@@ -316,7 +316,7 @@
     <string name="error_move_entry_here">Bir girdiyi buraya taşıyamazsınız.</string>
     <string name="error_copy_entry_here">Bir girdiyi buraya kopyalayamazsınız.</string>
     <string name="list_groups_show_number_entries_title">Girdi sayısını göster</string>
-    <string name="list_groups_show_number_entries_summary">Bir gruptaki girdilerin sayısını göster</string>
+    <string name="list_groups_show_number_entries_summary">Bir gruptaki girdilerin sayısını görüntüler</string>
     <string name="lock_database_back_root_title">Kilitlemek için \'Geri\'ye basın</string>
     <string name="recycle_bin">Geri dönüşüm kutusu</string>
     <string name="keyboard_selection_entry_title">Girdi seçimi</string>
@@ -522,7 +522,7 @@
     <string name="autofill_inline_suggestions_summary">Doğrudan uyumlu bir klavyeden otomatik doldurma önerileri görüntülemeye çalış</string>
     <string name="autofill_inline_suggestions_title">Satır içi öneriler</string>
     <string name="warning_database_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi, veri tabanını kapatın ve bulunduğu yerden yeniden açın.</string>
-    <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle veri tabanını yeniden yükleyin.</string>
+    <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle yeniden yükleyin.</string>
     <string name="warning_database_info_changed">Veri tabanı dosyanızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
     <string name="menu_reload_database">Verileri yeniden yükle</string>
     <string name="unit_gibibyte">GiB</string>
@@ -601,4 +601,10 @@
     <string name="content_description_entry_background_color">Girdi arka plan rengi</string>
     <string name="menu_merge_database">Verileri birleştir</string>
     <string name="warning_database_info_reloaded">Veri tabanını yeniden yüklemek, yerel olarak değiştirilen verileri silecektir.</string>
+    <string name="tags">Etiketler</string>
+    <string name="warning_keyfile_integrity">Android, verilerini anında değiştirebildiğinden dosyanın sağlama toplamı garanti edilmez. Doğru bütünlük için dosya uzantısını .bin olarak değiştirin.</string>
+    <string name="enable_keep_screen_on_title">Ekranı açık tut</string>
+    <string name="show_entry_colors_title">Girdi renkleri</string>
+    <string name="show_entry_colors_summary">Bir girdide ön plan ve arka plan renklerini görüntüler</string>
+    <string name="enable_keep_screen_on_summary">Girdiyi izlerken ekranı açık tutun</string>
 </resources>

@@ -196,7 +196,7 @@
     <string name="creating_database">Створення бази даних…</string>
     <string name="list_groups_show_number_entries_summary">Показувати кількість записів у групі</string>
     <string name="list_groups_show_number_entries_title">Показувати кількість записів</string>
-    <string name="list_entries_show_username_summary">Показувати імена користувачів у переліках записів</string>
+    <string name="list_entries_show_username_summary">Показувати імена користувачів у списках записів</string>
     <string name="list_entries_show_username_title">Показувати імена користувачів</string>
     <string name="keyfile_is_empty">Файл ключа порожній.</string>
     <string name="invalid_db_same_uuid">%1$s з таким самим UUID %2$s вже існує.</string>
@@ -212,7 +212,7 @@
     <string name="error_create_database_file">Неможливо створити базу даних із цим паролем та файлом ключа.</string>
     <string name="error_create_database">Не вдалося створити файл бази даних.</string>
     <string name="error_copy_group_here">Ви не можете копіювати групу сюди.</string>
-    <string name="error_copy_entry_here">Ви не можете копіювати записи сюди.</string>
+    <string name="error_copy_entry_here">Ви не можете копіювати запис сюди.</string>
     <string name="error_move_entry_here">Ви не можете перемістити запис сюди.</string>
     <string name="error_autofill_enable_service">Не вдалось ввімкнути службу автозаповнення.</string>
     <string name="error_label_exists">Ця мітка вже існує.</string>
@@ -527,7 +527,7 @@
     <string name="autofill_inline_suggestions_summary">Спробувати показ пропозицій автозаповнення безпосередньо з сумісної клавіатури</string>
     <string name="autofill_inline_suggestions_title">Вбудовані пропозиції</string>
     <string name="warning_database_revoked">Доступ до файлу скасовано менеджером файлів, закрийте базу даних і знову відкрийте її з її розташування.</string>
-    <string name="warning_database_info_changed_options">Об\'єднати дані, перезаписати зовнішні зміни, зберігши базу даних або перезавантажити базу даних з найновішими змінами.</string>
+    <string name="warning_database_info_changed_options">Об\'єднати дані, перезаписати зовнішні зміни, зберігши базу даних або перезавантажити її з найновішими змінами.</string>
     <string name="warning_database_info_changed">Відомості, що містяться у файлі бази даних, змінено за межами застосунку.</string>
     <string name="menu_reload_database">Перезавантажити дані</string>
     <string name="unit_gibibyte">ГіБ</string>
@@ -606,4 +606,10 @@
     <string name="content_description_entry_foreground_color">Колір тексту запису</string>
     <string name="menu_merge_database">Об\'єднати дані</string>
     <string name="warning_database_info_reloaded">Перезавантаження бази даних видалить локально змінені дані.</string>
+    <string name="enable_keep_screen_on_title">Не вимикати екран</string>
+    <string name="enable_keep_screen_on_summary">Не вимикати екран під час перегляду запису</string>
+    <string name="show_entry_colors_title">Кольори записів</string>
+    <string name="show_entry_colors_summary">Показує кольори шрифту й тла запису</string>
+    <string name="tags">Мітки</string>
+    <string name="warning_keyfile_integrity">Хеш файлу не гарантується, оскільки Android може змінювати свої дані на льоту. Змініть розширення файлу на .bin для збереження цілісності.</string>
 </resources>
