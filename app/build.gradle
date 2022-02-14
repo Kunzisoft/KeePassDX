@@ -75,6 +75,8 @@ android {
                             "\"KeepassDXStyle_Blue_Night\"," +
                             "\"KeepassDXStyle_Red\"," +
                             "\"KeepassDXStyle_Red_Night\"," +
+                            "\"KeepassDXStyle_Reply\"," +
+                            "\"KeepassDXStyle_Reply_Night\"," +
                             "\"KeepassDXStyle_Purple\"," +
                             "\"KeepassDXStyle_Purple_Dark\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"

@@ -6,7 +6,7 @@ KeePassDX(3.3.0)
  * Merge from file and save as copy #1221 #1204 #840
  * Fix custom data #1236
  * New UI and fix styles
- * Add "Simple" theme
+ * Add "Simple" and "Reply" themes
 
 KeePassDX(3.2.0)
  * Manage data merge #840 #977

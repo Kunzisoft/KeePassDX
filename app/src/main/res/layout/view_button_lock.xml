@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="mini"
+        android:layout_gravity="center"
         android:layout_margin="8dp"
         android:contentDescription="@string/lock"
         android:src="@drawable/ic_lock_white_padding_24dp"

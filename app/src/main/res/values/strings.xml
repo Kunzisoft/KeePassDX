@@ -639,6 +639,7 @@
         <item>Simple</item>
         <item>Moon</item>
         <item>Sun</item>
+        <item>Reply</item>
         <item>Kunzite</item>
     </string-array>
     <string name="style_brightness_title">Theme brightness</string>

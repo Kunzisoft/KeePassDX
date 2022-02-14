@@ -269,6 +269,7 @@
         <item>Simple</item>
         <item>Lune</item>
         <item>Soleil</item>
+        <item>Réponse</item>
         <item>Kunzite</item>
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>

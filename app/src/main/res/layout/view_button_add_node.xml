@@ -34,7 +34,7 @@
         android:layout_marginBottom="-12dp"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_add_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
         android:layout_marginBottom="-12dp"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_add_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

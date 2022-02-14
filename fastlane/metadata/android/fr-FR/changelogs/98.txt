@@ -5,4 +5,4 @@
  * Fusion depuis un fichier et sauvegarde de copie #1221 #1204 #840
  * Correction des données customisées #1236
  * Nouvelle interface utilisateur et correction des styles
- * Ajout du thème "Simple"
+ * Ajout des thèmes "Simple" et "Réponse"

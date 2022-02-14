@@ -479,6 +479,7 @@
         <item>Simple</item>
         <item>Moon</item>
         <item>Sun</item>
+        <item>Reply</item>
         <item>Kunzite</item>
     </string-array>
     <string name="icon_pack_choose_title">アイコンパック</string>

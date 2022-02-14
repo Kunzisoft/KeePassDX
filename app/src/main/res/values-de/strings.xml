@@ -434,6 +434,7 @@
         <item>Einfach</item>
         <item>Mond</item>
         <item>Sonne</item>
+        <item>Antwort</item>
         <item>Kunzite</item>
     </string-array>
     <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
