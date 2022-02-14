@@ -23,13 +23,13 @@
     android:layout_alignParentBottom="true"
     android:paddingTop="4dp"
     android:paddingBottom="8dp"
-    android:background="@color/grey_blue_dark"
+    android:background="@color/grey_blue_deep"
     android:orientation="vertical">
     <TextView
         android:id="@+id/magikeyboard_entry_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grey_blue_dark"
+        android:background="@color/grey_blue_deep"
         android:gravity="center"
         android:textColor="@color/white"/>
     <com.kunzisoft.keepass.magikeyboard.KeyboardView

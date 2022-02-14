@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2018 Jeremy Jamet / Kunzisoft.
+ Copyright 2021 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
 
@@ -17,14 +17,9 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners
-        android:radius="4dp" />
-    <padding
-        android:left="0dp"
-        android:right="0dp"
-        android:top="12dp"
-        android:bottom="12dp"/>
-    <stroke android:width="1dp" android:color="@color/grey_blue_slight" />
-    <solid android:color="@color/grey_blue_deep"/>
-</shape>
+<resources>
+    <style name="KeepassDXStyle.Simple.v27" parent="KeepassDXStyle.Simple.v23" >
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

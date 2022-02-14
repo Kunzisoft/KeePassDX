@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <!-- Classic Simple Style -->
+    <style name="KeepassDXStyle.Simple" parent="KeepassDXStyle.Simple.v27" />
+    <style name="KeepassDXStyle.Simple.v27" parent="KeepassDXStyle.Simple.v23" />
+    <style name="KeepassDXStyle.Simple.v23" parent="KeepassDXStyle.Simple.v21" />
+    <style name="KeepassDXStyle.Simple.v21" parent="KeepassDXStyle.Simple.Base" />
+    <style name="KeepassDXStyle.Simple.Base" parent="KeepassDXStyle.Light" >
+        <item name="colorPrimary">@color/white_slight</item>
+        <item name="colorPrimaryDark">@color/white_slight</item>
+        <item name="colorAccent">@color/blue_deep</item>
+        <item name="colorAccentLight">@color/blue_deep</item>
+        <item name="colorControlActivated">@color/blue_deep</item>
+        <item name="android:textColorPrimary">@color/grey</item>
+        <item name="android:textColorHintInverse">@color/grey</item>
+        <item name="android:windowBackground">@color/white_slight</item>
+        <item name="toolbarColorControl">@color/grey_light</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Simple</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Simple</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Simple</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Simple</item>
+        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Simple</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Simple.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Simple.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Simple</item>
+        <item name="cardBackgroundTransparentColor">@color/white_slight_transparent</item>
+        <item name="educationCircleColor">@color/blue_dark</item>
+        <item name="educationTextColor">@color/white</item>
+
+        <item name="android:textColor">@color/text_color_light</item>
+        <item name="android:editTextColor">@color/grey_light</item>
+        <item name="textColorInverse">@color/grey_light</item>
+        <item name="android:textColorPrimaryInverse">@color/grey_light</item>
+        <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
+        <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
+        <item name="android:textColorHint">@color/grey_lighter</item>
+
+        <item name="chipFilterTextColor">@color/text_color_light</item>
+        <item name="chipFilterBackgroundColor">@color/blue_white</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/white_dark</item>
+    </style>
+    <!-- Toolbar Style Simple -->
+    <style name="KeepassDXStyle.Toolbar.Simple" parent="KeepassDXStyle.Simple">
+        <item name="colorControlNormal">@color/grey_light</item>
+        <item name="android:textColorPrimary">@color/grey_light</item>
+        <item name="android:textColorSecondary">@color/grey_lighter</item>
+        <item name="android:tint">@color/grey_light</item>
+    </style>
+    <!-- Toolbar Popup menu -->
+    <style name="KeepassDXStyle.Toolbar.Popup.Simple" parent="KeepassDXStyle.Toolbar.Simple">
+        <item name="android:colorBackground">@color/white</item>
+    </style>
+    <!-- Toolbar Home Simple -->
+    <style name="KeepassDXStyle.Toolbar.Home.Simple" parent="KeepassDXStyle.Toolbar.Simple">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Simple -->
+    <style name="KeepassDXStyle.Toolbar.Special.Simple" parent="KeepassDXStyle.Toolbar.Simple">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Simple</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Simple" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/white_slight</item>
+    </style>
+    <!-- Action Toolbar Simple -->
+    <style name="KeepassDXStyle.Toolbar.Action.Simple" parent="KeepassDXStyle.Toolbar.Simple">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Simple</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Simple" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/white_slight</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Simple.Dialog" parent="KeepassDXStyle.Light.Dialog">
+        <item name="colorAccent">@color/blue_deep</item>
+        <item name="android:textColorPrimary">@color/grey</item>
+        <item name="android:background">@color/white_slight</item>
+        <item name="background">@color/white_slight</item>
+    </style>
+    <style name="KeepassDXStyle.Simple.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/blue_deep</item>
+        <item name="android:textColorPrimary">@color/grey</item>
+        <item name="android:windowBackground">@color/white_slight</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Simple" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/white_slight</item>
+    </style>
+
+    <!-- Classic Night Style -->
+    <style name="KeepassDXStyle.Simple.Night" parent="KeepassDXStyle.Simple.Night.v21" />
+    <style name="KeepassDXStyle.Simple.Night.v21" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/grey_slight</item>
+        <item name="colorPrimaryDark">@color/grey_slight</item>
+        <item name="colorAccent">@color/blue_slight</item>
+        <item name="colorAccentLight">@color/blue_slight</item>
+        <item name="colorControlActivated">@color/blue_slight</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorHintInverse">@color/white</item>
+        <item name="android:textColorSecondaryInverse">@color/white_dark</item>
+        <item name="android:windowBackground">@color/grey_slight</item>
+        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Simple.Night</item>
+        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Simple.Night</item>
+        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Simple.Night</item>
+        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Simple.Night</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Simple.Night.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Simple.Night.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Simple.Night</item>
+        <item name="cardBackgroundTransparentColor">@color/grey_slight_transparent</item>
+        <item name="educationCircleColor">@color/blue_slight</item>
+        <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/grey_black_slight</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/grey_darker</item>
+    </style>
+    <!-- Toolbar Style Night -->
+    <style name="KeepassDXStyle.Toolbar.Simple.Night" parent="KeepassDXStyle.Simple.Night">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/grey_lighter</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+    <!-- Toolbar Home Night -->
+    <style name="KeepassDXStyle.Toolbar.Home.Simple.Night" parent="KeepassDXStyle.Toolbar.Simple.Night">
+        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
+    </style>
+    <!-- Special Toolbar Night -->
+    <style name="KeepassDXStyle.Toolbar.Special.Simple.Night" parent="KeepassDXStyle.Toolbar.Simple.Night">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Simple.Night</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Special.Simple.Night" parent="KeepassDXStyle.Toolbar.Widget.Special">
+        <item name="android:background">@color/grey_slight</item>
+    </style>
+    <!-- Action Toolbar Night -->
+    <style name="KeepassDXStyle.Toolbar.Action.Simple.Night" parent="KeepassDXStyle.Toolbar.Simple.Night">
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Simple.Night</item>
+    </style>
+    <style name="KeepassDXStyle.Toolbar.Widget.Action.Simple.Night" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/grey_slight</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Simple.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
+        <item name="colorAccent">@color/blue_slight</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">@color/grey_slight</item>
+        <item name="background">@color/grey_slight</item>
+    </style>
+    <style name="KeepassDXStyle.Simple.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">@color/blue_slight</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:windowBackground">@color/grey_slight</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Simple.Night" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/grey_slight</item>
+    </style>
+</resources>

@@ -41,11 +41,19 @@
 	<color name="black">#000001</color> <!-- #000001 To fix refresh theme -->
 	<color name="black_transparent">#E0000000</color>
 
-    <color name="grey_blue">#3c474c</color>
-    <color name="grey_blue_dark">#263238</color>
+    <color name="white_slight">#FCFCFF</color>
+    <color name="white_slight_transparent">#E0FCFCFF</color>
+    <color name="grey_slight">#202124</color>
+    <color name="grey_slight_transparent">#E0202124</color>
+    <color name="grey_black_slight">#3E4247</color>
+    <color name="grey_blue_slight">#3c474c</color>
+    <color name="grey_blue_deep">#263238</color>
+    <color name="blue_slight">#5E97F6</color>
+    <color name="blue_deep">#1860D2</color>
 
-    <color name="blue_lighter">#90CAF9</color>
-    <color name="blue_white">#5DB2F6</color>
+    <color name="blue_white">#E6F3FF</color>
+    <color name="blue_white_dark">#90CAF9</color>
+    <color name="blue_lighter">#5DB2F6</color>
     <color name="blue_light">#2196F3</color>
     <color name="blue">#1E88E5</color>
     <color name="blue_dark">#1976D2</color>

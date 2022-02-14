@@ -5,3 +5,4 @@
  * Merge from file and save as copy #1221 #1204 #840
  * Fix custom data #1236
  * New UI and fix styles
+ * Add "Simple" theme

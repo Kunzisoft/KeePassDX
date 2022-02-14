@@ -559,7 +559,7 @@
     <!-- Keyboard -->
     <style name="KeepassDXStyle.Keyboard" parent="Theme.AppCompat">
         <item name="android:paddingTop">4dp</item>
-        <item name="background">@color/grey_blue_dark</item>
+        <item name="background">@color/grey_blue_deep</item>
         <item name="keyBackground">@drawable/key_background</item>
         <item name="keyTextSize">22sp</item>
         <item name="keyTextColor">@color/white</item>
