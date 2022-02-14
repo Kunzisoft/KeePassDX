@@ -612,4 +612,18 @@
     <string name="show_entry_colors_title">条目颜色</string>
     <string name="show_entry_colors_summary">显示条目的前景色和背景色</string>
     <string name="tags">标签</string>
+    <string name="searchable">可搜索</string>
+    <string name="auto_type_sequence">自动输入序列</string>
+    <string name="custom_data">自定义数据</string>
+    <string name="current_group">当前组</string>
+    <string name="regex">正则表达式</string>
+    <string name="menu_merge_from">合并自…</string>
+    <string name="menu_save_copy_to">保存副本到…</string>
+    <string name="inherited">继承的</string>
+    <string name="content_description_nav_header">导航标题</string>
+    <string name="navigation_drawer_close">导航抽屉关闭</string>
+    <string name="navigation_drawer_open">导航抽屉开启</string>
+    <string name="search_filters">搜索过滤器</string>
+    <string name="case_sensitive">区分大小写</string>
+    <string name="auto_type">自动输入</string>
 </resources>
