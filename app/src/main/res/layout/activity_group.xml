@@ -71,6 +71,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_gravity="center_vertical|start"
+                android:visibility="gone"
                 android:src="@drawable/background_rounded_square"
                 android:contentDescription="@string/content_description_database_color"/>
             <ImageView
