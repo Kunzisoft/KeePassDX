@@ -168,7 +168,7 @@
     <string name="error_label_exists">This label already exists.</string>
     <string name="error_wrong_length">Enter a positive integer number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
-    <string name="error_move_group_here">You can not move a group here.</string>
+    <string name="error_move_group_here">You cannot move a group here.</string>
     <string name="error_move_entry_here">You cannot move an entry here.</string>
     <string name="error_copy_entry_here">You cannot copy an entry here.</string>
     <string name="error_copy_group_here">You cannot copy a group here.</string>
