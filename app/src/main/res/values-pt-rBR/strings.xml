@@ -523,7 +523,7 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
     <string name="advanced_unlock_prompt_store_credential_message">Aviso: você ainda precisa lembrar sua senha mestra se usar o reconhecimento de desbloqueio avançado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar credenciais</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar as credenciais</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Abra o prompt de desbloqueio avançado para desbloquear o banco de dados</string>
     <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
