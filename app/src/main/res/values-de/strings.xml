@@ -559,7 +559,7 @@
     <string name="export_app_properties_summary">Datei zum Exportieren von App-Eigenschaften erstellen</string>
     <string name="export_app_properties_title">App-Eigenschaften exportieren</string>
     <string name="import_app_properties_summary">Datei zum Importieren von App-Eigenschaften auswählen</string>
-    <string name="error_move_group_here">Sie können hier keine Gruppe verschieben.</string>
+    <string name="error_move_group_here">Hierher kann keine Gruppe verschoben werden.</string>
     <string name="autofill_inline_suggestions_title">Ausfüllvorschläge</string>
     <string name="error_word_reserved">Dieses Wort ist reserviert und kann nicht verwendet werden.</string>
     <string name="icon_section_custom">Benutzerdefiniert</string>
