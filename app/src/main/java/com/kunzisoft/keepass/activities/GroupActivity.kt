@@ -62,6 +62,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
@@ -449,16 +450,18 @@ class GroupActivity : DatabaseLockActivity(),
 
         mGroupEditViewModel.onGroupCreated.observe(this) { groupInfo ->
             if (groupInfo.title.isNotEmpty()) {
-                mMainGroup?.let { currentGroup ->
-                    createGroup(currentGroup, groupInfo)
+                mMainGroup?.let { parentGroup ->
+                    createGroup(parentGroup, groupInfo)
                 }
             }
         }
 
         mGroupEditViewModel.onGroupUpdated.observe(this) { groupInfo ->
             if (groupInfo.title.isNotEmpty()) {
-                mMainGroup?.let { oldGroupToUpdate ->
-                    updateGroup(oldGroupToUpdate, groupInfo)
+                groupInfo.id?.let { groupId ->
+                    mDatabase?.getGroupById(NodeIdUUID(groupId))?.let { oldGroupToUpdate ->
+                        updateGroup(oldGroupToUpdate, groupInfo)
+                    }
                 }
             }
         }
