@@ -104,7 +104,7 @@
                 android:visibility="gone"
                 android:background="?attr/colorAccent"
                 android:padding="12dp"
-                android:textColor="?attr/textColorInverse"
+                android:textColor="?attr/colorOnAccentColor"
                 android:text="@string/entry_history"/>
 
             <androidx.recyclerview.widget.RecyclerView
