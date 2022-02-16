@@ -466,7 +466,7 @@
     <string name="show_uuid_summary">Bir girdiye veya gruba bağlı UUID\'yi görüntüler</string>
     <string name="show_uuid_title">UUID\'yi göster</string>
     <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
-    <string name="autofill_ask_to_save_data_summary">Bir form doğrulandığında verileri kaydetmek için sor</string>
+    <string name="autofill_ask_to_save_data_summary">Form doldurma işlemi tamamlandığında verileri kaydetmek için sor</string>
     <string name="autofill_ask_to_save_data_title">Verileri kaydetmek için sor</string>
     <string name="autofill_save_search_info_summary">Elle girdi seçimi yaparken arama bilgilerini kaydetmeyi dene</string>
     <string name="autofill_save_search_info_title">Arama bilgilerini kaydet</string>
