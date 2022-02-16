@@ -234,10 +234,10 @@
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben, um die Passwörter wiederzufinden.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
+    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit eigenen Feldern. Eigene Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort, um es mit Ihrem Eintrag zu verknüpfen, definieren Sie es einfach nach den Kriterien des Formulars und denken Sie an die Passwortsicherheit.</string>
-    <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
+    <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
@@ -530,7 +530,7 @@
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
-    <string name="custom_fields">Benutzerdefinierte Felder</string>
+    <string name="custom_fields">Eigene Felder</string>
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel, die mit der modernen Entsperrerkennung zusammenhängen, löschen\?</string>
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
@@ -561,7 +561,7 @@
     <string name="export_app_properties_summary">Datei zum Exportieren von App-Eigenschaften erstellen</string>
     <string name="export_app_properties_title">App-Eigenschaften exportieren</string>
     <string name="import_app_properties_summary">Datei zum Importieren von App-Eigenschaften auswählen</string>
-    <string name="error_move_group_here">Sie können hier keine Gruppe verschieben.</string>
+    <string name="error_move_group_here">Hierher kann keine Gruppe verschoben werden.</string>
     <string name="autofill_inline_suggestions_title">Ausfüllvorschläge</string>
     <string name="error_word_reserved">Dieses Wort ist reserviert und kann nicht verwendet werden.</string>
     <string name="icon_section_custom">Benutzerdefiniert</string>
@@ -625,4 +625,14 @@
     <string name="warning_keyfile_integrity">Der Hash der Datei ist nicht garantiert, da Android die Daten im laufenden Betrieb ändern kann. Ändern Sie die Dateierweiterung in .bin, um die Integrität zu gewährleisten.</string>
     <string name="enable_keep_screen_on_summary">Den Bildschirm beim Ansehen des Eintrags eingeschaltet lassen</string>
     <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe in einem Eintrag anzeigen</string>
+    <string name="auto_type_sequence">Auto-Type-Sequenz</string>
+    <string name="regex">Regulärer Ausdruck</string>
+    <string name="searchable">Durchsuchbar</string>
+    <string name="inherited">Vererbt</string>
+    <string name="custom_data">Eigene Daten</string>
+    <string name="search_filters">Suchfilter</string>
+    <string name="current_group">Aktuelle Gruppe</string>
+    <string name="case_sensitive">Groß-/Kleinschreibung beachten</string>
+    <string name="menu_merge_from">Zusammenführen von …</string>
+    <string name="menu_save_copy_to">Kopie speichern unter …</string>
 </resources>

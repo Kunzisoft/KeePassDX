@@ -612,4 +612,17 @@
     <string name="enable_keep_screen_on_title">Διατηρήστε την οθόνη ενεργή</string>
     <string name="show_entry_colors_title">Χρώματα καταχώρησης</string>
     <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου σε μια καταχώρηση</string>
+    <string name="searchable">Αναζητήσιμο</string>
+    <string name="case_sensitive">Διάκριση πεζών-κεφαλαίων</string>
+    <string name="menu_merge_from">Συγχώνευση από …</string>
+    <string name="inherited">Κληρονόμησε</string>
+    <string name="search_filters">Αναζήτηση φίλτρων</string>
+    <string name="content_description_nav_header">Κεφαλίδα πλοήγησης</string>
+    <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
+    <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
+    <string name="custom_data">Προσαρμοσμένα δεδομένα</string>
+    <string name="auto_type_sequence">Αλληλουχία Αυτόματης-Πληκτρολόγησης</string>
+    <string name="current_group">Τρέχουσα ομάδα</string>
+    <string name="regex">Κοινή έκφραση</string>
+    <string name="menu_save_copy_to">Αποθήκευση αντιγράφου στο …</string>
 </resources>

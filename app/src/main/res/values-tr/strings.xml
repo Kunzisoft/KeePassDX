@@ -607,4 +607,17 @@
     <string name="show_entry_colors_title">Girdi renkleri</string>
     <string name="show_entry_colors_summary">Bir girdide ön plan ve arka plan renklerini görüntüler</string>
     <string name="enable_keep_screen_on_summary">Girdiyi izlerken ekranı açık tutun</string>
+    <string name="content_description_nav_header">Gezinme başlığı</string>
+    <string name="navigation_drawer_open">Gezinme çekmecesi açık</string>
+    <string name="navigation_drawer_close">Gezinme çekmecesi kapalı</string>
+    <string name="searchable">Aranabilir</string>
+    <string name="inherited">Devralınan</string>
+    <string name="auto_type_sequence">Otomatik yazma sırası</string>
+    <string name="menu_merge_from">Şuradan birleştir…</string>
+    <string name="regex">Düzenli ifade</string>
+    <string name="search_filters">Arama filtreleri</string>
+    <string name="case_sensitive">Büyük/küçük harf duyarlı</string>
+    <string name="current_group">Geçerli grup</string>
+    <string name="custom_data">Özel veri</string>
+    <string name="menu_save_copy_to">Bir kopyasını şuraya kaydet…</string>
 </resources>
