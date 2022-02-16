@@ -472,7 +472,7 @@
     <string name="show_uuid_summary">Εμφανίζει το UUID που είναι συνδεδεμένο σε μια καταχώρηση ή σε μια ομάδα</string>
     <string name="show_uuid_title">Εμφάνιση UUID</string>
     <string name="autofill_read_only_save">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
-    <string name="autofill_ask_to_save_data_summary">Ζητήστε να αποθηκεύσετε δεδομένα όταν επικυρώνεται μια φόρμα</string>
+    <string name="autofill_ask_to_save_data_summary">Ζητήστε αποθήκευση δεδομένων όταν ολοκληρωθεί η συμπλήρωση μιας φόρμας</string>
     <string name="autofill_ask_to_save_data_title">Ζητήστε να αποθηκεύσετε δεδομένα</string>
     <string name="autofill_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε πληροφορίες αναζήτησης κατά την επιλογή χειροκίνητης καταχώρισης</string>
     <string name="autofill_save_search_info_title">Αποθήκευση πληροφοριών αναζήτησης</string>
