@@ -517,7 +517,7 @@
     <string name="autofill_save_search_info_title">Save search info</string>
     <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
-    <string name="autofill_ask_to_save_data_summary">Ask to save data when a form is validated</string>
+    <string name="autofill_ask_to_save_data_summary">Ask for saving data when filling of a form is completed</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
     <string name="autofill_application_id_blocklist_summary">Blocklist that prevents auto filling of apps</string>
     <string name="autofill_web_domain_blocklist_title">Web domain blocklist</string>
