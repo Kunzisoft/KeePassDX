@@ -614,4 +614,17 @@
     <string name="show_entry_colors_summary">Muestra los colores de primer y segundo plano en una entrada</string>
     <string name="show_entry_colors_title">Colores de entrada</string>
     <string name="menu_merge_database">Fusionar datos</string>
+    <string name="navigation_drawer_close">Cajón de navegación cerrado</string>
+    <string name="searchable">Consultable</string>
+    <string name="regex">Expresión regular</string>
+    <string name="content_description_nav_header">Cabecera de navegación</string>
+    <string name="navigation_drawer_open">Cajón de navegación abierto</string>
+    <string name="case_sensitive">Sensible a las mayúsculas y minúsculas</string>
+    <string name="auto_type_sequence">Secuencia de autotipado</string>
+    <string name="custom_data">Datos personalizados</string>
+    <string name="current_group">Grupo actual</string>
+    <string name="search_filters">Filtros de búsqueda</string>
+    <string name="menu_merge_from">Fusionar desde …</string>
+    <string name="menu_save_copy_to">Guardar una copia en …</string>
+    <string name="inherited">Heredado</string>
 </resources>

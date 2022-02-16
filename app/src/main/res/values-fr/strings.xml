@@ -621,4 +621,18 @@
     <string name="show_entry_colors_summary">Affiche les couleurs de premier plan et d\'arrière-plan dans une entrée</string>
     <string name="warning_database_info_reloaded">Le rechargement de la base de données supprimera les données modifiées localement.</string>
     <string name="show_entry_colors_title">Couleurs d\'entrée</string>
+    <string name="current_group">Groupe actuel</string>
+    <string name="content_description_nav_header">En-tête de navigation</string>
+    <string name="navigation_drawer_open">Tiroir de navigation ouvert</string>
+    <string name="regex">Expression régulière</string>
+    <string name="navigation_drawer_close">Tiroir de navigation fermé</string>
+    <string name="search_filters">Filtres de recherche</string>
+    <string name="menu_save_copy_to">Sauvegarder une copie vers …</string>
+    <string name="menu_merge_from">Fusionner depuis …</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="searchable">Recherchable</string>
+    <string name="inherited">Héritage</string>
+    <string name="auto_type_sequence">Séquence Auto-Type</string>
+    <string name="custom_data">Données personnalisées</string>
+    <string name="case_sensitive">Sensible à la casse</string>
 </resources>

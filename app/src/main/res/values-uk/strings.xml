@@ -612,4 +612,17 @@
     <string name="show_entry_colors_summary">Показує кольори шрифту й тла запису</string>
     <string name="tags">Мітки</string>
     <string name="warning_keyfile_integrity">Хеш файлу не гарантується, оскільки Android може змінювати свої дані на льоту. Змініть розширення файлу на .bin для збереження цілісності.</string>
+    <string name="content_description_nav_header">Панель навігації</string>
+    <string name="navigation_drawer_open">Відкрити панель навігації</string>
+    <string name="navigation_drawer_close">Закрити панель навігації</string>
+    <string name="searchable">Шукане</string>
+    <string name="inherited">Успадковане</string>
+    <string name="current_group">Поточна група</string>
+    <string name="case_sensitive">З урахуванням регістру</string>
+    <string name="regex">Регулярний вираз</string>
+    <string name="menu_merge_from">Об\'єднати з …</string>
+    <string name="custom_data">Користувацькі дані</string>
+    <string name="search_filters">Фільтри пошуку</string>
+    <string name="auto_type_sequence">Послідовність автовведення</string>
+    <string name="menu_save_copy_to">Зберегти копію в …</string>
 </resources>
