@@ -365,7 +365,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 ) { _, _ ->
                     validate?.invoke()
                     deleteKeysAlertDialog?.setOnDismissListener(null)
-                    AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
+                    }
                 }
                 .setNegativeButton(resources.getString(android.R.string.cancel)
                 ) { _, _ ->}
