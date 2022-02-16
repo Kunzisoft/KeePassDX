@@ -479,7 +479,7 @@
     <string name="show_uuid_summary">Показывать UUID, связанный с записью или группой</string>
     <string name="show_uuid_title">Показывать UUID</string>
     <string name="autofill_read_only_save">Сохранение данных невозможно для базы, открытой только для чтения.</string>
-    <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после проверки формы</string>
+    <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после завершения заполнения формы</string>
     <string name="autofill_ask_to_save_data_title">Запрос сохранения данных</string>
     <string name="autofill_close_database_summary">Закрывать базу после выбора автозаполнения</string>
     <string name="autofill_close_database_title">Закрыть базу</string>
