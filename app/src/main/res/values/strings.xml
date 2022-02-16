@@ -96,7 +96,7 @@
     <string name="entry_keyfile">Keyfile</string>
     <string name="entry_modified">Modified</string>
     <string name="searchable">Searchable</string>
-    <string name="inherited">Inherited</string>
+    <string name="inherited">Inherit</string>
     <string name="auto_type">Auto-Type</string>
     <string name="auto_type_sequence">Auto-Type sequence</string>
     <string name="entry_not_found">Could not find entry data.</string>
