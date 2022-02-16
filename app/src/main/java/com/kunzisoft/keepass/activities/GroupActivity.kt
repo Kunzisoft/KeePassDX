@@ -99,7 +99,6 @@ class GroupActivity : DatabaseLockActivity(),
     // Views
     private var drawerLayout: DrawerLayout? = null
     private var databaseNavView: NavigationDatabaseView? = null
-    private var rootContainerView: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
@@ -234,7 +233,6 @@ class GroupActivity : DatabaseLockActivity(),
         // Initialize views
         drawerLayout = findViewById(R.id.drawer_layout)
         databaseNavView = findViewById(R.id.database_nav_view)
-        rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
@@ -540,7 +538,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun viewToInvalidateTimeout(): View? {
-        return rootContainerView
+        return drawerLayout
     }
 
     private fun loadMainGroup(groupState: GroupState) {
