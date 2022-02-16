@@ -472,7 +472,7 @@
     <string name="show_uuid_summary">显示与一个条目或群组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
     <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
-    <string name="autofill_ask_to_save_data_summary">表单经过验证时，询问是否保存数据</string>
+    <string name="autofill_ask_to_save_data_summary">填写完表单后，询问是否保存数据</string>
     <string name="autofill_ask_to_save_data_title">询问是否保存数据</string>
     <string name="autofill_save_search_info_summary">手动选择条目时，尝试保存搜索信息</string>
     <string name="autofill_save_search_info_title">保存搜索信息</string>
