@@ -472,8 +472,8 @@
     <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem lub grupą</string>
     <string name="show_uuid_title">Pokaż UUID</string>
     <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej jako tylko do odczytu.</string>
-    <string name="autofill_ask_to_save_data_summary">Poproś o zapisanie danych po zatwierdzeniu formularza</string>
-    <string name="autofill_ask_to_save_data_title">Poproś o zapisanie danych</string>
+    <string name="autofill_ask_to_save_data_summary">Pytaj o zapisanie danych po zakończeniu wypełniania formularza</string>
+    <string name="autofill_ask_to_save_data_title">Pytaj o zapisanie danych</string>
     <string name="autofill_save_search_info_summary">Spróbuj zapisać informacje wyszukiwania podczas dokonywania ręcznego wyboru pozycji</string>
     <string name="autofill_save_search_info_title">Zapisz informacje wyszukiwania</string>
     <string name="autofill_close_database_summary">Zamknij bazę danych po wybraniu autouzupełniania</string>
