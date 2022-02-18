@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.R
 
 open class Education(val activity: Activity) {
 
+    private var mOneEducationHintOpen = false
     /**
      * Utility method to save preference after an education action
      */
@@ -39,15 +40,36 @@ open class Education(val activity: Activity) {
                                              listener: TapTargetView.Listener,
                                              saveEducationStringId: Int): Boolean {
         var doEducation = false
-        if (isEducationScreensEnabled()) {
-            if (!isEducationAlreadyPerformed) {
-                try {
-                    TapTargetView.showFor(activity, tapTarget, listener)
-                    saveEducationPreference(activity, saveEducationStringId)
-                    doEducation = true
-                } catch (e: Exception) {
-                    Log.w(Education::class.java.name, "Can't performed education " + e.message)
-                }
+        if (isEducationScreensEnabled()
+            && !mOneEducationHintOpen
+            && !isEducationAlreadyPerformed) {
+            try {
+                TapTargetView.showFor(activity, tapTarget, object : TapTargetView.Listener() {
+                    override fun onTargetClick(view: TapTargetView) {
+                        mOneEducationHintOpen = false
+                        saveEducationPreference(activity, saveEducationStringId)
+                        super.onTargetClick(view)
+                        listener.onTargetClick(view)
+                    }
+
+                    override fun onOuterCircleClick(view: TapTargetView?) {
+                        mOneEducationHintOpen = false
+                        saveEducationPreference(activity, saveEducationStringId)
+                        super.onOuterCircleClick(view)
+                        listener.onOuterCircleClick(view)
+                        view?.dismiss(false)
+                    }
+
+                    override fun onTargetCancel(view: TapTargetView?) {
+                        mOneEducationHintOpen = false
+                        saveEducationPreference(activity, saveEducationStringId)
+                        super.onTargetCancel(view)
+                    }
+                })
+                mOneEducationHintOpen = true
+                doEducation = true
+            } catch (e: Exception) {
+                Log.w(Education::class.java.name, "Can't performed education " + e.message)
             }
         }
         return doEducation

@@ -88,6 +88,8 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     private val mDatabaseFileViewModel: DatabaseFileViewModel by viewModels()
     private val mAdvancedUnlockViewModel: AdvancedUnlockViewModel by viewModels()
 
+    private val mPasswordActivityEducation = PasswordActivityEducation(this)
+
     private var mDefaultDatabase: Boolean = false
     private var mDatabaseFileUri: Uri? = null
 
@@ -553,26 +555,27 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         if (!performedEductionInProgress) {
             performedEductionInProgress = true
             // Show education views
-            Handler(Looper.getMainLooper()).post { performedNextEducation(PasswordActivityEducation(this), menu) }
+            Handler(Looper.getMainLooper()).post {
+                performedNextEducation(menu)
+            }
         }
     }
 
-    private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
-                                       menu: Menu) {
+    private fun performedNextEducation(menu: Menu) {
         val educationToolbar = toolbar
         val unlockEducationPerformed = educationToolbar != null
-                && passwordActivityEducation.checkAndPerformedUnlockEducation(
+                && mPasswordActivityEducation.checkAndPerformedUnlockEducation(
                 educationToolbar,
                         {
-                            performedNextEducation(passwordActivityEducation, menu)
+                            performedNextEducation(menu)
                         },
                         {
-                            performedNextEducation(passwordActivityEducation, menu)
+                            performedNextEducation(menu)
                         })
         if (!unlockEducationPerformed) {
             val readOnlyEducationPerformed =
                     educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
-                    && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
+                    && mPasswordActivityEducation.checkAndPerformedReadOnlyEducation(
                     educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
                         try {
@@ -580,19 +583,19 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                         } catch (e: Exception) {
                             Log.e(TAG, "Unable to find read mode menu")
                         }
-                        performedNextEducation(passwordActivityEducation, menu)
+                        performedNextEducation(menu)
                     },
                     {
-                        performedNextEducation(passwordActivityEducation, menu)
+                        performedNextEducation(menu)
                     })
 
-            advancedUnlockFragment?.performEducation(passwordActivityEducation,
+            advancedUnlockFragment?.performEducation(mPasswordActivityEducation,
                     readOnlyEducationPerformed,
                     {
-                        performedNextEducation(passwordActivityEducation, menu)
+                        performedNextEducation(menu)
                     },
                     {
-                        performedNextEducation(passwordActivityEducation, menu)
+                        performedNextEducation(menu)
                     })
         }
     }

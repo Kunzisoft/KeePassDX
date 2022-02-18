@@ -91,6 +91,8 @@ class EntryActivity : DatabaseLockActivity() {
 
     private val mEntryViewModel: EntryViewModel by viewModels()
 
+    private val mEntryActivityEducation = EntryActivityEducation(this)
+
     private var mMainEntryId: NodeId<UUID>? = null
     private var mHistoryPosition: Int = -1
     private var mEntryIsHistory: Boolean = false
@@ -379,11 +381,7 @@ class EntryActivity : DatabaseLockActivity() {
 
             // Show education views
             Handler(Looper.getMainLooper()).post {
-                performedNextEducation(
-                    EntryActivityEducation(
-                        this
-                    ), menu
-                )
+                performedNextEducation(menu)
             }
         }
         return true
@@ -409,31 +407,30 @@ class EntryActivity : DatabaseLockActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
-                                       menu: Menu) {
+    private fun performedNextEducation(menu: Menu) {
         val entryFragment = supportFragmentManager.findFragmentByTag(ENTRY_FRAGMENT_TAG)
                 as? EntryFragment?
         val entryFieldCopyView: View? = entryFragment?.firstEntryFieldCopyView()
         val entryCopyEducationPerformed = entryFieldCopyView != null
-                && entryActivityEducation.checkAndPerformedEntryCopyEducation(
+                && mEntryActivityEducation.checkAndPerformedEntryCopyEducation(
                 entryFieldCopyView,
                 {
                     entryFragment.launchEntryCopyEducationAction()
                 },
                 {
-                    performedNextEducation(entryActivityEducation, menu)
+                    performedNextEducation(menu)
                 })
 
         if (!entryCopyEducationPerformed) {
             val menuEditView = toolbar?.findViewById<View>(R.id.menu_edit)
             // entryEditEducationPerformed
-            menuEditView != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
+            menuEditView != null && mEntryActivityEducation.checkAndPerformedEntryEditEducation(
                     menuEditView,
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_edit))
                     },
                     {
-                        performedNextEducation(entryActivityEducation, menu)
+                        performedNextEducation(menu)
                     }
             )
         }

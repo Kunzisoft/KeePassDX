@@ -118,6 +118,8 @@ class GroupActivity : DatabaseLockActivity(),
     private val mGroupViewModel: GroupViewModel by viewModels()
     private val mGroupEditViewModel: GroupEditViewModel by viewModels()
 
+    private val mGroupActivityEducation = GroupActivityEducation(this)
+
     private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
 
     private var mSearchMenuItem: MenuItem? = null
@@ -1205,70 +1207,64 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Launch education screen
         Handler(Looper.getMainLooper()).post {
-            performedNextEducation(
-                GroupActivityEducation(this),
-                menu
-            )
+            performedNextEducation(menu)
         }
 
         return true
     }
 
-    private fun performedNextEducation(
-        groupActivityEducation: GroupActivityEducation,
-        menu: Menu
-    ) {
+    private fun performedNextEducation(menu: Menu) {
 
         // If no node, show education to add new one
         val addNodeButtonEducationPerformed = actionNodeMode == null
                 && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
-                && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(
+                && mGroupActivityEducation.checkAndPerformedAddNodeButtonEducation(
             addNodeButtonView?.addButtonView!!,
             {
                 addNodeButtonView?.openButtonIfClose()
             },
             {
-                performedNextEducation(groupActivityEducation, menu)
+                performedNextEducation(menu)
             }
         )
         if (!addNodeButtonEducationPerformed) {
 
             val searchMenuEducationPerformed = toolbar != null
                     && toolbar!!.findViewById<View>(R.id.menu_search) != null
-                    && groupActivityEducation.checkAndPerformedSearchMenuEducation(
+                    && mGroupActivityEducation.checkAndPerformedSearchMenuEducation(
                 toolbar!!.findViewById(R.id.menu_search),
                 {
                     menu.findItem(R.id.menu_search).expandActionView()
                 },
                 {
-                    performedNextEducation(groupActivityEducation, menu)
+                    performedNextEducation(menu)
                 })
 
             if (!searchMenuEducationPerformed) {
 
                 val sortMenuEducationPerformed = toolbar != null
                         && toolbar!!.findViewById<View>(R.id.menu_sort) != null
-                        && groupActivityEducation.checkAndPerformedSortMenuEducation(
+                        && mGroupActivityEducation.checkAndPerformedSortMenuEducation(
                     toolbar!!.findViewById(R.id.menu_sort),
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_sort))
                     },
                     {
-                        performedNextEducation(groupActivityEducation, menu)
+                        performedNextEducation(menu)
                     })
 
                 if (!sortMenuEducationPerformed) {
                     // lockMenuEducationPerformed
                     val lockButtonView = findViewById<View>(R.id.lock_button)
                     lockButtonView != null
-                            && groupActivityEducation.checkAndPerformedLockMenuEducation(
+                            && mGroupActivityEducation.checkAndPerformedLockMenuEducation(
                         lockButtonView,
                         {
                             lockAndExit()
                         },
                         {
-                            performedNextEducation(groupActivityEducation, menu)
+                            performedNextEducation(menu)
                         })
                 }
             }

@@ -78,6 +78,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     private val databaseFilesViewModel: DatabaseFilesViewModel by viewModels()
 
+    private val mFileDatabaseSelectActivityEducation = FileDatabaseSelectActivityEducation(this)
+
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
 
@@ -132,7 +134,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 Log.e(TAG, error)
             }
         }
-        openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
+        openDatabaseButtonView = findViewById(R.id.open_database_button)
         openDatabaseButtonView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         // History list
@@ -392,39 +394,40 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             MenuUtil.defaultMenuInflater(menuInflater, menu)
         }
 
-        Handler(Looper.getMainLooper()).post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
+        Handler(Looper.getMainLooper()).post {
+            performedNextEducation()
+        }
 
         return true
     }
 
-    private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
+    private fun performedNextEducation() {
         // If no recent files
         val createDatabaseEducationPerformed =
                 createDatabaseButtonView != null
                 && createDatabaseButtonView!!.visibility == View.VISIBLE
-                && mAdapterDatabaseHistory != null
-                && mAdapterDatabaseHistory!!.itemCount == 0
-                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
+                && mFileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createDatabaseButtonView!!,
                 {
                     createNewFile()
                 },
                 {
                     // But if the user cancel, it can also select a database
-                    performedNextEducation(fileDatabaseSelectActivityEducation)
+                    performedNextEducation()
                 })
         if (!createDatabaseEducationPerformed) {
             // selectDatabaseEducationPerformed
             openDatabaseButtonView != null
-                    && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                    openDatabaseButtonView!!,
-                    { tapTargetView ->
-                        tapTargetView?.let {
-                            mExternalFileHelper?.openDocument()
-                        }
-                    },
-                    {}
-            )
+            && mFileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
+                openDatabaseButtonView!!,
+            { tapTargetView ->
+                tapTargetView?.let {
+                    mExternalFileHelper?.openDocument()
+                }
+            },
+            {
+
+            })
         }
     }
 
