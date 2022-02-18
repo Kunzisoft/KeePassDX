@@ -99,7 +99,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
         // To remove this instance in the OS app selector
         Handler(Looper.getMainLooper()).postDelayed({
             finish()
-        }, 2000)
+        }, 500)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
