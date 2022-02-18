@@ -6,6 +6,7 @@ KeePassDX(3.3.0)
  * Merge from file and save as copy #1221 #1204 #840
  * Fix custom data #1236
  * Fix education hints #1192
+ * Fix save and app instance in selection mode
  * New UI and fix styles
  * Add "Simple" and "Reply" themes
 

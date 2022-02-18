@@ -1,6 +1,8 @@
 package com.kunzisoft.keepass.activities.legacy
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
@@ -10,6 +12,7 @@ import com.kunzisoft.keepass.activities.helpers.TypeMode
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.SpecialModeView
+
 
 /**
  * Activity to manage database special mode (ie: selection mode)
@@ -63,8 +66,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
             if (mSpecialMode != SpecialMode.DEFAULT) {
-                // To move the app in background
-                moveTaskToBack(true)
+                backToTheMainAppAndFinish()
             }
         }
     }
@@ -77,8 +79,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
             if (mSpecialMode != SpecialMode.DEFAULT) {
-                // To move the app in background
-                moveTaskToBack(true)
+                backToTheMainAppAndFinish()
             }
         }
     }
@@ -88,9 +89,17 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             // To get the app caller, only for IntentSender
             super.onBackPressed()
         } else {
-            // To move the app in background
-            moveTaskToBack(true)
+            backToTheMainAppAndFinish()
         }
+    }
+
+    private fun backToTheMainAppAndFinish() {
+        // To move the app in background and return to the main app
+        moveTaskToBack(true)
+        // To remove this instance in the OS app selector
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 2000)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

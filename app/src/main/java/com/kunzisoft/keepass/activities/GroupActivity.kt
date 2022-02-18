@@ -838,29 +838,13 @@ class GroupActivity : DatabaseLockActivity(),
                             finish()
                     },
                     { searchInfo ->
-                        // Recheck search, only to fix #783 because workflow allows to open multiple search elements
-                        SearchHelper.checkAutoSearchInfo(this,
-                            database,
-                            searchInfo,
-                            { openedDatabase, _ ->
-                                // Item in search, don't save
-                                entrySelectedForKeyboardSelection(openedDatabase, entryVersioned)
-                            },
-                            {
-                                // Item not found, save it if required
-                                if (!database.isReadOnly
-                                    && searchInfo != null
-                                    && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
-                                ) {
-                                    updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
-                                }
-                                entrySelectedForKeyboardSelection(database, entryVersioned)
-                            },
-                            {
-                                // Normally not append
-                                finish()
-                            }
-                        )
+                        if (!database.isReadOnly
+                            && searchInfo != null
+                            && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
+                        ) {
+                            updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
+                        }
+                        entrySelectedForKeyboardSelection(database, entryVersioned)
                     },
                     { searchInfo, _ ->
                         if (!database.isReadOnly
@@ -942,14 +926,16 @@ class GroupActivity : DatabaseLockActivity(),
         searchInfo: SearchInfo
     ) {
         val newEntry = Entry(entry)
-        newEntry.setEntryInfo(database, newEntry.getEntryInfo(
+        val entryInfo = newEntry.getEntryInfo(
             database,
             raw = true,
             removeTemplateConfiguration = false
-        ).apply {
-            saveSearchInfo(database, searchInfo)
-        })
-        updateEntry(entry, newEntry)
+        )
+        val modification = entryInfo.saveSearchInfo(database, searchInfo)
+        newEntry.setEntryInfo(database, entryInfo)
+        if (modification) {
+            updateEntry(entry, newEntry)
+        }
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {

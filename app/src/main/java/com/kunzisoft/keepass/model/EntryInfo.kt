@@ -109,7 +109,9 @@ class EntryInfo : NodeInfo {
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
     }
 
-    private fun addUniqueField(field: Field, number: Int = 0) {
+    // Return true if modified
+    private fun addUniqueField(field: Field, number: Int = 0): Boolean {
+        var modification = false
         var sameName = false
         var sameValue = false
         val suffix = if (number > 0) "_$number" else ""
@@ -117,20 +119,28 @@ class EntryInfo : NodeInfo {
             // Not write the same data again
             if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
                 sameValue = true
-                return
+                return false
             }
             // Same name but new value, create a new suffix
             if (currentField.name == field.name + suffix) {
                 sameName = true
-                addUniqueField(field, number + 1)
-                return
+                if (addUniqueField(field, number + 1))
+                    modification = true
+                return true
             }
         }
-        if (!sameName && !sameValue)
+        if (!sameName && !sameValue) {
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
+            modification = true
+        }
+        return modification
     }
 
-    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+    /**
+     * Add searchInfo to current EntryInfo, return true if new data, false if no modification
+     */
+    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo): Boolean {
+        var modification = false
         searchInfo.otpString?.let { otpString ->
             // Replace the OTP field
             OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
@@ -145,6 +155,7 @@ class EntryInfo : NodeInfo {
                     mutableCustomFields.remove(otpField)
                 }
                 mutableCustomFields.add(otpField)
+                modification = true
             }
         } ?: searchInfo.webDomain?.let { webDomain ->
             // If unable to save web domain in custom field or URL not populated, save in URL
@@ -153,23 +164,27 @@ class EntryInfo : NodeInfo {
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
+                modification = true
             } else if (url != webDomainToStore) {
                 // Save web domain in custom field
-                addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
+                if (addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
                         ProtectedString(false, webDomainToStore)),
                         1 // Start to one because URL is a standard field name
-                )
+                ))
+                    modification = true
             }
         } ?: run {
             // Save application id in custom field
             if (database?.allowEntryCustomFields() == true) {
                 searchInfo.applicationId?.let { applicationId ->
-                    addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
+                    if (addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
                             ProtectedString(false, applicationId))
-                    )
+                    ))
+                        modification = true
                 }
             }
         }
+        return modification
     }
 
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
