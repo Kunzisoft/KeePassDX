@@ -160,7 +160,7 @@ class EntryInfo : NodeInfo {
         } ?: searchInfo.webDomain?.let { webDomain ->
             // If unable to save web domain in custom field or URL not populated, save in URL
             val scheme = searchInfo.webScheme
-            val webScheme = if (scheme.isNullOrEmpty()) "http" else scheme
+            val webScheme = if (scheme.isNullOrEmpty()) "https" else scheme
             val webDomainToStore = "$webScheme://$webDomain"
             if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
                 url = webDomainToStore
