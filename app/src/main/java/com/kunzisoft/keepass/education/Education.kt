@@ -35,12 +35,12 @@ open class Education(val activity: Activity) {
      * Utility method to save preference after an education action
      */
     protected fun checkAndPerformedEducation(isEducationAlreadyPerformed: Boolean,
-                                   tapTarget: TapTarget,
-                                   listener: TapTargetView.Listener,
-                                   saveEducationStringId: Int): Boolean {
+                                             tapTarget: TapTarget,
+                                             listener: TapTargetView.Listener,
+                                             saveEducationStringId: Int): Boolean {
         var doEducation = false
         if (isEducationScreensEnabled()) {
-            if (isEducationAlreadyPerformed) {
+            if (!isEducationAlreadyPerformed) {
                 try {
                     TapTargetView.showFor(activity, tapTarget, listener)
                     saveEducationPreference(activity, saveEducationStringId)
@@ -116,6 +116,29 @@ open class Education(val activity: Activity) {
                 R.string.education_entry_new_field_key,
                 R.string.education_add_attachment_key,
                 R.string.education_setup_OTP_key)
+
+        fun putPropertiesInEducationPreferences(context: Context,
+                                                editor: SharedPreferences.Editor,
+                                                name: String,
+                                                value: String) {
+            when (name) {
+                context.getString(R.string.education_create_db_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_select_db_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_unlock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_read_only_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_biometric_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_search_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_new_node_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_sort_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_lock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_copy_username_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_entry_edit_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_password_generator_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_entry_new_field_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_add_attachment_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.education_setup_OTP_key) -> editor.putBoolean(name, value.toBoolean())
+            }
+        }
 
         /**
          * Get preferences bundle for education

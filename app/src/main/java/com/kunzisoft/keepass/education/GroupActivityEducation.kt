@@ -31,7 +31,7 @@ class GroupActivityEducation(activity: Activity)
     fun checkAndPerformedAddNodeButtonEducation(educationView: View,
                                                 onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                                 onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationNewNodePerformed(activity),
+        return checkAndPerformedEducation(isEducationNewNodePerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_new_node_title),
                         activity.getString(R.string.education_new_node_summary))
@@ -58,7 +58,7 @@ class GroupActivityEducation(activity: Activity)
     fun checkAndPerformedSearchMenuEducation(educationView: View,
                                              onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                              onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationSearchPerformed(activity),
+        return checkAndPerformedEducation(isEducationSearchPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_search_title),
                         activity.getString(R.string.education_search_summary))
@@ -85,7 +85,7 @@ class GroupActivityEducation(activity: Activity)
     fun checkAndPerformedSortMenuEducation(educationView: View,
                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationSortPerformed(activity),
+        return checkAndPerformedEducation(isEducationSortPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_sort_title),
                         activity.getString(R.string.education_sort_summary))
@@ -112,7 +112,7 @@ class GroupActivityEducation(activity: Activity)
     fun checkAndPerformedLockMenuEducation(educationView: View,
                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationLockPerformed(activity),
+        return checkAndPerformedEducation(isEducationLockPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_lock_title),
                         activity.getString(R.string.education_lock_summary))
