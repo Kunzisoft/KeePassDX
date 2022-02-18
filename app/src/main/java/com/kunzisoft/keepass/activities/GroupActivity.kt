@@ -176,7 +176,6 @@ class GroupActivity : DatabaseLockActivity(),
     }
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-            toolbarBreadcrumb?.hideByFading()
             searchFiltersView?.visibility = View.VISIBLE
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
@@ -190,7 +189,6 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.onParametersChangeListener = null
             searchView?.setOnQueryTextListener(null)
             searchFiltersView?.visibility = View.GONE
-            toolbarBreadcrumb?.showByFading()
 
             removeSearch()
             loadGroup()
@@ -588,11 +586,6 @@ class GroupActivity : DatabaseLockActivity(),
         database?.let {
             mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
         }
-        databaseNavView?.apply {
-            if (!mMergeDataAllowed) {
-                menu.findItem(R.id.menu_merge_from)?.isVisible = false
-            }
-        }
         refreshDatabaseViews()
         invalidateOptionsMenu()
     }
@@ -762,7 +755,6 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
             searchFiltersView?.availableTemplates(mDatabase?.allowTemplatesGroup ?: false)
             searchFiltersView?.enableTemplates(mDatabase?.templatesGroup != null)
-            toolbarBreadcrumb?.navigationIcon = null
         } else {
             // Add breadcrumb
             setBreadcrumbNode(group)
@@ -1156,6 +1148,20 @@ class GroupActivity : DatabaseLockActivity(),
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
+    private fun prepareDatabaseNavMenu() {
+        // hide or show nav menu
+        databaseNavView?.apply {
+            menu.findItem(R.id.menu_merge_from)?.isVisible = mMergeDataAllowed
+            //  depending on current mode
+            val modeCondition = mSpecialMode == SpecialMode.DEFAULT
+            menu.findItem(R.id.menu_app_settings)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_merge_from)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_save_copy_to)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_about)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_contribute)?.isVisible = modeCondition
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         val inflater = menuInflater
@@ -1172,11 +1178,12 @@ class GroupActivity : DatabaseLockActivity(),
             menu.findItem(R.id.menu_merge_database)?.isVisible = false
             menu.findItem(R.id.menu_reload_database)?.isVisible = false
         }
-
         // Menu for recycle bin
         if (mRecyclingBinEnabled && mRecyclingBinIsCurrentGroup) {
             inflater.inflate(R.menu.recycle_bin, menu)
         }
+
+        prepareDatabaseNavMenu()
 
         // Get the SearchView and set the searchable configuration
         menu.findItem(R.id.menu_search)?.let {
@@ -1197,8 +1204,14 @@ class GroupActivity : DatabaseLockActivity(),
                     it.expandActionView()
                     addSearchQueryInSearchView(searchState.searchParameters.searchQuery)
                     searchFiltersView?.searchParameters = searchState.searchParameters
-                    searchFiltersView?.visibility = View.VISIBLE
                 }
+            }
+            if (it.isActionViewExpanded) {
+                toolbarBreadcrumb?.visibility = View.GONE
+                searchFiltersView?.visibility = View.VISIBLE
+            } else {
+                searchFiltersView?.visibility = View.GONE
+                toolbarBreadcrumb?.visibility = View.VISIBLE
             }
             mLockSearchListeners = false
         }
@@ -1269,6 +1282,10 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
         }
+    }
+
+    override fun hideHomeButtonIfModeIsNotDefault(): Boolean {
+        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

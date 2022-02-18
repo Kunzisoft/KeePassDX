@@ -160,10 +160,15 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
         }
 
         // To hide home button from the regular toolbar in special mode
-        if (mSpecialMode != SpecialMode.DEFAULT) {
+        if (mSpecialMode != SpecialMode.DEFAULT
+            && hideHomeButtonIfModeIsNotDefault()) {
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
             supportActionBar?.setDisplayShowHomeEnabled(false)
         }
+    }
+
+    open fun hideHomeButtonIfModeIsNotDefault(): Boolean {
+        return true
     }
 
     private fun blockAutofill(searchInfo: SearchInfo?) {
