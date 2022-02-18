@@ -110,8 +110,7 @@ class EntryInfo : NodeInfo {
     }
 
     // Return true if modified
-    private fun addUniqueField(field: Field, number: Int = 0): Boolean {
-        var modification = false
+    private fun addUniqueField(field: Field, number: Int = 0) {
         var sameName = false
         var sameValue = false
         val suffix = if (number > 0) "_$number" else ""
@@ -119,21 +118,25 @@ class EntryInfo : NodeInfo {
             // Not write the same data again
             if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
                 sameValue = true
-                return false
+                return
             }
             // Same name but new value, create a new suffix
             if (currentField.name == field.name + suffix) {
                 sameName = true
-                if (addUniqueField(field, number + 1))
-                    modification = true
-                return true
+                addUniqueField(field, number + 1)
+                return
             }
         }
-        if (!sameName && !sameValue) {
+        if (!sameName && !sameValue)
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
-            modification = true
-        }
-        return modification
+    }
+
+    private fun containsDomainOrApplicationId(search: String): Boolean {
+        if (url.contains(search))
+            return true
+        return customFields.find {
+            it.protectedValue.stringValue.contains(search)
+        } != null
     }
 
     /**
@@ -162,25 +165,34 @@ class EntryInfo : NodeInfo {
             val scheme = searchInfo.webScheme
             val webScheme = if (scheme.isNullOrEmpty()) "https" else scheme
             val webDomainToStore = "$webScheme://$webDomain"
-            if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
-                url = webDomainToStore
-                modification = true
-            } else if (url != webDomainToStore) {
-                // Save web domain in custom field
-                if (addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
-                        ProtectedString(false, webDomainToStore)),
+            if (!containsDomainOrApplicationId(webDomain)) {
+                if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
+                    url = webDomainToStore
+                } else {
+                    // Save web domain in custom field
+                    addUniqueField(
+                        Field(
+                            WEB_DOMAIN_FIELD_NAME,
+                            ProtectedString(false, webDomainToStore)
+                        ),
                         1 // Start to one because URL is a standard field name
-                ))
-                    modification = true
+                    )
+                }
+                modification = true
             }
         } ?: run {
             // Save application id in custom field
             if (database?.allowEntryCustomFields() == true) {
                 searchInfo.applicationId?.let { applicationId ->
-                    if (addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
-                            ProtectedString(false, applicationId))
-                    ))
+                    if (!containsDomainOrApplicationId(applicationId)) {
+                        addUniqueField(
+                            Field(
+                                APPLICATION_ID_FIELD_NAME,
+                                ProtectedString(false, applicationId)
+                            )
+                        )
                         modification = true
+                    }
                 }
             }
         }
