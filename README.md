@@ -43,7 +43,7 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 
 * Add features by making a **[pull request](https://help.github.com/articles/about-pull-requests/)**.
 * Help to **[translate](https://hosted.weblate.org/projects/keepass-dx/strings/)** KeePassDX to your language (on [Weblate](https://hosted.weblate.org/projects/keepass-dx/) or by sending a [pull request](https://help.github.com/articles/about-pull-requests/)).
-* **[Donate](https://www.kunzisoft.com/donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
+* **[Donate](https://www.keepassdx.com/#donation)**  人◕ ‿‿ ◕人Y for a better service and a quick development of your features.
 * Buy the **[Pro version](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro)** of KeePassDX.
 
 ## Download
