@@ -64,7 +64,7 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
         super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
             database?.let {
-                if (database.allowConfigurableTemplatesGroup) {
+                if (database.allowTemplatesGroup) {
                     val oldGroup = database.templatesGroup
                     val newGroup = mGroupTemplates
                     database.setTemplatesGroup(newGroup)

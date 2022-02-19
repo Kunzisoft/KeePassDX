@@ -158,11 +158,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_gravity="top"
-                app:layout_constraintBottom_toTopOf="@+id/open_keyfile_button"
+                app:layout_constraintBottom_toTopOf="@+id/open_database_button"
                 android:background="?attr/colorPrimaryDark"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/open_keyfile_button"
+                android:id="@+id/open_database_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/select_database_file"

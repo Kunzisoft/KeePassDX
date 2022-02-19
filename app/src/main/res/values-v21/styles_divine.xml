@@ -22,14 +22,14 @@
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">@color/grey_dark</item>
         <item name="android:navigationBarColor">@color/grey_dark</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.White.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.White.DateTime.Dialog</item>
     </style>
     <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Black.v21" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
         <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Black.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Black.DateTime.Dialog</item>
     </style>
 </resources>

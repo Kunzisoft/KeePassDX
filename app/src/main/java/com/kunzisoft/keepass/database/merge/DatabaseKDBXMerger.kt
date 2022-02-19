@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.utils.readAllBytes
 import java.io.IOException
@@ -43,7 +44,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
      * Merge a KDB database in a KDBX database, by default all data are copied from the KDB
      */
     fun merge(databaseToMerge: DatabaseKDB) {
-        // TODO Test KDB merge
         val rootGroup = database.rootGroup
         val rootGroupId = rootGroup?.nodeId
         val rootGroupToMerge = databaseToMerge.rootGroup
@@ -52,6 +52,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         if (rootGroupId == null || rootGroupIdToMerge == null) {
             throw IOException("Database is not open")
         }
+
+        // Replace the UUID of the KDB root group to init seed
+        databaseToMerge.removeGroupIndex(rootGroupToMerge)
+        rootGroupToMerge.nodeId = NodeIdInt(0)
+        databaseToMerge.addGroupIndex(rootGroupToMerge)
 
         // Merge children
         rootGroupToMerge.doForEachChild(
@@ -87,31 +92,57 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         val entry = database.getEntryById(entryId)
 
         databaseToMerge.getEntryById(entryId)?.let { srcEntryToMerge ->
-            // Retrieve parent in current database
-            var parentEntryToMerge: GroupKDBX? = null
-            srcEntryToMerge.parent?.nodeId?.let {
-                val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
-                parentEntryToMerge = database.getGroupById(parentGroupIdToMerge)
-            }
-            val entryToMerge = EntryKDBX().apply {
-                this.nodeId = srcEntryToMerge.nodeId
-                this.icon = srcEntryToMerge.icon
-                this.creationTime = DateInstant(srcEntryToMerge.creationTime)
-                this.lastModificationTime = DateInstant(srcEntryToMerge.lastModificationTime)
-                this.lastAccessTime = DateInstant(srcEntryToMerge.lastAccessTime)
-                this.expiryTime = DateInstant(srcEntryToMerge.expiryTime)
-                this.expires = srcEntryToMerge.expires
-                this.title = srcEntryToMerge.title
-                this.username = srcEntryToMerge.username
-                this.password = srcEntryToMerge.password
-                this.url = srcEntryToMerge.url
-                this.notes = srcEntryToMerge.notes
-                // TODO attachment
-            }
-            if (entry != null) {
-                entry.updateWith(entryToMerge, false)
-            } else if (parentEntryToMerge != null) {
-                database.addEntryTo(entryToMerge, parentEntryToMerge)
+            // Do not merge meta stream elements
+            if (!srcEntryToMerge.isMetaStream()) {
+                // Retrieve parent in current database
+                var parentEntryToMerge: GroupKDBX? = null
+                srcEntryToMerge.parent?.nodeId?.let {
+                    val parentGroupIdToMerge = getNodeIdUUIDFrom(seed, it)
+                    parentEntryToMerge = database.getGroupById(parentGroupIdToMerge)
+                }
+                // Copy attachment
+                var newAttachment: Attachment? = null
+                srcEntryToMerge.getAttachment(databaseToMerge.attachmentPool)?.let { attachment ->
+                    val binarySize = attachment.binaryData.getSize()
+                    val binaryData = database.buildNewBinaryAttachment(
+                        isRAMSufficient.invoke(binarySize),
+                        attachment.binaryData.isCompressed,
+                        attachment.binaryData.isProtected
+                    )
+                    attachment.binaryData.getInputDataStream(databaseToMerge.binaryCache)
+                        .use { inputStream ->
+                            binaryData.getOutputDataStream(database.binaryCache)
+                                .use { outputStream ->
+                                    inputStream.readAllBytes { buffer ->
+                                        outputStream.write(buffer)
+                                    }
+                                }
+                        }
+                    newAttachment = Attachment(attachment.name, binaryData)
+                }
+                // Create new entry format
+                val entryToMerge = EntryKDBX().apply {
+                    this.nodeId = srcEntryToMerge.nodeId
+                    this.icon = srcEntryToMerge.icon
+                    this.creationTime = DateInstant(srcEntryToMerge.creationTime)
+                    this.lastModificationTime = DateInstant(srcEntryToMerge.lastModificationTime)
+                    this.lastAccessTime = DateInstant(srcEntryToMerge.lastAccessTime)
+                    this.expiryTime = DateInstant(srcEntryToMerge.expiryTime)
+                    this.expires = srcEntryToMerge.expires
+                    this.title = srcEntryToMerge.title
+                    this.username = srcEntryToMerge.username
+                    this.password = srcEntryToMerge.password
+                    this.url = srcEntryToMerge.url
+                    this.notes = srcEntryToMerge.notes
+                    newAttachment?.let {
+                        this.putAttachment(it, database.attachmentPool)
+                    }
+                }
+                if (entry != null) {
+                    entry.updateWith(entryToMerge, false)
+                } else if (parentEntryToMerge != null) {
+                    database.addEntryTo(entryToMerge, parentEntryToMerge)
+                }
             }
         }
     }

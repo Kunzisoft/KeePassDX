@@ -23,11 +23,12 @@
     <style name="KeepassDXStyle.Blue.v21" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/blue_white</item>
-        <item name="colorAccentLight">@color/blue_lighter</item>
-        <item name="colorControlActivated">@color/blue_white</item>
+        <item name="colorAccent">@color/blue_lighter</item>
+        <item name="colorAccentLight">@color/blue_white_dark</item>
+        <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
-        <item name="android:textColorHintInverse">@color/blue_lighter</item>
+        <item name="android:textColorHintInverse">@color/blue_white_dark</item>
+        <item name="android:textColorSecondaryInverse">@color/blue_white_dark</item>
         <item name="android:windowBackground">@color/white_dark</item>
         <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
@@ -38,15 +39,19 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="educationCircleColor">@color/blue_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/blue_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/blue</item>
     </style>
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue" parent="KeepassDXStyle.Blue">
-        <item name="colorControlActivated">@color/blue_lighter</item>
+        <item name="colorControlActivated">@color/blue_white_dark</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/blue_lighter</item>
+        <item name="android:textColorHint">@color/blue_white_dark</item>
         <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Home Blue -->
@@ -69,7 +74,7 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Blue.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/blue_lighter</item>
+        <item name="colorAccent">@color/blue_white_dark</item>
         <item name="android:textColorPrimary">@color/blue</item>
     </style>
     <style name="KeepassDXStyle.Blue.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
@@ -84,11 +89,12 @@
     <style name="KeepassDXStyle.Blue.Night.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/blue_white</item>
-        <item name="colorAccentLight">@color/blue_lighter</item>
-        <item name="colorControlActivated">@color/blue_white</item>
+        <item name="colorAccent">@color/blue_lighter</item>
+        <item name="colorAccentLight">@color/blue_white_dark</item>
+        <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
-        <item name="android:textColorHintInverse">@color/blue_lighter</item>
+        <item name="android:textColorHintInverse">@color/blue_white_dark</item>
+        <item name="android:textColorSecondaryInverse">@color/blue_white_dark</item>
         <item name="android:windowBackground">@color/grey_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Blue.Night</item>
@@ -98,15 +104,19 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
         <item name="educationCircleColor">@color/blue_dark</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/blue_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/blue</item>
     </style>
     <!-- Toolbar Style Blue -->
     <style name="KeepassDXStyle.Toolbar.Blue.Night" parent="KeepassDXStyle.Blue.Night">
-        <item name="colorControlActivated">@color/blue_lighter</item>
+        <item name="colorControlActivated">@color/blue_white_dark</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/blue_lighter</item>
+        <item name="android:textColorHint">@color/blue_white_dark</item>
         <item name="android:tint">@color/white</item>
     </style>
     <!-- Toolbar Home Blue -->
@@ -129,7 +139,7 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Blue.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/blue_lighter</item>
+        <item name="colorAccent">@color/blue_white_dark</item>
         <item name="android:textColorPrimary">@color/blue</item>
     </style>
     <style name="KeepassDXStyle.Blue.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">

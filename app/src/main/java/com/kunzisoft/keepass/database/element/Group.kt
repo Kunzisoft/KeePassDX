@@ -262,6 +262,12 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             }
         }
 
+    var customData: CustomData
+        get() = groupKDBX?.customData ?: CustomData()
+        set(value) {
+            groupKDBX?.customData = value
+        }
+
     override fun getChildGroups(): List<Group> {
         return groupKDB?.getChildGroups()?.map {
             Group(it)
@@ -434,13 +440,36 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX?.nodeId = id
     }
 
-    fun setEnableAutoType(enableAutoType: Boolean?) {
-        groupKDBX?.enableAutoType = enableAutoType
+    var searchable: Boolean?
+        get() = groupKDBX?.enableSearching
+        set(value) {
+            groupKDBX?.enableSearching = value
+        }
+
+    fun isSearchable(): Boolean {
+        val searchableGroup = searchable
+        if (searchableGroup == null) {
+            val parenGroup = parent
+            if (parenGroup == null)
+                return true
+            else
+                return parenGroup.isSearchable()
+        } else {
+            return searchableGroup
+        }
     }
 
-    fun setEnableSearching(enableSearching: Boolean?) {
-        groupKDBX?.enableSearching = enableSearching
-    }
+    var enableAutoType: Boolean?
+        get() = groupKDBX?.enableAutoType
+        set(value) {
+            groupKDBX?.enableAutoType = value
+        }
+
+    var defaultAutoTypeSequence: String
+        get() = groupKDBX?.defaultAutoTypeSequence ?: ""
+        set(value) {
+            groupKDBX?.defaultAutoTypeSequence = value
+        }
 
     fun setExpanded(expanded: Boolean) {
         groupKDBX?.isExpanded = expanded
@@ -462,7 +491,11 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupInfo.expires = expires
         groupInfo.expiryTime = expiryTime
         groupInfo.notes = notes
+        groupInfo.searchable = searchable
+        groupInfo.enableAutoType = enableAutoType
+        groupInfo.defaultAutoTypeSequence = defaultAutoTypeSequence
         groupInfo.tags = tags
+        groupInfo.customData = customData
         return groupInfo
     }
 
@@ -475,7 +508,11 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         expires = groupInfo.expires
         expiryTime = groupInfo.expiryTime
         notes = groupInfo.notes
+        searchable = groupInfo.searchable
+        enableAutoType = groupInfo.enableAutoType
+        defaultAutoTypeSequence = groupInfo.defaultAutoTypeSequence
         tags = groupInfo.tags
+        customData = groupInfo.customData
     }
 
     override fun equals(other: Any?): Boolean {

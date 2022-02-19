@@ -22,12 +22,14 @@ package com.kunzisoft.keepass.services
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.Binder
+import android.os.Build
+import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
-import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
@@ -39,16 +41,19 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
+import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
@@ -226,7 +231,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent, database)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
-            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(database)
+            ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(intent, database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
@@ -469,7 +474,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent?.removeExtra(DATABASE_URI_KEY)
         intent?.removeExtra(MAIN_CREDENTIAL_KEY)
         intent?.removeExtra(READ_ONLY_KEY)
-        intent?.removeExtra(CIPHER_ENTITY_KEY)
+        intent?.removeExtra(CIPHER_DATABASE_KEY)
         intent?.removeExtra(FIX_DUPLICATE_UUID_KEY)
         intent?.removeExtra(GROUP_KEY)
         intent?.removeExtra(ENTRY_KEY)
@@ -570,13 +575,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MAIN_CREDENTIAL_KEY)
                 && intent.hasExtra(READ_ONLY_KEY)
-                && intent.hasExtra(CIPHER_ENTITY_KEY)
+                && intent.hasExtra(CIPHER_DATABASE_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
             val mainCredential: MainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
             val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
-            val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
+            val cipherEncryptDatabase: CipherEncryptDatabase? = intent.getParcelableExtra(CIPHER_DATABASE_KEY)
 
             if (databaseUri == null)
                 return  null
@@ -589,7 +594,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     databaseUri,
                     mainCredential,
                     readOnly,
-                    cipherEntity,
+                    cipherEncryptDatabase,
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                     this
             ) { result ->
@@ -598,7 +603,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     putParcelable(DATABASE_URI_KEY, databaseUri)
                     putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
                     putBoolean(READ_ONLY_KEY, readOnly)
-                    putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
+                    putParcelable(CIPHER_DATABASE_KEY, cipherEncryptDatabase)
                 }
             }
         } else {
@@ -606,10 +611,21 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseMergeActionTask(database: Database): ActionRunnable {
+    private fun buildDatabaseMergeActionTask(intent: Intent, database: Database): ActionRunnable {
+        var databaseToMergeUri: Uri? = null
+        var databaseToMergeMainCredential: MainCredential? = null
+        if (intent.hasExtra(DATABASE_URI_KEY)) {
+            databaseToMergeUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+        }
+        if (intent.hasExtra(MAIN_CREDENTIAL_KEY)) {
+            databaseToMergeMainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY)
+        }
+
         return MergeDatabaseRunnable(
             this,
             database,
+            databaseToMergeUri,
+            databaseToMergeMainCredential,
             this
         ) { result ->
             // No need to add each info to reload database
@@ -633,7 +649,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
-            AssignPasswordInDatabaseRunnable(this,
+            AssignMainCredentialInDatabaseRunnable(this,
                 database,
                 databaseUri,
                 intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
@@ -911,9 +927,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
      */
     private fun buildDatabaseSave(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+
+            var databaseCopyUri: Uri? = null
+            if (intent.hasExtra(DATABASE_URI_KEY)) {
+                databaseCopyUri = intent.getParcelableExtra(DATABASE_URI_KEY)
+            }
+
             SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                databaseCopyUri)
         } else {
             null
         }
@@ -963,7 +986,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         const val MAIN_CREDENTIAL_KEY = "MAIN_CREDENTIAL_KEY"
         const val READ_ONLY_KEY = "READ_ONLY_KEY"
-        const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
+        const val CIPHER_DATABASE_KEY = "CIPHER_DATABASE_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"
         const val GROUP_KEY = "GROUP_KEY"
         const val ENTRY_KEY = "ENTRY_KEY"

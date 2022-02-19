@@ -663,7 +663,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeTags(tags: Tags) {
-        if (!tags.isEmpty()) {
+        if (tags.isNotEmpty()) {
             writeString(DatabaseKDBXXML.ElemTags, tags.toString())
         }
     }

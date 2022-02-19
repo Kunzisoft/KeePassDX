@@ -29,6 +29,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
@@ -55,6 +56,7 @@ class EntryEditFragment: DatabaseFragment() {
     private lateinit var attachmentsContainerView: ViewGroup
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
+    private lateinit var tagsContainerView: TextInputLayout
     private lateinit var tagsCompletionView: TagsCompletionView
     private var tagsAdapter: FilteredArrayAdapter<String>? = null
 
@@ -89,6 +91,7 @@ class EntryEditFragment: DatabaseFragment() {
         templateView = view.findViewById(R.id.template_view)
         attachmentsContainerView = view.findViewById(R.id.entry_attachments_container)
         attachmentsListView = view.findViewById(R.id.entry_attachments_list)
+        tagsContainerView = view.findViewById(R.id.entry_tags_label)
         tagsCompletionView = view.findViewById(R.id.entry_tags_completion_view)
 
         attachmentsAdapter = EntryAttachmentsItemsAdapter(requireContext())
@@ -157,11 +160,11 @@ class EntryEditFragment: DatabaseFragment() {
             templateView.setIcon(iconImage)
         }
 
-        mEntryEditViewModel.onBackgroundColorSelected.observe(this) { color ->
+        mEntryEditViewModel.onBackgroundColorSelected.observe(viewLifecycleOwner) { color ->
             templateView.setBackgroundColor(color)
         }
 
-        mEntryEditViewModel.onForegroundColorSelected.observe(this) { color ->
+        mEntryEditViewModel.onForegroundColorSelected.observe(viewLifecycleOwner) { color ->
             templateView.setForegroundColor(color)
         }
 
@@ -287,6 +290,7 @@ class EntryEditFragment: DatabaseFragment() {
             threshold = 1
             setAdapter(tagsAdapter)
         }
+        tagsContainerView.visibility = if (database?.allowTags() == true) View.VISIBLE else View.GONE
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {

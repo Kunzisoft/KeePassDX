@@ -34,7 +34,7 @@ open class InputNumberPreference @JvmOverloads constructor(context: Context,
         return R.layout.pref_dialog_input_numbers
     }
 
-    override fun setSummary(summary: CharSequence) {
+    override fun setSummary(summary: CharSequence?) {
         if (summary == INFINITE_VALUE_STRING) {
             super.setSummary("∞")
         } else {

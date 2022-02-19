@@ -30,7 +30,6 @@
     <!-- Base application theme. -->
     <!-- For setting encapsulation -->
     <style name="KeepassDXStyle.Light.v21" parent="Theme.MaterialComponents.Light.Bridge">
-        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -46,7 +45,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_light</item>
+        <item name="colorAccentLight">@color/orange_lighter</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -63,9 +62,9 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
+        <item name="android:textColorSecondaryInverse">@color/green_lightest</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
@@ -88,15 +87,19 @@
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
+        <!-- Chip -->
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/green_light</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/green</item>
+
         <!-- Education Hint -->
-        <item name="educationCircleColor">@color/green_light</item>
+        <item name="educationCircleColor">@color/green_lighter</item>
         <item name="educationTextColor">@color/white</item>
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.MaterialComponents.Bridge">
-        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -112,7 +115,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_light</item>
+        <item name="colorAccentLight">@color/orange_lighter</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -129,9 +132,9 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
-        <item name="android:textColorSecondaryInverse">@color/white_grey_darker</item>
+        <item name="android:textColorSecondaryInverse">@color/green_lightest</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
@@ -154,6 +157,11 @@
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
+        <!-- Chip -->
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/green_lighter</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/green</item>
+
         <!-- Education Hint -->
         <item name="educationCircleColor">@color/green_light</item>
         <item name="educationTextColor">@color/white</item>
@@ -169,21 +177,13 @@
     <!-- Night Style -->
     <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v21" />
 
-    <!-- Activity Animation -->
-    <style name="KeepassDXStyle.ActivityAnimation" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
-    </style>
-
     <!-- Toolbar Style -->
     <style name="KeepassDXStyle.Toolbar.Light" parent="KeepassDXStyle.Light.v21">
         <item name="colorControlNormal">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/green_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
@@ -191,13 +191,13 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/green_lightest</item>
         <item name="android:tint">@color/white</item>
     </style>
 
     <!-- Toolbar Home -->
     <style name="KeepassDXStyle.Toolbar.Navigation.Tinted" parent="Widget.AppCompat.Toolbar.Button.Navigation">
-        <item name="tint">?android:attr/textColorHintInverse</item>
+        <item name="tint">?android:attr/textColorSecondaryInverse</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Home.Light" parent="KeepassDXStyle.Toolbar.Light">
         <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
@@ -268,6 +268,30 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.CompleteTextView</item>
     </style>
 
+    <!-- Chip -->
+    <style name="KeepassDXStyle.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipBackgroundColor">@color/background_color_chip</item>
+        <item name="android:textColor">?attr/chipFilterTextColor</item>
+        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
+        <item name="checkedIconTint">?attr/chipFilterTextColor</item>
+        <item name="chipIconVisible">false</item>
+        <item name="closeIconSize">24dp</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+    </style>
+    <style name="KeepassDXStyle.Chip.Filter.Icon" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipBackgroundColor">@color/background_color_chip</item>
+        <item name="android:textColor">?attr/chipFilterTextColor</item>
+        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
+        <item name="checkedIconTint">?attr/chipFilterTextColor</item>
+        <item name="chipIconVisible">true</item>
+        <item name="closeIconVisible">true</item>
+        <item name="closeIconSize">24dp</item>
+        <item name="closeIconTint">?attr/chipFilterTextColor</item>
+        <item name="ensureMinTouchTargetSize">false</item>
+    </style>
+
     <!-- Dialog -->
     <style name="KeepassDXStyle.Light.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert.Bridge">
         <item name="colorAccent">@color/orange</item>
@@ -287,7 +311,7 @@
         <item name="android:windowBackground">@color/white_dark</item>
     </style>
     <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.MaterialComponents.Dialog.Bridge">
-        <item name="colorAccent">@color/orange_dark</item>
+        <item name="colorAccent">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:windowBackground">@color/grey_dark</item>
     </style>
@@ -318,7 +342,7 @@
         <item name="android:drawablePadding">8dp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:textColor">?android:attr/textColorHintInverse</item>
+        <item name="android:textColor">?android:attr/textColorSecondaryInverse</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>
@@ -372,7 +396,7 @@
 
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnAccentColor</item>
         <item name="android:background">@drawable/background_rounded_square</item>
         <item name="backgroundTint">?attr/colorAccent</item>
     </style>
@@ -418,7 +442,12 @@
     </style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.MaterialComponents.Button">
+    <style name="KeepassDXStyle.v23.Button" parent="Base.TextAppearance.MaterialComponents.Button" />
+    <style name="KeepassDXStyle.v23.Button.Primary" parent="Base.TextAppearance.MaterialComponents.Button" />
+    <style name="KeepassDXStyle.v21.Button" parent="KeepassDXStyle.v23.Button">
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="KeepassDXStyle.v21.Button.Primary" parent="KeepassDXStyle.v23.Button.Primary">
         <item name="android:gravity">center</item>
     </style>
     <style name="KeepassDXStyle.v21.ImageButton" parent="Widget.AppCompat.ImageButton">
@@ -428,11 +457,13 @@
         <item name="android:textColor">@color/text_color_button</item>
         <item name="android:background">@drawable/background_button</item>
         <item name="backgroundTint">@color/background_button_color_accent</item>
+        <item name="drawableTint">?attr/colorOnAccentColor</item>
     </style>
-    <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
+    <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button.Primary">
         <item name="android:textColor">?attr/textColorInverse</item>
         <item name="android:background">@drawable/background_button</item>
         <item name="backgroundTint">@color/background_button_color_primary</item>
+        <item name="drawableTint">?attr/textColorInverse</item>
     </style>
     <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:colorForeground">?attr/textColorInverse</item>
@@ -442,7 +473,7 @@
     <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:colorForeground">@color/background_button_color_accent</item>
         <item name="tint">@color/background_button_color_accent</item>
-        <item name="android:background">@null</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="backgroundTint">@null</item>
         <item name="android:padding">12dp</item>
         <item name="android:layout_width">48dp</item>
@@ -473,7 +504,7 @@
     </style>
 
     <!-- FAB -->
-    <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
+    <style name="KeepassDXStyle.v21.Fab" parent="Widget.Design.FloatingActionButton" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
     </style>
     <style name="KeepassDXStyle.Fab.Special" parent="KeepassDXStyle.v21.Fab">
@@ -486,7 +517,7 @@
     </style>
     <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorOnAccentColor</item>
         <item name="android:background">@drawable/background_button_small</item>
         <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
@@ -535,7 +566,7 @@
     <!-- Keyboard -->
     <style name="KeepassDXStyle.Keyboard" parent="Theme.AppCompat">
         <item name="android:paddingTop">4dp</item>
-        <item name="background">@color/grey_blue_dark</item>
+        <item name="background">@color/grey_blue_deep</item>
         <item name="keyBackground">@drawable/key_background</item>
         <item name="keyTextSize">22sp</item>
         <item name="keyTextColor">@color/white</item>

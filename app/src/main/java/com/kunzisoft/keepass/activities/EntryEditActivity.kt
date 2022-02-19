@@ -113,7 +113,7 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
     // Education
-    private var entryEditActivityEducation: EntryEditActivityEducation? = null
+    private var mEntryEditActivityEducation = EntryEditActivityEducation(this)
 
     private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
         mEntryEditViewModel.selectIcon(icon)
@@ -183,8 +183,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
-        // Verify the education views
-        entryEditActivityEducation = EntryEditActivityEducation(this)
 
         // Lock button
         lockView?.setOnClickListener { lockAndExit() }
@@ -538,10 +536,8 @@ class EntryEditActivity : DatabaseLockActivity(),
         super.onCreateOptionsMenu(menu)
         if (mEntryLoaded) {
             menuInflater.inflate(R.menu.entry_edit, menu)
-            entryEditActivityEducation?.let {
-                Handler(Looper.getMainLooper()).post {
-                    performedNextEducation(it)
-                }
+            Handler(Looper.getMainLooper()).post {
+                performedNextEducation()
             }
         }
         return true
@@ -568,19 +564,19 @@ class EntryEditActivity : DatabaseLockActivity(),
         return super.onPrepareOptionsMenu(menu)
     }
 
-    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+    private fun performedNextEducation() {
 
         val entryEditFragment = supportFragmentManager.findFragmentById(R.id.entry_edit_content)
                 as? EntryEditFragment?
         val generatePasswordView = entryEditFragment?.getActionImageView()
         val generatePasswordEductionPerformed = generatePasswordView != null
-                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+                && mEntryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
             generatePasswordView,
             {
                 entryEditFragment.launchGeneratePasswordEductionAction()
             },
             {
-                performedNextEducation(entryEditActivityEducation)
+                performedNextEducation()
             }
         )
 
@@ -589,33 +585,33 @@ class EntryEditActivity : DatabaseLockActivity(),
             val addNewFieldEducationPerformed = mAllowCustomFields
                     && addNewFieldView != null
                     && addNewFieldView.isVisible
-                    && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
+                    && mEntryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
                     {
                         addNewCustomField()
                     },
                     {
-                        performedNextEducation(entryEditActivityEducation)
+                        performedNextEducation()
                     }
             )
             if (!addNewFieldEducationPerformed) {
                 val attachmentView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_attachment)
                 val addAttachmentEducationPerformed = attachmentView != null
                         && attachmentView.isVisible
-                        && entryEditActivityEducation.checkAndPerformedAttachmentEducation(
+                        && mEntryEditActivityEducation.checkAndPerformedAttachmentEducation(
                         attachmentView,
                         {
                             addNewAttachment()
                         },
                         {
-                            performedNextEducation(entryEditActivityEducation)
+                            performedNextEducation()
                         }
                 )
                 if (!addAttachmentEducationPerformed) {
                     val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
                     setupOtpView != null
                             && setupOtpView.isVisible
-                            && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
+                            && mEntryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
                             setupOtpView,
                             {
                                 setupOtp()
@@ -662,8 +658,8 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun acceptPassword(passwordField: Field) {
         mEntryEditViewModel.selectPassword(passwordField)
-        entryEditActivityEducation?.let {
-            Handler(Looper.getMainLooper()).post { performedNextEducation(it) }
+        Handler(Looper.getMainLooper()).post {
+            performedNextEducation()
         }
     }
 

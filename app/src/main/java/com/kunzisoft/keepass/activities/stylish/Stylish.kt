@@ -69,8 +69,10 @@ object Stylish {
             context.getString(R.string.list_style_name_night) -> context.getString(R.string.list_style_name_light)
             context.getString(R.string.list_style_name_black) -> context.getString(R.string.list_style_name_white)
             context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_clear)
+            context.getString(R.string.list_style_name_simple_night) -> context.getString(R.string.list_style_name_simple)
             context.getString(R.string.list_style_name_blue_night) -> context.getString(R.string.list_style_name_blue)
             context.getString(R.string.list_style_name_red_night) -> context.getString(R.string.list_style_name_red)
+            context.getString(R.string.list_style_name_reply_night) -> context.getString(R.string.list_style_name_reply)
             context.getString(R.string.list_style_name_purple_dark) -> context.getString(R.string.list_style_name_purple)
             else -> styleString
         }
@@ -81,8 +83,10 @@ object Stylish {
             context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_night)
             context.getString(R.string.list_style_name_white) -> context.getString(R.string.list_style_name_black)
             context.getString(R.string.list_style_name_clear) -> context.getString(R.string.list_style_name_dark)
+            context.getString(R.string.list_style_name_simple) -> context.getString(R.string.list_style_name_simple_night)
             context.getString(R.string.list_style_name_blue) -> context.getString(R.string.list_style_name_blue_night)
             context.getString(R.string.list_style_name_red) -> context.getString(R.string.list_style_name_red_night)
+            context.getString(R.string.list_style_name_reply) -> context.getString(R.string.list_style_name_reply_night)
             context.getString(R.string.list_style_name_purple) -> context.getString(R.string.list_style_name_purple_dark)
             else -> styleString
         }
@@ -113,10 +117,14 @@ object Stylish {
             context.getString(R.string.list_style_name_black) -> R.style.KeepassDXStyle_Black
             context.getString(R.string.list_style_name_clear) -> R.style.KeepassDXStyle_Clear
             context.getString(R.string.list_style_name_dark) -> R.style.KeepassDXStyle_Dark
+            context.getString(R.string.list_style_name_simple) -> R.style.KeepassDXStyle_Simple
+            context.getString(R.string.list_style_name_simple_night) -> R.style.KeepassDXStyle_Simple_Night
             context.getString(R.string.list_style_name_blue) -> R.style.KeepassDXStyle_Blue
             context.getString(R.string.list_style_name_blue_night) -> R.style.KeepassDXStyle_Blue_Night
             context.getString(R.string.list_style_name_red) -> R.style.KeepassDXStyle_Red
             context.getString(R.string.list_style_name_red_night) -> R.style.KeepassDXStyle_Red_Night
+            context.getString(R.string.list_style_name_reply) -> R.style.KeepassDXStyle_Reply
+            context.getString(R.string.list_style_name_reply_night) -> R.style.KeepassDXStyle_Reply_Night
             context.getString(R.string.list_style_name_purple) -> R.style.KeepassDXStyle_Purple
             context.getString(R.string.list_style_name_purple_dark) -> R.style.KeepassDXStyle_Purple_Dark
             else -> R.style.KeepassDXStyle_Light

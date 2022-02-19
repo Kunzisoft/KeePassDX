@@ -32,18 +32,11 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 
 object MenuUtil {
 
-    fun contributionMenuInflater(inflater: MenuInflater, menu: Menu) {
-        if (!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE))
-            inflater.inflate(R.menu.contribution, menu)
-    }
-
     fun defaultMenuInflater(inflater: MenuInflater, menu: Menu) {
-        contributionMenuInflater(inflater, menu)
-        inflater.inflate(R.menu.default_menu, menu)
-    }
-
-    fun onContributionItemSelected(context: Context) {
-        UriUtil.gotoUrl(context, R.string.contribution_url)
+        inflater.inflate(R.menu.settings, menu)
+        inflater.inflate(R.menu.about, menu)
+        if (!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE))
+            menu.findItem(R.id.menu_contribute)?.isVisible = false
     }
 
     /*
@@ -54,7 +47,7 @@ object MenuUtil {
                                          timeoutEnable: Boolean = false) {
         when (item.itemId) {
             R.id.menu_contribute -> {
-                onContributionItemSelected(activity)
+                UriUtil.gotoUrl(activity, R.string.contribution_url)
             }
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity

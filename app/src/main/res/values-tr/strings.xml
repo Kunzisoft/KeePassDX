@@ -96,7 +96,7 @@
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>
     <string name="length">Uzunluk</string>
     <string name="list_entries_show_username_title">Kullanıcı adlarını göster</string>
-    <string name="list_entries_show_username_summary">Girdi listelerinde kullanıcı adlarını göster</string>
+    <string name="list_entries_show_username_summary">Girdi listelerinde kullanıcı adlarını görüntüler</string>
     <string name="list_size_title">Liste ögelerinin boyutu</string>
     <string name="list_size_summary">Öge listesindeki metin boyutu</string>
     <string name="loading_database">Veri tabanı yükleniyor…</string>
@@ -130,8 +130,6 @@
     <string name="no_url_handler">Bu URL\'u açmak için bir web tarayıcısı yükleyin.</string>
     <string name="select_database_file">Mevcut veri tabanını aç</string>
     <string name="create_keepass_file">Yeni veri tabanı oluştur</string>
-    <string name="omit_backup_search_title">Yedek girdilerde arama</string>
-    <string name="omit_backup_search_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri dönüşüm kutusu\" gruplarını atlar</string>
     <string name="progress_create">Yeni veri tabanı oluşturuluyor…</string>
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>
@@ -149,7 +147,6 @@
     <string name="parallelism_explanation">Anahtar türev fonksiyonu tarafından kullanılan paralellik derecesi (yani iplik sayısı).</string>
     <string name="saving_database">Veri tabanı kaydediliyor…</string>
     <string name="space">Boşluk</string>
-    <string name="search_label">Ara</string>
     <string name="sort_menu">Sırala</string>
     <string name="sort_ascending">Önce en düşük ↓</string>
     <string name="sort_groups_before">Grup önce</string>
@@ -162,7 +159,6 @@
     <string name="sort_last_access_time">Erişim</string>
     <string name="special">Özel</string>
     <string name="search">Ara</string>
-    <string name="search_results">Arama Sonuçları</string>
     <string name="minus">Eksi</string>
     <string name="underline">Altı çizili</string>
     <string name="unsupported_db_version">Desteklenmeyen veri tabanı sürümü.</string>
@@ -320,7 +316,7 @@
     <string name="error_move_entry_here">Bir girdiyi buraya taşıyamazsınız.</string>
     <string name="error_copy_entry_here">Bir girdiyi buraya kopyalayamazsınız.</string>
     <string name="list_groups_show_number_entries_title">Girdi sayısını göster</string>
-    <string name="list_groups_show_number_entries_summary">Bir gruptaki girdilerin sayısını göster</string>
+    <string name="list_groups_show_number_entries_summary">Bir gruptaki girdilerin sayısını görüntüler</string>
     <string name="lock_database_back_root_title">Kilitlemek için \'Geri\'ye basın</string>
     <string name="recycle_bin">Geri dönüşüm kutusu</string>
     <string name="keyboard_selection_entry_title">Girdi seçimi</string>
@@ -470,7 +466,7 @@
     <string name="show_uuid_summary">Bir girdiye veya gruba bağlı UUID\'yi görüntüler</string>
     <string name="show_uuid_title">UUID\'yi göster</string>
     <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
-    <string name="autofill_ask_to_save_data_summary">Bir form doğrulandığında verileri kaydetmek için sor</string>
+    <string name="autofill_ask_to_save_data_summary">Form doldurma işlemi tamamlandığında verileri kaydetmek için sor</string>
     <string name="autofill_ask_to_save_data_title">Verileri kaydetmek için sor</string>
     <string name="autofill_save_search_info_summary">Elle girdi seçimi yaparken arama bilgilerini kaydetmeyi dene</string>
     <string name="autofill_save_search_info_title">Arama bilgilerini kaydet</string>
@@ -526,7 +522,7 @@
     <string name="autofill_inline_suggestions_summary">Doğrudan uyumlu bir klavyeden otomatik doldurma önerileri görüntülemeye çalış</string>
     <string name="autofill_inline_suggestions_title">Satır içi öneriler</string>
     <string name="warning_database_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi, veri tabanını kapatın ve bulunduğu yerden yeniden açın.</string>
-    <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle veri tabanını yeniden yükleyin.</string>
+    <string name="warning_database_info_changed_options">Verileri birleştirin, veri tabanını kaydederek harici değişikliklerin üzerine yazın veya en son değişikliklerle yeniden yükleyin.</string>
     <string name="warning_database_info_changed">Veri tabanı dosyanızda bulunan bilgiler, uygulamanın dışında değiştirildi.</string>
     <string name="menu_reload_database">Verileri yeniden yükle</string>
     <string name="unit_gibibyte">GiB</string>
@@ -605,4 +601,23 @@
     <string name="content_description_entry_background_color">Girdi arka plan rengi</string>
     <string name="menu_merge_database">Verileri birleştir</string>
     <string name="warning_database_info_reloaded">Veri tabanını yeniden yüklemek, yerel olarak değiştirilen verileri silecektir.</string>
+    <string name="tags">Etiketler</string>
+    <string name="warning_keyfile_integrity">Android, verilerini anında değiştirebildiğinden dosyanın sağlama toplamı garanti edilmez. Doğru bütünlük için dosya uzantısını .bin olarak değiştirin.</string>
+    <string name="enable_keep_screen_on_title">Ekranı açık tut</string>
+    <string name="show_entry_colors_title">Girdi renkleri</string>
+    <string name="show_entry_colors_summary">Bir girdide ön plan ve arka plan renklerini görüntüler</string>
+    <string name="enable_keep_screen_on_summary">Girdiyi izlerken ekranı açık tutun</string>
+    <string name="content_description_nav_header">Gezinme başlığı</string>
+    <string name="navigation_drawer_open">Gezinme çekmecesi açık</string>
+    <string name="navigation_drawer_close">Gezinme çekmecesi kapalı</string>
+    <string name="searchable">Aranabilir</string>
+    <string name="inherited">Devralınan</string>
+    <string name="auto_type_sequence">Otomatik yazma sırası</string>
+    <string name="menu_merge_from">Şuradan birleştir…</string>
+    <string name="regex">Düzenli ifade</string>
+    <string name="search_filters">Arama filtreleri</string>
+    <string name="case_sensitive">Büyük/küçük harf duyarlı</string>
+    <string name="current_group">Geçerli grup</string>
+    <string name="custom_data">Özel veri</string>
+    <string name="menu_save_copy_to">Bir kopyasını şuraya kaydet…</string>
 </resources>

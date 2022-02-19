@@ -119,8 +119,6 @@
     <string name="no_results">Aucun résultat</string>
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
-    <string name="omit_backup_search_title">Ne pas rechercher dans les entrées sauvegardées</string>
-    <string name="omit_backup_search_summary">Omet les groupes \"Sauvegarde\" et \"Corbeille\" des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>
@@ -138,7 +136,6 @@
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
     <string name="space">Espace</string>
-    <string name="search_label">Rechercher</string>
     <string name="sort_menu">Trier</string>
     <string name="sort_ascending">Ascendant ↓</string>
     <string name="sort_groups_before">Groupes avant</string>
@@ -151,7 +148,6 @@
     <string name="sort_last_access_time">Accès</string>en
     <string name="special">Spéciaux</string>
     <string name="search">Rechercher</string>
-    <string name="search_results">Résultats de recherche</string>
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non prise en charge.</string>
     <string name="uppercase">Majuscules</string>
@@ -270,8 +266,10 @@
         <item>Forêt</item>
         <item>Divin</item>
         <item>Classique</item>
+        <item>Simple</item>
         <item>Lune</item>
         <item>Soleil</item>
+        <item>Réponse</item>
         <item>Kunzite</item>
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
@@ -490,7 +488,7 @@
     <string name="show_uuid_summary">Affiche l’UUID lié à une entrée ou un groupe</string>
     <string name="show_uuid_title">Afficher l’UUID</string>
     <string name="autofill_read_only_save">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
-    <string name="autofill_ask_to_save_data_summary">Demande à enregistrer des données quand un formulaire est validé</string>
+    <string name="autofill_ask_to_save_data_summary">Demande de sauvegarde des données à la fin du remplissage d\'un formulaire</string>
     <string name="autofill_ask_to_save_data_title">Demander à enregistrer des données</string>
     <string name="autofill_save_search_info_summary">Essayer d’enregistrer les informations de recherche lors de la sélection manuelle d’une entrée</string>
     <string name="autofill_save_search_info_title">Enregistrer les infos de recherche</string>
@@ -623,4 +621,18 @@
     <string name="show_entry_colors_summary">Affiche les couleurs de premier plan et d\'arrière-plan dans une entrée</string>
     <string name="warning_database_info_reloaded">Le rechargement de la base de données supprimera les données modifiées localement.</string>
     <string name="show_entry_colors_title">Couleurs d\'entrée</string>
+    <string name="current_group">Groupe actuel</string>
+    <string name="content_description_nav_header">En-tête de navigation</string>
+    <string name="navigation_drawer_open">Tiroir de navigation ouvert</string>
+    <string name="regex">Expression régulière</string>
+    <string name="navigation_drawer_close">Tiroir de navigation fermé</string>
+    <string name="search_filters">Filtres de recherche</string>
+    <string name="menu_save_copy_to">Sauvegarder une copie vers …</string>
+    <string name="menu_merge_from">Fusionner depuis …</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="searchable">Recherchable</string>
+    <string name="inherited">Hérité</string>
+    <string name="auto_type_sequence">Séquence Auto-Type</string>
+    <string name="custom_data">Données personnalisées</string>
+    <string name="case_sensitive">Sensible à la casse</string>
 </resources>

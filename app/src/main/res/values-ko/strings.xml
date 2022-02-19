@@ -131,7 +131,6 @@
     <string name="no_url_handler">이 URL을 열기 위해 웹 브라우저를 설치하십시오.</string>
     <string name="select_database_file">가지고 있는 데이터베이스 열기</string>
     <string name="create_keepass_file">새 데이터베이스 생성</string>
-    <string name="omit_backup_search_title">백업 항목 검색하지 않기</string>
     <string name="progress_create">새 데이터베이스 생성 중…</string>
     <string name="progress_title">작업 중…</string>
     <string name="protection">보호</string>
@@ -144,7 +143,6 @@
     <string name="memory_usage_explanation">바이너리 바이트 단위의 메모리 용량이 키 파생 기능에 사용됩니다.</string>
     <string name="saving_database">데이터베이스 저장 중…</string>
     <string name="space">공간</string>
-    <string name="search_label">검색</string>
     <string name="sort_menu">정렬</string>
     <string name="sort_ascending">오름차순 ↓</string>
     <string name="content_description_open_file">파일 열기</string>

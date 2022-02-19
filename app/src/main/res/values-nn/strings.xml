@@ -25,7 +25,6 @@
     <string name="add_group">Legg til gruppe</string>
     <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="app_timeout">Programtidsavbrot</string>
-    <string name="app_timeout_summary"></string>
     <string name="application">App</string>
     <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
@@ -101,8 +100,6 @@
     <string name="never">Aldri</string>
     <string name="no_results">Ingen søkjeresultat</string>
     <string name="no_url_handler">Ingen behandlar for denne adressa.</string>
-    <string name="omit_backup_search_title">Søk ikkje i kopipostane eller søppelbøtta</string>
-    <string name="omit_backup_search_summary">Søkjeresultatet inneheld ikkje oppføringar frå \'Backup\' eller søppelbøtta</string>
     <string name="progress_create">Lager ny database …</string>
     <string name="progress_title">Arbeider …</string>
     <string name="content_description_remove_from_list">Ta vekk</string>
@@ -111,7 +108,6 @@
     <string name="rounds_explanation">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
     <string name="saving_database">Lagrar databasen …</string>
     <string name="space">Mellomrom</string>
-    <string name="search_label">Søk</string>
     <string name="sort_db">DB-sortering</string>
     <string name="special">Spesial</string>
     <string name="search">Oppføringa sin tittel/skildring</string>

@@ -53,6 +53,10 @@ class Tags: Parcelable {
         return mTags.isEmpty()
     }
 
+    fun isNotEmpty(): Boolean {
+        return !isEmpty()
+    }
+
     fun size(): Int {
         return mTags.size
     }

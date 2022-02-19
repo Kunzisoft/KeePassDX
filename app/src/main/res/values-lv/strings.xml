@@ -108,8 +108,6 @@
     <string name="never">Nekad</string>
     <string name="no_results">Nav meklēšanas rezultātu</string>
     <string name="no_url_handler">Neizdevās atvērt saiti.</string>
-    <string name="omit_backup_search_title">Nemeklēt kopijās un atkritnē</string>
-    <string name="omit_backup_search_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
     <string name="progress_create">Izveido jaunu datu bāzi…</string>
     <string name="progress_title">Darbojas…</string>
     <string name="protection">Aizsardzība</string>
@@ -119,11 +117,9 @@
     <string name="rounds_explanation">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
     <string name="saving_database">Datu bāzes saglabāšana…</string>
     <string name="space">Atstarpe</string>
-    <string name="search_label">Meklēt</string>
     <string name="sort_db">Izejas</string>
     <string name="special">Speciālie</string>
     <string name="search">Ieraksta nosaukums/apraksts</string>
-    <string name="search_results">Meklēšanas rezultāti</string>
     <string name="underline">Pasvītrojums</string>
     <string name="unsupported_db_version">Neatbalstīta datu bāzes versija.</string>
     <string name="uppercase">Lielie burti</string>

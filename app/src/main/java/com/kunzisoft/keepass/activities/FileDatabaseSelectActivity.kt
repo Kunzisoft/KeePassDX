@@ -42,7 +42,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -69,7 +69,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : DatabaseModeActivity(),
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
+        SetMainCredentialDialogFragment.AssignMainCredentialDialogListener {
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -77,6 +77,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private var openDatabaseButtonView: View? = null
 
     private val databaseFilesViewModel: DatabaseFilesViewModel by viewModels()
+
+    private val mFileDatabaseSelectActivityEducation = FileDatabaseSelectActivityEducation(this)
 
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
@@ -124,7 +126,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { databaseFileCreatedUri ->
             mDatabaseFileUri = databaseFileCreatedUri
             if (mDatabaseFileUri != null) {
-                AssignMasterKeyDialogFragment.getInstance(true)
+                SetMainCredentialDialogFragment.getInstance(true)
                     .show(supportFragmentManager, "passwordDialog")
             } else {
                 val error = getString(R.string.error_create_database)
@@ -132,7 +134,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 Log.e(TAG, error)
             }
         }
-        openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
+        openDatabaseButtonView = findViewById(R.id.open_database_button)
         openDatabaseButtonView?.setOpenDocumentClickListener(mExternalFileHelper)
 
         // History list
@@ -291,7 +293,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
-        PasswordActivity.launch(this,
+        MainCredentialActivity.launch(this,
                 databaseUri,
                 keyFile,
                 { exception ->
@@ -392,39 +394,40 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             MenuUtil.defaultMenuInflater(menuInflater, menu)
         }
 
-        Handler(Looper.getMainLooper()).post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
+        Handler(Looper.getMainLooper()).post {
+            performedNextEducation()
+        }
 
         return true
     }
 
-    private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
+    private fun performedNextEducation() {
         // If no recent files
         val createDatabaseEducationPerformed =
                 createDatabaseButtonView != null
                 && createDatabaseButtonView!!.visibility == View.VISIBLE
-                && mAdapterDatabaseHistory != null
-                && mAdapterDatabaseHistory!!.itemCount == 0
-                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
+                && mFileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createDatabaseButtonView!!,
                 {
                     createNewFile()
                 },
                 {
                     // But if the user cancel, it can also select a database
-                    performedNextEducation(fileDatabaseSelectActivityEducation)
+                    performedNextEducation()
                 })
         if (!createDatabaseEducationPerformed) {
             // selectDatabaseEducationPerformed
             openDatabaseButtonView != null
-                    && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                    openDatabaseButtonView!!,
-                    { tapTargetView ->
-                        tapTargetView?.let {
-                            mExternalFileHelper?.openDocument()
-                        }
-                    },
-                    {}
-            )
+            && mFileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
+                openDatabaseButtonView!!,
+            { tapTargetView ->
+                tapTargetView?.let {
+                    mExternalFileHelper?.openDocument()
+                }
+            },
+            {
+
+            })
         }
     }
 

@@ -111,8 +111,6 @@
     <string name="never">Inoiz ez</string>
     <string name="no_results">Emaitzarik gabeko bilaketa</string>
     <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
-    <string name="omit_backup_search_title">Ez bilatu segurtasun kopiaren sarreretan</string>
-    <string name="omit_backup_search_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
     <string name="progress_create">Datubase berria sortzen…</string>
     <string name="progress_title">Lanean…</string>
     <string name="protection">Babesa</string>
@@ -122,11 +120,9 @@
     <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
     <string name="saving_database">Datubasea gordetzen…</string>
     <string name="space">Lekua</string>
-    <string name="search_label">Bilatu</string>
     <string name="sort_db">DB-a antolatzeko ordena</string>
     <string name="special">Berezia</string>
     <string name="search">Sarreraren Izena / Deskribapena</string>
-    <string name="search_results">Bilaketaren emaitzak</string>
     <string name="underline">Azpimarratu</string>
     <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
     <string name="uppercase">Maiuskulak</string>

@@ -111,8 +111,6 @@
     <string name="never">Ποτέ</string>
     <string name="no_results">Δεν βρέθηκαν αποτελέσματα αναζήτησης</string>
     <string name="no_url_handler">Εγκαταστήστε ένα πρόγραμμα περιήγησης για να ανοίξετε αυτήν τη διεύθυνση URL.</string>
-    <string name="omit_backup_search_title">Να μην γίνει αναζήτηση μέσα από τις καταχωρήσεις αντιγραφών ασφαλείας</string>
-    <string name="omit_backup_search_summary">Παράληψη ομάδας \"Αντίγραφο Ασφαλείας\" και \"Κάδος Ανακύκλωσης\" από τα αποτελέσματα αναζήτησης</string>
     <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>
@@ -123,11 +121,9 @@
     <string name="rounds_explanation">Επιπλέον κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
     <string name="saving_database">Αποθήκευση βάσης δεδομένων…</string>
     <string name="space">Κενό</string>
-    <string name="search_label">Αναζήτηση</string>
     <string name="sort_db">Κανονική ταξινόμηση</string>
     <string name="special">Ειδικοί</string>
     <string name="search">Αναζήτηση</string>
-    <string name="search_results">Αποτελέσματα αναζήτησης</string>
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>
@@ -476,7 +472,7 @@
     <string name="show_uuid_summary">Εμφανίζει το UUID που είναι συνδεδεμένο σε μια καταχώρηση ή σε μια ομάδα</string>
     <string name="show_uuid_title">Εμφάνιση UUID</string>
     <string name="autofill_read_only_save">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
-    <string name="autofill_ask_to_save_data_summary">Ζητήστε να αποθηκεύσετε δεδομένα όταν επικυρώνεται μια φόρμα</string>
+    <string name="autofill_ask_to_save_data_summary">Ζητήστε αποθήκευση δεδομένων όταν ολοκληρωθεί η συμπλήρωση μιας φόρμας</string>
     <string name="autofill_ask_to_save_data_title">Ζητήστε να αποθηκεύσετε δεδομένα</string>
     <string name="autofill_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε πληροφορίες αναζήτησης κατά την επιλογή χειροκίνητης καταχώρισης</string>
     <string name="autofill_save_search_info_title">Αποθήκευση πληροφοριών αναζήτησης</string>
@@ -616,4 +612,17 @@
     <string name="enable_keep_screen_on_title">Διατηρήστε την οθόνη ενεργή</string>
     <string name="show_entry_colors_title">Χρώματα καταχώρησης</string>
     <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου σε μια καταχώρηση</string>
+    <string name="searchable">Αναζητήσιμο</string>
+    <string name="case_sensitive">Διάκριση πεζών-κεφαλαίων</string>
+    <string name="menu_merge_from">Συγχώνευση από …</string>
+    <string name="inherited">Κληρονόμησε</string>
+    <string name="search_filters">Αναζήτηση φίλτρων</string>
+    <string name="content_description_nav_header">Κεφαλίδα πλοήγησης</string>
+    <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>
+    <string name="navigation_drawer_open">Άνοιγμα συρταριού πλοήγησης</string>
+    <string name="custom_data">Προσαρμοσμένα δεδομένα</string>
+    <string name="auto_type_sequence">Αλληλουχία Αυτόματης-Πληκτρολόγησης</string>
+    <string name="current_group">Τρέχουσα ομάδα</string>
+    <string name="regex">Κοινή έκφραση</string>
+    <string name="menu_save_copy_to">Αποθήκευση αντιγράφου στο …</string>
 </resources>

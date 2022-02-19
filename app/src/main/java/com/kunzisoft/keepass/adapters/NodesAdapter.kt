@@ -29,7 +29,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -88,8 +87,6 @@ class NodesAdapter (private val context: Context,
     private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
-    private val mContentSelectionColor: Int
-    @ColorInt
     private val mTextColorPrimary: Int
     @ColorInt
     private val mTextColor: Int
@@ -98,7 +95,7 @@ class NodesAdapter (private val context: Context,
     @ColorInt
     private val mColorAccentLight: Int
     @ColorInt
-    private val mTextColorSelected: Int
+    private val mColorOnAccentColor: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -115,8 +112,6 @@ class NodesAdapter (private val context: Context,
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        // Color of content selection
-        this.mContentSelectionColor = ContextCompat.getColor(context, R.color.white)
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
@@ -130,13 +125,13 @@ class NodesAdapter (private val context: Context,
         this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
         taTextColorSecondary.recycle()
         // To get background color for selection
-        val taSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
-        this.mColorAccentLight = taSelectionColor.getColor(0, Color.GRAY)
-        taSelectionColor.recycle()
+        val taColorAccentLight = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
+        this.mColorAccentLight = taColorAccentLight.getColor(0, Color.GRAY)
+        taColorAccentLight.recycle()
         // To get text color for selection
-        val taSelectionTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
-        this.mTextColorSelected = taSelectionTextColor.getColor(0, Color.WHITE)
-        taSelectionTextColor.recycle()
+        val taColorOnAccentColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
+        this.mColorOnAccentColor = taColorOnAccentColor.getColor(0, Color.WHITE)
+        taColorOnAccentColor.recycle()
     }
 
     private fun assignPreferences() {
@@ -352,23 +347,6 @@ class NodesAdapter (private val context: Context,
             isSelected = mActionNodesList.contains(subNode)
         }
 
-        // Assign image
-        val iconColor = if (holder.container.isSelected)
-            mContentSelectionColor
-        else when (subNode.type) {
-            Type.GROUP -> mTextColorPrimary
-            Type.ENTRY -> mTextColor
-        }
-        holder.imageIdentifier?.setColorFilter(iconColor)
-        holder.icon.apply {
-            database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
-            // Relative size of the icon
-            layoutParams?.apply {
-                height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
-                width = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
-            }
-        }
-
         // Assign text
         holder.text.apply {
             text = subNode.title
@@ -394,6 +372,14 @@ class NodesAdapter (private val context: Context,
             }
         } else {
             holder.path?.visibility = View.GONE
+        }
+
+        // Assign icon colors
+        var iconColor = if (holder.container.isSelected)
+            mColorOnAccentColor
+        else when (subNode.type) {
+            Type.GROUP -> mTextColorPrimary
+            Type.ENTRY -> mTextColor
         }
 
         // Specific elements for entry
@@ -457,13 +443,7 @@ class NodesAdapter (private val context: Context,
                     holder.otpProgress?.setIndicatorColor(foregroundColor)
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
-                    holder.icon.apply {
-                        database.iconDrawableFactory.assignDatabaseIcon(
-                            this,
-                            subNode.icon,
-                            foregroundColor
-                        )
-                    }
+                    iconColor = foregroundColor
                 } else {
                     holder.text.setTextColor(mTextColor)
                     holder.subText?.setTextColor(mTextColorSecondary)
@@ -473,12 +453,12 @@ class NodesAdapter (private val context: Context,
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mTextColorSelected)
-                holder.subText?.setTextColor(mTextColorSelected)
-                holder.otpToken?.setTextColor(mTextColorSelected)
-                holder.otpProgress?.setIndicatorColor(mTextColorSelected)
-                holder.attachmentIcon?.setColorFilter(mTextColorSelected)
-                holder.meta.setTextColor(mTextColorSelected)
+                holder.text.setTextColor(mColorOnAccentColor)
+                holder.subText?.setTextColor(mColorOnAccentColor)
+                holder.otpToken?.setTextColor(mColorOnAccentColor)
+                holder.otpProgress?.setIndicatorColor(mColorOnAccentColor)
+                holder.attachmentIcon?.setColorFilter(mColorOnAccentColor)
+                holder.meta.setTextColor(mColorOnAccentColor)
             }
 
             database.stopManageEntry(entry)
@@ -496,6 +476,17 @@ class NodesAdapter (private val context: Context,
                 }
             } else {
                 holder.numberChildren?.visibility = View.GONE
+            }
+        }
+
+        // Assign image
+        holder.imageIdentifier?.setColorFilter(iconColor)
+        holder.icon.apply {
+            database.iconDrawableFactory.assignDatabaseIcon(this, subNode.icon, iconColor)
+            // Relative size of the icon
+            layoutParams?.apply {
+                height = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
+                width = (mIconDefaultDimension * mPrefSizeMultiplier).toInt()
             }
         }
 

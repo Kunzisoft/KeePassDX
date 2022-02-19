@@ -39,7 +39,6 @@ import java.security.MessageDigest
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
-import kotlin.collections.HashMap
 
 
 /**
@@ -50,27 +49,8 @@ class DatabaseInputKDB(database: DatabaseKDB)
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
-                              password: String?,
-                              keyfileInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater) {
-            mDatabase.retrieveMasterKey(password, keyfileInputStream)
-        }
-    }
-
-    @Throws(LoadDatabaseException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              masterKey: ByteArray,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDB {
-        return openDatabase(databaseInputStream, progressTaskUpdater) {
-            mDatabase.masterKey = masterKey
-        }
-    }
-
-    @Throws(LoadDatabaseException::class)
-    private fun openDatabase(databaseInputStream: InputStream,
-                             progressTaskUpdater: ProgressTaskUpdater?,
-                             assignMasterKey: (() -> Unit)? = null): DatabaseKDB {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              assignMasterKey: (() -> Unit)): DatabaseKDB {
 
         try {
             startKeyTimer(progressTaskUpdater)
@@ -96,7 +76,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                 throw VersionDatabaseException()
             }
 
-            assignMasterKey?.invoke()
+            assignMasterKey.invoke()
 
             // Select algorithm
             when {

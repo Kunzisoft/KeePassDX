@@ -52,13 +52,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/search_label">
+        android:title="@string/search">
 
-        <SwitchPreference
-            android:key="@string/omit_backup_search_key"
-            android:title="@string/omit_backup_search_title"
-            android:summary="@string/omit_backup_search_summary"
-            android:defaultValue="@bool/omit_backup_search_default"/>
         <SwitchPreference
             android:key="@string/auto_focus_search_key"
             android:title="@string/auto_focus_search_title"

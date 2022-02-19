@@ -1,0 +1,10 @@
+ * Recherche rapide et filtres dynamiques #163 #462 #521
+ * Garde le contexte de recherche #1141
+ * Ajout des groupes cherchables #905 #1006
+ * Recherche avec expression régulière #175
+ * Fusion depuis un fichier et sauvegarde de copie #1221 #1204 #840
+ * Correction des données customisées #1236
+ * Correction de écrans d'éducation #1192
+ * Correction de la sauvegarde en mode sélection
+ * Nouvelle interface utilisateur et correction des styles
+ * Ajout des thèmes "Simple" et "Réponse"

@@ -22,7 +22,9 @@ package com.kunzisoft.keepass.app.database
 import android.content.*
 import android.net.Uri
 import android.os.IBinder
+import android.util.Base64
 import android.util.Log
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
@@ -125,15 +127,40 @@ class CipherDatabaseAction(context: Context) {
     }
 
     fun getCipherDatabase(databaseUri: Uri,
-                          cipherDatabaseResultListener: (CipherDatabaseEntity?) -> Unit) {
+                          cipherDatabaseResultListener: (CipherEncryptDatabase?) -> Unit) {
         if (useTempDao) {
             serviceActionTask {
-                cipherDatabaseResultListener.invoke(mBinder?.getCipherDatabase(databaseUri))
+                mBinder?.getCipherDatabase(databaseUri)?.let { cipherDatabaseEntity ->
+                    val cipherDatabase = CipherEncryptDatabase().apply {
+                        this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
+                        this.encryptedValue = Base64.decode(
+                            cipherDatabaseEntity.encryptedValue,
+                            Base64.NO_WRAP
+                        )
+                        this.specParameters = Base64.decode(
+                            cipherDatabaseEntity.specParameters,
+                            Base64.NO_WRAP
+                        )
+                    }
+                    cipherDatabaseResultListener.invoke(cipherDatabase)
+                }
             }
         } else {
             IOActionTask(
                     {
-                        cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
+                        cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())?.let { cipherDatabaseEntity ->
+                            CipherEncryptDatabase().apply {
+                                this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
+                                this.encryptedValue = Base64.decode(
+                                    cipherDatabaseEntity.encryptedValue,
+                                    Base64.NO_WRAP
+                                )
+                                this.specParameters = Base64.decode(
+                                    cipherDatabaseEntity.specParameters,
+                                    Base64.NO_WRAP
+                                )
+                            }
+                        }
                     },
                     {
                         cipherDatabaseResultListener.invoke(it)
@@ -149,18 +176,27 @@ class CipherDatabaseAction(context: Context) {
         }
     }
 
-    fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity,
+    fun addOrUpdateCipherDatabase(cipherEncryptDatabase: CipherEncryptDatabase,
                                   cipherDatabaseResultListener: (() -> Unit)? = null) {
-        if (useTempDao) {
-            // The only case to create service (not needed to get an info)
-            serviceActionTask(true) {
-                mBinder?.addOrUpdateCipherDatabase(cipherDatabaseEntity)
-                cipherDatabaseResultListener?.invoke()
-            }
-        } else {
-            IOActionTask(
+        cipherEncryptDatabase.databaseUri?.let { databaseUri ->
+
+            val cipherDatabaseEntity = CipherDatabaseEntity(
+                databaseUri.toString(),
+                Base64.encodeToString(cipherEncryptDatabase.encryptedValue, Base64.NO_WRAP),
+                Base64.encodeToString(cipherEncryptDatabase.specParameters, Base64.NO_WRAP),
+            )
+
+            if (useTempDao) {
+                // The only case to create service (not needed to get an info)
+                serviceActionTask(true) {
+                    mBinder?.addOrUpdateCipherDatabase(cipherDatabaseEntity)
+                    cipherDatabaseResultListener?.invoke()
+                }
+            } else {
+                IOActionTask(
                     {
-                        val cipherDatabaseRetrieve = cipherDatabaseDao.getByDatabaseUri(cipherDatabaseEntity.databaseUri)
+                        val cipherDatabaseRetrieve =
+                            cipherDatabaseDao.getByDatabaseUri(cipherDatabaseEntity.databaseUri)
                         // Update values if element not yet in the database
                         if (cipherDatabaseRetrieve == null) {
                             cipherDatabaseDao.add(cipherDatabaseEntity)
@@ -171,7 +207,8 @@ class CipherDatabaseAction(context: Context) {
                     {
                         cipherDatabaseResultListener?.invoke()
                     }
-            ).execute()
+                ).execute()
+            }
         }
     }
 

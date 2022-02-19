@@ -27,7 +27,6 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
-import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -214,18 +213,15 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun encryptData(value: String) {
+    fun encryptData(value: ByteArray) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
-            val encrypted = cipher?.doFinal(value.toByteArray())
-            val encryptedBase64 = Base64.encodeToString(encrypted, Base64.NO_WRAP)
-
+            val encrypted = cipher?.doFinal(value) ?: byteArrayOf()
             // passes updated iv spec on to callback so this can be stored for decryption
             cipher?.parameters?.getParameterSpec(IvParameterSpec::class.java)?.let{ spec ->
-                val ivSpecValue = Base64.encodeToString(spec.iv, Base64.NO_WRAP)
-                advancedUnlockCallback?.handleEncryptedResult(encryptedBase64, ivSpecValue)
+                advancedUnlockCallback?.handleEncryptedResult(encrypted, spec.iv)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to encrypt data", e)
@@ -233,12 +229,12 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun initDecryptData(ivSpecValue: String,
+    fun initDecryptData(ivSpecValue: ByteArray,
                         actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
         initDecryptData(ivSpecValue, actionIfCypherInit, true)
     }
 
-    private fun initDecryptData(ivSpecValue: String,
+    private fun initDecryptData(ivSpecValue: ByteArray,
                         actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
                         firstLaunch: Boolean = true) {
         if (!isKeyManagerInitialized) {
@@ -246,9 +242,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
         try {
             // important to restore spec here that was used for decryption
-            val iv = Base64.decode(ivSpecValue, Base64.NO_WRAP)
-            val spec = IvParameterSpec(iv)
-
+            val spec = IvParameterSpec(ivSpecValue)
             getSecretKey()?.let { secretKey ->
                 cipher?.let { cipher ->
                     cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
@@ -284,15 +278,14 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun decryptData(encryptedValue: String) {
+    fun decryptData(encryptedValue: ByteArray) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
             // actual decryption here
-            val encrypted = Base64.decode(encryptedValue, Base64.NO_WRAP)
-            cipher?.doFinal(encrypted)?.let { decrypted ->
-                advancedUnlockCallback?.handleDecryptedResult(String(decrypted))
+            cipher?.doFinal(encryptedValue)?.let { decrypted ->
+                advancedUnlockCallback?.handleDecryptedResult(decrypted)
             }
         } catch (badPaddingException: BadPaddingException) {
             Log.e(TAG, "Unable to decrypt data", badPaddingException)
@@ -367,8 +360,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         fun onAuthenticationSucceeded()
         fun onAuthenticationFailed()
         fun onAuthenticationError(errorCode: Int, errString: CharSequence)
-        fun handleEncryptedResult(encryptedValue: String, ivSpec: String)
-        fun handleDecryptedResult(decryptedValue: String)
+        fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray)
+        fun handleDecryptedResult(decryptedValue: ByteArray)
     }
 
     companion object {
@@ -469,9 +462,9 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {}
 
-                    override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {}
+                    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray) {}
 
-                    override fun handleDecryptedResult(decryptedValue: String) {}
+                    override fun handleDecryptedResult(decryptedValue: ByteArray) {}
 
                     override fun onUnrecoverableKeyException(e: Exception) {
                         advancedCallback.onUnrecoverableKeyException(e)

@@ -40,6 +40,9 @@ import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.exception.IODatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.model.CipherDecryptDatabase
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
@@ -59,6 +62,9 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     var databaseFileUri: Uri? = null
         private set
+
+    // TODO Retrieve credential storage from app database
+    var credentialDatabaseStorage: CredentialStorage = CredentialStorage.DEFAULT
 
     /**
      * Manage setting to auto open biometric prompt
@@ -477,6 +483,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         } ?: checkUnlockAvailability()
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
             Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
@@ -528,16 +535,29 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         }
     }
 
-    override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
+    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray) {
         databaseFileUri?.let { databaseUri ->
-            mBuilderListener?.onCredentialEncrypted(databaseUri, encryptedValue, ivSpec)
+            mBuilderListener?.onCredentialEncrypted(
+                CipherEncryptDatabase().apply {
+                    this.databaseUri = databaseUri
+                    this.credentialStorage = credentialDatabaseStorage
+                    this.encryptedValue = encryptedValue
+                    this.specParameters = ivSpec
+                }
+            )
         }
     }
 
-    override fun handleDecryptedResult(decryptedValue: String) {
+    override fun handleDecryptedResult(decryptedValue: ByteArray) {
         // Load database directly with password retrieve
-        databaseFileUri?.let {
-            mBuilderListener?.onCredentialDecrypted(it, decryptedValue)
+        databaseFileUri?.let { databaseUri ->
+            mBuilderListener?.onCredentialDecrypted(
+                CipherDecryptDatabase().apply {
+                    this.databaseUri = databaseUri
+                    this.credentialStorage = credentialDatabaseStorage
+                    this.decryptedValue = decryptedValue
+                }
+            )
         }
     }
 
@@ -551,6 +571,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onGenericException(e: Exception) {
         val errorMessage = e.cause?.localizedMessage ?: e.localizedMessage ?: ""
         setAdvancedUnlockedMessageView(errorMessage)
@@ -580,6 +601,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.message = text
@@ -617,10 +639,10 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     interface BuilderListener {
-        fun retrieveCredentialForEncryption(): String
+        fun retrieveCredentialForEncryption(): ByteArray
         fun conditionToStoreCredential(): Boolean
-        fun onCredentialEncrypted(databaseUri: Uri, encryptedCredential: String, ivSpec: String)
-        fun onCredentialDecrypted(databaseUri: Uri, decryptedCredential: String)
+        fun onCredentialEncrypted(cipherEncryptDatabase: CipherEncryptDatabase)
+        fun onCredentialDecrypted(cipherDecryptDatabase: CipherDecryptDatabase)
     }
 
     override fun onPause() {

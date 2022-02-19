@@ -64,6 +64,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     override val version: String
         get() = "V1"
 
+    override val defaultFileExtension: String
+        get() = ".kdb"
+
     init {
         // New manual root because KDB contains multiple root groups (here available with getRootGroups())
         rootGroup = createGroup().apply {

@@ -109,7 +109,6 @@
     <string name="rounds_explanation">更多的迭代次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
-    <string name="search_label">搜索</string>
     <string name="sort_db">自然排序</string>
     <string name="special">特殊符号</string>
     <string name="search">搜索</string>
@@ -152,8 +151,6 @@
     <string name="menu_showpass">显示密码</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
-    <string name="omit_backup_search_title">搜索时忽略备份条目</string>
-    <string name="omit_backup_search_summary">从搜索结果中忽略“备份”和“回收站”群组</string>
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
     <string name="read_only_warning">根据您的文件管理器，KeePassDX 可能不允许在您的存储中写入数据。</string>
@@ -171,7 +168,6 @@
     <string name="sort_creation_time">新建时间</string>
     <string name="sort_last_modify_time">修改时间</string>
     <string name="sort_last_access_time">访问时间</string>
-    <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
     <string name="database_history">历史</string>
@@ -333,7 +329,7 @@
     <string name="entry_add_field">添加字段</string>
     <string name="content_description_remove_field">删除字段</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">无法移动条目到此处。</string>
+    <string name="error_move_entry_here">你不能将条目移到此处。</string>
     <string name="error_copy_entry_here">您不能在此处复制条目。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
     <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
@@ -476,7 +472,7 @@
     <string name="show_uuid_summary">显示与一个条目或群组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
     <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
-    <string name="autofill_ask_to_save_data_summary">表单经过验证时，询问是否保存数据</string>
+    <string name="autofill_ask_to_save_data_summary">填写完表单后，询问是否保存数据</string>
     <string name="autofill_ask_to_save_data_title">询问是否保存数据</string>
     <string name="autofill_save_search_info_summary">手动选择条目时，尝试保存搜索信息</string>
     <string name="autofill_save_search_info_title">保存搜索信息</string>
@@ -610,4 +606,24 @@
     <string name="content_description_entry_background_color">条目背景色</string>
     <string name="menu_merge_database">合并数据</string>
     <string name="warning_database_info_reloaded">重新加载数据库将删除本地修改的数据。</string>
+    <string name="warning_keyfile_integrity">文件的哈希值不能保证，因为 Android 可以在运行中更改数据。将文件扩展名更改为 .bin 以确保完整性。</string>
+    <string name="enable_keep_screen_on_title">保持屏幕亮起</string>
+    <string name="enable_keep_screen_on_summary">查看条目时保持屏幕亮起</string>
+    <string name="show_entry_colors_title">条目颜色</string>
+    <string name="show_entry_colors_summary">显示条目的前景色和背景色</string>
+    <string name="tags">标签</string>
+    <string name="searchable">可搜索</string>
+    <string name="auto_type_sequence">自动输入序列</string>
+    <string name="custom_data">自定义数据</string>
+    <string name="current_group">当前组</string>
+    <string name="regex">正则表达式</string>
+    <string name="menu_merge_from">合并自…</string>
+    <string name="menu_save_copy_to">保存副本到…</string>
+    <string name="inherited">继承的</string>
+    <string name="content_description_nav_header">导航标题</string>
+    <string name="navigation_drawer_close">导航抽屉关闭</string>
+    <string name="navigation_drawer_open">导航抽屉开启</string>
+    <string name="search_filters">搜索过滤器</string>
+    <string name="case_sensitive">区分大小写</string>
+    <string name="auto_type">自动输入</string>
 </resources>

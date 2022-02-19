@@ -448,8 +448,6 @@
     <string name="no_url_handler">沒有這個連結的處理程式。</string>
     <string name="notification">通知</string>
     <string name="number">卡號</string>
-    <string name="omit_backup_search_summary">從搜尋結果中省略\"備份\"和\"回收桶\"組</string>
-    <string name="omit_backup_search_title">不要搜尋備份的項目</string>
     <string name="open_advanced_unlock_prompt_store_credential">點擊以開啟高級解鎖提示來存儲憑證</string>
     <string name="open_advanced_unlock_prompt_unlock_database">點擊以使用高級解鎖</string>
     <string name="other">其他</string>
@@ -495,9 +493,7 @@
     <string name="save_mode">保存模式</string>
     <string name="saving_database">正在保存資料庫…</string>
     <string name="search">條目名稱/說明</string>
-    <string name="search_label">搜尋</string>
     <string name="search_mode">搜尋模式</string>
-    <string name="search_results">搜尋結果</string>
     <string name="secure_note">安全註記</string>
     <string name="security">安全</string>
     <string name="seed">種子</string>

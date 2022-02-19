@@ -76,7 +76,7 @@
     <string name="hint_length">Comprimento</string>
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
-    <string name="invalid_credentials">Não foi possível ler credenciais.</string>
+    <string name="invalid_credentials">Não foi possível ler as credenciais.</string>
     <string name="invalid_db_sig">Não foi possível reconhecer o formato do banco de dados.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -102,8 +102,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sem resultados na busca</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
-    <string name="omit_backup_search_title">Não buscar por entradas no backup ou na lixeira</string>
-    <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
     <string name="content_description_remove_from_list">Remover</string>
@@ -112,7 +110,6 @@
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Espaço</string>
-    <string name="search_label">Busca</string>
     <string name="sort_db">Ordenação natural</string>
     <string name="special">Especial</string>
     <string name="search">Buscar</string>
@@ -171,7 +168,6 @@
     <string name="sort_creation_time">Data de criação</string>
     <string name="sort_last_modify_time">Última modificação</string>
     <string name="sort_last_access_time">Último acesso</string>
-    <string name="search_results">Resultados da busca</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>
@@ -286,7 +282,7 @@
     <string name="error_load_database">Não foi possível carregar seu banco de dados.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de usuário em listas de entrada</string>
+    <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
@@ -329,10 +325,10 @@
     <string name="entry_add_field">Adicionar campo</string>
     <string name="content_description_remove_field">Excluir campo</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
-    <string name="error_copy_entry_here">Você não pode copiar uma entrada daqui.</string>
+    <string name="error_move_entry_here">Você não pode mover uma entrada aqui.</string>
+    <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
-    <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
+    <string name="list_groups_show_number_entries_summary">Exibe o número de entradas em um grupo</string>
     <string name="content_description_node_children">Nó filho</string>
     <string name="content_description_password_checkbox">Caixa de seleção da senha</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
@@ -522,12 +518,12 @@
     <string name="advanced_unlock_prompt_not_initialized">Incapaz de inicializar o prompt de desbloqueio avançado.</string>
     <string name="advanced_unlock_scanning_error">Erro de desbloqueio avançado: %1$s</string>
     <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio avançado</string>
-    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançado. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
+    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançada. Por favor, apague-a e repita o procedimento de reconhecimento de desbloqueio.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraia credencial de banco de dados com dados de desbloqueio avançado</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
     <string name="advanced_unlock_prompt_store_credential_message">Aviso: você ainda precisa lembrar sua senha mestra se usar o reconhecimento de desbloqueio avançado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar credenciais</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar as credenciais</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Abra o prompt de desbloqueio avançado para desbloquear o banco de dados</string>
     <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
@@ -608,4 +604,12 @@
     <string name="content_description_entry_background_color">Cor de plano de fundo da entrada</string>
     <string name="warning_database_info_reloaded">Recarregar o banco de dados excluirá os dados modificados localmente.</string>
     <string name="menu_merge_database">Mesclar dados</string>
+    <string name="tags">Etiquetas</string>
+    <string name="enable_keep_screen_on_title">Mantenha a tela ligada</string>
+    <string name="enable_keep_screen_on_summary">Mantenha a tela ligada enquanto estiver vendo a entrada</string>
+    <string name="show_entry_colors_title">Cores de entrada</string>
+    <string name="show_entry_colors_summary">Exibe as cores de primeiro plano e de fundo em uma entrada</string>
+    <string name="error_move_group_here">Você não pode mover um grupo aqui.</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="warning_keyfile_integrity">O hash do arquivo não é garantido porque o Android pode alterar seus dados em tempo real. Altere a extensão do arquivo para .bin para obter a integridade correta.</string>
 </resources>

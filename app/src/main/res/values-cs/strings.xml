@@ -109,8 +109,6 @@
     <string name="never">Nikdy</string>
     <string name="no_results">Žádné výsledky hledání</string>
     <string name="no_url_handler">Pro otevření tohoto URL nainstalujte webový prohlížeč.</string>
-    <string name="omit_backup_search_title">Neprohledávat položky v záloze</string>
-    <string name="omit_backup_search_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
     <string name="progress_create">Vytváření nové databáze…</string>
     <string name="progress_title">Pracuji…</string>
     <string name="protection">Ochrana</string>
@@ -121,11 +119,9 @@
     <string name="rounds_explanation">Vyšší počet šifrovacích průchodů zvýší odolnost proti útoku zkoušením všech možných hesel, ale může výrazně zpomalit načítání a ukládání.</string>
     <string name="saving_database">Ukládání databáze…</string>
     <string name="space">Mezera</string>
-    <string name="search_label">Hledat</string>
     <string name="sort_db">Přirozené řazení</string>
     <string name="special">Speciální</string>
     <string name="search">Hledat</string>
-    <string name="search_results">Výsledky hledání</string>
     <string name="underline">Podtržítko</string>
     <string name="unsupported_db_version">Nepodporovaná verze databáze.</string>
     <string name="uppercase">Velká písmena</string>

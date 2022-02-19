@@ -112,8 +112,6 @@
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
-    <string name="omit_backup_search_title">Не искать в резервных копиях</string>
-    <string name="omit_backup_search_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>
@@ -125,11 +123,9 @@
     <string name="rounds_explanation">Дополнительные раунды шифрования – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение.</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
-    <string name="search_label">Поиск</string>
     <string name="sort_db">Естественный порядок</string>
     <string name="special">$пеци@льные</string>
     <string name="search">Поиск</string>
-    <string name="search_results">Результаты поиска</string>
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы.</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
@@ -483,7 +479,7 @@
     <string name="show_uuid_summary">Показывать UUID, связанный с записью или группой</string>
     <string name="show_uuid_title">Показывать UUID</string>
     <string name="autofill_read_only_save">Сохранение данных невозможно для базы, открытой только для чтения.</string>
-    <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после проверки формы</string>
+    <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после завершения заполнения формы</string>
     <string name="autofill_ask_to_save_data_title">Запрос сохранения данных</string>
     <string name="autofill_close_database_summary">Закрывать базу после выбора автозаполнения</string>
     <string name="autofill_close_database_title">Закрыть базу</string>
@@ -610,4 +606,23 @@
     <string name="content_description_entry_foreground_color">Цвет текста записи</string>
     <string name="menu_merge_database">Объединить данные</string>
     <string name="warning_database_info_reloaded">Перезагрузка базы удалит локально изменённые данные.</string>
+    <string name="tags">Метки</string>
+    <string name="warning_keyfile_integrity">Хеш файла не гарантируется, поскольку Android может изменять свои данные на лету. Измените расширение файла на .bin для сохранения целостности.</string>
+    <string name="enable_keep_screen_on_title">Держать экран включённым</string>
+    <string name="enable_keep_screen_on_summary">Не отключать экран при просмотре записи</string>
+    <string name="show_entry_colors_title">Цвета записей</string>
+    <string name="show_entry_colors_summary">Показывать цвета текста и фона записи</string>
+    <string name="navigation_drawer_open">Открыть панель навигации</string>
+    <string name="content_description_nav_header">Заголовок навигации</string>
+    <string name="searchable">Искомое</string>
+    <string name="inherited">Наследуемое</string>
+    <string name="case_sensitive">С учётом регистра</string>
+    <string name="menu_save_copy_to">Сохранить копию в…</string>
+    <string name="menu_merge_from">Объединить с…</string>
+    <string name="search_filters">Фильтры поиска</string>
+    <string name="regex">Регулярное выражение</string>
+    <string name="navigation_drawer_close">Закрыть панель навигации</string>
+    <string name="auto_type_sequence">Последовательность автонабора</string>
+    <string name="current_group">Текущая группа</string>
+    <string name="custom_data">Пользовательские данные</string>
 </resources>

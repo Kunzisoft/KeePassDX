@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
@@ -42,6 +43,7 @@ class EntryInfo : NodeInfo {
     var foregroundColor: Int? = null
     var customFields: MutableList<Field> = mutableListOf()
     var attachments: MutableList<Attachment> = mutableListOf()
+    var autoType: AutoType = AutoType()
     var otpModel: OtpModel? = null
     var isTemplate: Boolean = false
 
@@ -60,6 +62,7 @@ class EntryInfo : NodeInfo {
         foregroundColor = if (readFgColor == -1) null else readFgColor
         parcel.readList(customFields, Field::class.java.classLoader)
         parcel.readList(attachments, Attachment::class.java.classLoader)
+        autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
         isTemplate = parcel.readByte().toInt() != 0
     }
@@ -80,6 +83,7 @@ class EntryInfo : NodeInfo {
         parcel.writeInt(foregroundColor ?: -1)
         parcel.writeList(customFields)
         parcel.writeList(attachments)
+        parcel.writeParcelable(autoType, flags)
         parcel.writeParcelable(otpModel, flags)
         parcel.writeByte((if (isTemplate) 1 else 0).toByte())
     }
@@ -105,6 +109,7 @@ class EntryInfo : NodeInfo {
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
     }
 
+    // Return true if modified
     private fun addUniqueField(field: Field, number: Int = 0) {
         var sameName = false
         var sameValue = false
@@ -126,7 +131,19 @@ class EntryInfo : NodeInfo {
             (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
     }
 
-    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+    private fun containsDomainOrApplicationId(search: String): Boolean {
+        if (url.contains(search))
+            return true
+        return customFields.find {
+            it.protectedValue.stringValue.contains(search)
+        } != null
+    }
+
+    /**
+     * Add searchInfo to current EntryInfo, return true if new data, false if no modification
+     */
+    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo): Boolean {
+        var modification = false
         searchInfo.otpString?.let { otpString ->
             // Replace the OTP field
             OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
@@ -141,31 +158,45 @@ class EntryInfo : NodeInfo {
                     mutableCustomFields.remove(otpField)
                 }
                 mutableCustomFields.add(otpField)
+                modification = true
             }
         } ?: searchInfo.webDomain?.let { webDomain ->
             // If unable to save web domain in custom field or URL not populated, save in URL
             val scheme = searchInfo.webScheme
-            val webScheme = if (scheme.isNullOrEmpty()) "http" else scheme
+            val webScheme = if (scheme.isNullOrEmpty()) "https" else scheme
             val webDomainToStore = "$webScheme://$webDomain"
-            if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
-                url = webDomainToStore
-            } else if (url != webDomainToStore) {
-                // Save web domain in custom field
-                addUniqueField(Field(WEB_DOMAIN_FIELD_NAME,
-                        ProtectedString(false, webDomainToStore)),
+            if (!containsDomainOrApplicationId(webDomain)) {
+                if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
+                    url = webDomainToStore
+                } else {
+                    // Save web domain in custom field
+                    addUniqueField(
+                        Field(
+                            WEB_DOMAIN_FIELD_NAME,
+                            ProtectedString(false, webDomainToStore)
+                        ),
                         1 // Start to one because URL is a standard field name
-                )
+                    )
+                }
+                modification = true
             }
         } ?: run {
             // Save application id in custom field
             if (database?.allowEntryCustomFields() == true) {
                 searchInfo.applicationId?.let { applicationId ->
-                    addUniqueField(Field(APPLICATION_ID_FIELD_NAME,
-                            ProtectedString(false, applicationId))
-                    )
+                    if (!containsDomainOrApplicationId(applicationId)) {
+                        addUniqueField(
+                            Field(
+                                APPLICATION_ID_FIELD_NAME,
+                                ProtectedString(false, applicationId)
+                            )
+                        )
+                        modification = true
+                    }
                 }
             }
         }
+        return modification
     }
 
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
@@ -209,6 +240,7 @@ class EntryInfo : NodeInfo {
         if (foregroundColor != other.foregroundColor) return false
         if (customFields != other.customFields) return false
         if (attachments != other.attachments) return false
+        if (autoType != other.autoType) return false
         if (otpModel != other.otpModel) return false
         if (isTemplate != other.isTemplate) return false
 
@@ -227,6 +259,7 @@ class EntryInfo : NodeInfo {
         result = 31 * result + foregroundColor.hashCode()
         result = 31 * result + customFields.hashCode()
         result = 31 * result + attachments.hashCode()
+        result = 31 * result + autoType.hashCode()
         result = 31 * result + (otpModel?.hashCode() ?: 0)
         result = 31 * result + isTemplate.hashCode()
         return result

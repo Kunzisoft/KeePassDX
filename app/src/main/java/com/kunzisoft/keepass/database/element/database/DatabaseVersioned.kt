@@ -62,6 +62,7 @@ abstract class DatabaseVersioned<
         protected set
 
     abstract val version: String
+    abstract val defaultFileExtension: String
 
     /**
      * To manage binaries in faster way
@@ -324,14 +325,6 @@ abstract class DatabaseVersioned<
     }
 
     abstract fun isInRecycleBin(group: Group): Boolean
-
-    fun isGroupSearchable(group: Group?, omitBackup: Boolean): Boolean {
-        if (group == null)
-            return false
-        if (omitBackup && isInRecycleBin(group))
-            return false
-        return true
-    }
 
     fun clearIconsCache() {
         iconsManager.doForEachCustomIcon { _, binary ->

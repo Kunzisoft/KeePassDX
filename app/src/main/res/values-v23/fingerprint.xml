@@ -42,9 +42,7 @@
     <string translatable="false" name="clip_path_scan_top">M0 0 L160 0 L160 40 L0 40 Z</string>
     <string translatable="false" name="clip_path_scan_bottom">M0 120 L160 120 L160 160 L0 160 Z</string>
 
-    <color name="fingerprint_ridge">#deffffff</color>
-    <color name="fingerprint_ridge_scan">#ffffffff</color>
-
-    <color name="circle_default">#ff607d8b</color>
+    <color name="fingerprint_ridge">?attr/colorOnAccentColor</color>
+    <color name="fingerprint_ridge_scan">?attr/colorOnAccentColor</color>
 
 </resources>

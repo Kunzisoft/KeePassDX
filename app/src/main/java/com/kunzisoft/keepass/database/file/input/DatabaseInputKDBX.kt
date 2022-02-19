@@ -101,27 +101,8 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
 
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
-                              password: String?,
-                              keyfileInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater) {
-            mDatabase.retrieveMasterKey(password, keyfileInputStream)
-        }
-    }
-
-    @Throws(LoadDatabaseException::class)
-    override fun openDatabase(databaseInputStream: InputStream,
-                              masterKey: ByteArray,
-                              progressTaskUpdater: ProgressTaskUpdater?): DatabaseKDBX {
-        return openDatabase(databaseInputStream, progressTaskUpdater) {
-            mDatabase.masterKey = masterKey
-        }
-    }
-
-    @Throws(LoadDatabaseException::class)
-    private fun openDatabase(databaseInputStream: InputStream,
-                             progressTaskUpdater: ProgressTaskUpdater?,
-                             assignMasterKey: (() -> Unit)? = null): DatabaseKDBX {
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              assignMasterKey: (() -> Unit)): DatabaseKDBX {
         try {
             startKeyTimer(progressTaskUpdater)
 
@@ -133,7 +114,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            assignMasterKey?.invoke()
+            assignMasterKey.invoke()
             mDatabase.makeFinalKey(header.masterSeed)
 
             stopKeyTimer()

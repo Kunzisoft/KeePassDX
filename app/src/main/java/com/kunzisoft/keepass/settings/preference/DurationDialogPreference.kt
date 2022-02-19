@@ -61,9 +61,9 @@ class DurationDialogPreference @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun onGetDefaultValue(a: TypedArray?, index: Int): Any {
+    override fun onGetDefaultValue(a: TypedArray, index: Int): Any {
         return try {
-            a?.getString(index)?.toLongOrNull() ?: mDuration
+            a.getString(index)?.toLongOrNull() ?: mDuration
         } catch (e: Exception) {
             mDuration
         }

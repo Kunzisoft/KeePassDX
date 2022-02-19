@@ -1,0 +1,10 @@
+ * Quick search and dynamic filters #163 #462 #521
+ * Keep search context #1141
+ * Add searchable groups #905 #1006
+ * Search with regular expression #175
+ * Merge from file and save as copy #1221 #1204 #840
+ * Fix custom data #1236
+ * Fix education hints #1192
+ * Fix save and app instance in selection mode
+ * New UI and fix styles
+ * Add "Simple" and "Reply" themes

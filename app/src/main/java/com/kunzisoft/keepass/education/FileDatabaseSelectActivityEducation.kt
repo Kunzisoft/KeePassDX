@@ -39,7 +39,7 @@ class FileDatabaseSelectActivityEducation(activity: Activity)
                                                  onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
 
         // Try to open the creation base education
-        return checkAndPerformedEducation(!isEducationCreateDatabasePerformed(activity),
+        return checkAndPerformedEducation(isEducationCreateDatabasePerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_create_database_title),
                         activity.getString(R.string.education_create_database_summary))
@@ -71,7 +71,7 @@ class FileDatabaseSelectActivityEducation(activity: Activity)
     fun checkAndPerformedSelectDatabaseEducation(educationView: View,
                                                  onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                                  onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationSelectDatabasePerformed(activity),
+        return checkAndPerformedEducation(isEducationSelectDatabasePerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_select_database_title),
                         activity.getString(R.string.education_select_database_summary))

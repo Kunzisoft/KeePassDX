@@ -130,8 +130,6 @@
     <string name="no_results">Ingen søkeresultater</string>
     <string name="no_url_handler">Kan ikke håndtere denne nettadressen.</string>
     <string name="select_database_file">Velg en eksisterende database</string>
-    <string name="omit_backup_search_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
-    <string name="omit_backup_search_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
     <string name="progress_create">Oppretter ny database…</string>
     <string name="progress_title">Arbeider…</string>
     <string name="protection">Beskyttelse</string>
@@ -149,7 +147,6 @@
     <string name="parallelism_explanation">Graden av parallellitet (dvs. antallet tråder) brukt av nøkkelutledingsfunksjonen.</string>
     <string name="saving_database">Lagrer database…</string>
     <string name="space">Mellomrom</string>
-    <string name="search_label">Søk</string>
     <string name="sort_menu">Sorter</string>
     <string name="sort_ascending">Laveste først ↓</string>
     <string name="sort_groups_before">Grupper før</string>
@@ -162,7 +159,6 @@
     <string name="sort_last_access_time">Sist åpnet</string>
     <string name="special">Spesialtegn</string>
     <string name="search">Søk</string>
-    <string name="search_results">Søkeresultater</string>
     <string name="underline">Understrek</string>
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
@@ -600,4 +596,16 @@
     <string name="settings_database_recommend_changing_master_key_summary">Anbefal endring av hovednøkkel (dager)</string>
     <string name="keystore_not_accessible">Nøkkellageret er ikke igangsatt på riktig vis.</string>
     <string name="keyboard_previous_fill_in_summary">Bytt tilbake til forrige tastatur automatisk etter kjøring av «Automatisk tastehandling»</string>
+    <string name="tags">Etiketter</string>
+    <string name="menu_merge_database">Flett data</string>
+    <string name="warning_keyfile_integrity">Sjekksummen for filen er ikke garantert, siden Android kan endre dens data. Endre filutvidelsen til .bin for å beskytte den.</string>
+    <string name="enable_keep_screen_on_title">Behold skjermen påslått</string>
+    <string name="enable_keep_screen_on_summary">(når oppføringen er oppe)</string>
+    <string name="show_entry_colors_title">Oppføringsfarger</string>
+    <string name="content_description_entry_foreground_color">Forgrunnsfarge for oppføringer</string>
+    <string name="content_description_database_color">Databasefarge</string>
+    <string name="content_description_entry_background_color">Bakgrunnsfarge for oppføringer</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="show_entry_colors_summary">Viser forgrunn- og bakgrunsfarger for en oppføring</string>
+    <string name="warning_database_info_reloaded">Gjeninnlasting av databasen vil slette lokalt endret data.</string>
 </resources>

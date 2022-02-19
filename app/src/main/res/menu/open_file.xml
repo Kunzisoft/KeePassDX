@@ -22,7 +22,7 @@
     <item android:id="@+id/menu_open_file_read_mode_key"
         android:icon="@drawable/ic_read_write_white_24dp"
         android:title="@string/menu_open_file_read_and_write"
-        android:orderInCategory="85"
+        android:orderInCategory="61"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
 </menu>

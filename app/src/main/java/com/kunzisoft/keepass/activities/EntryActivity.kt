@@ -66,7 +66,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.changeControlColor
@@ -91,6 +90,8 @@ class EntryActivity : DatabaseLockActivity() {
     private var loadingView: ProgressBar? = null
 
     private val mEntryViewModel: EntryViewModel by viewModels()
+
+    private val mEntryActivityEducation = EntryActivityEducation(this)
 
     private var mMainEntryId: NodeId<UUID>? = null
     private var mHistoryPosition: Int = -1
@@ -370,7 +371,6 @@ class EntryActivity : DatabaseLockActivity() {
         super.onCreateOptionsMenu(menu)
         if (mEntryLoaded) {
             val inflater = menuInflater
-            MenuUtil.contributionMenuInflater(inflater, menu)
 
             inflater.inflate(R.menu.entry, menu)
             inflater.inflate(R.menu.database, menu)
@@ -381,11 +381,7 @@ class EntryActivity : DatabaseLockActivity() {
 
             // Show education views
             Handler(Looper.getMainLooper()).post {
-                performedNextEducation(
-                    EntryActivityEducation(
-                        this
-                    ), menu
-                )
+                performedNextEducation(menu)
             }
         }
         return true
@@ -411,31 +407,30 @@ class EntryActivity : DatabaseLockActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
-                                       menu: Menu) {
+    private fun performedNextEducation(menu: Menu) {
         val entryFragment = supportFragmentManager.findFragmentByTag(ENTRY_FRAGMENT_TAG)
                 as? EntryFragment?
         val entryFieldCopyView: View? = entryFragment?.firstEntryFieldCopyView()
         val entryCopyEducationPerformed = entryFieldCopyView != null
-                && entryActivityEducation.checkAndPerformedEntryCopyEducation(
+                && mEntryActivityEducation.checkAndPerformedEntryCopyEducation(
                 entryFieldCopyView,
                 {
                     entryFragment.launchEntryCopyEducationAction()
                 },
                 {
-                    performedNextEducation(entryActivityEducation, menu)
+                    performedNextEducation(menu)
                 })
 
         if (!entryCopyEducationPerformed) {
             val menuEditView = toolbar?.findViewById<View>(R.id.menu_edit)
             // entryEditEducationPerformed
-            menuEditView != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
+            menuEditView != null && mEntryActivityEducation.checkAndPerformedEntryEditEducation(
                     menuEditView,
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_edit))
                     },
                     {
-                        performedNextEducation(entryActivityEducation, menu)
+                        performedNextEducation(menu)
                     }
             )
         }
@@ -443,10 +438,6 @@ class EntryActivity : DatabaseLockActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> {
-                MenuUtil.onContributionItemSelected(this)
-                return true
-            }
             R.id.menu_edit -> {
                 mDatabase?.let { database ->
                     mMainEntryId?.let { entryId ->

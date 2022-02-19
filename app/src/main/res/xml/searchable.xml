@@ -18,7 +18,8 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
-    android:label="@string/search_label"
-    android:hint="@string/search"
+    android:label="@string/search"
     android:searchMode="showSearchLabelAsBadge"
+    android:inputType="textNoSuggestions|textVisiblePassword"
+    android:imeOptions="actionSearch|flagNoPersonalizedLearning"
  />

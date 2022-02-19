@@ -26,6 +26,7 @@ import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
+import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
@@ -276,6 +277,18 @@ class Entry : Node, EntryVersionedInterface<Group> {
             }
         }
 
+    var customData: CustomData
+        get() = entryKDBX?.customData ?: CustomData()
+        set(value) {
+            entryKDBX?.customData = value
+        }
+
+    var autoType: AutoType
+        get() = entryKDBX?.autoType ?: AutoType()
+        set(value) {
+            entryKDBX?.autoType = value
+        }
+
     private fun isTan(): Boolean {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
@@ -460,6 +473,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.tags = tags
             entryInfo.backgroundColor = backgroundColor
             entryInfo.foregroundColor = foregroundColor
+            entryInfo.customData = customData
+            entryInfo.autoType = autoType
             entryInfo.customFields = getExtraFields().toMutableList()
             // Add otpElement to generate token
             entryInfo.otpModel = getOtpElement()?.otpModel
@@ -497,6 +512,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
         tags = newEntryInfo.tags
         backgroundColor = newEntryInfo.backgroundColor
         foregroundColor = newEntryInfo.foregroundColor
+        customData = newEntryInfo.customData
+        autoType = newEntryInfo.autoType
         addExtraFields(newEntryInfo.customFields)
         database?.attachmentPool?.let { binaryPool ->
             newEntryInfo.attachments.forEach { attachment ->

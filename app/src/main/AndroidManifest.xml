@@ -40,7 +40,6 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"
             android:theme="@style/KeepassDXStyle.SplashScreen"
-            android:label="@string/app_name"
             android:launchMode="singleTop"
             android:exported="true"
             android:configChanges="keyboardHidden"
@@ -51,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kunzisoft.keepass.activities.PasswordActivity"
+            android:name="com.kunzisoft.keepass.activities.MainCredentialActivity"
             android:exported="true"
             android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustResize|stateUnchanged">

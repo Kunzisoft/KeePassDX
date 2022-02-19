@@ -46,6 +46,7 @@
 
     <!-- File Path -->
     <string name="database_file_name_default" translatable="false">keepass</string>
+    <string name="database_file_name_copy" translatable="false">_copy</string>
     <string name="database_file_extension_default" translatable="false">.kdbx</string>
     <string name="database_default_name" translatable="false">KeePassDX Database</string>
     <string name="app_properties_file_name" translatable="false">keepassdx_%1$s.properties</string>
@@ -69,8 +70,6 @@
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>
     <bool name="enable_keep_screen_on_default" translatable="false">false</bool>
-    <string name="omit_backup_search_key" translatable="false">omit_backup_search_key</string>
-    <bool name="omit_backup_search_default" translatable="false">true</bool>
     <string name="auto_focus_search_key" translatable="false">auto_focus_search_key</string>
     <bool name="auto_focus_search_default" translatable="false">false</bool>
     <string name="subdomain_search_key" translatable="false">subdomain_search_key</string>
@@ -325,26 +324,34 @@
     <string name="list_style_name_black" translatable="false">KeepassDXStyle_Black</string>
     <string name="list_style_name_clear" translatable="false">KeepassDXStyle_Clear</string>
     <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
+    <string name="list_style_name_simple" translatable="false">KeepassDXStyle_Simple</string>
+    <string name="list_style_name_simple_night" translatable="false">KeepassDXStyle_Simple_Night</string>
     <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
     <string name="list_style_name_blue_night" translatable="false">KeepassDXStyle_Blue_Night</string>
     <string name="list_style_name_red" translatable="false">KeepassDXStyle_Red</string>
     <string name="list_style_name_red_night" translatable="false">KeepassDXStyle_Red_Night</string>
+    <string name="list_style_name_reply" translatable="false">KeepassDXStyle_Reply</string>
+    <string name="list_style_name_reply_night" translatable="false">KeepassDXStyle_Reply_Night</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string name="list_style_name_purple_dark" translatable="false">KeepassDXStyle_Purple_Dark</string>
     <string-array name="list_style_values_light">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_white</item>
         <item translatable="false">@string/list_style_name_clear</item>
+        <item translatable="false">@string/list_style_name_simple</item>
         <item translatable="false">@string/list_style_name_blue</item>
         <item translatable="false">@string/list_style_name_red</item>
+        <item translatable="false">@string/list_style_name_reply</item>
         <item translatable="false">@string/list_style_name_purple</item>
     </string-array>
     <string-array name="list_style_values_night">
         <item translatable="false">@string/list_style_name_night</item>
         <item translatable="false">@string/list_style_name_black</item>
         <item translatable="false">@string/list_style_name_dark</item>
+        <item translatable="false">@string/list_style_name_simple_night</item>
         <item translatable="false">@string/list_style_name_blue_night</item>
         <item translatable="false">@string/list_style_name_red_night</item>
+        <item translatable="false">@string/list_style_name_reply_night</item>
         <item translatable="false">@string/list_style_name_purple_dark</item>
     </string-array>
     <string name="list_style_brightness_light" translatable="false">KeepassDXStyle_Brightness_Light</string>

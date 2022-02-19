@@ -30,7 +30,7 @@ import androidx.preference.PreferenceCategory
 import androidx.preference.SwitchPreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
@@ -155,18 +154,22 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Database name
         dbNamePref = findPreference(getString(R.string.database_name_key))
-        if (database.allowName) {
-            dbNamePref?.summary = database.name
-        } else {
-            dbGeneralPrefCategory?.removePreference(dbNamePref)
+        dbNamePref?.let { namePreference ->
+            if (database.allowName) {
+                namePreference.summary = database.name
+            } else {
+                dbGeneralPrefCategory?.removePreference(namePreference)
+            }
         }
 
         // Database description
         dbDescriptionPref = findPreference(getString(R.string.database_description_key))
-        if (database.allowDescription) {
-            dbDescriptionPref?.summary = database.description
-        } else {
-            dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
+        dbDescriptionPref?.let { descriptionPreference ->
+            if (database.allowDescription) {
+                dbDescriptionPref?.summary = database.description
+            } else {
+                dbGeneralPrefCategory?.removePreference(descriptionPreference)
+            }
         }
 
         // Database default username
@@ -238,7 +241,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         // Templates
         val templatesGroupPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_templates_key))
         templatesGroupPref = findPreference(getString(R.string.templates_group_uuid_key))
-        if (database.allowConfigurableTemplatesGroup) {
+        if (database.allowTemplatesGroup) {
             val templatesEnablePref: SwitchPreference? = findPreference(getString(R.string.templates_group_enable_key))
             templatesEnablePref?.apply {
                 isChecked = database.isTemplatesEnabled
@@ -334,7 +337,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
             isEnabled = if (!mDatabaseReadOnly) {
                 onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                    AssignMasterKeyDialogFragment.getInstance(database.allowNoMasterKey)
+                    SetMainCredentialDialogFragment.getInstance(database.allowNoMasterKey)
                             .show(parentFragmentManager, "passwordDialog")
                     false
                 }
@@ -355,7 +358,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = super.onCreateView(inflater, container, savedInstanceState)
 
         try {
@@ -565,13 +568,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    override fun onDisplayPreferenceDialog(preference: Preference?) {
+    override fun onDisplayPreferenceDialog(preference: Preference) {
 
         var otherDialogFragment = false
 
         var dialogFragment: DialogFragment? = null
         // Main Preferences
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.database_name_key) -> {
                 dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.key)
             }
@@ -669,27 +672,29 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
             }
             R.id.menu_merge_database -> {
                 mergeDatabase()
-                return true
+                true
             }
             R.id.menu_reload_database -> {
                 reloadDatabase()
-                return true
+                true
             }
-
-            else -> {
+            R.id.menu_app_settings -> {
                 // Check the time lock before launching settings
                 // TODO activity menu
                 (activity as SettingsActivity?)?.let {
-                    MenuUtil.onDefaultMenuOptionsItemSelected(it, item, true)
+                    SettingsActivity.launch(it, true)
                 }
+                true
+            }
+            else -> {
                 super.onOptionsItemSelected(item)
             }
         }
     }
 
-    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
         // To reload group when database settings are modified
-        when (preference?.key) {
+        when (preference.key) {
             getString(R.string.database_name_key),
             getString(R.string.database_description_key),
             getString(R.string.database_default_username_key),

@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
@@ -37,7 +38,7 @@ class SearchHelper {
 
     fun createVirtualGroupWithSearchResult(database: Database,
                                            searchParameters: SearchParameters,
-                                           omitBackup: Boolean,
+                                           fromGroup: NodeId<*>? = null,
                                            max: Int): Group? {
 
         val searchGroup = database.createGroup(virtual = true)
@@ -45,7 +46,15 @@ class SearchHelper {
 
         // Search all entries
         incrementEntry = 0
-        database.rootGroup?.doForEachChild(
+
+        val allowCustomSearchable = database.allowCustomSearchableGroup()
+        val startGroup = if (searchParameters.searchInCurrentGroup && fromGroup != null) {
+            database.getGroupById(fromGroup) ?: database.rootGroup
+        } else {
+            database.rootGroup
+        }
+        if (groupConditions(database, startGroup, searchParameters, allowCustomSearchable, max)) {
+            startGroup?.doForEachChild(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
@@ -62,17 +71,41 @@ class SearchHelper {
                 },
                 object : NodeHandler<Group>() {
                     override fun operate(node: Group): Boolean {
-                        return when {
-                            incrementEntry >= max -> false
-                            database.isGroupSearchable(node, omitBackup) -> true
-                            else -> false
-                        }
+                        return groupConditions(database,
+                            node,
+                            searchParameters,
+                            allowCustomSearchable,
+                            max
+                        )
                     }
                 },
-                false)
+                false
+            )
+        }
 
         searchGroup?.refreshNumberOfChildEntries()
         return searchGroup
+    }
+
+    private fun groupConditions(database: Database,
+                                group: Group?,
+                                searchParameters: SearchParameters,
+                                allowCustomSearchable: Boolean,
+                                max: Int): Boolean {
+        return if (group == null)
+            false
+        else if (incrementEntry >= max)
+            false
+        else if (database.groupIsInRecycleBin(group))
+            searchParameters.searchInRecycleBin
+        else if (database.groupIsInTemplates(group))
+            searchParameters.searchInTemplates
+        else if (!allowCustomSearchable)
+            true
+        else if (searchParameters.searchInSearchableGroup)
+            group.isSearchable()
+        else
+            true
     }
 
     private fun entryContainsString(database: Database,
@@ -88,7 +121,18 @@ class SearchHelper {
     }
 
     companion object {
-        const val MAX_SEARCH_ENTRY = 10
+        const val MAX_SEARCH_ENTRY = 1000
+
+        /**
+         * Method to show the number of search results with max results
+         */
+        fun showNumberOfSearchResults(number: Int): String {
+            return if (number >= MAX_SEARCH_ENTRY) {
+                (MAX_SEARCH_ENTRY-1).toString() + "+"
+            } else {
+                number.toString()
+            }
+        }
 
         /**
          * Utility method to perform actions if item is found or not after an auto search in [database]
@@ -110,7 +154,6 @@ class SearchHelper {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
                             searchInfo.toString(),
-                            PreferencesUtil.omitBackup(context),
                             MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->
                         if (searchGroup.numberOfChildEntries > 0) {
@@ -132,16 +175,23 @@ class SearchHelper {
         fun searchInEntry(entry: Entry,
                           searchParameters: SearchParameters): Boolean {
             val searchQuery = searchParameters.searchQuery
-            // Entry don't contains string if the search string is empty
+
+            // Not found if the search string is empty
             if (searchQuery.isEmpty())
                 return false
+
+            // Exclude entry expired
+            if (searchParameters.excludeExpired) {
+                if (entry.isCurrentlyExpires)
+                    return false
+            }
 
             // Search all strings in the KDBX entry
             if (searchParameters.searchInTitles) {
                 if (checkSearchQuery(entry.title, searchParameters))
                     return true
             }
-            if (searchParameters.searchInUserNames) {
+            if (searchParameters.searchInUsernames) {
                 if (checkSearchQuery(entry.username, searchParameters))
                     return true
             }
@@ -158,8 +208,8 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUUIDs) {
-                val hexString = UuidUtil.toHexString(entry.nodeId.id)
-                if (hexString != null && hexString.contains(searchQuery, true))
+                val hexString = UuidUtil.toHexString(entry.nodeId.id) ?: ""
+                if (checkSearchQuery(hexString, searchParameters))
                     return true
             }
             if (searchParameters.searchInOther) {
@@ -171,21 +221,31 @@ class SearchHelper {
                     }
                 }
             }
+            if (searchParameters.searchInTags) {
+                if (checkSearchQuery(entry.tags.toString(), searchParameters))
+                    return true
+            }
             return false
         }
 
         private fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
             /*
             // TODO Search settings
-            var regularExpression = false
-            var ignoreCase = true
             var removeAccents = true <- Too much time, to study
-            var excludeExpired = false
-            var searchOnlyInCurrentGroup = false
             */
-            return stringToCheck.isNotEmpty()
-                    && stringToCheck.contains(
-                        searchParameters.searchQuery, true)
+            if (stringToCheck.isEmpty())
+                return false
+            return if (searchParameters.isRegex) {
+                val regex = if (searchParameters.caseSensitive) {
+                    searchParameters.searchQuery.toRegex(RegexOption.DOT_MATCHES_ALL)
+                } else {
+                    searchParameters.searchQuery
+                        .toRegex(setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
+                }
+                regex.matches(stringToCheck)
+            } else {
+                stringToCheck.contains(searchParameters.searchQuery, !searchParameters.caseSensitive)
+            }
         }
     }
 }

@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- Classic Clear Style -->
-    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v23" />
+    <style name="KeepassDXStyle.Clear" parent="KeepassDXStyle.Clear.v27" />
+    <style name="KeepassDXStyle.Clear.v27" parent="KeepassDXStyle.Clear.v23" />
     <style name="KeepassDXStyle.Clear.v23" parent="KeepassDXStyle.Clear.v21" />
     <style name="KeepassDXStyle.Clear.v21" parent="KeepassDXStyle.Clear.Base" />
     <style name="KeepassDXStyle.Clear.Base" parent="KeepassDXStyle.Light" >
@@ -51,6 +52,10 @@
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
+
+        <item name="chipFilterTextColor">@color/text_color_light</item>
+        <item name="chipFilterBackgroundColor">@color/white_darkest</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/white_grey_lighter</item>
     </style>
     <!-- Toolbar Style Clear -->
     <style name="KeepassDXStyle.Toolbar.Clear" parent="KeepassDXStyle.Clear">
@@ -108,6 +113,7 @@
         <item name="colorControlActivated">@color/cyan_lightest</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:textColorHintInverse">@color/cyan_lightest</item>
+        <item name="android:textColorSecondaryInverse">@color/white_dark</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Dark</item>
@@ -119,6 +125,10 @@
         <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
         <item name="educationCircleColor">@color/cyan</item>
         <item name="educationTextColor">@color/white</item>
+
+        <item name="chipFilterTextColor">@color/white</item>
+        <item name="chipFilterBackgroundColor">@color/black_lighter</item>
+        <item name="chipFilterBackgroundColorDisabled">@color/grey_darker</item>
     </style>
     <!-- Toolbar Style Dark -->
     <style name="KeepassDXStyle.Toolbar.Dark" parent="KeepassDXStyle.Dark">

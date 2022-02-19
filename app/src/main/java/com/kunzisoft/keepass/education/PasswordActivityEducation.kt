@@ -32,7 +32,7 @@ class PasswordActivityEducation(activity: Activity)
     fun checkAndPerformedUnlockEducation(educationView: View,
                                          onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                          onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationUnlockPerformed(activity),
+        return checkAndPerformedEducation(isEducationUnlockPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_unlock_title),
                         activity.getString(R.string.education_unlock_summary))
@@ -60,7 +60,7 @@ class PasswordActivityEducation(activity: Activity)
     fun checkAndPerformedReadOnlyEducation(educationView: View,
                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationReadOnlyPerformed(activity),
+        return checkAndPerformedEducation(isEducationReadOnlyPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_read_only_title),
                         activity.getString(R.string.education_read_only_summary))
@@ -87,7 +87,7 @@ class PasswordActivityEducation(activity: Activity)
     fun checkAndPerformedBiometricEducation(educationView: View,
                                             onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                             onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationBiometricPerformed(activity),
+        return checkAndPerformedEducation(isEducationBiometricPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_advanced_unlock_title),
                         activity.getString(R.string.education_advanced_unlock_summary))

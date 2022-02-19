@@ -227,7 +227,6 @@
     <string name="error_autofill_enable_service">Autofill service could not be activated.</string>
     <string name="clipboard_timeout">ക്ലിപ്പ്ബോർഡ് ടൈംഔട്ട്</string>
     <string name="app_timeout">ആപ്പ് ടൈംഔട്ട്</string>
-    <string name="search_results">തിരയൽ ഫലങ്ങൾ</string>
     <string name="menu_restore_entry_history">ഹിസ്റ്ററി വീണ്ടെടുക്കുക</string>
     <string name="entry_expires">കാലഹരണപ്പെടുന്നു</string>
     <string name="keyboard_key_vibrate_title">വൈബ്രേറ്ററി കീപ്രസ്സ്</string>
@@ -254,7 +253,6 @@
     <string name="lock_database_screen_off_title">സ്ക്രീൻ ലോക്ക്</string>
     <string name="education_entry_edit_title">എൻ‌ട്രി തിരുത്തുക</string>
     <string name="file_name">ഫയലിന്റെ പേര്</string>
-    <string name="search_label">തിരയുക</string>
     <string name="content_description_add_entry">എൻ‌ട്രി ചേർക്കുക</string>
     <string name="lock_database_back_root_title">ലോക്കുചെയ്യുന്നതിന് \'തിരികെ\' അമർത്തുക</string>
     <string name="clipboard_error_title">ക്ലിപ്പ്ബോർഡ് തകരാർ</string>
@@ -307,8 +305,6 @@
     <string name="contains_duplicate_uuid">ഡാറ്റാബേസിൽ തനിപ്പകർപ്പ് UUID-കൾ അടങ്ങിയിരിക്കുന്നു.</string>
     <string name="read_only_warning">നിങ്ങളുടെ ഫയൽ മാനേജരെ ആശ്രയിച്ച്, നിങ്ങളുടെ സ്റ്റോറേജിൽ എഴുതാൻ KeePassDX-നെ അനുവദിച്ചേക്കില്ല.</string>
     <string name="auto_focus_search_summary">ഡാറ്റാബേസ് തുറക്കുമ്പോൾ തിരയൽ അഭ്യർത്ഥിക്കുക</string>
-    <string name="omit_backup_search_summary">തിരയൽ ഫലങ്ങളിൽ നിന്ന് \"ബാക്കപ്പ്\", \"റീസൈക്കിൾ ബിൻ\" ഗ്രൂപ്പുകൾ ഒഴിവാക്കുക</string>
-    <string name="omit_backup_search_title">ബാക്കപ്പ് എൻ‌ട്രികളിലൂടെ തിരയരുത്</string>
     <string name="menu_open_file_read_and_write">പരിഷ്‌ക്കരിക്കാവുന്ന</string>
     <string name="menu_file_selection_read_only">റൈറ്റ്-പരിരക്ഷിതമാണ്</string>
     <string name="error_otp_digits">ടോക്കണിൽ %1$d മുതൽ %2$d അക്കങ്ങൾ വരെ ഉണ്ടായിരിക്കണം.</string>

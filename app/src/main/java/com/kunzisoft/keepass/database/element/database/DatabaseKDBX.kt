@@ -201,6 +201,9 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             return "V2 - KDBX$kdbxStringVersion"
         }
 
+    override val defaultFileExtension: String
+        get() = ".kdbx"
+
     private open class NodeOperationHandler<T: NodeKDBXInterface> : NodeHandler<T>() {
         var containsCustomData = false
         override fun operate(node: T): Boolean {
@@ -224,7 +227,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private inner class GroupOperationHandler: NodeOperationHandler<GroupKDBX>() {
         var containsTags = false
         override fun operate(node: GroupKDBX): Boolean {
-            if (!node.tags.isEmpty())
+            if (node.tags.isNotEmpty())
                 containsTags = true
             return super.operate(node)
         }

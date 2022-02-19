@@ -41,9 +41,9 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override var customData = CustomData()
     var notes = ""
     var isExpanded = true
-    var defaultAutoTypeSequence = ""
-    var enableAutoType: Boolean? = null
     var enableSearching: Boolean? = null
+    var enableAutoType: Boolean? = null
+    var defaultAutoTypeSequence: String = ""
     var lastTopVisibleEntry: UUID = DatabaseVersioned.UUID_ZERO
     override var tags = Tags()
     override var previousParentGroup: UUID = DatabaseVersioned.UUID_ZERO
@@ -69,11 +69,11 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
         notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
-        defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
-        val isAutoTypeEnabled = parcel.readInt()
-        enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
         val isSearchingEnabled = parcel.readInt()
         enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
+        val isAutoTypeEnabled = parcel.readInt()
+        enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
+        defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
         lastTopVisibleEntry = parcel.readSerializable() as UUID
         tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
         previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
@@ -94,9 +94,9 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(customData, flags)
         dest.writeString(notes)
         dest.writeByte((if (isExpanded) 1 else 0).toByte())
-        dest.writeString(defaultAutoTypeSequence)
-        dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
         dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
+        dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
+        dest.writeString(defaultAutoTypeSequence)
         dest.writeSerializable(lastTopVisibleEntry)
         dest.writeParcelable(tags, flags)
         dest.writeParcelable(ParcelUuid(previousParentGroup), flags)
@@ -111,9 +111,9 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         customData = CustomData(source.customData)
         notes = source.notes
         isExpanded = source.isExpanded
-        defaultAutoTypeSequence = source.defaultAutoTypeSequence
-        enableAutoType = source.enableAutoType
         enableSearching = source.enableSearching
+        enableAutoType = source.enableAutoType
+        defaultAutoTypeSequence = source.defaultAutoTypeSequence
         lastTopVisibleEntry = source.lastTopVisibleEntry
         tags = source.tags
         previousParentGroup = source.previousParentGroup

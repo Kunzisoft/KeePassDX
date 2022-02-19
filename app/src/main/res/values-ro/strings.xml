@@ -208,7 +208,6 @@
     <string name="command_execution">Executarea comenzii …</string>
     <string name="do_not_kill_app">Nu omori aplicația …</string>
     <string name="space">Spatiu</string>
-    <string name="search_label">Cauta</string>
     <string name="sort_menu">Sorteaza</string>
     <string name="sort_ascending">Prima cea mai mică ↓</string>
     <string name="sort_groups_before">Grupuri înainte</string>
@@ -221,7 +220,6 @@
     <string name="sort_last_access_time">Acces</string>
     <string name="special">Special</string>
     <string name="search">Căutare</string>
-    <string name="search_results">Rezultatele căutării</string>
     <string name="underline">Subliniere</string>
     <string name="unsupported_db_version">Versiunea bazei de date neacceptată.</string>
     <string name="uppercase">Cu majuscule</string>
@@ -407,8 +405,6 @@
     <string name="icon_pack_choose_summary">Pachet de pictograme folosit în aplicație</string>
     <string name="hide_expired_entries_title">Ascundeți intrările expirate</string>
     <string name="hide_expired_entries_summary">Înscrierile expirate vor fi ascunse</string>
-    <string name="omit_backup_search_title">Nu căutați prin intrări de rezervă</string>
-    <string name="omit_backup_search_summary">Omite grupurile „Backup” și „Recycle bin” din rezultatele căutării</string>
     <string name="auto_focus_search_title">Căutare rapidă</string>
     <string name="auto_focus_search_summary">Solicitați o căutare atunci când deschideți o bază de date</string>
     <string name="remember_database_locations_title">Salvați locația bazelor de date</string>

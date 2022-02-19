@@ -111,8 +111,6 @@
     <string name="never">Ei koskaan</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Asenna web-selain avataksesi URL:n.</string>
-    <string name="omit_backup_search_title">Älä etsi varmuuskopioista eikä roskakorista</string>
-    <string name="omit_backup_search_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
     <string name="progress_create">Luodaan uutta tietokantaa…</string>
     <string name="progress_title">Työskennellään…</string>
     <string name="protection">Suojaus</string>
@@ -122,11 +120,9 @@
     <string name="rounds_explanation">Lisätty kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
     <string name="saving_database">Tallennetaan tietokantaa…</string>
     <string name="space">Tila</string>
-    <string name="search_label">Etsi</string>
     <string name="sort_db">Luonnollinen järjestys</string>
     <string name="special">Erityistä</string>
     <string name="search">Tietueen otsikko/kuvaus</string>
-    <string name="search_results">Hakutulokset</string>
     <string name="underline">Alleviivattu</string>
     <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
     <string name="uppercase">Isot kirjaimet</string>

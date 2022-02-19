@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/group_merge">
+        <item android:id="@+id/menu_merge_from"
+            android:icon="@drawable/ic_merge_from_white_24dp"
+            android:title="@string/menu_merge_from"
+            android:orderInCategory="80"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
+        <item android:id="@+id/menu_save_copy_to"
+            android:icon="@drawable/ic_save_copy_to_white_24dp"
+            android:title="@string/menu_save_copy_to"
+            android:orderInCategory="81"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
+        <item android:id="@+id/menu_lock_all"
+            android:icon="@drawable/ic_lock_white_24dp"
+            android:title="@string/lock"
+            android:orderInCategory="82"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom" />
+    </group>
+</menu>

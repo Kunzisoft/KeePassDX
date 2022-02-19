@@ -100,8 +100,6 @@
     <string name="never">Nigdy</string>
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Zainstaluj przeglądarkę internetową, aby otworzyć ten adres URL.</string>
-    <string name="omit_backup_search_title">Nie wyszukuj wpisów kopii zapasowej</string>
-    <string name="omit_backup_search_summary">Pomija grupy \"Kopia zapasowa\" i \"Kosz\" z wyników wyszukiwania</string>
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
     <string name="content_description_remove_from_list">Usuń</string>
@@ -110,7 +108,6 @@
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
     <string name="saving_database">Zapisywanie bazy danych…</string>
     <string name="space">Spacja</string>
-    <string name="search_label">Szukaj</string>
     <string name="sort_db">Porządek naturalny</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>
@@ -146,7 +143,7 @@
     <string name="invalid_algorithm">Błędny algorytm.</string>
     <string name="keyfile_is_empty">Plik klucza jest pusty.</string>
     <string name="list_entries_show_username_title">Pokaż nazwy użytkowników</string>
-    <string name="list_entries_show_username_summary">Pokaż nazwy użytkowników na listach wpisów</string>
+    <string name="list_entries_show_username_summary">Wyświetla nazwy użytkowników na listach wpisów</string>
     <string name="copy_field">Skopiowano %1$s</string>
     <string name="menu_form_filling_settings">Wypełnianie formularzy</string>
     <string name="menu_copy">Kopiuj</string>
@@ -170,7 +167,6 @@
     <string name="sort_creation_time">Utwórz</string>
     <string name="sort_last_modify_time">Modyfikacja</string>
     <string name="sort_last_access_time">Dostęp</string>
-    <string name="search_results">Wyniki wyszukiwania</string>
     <string name="warning">Ostrzeżenie</string>
     <string name="warning_password_encoding">Unikaj znaków hasła spoza formatu kodowania tekstu w pliku bazy danych (nierozpoznane znaki są konwertowane na tę samą literę).</string>
     <string name="sort_recycle_bin_bottom">Kosz na dole</string>
@@ -326,12 +322,12 @@
     <string name="content_description_remove_field">Usuń pole</string>
     <string name="error_copy_entry_here">Nie możesz tutaj skopiować wpisu.</string>
     <string name="list_groups_show_number_entries_title">Pokaż liczbę wpisów</string>
-    <string name="list_groups_show_number_entries_summary">Pokaż liczbę wpisów w grupie</string>
+    <string name="list_groups_show_number_entries_summary">Wyświetla liczbę wpisów w grupie</string>
     <string name="selection_mode">Tryb wyboru</string>
     <string name="content_description_add_node">Dodaj węzeł</string>
     <string name="content_description_repeat_toggle_password_visibility">Powtórz przełączanie widoczności hasła</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">W to miejsce nie można przenieść wpisu.</string>
+    <string name="error_move_entry_here">Nie możesz tutaj przenieść wpisu.</string>
     <string name="content_description_password_checkbox">Pole hasła</string>
     <string name="content_description_keyfile_checkbox">Pole pliku klucza</string>
     <string name="content_description_background">Tło</string>
@@ -356,7 +352,7 @@
     <string name="otp_digits">Cyfry</string>
     <string name="otp_algorithm">Algorytm</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_copy_group_here">Tutaj nie można skopiować grupy.</string>
+    <string name="error_copy_group_here">Nie możesz tutaj skopiować grupy.</string>
     <string name="creating_database">Tworzenie bazy danych…</string>
     <string name="menu_security_settings">Ustawienia zabezpieczeń</string>
     <string name="menu_master_key_settings">Ustawienia klucza głównego</string>
@@ -476,8 +472,8 @@
     <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem lub grupą</string>
     <string name="show_uuid_title">Pokaż UUID</string>
     <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej jako tylko do odczytu.</string>
-    <string name="autofill_ask_to_save_data_summary">Poproś o zapisanie danych po zatwierdzeniu formularza</string>
-    <string name="autofill_ask_to_save_data_title">Poproś o zapisanie danych</string>
+    <string name="autofill_ask_to_save_data_summary">Pytaj o zapisanie danych po zakończeniu wypełniania formularza</string>
+    <string name="autofill_ask_to_save_data_title">Pytaj o zapisanie danych</string>
     <string name="autofill_save_search_info_summary">Spróbuj zapisać informacje wyszukiwania podczas dokonywania ręcznego wyboru pozycji</string>
     <string name="autofill_save_search_info_title">Zapisz informacje wyszukiwania</string>
     <string name="autofill_close_database_summary">Zamknij bazę danych po wybraniu autouzupełniania</string>
@@ -506,7 +502,7 @@
     <string name="device_credential">Uwierzytelnienie urządzenia</string>
     <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij ten przycisk.</string>
     <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
-    <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowuj. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
+    <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowującego. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
     <string name="advanced_unlock_prompt_store_credential_message">Ostrzeżenie: Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać hasło główne.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Zaawansowane rozpoznawanie odblokowania</string>
@@ -531,7 +527,7 @@
     <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
-    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj bazę danych z najnowszymi zmianam.</string>
+    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianam.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
     <string name="menu_reload_database">Ponownie załaduj dane</string>
     <string name="unit_gibibyte">GiB</string>
@@ -560,7 +556,7 @@
     <string name="import_app_properties_summary">Wybierz plik, aby zaimportować właściwości aplikacji</string>
     <string name="import_app_properties_title">Importuj właściwości aplikacji</string>
     <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
-    <string name="error_move_group_here">Nie możesz przenieść tutaj grupy.</string>
+    <string name="error_move_group_here">Nie możesz tutaj przenieść grupy.</string>
     <string name="error_word_reserved">To słowo jest zastrzeżone i nie może być używane.</string>
     <string name="name">Imię i nazwisko</string>
     <string name="standard">Standardowe</string>
@@ -610,4 +606,24 @@
     <string name="content_description_database_color">Kolor bazy danych</string>
     <string name="warning_database_info_reloaded">Ponowne załadowanie bazy danych spowoduje usunięcie lokalnie zmodyfikowanych danych.</string>
     <string name="menu_merge_database">Scal dane</string>
+    <string name="show_entry_colors_title">Kolory wpisu</string>
+    <string name="warning_keyfile_integrity">Hash pliku nie jest gwarantowany, ponieważ system Android może zmieniać swoje dane w locie. Zmień rozszerzenie pliku na .bin, aby uzyskać prawidłową integralność.</string>
+    <string name="enable_keep_screen_on_summary">Nie wyłączaj ekranu podczas oglądania wpisu</string>
+    <string name="tags">Znaczniki</string>
+    <string name="enable_keep_screen_on_title">Nie wyłączaj ekranu</string>
+    <string name="show_entry_colors_summary">Wyświetla kolory pierwszego planu i tła we wpisie</string>
+    <string name="content_description_nav_header">Nagłówek nawigacyjny</string>
+    <string name="navigation_drawer_open">Szuflada nawigacyjna otwarta</string>
+    <string name="navigation_drawer_close">Szuflada nawigacyjna zamknięta</string>
+    <string name="case_sensitive">Wielkość liter</string>
+    <string name="regex">Wyrażenie regularne</string>
+    <string name="inherited">Dziedziczone</string>
+    <string name="auto_type_sequence">Sekwencja automatycznego wpisywania</string>
+    <string name="current_group">Obecna grupa</string>
+    <string name="custom_data">Dane niestandardowe</string>
+    <string name="menu_merge_from">Scal z…</string>
+    <string name="search_filters">Filtry wyszukiwania</string>
+    <string name="auto_type">Automatyczne wpisywanie</string>
+    <string name="searchable">Przeszukiwalne</string>
+    <string name="menu_save_copy_to">Zapisz kopię w…</string>
 </resources>

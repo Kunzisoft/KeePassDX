@@ -113,8 +113,6 @@
     <string name="never">Mai</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Installa un browser web per aprire questo URL.</string>
-    <string name="omit_backup_search_title">Non cercare nelle voci di backup</string>
-    <string name="omit_backup_search_summary">Ometti i gruppi «Backup» e «Cestino» dai risultati di ricerca</string>
     <string name="progress_create">Creazione di un nuovo database…</string>
     <string name="progress_title">In corso…</string>
     <string name="protection">Protezione</string>
@@ -126,11 +124,9 @@
     <string name="rounds_explanation">Livelli di cifratura aggiuntivi forniscono una maggiore protezione contro attacchi di tipo forza bruta, ma può rallentare il caricamento e il salvataggio.</string>
     <string name="saving_database">Salvataggio del database…</string>
     <string name="space">Spazio</string>
-    <string name="search_label">Cerca</string>
     <string name="sort_db">Ordine naturale</string>
     <string name="special">Speciali</string>
     <string name="search">Cerca</string>
-    <string name="search_results">Risultati della ricerca</string>
     <string name="underline">Trattino basso</string>
     <string name="unsupported_db_version">Versione del database non supportata.</string>
     <string name="uppercase">Maiuscole</string>
@@ -333,8 +329,8 @@
     <string name="content_description_password_length">Lunghezza della password</string>
     <string name="entry_add_field">Aggiungi un campo</string>
     <string name="content_description_remove_field">Rimuovi un campo</string>
-    <string name="error_move_entry_here">Non è possibile spostare una voce qui.</string>
-    <string name="error_copy_entry_here">Non è possibile copiare una voce qui.</string>
+    <string name="error_move_entry_here">Non puoi spostare una voce qui.</string>
+    <string name="error_copy_entry_here">Non puoi copiare una voce qui.</string>
     <string name="list_groups_show_number_entries_title">Mostra il numero di voci</string>
     <string name="list_groups_show_number_entries_summary">Mostra il numero di voci in un gruppo</string>
     <string name="content_description_update_from_list">Aggiorna</string>
@@ -365,7 +361,7 @@
     <string name="menu_security_settings">Impostazioni di sicurezza</string>
     <string name="contains_duplicate_uuid">Il database contiene Identificativi Univoci Universali (UUID) duplicati.</string>
     <string name="error_save_database">Non è possibile salvare il database.</string>
-    <string name="menu_save_database">Salva database</string>
+    <string name="menu_save_database">Salva dati</string>
     <string name="menu_empty_recycle_bin">Svuota il cestino</string>
     <string name="command_execution">Esecuzione del comando…</string>
     <string name="warning_permanently_delete_nodes">Vuoi eliminare definitivamente i nodi selezionati\?</string>
@@ -517,7 +513,7 @@
     <string name="content">Contenuto</string>
     <string name="advanced_unlock_prompt_not_initialized">Non è possibile inizializzare lo sblocco avanzato.</string>
     <string name="advanced_unlock_not_recognized">Non è possibile riconoscere lo sblocco avanzato</string>
-    <string name="advanced_unlock_invalid_key">Non è possibile leggere la chiave di sblocco avanzato. Eliminala e ripeti la prodecura dello sblocco.</string>
+    <string name="advanced_unlock_invalid_key">Non è possibile leggere la chiave di sblocco avanzato. Eliminala e ripeti la procedura di riconoscimento dello sblocco.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Estrai le credenziali del database con i dati dallo sblocco avanzato</string>
     <string name="advanced_unlock_prompt_store_credential_message">Attenzione: dovrai sempre ricordare la password principale anche se usi lo sblocco avanzato.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Riconoscimento con sblocco avanzato</string>
@@ -534,9 +530,9 @@
     <string name="autofill_inline_suggestions_summary">Mostra i suggerimenti di riempimento campi in una tastiera compatibile</string>
     <string name="autofill_inline_suggestions_title">Suggerimenti in linea</string>
     <string name="warning_database_revoked">L\'accesso al file è stato revocato dal file manager, chiudi il database e riaprilo dalla sua posizione originale.</string>
-    <string name="warning_database_info_changed_options">Sovrascrivi le modifiche esterne salvando il database o ricaricalo con gli ultimi cambiamenti.</string>
+    <string name="warning_database_info_changed_options">Unisci i dati, sovrascrivi le modifiche esterne salvando il database o ricaricalo con le ultime modifiche.</string>
     <string name="warning_database_info_changed">I dati nel tuo database sono stati modificati al di fuori di questa app.</string>
-    <string name="menu_reload_database">Ricarica database</string>
+    <string name="menu_reload_database">Ricarica dati</string>
     <string name="error_otp_type">Il tipo di OTP esistente non è riconosciuto da questo modulo, la sua convalida potrebbe non generare più correttamente il token.</string>
     <string name="download_canceled">Annullato!</string>
     <string name="unit_gibibyte">GiB</string>
@@ -564,7 +560,7 @@
     <string name="import_app_properties_summary">Seleziona un file da cui importare le proprietà dell\'app</string>
     <string name="import_app_properties_title">Importa le proprietà dell\'app</string>
     <string name="error_word_reserved">Questa parola è riservata e non può essere usata.</string>
-    <string name="error_move_group_here">Non è possibile spostare un gruppo qui.</string>
+    <string name="error_move_group_here">Non puoi spostare un gruppo qui.</string>
     <string name="templates">Modelli</string>
     <string name="templates_group_uuid_title">Gruppo di modelli</string>
     <string name="templates_group_enable_summary">Usa modelli dinamici per riempire i campi di una voce</string>
@@ -611,4 +607,24 @@
     <string name="content_description_database_color">Colore database</string>
     <string name="warning_exact_alarm">Non hai consentito all\'app di utilizzare un allarme preciso. Di conseguenza, le funzionalità che richiedono un timer non verranno eseguite con un tempo preciso.</string>
     <string name="permission">Autorizzazione</string>
+    <string name="tags">Etichette</string>
+    <string name="menu_merge_database">Unisci dati</string>
+    <string name="warning_database_info_reloaded">Ricaricare il database eliminerà i dati modificati in locale.</string>
+    <string name="warning_keyfile_integrity">L\'hash del file non è garantito perché Android può cambiare i suoi dati al volo. Cambia l\'estensione del file in .bin per una corretta integrità.</string>
+    <string name="enable_keep_screen_on_title">Tieni lo schermo acceso</string>
+    <string name="enable_keep_screen_on_summary">Tieni lo schermo acceso mentre si vede la voce</string>
+    <string name="show_entry_colors_title">Colori della voce</string>
+    <string name="show_entry_colors_summary">Mostra colori in evidenza e in secondo piano in una voce</string>
+    <string name="custom_data">Dati personalizzati</string>
+    <string name="current_group">Gruppo attuale</string>
+    <string name="navigation_drawer_open">Apertura del cassetto di navigazione</string>
+    <string name="navigation_drawer_close">Chiusura del cassetto di navigazione</string>
+    <string name="searchable">Ricercabile</string>
+    <string name="content_description_nav_header">Intestazione di navigazione</string>
+    <string name="inherited">Ereditato</string>
+    <string name="search_filters">Filtri di ricerca</string>
+    <string name="regex">Espressione regolare</string>
+    <string name="menu_merge_from">Unisci da …</string>
+    <string name="menu_save_copy_to">Salva una copia in …</string>
+    <string name="case_sensitive">Distinzione tra maiuscole e minuscole</string>
 </resources>

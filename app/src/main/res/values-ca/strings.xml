@@ -102,8 +102,6 @@
     <string name="never">Mai</string>
     <string name="no_results">Cap resultat de cerca</string>
     <string name="no_url_handler">Instal·leu un navegador web per a obri aquesta URL</string>
-    <string name="omit_backup_search_title">No cerquis entrades a còpia de seguretat ni paperera</string>
-    <string name="omit_backup_search_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
     <string name="progress_create">Creant nova base de dades…</string>
     <string name="progress_title">Treballant…</string>
     <string name="content_description_remove_from_list">Elimina</string>
@@ -112,11 +110,9 @@
     <string name="rounds_explanation">Més passades d\'encriptació donen protecció addicional contra atacs de força bruta, però poden alentir molt la càrrega i el desat de la base de dades.</string>
     <string name="saving_database">Guardant la base de dades…</string>
     <string name="space">Espai</string>
-    <string name="search_label">Cerca</string>
     <string name="sort_db">Ordre natural</string>
     <string name="special">Especial</string>
     <string name="search">Cerca</string>
-    <string name="search_results">Resultats de la cerca</string>
     <string name="underline">Subratllat</string>
     <string name="unsupported_db_version">Versió de la base de dades no suportada.</string>
     <string name="uppercase">Majúscules</string>

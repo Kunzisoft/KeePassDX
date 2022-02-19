@@ -30,7 +30,7 @@ open class InputSizePreference @JvmOverloads constructor(context: Context,
                                                          defStyleRes: Int = defStyleAttr)
     : InputNumberPreference(context, attrs, defStyleAttr, defStyleRes) {
 
-    override fun setSummary(summary: CharSequence) {
+    override fun setSummary(summary: CharSequence?) {
         var summaryString = summary
         try {
             val memorySize = summary.toString().toLong()

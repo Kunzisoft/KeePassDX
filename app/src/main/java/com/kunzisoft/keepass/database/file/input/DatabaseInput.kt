@@ -43,15 +43,8 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>> (protected var m
 
     @Throws(LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
-                              password: String?,
-                              keyfileInputStream: InputStream?,
-                              progressTaskUpdater: ProgressTaskUpdater?): D
-
-
-    @Throws(LoadDatabaseException::class)
-    abstract fun openDatabase(databaseInputStream: InputStream,
-                              masterKey: ByteArray,
-                              progressTaskUpdater: ProgressTaskUpdater?): D
+                              progressTaskUpdater: ProgressTaskUpdater?,
+                              assignMasterKey: (() -> Unit)): D
 
     protected fun startKeyTimer(progressTaskUpdater: ProgressTaskUpdater?) {
         progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)

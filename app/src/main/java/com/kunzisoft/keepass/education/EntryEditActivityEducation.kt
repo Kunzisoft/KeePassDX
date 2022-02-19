@@ -35,7 +35,7 @@ class EntryEditActivityEducation(activity: Activity)
     fun checkAndPerformedGeneratePasswordEducation(educationView: View,
                                                    onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                                    onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationPasswordGeneratorPerformed(activity),
+        return checkAndPerformedEducation(isEducationPasswordGeneratorPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_generate_password_title),
                         activity.getString(R.string.education_generate_password_summary))
@@ -66,7 +66,7 @@ class EntryEditActivityEducation(activity: Activity)
     fun checkAndPerformedEntryNewFieldEducation(educationView: View,
                                                 onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                                 onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationEntryNewFieldPerformed(activity),
+        return checkAndPerformedEducation(isEducationEntryNewFieldPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_entry_new_field_title),
                         activity.getString(R.string.education_entry_new_field_summary))
@@ -97,7 +97,7 @@ class EntryEditActivityEducation(activity: Activity)
     fun checkAndPerformedAttachmentEducation(educationView: View,
                                              onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                              onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationAddAttachmentPerformed(activity),
+        return checkAndPerformedEducation(isEducationAddAttachmentPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_add_attachment_title),
                         activity.getString(R.string.education_add_attachment_summary))
@@ -128,7 +128,7 @@ class EntryEditActivityEducation(activity: Activity)
     fun checkAndPerformedSetUpOTPEducation(educationView: View,
                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationSetupOTPPerformed(activity),
+        return checkAndPerformedEducation(isEducationSetupOTPPerformed(activity),
                 TapTarget.forView(educationView,
                                 activity.getString(R.string.education_setup_OTP_title),
                                 activity.getString(R.string.education_setup_OTP_summary))
