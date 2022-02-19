@@ -472,7 +472,7 @@
     <string name="show_uuid_summary">Показ пов\'язаного з записом чи групою UUID</string>
     <string name="show_uuid_title">Показувати UUID</string>
     <string name="autofill_read_only_save">Збереження даних заборонено для бази даних, відкритої лише для читання.</string>
-    <string name="autofill_ask_to_save_data_summary">Запитувати зберігати дані після перевірки форми</string>
+    <string name="autofill_ask_to_save_data_summary">Запитувати зберігати дані після заповнення форми</string>
     <string name="autofill_ask_to_save_data_title">Запит збереження даних</string>
     <string name="autofill_save_search_info_summary">Намагатися зберегти подробиці пошуку під час вибору запису власноруч</string>
     <string name="autofill_save_search_info_title">Збереження відомостей пошуку</string>

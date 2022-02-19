@@ -488,7 +488,7 @@
     <string name="show_uuid_summary">Affiche l’UUID lié à une entrée ou un groupe</string>
     <string name="show_uuid_title">Afficher l’UUID</string>
     <string name="autofill_read_only_save">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
-    <string name="autofill_ask_to_save_data_summary">Demande à enregistrer des données quand un formulaire est validé</string>
+    <string name="autofill_ask_to_save_data_summary">Demande de sauvegarde des données à la fin du remplissage d\'un formulaire</string>
     <string name="autofill_ask_to_save_data_title">Demander à enregistrer des données</string>
     <string name="autofill_save_search_info_summary">Essayer d’enregistrer les informations de recherche lors de la sélection manuelle d’une entrée</string>
     <string name="autofill_save_search_info_title">Enregistrer les infos de recherche</string>
@@ -631,7 +631,7 @@
     <string name="menu_merge_from">Fusionner depuis …</string>
     <string name="wireless">Wi-Fi</string>
     <string name="searchable">Recherchable</string>
-    <string name="inherited">Héritage</string>
+    <string name="inherited">Hérité</string>
     <string name="auto_type_sequence">Séquence Auto-Type</string>
     <string name="custom_data">Données personnalisées</string>
     <string name="case_sensitive">Sensible à la casse</string>
