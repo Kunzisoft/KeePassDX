@@ -1137,11 +1137,10 @@ class GroupActivity : DatabaseLockActivity(),
     private fun prepareDatabaseNavMenu() {
         // hide or show nav menu
         databaseNavView?.apply {
-            menu.findItem(R.id.menu_merge_from)?.isVisible = mMergeDataAllowed
             //  depending on current mode
             val modeCondition = mSpecialMode == SpecialMode.DEFAULT
             menu.findItem(R.id.menu_app_settings)?.isVisible = modeCondition
-            menu.findItem(R.id.menu_merge_from)?.isVisible = modeCondition
+            menu.findItem(R.id.menu_merge_from)?.isVisible = mMergeDataAllowed && modeCondition
             menu.findItem(R.id.menu_save_copy_to)?.isVisible = modeCondition
             menu.findItem(R.id.menu_about)?.isVisible = modeCondition
             menu.findItem(R.id.menu_contribute)?.isVisible = modeCondition
