@@ -636,4 +636,6 @@
     <string name="menu_merge_from">Zusammenführen von …</string>
     <string name="menu_save_copy_to">Kopie speichern unter …</string>
     <string name="content_description_nav_header">Navigationskopfzeile</string>
+    <string name="navigation_drawer_close">Navigationsleiste schließen</string>
+    <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
 </resources>
