@@ -1,3 +1,7 @@
+KeePassDX(3.3.1)
+ * Fix Japanese keyboard in search #1248
+ * Better OOM management #256
+
 KeePassDX(3.3.0)
  * Quick search and dynamic filters #163 #462 #521
  * Keep search context #1141
