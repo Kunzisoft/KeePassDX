@@ -399,8 +399,8 @@
     <string name="download_progression">Devam ediyor: %1$d%%</string>
     <string name="download_finalization">Sonuçlandırılıyor…</string>
     <string name="download_complete">Tamamlandı!</string>
-    <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
-    <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gösterilmez</string>
+    <string name="hide_expired_entries_title">Süresi dolan girdileri gizle</string>
+    <string name="hide_expired_entries_summary">Süresi dolan girdiler gösterilmez</string>
     <string name="warning_database_read_only">Veri tabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
     <string name="hide_broken_locations_summary">Son veri tabanları listesindeki bozuk bağlantıları gizle</string>
     <string name="hide_broken_locations_title">Bozuk veri tabanı bağlantılarını gizle</string>
@@ -620,4 +620,5 @@
     <string name="current_group">Geçerli grup</string>
     <string name="custom_data">Özel veri</string>
     <string name="menu_save_copy_to">Bir kopyasını şuraya kaydet…</string>
+    <string name="expired">Süresi doldu</string>
 </resources>
