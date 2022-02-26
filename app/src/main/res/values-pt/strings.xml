@@ -495,7 +495,7 @@
     <string name="education_advanced_unlock_title">Desbloqueio avançado da base de dados</string>
     <string name="autofill_inline_suggestions_keyboard">Adicionadas sugestões de preenchimento automático.</string>
     <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
-    <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando é validado um formulário</string>
+    <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Pedir para guardar dados</string>
     <string name="autofill_save_search_info_summary">Tentar guardar as informações de pesquisas ao fazer uma seleção de entrada manual</string>
     <string name="autofill_save_search_info_title">Guardar informações de pesquisas</string>
@@ -590,4 +590,17 @@
     <string name="content_description_database_color">Cor da base de dados</string>
     <string name="content_description_entry_foreground_color">Cor do primeiro plano da página inicial</string>
     <string name="content_description_entry_background_color">Cor do fundo da página inicial</string>
+    <string name="content_description_nav_header">Cabeçalho de navegação</string>
+    <string name="searchable">Pesquisável</string>
+    <string name="auto_type_sequence">Sequência de preenchimento automático</string>
+    <string name="custom_data">Dados personalizados</string>
+    <string name="search_filters">Filtros de pesquisa</string>
+    <string name="current_group">Grupo atual</string>
+    <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
+    <string name="regex">Expressão regular</string>
+    <string name="menu_save_copy_to">Guardar uma cópia em…</string>
+    <string name="navigation_drawer_open">Gaveta de navegação aberta</string>
+    <string name="navigation_drawer_close">Gaveta de navegação fechada</string>
+    <string name="inherited">Herdar</string>
+    <string name="menu_merge_from">Unir de…</string>
 </resources>

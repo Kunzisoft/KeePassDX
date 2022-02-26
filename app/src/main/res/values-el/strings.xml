@@ -615,7 +615,7 @@
     <string name="searchable">Αναζητήσιμο</string>
     <string name="case_sensitive">Διάκριση πεζών-κεφαλαίων</string>
     <string name="menu_merge_from">Συγχώνευση από …</string>
-    <string name="inherited">Κληρονόμησε</string>
+    <string name="inherited">Κληρονομώ</string>
     <string name="search_filters">Αναζήτηση φίλτρων</string>
     <string name="content_description_nav_header">Κεφαλίδα πλοήγησης</string>
     <string name="navigation_drawer_close">Κλείσιμο συρταριού πλοήγησης</string>

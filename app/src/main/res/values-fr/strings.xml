@@ -631,7 +631,7 @@
     <string name="menu_merge_from">Fusionner depuis …</string>
     <string name="wireless">Wi-Fi</string>
     <string name="searchable">Recherchable</string>
-    <string name="inherited">Hérité</string>
+    <string name="inherited">Hériter de</string>
     <string name="auto_type_sequence">Séquence Auto-Type</string>
     <string name="custom_data">Données personnalisées</string>
     <string name="case_sensitive">Sensible à la casse</string>
