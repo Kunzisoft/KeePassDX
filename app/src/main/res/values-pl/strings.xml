@@ -617,7 +617,7 @@
     <string name="navigation_drawer_close">Szuflada nawigacyjna zamknięta</string>
     <string name="case_sensitive">Wielkość liter</string>
     <string name="regex">Wyrażenie regularne</string>
-    <string name="inherited">Dziedziczone</string>
+    <string name="inherited">Dziedzicz</string>
     <string name="auto_type_sequence">Sekwencja automatycznego wpisywania</string>
     <string name="current_group">Obecna grupa</string>
     <string name="custom_data">Dane niestandardowe</string>

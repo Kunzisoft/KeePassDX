@@ -614,8 +614,8 @@
     <string name="show_entry_colors_summary">Показывать цвета текста и фона записи</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="content_description_nav_header">Заголовок навигации</string>
-    <string name="searchable">Искомое</string>
-    <string name="inherited">Наследуемое</string>
+    <string name="searchable">Доступно для поиска</string>
+    <string name="inherited">Наследовать</string>
     <string name="case_sensitive">С учётом регистра</string>
     <string name="menu_save_copy_to">Сохранить копию в…</string>
     <string name="menu_merge_from">Объединить с…</string>

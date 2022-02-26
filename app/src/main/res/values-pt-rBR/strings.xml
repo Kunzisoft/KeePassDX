@@ -612,4 +612,12 @@
     <string name="error_move_group_here">Você não pode mover um grupo aqui.</string>
     <string name="wireless">Wi-Fi</string>
     <string name="warning_keyfile_integrity">O hash do arquivo não é garantido porque o Android pode alterar seus dados em tempo real. Altere a extensão do arquivo para .bin para obter a integridade correta.</string>
+    <string name="content_description_nav_header">Cabeçalho de navegação</string>
+    <string name="navigation_drawer_open">Gaveta de navegação aberta</string>
+    <string name="searchable">Pesquisável</string>
+    <string name="inherited">Herdar</string>
+    <string name="custom_data">Dados personalizados</string>
+    <string name="menu_merge_from">Mesclar de…</string>
+    <string name="menu_save_copy_to">Salvar uma cópia em…</string>
+    <string name="navigation_drawer_close">Gaveta de navegação fechada</string>
 </resources>

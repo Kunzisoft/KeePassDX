@@ -498,7 +498,7 @@
     <string name="autofill_web_domain_blocklist_title">Lista de bloqueo de los dominios web</string>
     <string name="autofill_application_id_blocklist_summary">Lista de bloqueo que impide el llenado automático de las aplicaciones</string>
     <string name="autofill_application_id_blocklist_title">Lista de bloqueo de las aplicaciones</string>
-    <string name="autofill_ask_to_save_data_summary">Pedir que se guarden los datos cuando se valide un formulario</string>
+    <string name="autofill_ask_to_save_data_summary">Solicitar datos de guardado al completar el llenado de un formulario</string>
     <string name="autofill_ask_to_save_data_title">Pedir que se guarden los datos</string>
     <string name="autofill_save_search_info_summary">Intente guardar la información de la búsqueda cuando haga una selección de entrada manual</string>
     <string name="autofill_save_search_info_title">Guardar la información de la búsqueda</string>
@@ -626,5 +626,5 @@
     <string name="search_filters">Filtros de búsqueda</string>
     <string name="menu_merge_from">Fusionar desde …</string>
     <string name="menu_save_copy_to">Guardar una copia en …</string>
-    <string name="inherited">Heredado</string>
+    <string name="inherited">Heredar</string>
 </resources>
