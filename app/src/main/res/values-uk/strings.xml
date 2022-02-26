@@ -616,7 +616,7 @@
     <string name="navigation_drawer_open">Відкрити панель навігації</string>
     <string name="navigation_drawer_close">Закрити панель навігації</string>
     <string name="searchable">Шукане</string>
-    <string name="inherited">Успадковане</string>
+    <string name="inherited">Успадкувати</string>
     <string name="current_group">Поточна група</string>
     <string name="case_sensitive">З урахуванням регістру</string>
     <string name="regex">Регулярний вираз</string>

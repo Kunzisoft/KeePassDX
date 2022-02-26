@@ -619,7 +619,7 @@
     <string name="regex">正则表达式</string>
     <string name="menu_merge_from">合并自…</string>
     <string name="menu_save_copy_to">保存副本到…</string>
-    <string name="inherited">继承的</string>
+    <string name="inherited">继承</string>
     <string name="content_description_nav_header">导航标题</string>
     <string name="navigation_drawer_close">导航抽屉关闭</string>
     <string name="navigation_drawer_open">导航抽屉开启</string>
