@@ -2,3 +2,4 @@
  * Meilleur gestion d'OOM #256
  * Correction des filtres #1249
  * Correction du déverouillage avancé temporaire #1245
+ * Meilleure reconnaissance du remplissage automatique #1250
