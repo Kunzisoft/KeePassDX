@@ -2,3 +2,4 @@
  * Better OOM management #256
  * Fix filters #1249
  * Fix temp advanced unlocking #1245
+ * Best autofill recognition #1250
