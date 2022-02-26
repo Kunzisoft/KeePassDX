@@ -529,19 +529,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     @Throws(IOException::class)
-    public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
-
-        var masterKey = byteArrayOf()
-
-        if (key != null && keyInputStream != null) {
-            return getCompositeKey(key, keyInputStream)
-        } else if (key != null) { // key.length() >= 0
-            masterKey = getPasswordKey(key)
-        } else if (keyInputStream != null) { // key == null
-            masterKey = getFileKey(keyInputStream)
-        }
-
-        return HashManager.hashSha256(masterKey)
+    public override fun getMasterKey(passwordKey: String?,
+                                     keyFileData: ByteArray?,
+                                     hardwareKey: ByteArray?): ByteArray {
+        return getCompositeKey(passwordKey, keyFileData, hardwareKey)
+            ?: HashManager.hashSha256(byteArrayOf())
     }
 
     @Throws(IOException::class)

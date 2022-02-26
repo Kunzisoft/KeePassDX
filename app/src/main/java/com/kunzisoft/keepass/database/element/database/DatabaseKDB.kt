@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
-import java.io.InputStream
 import java.util.*
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
@@ -117,14 +116,15 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     @Throws(IOException::class)
-    override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
-
-        return if (key != null && keyInputStream != null) {
-            getCompositeKey(key, keyInputStream)
-        } else if (key != null) { // key.length() >= 0
-            getPasswordKey(key)
-        } else if (keyInputStream != null) { // key == null
-            getFileKey(keyInputStream)
+    override fun getMasterKey(passwordKey: String?,
+                              keyFileData: ByteArray?,
+                              hardwareKey: ByteArray?): ByteArray {
+        return if (passwordKey != null && keyFileData != null) {
+            getCompositeKey(passwordKey, keyFileData, null) ?: byteArrayOf()
+        } else if (passwordKey != null) { // key.length() >= 0
+            getPasswordKey(passwordKey)
+        } else if (keyFileData != null) { // key == null
+            getFileKey(keyFileData)
         } else {
             throw IllegalArgumentException("Key cannot be empty.")
         }

@@ -604,6 +604,20 @@ class Database {
         }
     }
 
+    @Throws(Exception::class)
+    private fun getKeyFileData(contentResolver: ContentResolver, keyFileUri: Uri?): ByteArray? {
+        try {
+            keyFileUri?.let { uri ->
+                UriUtil.getUriInputStream(contentResolver, uri)?.use { keyFileInputStream ->
+                    return keyFileInputStream.readBytes()
+                }
+            }
+        } catch (e: OutOfMemoryError) {
+            throw LoadDatabaseException("Keyfile too large")
+        }
+        return null
+    }
+
     @Throws(LoadDatabaseException::class)
     fun loadData(uri: Uri,
                  mainCredential: MainCredential,
@@ -620,14 +634,7 @@ class Database {
         // Check if the file is writable
         this.isReadOnly = readOnly
 
-        // Pass KeyFile Uri as InputStreams
-        var keyFileInputStream: InputStream? = null
         try {
-            // Get keyFile inputStream
-            mainCredential.keyFileUri?.let { keyFile ->
-                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyFile)
-            }
-
             // Read database stream for the first time
             readDatabaseStream(contentResolver, uri,
                     { databaseInputStream ->
@@ -641,7 +648,8 @@ class Database {
                             ) {
                                 databaseKDB.retrieveMasterKey(
                                     mainCredential.masterPassword,
-                                    keyFileInputStream
+                                    getKeyFileData(contentResolver, mainCredential.keyFileUri),
+                                    mainCredential.hardwareKeyData
                                 )
                             }
                         databaseKDB
@@ -657,7 +665,8 @@ class Database {
                                 progressTaskUpdater) {
                                 databaseKDBX.retrieveMasterKey(
                                     mainCredential.masterPassword,
-                                    keyFileInputStream,
+                                    getKeyFileData(contentResolver, mainCredential.keyFileUri),
+                                    mainCredential.hardwareKeyData
                                 )
                             }
                         }
@@ -671,7 +680,6 @@ class Database {
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
-            keyFileInputStream?.close()
             dataModifiedSinceLastLoading = false
         }
     }
@@ -695,18 +703,9 @@ class Database {
         val databaseToMerge = Database()
         databaseToMerge.fileUri = databaseToMergeUri ?: this.fileUri
 
-        // Pass KeyFile Uri as InputStreams
-        var keyFileInputStream: InputStream? = null
         try {
             val databaseUri = databaseToMerge.fileUri
             if (databaseUri != null) {
-                if (databaseToMergeMainCredential != null) {
-                    // Get keyFile inputStream
-                    databaseToMergeMainCredential.keyFileUri?.let { keyFile ->
-                        keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyFile)
-                    }
-                }
-
                 databaseToMerge.readDatabaseStream(contentResolver, databaseUri,
                     { databaseInputStream ->
                         val databaseToMergeKDB = DatabaseKDB()
@@ -715,7 +714,11 @@ class Database {
                                 if (databaseToMergeMainCredential != null) {
                                     databaseToMergeKDB.retrieveMasterKey(
                                         databaseToMergeMainCredential.masterPassword,
-                                        keyFileInputStream,
+                                        getKeyFileData(
+                                            contentResolver,
+                                            databaseToMergeMainCredential.keyFileUri,
+                                        ),
+                                        databaseToMergeMainCredential.hardwareKeyData
                                     )
                                 } else {
                                     databaseToMergeKDB.masterKey = masterKey
@@ -731,7 +734,11 @@ class Database {
                                 if (databaseToMergeMainCredential != null) {
                                     databaseToMergeKDBX.retrieveMasterKey(
                                         databaseToMergeMainCredential.masterPassword,
-                                        keyFileInputStream,
+                                        getKeyFileData(
+                                            contentResolver,
+                                            databaseToMergeMainCredential.keyFileUri
+                                        ),
+                                        databaseToMergeMainCredential.hardwareKeyData
                                     )
                                 } else {
                                     databaseToMergeKDBX.masterKey = masterKey
@@ -769,7 +776,6 @@ class Database {
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         } finally {
-            keyFileInputStream?.close()
             databaseToMerge.clearAndClose()
         }
     }
@@ -1024,9 +1030,19 @@ class Database {
     }
 
     @Throws(IOException::class)
-    fun assignMasterKey(key: String?, keyInputStream: InputStream?) {
-        mDatabaseKDB?.retrieveMasterKey(key, keyInputStream)
-        mDatabaseKDBX?.retrieveMasterKey(key, keyInputStream)
+    fun assignMasterKey(contentResolver: ContentResolver,
+                        mainCredential: MainCredential) {
+        val keyFileData = getKeyFileData(contentResolver, mainCredential.keyFileUri)
+        mDatabaseKDB?.retrieveMasterKey(
+            mainCredential.masterPassword,
+            keyFileData,
+            mainCredential.hardwareKeyData
+        )
+        mDatabaseKDBX?.retrieveMasterKey(
+            mainCredential.masterPassword,
+            keyFileData,
+            mainCredential.hardwareKeyData
+        )
         mDatabaseKDBX?.keyLastChanged = DateInstant()
     }
 

@@ -92,18 +92,30 @@ abstract class DatabaseVersioned<
     }
 
     @Throws(IOException::class)
-    protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
+    protected abstract fun getMasterKey(passwordKey: String?,
+                                        keyFileData: ByteArray?,
+                                        hardwareKey: ByteArray?): ByteArray
 
     @Throws(IOException::class)
-    fun retrieveMasterKey(key: String?, keyfileInputStream: InputStream?) {
-        masterKey = getMasterKey(key, keyfileInputStream)
+    fun retrieveMasterKey(key: String?,
+                          keyFileData: ByteArray?,
+                          hardwareKeyData: ByteArray?) {
+        masterKey = getMasterKey(key, keyFileData, hardwareKeyData)
     }
 
     @Throws(IOException::class)
-    protected fun getCompositeKey(key: String, keyfileInputStream: InputStream): ByteArray {
-        val fileKey = getFileKey(keyfileInputStream)
-        val passwordKey = getPasswordKey(key)
-        return HashManager.hashSha256(passwordKey, fileKey)
+    protected fun getCompositeKey(passwordKey: String?,
+                                  keyFileData: ByteArray?,
+                                  hardwareKeyData: ByteArray?): ByteArray? {
+        if (passwordKey == null && keyFileData == null && hardwareKeyData == null)
+            return null
+        val passwordBytes = if (passwordKey != null) getPasswordKey(passwordKey) else null
+        val keyFileBytes = if (keyFileData != null) getFileKey(keyFileData) else null
+        return HashManager.hashSha256(
+            passwordBytes,
+            keyFileBytes,
+            hardwareKeyData
+        )
     }
 
     @Throws(IOException::class)
@@ -117,10 +129,8 @@ abstract class DatabaseVersioned<
     }
 
     @Throws(IOException::class)
-    protected fun getFileKey(keyInputStream: InputStream): ByteArray {
+    protected fun getFileKey(keyData: ByteArray): ByteArray {
         try {
-            val keyData = keyInputStream.readBytes()
-
             // Check XML key file
             val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
             if (xmlKeyByteArray != null) {

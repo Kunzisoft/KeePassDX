@@ -42,8 +42,7 @@ open class AssignMainCredentialInDatabaseRunnable (
             mBackupKey = ByteArray(database.masterKey.size)
             System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 
-            val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mMainCredential.keyFileUri)
-            database.assignMasterKey(mMainCredential.masterPassword, uriInputStream)
+            database.assignMasterKey(context.contentResolver, mMainCredential)
         } catch (e: Exception) {
             erase(mBackupKey)
             setError(e)
