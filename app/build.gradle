@@ -12,8 +12,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
         targetSdkVersion 31
-        versionCode = 102
-        versionName = "3.3.0"
+        versionCode = 103
+        versionName = "3.3.1"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -104,7 +104,7 @@ android {
     }
 }
 
-def room_version = "2.4.1"
+def room_version = "2.4.2"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

@@ -1,0 +1,6 @@
+ * Fix Japanese keyboard in search #1248
+ * Better OOM management #256
+ * Fix filters #1249
+ * Fix temp advanced unlocking #1245
+ * Best autofill recognition #1250
+ * Workaround to fill OTP token in multiple fields with Magikeyboard (long press) #1158

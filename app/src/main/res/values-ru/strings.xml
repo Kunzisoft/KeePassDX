@@ -50,7 +50,7 @@
     <string name="entry_notes">Заметки</string>
     <string name="entry_confpassword">Подтверждение пароля</string>
     <string name="entry_created">Создано</string>
-    <string name="entry_expires">Истекает</string>
+    <string name="entry_expires">Срок действия</string>
     <string name="entry_keyfile">Файл ключа</string>
     <string name="entry_modified">Изменено</string>
     <string name="entry_not_found">Данные записи не найдены.</string>
@@ -406,7 +406,7 @@
     <string name="download_finalization">Завершение…</string>
     <string name="download_complete">Готово!</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
-    <string name="hide_expired_entries_summary">Не показывать записи с истёкшим сроком</string>
+    <string name="hide_expired_entries_summary">Не показывать записи с истёкшим сроком действия</string>
     <string name="contact">Контактная информация</string>
     <string name="contribution">Помощь проекту</string>
     <string name="html_about_contribution">Для <strong>сохранения нашей независимости</strong>, <strong>исправления ошибок</strong>, <strong>добавления новых функций</strong> и <strong>поддержания разработки в активном состоянии</strong>, мы рассчитываем на вашу <strong>поддержку</strong>.</string>
@@ -614,8 +614,8 @@
     <string name="show_entry_colors_summary">Показывать цвета текста и фона записи</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="content_description_nav_header">Заголовок навигации</string>
-    <string name="searchable">Искомое</string>
-    <string name="inherited">Наследуемое</string>
+    <string name="searchable">Доступно для поиска</string>
+    <string name="inherited">Наследовать</string>
     <string name="case_sensitive">С учётом регистра</string>
     <string name="menu_save_copy_to">Сохранить копию в…</string>
     <string name="menu_merge_from">Объединить с…</string>
@@ -625,4 +625,5 @@
     <string name="auto_type_sequence">Последовательность автонабора</string>
     <string name="current_group">Текущая группа</string>
     <string name="custom_data">Пользовательские данные</string>
+    <string name="expired">Срок действия истёк</string>
 </resources>

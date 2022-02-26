@@ -20,6 +20,6 @@
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:label="@string/search"
     android:searchMode="showSearchLabelAsBadge"
-    android:inputType="textNoSuggestions|textVisiblePassword"
+    android:inputType="textNoSuggestions"
     android:imeOptions="actionSearch|flagNoPersonalizedLearning"
  />

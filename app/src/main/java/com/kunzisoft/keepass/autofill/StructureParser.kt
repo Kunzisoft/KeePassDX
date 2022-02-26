@@ -377,9 +377,11 @@ class StructureParser(private val structure: AssistStructure) {
                 when {
                     inputIsVariationType(inputType,
                             InputType.TYPE_NUMBER_VARIATION_NORMAL) -> {
-                        usernameIdCandidate = autofillId
-                        usernameValueCandidate = node.autofillValue
-                        Log.d(TAG, "Autofill username candidate android number type: ${showHexInputType(inputType)}")
+                        if (usernameIdCandidate == null) {
+                            usernameIdCandidate = autofillId
+                            usernameValueCandidate = node.autofillValue
+                            Log.d(TAG, "Autofill username candidate android number type: ${showHexInputType(inputType)}")
+                        }
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_NUMBER_VARIATION_PASSWORD) -> {

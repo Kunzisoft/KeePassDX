@@ -130,8 +130,9 @@ class CipherDatabaseAction(context: Context) {
                           cipherDatabaseResultListener: (CipherEncryptDatabase?) -> Unit) {
         if (useTempDao) {
             serviceActionTask {
+                var cipherDatabase: CipherEncryptDatabase? = null
                 mBinder?.getCipherDatabase(databaseUri)?.let { cipherDatabaseEntity ->
-                    val cipherDatabase = CipherEncryptDatabase().apply {
+                    cipherDatabase = CipherEncryptDatabase().apply {
                         this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
                         this.encryptedValue = Base64.decode(
                             cipherDatabaseEntity.encryptedValue,
@@ -142,8 +143,8 @@ class CipherDatabaseAction(context: Context) {
                             Base64.NO_WRAP
                         )
                     }
-                    cipherDatabaseResultListener.invoke(cipherDatabase)
                 }
+                cipherDatabaseResultListener.invoke(cipherDatabase)
             }
         } else {
             IOActionTask(

@@ -328,7 +328,7 @@
     <string name="error_move_entry_here">Sem záznam přesunout nelze.</string>
     <string name="error_copy_entry_here">Sem záznam zkopírovat nelze.</string>
     <string name="list_groups_show_number_entries_title">Ukázat počet záznamů</string>
-    <string name="list_groups_show_number_entries_summary">Ukázat počet záznamů ve skupině</string>
+    <string name="list_groups_show_number_entries_summary">Zobrazit počet záznamů ve skupině</string>
     <string name="content_description_background">Pozadí</string>
     <string name="content_description_update_from_list">Aktualizovat</string>
     <string name="content_description_keyboard_close_fields">Zavřít pole</string>
@@ -601,4 +601,18 @@
     <string name="hint_icon_name">Jméno symbolu</string>
     <string name="warning_exact_alarm">Nepovolili jste aplikaci použít přesný alarm. Výsledkem je, že funkce požadující časovač nebudou provedeny v přesný okamžik.</string>
     <string name="permission">Povolení</string>
+    <string name="tags">Tagy</string>
+    <string name="menu_merge_database">Sloučit databázi</string>
+    <string name="warning_database_info_reloaded">Opětovné načtení databáze smaže všechny lokálně změněné data.</string>
+    <string name="warning_keyfile_integrity">Hash souboru není garantován protože Android umožňuje změnu souboru v běhu. Změňte koncovku souboru na .bin pro opravu integrity.</string>
+    <string name="enable_keep_screen_on_title">Ponechat obrazovku zapnutou</string>
+    <string name="content_description_database_color">Barva databáze</string>
+    <string name="wireless">Wi-Fi</string>
+    <string name="searchable">Vyhledatelné</string>
+    <string name="case_sensitive">Rozlišování velkých a malých písmen</string>
+    <string name="current_group">Tato skupina</string>
+    <string name="menu_merge_from">Sloučit z …</string>
+    <string name="custom_data">Vlastní data</string>
+    <string name="search_filters">Vyhledat filtry</string>
+    <string name="menu_save_copy_to">Uložit kopii do …</string>
 </resources>

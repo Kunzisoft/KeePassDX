@@ -245,35 +245,52 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 dismissCustomKeys()
             }
             KEY_USERNAME -> {
-                if (entryInfoKey != null) {
-                    currentInputConnection.commitText(entryInfoKey!!.username, 1)
+                entryInfoKey?.username?.let { username ->
+                    currentInputConnection.commitText(username, 1)
                 }
                 actionTabAutomatically()
             }
             KEY_PASSWORD -> {
-                if (entryInfoKey != null) {
-                    currentInputConnection.commitText(entryInfoKey!!.password, 1)
+                entryInfoKey?.password?.let { password ->
+                    currentInputConnection.commitText(password, 1)
                 }
                 val otpFieldExists = entryInfoKey?.containsCustomField(OTP_TOKEN_FIELD) ?: false
                 actionGoAutomatically(!otpFieldExists)
             }
             KEY_OTP -> {
-                if (entryInfoKey != null) {
+                entryInfoKey?.let { entryInfo ->
                     currentInputConnection.commitText(
-                            entryInfoKey!!.getGeneratedFieldValue(OTP_TOKEN_FIELD), 1)
+                        entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD), 1)
+                }
+                actionGoAutomatically()
+            }
+            KEY_OTP_ALT -> {
+                entryInfoKey?.let { entryInfo ->
+                    val otpToken = entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD)
+                    if (otpToken.isNotEmpty()) {
+                        // Cut to fill each digit separatelyKeyEvent.KEYCODE_TAB
+                        val otpTokenChars = otpToken.chunked(1)
+                        otpTokenChars.forEachIndexed { index, char ->
+                            currentInputConnection.commitText(char, 1)
+                            if (index < (otpTokenChars.size-1))
+                                currentInputConnection.sendKeyEvent(
+                                    KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB)
+                                )
+                        }
+                    }
                 }
                 actionGoAutomatically()
             }
             KEY_URL -> {
-                if (entryInfoKey != null) {
-                    currentInputConnection.commitText(entryInfoKey!!.url, 1)
+                entryInfoKey?.url?.let { url ->
+                    currentInputConnection.commitText(url, 1)
                 }
                 actionGoAutomatically()
             }
             KEY_FIELDS -> {
-                if (entryInfoKey != null) {
+                entryInfoKey?.customFields?.let { customFields ->
                     fieldsAdapter?.apply {
-                        setFields(entryInfoKey!!.customFields.filter { it.name != OTP_TOKEN_FIELD})
+                        setFields(customFields.filter { it.name != OTP_TOKEN_FIELD})
                         notifyDataSetChanged()
                     }
                 }
@@ -347,7 +364,8 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         private const val KEY_ENTRY = 620
         private const val KEY_USERNAME = 500
         private const val KEY_PASSWORD = 510
-        private const val KEY_OTP = 515
+        const val KEY_OTP = 515
+        const val KEY_OTP_ALT = 516
         private const val KEY_URL = 520
         private const val KEY_FIELDS = 530
 

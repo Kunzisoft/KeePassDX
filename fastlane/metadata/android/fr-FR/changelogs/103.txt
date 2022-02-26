@@ -1,0 +1,6 @@
+ * Correction du clavier japonais dans la recherche #1248
+ * Meilleur gestion d'OOM #256
+ * Correction des filtres #1249
+ * Correction du déverouillage avancé temporaire #1245
+ * Meilleure reconnaissance du remplissage automatique #1250
+ * Solution pour remplir le token OTP dans des champs multiple avec le Magiclavier (appui long) #1158
