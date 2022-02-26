@@ -626,4 +626,5 @@
     <string name="search_filters">搜索过滤器</string>
     <string name="case_sensitive">区分大小写</string>
     <string name="auto_type">自动输入</string>
+    <string name="expired">已过期</string>
 </resources>
