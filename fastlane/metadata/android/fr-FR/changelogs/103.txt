@@ -1,2 +1,3 @@
  * Correction du clavier japonais dans la recherche #1248
  * Meilleur gestion d'OOM #256
+ * Correction des filtres #1249

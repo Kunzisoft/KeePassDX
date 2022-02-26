@@ -1,2 +1,3 @@
  * Fix Japanese keyboard in search #1248
  * Better OOM management #256
+ * Fix filters #1249
