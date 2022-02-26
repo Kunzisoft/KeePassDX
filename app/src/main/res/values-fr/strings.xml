@@ -282,12 +282,12 @@
     <string name="allow_no_password_summary">Autorise l’appui du bouton \"Ouvrir\" si aucun identifiant n’est sélectionné</string>
     <string name="menu_file_selection_read_only">Protéger en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
-    <string name="enable_read_only_title">Protégé en écriture</string>
+    <string name="enable_read_only_title">Protéger en écriture</string>
     <string name="enable_read_only_summary">Ouvre la base de données en lecture seule par défaut</string>
     <string name="education_read_only_title">Protégez en écriture votre base de données</string>
     <string name="education_read_only_summary">Changez le mode d’ouverture pour la session.
 \n
-\n\"Protégé en écriture\" empêche les modifications involontaires de la base de données.
+\n\"Protéger en écriture\" empêche les modifications involontaires de la base de données.
 \n\"Modifiable\" vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger votre base de données.</string>
@@ -631,8 +631,9 @@
     <string name="menu_merge_from">Fusionner depuis …</string>
     <string name="wireless">Wi-Fi</string>
     <string name="searchable">Recherchable</string>
-    <string name="inherited">Hériter de</string>
+    <string name="inherited">Hériter</string>
     <string name="auto_type_sequence">Séquence Auto-Type</string>
     <string name="custom_data">Données personnalisées</string>
     <string name="case_sensitive">Sensible à la casse</string>
+    <string name="expired">Expiré</string>
 </resources>
