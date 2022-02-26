@@ -626,4 +626,5 @@
     <string name="auto_type">Automatyczne wpisywanie</string>
     <string name="searchable">Przeszukiwalne</string>
     <string name="menu_save_copy_to">Zapisz kopię w…</string>
+    <string name="expired">Wygasłe</string>
 </resources>
