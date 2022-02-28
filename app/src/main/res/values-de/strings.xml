@@ -638,4 +638,5 @@
     <string name="content_description_nav_header">Navigationskopfzeile</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
+    <string name="expired">Abgelaufen</string>
 </resources>
