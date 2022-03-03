@@ -43,30 +43,20 @@ android {
             dimension "version"
             applicationIdSuffix = ".libre"
             buildConfigField "String", "BUILD_VERSION", "\"libre\""
-            buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "false"
             buildConfigField "String[]", "STYLES_DISABLED",
                             "{\"KeepassDXStyle_Red\"," +
                             "\"KeepassDXStyle_Red_Night\"," +
+                            "\"KeepassDXStyle_Reply\"," +
+                            "\"KeepassDXStyle_Reply_Night\"," +
                             "\"KeepassDXStyle_Purple\"," +
                             "\"KeepassDXStyle_Purple_Dark\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
-        }
-        pro {
-            dimension "version"
-            applicationIdSuffix = ".pro"
-            buildConfigField "String", "BUILD_VERSION", "\"pro\""
-            buildConfigField "boolean", "FULL_VERSION", "true"
-            buildConfigField "boolean", "CLOSED_STORE", "true"
-            buildConfigField "String[]", "STYLES_DISABLED", "{}"
-            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
-            manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIZiXvrQCzSV9LNI6-p7cjTKENZLHIrz_zaqZuQQ" ]
         }
         free {
             dimension "version"
             applicationIdSuffix = ".free"
             buildConfigField "String", "BUILD_VERSION", "\"free\""
-            buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED",
                             "{\"KeepassDXStyle_Simple\"," +
@@ -86,7 +76,6 @@ android {
 
     sourceSets {
         libre.res.srcDir 'src/libre/res'
-        pro.res.srcDir 'src/pro/res'
         free.res.srcDir 'src/free/res'
     }
 

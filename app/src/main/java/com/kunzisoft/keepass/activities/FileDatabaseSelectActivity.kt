@@ -31,12 +31,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -111,6 +113,10 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+
+        // Special title
+        val specialTitle: TextView = findViewById(R.id.file_selection_title_part_3)
+        specialTitle.isVisible = UriUtil.contributingUser(this)
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
@@ -391,7 +397,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         super.onCreateOptionsMenu(menu)
 
         if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(menuInflater, menu)
+            MenuUtil.defaultMenuInflater(this, menuInflater, menu)
         }
 
         Handler(Looper.getMainLooper()).post {

@@ -539,7 +539,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
 
         if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(inflater, menu)
+            MenuUtil.defaultMenuInflater(this, inflater, menu)
         }
 
         super.onCreateOptionsMenu(menu)
