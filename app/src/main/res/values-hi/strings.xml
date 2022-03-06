@@ -159,4 +159,11 @@
     <string name="download_canceled">रद्द!</string>
     <string name="unit_byte">B</string>
     <string name="show_entry_colors_title">प्रविष्टि के रंग</string>
+    <string name="error_rebuild_list">सूची का ठीक से पुनर्निर्माण करने में असमर्थ।</string>
+    <string name="error_file_to_big">आप जिस फ़ाइल को अपलोड करने का प्रयास कर रहे हैं वह बहुत बड़ी है।</string>
+    <string name="error_remove_file">फ़ाइल डेटा को हटाते समय त्रुटि हुई।</string>
+    <string name="error_field_name_already_exists">फ़ील्ड का नाम पहले से मौजूद है।</string>
+    <string name="error_database_uri_null">डेटाबेस URI को पुनःप्राप्त नहीं किया जा सका।</string>
+    <string name="error_upload_file">फ़ाइल डेटा को अपलोड करते समय एक त्रुटि हुई।</string>
+    <string name="error_duplicate_file">फ़ाइल डेटा पहले से उपलब्ध है।</string>
 </resources>
