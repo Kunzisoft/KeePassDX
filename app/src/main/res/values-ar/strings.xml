@@ -215,7 +215,7 @@
     <string name="keyboard_key_sound_title">صوت عند اللمس</string>
     <string name="allow_no_password_title">"إسمح بالفتح دون كلمة سر "</string>
     <string name="enable_read_only_title">محمي من التعديل</string>
-    <string name="enable_read_only_summary">افتح قاعدة البيانات للقراءة فقط افتراضيا</string>
+    <string name="enable_read_only_summary">افتح قاعدة البيانات في وضع القراءة افتراضيا</string>
     <string name="enable_education_screens_title">شاشات تعليمية</string>
     <string name="reset_education_screens_summary">أعد عرض كل المعلومات التعليمية</string>
     <string name="reset_education_screens_text">إعادة تعيين الشاشات التلميحات</string>
@@ -502,4 +502,6 @@
     <string name="custom_data">بيانات مخصصة</string>
     <string name="case_sensitive">حساسة لحالة الأحرف</string>
     <string name="regex">تعابير نمطية</string>
+    <string name="enable_keep_screen_on_title">أبق الشاشة شغّالة</string>
+    <string name="enable_education_screens_summary">أبرز العناصر لتعلم طريقة عمل التطبيق</string>
 </resources>
