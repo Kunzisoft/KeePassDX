@@ -625,4 +625,6 @@
     <string name="search_filters">Zoekfilters</string>
     <string name="current_group">Huidige groep</string>
     <string name="menu_merge_from">Samenvoegen van…</string>
+    <string name="navigation_drawer_open">Navigatiepaneel openen</string>
+    <string name="navigation_drawer_close">Navigatiepaneel sluiten</string>
 </resources>
