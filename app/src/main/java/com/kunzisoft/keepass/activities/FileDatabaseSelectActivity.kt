@@ -75,6 +75,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
+    private var specialTitle: View? = null
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -115,8 +116,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         setSupportActionBar(toolbar)
 
         // Special title
-        val specialTitle: TextView = findViewById(R.id.file_selection_title_part_3)
-        specialTitle.isVisible = UriUtil.contributingUser(this)
+        specialTitle = findViewById(R.id.file_selection_title_part_3)
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
@@ -340,6 +340,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     override fun onResume() {
         super.onResume()
+
+        // Define special title
+        specialTitle?.isVisible = UriUtil.contributingUser(this)
 
         // Show open and create button or special mode
         when (mSpecialMode) {
