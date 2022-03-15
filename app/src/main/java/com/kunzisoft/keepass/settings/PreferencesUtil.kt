@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
 
 object PreferencesUtil {
@@ -151,7 +152,7 @@ object PreferencesUtil {
 
     fun setStyle(context: Context, styleString: String) {
         var tempThemeString = styleString
-        if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context)) {
+        if (!UriUtil.contributingUser(context)) {
             if (tempThemeString in BuildConfig.STYLES_DISABLED) {
                 tempThemeString = Stylish.defaultStyle(context)
             }

@@ -25,17 +25,16 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.settings.SettingsActivity
 
 object MenuUtil {
 
-    fun defaultMenuInflater(inflater: MenuInflater, menu: Menu) {
+    fun defaultMenuInflater(context: Context, inflater: MenuInflater, menu: Menu) {
         inflater.inflate(R.menu.settings, menu)
         inflater.inflate(R.menu.about, menu)
-        if (!(BuildConfig.FULL_VERSION && BuildConfig.CLOSED_STORE))
+        if (!UriUtil.contributingUser(context))
             menu.findItem(R.id.menu_contribute)?.isVisible = false
     }
 

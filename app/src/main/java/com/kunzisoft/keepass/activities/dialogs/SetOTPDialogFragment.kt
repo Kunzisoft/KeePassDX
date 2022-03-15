@@ -204,9 +204,10 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                     android.R.layout.simple_spinner_item, mHotpTokenTypeArray!!).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
-            // Proprietary only on closed and full version
+            // Proprietary only on full version
             mTotpTokenTypeArray = OtpTokenType.getTotpTokenTypeValues(
-                    BuildConfig.CLOSED_STORE && BuildConfig.FULL_VERSION)
+                UriUtil.contributingUser(activity)
+            )
             totpTokenTypeAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, mTotpTokenTypeArray!!).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

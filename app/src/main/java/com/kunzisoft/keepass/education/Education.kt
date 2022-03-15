@@ -360,6 +360,13 @@ open class Education(val activity: Activity) {
                     context.resources.getBoolean(R.bool.education_setup_OTP_default))
         }
 
+        fun setEducationScreenReclickedPerformed(context: Context) {
+            getEducationSharedPreferences(context)
+                .edit()
+                .putBoolean(context.getString(R.string.education_screen_reclicked_key), true)
+                .apply()
+        }
+
         /**
          * Defines if the reset education preference has been reclicked
          *
