@@ -382,13 +382,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
                 val styleIdString = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
+                if (!UriUtil.contributingUser(activity)) {
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
-                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
+                            ProFeatureDialogFragment().show(
+                                parentFragmentManager,
+                                "pro_feature_dialog"
+                            )
                         }
                     }
+                }
                 if (styleEnabled) {
                     Stylish.assignStyle(activity, styleIdString)
                     // Relaunch the current activity to redraw theme
@@ -409,13 +413,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
+                if (!UriUtil.contributingUser(activity)) {
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false
-                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
+                            ProFeatureDialogFragment().show(
+                                parentFragmentManager,
+                                "pro_feature_dialog"
+                            )
                         }
                     }
+                }
                 if (iconPackEnabled) {
                     IconPackChooser.setSelectedIconPack(iconPackId)
                 }
@@ -509,9 +517,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onStop() {
         super.onStop()
         activity?.let { activity ->
-            if (mCount == 10) {
-                Education.getEducationSharedPreferences(activity).edit()
-                        .putBoolean(getString(R.string.education_screen_reclicked_key), true).apply()
+            if (mCount == 10 && !BuildConfig.CLOSED_STORE) {
+                Education.setEducationScreenReclickedPerformed(activity)
             }
         }
     }

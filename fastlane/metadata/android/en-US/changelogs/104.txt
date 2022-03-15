@@ -1,0 +1,2 @@
+ * Merge KeePassDX & KeePassDX Pro #1257
+ * Create new Contributor Pro app
