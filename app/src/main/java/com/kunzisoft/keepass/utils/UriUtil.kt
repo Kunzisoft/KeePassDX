@@ -30,6 +30,7 @@ import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.education.Education
 import java.io.*
 import java.util.*
 
@@ -255,9 +256,16 @@ object UriUtil {
         gotoUrl(context, context.getString(resId))
     }
 
-    fun isExternalAppInstalled(context: Context, packageName: String): Boolean {
+    fun contributingUser(context: Context): Boolean {
+        return (Education.isEducationScreenReclickedPerformed(context)
+                || isExternalAppInstalled(context, "com.kunzisoft.keepass.pro")
+                )
+    }
+
+    private fun isExternalAppInstalled(context: Context, packageName: String): Boolean {
         try {
             context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            Education.setEducationScreenReclickedPerformed(context)
             return true
         } catch (e: Exception) {
             Log.e(TAG, "App not accessible", e)

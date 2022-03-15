@@ -28,7 +28,7 @@
     <string name="app_name" translatable="false">KeePassDX</string>
     <string name="app_name_part1" translatable="false">KeePass</string>
     <string name="app_name_part2" translatable="false">DX</string>
-    <string name="app_name_part3" translatable="false" />
+    <string name="app_name_part3" translatable="false">Pro</string>
 
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>

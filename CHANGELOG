@@ -1,3 +1,7 @@
+KeePassDX(3.3.2)
+ * Merge KeePassDX & KeePassDX Pro #1257
+ * Create new Contributor Pro app
+
 KeePassDX(3.3.1)
  * Fix Japanese keyboard in search #1248
  * Better OOM management #256

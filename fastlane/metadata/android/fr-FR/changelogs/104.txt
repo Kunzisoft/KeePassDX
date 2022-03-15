@@ -1,0 +1,2 @@
+ * Fusion de KeePassDX & KeePassDX Pro #1257
+ * Creation de l'application Contributor Pro
