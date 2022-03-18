@@ -28,12 +28,12 @@ A clear and concise description of what you expected to happen.
  - Size: [e.g. 150Mo]
  - Contains attachment: [e.g. Yes]
 
-**KeePassDX (please complete the following information):**
+**KeePassDX:**
  - Version: [e.g. 2.5.0.0beta23]
  - Build: [e.g. Free]
  - Language: [e.g. French]
 
-**Android (please complete the following information):**
+**Android:**
  - Device: [e.g. GalaxyS8]
  - Version: [e.g. 8.1]
 
