@@ -1,5 +1,7 @@
 KeePassDX(3.3.3)
- *
+ * Ellipsize attachment name #1253
+ * Fix URL color
+ * Fingerprint unlock no more by default
 
 KeePassDX(3.3.2)
  * Merge KeePassDX & KeePassDX Pro #1257

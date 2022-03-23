@@ -1,1 +1,3 @@
- *
+ * Ellipsize le nom d'attachment #1253
+ * Correction de couleur d'URL
+ * Déblocage par empreinte n'est plus par défaut

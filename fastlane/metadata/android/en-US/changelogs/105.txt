@@ -1,1 +1,3 @@
- *
+ * Ellipsize attachment name #1253
+ * Fix URL color
+ * Fingerprint unlock no more by default
