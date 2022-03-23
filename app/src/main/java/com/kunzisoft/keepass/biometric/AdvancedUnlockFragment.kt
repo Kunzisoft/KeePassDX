@@ -613,26 +613,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         }
     }
 
-    fun performEducation(passwordActivityEducation: PasswordActivityEducation,
-                         readOnlyEducationPerformed: Boolean,
-                         onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                         onOuterViewClick: ((TapTargetView?) -> Unit)? = null) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && !readOnlyEducationPerformed) {
-                val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
-                PreferencesUtil.isAdvancedUnlockEnable(requireContext())
-                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                        && mAdvancedUnlockInfoView != null && mAdvancedUnlockInfoView?.visibility == View.VISIBLE
-                        && mAdvancedUnlockInfoView?.unlockIconImageView != null
-                        && passwordActivityEducation.checkAndPerformedBiometricEducation(mAdvancedUnlockInfoView!!.unlockIconImageView!!,
-                        onEducationViewClick,
-                        onOuterViewClick)
-            }
-        } catch (ignored: Exception) {}
-    }
-
     enum class Mode {
         BIOMETRIC_UNAVAILABLE,
         BIOMETRIC_SECURITY_UPDATE_REQUIRED,

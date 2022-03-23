@@ -39,6 +39,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
@@ -52,6 +53,7 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
+import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -594,15 +596,24 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                     {
                         performedNextEducation(menu)
                     })
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !readOnlyEducationPerformed) {
+                    val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(this)
+                    val biometricPerformed =
+                            (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                            && advancedUnlockButton != null
+                            && mPasswordActivityEducation.checkAndPerformedBiometricEducation(
+                        advancedUnlockButton!!,
+                        {
+                            startActivity(Intent(this, SettingsAdvancedUnlockActivity::class.java))
+                        },
+                        {
 
-            advancedUnlockFragment?.performEducation(mPasswordActivityEducation,
-                    readOnlyEducationPerformed,
-                    {
-                        performedNextEducation(menu)
-                    },
-                    {
-                        performedNextEducation(menu)
-                    })
+                        })
+                }
+            } catch (ignored: Exception) {}
         }
     }
 
