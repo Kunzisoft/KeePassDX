@@ -1,4 +1,4 @@
  * Correction du partage d'un lien otpauth si la base de données n'est pas ouverte #1274
  * Ellipsize le nom d'attachment #1253
  * Correction de couleur d'URL
- * Déblocage par empreinte n'est plus par défaut
+ * Déblocage par empreinte n'est plus par défaut #1273
