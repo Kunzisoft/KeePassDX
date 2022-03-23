@@ -45,6 +45,8 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -579,10 +581,13 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     private fun showViews(show: Boolean) {
         lifecycleScope.launch(Dispatchers.Main) {
-            mAdvancedUnlockInfoView?.visibility = if (show)
-                View.VISIBLE
+            if (show) {
+                if (mAdvancedUnlockInfoView?.visibility != View.VISIBLE)
+                    mAdvancedUnlockInfoView?.showByFading()
+            }
             else {
-                View.GONE
+                if (mAdvancedUnlockInfoView?.visibility == View.VISIBLE)
+                    mAdvancedUnlockInfoView?.hideByFading()
             }
         }
     }
