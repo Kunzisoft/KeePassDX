@@ -371,8 +371,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         private const val ADVANCED_UNLOCK_KEYSTORE = "AndroidKeyStore"
         private const val ADVANCED_UNLOCK_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
         private const val ADVANCED_UNLOCK_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
-        private const val ADVANCED_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_GCM
-        private const val ADVANCED_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_NONE
+        private const val ADVANCED_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
+        private const val ADVANCED_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
         @RequiresApi(api = Build.VERSION_CODES.M)
         fun canAuthenticate(context: Context): Int {
