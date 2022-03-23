@@ -1,3 +1,4 @@
+ * Fix shared otpauth link if database not open #1274
  * Ellipsize attachment name #1253
  * Fix URL color
  * Fingerprint unlock no more by default
