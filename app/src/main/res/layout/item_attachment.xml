@@ -61,7 +61,9 @@
             android:layout_toLeftOf="@+id/item_attachment_size_container"
             android:layout_toEndOf="@+id/item_attachment_broken"
             android:layout_toRightOf="@+id/item_attachment_broken"
+            android:ellipsize="end"
             android:gravity="center_vertical"
+            android:maxLines="2"
             tools:text="BinaryFile.attach" />
 
         <LinearLayout
