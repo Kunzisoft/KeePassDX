@@ -48,6 +48,7 @@
         <item name="educationTextColor">@color/white</item>
 
         <item name="android:textColor">@color/text_color_light</item>
+        <item name="android:textColorLink">@color/text_color_light</item>
         <item name="android:editTextColor">@color/grey_light</item>
         <item name="textColorInverse">@color/grey_light</item>
         <item name="android:textColorPrimaryInverse">@color/grey_light</item>
