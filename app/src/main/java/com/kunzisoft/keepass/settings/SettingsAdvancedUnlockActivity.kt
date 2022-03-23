@@ -28,6 +28,7 @@ class SettingsAdvancedUnlockActivity : SettingsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mTimeoutEnable = false
+        setTitle(NestedSettingsFragment.Screen.ADVANCED_UNLOCK)
     }
 
     override fun retrieveMainFragment(): Fragment {
