@@ -34,6 +34,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -235,6 +236,15 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         if (database != null) {
+            // Trying to load another database
+            if (mDatabaseFileUri != null
+                && database.fileUri != null
+                && mDatabaseFileUri != database.fileUri) {
+                Toast.makeText(this,
+                    R.string.warning_database_already_opened,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             launchGroupActivityIfLoaded(database)
         }
     }
