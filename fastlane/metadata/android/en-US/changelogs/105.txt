@@ -1,4 +1,5 @@
  * Fix shared otpauth link if database not open #1274
  * Ellipsize attachment name #1253
- * Fix URL color
+ * Add a warning to inform about KeyStore usage #1269
  * Fingerprint unlock no more by default #1273
+ * Fix URL color
