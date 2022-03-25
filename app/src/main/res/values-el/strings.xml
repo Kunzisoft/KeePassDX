@@ -492,7 +492,7 @@
     <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
     <string name="error_field_name_already_exists">Το όνομα πεδίου υπάρχει ήδη.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Προηγμένο ξεκλείδωμα αναγνώρισης</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Προειδοποίηση: Θα πρέπει να θυμάστε τον κύριο κωδικό πρόσβασης εάν χρησιμοποιείτε προηγμένο ξεκλείδωμα αναγνώρισης.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήριά σας εάν χρησιμοποιείτε σύνθετη αναγνώριση ξεκλειδώματος.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Ανοίξτε τη βάση δεδομένων με προηγμένο ξεκλείδωμα αναγνώρισης</string>
     <string name="open_advanced_unlock_prompt_store_credential">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για αποθήκευση διαπιστευτηρίων</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλειδώσετε τη βάση δεδομένων</string>
@@ -626,4 +626,9 @@
     <string name="regex">Κοινή έκφραση</string>
     <string name="menu_save_copy_to">Αποθήκευση αντιγράφου στο …</string>
     <string name="expired">Ληγμένο</string>
+    <string name="warning_database_already_opened">Μια βάση δεδομένων είναι ήδη ανοιχτή, κλείστε την πρώτα για να ανοίξετε τη νέα</string>
+    <string name="advanced_unlock_keystore_warning">Αυτή η δυνατότητα θα αποθηκεύσει κρυπτογραφημένα δεδομένα διαπιστευτηρίων στο ασφαλές KeyStore της συσκευής σας.
+\n
+\nΑνάλογα με την εγγενή υλοποίηση API του λειτουργικού συστήματος, ενδέχεται να μην είναι πλήρως λειτουργικό.
+\nΕλέγξτε τη συμβατότητα και την ασφάλεια του KeyStore με τον κατασκευαστή της συσκευής σας και τον δημιουργό της ROM που χρησιμοποιείτε.</string>
 </resources>
