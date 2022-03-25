@@ -497,7 +497,7 @@
     <string name="advanced_unlock_invalid_key">Gelişmiş kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma işlemini tekrarlayın.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Veri tabanı kimlik bilgilerini gelişmiş kilit açma özelliğiyle çıkarın</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Veri tabanını gelişmiş kilit açma tanıma ile aç</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Uyarı: Gelişmiş kilit açma tanıma kullanırsanız, yine de ana parolanızı hatırlamanız gerekmektedir.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Gelişmiş kilit açma tanıma kullanırsanız, yine de ana kimlik bilgilerinizi hatırlamanız gerekmektedir.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Gelişmiş kilit açma tanıma</string>
     <string name="open_advanced_unlock_prompt_store_credential">Kimlik bilgilerini saklamak için gelişmiş kilit açma istemini aç</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Veri tabanının kilidini açmak için gelişmiş kilit açma istemini aç</string>
@@ -621,4 +621,9 @@
     <string name="custom_data">Özel veri</string>
     <string name="menu_save_copy_to">Bir kopyasını şuraya kaydet…</string>
     <string name="expired">Süresi doldu</string>
+    <string name="warning_database_already_opened">Bir veri tabanı zaten açık, yenisini açmak için önce onu kapatın</string>
+    <string name="advanced_unlock_keystore_warning">Bu özellik, şifrelenen kimlik bilgilerini aygıtınızın güvenli anahtar deposunda saklayacaktır.
+\n
+\nİşletim sisteminin yerel API uygulamasına bağlı olarak, tam olarak işlevsel olmayabilir.
+\nAygıtınızın üreticisi ve kullandığınız ROM\'un geliştiricisi ile anahtar deposunun uyumluluğunu ve güvenliğini denetleyin.</string>
 </resources>
