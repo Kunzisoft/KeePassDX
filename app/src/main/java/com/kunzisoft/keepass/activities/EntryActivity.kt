@@ -44,6 +44,7 @@ import androidx.core.graphics.ColorUtils
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -83,6 +84,7 @@ class EntryActivity : DatabaseLockActivity() {
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var tagsListView: RecyclerView? = null
+    private var entryContentTab: TabLayout? = null
     private var tagsAdapter: TagsAdapter? = null
     private var entryProgress: LinearProgressIndicator? = null
     private var lockView: View? = null
@@ -133,6 +135,7 @@ class EntryActivity : DatabaseLockActivity() {
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
         tagsListView = findViewById(R.id.entry_tags_list_view)
+        entryContentTab = findViewById(R.id.entry_content_tab)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
@@ -161,6 +164,19 @@ class EntryActivity : DatabaseLockActivity() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = tagsAdapter
         }
+
+        // Init content tab
+        entryContentTab?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                mEntryViewModel.selectSection(EntryViewModel.EntrySection.
+                    getEntrySectionByPosition(tab?.position ?: 0)
+                )
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
 
         // Get Entry from UUID
         try {
@@ -191,6 +207,10 @@ class EntryActivity : DatabaseLockActivity() {
 
         lockView?.setOnClickListener {
             lockAndExit()
+        }
+
+        mEntryViewModel.sectionSelected.observe(this) { entrySection ->
+            entryContentTab?.getTabAt(entrySection.position)?.select()
         }
 
         mEntryViewModel.entryInfoHistory.observe(this) { entryInfoHistory ->

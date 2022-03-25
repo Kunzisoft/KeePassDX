@@ -16,7 +16,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
@@ -25,6 +24,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.TemplateView
+import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.*
@@ -32,6 +32,9 @@ import java.util.*
 class EntryFragment: DatabaseFragment() {
 
     private lateinit var rootView: View
+    private lateinit var mainSection: View
+    private lateinit var advancedSection: View
+
     private lateinit var templateView: TemplateView
 
     private lateinit var creationDateView: TextView
@@ -72,6 +75,10 @@ class EntryFragment: DatabaseFragment() {
         if (savedInstanceState == null) {
             view.isVisible = false
         }
+
+        mainSection = view.findViewById(R.id.entry_section_main)
+        advancedSection = view.findViewById(R.id.entry_section_advanced)
+
         templateView = view.findViewById(R.id.entry_template)
         loadTemplateSettings()
 
@@ -108,6 +115,19 @@ class EntryFragment: DatabaseFragment() {
             entryAttachmentState?.let {
                 if (it.streamDirection != StreamDirection.UPLOAD) {
                     putAttachment(it)
+                }
+            }
+        }
+
+        mEntryViewModel.sectionSelected.observe(viewLifecycleOwner) { entrySection ->
+            when (entrySection ?: EntryViewModel.EntrySection.MAIN) {
+                EntryViewModel.EntrySection.MAIN -> {
+                    mainSection.showByFading()
+                    advancedSection.hideByFading()
+                }
+                EntryViewModel.EntrySection.ADVANCED -> {
+                    mainSection.hideByFading()
+                    advancedSection.showByFading()
                 }
             }
         }
