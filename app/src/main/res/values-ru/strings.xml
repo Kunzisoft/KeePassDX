@@ -500,7 +500,7 @@
     <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ расширенной разблокировки. Удалите его и повторите процедуру распознавания разблокировки.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием расширенной разблокировки</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Открыть базу с расширенным распознаванием разблокировки</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Предупреждение: даже при использовании расширенной разблокировки вам всё равно необходимо помнить главный пароль.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">При использовании расширенной разблокировки вам всё равно необходимо помнить основные учётные данные.</string>
     <string name="open_advanced_unlock_prompt_store_credential">Открыть запрос расширенной разблокировки для сохранения учётных данных</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Открыть запрос расширенной разблокировки для разблокировки базы</string>
     <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки\?</string>
@@ -626,4 +626,9 @@
     <string name="current_group">Текущая группа</string>
     <string name="custom_data">Пользовательские данные</string>
     <string name="expired">Срок действия истёк</string>
+    <string name="warning_database_already_opened">База уже открыта, закройте её, прежде чем открыть новую</string>
+    <string name="advanced_unlock_keystore_warning">Эта функция будет хранить зашифрованные учётные данные в безопасном хранилище ключей вашего устройства.
+\n
+\nВ зависимости от конкретной реализации API операционной системы, он может быть не полностью функциональным.
+\nПроверьте совместимость и безопасность хранилища ключей через производителя устройства и разработчика используемого ПЗУ.</string>
 </resources>
