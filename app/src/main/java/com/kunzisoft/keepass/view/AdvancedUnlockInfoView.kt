@@ -42,7 +42,7 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
     private var unlockAnimatedVector: FingerPrintAnimatedVector? = null
     private var unlockTitleTextView: TextView? = null
     private var unlockMessageTextView: TextView? = null
-    var unlockIconImageView: ImageView? = null
+    private var unlockIconImageView: ImageView? = null
 
     init {
 

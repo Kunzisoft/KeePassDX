@@ -1,3 +1,11 @@
+KeePassDX(3.3.3)
+ * Fix shared otpauth link if database not open #1274
+ * Ellipsize attachment name #1253
+ * Add a warning to inform about KeyStore usage #1269
+ * Fingerprint unlock no more by default #1273
+ * Tabs to show main and advanced content separately
+ * Fix URL color
+
 KeePassDX(3.3.2)
  * Merge KeePassDX & KeePassDX Pro #1257
  * Create new Contributor Pro app

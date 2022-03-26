@@ -165,15 +165,8 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                     {
                         // If database not open
                         if (searchInfo.otpString != null) {
-                            if (!readOnly) {
-                                FileDatabaseSelectActivity.launchForSaveResult(this,
-                                        searchInfo)
-                            } else {
-                                Toast.makeText(applicationContext,
-                                        R.string.autofill_read_only_save,
-                                        Toast.LENGTH_LONG)
-                                        .show()
-                            }
+                            FileDatabaseSelectActivity.launchForSaveResult(this,
+                                    searchInfo)
                         } else if (searchShareForMagikeyboard) {
                             FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
                                     searchInfo)

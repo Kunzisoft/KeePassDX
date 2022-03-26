@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Informacje zwrotne</string>
     <string name="homepage">Strona główna</string>
-    <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
+    <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
@@ -83,7 +83,7 @@
     <string name="lowercase">Małe litery</string>
     <string name="hide_password_title">Ukryj hasła</string>
     <string name="hide_password_summary">Maskuj hasła (***) domyślnie</string>
-    <string name="about">O programie</string>
+    <string name="about">Informacje</string>
     <string name="menu_change_key_settings">Zmień klucz główny</string>
     <string name="settings">Ustawienia</string>
     <string name="menu_database_settings">Ustawienia bazy danych</string>
@@ -114,7 +114,7 @@
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
-    <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
+    <string name="education_unlock_summary">Wprowadź hasło i/lub plik klucza, aby odblokować bazę danych.
 \n
 \nUtwórz kopię zapasową pliku bazy danych w bezpiecznym miejscu po każdej zmianie.</string>
     <string-array name="list_size_options">
@@ -163,8 +163,8 @@
     <string name="parallelism_explanation">Stopień równoległości (tj. liczba wątków) wykorzystywany przez funkcję wyprowadzania klucza.</string>
     <string name="sort_menu">Sortuj</string>
     <string name="sort_ascending">Od najniższej ↓</string>
-    <string name="sort_username">Nazwa Użytkownika</string>
-    <string name="sort_creation_time">Utwórz</string>
+    <string name="sort_username">Nazwa użytkownika</string>
+    <string name="sort_creation_time">Utworzenie</string>
     <string name="sort_last_modify_time">Modyfikacja</string>
     <string name="sort_last_access_time">Dostęp</string>
     <string name="warning">Ostrzeżenie</string>
@@ -196,8 +196,8 @@
     <string name="lock">Blokada</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych po kilku sekundach od wyłączenia ekranu</string>
-    <string name="advanced_unlock">Odcisk palca</string>
-    <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
+    <string name="advanced_unlock">Zaawansowane odblokowywanie</string>
+    <string name="biometric_unlock_enable_title">Odblokowywanie biometryczne</string>
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
     <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrujące związane z zaawansowanym rozpoznawaniem odblokowania</string>
@@ -260,20 +260,20 @@
 \n
 \nUżyj preferowanej metody wypełniania formularzy.</string>
     <string name="education_lock_title">Zablokuj bazę danych</string>
-    <string name="education_lock_summary">Szybko zablokuj bazę danych, możesz skonfigurować aplikację, by po chwili ją zablokować, i gdy ekran się wyłączy.</string>
+    <string name="education_lock_summary">Szybko zablokuj bazę danych, możesz skonfigurować aplikację tak, aby blokowała ją po pewnym czasie i po wyłączeniu ekranu.</string>
     <string name="education_sort_title">Sortowanie elementów</string>
     <string name="education_sort_summary">Wybierz sposób sortowania wpisów i grup.</string>
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
-    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem copyleftted&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
+    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od <strong>reklam</strong>, <strong>jest wolnym oprogramowaniem objętym klauzulą copyleft</strong> i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
     <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój &lt;strong&gt;wkład.&lt;/strong&gt;</string>
-    <string name="html_text_dev_feature">Ta funkcja jest &lt;strong&gt;rozwojowa&lt;/strong&gt; i wymaga twojego &lt;strong&gt;wkładu&lt;/strong&gt; aby być wkrótce dostępną.</string>
-    <string name="html_text_dev_feature_buy_pro">Kupując wersję &lt;strong&gt;pro&lt;/strong&gt; wersja,</string>
+    <string name="html_text_dev_feature">Ta funkcja jest <strong>rozwojowa</strong> i wymaga Twojego <strong>wkładu</strong>, aby być wkrótce dostępną.</string>
+    <string name="html_text_dev_feature_buy_pro">Kupując wersję <strong>pro</strong>,</string>
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">zachęcasz programistów do tworzenia &lt;strong&gt;nowych funkcji&lt;/strong&gt; i &lt;strong&gt;naprawy błędów&lt;/strong&gt; zgodnie z Twoimi uwagami.</string>
-    <string name="html_text_dev_feature_thanks">Wielkie dzięki za twój wkład.</string>
+    <string name="html_text_dev_feature_thanks">Wielkie dzięki za Twój wkład.</string>
     <string name="html_text_dev_feature_work_hard">Ciężko pracujemy, aby szybko udostępnić tę funkcję.</string>
     <string name="html_text_dev_feature_upgrade">Pamiętaj, aby aktualizować swoją aplikację, instalując nowe wersje.</string>
     <string name="download">Pobieranie</string>
@@ -367,7 +367,7 @@
     <string name="database_default_username_title">Domyślna nazwa użytkownika</string>
     <string name="database_custom_color_title">Niestandardowy kolor bazy danych</string>
     <string name="compression">Kompresja</string>
-    <string name="compression_none">Żaden</string>
+    <string name="compression_none">Żadna</string>
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
     <string name="error_invalid_OTP">Nieprawidłowy klucz tajny OTP.</string>
@@ -377,7 +377,7 @@
     <string name="error_otp_period">Okres musi wynosić od %1$d do %2$d sekund.</string>
     <string name="error_otp_digits">Token musi zawierać cyfry od %1$d do %2$d.</string>
     <string name="invalid_db_same_uuid">%1$s o tym samym identyfikatorze UUID %2$s już istnieje.</string>
-    <string name="contains_duplicate_uuid_procedure">Rozwiązać problem poprzez stworzenie nowych identyfikatory UUID duplikatów, aby kontynuować\?</string>
+    <string name="contains_duplicate_uuid_procedure">Rozwiązać problem, generując nowe identyfikatory UUID dla duplikatów, aby kontynuować\?</string>
     <string name="clipboard_explanation_summary">Skopiuj pola wprowadzania danych za pomocą schowka urządzenia</string>
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych</string>
@@ -408,7 +408,7 @@
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
-    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;sprawdzać błędy&lt;/strong&gt;, &lt;strong&gt;dodać funkcje&lt;/strong&gt; i &lt;strong&gt;by być zawsze aktywnym&lt;/strong&gt;, liczymy na twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Aby <strong>zachować naszą wolność</strong>, <strong>sprawdzać błędy</strong>, <strong>dodawać funkcje</strong> i <strong> być zawsze aktywnym</strong>, liczymy na Twój <strong>wkład</strong>.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
     <string name="remember_database_locations_title">Zapamiętaj lokalizacje baz danych</string>
@@ -445,7 +445,7 @@
     <string name="subdomain_search_summary">Wyszukiwanie domen internetowych z ograniczeniami związanymi z subdomenami</string>
     <string name="error_string_type">Ten tekst nie pasuje do żądanej pozycji.</string>
     <string name="content_description_add_item">Dodaj pozycję</string>
-    <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
+    <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie domen internetowych</string>
     <string name="autofill_web_domain_blocklist_title">Lista zablokowanych domen internetowych</string>
     <string name="autofill_application_id_blocklist_title">Lista zablokowanych aplikacji</string>
     <string name="keyboard_previous_fill_in_summary">Automatycznie przełącz się z powrotem na poprzednią klawiaturę po wykonaniu automatycznej akcji klawiszy</string>
@@ -496,9 +496,9 @@
     <string name="select_entry">Wybierz pozycję</string>
     <string name="back_to_previous_keyboard">Wróć do poprzedniej klawiatury</string>
     <string name="custom_fields">Pola niestandardowe</string>
-    <string name="advanced_unlock_delete_all_key_warning">Czy usunąć wszystkie klucze szyfrowania związane z zaawansowanym rozpoznawaniem odblokowania\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Czy usunąć wszystkie klucze szyfrowania związane z zaawansowanym rozpoznawaniem odblokowywania\?</string>
     <string name="device_credential_unlock_enable_summary">Umożliwia otwieranie bazy danych za pomocą poświadczeń urządzenia</string>
-    <string name="device_credential_unlock_enable_title">Odblokowanie uwierzytelniające urządzenia</string>
+    <string name="device_credential_unlock_enable_title">Odblokowywanie uwierzytelniające urządzenia</string>
     <string name="device_credential">Uwierzytelnienie urządzenia</string>
     <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij ten przycisk.</string>
     <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
@@ -511,7 +511,7 @@
     <string name="education_advanced_unlock_title">Zaawansowane odblokowywanie bazy danych</string>
     <string name="advanced_unlock_timeout">Limit czasu zaawansowanego odblokowywania</string>
     <string name="temp_advanced_unlock_timeout_summary">Czas trwania zaawansowanego odblokowywania przed usunięciem jego zawartości</string>
-    <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie zaawansowanego odblokowania</string>
+    <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie zaawansowanego odblokowywania</string>
     <string name="temp_advanced_unlock_enable_summary">Nie przechowuj żadnych zaszyfrowanych treści, aby korzystać z zaawansowanego odblokowywania</string>
     <string name="advanced_unlock_tap_delete">Naciśnij, aby usunąć zaawansowane klucze odblokowujące</string>
     <string name="content">Zawartość</string>
@@ -524,7 +524,7 @@
     <string name="autofill_inline_suggestions_summary">Spróbuj wyświetlić sugestie autouzupełniania bezpośrednio z kompatybilnej klawiatury</string>
     <string name="temp_advanced_unlock_enable_title">Zaawansowane odblokowywanie tymczasowe</string>
     <string name="advanced_unlock_prompt_not_initialized">Nie można zainicjować monitu odblokowania zaawansowanego.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby przechowywać poświadczenia</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
     <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianam.</string>

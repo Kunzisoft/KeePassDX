@@ -34,11 +34,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
 import com.google.android.material.snackbar.Snackbar
@@ -52,6 +54,7 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
+import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -63,6 +66,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -79,6 +83,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     // Views
     private var toolbar: Toolbar? = null
     private var filenameView: TextView? = null
+    private var advancedUnlockButton: View? = null
     private var mainCredentialView: MainCredentialView? = null
     private var confirmButtonView: Button? = null
     private var infoContainerView: ViewGroup? = null
@@ -116,6 +121,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         filenameView = findViewById(R.id.filename)
+        advancedUnlockButton = findViewById(R.id.activity_password_advanced_unlock_button)
         mainCredentialView = findViewById(R.id.activity_password_credentials)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         infoContainerView = findViewById(R.id.activity_password_info_container)
@@ -143,6 +149,11 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         getUriFromIntent(intent)
 
         // Init Biometric elements
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            advancedUnlockButton?.setOnClickListener {
+                startActivity(Intent(this, SettingsAdvancedUnlockActivity::class.java))
+            }
+        }
         advancedUnlockFragment = supportFragmentManager
                 .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
         if (advancedUnlockFragment == null) {
@@ -227,6 +238,15 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
         if (database != null) {
+            // Trying to load another database
+            if (mDatabaseFileUri != null
+                && database.fileUri != null
+                && mDatabaseFileUri != database.fileUri) {
+                Toast.makeText(this,
+                    R.string.warning_database_already_opened,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
             launchGroupActivityIfLoaded(database)
         }
     }
@@ -588,15 +608,24 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                     {
                         performedNextEducation(menu)
                     })
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !readOnlyEducationPerformed) {
+                    val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(this)
+                    val biometricPerformed =
+                            (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                            && advancedUnlockButton != null
+                            && mPasswordActivityEducation.checkAndPerformedBiometricEducation(
+                        advancedUnlockButton!!,
+                        {
+                            startActivity(Intent(this, SettingsAdvancedUnlockActivity::class.java))
+                        },
+                        {
 
-            advancedUnlockFragment?.performEducation(mPasswordActivityEducation,
-                    readOnlyEducationPerformed,
-                    {
-                        performedNextEducation(menu)
-                    },
-                    {
-                        performedNextEducation(menu)
-                    })
+                        })
+                }
+            } catch (ignored: Exception) {}
         }
     }
 

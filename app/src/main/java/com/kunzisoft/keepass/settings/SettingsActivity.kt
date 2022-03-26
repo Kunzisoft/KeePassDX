@@ -225,8 +225,12 @@ open class SettingsActivity
             commit()
         }
 
-        toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
+        setTitle(key)
         hideOrShowLockButton(key)
+    }
+
+    protected fun setTitle(key: NestedSettingsFragment.Screen) {
+        toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
     }
 
     /**

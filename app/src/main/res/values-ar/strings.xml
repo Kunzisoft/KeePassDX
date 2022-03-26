@@ -20,12 +20,12 @@
     <string name="homepage">الصفحة الرئيسة</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
-    <string name="encryption">التشفير</string>
-    <string name="encryption_algorithm">خوارزمية التشفير</string>
+    <string name="encryption">التعميّة</string>
+    <string name="encryption_algorithm">خوارزمية التعميّة</string>
     <string name="application">التطبيق</string>
     <string name="brackets">الأقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
-    <string name="allow">السماح</string>
+    <string name="allow">سماح</string>
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>
     <string name="clipboard_error_clear">تعذَّر مسح الحافظة</string>
@@ -104,14 +104,14 @@
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
-    <string name="feedback">ردود الفعل</string>
+    <string name="feedback">أرسل انطباعاتك</string>
     <string name="about_description">التنفيذ لمُدير كلمات المرور «كي‌ باس» على نظام أندرويد</string>
-    <string name="add_entry">إضافة إدخال</string>
-    <string name="edit_entry">تحرير الإدخال</string>
+    <string name="add_entry">أضف مدخل</string>
+    <string name="edit_entry">تحرير مدخل</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">المهلة</string>
     <string name="app_timeout_summary">مدة الخمول قبل قفل قاعدة البيانات</string>
-    <string name="file_manager_install_description">المحرر الذي يمتلك صلاحتي ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانشاء, وفتح وحفض قواعد البيانات.</string>
+    <string name="file_manager_install_description">مدير الملفات الذي يمكنه القيام بالإجراءين ACTION_CREATE_DOCUMENT و ACTION_OPEN_DOCUMENT ضروري لانشاء, وفتح وحفض قواعد البيانات.</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة(إذا كان جهازك يدعمها)</string>
@@ -141,7 +141,7 @@
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
-    <string name="list_entries_show_username_summary">أظهر أسماء المستخدمين في قوائم المدخلات</string>
+    <string name="list_entries_show_username_summary">اعرض اسماء المستخدمين في قوائم المدخلات</string>
     <string name="hint_generated_password">كلمة السر الموَلدة</string>
     <string name="hint_keyfile">الملف المفتاحي</string>
     <string name="hide_password_title">اخفاء كلمات السر</string>
@@ -215,7 +215,7 @@
     <string name="keyboard_key_sound_title">صوت عند اللمس</string>
     <string name="allow_no_password_title">"إسمح بالفتح دون كلمة سر "</string>
     <string name="enable_read_only_title">محمي من التعديل</string>
-    <string name="enable_read_only_summary">افتح قاعدة البيانات للقراءة فقط افتراضيا</string>
+    <string name="enable_read_only_summary">افتح قاعدة البيانات في وضع القراءة افتراضيا</string>
     <string name="enable_education_screens_title">شاشات تعليمية</string>
     <string name="reset_education_screens_summary">أعد عرض كل المعلومات التعليمية</string>
     <string name="reset_education_screens_text">إعادة تعيين الشاشات التلميحات</string>
@@ -236,7 +236,7 @@
     <string name="reset_education_screens_title">إعادة تعيين الشاشات التعليمية</string>
     <string name="education_search_title">البحث من خلال الإدخالات</string>
     <string name="content_description_open_file">افتح الملف</string>
-    <string name="content_description_add_entry">إضافة إدخال</string>
+    <string name="content_description_add_entry">إضافة مدخلة</string>
     <string name="content_description_add_group">إضافة مجموعة</string>
     <string name="content_description_file_information">معلومات الملف</string>
     <string name="entry_password_generator">مولد كلمة السر</string>
@@ -254,8 +254,8 @@
     <string name="content_description_password_length">طول كلمة السر</string>
     <string name="entry_add_field">أضف حقل</string>
     <string name="content_description_remove_field">أزل حقل</string>
-    <string name="error_move_entry_here">لا يمكن نقل إدخال هنا.</string>
-    <string name="error_copy_entry_here">لا يمكن نسخ إدخال هنا.</string>
+    <string name="error_move_entry_here">يتعذر نقل مدخل إلى هنا.</string>
+    <string name="error_copy_entry_here">يتعذر نسخ مدخال إلى هنا.</string>
     <string name="list_groups_show_number_entries_title">عرض عدد المدخلات</string>
     <string name="list_groups_show_number_entries_summary">عرض عدد المدخلات في المجموعة</string>
     <string name="content_description_update_from_list">تحديث</string>
@@ -302,7 +302,7 @@
     <string name="menu_delete_entry_history">احذف السجل</string>
     <string name="menu_restore_entry_history">استعادة السجل</string>
     <string name="menu_empty_recycle_bin">أفرغ سلة المحذوفات</string>
-    <string name="menu_save_database">اِحفظ قاعدة البيانات</string>
+    <string name="menu_save_database">اِحفظ البيانات</string>
     <string name="menu_master_key_settings">إعدادات المفتاح الرئيسي</string>
     <string name="menu_security_settings">إعدادات الأمن</string>
     <string name="creating_database">ينشئ قاعدة البيانات…</string>
@@ -458,7 +458,7 @@
     <string name="error_rebuild_list">يتعذر إعادة بناء القائمة بشكل صحيح.</string>
     <string name="menu_keystore_remove_key">احذف رمز فك القفل المتقدم</string>
     <string name="menu_form_filling_settings">تعبئة الحقول</string>
-    <string name="menu_reload_database">أعد تحميل قاعدة البيانات</string>
+    <string name="menu_reload_database">أعد تحميل البيانات</string>
     <string name="menu_external_icon">أيقونة خارجية</string>
     <string name="registration_mode">وضع التسجيل</string>
     <string name="import_app_properties_title">استورد خصائص التطبيق</string>
@@ -468,7 +468,7 @@
     <string name="error_import_app_properties">خطأ أثناء استيراد خصائص التطبيق</string>
     <string name="error_export_app_properties">خطأ أثناء تصدير خصائص التطبيق</string>
     <string name="warning_database_info_changed">غُيِّرت معلومات قاعدة البيانات من خارج هذا التطبيق.</string>
-    <string name="warning_database_info_changed_options">اكتب فوق التعديلات الخارجية عن طريق حفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
+    <string name="warning_database_info_changed_options">ادمج البيانات أو استبدل التعديلات الخارجية بحفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
     <string name="open_advanced_unlock_prompt_store_credential">افتح محث فك القفل المتقدم لتخزين بيانات الاعتماد</string>
     <string name="open_advanced_unlock_prompt_unlock_database">افتح محث فك القفل المتقدم لفتح قاعدة البيانات</string>
     <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
@@ -486,4 +486,22 @@
     <string name="autofill_save_search_info_title">احفظ معلومات البحث</string>
     <string name="autofill_ask_to_save_data_title">اسأل لحفظ البيانات</string>
     <string name="content_description_database_color">لون قاعدة البيانات</string>
+    <string name="menu_merge_from">ادمج من…</string>
+    <string name="show_uuid_summary">يعرض \"المعرف العام\" المرتبط بمُدخل او بمجموعة</string>
+    <string name="expired">انتهت المهلة</string>
+    <string name="tags">الوسوم</string>
+    <string name="menu_merge_database">ادمج البيانات</string>
+    <string name="current_group">المجموعة الحالية</string>
+    <string name="search_filters">مرشحات البحث</string>
+    <string name="warning_file_too_big">يفترض بقاعدة البيانات أن تحوي ملفات صغيرة الحجم ( كمفاتيح PGP).
+\n
+\nبرفع هذا الملف قد يزداد حجم قاعدة البيانات ويضعف أداءها.</string>
+    <string name="error_move_group_here">يتعذر نقل المجموعة إلى هنا.</string>
+    <string name="menu_save_copy_to">احفظ نسخة إلى…</string>
+    <string name="searchable">يمكن البحث عنه</string>
+    <string name="custom_data">بيانات مخصصة</string>
+    <string name="case_sensitive">حساسة لحالة الأحرف</string>
+    <string name="regex">تعابير نمطية</string>
+    <string name="enable_keep_screen_on_title">أبق الشاشة شغّالة</string>
+    <string name="enable_education_screens_summary">أبرز العناصر لتعلم طريقة عمل التطبيق</string>
 </resources>
