@@ -502,7 +502,7 @@
     <string name="advanced_unlock_invalid_key">无法读取高级解锁密钥。请删除它，并重复解锁识别步骤。</string>
     <string name="advanced_unlock_prompt_extract_credential_message">用高级解锁数据提取数据库凭据</string>
     <string name="advanced_unlock_prompt_extract_credential_title">用高级解锁识别打开数据库</string>
-    <string name="advanced_unlock_prompt_store_credential_message">警告：即使您使用高级解锁识别，您仍然需要记住您的主密码。</string>
+    <string name="advanced_unlock_prompt_store_credential_message">即使您使用高级解锁识别，您仍然需要记住您的主凭据。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高级解锁识别</string>
     <string name="open_advanced_unlock_prompt_store_credential">点击以打开高级解锁提示来存储凭证</string>
     <string name="open_advanced_unlock_prompt_unlock_database">点击以使用高级识别解锁</string>
@@ -627,4 +627,9 @@
     <string name="case_sensitive">区分大小写</string>
     <string name="auto_type">自动输入</string>
     <string name="expired">已过期</string>
+    <string name="warning_database_already_opened">已经打开一个数据库，请先关闭它再打开新数据库</string>
+    <string name="advanced_unlock_keystore_warning">此功能将把加密的凭据数据存储在你设备的安全 KeyStore 中。
+\n
+\n取决于操作系统的原生 API 实现，它可能无法完全正常工作。
+\n请与设备制造商和你正使用的 ROM 的创建者一起检查 KeyStore 的兼容性和安全性。</string>
 </resources>
