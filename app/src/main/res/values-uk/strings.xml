@@ -502,7 +502,7 @@
     <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розширеного розблокування. Видаліть його та повторіть процедуру створення ключа.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розширеного розблокування</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Відкрити базу даних розширеним розпізнаванням розблокування</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Попередження: Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати головний пароль.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати основні облікові дані.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Розпізнавання розширеного розблокування</string>
     <string name="open_advanced_unlock_prompt_store_credential">Відкривати запит розширеного розблокування, щоб зберегти облікові дані</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Відкривати запит розширеного розблокування, щоб розблокувати базу даних</string>
@@ -626,4 +626,9 @@
     <string name="auto_type_sequence">Послідовність автовведення</string>
     <string name="menu_save_copy_to">Зберегти копію в …</string>
     <string name="expired">Термін дії завершився</string>
+    <string name="warning_database_already_opened">База даних уже відкрита, спочатку закрийте її, щоб відкрити нову</string>
+    <string name="advanced_unlock_keystore_warning">Ця функція зберігатиме зашифровані облікові дані в захищеному сховищі ключів вашого пристрою.
+\n
+\nЗалежно від вбудованої реалізації API операційної системи, вона може бути не повністю функціональною.
+\nПеревірте сумісність і безпеку сховища ключів із виробником вашого пристрою та творцем використовуваного ROM.</string>
 </resources>
