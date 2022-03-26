@@ -943,7 +943,7 @@ class Database {
                 } else {
                     var outputStream: OutputStream? = null
                     try {
-                        outputStream = contentResolver.openOutputStream(saveUri, "rwt")
+                        outputStream = contentResolver.openOutputStream(saveUri, "wt")
                         outputStream?.let { definedOutputStream ->
                             val databaseOutput =
                                 mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
