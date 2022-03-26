@@ -68,7 +68,7 @@
     <string name="error_pass_gen_type">Je moet minimaal één soort wachtwoordgenerering kiezen.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Deze wordt ingesteld op 2147483648.</string>
-    <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
+    <string name="error_wrong_length">Voer in het veld \"Lengte\" een positief geheel getal in.</string>
     <string name="file_browser">Bestandsbeheer</string>
     <string name="generate_password">Wachtwoord genereren</string>
     <string name="hint_conf_pass">Wachtwoord bevestigen</string>
@@ -184,8 +184,8 @@
     <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
     <string name="general">Algemeen</string>
-    <string name="autofill">Auto-aanvullen</string>
-    <string name="autofill_service_name">KeePassDX auto-aanvullendienst</string>
+    <string name="autofill">Automatisch aanvullen</string>
+    <string name="autofill_service_name">KeePassDX dienst automatisch aanvullen</string>
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
     <string name="set_autofill_service_title">Dienst automatisch aanvullen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>
@@ -440,7 +440,7 @@
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
     <string name="autofill_web_domain_blocklist_summary">Lijst die het automatisch invullen bij webdomeinen voorkomt</string>
-    <string name="autofill_web_domain_blocklist_title">Webdomein blokkeringslijst</string>
+    <string name="autofill_web_domain_blocklist_title">Webdomein-blokkeringslijst</string>
     <string name="autofill_application_id_blocklist_summary">Lijst die het automatisch invullen bij apps voorkomt</string>
     <string name="autofill_application_id_blocklist_title">Applicatieblokkering</string>
     <string name="filter">Filteren</string>
@@ -474,7 +474,7 @@
     <string name="show_uuid_summary">Toont de UUID die is gekoppeld aan een item of een groep</string>
     <string name="show_uuid_title">UUID tonen</string>
     <string name="autofill_read_only_save">Het opslaan van gegevens is niet toegestaan voor een database die is geopend als alleen-lezen.</string>
-    <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer een formulier is gevalideerd</string>
+    <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer het invullen van een formulier is voltooid</string>
     <string name="autofill_ask_to_save_data_title">Vragen om gegevens op te slaan</string>
     <string name="autofill_save_search_info_summary">Probeer zoekinformatie op te slaan bij het maken van een handmatige selectie</string>
     <string name="autofill_save_search_info_title">Zoekinformatie opslaan</string>
@@ -614,4 +614,17 @@
     <string name="show_entry_colors_title">Itemkleuren</string>
     <string name="show_entry_colors_summary">Toont voorgrond- en achtergrondkleuren in een item</string>
     <string name="wireless">Wi-Fi</string>
+    <string name="auto_type_sequence">Auto-Type tekenreeks</string>
+    <string name="expired">Verlopen</string>
+    <string name="menu_save_copy_to">Kopie opslaan naar…</string>
+    <string name="searchable">Doorzoekbaar</string>
+    <string name="inherited">Overerving</string>
+    <string name="custom_data">Aangepaste gegevens</string>
+    <string name="case_sensitive">Hoofdlettergevoelig</string>
+    <string name="regex">Reguliere expressie</string>
+    <string name="search_filters">Zoekfilters</string>
+    <string name="current_group">Huidige groep</string>
+    <string name="menu_merge_from">Samenvoegen van…</string>
+    <string name="navigation_drawer_open">Navigatiepaneel openen</string>
+    <string name="navigation_drawer_close">Navigatiepaneel sluiten</string>
 </resources>

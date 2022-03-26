@@ -625,4 +625,5 @@
     <string name="current_group">Τρέχουσα ομάδα</string>
     <string name="regex">Κοινή έκφραση</string>
     <string name="menu_save_copy_to">Αποθήκευση αντιγράφου στο …</string>
+    <string name="expired">Ληγμένο</string>
 </resources>

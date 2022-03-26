@@ -517,7 +517,7 @@
     <string name="advanced_unlock_invalid_key">Impossible de lire la clé de déverrouillage avancé. Veuillez la supprimer et répéter la procédure de reconnaissance de déverrouillage.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraire les identifiants de la base de données avec des données de déverrouillage avancées</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance de déverrouillage avancée</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Attention : vous devez toujours vous souvenir de votre mot de passe principal si vous utilisez le déverrouillage avancé.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Vous devez toujours vous souvenir de votre identifiant principal si vous utilisez le déverrouillage avancé.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconnaissance de déverrouillage avancée</string>
     <string name="open_advanced_unlock_prompt_store_credential">Ouvrez l\'invite de déverrouillage avancé pour stocker les informations d\'identification</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Ouvrez l\'invite de déverrouillage avancé pour déverrouiller la base de données</string>
@@ -636,4 +636,9 @@
     <string name="custom_data">Données personnalisées</string>
     <string name="case_sensitive">Sensible à la casse</string>
     <string name="expired">Expiré</string>
+    <string name="warning_database_already_opened">Une base de données est déjà ouverte, fermez-la d\'abord pour ouvrir la nouvelle base</string>
+    <string name="advanced_unlock_keystore_warning">Cette fonction permet de stocker des données d\'identification chiffrées dans le KeyStore sécurisé de votre appareil.
+\n
+\nSelon l\'implémentation de l\'API native du système d\'exploitation, il se peut qu\'elle ne soit pas entièrement fonctionnelle.
+\nVérifiez la compatibilité et la sécurité du KeyStore auprès du fabricant de votre appareil et du créateur de la ROM que vous utilisez.</string>
 </resources>

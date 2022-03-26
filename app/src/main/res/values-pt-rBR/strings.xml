@@ -284,7 +284,7 @@
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
     <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Compilação %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Configurações do Magikeyboard</string>
@@ -561,7 +561,7 @@
     <string name="education_advanced_unlock_title">Desbloqueio avançado de banco de dados</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
     <string name="autofill_read_only_save">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
-    <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados quando um formulário for validado</string>
+    <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Perguntar para salvar dados</string>
     <string name="autofill_save_search_info_summary">Tente salvar informações de pesquisa ao fazer uma seleção manual de entrada</string>
     <string name="autofill_save_search_info_title">Salvar informações de busca</string>
@@ -609,7 +609,7 @@
     <string name="enable_keep_screen_on_summary">Mantenha a tela ligada enquanto estiver vendo a entrada</string>
     <string name="show_entry_colors_title">Cores de entrada</string>
     <string name="show_entry_colors_summary">Exibe as cores de primeiro plano e de fundo em uma entrada</string>
-    <string name="error_move_group_here">Você não pode mover um grupo aqui.</string>
+    <string name="error_move_group_here">Você não pode mover um grupo pra cá.</string>
     <string name="wireless">Wi-Fi</string>
     <string name="warning_keyfile_integrity">O hash do arquivo não é garantido porque o Android pode alterar seus dados em tempo real. Altere a extensão do arquivo para .bin para obter a integridade correta.</string>
     <string name="content_description_nav_header">Cabeçalho de navegação</string>
@@ -620,4 +620,10 @@
     <string name="menu_merge_from">Mesclar de…</string>
     <string name="menu_save_copy_to">Salvar uma cópia em…</string>
     <string name="navigation_drawer_close">Gaveta de navegação fechada</string>
+    <string name="expired">Expirou</string>
+    <string name="regex">Expressão regular</string>
+    <string name="auto_type_sequence">Sequência de preenchimento automático</string>
+    <string name="search_filters">Filtros de pesquisa</string>
+    <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
+    <string name="current_group">Grupo atual</string>
 </resources>
