@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.utils
 
 import android.graphics.Color
 import com.kunzisoft.keepass.app.database.IOActionTask
+import kotlinx.coroutines.*
 import me.gosimple.nbvcxz.Nbvcxz
 import me.gosimple.nbvcxz.resources.Configuration
 import me.gosimple.nbvcxz.resources.ConfigurationBuilder
@@ -30,6 +31,7 @@ import kotlin.math.min
 class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
 
     private var mPasswordEntropyCalculator: Nbvcxz? = null
+    private var entropyJob: Job? = null
 
     init {
         IOActionTask({
@@ -62,31 +64,42 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
 
     fun getEntropyStrength(passwordString: String,
                            entropyStrengthResult: (EntropyStrength) -> Unit) {
-        val estimate = mPasswordEntropyCalculator?.estimate(passwordString)
-        val basicScore = estimate?.basicScore ?: 0
-        val entropy = estimate?.entropy ?: 0.0
-        val percentScore = min(entropy*100/200, 100.0).toInt()
-        val strength =
-            if (basicScore == 0 || percentScore < 10) {
-                Strength.RISKY
-            } else if (basicScore == 1 || percentScore < 20) {
-                Strength.VERY_GUESSABLE
-            } else if (basicScore == 2 || percentScore < 33) {
-                Strength.SOMEWHAT_GUESSABLE
-            } else if (basicScore == 3 || percentScore < 50) {
-                Strength.SAFELY_UNGUESSABLE
-            } else if (basicScore == 4) {
-                Strength.VERY_UNGUESSABLE
-            } else {
-                Strength.RISKY
+
+        entropyJob?.cancel()
+        entropyJob = CoroutineScope(Dispatchers.Main).launch {
+            withContext(Dispatchers.IO) {
+                val asyncResult: Deferred<EntropyStrength?> = async {
+                    try {
+                        val estimate = mPasswordEntropyCalculator?.estimate(passwordString)
+                        val basicScore = estimate?.basicScore ?: 0
+                        val entropy = estimate?.entropy ?: 0.0
+                        val percentScore = min(entropy*100/200, 100.0).toInt()
+                        val strength =
+                            if (basicScore == 0 || percentScore < 10) {
+                                Strength.RISKY
+                            } else if (basicScore == 1 || percentScore < 20) {
+                                Strength.VERY_GUESSABLE
+                            } else if (basicScore == 2 || percentScore < 33) {
+                                Strength.SOMEWHAT_GUESSABLE
+                            } else if (basicScore == 3 || percentScore < 50) {
+                                Strength.SAFELY_UNGUESSABLE
+                            } else if (basicScore == 4) {
+                                Strength.VERY_UNGUESSABLE
+                            } else {
+                                Strength.RISKY
+                            }
+                        EntropyStrength(strength, entropy, percentScore)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        null
+                    }
+                }
+                withContext(Dispatchers.Main) {
+                    asyncResult.await()?.let { entropyStrength ->
+                        entropyStrengthResult.invoke(entropyStrength)
+                    }
+                }
             }
-        IOActionTask(
-            {
-                EntropyStrength(strength, entropy, percentScore)
-            },
-            {
-                it?.let { entropyStrength -> entropyStrengthResult.invoke(entropyStrength) }
-            }
-        ).execute()
+        }
     }
 }

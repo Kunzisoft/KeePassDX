@@ -19,12 +19,14 @@
  */
 package com.kunzisoft.keepass.activities.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.password.PasswordGenerator
@@ -42,15 +44,15 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
 
     private var mPasswordField: Field? = null
 
-    private var uppercaseBox: CompoundButton? = null
-    private var lowercaseBox: CompoundButton? = null
-    private var digitsBox: CompoundButton? = null
-    private var minusBox: CompoundButton? = null
-    private var underlineBox: CompoundButton? = null
-    private var spaceBox: CompoundButton? = null
-    private var specialsBox: CompoundButton? = null
-    private var bracketsBox: CompoundButton? = null
-    private var extendedBox: CompoundButton? = null
+    private var uppercaseCompound: CompoundButton? = null
+    private var lowercaseCompound: CompoundButton? = null
+    private var digitsCompound: CompoundButton? = null
+    private var minusCompound: CompoundButton? = null
+    private var underlineCompound: CompoundButton? = null
+    private var spaceCompound: CompoundButton? = null
+    private var specialsCompound: CompoundButton? = null
+    private var bracketsCompound: CompoundButton? = null
+    private var extendedCompound: CompoundButton? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -85,36 +87,36 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
             }
             lengthTextView = root?.findViewById(R.id.length)
 
-            uppercaseBox = root?.findViewById(R.id.cb_uppercase)
-            lowercaseBox = root?.findViewById(R.id.cb_lowercase)
-            digitsBox = root?.findViewById(R.id.cb_digits)
-            minusBox = root?.findViewById(R.id.cb_minus)
-            underlineBox = root?.findViewById(R.id.cb_underline)
-            spaceBox = root?.findViewById(R.id.cb_space)
-            specialsBox = root?.findViewById(R.id.cb_specials)
-            bracketsBox = root?.findViewById(R.id.cb_brackets)
-            extendedBox = root?.findViewById(R.id.cb_extended)
+            uppercaseCompound = root?.findViewById(R.id.upperCase_filter)
+            lowercaseCompound = root?.findViewById(R.id.lowerCase_filter)
+            digitsCompound = root?.findViewById(R.id.digits_filter)
+            minusCompound = root?.findViewById(R.id.minus_filter)
+            underlineCompound = root?.findViewById(R.id.underline_filter)
+            spaceCompound = root?.findViewById(R.id.space_filter)
+            specialsCompound = root?.findViewById(R.id.special_filter)
+            bracketsCompound = root?.findViewById(R.id.brackets_filter)
+            extendedCompound = root?.findViewById(R.id.extendedASCII_filter)
 
             mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
 
             assignDefaultCharacters()
 
-            val seekBar = root?.findViewById<SeekBar>(R.id.seekbar_length)
-            seekBar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    lengthTextView?.setText(progress.toString())
+            val sliderLength = root?.findViewById<Slider>(R.id.slider_length)
+            sliderLength?.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+                @SuppressLint("RestrictedApi")
+                override fun onStartTrackingTouch(slider: Slider) {
                 }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar) {}
-
-                override fun onStopTrackingTouch(seekBar: SeekBar) {}
+                @SuppressLint("RestrictedApi")
+                override fun onStopTrackingTouch(slider: Slider) {
+                    lengthTextView?.setText(slider.value.toInt().toString())
+                }
             })
 
             context?.let { context ->
-                seekBar?.progress = PreferencesUtil.getDefaultPasswordLength(context)
+                sliderLength?.value = PreferencesUtil.getDefaultPasswordLength(context).toFloat()
             }
 
-            root?.findViewById<Button>(R.id.generate_password_button)
+            root?.findViewById<View>(R.id.generate_password_button)
                     ?.setOnClickListener { fillPassword() }
 
             builder.setView(root)
@@ -143,29 +145,29 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun assignDefaultCharacters() {
-        uppercaseBox?.isChecked = false
-        lowercaseBox?.isChecked = false
-        digitsBox?.isChecked = false
-        minusBox?.isChecked = false
-        underlineBox?.isChecked = false
-        spaceBox?.isChecked = false
-        specialsBox?.isChecked = false
-        bracketsBox?.isChecked = false
-        extendedBox?.isChecked = false
+        uppercaseCompound?.isChecked = false
+        lowercaseCompound?.isChecked = false
+        digitsCompound?.isChecked = false
+        minusCompound?.isChecked = false
+        underlineCompound?.isChecked = false
+        spaceCompound?.isChecked = false
+        specialsCompound?.isChecked = false
+        bracketsCompound?.isChecked = false
+        extendedCompound?.isChecked = false
 
         context?.let { context ->
             PreferencesUtil.getDefaultPasswordCharacters(context)?.let { charSet ->
                 for (passwordChar in charSet) {
                     when (passwordChar) {
-                        getString(R.string.value_password_uppercase) -> uppercaseBox?.isChecked = true
-                        getString(R.string.value_password_lowercase) -> lowercaseBox?.isChecked = true
-                        getString(R.string.value_password_digits) -> digitsBox?.isChecked = true
-                        getString(R.string.value_password_minus) -> minusBox?.isChecked = true
-                        getString(R.string.value_password_underline) -> underlineBox?.isChecked = true
-                        getString(R.string.value_password_space) -> spaceBox?.isChecked = true
-                        getString(R.string.value_password_special) -> specialsBox?.isChecked = true
-                        getString(R.string.value_password_brackets) -> bracketsBox?.isChecked = true
-                        getString(R.string.value_password_extended) -> extendedBox?.isChecked = true
+                        getString(R.string.value_password_uppercase) -> uppercaseCompound?.isChecked = true
+                        getString(R.string.value_password_lowercase) -> lowercaseCompound?.isChecked = true
+                        getString(R.string.value_password_digits) -> digitsCompound?.isChecked = true
+                        getString(R.string.value_password_minus) -> minusCompound?.isChecked = true
+                        getString(R.string.value_password_underline) -> underlineCompound?.isChecked = true
+                        getString(R.string.value_password_space) -> spaceCompound?.isChecked = true
+                        getString(R.string.value_password_special) -> specialsCompound?.isChecked = true
+                        getString(R.string.value_password_brackets) -> bracketsCompound?.isChecked = true
+                        getString(R.string.value_password_extended) -> extendedCompound?.isChecked = true
                     }
                 }
             }
@@ -182,15 +184,15 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         try {
             val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())
             password = PasswordGenerator(resources).generatePassword(length,
-                    uppercaseBox?.isChecked == true,
-                    lowercaseBox?.isChecked == true,
-                    digitsBox?.isChecked == true,
-                    minusBox?.isChecked == true,
-                    underlineBox?.isChecked == true,
-                    spaceBox?.isChecked == true,
-                    specialsBox?.isChecked == true,
-                    bracketsBox?.isChecked == true,
-                    extendedBox?.isChecked == true)
+                    uppercaseCompound?.isChecked == true,
+                    lowercaseCompound?.isChecked == true,
+                    digitsCompound?.isChecked == true,
+                    minusCompound?.isChecked == true,
+                    underlineCompound?.isChecked == true,
+                    spaceCompound?.isChecked == true,
+                    specialsCompound?.isChecked == true,
+                    bracketsCompound?.isChecked == true,
+                    extendedCompound?.isChecked == true)
             passwordView?.error = null
         } catch (e: NumberFormatException) {
             passwordView?.error = getString(R.string.error_wrong_length)
