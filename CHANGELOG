@@ -1,5 +1,5 @@
 KeePassDX(3.4.0)
- * Show visual password strength indicator #631
+ * Show visual password strength indicator with entropy #631 #869
 
 KeePassDX(3.3.3)
  * Fix shared otpauth link if database not open #1274

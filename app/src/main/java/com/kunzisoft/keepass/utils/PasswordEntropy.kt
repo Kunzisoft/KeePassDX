@@ -25,7 +25,6 @@ import me.gosimple.nbvcxz.Nbvcxz
 import me.gosimple.nbvcxz.resources.Configuration
 import me.gosimple.nbvcxz.resources.ConfigurationBuilder
 import java.util.*
-import kotlin.math.ln
 import kotlin.math.min
 
 class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
@@ -54,16 +53,19 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
     }
 
     data class EntropyStrength(val strength: Strength,
+                               val entropy: Double,
                                val estimationPercent: Int) {
         override fun toString(): String {
-            return "EntropyStrength(strength=$strength, estimationPercent=$estimationPercent)"
+            return "EntropyStrength(strength=$strength, entropy=$entropy, estimationPercent=$estimationPercent)"
         }
     }
 
     fun getEntropyStrength(passwordString: String,
                            entropyStrengthResult: (EntropyStrength) -> Unit) {
-        val basicScore = mPasswordEntropyCalculator?.estimate(passwordString)?.basicScore ?: 0
-        val percentScore = min(((ln((basicScore+2.0)) *passwordString.length)*100/60).toInt(), 100)
+        val estimate = mPasswordEntropyCalculator?.estimate(passwordString)
+        val basicScore = estimate?.basicScore ?: 0
+        val entropy = estimate?.entropy ?: 0.0
+        val percentScore = min(entropy*100/200, 100.0).toInt()
         val strength =
             if (basicScore == 0 || percentScore < 10) {
                 Strength.RISKY
@@ -71,7 +73,7 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
                 Strength.VERY_GUESSABLE
             } else if (basicScore == 2 || percentScore < 33) {
                 Strength.SOMEWHAT_GUESSABLE
-            } else if (basicScore == 3 || percentScore < 52) {
+            } else if (basicScore == 3 || percentScore < 50) {
                 Strength.SAFELY_UNGUESSABLE
             } else if (basicScore == 4) {
                 Strength.VERY_UNGUESSABLE
@@ -80,7 +82,7 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
             }
         IOActionTask(
             {
-                EntropyStrength(strength, percentScore)
+                EntropyStrength(strength, entropy, percentScore)
             },
             {
                 it?.let { entropyStrength -> entropyStrengthResult.invoke(entropyStrength) }

@@ -603,6 +603,7 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string name="entropy">Entropy: %1$s bit</string>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

@@ -27,12 +27,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -41,6 +39,8 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
+import com.kunzisoft.keepass.view.PasswordView
+import com.kunzisoft.keepass.view.applyFontVisibility
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
@@ -51,9 +51,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var passwordCheckBox: CompoundButton? = null
 
-    private var passwordTextInputLayout: TextInputLayout? = null
-    private var passwordView: TextView? = null
-    private var passwordStrengthView: LinearProgressIndicator? = null
+    private var passwordView: PasswordView? = null
     private var passwordRepeatTextInputLayout: TextInputLayout? = null
     private var passwordRepeatView: TextView? = null
 
@@ -76,15 +74,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
         override fun afterTextChanged(editable: Editable) {
             passwordCheckBox?.isChecked = true
-            // Define password strength
-            mPasswordEntropyCalculator?.getEntropyStrength(editable.toString()) { entropyStrength ->
-                passwordStrengthView?.apply {
-                    post {
-                        setIndicatorColor(entropyStrength.strength.color)
-                        setProgressCompat(entropyStrength.estimationPercent, true)
-                    }
-                }
-            }
         }
     }
 
@@ -144,16 +133,10 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
-            passwordTextInputLayout = rootView?.findViewById(R.id.password_input_layout)
-            passwordView = rootView?.findViewById(R.id.pass_password)
-            passwordStrengthView = rootView?.findViewById(R.id.password_strength_progress)
-            passwordStrengthView?.apply {
-                setIndicatorColor(PasswordEntropy.Strength.RISKY.color)
-                progress = 0
-                max = 100
-            }
+            passwordView = rootView?.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
-            passwordRepeatView = rootView?.findViewById(R.id.pass_conf_password)
+            passwordRepeatView = rootView?.findViewById(R.id.password_confirmation)
+            passwordRepeatView?.applyFontVisibility()
 
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
@@ -189,7 +172,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                             if (allowNoMasterKey)
                                 showNoKeyConfirmationDialog()
                             else {
-                                passwordTextInputLayout?.error = getString(R.string.error_disallow_no_credentials)
+                                passwordView?.error = getString(R.string.error_disallow_no_credentials)
                             }
                         }
                         if (!error) {
@@ -236,7 +219,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 && passwordCheckBox!!.isChecked
                 && passwordView != null
                 && passwordRepeatView != null) {
-            mMasterPassword = passwordView!!.text.toString()
+            mMasterPassword = passwordView!!.passwordString
             val confPassword = passwordRepeatView!!.text.toString()
 
             // Verify that passwords match
