@@ -127,6 +127,8 @@ dependencies {
     // Apache Commons
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
+    // Password generator
+    implementation 'me.gosimple:nbvcxz:1.5.0'
     // Encrypt lib
     implementation project(path: ':crypto')
     // Icon pack

@@ -1,0 +1,1 @@
+ * Affichage d'un indicateur visuel de la force du mot de passe #631

@@ -22,15 +22,19 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.utils.PasswordEntropy
 import com.kunzisoft.keepass.view.applyFontVisibility
 
 class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
@@ -38,11 +42,13 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private var mListener: GeneratePasswordListener? = null
 
     private var root: View? = null
+    private var passwordStrengthProgress: LinearProgressIndicator? = null
     private var lengthTextView: EditText? = null
     private var passwordInputLayoutView: TextInputLayout? = null
     private var passwordView: EditText? = null
 
     private var mPasswordField: Field? = null
+    private var mPasswordEntropyCalculator: PasswordEntropy? = null
 
     private var uppercaseBox: CompoundButton? = null
     private var lowercaseBox: CompoundButton? = null
@@ -69,6 +75,29 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         super.onDetach()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        // To check checkboxes if a text is present
+        passwordView?.addTextChangedListener(passwordTextWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        passwordView?.removeTextChangedListener(passwordTextWatcher)
+    }
+
+    private val passwordTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+
+        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+
+        override fun afterTextChanged(editable: Editable) {
+            getEntropyStrength(editable.toString())
+        }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
@@ -87,7 +116,7 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                         getString(R.string.copy_field,
                                 getString(R.string.entry_password)))
             }
-
+            passwordStrengthProgress = root?.findViewById(R.id.password_strength_progress)
             lengthTextView = root?.findViewById(R.id.length)
 
             uppercaseBox = root?.findViewById(R.id.cb_uppercase)
@@ -101,6 +130,11 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
             extendedBox = root?.findViewById(R.id.cb_extended)
 
             mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
+            mPasswordEntropyCalculator = PasswordEntropy {
+                passwordView?.text?.toString()?.let { firstPassword ->
+                    getEntropyStrength(firstPassword)
+                }
+            }
 
             assignDefaultCharacters()
 
@@ -147,6 +181,17 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
+    private fun getEntropyStrength(passwordText: String) {
+        mPasswordEntropyCalculator?.getEntropyStrength(passwordText) { entropyStrength ->
+            passwordStrengthProgress?.apply {
+                post {
+                    setIndicatorColor(entropyStrength.strength.color)
+                    setProgressCompat(entropyStrength.estimationPercent, true)
+                }
+            }
+        }
+    }
+
     private fun assignDefaultCharacters() {
         uppercaseBox?.isChecked = false
         lowercaseBox?.isChecked = false
@@ -178,10 +223,12 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun fillPassword() {
-        root?.findViewById<EditText>(R.id.password)?.setText(generatePassword())
+        val passwordGenerated = generatePassword()
+        root?.findViewById<EditText>(R.id.password)?.setText(passwordGenerated)
+        getEntropyStrength(passwordGenerated)
     }
 
-    fun generatePassword(): String {
+    private fun generatePassword(): String {
         var password = ""
         try {
             val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())

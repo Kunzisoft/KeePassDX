@@ -27,15 +27,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.utils.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 
@@ -50,6 +53,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var passwordTextInputLayout: TextInputLayout? = null
     private var passwordView: TextView? = null
+    private var passwordStrengthView: LinearProgressIndicator? = null
     private var passwordRepeatTextInputLayout: TextInputLayout? = null
     private var passwordRepeatView: TextView? = null
 
@@ -59,6 +63,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private var mListener: AssignMainCredentialDialogListener? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mPasswordEntropyCalculator: PasswordEntropy? = null
 
     private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
     private var mNoKeyConfirmationDialog: AlertDialog? = null
@@ -71,6 +76,15 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
         override fun afterTextChanged(editable: Editable) {
             passwordCheckBox?.isChecked = true
+            // Define password strength
+            mPasswordEntropyCalculator?.getEntropyStrength(editable.toString()) { entropyStrength ->
+                passwordStrengthView?.apply {
+                    post {
+                        setIndicatorColor(entropyStrength.strength.color)
+                        setProgressCompat(entropyStrength.estimationPercent, true)
+                    }
+                }
+            }
         }
     }
 
@@ -100,6 +114,13 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onDetach()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Create the password entropy object
+        mPasswordEntropyCalculator = PasswordEntropy()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
 
@@ -125,6 +146,12 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
             passwordTextInputLayout = rootView?.findViewById(R.id.password_input_layout)
             passwordView = rootView?.findViewById(R.id.pass_password)
+            passwordStrengthView = rootView?.findViewById(R.id.password_strength_progress)
+            passwordStrengthView?.apply {
+                setIndicatorColor(PasswordEntropy.Strength.RISKY.color)
+                progress = 0
+                max = 100
+            }
             passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView?.findViewById(R.id.pass_conf_password)
 

@@ -1,3 +1,6 @@
+KeePassDX(3.4.0)
+ * Show visual password strength indicator #631
+
 KeePassDX(3.3.3)
  * Fix shared otpauth link if database not open #1274
  * Ellipsize attachment name #1253
