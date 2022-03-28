@@ -1,2 +1,3 @@
  * Show visual password strength indicator with entropy #631 #869
  * Dynamically save password generator configuration #618
+ * Add advanced password filters #1052

@@ -379,6 +379,8 @@
     <string name="value_password_special" translatable="false">value_password_special</string>
     <string name="value_password_brackets" translatable="false">value_password_brackets</string>
     <string name="value_password_extended" translatable="false">value_password_extended</string>
+    <string name="value_password_atLeastOne" translatable="false">value_password_atLeastOne</string>
+    <string name="value_password_excludeAmbiguous" translatable="false">value_password_excludeAmbiguous</string>
     <string name="visual_uppercase" translatable="false">A-Z</string>
     <string name="visual_lowercase" translatable="false">a-z</string>
     <string name="visual_digits" translatable="false">0-9</string>

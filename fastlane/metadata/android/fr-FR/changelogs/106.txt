@@ -1,2 +1,3 @@
  * Affichage d'un indicateur visuel de la force du mot de passe avec entropie #631 #869
  * Sauvegarde dynamique de la configuration du générateur de mots de passe #618
+ * Ajout des filtres de mots de passe avancés #1052

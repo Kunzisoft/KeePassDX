@@ -57,6 +57,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private var specialsCompound: CompoundButton? = null
     private var bracketsCompound: CompoundButton? = null
     private var extendedCompound: CompoundButton? = null
+    private var atLeastOneCompound: CompoundButton? = null
+    private var excludeAmbiguousCompound: CompoundButton? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -102,6 +104,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
             specialsCompound = root?.findViewById(R.id.special_filter)
             bracketsCompound = root?.findViewById(R.id.brackets_filter)
             extendedCompound = root?.findViewById(R.id.extendedASCII_filter)
+            atLeastOneCompound = root?.findViewById(R.id.atLeastOne_filter)
+            excludeAmbiguousCompound = root?.findViewById(R.id.excludeAmbiguous_filter)
 
             mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
 
@@ -132,6 +136,12 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                 fillPassword()
             }
             extendedCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            atLeastOneCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            excludeAmbiguousCompound?.setOnCheckedChangeListener { _, _ ->
                 fillPassword()
             }
 
@@ -228,6 +238,10 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                 optionsSet.add(getString(R.string.value_password_brackets))
             if (extendedCompound?.isChecked == true)
                 optionsSet.add(getString(R.string.value_password_extended))
+            if (atLeastOneCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_atLeastOne))
+            if (excludeAmbiguousCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_excludeAmbiguous))
             PreferencesUtil.setDefaultPasswordCharacters(it, optionsSet)
             PreferencesUtil.setDefaultPasswordLength(it, getPasswordLength())
         }
@@ -243,6 +257,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         specialsCompound?.isChecked = false
         bracketsCompound?.isChecked = false
         extendedCompound?.isChecked = false
+        atLeastOneCompound?.isChecked = false
+        excludeAmbiguousCompound?.isChecked = false
 
         context?.let { context ->
             PreferencesUtil.getDefaultPasswordCharacters(context)?.let { charSet ->
@@ -257,6 +273,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                         getString(R.string.value_password_special) -> specialsCompound?.isChecked = true
                         getString(R.string.value_password_brackets) -> bracketsCompound?.isChecked = true
                         getString(R.string.value_password_extended) -> extendedCompound?.isChecked = true
+                        getString(R.string.value_password_atLeastOne) -> atLeastOneCompound?.isChecked = true
+                        getString(R.string.value_password_excludeAmbiguous) -> excludeAmbiguousCompound?.isChecked = true
                     }
                 }
             }
@@ -306,7 +324,9 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                     spaceCompound?.isChecked == true,
                     specialsCompound?.isChecked == true,
                     bracketsCompound?.isChecked == true,
-                    extendedCompound?.isChecked == true)
+                    extendedCompound?.isChecked == true,
+                    atLeastOneCompound?.isChecked == true,
+                    excludeAmbiguousCompound?.isChecked == true)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
