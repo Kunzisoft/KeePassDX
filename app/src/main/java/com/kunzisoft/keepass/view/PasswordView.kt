@@ -99,9 +99,7 @@ class PasswordView @JvmOverloads constructor(context: Context,
             }
             passwordEntropy.apply {
                 post {
-                    text = resources.getString(R.string.entropy,
-                        "%.${2}f".format(entropyStrength.entropy)
-                    )
+                    text = PasswordEntropy.getStringEntropy(resources, entropyStrength.entropy)
                 }
             }
         }
@@ -122,13 +120,5 @@ class PasswordView @JvmOverloads constructor(context: Context,
         set(value) {
             passwordText.text = value
             getEntropyStrength(value)
-        }
-
-    var error: CharSequence?
-        get() {
-            return passwordInputLayout.error
-        }
-        set(value) {
-            passwordInputLayout.error = value
         }
 }

@@ -604,6 +604,8 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="entropy">Entropy: %1$s bit</string>
+    <string name="entropy_high">Entropy: High</string>
+    <string name="entropy_calculate">Entropy: Calculate…</string>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

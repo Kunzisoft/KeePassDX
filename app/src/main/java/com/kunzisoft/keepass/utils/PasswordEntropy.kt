@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.content.res.Resources
 import android.graphics.Color
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.IOActionTask
 import kotlinx.coroutines.*
 import me.gosimple.nbvcxz.Nbvcxz
@@ -65,30 +67,35 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
     fun getEntropyStrength(passwordString: String,
                            entropyStrengthResult: (EntropyStrength) -> Unit) {
 
+        entropyStrengthResult.invoke(EntropyStrength(Strength.RISKY, CALCULATE_ENTROPY, 0))
         entropyJob?.cancel()
         entropyJob = CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
                 val asyncResult: Deferred<EntropyStrength?> = async {
                     try {
-                        val estimate = mPasswordEntropyCalculator?.estimate(passwordString)
-                        val basicScore = estimate?.basicScore ?: 0
-                        val entropy = estimate?.entropy ?: 0.0
-                        val percentScore = min(entropy*100/200, 100.0).toInt()
-                        val strength =
-                            if (basicScore == 0 || percentScore < 10) {
-                                Strength.RISKY
-                            } else if (basicScore == 1 || percentScore < 20) {
-                                Strength.VERY_GUESSABLE
-                            } else if (basicScore == 2 || percentScore < 33) {
-                                Strength.SOMEWHAT_GUESSABLE
-                            } else if (basicScore == 3 || percentScore < 50) {
-                                Strength.SAFELY_UNGUESSABLE
-                            } else if (basicScore == 4) {
-                                Strength.VERY_UNGUESSABLE
-                            } else {
-                                Strength.RISKY
-                            }
-                        EntropyStrength(strength, entropy, percentScore)
+                        if (passwordString.length <= MAX_PASSWORD_LENGTH) {
+                            val estimate = mPasswordEntropyCalculator?.estimate(passwordString)
+                            val basicScore = estimate?.basicScore ?: 0
+                            val entropy = estimate?.entropy ?: 0.0
+                            val percentScore = min(entropy * 100 / 200, 100.0).toInt()
+                            val strength =
+                                if (basicScore == 0 || percentScore < 10) {
+                                    Strength.RISKY
+                                } else if (basicScore == 1 || percentScore < 20) {
+                                    Strength.VERY_GUESSABLE
+                                } else if (basicScore == 2 || percentScore < 33) {
+                                    Strength.SOMEWHAT_GUESSABLE
+                                } else if (basicScore == 3 || percentScore < 50) {
+                                    Strength.SAFELY_UNGUESSABLE
+                                } else if (basicScore == 4) {
+                                    Strength.VERY_UNGUESSABLE
+                                } else {
+                                    Strength.RISKY
+                                }
+                            EntropyStrength(strength, entropy, percentScore)
+                        } else {
+                            EntropyStrength(Strength.VERY_UNGUESSABLE, HIGH_ENTROPY, 100)
+                        }
                     } catch (e: Exception) {
                         e.printStackTrace()
                         null
@@ -98,6 +105,29 @@ class PasswordEntropy(actionOnInitFinished: (() -> Unit)? = null) {
                     asyncResult.await()?.let { entropyStrength ->
                         entropyStrengthResult.invoke(entropyStrength)
                     }
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val MAX_PASSWORD_LENGTH = 128
+        private const val CALCULATE_ENTROPY = -1.0
+        private const val HIGH_ENTROPY = 1000.0
+
+        fun getStringEntropy(resources: Resources, entropy: Double): String {
+            return when (entropy) {
+                CALCULATE_ENTROPY -> {
+                    resources.getString(R.string.entropy_calculate)
+                }
+                HIGH_ENTROPY -> {
+                    resources.getString(R.string.entropy_high)
+                }
+                else -> {
+                    resources.getString(
+                        R.string.entropy,
+                        "%.${2}f".format(entropy)
+                    )
                 }
             }
         }

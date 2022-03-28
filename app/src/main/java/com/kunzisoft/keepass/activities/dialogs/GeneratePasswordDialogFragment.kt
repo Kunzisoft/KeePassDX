@@ -23,9 +23,11 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
@@ -39,10 +41,12 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private var mListener: GeneratePasswordListener? = null
 
     private var root: View? = null
-    private var lengthTextView: EditText? = null
     private var passwordView: PasswordView? = null
 
     private var mPasswordField: Field? = null
+
+    private var sliderLength: Slider? = null
+    private var lengthTextView: EditText? = null
 
     private var uppercaseCompound: CompoundButton? = null
     private var lowercaseCompound: CompoundButton? = null
@@ -99,18 +103,90 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
 
             mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
 
+            uppercaseCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            lowercaseCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            digitsCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            minusCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            underlineCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            spaceCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            specialsCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            bracketsCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            extendedCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+
             assignDefaultCharacters()
 
-            val sliderLength = root?.findViewById<Slider>(R.id.slider_length)
-            sliderLength?.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-                @SuppressLint("RestrictedApi")
-                override fun onStartTrackingTouch(slider: Slider) {
+            var listenSlider = true
+            var listenEditText = true
+            sliderLength = root?.findViewById(R.id.slider_length)
+            sliderLength?.addOnChangeListener { _, value, _ ->
+                try {
+                    listenEditText = false
+                    if (listenSlider) {
+                        lengthTextView?.setText(value.toInt().toString())
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to set the length value", e)
+                } finally {
+                    listenEditText = true
                 }
+            }
+            sliderLength?.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+                // TODO upgrade material-components lib
+                // https://stackoverflow.com/questions/70873160/material-slider-onslidertouchlisteners-methods-can-only-be-called-from-within-t
+                @SuppressLint("RestrictedApi")
+                override fun onStartTrackingTouch(slider: Slider) {}
+
                 @SuppressLint("RestrictedApi")
                 override fun onStopTrackingTouch(slider: Slider) {
-                    lengthTextView?.setText(slider.value.toInt().toString())
+                    fillPassword()
                 }
             })
+            lengthTextView?.doOnTextChanged { text, _, _, _ ->
+                if (listenEditText) {
+                    try {
+                        listenSlider = false
+                        val textValue = try {
+                            text.toString().toFloat()
+                        } catch (numberException: NumberFormatException) {
+                            MIN_SLIDER_LENGTH
+                        }
+                        when {
+                            textValue < MIN_SLIDER_LENGTH -> {
+                                sliderLength?.value = MIN_SLIDER_LENGTH
+                            }
+                            textValue > MAX_SLIDER_LENGTH -> {
+                                sliderLength?.value = MAX_SLIDER_LENGTH
+                            }
+                            else -> {
+                                sliderLength?.value = textValue
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to get the length value", e)
+                    } finally {
+                        listenSlider = true
+                        fillPassword()
+                    }
+                }
+            }
 
             context?.let { context ->
                 sliderLength?.value = PreferencesUtil.getDefaultPasswordLength(context).toFloat()
@@ -182,7 +258,11 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private fun generatePassword(): String {
         var password = ""
         try {
-            val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())
+            val length = try {
+                Integer.valueOf(lengthTextView?.text.toString())
+            } catch (numberException: NumberFormatException) {
+                MIN_SLIDER_LENGTH.toInt()
+            }
             password = PasswordGenerator(resources).generatePassword(length,
                     uppercaseCompound?.isChecked == true,
                     lowercaseCompound?.isChecked == true,
@@ -193,11 +273,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                     specialsCompound?.isChecked == true,
                     bracketsCompound?.isChecked == true,
                     extendedCompound?.isChecked == true)
-            passwordView?.error = null
-        } catch (e: NumberFormatException) {
-            passwordView?.error = getString(R.string.error_wrong_length)
-        } catch (e: IllegalArgumentException) {
-            passwordView?.error = e.message
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to generate a password", e)
         }
 
         return password
@@ -210,6 +287,9 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
 
     companion object {
         private const val KEY_PASSWORD_FIELD = "KEY_PASSWORD_FIELD"
+        private const val MIN_SLIDER_LENGTH = 1F
+        private const val MAX_SLIDER_LENGTH = 128F
+        private const val TAG = "GeneratePasswordDialog";
 
         fun getInstance(field: Field): GeneratePasswordDialogFragment {
             return GeneratePasswordDialogFragment().apply {

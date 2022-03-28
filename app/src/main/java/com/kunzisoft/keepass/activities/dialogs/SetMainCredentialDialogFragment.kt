@@ -172,7 +172,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                             if (allowNoMasterKey)
                                 showNoKeyConfirmationDialog()
                             else {
-                                passwordView?.error = getString(R.string.error_disallow_no_credentials)
+                                passwordRepeatTextInputLayout?.error = getString(R.string.error_disallow_no_credentials)
                             }
                         }
                         if (!error) {
