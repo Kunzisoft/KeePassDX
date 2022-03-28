@@ -392,6 +392,7 @@
         <item translatable="false">@string/value_password_uppercase</item>
         <item translatable="false">@string/value_password_lowercase</item>
         <item translatable="false">@string/value_password_digits</item>
+        <item translatable="false">@string/value_password_special</item>
     </string-array>
     <string-array name="list_password_generator_options_values">
         <item translatable="false">@string/value_password_uppercase</item>

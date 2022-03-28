@@ -46,7 +46,7 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private var mPasswordField: Field? = null
 
     private var sliderLength: Slider? = null
-    private var lengthTextView: EditText? = null
+    private var lengthEditView: EditText? = null
 
     private var uppercaseCompound: CompoundButton? = null
     private var lowercaseCompound: CompoundButton? = null
@@ -89,7 +89,9 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                         getString(R.string.copy_field,
                                 getString(R.string.entry_password)))
             }
-            lengthTextView = root?.findViewById(R.id.length)
+
+            sliderLength = root?.findViewById(R.id.slider_length)
+            lengthEditView = root?.findViewById(R.id.length)
 
             uppercaseCompound = root?.findViewById(R.id.upperCase_filter)
             lowercaseCompound = root?.findViewById(R.id.lowerCase_filter)
@@ -102,6 +104,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
             extendedCompound = root?.findViewById(R.id.extendedASCII_filter)
 
             mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
+
+            assignDefaultCharacters()
 
             uppercaseCompound?.setOnCheckedChangeListener { _, _ ->
                 fillPassword()
@@ -131,16 +135,13 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                 fillPassword()
             }
 
-            assignDefaultCharacters()
-
             var listenSlider = true
             var listenEditText = true
-            sliderLength = root?.findViewById(R.id.slider_length)
             sliderLength?.addOnChangeListener { _, value, _ ->
                 try {
                     listenEditText = false
                     if (listenSlider) {
-                        lengthTextView?.setText(value.toInt().toString())
+                        lengthEditView?.setText(value.toInt().toString())
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to set the length value", e)
@@ -159,26 +160,11 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                     fillPassword()
                 }
             })
-            lengthTextView?.doOnTextChanged { text, _, _, _ ->
+            lengthEditView?.doOnTextChanged { _, _, _, _ ->
                 if (listenEditText) {
                     try {
                         listenSlider = false
-                        val textValue = try {
-                            text.toString().toFloat()
-                        } catch (numberException: NumberFormatException) {
-                            MIN_SLIDER_LENGTH
-                        }
-                        when {
-                            textValue < MIN_SLIDER_LENGTH -> {
-                                sliderLength?.value = MIN_SLIDER_LENGTH
-                            }
-                            textValue > MAX_SLIDER_LENGTH -> {
-                                sliderLength?.value = MAX_SLIDER_LENGTH
-                            }
-                            else -> {
-                                sliderLength?.value = textValue
-                            }
-                        }
+                        setSliderValue(getPasswordLength())
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to get the length value", e)
                     } finally {
@@ -186,10 +172,6 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                         fillPassword()
                     }
                 }
-            }
-
-            context?.let { context ->
-                sliderLength?.value = PreferencesUtil.getDefaultPasswordLength(context).toFloat()
             }
 
             root?.findViewById<View>(R.id.generate_password_button)
@@ -220,6 +202,37 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
+    override fun onDestroy() {
+        saveOptions()
+        super.onDestroy()
+    }
+
+    private fun saveOptions() {
+        context?.let {
+            val optionsSet = mutableSetOf<String>()
+            if (uppercaseCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_uppercase))
+            if (lowercaseCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_lowercase))
+            if (digitsCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_digits))
+            if (minusCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_minus))
+            if (underlineCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_underline))
+            if (spaceCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_space))
+            if (specialsCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_special))
+            if (bracketsCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_brackets))
+            if (extendedCompound?.isChecked == true)
+                optionsSet.add(getString(R.string.value_password_extended))
+            PreferencesUtil.setDefaultPasswordCharacters(it, optionsSet)
+            PreferencesUtil.setDefaultPasswordLength(it, getPasswordLength())
+        }
+    }
+
     private fun assignDefaultCharacters() {
         uppercaseCompound?.isChecked = false
         lowercaseCompound?.isChecked = false
@@ -247,6 +260,9 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                     }
                 }
             }
+            val defaultPasswordLength = PreferencesUtil.getDefaultPasswordLength(context)
+            setSliderValue(defaultPasswordLength)
+            lengthEditView?.setText(defaultPasswordLength.toString())
         }
     }
 
@@ -255,15 +271,33 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         passwordView?.passwordString = passwordGenerated
     }
 
+    private fun getPasswordLength(): Int {
+        return try {
+            Integer.valueOf(lengthEditView?.text.toString())
+        } catch (numberException: NumberFormatException) {
+            MIN_SLIDER_LENGTH.toInt()
+        }
+    }
+
+    private fun setSliderValue(value: Int) {
+        val sliderValue = value.toFloat()
+        when {
+            sliderValue < MIN_SLIDER_LENGTH -> {
+                sliderLength?.value = MIN_SLIDER_LENGTH
+            }
+            sliderValue > MAX_SLIDER_LENGTH -> {
+                sliderLength?.value = MAX_SLIDER_LENGTH
+            }
+            else -> {
+                sliderLength?.value = sliderValue
+            }
+        }
+    }
+
     private fun generatePassword(): String {
         var password = ""
         try {
-            val length = try {
-                Integer.valueOf(lengthTextView?.text.toString())
-            } catch (numberException: NumberFormatException) {
-                MIN_SLIDER_LENGTH.toInt()
-            }
-            password = PasswordGenerator(resources).generatePassword(length,
+            password = PasswordGenerator(resources).generatePassword(getPasswordLength(),
                     uppercaseCompound?.isChecked == true,
                     lowercaseCompound?.isChecked == true,
                     digitsCompound?.isChecked == true,
@@ -276,7 +310,6 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
-
         return password
     }
 

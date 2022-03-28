@@ -196,11 +196,31 @@ object PreferencesUtil {
                 Integer.parseInt(context.getString(R.string.default_password_length)))
     }
 
+    fun setDefaultPasswordLength(context: Context, passwordLength: Int) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putInt(
+                context.getString(R.string.password_length_key),
+                passwordLength
+            )
+            apply()
+        }
+    }
+
     fun getDefaultPasswordCharacters(context: Context): Set<String>? {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getStringSet(context.getString(R.string.list_password_generator_options_key),
                 HashSet(listOf(*context.resources
                                 .getStringArray(R.array.list_password_generator_options_default_values))))
+    }
+
+    fun setDefaultPasswordCharacters(context: Context, passwordOptionsSet: Set<String>) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putStringSet(
+                context.getString(R.string.list_password_generator_options_key),
+                passwordOptionsSet
+            )
+            apply()
+        }
     }
 
     fun isClipboardNotificationsEnable(context: Context): Boolean {
