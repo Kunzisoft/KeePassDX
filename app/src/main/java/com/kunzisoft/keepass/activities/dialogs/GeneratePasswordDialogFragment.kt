@@ -57,6 +57,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private var specialsCompound: CompoundButton? = null
     private var bracketsCompound: CompoundButton? = null
     private var extendedCompound: CompoundButton? = null
+    private var considerCharsEditText: EditText? = null
+    private var ignoreCharsEditText: EditText? = null
     private var atLeastOneCompound: CompoundButton? = null
     private var excludeAmbiguousCompound: CompoundButton? = null
 
@@ -104,6 +106,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
             specialsCompound = root?.findViewById(R.id.special_filter)
             bracketsCompound = root?.findViewById(R.id.brackets_filter)
             extendedCompound = root?.findViewById(R.id.extendedASCII_filter)
+            considerCharsEditText = root?.findViewById(R.id.consider_chars_filter)
+            ignoreCharsEditText = root?.findViewById(R.id.ignore_chars_filter)
             atLeastOneCompound = root?.findViewById(R.id.atLeastOne_filter)
             excludeAmbiguousCompound = root?.findViewById(R.id.excludeAmbiguous_filter)
 
@@ -136,6 +140,12 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                 fillPassword()
             }
             extendedCompound?.setOnCheckedChangeListener { _, _ ->
+                fillPassword()
+            }
+            considerCharsEditText?.doOnTextChanged { _, _, _, _ ->
+                fillPassword()
+            }
+            ignoreCharsEditText?.doOnTextChanged { _, _, _, _ ->
                 fillPassword()
             }
             atLeastOneCompound?.setOnCheckedChangeListener { _, _ ->
@@ -325,6 +335,8 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                     specialsCompound?.isChecked == true,
                     bracketsCompound?.isChecked == true,
                     extendedCompound?.isChecked == true,
+                    considerCharsEditText?.text?.toString() ?: "",
+                    ignoreCharsEditText?.text?.toString() ?: "",
                     atLeastOneCompound?.isChecked == true,
                     excludeAmbiguousCompound?.isChecked == true)
         } catch (e: Exception) {

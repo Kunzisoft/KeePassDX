@@ -37,6 +37,8 @@ class PasswordGenerator(private val resources: Resources) {
                          specials: Boolean,
                          brackets: Boolean,
                          extended: Boolean,
+                         considerChars: String,
+                         ignoreChars: String,
                          atLeastOneFromEach: Boolean,
                          excludeAmbiguousChar: Boolean): String {
         // Desired password length is 0 or less
@@ -53,83 +55,75 @@ class PasswordGenerator(private val resources: Resources) {
             && !space
             && !specials
             && !brackets
-            && !extended) {
+            && !extended
+            && considerChars.isEmpty()) {
             throw IllegalArgumentException(resources.getString(R.string.error_pass_gen_type))
         }
 
         // Filter builder
         val passwordFilters = PasswordFilters().apply {
             this.length = length
+            this.ignoreChars = ignoreChars
+            if (excludeAmbiguousChar)
+                this.ignoreChars += AMBIGUOUS_CHARS
             if (upperCase) {
                 addFilter(
-                    Filter(
-                        if (excludeAmbiguousChar) UPPERCASE_NON_AMBIGUOUS_CHARS else UPPERCASE_CHARS,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    UPPERCASE_CHARS,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (lowerCase) {
                 addFilter(
-                    Filter(
-                        if (excludeAmbiguousChar) LOWERCASE_NON_AMBIGUOUS_CHARS else LOWERCASE_CHARS,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    LOWERCASE_CHARS,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (digits) {
                 addFilter(
-                    Filter(
-                        if (excludeAmbiguousChar) DIGIT_NON_AMBIGUOUS_CHARS else DIGIT_CHARS,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    DIGIT_CHARS,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (minus) {
                 addFilter(
-                    Filter(
-                        MINUS_CHAR,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    MINUS_CHAR,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (underline) {
                 addFilter(
-                    Filter(
-                        UNDERLINE_CHAR,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    UNDERLINE_CHAR,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (space) {
                 addFilter(
-                    Filter(
-                        SPACE_CHAR,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    SPACE_CHAR,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (specials) {
                 addFilter(
-                    Filter(
-                        SPECIAL_CHARS,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    SPECIAL_CHARS,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (brackets) {
                 addFilter(
-                    Filter(
-                        BRACKET_CHARS,
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    BRACKET_CHARS,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
             if (extended) {
                 addFilter(
-                    Filter(
-                        extendedChars(),
-                        if (atLeastOneFromEach) 1 else 0
-                    )
+                    extendedChars(),
+                    if (atLeastOneFromEach) 1 else 0
+                )
+            }
+            if (considerChars.isNotEmpty()) {
+                addFilter(
+                    considerChars,
+                    if (atLeastOneFromEach) 1 else 0
                 )
             }
         }
@@ -145,21 +139,24 @@ class PasswordGenerator(private val resources: Resources) {
 
         // Build the password.
         for (i in 0 until passwordFilters.length) {
-            val selectableChars: String = if (requiredCharactersLeft < passwordFilters.length - i) {
+            var selectableChars: String = if (requiredCharactersLeft < passwordFilters.length - i) {
                 // choose from any group at random
                 passwordFilters.getSelectableChars()
             } else {
                 // choose only from a group that we need to satisfy a minimum for.
                 passwordFilters.getSelectableCharsForNeed()
             }
+            passwordFilters.ignoreChars.forEach {
+                selectableChars = selectableChars.replace(it.toString(), "")
+            }
 
             // Now that the string is built, get the next random character.
-            val selectableCharsMaxIndex = selectableChars.length - 1
+            val selectableCharsMaxIndex = selectableChars.length
             val randomSelectableCharsIndex = if (selectableCharsMaxIndex > 0) random.nextInt(selectableCharsMaxIndex) else 0
             val nextChar = selectableChars[randomSelectableCharsIndex]
 
             // Put at random position
-            val randomStringMaxIndex = randomString.length - 1
+            val randomStringMaxIndex = randomString.length
             val randomStringIndex = if (randomStringMaxIndex > 0) random.nextInt(randomStringMaxIndex) else 0
             randomString.insert(randomStringIndex, nextChar)
 
@@ -179,10 +176,11 @@ class PasswordGenerator(private val resources: Resources) {
 
     private class PasswordFilters {
         var length: Int = 0
+        var ignoreChars = ""
         val filters = mutableListOf<Filter>()
 
-        fun addFilter(filter: Filter) {
-            filters.add(filter)
+        fun addFilter(chars: String, minCharsNeeded: Int) {
+            filters.add(Filter(chars, minCharsNeeded))
         }
 
         fun getRequiredCharactersLeft(): Int {
@@ -241,15 +239,13 @@ class PasswordGenerator(private val resources: Resources) {
 
     companion object {
         private const val UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        private const val UPPERCASE_NON_AMBIGUOUS_CHARS = "ABCDEFGHJKMNPQRSTUVWXYZ"
         private const val LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
-        private const val LOWERCASE_NON_AMBIGUOUS_CHARS = "abcdefghjkmnpqrstuvwxyz"
         private const val DIGIT_CHARS = "0123456789"
-        private const val DIGIT_NON_AMBIGUOUS_CHARS = "23456789"
         private const val MINUS_CHAR = "-"
         private const val UNDERLINE_CHAR = "_"
         private const val SPACE_CHAR = " "
         private const val SPECIAL_CHARS = "!\"#$%&'*+,./:;=?@\\^`"
         private const val BRACKET_CHARS = "[]{}()<>"
+        private const val AMBIGUOUS_CHARS = "iI|lLoO01"
     }
 }
