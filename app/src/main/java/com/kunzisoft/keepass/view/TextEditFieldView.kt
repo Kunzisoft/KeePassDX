@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.password.PasswordGenerator
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class TextEditFieldView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,
@@ -130,16 +131,11 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             val spannableString =
-                if (TemplateField.isStandardPasswordName(context, label))
+                if (PreferencesUtil.colorizePassword(context)
+                    && TemplateField.isStandardPasswordName(context, label))
                     PasswordGenerator.getColorizedPassword(value)
                 else
                     SpannableString(value)
-            spannableString.setSpan(
-                StyleSpan(Typeface.BOLD),
-                0,
-                spannableString.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
             valueView.setText(spannableString)
         }
 

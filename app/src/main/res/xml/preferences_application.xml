@@ -94,17 +94,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/password">
-
-        <SwitchPreference
-            android:key="@string/hide_password_key"
-            android:title="@string/hide_password_title"
-            android:summary="@string/hide_password_summary"
-            android:defaultValue="@bool/hide_password_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/database_history">
 
         <SwitchPreference

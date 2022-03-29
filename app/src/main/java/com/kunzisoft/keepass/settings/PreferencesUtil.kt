@@ -135,6 +135,18 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.show_uuid_default))
     }
 
+    fun hideProtectedValue(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.hide_password_key),
+            context.resources.getBoolean(R.bool.hide_password_default))
+    }
+
+    fun colorizePassword(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.colorize_password_key),
+            context.resources.getBoolean(R.bool.colorize_password_default))
+    }
+
     fun showExpiredEntries(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
@@ -369,12 +381,6 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.sort_recycle_bin_bottom_key),
                 context.resources.getBoolean(R.bool.sort_recycle_bin_bottom_default))
-    }
-
-    fun hideProtectedValue(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.hide_password_key),
-                context.resources.getBoolean(R.bool.hide_password_default))
     }
 
     fun fieldFontIsInVisibility(context: Context): Boolean {
@@ -631,7 +637,6 @@ object PreferencesUtil {
                 context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.password_length_key) -> editor.putInt(name, value.toInt())
                 context.getString(R.string.list_password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
-                context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.allow_copy_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.remember_database_locations_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
@@ -679,6 +684,8 @@ object PreferencesUtil {
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.colorize_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 

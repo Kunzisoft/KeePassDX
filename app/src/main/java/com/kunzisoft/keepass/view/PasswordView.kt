@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.text.Editable
+import android.text.SpannableString
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -31,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.password.PasswordEntropy
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class PasswordView @JvmOverloads constructor(context: Context,
                                              attrs: AttributeSet? = null,
@@ -119,7 +121,11 @@ class PasswordView @JvmOverloads constructor(context: Context,
             return passwordText.text.toString()
         }
         set(value) {
-            passwordText.text = PasswordGenerator.getColorizedPassword(value)
-            getEntropyStrength(value)
+            val spannableString =
+                if (PreferencesUtil.colorizePassword(context))
+                    PasswordGenerator.getColorizedPassword(value)
+                else
+                    SpannableString(value)
+            passwordText.text = spannableString
         }
 }

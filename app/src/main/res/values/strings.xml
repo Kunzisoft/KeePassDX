@@ -225,6 +225,8 @@
     <string name="lowercase">Lower-case</string>
     <string name="hide_password_title">Hide passwords</string>
     <string name="hide_password_summary">Mask passwords (***) by default</string>
+    <string name="colorize_password_title">Colorize passwords</string>
+    <string name="colorize_password_summary">Colorize password characters by type</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>

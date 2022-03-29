@@ -21,12 +21,10 @@ package com.kunzisoft.keepass.password
 
 import android.content.res.Resources
 import android.graphics.Color
-import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import com.kunzisoft.keepass.R
 import java.security.SecureRandom
 import java.util.*
@@ -256,39 +254,39 @@ class PasswordGenerator(private val resources: Resources) {
         }
 
         fun getColorizedPassword(password: String): Spannable {
-            val coloredString = SpannableStringBuilder()
+            val spannableString = SpannableStringBuilder()
             if (password.isNotEmpty()) {
                 password.forEach {
                     when {
                         UPPERCASE_CHARS.contains(it)||
                         LOWERCASE_CHARS.contains(it) -> {
-                            coloredString.append(it)
+                            spannableString.append(it)
                         }
                         DIGIT_CHARS.contains(it) -> {
                             // RED
-                            coloredString.append(colorizeChar(it, Color.rgb(246, 79, 62)))
+                            spannableString.append(colorizeChar(it, Color.rgb(246, 79, 62)))
                         }
                         SPECIAL_CHARS.contains(it) -> {
                             // Blue
-                            coloredString.append(colorizeChar(it, Color.rgb(39, 166, 228)))
+                            spannableString.append(colorizeChar(it, Color.rgb(39, 166, 228)))
                         }
                         MINUS_CHAR.contains(it)||
                         UNDERLINE_CHAR.contains(it)||
                         BRACKET_CHARS.contains(it) -> {
                             // Purple
-                            coloredString.append(colorizeChar(it, Color.rgb(185, 38, 209)))
+                            spannableString.append(colorizeChar(it, Color.rgb(185, 38, 209)))
                         }
                         extendedChars().contains(it) -> {
                             // Green
-                            coloredString.append(colorizeChar(it, Color.rgb(44, 181, 50)))
+                            spannableString.append(colorizeChar(it, Color.rgb(44, 181, 50)))
                         }
                         else -> {
-                            coloredString.append(it)
+                            spannableString.append(it)
                         }
                     }
                 }
             }
-            return coloredString
+            return spannableString
         }
 
         private fun colorizeChar(char: Char, color: Int): Spannable {
