@@ -116,43 +116,43 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
             assignDefaultCharacters()
 
             uppercaseCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             lowercaseCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             digitsCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             minusCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             underlineCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             spaceCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             specialsCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             bracketsCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             extendedCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             considerCharsEditText?.doOnTextChanged { _, _, _, _ ->
-                fillPassword()
+                generatePassword()
             }
             ignoreCharsEditText?.doOnTextChanged { _, _, _, _ ->
-                fillPassword()
+                generatePassword()
             }
             atLeastOneCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
             excludeAmbiguousCompound?.setOnCheckedChangeListener { _, _ ->
-                fillPassword()
+                generatePassword()
             }
 
             var listenSlider = true
@@ -177,7 +177,7 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
 
                 @SuppressLint("RestrictedApi")
                 override fun onStopTrackingTouch(slider: Slider) {
-                    fillPassword()
+                    generatePassword()
                 }
             })
             lengthEditView?.doOnTextChanged { _, _, _, _ ->
@@ -189,13 +189,13 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                         Log.e(TAG, "Unable to get the length value", e)
                     } finally {
                         listenSlider = true
-                        fillPassword()
+                        generatePassword()
                     }
                 }
             }
 
             root?.findViewById<View>(R.id.generate_password_button)
-                    ?.setOnClickListener { fillPassword() }
+                    ?.setOnClickListener { generatePassword() }
 
             builder.setView(root)
                     .setPositiveButton(R.string.accept) { _, _ ->
@@ -215,7 +215,7 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
                     }
 
             // Pre-populate a password to possibly save the user a few clicks
-            fillPassword()
+            generatePassword()
 
             return builder.create()
         }
@@ -294,11 +294,6 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun fillPassword() {
-        val passwordGenerated = generatePassword()
-        passwordView?.passwordString = passwordGenerated
-    }
-
     private fun getPasswordLength(): Int {
         return try {
             Integer.valueOf(lengthEditView?.text.toString())
@@ -322,7 +317,7 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun generatePassword(): String {
+    private fun generatePassword() {
         var password = ""
         try {
             password = PasswordGenerator(resources).generatePassword(getPasswordLength(),
@@ -342,7 +337,7 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
-        return password
+        passwordView?.passwordString = password
     }
 
     interface GeneratePasswordListener {
