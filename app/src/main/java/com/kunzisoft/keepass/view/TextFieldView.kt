@@ -36,7 +36,9 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.utils.UriUtil
 
 
@@ -191,7 +193,10 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             return valueView.text.toString()
         }
         set(value) {
-            valueView.text = value
+            if (TemplateField.isStandardPasswordName(context, label))
+                valueView.text = PasswordGenerator.getColorizedPassword(value)
+            else
+                valueView.text = value
             changeProtectedValueParameters()
         }
 

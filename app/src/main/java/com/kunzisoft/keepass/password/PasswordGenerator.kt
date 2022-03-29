@@ -20,6 +20,13 @@
 package com.kunzisoft.keepass.password
 
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import com.kunzisoft.keepass.R
 import java.security.SecureRandom
 import java.util.*
@@ -215,28 +222,6 @@ class PasswordGenerator(private val resources: Resources) {
         }
     }
 
-    // From KeePassXC code https://github.com/keepassxreboot/keepassxc/pull/538
-    private fun extendedChars(): String {
-        val charSet = StringBuilder()
-        // [U+0080, U+009F] are C1 control characters,
-        // U+00A0 is non-breaking space
-        run {
-            var ch = '\u00A1'
-            while (ch <= '\u00AC') {
-                charSet.append(ch)
-                ++ch
-            }
-        }
-        // U+00AD is soft hyphen (format character)
-        var ch = '\u00AE'
-        while (ch < '\u00FF') {
-            charSet.append(ch)
-            ++ch
-        }
-        charSet.append('\u00FF')
-        return charSet.toString()
-    }
-
     companion object {
         private const val UPPERCASE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         private const val LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz"
@@ -247,5 +232,80 @@ class PasswordGenerator(private val resources: Resources) {
         private const val SPECIAL_CHARS = "!\"#$%&'*+,./:;=?@\\^`"
         private const val BRACKET_CHARS = "[]{}()<>"
         private const val AMBIGUOUS_CHARS = "iI|lLoO01"
+
+        // From KeePassXC code https://github.com/keepassxreboot/keepassxc/pull/538
+        private fun extendedChars(): String {
+            val charSet = StringBuilder()
+            // [U+0080, U+009F] are C1 control characters,
+            // U+00A0 is non-breaking space
+            run {
+                var ch = '\u00A1'
+                while (ch <= '\u00AC') {
+                    charSet.append(ch)
+                    ++ch
+                }
+            }
+            // U+00AD is soft hyphen (format character)
+            var ch = '\u00AE'
+            while (ch < '\u00FF') {
+                charSet.append(ch)
+                ++ch
+            }
+            charSet.append('\u00FF')
+            return charSet.toString()
+        }
+
+        fun getColorizedPassword(password: String): Spannable {
+            val coloredString = SpannableStringBuilder()
+            if (password.isNotEmpty()) {
+                password.forEach {
+                    when {
+                        UPPERCASE_CHARS.contains(it)||
+                        LOWERCASE_CHARS.contains(it) -> {
+                            coloredString.append(it)
+                        }
+                        DIGIT_CHARS.contains(it) -> {
+                            // RED
+                            coloredString.append(colorizeChar(it, Color.rgb(224, 56, 56)))
+                        }
+                        SPECIAL_CHARS.contains(it) -> {
+                            // Blue
+                            coloredString.append(colorizeChar(it, Color.rgb(66, 132, 237)))
+                        }
+                        MINUS_CHAR.contains(it)||
+                        UNDERLINE_CHAR.contains(it)||
+                        BRACKET_CHARS.contains(it) -> {
+                            // Purple
+                            coloredString.append(colorizeChar(it, Color.rgb(141, 34, 191)))
+                        }
+                        extendedChars().contains(it) -> {
+                            // Green
+                            coloredString.append(colorizeChar(it, Color.rgb(44, 181, 50)))
+                        }
+                        else -> {
+                            coloredString.append(it)
+                        }
+                    }
+                }
+                coloredString.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0,
+                    password.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            return coloredString
+        }
+
+        private fun colorizeChar(char: Char, color: Int): Spannable {
+            val spannableColorChar = SpannableString(char.toString())
+            spannableColorChar.setSpan(
+                ForegroundColorSpan(color),
+                0,
+                1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            return spannableColorChar
+        }
     }
 }

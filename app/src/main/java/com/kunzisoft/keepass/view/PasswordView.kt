@@ -29,7 +29,8 @@ import android.widget.TextView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.PasswordEntropy
+import com.kunzisoft.keepass.password.PasswordGenerator
+import com.kunzisoft.keepass.password.PasswordEntropy
 
 class PasswordView @JvmOverloads constructor(context: Context,
                                              attrs: AttributeSet? = null,
@@ -118,7 +119,7 @@ class PasswordView @JvmOverloads constructor(context: Context,
             return passwordText.text.toString()
         }
         set(value) {
-            passwordText.text = value
+            passwordText.text = PasswordGenerator.getColorizedPassword(value)
             getEntropyStrength(value)
         }
 }

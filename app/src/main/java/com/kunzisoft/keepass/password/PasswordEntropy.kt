@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.utils
+package com.kunzisoft.keepass.password
 
 import android.content.res.Resources
 import android.graphics.Color

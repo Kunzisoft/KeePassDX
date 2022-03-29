@@ -19,6 +19,8 @@ import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.password.PasswordGenerator
 
 class TextEditFieldView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,
@@ -123,7 +125,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             return valueView.text?.toString() ?: ""
         }
         set(value) {
-            valueView.setText(value)
+            if (TemplateField.isStandardPasswordName(context, label))
+                valueView.setText(PasswordGenerator.getColorizedPassword(value))
+            else
+                valueView.setText(value)
         }
 
     override var default: String = ""
