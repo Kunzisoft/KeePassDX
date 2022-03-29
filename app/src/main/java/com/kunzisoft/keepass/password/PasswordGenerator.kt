@@ -266,17 +266,17 @@ class PasswordGenerator(private val resources: Resources) {
                         }
                         DIGIT_CHARS.contains(it) -> {
                             // RED
-                            coloredString.append(colorizeChar(it, Color.rgb(224, 56, 56)))
+                            coloredString.append(colorizeChar(it, Color.rgb(246, 79, 62)))
                         }
                         SPECIAL_CHARS.contains(it) -> {
                             // Blue
-                            coloredString.append(colorizeChar(it, Color.rgb(66, 132, 237)))
+                            coloredString.append(colorizeChar(it, Color.rgb(39, 166, 228)))
                         }
                         MINUS_CHAR.contains(it)||
                         UNDERLINE_CHAR.contains(it)||
                         BRACKET_CHARS.contains(it) -> {
                             // Purple
-                            coloredString.append(colorizeChar(it, Color.rgb(141, 34, 191)))
+                            coloredString.append(colorizeChar(it, Color.rgb(185, 38, 209)))
                         }
                         extendedChars().contains(it) -> {
                             // Green
@@ -287,12 +287,6 @@ class PasswordGenerator(private val resources: Resources) {
                         }
                     }
                 }
-                coloredString.setSpan(
-                    StyleSpan(Typeface.BOLD),
-                    0,
-                    password.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
             }
             return coloredString
         }
