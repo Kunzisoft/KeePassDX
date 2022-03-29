@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.text.Editable
+import android.text.InputType
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -46,6 +47,8 @@ class PasswordView @JvmOverloads constructor(context: Context,
     private val passwordStrengthProgress: LinearProgressIndicator
     private val passwordEntropy: TextView
 
+    private var mShowPassword: Boolean = false
+
     private var mPasswordTextWatcher: MutableList<TextWatcher> = mutableListOf()
     private val passwordTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -68,13 +71,29 @@ class PasswordView @JvmOverloads constructor(context: Context,
         }
     }
 
-
     init {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.PasswordView,
+            0, 0).apply {
+            try {
+                mShowPassword = getBoolean(R.styleable.PasswordView_passwordVisible,
+                    !PreferencesUtil.hideProtectedValue(context))
+            } finally {
+                recycle()
+            }
+        }
+
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_password, this)
 
         passwordInputLayout = findViewById(R.id.password_input_layout)
         passwordText = findViewById(R.id.password_text)
+        if (mShowPassword) {
+            passwordText?.inputType = passwordText.inputType and
+                    InputType.TYPE_TEXT_VARIATION_PASSWORD or
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        }
         passwordText?.applyFontVisibility()
         passwordText.addTextChangedListener(passwordTextWatcher)
         passwordStrengthProgress = findViewById(R.id.password_strength_progress)

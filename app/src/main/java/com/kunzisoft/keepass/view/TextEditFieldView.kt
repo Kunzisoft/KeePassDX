@@ -177,7 +177,11 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     fun setProtection(protection: Boolean) {
         if (protection) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            val visibilityTag = if (PreferencesUtil.hideProtectedValue(context))
+                InputType.TYPE_TEXT_VARIATION_PASSWORD
+            else
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            valueView.inputType = valueView.inputType or visibilityTag
         }
     }
 
