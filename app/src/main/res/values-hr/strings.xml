@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">Android implementacija KeePass upravitelja lozinki</string>
+    <string name="about_description">Android implementacija KeePass upravljača lozinki</string>
     <string name="accept">Prihvati</string>
     <string name="add_entry">Dodaj unos</string>
     <string name="edit_entry">Uredi unos</string>
@@ -31,13 +31,13 @@
     <string name="application">Aplikacija</string>
     <string name="brackets">Zagrade</string>
     <string name="extended_ASCII">Prošireni ASCII</string>
-    <string name="file_manager_install_description">Za stvaranje, otvaranje i spremanje datoteka baze podataka potreban je upravitelj datoteka koji prihvaća zahtjeve ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
+    <string name="file_manager_install_description">Za stvaranje, otvaranje i spremanje datoteka baze podataka potreban je upravljač datoteka koji prihvaća zahtjeve ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
     <string name="allow">Dozvoli</string>
     <string name="clipboard_cleared">Međuspremnik ispražnjen</string>
     <string name="clipboard_error_title">Greška međuspremnika</string>
     <string name="clipboard_error">Neki uređaji neće dopustiti aplikacijama korištenje međuspremnika.</string>
     <string name="clipboard_error_clear">Nije moguće isprazniti međuspremnik</string>
-    <string name="clipboard_timeout_summary">Trajanje pohrane u međuspremniku (ako uređaj to podržava)</string>
+    <string name="clipboard_timeout_summary">Trajanje spremišta u međuspremniku (ako uređaj to podržava)</string>
     <string name="content_description_background">Pozadina</string>
     <string name="content_description_open_file">Otvori datoteku</string>
     <string name="content_description_add_node">Dodaj čvor</string>
@@ -93,7 +93,7 @@
     <string name="error_otp_digits">Token mora sadržavati %1$d do %2$d znamenki.</string>
     <string name="field_name">Ime polja</string>
     <string name="field_value">Vrijednost polja</string>
-    <string name="file_browser">Upravitelj datoteka</string>
+    <string name="file_browser">Upravljač datoteka</string>
     <string name="generate_password">Generiraj lozinku</string>
     <string name="hint_conf_pass">Potvrdi lozinku</string>
     <string name="hint_generated_password">Generirana lozinka</string>
@@ -258,7 +258,7 @@
     <string name="menu_file_selection_read_only">Zaštićeno od pisanja</string>
     <string name="progress_title">Rad u tijeku …</string>
     <string name="read_only">Zaštićeno od pisanja</string>
-    <string name="read_only_warning">Ovisno o upravitelju datoteka, KeePassDX možda neće moći pisati u tvoje spremište.</string>
+    <string name="read_only_warning">Ovisno o upravljaču datoteka, KeePassDX možda neće moći pisati u tvoje spremište.</string>
     <string name="contains_duplicate_uuid_procedure">Riješiti problem generiranjem novih UUID-ova za duplikate\?</string>
     <string name="root">Korijen</string>
     <string name="memory_usage_explanation">Količina memorije koju će koristiti funkcija za generiranje ključeva.</string>
@@ -372,7 +372,7 @@
     <string name="html_text_dev_feature_upgrade">Redovito aktualiziraj aplikaciju instaliranjem najnovijih verzija.</string>
     <string name="autofill_block_restart">Za aktiviranje blokiranja, ponovo pokreni aplikaciju koja sadrži obrazac.</string>
     <string name="education_sort_summary">Odaberi način razvrstavanja unosa i grupa.</string>
-    <string name="warning_database_link_revoked">Pristup datoteci koju je opozvao upravitelj datoteka</string>
+    <string name="warning_database_link_revoked">Pristup datoteci opozvan od upravljača datoteka</string>
     <string name="download_attachment">Preuzmi %1$s</string>
     <string name="keyboard_entry_timeout_title">Istek vremena</string>
     <string name="auto_focus_search_summary">Pokreni pretragu prilikom otvaranja baze podataka</string>
@@ -387,7 +387,7 @@
     <string name="education_entry_new_field_title">Dodaj prilagođena polja</string>
     <string name="education_lock_summary">Zaključaj bazu podataka brzo, aplikaciju možeš postaviti tako da bazu nakon nekog vremena zaključa i kad se ekran isključi.</string>
     <string name="show_recent_files_summary">Prikaži mjesto nedavnih baza podataka</string>
-    <string name="education_advanced_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom.</string>
+    <string name="education_advanced_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom ili podacima za prijavu uređaja.</string>
     <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj&lt;strong&gt;doprinos.&lt;/strong&gt;</string>
     <string name="kdf_explanation">Za stvaranje ključa za algoritam šifriranja, glavni ključ se transformira pomoću funkcije za generiranje ključeva koja sadrži slučajnu komponentu.</string>
     <string name="lock_database_back_root_summary">Zaključaj bazu podataka kad korisnik pritisne gumb za natrag na glavnom ekranu</string>
@@ -471,7 +471,7 @@
     <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
     <string name="show_uuid_summary">Prikazuje UUID povezan s unosom ili grupom</string>
     <string name="show_uuid_title">Prikaži UUID</string>
-    <string name="autofill_ask_to_save_data_summary">Zatraži spremanje podataka kad se obrazac provjeri</string>
+    <string name="autofill_ask_to_save_data_summary">Zatraži spremanje podataka kad se obrazac ispuni</string>
     <string name="autofill_ask_to_save_data_title">Zatraži spremanje podataka</string>
     <string name="autofill_save_search_info_title">Spremi podatke pretrage</string>
     <string name="autofill_close_database_summary">Zatvori bazu podataka nakon odabira automatskog ispunjavanja</string>
@@ -490,7 +490,7 @@
     <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja\?</string>
     <string name="credential_before_click_advanced_unlock_button">Upiši lozinku i zatim pritisni ovaj gumb.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću naprednog prepoznavanja otključavanja</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Upozorenje: Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
     <string name="menu_keystore_remove_key">Izbriši ključ naprednog otključavanja</string>
     <string name="advanced_unlock_prompt_store_credential_title">Napredno prepoznavanje otključavanja</string>
     <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor naprednog otključavanja.</string>
@@ -521,7 +521,7 @@
     <string name="autofill_inline_suggestions_title">Umetnuti prijedlozi</string>
     <string name="autofill_inline_suggestions_keyboard">Prijedlozi za automatsko popunjavanje su dodani.</string>
     <string name="autofill_inline_suggestions_summary">Pokušaj prikazivanja prijedloga za automatsko popunjavanje izravno s kompatibilne tipkovnice</string>
-    <string name="warning_database_revoked">Pristup datoteci koju je opozvao upravljač datoteka. Zatvori bazu podataka i ponovo je otvori s njezinog mjesta.</string>
+    <string name="warning_database_revoked">Pristup datoteci opozvan od upravljača datoteka. Zatvori bazu podataka i ponovo je otvori s njezinog mjesta.</string>
     <string name="warning_database_info_changed_options">Sjedini podatke, prepiši vanjske promjene spremanjem baze podataka ili je ponovo učitaj s najnovijim promjenama.</string>
     <string name="warning_database_info_changed">Podaci u datoteci tvoje baze podataka izmijenjeni su izvan programa.</string>
     <string name="menu_reload_database">Ponovo učitaj podatke</string>
@@ -607,4 +607,22 @@
     <string name="content_description_entry_foreground_color">Prednja boja unosa</string>
     <string name="content_description_database_color">Boja baze podataka</string>
     <string name="content_description_entry_background_color">Pozadinska boja unosa</string>
+    <string name="expired">Isteklo</string>
+    <string name="search_filters">Filtri pretrage</string>
+    <string name="current_group">Trenutačna grupa</string>
+    <string name="case_sensitive">Razlikovanje velikih/malih slova</string>
+    <string name="searchable">Pretraživo</string>
+    <string name="inherited">Naslijedi</string>
+    <string name="custom_data">Prilagođeni podaci</string>
+    <string name="auto_type_sequence">Slijed automatskog popunjavanja</string>
+    <string name="regex">Regularni izraz</string>
+    <string name="menu_merge_from">Sjedini iz …</string>
+    <string name="menu_save_copy_to">Spremi kopiju u …</string>
+    <string name="navigation_drawer_open">Ploča navigacije otvorena</string>
+    <string name="navigation_drawer_close">Ploča navigacije zatvorena</string>
+    <string name="advanced_unlock_keystore_warning">Ova će funckija spremiti šifrirane podatke za prijavu u sigurni KeyStore tvog uređaja.
+\n
+\nOvisno o izvornoj API implementaciji operacijskog sustava, funcionalsnost možda neće biti potpuna.
+\nProvjeri kompatibilnost i sigurnost KeyStorea kod proizvođača tvog uređaja i kreatora ROM-a koji koristiš.</string>
+    <string name="warning_database_already_opened">Baza podataka je već otvorena. Za otvaranje nove, najprije je zatvori</string>
 </resources>
