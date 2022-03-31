@@ -504,7 +504,7 @@
     <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
     <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowującego. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Ostrzeżenie: Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać hasło główne.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać główne dane uwierzytelniające.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Zaawansowane rozpoznawanie odblokowania</string>
     <string name="menu_keystore_remove_key">Usuń zaawansowany klucz odblokowujący</string>
     <string name="education_advanced_unlock_summary">Połącz swoje hasło ze zeskanowanymi danymi biometrycznymi lub danymi logowania urządzenia, aby szybko odblokować bazę danych.</string>
@@ -627,4 +627,9 @@
     <string name="searchable">Przeszukiwalne</string>
     <string name="menu_save_copy_to">Zapisz kopię w…</string>
     <string name="expired">Wygasłe</string>
+    <string name="warning_database_already_opened">Baza danych jest już otwarta, należy ją najpierw zamknąć, aby otworzyć nową</string>
+    <string name="advanced_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia.
+\n
+\nW zależności od konkretnej implementacji interfejsu API systemu operacyjnego, może nie być w pełni funkcjonalna.
+\nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
 </resources>
