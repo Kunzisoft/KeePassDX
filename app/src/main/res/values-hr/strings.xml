@@ -85,7 +85,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Korisničko ime</string>
     <string name="error_nokeyfile">Odaberi datoteku ključa.</string>
-    <string name="error_pass_gen_type">Barem jedan tip generiranja lozinke mora biti odabran.</string>
+    <string name="error_pass_gen_type">Barem jedna vrsta generiranja lozinke mora biti odabrana.</string>
     <string name="error_pass_match">Lozinke se ne poklapaju.</string>
     <string name="error_wrong_length">Upiši pozitivan cijeli broj u polje „Duljina”.</string>
     <string name="error_otp_secret_key">Tajni ključ mora biti u Base32 formatu.</string>
@@ -488,7 +488,7 @@
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>
     <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja\?</string>
-    <string name="credential_before_click_advanced_unlock_button">Upiši lozinku i zatim pritisni ovaj gumb.</string>
+    <string name="credential_before_click_advanced_unlock_button">Upiši lozinku, zatim pritisni ovaj gumb.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću naprednog prepoznavanja otključavanja</string>
     <string name="advanced_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
     <string name="menu_keystore_remove_key">Izbriši ključ naprednog otključavanja</string>
