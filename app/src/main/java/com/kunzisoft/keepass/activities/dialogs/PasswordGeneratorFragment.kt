@@ -20,30 +20,29 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.annotation.SuppressLint
-import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.view.ViewGroup
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.activities.fragments.DatabaseFragment
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.PasswordView
+import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 
-class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
+class PasswordGeneratorFragment : DatabaseFragment() {
 
-    private var mListener: GeneratePasswordListener? = null
-
-    private var root: View? = null
     private var passwordView: PasswordView? = null
-
-    private var mPasswordField: Field? = null
 
     private var sliderLength: Slider? = null
     private var lengthEditView: EditText? = null
@@ -62,169 +61,150 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
     private var atLeastOneCompound: CompoundButton? = null
     private var excludeAmbiguousCompound: CompoundButton? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try {
-            mListener = context as GeneratePasswordListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString()
-                    + " must implement " + GeneratePasswordListener::class.java.name)
-        }
+    private val mKeyGeneratorViewModel: KeyGeneratorViewModel by activityViewModels()
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_generate_password, container, false)
     }
 
-    override fun onDetach() {
-        mListener = null
-        super.onDetach()
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        activity?.let { activity ->
-            val builder = AlertDialog.Builder(activity)
-            val inflater = activity.layoutInflater
-            root = inflater.inflate(R.layout.fragment_generate_password, null)
+        passwordView = view.findViewById(R.id.password_view)
+        val passwordCopyView: ImageView? = view.findViewById(R.id.password_copy_button)
 
-            passwordView = root?.findViewById(R.id.password_view)
-            val passwordCopyView: ImageView? = root?.findViewById(R.id.password_copy_button)
-            passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(activity))
+        sliderLength = view.findViewById(R.id.slider_length)
+        lengthEditView = view.findViewById(R.id.length)
+
+        uppercaseCompound = view.findViewById(R.id.upperCase_filter)
+        lowercaseCompound = view.findViewById(R.id.lowerCase_filter)
+        digitsCompound = view.findViewById(R.id.digits_filter)
+        minusCompound = view.findViewById(R.id.minus_filter)
+        underlineCompound = view.findViewById(R.id.underline_filter)
+        spaceCompound = view.findViewById(R.id.space_filter)
+        specialsCompound = view.findViewById(R.id.special_filter)
+        bracketsCompound = view.findViewById(R.id.brackets_filter)
+        extendedCompound = view.findViewById(R.id.extendedASCII_filter)
+        considerCharsEditText = view.findViewById(R.id.consider_chars_filter)
+        ignoreCharsEditText = view.findViewById(R.id.ignore_chars_filter)
+        atLeastOneCompound = view.findViewById(R.id.atLeastOne_filter)
+        excludeAmbiguousCompound = view.findViewById(R.id.excludeAmbiguous_filter)
+
+        contextThemed?.let { context ->
+            passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
-            val clipboardHelper = ClipboardHelper(activity)
+            val clipboardHelper = ClipboardHelper(context)
             passwordCopyView?.setOnClickListener {
                 clipboardHelper.timeoutCopyToClipboard(passwordView!!.passwordString,
-                        getString(R.string.copy_field,
-                                getString(R.string.entry_password)))
+                    getString(R.string.copy_field,
+                        getString(R.string.entry_password)))
             }
+        }
 
-            sliderLength = root?.findViewById(R.id.slider_length)
-            lengthEditView = root?.findViewById(R.id.length)
+        assignDefaultCharacters()
 
-            uppercaseCompound = root?.findViewById(R.id.upperCase_filter)
-            lowercaseCompound = root?.findViewById(R.id.lowerCase_filter)
-            digitsCompound = root?.findViewById(R.id.digits_filter)
-            minusCompound = root?.findViewById(R.id.minus_filter)
-            underlineCompound = root?.findViewById(R.id.underline_filter)
-            spaceCompound = root?.findViewById(R.id.space_filter)
-            specialsCompound = root?.findViewById(R.id.special_filter)
-            bracketsCompound = root?.findViewById(R.id.brackets_filter)
-            extendedCompound = root?.findViewById(R.id.extendedASCII_filter)
-            considerCharsEditText = root?.findViewById(R.id.consider_chars_filter)
-            ignoreCharsEditText = root?.findViewById(R.id.ignore_chars_filter)
-            atLeastOneCompound = root?.findViewById(R.id.atLeastOne_filter)
-            excludeAmbiguousCompound = root?.findViewById(R.id.excludeAmbiguous_filter)
+        uppercaseCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        lowercaseCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        digitsCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        minusCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        underlineCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        spaceCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        specialsCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        bracketsCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        extendedCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        considerCharsEditText?.doOnTextChanged { _, _, _, _ ->
+            generatePassword()
+        }
+        ignoreCharsEditText?.doOnTextChanged { _, _, _, _ ->
+            generatePassword()
+        }
+        atLeastOneCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
+        excludeAmbiguousCompound?.setOnCheckedChangeListener { _, _ ->
+            generatePassword()
+        }
 
-            mPasswordField = arguments?.getParcelable(KEY_PASSWORD_FIELD)
-
-            assignDefaultCharacters()
-
-            uppercaseCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            lowercaseCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            digitsCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            minusCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            underlineCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            spaceCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            specialsCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            bracketsCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            extendedCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            considerCharsEditText?.doOnTextChanged { _, _, _, _ ->
-                generatePassword()
-            }
-            ignoreCharsEditText?.doOnTextChanged { _, _, _, _ ->
-                generatePassword()
-            }
-            atLeastOneCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-            excludeAmbiguousCompound?.setOnCheckedChangeListener { _, _ ->
-                generatePassword()
-            }
-
-            var listenSlider = true
-            var listenEditText = true
-            sliderLength?.addOnChangeListener { _, value, _ ->
-                try {
-                    listenEditText = false
-                    if (listenSlider) {
-                        lengthEditView?.setText(value.toInt().toString())
-                    }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to set the length value", e)
-                } finally {
-                    listenEditText = true
+        var listenSlider = true
+        var listenEditText = true
+        sliderLength?.addOnChangeListener { _, value, _ ->
+            try {
+                listenEditText = false
+                if (listenSlider) {
+                    lengthEditView?.setText(value.toInt().toString())
                 }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to set the length value", e)
+            } finally {
+                listenEditText = true
             }
-            sliderLength?.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
-                // TODO upgrade material-components lib
-                // https://stackoverflow.com/questions/70873160/material-slider-onslidertouchlisteners-methods-can-only-be-called-from-within-t
-                @SuppressLint("RestrictedApi")
-                override fun onStartTrackingTouch(slider: Slider) {}
+        }
+        sliderLength?.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            // TODO upgrade material-components lib
+            // https://stackoverflow.com/questions/70873160/material-slider-onslidertouchlisteners-methods-can-only-be-called-from-within-t
+            @SuppressLint("RestrictedApi")
+            override fun onStartTrackingTouch(slider: Slider) {}
 
-                @SuppressLint("RestrictedApi")
-                override fun onStopTrackingTouch(slider: Slider) {
+            @SuppressLint("RestrictedApi")
+            override fun onStopTrackingTouch(slider: Slider) {
+                generatePassword()
+            }
+        })
+        lengthEditView?.doOnTextChanged { _, _, _, _ ->
+            if (listenEditText) {
+                try {
+                    listenSlider = false
+                    setSliderValue(getPasswordLength())
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to get the length value", e)
+                } finally {
+                    listenSlider = true
                     generatePassword()
                 }
-            })
-            lengthEditView?.doOnTextChanged { _, _, _, _ ->
-                if (listenEditText) {
-                    try {
-                        listenSlider = false
-                        setSliderValue(getPasswordLength())
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Unable to get the length value", e)
-                    } finally {
-                        listenSlider = true
-                        generatePassword()
-                    }
-                }
             }
-
-            root?.findViewById<View>(R.id.generate_password_button)
-                    ?.setOnClickListener { generatePassword() }
-
-            builder.setView(root)
-                    .setPositiveButton(R.string.accept) { _, _ ->
-                        mPasswordField?.let { passwordField ->
-                            passwordView?.passwordString?.let { passwordValue ->
-                                passwordField.protectedValue.stringValue = passwordValue
-                            }
-                            mListener?.acceptPassword(passwordField)
-                        }
-                        dismiss()
-                    }
-                    .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        mPasswordField?.let { passwordField ->
-                            mListener?.cancelPassword(passwordField)
-                        }
-                        dismiss()
-                    }
-
-            // Pre-populate a password to possibly save the user a few clicks
-            generatePassword()
-
-            return builder.create()
         }
-        return super.onCreateDialog(savedInstanceState)
+
+        // Pre-populate a password to possibly save the user a few clicks
+        generatePassword()
+
+        mKeyGeneratorViewModel.keyGeneratedValidated.observe(viewLifecycleOwner) {
+            mKeyGeneratorViewModel.setKeyGenerated(passwordView?.passwordString ?: "")
+        }
+
+        mKeyGeneratorViewModel.requireKeyGeneration.observe(viewLifecycleOwner) {
+            generatePassword()
+        }
+
+        resetAppTimeoutWhenViewFocusedOrChanged(view)
     }
 
     override fun onDestroy() {
         saveOptions()
         super.onDestroy()
+    }
+
+    override fun onDatabaseRetrieved(database: Database?) {
+        // Nothing here
     }
 
     private fun saveOptions() {
@@ -340,23 +320,9 @@ class GeneratePasswordDialogFragment : DatabaseDialogFragment() {
         passwordView?.passwordString = password
     }
 
-    interface GeneratePasswordListener {
-        fun acceptPassword(passwordField: Field)
-        fun cancelPassword(passwordField: Field)
-    }
-
     companion object {
-        private const val KEY_PASSWORD_FIELD = "KEY_PASSWORD_FIELD"
         private const val MIN_SLIDER_LENGTH = 1F
         private const val MAX_SLIDER_LENGTH = 128F
-        private const val TAG = "GeneratePasswordDialog";
-
-        fun getInstance(field: Field): GeneratePasswordDialogFragment {
-            return GeneratePasswordDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY_PASSWORD_FIELD, field)
-                }
-            }
-        }
+        private const val TAG = "PasswordGeneratorFrgmt"
     }
 }

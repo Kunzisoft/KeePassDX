@@ -162,7 +162,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             if (templateAttribute.options.isAssociatedWithPasswordGenerator()) {
                 setOnActionClickListener({
                     mOnPasswordGenerationActionClickListener?.invoke(field)
-                }, R.drawable.ic_generate_password_white_24dp)
+                }, R.drawable.ic_random_white_24dp)
             }
         }
     }
