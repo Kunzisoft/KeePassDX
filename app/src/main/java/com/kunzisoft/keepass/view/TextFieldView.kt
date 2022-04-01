@@ -20,13 +20,18 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Build
 import android.text.InputFilter
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -36,7 +41,10 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.password.PasswordGenerator
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil
 
 
@@ -191,7 +199,13 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             return valueView.text.toString()
         }
         set(value) {
-            valueView.text = value
+            val spannableString =
+                if (PreferencesUtil.colorizePassword(context)
+                    && TemplateField.isStandardPasswordName(context, label))
+                    PasswordGenerator.getColorizedPassword(value)
+                else
+                    SpannableString(value)
+            valueView.text = spannableString
             changeProtectedValueParameters()
         }
 

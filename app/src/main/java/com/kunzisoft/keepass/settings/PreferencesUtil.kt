@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.education.Education
+import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
@@ -135,6 +136,18 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.show_uuid_default))
     }
 
+    fun hideProtectedValue(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.hide_password_key),
+            context.resources.getBoolean(R.bool.hide_password_default))
+    }
+
+    fun colorizePassword(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.colorize_password_key),
+            context.resources.getBoolean(R.bool.colorize_password_default))
+    }
+
     fun showExpiredEntries(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
@@ -192,15 +205,118 @@ object PreferencesUtil {
 
     fun getDefaultPasswordLength(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getInt(context.getString(R.string.password_length_key),
-                Integer.parseInt(context.getString(R.string.default_password_length)))
+        return prefs.getInt(context.getString(R.string.password_generator_length_key),
+                context.resources.getInteger(R.integer.password_generator_length_default))
     }
 
-    fun getDefaultPasswordCharacters(context: Context): Set<String>? {
+    fun setDefaultPasswordLength(context: Context, passwordLength: Int) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putInt(
+                context.getString(R.string.password_generator_length_key),
+                passwordLength
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPasswordOptions(context: Context): Set<String> {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getStringSet(context.getString(R.string.list_password_generator_options_key),
-                HashSet(listOf(*context.resources
-                                .getStringArray(R.array.list_password_generator_options_default_values))))
+        return prefs.getStringSet(context.getString(R.string.password_generator_options_key),
+            HashSet(listOf(*context.resources
+                .getStringArray(R.array.list_password_generator_options_default_values)))) ?: setOf()
+    }
+
+    fun setDefaultPasswordOptions(context: Context, passwordOptionsSet: Set<String>) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putStringSet(
+                context.getString(R.string.password_generator_options_key),
+                passwordOptionsSet
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPasswordConsiderChars(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.password_generator_consider_chars_key),
+            context.getString(R.string.password_generator_consider_chars_default)) ?: ""
+    }
+
+    fun setDefaultPasswordConsiderChars(context: Context, considerChars: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(
+                context.getString(R.string.password_generator_consider_chars_key),
+                considerChars
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPasswordIgnoreChars(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.password_generator_ignore_chars_key),
+            context.getString(R.string.password_generator_ignore_chars_default)) ?: ""
+    }
+
+    fun setDefaultPasswordIgnoreChars(context: Context, ignoreChars: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(
+                context.getString(R.string.password_generator_ignore_chars_key),
+                ignoreChars
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseWordCount(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getInt(context.getString(R.string.passphrase_generator_word_count_key),
+            context.resources.getInteger(R.integer.passphrase_generator_word_count_default))
+    }
+
+    fun setDefaultPassphraseWordCount(context: Context, passphraseWordCount: Int) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putInt(
+                context.getString(R.string.passphrase_generator_word_count_key),
+                passphraseWordCount
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseWordCase(context: Context): PassphraseGenerator.WordCase {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return PassphraseGenerator.WordCase
+            .getByOrdinal(prefs.getInt(context
+                .getString(R.string.passphrase_generator_word_case_key),
+                0)
+            )
+    }
+
+    fun setDefaultPassphraseWordCase(context: Context, wordCase: PassphraseGenerator.WordCase) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putInt(
+                context.getString(R.string.passphrase_generator_word_case_key),
+                wordCase.ordinal
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseSeparator(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.passphrase_generator_separator_key),
+            context.getString(R.string.passphrase_generator_separator_default)) ?: ""
+    }
+
+    fun setDefaultPassphraseSeparator(context: Context, separator: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(
+                context.getString(R.string.passphrase_generator_separator_key),
+                separator
+            )
+            apply()
+        }
     }
 
     fun isClipboardNotificationsEnable(context: Context): Boolean {
@@ -349,12 +465,6 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.sort_recycle_bin_bottom_key),
                 context.resources.getBoolean(R.bool.sort_recycle_bin_bottom_default))
-    }
-
-    fun hideProtectedValue(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.hide_password_key),
-                context.resources.getBoolean(R.bool.hide_password_default))
     }
 
     fun fieldFontIsInVisibility(context: Context): Boolean {
@@ -609,9 +719,8 @@ object PreferencesUtil {
                 context.getString(R.string.lock_database_screen_off_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_back_root_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.password_length_key) -> editor.putInt(name, value.toInt())
-                context.getString(R.string.list_password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
-                context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())
+                context.getString(R.string.password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
                 context.getString(R.string.allow_copy_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.remember_database_locations_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
@@ -659,6 +768,8 @@ object PreferencesUtil {
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.colorize_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 

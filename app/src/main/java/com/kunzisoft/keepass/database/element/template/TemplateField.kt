@@ -60,6 +60,11 @@ object TemplateField {
     const val LABEL_SECURE_NOTE = "Secure Note"
     const val LABEL_MEMBERSHIP = "Membership"
 
+    fun isStandardPasswordName(context: Context, name: String): Boolean {
+        return name.equals(LABEL_PASSWORD, true)
+            || name == getLocalizedName(context, LABEL_PASSWORD)
+    }
+
     fun isStandardFieldName(name: String): Boolean {
         return arrayOf(
                 LABEL_TITLE,

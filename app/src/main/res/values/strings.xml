@@ -69,6 +69,7 @@
     <string name="discard">Discard</string>
     <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
+    <string name="content_description_passphrase_word_count">Passphrase word count</string>
     <string name="entry_add_field">Add field</string>
     <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
@@ -204,6 +205,7 @@
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
+    <string name="passphrase">Passphrase</string>
     <string name="invalid_credentials">Could not read credentials.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
@@ -225,6 +227,8 @@
     <string name="lowercase">Lower-case</string>
     <string name="hide_password_title">Hide passwords</string>
     <string name="hide_password_summary">Mask passwords (***) by default</string>
+    <string name="colorize_password_title">Colorize passwords</string>
+    <string name="colorize_password_summary">Colorize password characters by type</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
@@ -603,6 +607,23 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string name="entropy">Entropy: %1$s bit</string>
+    <string name="entropy_high">Entropy: High</string>
+    <string name="entropy_calculate">Entropy: Calculate…</string>
+    <string name="at_least_one_char">At least one character from each</string>
+    <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
+    <string name="consider_chars_filter">Consider characters</string>
+    <string name="word_separator">Separator</string>
+    <string name="ignore_chars_filter">Ignore characters</string>
+    <string name="lower_case">lower case</string>
+    <string name="upper_case">UPPER CASE</string>
+    <string name="title_case">Title Case</string>
+    <string name="character_count">Character count: %1$d</string>
+    <string-array name="word_case_array">
+        <item>@string/lower_case</item>
+        <item>@string/upper_case</item>
+        <item>@string/title_case</item>
+    </string-array>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

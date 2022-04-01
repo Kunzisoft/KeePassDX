@@ -1,3 +1,11 @@
+KeePassDX(3.4.0)
+ * Show visual password strength indicator with entropy #631 #869
+ * Dynamically save password generator configuration #618 #696
+ * Add advanced password filters #1052
+ * Add editable chars fields #539
+ * Add color for special password chars #454
+ * Passphrase implementation #218
+
 KeePassDX(3.3.3)
  * Fix shared otpauth link if database not open #1274
  * Ellipsize attachment name #1253
