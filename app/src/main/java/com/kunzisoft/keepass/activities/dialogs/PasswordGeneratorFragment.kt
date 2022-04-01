@@ -322,7 +322,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
 
     companion object {
         private const val MIN_SLIDER_LENGTH = 1F
-        private const val MAX_SLIDER_LENGTH = 128F
+        private const val MAX_SLIDER_LENGTH = 64F
         private const val TAG = "PasswordGeneratorFrgmt"
     }
 }
