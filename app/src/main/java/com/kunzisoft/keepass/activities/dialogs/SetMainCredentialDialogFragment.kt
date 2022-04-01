@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
-import com.kunzisoft.keepass.view.PasswordView
+import com.kunzisoft.keepass.view.PassKeyView
 import com.kunzisoft.keepass.view.applyFontVisibility
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
@@ -51,7 +51,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var passwordCheckBox: CompoundButton? = null
 
-    private var passwordView: PasswordView? = null
+    private var passKeyView: PassKeyView? = null
     private var passwordRepeatTextInputLayout: TextInputLayout? = null
     private var passwordRepeatView: TextView? = null
 
@@ -133,7 +133,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
-            passwordView = rootView?.findViewById(R.id.password_view)
+            passKeyView = rootView?.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView?.findViewById(R.id.password_confirmation)
             passwordRepeatView?.applyFontVisibility()
@@ -204,22 +204,22 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onResume()
 
         // To check checkboxes if a text is present
-        passwordView?.addTextChangedListener(passwordTextWatcher)
+        passKeyView?.addTextChangedListener(passwordTextWatcher)
     }
 
     override fun onPause() {
         super.onPause()
 
-        passwordView?.removeTextChangedListener(passwordTextWatcher)
+        passKeyView?.removeTextChangedListener(passwordTextWatcher)
     }
 
     private fun verifyPassword(): Boolean {
         var error = false
         if (passwordCheckBox != null
                 && passwordCheckBox!!.isChecked
-                && passwordView != null
+                && passKeyView != null
                 && passwordRepeatView != null) {
-            mMasterPassword = passwordView!!.passwordString
+            mMasterPassword = passKeyView!!.passwordString
             val confPassword = passwordRepeatView!!.text.toString()
 
             // Verify that passwords match

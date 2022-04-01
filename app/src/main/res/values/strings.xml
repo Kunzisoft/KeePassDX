@@ -69,6 +69,7 @@
     <string name="discard">Discard</string>
     <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
+    <string name="content_description_passphrase_word_count">Passphrase word count</string>
     <string name="entry_add_field">Add field</string>
     <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
@@ -612,7 +613,17 @@
     <string name="at_least_one_char">At least one character from each</string>
     <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
     <string name="consider_chars_filter">Consider characters</string>
+    <string name="word_separator">Separator</string>
     <string name="ignore_chars_filter">Ignore characters</string>
+    <string name="lower_case">lower case</string>
+    <string name="upper_case">UPPER CASE</string>
+    <string name="title_case">Title Case</string>
+    <string name="character_count">Character count: %1$d</string>
+    <string-array name="word_case_array">
+        <item>@string/lower_case</item>
+        <item>@string/upper_case</item>
+        <item>@string/title_case</item>
+    </string-array>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

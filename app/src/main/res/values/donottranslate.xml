@@ -202,8 +202,22 @@
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
 
     <!-- Password Generator Settings -->
-    <string name="password_length_key" translatable="false">password_length_key</string>
-    <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
+    <string name="password_generator_length_key" translatable="false">password_generator_length_key</string>
+    <integer name="password_generator_length_min" translatable="false">1</integer>
+    <integer name="password_generator_length_default" translatable="false">14</integer>
+    <integer name="password_generator_length_max" translatable="false">64</integer>
+    <string name="password_generator_options_key" translatable="false">password_generator_options_key</string>
+    <string name="password_generator_consider_chars_key" translatable="false">password_generator_consider_chars_key</string>
+    <string name="password_generator_consider_chars_default" translatable="false" />
+    <string name="password_generator_ignore_chars_key" translatable="false">password_generator_ignore_chars_key</string>
+    <string name="password_generator_ignore_chars_default" translatable="false" />
+    <string name="passphrase_generator_word_count_key" translatable="false">passphrase_generator_word_count_key</string>
+    <integer name="passphrase_generator_word_count_min" translatable="false">1</integer>
+    <integer name="passphrase_generator_word_count_default" translatable="false">8</integer>
+    <integer name="passphrase_generator_word_count_max" translatable="false">20</integer>
+    <string name="passphrase_generator_word_case_key" translatable="false">passphrase_generator_word_case_key</string>
+    <string name="passphrase_generator_separator_key" translatable="false">passphrase_generator_separator_key</string>
+    <string name="passphrase_generator_separator_default" translatable="false" />
 
     <!-- Database Settings -->
     <string name="settings_database_key" translatable="false">settings_database_key</string>
@@ -368,11 +382,6 @@
     </string-array>
     <!-- WARNING ! module icon-pack-material must be import in gradle -->
     <string name="setting_icon_pack_choose_default" translatable="false">@string/material_resource_id</string>
-
-    <!--  Password generator -->
-    <string name="min_password_length" translatable="false">1</string>
-    <string name="default_password_length" translatable="false">14</string>
-    <string name="max_password_length" translatable="false">64</string>
 
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>
     <string name="value_password_lowercase" translatable="false">value_password_lowercase</string>

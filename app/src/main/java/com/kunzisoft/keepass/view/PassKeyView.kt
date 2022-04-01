@@ -35,9 +35,9 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class PasswordView @JvmOverloads constructor(context: Context,
-                                             attrs: AttributeSet? = null,
-                                             defStyle: Int = 0)
+class PassKeyView @JvmOverloads constructor(context: Context,
+                                            attrs: AttributeSet? = null,
+                                            defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
     private var mPasswordEntropyCalculator: PasswordEntropy? = null
@@ -47,6 +47,8 @@ class PasswordView @JvmOverloads constructor(context: Context,
     private val passwordStrengthProgress: LinearProgressIndicator
     private val passwordEntropy: TextView
 
+    private var mViewHint: String = ""
+    private var mMaxLines: Int = 3
     private var mShowPassword: Boolean = false
 
     private var mPasswordTextWatcher: MutableList<TextWatcher> = mutableListOf()
@@ -74,10 +76,13 @@ class PasswordView @JvmOverloads constructor(context: Context,
     init {
         context.theme.obtainStyledAttributes(
             attrs,
-            R.styleable.PasswordView,
+            R.styleable.PassKeyView,
             0, 0).apply {
             try {
-                mShowPassword = getBoolean(R.styleable.PasswordView_passwordVisible,
+                mViewHint = getString(R.styleable.PassKeyView_passKeyHint)
+                    ?: context.getString(R.string.password)
+                mMaxLines = getInteger(R.styleable.PassKeyView_passKeyMaxLines, mMaxLines)
+                mShowPassword = getBoolean(R.styleable.PassKeyView_passKeyVisible,
                     !PreferencesUtil.hideProtectedValue(context))
             } finally {
                 recycle()
@@ -85,15 +90,17 @@ class PasswordView @JvmOverloads constructor(context: Context,
         }
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_password, this)
+        inflater?.inflate(R.layout.view_passkey, this)
 
         passwordInputLayout = findViewById(R.id.password_input_layout)
+        passwordInputLayout?.hint = mViewHint
         passwordText = findViewById(R.id.password_text)
         if (mShowPassword) {
             passwordText?.inputType = passwordText.inputType and
                     InputType.TYPE_TEXT_VARIATION_PASSWORD or
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
+        passwordText?.maxLines = mMaxLines
         passwordText?.applyFontVisibility()
         passwordText.addTextChangedListener(passwordTextWatcher)
         passwordStrengthProgress = findViewById(R.id.password_strength_progress)

@@ -4,6 +4,7 @@ KeePassDX(3.4.0)
  * Add advanced password filters #1052
  * Add editable chars fields #539
  * Add color for special password chars #454
+ * Passphrase implementation #218
 
 KeePassDX(3.3.3)
  * Fix shared otpauth link if database not open #1274

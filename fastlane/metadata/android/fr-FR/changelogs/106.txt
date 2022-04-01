@@ -3,3 +3,4 @@
  * Ajout des filtres de mots de passe avancés #1052
  * Ajout de champs éditable de génération #539
  * Ajout des couleurs pour chaque caractère spécial de mots de passe #454
+ * Phrases secrètes #218

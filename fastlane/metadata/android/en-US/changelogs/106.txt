@@ -3,3 +3,4 @@
  * Add advanced password filters #1052
  * Add editable chars fields #539
  * Add color for special password chars #454
+ * Passphrase implementation #218
