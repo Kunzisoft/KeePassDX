@@ -3,7 +3,7 @@ KeePassDX(3.4.0)
  * Dynamically save password generator configuration #618 #696
  * Add advanced password filters #1052 #448
  * Add editable chars fields #539
- * Add color for special password chars #454
+ * Better visualization of passwords #454 #1270
  * Passphrase implementation #218
  * Fix small bugs #1282
 

@@ -516,7 +516,7 @@ class NodesAdapter (private val context: Context,
             null -> {}
         }
         holder?.otpToken?.apply {
-            text = otpElement?.token
+            text = otpElement?.tokenString
             setTextSize(mTextSizeUnit, mOtpTokenTextDefaultDimension, mPrefSizeMultiplier)
         }
         holder?.otpContainer?.setOnClickListener {

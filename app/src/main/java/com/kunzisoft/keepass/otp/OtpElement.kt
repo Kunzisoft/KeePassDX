@@ -178,6 +178,14 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             }
         }
 
+    /**
+     * Token with space each 3 digits
+     */
+    val tokenString: String
+        get() {
+            return token.replace("...".toRegex(), "$0 ")
+        }
+
     val secondsRemaining: Int
         get() = otpModel.period - (System.currentTimeMillis() / 1000 % otpModel.period).toInt()
 
