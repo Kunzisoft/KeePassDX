@@ -4,3 +4,4 @@
  * Ajout de champs éditable de génération #539
  * Ajout des couleurs pour chaque caractère spécial de mots de passe #454
  * Phrases secrètes #218
+ * Correction de petits bugs #1282

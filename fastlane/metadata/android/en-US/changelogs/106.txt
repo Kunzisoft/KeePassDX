@@ -4,3 +4,4 @@
  * Add editable chars fields #539
  * Add color for special password chars #454
  * Passphrase implementation #218
+ * Fix small bugs #1282
