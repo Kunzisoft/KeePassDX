@@ -719,8 +719,6 @@ object PreferencesUtil {
                 context.getString(R.string.lock_database_screen_off_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_back_root_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())
-                context.getString(R.string.password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
                 context.getString(R.string.allow_copy_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.remember_database_locations_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
@@ -772,6 +770,14 @@ object PreferencesUtil {
                 context.getString(R.string.colorize_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
+
+                context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())
+                context.getString(R.string.password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
+                context.getString(R.string.password_generator_consider_chars_key) -> editor.putString(name, value)
+                context.getString(R.string.password_generator_ignore_chars_key) -> editor.putString(name, value)
+                context.getString(R.string.passphrase_generator_word_count_key) -> editor.putInt(name, value.toInt())
+                context.getString(R.string.passphrase_generator_word_case_key) -> editor.putInt(name, value.toInt())
+                context.getString(R.string.passphrase_generator_separator_key) -> editor.putString(name, value)
 
                 context.getString(R.string.sort_node_key) -> editor.putString(name, value)
                 context.getString(R.string.sort_group_before_key) -> editor.putBoolean(name, value.toBoolean())
