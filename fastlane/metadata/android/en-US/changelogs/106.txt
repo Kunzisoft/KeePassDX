@@ -1,6 +1,6 @@
  * Show visual password strength indicator with entropy #631 #869
  * Dynamically save password generator configuration #618 #696
- * Add advanced password filters #1052 #448
+ * Add advanced password filters #1052 #448 #983 #271
  * Add editable chars fields #539
  * Better visualization of passwords #454 #1270
  * Passphrase implementation #218
