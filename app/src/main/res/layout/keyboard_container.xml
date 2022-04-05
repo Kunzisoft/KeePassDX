@@ -32,6 +32,13 @@
         android:background="@color/grey_blue_deep"
         android:gravity="center"
         android:textColor="@color/white"/>
+    <TextView
+        android:id="@+id/magikeyboard_package_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_blue_deep"
+        android:gravity="center"
+        android:textColor="@color/reply_blue"/>
     <com.kunzisoft.keepass.magikeyboard.KeyboardView
         android:id="@+id/magikeyboard_view"
         style="@style/KeepassDXStyle.Keyboard"

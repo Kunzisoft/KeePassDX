@@ -33,12 +33,13 @@ import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity
+import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -51,11 +52,14 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
 
     private var keyboardView: KeyboardView? = null
     private var entryText: TextView? = null
+    private var packageText: TextView? = null
     private var keyboard: Keyboard? = null
     private var keyboardEntry: Keyboard? = null
     private var popupCustomKeys: PopupWindow? = null
     private var fieldsAdapter: FieldsAdapter? = null
     private var playSoundDuringCLick: Boolean = false
+
+    private var mFormPackageName: String? = null
 
     private var lockReceiver: LockReceiver? = null
 
@@ -83,6 +87,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
 
         val rootKeyboardView = layoutInflater.inflate(R.layout.keyboard_container, null)
         entryText = rootKeyboardView.findViewById(R.id.magikeyboard_entry_text)
+        packageText = rootKeyboardView.findViewById(R.id.magikeyboard_package_text)
         keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
 
         if (keyboardView != null) {
@@ -170,6 +175,13 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        mFormPackageName = info.packageName
+        if (!mFormPackageName.isNullOrEmpty()) {
+            packageText?.text = mFormPackageName
+            packageText?.visibility = View.VISIBLE
+        } else {
+            packageText?.visibility = View.GONE
+        }
         assignKeyboardView()
     }
 
@@ -228,16 +240,17 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)
                         ?.showInputMethodPicker()
             }
-            KEY_UNLOCK -> {
-            }
             KEY_ENTRY -> {
-                // Stop current service and reinit entry
-                stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-                removeEntryInfo()
-                val intent = Intent(this, MagikeyboardLauncherActivity::class.java)
-                // New task needed because don't launch from an Activity context
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                actionKeyEntry()
+            }
+            KEY_ENTRY_ALT -> {
+                var searchInfo: SearchInfo? = null
+                if (mFormPackageName != null) {
+                    searchInfo = SearchInfo().apply {
+                        applicationId = mFormPackageName
+                    }
+                }
+                actionKeyEntry(searchInfo)
             }
             KEY_LOCK -> {
                 removeEntryInfo()
@@ -303,6 +316,13 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         }
     }
 
+    private fun actionKeyEntry(searchInfo: SearchInfo? = null) {
+        // Stop current service and reinit entry
+        stopService(Intent(this, KeyboardEntryNotificationService::class.java))
+        removeEntryInfo()
+        EntrySelectionLauncherActivity.launch(this, searchInfo)
+    }
+
     private fun actionTabAutomatically() {
         if (PreferencesUtil.isAutoGoActionEnable(this))
             currentInputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB))
@@ -359,15 +379,15 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
 
         const val KEY_BACK_KEYBOARD = 600
         const val KEY_CHANGE_KEYBOARD = 601
-        private const val KEY_UNLOCK = 610
-        private const val KEY_LOCK = 611
-        private const val KEY_ENTRY = 620
-        private const val KEY_USERNAME = 500
-        private const val KEY_PASSWORD = 510
+        const val KEY_LOCK = 611
+        const val KEY_ENTRY = 620
+        const val KEY_ENTRY_ALT = 621
+        const val KEY_USERNAME = 500
+        const val KEY_PASSWORD = 510
         const val KEY_OTP = 515
         const val KEY_OTP_ALT = 516
-        private const val KEY_URL = 520
-        private const val KEY_FIELDS = 530
+        const val KEY_URL = 520
+        const val KEY_FIELDS = 530
 
         // TODO Retrieve entry info from id and service when database is open
         private var entryInfoKey: EntryInfo? = null
