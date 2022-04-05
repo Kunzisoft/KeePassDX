@@ -631,4 +631,22 @@
 \n
 \nВ зависимости от конкретной реализации API операционной системы, он может быть не полностью функциональным.
 \nПроверьте совместимость и безопасность хранилища ключей через производителя устройства и разработчика используемого ПЗУ.</string>
+    <string name="passphrase">Кодовая фраза</string>
+    <string name="colorize_password_title">Раскрашивать пароли</string>
+    <string name="colorize_password_summary">Разделять цветом символы пароля по типу</string>
+    <string name="keyboard_previous_search_title">Экран поиска</string>
+    <string name="entropy">Энтропия: %1$s бит</string>
+    <string name="entropy_high">Энтропия: высокая</string>
+    <string name="word_separator">Разделитель</string>
+    <string name="character_count">Количество символов: %1$d</string>
+    <string name="ignore_chars_filter">Игнорировать символы</string>
+    <string name="title_case">С Заглавных</string>
+    <string name="at_least_one_char">Не менее, чем по одному символу из каждого</string>
+    <string name="consider_chars_filter">Включить символы</string>
+    <string name="content_description_passphrase_word_count">Количество слов в кодовой фразе</string>
+    <string name="keyboard_previous_search_summary">Автоматически переключаться на предыдущую клавиатуру на экране поиска</string>
+    <string name="lower_case">нижний регистр</string>
+    <string name="exclude_ambiguous_chars">Исключить неоднозначные символы</string>
+    <string name="entropy_calculate">Энтропия: вычисление…</string>
+    <string name="upper_case">ВЕРХНИЙ РЕГИСТР</string>
 </resources>
