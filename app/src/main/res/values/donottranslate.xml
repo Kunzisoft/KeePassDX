@@ -146,6 +146,8 @@
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
     <string name="keyboard_previous_database_credentials_key" translatable="false">keyboard_previous_database_credentials_key</string>
     <bool name="keyboard_previous_database_credentials_default" translatable="false">false</bool>
+    <string name="keyboard_previous_search_key" translatable="false">keyboard_previous_search_key</string>
+    <bool name="keyboard_previous_search_default" translatable="false">true</bool>
     <string name="keyboard_previous_fill_in_key" translatable="false">keyboard_previous_fill_in_key</string>
     <bool name="keyboard_previous_fill_in_default" translatable="false">false</bool>
     <string name="keyboard_previous_lock_key" translatable="false">keyboard_previous_lock_key</string>

@@ -79,6 +79,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
@@ -182,6 +183,11 @@ class GroupActivity : DatabaseLockActivity(),
 
             addSearch()
             //loadGroup()
+
+            // Back to previous keyboard
+            if (PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
+                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            }
             return true
         }
 

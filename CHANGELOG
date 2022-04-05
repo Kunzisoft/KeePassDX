@@ -7,6 +7,7 @@ KeePassDX(3.4.0)
  * Passphrase implementation #218
  * Fix small bugs #1282
  * Better search implementation #175 #1254
+ * Setting to change keyboard during a search #1243
 
 KeePassDX(3.3.3)
  * Fix shared otpauth link if database not open #1274

@@ -504,6 +504,8 @@
     <string name="keyboard_change">Switch keyboard</string>
     <string name="keyboard_previous_database_credentials_title">Database credentials screen</string>
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
+    <string name="keyboard_previous_search_title">Search screen</string>
+    <string name="keyboard_previous_search_summary">Automatically switch back to the previous keyboard on the search screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>

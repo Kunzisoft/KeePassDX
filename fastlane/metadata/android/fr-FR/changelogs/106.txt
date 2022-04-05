@@ -6,3 +6,4 @@
  * Phrases secrètes #218
  * Correction de petits bugs #1282
  * Meilleure implémentation de la recherche #175 #1254
+ * Paramètre pour changer de clavier lors d'une recherche #1243

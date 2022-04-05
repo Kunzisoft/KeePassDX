@@ -6,3 +6,4 @@
  * Passphrase implementation #218
  * Fix small bugs #1282
  * Better search implementation #175 #1254
+ * Setting to change keyboard during a search #1243
