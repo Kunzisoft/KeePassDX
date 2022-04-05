@@ -626,4 +626,22 @@
 \n
 \nİşletim sisteminin yerel API uygulamasına bağlı olarak, tam olarak işlevsel olmayabilir.
 \nAygıtınızın üreticisi ve kullandığınız ROM\'un geliştiricisi ile anahtar deposunun uyumluluğunu ve güvenliğini denetleyin.</string>
+    <string name="content_description_passphrase_word_count">Parola sözcük sayısı</string>
+    <string name="at_least_one_char">Her birinden en az bir karakter</string>
+    <string name="exclude_ambiguous_chars">Belirsiz karakterleri hariç tut</string>
+    <string name="lower_case">küçük harf</string>
+    <string name="passphrase">Parola</string>
+    <string name="colorize_password_title">Parolaları renklendir</string>
+    <string name="entropy">Entropi: %1$s bit</string>
+    <string name="entropy_high">Entropi: Yüksek</string>
+    <string name="colorize_password_summary">Parola karakterlerini türe göre renklendir</string>
+    <string name="keyboard_previous_search_title">Arama ekranı</string>
+    <string name="keyboard_previous_search_summary">Arama ekranında otomatik olarak önceki klavyeye geri dön</string>
+    <string name="consider_chars_filter">Karakterleri göz önünde bulundur</string>
+    <string name="ignore_chars_filter">Karakterleri yoksay</string>
+    <string name="character_count">Karakter sayısı: %1$d</string>
+    <string name="entropy_calculate">Entropi: Hesapla…</string>
+    <string name="word_separator">Ayırıcı</string>
+    <string name="upper_case">BÜYÜK HARF</string>
+    <string name="title_case">İlk Harfleri Büyük</string>
 </resources>
