@@ -181,7 +181,7 @@ class SearchHelper {
                 return false
 
             // Exclude entry expired
-            if (searchParameters.excludeExpired) {
+            if (!searchParameters.searchInExpired) {
                 if (entry.isCurrentlyExpires)
                     return false
             }

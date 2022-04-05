@@ -200,7 +200,7 @@ class GroupActivity : DatabaseLockActivity(),
         finishNodeAction()
         if (mSearchState == null) {
             mSearchState = SearchState(searchFiltersView?.searchParameters
-                ?: SearchParameters(), 0)
+                ?: PreferencesUtil.getDefaultSearchParameters(this), 0)
         }
     }
 
@@ -719,7 +719,7 @@ class GroupActivity : DatabaseLockActivity(),
                 val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
                 intent.action = Intent.ACTION_DEFAULT
                 intent.removeExtra(SearchManager.QUERY)
-                mSearchState = SearchState(SearchParameters().apply {
+                mSearchState = SearchState(PreferencesUtil.getDefaultSearchParameters(this).apply {
                     searchQuery = stringQuery
                 }, mSearchState?.firstVisibleItem ?: 0)
             }

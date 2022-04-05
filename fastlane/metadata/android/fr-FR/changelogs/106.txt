@@ -5,3 +5,4 @@
  * Meilleure visualisation des mots de passe #454 #1270
  * Phrases secrètes #218
  * Correction de petits bugs #1282
+ * Meilleure implémentation de la recherche #175 #1254

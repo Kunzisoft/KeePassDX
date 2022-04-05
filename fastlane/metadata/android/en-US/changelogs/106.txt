@@ -5,4 +5,4 @@
  * Better visualization of passwords #454 #1270
  * Passphrase implementation #218
  * Fix small bugs #1282
- * Better search implementation #175
+ * Better search implementation #175 #1254

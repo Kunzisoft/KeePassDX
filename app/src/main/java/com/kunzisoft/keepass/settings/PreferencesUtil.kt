@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -315,6 +316,82 @@ object PreferencesUtil {
                 context.getString(R.string.passphrase_generator_separator_key),
                 separator
             )
+            apply()
+        }
+    }
+
+    fun getDefaultSearchParameters(context: Context): SearchParameters {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return SearchParameters().apply {
+            caseSensitive = prefs.getBoolean(context.getString(R.string.search_option_case_sensitive_key),
+                context.resources.getBoolean(R.bool.search_option_case_sensitive_default))
+            isRegex = prefs.getBoolean(context.getString(R.string.search_option_regex_key),
+                context.resources.getBoolean(R.bool.search_option_regex_default))
+            searchInTitles = prefs.getBoolean(context.getString(R.string.search_option_title_key),
+                context.resources.getBoolean(R.bool.search_option_title_default))
+            searchInUsernames = prefs.getBoolean(context.getString(R.string.search_option_username_key),
+                context.resources.getBoolean(R.bool.search_option_username_default))
+            searchInPasswords = prefs.getBoolean(context.getString(R.string.search_option_password_key),
+                context.resources.getBoolean(R.bool.search_option_password_default))
+            searchInUrls = prefs.getBoolean(context.getString(R.string.search_option_url_key),
+                context.resources.getBoolean(R.bool.search_option_url_default))
+            searchInExpired = prefs.getBoolean(context.getString(R.string.search_option_expired_key),
+                context.resources.getBoolean(R.bool.search_option_expired_default))
+            searchInNotes = prefs.getBoolean(context.getString(R.string.search_option_note_key),
+                context.resources.getBoolean(R.bool.search_option_note_default))
+            searchInOTP = prefs.getBoolean(context.getString(R.string.search_option_otp_key),
+                context.resources.getBoolean(R.bool.search_option_otp_default))
+            searchInOther = prefs.getBoolean(context.getString(R.string.search_option_other_key),
+                context.resources.getBoolean(R.bool.search_option_other_default))
+            searchInUUIDs = prefs.getBoolean(context.getString(R.string.search_option_uuid_key),
+                context.resources.getBoolean(R.bool.search_option_uuid_default))
+            searchInTags = prefs.getBoolean(context.getString(R.string.search_option_tag_key),
+                context.resources.getBoolean(R.bool.search_option_tag_default))
+            searchInCurrentGroup = prefs.getBoolean(context.getString(R.string.search_option_current_group_key),
+                context.resources.getBoolean(R.bool.search_option_current_group_default))
+            searchInSearchableGroup = prefs.getBoolean(context.getString(R.string.search_option_searchable_group_key),
+                context.resources.getBoolean(R.bool.search_option_searchable_group_default))
+            searchInRecycleBin = prefs.getBoolean(context.getString(R.string.search_option_recycle_bin_key),
+                context.resources.getBoolean(R.bool.search_option_recycle_bin_default))
+            searchInTemplates = prefs.getBoolean(context.getString(R.string.search_option_templates_key),
+                context.resources.getBoolean(R.bool.search_option_templates_default))
+        }
+    }
+
+    fun setDefaultSearchParameters(context: Context, searchParameters: SearchParameters) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putBoolean(context.getString(R.string.search_option_case_sensitive_key),
+                searchParameters.caseSensitive)
+            putBoolean(context.getString(R.string.search_option_regex_key),
+                searchParameters.isRegex)
+            putBoolean(context.getString(R.string.search_option_title_key),
+                searchParameters.searchInTitles)
+            putBoolean(context.getString(R.string.search_option_username_key),
+                searchParameters.searchInUsernames)
+            putBoolean(context.getString(R.string.search_option_password_key),
+                searchParameters.searchInPasswords)
+            putBoolean(context.getString(R.string.search_option_url_key),
+                searchParameters.searchInUrls)
+            putBoolean(context.getString(R.string.search_option_expired_key),
+                searchParameters.searchInExpired)
+            putBoolean(context.getString(R.string.search_option_note_key),
+                searchParameters.searchInNotes)
+            putBoolean(context.getString(R.string.search_option_otp_key),
+                searchParameters.searchInOTP)
+            putBoolean(context.getString(R.string.search_option_other_key),
+                searchParameters.searchInOther)
+            putBoolean(context.getString(R.string.search_option_uuid_key),
+                searchParameters.searchInUUIDs)
+            putBoolean(context.getString(R.string.search_option_tag_key),
+                searchParameters.searchInTags)
+            putBoolean(context.getString(R.string.search_option_current_group_key),
+                searchParameters.searchInCurrentGroup)
+            putBoolean(context.getString(R.string.search_option_searchable_group_key),
+                searchParameters.searchInSearchableGroup)
+            putBoolean(context.getString(R.string.search_option_recycle_bin_key),
+                searchParameters.searchInRecycleBin)
+            putBoolean(context.getString(R.string.search_option_templates_key),
+                searchParameters.searchInTemplates)
             apply()
         }
     }
