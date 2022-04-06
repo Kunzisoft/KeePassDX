@@ -199,7 +199,7 @@
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_autofill_service_title">Standarddienst für automatisches Ausfüllen festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare schnell in anderen Apps auszufüllen</string>
-    <string name="autofill_select_entry">Eintrag auswählen…</string>
+    <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperrerkennung zusammenhängen</string>
@@ -317,7 +317,7 @@
     <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Nicht funktionierende Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
-    <string name="do_not_kill_app">App nicht beenden …</string>
+    <string name="do_not_kill_app">App nicht beenden …</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm der Zurück-Button gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -470,8 +470,8 @@
     <string name="keyboard_change">Tastatur wechseln</string>
     <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
-    <string name="keyboard_previous_fill_in_summary">Nach Ausführung der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
-    <string name="keyboard_previous_database_credentials_summary">Automatisches Zurückschalten zur vorherigen Tastatur auf dem Datenbank-Anmeldebildschirm</string>
+    <string name="keyboard_previous_fill_in_summary">Nach dem Ausführen der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
+    <string name="keyboard_previous_database_credentials_summary">Auf dem Datenbank-Anmeldebildschirm automatisch zur vorherigen Tastatur wechseln</string>
     <string name="education_add_attachment_summary">Laden Sie einen Anhang für Ihren Eintrag hoch, um wichtige externe Daten zu speichern.</string>
     <string name="content_description_credentials_information">Anmeldeinformationen</string>
     <string name="data">Daten</string>
@@ -492,7 +492,7 @@
     <string name="show_uuid_title">UUID anzeigen</string>
     <string name="autofill_read_only_save">Das Speichern von Daten ist für eine als schreibgeschützt geöffnete Datenbank nicht zulässig.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
-    <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur zurückschalten</string>
+    <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrisches Sicherheitsupdate erforderlich.</string>
@@ -633,8 +633,8 @@
     <string name="search_filters">Suchfilter</string>
     <string name="current_group">Aktuelle Gruppe</string>
     <string name="case_sensitive">Groß-/Kleinschreibung beachten</string>
-    <string name="menu_merge_from">Zusammenführen von …</string>
-    <string name="menu_save_copy_to">Kopie speichern unter …</string>
+    <string name="menu_merge_from">Zusammenführen von …</string>
+    <string name="menu_save_copy_to">Kopie speichern unter …</string>
     <string name="content_description_nav_header">Navigationskopfzeile</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
@@ -644,4 +644,21 @@
 \n
 \nAbhängig von der nativen API-Implementierung des Betriebssystems ist sie möglicherweise nicht voll funktionsfähig.
 \nÜberprüfen Sie die Kompatibilität und Sicherheit des Schlüsselspeichers mit dem Hersteller Ihres Geräts und dem Ersteller des von Ihnen verwendeten ROMs.</string>
+    <string name="content_description_passphrase_word_count">Passphrase-Wortanzahl</string>
+    <string name="passphrase">Passphrase</string>
+    <string name="colorize_password_title">Passwörter einfärben</string>
+    <string name="colorize_password_summary">Passwortzeichen nach Typ einfärben</string>
+    <string name="keyboard_previous_search_title">Suchbildschirm</string>
+    <string name="keyboard_previous_search_summary">Auf dem Suchbildschirm automatisch zur vorherigen Tastatur wechseln</string>
+    <string name="entropy">Entropie: %1$s Bit</string>
+    <string name="entropy_high">Entropie: Hoch</string>
+    <string name="entropy_calculate">Entropie: Berechnen …</string>
+    <string name="at_least_one_char">Mindestens ein Zeichen von jedem</string>
+    <string name="consider_chars_filter">Zeichen berücksichtigen</string>
+    <string name="word_separator">Trennzeichen</string>
+    <string name="ignore_chars_filter">Zeichen ignorieren</string>
+    <string name="lower_case">Kleinbuchstaben</string>
+    <string name="upper_case">GROẞBUCHSTABEN</string>
+    <string name="character_count">Anzahl der Zeichen: %1$d</string>
+    <string name="exclude_ambiguous_chars">Mehrdeutige Zeichen ausschließen</string>
 </resources>
