@@ -158,6 +158,7 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
             android:theme="@style/Theme.Transparent"
+            android:excludeFromRecents="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

@@ -1,5 +1,6 @@
 package com.kunzisoft.keepass.activities.legacy
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -97,9 +98,13 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
         // To move the app in background and return to the main app
         moveTaskToBack(true)
         // To remove this instance in the OS app selector
-        Handler(Looper.getMainLooper()).postDelayed({
-            finish()
-        }, 500)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAndRemoveTask()
+        } else {
+            Handler(Looper.getMainLooper()).postDelayed({
+                finish()
+            }, 500)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

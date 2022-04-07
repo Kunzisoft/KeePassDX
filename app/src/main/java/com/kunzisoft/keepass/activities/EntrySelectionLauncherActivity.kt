@@ -224,7 +224,9 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                 })
             }
             // New task needed because don't launch from an Activity context
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
             context.startActivity(intent)
         }
     }
