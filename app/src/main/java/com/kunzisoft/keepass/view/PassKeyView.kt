@@ -96,8 +96,7 @@ class PassKeyView @JvmOverloads constructor(context: Context,
         passwordInputLayout?.hint = mViewHint
         passwordText = findViewById(R.id.password_text)
         if (mShowPassword) {
-            passwordText?.inputType = passwordText.inputType and
-                    InputType.TYPE_TEXT_VARIATION_PASSWORD or
+            passwordText?.inputType = passwordText.inputType or
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
         passwordText?.maxLines = mMaxLines

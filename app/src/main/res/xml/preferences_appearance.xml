@@ -49,6 +49,22 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/password">
+
+        <SwitchPreference
+            android:key="@string/hide_password_key"
+            android:title="@string/hide_password_title"
+            android:summary="@string/hide_password_summary"
+            android:defaultValue="@bool/hide_password_default"/>
+        <SwitchPreference
+            android:key="@string/colorize_password_key"
+            android:title="@string/colorize_password_title"
+            android:summary="@string/colorize_password_summary"
+            android:defaultValue="@bool/colorize_password_default"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/text_appearance">
 
         <SwitchPreference
@@ -84,22 +100,6 @@
             android:title="@string/monospace_font_fields_enable_title"
             android:summary="@string/monospace_font_fields_enable_summary"
             android:defaultValue="@bool/monospace_font_fields_enable_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/password">
-
-        <SwitchPreference
-            android:key="@string/hide_password_key"
-            android:title="@string/hide_password_title"
-            android:summary="@string/hide_password_summary"
-            android:defaultValue="@bool/hide_password_default"/>
-        <SwitchPreference
-            android:key="@string/colorize_password_key"
-            android:title="@string/colorize_password_title"
-            android:summary="@string/colorize_password_summary"
-            android:defaultValue="@bool/colorize_password_default"/>
 
     </PreferenceCategory>
 

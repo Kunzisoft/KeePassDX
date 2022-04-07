@@ -212,6 +212,10 @@
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
+    <string name="hide_password_title">Hide passwords</string>
+    <string name="hide_password_summary">Mask passwords (***) by default</string>
+    <string name="colorize_password_title">Colorize passwords</string>
+    <string name="colorize_password_summary">Colorize password characters by type</string>
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_entries_show_username_summary">Displays usernames in entry lists</string>
     <string name="list_groups_show_number_entries_title">Show number of entries</string>
@@ -225,10 +229,6 @@
     <string name="creating_database">Creating database…</string>
     <string name="loading_database">Loading database…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="hide_password_title">Hide passwords</string>
-    <string name="hide_password_summary">Mask passwords (***) by default</string>
-    <string name="colorize_password_title">Colorize passwords</string>
-    <string name="colorize_password_summary">Colorize password characters by type</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>

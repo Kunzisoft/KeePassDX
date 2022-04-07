@@ -182,6 +182,10 @@
     <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
     <string name="show_entry_colors_key" translatable="false">show_entry_colors_key</string>
     <bool name="show_entry_colors_default" translatable="false">true</bool>
+    <string name="hide_password_key" translatable="false">hide_password_key</string>
+    <bool name="hide_password_default" translatable="false">true</bool>
+    <string name="colorize_password_key" translatable="false">colorize_password_key</string>
+    <bool name="colorize_password_default" translatable="false">true</bool>
     <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
     <bool name="list_entries_show_username_default" translatable="false">true</bool>
     <string name="list_groups_show_number_entries_key" translatable="false">list_groups_show_number_entries_key</string>
@@ -193,10 +197,6 @@
     <string name="list_size_key" translatable="false">list_size_key</string>
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
-    <string name="hide_password_key" translatable="false">hide_password_key</string>
-    <bool name="hide_password_default" translatable="false">true</bool>
-    <string name="colorize_password_key" translatable="false">colorize_password_key</string>
-    <bool name="colorize_password_default" translatable="false">true</bool>
     <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
     <bool name="hide_expired_entries_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
