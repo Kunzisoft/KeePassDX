@@ -1132,6 +1132,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         finishNodeAction()
         searchView?.setOnQueryTextListener(null)
+        searchFiltersView?.saveSearchParameters()
     }
 
     private fun addSearchQueryInSearchView(searchQuery: String) {

@@ -254,8 +254,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun onDetachedFromWindow() {
+    fun saveSearchParameters() {
         PreferencesUtil.setDefaultSearchParameters(context, searchParameters)
-        super.onDetachedFromWindow()
     }
 }

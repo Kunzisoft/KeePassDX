@@ -32,6 +32,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
@@ -241,9 +242,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                         ?.showInputMethodPicker()
             }
             KEY_ENTRY -> {
-                actionKeyEntry()
-            }
-            KEY_ENTRY_ALT -> {
                 var searchInfo: SearchInfo? = null
                 if (mFormPackageName != null) {
                     searchInfo = SearchInfo().apply {
@@ -251,6 +249,9 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                     }
                 }
                 actionKeyEntry(searchInfo)
+            }
+            KEY_ENTRY_ALT -> {
+                actionKeyEntry()
             }
             KEY_LOCK -> {
                 removeEntryInfo()
@@ -408,6 +409,14 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             entryInfoTimestamp = System.currentTimeMillis()
             // Launch notification if allowed
             KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
+        }
+
+        fun activatedInSettings(context: Context): Boolean {
+            return ContextCompat.getSystemService(context, InputMethodManager::class.java)
+                ?.enabledInputMethodList
+                ?.any {
+                    it.packageName == context.packageName
+                } ?: false
         }
     }
 }
