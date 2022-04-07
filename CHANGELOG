@@ -9,6 +9,7 @@ KeePassDX(3.4.0)
  * Better search implementation #175 #1254
  * Setting to change keyboard during a search #1267
  * Manage package name from Magikeyboard #1010
+ * Ask confirmation to lock if changes without save #970
 
 KeePassDX(3.3.3)
  * Fix shared otpauth link if database not open #1274

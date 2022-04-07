@@ -8,3 +8,4 @@
  * Better search implementation #175 #1254
  * Setting to change keyboard during a search #1267
  * Manage package name from Magikeyboard #1010
+ * Ask confirmation to lock if changes without save #970
