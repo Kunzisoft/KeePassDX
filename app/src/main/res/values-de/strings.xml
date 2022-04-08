@@ -661,4 +661,5 @@
     <string name="upper_case">GROẞBUCHSTABEN</string>
     <string name="character_count">Anzahl der Zeichen: %1$d</string>
     <string name="exclude_ambiguous_chars">Mehrdeutige Zeichen ausschließen</string>
+    <string name="title_case">Groß-/Kleinschreibung des Titels</string>
 </resources>
