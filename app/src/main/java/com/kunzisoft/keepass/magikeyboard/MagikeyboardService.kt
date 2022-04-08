@@ -176,7 +176,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     }
 
     private fun setDatabaseViews() {
-        if (mDatabase == null) {
+        if (mDatabase == null || mDatabase?.loaded != true) {
             entryContainer?.visibility = View.GONE
         } else {
             entryContainer?.visibility = View.VISIBLE
