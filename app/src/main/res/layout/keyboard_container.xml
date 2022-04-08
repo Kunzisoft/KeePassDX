@@ -20,25 +20,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_alignParentBottom="true"
     android:paddingTop="4dp"
     android:paddingBottom="8dp"
     android:background="@color/grey_blue_deep"
     android:orientation="vertical">
-    <TextView
-        android:id="@+id/magikeyboard_entry_text"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/magikeyboard_entry_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/grey_blue_deep"
-        android:gravity="center"
-        android:textColor="@color/white"/>
+        android:layout_gravity="center"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/key_border"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/magikeyboard_entry_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            tools:text="Git account signup"
+            android:textColor="@color/white"/>
+        <LinearLayout
+            android:id="@+id/magikeyboard_database_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:id="@+id/magikeyboard_database_color"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/content_description_database_color"
+                android:src="@drawable/background_icon" />
+            <TextView
+                android:id="@+id/magikeyboard_database_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:textSize="11sp"
+                tools:text="Database A"
+                android:textColor="@color/grey_blue_slighter"/>
+        </LinearLayout>
+    </LinearLayout>
     <TextView
         android:id="@+id/magikeyboard_package_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/grey_blue_deep"
         android:gravity="center"
-        android:textColor="@color/reply_blue"/>
+        android:textSize="12sp"
+        tools:text="com.kunzisoft.keepass"
+        android:textColor="@color/grey_blue_slighter"/>
     <com.kunzisoft.keepass.magikeyboard.KeyboardView
         android:id="@+id/magikeyboard_view"
         style="@style/KeepassDXStyle.Keyboard"

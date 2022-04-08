@@ -30,9 +30,12 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
@@ -55,7 +58,10 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     private var mDatabase: Database? = null
 
     private var keyboardView: KeyboardView? = null
+    private var entryContainer: View? = null
     private var entryText: TextView? = null
+    private var databaseText: TextView? = null
+    private var databaseColorView: ImageView? = null
     private var packageText: TextView? = null
     private var keyboard: Keyboard? = null
     private var keyboardEntry: Keyboard? = null
@@ -91,7 +97,10 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     override fun onCreateInputView(): View {
 
         val rootKeyboardView = layoutInflater.inflate(R.layout.keyboard_container, null)
+        entryContainer = rootKeyboardView.findViewById(R.id.magikeyboard_entry_container)
         entryText = rootKeyboardView.findViewById(R.id.magikeyboard_entry_text)
+        databaseText = rootKeyboardView.findViewById(R.id.magikeyboard_database_text)
+        databaseColorView = rootKeyboardView.findViewById(R.id.magikeyboard_database_color)
         packageText = rootKeyboardView.findViewById(R.id.magikeyboard_package_text)
         keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
 
@@ -162,6 +171,24 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             // Define preferences
             keyboardView?.isHapticFeedbackEnabled = PreferencesUtil.isKeyboardVibrationEnable(this)
             playSoundDuringCLick = PreferencesUtil.isKeyboardSoundEnable(this)
+        }
+        setDatabaseViews()
+    }
+
+    private fun setDatabaseViews() {
+        if (mDatabase == null) {
+            entryContainer?.visibility = View.GONE
+        } else {
+            entryContainer?.visibility = View.VISIBLE
+        }
+        databaseText?.text = mDatabase?.name ?: ""
+        val databaseColor = mDatabase?.customColor
+        if (databaseColor != null) {
+            databaseColorView?.drawable?.colorFilter = BlendModeColorFilterCompat
+                .createBlendModeColorFilterCompat(databaseColor, BlendModeCompat.SRC_IN)
+            databaseColorView?.visibility = View.VISIBLE
+        } else {
+            databaseColorView?.visibility = View.GONE
         }
     }
 
