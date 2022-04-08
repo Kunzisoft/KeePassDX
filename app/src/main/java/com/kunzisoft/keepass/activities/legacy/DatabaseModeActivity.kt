@@ -96,15 +96,9 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
     private fun backToTheMainAppAndFinish() {
         // To move the app in background and return to the main app
+        // Not visible as opened with FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
         moveTaskToBack(true)
-        // To remove this instance in the OS app selector
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAndRemoveTask()
-        } else {
-            Handler(Looper.getMainLooper()).postDelayed({
-                finish()
-            }, 500)
-        }
+        // Not finish() to prevent service kill
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

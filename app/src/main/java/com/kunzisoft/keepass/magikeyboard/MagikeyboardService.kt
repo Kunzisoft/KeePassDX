@@ -39,12 +39,15 @@ import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
+import java.util.*
 
 class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
@@ -71,6 +74,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         mDatabaseTaskProvider?.registerProgressTask()
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
             this.mDatabase = database
+            assignKeyboardView()
         }
         // Remove the entry and lock the keyboard when the lock signal is receive
         lockReceiver = LockReceiver {
@@ -110,7 +114,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             fieldsAdapter = FieldsAdapter(this)
             fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
                 override fun onItemClick(item: Field) {
-                    currentInputConnection.commitText(entryInfoKey?.getGeneratedFieldValue(item.name) , 1)
+                    currentInputConnection.commitText(getEntryInfo()?.getGeneratedFieldValue(item.name) , 1)
                     actionTabAutomatically()
                 }
             }
@@ -120,17 +124,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
             closeView.setOnClickListener { popupCustomKeys?.dismiss() }
 
-            // Remove entry info if the database is not loaded
-            // or if entry info timestamp is before database loaded timestamp
-            val databaseTime = mDatabase?.loadTimestamp
-            val entryTime = entryInfoTimestamp
-            if (mDatabase == null
-                || mDatabase?.loaded != true
-                || databaseTime == null
-                || entryTime == null
-                || entryTime < databaseTime) {
-                removeEntryInfo()
-            }
             assignKeyboardView()
             keyboardView?.onKeyboardActionListener = this
 
@@ -140,12 +133,23 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         return super.onCreateInputView()
     }
 
+    private fun getEntryInfo(): EntryInfo? {
+        var entryInfoRetrieved: EntryInfo? = null
+        entryUUID?.let { entryId ->
+            entryInfoRetrieved = mDatabase
+                ?.getEntryById(NodeIdUUID(entryId))
+                ?.getEntryInfo(mDatabase)
+        }
+        return entryInfoRetrieved
+    }
+
     private fun assignKeyboardView() {
         dismissCustomKeys()
         if (keyboardView != null) {
-            if (entryInfoKey != null) {
+            val entryInfo = getEntryInfo()
+            if (entryInfo != null) {
                 if (keyboardEntry != null) {
-                    populateEntryInfoInView()
+                    populateEntryInfoInView(entryInfo)
                     keyboardView?.keyboard = keyboardEntry
                 }
             } else {
@@ -161,10 +165,10 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         }
     }
 
-    private fun populateEntryInfoInView() {
+    private fun populateEntryInfoInView(entryInfo: EntryInfo) {
         entryText?.visibility = View.VISIBLE
-        if (entryInfoKey?.title?.isNotEmpty() == true) {
-            entryText?.text = entryInfoKey?.title
+        if (entryInfo.title.isNotEmpty()) {
+            entryText?.text = entryInfo.title
         } else {
             hideEntryInfo()
         }
@@ -259,12 +263,13 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 dismissCustomKeys()
             }
             KEY_USERNAME -> {
-                entryInfoKey?.username?.let { username ->
+                getEntryInfo()?.username?.let { username ->
                     currentInputConnection.commitText(username, 1)
                 }
                 actionTabAutomatically()
             }
             KEY_PASSWORD -> {
+                val entryInfoKey = getEntryInfo()
                 entryInfoKey?.password?.let { password ->
                     currentInputConnection.commitText(password, 1)
                 }
@@ -272,14 +277,14 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 actionGoAutomatically(!otpFieldExists)
             }
             KEY_OTP -> {
-                entryInfoKey?.let { entryInfo ->
+                getEntryInfo()?.let { entryInfo ->
                     currentInputConnection.commitText(
                         entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD), 1)
                 }
                 actionGoAutomatically()
             }
             KEY_OTP_ALT -> {
-                entryInfoKey?.let { entryInfo ->
+                getEntryInfo()?.let { entryInfo ->
                     val otpToken = entryInfo.getGeneratedFieldValue(OTP_TOKEN_FIELD)
                     if (otpToken.isNotEmpty()) {
                         // Cut to fill each digit separatelyKeyEvent.KEYCODE_TAB
@@ -296,13 +301,13 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 actionGoAutomatically()
             }
             KEY_URL -> {
-                entryInfoKey?.url?.let { url ->
+                getEntryInfo()?.url?.let { url ->
                     currentInputConnection.commitText(url, 1)
                 }
                 actionGoAutomatically()
             }
             KEY_FIELDS -> {
-                entryInfoKey?.customFields?.let { customFields ->
+                getEntryInfo()?.customFields?.let { customFields ->
                     fieldsAdapter?.apply {
                         setFields(customFields.filter { it.name != OTP_TOKEN_FIELD})
                         notifyDataSetChanged()
@@ -318,8 +323,41 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     }
 
     private fun actionKeyEntry(searchInfo: SearchInfo? = null) {
-        // Stop current service and reinit entry
-        stopService(Intent(this, KeyboardEntryNotificationService::class.java))
+        SearchHelper.checkAutoSearchInfo(this,
+            mDatabase,
+            searchInfo,
+            { _, items ->
+                if (items.size == 1) {
+                    if (entryUUID == null) {
+                        // Automatically populate keyboard
+                        removeEntryInfo()
+                        addEntryAndLaunchNotificationIfAllowed(
+                            this,
+                            items[0],
+                            true
+                        )
+                        assignKeyboardView()
+                    } else {
+                        // Choose another one
+                        launchEntrySelection(null)
+                    }
+                } else {
+                    // Select if multiple
+                    launchEntrySelection(searchInfo)
+                }
+            },
+            { _ ->
+                // Select if not found
+                launchEntrySelection(searchInfo)
+            },
+            {
+                // Select if database not opened
+                launchEntrySelection(searchInfo)
+            }
+        )
+    }
+
+    private fun launchEntrySelection(searchInfo: SearchInfo?) {
         removeEntryInfo()
         EntrySelectionLauncherActivity.launch(this, searchInfo)
     }
@@ -390,13 +428,10 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         const val KEY_URL = 520
         const val KEY_FIELDS = 530
 
-        // TODO Retrieve entry info from id and service when database is open
-        private var entryInfoKey: EntryInfo? = null
-        private var entryInfoTimestamp: Long? = null
+        private var entryUUID: UUID? = null
 
         private fun removeEntryInfo() {
-            entryInfoKey = null
-            entryInfoTimestamp = null
+            entryUUID = null
         }
 
         fun removeEntry(context: Context) {
@@ -405,8 +440,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
 
         fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean = false) {
             // Add a new entry
-            entryInfoKey = entry
-            entryInfoTimestamp = System.currentTimeMillis()
+            entryUUID = entry.id
             // Launch notification if allowed
             KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
         }
