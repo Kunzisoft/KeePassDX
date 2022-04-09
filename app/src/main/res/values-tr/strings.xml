@@ -429,8 +429,8 @@
     <string name="autofill_preference_title">Otomatik doldurma ayarları</string>
     <string name="warning_database_link_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi</string>
     <string name="error_label_exists">Bu etiket zaten var.</string>
-    <string name="keyboard_search_share_summary">Bir URL\'yi KeePassDX ile paylaşırken o URL domainini kullananları filtrele</string>
-    <string name="keyboard_search_share_title">Paylaşılan bilgileri ara</string>
+    <string name="keyboard_search_share_summary">KeePassDX ile bilgi paylaşırken, Magickeyboard\'a iletmek için bu bilgiyi kullanarak girdileri filtreleyin</string>
+    <string name="keyboard_search_share_title">Paylaşılan bilgileri seç</string>
     <string name="filter">Filtre</string>
     <string name="autofill_block_restart">Engellemeyi etkinleştirmek için formu içeren uygulamayı yeniden başlatın.</string>
     <string name="autofill_block">Otomatik doldurmayı engelle</string>
@@ -474,7 +474,7 @@
     <string name="autofill_close_database_title">Veri tabanını kapat</string>
     <string name="keyboard_previous_lock_summary">Veri tabanını kilitledikten sonra otomatik olarak önceki klavyeye dön</string>
     <string name="keyboard_previous_lock_title">Veri tabanını kilitle</string>
-    <string name="keyboard_save_search_info_summary">Bir URL\'yi KeePassDX ile paylaştıktan sonra, eğer bir girdi seçiliyse, o girdiyi sonraki kullanımlar için hatırla</string>
+    <string name="keyboard_save_search_info_summary">KeePassDX ile bilgi paylaştıktan sonra, bir girdi seçildiğinde, gelecekte daha kolay kullanmak için bilgileri girdiye kaydetmeyi deneyin</string>
     <string name="keyboard_save_search_info_title">Paylaşılan bilgileri kaydet</string>
     <string name="notification">Bildirim</string>
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
