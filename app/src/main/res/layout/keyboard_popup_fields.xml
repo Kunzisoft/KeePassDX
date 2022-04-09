@@ -34,12 +34,12 @@
         android:id="@+id/keyboard_popup_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:contentDescription="@string/content_description_keyboard_close_fields"
+        android:layout_centerVertical="true"
+        android:layout_margin="4dp"
+        android:padding="8dp"
         android:background="@drawable/key_background"
+        android:contentDescription="@string/content_description_keyboard_close_fields"
         android:src="@drawable/ic_close_white_24dp" />
 </RelativeLayout>

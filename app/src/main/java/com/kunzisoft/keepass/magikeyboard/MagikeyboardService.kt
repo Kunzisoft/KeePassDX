@@ -113,7 +113,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                     .inflate(R.layout.keyboard_popup_fields, FrameLayout(context))
 
             popupCustomKeys = PopupWindow(context).apply {
-                width = WindowManager.LayoutParams.WRAP_CONTENT
+                width = WindowManager.LayoutParams.MATCH_PARENT
                 height = WindowManager.LayoutParams.WRAP_CONTENT
                 inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
                 contentView = popupFieldsView
@@ -156,14 +156,13 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         dismissCustomKeys()
         if (keyboardView != null) {
             val entryInfo = getEntryInfo()
+            populateEntryInfoInView(entryInfo)
             if (entryInfo != null) {
                 if (keyboardEntry != null) {
-                    populateEntryInfoInView(entryInfo)
                     keyboardView?.keyboard = keyboardEntry
                 }
             } else {
                 if (keyboard != null) {
-                    hideEntryInfo()
                     keyboardView?.keyboard = keyboard
                 }
             }
@@ -192,17 +191,14 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         }
     }
 
-    private fun populateEntryInfoInView(entryInfo: EntryInfo) {
-        entryText?.visibility = View.VISIBLE
-        if (entryInfo.title.isNotEmpty()) {
-            entryText?.text = entryInfo.title
+    private fun populateEntryInfoInView(entryInfo: EntryInfo?) {
+        if (entryInfo == null) {
+            entryText?.text = ""
+            entryText?.visibility = View.GONE
         } else {
-            hideEntryInfo()
+            entryText?.text = entryInfo.getVisualTitle()
+            entryText?.visibility = View.VISIBLE
         }
-    }
-
-    private fun hideEntryInfo() {
-        entryText?.visibility = View.GONE
     }
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
@@ -340,7 +336,8 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                         notifyDataSetChanged()
                     }
                 }
-                popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
+                popupCustomKeys?.showAtLocation(keyboardView,
+                    Gravity.END or Gravity.TOP, 0, 180)
             }
             Keyboard.KEYCODE_DELETE -> {
                 inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
