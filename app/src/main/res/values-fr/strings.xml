@@ -462,8 +462,8 @@
     <string name="autofill_web_domain_blocklist_title">Liste de blocage de domaine Web</string>
     <string name="autofill_application_id_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des applications</string>
     <string name="autofill_application_id_blocklist_title">Liste de blocage d’application</string>
-    <string name="keyboard_search_share_summary">Lorsqu\'une adresse web est partagée avec KeePassDX, filtrer automatiquement les entrées contenant le domaine</string>
-    <string name="keyboard_search_share_title">Rechercher les informations partagées</string>
+    <string name="keyboard_search_share_summary">Lorsque vous partagez des informations avec KeePassDX, filtrez les entrées en utilisant ces informations pour alimenter le Magiclavier</string>
+    <string name="keyboard_search_share_title">Sélectionnez les informations partagées</string>
     <string name="filter">Filtre</string>
     <string name="subdomain_search_summary">Recherche des domaines Web avec des contraintes de sous-domaines</string>
     <string name="subdomain_search_title">Recherche de sous-domaine</string>
@@ -496,7 +496,7 @@
     <string name="autofill_close_database_title">Fermer la base de données</string>
     <string name="keyboard_previous_lock_summary">Revient automatiquement au clavier précédent après le verrouillage de la base de données</string>
     <string name="keyboard_previous_lock_title">Verrouiller la base de données</string>
-    <string name="keyboard_save_search_info_summary">Essayer d’enregistrer l\'association entre une adresse web partagée à KeePassDX et l\'entrée sélectionnée manuellement</string>
+    <string name="keyboard_save_search_info_summary">Après avoir partagé des infos avec KeePassDX, lorsqu\'une entrée est sélectionnée, essaye d\'enregistrer les infos dans l\'entrée pour faciliter les utilisations futures</string>
     <string name="keyboard_save_search_info_title">Enregistrer les infos partagées</string>
     <string name="notification">Notification</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
@@ -641,4 +641,22 @@
 \n
 \nSelon l\'implémentation de l\'API native du système d\'exploitation, il se peut qu\'elle ne soit pas entièrement fonctionnelle.
 \nVérifiez la compatibilité et la sécurité du KeyStore auprès du fabricant de votre appareil et du créateur de la ROM que vous utilisez.</string>
+    <string name="content_description_passphrase_word_count">Nombre de mots</string>
+    <string name="keyboard_previous_search_title">Écran de recherche</string>
+    <string name="entropy">Entropie : %1$s bit</string>
+    <string name="entropy_high">Entropie : Haute</string>
+    <string name="at_least_one_char">Au moins un caractère de chaque</string>
+    <string name="exclude_ambiguous_chars">Exclure les caractères ambigus</string>
+    <string name="ignore_chars_filter">Ignorer les caractères</string>
+    <string name="lower_case">minuscule</string>
+    <string name="upper_case">MAJUSCULE</string>
+    <string name="title_case">1ère Lettre Majuscule</string>
+    <string name="keyboard_previous_search_summary">Retour automatique au clavier précédent sur l\'écran de recherche</string>
+    <string name="colorize_password_title">Coloriser les mots de passe</string>
+    <string name="entropy_calculate">Entropie : Calcule…</string>
+    <string name="passphrase">Phrase de passe</string>
+    <string name="colorize_password_summary">Coloriser les caractères du mot de passe par type</string>
+    <string name="consider_chars_filter">Considérer les caractères</string>
+    <string name="word_separator">Séparateur</string>
+    <string name="character_count">Nombre de caractères : %1$d</string>
 </resources>
