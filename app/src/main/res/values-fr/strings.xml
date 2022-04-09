@@ -462,8 +462,8 @@
     <string name="autofill_web_domain_blocklist_title">Liste de blocage de domaine Web</string>
     <string name="autofill_application_id_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des applications</string>
     <string name="autofill_application_id_blocklist_title">Liste de blocage d’application</string>
-    <string name="keyboard_search_share_summary">Lorsque vous partagez des informations avec KeePassDX, filtrez les entrées en utilisant ces informations pour alimenter le Magiclavier</string>
-    <string name="keyboard_search_share_title">Sélectionnez les informations partagées</string>
+    <string name="keyboard_search_share_summary">Lorsque des infos sont partagées avec KeePassDX, filtre les entrées en utilisant ces infos pour alimenter le Magiclavier</string>
+    <string name="keyboard_search_share_title">Sélectionner les infos partagées</string>
     <string name="filter">Filtre</string>
     <string name="subdomain_search_summary">Recherche des domaines Web avec des contraintes de sous-domaines</string>
     <string name="subdomain_search_title">Recherche de sous-domaine</string>
@@ -490,7 +490,7 @@
     <string name="autofill_read_only_save">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
     <string name="autofill_ask_to_save_data_summary">Demande de sauvegarde des données à la fin du remplissage d\'un formulaire</string>
     <string name="autofill_ask_to_save_data_title">Demander à enregistrer des données</string>
-    <string name="autofill_save_search_info_summary">Essayer d’enregistrer les informations de recherche lors de la sélection manuelle d’une entrée</string>
+    <string name="autofill_save_search_info_summary">Essaye d’enregistrer les informations de recherche lors de la sélection manuelle d’une entrée</string>
     <string name="autofill_save_search_info_title">Enregistrer les infos de recherche</string>
     <string name="autofill_close_database_summary">Ferme la base de données après une sélection de remplissage automatique</string>
     <string name="autofill_close_database_title">Fermer la base de données</string>
