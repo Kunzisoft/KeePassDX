@@ -504,7 +504,7 @@
     <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
     <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowującego. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Ostrzeżenie: Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać hasło główne.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać główne dane uwierzytelniające.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Zaawansowane rozpoznawanie odblokowania</string>
     <string name="menu_keystore_remove_key">Usuń zaawansowany klucz odblokowujący</string>
     <string name="education_advanced_unlock_summary">Połącz swoje hasło ze zeskanowanymi danymi biometrycznymi lub danymi logowania urządzenia, aby szybko odblokować bazę danych.</string>
@@ -627,4 +627,27 @@
     <string name="searchable">Przeszukiwalne</string>
     <string name="menu_save_copy_to">Zapisz kopię w…</string>
     <string name="expired">Wygasłe</string>
+    <string name="warning_database_already_opened">Baza danych jest już otwarta, należy ją najpierw zamknąć, aby otworzyć nową</string>
+    <string name="advanced_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia.
+\n
+\nW zależności od konkretnej implementacji interfejsu API systemu operacyjnego, może nie być w pełni funkcjonalna.
+\nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
+    <string name="passphrase">Fraza hasła</string>
+    <string name="colorize_password_summary">Koloruj znaki hasła według typu</string>
+    <string name="keyboard_previous_search_title">Ekran wyszukiwania</string>
+    <string name="entropy">Entropia: %1$s bitowa</string>
+    <string name="entropy_high">Entropia: Wysoka</string>
+    <string name="entropy_calculate">Entropia: Oblicz…</string>
+    <string name="at_least_one_char">Co najmniej po jednym znaku z każdego</string>
+    <string name="exclude_ambiguous_chars">Wyklucz niejednoznaczne znaki</string>
+    <string name="consider_chars_filter">Rozważ znaki</string>
+    <string name="word_separator">Separator</string>
+    <string name="lower_case">małe litery</string>
+    <string name="upper_case">DUŻE LITERY</string>
+    <string name="title_case">Jak Nazwy Własne</string>
+    <string name="character_count">Liczba znaków: %1$d</string>
+    <string name="content_description_passphrase_word_count">Liczba słów frazy hasła</string>
+    <string name="ignore_chars_filter">Ignoruj znaki</string>
+    <string name="colorize_password_title">Koloruj hasła</string>
+    <string name="keyboard_previous_search_summary">Automatycznie przełączaj z powrotem do poprzedniej klawiatury na ekranie wyszukiwania</string>
 </resources>

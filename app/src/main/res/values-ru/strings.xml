@@ -500,7 +500,7 @@
     <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ расширенной разблокировки. Удалите его и повторите процедуру распознавания разблокировки.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием расширенной разблокировки</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Открыть базу с расширенным распознаванием разблокировки</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Предупреждение: даже при использовании расширенной разблокировки вам всё равно необходимо помнить главный пароль.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">При использовании расширенной разблокировки вам всё равно необходимо помнить основные учётные данные.</string>
     <string name="open_advanced_unlock_prompt_store_credential">Открыть запрос расширенной разблокировки для сохранения учётных данных</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Открыть запрос расширенной разблокировки для разблокировки базы</string>
     <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки\?</string>
@@ -626,4 +626,27 @@
     <string name="current_group">Текущая группа</string>
     <string name="custom_data">Пользовательские данные</string>
     <string name="expired">Срок действия истёк</string>
+    <string name="warning_database_already_opened">База уже открыта, закройте её, прежде чем открыть новую</string>
+    <string name="advanced_unlock_keystore_warning">Эта функция будет хранить зашифрованные учётные данные в безопасном хранилище ключей вашего устройства.
+\n
+\nВ зависимости от конкретной реализации API операционной системы, он может быть не полностью функциональным.
+\nПроверьте совместимость и безопасность хранилища ключей через производителя устройства и разработчика используемого ПЗУ.</string>
+    <string name="passphrase">Кодовая фраза</string>
+    <string name="colorize_password_title">Раскрашивать пароли</string>
+    <string name="colorize_password_summary">Разделять цветом символы пароля по типу</string>
+    <string name="keyboard_previous_search_title">Экран поиска</string>
+    <string name="entropy">Энтропия: %1$s бит</string>
+    <string name="entropy_high">Энтропия: высокая</string>
+    <string name="word_separator">Разделитель</string>
+    <string name="character_count">Количество символов: %1$d</string>
+    <string name="ignore_chars_filter">Игнорировать символы</string>
+    <string name="title_case">С Заглавных</string>
+    <string name="at_least_one_char">Не менее, чем по одному символу из каждого</string>
+    <string name="consider_chars_filter">Включить символы</string>
+    <string name="content_description_passphrase_word_count">Количество слов в кодовой фразе</string>
+    <string name="keyboard_previous_search_summary">Автоматически переключаться на предыдущую клавиатуру на экране поиска</string>
+    <string name="lower_case">нижний регистр</string>
+    <string name="exclude_ambiguous_chars">Исключить неоднозначные символы</string>
+    <string name="entropy_calculate">Энтропия: вычисление…</string>
+    <string name="upper_case">ВЕРХНИЙ РЕГИСТР</string>
 </resources>

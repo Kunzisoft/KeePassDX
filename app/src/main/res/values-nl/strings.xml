@@ -168,7 +168,7 @@
     <string name="parallelism_explanation">Het aantal parallellen (aantal threads) dat de afleidingsfunctie mag gebruiken.</string>
     <string name="sort_menu">Sorteren</string>
     <string name="sort_ascending">Laagste eerst ↓</string>
-    <string name="sort_groups_before">Groepen vóór losse items sorteren</string>
+    <string name="sort_groups_before">Groepen vooraan plaatsen</string>
     <string name="sort_recycle_bin_bottom">Prullenbak onderaan plaatsen</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Gebruikersnaam</string>
@@ -286,7 +286,7 @@
     <string name="style_choose_summary">Thema gebruikt in de app</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
     <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Editie %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Instellingen Magikeyboard</string>
@@ -517,7 +517,7 @@
     <string name="advanced_unlock_invalid_key">Kan de geavanceerde ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met geavanceerde ontgrendelingsgegevens</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Open database met geavanceerde ontgrendelingsherkenning</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Waarschuwing: je moet nog steeds je hoofdwachtwoord onthouden als je geavanceerde ontgrendelingsherkenning gebruikt.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je geavanceerde ontgrendelingsherkenning gebruikt.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Geavanceerde ontgrendelingsherkenning</string>
     <string name="open_advanced_unlock_prompt_store_credential">Open de geavanceerde ontgrendelingsprompt om inloggegevens op te slaan</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Open de geavanceerde ontgrendelingsprompt om de database te ontgrendelen</string>
@@ -627,4 +627,9 @@
     <string name="menu_merge_from">Samenvoegen van…</string>
     <string name="navigation_drawer_open">Navigatiepaneel openen</string>
     <string name="navigation_drawer_close">Navigatiepaneel sluiten</string>
+    <string name="advanced_unlock_keystore_warning">Deze functie slaat versleutelde gegevens op in de beveiligde KeyStore van uw apparaat.
+\n
+\nAfhankelijk van de specifieke API-implementatie van het besturingssysteem, is dit mogelijk niet volledig functioneel.
+\nControleer de compatibiliteit en beveiliging van de KeyStore met de fabrikant van uw apparaat en de maker van de ROM die u gebruikt.</string>
+    <string name="warning_database_already_opened">Er is al een database geopend, sluit deze eerst alvorens een nieuwe te openen</string>
 </resources>
