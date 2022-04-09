@@ -612,18 +612,23 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && !readOnlyEducationPerformed) {
                     val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(this)
-                    val biometricPerformed =
-                            (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                    if ((biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                             || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                            && advancedUnlockButton != null
-                            && mPasswordActivityEducation.checkAndPerformedBiometricEducation(
-                        advancedUnlockButton!!,
-                        {
-                            startActivity(Intent(this, SettingsAdvancedUnlockActivity::class.java))
-                        },
-                        {
+                            && advancedUnlockButton != null) {
+                        mPasswordActivityEducation.checkAndPerformedBiometricEducation(
+                            advancedUnlockButton!!,
+                            {
+                                startActivity(
+                                    Intent(
+                                        this,
+                                        SettingsAdvancedUnlockActivity::class.java
+                                    )
+                                )
+                            },
+                            {
 
-                        })
+                            })
+                    }
                 }
             } catch (ignored: Exception) {}
         }
