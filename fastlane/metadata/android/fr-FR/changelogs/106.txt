@@ -1,11 +1,8 @@
- * Affichage d'un indicateur visuel de la force du mot de passe avec entropie #631 #869
- * Sauvegarde dynamique de la configuration du générateur de mots de passe #618 #696
- * Ajout des filtres de mots de passe avancés #1052 #448 #983 #271
- * Ajout de champs éditable de génération #539
- * Meilleure visualisation des mots de passe #454 #1270
  * Phrases secrètes #218
- * Correction de petits bugs #1282
- * Meilleure implémentation de la recherche #175 #1254
- * Paramètre pour changer de clavier lors d'une recherche #1267
+ * Indicateur visuel de la force du mot de passe avec entropie #631 #869 #454 #1270
+ * Sauvegarde dynamique de la configuration du générateur de mots de passe #618 #696
+ * Ajout des filtres de mots de passe avancés #1052 #448 #983 #271 #539
+ * Meilleure implémentation de la recherche #175 #1254 #1267
  * Gestion du nom de package du Magiclavier #1010 #1261
- * Demande de confirmation de verouiller si chanegement sans sauvegarde #970
+ * Demande de confirmation de verrouiller si changement sans sauvegarde #970
+ * Correction de petits bugs #1282
