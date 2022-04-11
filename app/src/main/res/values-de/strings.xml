@@ -455,7 +455,7 @@
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
     <string name="keyboard_search_share_summary">Beim Teilen einer URL mit KeePassDX die Einträge nach dieser URL filtern</string>
-    <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
+    <string name="keyboard_search_share_title">Gemeinsame Infos auswählen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen verhindert wird</string>
