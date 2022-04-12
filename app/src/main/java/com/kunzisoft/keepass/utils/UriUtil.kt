@@ -69,7 +69,18 @@ object UriUtil {
             return null
         return when {
             isFileScheme(fileUri) -> fileUri.path?.let { FileOutputStream(it) }
-            isContentScheme(fileUri) -> contentResolver.openOutputStream(fileUri, "wt")
+            isContentScheme(fileUri) -> {
+                try {
+                    contentResolver.openOutputStream(fileUri, "wt")
+                } catch (e: FileNotFoundException) {
+                    Log.e(TAG, "Unable to open stream in `wt` mode, retry in `rwt` mode.", e)
+                    // https://issuetracker.google.com/issues/180526528
+                    // Try with rwt to fix content provider issue
+                    val outStream = contentResolver.openOutputStream(fileUri, "rwt")
+                    Log.w(TAG, "`rwt` mode used.")
+                    outStream
+                }
+            }
             else -> null
         }
     }
