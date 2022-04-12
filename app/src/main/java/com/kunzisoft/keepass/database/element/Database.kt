@@ -913,53 +913,24 @@ class Database {
         try {
             val saveUri = databaseCopyUri ?: this.fileUri
             if (saveUri != null) {
-                if (saveUri.scheme == "file") {
-                    saveUri.path?.let { filename ->
-                        val tempFile = File("$filename.tmp")
-
-                        var fileOutputStream: FileOutputStream? = null
-                        try {
-                            fileOutputStream = FileOutputStream(tempFile)
-                            val pmo = mDatabaseKDB?.let { DatabaseOutputKDB(it, fileOutputStream) }
-                                ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, fileOutputStream) }
-                            pmo?.output()
-                        } catch (e: Exception) {
-                            throw IOException(e)
-                        } finally {
-                            fileOutputStream?.close()
-                        }
-
-                        // Force data to disk before continuing
-                        try {
-                            fileOutputStream?.fd?.sync()
-                        } catch (e: SyncFailedException) {
-                            // Ignore if fsync fails. We tried.
-                        }
-
-                        if (!tempFile.renameTo(File(filename))) {
-                            throw IOException()
-                        }
+                var outputStream: OutputStream? = null
+                try {
+                    outputStream = UriUtil.getUriOutputStream(contentResolver, saveUri)
+                    outputStream?.let { definedOutputStream ->
+                        val databaseOutput =
+                            mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
+                                ?: mDatabaseKDBX?.let {
+                                    DatabaseOutputKDBX(
+                                        it,
+                                        definedOutputStream
+                                    )
+                                }
+                        databaseOutput?.output()
                     }
-                } else {
-                    var outputStream: OutputStream? = null
-                    try {
-                        outputStream = contentResolver.openOutputStream(saveUri, "rwt")
-                        outputStream?.let { definedOutputStream ->
-                            val databaseOutput =
-                                mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
-                                    ?: mDatabaseKDBX?.let {
-                                        DatabaseOutputKDBX(
-                                            it,
-                                            definedOutputStream
-                                        )
-                                    }
-                            databaseOutput?.output()
-                        }
-                    } catch (e: Exception) {
-                        throw IOException(e)
-                    } finally {
-                        outputStream?.close()
-                    }
+                } catch (e: Exception) {
+                    throw IOException(e)
+                } finally {
+                    outputStream?.close()
                 }
                 if (databaseCopyUri == null) {
                     this.dataModifiedSinceLastLoading = false

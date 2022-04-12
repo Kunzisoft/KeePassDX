@@ -69,6 +69,7 @@
     <string name="discard">Discard</string>
     <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
+    <string name="content_description_passphrase_word_count">Passphrase word count</string>
     <string name="entry_add_field">Add field</string>
     <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
@@ -204,12 +205,17 @@
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
+    <string name="passphrase">Passphrase</string>
     <string name="invalid_credentials">Could not read credentials.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
+    <string name="hide_password_title">Hide passwords</string>
+    <string name="hide_password_summary">Mask passwords (***) by default</string>
+    <string name="colorize_password_title">Colorize passwords</string>
+    <string name="colorize_password_summary">Colorize password characters by type</string>
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_entries_show_username_summary">Displays usernames in entry lists</string>
     <string name="list_groups_show_number_entries_title">Show number of entries</string>
@@ -223,8 +229,6 @@
     <string name="creating_database">Creating database…</string>
     <string name="loading_database">Loading database…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="hide_password_title">Hide passwords</string>
-    <string name="hide_password_summary">Mask passwords (***) by default</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
@@ -479,10 +483,10 @@
     <string name="keyboard_selection_entry_summary">When viewing an entry in KeePassDX, populate Magikeyboard with that entry</string>
     <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
-    <string name="keyboard_search_share_title">Search shared info</string>
-    <string name="keyboard_search_share_summary">When sharing a URL to KeePassDX, filter the entries using that URL domain</string>
+    <string name="keyboard_search_share_title">Select shared info</string>
+    <string name="keyboard_search_share_summary">When sharing info to KeePassDX, filter the entries using this info to feed the Magikeyboard</string>
     <string name="keyboard_save_search_info_title">Save shared info</string>
-    <string name="keyboard_save_search_info_summary">After sharing a URL to KeePassDX, when an entry is selected, try to remember that entry for further uses</string>
+    <string name="keyboard_save_search_info_summary">After sharing info to KeePassDX, when an entry is selected, try saving the info in the entry for easier future uses</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -500,6 +504,8 @@
     <string name="keyboard_change">Switch keyboard</string>
     <string name="keyboard_previous_database_credentials_title">Database credentials screen</string>
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
+    <string name="keyboard_previous_search_title">Search screen</string>
+    <string name="keyboard_previous_search_summary">Automatically switch back to the previous keyboard on the search screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
@@ -603,6 +609,23 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string name="entropy">Entropy: %1$s bit</string>
+    <string name="entropy_high">Entropy: High</string>
+    <string name="entropy_calculate">Entropy: Calculate…</string>
+    <string name="at_least_one_char">At least one character from each</string>
+    <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
+    <string name="consider_chars_filter">Consider characters</string>
+    <string name="word_separator">Separator</string>
+    <string name="ignore_chars_filter">Ignore characters</string>
+    <string name="lower_case">lower case</string>
+    <string name="upper_case">UPPER CASE</string>
+    <string name="title_case">Title Case</string>
+    <string name="character_count">Character count: %1$d</string>
+    <string-array name="word_case_array">
+        <item>@string/lower_case</item>
+        <item>@string/upper_case</item>
+        <item>@string/title_case</item>
+    </string-array>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

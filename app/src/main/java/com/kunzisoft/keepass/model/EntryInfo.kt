@@ -225,6 +225,14 @@ class EntryInfo : NodeInfo {
         }
     }
 
+    fun getVisualTitle(): String {
+        return title.ifEmpty {
+            url.ifEmpty {
+                username.ifEmpty { id.toString() }
+            }
+        }
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is EntryInfo) return false

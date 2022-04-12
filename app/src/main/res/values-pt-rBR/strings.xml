@@ -521,7 +521,7 @@
     <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançada. Por favor, apague-a e repita o procedimento de reconhecimento de desbloqueio.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraia credencial de banco de dados com dados de desbloqueio avançado</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Aviso: você ainda precisa lembrar sua senha mestra se usar o reconhecimento de desbloqueio avançado.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Você ainda precisa lembrar sua credencial principal se usar o reconhecimento de desbloqueio avançado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
     <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar as credenciais</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Abra o prompt de desbloqueio avançado para desbloquear o banco de dados</string>
@@ -626,4 +626,27 @@
     <string name="search_filters">Filtros de pesquisa</string>
     <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
     <string name="current_group">Grupo atual</string>
+    <string name="content_description_passphrase_word_count">Número de palavras da senha</string>
+    <string name="warning_database_already_opened">Um banco de dados já está aberto, feche-o primeiro para abrir o novo</string>
+    <string name="keyboard_previous_search_title">Tela de busca</string>
+    <string name="entropy_calculate">Entropia: Calcular…</string>
+    <string name="at_least_one_char">Pelo menos um caractere de cada</string>
+    <string name="exclude_ambiguous_chars">Excluir caracteres ambíguos</string>
+    <string name="consider_chars_filter">Considerar caracteres</string>
+    <string name="upper_case">MAIÚSCULAS</string>
+    <string name="title_case">Capitalização de Título</string>
+    <string name="colorize_password_title">Colorir senhas</string>
+    <string name="colorize_password_summary">Colorir caracteres da senha por tipo</string>
+    <string name="passphrase">Frase secreta</string>
+    <string name="entropy">Entropia: %1$s bit</string>
+    <string name="entropy_high">Entropia: Alta</string>
+    <string name="keyboard_previous_search_summary">Voltar automaticamente para o teclado anterior na tela de pesquisa</string>
+    <string name="advanced_unlock_keystore_warning">Esse recurso armazenará dados de credenciais criptografados no KeyStore seguro do seu dispositivo.
+\n
+\nDependendo da implementação da API nativa do sistema operacional, pode não ser totalmente funcional.
+\nVerifique a compatibilidade e segurança do KeyStore com o fabricante do seu dispositivo e o criador da ROM que você está usando.</string>
+    <string name="ignore_chars_filter">Ignorar caracteres</string>
+    <string name="word_separator">Separador</string>
+    <string name="lower_case">minúsculas</string>
+    <string name="character_count">Número de caracteres: %1$d</string>
 </resources>

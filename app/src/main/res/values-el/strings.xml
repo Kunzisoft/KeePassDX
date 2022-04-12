@@ -492,7 +492,7 @@
     <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
     <string name="error_field_name_already_exists">Το όνομα πεδίου υπάρχει ήδη.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Προηγμένο ξεκλείδωμα αναγνώρισης</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Προειδοποίηση: Θα πρέπει να θυμάστε τον κύριο κωδικό πρόσβασης εάν χρησιμοποιείτε προηγμένο ξεκλείδωμα αναγνώρισης.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήριά σας εάν χρησιμοποιείτε σύνθετη αναγνώριση ξεκλειδώματος.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Ανοίξτε τη βάση δεδομένων με προηγμένο ξεκλείδωμα αναγνώρισης</string>
     <string name="open_advanced_unlock_prompt_store_credential">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για αποθήκευση διαπιστευτηρίων</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλειδώσετε τη βάση δεδομένων</string>
@@ -626,4 +626,27 @@
     <string name="regex">Κοινή έκφραση</string>
     <string name="menu_save_copy_to">Αποθήκευση αντιγράφου στο …</string>
     <string name="expired">Ληγμένο</string>
+    <string name="warning_database_already_opened">Μια βάση δεδομένων είναι ήδη ανοιχτή, κλείστε την πρώτα για να ανοίξετε τη νέα</string>
+    <string name="advanced_unlock_keystore_warning">Αυτή η δυνατότητα θα αποθηκεύσει κρυπτογραφημένα δεδομένα διαπιστευτηρίων στο ασφαλές KeyStore της συσκευής σας.
+\n
+\nΑνάλογα με την εγγενή υλοποίηση API του λειτουργικού συστήματος, ενδέχεται να μην είναι πλήρως λειτουργικό.
+\nΕλέγξτε τη συμβατότητα και την ασφάλεια του KeyStore με τον κατασκευαστή της συσκευής σας και τον δημιουργό της ROM που χρησιμοποιείτε.</string>
+    <string name="passphrase">Συνθηματική φράση</string>
+    <string name="colorize_password_summary">Χρωματίστε τους χαρακτήρες του κωδικού πρόσβασης ανά τύπο</string>
+    <string name="keyboard_previous_search_title">Οθόνη αναζήτησης</string>
+    <string name="keyboard_previous_search_summary">Αυτόματη εναλλαγή στο προηγούμενο πληκτρολόγιο στην οθόνη αναζήτησης</string>
+    <string name="entropy">Εντροπία: %1$s bit</string>
+    <string name="entropy_calculate">Εντροπία: Υπολογισμός…</string>
+    <string name="title_case">Γράμματα Τίτλου</string>
+    <string name="colorize_password_title">Χρωματίστε τους κωδικούς πρόσβασης</string>
+    <string name="entropy_high">Εντροπία: Υψηλή</string>
+    <string name="consider_chars_filter">Σκεφτείτε χαρακτήρες</string>
+    <string name="exclude_ambiguous_chars">Εξαιρέστε διφορούμενους χαρακτήρες</string>
+    <string name="content_description_passphrase_word_count">Πλήθος λέξεων συνθηματικής φράσης</string>
+    <string name="at_least_one_char">Τουλάχιστον ένας χαρακτήρας από το καθένα</string>
+    <string name="ignore_chars_filter">Αγνοήστε χαρακτήρες</string>
+    <string name="lower_case">πεζά γράμματα</string>
+    <string name="upper_case">ΚΕΦΑΛΑΙΑ ΓΡΑΜΜΑΤΑ</string>
+    <string name="word_separator">Διαχωριστής</string>
+    <string name="character_count">Αριθμός χαρακτήρων: %1$d</string>
 </resources>

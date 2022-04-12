@@ -138,8 +138,9 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/entry_content_tab"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="120dp"
         android:layout_gravity="bottom|center_horizontal"
         android:background="?attr/cardBackgroundTransparentColor"
         app:tabIconTint="?android:attr/textColor"

@@ -79,6 +79,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
@@ -182,6 +183,11 @@ class GroupActivity : DatabaseLockActivity(),
 
             addSearch()
             //loadGroup()
+
+            // Back to previous keyboard
+            if (PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
+                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            }
             return true
         }
 
@@ -200,7 +206,7 @@ class GroupActivity : DatabaseLockActivity(),
         finishNodeAction()
         if (mSearchState == null) {
             mSearchState = SearchState(searchFiltersView?.searchParameters
-                ?: SearchParameters(), 0)
+                ?: PreferencesUtil.getDefaultSearchParameters(this), 0)
         }
     }
 
@@ -719,7 +725,7 @@ class GroupActivity : DatabaseLockActivity(),
                 val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
                 intent.action = Intent.ACTION_DEFAULT
                 intent.removeExtra(SearchManager.QUERY)
-                mSearchState = SearchState(SearchParameters().apply {
+                mSearchState = SearchState(PreferencesUtil.getDefaultSearchParameters(this).apply {
                     searchQuery = stringQuery
                 }, mSearchState?.firstVisibleItem ?: 0)
             }
@@ -1126,6 +1132,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         finishNodeAction()
         searchView?.setOnQueryTextListener(null)
+        searchFiltersView?.saveSearchParameters()
     }
 
     private fun addSearchQueryInSearchView(searchQuery: String) {

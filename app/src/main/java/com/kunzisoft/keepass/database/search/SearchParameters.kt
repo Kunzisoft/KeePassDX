@@ -34,7 +34,7 @@ class SearchParameters() : Parcelable{
     var searchInUsernames = true
     var searchInPasswords = false
     var searchInUrls = true
-    var excludeExpired = false
+    var searchInExpired = false
     var searchInNotes = true
     var searchInOTP = false
     var searchInOther = true
@@ -49,11 +49,12 @@ class SearchParameters() : Parcelable{
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
         caseSensitive = parcel.readByte() != 0.toByte()
+        isRegex = parcel.readByte() != 0.toByte()
         searchInTitles = parcel.readByte() != 0.toByte()
         searchInUsernames = parcel.readByte() != 0.toByte()
         searchInPasswords = parcel.readByte() != 0.toByte()
         searchInUrls = parcel.readByte() != 0.toByte()
-        excludeExpired = parcel.readByte() != 0.toByte()
+        searchInExpired = parcel.readByte() != 0.toByte()
         searchInNotes = parcel.readByte() != 0.toByte()
         searchInOTP = parcel.readByte() != 0.toByte()
         searchInOther = parcel.readByte() != 0.toByte()
@@ -68,11 +69,12 @@ class SearchParameters() : Parcelable{
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(searchQuery)
         parcel.writeByte(if (caseSensitive) 1 else 0)
+        parcel.writeByte(if (isRegex) 1 else 0)
         parcel.writeByte(if (searchInTitles) 1 else 0)
         parcel.writeByte(if (searchInUsernames) 1 else 0)
         parcel.writeByte(if (searchInPasswords) 1 else 0)
         parcel.writeByte(if (searchInUrls) 1 else 0)
-        parcel.writeByte(if (excludeExpired) 1 else 0)
+        parcel.writeByte(if (searchInExpired) 1 else 0)
         parcel.writeByte(if (searchInNotes) 1 else 0)
         parcel.writeByte(if (searchInOTP) 1 else 0)
         parcel.writeByte(if (searchInOther) 1 else 0)

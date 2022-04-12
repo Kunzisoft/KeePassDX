@@ -29,6 +29,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
@@ -431,7 +432,19 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     protected fun lockAndExit() {
-        sendBroadcast(Intent(LOCK_ACTION))
+        // Ask confirmation if modification not saved
+        if (mDatabase?.isReadOnly == false
+            && mDatabase?.dataModifiedSinceLastLoading == true
+            && !PreferencesUtil.isAutoSaveDatabaseEnabled(this)) {
+            AlertDialog.Builder(this)
+                .setMessage(R.string.discard_changes)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.lock) { _, _ ->
+                    sendBroadcast(Intent(LOCK_ACTION))
+                }.create().show()
+        } else {
+            sendBroadcast(Intent(LOCK_ACTION))
+        }
     }
 
     fun resetAppTimeout() {

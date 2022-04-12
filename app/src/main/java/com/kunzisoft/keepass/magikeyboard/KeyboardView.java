@@ -18,6 +18,8 @@ package com.kunzisoft.keepass.magikeyboard;
 
 import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_BACK_KEYBOARD;
 import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_CHANGE_KEYBOARD;
+import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_ENTRY;
+import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_ENTRY_ALT;
 import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_OTP;
 import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_OTP_ALT;
 
@@ -1048,6 +1050,9 @@ public class KeyboardView extends View implements View.OnClickListener {
     protected boolean onLongPress(Key popupKey) {
         if (popupKey.codes[0] == KEY_BACK_KEYBOARD) {
             mKeyboardActionListener.onKey(KEY_CHANGE_KEYBOARD, popupKey.codes);
+            return true;
+        } else if (popupKey.codes[0] == KEY_ENTRY) {
+            mKeyboardActionListener.onKey(KEY_ENTRY_ALT, popupKey.codes);
             return true;
         } else if (popupKey.codes[0] == KEY_OTP) {
             mKeyboardActionListener.onKey(KEY_OTP_ALT, popupKey.codes);

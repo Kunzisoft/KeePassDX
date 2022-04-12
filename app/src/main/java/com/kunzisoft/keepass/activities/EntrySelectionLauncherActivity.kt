@@ -20,8 +20,11 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -50,134 +53,165 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
 
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
-        var sharedWebDomain: String? = null
-        var otpString: String? = null
 
-        when (intent?.action) {
-            Intent.ACTION_SEND -> {
-                if ("text/plain" == intent.type) {
-                    // Retrieve web domain or OTP
-                    intent.getStringExtra(Intent.EXTRA_TEXT)?.let { extra ->
-                        if (OtpEntryFields.isOTPUri(extra))
-                            otpString = extra
-                        else
-                            sharedWebDomain = Uri.parse(extra).host
+        val keySelectionBundle = intent.getBundleExtra(KEY_SELECTION_BUNDLE)
+        if (keySelectionBundle != null) {
+            // To manage package name
+            var searchInfo = SearchInfo()
+            keySelectionBundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { mSearchInfo ->
+                searchInfo = mSearchInfo
+            }
+            launch(database, searchInfo, true)
+        } else {
+            // To manage share
+            var sharedWebDomain: String? = null
+            var otpString: String? = null
+
+            when (intent?.action) {
+                Intent.ACTION_SEND -> {
+                    if ("text/plain" == intent.type) {
+                        // Retrieve web domain or OTP
+                        intent.getStringExtra(Intent.EXTRA_TEXT)?.let { extra ->
+                            if (OtpEntryFields.isOTPUri(extra))
+                                otpString = extra
+                            else
+                                sharedWebDomain = Uri.parse(extra).host
+                        }
                     }
                 }
-            }
-            Intent.ACTION_VIEW -> {
-                // Retrieve OTP
-                intent.dataString?.let { extra ->
-                    if (OtpEntryFields.isOTPUri(extra))
-                        otpString = extra
+                Intent.ACTION_VIEW -> {
+                    // Retrieve OTP
+                    intent.dataString?.let { extra ->
+                        if (OtpEntryFields.isOTPUri(extra))
+                            otpString = extra
+                    }
                 }
+                else -> {}
             }
-            else -> {}
-        }
 
-        // Build domain search param
-        val searchInfo = SearchInfo().apply {
-            this.webDomain = sharedWebDomain
-            this.otpString = otpString
-        }
+            // Build domain search param
+            val searchInfo = SearchInfo().apply {
+                this.webDomain = sharedWebDomain
+                this.otpString = otpString
+            }
 
-        SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
-            searchInfo.webDomain = concreteWebDomain
-            launch(database, searchInfo)
+            SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                searchInfo.webDomain = concreteWebDomain
+                launch(database, searchInfo)
+            }
         }
     }
 
     private fun launch(database: Database?,
-                       searchInfo: SearchInfo) {
+                       searchInfo: SearchInfo,
+                       forceSelection: Boolean = false) {
 
-        if (!searchInfo.containsOnlyNullValues()) {
-            // Setting to integrate Magikeyboard
-            val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
+        // Setting to integrate Magikeyboard
+        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
-            // If database is open
-            val readOnly = database?.isReadOnly != false
-            SearchHelper.checkAutoSearchInfo(this,
-                    database,
-                    searchInfo,
-                    { openedDatabase, items ->
-                        // Items found
-                        if (searchInfo.otpString != null) {
-                            if (!readOnly) {
-                                GroupActivity.launchForSaveResult(
-                                    this,
-                                    openedDatabase,
-                                    searchInfo,
-                                    false)
-                            } else {
-                                Toast.makeText(applicationContext,
-                                        R.string.autofill_read_only_save,
-                                        Toast.LENGTH_LONG)
-                                        .show()
-                            }
-                        } else if (searchShareForMagikeyboard) {
-                            if (items.size == 1) {
-                                // Automatically populate keyboard
-                                val entryPopulate = items[0]
-                                populateKeyboardAndMoveAppToBackground(
-                                    this,
-                                        entryPopulate,
-                                        intent)
-                            } else {
-                                // Select the one we want
-                                GroupActivity.launchForKeyboardSelectionResult(this,
-                                    openedDatabase,
-                                    searchInfo,
-                                    true)
-                            }
+        // If database is open
+        val readOnly = database?.isReadOnly != false
+        SearchHelper.checkAutoSearchInfo(this,
+                database,
+                searchInfo,
+                { openedDatabase, items ->
+                    // Items found
+                    if (searchInfo.otpString != null) {
+                        if (!readOnly) {
+                            GroupActivity.launchForSaveResult(
+                                this,
+                                openedDatabase,
+                                searchInfo,
+                                false)
                         } else {
-                            GroupActivity.launchForSearchResult(this,
+                            Toast.makeText(applicationContext,
+                                    R.string.autofill_read_only_save,
+                                    Toast.LENGTH_LONG)
+                                    .show()
+                        }
+                    } else if (searchShareForMagikeyboard) {
+                        if (items.size == 1 && !forceSelection) {
+                            // Automatically populate keyboard
+                            val entryPopulate = items[0]
+                            populateKeyboardAndMoveAppToBackground(
+                                this,
+                                    entryPopulate,
+                                    intent)
+                            Log.e("TEST", "One item activity")
+                        } else {
+                            // Select the one we want
+                            GroupActivity.launchForKeyboardSelectionResult(this,
                                 openedDatabase,
                                 searchInfo,
                                 true)
                         }
-                    },
-                    { openedDatabase ->
-                        // Show the database UI to select the entry
-                        if (searchInfo.otpString != null) {
-                            if (!readOnly) {
-                                GroupActivity.launchForSaveResult(this,
-                                    openedDatabase,
-                                    searchInfo,
-                                    false)
-                            } else {
-                                Toast.makeText(applicationContext,
-                                        R.string.autofill_read_only_save,
-                                        Toast.LENGTH_LONG)
-                                        .show()
-                            }
-                        } else if (readOnly || searchShareForMagikeyboard) {
-                            GroupActivity.launchForKeyboardSelectionResult(this,
-                                openedDatabase,
-                                searchInfo,
-                                false)
-                        } else {
+                    } else {
+                        GroupActivity.launchForSearchResult(this,
+                            openedDatabase,
+                            searchInfo,
+                            true)
+                    }
+                },
+                { openedDatabase ->
+                    // Show the database UI to select the entry
+                    if (searchInfo.otpString != null) {
+                        if (!readOnly) {
                             GroupActivity.launchForSaveResult(this,
                                 openedDatabase,
                                 searchInfo,
                                 false)
-                        }
-                    },
-                    {
-                        // If database not open
-                        if (searchInfo.otpString != null) {
-                            FileDatabaseSelectActivity.launchForSaveResult(this,
-                                    searchInfo)
-                        } else if (searchShareForMagikeyboard) {
-                            FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
-                                    searchInfo)
                         } else {
-                            FileDatabaseSelectActivity.launchForSearchResult(this,
-                                    searchInfo)
+                            Toast.makeText(applicationContext,
+                                    R.string.autofill_read_only_save,
+                                    Toast.LENGTH_LONG)
+                                    .show()
                         }
+                    } else if (readOnly || searchShareForMagikeyboard) {
+                        GroupActivity.launchForKeyboardSelectionResult(this,
+                            openedDatabase,
+                            searchInfo,
+                            false)
+                    } else {
+                        GroupActivity.launchForSaveResult(this,
+                            openedDatabase,
+                            searchInfo,
+                            false)
                     }
-            )
-        }
+                },
+                {
+                    // If database not open
+                    if (searchInfo.otpString != null) {
+                        FileDatabaseSelectActivity.launchForSaveResult(this,
+                                searchInfo)
+                    } else if (searchShareForMagikeyboard) {
+                        FileDatabaseSelectActivity.launchForKeyboardSelectionResult(this,
+                                searchInfo)
+                    } else {
+                        FileDatabaseSelectActivity.launchForSearchResult(this,
+                                searchInfo)
+                    }
+                }
+        )
         finish()
+    }
+
+    companion object {
+
+        private const val KEY_SELECTION_BUNDLE = "KEY_SELECTION_BUNDLE"
+        private const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
+
+        fun launch(context: Context,
+                   searchInfo: SearchInfo? = null) {
+            val intent = Intent(context, EntrySelectionLauncherActivity::class.java).apply {
+                putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
+                    putParcelable(KEY_SEARCH_INFO, searchInfo)
+                })
+            }
+            // New task needed because don't launch from an Activity context
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+            context.startActivity(intent)
+        }
     }
 }
 

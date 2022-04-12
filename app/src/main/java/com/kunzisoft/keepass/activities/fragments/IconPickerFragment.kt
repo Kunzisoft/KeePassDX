@@ -26,14 +26,14 @@ class IconPickerFragment : DatabaseFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_icon_picker, container, false)
+        return inflater.inflate(R.layout.fragment_tabs_pagination, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPager = view.findViewById(R.id.icon_picker_pager)
-        tabLayout = view.findViewById(R.id.icon_picker_tabs)
+        viewPager = view.findViewById(R.id.tabs_view_pager)
+        tabLayout = view.findViewById(R.id.tabs_layout)
         resetAppTimeoutWhenViewFocusedOrChanged(view)
 
         arguments?.apply {

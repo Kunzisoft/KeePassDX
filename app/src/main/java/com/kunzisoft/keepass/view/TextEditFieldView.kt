@@ -1,9 +1,13 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
@@ -19,6 +23,9 @@ import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.password.PasswordGenerator
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class TextEditFieldView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,
@@ -123,7 +130,13 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             return valueView.text?.toString() ?: ""
         }
         set(value) {
-            valueView.setText(value)
+            val spannableString =
+                if (PreferencesUtil.colorizePassword(context)
+                    && TemplateField.isStandardPasswordName(context, label))
+                    PasswordGenerator.getColorizedPassword(value)
+                else
+                    SpannableString(value)
+            valueView.setText(spannableString)
         }
 
     override var default: String = ""
@@ -164,7 +177,11 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     fun setProtection(protection: Boolean) {
         if (protection) {
             labelView.endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
-            valueView.inputType = valueView.inputType or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            val visibilityTag = if (PreferencesUtil.hideProtectedValue(context))
+                InputType.TYPE_TEXT_VARIATION_PASSWORD
+            else
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            valueView.inputType = valueView.inputType or visibilityTag
         }
     }
 

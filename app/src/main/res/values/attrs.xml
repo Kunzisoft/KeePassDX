@@ -41,6 +41,12 @@
         <attr name="explanations" format="string" />
     </declare-styleable>
 
+    <declare-styleable name="PassKeyView">
+        <attr name="passKeyHint" format="string" />
+        <attr name="passKeyMaxLines" format="integer" />
+        <attr name="passKeyVisible" format="boolean" />
+    </declare-styleable>
+
     <!-- Specific keyboard attributes -->
     <declare-styleable name="KeyboardView">
         <!-- Default KeyboardView style. -->

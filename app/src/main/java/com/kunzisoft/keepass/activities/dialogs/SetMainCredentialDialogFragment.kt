@@ -36,8 +36,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.KeyFileSelectionView
+import com.kunzisoft.keepass.view.PassKeyView
+import com.kunzisoft.keepass.view.applyFontVisibility
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
@@ -48,8 +51,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private var passwordCheckBox: CompoundButton? = null
 
-    private var passwordTextInputLayout: TextInputLayout? = null
-    private var passwordView: TextView? = null
+    private var passKeyView: PassKeyView? = null
     private var passwordRepeatTextInputLayout: TextInputLayout? = null
     private var passwordRepeatView: TextView? = null
 
@@ -59,6 +61,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private var mListener: AssignMainCredentialDialogListener? = null
 
     private var mExternalFileHelper: ExternalFileHelper? = null
+    private var mPasswordEntropyCalculator: PasswordEntropy? = null
 
     private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
     private var mNoKeyConfirmationDialog: AlertDialog? = null
@@ -100,6 +103,13 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onDetach()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Create the password entropy object
+        mPasswordEntropyCalculator = PasswordEntropy()
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
 
@@ -123,10 +133,10 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
-            passwordTextInputLayout = rootView?.findViewById(R.id.password_input_layout)
-            passwordView = rootView?.findViewById(R.id.pass_password)
+            passKeyView = rootView?.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
-            passwordRepeatView = rootView?.findViewById(R.id.pass_conf_password)
+            passwordRepeatView = rootView?.findViewById(R.id.password_confirmation)
+            passwordRepeatView?.applyFontVisibility()
 
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
@@ -162,7 +172,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                             if (allowNoMasterKey)
                                 showNoKeyConfirmationDialog()
                             else {
-                                passwordTextInputLayout?.error = getString(R.string.error_disallow_no_credentials)
+                                passwordRepeatTextInputLayout?.error = getString(R.string.error_disallow_no_credentials)
                             }
                         }
                         if (!error) {
@@ -194,22 +204,22 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onResume()
 
         // To check checkboxes if a text is present
-        passwordView?.addTextChangedListener(passwordTextWatcher)
+        passKeyView?.addTextChangedListener(passwordTextWatcher)
     }
 
     override fun onPause() {
         super.onPause()
 
-        passwordView?.removeTextChangedListener(passwordTextWatcher)
+        passKeyView?.removeTextChangedListener(passwordTextWatcher)
     }
 
     private fun verifyPassword(): Boolean {
         var error = false
         if (passwordCheckBox != null
                 && passwordCheckBox!!.isChecked
-                && passwordView != null
+                && passKeyView != null
                 && passwordRepeatView != null) {
-            mMasterPassword = passwordView!!.text.toString()
+            mMasterPassword = passKeyView!!.passwordString
             val confPassword = passwordRepeatView!!.text.toString()
 
             // Verify that passwords match

@@ -1,0 +1,8 @@
+ * Passphrase implementation #218
+ * Show visual password strength indicator with entropy #631 #869 #454 #1270
+ * Dynamically save password generator configuration #618 #696
+ * Add advanced password filters #1052 #448 #983 #271 #539
+ * Better search implementation #175 #1254 #1267
+ * Manage package name from Magikeyboard #1010 #1261
+ * Ask confirmation to lock if changes without save #970
+ * Fix small bugs #1282
