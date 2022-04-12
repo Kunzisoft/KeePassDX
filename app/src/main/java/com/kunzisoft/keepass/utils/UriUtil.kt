@@ -69,7 +69,7 @@ object UriUtil {
             return null
         return when {
             isFileScheme(fileUri) -> fileUri.path?.let { FileOutputStream(it) }
-            isContentScheme(fileUri) -> contentResolver.openOutputStream(fileUri, "wt")
+            isContentScheme(fileUri) -> contentResolver.openOutputStream(fileUri, "rwt")
             else -> null
         }
     }
