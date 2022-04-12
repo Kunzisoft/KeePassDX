@@ -507,7 +507,7 @@
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
     <string name="keyboard_save_search_info_summary">Nachdem eine URL mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht, sich diesen Eintrag für die weitere Nutzung zu merken</string>
-    <string name="keyboard_save_search_info_title">Gemeinsam genutzte Informationen speichern</string>
+    <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
     <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie die moderne Entsperrerkennung verwenden.</string>
