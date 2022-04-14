@@ -30,11 +30,10 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="240dp">
+        android:layout_height="wrap_content">
         <View
             android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_height="68dp"
             android:background="?attr/colorPrimary" />
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -43,7 +42,7 @@
             android:layout_marginEnd="@dimen/card_view_margin_horizontal"
             android:layout_marginLeft="@dimen/card_view_margin_horizontal"
             android:layout_marginRight="@dimen/card_view_margin_horizontal"
-            android:layout_marginTop="@dimen/card_view_margin_vertical"
+            android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/card_view_margin_vertical"
             android:layout_gravity="bottom"
             app:cardCornerRadius="4dp">
