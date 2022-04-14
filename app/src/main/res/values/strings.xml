@@ -486,7 +486,7 @@
     <string name="keyboard_search_share_title">Select shared info</string>
     <string name="keyboard_search_share_summary">When sharing info to KeePassDX, filter the entries using this info to feed the Magikeyboard</string>
     <string name="keyboard_save_search_info_title">Save shared info</string>
-    <string name="keyboard_save_search_info_summary">After sharing info to KeePassDX, when an entry is selected, try saving the info in the entry for easier future uses</string>
+    <string name="keyboard_save_search_info_summary">Try to save shared information when making a manual entry selection for easier future uses</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -522,7 +522,7 @@
     <string name="autofill_manual_selection_title">Manual selection</string>
     <string name="autofill_manual_selection_summary">Display option to let the user select database entry</string>
     <string name="autofill_save_search_info_title">Save search info</string>
-    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
+    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection for easier future uses</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
     <string name="autofill_ask_to_save_data_summary">Ask for saving data when filling of a form is completed</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
