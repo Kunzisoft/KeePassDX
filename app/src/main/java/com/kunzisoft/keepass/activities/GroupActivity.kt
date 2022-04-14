@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -890,10 +891,9 @@ class GroupActivity : DatabaseLockActivity(),
     private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
         reloadCurrentGroup()
         // Populate Magikeyboard with entry
-        populateKeyboardAndMoveAppToBackground(
+        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
-            entry.getEntryInfo(database),
-            intent
+            entry.getEntryInfo(database)
         )
         onValidateSpecialMode()
     }
@@ -1660,20 +1660,24 @@ class GroupActivity : DatabaseLockActivity(),
                                 database,
                                 searchInfo,
                                 { _, items ->
-                                    // Response is build
-                                    if (items.size == 1) {
-                                        populateKeyboardAndMoveAppToBackground(activity,
-                                                items[0],
-                                                activity.intent)
-                                        onValidateSpecialMode()
-                                    } else {
-                                        // Select the one we want
-                                        launchForKeyboardSelectionResult(activity,
-                                            database,
-                                            searchInfo,
-                                            true)
-                                        onLaunchActivitySpecialMode()
-                                    }
+                                    MagikeyboardService.performSelection(
+                                        items,
+                                        { entryInfo ->
+                                            // Keyboard populated
+                                            MagikeyboardService.populateKeyboardAndMoveAppToBackground(
+                                                activity,
+                                                entryInfo
+                                            )
+                                            onValidateSpecialMode()
+                                        },
+                                        { autoSearch ->
+                                            launchForKeyboardSelectionResult(activity,
+                                                database,
+                                                searchInfo,
+                                                autoSearch)
+                                            onLaunchActivitySpecialMode()
+                                        }
+                                    )
                                 },
                                 {
                                     // Here no search info found, disable auto search

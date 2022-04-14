@@ -113,7 +113,7 @@ object EntrySelectionHelper {
                 ?: SpecialMode.DEFAULT
     }
 
-    fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
+    private fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
         intent.putExtra(KEY_TYPE_MODE, typeMode as Serializable)
     }
 
