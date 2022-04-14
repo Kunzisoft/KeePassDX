@@ -12,7 +12,7 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
         targetSdkVersion 31
-        versionCode = 109
+        versionCode = 110
         versionName = "3.4.1"
         multiDexEnabled true
 
