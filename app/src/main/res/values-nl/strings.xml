@@ -403,8 +403,6 @@
     <string name="download_attachment">Download %1$s</string>
     <string name="education_setup_OTP_summary">Stel eenmalig wachtwoordbeheer (HOTP / TOTP) in om een token te genereren voor tweefactorauthenticatie (2FA).</string>
     <string name="enable_auto_save_database_title">Automatisch opslaan</string>
-    <string name="autofill_auto_search_summary">Automatisch zoekresultaten voorstellen vanuit het webdomein of de toepassings-ID</string>
-    <string name="autofill_auto_search_title">Automatisch zoeken</string>
     <string name="recycle_bin_group_title">Prullenbak</string>
     <string name="lock_database_show_button_summary">Toont de vergrendelknop in de gebruikersinterface</string>
     <string name="lock_database_show_button_title">Vergrendelknop tonen</string>

@@ -152,7 +152,6 @@
     <string name="about_description">KeePass പാസ്‍വേഡ് മാനേജറിന്റെ Android നടപ്പിലാക്കൽ</string>
     <string name="download_complete">പൂർത്തിയാക്കി!</string>
     <string name="education_create_database_title">നിങ്ങളുടെ ഡാറ്റാബേസ് ഫയൽ സൃഷ്ടിക്കുക</string>
-    <string name="autofill_auto_search_title">സ്വയം തിരയൽ</string>
     <string name="keyboard_change">കീബോർഡ് മാറ്റുക</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="compression_gzip">Gzip</string>

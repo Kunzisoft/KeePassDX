@@ -502,8 +502,6 @@
     <string name="autofill_ask_to_save_data_title">Pedir que se guarden los datos</string>
     <string name="autofill_save_search_info_summary">Intente guardar la información de la búsqueda cuando haga una selección de entrada manual</string>
     <string name="autofill_save_search_info_title">Guardar la información de la búsqueda</string>
-    <string name="autofill_auto_search_summary">Sugerir automáticamente los resultados de la búsqueda desde el dominio web o el ID de la aplicación</string>
-    <string name="autofill_auto_search_title">Búsqueda automática</string>
     <string name="autofill_close_database_summary">Cerrar la base de datos después de una selección de autocompletado</string>
     <string name="autofill_close_database_title">Cerrar la base de datos</string>
     <string name="enter">Entrar</string>

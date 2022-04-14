@@ -517,8 +517,6 @@
     <string name="enter">Enter</string>
     <string name="autofill_close_database_title">Close database</string>
     <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
-    <string name="autofill_auto_search_title">Auto search</string>
-    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
     <string name="autofill_inline_suggestions_title">Inline suggestions</string>
     <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
     <string name="autofill_manual_selection_title">Manual selection</string>

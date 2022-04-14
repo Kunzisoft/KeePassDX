@@ -231,8 +231,6 @@
     <string name="content_description_add_item">Adicionar item</string>
     <string name="keyboard_search_share_summary">Ao partilhar um URL com o KeePassDX, filtrar as entradas usando esse domínio de URL</string>
     <string name="keyboard_search_share_title">Procurar informação partilhada</string>
-    <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa automaticamente do domínio da web ou do ID da aplicação</string>
-    <string name="autofill_auto_search_title">Pesquisa automática</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqeuar na interface do utilizador</string>
     <string name="lock_database_show_button_title">Mostrar botão de bloquear</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>

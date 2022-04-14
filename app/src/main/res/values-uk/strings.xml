@@ -320,8 +320,6 @@
     <string name="delete_entered_password_title">Видаляти пароль</string>
     <string name="allow_no_password_summary">Дозволяє натискання «Відкрити», якщо не вибрано головний пароль</string>
     <string name="allow_no_password_title">Дозволити без головного ключа</string>
-    <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ID застосунку</string>
-    <string name="autofill_auto_search_title">Автоматичний пошук</string>
     <string name="keyboard_key_sound_title">Звук під час натискання</string>
     <string name="keyboard_key_vibrate_title">Вібрація під час натискання</string>
     <string name="keyboard_auto_go_action_summary">Дія переходу після натискання кнопки заповнення поля</string>

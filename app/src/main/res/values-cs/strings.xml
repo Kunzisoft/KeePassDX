@@ -429,8 +429,6 @@
     <string name="validate">Zkontrolovat</string>
     <string name="education_setup_OTP_summary">Nastavit správu One-Time hesla (HOTP / TOTP) pro založení tokenu požadovaného pro dvoufázové ověření (2FA).</string>
     <string name="education_setup_OTP_title">Nastavit OTP</string>
-    <string name="autofill_auto_search_summary">Automaticky navrhnout výsledky hledání z webové domény nebo ID aplikace</string>
-    <string name="autofill_auto_search_title">Automatické vyhledávání</string>
     <string name="lock_database_show_button_summary">Zobrazí tlačítko zámku v uživatelském rozhraní</string>
     <string name="lock_database_show_button_title">Zobrazit tlačítko zámku</string>
     <string name="autofill_preference_title">Nastavení samovyplnění</string>

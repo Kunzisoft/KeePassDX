@@ -429,8 +429,6 @@
     <string name="discard">Kassér</string>
     <string name="discard_changes">Kasser ændringer\?</string>
     <string name="validate">Valider</string>
-    <string name="autofill_auto_search_summary">Foreslår automatisk søgeresultater fra webdomænet eller applikations-id</string>
-    <string name="autofill_auto_search_title">Automatisk søgning</string>
     <string name="lock_database_show_button_summary">Viser låseknappen i brugergrænsefladen</string>
     <string name="lock_database_show_button_title">Vis låseknap</string>
     <string name="autofill_preference_title">Indstillinger for automatisk udfyldning</string>

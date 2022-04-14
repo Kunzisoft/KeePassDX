@@ -336,7 +336,6 @@
     <string name="homepage">Početna stranica</string>
     <string name="remember_keyfile_locations_title">Zapamti mjesto datoteke ključa</string>
     <string name="unavailable_feature_version">Uređaj koristi Android verziju %1$s, ali potrebna je verzija %2$s ili novija.</string>
-    <string name="autofill_auto_search_summary">Automatski predloži rezultate pretrage od web domene ili ID-a aplikacije</string>
     <string name="hide_broken_locations_summary">Sakrij pokvarene poveznice u popisu nedavnih baza podataka</string>
     <string name="html_text_dev_feature">Ova se funkcija nalazi &lt;strong&gt;u razvoju&lt;/strong&gt; i treba tvoj &lt;strong&gt;doprinos&lt;/strong&gt; kako bi uskoro bila dostupna.</string>
     <string name="education_generate_password_title">Stvori sigurnu lozinku</string>
@@ -346,7 +345,6 @@
     <string name="autofill_application_id_blocklist_title">Popis blokiranja aplikacija</string>
     <string name="validate">Provjeri valjanost</string>
     <string name="education_entry_edit_title">Uredi unos</string>
-    <string name="autofill_auto_search_title">Automatska pretraga</string>
     <string name="html_text_dev_feature_work_hard">Trudimo se brzo izdati ovu funkciju.</string>
     <string name="html_text_dev_feature_encourage">potičeš programere da stvore &lt;strong&gt;nove funkcije&lt;/strong&gt; i &lt;strong&gt;isprave greške&lt;/strong&gt; na osnovi tvojih napomena.</string>
     <string name="keyboard_auto_go_action_summary">Radnja tipke „Idi” nakon pritiskanja tipke „Polje”</string>

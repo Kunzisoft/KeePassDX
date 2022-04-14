@@ -50,8 +50,6 @@
     <string name="autofill_application_id_blocklist_title">應用程式黑名單</string>
     <string name="autofill_ask_to_save_data_summary">填寫完表格后詢問是否保存數據</string>
     <string name="autofill_ask_to_save_data_title">詢問是否保存資料</string>
-    <string name="autofill_auto_search_summary">自動建議匹配的網址域名或應用程式 ID 的搜尋結果</string>
-    <string name="autofill_auto_search_title">自動搜尋</string>
     <string name="autofill_block">阻止自動填入</string>
     <string name="autofill_block_restart">重新啟動包含該表單的應用程式以啟用攔截。</string>
     <string name="autofill_close_database_summary">自動填充寫入後，關閉資料庫</string>

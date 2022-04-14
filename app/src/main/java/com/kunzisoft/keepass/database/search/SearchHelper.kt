@@ -148,9 +148,9 @@ class SearchHelper {
                 onDatabaseClosed.invoke()
             } else if (TimeoutHelper.checkTime(context)) {
                 var searchWithoutUI = false
-                if (PreferencesUtil.isAutofillAutoSearchEnable(context)
-                        && searchInfo != null && !searchInfo.manualSelection
-                        && !searchInfo.containsOnlyNullValues()) {
+                if (searchInfo != null
+                    && !searchInfo.manualSelection
+                    && !searchInfo.containsOnlyNullValues()) {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
                             searchInfo.toString(),

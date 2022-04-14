@@ -417,8 +417,6 @@
     <string name="education_setup_OTP_title">Imposta password usa e getta (OTP)</string>
     <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità «Modificabile»)</string>
     <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
-    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o ID dell\'applicazione</string>
-    <string name="autofill_auto_search_title">Ricerca automatica</string>
     <string name="keyboard_auto_go_action_summary">Azione del tasto \"Vai\" dopo aver premuto un tasto \"Campo\"</string>
     <string name="keyboard_auto_go_action_title">Tasto di azione automatica</string>
     <string name="device_keyboard_setting_title">Impostazioni della tastiera del dispositivo</string>

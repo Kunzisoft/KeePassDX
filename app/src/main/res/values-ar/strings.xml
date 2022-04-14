@@ -357,8 +357,6 @@
     <string name="autofill_web_domain_blocklist_title">قائمة النطاقات المحظورة</string>
     <string name="autofill_application_id_blocklist_summary">منع الملء التلقائي للتطبيقات الموجودة في القائمة</string>
     <string name="autofill_application_id_blocklist_title">قائمة التطبيقات المحظورة</string>
-    <string name="autofill_auto_search_summary">يقترح تلقائيا نتائج البحث في النطاقات ومعرفات التطبيقات</string>
-    <string name="autofill_auto_search_title">البحث التلقائي</string>
     <string name="content_description_repeat_toggle_password_visibility">بدِّل ظهور كلمة السر</string>
     <string name="hide_expired_entries_summary">لن تعرض المدخلات منتهية الصلاحية</string>
     <string name="education_read_only_summary">غيِّر وضع الجلسة.

@@ -383,7 +383,6 @@
     <string name="entry_add_attachment">Legg til vedlegg</string>
     <string name="contribution">Bidrag</string>
     <string name="contact">Kontakt</string>
-    <string name="autofill_auto_search_title">Autosøk</string>
     <string name="enable_auto_save_database_summary">Lagre database etter hver viktige handling i (i \"modifiserbart\" modus)</string>
     <string name="download_initialization">Igangsetter…</string>
     <string name="hide_expired_entries_summary">Utløpte oppføringer er skjult</string>
@@ -436,7 +435,6 @@
     <string name="keyboard_previous_lock_title">Lås databasen</string>
     <string name="keyboard_previous_lock_summary">Bytt automatisk tilbake til forrige tastatur etter å ha låst databasen</string>
     <string name="autofill_close_database_summary">Lukk databasen etter et autofyllvalg</string>
-    <string name="autofill_auto_search_summary">Foreslå automatisk søkeresultater fra webdomenet eller applikasjons-IDen</string>
     <string name="autofill_save_search_info_summary">Prøv å lagre søkeinformasjon når du foretar et manuelt valg</string>
     <string name="autofill_block">Blokker autofyll</string>
     <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
