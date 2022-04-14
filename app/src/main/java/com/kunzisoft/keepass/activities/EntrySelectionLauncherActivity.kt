@@ -172,7 +172,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             searchInfo,
                             false)
                     } else {
-                        GroupActivity.launchForSaveResult(this,
+                        GroupActivity.launchForSearchResult(this,
                             openedDatabase,
                             searchInfo,
                             false)

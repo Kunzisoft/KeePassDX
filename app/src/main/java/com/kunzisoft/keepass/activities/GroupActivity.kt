@@ -1612,50 +1612,31 @@ class GroupActivity : DatabaseLockActivity(),
                    autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
-                        GroupActivity.launch(
+                        // Default action
+                        launch(
                             activity,
                             database,
                             true
                         )
                     },
                     { searchInfo ->
-                        SearchHelper.checkAutoSearchInfo(activity,
+                        // Search action
+                        if (database.loaded) {
+                            launchForSearchResult(activity,
                                 database,
                                 searchInfo,
-                                { _, _ ->
-                                    // Response is build
-                                    GroupActivity.launchForSearchResult(activity,
-                                        database,
-                                        searchInfo,
-                                        true)
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Here no search info found
-                                    if (database.isReadOnly) {
-                                        GroupActivity.launchForSearchResult(activity,
-                                            database,
-                                            searchInfo,
-                                            false)
-                                    } else {
-                                        GroupActivity.launchForSaveResult(activity,
-                                            database,
-                                            searchInfo,
-                                            false)
-                                    }
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Simply close if database not opened, normally not happened
-                                    onCancelSpecialMode()
-                                }
-                        )
+                                true)
+                            onLaunchActivitySpecialMode()
+                        } else {
+                            // Simply close if database not opened
+                            onCancelSpecialMode()
+                        }
                     },
                     { searchInfo ->
-                        // Save info used with OTP
+                        // Save info
                         if (database.loaded) {
                             if (!database.isReadOnly) {
-                                GroupActivity.launchForSaveResult(
+                                launchForSaveResult(
                                     activity,
                                     database,
                                     searchInfo,
@@ -1674,6 +1655,7 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     },
                     { searchInfo ->
+                        // Keyboard selection
                         SearchHelper.checkAutoSearchInfo(activity,
                                 database,
                                 searchInfo,
@@ -1686,7 +1668,7 @@ class GroupActivity : DatabaseLockActivity(),
                                         onValidateSpecialMode()
                                     } else {
                                         // Select the one we want
-                                        GroupActivity.launchForKeyboardSelectionResult(activity,
+                                        launchForKeyboardSelectionResult(activity,
                                             database,
                                             searchInfo,
                                             true)
@@ -1695,7 +1677,7 @@ class GroupActivity : DatabaseLockActivity(),
                                 },
                                 {
                                     // Here no search info found, disable auto search
-                                    GroupActivity.launchForKeyboardSelectionResult(activity,
+                                    launchForKeyboardSelectionResult(activity,
                                         database,
                                         searchInfo,
                                         false)
@@ -1708,6 +1690,7 @@ class GroupActivity : DatabaseLockActivity(),
                         )
                     },
                     { searchInfo, autofillComponent ->
+                        // Autofill selection
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
@@ -1719,7 +1702,7 @@ class GroupActivity : DatabaseLockActivity(),
                                     },
                                     {
                                         // Here no search info found, disable auto search
-                                        GroupActivity.launchForAutofillResult(activity,
+                                        launchForAutofillResult(activity,
                                             database,
                                             autofillActivityResultLauncher,
                                             autofillComponent,
@@ -1737,20 +1720,21 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     },
                     { registerInfo ->
+                        // Autofill registration
                         if (!database.isReadOnly) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
                                     registerInfo?.searchInfo,
                                     { _, _ ->
                                         // No auto search, it's a registration
-                                        GroupActivity.launchForRegistration(activity,
+                                        launchForRegistration(activity,
                                             database,
                                             registerInfo)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
                                         // Here no search info found, disable auto search
-                                        GroupActivity.launchForRegistration(activity,
+                                        launchForRegistration(activity,
                                             database,
                                             registerInfo)
                                         onLaunchActivitySpecialMode()

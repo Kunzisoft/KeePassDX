@@ -1,0 +1,1 @@
+ * Correction du mode recherche pour le Magiclavier #1292
