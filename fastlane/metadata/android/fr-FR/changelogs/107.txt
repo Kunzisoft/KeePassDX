@@ -1,1 +1,2 @@
  * Correction du mode recherche pour le Magiclavier #1292
+ * Correction de la selection d'une autre entrée avec le Magiclavier #1293

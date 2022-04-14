@@ -85,7 +85,7 @@ object EntrySelectionHelper {
         return intent.getParcelableExtra(KEY_SEARCH_INFO)
     }
 
-    fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
+    private fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
         registerInfo?.let {
             intent.putExtra(KEY_REGISTER_INFO, it)
         }

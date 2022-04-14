@@ -1,1 +1,2 @@
  * Fix search mode with Magikeyboard #1292
+ * Fix select another entry with Magikeyboard #1293

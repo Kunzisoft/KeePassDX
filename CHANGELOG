@@ -1,5 +1,6 @@
 KeePassDX(3.4.1)
  * Fix search mode with Magikeyboard #1292
+ * Fix select another entry with Magikeyboard #1293
 
 KeePassDX(3.4.0)
  * Passphrase implementation #218

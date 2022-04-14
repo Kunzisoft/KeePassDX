@@ -1138,6 +1138,7 @@ class GroupActivity : DatabaseLockActivity(),
     private fun addSearchQueryInSearchView(searchQuery: String) {
         searchView?.setOnQueryTextListener(null)
         searchView?.setQuery(searchQuery, false)
+        searchView?.clearFocus()
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
