@@ -27,9 +27,13 @@
     </style>
     <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21"/>
 
-    <!-- Base application theme. -->
-    <!-- For setting encapsulation -->
-    <style name="KeepassDXStyle.Light.v21" parent="Theme.MaterialComponents.Light.Bridge">
+    <!-- Light application theme -->
+    <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v27" />
+    <style name="KeepassDXStyle.Light.v27" parent="KeepassDXStyle.Light.v23" />
+    <style name="KeepassDXStyle.Light.v23" parent="KeepassDXStyle.Light.v21" />
+    <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" />
+    <style name="KeepassDXStyle.Light.v14" parent="KeepassDXStyle.Light.Base" />
+    <style name="KeepassDXStyle.Light.Base" parent="Theme.MaterialComponents.Light.Bridge">
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -100,7 +104,14 @@
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
     </style>
-    <style name="KeepassDXStyle.Night.v21" parent="Theme.MaterialComponents.Bridge">
+
+    <!-- Night application theme -->
+    <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v27" />
+    <style name="KeepassDXStyle.Night.v27" parent="KeepassDXStyle.Night.v23" />
+    <style name="KeepassDXStyle.Night.v23" parent="KeepassDXStyle.Night.v21" />
+    <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" />
+    <style name="KeepassDXStyle.Night.v14" parent="KeepassDXStyle.Night.Base" />
+    <style name="KeepassDXStyle.Night.Base" parent="Theme.MaterialComponents.Bridge">
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -172,12 +183,12 @@
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
     </style>
 
-    <!-- Light Style -->
-    <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light" />
-    <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" />
-
-    <!-- Night Style -->
-    <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v21" />
+    <!-- Light WhiteBar Style -->
+    <style name="KeepassDXStyle.Light.WhiteBar" parent="KeepassDXStyle.Light.WhiteBar.v27" />
+    <style name="KeepassDXStyle.Light.WhiteBar.v27" parent="KeepassDXStyle.Light.WhiteBar.v23" />
+    <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light.WhiteBar.v21" />
+    <style name="KeepassDXStyle.Light.WhiteBar.v21" parent="KeepassDXStyle.Light.WhiteBar.Base" />
+    <style name="KeepassDXStyle.Light.WhiteBar.Base" parent="KeepassDXStyle.Light" />
 
     <!-- Toolbar Style -->
     <style name="KeepassDXStyle.Toolbar.Light" parent="KeepassDXStyle.Light.v21">
