@@ -20,7 +20,7 @@
 <resources>
     <!-- Light Blue Style -->
     <style name="KeepassDXStyle.Reply" parent="KeepassDXStyle.Reply.v21" />
-    <style name="KeepassDXStyle.Reply.v21" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Reply.v21" parent="KeepassDXStyle.Light.v21" >
         <item name="colorPrimary">@color/reply_blue_dark</item>
         <item name="colorPrimaryDark">@color/reply_blue</item>
         <item name="colorAccent">@color/reply_orange</item>
@@ -94,7 +94,7 @@
 
     <!-- Dark Reply Style -->
     <style name="KeepassDXStyle.Reply.Night" parent="KeepassDXStyle.Reply.Night.v21" />
-    <style name="KeepassDXStyle.Reply.Night.v21" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Reply.Night.v21" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">@color/reply_blue_dark</item>
         <item name="colorPrimaryDark">@color/reply_black</item>
         <item name="colorAccent">@color/reply_orange</item>

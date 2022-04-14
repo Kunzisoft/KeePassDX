@@ -314,8 +314,6 @@
     <string name="error_create_database_file">Ezzel a jelszó és kulcsfájl kombinációval nem hozható létre adatbázis.</string>
     <string name="education_setup_OTP_summary">Állítson be egyszer használatos jelszókezelést (HOTP/TOTP), hogy tokent állítson elő a kétfaktoros hitelesítéshez (2FA).</string>
     <string name="education_setup_OTP_title">OTP beállítása</string>
-    <string name="autofill_auto_search_summary">Keresési találatok automatikus javaslata a webes domain vagy az alkalmazásazonosító alapján</string>
-    <string name="autofill_auto_search_title">Automatikus keresés</string>
     <string name="clear_clipboard_notification_summary">Az adatbázis zárolása, ha a vágólap ideje lejár, vagy ha a használata után bezárja az értesítést</string>
     <string name="clear_clipboard_notification_title">Zárolás bezáráskor</string>
     <string name="lock_database_show_button_summary">Megjeleníti a zárolás gombot a felhasználói felületen</string>

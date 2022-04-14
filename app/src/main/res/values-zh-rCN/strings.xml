@@ -428,8 +428,6 @@
     <string name="entry_add_attachment">添加附件</string>
     <string name="discard_changes">放弃更改？</string>
     <string name="validate">验证</string>
-    <string name="autofill_auto_search_summary">自动建议匹配的网址域名或应用 ID 的搜索结果</string>
-    <string name="autofill_auto_search_title">自动搜索</string>
     <string name="lock_database_show_button_summary">在用户界面中显示锁定数据库按钮</string>
     <string name="lock_database_show_button_title">显示锁定数据库按钮</string>
     <string name="autofill_preference_title">自动填充设置</string>

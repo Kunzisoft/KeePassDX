@@ -413,8 +413,6 @@
     <string name="contribution">Συνεισφορά</string>
     <string name="education_setup_OTP_summary">Ρύθμιση διαχείρισης μίας-χρήσης κωδικού πρόσβασης (HOTP / TOTP) για δημιουργία token που ζητήθηκε για έλεγχο ταυτότητας δύο παραγόντων (2FA).</string>
     <string name="education_setup_OTP_title">Ρύθμιση OTP</string>
-    <string name="autofill_auto_search_summary">Προτείνετε αυτόματα αποτελέσματα αναζήτησης από τον τομέα ιστού ή το αναγνωριστικό εφαρμογής</string>
-    <string name="autofill_auto_search_title">Αυτόματη αναζήτηση</string>
     <string name="lock_database_show_button_summary">Εμφανίζει το κουμπί κλειδώματος στη διεπαφή χρήστη</string>
     <string name="lock_database_show_button_title">Εμφάνιση κουμπιού κλειδώματος</string>
     <string name="autofill_preference_title">Ρυθμίσεις Αυτόματης Συμπλήρωσης</string>

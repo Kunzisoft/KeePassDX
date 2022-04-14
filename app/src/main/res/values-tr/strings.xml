@@ -422,8 +422,6 @@
     <string name="discard">Vazgeç</string>
     <string name="discard_changes">Değişikliklerden vazgeç\?</string>
     <string name="validate">Doğrula</string>
-    <string name="autofill_auto_search_summary">Web etki alanından veya uygulama kimliğinden otomatik olarak arama sonuçları öner</string>
-    <string name="autofill_auto_search_title">Otomatik arama</string>
     <string name="lock_database_show_button_summary">Kilit düğmesini kullanıcı arayüzünde görüntüler</string>
     <string name="lock_database_show_button_title">Kilit düğmesini göster</string>
     <string name="autofill_preference_title">Otomatik doldurma ayarları</string>

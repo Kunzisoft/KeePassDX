@@ -20,6 +20,7 @@
 
 package com.kunzisoft.keepass.magikeyboard
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.inputmethodservice.InputMethodService
@@ -38,6 +39,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
@@ -351,38 +353,35 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             mDatabase,
             searchInfo,
             { _, items ->
-                if (items.size == 1) {
-                    if (entryUUID == null) {
+                performSelection(
+                    items,
+                    {
                         // Automatically populate keyboard
-                        removeEntryInfo()
                         addEntryAndLaunchNotificationIfAllowed(
                             this,
                             items[0],
                             true
                         )
                         assignKeyboardView()
-                    } else {
-                        // Choose another one
-                        launchEntrySelection(null)
+                    },
+                    {
+                        launchEntrySelection(searchInfo)
                     }
-                } else {
-                    // Select if multiple
-                    launchEntrySelection(searchInfo)
-                }
+                )
             },
-            { _ ->
+            {
                 // Select if not found
                 launchEntrySelection(searchInfo)
             },
             {
                 // Select if database not opened
+                removeEntryInfo()
                 launchEntrySelection(searchInfo)
             }
         )
     }
 
     private fun launchEntrySelection(searchInfo: SearchInfo?) {
-        removeEntryInfo()
         EntrySelectionLauncherActivity.launch(this, searchInfo)
     }
 
@@ -475,6 +474,36 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 ?.any {
                     it.packageName == context.packageName
                 } ?: false
+        }
+
+        fun performSelection(items: List<EntryInfo>,
+                             actionPopulateKeyboard: (entryInfo: EntryInfo) -> Unit,
+                             actionEntrySelection: (autoSearch: Boolean) -> Unit) {
+             if (items.size == 1) {
+                 val itemFound = items[0]
+                if (entryUUID != itemFound.id) {
+                    actionPopulateKeyboard.invoke(itemFound)
+                } else {
+                    // Force selection if magikeyboard already populated
+                    actionEntrySelection.invoke(false)
+                }
+            } else if (items.size > 1) {
+                // Select the one we want in the selection
+                actionEntrySelection.invoke(true)
+            } else {
+                // Select an arbitrary one
+                actionEntrySelection.invoke(false)
+            }
+        }
+
+        fun populateKeyboardAndMoveAppToBackground(activity: Activity,
+                                                   entry: EntryInfo,
+                                                   toast: Boolean = true) {
+            // Populate Magikeyboard with entry
+            addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
+            // Consume the selection mode
+            EntrySelectionHelper.removeModesFromIntent(activity.intent)
+            activity.moveTaskToBack(true)
         }
     }
 }

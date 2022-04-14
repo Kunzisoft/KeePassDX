@@ -60,6 +60,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -434,9 +435,10 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
         // Populate Magikeyboard with entry
-        populateKeyboardAndMoveAppToBackground(this,
-                entry.getEntryInfo(database),
-                intent)
+        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
+            this,
+            entry.getEntryInfo(database)
+        )
         onValidateSpecialMode()
         // Don't keep activity history for entry edition
         finishForEntryResult(entry)

@@ -402,7 +402,6 @@
     <string name="auto_focus_search_title">Busca rápida</string>
     <string name="menu_delete_entry_history">Apagar histórico</string>
     <string name="menu_restore_entry_history">Restaurar histórico</string>
-    <string name="autofill_auto_search_summary">Sugerir resultados de busca de domínios da internet ou de aplicativos automaticamente</string>
     <string name="hide_expired_entries_summary">Entradas expiradas foram escondidas</string>
     <string name="hide_expired_entries_title">Esconder entradas expiradas</string>
     <string name="download_complete">Completo!</string>
@@ -412,7 +411,6 @@
     <string name="download_attachment">Baixar %1$s</string>
     <string name="education_setup_OTP_summary">Configure o gerenciamento de senha descartável (HOTP / TOTP) para gerar um token solicitado para autenticação de dois fatores (2FA).</string>
     <string name="education_setup_OTP_title">Configurar OTP</string>
-    <string name="autofill_auto_search_title">Busca automática</string>
     <string name="keyboard_auto_go_action_summary">Ação da tecla \"Ir\" após pressionar a tecla \"Campo\"</string>
     <string name="keyboard_auto_go_action_title">Ação de tecla automática</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqueio na interface do usuário</string>

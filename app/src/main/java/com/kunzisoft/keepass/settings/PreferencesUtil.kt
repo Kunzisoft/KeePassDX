@@ -683,12 +683,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.autofill_close_database_default))
     }
 
-    fun isAutofillAutoSearchEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
-                context.resources.getBoolean(R.bool.autofill_auto_search_default))
-    }
-
     fun isAutofillInlineSuggestionsEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_inline_suggestions_key),
@@ -834,7 +828,6 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_previous_fill_in_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_lock_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.autofill_auto_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_manual_selection_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())

@@ -388,8 +388,6 @@
     <string name="keyboard_previous_lock_summary">データベースのロック後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="autofill_close_database_title">データベースを閉じる</string>
     <string name="autofill_close_database_summary">自動入力の選択後、データベースを閉じます</string>
-    <string name="autofill_auto_search_title">自動検索</string>
-    <string name="autofill_auto_search_summary">ウェブドメインまたはアプリケーション ID から検索結果を自動的に提案します</string>
     <string name="autofill_application_id_blocklist_title">アプリケーションのブロックリスト</string>
     <string name="autofill_save_search_info_title">検索情報の保存</string>
     <string name="autofill_save_search_info_summary">手動でエントリーを選択したとき、検索情報の保存を試みます</string>

@@ -343,7 +343,6 @@
     <string name="autofill_web_domain_blocklist_title">Lista de bloqueio de domínios da web</string>
     <string name="autofill_application_id_blocklist_summary">Lista de aplicações bloqueadas sem permissão de preenchimento automático</string>
     <string name="autofill_application_id_blocklist_title">Lista de bloqueio de aplicações</string>
-    <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa automaticamente do domínio da web ou do ID da aplicação</string>
     <string name="keyboard_previous_fill_in_summary">Mudar automaticamente para o teclado anterior depois de executar a \"tecla automática\"</string>
     <string name="keyboard_previous_fill_in_title">Ação da tecla automática</string>
     <string name="keyboard_previous_database_credentials_summary">Voltar automaticamente para o teclado anterior no ecrã de credenciais da base de dados</string>
@@ -405,7 +404,6 @@
     <string name="auto_focus_search_title">Pesquisa rápida</string>
     <string name="biometric_delete_all_key_title">Eliminar chaves de encriptação</string>
     <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
-    <string name="autofill_auto_search_title">Pesquisa automática</string>
     <string name="settings_database_force_changing_master_key_summary">Forçar alteração da chave mestra (em dias)</string>
     <string name="command_execution">A executar o comando…</string>
     <string name="otp_algorithm">Algorítimo</string>

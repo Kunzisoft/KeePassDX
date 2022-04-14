@@ -329,8 +329,6 @@
     <string name="autofill_save_search_info_summary">Cobalah untuk menyimpan informasi pencarian saat membuat pilihan entri manual</string>
     <string name="autofill_save_search_info_title">Simpan info pencarian</string>
     <string name="autofill_inline_suggestions_title">Saran sebaris</string>
-    <string name="autofill_auto_search_summary">Secara otomatis menyarankan hasil pencarian dari domain web atau ID aplikasi</string>
-    <string name="autofill_auto_search_title">Pencarian otomatis</string>
     <string name="autofill_close_database_summary">Menutup database setelah pilihan isi-auto</string>
     <string name="autofill_close_database_title">Tutup database</string>
     <string name="enter">Enter</string>

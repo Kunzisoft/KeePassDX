@@ -428,12 +428,10 @@
     <string name="error_create_database">Невозможно создать файл базы.</string>
     <string name="education_setup_OTP_title">Настройка OTP</string>
     <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
-    <string name="autofill_auto_search_summary">Автоматически предлагать результаты поиска для домена или идентификатора приложения</string>
     <string name="lock_database_show_button_summary">Использовать кнопку блокировки в интерфейсе</string>
     <string name="lock_database_show_button_title">Показывать кнопку блокировки</string>
     <string name="error_label_exists">Такая метка уже существует.</string>
     <string name="warning_database_link_revoked">Доступ к файлу отменён файловым менеджером</string>
-    <string name="autofill_auto_search_title">Автопоиск</string>
     <string name="autofill_preference_title">Настройки автозаполнения</string>
     <string name="keyboard_search_share_summary">При отправке URL в KeePassDX отфильтровать записи по домену этого URL</string>
     <string name="keyboard_search_share_title">Поиск доступной информации</string>

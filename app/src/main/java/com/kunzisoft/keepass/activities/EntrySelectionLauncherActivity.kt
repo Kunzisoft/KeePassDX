@@ -19,20 +19,16 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
-import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -61,7 +57,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             keySelectionBundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { mSearchInfo ->
                 searchInfo = mSearchInfo
             }
-            launch(database, searchInfo, true)
+            launch(database, searchInfo)
         } else {
             // To manage share
             var sharedWebDomain: String? = null
@@ -103,8 +99,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
     }
 
     private fun launch(database: Database?,
-                       searchInfo: SearchInfo,
-                       forceSelection: Boolean = false) {
+                       searchInfo: SearchInfo) {
 
         // Setting to integrate Magikeyboard
         val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
@@ -130,21 +125,22 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                                     .show()
                         }
                     } else if (searchShareForMagikeyboard) {
-                        if (items.size == 1 && !forceSelection) {
-                            // Automatically populate keyboard
-                            val entryPopulate = items[0]
-                            populateKeyboardAndMoveAppToBackground(
-                                this,
-                                    entryPopulate,
-                                    intent)
-                            Log.e("TEST", "One item activity")
-                        } else {
-                            // Select the one we want
-                            GroupActivity.launchForKeyboardSelectionResult(this,
-                                openedDatabase,
-                                searchInfo,
-                                true)
-                        }
+                        MagikeyboardService.performSelection(
+                            items,
+                            { entryInfo ->
+                                // Automatically populate keyboard
+                                MagikeyboardService.populateKeyboardAndMoveAppToBackground(
+                                    this,
+                                    entryInfo
+                                )
+                            },
+                            { autoSearch ->
+                                GroupActivity.launchForKeyboardSelectionResult(this,
+                                    openedDatabase,
+                                    searchInfo,
+                                    autoSearch)
+                            }
+                        )
                     } else {
                         GroupActivity.launchForSearchResult(this,
                             openedDatabase,
@@ -172,7 +168,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             searchInfo,
                             false)
                     } else {
-                        GroupActivity.launchForSaveResult(this,
+                        GroupActivity.launchForSearchResult(this,
                             openedDatabase,
                             searchInfo,
                             false)
@@ -209,19 +205,9 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             }
             // New task needed because don't launch from an Activity context
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                    Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
             context.startActivity(intent)
         }
     }
-}
-
-fun populateKeyboardAndMoveAppToBackground(activity: Activity,
-                                           entry: EntryInfo,
-                                           intent: Intent,
-                                           toast: Boolean = true) {
-    // Populate Magikeyboard with entry
-    MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
-    // Consume the selection mode
-    EntrySelectionHelper.removeModesFromIntent(intent)
-    activity.moveTaskToBack(true)
 }

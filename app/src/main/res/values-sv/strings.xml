@@ -415,8 +415,6 @@
     <string name="download_attachment">Ladda ner %1$s</string>
     <string name="education_setup_OTP_summary">Inställning av OTP (One-Time Password (Engångslösenord))-hantering av (HOTP/TOTP) för att skapa tecken begärda av Tvåstegs autentisering (2FA).</string>
     <string name="education_setup_OTP_title">Ställ in OTP</string>
-    <string name="autofill_auto_search_summary">Föreslå automatiskt sökresultt från webbdomänen eller appens Id</string>
-    <string name="autofill_auto_search_title">Automatisk sökning</string>
     <string name="keyboard_auto_go_action_summary">\"Goknappens\" åtgärd när en \"Fältknapp\" trycks ner</string>
     <string name="keyboard_auto_go_action_title">Automatisk knappåtgärd</string>
     <string name="lock_database_show_button_summary">Visa låsknappen i gränssnittet</string>

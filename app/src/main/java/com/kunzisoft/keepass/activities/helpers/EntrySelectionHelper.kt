@@ -85,7 +85,7 @@ object EntrySelectionHelper {
         return intent.getParcelableExtra(KEY_SEARCH_INFO)
     }
 
-    fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
+    private fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
         registerInfo?.let {
             intent.putExtra(KEY_REGISTER_INFO, it)
         }
@@ -113,7 +113,7 @@ object EntrySelectionHelper {
                 ?: SpecialMode.DEFAULT
     }
 
-    fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
+    private fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
         intent.putExtra(KEY_TYPE_MODE, typeMode as Serializable)
     }
 

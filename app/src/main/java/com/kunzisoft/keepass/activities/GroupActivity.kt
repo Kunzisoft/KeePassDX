@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -890,10 +891,9 @@ class GroupActivity : DatabaseLockActivity(),
     private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
         reloadCurrentGroup()
         // Populate Magikeyboard with entry
-        populateKeyboardAndMoveAppToBackground(
+        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
-            entry.getEntryInfo(database),
-            intent
+            entry.getEntryInfo(database)
         )
         onValidateSpecialMode()
     }
@@ -1138,6 +1138,7 @@ class GroupActivity : DatabaseLockActivity(),
     private fun addSearchQueryInSearchView(searchQuery: String) {
         searchView?.setOnQueryTextListener(null)
         searchView?.setQuery(searchQuery, false)
+        searchView?.clearFocus()
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
@@ -1612,50 +1613,31 @@ class GroupActivity : DatabaseLockActivity(),
                    autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
-                        GroupActivity.launch(
+                        // Default action
+                        launch(
                             activity,
                             database,
                             true
                         )
                     },
                     { searchInfo ->
-                        SearchHelper.checkAutoSearchInfo(activity,
+                        // Search action
+                        if (database.loaded) {
+                            launchForSearchResult(activity,
                                 database,
                                 searchInfo,
-                                { _, _ ->
-                                    // Response is build
-                                    GroupActivity.launchForSearchResult(activity,
-                                        database,
-                                        searchInfo,
-                                        true)
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Here no search info found
-                                    if (database.isReadOnly) {
-                                        GroupActivity.launchForSearchResult(activity,
-                                            database,
-                                            searchInfo,
-                                            false)
-                                    } else {
-                                        GroupActivity.launchForSaveResult(activity,
-                                            database,
-                                            searchInfo,
-                                            false)
-                                    }
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Simply close if database not opened, normally not happened
-                                    onCancelSpecialMode()
-                                }
-                        )
+                                true)
+                            onLaunchActivitySpecialMode()
+                        } else {
+                            // Simply close if database not opened
+                            onCancelSpecialMode()
+                        }
                     },
                     { searchInfo ->
-                        // Save info used with OTP
+                        // Save info
                         if (database.loaded) {
                             if (!database.isReadOnly) {
-                                GroupActivity.launchForSaveResult(
+                                launchForSaveResult(
                                     activity,
                                     database,
                                     searchInfo,
@@ -1674,28 +1656,33 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     },
                     { searchInfo ->
+                        // Keyboard selection
                         SearchHelper.checkAutoSearchInfo(activity,
                                 database,
                                 searchInfo,
                                 { _, items ->
-                                    // Response is build
-                                    if (items.size == 1) {
-                                        populateKeyboardAndMoveAppToBackground(activity,
-                                                items[0],
-                                                activity.intent)
-                                        onValidateSpecialMode()
-                                    } else {
-                                        // Select the one we want
-                                        GroupActivity.launchForKeyboardSelectionResult(activity,
-                                            database,
-                                            searchInfo,
-                                            true)
-                                        onLaunchActivitySpecialMode()
-                                    }
+                                    MagikeyboardService.performSelection(
+                                        items,
+                                        { entryInfo ->
+                                            // Keyboard populated
+                                            MagikeyboardService.populateKeyboardAndMoveAppToBackground(
+                                                activity,
+                                                entryInfo
+                                            )
+                                            onValidateSpecialMode()
+                                        },
+                                        { autoSearch ->
+                                            launchForKeyboardSelectionResult(activity,
+                                                database,
+                                                searchInfo,
+                                                autoSearch)
+                                            onLaunchActivitySpecialMode()
+                                        }
+                                    )
                                 },
                                 {
                                     // Here no search info found, disable auto search
-                                    GroupActivity.launchForKeyboardSelectionResult(activity,
+                                    launchForKeyboardSelectionResult(activity,
                                         database,
                                         searchInfo,
                                         false)
@@ -1708,6 +1695,7 @@ class GroupActivity : DatabaseLockActivity(),
                         )
                     },
                     { searchInfo, autofillComponent ->
+                        // Autofill selection
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
@@ -1719,7 +1707,7 @@ class GroupActivity : DatabaseLockActivity(),
                                     },
                                     {
                                         // Here no search info found, disable auto search
-                                        GroupActivity.launchForAutofillResult(activity,
+                                        launchForAutofillResult(activity,
                                             database,
                                             autofillActivityResultLauncher,
                                             autofillComponent,
@@ -1737,20 +1725,21 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     },
                     { registerInfo ->
+                        // Autofill registration
                         if (!database.isReadOnly) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
                                     registerInfo?.searchInfo,
                                     { _, _ ->
                                         // No auto search, it's a registration
-                                        GroupActivity.launchForRegistration(activity,
+                                        launchForRegistration(activity,
                                             database,
                                             registerInfo)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
                                         // Here no search info found, disable auto search
-                                        GroupActivity.launchForRegistration(activity,
+                                        launchForRegistration(activity,
                                             database,
                                             registerInfo)
                                         onLaunchActivitySpecialMode()

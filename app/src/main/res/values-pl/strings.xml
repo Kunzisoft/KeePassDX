@@ -428,8 +428,6 @@
     <string name="discard">Odrzuć</string>
     <string name="discard_changes">Odrzucić zmiany\?</string>
     <string name="validate">Walidacja</string>
-    <string name="autofill_auto_search_summary">Automatyczne sugerowanie wyników wyszukiwania z domeny internetowej lub identyfikatora aplikacji</string>
-    <string name="autofill_auto_search_title">Automatyczne wyszukiwanie</string>
     <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
     <string name="lock_database_show_button_title">Pokaż przycisk blokady</string>
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>

@@ -154,8 +154,6 @@
     <bool name="keyboard_previous_lock_default" translatable="false">true</bool>
     <string name="autofill_close_database_key" translatable="false">autofill_close_database_key</string>
     <bool name="autofill_close_database_default" translatable="false">false</bool>
-    <string name="autofill_auto_search_key" translatable="false">autofill_auto_search_key</string>
-    <bool name="autofill_auto_search_default" translatable="false">true</bool>
     <string name="autofill_inline_suggestions_key" translatable="false">autofill_inline_suggestions_key</string>
     <bool name="autofill_inline_suggestions_default" translatable="false">false</bool>
     <string name="autofill_manual_selection_key" translatable="false">autofill_manual_selection_key</string>
