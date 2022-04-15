@@ -43,6 +43,10 @@ platform :android do
       apk: "./app/build/outputs/apk/free/release/app-free-release.apk",
       validate_only: "false",
     )
+    gradle(
+      task: 'clean'
+    )
+    sh("git", "checkout", ".")
   end
 
 end
