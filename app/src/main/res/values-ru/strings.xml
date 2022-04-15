@@ -44,9 +44,9 @@
     <string name="digits">Цифры</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это программное обеспечение &lt;strong&gt;с открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
 \nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
-    <string name="select_database_file">Открыть существующую базу</string>
+    <string name="select_database_file">Открыть базу паролей</string>
     <string name="entry_accessed">Доступ</string>
-    <string name="entry_cancel">Отмена</string>
+    <string name="entry_cancel">Назад</string>
     <string name="entry_notes">Заметки</string>
     <string name="entry_confpassword">Подтверждение пароля</string>
     <string name="entry_created">Создано</string>
@@ -207,7 +207,7 @@
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
     <string name="assign_master_key">Установить главный пароль</string>
-    <string name="create_keepass_file">Создать новую базу</string>
+    <string name="create_keepass_file">Создать базу паролей</string>
     <string name="recycle_bin_title">Использовать \"корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
     <string name="monospace_font_fields_enable_title">Особый шрифт полей</string>
@@ -301,7 +301,7 @@
     <string name="keyboard_keys_category">Кнопки</string>
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
-    <string name="do_not_kill_app">Не убивайте приложение…</string>
+    <string name="do_not_kill_app">Не закрывайте приложение…</string>
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
@@ -422,8 +422,8 @@
     <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
     <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
     <string name="validate">Проверить</string>
-    <string name="discard_changes">Забыть изменения\?</string>
-    <string name="discard">Забыть</string>
+    <string name="discard_changes">Сохранить изменения\?</string>
+    <string name="discard">Не сохранять</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
     <string name="education_setup_OTP_title">Настройка OTP</string>
@@ -617,7 +617,7 @@
     <string name="searchable">Доступно для поиска</string>
     <string name="inherited">Наследовать</string>
     <string name="case_sensitive">С учётом регистра</string>
-    <string name="menu_save_copy_to">Сохранить копию в…</string>
+    <string name="menu_save_copy_to">Сохранить как…</string>
     <string name="menu_merge_from">Объединить с…</string>
     <string name="search_filters">Фильтры поиска</string>
     <string name="regex">Регулярное выражение</string>
