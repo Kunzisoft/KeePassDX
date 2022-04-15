@@ -452,8 +452,8 @@
     <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
-    <string name="keyboard_search_share_summary">Beim Teilen einer URL mit KeePassDX die Einträge nach dieser URL filtern</string>
-    <string name="keyboard_search_share_title">Gemeinsame Infos auswählen</string>
+    <string name="keyboard_search_share_summary">Beim Teilen einer Information mit KeePassDX die Einträge anhand dieser Information filtern, um das Magikeyboard zu speisen</string>
+    <string name="keyboard_search_share_title">Gemeinsame Informationen auswählen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Liste der Domains, auf denen ein automatisches Ausfüllen verhindert wird</string>
@@ -504,7 +504,7 @@
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Nachdem eine URL mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht, sich diesen Eintrag für die weitere Nutzung zu merken</string>
+    <string name="keyboard_save_search_info_summary">Nachdem eine Information mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht, zur einfacheren zukünftigen Verwendung die Information im Eintrag zu speichern</string>
     <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>

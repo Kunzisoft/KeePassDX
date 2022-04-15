@@ -557,4 +557,13 @@
     <string name="import_app_properties_title">Importer appegenskaber</string>
     <string name="error_move_group_here">Du kan flytte en gruppe her.</string>
     <string name="error_word_reserved">Dette ord er reseveret og kan ikke bruges.</string>
+    <string name="expired">Udløbet</string>
+    <string name="tags">Tags</string>
+    <string name="content_description_database_color">Database farve</string>
+    <string name="template_group_name">Skabeloner</string>
+    <string name="searchable">Søgbar</string>
+    <string name="inherited">Arve</string>
+    <string name="custom_data">Brugerdefinerede data</string>
+    <string name="search_filters">Søg filtre</string>
+    <string name="current_group">Nuværende gruppe</string>
 </resources>

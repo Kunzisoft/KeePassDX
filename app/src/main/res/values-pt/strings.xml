@@ -229,8 +229,8 @@
     <string name="subdomain_search_title">Pesquisa de subdomínios</string>
     <string name="error_string_type">Este texto não corresponde ao item solicitado.</string>
     <string name="content_description_add_item">Adicionar item</string>
-    <string name="keyboard_search_share_summary">Ao partilhar um URL com o KeePassDX, filtrar as entradas usando esse domínio de URL</string>
-    <string name="keyboard_search_share_title">Procurar informação partilhada</string>
+    <string name="keyboard_search_share_summary">Ao partilhar informações com o KeePassDX, filtrar as entradas usando esta informação para fornecer dados ao Magikeyboard</string>
+    <string name="keyboard_search_share_title">Selecionar informação partilhada</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqeuar na interface do utilizador</string>
     <string name="lock_database_show_button_title">Mostrar botão de bloquear</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>
@@ -510,7 +510,7 @@
     <string name="custom_fields">Campos personalizados</string>
     <string name="keyboard_previous_lock_summary">Mudar automaticamente para o teclado anterior após bloquear a base de dados</string>
     <string name="keyboard_previous_lock_title">Bloquear base de dados</string>
-    <string name="keyboard_save_search_info_summary">Depois de partilhar um URL com o KeePassDX, quando uma entrada for selecionada, memorizar essa entrada para utilizações posteriores</string>
+    <string name="keyboard_save_search_info_summary">Depois de partilhar informação com o KeePassDX, quando uma entrada for selecionada, tentar guardar a informação na entrada para facilitar futuras utilizações</string>
     <string name="keyboard_save_search_info_title">Guardar informação partilhada</string>
     <string name="templates">Modelos</string>
     <string name="notification">Notificação</string>

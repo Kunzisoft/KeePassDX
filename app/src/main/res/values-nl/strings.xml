@@ -433,8 +433,8 @@
     <string name="validate">Valideren</string>
     <string name="contribution">Bijdragen</string>
     <string name="contact">Contact</string>
-    <string name="keyboard_search_share_summary">Filter, wanneer een URL met KeePassDX is gedeeld, de items met dat URL-domein</string>
-    <string name="keyboard_search_share_title">Gedeelde informatie zoeken</string>
+    <string name="keyboard_search_share_summary">Wanneer u informatie deelt met KeePassDX, filtert u de vermeldingen met behulp van deze informatie om het Magikeyboard te voeden</string>
+    <string name="keyboard_search_share_title">Gedeelde informatie selecteren</string>
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
     <string name="autofill_web_domain_blocklist_summary">Lijst die het automatisch invullen bij webdomeinen voorkomt</string>
@@ -480,7 +480,7 @@
     <string name="autofill_close_database_title">Database sluiten</string>
     <string name="keyboard_previous_lock_summary">Schakel na het vergrendelen van de database automatisch terug naar het vorige toetsenbord</string>
     <string name="keyboard_previous_lock_title">Database vergrendelen</string>
-    <string name="keyboard_save_search_info_summary">Probeer, wanneer een URL met KeePassDX is gedeeld en een item is geselecteerd, dat item te onthouden voor verder gebruik</string>
+    <string name="keyboard_save_search_info_summary">Nadat informatie is gedeeld met KeePassDX, wanneer een item is geselecteerd, probeer de informatie in het item op te slaan voor eenvoudiger toekomstig gebruik</string>
     <string name="keyboard_save_search_info_title">Gedeelde info opslaan</string>
     <string name="notification">Melding</string>
     <string name="biometric_security_update_required">Biometrische beveiligingsupdate vereist.</string>
@@ -630,4 +630,22 @@
 \nAfhankelijk van de specifieke API-implementatie van het besturingssysteem, is dit mogelijk niet volledig functioneel.
 \nControleer de compatibiliteit en beveiliging van de KeyStore met de fabrikant van uw apparaat en de maker van de ROM die u gebruikt.</string>
     <string name="warning_database_already_opened">Er is al een database geopend, sluit deze eerst alvorens een nieuwe te openen</string>
+    <string name="content_description_passphrase_word_count">Lengte wachtwoordzin</string>
+    <string name="passphrase">Wachtwoordzin</string>
+    <string name="colorize_password_title">Wachtwoorden kleuren</string>
+    <string name="colorize_password_summary">Wachtwoordtekens kleuren per type</string>
+    <string name="keyboard_previous_search_title">Zoekvenster</string>
+    <string name="keyboard_previous_search_summary">Schakel in het zoekvenster automatisch terug naar het vorige toetsenbord</string>
+    <string name="entropy">Entropie: %1$s bit</string>
+    <string name="entropy_high">Entropie: Hoog</string>
+    <string name="entropy_calculate">Entropie: Berekenen…</string>
+    <string name="word_separator">Scheidingsteken</string>
+    <string name="lower_case">kleine letters</string>
+    <string name="upper_case">GROTE LETTERS</string>
+    <string name="at_least_one_char">Minstens een teken van elk</string>
+    <string name="exclude_ambiguous_chars">Dubbelzinnige tekens uitsluiten</string>
+    <string name="consider_chars_filter">Tekens overwegen</string>
+    <string name="ignore_chars_filter">Tekens negeren</string>
+    <string name="title_case">Woordhoofdletters</string>
+    <string name="character_count">Aantal tekens: %1$d</string>
 </resources>

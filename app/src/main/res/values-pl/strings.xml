@@ -433,8 +433,8 @@
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
     <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
     <string name="error_label_exists">Ta etykieta już istnieje.</string>
-    <string name="keyboard_search_share_summary">Udostępniając KeePassDX adres URL, filtruj wpisy przy użyciu tej domeny adresu URL</string>
-    <string name="keyboard_search_share_title">Wyszukaj udostępnione informacje</string>
+    <string name="keyboard_search_share_summary">Udostępniając informacje KeePassDX, filtruj wpisy za pomocą tych informacji, aby zasilić Magikeyboard</string>
+    <string name="keyboard_search_share_title">Wybierz udostępnione informacje</string>
     <string name="autofill_block_restart">Zrestartuj aplikację zawierającą formularz, aby aktywować blokadę.</string>
     <string name="autofill_block">Blokowanie autouzupełniania</string>
     <string name="autofill_application_id_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
@@ -478,7 +478,7 @@
     <string name="autofill_close_database_title">Zamknij bazę danych</string>
     <string name="keyboard_previous_lock_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury po zablokowaniu bazy danych</string>
     <string name="keyboard_previous_lock_title">Zablokuj bazę danych</string>
-    <string name="keyboard_save_search_info_summary">Po udostępnieniu KeePassDX adresu URL, kiedy wpis jest wybrany, spróbuj zapamiętać ten wpis do dalszych zastosowań</string>
+    <string name="keyboard_save_search_info_summary">Po udostępnieniu informacji KeePassDX, kiedy wpis jest wybrany, spróbuj zapisać informacje we wpisie do łatwiejszego wykorzystania w przyszłości</string>
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
     <string name="notification">Powiadomienia</string>
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
