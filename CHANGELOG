@@ -1,3 +1,7 @@
+KeePassDX(3.4.2)
+ * Fix service parameter and workflow to remove notification when service is killed
+ * Fix color
+
 KeePassDX(3.4.1)
  * Fix search mode with Magikeyboard #1292
  * Fix select another entry with Magikeyboard #1293

@@ -248,7 +248,7 @@ class DatabaseTaskProvider {
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
-            context.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+            context.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_IMPORTANT or BIND_ABOVE_CLIENT)
         }
     }
 

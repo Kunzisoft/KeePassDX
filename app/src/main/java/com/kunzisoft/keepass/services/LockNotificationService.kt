@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.services
 
 import android.content.Intent
+import androidx.core.app.ServiceCompat
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.registerLockReceiver
@@ -33,6 +34,7 @@ abstract class LockNotificationService : NotificationService() {
 
     protected open fun actionOnLock() {
         // Stop the service in all cases
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
         stopSelf()
     }
 
