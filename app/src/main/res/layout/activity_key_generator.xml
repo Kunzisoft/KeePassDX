@@ -51,6 +51,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/validate"
         android:src="@drawable/ic_check_white_24dp"
+        android:tint="?attr/colorOnAccentColor"
         app:fabSize="mini"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
