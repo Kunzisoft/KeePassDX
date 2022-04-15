@@ -633,7 +633,7 @@
 \nПроверьте совместимость и безопасность хранилища ключей через производителя устройства и разработчика используемого ПЗУ.</string>
     <string name="passphrase">Кодовая фраза</string>
     <string name="colorize_password_title">Раскрашивать пароли</string>
-    <string name="colorize_password_summary">Разделять цветом символы пароля по типу</string>
+    <string name="colorize_password_summary">Разделять символы пароля цветом по типу</string>
     <string name="keyboard_previous_search_title">Экран поиска</string>
     <string name="entropy">Энтропия: %1$s бит</string>
     <string name="entropy_high">Энтропия: высокая</string>
