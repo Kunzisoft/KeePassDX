@@ -19,7 +19,7 @@
 -->
 <resources>
     <style name="KeepassDXStyle.Light.v27" parent="KeepassDXStyle.Light.v23" >
-        <item name="android:navigationBarColor">?android:attr/windowBackground</item>
+        <item name="android:navigationBarColor">@color/white_dark</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>

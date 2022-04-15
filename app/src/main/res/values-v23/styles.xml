@@ -23,7 +23,7 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
     <style name="KeepassDXStyle.Light.WhiteBar.v23" parent="KeepassDXStyle.Light.WhiteBar.v21" >
-        <item name="android:statusBarColor">?android:attr/windowBackground</item>
+        <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
