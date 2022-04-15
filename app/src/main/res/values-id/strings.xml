@@ -460,7 +460,7 @@
     <string name="ssid">SSID</string>
     <string name="token">Token</string>
     <string name="seed">Bibit</string>
-    <string name="bank_identifier_code">SWIFT/BIC</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
     <string name="secure_note">Catatan Aman</string>
     <string name="menu_external_icon">Ikon eksternal</string>
     <string name="holder">Penyangga</string>
