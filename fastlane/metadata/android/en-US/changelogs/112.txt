@@ -1,2 +1,2 @@
- * Suppression de l'option "Selection de l'info partagée" pour le Magiclavier #1304
- *
+ * Remove "Select share info" setting for Magikeyboard #1304
+ * Fix quick search and better loadGroup implementation #1302
