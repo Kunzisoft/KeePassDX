@@ -470,13 +470,13 @@
     <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
     <string name="autofill_ask_to_save_data_summary">填写完表单后，询问是否保存数据</string>
     <string name="autofill_ask_to_save_data_title">询问是否保存数据</string>
-    <string name="autofill_save_search_info_summary">手动选择条目时，尝试保存搜索信息</string>
+    <string name="autofill_save_search_info_summary">手动选择条目时尝试保存搜索信息，以便将来使用</string>
     <string name="autofill_save_search_info_title">保存搜索信息</string>
     <string name="autofill_close_database_summary">在进行自动填充选择后关闭数据库</string>
     <string name="autofill_close_database_title">关闭数据库</string>
     <string name="keyboard_previous_lock_summary">锁定数据库后自动切换回上一个键盘</string>
     <string name="keyboard_previous_lock_title">锁定数据库</string>
-    <string name="keyboard_save_search_info_summary">将信息共享给 KeePassDX 后，当一个条目被选中时，尝试在条目中保存信息，以便将来使用</string>
+    <string name="keyboard_save_search_info_summary">手动输入条目时尝试保存共享信息，以便将来使用</string>
     <string name="keyboard_save_search_info_title">保存分享的信息</string>
     <string name="notification">通知</string>
     <string name="biometric_security_update_required">需要生物识别安全更新。</string>
