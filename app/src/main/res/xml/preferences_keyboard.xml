@@ -46,11 +46,6 @@
             android:title="@string/keyboard_selection_entry_title"
             android:summary="@string/keyboard_selection_entry_summary"
             android:defaultValue="@bool/keyboard_selection_entry_default"/>
-        <SwitchPreference
-            android:key="@string/keyboard_search_share_key"
-            android:title="@string/keyboard_search_share_title"
-            android:summary="@string/keyboard_search_share_summary"
-            android:defaultValue="@bool/keyboard_search_share_default"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/save">
@@ -58,7 +53,6 @@
             android:key="@string/keyboard_save_search_info_key"
             android:title="@string/keyboard_save_search_info_title"
             android:summary="@string/keyboard_save_search_info_summary"
-            android:dependency="@string/keyboard_search_share_key"
             android:defaultValue="@bool/keyboard_save_search_info_default"/>
     </PreferenceCategory>
     <PreferenceCategory

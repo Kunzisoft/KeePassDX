@@ -44,9 +44,9 @@
     <string name="digits">Цифры</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это программное обеспечение &lt;strong&gt;с открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
 \nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
-    <string name="select_database_file">Открыть существующую базу</string>
+    <string name="select_database_file">Открыть базу паролей</string>
     <string name="entry_accessed">Доступ</string>
-    <string name="entry_cancel">Отмена</string>
+    <string name="entry_cancel">Назад</string>
     <string name="entry_notes">Заметки</string>
     <string name="entry_confpassword">Подтверждение пароля</string>
     <string name="entry_created">Создано</string>
@@ -207,7 +207,7 @@
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
     <string name="assign_master_key">Установить главный пароль</string>
-    <string name="create_keepass_file">Создать новую базу</string>
+    <string name="create_keepass_file">Создать базу паролей</string>
     <string name="recycle_bin_title">Использовать \"корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
     <string name="monospace_font_fields_enable_title">Особый шрифт полей</string>
@@ -301,7 +301,7 @@
     <string name="keyboard_keys_category">Кнопки</string>
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
-    <string name="do_not_kill_app">Не убивайте приложение…</string>
+    <string name="do_not_kill_app">Не закрывайте приложение…</string>
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
@@ -422,8 +422,8 @@
     <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
     <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
     <string name="validate">Проверить</string>
-    <string name="discard_changes">Забыть изменения\?</string>
-    <string name="discard">Забыть</string>
+    <string name="discard_changes">Сохранить изменения\?</string>
+    <string name="discard">Не сохранять</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
     <string name="education_setup_OTP_title">Настройка OTP</string>
@@ -433,8 +433,6 @@
     <string name="error_label_exists">Такая метка уже существует.</string>
     <string name="warning_database_link_revoked">Доступ к файлу отменён файловым менеджером</string>
     <string name="autofill_preference_title">Настройки автозаполнения</string>
-    <string name="keyboard_search_share_summary">При отправке URL в KeePassDX отфильтровать записи по домену этого URL</string>
-    <string name="keyboard_search_share_title">Поиск доступной информации</string>
     <string name="subdomain_search_title">Поиск поддоменов</string>
     <string name="subdomain_search_summary">Выполнять поиск доменов с некоторыми поддоменами</string>
     <string name="autofill_block_restart">Перезапустите приложение, содержащее форму, чтобы активировать отключение.</string>
@@ -470,7 +468,7 @@
     <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
     <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
-    <string name="keyboard_save_search_info_summary">При отправке URL в KeePassDX, если выбрана запись, постараться запомнить её для дальнейшего использования</string>
+    <string name="keyboard_save_search_info_summary">При отправке информации в KeePassDX, если выбрана запись, постараться сохранить информацию в ней для дальнейшего использования</string>
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
@@ -615,7 +613,7 @@
     <string name="searchable">Доступно для поиска</string>
     <string name="inherited">Наследовать</string>
     <string name="case_sensitive">С учётом регистра</string>
-    <string name="menu_save_copy_to">Сохранить копию в…</string>
+    <string name="menu_save_copy_to">Сохранить как…</string>
     <string name="menu_merge_from">Объединить с…</string>
     <string name="search_filters">Фильтры поиска</string>
     <string name="regex">Регулярное выражение</string>
@@ -631,15 +629,15 @@
 \nПроверьте совместимость и безопасность хранилища ключей через производителя устройства и разработчика используемого ПЗУ.</string>
     <string name="passphrase">Кодовая фраза</string>
     <string name="colorize_password_title">Раскрашивать пароли</string>
-    <string name="colorize_password_summary">Разделять цветом символы пароля по типу</string>
+    <string name="colorize_password_summary">Разделять символы пароля цветом по типу</string>
     <string name="keyboard_previous_search_title">Экран поиска</string>
     <string name="entropy">Энтропия: %1$s бит</string>
     <string name="entropy_high">Энтропия: высокая</string>
     <string name="word_separator">Разделитель</string>
     <string name="character_count">Количество символов: %1$d</string>
-    <string name="ignore_chars_filter">Игнорировать символы</string>
+    <string name="ignore_chars_filter">Исключить символы</string>
     <string name="title_case">С Заглавных</string>
-    <string name="at_least_one_char">Не менее, чем по одному символу из каждого</string>
+    <string name="at_least_one_char">Обязательно использовать символы из выбранных наборов</string>
     <string name="consider_chars_filter">Включить символы</string>
     <string name="content_description_passphrase_word_count">Количество слов в кодовой фразе</string>
     <string name="keyboard_previous_search_summary">Автоматически переключаться на предыдущую клавиатуру на экране поиска</string>

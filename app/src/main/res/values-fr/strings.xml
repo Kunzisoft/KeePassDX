@@ -460,8 +460,6 @@
     <string name="autofill_web_domain_blocklist_title">Liste de blocage de domaine Web</string>
     <string name="autofill_application_id_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des applications</string>
     <string name="autofill_application_id_blocklist_title">Liste de blocage d’application</string>
-    <string name="keyboard_search_share_summary">Lorsque des infos sont partagées avec KeePassDX, filtre les entrées en utilisant ces infos pour alimenter le Magiclavier</string>
-    <string name="keyboard_search_share_title">Sélectionner les infos partagées</string>
     <string name="filter">Filtre</string>
     <string name="subdomain_search_summary">Recherche des domaines Web avec des contraintes de sous-domaines</string>
     <string name="subdomain_search_title">Recherche de sous-domaine</string>

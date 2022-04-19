@@ -433,8 +433,6 @@
     <string name="parallelism">Паралельність</string>
     <string name="memory_usage">Використання пам\'яті</string>
     <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних.</string>
-    <string name="keyboard_search_share_summary">Коли надано спільний доступ до URL-адреси у KeePassDX, фільтрувати записи, що застосовують домен з цією URL-адресою</string>
-    <string name="keyboard_search_share_title">Пошук доступних даних</string>
     <string name="autofill_block_restart">Перезапустіть застосунок, який містить форму, для застосування блокування.</string>
     <string name="autofill_block">Блокування автозаповнення</string>
     <string name="autofill_web_domain_blocklist_summary">Вебдомени для яких вимкнено автозаповнення</string>
@@ -478,7 +476,7 @@
     <string name="autofill_close_database_title">Закриття бази даних</string>
     <string name="keyboard_previous_lock_summary">Автоматичне повернення до попередньої клавіатури після блокування бази даних</string>
     <string name="keyboard_previous_lock_title">Блокування бази даних</string>
-    <string name="keyboard_save_search_info_summary">Після надання спільного доступу до URL-адреси KeePassDX, коли запис вибрано, пробувати запам\'ятати цей запис для подальшого застосування</string>
+    <string name="keyboard_save_search_info_summary">Після надання спільного доступу до даних KeePassDX, коли запис вибрано, пробувати зберегти дані у цей запис для простішого використання у подальшому</string>
     <string name="keyboard_save_search_info_title">Збереження спільних відомостей</string>
     <string name="notification">Сповіщення</string>
     <string name="biometric_security_update_required">Необхідно оновити біометричний захист.</string>

@@ -124,8 +124,6 @@ class GroupActivity : DatabaseLockActivity(),
 
     private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
 
-    private var mSearchMenuItem: MenuItem? = null
-
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
     private var mRecyclingBinIsCurrentGroup = false
@@ -409,19 +407,13 @@ class GroupActivity : DatabaseLockActivity(),
             val currentGroup = it.group
             mCurrentGroup = currentGroup
             if (currentGroup.isVirtual) {
-                val searchParameters = it.searchParameters
-                mSearchState = SearchState(searchParameters, it.showFromPosition)
+                mSearchState = SearchState(
+                    it.searchParameters,
+                    it.showFromPosition
+                )
             }
             // Main and search groups in activity are managed with another variables
             // to keep values during orientation
-
-            // Expand the search view if defined in settings
-            if (mRequestStartupSearch
-                && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
-                // To request search only one time
-                mRequestStartupSearch = false
-                mSearchMenuItem?.expandActionView()
-            }
 
             loadingView?.hideByFading()
         }
@@ -729,8 +721,13 @@ class GroupActivity : DatabaseLockActivity(),
                 mSearchState = SearchState(PreferencesUtil.getDefaultSearchParameters(this).apply {
                     searchQuery = stringQuery
                 }, mSearchState?.firstVisibleItem ?: 0)
+            } else if (mRequestStartupSearch
+                && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
+                // Expand the search view if defined in settings
+                // To request search only one time
+                mRequestStartupSearch = false
+                addSearch()
             }
-            loadGroup()
         }
     }
 
@@ -1138,7 +1135,6 @@ class GroupActivity : DatabaseLockActivity(),
     private fun addSearchQueryInSearchView(searchQuery: String) {
         searchView?.setOnQueryTextListener(null)
         searchView?.setQuery(searchQuery, false)
-        searchView?.clearFocus()
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
 
@@ -1181,7 +1177,6 @@ class GroupActivity : DatabaseLockActivity(),
         // Get the SearchView and set the searchable configuration
         menu.findItem(R.id.menu_search)?.let {
             mLockSearchListeners = true
-            mSearchMenuItem = it
             it.setOnActionExpandListener(mOnSearchActionExpandListener)
             searchView = it.actionView as SearchView?
             searchView?.apply {

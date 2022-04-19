@@ -435,9 +435,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     protected fun lockAndExit() {
         // Ask confirmation if modification not saved
-        if (mDatabase?.isReadOnly == false
-            && mDatabase?.dataModifiedSinceLastLoading == true
-            && !PreferencesUtil.isAutoSaveDatabaseEnabled(this)) {
+        if (mDatabase?.dataModifiedSinceLastLoading == true) {
             AlertDialog.Builder(this)
                 .setMessage(R.string.discard_changes)
                 .setNegativeButton(android.R.string.cancel, null)

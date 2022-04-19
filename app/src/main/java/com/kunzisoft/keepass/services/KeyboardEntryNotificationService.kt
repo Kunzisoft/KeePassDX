@@ -149,30 +149,23 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
         fun launchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean) {
 
-            val containsURLToCopy = entry.url.isNotEmpty()
-            val containsUsernameToCopy = entry.username.isNotEmpty()
-            val containsPasswordToCopy = entry.password.isNotEmpty()
-            val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
-
             var startService = false
             val intent = Intent(context, KeyboardEntryNotificationService::class.java)
 
-            if (containsURLToCopy || containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
-                if (toast) {
-                    Toast.makeText(context,
-                            context.getString(R.string.keyboard_notification_entry_content_title, entry.title),
-                            Toast.LENGTH_SHORT).show()
-                }
+            if (toast) {
+                Toast.makeText(context,
+                        context.getString(R.string.keyboard_notification_entry_content_title,
+                            entry.getVisualTitle()
+                        ),
+                        Toast.LENGTH_SHORT).show()
+            }
 
-                // Show the notification if allowed in Preferences
-                if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
-                    startService = true
-                    context.startService(intent.apply {
-                        putExtra(ENTRY_INFO_KEY, entry)
-                    })
-                }
-            } else {
-                MagikeyboardService.removeEntry(context)
+            // Show the notification if allowed in Preferences
+            if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
+                startService = true
+                context.startService(intent.apply {
+                    putExtra(ENTRY_INFO_KEY, entry)
+                })
             }
 
             if (!startService)

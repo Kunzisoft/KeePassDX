@@ -20,12 +20,9 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Build
 import android.text.InputFilter
-import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.StyleSpan
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.util.TypedValue

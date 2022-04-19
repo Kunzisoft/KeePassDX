@@ -1,3 +1,8 @@
+KeePassDX(3.4.3)
+ * Remove "Select share info" setting for Magikeyboard #1304
+ * Fix quick search and better loadGroup implementation #1302
+ * Fix small bugs
+
 KeePassDX(3.4.2)
  * Fix service parameter and workflow to remove notification when service is killed
  * Fix color

@@ -366,7 +366,6 @@
     <string name="warning_password_encoding">Izbjegni u lozinkama koristiti znakove koji su izvan formata kodiranja teksta u datoteci baze podataka (neprepoznati znakovi pretvaraju se u isto slovo).</string>
     <string name="rounds_explanation">Dodatni prolazi šifriranja pružaju veću zaštitu od brutalnih napada, ali stvarno mogu usporiti učitavanje i spremanje.</string>
     <string name="subdomain_search_summary">Traži web domene s ograničenjima poddomena</string>
-    <string name="keyboard_search_share_title">Traži dijeljene informacije</string>
     <string name="html_text_dev_feature_upgrade">Redovito aktualiziraj aplikaciju instaliranjem najnovijih verzija.</string>
     <string name="autofill_block_restart">Za aktiviranje blokiranja, ponovo pokreni aplikaciju koja sadrži obrazac.</string>
     <string name="education_sort_summary">Odaberi način razvrstavanja unosa i grupa.</string>
@@ -410,7 +409,6 @@
     <string name="html_text_dev_feature_buy_pro">Kupnjom &lt;strong&gt;pro&lt;/strong&gt; verzije,</string>
     <string name="keyboard_selection_entry_summary">Prilikom prikaza unosa u KeePassDX-u, popuni Magikeyboard s tim unosom</string>
     <string name="education_new_node_title">Dodaj elemente u bazu podataka</string>
-    <string name="keyboard_search_share_summary">Prilikom dijeljenja URL-a u KeePassDX-u, filtriraj unose koristeći tu domenu URL-a</string>
     <string name="education_donation_summary">Pomogni povećati stabilnost i sigurnost dodavanjem dodatnih funkcija.</string>
     <string name="error_string_type">Ovaj se tekst ne poklapa sa zatraženim elementom.</string>
     <string name="html_text_buy_pro">Kupnjom pro verzije imat ćaš pristup ovom &lt;strong&gt;vizualnom stilu&lt;/strong&gt; i k tome ćeš pomoći &lt;strong&gt;u realizaciji projekata zajednice.&lt;/strong&gt;</string>
@@ -476,7 +474,7 @@
     <string name="autofill_close_database_title">Zatvori bazu podataka</string>
     <string name="keyboard_previous_lock_summary">Automatski prebaci na prethodnu tipkovnicu nakon zaključavanja baze podataka</string>
     <string name="keyboard_previous_lock_title">Zaključaj bazu podataka</string>
-    <string name="keyboard_save_search_info_summary">Nakon dijeljenja URL-a s KeePassDX-om, kad je unos odabran, pokušaj zapamtiti taj unos za daljnje korištenje</string>
+    <string name="keyboard_save_search_info_summary">Nakon dijeljenja informacija s KeePassDX-om, kad je unos odabran, pokušaj zapamtiti taj unos za buduće korištenje</string>
     <string name="keyboard_save_search_info_title">Spremi dijeljene informacije</string>
     <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
     <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>

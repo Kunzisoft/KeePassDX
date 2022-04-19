@@ -1,0 +1,3 @@
+ * Suppression de l'option "Selection de l'info partagée" pour le Magiclavier #1304
+ * Correction de la recherche rapide et meilleure implementation de loadGroup #1302
+ * Correction de petits bugs
