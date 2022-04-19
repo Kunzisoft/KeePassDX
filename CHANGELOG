@@ -1,3 +1,5 @@
+KeePassDX(3.4.3)
+
 KeePassDX(3.4.2)
  * Fix service parameter and workflow to remove notification when service is killed
  * Fix color
