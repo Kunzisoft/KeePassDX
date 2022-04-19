@@ -464,13 +464,13 @@
     <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
     <string name="autofill_ask_to_save_data_summary">Form doldurma işlemi tamamlandığında verileri kaydetmek için sor</string>
     <string name="autofill_ask_to_save_data_title">Verileri kaydetmek için sor</string>
-    <string name="autofill_save_search_info_summary">Elle girdi seçimi yaparken arama bilgilerini kaydetmeyi dene</string>
+    <string name="autofill_save_search_info_summary">İleride daha kolay kullanım için elle girdi seçimi yaparken arama bilgilerini kaydetmeyi dene</string>
     <string name="autofill_save_search_info_title">Arama bilgilerini kaydet</string>
     <string name="autofill_close_database_summary">Otomatik doldurma seçiminden sonra veri tabanını kapat</string>
     <string name="autofill_close_database_title">Veri tabanını kapat</string>
     <string name="keyboard_previous_lock_summary">Veri tabanını kilitledikten sonra otomatik olarak önceki klavyeye dön</string>
     <string name="keyboard_previous_lock_title">Veri tabanını kilitle</string>
-    <string name="keyboard_save_search_info_summary">KeePassDX ile bilgi paylaştıktan sonra, bir girdi seçildiğinde, gelecekte daha kolay kullanmak için bilgileri girdiye kaydetmeyi deneyin</string>
+    <string name="keyboard_save_search_info_summary">İleride daha kolay kullanım için elle girdi seçimi yaparken arama bilgilerini kaydetmeyi dene</string>
     <string name="keyboard_save_search_info_title">Paylaşılan bilgileri kaydet</string>
     <string name="notification">Bildirim</string>
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
