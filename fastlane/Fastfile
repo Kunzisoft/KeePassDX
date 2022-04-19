@@ -12,6 +12,14 @@
 default_platform(:android)
 
 platform :android do
+
+  desc "Clean repo"
+  lane :clean do
+    gradle(
+      task: 'clean'
+    )
+  end
+
   desc "Runs all the tests"
   lane :tests do
     gradle(task: "test")
@@ -31,6 +39,9 @@ platform :android do
         "android.injected.signing.key.password" => options[:keypass],
       }
     )
+    sh("mkdir", "-p", "../releases")
+    @releaseFile = "../releases/KeePassDX-" + android_get_version_name + ".apk"
+    sh("cp", "../app/build/outputs/apk/free/release/app-free-release.apk", @releaseFile)
   end
 
   desc "Deploy a new Free Beta version to the Google Play"
@@ -46,7 +57,7 @@ platform :android do
     gradle(
       task: 'clean'
     )
-    sh("git", "checkout", ".")
+    reset_git_repo
   end
 
 end
