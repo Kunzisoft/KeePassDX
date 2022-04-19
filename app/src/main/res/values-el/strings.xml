@@ -470,13 +470,13 @@
     <string name="autofill_read_only_save">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
     <string name="autofill_ask_to_save_data_summary">Ζητήστε αποθήκευση δεδομένων όταν ολοκληρωθεί η συμπλήρωση μιας φόρμας</string>
     <string name="autofill_ask_to_save_data_title">Ζητήστε να αποθηκεύσετε δεδομένα</string>
-    <string name="autofill_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε πληροφορίες αναζήτησης κατά την επιλογή χειροκίνητης καταχώρισης</string>
+    <string name="autofill_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε πληροφορίες αναζήτησης όταν κάνετε μια χειροκίνητη επιλογή καταχώρησης για ευκολότερες μελλοντικές χρήσεις</string>
     <string name="autofill_save_search_info_title">Αποθήκευση πληροφοριών αναζήτησης</string>
     <string name="autofill_close_database_summary">Κλείστε τη βάση δεδομένων μετά από μια επιλογή αυτόματης συμπλήρωσης</string>
     <string name="autofill_close_database_title">Κλείσιμο βάσης δεδομένων</string>
     <string name="keyboard_previous_lock_summary">Επιστρέψτε αυτόματα στο προηγούμενο πληκτρολόγιο μετά το κλείδωμα της βάσης δεδομένων</string>
     <string name="keyboard_previous_lock_title">Κλείδωμα βάσης δεδομένων</string>
-    <string name="keyboard_save_search_info_summary">Μετά την κοινή χρήση πληροφοριών στο KeePassDX, όταν επιλεγεί μια καταχώρηση, δοκιμάστε να αποθηκεύσετε τις πληροφορίες στην καταχώρηση για ευκολότερες μελλοντικές χρήσεις</string>
+    <string name="keyboard_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε τις κοινές πληροφορίες όταν κάνετε μια χειροκίνητη επιλογή καταχώρισης για ευκολότερες μελλοντικές χρήσεις</string>
     <string name="keyboard_save_search_info_title">Αποθήκευση κοινόχρηστων πληροφοριών</string>
     <string name="notification">Ειδοποίηση</string>
     <string name="biometric_security_update_required">Απαιτείται ενημέρωση βιομετρικής ασφάλειας.</string>
