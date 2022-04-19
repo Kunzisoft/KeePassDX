@@ -35,6 +35,7 @@ platform :android do
     sh("mkdir", "-p", "../releases")
     @releaseFile = "../releases/KeePassDX-" + android_get_version_name + ".apk"
     sh("cp", "../app/build/outputs/apk/free/release/app-free-release.apk", @releaseFile)
+    sh("./releaseDescGenerator.sh", android_get_version_code, android_get_version_name)
   end
 
   desc "Deploy a new Free Beta version to the Google Play"
