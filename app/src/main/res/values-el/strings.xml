@@ -447,8 +447,6 @@
     <string name="keyboard_previous_database_credentials_summary">Επιστρέψτε αυτόματα στο προηγούμενο πληκτρολόγιο στην οθόνη διαπιστευτηρίων βάσης δεδομένων</string>
     <string name="keyboard_previous_database_credentials_title">Οθόνη διαπιστευτηρίων βάσης δεδομένων</string>
     <string name="keyboard_change">Εναλλαγή πληκτρολογίου</string>
-    <string name="keyboard_search_share_title">Επιλέξτε κοινόχρηστες πληροφορίες</string>
-    <string name="keyboard_search_share_summary">Όταν μοιράζεστε πληροφορίες στο KeePassDX, φιλτράρετε τις καταχωρίσεις χρησιμοποιώντας αυτές τις πληροφορίες για να τροφοδοτήσετε το Magikekeyboard</string>
     <string name="database_data_remove_unlinked_attachments_summary">Καταργεί συνημμένα που περιέχονται στη βάση δεδομένων, αλλά δεν συνδέονται με μια καταχώριση</string>
     <string name="database_data_remove_unlinked_attachments_title">Κατάργηση αποσυνδεδεμένων δεδομένων</string>
     <string name="data">Δεδομένα</string>

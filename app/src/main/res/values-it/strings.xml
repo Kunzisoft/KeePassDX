@@ -442,8 +442,6 @@
     <string name="autofill_web_domain_blocklist_title">Lista di blocco per domini web</string>
     <string name="autofill_application_id_blocklist_title">Lista di blocco per app</string>
     <string name="autofill_application_id_blocklist_summary">La lista di blocco impedisce l\'auto riempimento nelle app</string>
-    <string name="keyboard_search_share_summary">Durante la condivisione di una URL a KeePassDX, filtra le voci che usano quel dominio</string>
-    <string name="keyboard_search_share_title">Cerca informazioni condivise</string>
     <string name="filter">Filtro</string>
     <string name="error_string_type">Questo testo non soddisfa l\'elemento richiesto.</string>
     <string name="subdomain_search_summary">Cerca nei domini web includendo i sotto-domini</string>

@@ -620,15 +620,8 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
     }
 
-    fun isKeyboardSearchShareEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyboard_search_share_key),
-                context.resources.getBoolean(R.bool.keyboard_search_share_default))
-                && MagikeyboardService.activatedInSettings(context)
-    }
-
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
-        if (!isKeyboardSearchShareEnable(context))
+        if (!MagikeyboardService.activatedInSettings(context))
             return false
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_save_search_info_key),
@@ -818,7 +811,6 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
                 context.getString(R.string.keyboard_selection_entry_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.keyboard_search_share_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())

@@ -353,7 +353,6 @@
     <string name="keyboard_entry_timeout_title">Waktu habis</string>
     <string name="keyboard_notification_entry_clear_close_summary">Tutup database saat menutup notifikasi</string>
     <string name="keyboard_notification_entry_clear_close_title">Bersihkan saat menutup</string>
-    <string name="keyboard_search_share_title">Pilih info yang dibagikan</string>
     <string name="keyboard_notification_entry_summary">Tampilkan notifikasi ketika entri tersedia</string>
     <string name="keyboard_notification_entry_title">Info notifikasi</string>
     <string name="keyboard_selection_entry_summary">Saat menampilkan entri dalam KeePassDX, isi Magikeyboard dengan entrinya</string>
@@ -548,7 +547,6 @@
     <string name="colorize_password_title">Warnai kata sandi</string>
     <string name="biometric_auto_open_prompt_title">Buka prompt secara otomatis</string>
     <string name="allow_copy_password_summary">Izinkan menyalin entri kata sandi dan bidang yang dilindungi ke papan klip</string>
-    <string name="keyboard_search_share_summary">Saat berbagi info ke KeePassDX, saring entri menggunakan info ini untuk diberikan ke Magikeyboard</string>
     <string name="keyboard_previous_search_title">Layar pencarian</string>
     <string name="keyboard_previous_search_summary">Secara otomatis beralih kembali ke keyboard sebelumnya di layar pencarian</string>
     <string name="keyboard_previous_fill_in_summary">Secara otomatis beralih kembali ke keyboard sebelumnya setelah menjalankan \"Tindakan tombol otomatis\"</string>

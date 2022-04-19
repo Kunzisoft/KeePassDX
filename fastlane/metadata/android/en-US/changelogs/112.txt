@@ -1,1 +1,2 @@
+ * Suppression de l'option "Selection de l'info partagée" pour le Magiclavier #1304
  *

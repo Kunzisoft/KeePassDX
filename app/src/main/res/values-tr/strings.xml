@@ -427,8 +427,6 @@
     <string name="autofill_preference_title">Otomatik doldurma ayarları</string>
     <string name="warning_database_link_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi</string>
     <string name="error_label_exists">Bu etiket zaten var.</string>
-    <string name="keyboard_search_share_summary">KeePassDX ile bilgi paylaşırken, Magickeyboard\'a iletmek için bu bilgiyi kullanarak girdileri filtreleyin</string>
-    <string name="keyboard_search_share_title">Paylaşılan bilgileri seç</string>
     <string name="filter">Filtre</string>
     <string name="autofill_block_restart">Engellemeyi etkinleştirmek için formu içeren uygulamayı yeniden başlatın.</string>
     <string name="autofill_block">Otomatik doldurmayı engelle</string>

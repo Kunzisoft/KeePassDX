@@ -374,8 +374,6 @@
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
     <string name="keyboard_save_search_info_summary">將 URL 分享到 KeePassDX 後，當選好條目時，將嘗試記住該條目以備日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
-    <string name="keyboard_search_share_summary">將 URL 分享到 KeePassDX 時，使用該 URL 域過濾條目</string>
-    <string name="keyboard_search_share_title">搜尋分享的訊息</string>
     <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
     <string name="keyboard_selection_entry_title">條目選擇</string>
     <string name="keyboard_setting_label">魔法鍵盤設置</string>

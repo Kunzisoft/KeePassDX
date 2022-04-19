@@ -433,8 +433,6 @@
     <string name="validate">Valideren</string>
     <string name="contribution">Bijdragen</string>
     <string name="contact">Contact</string>
-    <string name="keyboard_search_share_summary">Wanneer u informatie deelt met KeePassDX, filtert u de vermeldingen met behulp van deze informatie om het Magikeyboard te voeden</string>
-    <string name="keyboard_search_share_title">Gedeelde informatie selecteren</string>
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
     <string name="autofill_web_domain_blocklist_summary">Lijst die het automatisch invullen bij webdomeinen voorkomt</string>

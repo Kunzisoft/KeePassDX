@@ -486,7 +486,6 @@
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar cambiar la contraseña maestra (días)</string>
     <string name="notification">Notificación</string>
     <string name="hide_expired_entries_title">Ocultar las entradas expiradas</string>
-    <string name="keyboard_search_share_title">Seleccione informe compartido</string>
     <string name="upload_attachment">Cargar %1$s</string>
     <string name="education_setup_OTP_summary">Configurar la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un token solicitado para la autenticación de dos factores (2FA).</string>
     <string name="education_setup_OTP_title">Establecer la contaseña de un solo uso</string>
@@ -518,7 +517,6 @@
     <string name="keyboard_auto_go_action_title">Acción de la tecla automática</string>
     <string name="keyboard_save_search_info_summary">Tras compartir informe a KeePassDX, cuando esté seleccionado un apunte, intente guardar el informe dentro del apunte para posibles futuros usos</string>
     <string name="keyboard_save_search_info_title">Guardar información compartida</string>
-    <string name="keyboard_search_share_summary">Al compartir un informe para KeePassDX, filtre los apuntes utilizando este informe para proporcionar el Pupitre Mágico</string>
     <string name="show_uuid_summary">Muestra el UUID vinculado a una entrada o a un grupo</string>
     <string name="show_uuid_title">Mostrar UUID</string>
     <string name="error_rebuild_list">No es posible reconstruir adecuadamente la lista.</string>

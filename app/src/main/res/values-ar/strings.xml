@@ -472,7 +472,6 @@
     <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
     <string name="device_credential">بيانات الاعتماد للجهاز</string>
     <string name="advanced_unlock_tap_delete">انفر لحذف مفاتيح فك القفل المتقدم</string>
-    <string name="keyboard_search_share_title">ابحث في المعلومات المشاركة</string>
     <string name="keyboard_auto_go_action_title">إجراء اللمس التلقائي</string>
     <string name="keyboard_previous_fill_in_title">إجراء لمس تلقائي</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>

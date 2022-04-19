@@ -434,8 +434,6 @@
     <string name="autofill_preference_title">Nastavení samovyplnění</string>
     <string name="warning_database_link_revoked">Přístup k souboru zrušenému správcem souborů</string>
     <string name="error_label_exists">Tento štítek už existuje.</string>
-    <string name="keyboard_search_share_summary">Při sdílení URL s KeePassDX filtrovat záznamy podle URL domény</string>
-    <string name="keyboard_search_share_title">Prohledat sdílené info</string>
     <string name="autofill_block_restart">Aktivovat zamezení restartováním aplikace obsahující formulář.</string>
     <string name="autofill_block">Zamezit samovyplnění</string>
     <string name="autofill_web_domain_blocklist_summary">Seznam domén, pro něž se zamezí samovyplnění</string>

@@ -134,8 +134,6 @@
     <string name="keyboard_entry_timeout_default" translatable="false">-1</string>
     <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
     <bool name="keyboard_selection_entry_default" translatable="false">false</bool>
-    <string name="keyboard_search_share_key" translatable="false">keyboard_search_share_key</string>
-    <bool name="keyboard_search_share_default" translatable="false">true</bool>
     <string name="keyboard_save_search_info_key" translatable="false">keyboard_save_search_info_key</string>
     <bool name="keyboard_save_search_info_default" translatable="false">false</bool>
     <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>

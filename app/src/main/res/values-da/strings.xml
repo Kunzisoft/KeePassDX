@@ -434,8 +434,6 @@
     <string name="autofill_preference_title">Indstillinger for automatisk udfyldning</string>
     <string name="warning_database_link_revoked">Adgang til filen tilbagekaldt af filadministratoren</string>
     <string name="error_label_exists">Etiketten findes allerede.</string>
-    <string name="keyboard_search_share_summary">Søg automatisk efter delte oplysninger for at udfylde tastaturet</string>
-    <string name="keyboard_search_share_title">Søg i delte oplysninger</string>
     <string name="autofill_block_restart">Genstart programmet, der indeholder formularen for at aktivere blokeringen.</string>
     <string name="autofill_block">Bloker autofyld</string>
     <string name="autofill_web_domain_blocklist_summary">Blokeringsliste, der forhindrer automatisk udfyldning af webdomæner</string>

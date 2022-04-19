@@ -1,1 +1,2 @@
+ * Remove "Select share info" setting for Magikeyboard #1304
  *

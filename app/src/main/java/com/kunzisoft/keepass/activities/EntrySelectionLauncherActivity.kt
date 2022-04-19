@@ -102,7 +102,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                        searchInfo: SearchInfo) {
 
         // Setting to integrate Magikeyboard
-        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
+        val searchShareForMagikeyboard = MagikeyboardService.activatedInSettings(this)
 
         // If database is open
         val readOnly = database?.isReadOnly != false
@@ -162,7 +162,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                                     Toast.LENGTH_LONG)
                                     .show()
                         }
-                    } else if (readOnly || searchShareForMagikeyboard) {
+                    } else if (searchShareForMagikeyboard) {
                         GroupActivity.launchForKeyboardSelectionResult(this,
                             openedDatabase,
                             searchInfo,

@@ -452,7 +452,6 @@
     <string name="style_brightness_title">Draktlysstyrke</string>
     <string name="backspace">Rettetast</string>
     <string name="keyboard_save_search_info_title">Lagre delt info</string>
-    <string name="keyboard_search_share_title">Søk i delt info</string>
     <string name="device_keyboard_setting_title">Innstillinger for enhetens tastatur</string>
     <string name="notification">Merknad</string>
     <string name="data">Data</string>
@@ -571,7 +570,6 @@
     <string name="show_otp_token_title">Vis OTP-symbol</string>
     <string name="keyboard_auto_go_action_summary">«Start»-nøkkelhandling etter at en «Felt»-nøkkel trykkes</string>
     <string name="keyboard_auto_go_action_title">Automatisk nøkkelhandling</string>
-    <string name="keyboard_search_share_summary">Filtrer oppføringene ved bruk av nettadressedomenet ved deling av en nettadresse til KeePassDX</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Krev endring av hovednøkkelen neste gang (én gang)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Påtving fornyelse neste gang</string>
     <string name="database_data_remove_unlinked_attachments_title">Fjen ulenket data</string>

@@ -433,8 +433,6 @@
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
     <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
     <string name="error_label_exists">Ta etykieta już istnieje.</string>
-    <string name="keyboard_search_share_summary">Udostępniając informacje KeePassDX, filtruj wpisy za pomocą tych informacji, aby zasilić Magikeyboard</string>
-    <string name="keyboard_search_share_title">Wybierz udostępnione informacje</string>
     <string name="autofill_block_restart">Zrestartuj aplikację zawierającą formularz, aby aktywować blokadę.</string>
     <string name="autofill_block">Blokowanie autouzupełniania</string>
     <string name="autofill_application_id_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>

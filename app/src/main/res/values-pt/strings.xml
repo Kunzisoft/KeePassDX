@@ -229,8 +229,6 @@
     <string name="subdomain_search_title">Pesquisa de subdomínios</string>
     <string name="error_string_type">Este texto não corresponde ao item solicitado.</string>
     <string name="content_description_add_item">Adicionar item</string>
-    <string name="keyboard_search_share_summary">Ao partilhar informações com o KeePassDX, filtrar as entradas usando esta informação para fornecer dados ao Magikeyboard</string>
-    <string name="keyboard_search_share_title">Selecionar informação partilhada</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqeuar na interface do utilizador</string>
     <string name="lock_database_show_button_title">Mostrar botão de bloquear</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>

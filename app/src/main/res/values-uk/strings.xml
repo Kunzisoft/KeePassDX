@@ -433,8 +433,6 @@
     <string name="parallelism">Паралельність</string>
     <string name="memory_usage">Використання пам\'яті</string>
     <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних.</string>
-    <string name="keyboard_search_share_summary">Коли надано спільний доступ до даних у KeePassDX, фільтрувати записи за ними, щоб передати їх у Magikeyboard</string>
-    <string name="keyboard_search_share_title">Вибір доступних даних</string>
     <string name="autofill_block_restart">Перезапустіть застосунок, який містить форму, для застосування блокування.</string>
     <string name="autofill_block">Блокування автозаповнення</string>
     <string name="autofill_web_domain_blocklist_summary">Вебдомени для яких вимкнено автозаповнення</string>

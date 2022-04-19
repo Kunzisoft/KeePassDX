@@ -433,8 +433,6 @@
     <string name="discard_changes">Descartar mudanças\?</string>
     <string name="validate">Validar</string>
     <string name="contribution">Contribuição</string>
-    <string name="keyboard_search_share_summary">Ao compartilhar um URL para KeePassDX, filtre as entradas usando esse domínio de URL</string>
-    <string name="keyboard_search_share_title">Procurar informação compartilhada</string>
     <string name="upload_attachment">Upload %1$s</string>
     <string name="keyboard_previous_fill_in_summary">Retornar automaticamente para o teclado anterior após executar a \"ação de tecla automática\"</string>
     <string name="keyboard_previous_fill_in_title">Ação automática de tecla</string>

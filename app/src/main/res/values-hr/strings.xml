@@ -366,7 +366,6 @@
     <string name="warning_password_encoding">Izbjegni u lozinkama koristiti znakove koji su izvan formata kodiranja teksta u datoteci baze podataka (neprepoznati znakovi pretvaraju se u isto slovo).</string>
     <string name="rounds_explanation">Dodatni prolazi šifriranja pružaju veću zaštitu od brutalnih napada, ali stvarno mogu usporiti učitavanje i spremanje.</string>
     <string name="subdomain_search_summary">Traži web domene s ograničenjima poddomena</string>
-    <string name="keyboard_search_share_title">Odaberi dijeljene informacije</string>
     <string name="html_text_dev_feature_upgrade">Redovito aktualiziraj aplikaciju instaliranjem najnovijih verzija.</string>
     <string name="autofill_block_restart">Za aktiviranje blokiranja, ponovo pokreni aplikaciju koja sadrži obrazac.</string>
     <string name="education_sort_summary">Odaberi način razvrstavanja unosa i grupa.</string>
@@ -410,7 +409,6 @@
     <string name="html_text_dev_feature_buy_pro">Kupnjom &lt;strong&gt;pro&lt;/strong&gt; verzije,</string>
     <string name="keyboard_selection_entry_summary">Prilikom prikaza unosa u KeePassDX-u, popuni Magikeyboard s tim unosom</string>
     <string name="education_new_node_title">Dodaj elemente u bazu podataka</string>
-    <string name="keyboard_search_share_summary">Prilikom dijeljenja informacija u KeePassDX-u, filtriraj unose koristeći ovu obavijest za Magikeyboard</string>
     <string name="education_donation_summary">Pomogni povećati stabilnost i sigurnost dodavanjem dodatnih funkcija.</string>
     <string name="error_string_type">Ovaj se tekst ne poklapa sa zatraženim elementom.</string>
     <string name="html_text_buy_pro">Kupnjom pro verzije imat ćaš pristup ovom &lt;strong&gt;vizualnom stilu&lt;/strong&gt; i k tome ćeš pomoći &lt;strong&gt;u realizaciji projekata zajednice.&lt;/strong&gt;</string>
