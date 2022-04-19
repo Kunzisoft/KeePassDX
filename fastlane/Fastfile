@@ -13,13 +13,6 @@ default_platform(:android)
 
 platform :android do
 
-  desc "Clean repo"
-  lane :clean do
-    gradle(
-      task: 'clean'
-    )
-  end
-
   desc "Runs all the tests"
   lane :tests do
     gradle(task: "test")
@@ -57,7 +50,6 @@ platform :android do
     gradle(
       task: 'clean'
     )
-    reset_git_repo
   end
 
 end
