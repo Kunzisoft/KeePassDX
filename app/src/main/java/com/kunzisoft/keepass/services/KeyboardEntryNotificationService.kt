@@ -154,7 +154,9 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
             if (toast) {
                 Toast.makeText(context,
-                        context.getString(R.string.keyboard_notification_entry_content_title, entry.title),
+                        context.getString(R.string.keyboard_notification_entry_content_title,
+                            entry.getVisualTitle()
+                        ),
                         Toast.LENGTH_SHORT).show()
             }
 
