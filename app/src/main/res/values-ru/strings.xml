@@ -466,9 +466,9 @@
     <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер базы, но также может удалить данные, используемые для плагинов KeePass.</string>
     <string name="content_description_credentials_information">Информация об учётных данных</string>
     <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
-    <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
+    <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи для дальнейшего использования</string>
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
-    <string name="keyboard_save_search_info_summary">При отправке информации в KeePassDX, если выбрана запись, постараться сохранить информацию в ней для дальнейшего использования</string>
+    <string name="keyboard_save_search_info_summary">При ручном выборе записи пытаться сохранить информацию для дальнейшего использования</string>
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
