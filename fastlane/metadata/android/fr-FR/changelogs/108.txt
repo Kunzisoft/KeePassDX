@@ -1,0 +1,8 @@
+ * Phrases secrètes #218
+ * Indicateur visuel de la force du mot de passe avec entropie #631 #869 #454 #1270
+ * Sauvegarde dynamique de la configuration du générateur de mots de passe #618 #696
+ * Ajout des filtres de mots de passe avancés #1052 #448 #983 #271 #539
+ * Meilleure implémentation de la recherche #175 #1254 #1267
+ * Gestion du nom de package du Magiclavier #1010 #1261
+ * Demande de confirmation de verrouiller si changement sans sauvegarde #970
+ * Correction de petits bugs #1282

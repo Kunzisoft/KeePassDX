@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAccessibility="no"
+        android:importantForAutofill="no"
+        app:endIconMode="password_toggle"
+        app:endIconTint="?attr/colorAccent"
+        tools:ignore="UnusedAttribute">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/hint_pass"
+            android:importantForAccessibility="no"
+            android:importantForAutofill="no"
+            android:inputType="textPassword|textMultiLine"
+            android:maxLines="3"
+            tools:ignore="TextFields" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/password_strength_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:trackCornerRadius="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/password_input_layout"/>
+
+    <TextView
+        android:id="@+id/password_entropy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Entropy: 72.50 bit"
+        android:textSize="11sp"
+        android:layout_margin="4dp"
+        android:textColor="?attr/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/password_input_layout"
+        app:layout_constraintEnd_toEndOf="@+id/password_input_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

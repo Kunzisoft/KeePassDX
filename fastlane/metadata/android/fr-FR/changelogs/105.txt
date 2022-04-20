@@ -1,0 +1,7 @@
+ * Correction du partage d'un lien otpauth si la base de données n'est pas ouverte #1274
+ * Ellipsize le nom d'attachment #1253
+ * Ajouter un avertissement pour informer de l'utilisation de KeyStore #1269
+ * Déblocage par empreinte n'est plus par défaut #1273
+ * Onglets pour afficher séparément le contenu principal et le contenu avancé
+ * Correction de couleur d'URL
+ * Meilleure implémentation de la recherche #175

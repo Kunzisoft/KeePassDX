@@ -229,10 +229,6 @@
     <string name="subdomain_search_title">Pesquisa de subdomínios</string>
     <string name="error_string_type">Este texto não corresponde ao item solicitado.</string>
     <string name="content_description_add_item">Adicionar item</string>
-    <string name="keyboard_search_share_summary">Ao partilhar um URL com o KeePassDX, filtrar as entradas usando esse domínio de URL</string>
-    <string name="keyboard_search_share_title">Procurar informação partilhada</string>
-    <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa automaticamente do domínio da web ou do ID da aplicação</string>
-    <string name="autofill_auto_search_title">Pesquisa automática</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqeuar na interface do utilizador</string>
     <string name="lock_database_show_button_title">Mostrar botão de bloquear</string>
     <string name="autofill_preference_title">Configurações de preenchimento automático</string>
@@ -455,7 +451,7 @@
     <string name="advanced_unlock_invalid_key">Não foi possível ler a chave de desbloqueio avançada. Por favor, elimine-a e repita o procedimento de reconhecimento de desbloqueio.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extrair credencial da base de dados com dados de desbloqueio avançados</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Abrir base de dados com reconhecimento de desbloqueio avançado</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Advertência: ainda tem de se lembrar da sua palavra-passe principal se usar o reconhecimento de desbloqueio avançado.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Ainda terá de se lembrar da sua credencial principal se usar o reconhecimento de desbloqueio avançado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
     <string name="open_advanced_unlock_prompt_store_credential">Abrir o alerta de desbloqueio avançado para armazenar as credenciais</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Abrir o alerta de desbloqueio avançado para desbloquear a base de dados</string>
@@ -495,7 +491,7 @@
     <string name="education_advanced_unlock_title">Desbloqueio avançado da base de dados</string>
     <string name="autofill_inline_suggestions_keyboard">Adicionadas sugestões de preenchimento automático.</string>
     <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
-    <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando é validado um formulário</string>
+    <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Pedir para guardar dados</string>
     <string name="autofill_save_search_info_summary">Tentar guardar as informações de pesquisas ao fazer uma seleção de entrada manual</string>
     <string name="autofill_save_search_info_title">Guardar informações de pesquisas</string>
@@ -512,7 +508,7 @@
     <string name="custom_fields">Campos personalizados</string>
     <string name="keyboard_previous_lock_summary">Mudar automaticamente para o teclado anterior após bloquear a base de dados</string>
     <string name="keyboard_previous_lock_title">Bloquear base de dados</string>
-    <string name="keyboard_save_search_info_summary">Depois de partilhar um URL com o KeePassDX, quando uma entrada for selecionada, memorizar essa entrada para utilizações posteriores</string>
+    <string name="keyboard_save_search_info_summary">Depois de partilhar informação com o KeePassDX, quando uma entrada for selecionada, tentar guardar a informação na entrada para facilitar futuras utilizações</string>
     <string name="keyboard_save_search_info_title">Guardar informação partilhada</string>
     <string name="templates">Modelos</string>
     <string name="notification">Notificação</string>
@@ -590,4 +586,41 @@
     <string name="content_description_database_color">Cor da base de dados</string>
     <string name="content_description_entry_foreground_color">Cor do primeiro plano da página inicial</string>
     <string name="content_description_entry_background_color">Cor do fundo da página inicial</string>
+    <string name="content_description_nav_header">Cabeçalho de navegação</string>
+    <string name="searchable">Pesquisável</string>
+    <string name="auto_type_sequence">Sequência de preenchimento automático</string>
+    <string name="custom_data">Dados personalizados</string>
+    <string name="search_filters">Filtros de pesquisa</string>
+    <string name="current_group">Grupo atual</string>
+    <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
+    <string name="regex">Expressão regular</string>
+    <string name="menu_save_copy_to">Guardar uma cópia em…</string>
+    <string name="navigation_drawer_open">Gaveta de navegação aberta</string>
+    <string name="navigation_drawer_close">Gaveta de navegação fechada</string>
+    <string name="inherited">Herdar</string>
+    <string name="menu_merge_from">Unir de…</string>
+    <string name="expired">Expirou</string>
+    <string name="passphrase">Frase-chave</string>
+    <string name="colorize_password_summary">Colorir caracteres da palavra-passe por tipo</string>
+    <string name="advanced_unlock_keystore_warning">Esta funcionalidade irá armazenar dados encriptados de credenciais na KeyStore segura do seu dispositivo.
+\n
+\nDependendo da implementação da API nativa do sistema operativo, esta pode não estar totalmente funcional.
+\nVerifique a compatibilidade e segurança da KeyStore com o fabricante do seu dispositivo e com o criador da ROM que está a utilizar.</string>
+    <string name="keyboard_previous_search_title">Ecrã de pesquisa</string>
+    <string name="entropy_high">Entropia: alta</string>
+    <string name="entropy_calculate">Entropia: calcular…</string>
+    <string name="consider_chars_filter">Considerar caracteres</string>
+    <string name="word_separator">Separador</string>
+    <string name="ignore_chars_filter">Ignorar caracteres</string>
+    <string name="lower_case">minúsculas</string>
+    <string name="upper_case">MAIÚSCULAS</string>
+    <string name="title_case">Capitalização de Título</string>
+    <string name="character_count">Número de caracteres: %1$d</string>
+    <string name="entropy">Entropia: %1$s bit</string>
+    <string name="content_description_passphrase_word_count">Número de palavras da frase-chave</string>
+    <string name="colorize_password_title">Colorir palavras-passe</string>
+    <string name="warning_database_already_opened">Já está aberta uma base de dados, feche-a primeiro para poder abrir uma nova</string>
+    <string name="keyboard_previous_search_summary">Mudar automaticamente para o teclado anterior no ecrã de pesquisa</string>
+    <string name="at_least_one_char">Pelo menos um caractere de cada um</string>
+    <string name="exclude_ambiguous_chars">Excluir caracteres ambíguos</string>
 </resources>

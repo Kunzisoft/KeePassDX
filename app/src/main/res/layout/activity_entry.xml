@@ -136,6 +136,30 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/entry_content_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="?attr/cardBackgroundTransparentColor"
+        app:tabIconTint="?android:attr/textColor"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/entry_content_tab_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_view_list_white_24dp" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/entry_content_tab_advanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_time_white_24dp" />
+
+    </com.google.android.material.tabs.TabLayout>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

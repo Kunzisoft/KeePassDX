@@ -52,7 +52,7 @@ import com.kunzisoft.keepass.utils.UriUtil
 
 class NestedAppSettingsFragment : NestedSettingsFragment() {
 
-    private var deleteKeysAlertDialog: AlertDialog? = null
+    private var warningAlertDialog: AlertDialog? = null
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -262,7 +262,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         val deviceCredentialChecked = deviceCredentialUnlockEnablePreference?.isChecked ?: false
                         if (!biometricChecked) {
                             biometricUnlockEnablePreference.isChecked = true
-                            deleteKeysMessage(activity) {
+                            warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
                                 biometricUnlockEnablePreference.isChecked = false
                                 autoOpenPromptPreference?.isEnabled = deviceCredentialChecked
                                 tempAdvancedUnlockPreference?.isEnabled = deviceCredentialChecked
@@ -270,13 +270,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         } else {
                             if (deviceCredentialChecked) {
                                 biometricUnlockEnablePreference.isChecked = false
-                                deleteKeysMessage(activity) {
+                                warningMessage(activity, keystoreWarning = true, deleteKeys = true) {
                                     biometricUnlockEnablePreference.isChecked = true
                                     deviceCredentialUnlockEnablePreference?.isChecked = false
                                 }
                             } else {
-                                autoOpenPromptPreference?.isEnabled = true
-                                tempAdvancedUnlockPreference?.isEnabled = true
+                                biometricUnlockEnablePreference.isChecked = false
+                                warningMessage(activity, keystoreWarning = true, deleteKeys = false) {
+                                    biometricUnlockEnablePreference.isChecked = true
+                                    autoOpenPromptPreference?.isEnabled = true
+                                    tempAdvancedUnlockPreference?.isEnabled = true
+                                }
                             }
                         }
                         true
@@ -305,7 +309,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         val biometricChecked = biometricUnlockEnablePreference?.isChecked ?: false
                         if (!deviceCredentialChecked) {
                             deviceCredentialUnlockEnablePreference.isChecked = true
-                            deleteKeysMessage(activity) {
+                            warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
                                 deviceCredentialUnlockEnablePreference.isChecked = false
                                 autoOpenPromptPreference?.isEnabled = biometricChecked
                                 tempAdvancedUnlockPreference?.isEnabled = biometricChecked
@@ -313,13 +317,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         } else {
                             if (biometricChecked) {
                                 deviceCredentialUnlockEnablePreference.isChecked = false
-                                deleteKeysMessage(activity) {
+                                warningMessage(activity, keystoreWarning = true, deleteKeys = true) {
                                     deviceCredentialUnlockEnablePreference.isChecked = true
                                     biometricUnlockEnablePreference?.isChecked = false
                                 }
                             } else {
-                                autoOpenPromptPreference?.isEnabled = true
-                                tempAdvancedUnlockPreference?.isEnabled = true
+                                deviceCredentialUnlockEnablePreference.isChecked = false
+                                warningMessage(activity, keystoreWarning = true, deleteKeys = false) {
+                                    deviceCredentialUnlockEnablePreference.isChecked = true
+                                    autoOpenPromptPreference?.isEnabled = true
+                                    tempAdvancedUnlockPreference?.isEnabled = true
+                                }
                             }
                         }
                         true
@@ -334,7 +342,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
             tempAdvancedUnlockPreference?.setOnPreferenceClickListener {
                 tempAdvancedUnlockPreference.isChecked = !tempAdvancedUnlockPreference.isChecked
-                deleteKeysMessage(activity) {
+                warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
                     tempAdvancedUnlockPreference.isChecked = !tempAdvancedUnlockPreference.isChecked
                 }
                 true
@@ -343,7 +351,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
             if (biometricUnlockSupported || deviceCredentialUnlockSupported) {
                 deleteKeysFingerprints?.setOnPreferenceClickListener {
-                    deleteKeysMessage(activity)
+                    warningMessage(activity, keystoreWarning = false, deleteKeys = true)
                     false
                 }
             } else {
@@ -357,22 +365,36 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
     }
 
-    private fun deleteKeysMessage(activity: FragmentActivity, validate: (()->Unit)? = null) {
-        deleteKeysAlertDialog = AlertDialog.Builder(activity)
-                .setMessage(resources.getString(R.string.advanced_unlock_delete_all_key_warning))
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(resources.getString(android.R.string.ok)
-                ) { _, _ ->
-                    validate?.invoke()
-                    deleteKeysAlertDialog?.setOnDismissListener(null)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
-                    }
+    private fun warningMessage(activity: FragmentActivity,
+                               keystoreWarning: Boolean,
+                               deleteKeys: Boolean,
+                               validate: (()->Unit)? = null) {
+        var message = ""
+        if (keystoreWarning) {
+            message += resources.getString(R.string.advanced_unlock_prompt_store_credential_message)
+            message += "\n\n" + resources.getString(R.string.advanced_unlock_keystore_warning)
+        }
+        if (keystoreWarning && deleteKeys) {
+            message += "\n\n"
+        }
+        if (deleteKeys) {
+            message += resources.getString(R.string.advanced_unlock_delete_all_key_warning)
+        }
+        warningAlertDialog = AlertDialog.Builder(activity)
+            .setMessage(message)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton(resources.getString(android.R.string.ok)
+            ) { _, _ ->
+                validate?.invoke()
+                warningAlertDialog?.setOnDismissListener(null)
+                if (deleteKeys && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
                 }
-                .setNegativeButton(resources.getString(android.R.string.cancel)
-                ) { _, _ ->}
-                .create()
-        deleteKeysAlertDialog?.show()
+            }
+            .setNegativeButton(resources.getString(android.R.string.cancel)
+            ) { _, _ ->}
+            .create()
+        warningAlertDialog?.show()
     }
 
     private fun onCreateAppearancePreferences(rootKey: String?) {
@@ -382,13 +404,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
                 val styleIdString = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
+                if (!UriUtil.contributingUser(activity)) {
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
-                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
+                            ProFeatureDialogFragment().show(
+                                parentFragmentManager,
+                                "pro_feature_dialog"
+                            )
                         }
                     }
+                }
                 if (styleEnabled) {
                     Stylish.assignStyle(activity, styleIdString)
                     // Relaunch the current activity to redraw theme
@@ -409,13 +435,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
+                if (!UriUtil.contributingUser(activity)) {
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false
-                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
+                            ProFeatureDialogFragment().show(
+                                parentFragmentManager,
+                                "pro_feature_dialog"
+                            )
                         }
                     }
+                }
                 if (iconPackEnabled) {
                     IconPackChooser.setSelectedIconPack(iconPackId)
                 }
@@ -501,7 +531,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     }
 
     override fun onPause() {
-        deleteKeysAlertDialog?.dismiss()
+        warningAlertDialog?.dismiss()
         super.onPause()
     }
 
@@ -509,9 +539,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onStop() {
         super.onStop()
         activity?.let { activity ->
-            if (mCount == 10) {
-                Education.getEducationSharedPreferences(activity).edit()
-                        .putBoolean(getString(R.string.education_screen_reclicked_key), true).apply()
+            if (mCount == 10 && !BuildConfig.CLOSED_STORE) {
+                Education.setEducationScreenReclickedPerformed(activity)
             }
         }
     }

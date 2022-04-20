@@ -37,6 +37,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -73,6 +74,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
+    private var specialTitle: View? = null
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -111,6 +113,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+
+        // Special title
+        specialTitle = findViewById(R.id.file_selection_title_part_3)
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
@@ -335,6 +340,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     override fun onResume() {
         super.onResume()
 
+        // Define special title
+        specialTitle?.isVisible = UriUtil.contributingUser(this)
+
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
@@ -391,7 +399,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         super.onCreateOptionsMenu(menu)
 
         if (mSpecialMode == SpecialMode.DEFAULT) {
-            MenuUtil.defaultMenuInflater(menuInflater, menu)
+            MenuUtil.defaultMenuInflater(this, menuInflater, menu)
         }
 
         Handler(Looper.getMainLooper()).post {

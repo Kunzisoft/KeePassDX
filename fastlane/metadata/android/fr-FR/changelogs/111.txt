@@ -1,0 +1,2 @@
+ * Correction du paramètre de service et du flux de travail pour supprimer la notification lorsque le service est tué
+ * Correction de couleur

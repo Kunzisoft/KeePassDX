@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class SearchFiltersView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,
@@ -30,7 +31,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchUsername: CompoundButton
     private var searchPassword: CompoundButton
     private var searchURL: CompoundButton
-    private var searchExpires: CompoundButton
+    private var searchExpired: CompoundButton
     private var searchNotes: CompoundButton
     private var searchOther: CompoundButton
     private var searchUUID: CompoundButton
@@ -49,7 +50,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 this.searchInUsernames = searchUsername.isChecked
                 this.searchInPasswords = searchPassword.isChecked
                 this.searchInUrls = searchURL.isChecked
-                this.excludeExpired = !(searchExpires.isChecked)
+                this.searchInExpired = searchExpired.isChecked
                 this.searchInNotes = searchNotes.isChecked
                 this.searchInOther = searchOther.isChecked
                 this.searchInUUIDs = searchUUID.isChecked
@@ -69,12 +70,12 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchUsername.isChecked = value.searchInUsernames
             searchPassword.isChecked = value.searchInPasswords
             searchURL.isChecked = value.searchInUrls
-            searchExpires.isChecked = !value.excludeExpired
+            searchExpired.isChecked = value.searchInExpired
             searchNotes.isChecked = value.searchInNotes
             searchOther.isChecked = value.searchInOther
             searchUUID.isChecked = value.searchInUUIDs
             searchTag.isChecked = value.searchInTags
-            searchGroupSearchable.isChecked = value.searchInRecycleBin
+            searchGroupSearchable.isChecked = value.searchInSearchableGroup
             searchRecycleBin.isChecked = value.searchInRecycleBin
             searchTemplate.isChecked = value.searchInTemplates
             mOnParametersChangeListener = tempListener
@@ -107,7 +108,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchUsername = findViewById(R.id.search_chip_username)
         searchPassword = findViewById(R.id.search_chip_password)
         searchURL = findViewById(R.id.search_chip_url)
-        searchExpires = findViewById(R.id.search_chip_expires)
+        searchExpired = findViewById(R.id.search_chip_expires)
         searchNotes = findViewById(R.id.search_chip_note)
         searchUUID = findViewById(R.id.search_chip_uuid)
         searchOther = findViewById(R.id.search_chip_other)
@@ -115,6 +116,9 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchGroupSearchable = findViewById(R.id.search_chip_group_searchable)
         searchRecycleBin = findViewById(R.id.search_chip_recycle_bin)
         searchTemplate = findViewById(R.id.search_chip_template)
+
+        // Set search
+        searchParameters = PreferencesUtil.getDefaultSearchParameters(context)
 
         // Expand menu with button
         searchExpandButton.setOnClickListener {
@@ -153,8 +157,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.searchInUrls = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
-        searchExpires.setOnCheckedChangeListener { _, isChecked ->
-            searchParameters.excludeExpired = !isChecked
+        searchExpired.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.searchInExpired = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchNotes.setOnCheckedChangeListener { _, isChecked ->
@@ -248,5 +252,9 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 }
             }
         }
+    }
+
+    fun saveSearchParameters() {
+        PreferencesUtil.setDefaultSearchParameters(context, searchParameters)
     }
 }

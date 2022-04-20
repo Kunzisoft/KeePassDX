@@ -69,6 +69,7 @@
     <string name="discard">Discard</string>
     <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
+    <string name="content_description_passphrase_word_count">Passphrase word count</string>
     <string name="entry_add_field">Add field</string>
     <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
@@ -204,12 +205,17 @@
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
+    <string name="passphrase">Passphrase</string>
     <string name="invalid_credentials">Could not read credentials.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
+    <string name="hide_password_title">Hide passwords</string>
+    <string name="hide_password_summary">Mask passwords (***) by default</string>
+    <string name="colorize_password_title">Colorize passwords</string>
+    <string name="colorize_password_summary">Colorize password characters by type</string>
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_entries_show_username_summary">Displays usernames in entry lists</string>
     <string name="list_groups_show_number_entries_title">Show number of entries</string>
@@ -223,8 +229,6 @@
     <string name="creating_database">Creating database…</string>
     <string name="loading_database">Loading database…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="hide_password_title">Hide passwords</string>
-    <string name="hide_password_summary">Mask passwords (***) by default</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
@@ -331,6 +335,7 @@
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_database_read_only">Grant file write access to save database changes</string>
     <string name="warning_database_link_revoked">Access to the file revoked by the file manager</string>
+    <string name="warning_database_already_opened">A database is already open, close it first to open the new one</string>
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
@@ -357,7 +362,7 @@
     <string name="open_advanced_unlock_prompt_unlock_database">Open the advanced unlock prompt to unlock the database</string>
     <string name="open_advanced_unlock_prompt_store_credential">Open the advanced unlock prompt to store credentials</string>
     <string name="advanced_unlock_prompt_store_credential_title">Advanced unlock recognition</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Warning: You still need to remember your master password if you use advanced unlock recognition.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your main credential if you use advanced unlock recognition.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extract database credential with advanced unlock data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
@@ -415,6 +420,7 @@
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to advanced unlock recognition</string>
     <string name="advanced_unlock_delete_all_key_warning">Delete all encryption keys related to advanced unlock recognition?</string>
+    <string name="advanced_unlock_keystore_warning">This feature will store encrypted credential data in the secure KeyStore of your device.\n\nDepending on the native API implementation of the operating system, it may not be fully functional.\nCheck the compatibility and security of the KeyStore with the manufacturer of your device and the creator of the ROM you are using.</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
@@ -477,10 +483,8 @@
     <string name="keyboard_selection_entry_summary">When viewing an entry in KeePassDX, populate Magikeyboard with that entry</string>
     <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
-    <string name="keyboard_search_share_title">Search shared info</string>
-    <string name="keyboard_search_share_summary">When sharing a URL to KeePassDX, filter the entries using that URL domain</string>
     <string name="keyboard_save_search_info_title">Save shared info</string>
-    <string name="keyboard_save_search_info_summary">After sharing a URL to KeePassDX, when an entry is selected, try to remember that entry for further uses</string>
+    <string name="keyboard_save_search_info_summary">Try to save shared information when making a manual entry selection for easier future uses</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -498,6 +502,8 @@
     <string name="keyboard_change">Switch keyboard</string>
     <string name="keyboard_previous_database_credentials_title">Database credentials screen</string>
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
+    <string name="keyboard_previous_search_title">Search screen</string>
+    <string name="keyboard_previous_search_summary">Automatically switch back to the previous keyboard on the search screen</string>
     <string name="keyboard_previous_fill_in_title">Auto key action</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
@@ -509,14 +515,12 @@
     <string name="enter">Enter</string>
     <string name="autofill_close_database_title">Close database</string>
     <string name="autofill_close_database_summary">Close the database after an autofill selection</string>
-    <string name="autofill_auto_search_title">Auto search</string>
-    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
     <string name="autofill_inline_suggestions_title">Inline suggestions</string>
     <string name="autofill_inline_suggestions_summary">Attempt to display autofill suggestions directly from a compatible keyboard</string>
     <string name="autofill_manual_selection_title">Manual selection</string>
     <string name="autofill_manual_selection_summary">Display option to let the user select database entry</string>
     <string name="autofill_save_search_info_title">Save search info</string>
-    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection</string>
+    <string name="autofill_save_search_info_summary">Try to save search information when making a manual entry selection for easier future uses</string>
     <string name="autofill_ask_to_save_data_title">Ask to save data</string>
     <string name="autofill_ask_to_save_data_summary">Ask for saving data when filling of a form is completed</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>
@@ -601,6 +605,23 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
+    <string name="entropy">Entropy: %1$s bit</string>
+    <string name="entropy_high">Entropy: High</string>
+    <string name="entropy_calculate">Entropy: Calculate…</string>
+    <string name="at_least_one_char">At least one character from each</string>
+    <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
+    <string name="consider_chars_filter">Consider characters</string>
+    <string name="word_separator">Separator</string>
+    <string name="ignore_chars_filter">Ignore characters</string>
+    <string name="lower_case">lower case</string>
+    <string name="upper_case">UPPER CASE</string>
+    <string name="title_case">Title Case</string>
+    <string name="character_count">Character count: %1$d</string>
+    <string-array name="word_case_array">
+        <item>@string/lower_case</item>
+        <item>@string/upper_case</item>
+        <item>@string/title_case</item>
+    </string-array>
     <string-array name="timeout_options">
         <item>5 seconds</item>
         <item>10 seconds</item>

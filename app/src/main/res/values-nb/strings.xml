@@ -383,7 +383,6 @@
     <string name="entry_add_attachment">Legg til vedlegg</string>
     <string name="contribution">Bidrag</string>
     <string name="contact">Kontakt</string>
-    <string name="autofill_auto_search_title">Autosøk</string>
     <string name="enable_auto_save_database_summary">Lagre database etter hver viktige handling i (i \"modifiserbart\" modus)</string>
     <string name="download_initialization">Igangsetter…</string>
     <string name="hide_expired_entries_summary">Utløpte oppføringer er skjult</string>
@@ -436,7 +435,6 @@
     <string name="keyboard_previous_lock_title">Lås databasen</string>
     <string name="keyboard_previous_lock_summary">Bytt automatisk tilbake til forrige tastatur etter å ha låst databasen</string>
     <string name="autofill_close_database_summary">Lukk databasen etter et autofyllvalg</string>
-    <string name="autofill_auto_search_summary">Foreslå automatisk søkeresultater fra webdomenet eller applikasjons-IDen</string>
     <string name="autofill_save_search_info_summary">Prøv å lagre søkeinformasjon når du foretar et manuelt valg</string>
     <string name="autofill_block">Blokker autofyll</string>
     <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
@@ -454,7 +452,6 @@
     <string name="style_brightness_title">Draktlysstyrke</string>
     <string name="backspace">Rettetast</string>
     <string name="keyboard_save_search_info_title">Lagre delt info</string>
-    <string name="keyboard_search_share_title">Søk i delt info</string>
     <string name="device_keyboard_setting_title">Innstillinger for enhetens tastatur</string>
     <string name="notification">Merknad</string>
     <string name="data">Data</string>
@@ -573,7 +570,6 @@
     <string name="show_otp_token_title">Vis OTP-symbol</string>
     <string name="keyboard_auto_go_action_summary">«Start»-nøkkelhandling etter at en «Felt»-nøkkel trykkes</string>
     <string name="keyboard_auto_go_action_title">Automatisk nøkkelhandling</string>
-    <string name="keyboard_search_share_summary">Filtrer oppføringene ved bruk av nettadressedomenet ved deling av en nettadresse til KeePassDX</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Krev endring av hovednøkkelen neste gang (én gang)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Påtving fornyelse neste gang</string>
     <string name="database_data_remove_unlinked_attachments_title">Fjen ulenket data</string>

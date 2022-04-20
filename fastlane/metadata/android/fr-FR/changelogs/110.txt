@@ -1,0 +1,4 @@
+ * Correction du mode recherche pour le Magiclavier #1292
+ * Correction de la selection d'une autre entrée avec le Magiclavier #1293
+ * Correction d'un verrouillage non attendu avec le Magiclavier #1294
+ * Petits changements d'interface

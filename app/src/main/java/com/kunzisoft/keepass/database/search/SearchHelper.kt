@@ -148,9 +148,9 @@ class SearchHelper {
                 onDatabaseClosed.invoke()
             } else if (TimeoutHelper.checkTime(context)) {
                 var searchWithoutUI = false
-                if (PreferencesUtil.isAutofillAutoSearchEnable(context)
-                        && searchInfo != null && !searchInfo.manualSelection
-                        && !searchInfo.containsOnlyNullValues()) {
+                if (searchInfo != null
+                    && !searchInfo.manualSelection
+                    && !searchInfo.containsOnlyNullValues()) {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
                             searchInfo.toString(),
@@ -181,7 +181,7 @@ class SearchHelper {
                 return false
 
             // Exclude entry expired
-            if (searchParameters.excludeExpired) {
+            if (!searchParameters.searchInExpired) {
                 if (entry.isCurrentlyExpires)
                     return false
             }
@@ -237,14 +237,20 @@ class SearchHelper {
                 return false
             return if (searchParameters.isRegex) {
                 val regex = if (searchParameters.caseSensitive) {
-                    searchParameters.searchQuery.toRegex(RegexOption.DOT_MATCHES_ALL)
+                    searchParameters.searchQuery
+                        .toRegex(RegexOption.DOT_MATCHES_ALL)
                 } else {
                     searchParameters.searchQuery
                         .toRegex(setOf(RegexOption.DOT_MATCHES_ALL, RegexOption.IGNORE_CASE))
                 }
                 regex.matches(stringToCheck)
             } else {
-                stringToCheck.contains(searchParameters.searchQuery, !searchParameters.caseSensitive)
+                var searchFound = true
+                searchParameters.searchQuery.split(" ").forEach { word ->
+                    searchFound = searchFound
+                            && stringToCheck.contains(word, !searchParameters.caseSensitive)
+                }
+                searchFound
             }
         }
     }

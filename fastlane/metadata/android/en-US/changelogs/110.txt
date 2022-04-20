@@ -1,0 +1,4 @@
+ * Fix search mode with Magikeyboard #1292
+ * Fix select another entry with Magikeyboard #1293
+ * Fix unexpected lock with Magikeyboard #1294
+ * Small UI changes

@@ -320,8 +320,6 @@
     <string name="delete_entered_password_title">Видаляти пароль</string>
     <string name="allow_no_password_summary">Дозволяє натискання «Відкрити», якщо не вибрано головний пароль</string>
     <string name="allow_no_password_title">Дозволити без головного ключа</string>
-    <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ID застосунку</string>
-    <string name="autofill_auto_search_title">Автоматичний пошук</string>
     <string name="keyboard_key_sound_title">Звук під час натискання</string>
     <string name="keyboard_key_vibrate_title">Вібрація під час натискання</string>
     <string name="keyboard_auto_go_action_summary">Дія переходу після натискання кнопки заповнення поля</string>
@@ -435,8 +433,6 @@
     <string name="parallelism">Паралельність</string>
     <string name="memory_usage">Використання пам\'яті</string>
     <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних.</string>
-    <string name="keyboard_search_share_summary">Коли надано спільний доступ до URL-адреси у KeePassDX, фільтрувати записи, що застосовують домен з цією URL-адресою</string>
-    <string name="keyboard_search_share_title">Пошук доступних даних</string>
     <string name="autofill_block_restart">Перезапустіть застосунок, який містить форму, для застосування блокування.</string>
     <string name="autofill_block">Блокування автозаповнення</string>
     <string name="autofill_web_domain_blocklist_summary">Вебдомени для яких вимкнено автозаповнення</string>
@@ -480,7 +476,7 @@
     <string name="autofill_close_database_title">Закриття бази даних</string>
     <string name="keyboard_previous_lock_summary">Автоматичне повернення до попередньої клавіатури після блокування бази даних</string>
     <string name="keyboard_previous_lock_title">Блокування бази даних</string>
-    <string name="keyboard_save_search_info_summary">Після надання спільного доступу до URL-адреси KeePassDX, коли запис вибрано, пробувати запам\'ятати цей запис для подальшого застосування</string>
+    <string name="keyboard_save_search_info_summary">Після надання спільного доступу до даних KeePassDX, коли запис вибрано, пробувати зберегти дані у цей запис для простішого використання у подальшому</string>
     <string name="keyboard_save_search_info_title">Збереження спільних відомостей</string>
     <string name="notification">Сповіщення</string>
     <string name="biometric_security_update_required">Необхідно оновити біометричний захист.</string>
@@ -502,7 +498,7 @@
     <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розширеного розблокування. Видаліть його та повторіть процедуру створення ключа.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розширеного розблокування</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Відкрити базу даних розширеним розпізнаванням розблокування</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Попередження: Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати головний пароль.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати основні облікові дані.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Розпізнавання розширеного розблокування</string>
     <string name="open_advanced_unlock_prompt_store_credential">Відкривати запит розширеного розблокування, щоб зберегти облікові дані</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Відкривати запит розширеного розблокування, щоб розблокувати базу даних</string>
@@ -616,7 +612,7 @@
     <string name="navigation_drawer_open">Відкрити панель навігації</string>
     <string name="navigation_drawer_close">Закрити панель навігації</string>
     <string name="searchable">Шукане</string>
-    <string name="inherited">Успадковане</string>
+    <string name="inherited">Успадкувати</string>
     <string name="current_group">Поточна група</string>
     <string name="case_sensitive">З урахуванням регістру</string>
     <string name="regex">Регулярний вираз</string>
@@ -625,4 +621,28 @@
     <string name="search_filters">Фільтри пошуку</string>
     <string name="auto_type_sequence">Послідовність автовведення</string>
     <string name="menu_save_copy_to">Зберегти копію в …</string>
+    <string name="expired">Термін дії завершився</string>
+    <string name="warning_database_already_opened">База даних уже відкрита, спочатку закрийте її, щоб відкрити нову</string>
+    <string name="advanced_unlock_keystore_warning">Ця функція зберігатиме зашифровані облікові дані в захищеному сховищі ключів вашого пристрою.
+\n
+\nЗалежно від вбудованої реалізації API операційної системи, вона може бути не повністю функціональною.
+\nПеревірте сумісність і безпеку сховища ключів із виробником вашого пристрою та творцем використовуваного ROM.</string>
+    <string name="passphrase">Парольна фраза</string>
+    <string name="colorize_password_title">Забарвлювати паролі</string>
+    <string name="colorize_password_summary">Забарвлювати символи пароля за типом</string>
+    <string name="keyboard_previous_search_summary">Автоматичний перехід до попередньої клавіатури на екрані пошуку</string>
+    <string name="entropy">Ентропія: %1$s біт</string>
+    <string name="at_least_one_char">Принаймні один символ з кожного</string>
+    <string name="ignore_chars_filter">Ігнорувати символи</string>
+    <string name="lower_case">нижній регістр</string>
+    <string name="keyboard_previous_search_title">Екран пошуку</string>
+    <string name="entropy_calculate">Ентропія: Обчислення…</string>
+    <string name="exclude_ambiguous_chars">Виключити неоднозначні символи</string>
+    <string name="content_description_passphrase_word_count">Кількість слів парольної фрази</string>
+    <string name="character_count">Кількість символів: %1$d</string>
+    <string name="entropy_high">Ентропія: висока</string>
+    <string name="consider_chars_filter">Включити символи</string>
+    <string name="title_case">Регістр Заголовка</string>
+    <string name="word_separator">Роздільник</string>
+    <string name="upper_case">ВЕРХНІЙ РЕГІСТР</string>
 </resources>

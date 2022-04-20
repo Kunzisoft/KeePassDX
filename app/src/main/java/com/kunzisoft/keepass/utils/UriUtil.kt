@@ -30,6 +30,7 @@ import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.education.Education
 import java.io.*
 import java.util.*
 
@@ -68,7 +69,18 @@ object UriUtil {
             return null
         return when {
             isFileScheme(fileUri) -> fileUri.path?.let { FileOutputStream(it) }
-            isContentScheme(fileUri) -> contentResolver.openOutputStream(fileUri, "rwt")
+            isContentScheme(fileUri) -> {
+                try {
+                    contentResolver.openOutputStream(fileUri, "wt")
+                } catch (e: FileNotFoundException) {
+                    Log.e(TAG, "Unable to open stream in `wt` mode, retry in `rwt` mode.", e)
+                    // https://issuetracker.google.com/issues/180526528
+                    // Try with rwt to fix content provider issue
+                    val outStream = contentResolver.openOutputStream(fileUri, "rwt")
+                    Log.w(TAG, "`rwt` mode used.")
+                    outStream
+                }
+            }
             else -> null
         }
     }
@@ -255,9 +267,16 @@ object UriUtil {
         gotoUrl(context, context.getString(resId))
     }
 
-    fun isExternalAppInstalled(context: Context, packageName: String): Boolean {
+    fun contributingUser(context: Context): Boolean {
+        return (Education.isEducationScreenReclickedPerformed(context)
+                || isExternalAppInstalled(context, "com.kunzisoft.keepass.pro")
+                )
+    }
+
+    private fun isExternalAppInstalled(context: Context, packageName: String): Boolean {
         try {
             context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+            Education.setEducationScreenReclickedPerformed(context)
             return true
         } catch (e: Exception) {
             Log.e(TAG, "App not accessible", e)

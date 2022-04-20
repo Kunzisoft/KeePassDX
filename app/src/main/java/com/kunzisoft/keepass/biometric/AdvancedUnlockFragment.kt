@@ -45,6 +45,8 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -579,10 +581,13 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     private fun showViews(show: Boolean) {
         lifecycleScope.launch(Dispatchers.Main) {
-            mAdvancedUnlockInfoView?.visibility = if (show)
-                View.VISIBLE
+            if (show) {
+                if (mAdvancedUnlockInfoView?.visibility != View.VISIBLE)
+                    mAdvancedUnlockInfoView?.showByFading()
+            }
             else {
-                View.GONE
+                if (mAdvancedUnlockInfoView?.visibility == View.VISIBLE)
+                    mAdvancedUnlockInfoView?.hideByFading()
             }
         }
     }
@@ -606,26 +611,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.message = text
         }
-    }
-
-    fun performEducation(passwordActivityEducation: PasswordActivityEducation,
-                         readOnlyEducationPerformed: Boolean,
-                         onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                         onOuterViewClick: ((TapTargetView?) -> Unit)? = null) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && !readOnlyEducationPerformed) {
-                val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(requireContext())
-                PreferencesUtil.isAdvancedUnlockEnable(requireContext())
-                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                        && mAdvancedUnlockInfoView != null && mAdvancedUnlockInfoView?.visibility == View.VISIBLE
-                        && mAdvancedUnlockInfoView?.unlockIconImageView != null
-                        && passwordActivityEducation.checkAndPerformedBiometricEducation(mAdvancedUnlockInfoView!!.unlockIconImageView!!,
-                        onEducationViewClick,
-                        onOuterViewClick)
-            }
-        } catch (ignored: Exception) {}
     }
 
     enum class Mode {

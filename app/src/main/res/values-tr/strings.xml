@@ -399,8 +399,8 @@
     <string name="download_progression">Devam ediyor: %1$d%%</string>
     <string name="download_finalization">Sonuçlandırılıyor…</string>
     <string name="download_complete">Tamamlandı!</string>
-    <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
-    <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gösterilmez</string>
+    <string name="hide_expired_entries_title">Süresi dolan girdileri gizle</string>
+    <string name="hide_expired_entries_summary">Süresi dolan girdiler gösterilmez</string>
     <string name="warning_database_read_only">Veri tabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
     <string name="hide_broken_locations_summary">Son veri tabanları listesindeki bozuk bağlantıları gizle</string>
     <string name="hide_broken_locations_title">Bozuk veri tabanı bağlantılarını gizle</string>
@@ -422,15 +422,11 @@
     <string name="discard">Vazgeç</string>
     <string name="discard_changes">Değişikliklerden vazgeç\?</string>
     <string name="validate">Doğrula</string>
-    <string name="autofill_auto_search_summary">Web etki alanından veya uygulama kimliğinden otomatik olarak arama sonuçları öner</string>
-    <string name="autofill_auto_search_title">Otomatik arama</string>
     <string name="lock_database_show_button_summary">Kilit düğmesini kullanıcı arayüzünde görüntüler</string>
     <string name="lock_database_show_button_title">Kilit düğmesini göster</string>
     <string name="autofill_preference_title">Otomatik doldurma ayarları</string>
     <string name="warning_database_link_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi</string>
     <string name="error_label_exists">Bu etiket zaten var.</string>
-    <string name="keyboard_search_share_summary">Bir URL\'yi KeePassDX ile paylaşırken o URL domainini kullananları filtrele</string>
-    <string name="keyboard_search_share_title">Paylaşılan bilgileri ara</string>
     <string name="filter">Filtre</string>
     <string name="autofill_block_restart">Engellemeyi etkinleştirmek için formu içeren uygulamayı yeniden başlatın.</string>
     <string name="autofill_block">Otomatik doldurmayı engelle</string>
@@ -474,7 +470,7 @@
     <string name="autofill_close_database_title">Veri tabanını kapat</string>
     <string name="keyboard_previous_lock_summary">Veri tabanını kilitledikten sonra otomatik olarak önceki klavyeye dön</string>
     <string name="keyboard_previous_lock_title">Veri tabanını kilitle</string>
-    <string name="keyboard_save_search_info_summary">Bir URL\'yi KeePassDX ile paylaştıktan sonra, eğer bir girdi seçiliyse, o girdiyi sonraki kullanımlar için hatırla</string>
+    <string name="keyboard_save_search_info_summary">KeePassDX ile bilgi paylaştıktan sonra, bir girdi seçildiğinde, gelecekte daha kolay kullanmak için bilgileri girdiye kaydetmeyi deneyin</string>
     <string name="keyboard_save_search_info_title">Paylaşılan bilgileri kaydet</string>
     <string name="notification">Bildirim</string>
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
@@ -497,7 +493,7 @@
     <string name="advanced_unlock_invalid_key">Gelişmiş kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma işlemini tekrarlayın.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Veri tabanı kimlik bilgilerini gelişmiş kilit açma özelliğiyle çıkarın</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Veri tabanını gelişmiş kilit açma tanıma ile aç</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Uyarı: Gelişmiş kilit açma tanıma kullanırsanız, yine de ana parolanızı hatırlamanız gerekmektedir.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Gelişmiş kilit açma tanıma kullanırsanız, yine de ana kimlik bilgilerinizi hatırlamanız gerekmektedir.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Gelişmiş kilit açma tanıma</string>
     <string name="open_advanced_unlock_prompt_store_credential">Kimlik bilgilerini saklamak için gelişmiş kilit açma istemini aç</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Veri tabanının kilidini açmak için gelişmiş kilit açma istemini aç</string>
@@ -611,7 +607,7 @@
     <string name="navigation_drawer_open">Gezinme çekmecesi açık</string>
     <string name="navigation_drawer_close">Gezinme çekmecesi kapalı</string>
     <string name="searchable">Aranabilir</string>
-    <string name="inherited">Devralınan</string>
+    <string name="inherited">Aktar</string>
     <string name="auto_type_sequence">Otomatik yazma sırası</string>
     <string name="menu_merge_from">Şuradan birleştir…</string>
     <string name="regex">Düzenli ifade</string>
@@ -620,4 +616,28 @@
     <string name="current_group">Geçerli grup</string>
     <string name="custom_data">Özel veri</string>
     <string name="menu_save_copy_to">Bir kopyasını şuraya kaydet…</string>
+    <string name="expired">Süresi doldu</string>
+    <string name="warning_database_already_opened">Bir veri tabanı zaten açık, yenisini açmak için önce onu kapatın</string>
+    <string name="advanced_unlock_keystore_warning">Bu özellik, şifrelenen kimlik bilgilerini aygıtınızın güvenli anahtar deposunda saklayacaktır.
+\n
+\nİşletim sisteminin yerel API uygulamasına bağlı olarak, tam olarak işlevsel olmayabilir.
+\nAygıtınızın üreticisi ve kullandığınız ROM\'un geliştiricisi ile anahtar deposunun uyumluluğunu ve güvenliğini denetleyin.</string>
+    <string name="content_description_passphrase_word_count">Parola sözcük sayısı</string>
+    <string name="at_least_one_char">Her birinden en az bir karakter</string>
+    <string name="exclude_ambiguous_chars">Belirsiz karakterleri hariç tut</string>
+    <string name="lower_case">küçük harf</string>
+    <string name="passphrase">Parola</string>
+    <string name="colorize_password_title">Parolaları renklendir</string>
+    <string name="entropy">Entropi: %1$s bit</string>
+    <string name="entropy_high">Entropi: Yüksek</string>
+    <string name="colorize_password_summary">Parola karakterlerini türe göre renklendir</string>
+    <string name="keyboard_previous_search_title">Arama ekranı</string>
+    <string name="keyboard_previous_search_summary">Arama ekranında otomatik olarak önceki klavyeye geri dön</string>
+    <string name="consider_chars_filter">Karakterleri göz önünde bulundur</string>
+    <string name="ignore_chars_filter">Karakterleri yoksay</string>
+    <string name="character_count">Karakter sayısı: %1$d</string>
+    <string name="entropy_calculate">Entropi: Hesapla…</string>
+    <string name="word_separator">Ayırıcı</string>
+    <string name="upper_case">BÜYÜK HARF</string>
+    <string name="title_case">İlk Harfleri Büyük</string>
 </resources>

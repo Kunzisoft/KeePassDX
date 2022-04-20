@@ -27,6 +27,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.ServiceCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
@@ -36,7 +37,10 @@ import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import com.kunzisoft.keepass.utils.UriUtil
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -275,7 +279,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             AttachmentState.COMPLETE,
             AttachmentState.CANCELED,
             AttachmentState.ERROR -> {
-                stopForeground(false)
+                ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
                 notificationManager?.notify(attachmentNotification.notificationId, builder.build())
             } else -> {
                 startForeground(attachmentNotification.notificationId, builder.build())

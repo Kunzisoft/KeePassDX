@@ -124,7 +124,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    private fun getSecretKey(): SecretKey? {
+    @Synchronized private fun getSecretKey(): SecretKey? {
         if (!isKeyManagerInitialized) {
             return null
         }
@@ -141,8 +141,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                                 KeyGenParameterSpec.Builder(
                                     ADVANCED_UNLOCK_KEYSTORE_KEY,
                                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                                    .setBlockModes(ADVANCED_UNLOCK_BLOCKS_MODES)
+                                    .setEncryptionPaddings(ADVANCED_UNLOCK_ENCRYPTION_PADDING)
                                     .apply {
                                         // Require the user to authenticate with a fingerprint to authorize every use
                                         // of the key, don't use it for device credential because it's the user authentication
@@ -173,11 +173,11 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         return null
     }
 
-    fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,) {
+    @Synchronized fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,) {
         initEncryptData(actionIfCypherInit, true)
     }
 
-    private fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
+    @Synchronized private fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
                                 firstLaunch: Boolean) {
         if (!isKeyManagerInitialized) {
             return
@@ -213,7 +213,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun encryptData(value: ByteArray) {
+    @Synchronized fun encryptData(value: ByteArray) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -229,12 +229,12 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun initDecryptData(ivSpecValue: ByteArray,
+    @Synchronized fun initDecryptData(ivSpecValue: ByteArray,
                         actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
         initDecryptData(ivSpecValue, actionIfCypherInit, true)
     }
 
-    private fun initDecryptData(ivSpecValue: ByteArray,
+    @Synchronized private fun initDecryptData(ivSpecValue: ByteArray,
                         actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
                         firstLaunch: Boolean = true) {
         if (!isKeyManagerInitialized) {
@@ -278,7 +278,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun decryptData(encryptedValue: ByteArray) {
+    @Synchronized fun decryptData(encryptedValue: ByteArray) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -296,7 +296,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun deleteKeystoreKey() {
+    @Synchronized fun deleteKeystoreKey() {
         try {
             keyStore?.load(null)
             keyStore?.deleteEntry(ADVANCED_UNLOCK_KEYSTORE_KEY)
@@ -306,7 +306,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt,
+    @Synchronized fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt,
                                  deviceCredentialResultLauncher: ActivityResultLauncher<Intent>
     ) {
         // Init advanced unlock prompt
@@ -346,7 +346,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    fun closeBiometricPrompt() {
+    @Synchronized fun closeBiometricPrompt() {
         biometricPrompt?.cancelAuthentication()
     }
 

@@ -26,7 +26,7 @@ import kotlinx.coroutines.*
  */
 class IOActionTask<T>(
         private val action: () -> T ,
-        private val afterActionDatabaseListener: ((T?) -> Unit)? = null) {
+        private val afterActionListener: ((T?) -> Unit)? = null) {
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
@@ -42,7 +42,7 @@ class IOActionTask<T>(
                         }
                 }
                 withContext(Dispatchers.Main) {
-                    afterActionDatabaseListener?.invoke(asyncResult.await())
+                    afterActionListener?.invoke(asyncResult.await())
                 }
             }
         }

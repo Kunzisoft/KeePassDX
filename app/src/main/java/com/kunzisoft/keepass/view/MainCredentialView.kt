@@ -46,7 +46,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                                                    defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
-    private var passwordView: EditText
+    private var passwordTextView: EditText
     private var keyFileSelectionView: KeyFileSelectionView
     private var checkboxPasswordView: CompoundButton
     private var checkboxKeyFileView: CompoundButton
@@ -60,7 +60,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_main_credentials, this)
 
-        passwordView = findViewById(R.id.password)
+        passwordTextView = findViewById(R.id.password_text_view)
         keyFileSelectionView = findViewById(R.id.keyfile_selection)
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
@@ -75,8 +75,8 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             }
         }
 
-        passwordView.setOnEditorActionListener(onEditorActionListener)
-        passwordView.addTextChangedListener(object : TextWatcher {
+        passwordTextView.setOnEditorActionListener(onEditorActionListener)
+        passwordTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -86,7 +86,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                     checkboxPasswordView.isChecked = true
             }
         })
-        passwordView.setOnKeyListener { _, _, keyEvent ->
+        passwordTextView.setOnKeyListener { _, _, keyEvent ->
             var handled = false
             if (keyEvent.action == KeyEvent.ACTION_DOWN
                 && keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER
@@ -108,11 +108,11 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
 
     fun populatePasswordTextView(text: String?) {
         if (text == null || text.isEmpty()) {
-            passwordView.setText("")
+            passwordTextView.setText("")
             if (checkboxPasswordView.isChecked)
                 checkboxPasswordView.isChecked = false
         } else {
-            passwordView.setText(text)
+            passwordTextView.setText(text)
             if (checkboxPasswordView.isChecked)
                 checkboxPasswordView.isChecked = true
         }
@@ -137,7 +137,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     fun getMainCredential(): MainCredential {
         return MainCredential().apply {
             this.masterPassword = if (checkboxPasswordView.isChecked)
-                passwordView.text?.toString() else null
+                passwordTextView.text?.toString() else null
             this.keyFileUri = if (checkboxKeyFileView.isChecked)
                 keyFileSelectionView.uri else null
         }
@@ -163,7 +163,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
      */
     fun retrieveCredentialForStorage(listener: CredentialStorageListener): ByteArray? {
         return when (mCredentialStorage) {
-            CredentialStorage.PASSWORD -> listener.passwordToStore(passwordView.text?.toString())
+            CredentialStorage.PASSWORD -> listener.passwordToStore(passwordTextView.text?.toString())
             CredentialStorage.KEY_FILE -> listener.keyfileToStore(keyFileSelectionView.uri)
             CredentialStorage.HARDWARE_KEY -> listener.hardwareKeyToStore()
         }
@@ -176,15 +176,15 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     }
 
     fun requestPasswordFocus() {
-        passwordView.requestFocusFromTouch()
+        passwordTextView.requestFocusFromTouch()
     }
 
     // Auto select the password field and open keyboard
     fun focusPasswordFieldAndOpenKeyboard() {
-        passwordView.postDelayed({
-            passwordView.requestFocusFromTouch()
+        passwordTextView.postDelayed({
+            passwordTextView.requestFocusFromTouch()
             val inputMethodManager = context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as? InputMethodManager?
-            inputMethodManager?.showSoftInput(passwordView, InputMethodManager.SHOW_IMPLICIT)
+            inputMethodManager?.showSoftInput(passwordTextView, InputMethodManager.SHOW_IMPLICIT)
         }, 100)
     }
 

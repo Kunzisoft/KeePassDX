@@ -14,7 +14,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about">關於</string>
-    <string name="about_description">Android 版 KeePass 密碼管理軟體</string>
+    <string name="about_description">兼容KeePass密碼管理軟體的Android程式</string>
     <string name="accept">接受</string>
     <string name="account">帳戶</string>
     <string name="add_entry">添加項目</string>
@@ -27,7 +27,7 @@
     <string name="advanced_unlock_prompt_extract_credential_message">用高級解鎖資料提取資料庫憑證</string>
     <string name="advanced_unlock_prompt_extract_credential_title">用高級解鎖開啟資料庫</string>
     <string name="advanced_unlock_prompt_not_initialized">無法初始化高級解鎖提示。</string>
-    <string name="advanced_unlock_prompt_store_credential_message">警告：即使你使用高級解鎖，你仍然需要記住你的主密碼。</string>
+    <string name="advanced_unlock_prompt_store_credential_message">即使你使用高級解鎖，你仍然需要記住你的解鎖憑證。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高級解鎖</string>
     <string name="advanced_unlock_scanning_error">高級解鎖出錯：%1$s</string>
     <string name="advanced_unlock_tap_delete">點擊刪除高級解鎖密鑰</string>
@@ -40,18 +40,16 @@
     <string name="allow_no_password_title">允許沒有主密鑰</string>
     <string name="app_timeout">應用程式超時</string>
     <string name="app_timeout_summary">鎖定資料庫前的閒置時間</string>
-    <string name="application">程式</string>
-    <string name="application_appearance">應用程式</string>
+    <string name="application">應用程式</string>
+    <string name="application_appearance">界面</string>
     <string name="assign_master_key">分配主密鑰</string>
     <string name="auto_focus_search_summary">開啟資料庫時就開始搜尋</string>
     <string name="auto_focus_search_title">快速搜尋</string>
     <string name="autofill">自動填入</string>
     <string name="autofill_application_id_blocklist_summary">禁止應用程式自動填充的黑名單</string>
     <string name="autofill_application_id_blocklist_title">應用程式黑名單</string>
-    <string name="autofill_ask_to_save_data_summary">當表單經過驗證後，詢問是否保存資料</string>
+    <string name="autofill_ask_to_save_data_summary">填寫完表格后詢問是否保存數據</string>
     <string name="autofill_ask_to_save_data_title">詢問是否保存資料</string>
-    <string name="autofill_auto_search_summary">自動建議匹配的網址域名或應用程式 ID 的搜尋結果</string>
-    <string name="autofill_auto_search_title">自動搜尋</string>
     <string name="autofill_block">阻止自動填入</string>
     <string name="autofill_block_restart">重新啟動包含該表單的應用程式以啟用攔截。</string>
     <string name="autofill_close_database_summary">自動填充寫入後，關閉資料庫</string>
@@ -79,7 +77,7 @@
     <string name="biometric">生物辨識</string>
     <string name="biometric_auto_open_prompt_summary">資料庫就緒後，應用將自動請求高級解鎖</string>
     <string name="biometric_auto_open_prompt_title">自動開啟提示</string>
-    <string name="biometric_delete_all_key_summary">刪除全部生物辨識加密密鑰</string>
+    <string name="biometric_delete_all_key_summary">刪除所有和高級解鎖方式有關的加密密鑰</string>
     <string name="biometric_delete_all_key_title">刪除加密密鑰</string>
     <string name="biometric_security_update_required">需要生物辨識安全更新。</string>
     <string name="biometric_unlock_enable_summary">通過生物辨識解鎖資料庫</string>
@@ -104,10 +102,10 @@
     <string name="compression">壓縮</string>
     <string name="compression_gzip">Gzip</string>
     <string name="compression_none">無</string>
-    <string name="configure_biometric">未登記生物辨識或設備憑證。</string>
+    <string name="configure_biometric">未登記任何生物辨識或設備憑證。</string>
     <string name="contact">聯繫方式</string>
     <string name="contains_duplicate_uuid">資料庫包含重複的 UUID。</string>
-    <string name="contains_duplicate_uuid_procedure">通過驗證此對話方塊，KeePassDX 將修復問題（通過為重複項生成新的 UUID）並繼續。</string>
+    <string name="contains_duplicate_uuid_procedure">通過為重複的數據生成新的 UUID (識別碼)來解決問題。是否繼續？</string>
     <string name="content">內容</string>
     <string name="content_description_add_entry">添加項目</string>
     <string name="content_description_add_group">添加群組</string>
@@ -121,7 +119,7 @@
     <string name="content_description_keyfile_checkbox">密鑰檔案核取方塊</string>
     <string name="content_description_node_children">子節點</string>
     <string name="content_description_open_file">開啟檔案</string>
-    <string name="content_description_otp_information">一次性密碼資訊</string>
+    <string name="content_description_otp_information">一次性密碼訊息</string>
     <string name="content_description_password_checkbox">密碼核取方塊</string>
     <string name="content_description_password_length">密碼長度</string>
     <string name="content_description_remove_field">刪除欄位</string>
@@ -172,7 +170,7 @@
     <string name="download_finalization">最後步驟…</string>
     <string name="download_initialization">初始化中…</string>
     <string name="download_progression">進行中：%1$d%%</string>
-    <string name="edit_entry">編輯項目</string>
+    <string name="edit_entry">編輯條目</string>
     <string name="education_add_attachment_summary">將附件上傳到你的條目以保存重要的外部資料。</string>
     <string name="education_add_attachment_title">添加附件</string>
     <string name="education_advanced_unlock_summary">將你的密碼連接到你掃瞄的生物特徵或設備憑證，以快速解鎖你的資料庫。</string>
@@ -185,15 +183,22 @@
     <string name="education_entry_edit_title">編輯此條目</string>
     <string name="education_entry_new_field_summary">添加一個新的欄位並添加為其添加一個值，此時可以選擇是否保護該欄位及其值。</string>
     <string name="education_entry_new_field_title">添加自定義欄位</string>
-    <string name="education_field_copy_summary">已複製的欄位可以貼到任何地方。選擇需要的填寫方式。</string>
+    <string name="education_field_copy_summary">已複製的欄位可以貼到任何地方。
+\n
+\n選擇需要的表格填寫方式。</string>
     <string name="education_field_copy_title">複製欄位</string>
     <string name="education_generate_password_summary">依據表單中的標準進行簡單的定義，隨機為該條目生成一個強密碼，不在擔心忘記安全密碼。</string>
     <string name="education_generate_password_title">建立一個強密碼</string>
     <string name="education_lock_summary">可以設置在無操作和螢幕關閉的時候，鎖定資料庫。</string>
     <string name="education_lock_title">鎖定資料庫</string>
-    <string name="education_new_node_summary">這些條目幫助管理數位化身份，還可以使用群組來管理資料庫中的條目。</string>
+    <string name="education_new_node_summary">這些條目幫助管理數位化身份。
+\n
+\n還可以使用群組來管理資料庫中的條目。</string>
     <string name="education_new_node_title">向資料庫添加項目</string>
-    <string name="education_read_only_summary">更改此會話的開啟模式。 「寫入保護（唯讀）」可防止對資料庫的意外更改。「可編輯」將允許隨心所欲地添加、刪除或者修改所有元素。</string>
+    <string name="education_read_only_summary">更改此會話的開啟模式。
+\n
+\n「寫入保護」（「唯讀」）可防止對資料庫的意外更改。
+\n「可編輯」將你允許隨心所欲地添加、刪除或者修改所有元素。</string>
     <string name="education_read_only_title">資料庫啟用寫入保護（唯讀）</string>
     <string name="education_search_summary">輸入標題、用戶名或其他欄位的內容來搜尋密碼。</string>
     <string name="education_search_title">搜尋條目</string>
@@ -203,7 +208,9 @@
     <string name="education_setup_OTP_title">設置一次性密碼</string>
     <string name="education_sort_summary">選擇條目和群組的排序方式。</string>
     <string name="education_sort_title">條目排序</string>
-    <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫.</string>
+    <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫。
+\n
+\n每次更改后，將資料庫檔備份到安全的地方。</string>
     <string name="education_unlock_title">解鎖資料庫</string>
     <string name="email">電子郵件</string>
     <string name="email_address">電子郵件地址</string>
@@ -243,7 +250,7 @@
     <string name="error_arc4">Arcfour 流密碼不被支援。</string>
     <string name="error_autofill_enable_service">無法啟用自動填入服務。</string>
     <string name="error_can_not_handle_uri">KeePassDX 無法處理此 URI。</string>
-    <string name="error_copy_entry_here">不能複製項目至此。</string>
+    <string name="error_copy_entry_here">你不能在此處複製條目。</string>
     <string name="error_copy_group_here">不能在此處複製群組。</string>
     <string name="error_create_database">無法建立資料庫。</string>
     <string name="error_create_database_file">無法使用此密碼和密鑰檔創建資料庫。</string>
@@ -261,12 +268,12 @@
     <string name="error_label_exists">此標籤已存在。</string>
     <string name="error_load_database">無法載入資料庫。</string>
     <string name="error_load_database_KDF_memory">無法載入密鑰。嘗試降低 KDF\"記憶體使用率\"。</string>
-    <string name="error_move_entry_here">不能移動項目至此。</string>
-    <string name="error_move_group_here">不能把一個組移動到此處。</string>
+    <string name="error_move_entry_here">你不能移動條目至此處。</string>
+    <string name="error_move_group_here">不能將群組移至此處。</string>
     <string name="error_no_name">請輸入用戶名。</string>
     <string name="error_nokeyfile">選擇密鑰檔案。</string>
     <string name="error_otp_counter">計數器必須介於 %1$d 和 %2$d 之間。</string>
-    <string name="error_otp_digits">權杖需含有 %1$d 至 %2$d 位數字。</string>
+    <string name="error_otp_digits">令牌需含有 %1$d 到 %2$d 個數字。</string>
     <string name="error_otp_period">時段必須介於 %1$d 和 %2$d 秒之間。</string>
     <string name="error_otp_secret_key">密鑰必須採用 Base32 格式。</string>
     <string name="error_otp_type">現有的 OTP 類型未被此表單所辨識，其驗證可能不再正確生成令牌。</string>
@@ -282,7 +289,7 @@
     <string name="error_string_key">每個字串必須具有欄位名稱。</string>
     <string name="error_string_type">文本和請求的條目不匹配。</string>
     <string name="error_upload_file">上傳檔案時發生錯誤。</string>
-    <string name="error_word_reserved">該字為保留字，無法使用。</string>
+    <string name="error_word_reserved">該字詞是保留字，無法使用。</string>
     <string name="error_wrong_length">請在長度欄位輸入一個正整數。</string>
     <string name="export_app_properties_summary">建立一個檔案以匯出配置</string>
     <string name="export_app_properties_title">導出配置</string>
@@ -291,7 +298,7 @@
     <string name="field_name">欄位名</string>
     <string name="field_value">欄位值</string>
     <string name="file_browser">檔案管理器</string>
-    <string name="file_manager_install_description">需要支持 Intent 動作 ACTION_CREATE_DOCUMENT 和 ACTION_OPEN_DOCUMENT 的檔案管理器來建立、開啟和儲存資料庫檔案。</string>
+    <string name="file_manager_install_description">檔案管理器必須支援 ACTION_CREATE_DOCUMENT 和 ACTION_OPEN_DOCUMENT 的 intent，才能用來建立、開啟和儲存資料庫檔案。</string>
     <string name="file_name">檔案名稱</string>
     <string name="file_not_found_content">找不到檔案，嘗試從檔案瀏覽器重新開啟它。</string>
     <string name="filter">過濾</string>
@@ -334,9 +341,9 @@
     <string name="import_app_properties_title">導入配置</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="invalid_algorithm">無效的演算法。</string>
-    <string name="invalid_credentials">無效的密碼或密鑰檔。</string>
+    <string name="invalid_credentials">無法獲取身份驗證信息。</string>
     <string name="invalid_db_same_uuid">與%1$s的 UUID 相同的%2$s已經存在。</string>
-    <string name="invalid_db_sig">資料庫格式無法辨識。</string>
+    <string name="invalid_db_sig">無法辨識資料庫格式。</string>
     <string name="kdf_explanation">為生成加密演算法的密鑰，主密鑰使用隨機跳轉密鑰推算函數進行轉換。</string>
     <string name="key_derivation_function">密鑰推算函數</string>
     <string name="keyboard">鍵盤</string>
@@ -367,8 +374,6 @@
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
     <string name="keyboard_save_search_info_summary">將 URL 分享到 KeePassDX 後，當選好條目時，將嘗試記住該條目以備日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
-    <string name="keyboard_search_share_summary">將 URL 分享到 KeePassDX 時，使用該 URL 域過濾條目</string>
-    <string name="keyboard_search_share_title">搜尋分享的訊息</string>
     <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
     <string name="keyboard_selection_entry_title">條目選擇</string>
     <string name="keyboard_setting_label">魔法鍵盤設置</string>
@@ -376,7 +381,7 @@
     <string name="keyfile_is_empty">密鑰檔案是空白的。</string>
     <string name="keystore_not_accessible">密鑰庫未能初始化。</string>
     <string name="length">長度</string>
-    <string name="list_entries_show_username_summary">在項目清單中顯示使用者名稱</string>
+    <string name="list_entries_show_username_summary">在條目清單中顯示使用者名稱</string>
     <string name="list_entries_show_username_title">顯示用戶名</string>
     <string name="list_groups_show_number_entries_summary">顯示群組中的條目數</string>
     <string name="list_groups_show_number_entries_title">顯示條目數</string>
@@ -407,7 +412,7 @@
     <string name="max_history_size_title">最大大小</string>
     <string name="membership">會員身份</string>
     <string name="memory_usage">記憶體使用情況</string>
-    <string name="memory_usage_explanation">密鑰推算函數使用的記憶體位元組量。</string>
+    <string name="memory_usage_explanation">密鑰推算函數使用的記憶體的大小。</string>
     <string name="menu_advanced_unlock_settings">高級解鎖</string>
     <string name="menu_app_settings">應用程式設定</string>
     <string name="menu_appearance_settings">外觀</string>
@@ -478,8 +483,8 @@
     <string name="recycle_bin_summary">刪除群組和條目前先移至回收桶</string>
     <string name="recycle_bin_title">回收桶使用情況</string>
     <string name="registration_mode">註冊模式</string>
-    <string name="remember_database_locations_summary">記住資料庫位置</string>
-    <string name="remember_database_locations_title">資料庫儲存位置</string>
+    <string name="remember_database_locations_summary">跟蹤資料庫的存儲位置</string>
+    <string name="remember_database_locations_title">記住所有資料庫的位置</string>
     <string name="remember_keyfile_locations_summary">追蹤密鑰檔案位置</string>
     <string name="remember_keyfile_locations_title">記住密鑰檔案位置</string>
     <string name="reset_education_screens_summary">再次顯示全部新手引導信息</string>
@@ -508,7 +513,7 @@
     <string name="settings_database_force_changing_master_key_summary">強制更改主密鑰（天）</string>
     <string name="settings_database_force_changing_master_key_title">強制更換</string>
     <string name="settings_database_recommend_changing_master_key_summary">建議更改主密鑰（天）</string>
-    <string name="settings_database_recommend_changing_master_key_title">建議更換</string>
+    <string name="settings_database_recommend_changing_master_key_title">建議更新</string>
     <string name="show_otp_token_summary">在條目列表中顯示 OTP 領牌</string>
     <string name="show_otp_token_title">顯示 OTP 令牌</string>
     <string name="show_recent_files_summary">顯示最近使用的儲存庫位置</string>
@@ -566,7 +571,7 @@
     <string name="version_label">版本 %1$s</string>
     <string name="warning">警告</string>
     <string name="warning_database_info_changed">資料庫檔案中包含的信息已在應用程式之外被修改。</string>
-    <string name="warning_database_info_changed_options">通過保存資料庫或用最新的更改重新加載資料庫來覆蓋外部修改。</string>
+    <string name="warning_database_info_changed_options">通過保存資料庫或用最近的更新重新加載資料庫來合并數據和覆蓋外部修改。</string>
     <string name="warning_database_link_revoked">訪問檔案管理器撤消訪問權限的檔案</string>
     <string name="warning_database_read_only">授予軟體檔案讀寫訪問權限以保存資料庫更改</string>
     <string name="warning_database_revoked">檔案管理器撤銷了對此檔案的訪問，關閉資料庫並從其位置重新開啟它。</string>
@@ -574,7 +579,9 @@
     <string name="warning_empty_keyfile_explanation">密鑰檔案的內容應該永不更改，在最好的情況下，應該包含隨機生成的資料。</string>
     <string name="warning_empty_password">確定不使用密碼？</string>
     <string name="warning_empty_recycle_bin">從回收桶永久刪除所有節點？</string>
-    <string name="warning_file_too_big">KeePass 資料庫應該只包含小的實用程式檔案（例如 PGP 密鑰檔案）。</string>
+    <string name="warning_file_too_big">KeePass 資料庫應該只包含實用的小檔案（例如 PGP 密鑰檔案）。
+\n
+\n否則你的資料庫可能會變得非常大，而這會減少數據上傳的表現。</string>
     <string name="warning_no_encryption_key">確定不使用加密密鑰？</string>
     <string name="warning_password_encoding">避免在資料庫中保存編碼格式外字符的密碼（未辨識的字符將轉換為同一字符）。</string>
     <string name="warning_permanently_delete_nodes">確定永久刪除已選項目？</string>
@@ -583,4 +590,36 @@
     <string name="warning_sure_add_file">仍要新增檔案？</string>
     <string name="warning_sure_remove_data">仍要移除此資料？</string>
     <string name="wireless">Wi-Fi</string>
+    <string name="expired">過期</string>
+    <string name="tags">標籤</string>
+    <string name="warning_exact_alarm">因爲您尚未允許該應用程式使用精確鬧鐘。所以所有需要計時的功能將不會完全準時完成。</string>
+    <string name="warning_database_info_reloaded">重新加載資料庫會刪除所有在本地修改的數據。</string>
+    <string name="warning_keyfile_integrity">因為Android系統可以動態更改檔案數據，所以不能保證檔案的哈希值。將檔案擴展名更改為 .bin 以確保正確的完整性。</string>
+    <string name="permission">許可</string>
+    <string name="content_description_entry_background_color">條目背景顏色</string>
+    <string name="content_description_entry_foreground_color">條目正面顏色</string>
+    <string name="content_description_database_color">資料庫顔色</string>
+    <string name="hint_icon_name">圖標名稱</string>
+    <string name="navigation_drawer_open">打開導航抽屜</string>
+    <string name="custom_data">自定義數據</string>
+    <string name="auto_type_sequence">自動輸入次序</string>
+    <string name="search_filters">搜索過濾器</string>
+    <string name="current_group">當前组别</string>
+    <string name="case_sensitive">區分大小寫</string>
+    <string name="menu_merge_database">合併數據</string>
+    <string name="menu_merge_from">合併自 …</string>
+    <string name="menu_save_copy_to">保存一份副本到…</string>
+    <string name="show_entry_colors_title">條目顔色</string>
+    <string name="show_entry_colors_summary">顯示條目中的前景色和背景色</string>
+    <string name="enable_keep_screen_on_title">保持螢幕開啟</string>
+    <string name="enable_keep_screen_on_summary">在查看條目時保持熒幕打開</string>
+    <string name="regex">正則表達式</string>
+    <string name="navigation_drawer_close">關閉導航抽屜</string>
+    <string name="searchable">可搜索</string>
+    <string name="inherited">繼承</string>
+    <string name="warning_database_already_opened">已經有一個資料庫打開了，先關閉它，才可以打開新的資料庫</string>
+    <string name="advanced_unlock_keystore_warning">此功能會將加密的身份驗證數據儲存在設備裏安全存儲 KeyStore 中。
+\n
+\n基於操作系統的原始 API 實現，Keystore 有可能無法發揮其應有的作用。
+\n請向設備的製造商和 ROM 的創建者咨詢 KeyStore 的兼容性和安全性。</string>
 </resources>

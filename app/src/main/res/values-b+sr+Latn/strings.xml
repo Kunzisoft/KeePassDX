@@ -132,8 +132,6 @@
     <string name="keyboard_notification_entry_clear_close_summary">Zatvori bazu podataka prilikom zatvaranja obaveštenja</string>
     <string name="keyboard_notification_entry_clear_close_title">Isprazni pri zatvaranju</string>
     <string name="keyboard_save_search_info_summary">Pokušaj da sačuvaš podeljene informacije prilikom ručnog izbora unosa</string>
-    <string name="keyboard_search_share_summary">Automatski тражите заједничке информације да бисте попунили тастатуру</string>
-    <string name="keyboard_search_share_title">Traži podeljene informacije</string>
     <string name="keyboard_notification_entry_summary">Prikaži obaveštenje kada je unos dostupn</string>
     <string name="keyboard_notification_entry_title">Obaveštenje</string>
     <string name="keyboard_selection_entry_summary">Prikaži polja za unos podataka u Magikeyboard-u prilikom prikazivanja unosa</string>

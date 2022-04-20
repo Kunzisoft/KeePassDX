@@ -58,9 +58,13 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.template.*
+import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.RegisterInfo
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
@@ -78,11 +82,9 @@ import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
 import java.util.*
-import kotlin.collections.ArrayList
 
 class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
-        GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener,
@@ -117,6 +119,20 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
         mEntryEditViewModel.selectIcon(icon)
+    }
+
+    private var mPasswordField: Field? = null
+    private var mKeyGeneratorResultLauncher = KeyGeneratorActivity.registerForGeneratedKeyResult(this) { keyGenerated ->
+        keyGenerated?.let {
+            mPasswordField?.let {
+                it.protectedValue.stringValue = keyGenerated
+                mEntryEditViewModel.selectPassword(it)
+            }
+        }
+        mPasswordField = null
+        Handler(Looper.getMainLooper()).post {
+            performedNextEducation()
+        }
     }
 
     // To ask data lost only one time
@@ -268,9 +284,8 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         mEntryEditViewModel.requestPasswordSelection.observe(this) { passwordField ->
-            GeneratePasswordDialogFragment
-                    .getInstance(passwordField)
-                    .show(supportFragmentManager, "PasswordGeneratorFragment")
+            mPasswordField = passwordField
+            KeyGeneratorActivity.launch(this, mKeyGeneratorResultLauncher)
         }
 
         mEntryEditViewModel.requestCustomFieldEdition.observe(this) { field ->
@@ -420,9 +435,10 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
         // Populate Magikeyboard with entry
-        populateKeyboardAndMoveAppToBackground(this,
-                entry.getEntryInfo(database),
-                intent)
+        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
+            this,
+            entry.getEntryInfo(database)
+        )
         onValidateSpecialMode()
         // Don't keep activity history for entry edition
         finishForEntryResult(entry)
@@ -654,17 +670,6 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
         mEntryEditViewModel.selectTime(hours, minutes)
-    }
-
-    override fun acceptPassword(passwordField: Field) {
-        mEntryEditViewModel.selectPassword(passwordField)
-        Handler(Looper.getMainLooper()).post {
-            performedNextEducation()
-        }
-    }
-
-    override fun cancelPassword(passwordField: Field) {
-        // Do nothing here
     }
 
     override fun onBackPressed() {

@@ -23,7 +23,6 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 

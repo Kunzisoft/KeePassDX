@@ -68,7 +68,7 @@
     <string name="error_pass_gen_type">Je moet minimaal één soort wachtwoordgenerering kiezen.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Deze wordt ingesteld op 2147483648.</string>
-    <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
+    <string name="error_wrong_length">Voer in het veld \"Lengte\" een positief geheel getal in.</string>
     <string name="file_browser">Bestandsbeheer</string>
     <string name="generate_password">Wachtwoord genereren</string>
     <string name="hint_conf_pass">Wachtwoord bevestigen</string>
@@ -168,7 +168,7 @@
     <string name="parallelism_explanation">Het aantal parallellen (aantal threads) dat de afleidingsfunctie mag gebruiken.</string>
     <string name="sort_menu">Sorteren</string>
     <string name="sort_ascending">Laagste eerst ↓</string>
-    <string name="sort_groups_before">Groepen vóór losse items sorteren</string>
+    <string name="sort_groups_before">Groepen vooraan plaatsen</string>
     <string name="sort_recycle_bin_bottom">Prullenbak onderaan plaatsen</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Gebruikersnaam</string>
@@ -184,8 +184,8 @@
     <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
     <string name="general">Algemeen</string>
-    <string name="autofill">Auto-aanvullen</string>
-    <string name="autofill_service_name">KeePassDX auto-aanvullendienst</string>
+    <string name="autofill">Automatisch aanvullen</string>
+    <string name="autofill_service_name">KeePassDX dienst automatisch aanvullen</string>
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
     <string name="set_autofill_service_title">Dienst automatisch aanvullen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>
@@ -286,7 +286,7 @@
     <string name="style_choose_summary">Thema gebruikt in de app</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
     <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Editie %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Instellingen Magikeyboard</string>
@@ -403,8 +403,6 @@
     <string name="download_attachment">Download %1$s</string>
     <string name="education_setup_OTP_summary">Stel eenmalig wachtwoordbeheer (HOTP / TOTP) in om een token te genereren voor tweefactorauthenticatie (2FA).</string>
     <string name="enable_auto_save_database_title">Automatisch opslaan</string>
-    <string name="autofill_auto_search_summary">Automatisch zoekresultaten voorstellen vanuit het webdomein of de toepassings-ID</string>
-    <string name="autofill_auto_search_title">Automatisch zoeken</string>
     <string name="recycle_bin_group_title">Prullenbak</string>
     <string name="lock_database_show_button_summary">Toont de vergrendelknop in de gebruikersinterface</string>
     <string name="lock_database_show_button_title">Vergrendelknop tonen</string>
@@ -435,12 +433,10 @@
     <string name="validate">Valideren</string>
     <string name="contribution">Bijdragen</string>
     <string name="contact">Contact</string>
-    <string name="keyboard_search_share_summary">Filter, wanneer een URL met KeePassDX is gedeeld, de items met dat URL-domein</string>
-    <string name="keyboard_search_share_title">Gedeelde informatie zoeken</string>
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
     <string name="autofill_web_domain_blocklist_summary">Lijst die het automatisch invullen bij webdomeinen voorkomt</string>
-    <string name="autofill_web_domain_blocklist_title">Webdomein blokkeringslijst</string>
+    <string name="autofill_web_domain_blocklist_title">Webdomein-blokkeringslijst</string>
     <string name="autofill_application_id_blocklist_summary">Lijst die het automatisch invullen bij apps voorkomt</string>
     <string name="autofill_application_id_blocklist_title">Applicatieblokkering</string>
     <string name="filter">Filteren</string>
@@ -474,7 +470,7 @@
     <string name="show_uuid_summary">Toont de UUID die is gekoppeld aan een item of een groep</string>
     <string name="show_uuid_title">UUID tonen</string>
     <string name="autofill_read_only_save">Het opslaan van gegevens is niet toegestaan voor een database die is geopend als alleen-lezen.</string>
-    <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer een formulier is gevalideerd</string>
+    <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer het invullen van een formulier is voltooid</string>
     <string name="autofill_ask_to_save_data_title">Vragen om gegevens op te slaan</string>
     <string name="autofill_save_search_info_summary">Probeer zoekinformatie op te slaan bij het maken van een handmatige selectie</string>
     <string name="autofill_save_search_info_title">Zoekinformatie opslaan</string>
@@ -482,7 +478,7 @@
     <string name="autofill_close_database_title">Database sluiten</string>
     <string name="keyboard_previous_lock_summary">Schakel na het vergrendelen van de database automatisch terug naar het vorige toetsenbord</string>
     <string name="keyboard_previous_lock_title">Database vergrendelen</string>
-    <string name="keyboard_save_search_info_summary">Probeer, wanneer een URL met KeePassDX is gedeeld en een item is geselecteerd, dat item te onthouden voor verder gebruik</string>
+    <string name="keyboard_save_search_info_summary">Nadat informatie is gedeeld met KeePassDX, wanneer een item is geselecteerd, probeer de informatie in het item op te slaan voor eenvoudiger toekomstig gebruik</string>
     <string name="keyboard_save_search_info_title">Gedeelde info opslaan</string>
     <string name="notification">Melding</string>
     <string name="biometric_security_update_required">Biometrische beveiligingsupdate vereist.</string>
@@ -517,7 +513,7 @@
     <string name="advanced_unlock_invalid_key">Kan de geavanceerde ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met geavanceerde ontgrendelingsgegevens</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Open database met geavanceerde ontgrendelingsherkenning</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Waarschuwing: je moet nog steeds je hoofdwachtwoord onthouden als je geavanceerde ontgrendelingsherkenning gebruikt.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je geavanceerde ontgrendelingsherkenning gebruikt.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Geavanceerde ontgrendelingsherkenning</string>
     <string name="open_advanced_unlock_prompt_store_credential">Open de geavanceerde ontgrendelingsprompt om inloggegevens op te slaan</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Open de geavanceerde ontgrendelingsprompt om de database te ontgrendelen</string>
@@ -614,4 +610,40 @@
     <string name="show_entry_colors_title">Itemkleuren</string>
     <string name="show_entry_colors_summary">Toont voorgrond- en achtergrondkleuren in een item</string>
     <string name="wireless">Wi-Fi</string>
+    <string name="auto_type_sequence">Auto-Type tekenreeks</string>
+    <string name="expired">Verlopen</string>
+    <string name="menu_save_copy_to">Kopie opslaan naar…</string>
+    <string name="searchable">Doorzoekbaar</string>
+    <string name="inherited">Overerving</string>
+    <string name="custom_data">Aangepaste gegevens</string>
+    <string name="case_sensitive">Hoofdlettergevoelig</string>
+    <string name="regex">Reguliere expressie</string>
+    <string name="search_filters">Zoekfilters</string>
+    <string name="current_group">Huidige groep</string>
+    <string name="menu_merge_from">Samenvoegen van…</string>
+    <string name="navigation_drawer_open">Navigatiepaneel openen</string>
+    <string name="navigation_drawer_close">Navigatiepaneel sluiten</string>
+    <string name="advanced_unlock_keystore_warning">Deze functie slaat versleutelde gegevens op in de beveiligde KeyStore van uw apparaat.
+\n
+\nAfhankelijk van de specifieke API-implementatie van het besturingssysteem, is dit mogelijk niet volledig functioneel.
+\nControleer de compatibiliteit en beveiliging van de KeyStore met de fabrikant van uw apparaat en de maker van de ROM die u gebruikt.</string>
+    <string name="warning_database_already_opened">Er is al een database geopend, sluit deze eerst alvorens een nieuwe te openen</string>
+    <string name="content_description_passphrase_word_count">Lengte wachtwoordzin</string>
+    <string name="passphrase">Wachtwoordzin</string>
+    <string name="colorize_password_title">Wachtwoorden kleuren</string>
+    <string name="colorize_password_summary">Wachtwoordtekens kleuren per type</string>
+    <string name="keyboard_previous_search_title">Zoekvenster</string>
+    <string name="keyboard_previous_search_summary">Schakel in het zoekvenster automatisch terug naar het vorige toetsenbord</string>
+    <string name="entropy">Entropie: %1$s bit</string>
+    <string name="entropy_high">Entropie: Hoog</string>
+    <string name="entropy_calculate">Entropie: Berekenen…</string>
+    <string name="word_separator">Scheidingsteken</string>
+    <string name="lower_case">kleine letters</string>
+    <string name="upper_case">GROTE LETTERS</string>
+    <string name="at_least_one_char">Minstens een teken van elk</string>
+    <string name="exclude_ambiguous_chars">Dubbelzinnige tekens uitsluiten</string>
+    <string name="consider_chars_filter">Tekens overwegen</string>
+    <string name="ignore_chars_filter">Tekens negeren</string>
+    <string name="title_case">Woordhoofdletters</string>
+    <string name="character_count">Aantal tekens: %1$d</string>
 </resources>

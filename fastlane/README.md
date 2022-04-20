@@ -39,14 +39,6 @@ Build a new Beta version
 
 Deploy a new Free Beta version to the Google Play
 
-### android deploy_beta_pro
-
-```sh
-[bundle exec] fastlane android deploy_beta_pro
-```
-
-Deploy a new Pro Beta version to the Google Play
-
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

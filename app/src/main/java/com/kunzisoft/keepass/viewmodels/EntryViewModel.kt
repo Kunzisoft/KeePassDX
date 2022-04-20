@@ -53,6 +53,9 @@ class EntryViewModel: ViewModel() {
     val onAttachmentAction : LiveData<EntryAttachmentState?> get() = _onAttachmentAction
     private val _onAttachmentAction = MutableLiveData<EntryAttachmentState?>()
 
+    val sectionSelected : LiveData<EntrySection> get() = _sectionSelected
+    private val _sectionSelected = MutableLiveData<EntrySection>()
+
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
@@ -124,6 +127,10 @@ class EntryViewModel: ViewModel() {
         _historySelected.value = EntryHistory(NodeIdUUID(item.id), null, item, position)
     }
 
+    fun selectSection(section: EntrySection) {
+        _sectionSelected.value = section
+    }
+
     data class EntryInfoHistory(var mainEntryId: NodeId<UUID>,
                                 var historyPosition: Int,
                                 val template: Template,
@@ -134,6 +141,16 @@ class EntryViewModel: ViewModel() {
                             var template: Template?,
                             var entryInfo: EntryInfo,
                             var historyPosition: Int = -1)
+
+    enum class EntrySection(var position: Int) {
+        MAIN(0), ADVANCED(1);
+
+        companion object {
+            fun getEntrySectionByPosition(position: Int): EntrySection {
+                return if (position == 1) ADVANCED else MAIN
+            }
+        }
+    }
 
     companion object {
         private val TAG = EntryViewModel::class.java.name

@@ -417,8 +417,6 @@
     <string name="education_setup_OTP_title">Imposta password usa e getta (OTP)</string>
     <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità «Modificabile»)</string>
     <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
-    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o ID dell\'applicazione</string>
-    <string name="autofill_auto_search_title">Ricerca automatica</string>
     <string name="keyboard_auto_go_action_summary">Azione del tasto \"Vai\" dopo aver premuto un tasto \"Campo\"</string>
     <string name="keyboard_auto_go_action_title">Tasto di azione automatica</string>
     <string name="device_keyboard_setting_title">Impostazioni della tastiera del dispositivo</string>
@@ -444,8 +442,6 @@
     <string name="autofill_web_domain_blocklist_title">Lista di blocco per domini web</string>
     <string name="autofill_application_id_blocklist_title">Lista di blocco per app</string>
     <string name="autofill_application_id_blocklist_summary">La lista di blocco impedisce l\'auto riempimento nelle app</string>
-    <string name="keyboard_search_share_summary">Durante la condivisione di una URL a KeePassDX, filtra le voci che usano quel dominio</string>
-    <string name="keyboard_search_share_title">Cerca informazioni condivise</string>
     <string name="filter">Filtro</string>
     <string name="error_string_type">Questo testo non soddisfa l\'elemento richiesto.</string>
     <string name="subdomain_search_summary">Cerca nei domini web includendo i sotto-domini</string>

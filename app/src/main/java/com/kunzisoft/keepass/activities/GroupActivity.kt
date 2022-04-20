@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
+import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -79,6 +80,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
@@ -121,8 +123,6 @@ class GroupActivity : DatabaseLockActivity(),
     private val mGroupActivityEducation = GroupActivityEducation(this)
 
     private var mBreadcrumbAdapter: BreadcrumbAdapter? = null
-
-    private var mSearchMenuItem: MenuItem? = null
 
     private var mGroupFragment: GroupFragment? = null
     private var mRecyclingBinEnabled = false
@@ -182,6 +182,11 @@ class GroupActivity : DatabaseLockActivity(),
 
             addSearch()
             //loadGroup()
+
+            // Back to previous keyboard
+            if (PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
+                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            }
             return true
         }
 
@@ -200,7 +205,7 @@ class GroupActivity : DatabaseLockActivity(),
         finishNodeAction()
         if (mSearchState == null) {
             mSearchState = SearchState(searchFiltersView?.searchParameters
-                ?: SearchParameters(), 0)
+                ?: PreferencesUtil.getDefaultSearchParameters(this), 0)
         }
     }
 
@@ -402,19 +407,13 @@ class GroupActivity : DatabaseLockActivity(),
             val currentGroup = it.group
             mCurrentGroup = currentGroup
             if (currentGroup.isVirtual) {
-                val searchParameters = it.searchParameters
-                mSearchState = SearchState(searchParameters, it.showFromPosition)
+                mSearchState = SearchState(
+                    it.searchParameters,
+                    it.showFromPosition
+                )
             }
             // Main and search groups in activity are managed with another variables
             // to keep values during orientation
-
-            // Expand the search view if defined in settings
-            if (mRequestStartupSearch
-                && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
-                // To request search only one time
-                mRequestStartupSearch = false
-                mSearchMenuItem?.expandActionView()
-            }
 
             loadingView?.hideByFading()
         }
@@ -719,11 +718,16 @@ class GroupActivity : DatabaseLockActivity(),
                 val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
                 intent.action = Intent.ACTION_DEFAULT
                 intent.removeExtra(SearchManager.QUERY)
-                mSearchState = SearchState(SearchParameters().apply {
+                mSearchState = SearchState(PreferencesUtil.getDefaultSearchParameters(this).apply {
                     searchQuery = stringQuery
                 }, mSearchState?.firstVisibleItem ?: 0)
+            } else if (mRequestStartupSearch
+                && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
+                // Expand the search view if defined in settings
+                // To request search only one time
+                mRequestStartupSearch = false
+                addSearch()
             }
-            loadGroup()
         }
     }
 
@@ -884,10 +888,9 @@ class GroupActivity : DatabaseLockActivity(),
     private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
         reloadCurrentGroup()
         // Populate Magikeyboard with entry
-        populateKeyboardAndMoveAppToBackground(
+        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
-            entry.getEntryInfo(database),
-            intent
+            entry.getEntryInfo(database)
         )
         onValidateSpecialMode()
     }
@@ -1126,6 +1129,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         finishNodeAction()
         searchView?.setOnQueryTextListener(null)
+        searchFiltersView?.saveSearchParameters()
     }
 
     private fun addSearchQueryInSearchView(searchQuery: String) {
@@ -1173,7 +1177,6 @@ class GroupActivity : DatabaseLockActivity(),
         // Get the SearchView and set the searchable configuration
         menu.findItem(R.id.menu_search)?.let {
             mLockSearchListeners = true
-            mSearchMenuItem = it
             it.setOnActionExpandListener(mOnSearchActionExpandListener)
             searchView = it.actionView as SearchView?
             searchView?.apply {
@@ -1605,50 +1608,31 @@ class GroupActivity : DatabaseLockActivity(),
                    autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
             EntrySelectionHelper.doSpecialAction(activity.intent,
                     {
-                        GroupActivity.launch(
+                        // Default action
+                        launch(
                             activity,
                             database,
                             true
                         )
                     },
                     { searchInfo ->
-                        SearchHelper.checkAutoSearchInfo(activity,
+                        // Search action
+                        if (database.loaded) {
+                            launchForSearchResult(activity,
                                 database,
                                 searchInfo,
-                                { _, _ ->
-                                    // Response is build
-                                    GroupActivity.launchForSearchResult(activity,
-                                        database,
-                                        searchInfo,
-                                        true)
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Here no search info found
-                                    if (database.isReadOnly) {
-                                        GroupActivity.launchForSearchResult(activity,
-                                            database,
-                                            searchInfo,
-                                            false)
-                                    } else {
-                                        GroupActivity.launchForSaveResult(activity,
-                                            database,
-                                            searchInfo,
-                                            false)
-                                    }
-                                    onLaunchActivitySpecialMode()
-                                },
-                                {
-                                    // Simply close if database not opened, normally not happened
-                                    onCancelSpecialMode()
-                                }
-                        )
+                                true)
+                            onLaunchActivitySpecialMode()
+                        } else {
+                            // Simply close if database not opened
+                            onCancelSpecialMode()
+                        }
                     },
                     { searchInfo ->
-                        // Save info used with OTP
+                        // Save info
                         if (database.loaded) {
                             if (!database.isReadOnly) {
-                                GroupActivity.launchForSaveResult(
+                                launchForSaveResult(
                                     activity,
                                     database,
                                     searchInfo,
@@ -1667,28 +1651,33 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     },
                     { searchInfo ->
+                        // Keyboard selection
                         SearchHelper.checkAutoSearchInfo(activity,
                                 database,
                                 searchInfo,
                                 { _, items ->
-                                    // Response is build
-                                    if (items.size == 1) {
-                                        populateKeyboardAndMoveAppToBackground(activity,
-                                                items[0],
-                                                activity.intent)
-                                        onValidateSpecialMode()
-                                    } else {
-                                        // Select the one we want
-                                        GroupActivity.launchForKeyboardSelectionResult(activity,
-                                            database,
-                                            searchInfo,
-                                            true)
-                                        onLaunchActivitySpecialMode()
-                                    }
+                                    MagikeyboardService.performSelection(
+                                        items,
+                                        { entryInfo ->
+                                            // Keyboard populated
+                                            MagikeyboardService.populateKeyboardAndMoveAppToBackground(
+                                                activity,
+                                                entryInfo
+                                            )
+                                            onValidateSpecialMode()
+                                        },
+                                        { autoSearch ->
+                                            launchForKeyboardSelectionResult(activity,
+                                                database,
+                                                searchInfo,
+                                                autoSearch)
+                                            onLaunchActivitySpecialMode()
+                                        }
+                                    )
                                 },
                                 {
                                     // Here no search info found, disable auto search
-                                    GroupActivity.launchForKeyboardSelectionResult(activity,
+                                    launchForKeyboardSelectionResult(activity,
                                         database,
                                         searchInfo,
                                         false)
@@ -1701,6 +1690,7 @@ class GroupActivity : DatabaseLockActivity(),
                         )
                     },
                     { searchInfo, autofillComponent ->
+                        // Autofill selection
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
@@ -1712,7 +1702,7 @@ class GroupActivity : DatabaseLockActivity(),
                                     },
                                     {
                                         // Here no search info found, disable auto search
-                                        GroupActivity.launchForAutofillResult(activity,
+                                        launchForAutofillResult(activity,
                                             database,
                                             autofillActivityResultLauncher,
                                             autofillComponent,
@@ -1730,20 +1720,21 @@ class GroupActivity : DatabaseLockActivity(),
                         }
                     },
                     { registerInfo ->
+                        // Autofill registration
                         if (!database.isReadOnly) {
                             SearchHelper.checkAutoSearchInfo(activity,
                                     database,
                                     registerInfo?.searchInfo,
                                     { _, _ ->
                                         // No auto search, it's a registration
-                                        GroupActivity.launchForRegistration(activity,
+                                        launchForRegistration(activity,
                                             database,
                                             registerInfo)
                                         onLaunchActivitySpecialMode()
                                     },
                                     {
                                         // Here no search info found, disable auto search
-                                        GroupActivity.launchForRegistration(activity,
+                                        launchForRegistration(activity,
                                             database,
                                             registerInfo)
                                         onLaunchActivitySpecialMode()

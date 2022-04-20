@@ -103,6 +103,7 @@
                         android:layout_marginLeft="12dp"
                         android:textSize="32sp"
                         android:textStyle="bold"
+                        android:visibility="gone"
                         android:shadowColor="#80000000"
                         android:shadowDx="2"
                         android:shadowDy="2"

@@ -26,11 +26,6 @@
             android:summary="@string/autofill_close_database_summary"
             android:defaultValue="@bool/autofill_close_database_default"/>
         <SwitchPreference
-            android:key="@string/autofill_auto_search_key"
-            android:title="@string/autofill_auto_search_title"
-            android:summary="@string/autofill_auto_search_summary"
-            android:defaultValue="@bool/autofill_auto_search_default"/>
-        <SwitchPreference
             android:key="@string/autofill_inline_suggestions_key"
             android:title="@string/autofill_inline_suggestions_title"
             android:summary="@string/autofill_inline_suggestions_summary"

@@ -343,7 +343,6 @@
     <string name="autofill_web_domain_blocklist_title">Lista de bloqueio de domínios da web</string>
     <string name="autofill_application_id_blocklist_summary">Lista de aplicações bloqueadas sem permissão de preenchimento automático</string>
     <string name="autofill_application_id_blocklist_title">Lista de bloqueio de aplicações</string>
-    <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa automaticamente do domínio da web ou do ID da aplicação</string>
     <string name="keyboard_previous_fill_in_summary">Mudar automaticamente para o teclado anterior depois de executar a \"tecla automática\"</string>
     <string name="keyboard_previous_fill_in_title">Ação da tecla automática</string>
     <string name="keyboard_previous_database_credentials_summary">Voltar automaticamente para o teclado anterior no ecrã de credenciais da base de dados</string>
@@ -405,7 +404,6 @@
     <string name="auto_focus_search_title">Pesquisa rápida</string>
     <string name="biometric_delete_all_key_title">Eliminar chaves de encriptação</string>
     <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
-    <string name="autofill_auto_search_title">Pesquisa automática</string>
     <string name="settings_database_force_changing_master_key_summary">Forçar alteração da chave mestra (em dias)</string>
     <string name="command_execution">A executar o comando…</string>
     <string name="otp_algorithm">Algorítimo</string>
@@ -417,7 +415,6 @@
     <string name="content_description_keyboard_close_fields">Fechar campos</string>
     <string name="biometric">Biométrico</string>
     <string name="error_create_database">Não foi possível criar o ficheiro da base de dados.</string>
-    <string name="keyboard_search_share_summary">Ao partilhar um URL com o KeePassDX, filtrar as entradas usando esse domínio de URL</string>
     <string name="error_otp_counter">O contador tem de estar entre %1$d e %2$d.</string>
     <string name="otp_period">Período (segundos)</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do dispositivo</string>
@@ -441,7 +438,6 @@
     <string name="hide_expired_entries_summary">As entradas expiradas não são mostradas</string>
     <string name="menu_master_key_settings">Configurações da chave mestra</string>
     <string name="entry_setup_otp">Configurar palavra-passe de uso único</string>
-    <string name="keyboard_search_share_title">Procurar informação partilhada</string>
     <string name="menu_empty_recycle_bin">Esvaziar caixote da reciclagem</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Forçar alteração da chave mestra na próxima vez (uma vez)</string>
     <string name="contains_duplicate_uuid_procedure">Resolver o problema gerando novas UUIDs para os duplicados para continuar\?</string>
