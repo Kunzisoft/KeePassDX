@@ -95,7 +95,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
             mExternalFileHelper = ExternalFileHelper(this)
             mExternalFileHelper?.buildOpenDocument { uri ->
                 if (uri != null) {
-                    mainCredentialView?.populateKeyFileTextView(uri)
+                    mainCredentialView?.populateKeyFileView(uri)
                 }
             }
             mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)

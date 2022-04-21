@@ -56,6 +56,7 @@
     <string name="content_description_otp_information">One-time password info</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
+    <string name="content_description_hardware_key_checkbox">Hardware key checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
     <string name="content_description_entry_icon">Entry icon</string>
     <string name="content_description_database_color">Database color</string>
@@ -96,6 +97,7 @@
     <string name="entry_history">History</string>
     <string name="entry_attachments">Attachments</string>
     <string name="entry_keyfile">Keyfile</string>
+    <string name="hardware_key">Hardware key</string>
     <string name="entry_modified">Modified</string>
     <string name="searchable">Searchable</string>
     <string name="inherited">Inherit</string>

@@ -138,7 +138,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             passwordRepeatView = rootView?.findViewById(R.id.password_confirmation)
             passwordRepeatView?.applyFontVisibility()
 
-            keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
+            keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkbox)
             keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
 
             mExternalFileHelper = ExternalFileHelper(this)

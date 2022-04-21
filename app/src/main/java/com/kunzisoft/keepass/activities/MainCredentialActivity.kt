@@ -59,6 +59,8 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_DATABASE_KEY
@@ -101,6 +103,8 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     private var mRememberKeyFile: Boolean = false
     private var mExternalFileHelper: ExternalFileHelper? = null
 
+    private var mHardwareKeyResponseHelper: HardwareKeyResponseHelper? = null
+
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
 
@@ -134,15 +138,45 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
-        mExternalFileHelper = ExternalFileHelper(this@MainCredentialActivity)
+        // Build elements to manage keyfile selection
+        mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             if (uri != null) {
-                mainCredentialView?.populateKeyFileTextView(uri)
+                mainCredentialView?.populateKeyFileView(uri)
             }
         }
         mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
         mainCredentialView?.onValidateListener = {
             loadDatabase()
+        }
+
+        // Build elements to manage hardware key
+        mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
+        mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData ->
+            mainCredentialView?.challengeResponse = responseData
+        }
+        mainCredentialView?.onRequestHardwareKeyResponse = { hardwareKey ->
+            try {
+                when (hardwareKey) {
+                    HardwareKey.HMAC_SHA1_KPXC -> {
+                        mDatabaseFileUri?.let { databaseUri ->
+                            mHardwareKeyResponseHelper?.launchChallengeForResponse(databaseUri)
+                        }
+                    }
+                    else -> {
+                        // TODO other algorithm
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to retrieve the challenge response", e)
+                e.message?.let { message ->
+                    Snackbar.make(
+                        coordinatorLayout,
+                        message,
+                        Snackbar.LENGTH_LONG
+                    ).asError().show()
+                }
+            }
         }
 
         // If is a view intent
@@ -169,6 +203,16 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         mainCredentialView?.onPasswordChecked =
             CompoundButton.OnCheckedChangeListener { _, _ ->
                 mAdvancedUnlockViewModel.checkUnlockAvailability()
+                enableConfirmationButton()
+            }
+        mainCredentialView?.onKeyFileChecked =
+            CompoundButton.OnCheckedChangeListener { _, _ ->
+                // TODO mAdvancedUnlockViewModel.checkUnlockAvailability()
+                enableConfirmationButton()
+            }
+        mainCredentialView?.onHardwareKeyChecked =
+            CompoundButton.OnCheckedChangeListener { _, _ ->
+                // TODO mAdvancedUnlockViewModel.checkUnlockAvailability()
                 enableConfirmationButton()
             }
 
@@ -335,11 +379,11 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         if (action != null
                 && action == VIEW_INTENT) {
             mDatabaseFileUri = intent.data
-            mainCredentialView?.populateKeyFileTextView(UriUtil.getUriFromIntent(intent, KEY_KEYFILE))
+            mainCredentialView?.populateKeyFileView(UriUtil.getUriFromIntent(intent, KEY_KEYFILE))
         } else {
             mDatabaseFileUri = intent?.getParcelableExtra(KEY_FILENAME)
             intent?.getParcelableExtra<Uri?>(KEY_KEYFILE)?.let {
-                mainCredentialView?.populateKeyFileTextView(it)
+                mainCredentialView?.populateKeyFileView(it)
             }
         }
         try {
@@ -436,11 +480,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     private fun onDatabaseFileLoaded(databaseFileUri: Uri?, keyFileUri: Uri?) {
         // Define Key File text
         if (mRememberKeyFile) {
-            mainCredentialView?.populateKeyFileTextView(keyFileUri)
+            mainCredentialView?.populateKeyFileView(keyFileUri)
         }
 
         // Define listener for validate button
-        confirmButtonView?.setOnClickListener { loadDatabase() }
+        confirmButtonView?.setOnClickListener {
+            mainCredentialView?.validateCredential()
+        }
 
         // If Activity is launch with a password and want to open directly
         val intent = intent
@@ -475,7 +521,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile) {
         mainCredentialView?.populatePasswordTextView(null)
         if (clearKeyFile) {
-            mainCredentialView?.populateKeyFileTextView(null)
+            mainCredentialView?.populateKeyFileView(null)
         }
     }
 
