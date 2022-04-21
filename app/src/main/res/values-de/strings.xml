@@ -497,12 +497,12 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
-    <string name="autofill_save_search_info_summary">Suchdaten bei manueller Auswahl einer Eingabe, wenn möglich, speichern</string>
+    <string name="autofill_save_search_info_summary">Wenn möglich, die Suchinformationen bei manueller Eintragsauswahl, zur einfacheren zukünftigen Verwendung, speichern</string>
     <string name="autofill_ask_to_save_data_summary">Nachfragen, ob die Daten gespeichert werden sollen, wenn ein Formular ausgefüllt ist</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Nachdem eine Information mit KeePassDX geteilt und ein Eintrag gewählt wurde, wird versucht, zur einfacheren zukünftigen Verwendung die Information im Eintrag zu speichern</string>
+    <string name="keyboard_save_search_info_summary">Wenn möglich, die gemeinsamen Informationen bei manueller Eintragsauswahl, zur einfacheren zukünftigen Verwendung, speichern</string>
     <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Sollen alle ausgewählten Knoten wirklich aus dem Papierkorb gelöscht werden\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
