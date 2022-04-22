@@ -609,4 +609,6 @@
     <string name="warning_exact_alarm">アプリに正確なアラームの使用を許可していません。その結果、タイマーを必要とする機能が正確な時間で行われなくなります。</string>
     <string name="show_entry_colors_title">エントリー カラー</string>
     <string name="show_entry_colors_summary">フォアグラウンド・バックグラウンド カラーをエントリー内に表示します</string>
+    <string name="regex">正規表現</string>
+    <string name="case_sensitive">ケース・センシティブ</string>
 </resources>
