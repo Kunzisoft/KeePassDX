@@ -501,4 +501,14 @@
     <string name="regex">تعابير نمطية</string>
     <string name="enable_keep_screen_on_title">أبق الشاشة شغّالة</string>
     <string name="enable_education_screens_summary">أبرز العناصر لتعلم طريقة عمل التطبيق</string>
+    <string name="autofill_read_only_save">غير مسموح حفظ البيانات في قاعدة بيانات مفتوحة للقراءة فقط.</string>
+    <string name="autofill_inline_suggestions_keyboard">أُضيف اقتراح ملء تلقائي.</string>
+    <string name="keyboard_previous_database_credentials_summary">ارجع للوحة المفاتيح السابقة تلقائيًا في شاشة بيانات اعتماد قاعدة البيانات.</string>
+    <string name="autofill_manual_selection_summary">اعرض خيارًا يسمح للمستخدم باختيار مدخلة من قاعدة البيانات</string>
+    <string name="keyboard_previous_search_title">شاشة البحث</string>
+    <string name="keyboard_previous_search_summary">ارجع للوحة المفاتيح السابقة تلقائيًا في شاشة البحث</string>
+    <string name="autofill_save_search_info_summary">حاول حفظ معلومات البحث بعد اختيار مدخلة يدويًا وهذا لتسهيل استخدمها مستقبلًا</string>
+    <string name="keyboard_previous_lock_summary">ارجع للوحة المفاتيح السابقة تلقائيًا بعد إغلاق قاعدة البيانات</string>
+    <string name="autofill_close_database_summary">أغلق قاعدة البيانات بعد الملء التلقائي</string>
+    <string name="autofill_ask_to_save_data_summary">اسأل عن حفظ البيانات عند ملئك لنموذج</string>
 </resources>
