@@ -1,2 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognised chars are converted to the same letter).</string>
+    <string name="keystore_not_accessible">The keystore is not properly initialised.</string>
+    <string name="colorize_password_summary">Colourise password characters by type</string>
+    <string name="content_description_entry_background_color">Entry background colour</string>
+    <string name="invalid_db_sig">Could not recognise the database format.</string>
+    <string name="advanced_unlock_not_recognized">Could not recognise advanced unlock print</string>
+    <string name="advanced_unlock_prompt_not_initialized">Unable to initialise advanced unlock prompt.</string>
+    <string name="download_initialization">Initialising…</string>
+    <string name="download_finalization">Finalising…</string>
+    <string name="download_canceled">Cancelled!</string>
+    <string name="database_custom_color_title">Custom database colour</string>
+    <string name="colorize_password_title">Colourise passwords</string>
+    <string name="content_description_entry_foreground_color">Entry foreground colour</string>
+    <string name="show_entry_colors_title">Entry colours</string>
+    <string name="content_description_database_color">Database colour</string>
+    <string name="show_entry_colors_summary">Displays foreground and background colours in an entry</string>
+    <string name="education_new_node_summary">Entries help manage your digital identities.
+\n
+\nGroups (~folders) organise entries in your database.</string>
+    <string name="error_otp_type">The existing OTP type is not recognised by this form, its validation may no longer correctly generate the token.</string>
+    <string name="html_text_buy_pro">By buying the pro version, you will have access to this <strong>visual style</strong> and you will especially help <strong>the realisation of community projects.</strong></string>
+</resources>
