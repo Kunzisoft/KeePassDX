@@ -529,10 +529,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     @Throws(IOException::class)
-    public override fun getMasterKey(passwordKey: String?,
-                                     keyFileData: ByteArray?,
-                                     hardwareKey: ByteArray?): ByteArray {
-        return getCompositeKey(passwordKey, keyFileData, hardwareKey)
+    public override fun deriveMasterKey(passwordKey: String?,
+                                        keyFileData: ByteArray?,
+                                        hardwareKey: ByteArray?): ByteArray {
+        return retrieveCompositeKey(passwordKey, keyFileData, hardwareKey)
             ?: HashManager.hashSha256(byteArrayOf())
     }
 

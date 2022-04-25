@@ -57,6 +57,8 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     var onValidateListener: (() -> Unit)? = null
     var onRequestHardwareKeyResponse: ((HardwareKey)-> Unit)? = null
 
+    private var mChallengeResponse: ByteArray? = null
+
     private var mCredentialStorage: CredentialStorage = CredentialStorage.PASSWORD
 
     init {
@@ -117,12 +119,14 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun validateCredential() {
+    fun validateCredential(hardwareKeyData: ByteArray? = null) {
         val hardwareKey = hardwareKeySelectionView.hardwareKey
-        if (checkboxHardwareView.isChecked) {
+        if (hardwareKeyData == null && checkboxHardwareView.isChecked) {
             onRequestHardwareKeyResponse?.invoke(hardwareKey)
         } else {
+            mChallengeResponse = hardwareKeyData
             onValidateListener?.invoke()
+            mChallengeResponse = null
         }
     }
 
@@ -160,9 +164,6 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                 || checkboxHardwareView.isChecked
     }
 
-    // TODO Challenge response
-    var challengeResponse: ByteArray? = null
-
     fun getMainCredential(): MainCredential {
         return MainCredential().apply {
             this.masterPassword = if (checkboxPasswordView.isChecked)
@@ -170,7 +171,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             this.keyFileUri = if (checkboxKeyFileView.isChecked)
                 keyFileSelectionView.uri else null
             this.hardwareKeyData = if (checkboxHardwareView.isChecked)
-                challengeResponse else null
+                mChallengeResponse else null
         }
     }
 

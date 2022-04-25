@@ -92,34 +92,35 @@ abstract class DatabaseVersioned<
     }
 
     @Throws(IOException::class)
-    protected abstract fun getMasterKey(passwordKey: String?,
-                                        keyFileData: ByteArray?,
-                                        hardwareKey: ByteArray?): ByteArray
+    protected abstract fun deriveMasterKey(passwordKey: String?,
+                                           keyFileData: ByteArray?,
+                                           hardwareKey: ByteArray?): ByteArray
 
     @Throws(IOException::class)
     fun retrieveMasterKey(key: String?,
                           keyFileData: ByteArray?,
                           hardwareKeyData: ByteArray?) {
-        masterKey = getMasterKey(key, keyFileData, hardwareKeyData)
+        masterKey = deriveMasterKey(key, keyFileData, hardwareKeyData)
     }
 
     @Throws(IOException::class)
-    protected fun getCompositeKey(passwordKey: String?,
-                                  keyFileData: ByteArray?,
-                                  hardwareKeyData: ByteArray?): ByteArray? {
+    protected fun retrieveCompositeKey(passwordKey: String?,
+                                       keyFileData: ByteArray?,
+                                       hardwareKeyData: ByteArray?): ByteArray? {
         if (passwordKey == null && keyFileData == null && hardwareKeyData == null)
             return null
-        val passwordBytes = if (passwordKey != null) getPasswordKey(passwordKey) else null
-        val keyFileBytes = if (keyFileData != null) getFileKey(keyFileData) else null
+        val passwordBytes = if (passwordKey != null) retrievePasswordKey(passwordKey) else null
+        val keyFileBytes = if (keyFileData != null) retrieveFileKey(keyFileData) else null
+        val hardwareKeyBytes = if (hardwareKeyData != null) retrieveHardwareKey(hardwareKeyData) else null
         return HashManager.hashSha256(
             passwordBytes,
             keyFileBytes,
-            hardwareKeyData
+            hardwareKeyBytes
         )
     }
 
     @Throws(IOException::class)
-    protected fun getPasswordKey(key: String): ByteArray {
+    protected fun retrievePasswordKey(key: String): ByteArray {
         val bKey: ByteArray = try {
             key.toByteArray(charset(passwordEncoding))
         } catch (e: UnsupportedEncodingException) {
@@ -129,7 +130,7 @@ abstract class DatabaseVersioned<
     }
 
     @Throws(IOException::class)
-    protected fun getFileKey(keyData: ByteArray): ByteArray {
+    protected fun retrieveFileKey(keyData: ByteArray): ByteArray {
         try {
             // Check XML key file
             val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
@@ -151,6 +152,11 @@ abstract class DatabaseVersioned<
         } catch (outOfMemoryError: OutOfMemoryError) {
             throw IOException("Keyfile data is too large", outOfMemoryError)
         }
+    }
+
+    @Throws(IOException::class)
+    protected fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
+        return HashManager.hashSha256(keyData)
     }
 
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

@@ -153,7 +153,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         // Build elements to manage hardware key
         mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
         mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData ->
-            mainCredentialView?.challengeResponse = responseData
+            mainCredentialView?.validateCredential(responseData)
         }
         mainCredentialView?.onRequestHardwareKeyResponse = { hardwareKey ->
             try {
