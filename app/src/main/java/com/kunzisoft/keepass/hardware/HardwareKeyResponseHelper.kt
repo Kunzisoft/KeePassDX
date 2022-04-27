@@ -64,62 +64,41 @@ class HardwareKeyResponseHelper {
     fun launchChallengeForResponse(databaseUri: Uri) {
         fragment?.context?.contentResolver ?: activity?.contentResolver ?.let { contentResolver ->
             getTransformSeedFromHeader(databaseUri, contentResolver)?.let { seed ->
-                // seed: 32 byte transform seed, needs to be padded before sent to the hardware
-                val challenge = ByteArray(64)
-                System.arraycopy(seed, 0, challenge, 0, 32)
-                challenge.fill(32, 32, 64)
-                val intent = Intent("net.pp3345.ykdroid.intent.action.CHALLENGE_RESPONSE")
-                Log.d(TAG, "Challenge sent to yubikey: " + challenge.contentToString())
-                intent.putExtra("challenge", challenge)
                 try {
-                    getChallengeResponseResultLauncher?.launch(intent)
+                    getChallengeResponseResultLauncher?.launch(Intent(YKDROID_CHALLENGE_RESPONSE_INTENT).apply {
+                        putExtra(YKDROID_SEED_KEY, seed)
+                    })
+                    Log.d(TAG, "Challenge sent : " + seed.contentToString())
                 } catch (e: ActivityNotFoundException) {
                     // TODO better error
-                    throw IOException("No activity to handle CHALLENGE_RESPONSE intent")
+                    throw IOException("No activity to handle $YKDROID_CHALLENGE_RESPONSE_INTENT intent")
                 }
             }
         }
     }
 
     private fun getTransformSeedFromHeader(uri: Uri, contentResolver: ContentResolver): ByteArray? {
-        // TODO better implementation
-        var databaseInputStream: InputStream? = null
-        var challenge: ByteArray? = null
-
         try {
-            // Load Data, pass Uris as InputStreams
-            val databaseStream = UriUtil.getUriInputStream(contentResolver, uri)
-                ?: throw IOException("Database input stream cannot be retrieve")
-
-            databaseInputStream = BufferedInputStream(databaseStream)
-            if (!databaseInputStream.markSupported()) {
-                throw IOException("Input stream does not support mark.")
+            BufferedInputStream(UriUtil.getUriInputStream(contentResolver, uri)).use { databaseInputStream ->
+                val header = DatabaseHeaderKDBX(DatabaseKDBX())
+                header.loadFromFile(databaseInputStream)
+                val challenge = ByteArray(64)
+                header.transformSeed?.copyInto(challenge, 0, 0, 32)
+                // seed: 32 byte transform seed, needs to be padded before sent to the hardware
+                challenge.fill(32, 32, 64)
+                return challenge
             }
-
-            // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-            databaseInputStream.mark(10)
-
-            // Return to the start
-            databaseInputStream.reset()
-
-            val header = DatabaseHeaderKDBX(DatabaseKDBX())
-
-            header.loadFromFile(databaseInputStream)
-
-            challenge = ByteArray(64)
-            System.arraycopy(header.transformSeed, 0, challenge, 0, 32)
-            challenge.fill(32, 32, 64)
-
         } catch (e: Exception) {
-            Log.e(TAG, "Could not read transform seed from file")
-        } finally {
-            databaseInputStream?.close()
+            Log.e(TAG, "Could not read transform seed from file", e)
         }
-
-        return challenge
+        return null
     }
 
     companion object {
         private val TAG = HardwareKeyResponseHelper::class.java.simpleName
+
+        private const val YKDROID_CHALLENGE_RESPONSE_INTENT = "net.pp3345.ykdroid.intent.action.CHALLENGE_RESPONSE"
+        private const val YKDROID_SEED_KEY = "challenge"
+
     }
 }
