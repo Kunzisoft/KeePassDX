@@ -32,7 +32,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DatabaseDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper

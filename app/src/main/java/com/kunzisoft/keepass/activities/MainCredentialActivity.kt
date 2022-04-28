@@ -152,13 +152,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
         // Build elements to manage hardware key
         mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
-        mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData ->
+        mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData, _ ->
             mainCredentialView?.validateCredential(responseData)
         }
         mainCredentialView?.onRequestHardwareKeyResponse = { hardwareKey ->
             try {
                 when (hardwareKey) {
-                    HardwareKey.HMAC_SHA1_KPXC -> {
+                    HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
                         mDatabaseFileUri?.let { databaseUri ->
                             mHardwareKeyResponseHelper?.launchChallengeForResponse(databaseUri)
                         }

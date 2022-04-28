@@ -126,6 +126,26 @@ object ParcelableUtil {
     }
 }
 
+fun Parcel.readByteArrayCompat(): ByteArray? {
+    val dataLength = readInt()
+    return if (dataLength >= 0) {
+        val data = ByteArray(dataLength)
+        readByteArray(data)
+        data
+    } else {
+        null
+    }
+}
+
+fun Parcel.writeByteArrayCompat(data: ByteArray?) {
+    if (data != null) {
+        writeInt(data.size)
+        writeByteArray(data)
+    } else {
+        writeInt(-1)
+    }
+}
+
 inline fun <reified T : Enum<T>> Parcel.readEnum() =
         readString()?.let { enumValueOf<T>(it) }
 

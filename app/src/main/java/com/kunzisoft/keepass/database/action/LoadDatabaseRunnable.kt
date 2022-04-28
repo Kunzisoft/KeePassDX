@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.utils.UriUtil
 
 class LoadDatabaseRunnable(private val context: Context,
                            private val mDatabase: Database,
-                           private val mUri: Uri,
+                           private val mDatabaseUri: Uri,
                            private val mMainCredential: MainCredential,
                            private val mReadonly: Boolean,
                            private val mCipherEncryptDatabase: CipherEncryptDatabase?,
@@ -51,16 +51,18 @@ class LoadDatabaseRunnable(private val context: Context,
 
     override fun onActionRun() {
         try {
-            mDatabase.loadData(mUri,
-                    mMainCredential,
-                    mReadonly,
-                    context.contentResolver,
-                    UriUtil.getBinaryDir(context),
-                    { memoryWanted ->
-                        BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                    },
-                    mFixDuplicateUUID,
-                    progressTaskUpdater)
+            mDatabase.loadData(
+                context.contentResolver,
+                mDatabaseUri,
+                mMainCredential,
+                mReadonly,
+                UriUtil.getBinaryDir(context),
+                { memoryWanted ->
+                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
+                },
+                mFixDuplicateUUID,
+                progressTaskUpdater
+            )
         }
         catch (e: LoadDatabaseException) {
             setError(e)
@@ -70,7 +72,7 @@ class LoadDatabaseRunnable(private val context: Context,
             // Save keyFile in app database
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context)
-                        .addOrUpdateDatabaseUri(mUri,
+                        .addOrUpdateDatabaseUri(mDatabaseUri,
                                 if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null)
             }
 

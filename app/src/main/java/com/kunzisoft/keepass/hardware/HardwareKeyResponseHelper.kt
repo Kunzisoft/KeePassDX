@@ -1,10 +1,9 @@
 package com.kunzisoft.keepass.hardware
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -12,12 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.utils.UriUtil
-import java.io.BufferedInputStream
-import java.io.IOException
-import java.io.InputStream
+import com.kunzisoft.keepass.database.element.Database
 
 class HardwareKeyResponseHelper {
 
@@ -36,14 +30,16 @@ class HardwareKeyResponseHelper {
         this.fragment = context
     }
 
-    fun buildHardwareKeyResponse(onChallengeResponded: ((challengeResponse:ByteArray?) -> Unit)?) {
+    fun buildHardwareKeyResponse(onChallengeResponded: ((challengeResponse:ByteArray?,
+                                                         extra: Bundle?) -> Unit)?) {
         val resultCallback = ActivityResultCallback<ActivityResult> { result ->
             Log.d(TAG, "resultCode from ykdroid: " + result.resultCode)
             if (result.resultCode == Activity.RESULT_OK) {
                 val challengeResponse: ByteArray? = result.data?.getByteArrayExtra("response")
                 Log.d(TAG, "Response: " + challengeResponse.contentToString())
                 challengeResponse?.let {
-                    onChallengeResponded?.invoke(challengeResponse)
+                    onChallengeResponded?.invoke(challengeResponse,
+                        result.data?.getBundleExtra(EXTRA_BUNDLE_KEY))
                 }
             }
         }
@@ -61,37 +57,20 @@ class HardwareKeyResponseHelper {
         }
     }
 
-    fun launchChallengeForResponse(databaseUri: Uri) {
-        fragment?.context?.contentResolver ?: activity?.contentResolver ?.let { contentResolver ->
-            getTransformSeedFromHeader(databaseUri, contentResolver)?.let { seed ->
-                try {
+    fun launchChallengeForResponse(databaseUri: Uri, extra: Bundle? = null) {
+        try {
+            fragment?.context?.contentResolver ?: activity?.contentResolver ?.let { contentResolver ->
+                Database.getTransformSeed(contentResolver, databaseUri) { seed ->
                     getChallengeResponseResultLauncher?.launch(Intent(YKDROID_CHALLENGE_RESPONSE_INTENT).apply {
                         putExtra(YKDROID_SEED_KEY, seed)
+                        putExtra(EXTRA_BUNDLE_KEY, extra)
                     })
                     Log.d(TAG, "Challenge sent : " + seed.contentToString())
-                } catch (e: ActivityNotFoundException) {
-                    // TODO better error
-                    throw IOException("No activity to handle $YKDROID_CHALLENGE_RESPONSE_INTENT intent")
                 }
             }
-        }
-    }
-
-    private fun getTransformSeedFromHeader(uri: Uri, contentResolver: ContentResolver): ByteArray? {
-        try {
-            BufferedInputStream(UriUtil.getUriInputStream(contentResolver, uri)).use { databaseInputStream ->
-                val header = DatabaseHeaderKDBX(DatabaseKDBX())
-                header.loadFromFile(databaseInputStream)
-                val challenge = ByteArray(64)
-                header.transformSeed?.copyInto(challenge, 0, 0, 32)
-                // seed: 32 byte transform seed, needs to be padded before sent to the hardware
-                challenge.fill(32, 32, 64)
-                return challenge
-            }
         } catch (e: Exception) {
-            Log.e(TAG, "Could not read transform seed from file", e)
+            Log.e(TAG, "Could not launch challenge for response", e)
         }
-        return null
     }
 
     companion object {
@@ -99,6 +78,7 @@ class HardwareKeyResponseHelper {
 
         private const val YKDROID_CHALLENGE_RESPONSE_INTENT = "net.pp3345.ykdroid.intent.action.CHALLENGE_RESPONSE"
         private const val YKDROID_SEED_KEY = "challenge"
+        private const val EXTRA_BUNDLE_KEY = "EXTRA_BUNDLE_KEY"
 
     }
 }
