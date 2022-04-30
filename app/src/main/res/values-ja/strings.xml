@@ -635,4 +635,5 @@
     <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
     <string name="auto_type_sequence">Auto-Type シークエンス</string>
     <string name="current_group">現在のグループ</string>
+    <string name="keyboard_previous_search_summary">検索画面で自動的に前のキーボードに切り替える</string>
 </resources>
