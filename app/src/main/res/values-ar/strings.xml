@@ -180,7 +180,7 @@
     <string name="lock_database_screen_off_summary">اقفل قاعدة البيانات عند انغلاق الشاشة</string>
     <string name="biometric_delete_all_key_title">حذف مفاتيح التشفير</string>
     <string name="unavailable_feature_text">لا يمكن بدأ هذه الميزة .</string>
-    <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
+    <string name="unavailable_feature_version">هذا الجهاز يعمل بأندرويد %1$s لكن يحتاج نسخة %2$s على الأقل.</string>
     <string name="file_name">اسم الملف</string>
     <string name="path">مسار</string>
     <string name="database_history">تأريخ</string>
@@ -190,13 +190,13 @@
     <string name="biometric_unlock_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>
     <string name="allow_copy_password_title">الوثوق بالحافظة</string>
-    <string name="allow_copy_password_summary">اسمح لكلمة السر والحقول المحمية بالدخول للحافظة</string>
+    <string name="allow_copy_password_summary">اسمح بنسخ كلمة السر والحقول المحمية إلى للحافظة</string>
     <string name="allow_copy_password_warning">تحذير: الحافظة مشتركة بين التطبيقات وستتمكن التطبيقات الاخرى من الوصول الى المعلومات الحساسة.</string>
     <string name="database_name_title">اسم قاعدة البيانات</string>
     <string name="database_description_title">وصف قاعدة البيانات</string>
     <string name="database_version_title">نسخة قاعدة البيانات</string>
     <string name="text_appearance">نص</string>
-    <string name="application_appearance">تطبيق</string>
+    <string name="application_appearance">الواجهة</string>
     <string name="other">أخرى</string>
     <string name="keyboard">لوحة مفاتيح</string>
     <string name="keyboard_setting_label">إعدادات Magikeyboard</string>
@@ -227,7 +227,7 @@
     <string name="sort_last_access_time">الوصول</string>
     <string name="lock">إقفال</string>
     <string name="assign_master_key">تعيين مفتاح رئيسي</string>
-    <string name="recycle_bin_title">استخدم سلة المحذوفات</string>
+    <string name="recycle_bin_title">استخدام سلة المحذوفات</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -334,7 +334,7 @@
     <string name="database_data_compression_title">ضغط البيانات</string>
     <string name="data">البيانات</string>
     <string name="unavailable_feature_hardware">تعذر العثور على ماسح البصمة.</string>
-    <string name="biometric_delete_all_key_summary">احذف كل مفاتيح التشفير المرتبطة بالبصمة</string>
+    <string name="biometric_delete_all_key_summary">احذف كل مفاتيح التعمية المرتبطة بفك القفل المتقدم</string>
     <string name="advanced_unlock_explanation_summary">استخدم إلغاء القفل المتقدم لفتح قاعدة البيانات بسهولة</string>
     <string name="lock_database_show_button_summary">يعرض زر القَفل في الواجهة</string>
     <string name="lock_database_show_button_title">اعرض زر القَفل</string>
@@ -511,4 +511,13 @@
     <string name="keyboard_previous_lock_summary">ارجع للوحة المفاتيح السابقة تلقائيًا بعد إغلاق قاعدة البيانات</string>
     <string name="autofill_close_database_summary">أغلق قاعدة البيانات بعد الملء التلقائي</string>
     <string name="autofill_ask_to_save_data_summary">اسأل عن حفظ البيانات عند ملئك لنموذج</string>
+    <string name="templates_group_uuid_title">مجموعة القوالب</string>
+    <string name="advanced_unlock_timeout">انتهت مهلة فك القفل المتقدم</string>
+    <string name="temp_advanced_unlock_timeout_summary">مهلة استخدام فك القفل المتقدم قبل حذف محتواها</string>
+    <string name="advanced_unlock_delete_all_key_warning">أتريد حذف كل مفاتيح التعمية المرتبطة بفك القفل المتقدم؟</string>
+    <string name="templates">القوالب</string>
+    <string name="templates_group_enable_title">استخدام القوالب</string>
+    <string name="notification">الإشعارات</string>
+    <string name="temp_advanced_unlock_enable_summary">لا تستخدم أي محتوى معمى لاستخدام فك القفل المتقدم</string>
+    <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فك القفل المتقدم</string>
 </resources>
