@@ -149,7 +149,7 @@
     <string name="menu_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">显示密码</string>
-    <string name="menu_file_selection_read_only">只读</string>
+    <string name="menu_file_selection_read_only">写保护</string>
     <string name="menu_open_file_read_and_write">可修改</string>
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
