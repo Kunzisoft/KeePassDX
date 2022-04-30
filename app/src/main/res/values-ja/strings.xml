@@ -362,7 +362,7 @@
     <string name="keyboard_notification_entry_title">通知情報</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="keyboard_save_search_info_title">共有情報の保存</string>
-    <string name="keyboard_save_search_info_summary">KeePassDX に URL を共有して、エントリーが選択されたとき、さらなる使用のためそのエントリーを記憶しておきます</string>
+    <string name="keyboard_save_search_info_summary">手動でエントリーが選択されたときに、次回以降の自動選択のために共有情報の保存を試みます</string>
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるとき、データベースも閉じます</string>
     <string name="keyboard_entry_timeout_title">タイムアウト</string>
@@ -388,9 +388,9 @@
     <string name="autofill_close_database_summary">自動入力の選択後、データベースを閉じます</string>
     <string name="autofill_application_id_blocklist_title">アプリケーションのブロックリスト</string>
     <string name="autofill_save_search_info_title">検索情報の保存</string>
-    <string name="autofill_save_search_info_summary">手動でエントリーを選択したとき、検索情報の保存を試みます</string>
+    <string name="autofill_save_search_info_summary">手動でエントリーを選択したとき、次回以降の自動選択のために検索情報の保存を試みます</string>
     <string name="autofill_ask_to_save_data_title">データ保存の確認</string>
-    <string name="autofill_ask_to_save_data_summary">フォームが検証されたとき、データを保存するか確認します</string>
+    <string name="autofill_ask_to_save_data_summary">フォームの入力が完了したとき、データを保存するか確認します</string>
     <string name="autofill_application_id_blocklist_summary">自動入力を行わないアプリの一覧</string>
     <string name="autofill_web_domain_blocklist_title">ウェブドメインのブロックリスト</string>
     <string name="autofill_web_domain_blocklist_summary">自動入力を行わないウェブドメインの一覧</string>
@@ -622,8 +622,8 @@
     <string name="keyboard_previous_search_title">検索画面</string>
     <string name="entropy">エントロピー：%1$s ビット</string>
     <string name="colorize_password_summary">文字種を基準にパスワードを色付けします</string>
-    <string name="lower_case">小文字</string>
-    <string name="upper_case">大文字</string>
+    <string name="lower_case">すべて小文字</string>
+    <string name="upper_case">すべて大文字</string>
     <string name="character_count">文字数：%1$d</string>
     <string name="entropy_high">エントロピー：高</string>
     <string name="warning_database_already_opened">データベースがすでに開いているため、まず閉じてから新しく開き直してください</string>
@@ -635,5 +635,14 @@
     <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
     <string name="auto_type_sequence">Auto-Type シークエンス</string>
     <string name="current_group">現在のグループ</string>
-    <string name="keyboard_previous_search_summary">検索画面で自動的に前のキーボードに切り替える</string>
+    <string name="keyboard_previous_search_summary">検索画面で切り替え前のキーボードに自動的に戻します</string>
+    <string name="menu_merge_from">マージ…</string>
+    <string name="entropy_calculate">エントロピー：計算中…</string>
+    <string name="at_least_one_char">各文字種から少なくとも 1 文字を含めるようにする</string>
+    <string name="exclude_ambiguous_chars">見分けのつきにくい文字を除外する</string>
+    <string name="word_separator">区切り文字</string>
+    <string name="menu_save_copy_to">コピーを保存…</string>
+    <string name="consider_chars_filter">対象に加える文字</string>
+    <string name="ignore_chars_filter">使用しない文字</string>
+    <string name="title_case">語頭を大文字</string>
 </resources>
