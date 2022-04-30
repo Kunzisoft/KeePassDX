@@ -622,4 +622,9 @@
     <string name="keyboard_previous_search_title">検索画面</string>
     <string name="entropy">エントロピー：%1$s ビット</string>
     <string name="colorize_password_summary">文字種を基準にパスワードを色付けします</string>
+    <string name="lower_case">小文字</string>
+    <string name="upper_case">大文字</string>
+    <string name="character_count">文字数：%1$d</string>
+    <string name="entropy_high">エントロピー：高</string>
+    <string name="warning_database_already_opened">データベースが既に開いています。閉じてから新しいデータベースを開いてください。</string>
 </resources>
