@@ -431,7 +431,7 @@
     <string name="lock_database_show_button_summary">在用户界面中显示锁定数据库按钮</string>
     <string name="lock_database_show_button_title">显示锁定数据库按钮</string>
     <string name="autofill_preference_title">自动填充设置</string>
-    <string name="warning_database_link_revoked">访问文件管理器撤消访问权限的文件</string>
+    <string name="warning_database_link_revoked">访问被文件管理器撤消访问权限的文件</string>
     <string name="error_label_exists">该标签已经存在。</string>
     <string name="autofill_block_restart">重新启动包含该表单的应用以激活拦截。</string>
     <string name="autofill_block">阻止自动填充</string>
