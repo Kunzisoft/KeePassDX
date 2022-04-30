@@ -619,4 +619,6 @@
     <string name="searchable">検索可能</string>
     <string name="custom_data">カスタムデータ</string>
     <string name="search_filters">検索フィルター</string>
+    <string name="keyboard_previous_search_title">検索画面</string>
+    <string name="entropy">エントロピー：%1$sビット</string>
 </resources>
