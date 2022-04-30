@@ -152,11 +152,11 @@
     <string name="menu_file_selection_read_only">写保护</string>
     <string name="menu_open_file_read_and_write">可修改</string>
     <string name="protection">保护</string>
-    <string name="read_only">只读</string>
+    <string name="read_only">写保护</string>
     <string name="read_only_warning">根据您的文件管理器，KeePassDX 可能不允许在您的存储中写入数据。</string>
-    <string name="show_recent_files_title">最近文件历史</string>
-    <string name="show_recent_files_summary">记住最近使用的文件名</string>
-    <string name="encryption_explanation">加密所有数据时采用的算法。</string>
+    <string name="show_recent_files_title">显示最近打开的文件</string>
+    <string name="show_recent_files_summary">显示最近打开数据库的位置</string>
+    <string name="encryption_explanation">加密数据库所有数据时采用的算法。</string>
     <string name="kdf_explanation">将迭代主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
     <string name="memory_usage">内存使用量</string>
     <string name="memory_usage_explanation">密钥推导算法使用的内存。</string>
@@ -366,7 +366,7 @@
     <string name="menu_security_settings">安全设置</string>
     <string name="menu_master_key_settings">主密钥设置</string>
     <string name="contains_duplicate_uuid">该数据库包含重复的 UUID。</string>
-    <string name="contains_duplicate_uuid_procedure">通过为重复项生成新的 UUID 以解决问题？</string>
+    <string name="contains_duplicate_uuid_procedure">是否通过为重复项生成新的 UUID 以解决问题？</string>
     <string name="database_opened">数据库开启</string>
     <string name="clipboard_explanation_summary">使用设备的剪贴板来复制输入字段</string>
     <string name="advanced_unlock_explanation_summary">使用高级解锁以便快速解锁数据库</string>
