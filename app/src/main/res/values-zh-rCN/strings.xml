@@ -34,13 +34,13 @@
     <string name="clipboard_timeout">剪贴板清空延时</string>
     <string name="clipboard_timeout_summary">剪贴板保存时间 （若您的设备支持该功能）</string>
     <string name="select_to_copy">选择%1$s以复制到剪贴板</string>
-    <string name="retrieving_db_key">获取数据库密钥中……</string>
+    <string name="retrieving_db_key">读取数据库密钥中……</string>
     <string name="database">数据库</string>
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 的一个&lt;strong&gt;开源软件&lt;/strong&gt;并且&lt;strong&gt;不含广告&lt;/strong&gt;。
-\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个<strong>不含广告</strong>的<strong>开源软件</strong>。
+\n它是根据<strong>GPLv3</strong>许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -328,7 +328,7 @@
     <string name="content_description_password_length">密码长度</string>
     <string name="entry_add_field">添加字段</string>
     <string name="content_description_remove_field">删除字段</string>
-    <string name="entry_UUID">UUID</string>
+    <string name="entry_UUID">UUID，通用唯一识别码（Universally Unique Identifier）</string>
     <string name="error_move_entry_here">你不能将条目移到此处。</string>
     <string name="error_copy_entry_here">您不能在此处复制条目。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
@@ -345,7 +345,7 @@
     <string name="disable">禁用</string>
     <string name="master_key">主密钥</string>
     <string name="security">安全</string>
-    <string name="entry_history">历史</string>
+    <string name="entry_history">修改历史</string>
     <string name="entry_setup_otp">设置 OTP</string>
     <string name="otp_type">OTP 类型</string>
     <string name="otp_secret">密钥</string>
