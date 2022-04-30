@@ -611,4 +611,6 @@
     <string name="show_entry_colors_summary">フォアグラウンド・バックグラウンド カラーをエントリー内に表示します</string>
     <string name="regex">正規表現</string>
     <string name="case_sensitive">ケース・センシティブ</string>
+    <string name="content_description_passphrase_word_count">パスフレーズの単語数</string>
+    <string name="inherited">上の階層のグループに合わせる</string>
 </resources>
