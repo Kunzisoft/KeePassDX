@@ -318,7 +318,7 @@
     <string name="content_description_node_children">子节点</string>
     <string name="content_description_add_node">增加节点</string>
     <string name="content_description_add_entry">添加条目</string>
-    <string name="content_description_add_group">添加群组</string>
+    <string name="content_description_add_group">添加分组</string>
     <string name="content_description_file_information">文件信息</string>
     <string name="content_description_password_checkbox">密码选框</string>
     <string name="content_description_keyfile_checkbox">密钥文件选框</string>
@@ -333,7 +333,7 @@
     <string name="error_copy_entry_here">您不能在此处复制条目。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
     <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
-    <string name="content_description_background">背景</string>
+    <string name="content_description_background">后台</string>
     <string name="content_description_update_from_list">更新</string>
     <string name="content_description_keyboard_close_fields">关闭字段</string>
     <string name="error_create_database_file">无法使用此密码和密钥文件新建数据库。</string>
