@@ -615,10 +615,11 @@
     <string name="inherited">上の階層のグループに合わせる</string>
     <string name="expired">有効期限切れ</string>
     <string name="passphrase">パスフレーズ</string>
-    <string name="colorize_password_title">パスワードに色を付ける</string>
+    <string name="colorize_password_title">パスワードを色付けする</string>
     <string name="searchable">検索可能</string>
     <string name="custom_data">カスタムデータ</string>
     <string name="search_filters">検索フィルター</string>
     <string name="keyboard_previous_search_title">検索画面</string>
     <string name="entropy">エントロピー：%1$sビット</string>
+    <string name="colorize_password_summary">文字種を基準にパスワードを色付けします</string>
 </resources>
