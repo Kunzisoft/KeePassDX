@@ -127,7 +127,7 @@
     <string name="extended_ASCII">ASCII拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
-    <string name="clipboard_error">某些设备不允许应用使用剪贴板。</string>
+    <string name="clipboard_error">某些设备不希望应用使用剪贴板。</string>
     <string name="clipboard_error_clear">无法清空剪切板</string>
     <string name="style_choose_title">主题</string>
     <string name="icon_pack_choose_title">图标包</string>
