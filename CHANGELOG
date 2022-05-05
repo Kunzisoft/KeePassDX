@@ -2,6 +2,7 @@ KeePassDX(3.4.4)
  * Fix crash in New Android 13 #1321
  * Better backstack management for selection mode
  * Prevent Tapjacking #1318
+ * Small changes #1298
 
 KeePassDX(3.4.3)
  * Remove "Select share info" setting for Magikeyboard #1304
