@@ -37,6 +37,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -93,6 +95,14 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             switchToPreviousKeyboard()
         }
 
+        fieldsAdapter = FieldsAdapter(this)
+        fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
+            override fun onItemClick(item: Field) {
+                currentInputConnection.commitText(getEntryInfo()?.getGeneratedFieldValue(item.name) , 1)
+                actionTabAutomatically()
+            }
+        }
+
         registerLockReceiver(lockReceiver, true)
     }
 
@@ -121,15 +131,8 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 contentView = popupFieldsView
             }
 
-            val recyclerView = popupFieldsView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.keyboard_popup_fields_list)
-            fieldsAdapter = FieldsAdapter(this)
-            fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
-                override fun onItemClick(item: Field) {
-                    currentInputConnection.commitText(getEntryInfo()?.getGeneratedFieldValue(item.name) , 1)
-                    actionTabAutomatically()
-                }
-            }
-            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, true)
+            val recyclerView = popupFieldsView.findViewById<RecyclerView>(R.id.keyboard_popup_fields_list)
+            recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
             recyclerView.adapter = fieldsAdapter
 
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
@@ -141,7 +144,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             return rootKeyboardView
         }
 
-        return super.onCreateInputView()
+        return rootKeyboardView
     }
 
     private fun getEntryInfo(): EntryInfo? {
