@@ -22,4 +22,5 @@
     android:id="@+id/fingerprint_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:filterTouchesWhenObscured="true"
     tools:visibility="gone" />
