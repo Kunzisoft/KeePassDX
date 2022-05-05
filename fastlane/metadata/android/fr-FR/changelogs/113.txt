@@ -1,0 +1,2 @@
+ * Correction d'un crash dans le nouveau Android 13 #1321
+ * Meilleure gestion de la pile d'arrière plan pour le mode de sélection

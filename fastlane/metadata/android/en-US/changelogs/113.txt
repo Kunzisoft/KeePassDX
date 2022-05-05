@@ -1,0 +1,2 @@
+ * Fix crash in New Android 13 #1321
+ * Better backstack management for selection mode

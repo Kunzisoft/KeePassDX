@@ -1,9 +1,6 @@
 package com.kunzisoft.keepass.activities.legacy
 
-import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
@@ -96,9 +93,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
     private fun backToTheMainAppAndFinish() {
         // To move the app in background and return to the main app
-        // Not visible as opened with FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
         moveTaskToBack(true)
-        // Not finish() to prevent service kill
+        // Not using FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS or finish() because kills the service
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
