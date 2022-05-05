@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contribution">योगदान</string>
+    <string name="homepage">मुख्य पान</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="contact">संपर्क</string>
+    <string name="accept">स्वीकार करा</string>
+    <string name="about_description">किपास सांकेतांक व्यवस्थापनाचे अँड्रॉइड अंतर्भूतीकरण</string>
+    <string name="master_key">राणी चावी</string>
+    <string name="add_group">गट जोडा</string>
+    <string name="security">सुरक्षा</string>
+</resources>

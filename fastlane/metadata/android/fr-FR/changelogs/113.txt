@@ -1,0 +1,4 @@
+ * Correction d'un crash dans le nouveau Android 13 #1321
+ * Meilleure gestion de la pile d'arrière plan pour le mode de sélection
+ * Prevention du Tapjacking #1318
+ * Petits changements #1298

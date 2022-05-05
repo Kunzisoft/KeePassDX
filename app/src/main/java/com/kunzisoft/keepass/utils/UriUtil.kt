@@ -269,17 +269,18 @@ object UriUtil {
 
     fun contributingUser(context: Context): Boolean {
         return (Education.isEducationScreenReclickedPerformed(context)
-                || isExternalAppInstalled(context, "com.kunzisoft.keepass.pro")
+                || isExternalAppInstalled(context, "com.kunzisoft.keepass.pro", false)
                 )
     }
 
-    private fun isExternalAppInstalled(context: Context, packageName: String): Boolean {
+    private fun isExternalAppInstalled(context: Context, packageName: String, showError: Boolean = true): Boolean {
         try {
             context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
             Education.setEducationScreenReclickedPerformed(context)
             return true
         } catch (e: Exception) {
-            Log.e(TAG, "App not accessible", e)
+            if (showError)
+                Log.e(TAG, "App not accessible", e)
         }
         return false
     }

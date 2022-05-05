@@ -23,7 +23,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fingerprint_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:filterTouchesWhenObscured="true">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/biometric_image"

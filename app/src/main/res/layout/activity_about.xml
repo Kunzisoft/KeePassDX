@@ -21,6 +21,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -71,28 +72,29 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:layout_toEndOf="@+id/activity_about_icon"
                         android:layout_toRightOf="@+id/activity_about_icon"
-                        android:layout_toEndOf="@+id/activity_about_icon">
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/activity_about_app_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/app_name"
                             android:textSize="18sp"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/activity_about_version"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="@android:style/TextAppearance.Small"/>
+                            android:textAppearance="@android:style/TextAppearance.Small" />
 
                         <TextView
                             android:id="@+id/activity_about_build"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="@android:style/TextAppearance.Small"/>
+                            android:textAppearance="@android:style/TextAppearance.Small" />
                     </LinearLayout>
                 </RelativeLayout>
 

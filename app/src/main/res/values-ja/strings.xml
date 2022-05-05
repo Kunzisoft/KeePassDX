@@ -332,8 +332,8 @@
     <string name="allow_copy_password_title">クリップボードの信頼</string>
     <string name="allow_copy_password_summary">エントリーのパスワードと保護されたフィールドを、クリップボードにコピーすることを許可します</string>
     <string name="allow_copy_password_warning">警告：クリップボードはすべてのアプリで共有されます。機密データがコピーされた場合、他のソフトウェアがデータを復元する可能性があります。</string>
-    <string name="enable">有効にする</string>
-    <string name="disable">無効にする</string>
+    <string name="enable">有効</string>
+    <string name="disable">無効</string>
     <string name="notification">通知</string>
     <string name="clear_clipboard_notification_title">データベースを閉じて消去</string>
     <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終了したとき、または使用開始後に通知が閉じられたとき、データベースをロックします</string>
@@ -362,7 +362,7 @@
     <string name="keyboard_notification_entry_title">通知情報</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="keyboard_save_search_info_title">共有情報の保存</string>
-    <string name="keyboard_save_search_info_summary">KeePassDX に URL を共有して、エントリーが選択されたとき、さらなる使用のためそのエントリーを記憶しておきます</string>
+    <string name="keyboard_save_search_info_summary">手動でエントリーが選択されたときに、次回以降の自動選択のために共有情報の保存を試みます</string>
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるとき、データベースも閉じます</string>
     <string name="keyboard_entry_timeout_title">タイムアウト</string>
@@ -388,9 +388,9 @@
     <string name="autofill_close_database_summary">自動入力の選択後、データベースを閉じます</string>
     <string name="autofill_application_id_blocklist_title">アプリケーションのブロックリスト</string>
     <string name="autofill_save_search_info_title">検索情報の保存</string>
-    <string name="autofill_save_search_info_summary">手動でエントリーを選択したとき、検索情報の保存を試みます</string>
+    <string name="autofill_save_search_info_summary">手動でエントリーを選択したとき、次回以降の自動選択のために検索情報の保存を試みます</string>
     <string name="autofill_ask_to_save_data_title">データ保存の確認</string>
-    <string name="autofill_ask_to_save_data_summary">フォームが検証されたとき、データを保存するか確認します</string>
+    <string name="autofill_ask_to_save_data_summary">フォームの入力が完了したとき、データを保存するか確認します</string>
     <string name="autofill_application_id_blocklist_summary">自動入力を行わないアプリの一覧</string>
     <string name="autofill_web_domain_blocklist_title">ウェブドメインのブロックリスト</string>
     <string name="autofill_web_domain_blocklist_summary">自動入力を行わないウェブドメインの一覧</string>
@@ -504,7 +504,7 @@
     <string name="advanced_unlock_invalid_key">高度なロック解除用の鍵が読み取れません。削除してロック解除の手順をやり直してください。</string>
     <string name="advanced_unlock_prompt_extract_credential_message">高度なロック解除を使ってデータベース認証情報を取り出します</string>
     <string name="advanced_unlock_prompt_extract_credential_title">高度なロック解除を使ってデータベースを開く</string>
-    <string name="advanced_unlock_prompt_store_credential_message">警告：高度なロック解除を使用する場合も、マスター パスワードを記憶する必要があります。</string>
+    <string name="advanced_unlock_prompt_store_credential_message">高度なロック解除を使用する場合も、主たる認証情報は記憶する必要があります。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
     <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて認証情報を保存する</string>
     <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いてロックを解除する</string>
@@ -596,7 +596,7 @@
     <string name="template">テンプレート</string>
     <string name="hint_icon_name">アイコン名</string>
     <string name="tags">タグ</string>
-    <string name="menu_merge_database">マージする</string>
+    <string name="menu_merge_database">データベースの統合</string>
     <string name="warning_keyfile_integrity">Android は実行中にデータを変更しうるため、ファイルのハッシュ値は保証されません。整合性を正しく保つにはファイルの拡張子を.binに変更してください。</string>
     <string name="permission">権限</string>
     <string name="enable_keep_screen_on_title">画面の表示を保つ</string>
@@ -605,8 +605,44 @@
     <string name="content_description_entry_foreground_color">エントリーのフォアグラウンド カラー</string>
     <string name="content_description_entry_background_color">エントリーのバックグラウンド カラー</string>
     <string name="wireless">Wi-Fi</string>
-    <string name="warning_database_info_reloaded">データベースを再度読み込むとローカルで変更されたデータが削除されます。</string>
+    <string name="warning_database_info_reloaded">データベースを再読込すると、ローカルで変更されたデータは破棄されます。</string>
     <string name="warning_exact_alarm">アプリに正確なアラームの使用を許可していません。その結果、タイマーを必要とする機能が正確な時間で行われなくなります。</string>
     <string name="show_entry_colors_title">エントリー カラー</string>
     <string name="show_entry_colors_summary">フォアグラウンド・バックグラウンド カラーをエントリー内に表示します</string>
+    <string name="regex">正規表現</string>
+    <string name="case_sensitive">ケース・センシティブ</string>
+    <string name="content_description_passphrase_word_count">パスフレーズの単語数</string>
+    <string name="inherited">上の階層のグループに合わせる</string>
+    <string name="expired">有効期限切れ</string>
+    <string name="passphrase">パスフレーズ</string>
+    <string name="colorize_password_title">パスワードを色付けする</string>
+    <string name="searchable">検索可能</string>
+    <string name="custom_data">カスタムデータ</string>
+    <string name="search_filters">検索フィルター</string>
+    <string name="keyboard_previous_search_title">検索画面</string>
+    <string name="entropy">エントロピー：%1$s ビット</string>
+    <string name="colorize_password_summary">文字種を基準にパスワードを色付けします</string>
+    <string name="lower_case">すべて小文字</string>
+    <string name="upper_case">すべて大文字</string>
+    <string name="character_count">文字数：%1$d</string>
+    <string name="entropy_high">エントロピー：高</string>
+    <string name="warning_database_already_opened">データベースがすでに開いているため、まず閉じてから新しく開き直してください</string>
+    <string name="advanced_unlock_keystore_warning">この機能は、暗号化された認証情報をデバイスの安全な KeyStore に保存します。
+\n
+\nオペレーティング システムのネイティブ API の実装によっては、完全に機能しない場合があります。
+\nKeyStore の互換性と安全性については、お使いのデバイスの製造元および使用するROMの作成者にご確認ください。</string>
+    <string name="navigation_drawer_open">ナビゲーション ドロワーが開いています</string>
+    <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
+    <string name="auto_type_sequence">Auto-Type シークエンス</string>
+    <string name="current_group">現在のグループ</string>
+    <string name="keyboard_previous_search_summary">検索画面で切り替え前のキーボードに自動的に戻します</string>
+    <string name="menu_merge_from">マージ…</string>
+    <string name="entropy_calculate">エントロピー：計算中…</string>
+    <string name="at_least_one_char">各文字種から少なくとも 1 文字を含めるようにする</string>
+    <string name="exclude_ambiguous_chars">見分けのつきにくい文字を除外する</string>
+    <string name="word_separator">区切り文字</string>
+    <string name="menu_save_copy_to">コピーを保存…</string>
+    <string name="consider_chars_filter">対象に加える文字</string>
+    <string name="ignore_chars_filter">使用しない文字</string>
+    <string name="title_case">語頭を大文字</string>
 </resources>

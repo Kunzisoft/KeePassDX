@@ -30,6 +30,7 @@ import androidx.core.text.HtmlCompat
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.utils.UriUtil
 import org.joda.time.DateTime
 
 class AboutActivity : StylishActivity() {
@@ -44,6 +45,12 @@ class AboutActivity : StylishActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        val appName = if (UriUtil.contributingUser(this))
+            getString(R.string.app_name) + " " + getString(R.string.app_name_part3)
+         else
+            getString(R.string.app_name)
+        findViewById<TextView>(R.id.activity_about_app_name).text = appName
 
         var version: String
         var build: String

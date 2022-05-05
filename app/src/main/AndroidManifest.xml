@@ -150,7 +150,8 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.AutofillLauncherActivity"
             android:theme="@style/Theme.Transparent"
-            android:configChanges="keyboardHidden" />
+            android:configChanges="keyboardHidden"
+            android:excludeFromRecents="true"/>
         <activity
             android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
         <activity

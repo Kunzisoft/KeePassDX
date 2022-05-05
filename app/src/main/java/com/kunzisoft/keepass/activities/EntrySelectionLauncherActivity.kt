@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
-import com.kunzisoft.keepass.settings.PreferencesUtil
 
 /**
  * Activity to search or select entry in database,
@@ -44,7 +43,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
     }
 
     override fun finishActivityIfReloadRequested(): Boolean {
-        return true
+        return false
     }
 
     override fun onDatabaseRetrieved(database: Database?) {
@@ -74,6 +73,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                                 sharedWebDomain = Uri.parse(extra).host
                         }
                     }
+                    launchSelection(database, sharedWebDomain, otpString)
                 }
                 Intent.ACTION_VIEW -> {
                     // Retrieve OTP
@@ -81,20 +81,32 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                         if (OtpEntryFields.isOTPUri(extra))
                             otpString = extra
                     }
+                    launchSelection(database, sharedWebDomain, otpString)
                 }
-                else -> {}
+                else -> {
+                    if (database != null) {
+                        GroupActivity.launch(this, database)
+                    } else {
+                        FileDatabaseSelectActivity.launch(this)
+                    }
+                }
             }
+        }
+        finish()
+    }
 
-            // Build domain search param
-            val searchInfo = SearchInfo().apply {
-                this.webDomain = sharedWebDomain
-                this.otpString = otpString
-            }
+    private fun launchSelection(database: Database?,
+                                sharedWebDomain: String?,
+                                otpString: String?) {
+        // Build domain search param
+        val searchInfo = SearchInfo().apply {
+            this.webDomain = sharedWebDomain
+            this.otpString = otpString
+        }
 
-            SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
-                searchInfo.webDomain = concreteWebDomain
-                launch(database, searchInfo)
-            }
+        SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+            searchInfo.webDomain = concreteWebDomain
+            launch(database, searchInfo)
         }
     }
 
@@ -188,7 +200,6 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                     }
                 }
         )
-        finish()
     }
 
     companion object {
