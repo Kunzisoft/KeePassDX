@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Отзыв</string>
     <string name="homepage">Сайт</string>
-    <string name="about_description">Android-версия менеджера паролей KeePass</string>
+    <string name="about_description">Android–версия менеджера паролей KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
@@ -266,11 +266,11 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих других приложений управления паролями, здесь <strong>нет рекламы</strong>, и оно <strong>свободно от лицензирования</strong>. Приложение не собирает ваши личные данные на своих серверах независимо от версии, которую вы используете.</string>
-    <string name="html_text_buy_pro">Купив Pro-версию, у вас появится доступ к данным <strong>визуальным стилям</strong>, а также вы внесёте вклад в <strong>реализацию общественных проектов</strong>.</string>
+    <string name="html_text_buy_pro">Купив Pro–версию, у вас появится доступ к данным <strong>визуальным стилям</strong>, а также вы внесёте вклад в <strong>реализацию общественных проектов</strong>.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
     <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на вашу <strong>поддержку</strong>.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
-    <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;Pro&lt;/strong&gt;-версию,</string>
+    <string name="html_text_dev_feature_buy_pro">Покупая <strong>Pro</strong>–версию,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять &lt;strong&gt;новые возможности&lt;/strong&gt; и &lt;strong&gt;исправлять ошибки&lt;/strong&gt; в соответствии с вашими замечаниями.</string>
     <string name="html_text_dev_feature_thanks">Большое спасибо за поддержку.</string>
@@ -466,9 +466,9 @@
     <string name="warning_remove_unlinked_attachment">Удаление несвязанных данных может уменьшить размер базы, но также может удалить данные, используемые для плагинов KeePass.</string>
     <string name="content_description_credentials_information">Информация об учётных данных</string>
     <string name="configure_biometric">Отсутствует зарегистрированный биометрический ключ или учётные данные устройства.</string>
-    <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи</string>
+    <string name="autofill_save_search_info_summary">Сохранять поисковую информацию при ручном выборе записи для дальнейшего использования</string>
     <string name="autofill_save_search_info_title">Сохранять данные поиска</string>
-    <string name="keyboard_save_search_info_summary">При отправке информации в KeePassDX, если выбрана запись, постараться сохранить информацию в ней для дальнейшего использования</string>
+    <string name="keyboard_save_search_info_summary">При ручном выборе записи пытаться сохранить информацию для дальнейшего использования</string>
     <string name="keyboard_save_search_info_title">Сохранять общие данные</string>
     <string name="keyboard_previous_lock_title">Блокировка базы</string>
     <string name="keyboard_previous_lock_summary">Автоматически переключаться на предыдущую клавиатуру после блокировки базы</string>
@@ -579,10 +579,10 @@
     <string name="cryptocurrency">Криптовалютный кошелёк</string>
     <string name="type">Тип</string>
     <string name="ssid">SSID</string>
-    <string name="wireless">Wi-Fi</string>
+    <string name="wireless">Wi–Fi</string>
     <string name="email_address">Адрес эл. почты</string>
     <string name="name">Имя</string>
-    <string name="personal_identification_number">PIN-код</string>
+    <string name="personal_identification_number">PIN–код</string>
     <string name="card_verification_value">CVV</string>
     <string name="number">Номер</string>
     <string name="holder">Владелец</string>

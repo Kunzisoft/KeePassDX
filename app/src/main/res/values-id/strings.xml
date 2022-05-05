@@ -326,7 +326,7 @@
     <string name="autofill_application_id_blocklist_title">Daftar blokir aplikasi</string>
     <string name="autofill_ask_to_save_data_summary">Minta untuk menyimpan data ketika pengisian formulir selesai</string>
     <string name="autofill_ask_to_save_data_title">Minta untuk menyimpan data</string>
-    <string name="autofill_save_search_info_summary">Cobalah untuk menyimpan informasi pencarian saat membuat pilihan entri manual</string>
+    <string name="autofill_save_search_info_summary">Cobalah untuk menyimpan informasi pencarian saat membuat pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
     <string name="autofill_save_search_info_title">Simpan info pencarian</string>
     <string name="autofill_inline_suggestions_title">Saran sebaris</string>
     <string name="autofill_close_database_summary">Menutup database setelah pilihan isi-auto</string>
@@ -619,7 +619,7 @@
 \nBergantung pada implementasi API asli dari sistem operasi, mungkin tidak berfungsi penuh.
 \nPeriksa kompatibilitas dan keamanan KeyStore dengan produsen perangkat Anda dan pembuat ROM yang Anda gunakan.</string>
     <string name="education_read_only_title">Lindungi database Anda dari penulisan</string>
-    <string name="keyboard_save_search_info_summary">Setelah berbagi info ke KeePassDX, saat entri dipilih, coba simpan info di entri untuk penggunaan yang lebih mudah di masa mendatang</string>
+    <string name="keyboard_save_search_info_summary">Coba simpan informasi terbagi ketika membuat sebuah pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
     <string name="enable_read_only_title">Terlindungi-tulis</string>
     <string name="enable_keep_screen_on_summary">Jaga layar tetap menyala saat melihat entri</string>
 </resources>
