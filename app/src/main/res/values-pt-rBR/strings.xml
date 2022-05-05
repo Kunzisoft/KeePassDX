@@ -559,7 +559,7 @@
     <string name="autofill_read_only_save">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Perguntar para salvar dados</string>
-    <string name="autofill_save_search_info_summary">Tente salvar informações de pesquisa ao fazer uma seleção manual de entrada</string>
+    <string name="autofill_save_search_info_summary">Tente salvar informações de pesquisa ao fazer uma seleção manual de entrada para facilitar usos posteriores</string>
     <string name="autofill_save_search_info_title">Salvar informações de busca</string>
     <string name="autofill_manual_selection_summary">Exibir opção para permitir que o usuário selecione a entrada do banco de dados</string>
     <string name="autofill_manual_selection_title">Seleção manual</string>
@@ -574,7 +574,7 @@
     <string name="custom_fields">Campos personalizados</string>
     <string name="keyboard_previous_lock_summary">Retornar automaticamente para o teclado anterior depois de bloquear o banco de dados</string>
     <string name="keyboard_previous_lock_title">Bloquear banco de dados</string>
-    <string name="keyboard_save_search_info_summary">Depois de compartilhar uma URL para o KeePassDX, quando uma entrada é selecionada, tente lembrar que a entrada para usos adicionais</string>
+    <string name="keyboard_save_search_info_summary">Tente salvar informações compartilhadas ao fazer uma seleção manual de entrada para facilitar usos posteriores</string>
     <string name="keyboard_save_search_info_title">Salvar informações compartilhadas</string>
     <string name="templates">Modelos</string>
     <string name="notification">Notificação</string>

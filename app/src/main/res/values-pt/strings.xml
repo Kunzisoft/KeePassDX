@@ -493,7 +493,7 @@
     <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Pedir para guardar dados</string>
-    <string name="autofill_save_search_info_summary">Tentar guardar as informações de pesquisas ao fazer uma seleção de entrada manual</string>
+    <string name="autofill_save_search_info_summary">Tentar guardar as informações de pesquisas ao fazer uma seleção de entrada manual para facilitar utilizações posteriores</string>
     <string name="autofill_save_search_info_title">Guardar informações de pesquisas</string>
     <string name="autofill_manual_selection_summary">Mostrar opção para permitir que o utilizador selecione a entrada da base de dados</string>
     <string name="autofill_manual_selection_title">Seleção manual</string>
@@ -508,7 +508,7 @@
     <string name="custom_fields">Campos personalizados</string>
     <string name="keyboard_previous_lock_summary">Mudar automaticamente para o teclado anterior após bloquear a base de dados</string>
     <string name="keyboard_previous_lock_title">Bloquear base de dados</string>
-    <string name="keyboard_save_search_info_summary">Depois de partilhar informação com o KeePassDX, quando uma entrada for selecionada, tentar guardar a informação na entrada para facilitar futuras utilizações</string>
+    <string name="keyboard_save_search_info_summary">Tentar guardar informação partilhada ao fazer uma seleção manual de entradas para uma utilização futura mais fácil</string>
     <string name="keyboard_save_search_info_title">Guardar informação partilhada</string>
     <string name="templates">Modelos</string>
     <string name="notification">Notificação</string>
