@@ -471,15 +471,15 @@
     <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce o a un gruppo</string>
     <string name="show_uuid_title">Mostra UUID</string>
     <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
-    <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando un modulo viene convalidato</string>
+    <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando l\'immissione dei dati in un form viene completata</string>
     <string name="autofill_ask_to_save_data_title">Chiedi di salvare i dati</string>
-    <string name="autofill_save_search_info_summary">Prova a salvare le informazioni di ricerca quando effettui una selezione di immissione manuale</string>
+    <string name="autofill_save_search_info_summary">Provare a salvare le informazioni di ricerca quando viene selezionato manualmente un elemento per facilitarne gli utilizzi futuri</string>
     <string name="autofill_save_search_info_title">Salva le informazioni di ricerca</string>
     <string name="autofill_close_database_summary">Chiudi il database dopo aver usato l\'autocompletamento</string>
     <string name="autofill_close_database_title">Chiudi database</string>
     <string name="keyboard_previous_lock_summary">Torna automaticamente alla tastiera precedente dopo aver bloccato il database</string>
     <string name="keyboard_previous_lock_title">Blocca il database</string>
-    <string name="keyboard_save_search_info_summary">Dopo la una URL in KeePassDX, quando viene selezionata una voce, prova a salvare quella voce per usi futuri</string>
+    <string name="keyboard_save_search_info_summary">Provare a salvare l\'informazione condivisa quando viene selezionato manualmente un elemento, per poterne facilitare gli utilizzi futuri</string>
     <string name="keyboard_save_search_info_title">Salva le informazioni condivise</string>
     <string name="notification">Notifica</string>
     <string name="biometric_security_update_required">È necessario un aggiornamento della sicurezza biometrica.</string>
@@ -617,7 +617,7 @@
     <string name="navigation_drawer_close">Chiusura del cassetto di navigazione</string>
     <string name="searchable">Ricercabile</string>
     <string name="content_description_nav_header">Intestazione di navigazione</string>
-    <string name="inherited">Ereditato</string>
+    <string name="inherited">Eredita</string>
     <string name="search_filters">Filtri di ricerca</string>
     <string name="regex">Espressione regolare</string>
     <string name="menu_merge_from">Unisci da …</string>
@@ -633,4 +633,18 @@
     <string name="advanced_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
 \nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienanente funzionante.
 \nVerificare la compatibilità e la sicurezza del KeyStore consultando sia il costruttore del dispositivo che il creatore della ROM in uso nel dispositivo stesso.</string>
+    <string name="keyboard_previous_search_title">Schermata di ricerca</string>
+    <string name="keyboard_previous_search_summary">Ritornare automaticamente alla tastiera precedente quando ci si trova sulla schermata di ricerca</string>
+    <string name="entropy_high">Entropia: Alta</string>
+    <string name="entropy_calculate">Entropia: Calcolo in corso…</string>
+    <string name="at_least_one_char">Almeno un carattere di ciascuno</string>
+    <string name="exclude_ambiguous_chars">Escludere i caratteri ambigui</string>
+    <string name="consider_chars_filter">Includi i caratteri</string>
+    <string name="word_separator">Separatore</string>
+    <string name="ignore_chars_filter">Ignorare i caratteri</string>
+    <string name="lower_case">minuscolo</string>
+    <string name="upper_case">MAIUSCOLO</string>
+    <string name="title_case">Iniziali maiuscole</string>
+    <string name="character_count">Numero di caratteri: %1$d</string>
+    <string name="entropy">Entropia: %1$s bit</string>
 </resources>
