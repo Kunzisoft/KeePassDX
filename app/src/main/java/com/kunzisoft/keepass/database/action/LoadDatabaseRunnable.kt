@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -37,6 +38,7 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mDatabase: Database,
                            private val mDatabaseUri: Uri,
                            private val mMainCredential: MainCredential,
+                           private val mChallengeResponseRetriever: (hardwareKey: HardwareKey?, seed: ByteArray?) -> ByteArray?,
                            private val mReadonly: Boolean,
                            private val mCipherEncryptDatabase: CipherEncryptDatabase?,
                            private val mFixDuplicateUUID: Boolean,
@@ -55,6 +57,7 @@ class LoadDatabaseRunnable(private val context: Context,
                 context.contentResolver,
                 mDatabaseUri,
                 mMainCredential,
+                mChallengeResponseRetriever,
                 mReadonly,
                 UriUtil.getBinaryDir(context),
                 { memoryWanted ->

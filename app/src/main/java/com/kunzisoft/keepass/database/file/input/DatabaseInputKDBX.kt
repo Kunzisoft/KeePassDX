@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
+import kotlinx.coroutines.yield
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
@@ -102,7 +103,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: (() -> Unit)): DatabaseKDBX {
+                              assignMasterKey: ((seed: ByteArray?) -> Unit)): DatabaseKDBX {
         try {
             startKeyTimer(progressTaskUpdater)
 
@@ -114,7 +115,9 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
 
-            assignMasterKey.invoke()
+            val transformSeed = header.transformSeed
+            mDatabase.transformSeed = transformSeed
+            assignMasterKey.invoke(transformSeed)
             mDatabase.makeFinalKey(header.masterSeed)
 
             stopKeyTimer()

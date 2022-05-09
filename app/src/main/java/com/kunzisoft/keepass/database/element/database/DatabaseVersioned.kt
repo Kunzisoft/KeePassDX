@@ -61,6 +61,8 @@ abstract class DatabaseVersioned<
     var finalKey: ByteArray? = null
         protected set
 
+    var transformSeed: ByteArray? = null
+
     abstract val version: String
     abstract val defaultFileExtension: String
 

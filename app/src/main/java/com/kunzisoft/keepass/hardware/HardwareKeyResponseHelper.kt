@@ -2,16 +2,15 @@ package com.kunzisoft.keepass.hardware
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.database.element.Database
 
 class HardwareKeyResponseHelper {
 
@@ -30,17 +29,19 @@ class HardwareKeyResponseHelper {
         this.fragment = context
     }
 
-    fun buildHardwareKeyResponse(onChallengeResponded: ((challengeResponse:ByteArray?,
-                                                         extra: Bundle?) -> Unit)?) {
+    fun buildHardwareKeyResponse(onChallengeResponded: (challengeResponse: ByteArray?,
+                                                        extra: Bundle?) -> Unit) {
         val resultCallback = ActivityResultCallback<ActivityResult> { result ->
             Log.d(TAG, "resultCode from ykdroid: " + result.resultCode)
             if (result.resultCode == Activity.RESULT_OK) {
                 val challengeResponse: ByteArray? = result.data?.getByteArrayExtra("response")
                 Log.d(TAG, "Response: " + challengeResponse.contentToString())
-                challengeResponse?.let {
-                    onChallengeResponded?.invoke(challengeResponse,
-                        result.data?.getBundleExtra(EXTRA_BUNDLE_KEY))
-                }
+                onChallengeResponded.invoke(challengeResponse,
+                    result.data?.getBundleExtra(EXTRA_BUNDLE_KEY))
+            } else {
+                Log.e(TAG, "Response error")
+                onChallengeResponded.invoke(null,
+                    result.data?.getBundleExtra(EXTRA_BUNDLE_KEY))
             }
         }
 
@@ -57,19 +58,40 @@ class HardwareKeyResponseHelper {
         }
     }
 
-    fun launchChallengeForResponse(databaseUri: Uri, extra: Bundle? = null) {
+    fun launchChallengeForResponse(hardwareKey: HardwareKey?, seed: ByteArray?) {
         try {
-            fragment?.context?.contentResolver ?: activity?.contentResolver ?.let { contentResolver ->
-                Database.getTransformSeed(contentResolver, databaseUri) { seed ->
+            when (hardwareKey) {
+                HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
+                    // Transform the seed before sending
+                    var challenge: ByteArray? = null
+                    if (seed != null) {
+                        challenge = ByteArray(64)
+                        seed.copyInto(challenge, 0, 0, 32)
+                        challenge.fill(32, 32, 64)
+                    }
+                    // Send to the driver
                     getChallengeResponseResultLauncher?.launch(Intent(YKDROID_CHALLENGE_RESPONSE_INTENT).apply {
-                        putExtra(YKDROID_SEED_KEY, seed)
-                        putExtra(EXTRA_BUNDLE_KEY, extra)
+                        putExtra(YKDROID_SEED_KEY, challenge)
                     })
-                    Log.d(TAG, "Challenge sent : " + seed.contentToString())
+                    Log.d(TAG, "Challenge sent : " + challenge.contentToString())
+                }
+                else -> {
+                    // TODO other algorithm
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Could not launch challenge for response", e)
+            Log.e(
+                TAG,
+                "Unable to retrieve the challenge response",
+                e
+            )
+            e.message?.let { message ->
+                Toast.makeText(
+                    activity,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 

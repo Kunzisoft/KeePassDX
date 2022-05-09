@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
@@ -50,7 +49,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private var mMasterPassword: String? = null
     private var mKeyFileUri: Uri? = null
     private var mHardwareKey: HardwareKey? = null
-    private var mChallengeResponse: ByteArray? = null
 
     private lateinit var rootView: View
 
@@ -73,8 +71,6 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private var mEmptyPasswordConfirmationDialog: AlertDialog? = null
     private var mNoKeyConfirmationDialog: AlertDialog? = null
     private var mEmptyKeyFileConfirmationDialog: AlertDialog? = null
-
-    private var mHardwareKeyResponseHelper: HardwareKeyResponseHelper? = null
 
     private var mAllowNoMasterKey: Boolean  = false
 
@@ -180,7 +176,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
                     mMasterPassword = ""
                     mKeyFileUri = null
-                    mChallengeResponse = null
+                    mHardwareKey = null
 
                     if (verifyHardwareKey()) {
                         approveMainCredential()
@@ -219,16 +215,11 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    fun setChallengeResponse(response: ByteArray?) {
-        mChallengeResponse = response
-        approveMainCredential()
-    }
-
     private fun retrieveMainCredential(): MainCredential {
         val masterPassword = if (passwordCheckBox.isChecked) mMasterPassword else null
         val keyFileUri = if (keyFileCheckBox.isChecked) mKeyFileUri else null
-        val hardwareKeyData = if (hardwareKeyCheckBox.isChecked) mChallengeResponse else null
-        return MainCredential(masterPassword, keyFileUri, hardwareKeyData)
+        val hardwareKey = if (hardwareKeyCheckBox.isChecked) mHardwareKey else null
+        return MainCredential(masterPassword, keyFileUri, hardwareKey)
     }
 
     override fun onResume() {

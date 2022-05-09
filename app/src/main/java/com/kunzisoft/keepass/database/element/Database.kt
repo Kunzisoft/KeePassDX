@@ -54,6 +54,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -388,6 +389,9 @@ class Database {
             dataModifiedSinceLastLoading = true
         }
 
+    val transformSeed: ByteArray?
+        get() = mDatabaseKDB?.transformSeed ?: mDatabaseKDBX?.transformSeed
+
     var rootGroup: Group?
         get() {
             mDatabaseKDB?.rootGroup?.let {
@@ -577,6 +581,7 @@ class Database {
         contentResolver: ContentResolver,
         databaseUri: Uri,
         mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?,
         readOnly: Boolean,
         cacheDirectory: File,
         isRAMSufficient: (memoryWanted: Long) -> Boolean,
@@ -601,11 +606,11 @@ class Database {
                         DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream,
                                 progressTaskUpdater
-                            ) {
+                            ) { seed ->
                                 databaseKDB.retrieveMasterKey(
                                     mainCredential.masterPassword,
                                     getKeyFileData(contentResolver, mainCredential.keyFileUri),
-                                    mainCredential.hardwareKeyData
+                                    challengeResponseRetriever.invoke(mainCredential.hardwareKey, seed)
                                 )
                             }
                         setDatabaseKDB(databaseKDB)
@@ -618,11 +623,11 @@ class Database {
                         DatabaseInputKDBX(databaseKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream,
-                                progressTaskUpdater) {
+                                progressTaskUpdater) { seed ->
                                 databaseKDBX.retrieveMasterKey(
                                     mainCredential.masterPassword,
                                     getKeyFileData(contentResolver, mainCredential.keyFileUri),
-                                    mainCredential.hardwareKeyData
+                                    challengeResponseRetriever.invoke(mainCredential.hardwareKey, seed)
                                 )
                             }
                         }
@@ -648,6 +653,7 @@ class Database {
         contentResolver: ContentResolver,
         databaseToMergeUri: Uri?,
         databaseToMergeMainCredential: MainCredential?,
+        databaseToMergeChallengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?,
         isRAMSufficient: (memoryWanted: Long) -> Boolean,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
@@ -667,7 +673,7 @@ class Database {
                     { databaseInputStream ->
                         val databaseToMergeKDB = DatabaseKDB()
                         DatabaseInputKDB(databaseToMergeKDB)
-                            .openDatabase(databaseInputStream, progressTaskUpdater) {
+                            .openDatabase(databaseInputStream, progressTaskUpdater) { seed ->
                                 if (databaseToMergeMainCredential != null) {
                                     databaseToMergeKDB.retrieveMasterKey(
                                         databaseToMergeMainCredential.masterPassword,
@@ -675,10 +681,12 @@ class Database {
                                             contentResolver,
                                             databaseToMergeMainCredential.keyFileUri,
                                         ),
-                                        databaseToMergeMainCredential.hardwareKeyData
+                                        databaseToMergeChallengeResponseRetriever
+                                            .invoke(databaseToMergeMainCredential.hardwareKey, seed)
                                     )
                                 } else {
                                     databaseToMergeKDB.masterKey = masterKey
+                                    databaseToMergeKDB.transformSeed = transformSeed
                                 }
                             }
                         setDatabaseKDB(databaseToMergeKDB)
@@ -687,7 +695,7 @@ class Database {
                         val databaseToMergeKDBX = DatabaseKDBX()
                         DatabaseInputKDBX(databaseToMergeKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
-                            openDatabase(databaseInputStream, progressTaskUpdater) {
+                            openDatabase(databaseInputStream, progressTaskUpdater) { seed ->
                                 if (databaseToMergeMainCredential != null) {
                                     databaseToMergeKDBX.retrieveMasterKey(
                                         databaseToMergeMainCredential.masterPassword,
@@ -695,10 +703,12 @@ class Database {
                                             contentResolver,
                                             databaseToMergeMainCredential.keyFileUri
                                         ),
-                                        databaseToMergeMainCredential.hardwareKeyData
+                                        databaseToMergeChallengeResponseRetriever
+                                            .invoke(databaseToMergeMainCredential.hardwareKey, seed)
                                     )
                                 } else {
                                     databaseToMergeKDBX.masterKey = masterKey
+                                    databaseToMergeKDBX.transformSeed = transformSeed
                                 }
                             }
                         }
@@ -756,6 +766,7 @@ class Database {
                         DatabaseInputKDB(databaseKDB)
                             .openDatabase(databaseInputStream, progressTaskUpdater) {
                                 databaseKDB.masterKey = masterKey
+                                databaseKDB.transformSeed = transformSeed
                             }
                         setDatabaseKDB(databaseKDB)
                     },
@@ -768,6 +779,7 @@ class Database {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream, progressTaskUpdater) {
                                 databaseKDBX.masterKey = masterKey
+                                databaseKDBX.transformSeed = transformSeed
                             }
                         }
                         setDatabaseKDBX(databaseKDBX)
@@ -880,14 +892,14 @@ class Database {
                 try {
                     outputStream = UriUtil.getUriOutputStream(contentResolver, saveUri)
                     outputStream?.let { definedOutputStream ->
+                        // TODO seed
                         val databaseOutput =
-                            mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
-                                ?: mDatabaseKDBX?.let {
-                                    DatabaseOutputKDBX(
-                                        it,
-                                        definedOutputStream
-                                    )
-                                }
+                            mDatabaseKDB?.let {
+                                DatabaseOutputKDB(it, definedOutputStream)
+                            }
+                            ?: mDatabaseKDBX?.let {
+                                DatabaseOutputKDBX(it, definedOutputStream)
+                            }
                         databaseOutput?.output()
                     }
                 } catch (e: Exception) {
@@ -959,17 +971,18 @@ class Database {
 
     @Throws(IOException::class)
     fun assignMasterKey(contentResolver: ContentResolver,
-                        mainCredential: MainCredential) {
+                        mainCredential: MainCredential,
+                        challengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?) {
         val keyFileData = getKeyFileData(contentResolver, mainCredential.keyFileUri)
         mDatabaseKDB?.retrieveMasterKey(
             mainCredential.masterPassword,
             keyFileData,
-            mainCredential.hardwareKeyData
+            challengeResponseRetriever.invoke(mainCredential.hardwareKey, mDatabaseKDB?.transformSeed)
         )
         mDatabaseKDBX?.retrieveMasterKey(
             mainCredential.masterPassword,
             keyFileData,
-            mainCredential.hardwareKeyData
+            challengeResponseRetriever.invoke(mainCredential.hardwareKey, mDatabaseKDBX?.transformSeed)
         )
         mDatabaseKDBX?.keyLastChanged = DateInstant()
     }

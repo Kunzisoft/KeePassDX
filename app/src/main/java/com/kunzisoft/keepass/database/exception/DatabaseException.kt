@@ -107,6 +107,7 @@ class InvalidCredentialsDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_credentials
     constructor() : super()
+    constructor(string: String) : super(string)
     constructor(exception: Throwable) : super(exception)
 }
 

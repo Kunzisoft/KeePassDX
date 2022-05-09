@@ -41,6 +41,8 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -53,6 +55,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import java.util.*
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
@@ -63,10 +66,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
-    private var mDatabaseListeners = LinkedList<DatabaseListener>()
-    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
+    private var mDatabaseListeners = mutableListOf<DatabaseListener>()
+    private var mDatabaseInfoListeners = mutableListOf<DatabaseInfoListener>()
     private var mActionTaskBinder = ActionTaskBinder()
-    private var mActionTaskListeners = LinkedList<ActionTaskListener>()
+    private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
+    // Channel to connect asynchronously a listener or a response
+    private var mRequestChallengeListenerChannel = Channel<RequestChallengeListener?>(0)
+    private var mResponseChallengeChannel = Channel<ByteArray?>(0)
+
     private var mActionRunning = false
     private var mTaskRemovedRequested = false
     private var mCreationState = false
@@ -75,6 +82,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mTitleId: Int = R.string.database_opened
     private var mMessageId: Int? = null
     private var mWarningId: Int? = null
+
 
     override fun retrieveChannelId(): String {
         return CHANNEL_DATABASE_ID
@@ -114,6 +122,23 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.remove(actionTaskListener)
         }
+
+        fun addRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
+            mainScope.launch {
+                if (!mRequestChallengeListenerChannel.isEmpty) {
+                    mRequestChallengeListenerChannel.cancel(CancellationException("Challenge already requested"))
+                    mRequestChallengeListenerChannel = Channel(0)
+                } else {
+                    mRequestChallengeListenerChannel.send(requestChallengeListener)
+                }
+            }
+        }
+
+        fun removeRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
+            mainScope.launch {
+                //mRequestChallengeListenerChannel.cancel()
+            }
+        }
     }
 
     interface DatabaseListener {
@@ -129,6 +154,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
         fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result)
+    }
+
+    interface RequestChallengeListener {
+        fun onChallengeResponseRequested(hardwareKey: HardwareKey?, seed: ByteArray?)
     }
 
     fun checkDatabase() {
@@ -200,6 +229,26 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
                 }
             }
+        }
+    }
+
+    fun respondToChallenge(response: ByteArray) {
+        mainScope.launch {
+            if (response.isEmpty()) {
+                mResponseChallengeChannel.cancel(CancellationException(("Unable to get the response from challenge")))
+                mResponseChallengeChannel = Channel(0)
+            } else {
+                mResponseChallengeChannel.send(response)
+            }
+        }
+    }
+
+    fun cancelChallengeResponse() {
+        mainScope.launch {
+            mRequestChallengeListenerChannel.cancel()
+            mRequestChallengeListenerChannel = Channel(0)
+            mResponseChallengeChannel.cancel()
+            mResponseChallengeChannel = Channel(0)
         }
     }
 
@@ -539,6 +588,22 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         super.onTaskRemoved(rootIntent)
     }
 
+    private fun retrieveResponseFromChallenge(hardwareKey: HardwareKey?,
+                                              seed: ByteArray?): ByteArray? {
+        if (hardwareKey == null || seed == null)
+            return null
+        // Request a challenge - response
+        var response: ByteArray?
+        runBlocking {
+            // Send the request
+            val challengeResponseRequestListener = mRequestChallengeListenerChannel.receive()
+            challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
+            // Wait the response
+            response = mResponseChallengeChannel.receive()
+        }
+        return response
+    }
+
     private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
@@ -558,7 +623,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 getString(R.string.database_default_name),
                 getString(R.string.database),
                 getString(R.string.template_group_name),
-                mainCredential
+                mainCredential,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             ) { result ->
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
@@ -589,14 +657,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             mCreationState = false
 
             return LoadDatabaseRunnable(
-                    this,
-                    database,
-                    databaseUri,
-                    mainCredential,
-                    readOnly,
-                    cipherEncryptDatabase,
-                    intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
-                    this
+                this,
+                database,
+                databaseUri,
+                mainCredential,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                readOnly,
+                cipherEncryptDatabase,
+                intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
+                this
             ) { result ->
                 // Add each info to reload database after thrown duplicate UUID exception
                 result.data = Bundle().apply {
@@ -626,6 +697,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             database,
             databaseToMergeUri,
             databaseToMergeMainCredential,
+            { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            },
             this
         ) { result ->
             // No need to add each info to reload database
@@ -652,7 +726,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             AssignMainCredentialInDatabaseRunnable(this,
                 database,
                 databaseUri,
-                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
+                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             )
         } else {
             null

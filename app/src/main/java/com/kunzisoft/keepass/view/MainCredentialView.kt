@@ -30,12 +30,14 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
-import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.model.MainCredential
 
@@ -55,9 +57,6 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     var onKeyFileChecked: (CompoundButton.OnCheckedChangeListener)? = null
     var onHardwareKeyChecked: (CompoundButton.OnCheckedChangeListener)? = null
     var onValidateListener: (() -> Unit)? = null
-    var onRequestHardwareKeyResponse: ((HardwareKey)-> Unit)? = null
-
-    private var mChallengeResponse: ByteArray? = null
 
     private var mCredentialStorage: CredentialStorage = CredentialStorage.PASSWORD
 
@@ -119,15 +118,8 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun validateCredential(hardwareKeyData: ByteArray? = null) {
-        val hardwareKey = hardwareKeySelectionView.hardwareKey
-        if (hardwareKeyData == null && checkboxHardwareView.isChecked) {
-            onRequestHardwareKeyResponse?.invoke(hardwareKey)
-        } else {
-            mChallengeResponse = hardwareKeyData
-            onValidateListener?.invoke()
-            mChallengeResponse = null
-        }
+    fun validateCredential() {
+        onValidateListener?.invoke()
     }
 
     fun populatePasswordTextView(text: String?) {
@@ -170,8 +162,8 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                 passwordTextView.text?.toString() else null
             this.keyFileUri = if (checkboxKeyFileView.isChecked)
                 keyFileSelectionView.uri else null
-            this.hardwareKeyData = if (checkboxHardwareView.isChecked)
-                mChallengeResponse else null
+            this.hardwareKey = if (checkboxHardwareView.isChecked)
+                hardwareKeySelectionView.hardwareKey else null
         }
     }
 

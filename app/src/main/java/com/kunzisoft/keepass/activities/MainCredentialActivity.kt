@@ -55,11 +55,11 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -103,15 +103,19 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     private var mRememberKeyFile: Boolean = false
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var mHardwareKeyResponseHelper: HardwareKeyResponseHelper? = null
-
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
+
+    private var mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
 
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             AutofillHelper.buildActivityResultLauncher(this)
         else null
+
+    override fun initializeDatabaseTaskProvider(): DatabaseTaskProvider {
+        return DatabaseTaskProvider(this, mHardwareKeyResponseHelper)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,35 +152,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)
         mainCredentialView?.onValidateListener = {
             loadDatabase()
-        }
-
-        // Build elements to manage hardware key
-        mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
-        mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData, _ ->
-            mainCredentialView?.validateCredential(responseData)
-        }
-        mainCredentialView?.onRequestHardwareKeyResponse = { hardwareKey ->
-            try {
-                when (hardwareKey) {
-                    HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
-                        mDatabaseFileUri?.let { databaseUri ->
-                            mHardwareKeyResponseHelper?.launchChallengeForResponse(databaseUri)
-                        }
-                    }
-                    else -> {
-                        // TODO other algorithm
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to retrieve the challenge response", e)
-                e.message?.let { message ->
-                    Snackbar.make(
-                        coordinatorLayout,
-                        message,
-                        Snackbar.LENGTH_LONG
-                    ).asError().show()
-                }
-            }
         }
 
         // If is a view intent

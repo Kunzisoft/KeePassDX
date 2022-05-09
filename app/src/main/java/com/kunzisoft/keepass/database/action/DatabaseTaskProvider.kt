@@ -42,6 +42,8 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -82,7 +84,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
 
 /**
@@ -111,11 +113,36 @@ class DatabaseTaskProvider {
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
-    constructor(activity: FragmentActivity) {
+    // To manage hardware key challenge response
+    private var mHardwareKeyResponseHelper: HardwareKeyResponseHelper? = null
+
+    private var mChallengeResponseData: ByteArray? = null
+    private var mCancelChallengeResponse: Boolean = false
+
+    constructor(activity: FragmentActivity,
+                hardwareKeyResponseHelper: HardwareKeyResponseHelper? = null) {
         this.activity = activity
         this.context = activity
         this.intentDatabaseTask = Intent(activity.applicationContext,
             DatabaseTaskNotificationService::class.java)
+
+        if (hardwareKeyResponseHelper != null) {
+            this.mHardwareKeyResponseHelper = hardwareKeyResponseHelper
+            this.mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData, _ ->
+                // TODO Verify database
+                mChallengeResponseData = responseData ?: ByteArray(0)
+                respondToChallengeIfAllowed()
+            }
+            this.requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
+                override fun onChallengeResponseRequested(hardwareKey: HardwareKey?, seed: ByteArray?) {
+                    mHardwareKeyResponseHelper?.launchChallengeForResponse(hardwareKey, seed)
+                }
+            }
+        } else {
+            // It's not a credential screen, cancel the challenge response
+            mCancelChallengeResponse = true
+            cancelChallengeResponseIfAllowed()
+        }
     }
 
     constructor(service: Service) {
@@ -181,6 +208,26 @@ class DatabaseTaskProvider {
         }
     }
 
+    private var requestChallengeListener: DatabaseTaskNotificationService.RequestChallengeListener? = null
+
+    private fun respondToChallengeIfAllowed() {
+        // To wait binder and response
+        mBinder?.let { binder ->
+            mChallengeResponseData?.let { responseData ->
+                binder.getService().respondToChallenge(responseData)
+                mChallengeResponseData = null
+            }
+        }
+    }
+
+    private fun cancelChallengeResponseIfAllowed() {
+        mBinder?.let { binder ->
+            if (mCancelChallengeResponse) {
+                binder.getService().cancelChallengeResponse()
+            }
+        }
+    }
+
     private fun startDialog(titleId: Int? = null,
                             messageId: Int? = null,
                             warningId: Int? = null) {
@@ -226,22 +273,38 @@ class DatabaseTaskProvider {
             serviceConnection = object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
-                        addDatabaseListener(databaseListener)
-                        addDatabaseFileInfoListener(databaseInfoListener)
-                        addActionTaskListener(actionTaskListener)
+                        addServiceListeners(this)
                         getService().checkDatabase()
                         getService().checkDatabaseInfo()
                         getService().checkAction()
                     }
+                    respondToChallengeIfAllowed()
+                    cancelChallengeResponseIfAllowed()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
-                    mBinder?.removeActionTaskListener(actionTaskListener)
-                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
-                    mBinder?.removeDatabaseListener(databaseListener)
+                    removeServiceListeners(mBinder)
                     mBinder = null
                 }
             }
+        }
+    }
+
+    private fun addServiceListeners(service: DatabaseTaskNotificationService.ActionTaskBinder?) {
+        service?.addDatabaseListener(databaseListener)
+        service?.addDatabaseFileInfoListener(databaseInfoListener)
+        service?.addActionTaskListener(actionTaskListener)
+        requestChallengeListener?.let {
+            service?.addRequestChallengeListener(it)
+        }
+    }
+
+    private fun removeServiceListeners(service: DatabaseTaskNotificationService.ActionTaskBinder?) {
+        service?.removeActionTaskListener(actionTaskListener)
+        service?.removeDatabaseFileInfoListener(databaseInfoListener)
+        service?.removeDatabaseListener(databaseListener)
+        requestChallengeListener?.let {
+            service?.removeRequestChallengeListener(it)
         }
     }
 
@@ -260,10 +323,6 @@ class DatabaseTaskProvider {
             context.unbindService(it)
         }
         serviceConnection = null
-    }
-
-    fun isBinded(): Boolean {
-        return mBinder != null
     }
 
     fun registerProgressTask() {
@@ -299,9 +358,7 @@ class DatabaseTaskProvider {
     fun unregisterProgressTask() {
         stopDialog()
 
-        mBinder?.removeActionTaskListener(actionTaskListener)
-        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
-        mBinder?.removeDatabaseListener(databaseListener)
+        removeServiceListeners(mBinder)
         mBinder = null
 
         unBindService()

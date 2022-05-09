@@ -21,32 +21,24 @@ package com.kunzisoft.keepass.model
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.writeEnum
 
 data class MainCredential(var masterPassword: String? = null,
                           var keyFileUri: Uri? = null,
-                          var hardwareKeyData: ByteArray? = null): Parcelable {
+                          var hardwareKey: HardwareKey? = null): Parcelable {
 
     constructor(parcel: Parcel) : this() {
         masterPassword = parcel.readString()
         keyFileUri = parcel.readParcelable(Uri::class.java.classLoader)
-        val hardwareKeyDataLength = parcel.readInt()
-        if (hardwareKeyDataLength >= 0) {
-            hardwareKeyData = ByteArray(hardwareKeyDataLength)
-            parcel.readByteArray(hardwareKeyData!!)
-        } else {
-            hardwareKeyData = null
-        }
+        hardwareKey = parcel.readEnum<HardwareKey>()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(masterPassword)
         parcel.writeParcelable(keyFileUri, flags)
-        if (hardwareKeyData != null) {
-            parcel.writeInt(hardwareKeyData!!.size)
-            parcel.writeByteArray(hardwareKeyData)
-        } else {
-            parcel.writeInt(-1)
-        }
+        parcel.writeEnum(hardwareKey)
     }
 
     override fun describeContents(): Int {
@@ -61,10 +53,7 @@ data class MainCredential(var masterPassword: String? = null,
 
         if (masterPassword != other.masterPassword) return false
         if (keyFileUri != other.keyFileUri) return false
-        if (hardwareKeyData != null) {
-            if (other.hardwareKeyData == null) return false
-            if (!hardwareKeyData.contentEquals(other.hardwareKeyData)) return false
-        } else if (other.hardwareKeyData != null) return false
+        if (hardwareKey != other.hardwareKey) return false
 
         return true
     }
@@ -72,7 +61,7 @@ data class MainCredential(var masterPassword: String? = null,
     override fun hashCode(): Int {
         var result = masterPassword?.hashCode() ?: 0
         result = 31 * result + (keyFileUri?.hashCode() ?: 0)
-        result = 31 * result + (hardwareKeyData?.contentHashCode() ?: 0)
+        result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result
     }
 
