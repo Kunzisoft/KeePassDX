@@ -25,18 +25,18 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
-data class MainCredential(var masterPassword: String? = null,
+data class MainCredential(var password: String? = null,
                           var keyFileUri: Uri? = null,
                           var hardwareKey: HardwareKey? = null): Parcelable {
 
     constructor(parcel: Parcel) : this() {
-        masterPassword = parcel.readString()
+        password = parcel.readString()
         keyFileUri = parcel.readParcelable(Uri::class.java.classLoader)
         hardwareKey = parcel.readEnum<HardwareKey>()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(masterPassword)
+        parcel.writeString(password)
         parcel.writeParcelable(keyFileUri, flags)
         parcel.writeEnum(hardwareKey)
     }
@@ -51,7 +51,7 @@ data class MainCredential(var masterPassword: String? = null,
 
         other as MainCredential
 
-        if (masterPassword != other.masterPassword) return false
+        if (password != other.password) return false
         if (keyFileUri != other.keyFileUri) return false
         if (hardwareKey != other.hardwareKey) return false
 
@@ -59,7 +59,7 @@ data class MainCredential(var masterPassword: String? = null,
     }
 
     override fun hashCode(): Int {
-        var result = masterPassword?.hashCode() ?: 0
+        var result = password?.hashCode() ?: 0
         result = 31 * result + (keyFileUri?.hashCode() ?: 0)
         result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result

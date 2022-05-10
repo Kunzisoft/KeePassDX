@@ -23,11 +23,15 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DatabaseException
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 open class SaveDatabaseRunnable(protected var context: Context,
                                 protected var database: Database,
                                 private var saveDatabase: Boolean,
+                                private var mainCredential: MainCredential?, // If null, uses composite Key
+                                private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
                                 private var databaseCopyUri: Uri? = null)
     : ActionRunnable() {
 
@@ -39,7 +43,11 @@ open class SaveDatabaseRunnable(protected var context: Context,
         database.checkVersion()
         if (saveDatabase && result.isSuccess) {
             try {
-                database.saveData(databaseCopyUri, context.contentResolver)
+                database.saveData(
+                    context.contentResolver,
+                    databaseCopyUri,
+                    mainCredential,
+                    challengeResponseRetriever)
             } catch (e: DatabaseException) {
                 setError(e)
             }

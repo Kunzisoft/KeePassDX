@@ -178,9 +178,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     mKeyFileUri = null
                     mHardwareKey = null
 
-                    if (verifyHardwareKey()) {
-                        approveMainCredential()
-                    }
+                    approveMainCredential()
                 }
                 val negativeButton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE)
                 negativeButton.setOnClickListener {
@@ -196,7 +194,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun approveMainCredential() {
-        var error = verifyPassword() || verifyKeyFile()
+        var error = verifyPassword() || verifyKeyFile() || verifyHardwareKey()
         if (!passwordCheckBox.isChecked
             && !keyFileCheckBox.isChecked
             && !hardwareKeyCheckBox.isChecked
@@ -250,7 +248,9 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
             if ((mMasterPassword.isNullOrEmpty())
                 && (!keyFileCheckBox.isChecked
-                        || keyFileSelectionView.uri == null)) {
+                        || keyFileSelectionView.uri == null)
+                && (!hardwareKeyCheckBox.isChecked
+                        || hardwareKeySelectionView.hardwareKey == null)) {
                 error = true
                 showEmptyPasswordConfirmationDialog()
             }
@@ -272,22 +272,15 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun verifyHardwareKey(): Boolean {
+        var error = false
         if (hardwareKeyCheckBox.isChecked) {
-            try {
-                when (hardwareKeySelectionView.hardwareKey) {
-                    HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
-                        // TODO Yubikey algorithm
-                    }
-                    else -> {
-                        // TODO other algorithm
-                    }
-                }
-            } catch (e: Exception) {
-                // TODO Log.e(TAG, "Unable to retrieve the challenge response", e)
+            hardwareKeySelectionView.hardwareKey.let { hardwareKey ->
+                mHardwareKey = hardwareKey
             }
-            return false
+            // TODO verify drivers
+            // error = true
         }
-        return true
+        return error
     }
 
     private fun showEmptyPasswordConfirmationDialog() {

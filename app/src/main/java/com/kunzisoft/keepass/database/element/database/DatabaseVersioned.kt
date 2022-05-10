@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element.database
 
 import android.util.Log
-import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
@@ -32,11 +31,9 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import org.apache.commons.codec.binary.Hex
-import java.io.ByteArrayInputStream
-import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
 import java.util.*
 
 abstract class DatabaseVersioned<
@@ -55,7 +52,8 @@ abstract class DatabaseVersioned<
     abstract val kdfAvailableList: List<KdfEngine>
     abstract var numberKeyEncryptionRounds: Long
 
-    protected abstract val passwordEncoding: String
+    abstract val passwordEncoding: Charset
+    abstract val allowXMLKeyFile: Boolean
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
@@ -93,74 +91,6 @@ abstract class DatabaseVersioned<
         return getGroupIndexes().filter { it != rootGroup }
     }
 
-    @Throws(IOException::class)
-    protected abstract fun deriveMasterKey(passwordKey: String?,
-                                           keyFileData: ByteArray?,
-                                           hardwareKey: ByteArray?): ByteArray
-
-    @Throws(IOException::class)
-    fun retrieveMasterKey(key: String?,
-                          keyFileData: ByteArray?,
-                          hardwareKeyData: ByteArray?) {
-        masterKey = deriveMasterKey(key, keyFileData, hardwareKeyData)
-    }
-
-    @Throws(IOException::class)
-    protected fun retrieveCompositeKey(passwordKey: String?,
-                                       keyFileData: ByteArray?,
-                                       hardwareKeyData: ByteArray?): ByteArray? {
-        if (passwordKey == null && keyFileData == null && hardwareKeyData == null)
-            return null
-        val passwordBytes = if (passwordKey != null) retrievePasswordKey(passwordKey) else null
-        val keyFileBytes = if (keyFileData != null) retrieveFileKey(keyFileData) else null
-        val hardwareKeyBytes = if (hardwareKeyData != null) retrieveHardwareKey(hardwareKeyData) else null
-        return HashManager.hashSha256(
-            passwordBytes,
-            keyFileBytes,
-            hardwareKeyBytes
-        )
-    }
-
-    @Throws(IOException::class)
-    protected fun retrievePasswordKey(key: String): ByteArray {
-        val bKey: ByteArray = try {
-            key.toByteArray(charset(passwordEncoding))
-        } catch (e: UnsupportedEncodingException) {
-            key.toByteArray()
-        }
-        return HashManager.hashSha256(bKey)
-    }
-
-    @Throws(IOException::class)
-    protected fun retrieveFileKey(keyData: ByteArray): ByteArray {
-        try {
-            // Check XML key file
-            val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
-            if (xmlKeyByteArray != null) {
-                return xmlKeyByteArray
-            }
-
-            // Check 32 bytes key file
-            when (keyData.size) {
-                32 -> return keyData
-                64 -> try {
-                    return Hex.decodeHex(String(keyData).toCharArray())
-                } catch (ignoredException: Exception) {
-                    // Key is not base 64, treat it as binary data
-                }
-            }
-            // Hash file as binary data
-            return HashManager.hashSha256(keyData)
-        } catch (outOfMemoryError: OutOfMemoryError) {
-            throw IOException("Keyfile data is too large", outOfMemoryError)
-        }
-    }
-
-    @Throws(IOException::class)
-    protected fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
-        return HashManager.hashSha256(keyData)
-    }
-
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
         return null
     }
@@ -176,14 +106,14 @@ abstract class DatabaseVersioned<
 
         val bKey: ByteArray
         try {
-            bKey = password.toByteArray(charset(encoding))
+            bKey = password.toByteArray(encoding)
         } catch (e: UnsupportedEncodingException) {
             return false
         }
 
         val reEncoded: String
         try {
-            reEncoded = String(bKey, charset(encoding))
+            reEncoded = String(bKey, encoding)
         } catch (e: UnsupportedEncodingException) {
             return false
         }

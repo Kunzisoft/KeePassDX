@@ -26,6 +26,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.androidclearchroma.ChromaUtil
+import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
@@ -43,7 +44,10 @@ import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngine
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.IODatabaseException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
@@ -62,6 +66,7 @@ import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.readBytes4ToUInt
 import java.io.*
+import java.nio.charset.Charset
 import java.util.*
 
 
@@ -73,6 +78,10 @@ class Database {
 
     var fileUri: Uri? = null
         private set
+
+    // To resave the database with same credential when already loaded
+    private var mMainCredential = MainCredential()
+    private var mCompositeKey = CompositeKey()
 
     private var mSearchHelper: SearchHelper = SearchHelper()
 
@@ -385,6 +394,7 @@ class Database {
         set(masterKey) {
             mDatabaseKDB?.masterKey = masterKey
             mDatabaseKDBX?.masterKey = masterKey
+            mDatabaseKDBX?.keyLastChanged = DateInstant()
             mDatabaseKDBX?.settingsChanged = DateInstant()
             dataModifiedSinceLastLoading = true
         }
@@ -561,27 +571,12 @@ class Database {
         this.dataModifiedSinceLastLoading = false
     }
 
-    @Throws(Exception::class)
-    private fun getKeyFileData(contentResolver: ContentResolver, keyFileUri: Uri?): ByteArray? {
-        try {
-            keyFileUri?.let { uri ->
-                UriUtil.getUriInputStream(contentResolver, uri)?.use { keyFileInputStream ->
-                    return keyFileInputStream.readBytes()
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to load the keyfile.", e)
-            throw LoadDatabaseException("Unable to load the keyfile.")
-        }
-        return null
-    }
-
     @Throws(LoadDatabaseException::class)
     fun loadData(
         contentResolver: ContentResolver,
         databaseUri: Uri,
         mainCredential: MainCredential,
-        challengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
         readOnly: Boolean,
         cacheDirectory: File,
         isRAMSufficient: (memoryWanted: Long) -> Boolean,
@@ -607,10 +602,11 @@ class Database {
                             .openDatabase(databaseInputStream,
                                 progressTaskUpdater
                             ) { seed ->
-                                databaseKDB.retrieveMasterKey(
-                                    mainCredential.masterPassword,
-                                    getKeyFileData(contentResolver, mainCredential.keyFileUri),
-                                    challengeResponseRetriever.invoke(mainCredential.hardwareKey, seed)
+                                databaseKDB.masterKey = deriveKDBMasterKey(
+                                    databaseKDB,
+                                    contentResolver,
+                                    mainCredential,
+                                    challengeResponseRetriever
                                 )
                             }
                         setDatabaseKDB(databaseKDB)
@@ -624,10 +620,11 @@ class Database {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream,
                                 progressTaskUpdater) { seed ->
-                                databaseKDBX.retrieveMasterKey(
-                                    mainCredential.masterPassword,
-                                    getKeyFileData(contentResolver, mainCredential.keyFileUri),
-                                    challengeResponseRetriever.invoke(mainCredential.hardwareKey, seed)
+                                databaseKDBX.masterKey = deriveKDBXMasterKey(
+                                    databaseKDBX,
+                                    contentResolver,
+                                    mainCredential,
+                                    challengeResponseRetriever
                                 )
                             }
                         }
@@ -653,7 +650,7 @@ class Database {
         contentResolver: ContentResolver,
         databaseToMergeUri: Uri?,
         databaseToMergeMainCredential: MainCredential?,
-        databaseToMergeChallengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?,
+        databaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
         isRAMSufficient: (memoryWanted: Long) -> Boolean,
         progressTaskUpdater: ProgressTaskUpdater?
     ) {
@@ -675,14 +672,11 @@ class Database {
                         DatabaseInputKDB(databaseToMergeKDB)
                             .openDatabase(databaseInputStream, progressTaskUpdater) { seed ->
                                 if (databaseToMergeMainCredential != null) {
-                                    databaseToMergeKDB.retrieveMasterKey(
-                                        databaseToMergeMainCredential.masterPassword,
-                                        getKeyFileData(
-                                            contentResolver,
-                                            databaseToMergeMainCredential.keyFileUri,
-                                        ),
+                                    databaseToMergeKDB.masterKey = deriveKDBMasterKey(
+                                        databaseToMergeKDB,
+                                        contentResolver,
+                                        databaseToMergeMainCredential,
                                         databaseToMergeChallengeResponseRetriever
-                                            .invoke(databaseToMergeMainCredential.hardwareKey, seed)
                                     )
                                 } else {
                                     databaseToMergeKDB.masterKey = masterKey
@@ -696,15 +690,13 @@ class Database {
                         DatabaseInputKDBX(databaseToMergeKDBX).apply {
                             setMethodToCheckIfRAMIsSufficient(isRAMSufficient)
                             openDatabase(databaseInputStream, progressTaskUpdater) { seed ->
+                                // TODO challenge response
                                 if (databaseToMergeMainCredential != null) {
-                                    databaseToMergeKDBX.retrieveMasterKey(
-                                        databaseToMergeMainCredential.masterPassword,
-                                        getKeyFileData(
-                                            contentResolver,
-                                            databaseToMergeMainCredential.keyFileUri
-                                        ),
+                                    databaseToMergeKDBX.masterKey = deriveKDBXMasterKey(
+                                        databaseToMergeKDBX,
+                                        contentResolver,
+                                        databaseToMergeMainCredential,
                                         databaseToMergeChallengeResponseRetriever
-                                            .invoke(databaseToMergeMainCredential.hardwareKey, seed)
                                     )
                                 } else {
                                     databaseToMergeKDBX.masterKey = masterKey
@@ -798,6 +790,171 @@ class Database {
         }
     }
 
+    @Throws(DatabaseOutputException::class)
+    fun saveData(contentResolver: ContentResolver,
+                 databaseCopyUri: Uri?,
+                 mainCredential: MainCredential?,
+                 challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray) {
+        try {
+            val saveUri = databaseCopyUri ?: this.fileUri
+            if (saveUri != null) {
+                var outputStream: OutputStream? = null
+                try {
+                    outputStream = UriUtil.getUriOutputStream(contentResolver, saveUri)
+                    outputStream?.let { definedOutputStream ->
+                        val databaseOutput =
+                            mDatabaseKDB?.let {
+                                DatabaseOutputKDB(it, definedOutputStream)
+                            }
+                            ?: mDatabaseKDBX?.let {
+                                DatabaseOutputKDBX(it, definedOutputStream) { seed ->
+                                    var masterKeyDerived : ByteArray? = null
+                                    if (mainCredential != null) {
+                                        // If composite key is null, build byte array from MainCredential
+                                        mDatabaseKDB?.let { databaseKDB ->
+                                            masterKeyDerived = deriveKDBMasterKey(
+                                                databaseKDB,
+                                                contentResolver,
+                                                mainCredential,
+                                                challengeResponseRetriever
+                                            )
+                                        }
+                                        mDatabaseKDBX?.let { databaseKDBX ->
+                                            masterKeyDerived = deriveKDBXMasterKey(
+                                                databaseKDBX,
+                                                contentResolver,
+                                                mainCredential,
+                                                challengeResponseRetriever
+                                            )
+                                        }
+                                    } else {
+                                        // Reuse composite key parts
+                                        mDatabaseKDB?.let { databaseKDB ->
+                                            masterKeyDerived = databaseKDB.masterKey
+                                        }
+                                        mDatabaseKDBX?.let { databaseKDBX ->
+                                            masterKeyDerived = deriveKDBXCompositeKey(
+                                                mMainCredential,
+                                                mCompositeKey,
+                                                challengeResponseRetriever
+                                            )
+                                        }
+                                    }
+                                    masterKeyDerived ?:
+                                    throw DatabaseOutputException("Unable to derive master key without database.")
+                                }
+                            }
+                        databaseOutput?.output()
+                    }
+                } catch (e: Exception) {
+                    throw IOException(e)
+                } finally {
+                    outputStream?.close()
+                }
+                if (databaseCopyUri == null) {
+                    this.dataModifiedSinceLastLoading = false
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to save database", e)
+            throw DatabaseOutputException(e)
+        }
+    }
+
+    @Throws(DatabaseOutputException::class)
+    private fun deriveKDBMasterKey(
+        databaseKDB: DatabaseKDB,
+        contentResolver: ContentResolver,
+        mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ): ByteArray {
+        if (mainCredential.password == null && mainCredential.keyFileUri == null)
+            throw IllegalArgumentException("Key cannot be empty.")
+        if (mainCredential.hardwareKey != null)
+            throw IllegalArgumentException("Hardware key is not supported.")
+        return compositeKeyToMasterKey(retrieveCompositeKey(
+            contentResolver,
+            mainCredential,
+            databaseKDB.passwordEncoding,
+            databaseKDB.allowXMLKeyFile,
+            databaseKDB.transformSeed,
+            challengeResponseRetriever
+        ))
+    }
+
+    @Throws(DatabaseOutputException::class)
+    private fun deriveKDBXMasterKey(
+        databaseKDBX: DatabaseKDBX,
+        contentResolver: ContentResolver,
+        mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ): ByteArray {
+        return compositeKeyToMasterKey(retrieveCompositeKey(
+            contentResolver,
+            mainCredential,
+            databaseKDBX.passwordEncoding,
+            databaseKDBX.allowXMLKeyFile,
+            databaseKDBX.transformSeed,
+            challengeResponseRetriever
+        ))
+    }
+
+    @Throws(DatabaseOutputException::class)
+    private fun deriveKDBXCompositeKey(
+        mainCredential: MainCredential,
+        compositeKey: CompositeKey,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ): ByteArray {
+        if (compositeKey.hardwareKeyData == null)
+            return compositeKeyToMasterKey(compositeKey)
+        val hardwareKey = mainCredential.hardwareKey
+        val hardwareKeyBytes = if (hardwareKey != null) CompositeKey.retrieveHardwareKey(
+            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+        ) else null
+        return compositeKeyToMasterKey(compositeKey.apply {
+            this.hardwareKeyData = hardwareKeyBytes
+        })
+    }
+
+    @Throws(IOException::class)
+    private fun retrieveCompositeKey(contentResolver: ContentResolver,
+                                     mainCredential: MainCredential,
+                                     passwordEncoding: Charset,
+                                     allowXMLKeyFile: Boolean,
+                                     transformSeed: ByteArray?,
+                                     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    ): CompositeKey {
+        // Save to rebuild master password with new seed later
+        mMainCredential = mainCredential
+        val password = mainCredential.password
+        val keyFileUri = mainCredential.keyFileUri
+        val hardwareKey = mainCredential.hardwareKey
+        val passwordBytes = if (password != null) CompositeKey.retrievePasswordKey(
+            password,
+            passwordEncoding
+        ) else null
+        val keyFileBytes = if (keyFileUri != null) CompositeKey.retrieveFileKey(
+            contentResolver,
+            keyFileUri,
+            allowXMLKeyFile
+        ) else null
+        val hardwareKeyBytes = if (hardwareKey != null) CompositeKey.retrieveHardwareKey(
+            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+        ) else null
+        val compositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKeyBytes)
+        // Save to rebuild master password with new seed later
+        mCompositeKey = compositeKey
+        return compositeKey
+    }
+
+    private fun compositeKeyToMasterKey(compositeKey: CompositeKey): ByteArray {
+        return HashManager.hashSha256(
+            compositeKey.passwordData,
+            compositeKey.keyFileData,
+            compositeKey.hardwareKeyData
+        )
+    }
+
     fun groupIsInRecycleBin(group: Group): Boolean {
         val groupKDB = group.groupKDB
         val groupKDBX = group.groupKDBX
@@ -883,40 +1040,6 @@ class Database {
         dataModifiedSinceLastLoading = true
     }
 
-    @Throws(DatabaseOutputException::class)
-    fun saveData(databaseCopyUri: Uri?, contentResolver: ContentResolver) {
-        try {
-            val saveUri = databaseCopyUri ?: this.fileUri
-            if (saveUri != null) {
-                var outputStream: OutputStream? = null
-                try {
-                    outputStream = UriUtil.getUriOutputStream(contentResolver, saveUri)
-                    outputStream?.let { definedOutputStream ->
-                        // TODO seed
-                        val databaseOutput =
-                            mDatabaseKDB?.let {
-                                DatabaseOutputKDB(it, definedOutputStream)
-                            }
-                            ?: mDatabaseKDBX?.let {
-                                DatabaseOutputKDBX(it, definedOutputStream)
-                            }
-                        databaseOutput?.output()
-                    }
-                } catch (e: Exception) {
-                    throw IOException(e)
-                } finally {
-                    outputStream?.close()
-                }
-                if (databaseCopyUri == null) {
-                    this.dataModifiedSinceLastLoading = false
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to save database", e)
-            throw DatabaseOutputException(e)
-        }
-    }
-
     fun clearIndexesAndBinaries(filesDirectory: File? = null) {
         this.mDatabaseKDB?.clearIndexes()
         this.mDatabaseKDBX?.clearIndexes()
@@ -944,6 +1067,8 @@ class Database {
 
     fun clearAndClose(context: Context? = null) {
         clearIndexesAndBinaries(context?.let { UriUtil.getBinaryDir(context) })
+        this.mMainCredential = MainCredential()
+        this.mCompositeKey = CompositeKey()
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null
@@ -962,29 +1087,11 @@ class Database {
     }
 
     fun validatePasswordEncoding(mainCredential: MainCredential): Boolean {
-        val password = mainCredential.masterPassword
+        val password = mainCredential.password
         val containsKeyFile = mainCredential.keyFileUri != null
         return mDatabaseKDB?.validatePasswordEncoding(password, containsKeyFile)
                 ?: mDatabaseKDBX?.validatePasswordEncoding(password, containsKeyFile)
                 ?: false
-    }
-
-    @Throws(IOException::class)
-    fun assignMasterKey(contentResolver: ContentResolver,
-                        mainCredential: MainCredential,
-                        challengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?) {
-        val keyFileData = getKeyFileData(contentResolver, mainCredential.keyFileUri)
-        mDatabaseKDB?.retrieveMasterKey(
-            mainCredential.masterPassword,
-            keyFileData,
-            challengeResponseRetriever.invoke(mainCredential.hardwareKey, mDatabaseKDB?.transformSeed)
-        )
-        mDatabaseKDBX?.retrieveMasterKey(
-            mainCredential.masterPassword,
-            keyFileData,
-            challengeResponseRetriever.invoke(mainCredential.hardwareKey, mDatabaseKDBX?.transformSeed)
-        )
-        mDatabaseKDBX?.keyLastChanged = DateInstant()
     }
 
     fun rootCanContainsEntry(): Boolean {

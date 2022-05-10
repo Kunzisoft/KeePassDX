@@ -68,7 +68,6 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         sortNodesForOutput()
 
         val header = outputHeader(mOutputStream)
-
         val finalKey = getFinalKey(header)
 
         val cipher: Cipher = try {

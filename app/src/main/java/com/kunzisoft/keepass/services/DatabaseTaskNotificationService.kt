@@ -41,7 +41,6 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.MainCredential
@@ -136,7 +135,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         fun removeRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
             mainScope.launch {
-                //mRequestChallengeListenerChannel.cancel()
+                // TODO mRequestChallengeListenerChannel.cancel()
             }
         }
     }
@@ -429,7 +428,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     ACTION_DATABASE_LOAD_TASK,
                     ACTION_DATABASE_MERGE_TASK,
                     ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
-                    ACTION_DATABASE_SAVE -> R.string.saving_database
+                    ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
+                    ACTION_DATABASE_SAVE -> {
+                        saveAction = true
+                        R.string.saving_database
+                    }
                     else -> {
                         R.string.command_execution
                     }
@@ -588,18 +591,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         super.onTaskRemoved(rootIntent)
     }
 
-    private fun retrieveResponseFromChallenge(hardwareKey: HardwareKey?,
-                                              seed: ByteArray?): ByteArray? {
-        if (hardwareKey == null || seed == null)
-            return null
+    private fun retrieveResponseFromChallenge(hardwareKey: HardwareKey,
+                                              seed: ByteArray?): ByteArray {
         // Request a challenge - response
-        var response: ByteArray?
+        var response: ByteArray
         runBlocking {
             // Send the request
             val challengeResponseRequestListener = mRequestChallengeListenerChannel.receive()
             challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
             // Wait the response
-            response = mResponseChallengeChannel.receive()
+            response = mResponseChallengeChannel.receive() ?: byteArrayOf()
         }
         return response
     }
@@ -726,11 +727,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             AssignMainCredentialInDatabaseRunnable(this,
                 database,
                 databaseUri,
-                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
-                { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
-            )
+                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }
         } else {
             null
         }
@@ -764,7 +764,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     newGroup,
                     parent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -789,7 +792,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     oldGroup,
                     newGroup,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -814,7 +820,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     newEntry,
                     parent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -839,7 +848,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     oldEntry,
                     newEntry,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -860,7 +872,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -881,7 +896,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -897,7 +915,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
         } else {
             null
         }
@@ -915,7 +936,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -934,7 +958,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -958,7 +985,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 oldElement,
                 newElement,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            ).apply {
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }.apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
@@ -974,7 +1003,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             return RemoveUnlinkedDataDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            ).apply {
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }.apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
@@ -988,7 +1019,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                null,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -1013,6 +1048,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             SaveDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                null,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
                 databaseCopyUri)
         } else {
             null

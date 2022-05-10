@@ -34,7 +34,7 @@ class MergeDatabaseRunnable(private val context: Context,
                             private val mDatabase: Database,
                             private val mDatabaseToMergeUri: Uri?,
                             private val mDatabaseToMergeMainCredential: MainCredential?,
-                            private val mDatabaseToMergeChallengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?,
+                            private val mDatabaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
                             private val progressTaskUpdater: ProgressTaskUpdater?,
                             private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {

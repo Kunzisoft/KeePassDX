@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
@@ -55,8 +56,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         KdfFactory.aesKdf
     )
 
-    override val passwordEncoding: String
-        get() = "ISO-8859-1"
+    override val passwordEncoding: Charset
+        get() = Charsets.ISO_8859_1
+
+    override val allowXMLKeyFile: Boolean
+        get() = false
 
     override var numberKeyEncryptionRounds = 300L
 
@@ -113,21 +117,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         } while (isEntryIdUsed(newId))
 
         return newId
-    }
-
-    @Throws(IOException::class)
-    override fun deriveMasterKey(passwordKey: String?,
-                                 keyFileData: ByteArray?,
-                                 hardwareKey: ByteArray?): ByteArray {
-        return if (passwordKey != null && keyFileData != null) {
-            retrieveCompositeKey(passwordKey, keyFileData, null) ?: byteArrayOf()
-        } else if (passwordKey != null) { // key.length() >= 0
-            retrievePasswordKey(passwordKey)
-        } else if (keyFileData != null) { // key == null
-            retrieveFileKey(keyFileData)
-        } else {
-            throw IllegalArgumentException("Key cannot be empty.")
-        }
     }
 
     @Throws(IOException::class)

@@ -34,8 +34,8 @@ class CreateDatabaseRunnable(context: Context,
                              private val databaseName: String,
                              private val rootName: String,
                              private val templateGroupName: String?,
-                             mainCredential: MainCredential,
-                             challengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?,
+                             val mainCredential: MainCredential,
+                             challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
                              private val createDatabaseResult: ((Result) -> Unit)?)
     : AssignMainCredentialInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential, challengeResponseRetriever) {
 
@@ -61,7 +61,7 @@ class CreateDatabaseRunnable(context: Context,
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context.applicationContext)
                         .addOrUpdateDatabaseUri(mDatabaseUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null)
+                                if (PreferencesUtil.rememberKeyFileLocations(context)) mainCredential.keyFileUri else null)
             }
 
             // Register the current time to init the lock timer

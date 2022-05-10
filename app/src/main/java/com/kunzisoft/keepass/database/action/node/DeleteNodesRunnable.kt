@@ -20,16 +20,20 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 class DeleteNodesRunnable(context: Context,
                           database: Database,
                           private val mNodesToDelete: List<Node>,
                           save: Boolean,
-                          afterActionNodesFinish: AfterActionNodesFinish)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
+                          afterActionNodesFinish: AfterActionNodesFinish,
+                          challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false

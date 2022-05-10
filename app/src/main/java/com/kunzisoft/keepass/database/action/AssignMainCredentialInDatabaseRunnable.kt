@@ -31,20 +31,17 @@ open class AssignMainCredentialInDatabaseRunnable (
         context: Context,
         database: Database,
         protected val mDatabaseUri: Uri,
-        protected val mMainCredential: MainCredential,
-        protected val mChallengeResponseRetriever: (HardwareKey?, ByteArray?) -> ByteArray?)
-    : SaveDatabaseRunnable(context, database, true) {
+        mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
+    : SaveDatabaseRunnable(context, database, true, mainCredential, challengeResponseRetriever) {
 
     private var mBackupKey: ByteArray? = null
 
     override fun onStartRun() {
         // Set key
         try {
-            // TODO Move in assign master key
             mBackupKey = ByteArray(database.masterKey.size)
             database.masterKey.copyInto(mBackupKey!!)
-
-            database.assignMasterKey(context.contentResolver, mMainCredential, mChallengeResponseRetriever)
         } catch (e: Exception) {
             erase(mBackupKey)
             setError(e)

@@ -35,7 +35,9 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -54,6 +56,12 @@ open class SettingsActivity
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var lockView: FloatingActionButton? = null
+
+    private var mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
+
+    override fun initializeDatabaseTaskProvider(): DatabaseTaskProvider {
+        return DatabaseTaskProvider(this, mHardwareKeyResponseHelper)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -427,7 +427,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         val mainCredential = mainCredentialView?.getMainCredential() ?: MainCredential()
         when (cipherDecryptDatabase.credentialStorage) {
             CredentialStorage.PASSWORD -> {
-                mainCredential.masterPassword = String(cipherDecryptDatabase.decryptedValue)
+                mainCredential.password = String(cipherDecryptDatabase.decryptedValue)
             }
             CredentialStorage.KEY_FILE -> {
                 // TODO advanced unlock key file

@@ -23,10 +23,10 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
                                                          defStyle: Int = 0)
     : ConstraintLayout(context, attrs, defStyle) {
 
-    private var mHardwareKey: HardwareKey = HardwareKey.DEFAULT
+    private var mHardwareKey: HardwareKey? = null
 
     private val hardwareKeyCompletion: AppCompatAutoCompleteTextView
-    var selectionListener: ((HardwareKey)-> Unit)? = null
+    var selectionListener: ((HardwareKey?)-> Unit)? = null
 
     private val mHardwareKeyAdapter = ArrayAdapterNoFilter(context)
 
@@ -78,13 +78,14 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
             }
     }
 
-    var hardwareKey: HardwareKey
+    var hardwareKey: HardwareKey?
         get() {
             return mHardwareKey
         }
         set(value) {
             mHardwareKey = value
-            hardwareKeyCompletion.setSelection(value.ordinal)
+            if (value != null)
+                hardwareKeyCompletion.setSelection(value.ordinal)
         }
 
     override fun onSaveInstanceState(): Parcelable {
@@ -104,12 +105,12 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
     }
 
     internal class SavedState : BaseSavedState {
-        var mHardwareKey: HardwareKey = HardwareKey.DEFAULT
+        var mHardwareKey: HardwareKey? = null
 
         constructor(superState: Parcelable?) : super(superState)
 
         private constructor(parcel: Parcel) : super(parcel) {
-            mHardwareKey = parcel.readEnum<HardwareKey>() ?: HardwareKey.DEFAULT
+            mHardwareKey = parcel.readEnum<HardwareKey>()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {

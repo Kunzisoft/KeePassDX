@@ -158,7 +158,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
 
     fun getMainCredential(): MainCredential {
         return MainCredential().apply {
-            this.masterPassword = if (checkboxPasswordView.isChecked)
+            this.password = if (checkboxPasswordView.isChecked)
                 passwordTextView.text?.toString() else null
             this.keyFileUri = if (checkboxKeyFileView.isChecked)
                 keyFileSelectionView.uri else null
