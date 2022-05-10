@@ -107,9 +107,19 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             onPasswordChecked?.onCheckedChanged(view, checked)
         }
         checkboxKeyFileView.setOnCheckedChangeListener { view, checked ->
+            if (checked) {
+                if (keyFileSelectionView.uri == null) {
+                    checkboxKeyFileView.isChecked = false
+                }
+            }
             onKeyFileChecked?.onCheckedChanged(view, checked)
         }
         checkboxHardwareView.setOnCheckedChangeListener { view, checked ->
+            if (checked) {
+                if (hardwareKeySelectionView.hardwareKey == null) {
+                    checkboxHardwareView.isChecked = false
+                }
+            }
             onHardwareKeyChecked?.onCheckedChanged(view, checked)
         }
 
@@ -152,8 +162,8 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
 
     fun isFill(): Boolean {
         return checkboxPasswordView.isChecked
-                || checkboxKeyFileView.isChecked // TODO better recognition
-                || checkboxHardwareView.isChecked
+                || (checkboxKeyFileView.isChecked && keyFileSelectionView.uri != null)
+                || (checkboxHardwareView.isChecked && hardwareKeySelectionView.hardwareKey != null)
     }
 
     fun getMainCredential(): MainCredential {

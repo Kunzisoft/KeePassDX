@@ -161,6 +161,7 @@
     <string name="error_no_name">Enter a name.</string>
     <string name="error_word_reserved">This word is reserved and cannot be used.</string>
     <string name="error_nokeyfile">Select a keyfile.</string>
+    <string name="error_no_hardware_key">Select a hardware key.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
     <string name="error_load_database">Could not load your database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
@@ -355,6 +356,7 @@
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
+    <string name="warning_hardware_key_required">Driver for this hardware is required.</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>

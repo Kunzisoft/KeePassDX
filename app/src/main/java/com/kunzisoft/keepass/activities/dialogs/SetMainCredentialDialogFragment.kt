@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
@@ -53,7 +54,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var rootView: View
 
     private lateinit var passwordCheckBox: CompoundButton
-    private lateinit var passKeyView: PassKeyView
+    private lateinit var passwordView: PassKeyView
     private lateinit var passwordRepeatTextInputLayout: TextInputLayout
     private lateinit var passwordRepeatView: TextView
 
@@ -139,7 +140,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
 
             passwordCheckBox = rootView.findViewById(R.id.password_checkbox)
-            passKeyView = rootView.findViewById(R.id.password_view)
+            passwordView = rootView.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView.findViewById(R.id.password_confirmation)
             passwordRepeatView.applyFontVisibility()
@@ -165,8 +166,15 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
             keyFileSelectionView.setOpenDocumentClickListener(mExternalFileHelper)
 
-            hardwareKeySelectionView.selectionListener = { _ ->
+            hardwareKeySelectionView.selectionListener = { hardwareKey ->
                 hardwareKeyCheckBox.isChecked = true
+                hardwareKeySelectionView.error =
+                    if (!HardwareKeyResponseHelper.isHardwareKeyAvailable(requireActivity(), hardwareKey)) {
+                        // show hardware driver dialog if required
+                        getString(R.string.warning_hardware_key_required)
+                    } else {
+                        null
+                    }
             }
 
             val dialog = builder.create()
@@ -194,18 +202,41 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     }
 
     private fun approveMainCredential() {
-        var error = verifyPassword() || verifyKeyFile() || verifyHardwareKey()
-        if (!passwordCheckBox.isChecked
-            && !keyFileCheckBox.isChecked
-            && !hardwareKeyCheckBox.isChecked
+        val errorPassword = verifyPassword()
+        val errorKeyFile = verifyKeyFile()
+        val errorHardwareKey = verifyHardwareKey()
+        // Check all to fill error
+        var error = errorPassword || errorKeyFile || errorHardwareKey
+        val hardwareKey = hardwareKeySelectionView.hardwareKey
+        if (!error
+            && (!passwordCheckBox.isChecked)
+            && (!keyFileCheckBox.isChecked)
+            && (!hardwareKeyCheckBox.isChecked)
         ) {
             error = true
-            if (mAllowNoMasterKey)
+            if (mAllowNoMasterKey) {
+                // show no key dialog if required
                 showNoKeyConfirmationDialog()
-            else {
+            } else {
                 passwordRepeatTextInputLayout.error =
                     getString(R.string.error_disallow_no_credentials)
             }
+        } else if (!error
+            && mMasterPassword.isNullOrEmpty()
+            && !keyFileCheckBox.isChecked
+            && !hardwareKeyCheckBox.isChecked
+        ) {
+            // show empty password dialog if required
+            error = true
+            showEmptyPasswordConfirmationDialog()
+        } else if (!error
+            && hardwareKey != null
+            && !HardwareKeyResponseHelper.isHardwareKeyAvailable(
+                requireActivity(), hardwareKey, false)
+        ) {
+            // show hardware driver dialog if required
+            error = true
+            hardwareKeySelectionView.error = getString(R.string.warning_hardware_key_required)
         }
         if (!error) {
             mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
@@ -213,30 +244,11 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun retrieveMainCredential(): MainCredential {
-        val masterPassword = if (passwordCheckBox.isChecked) mMasterPassword else null
-        val keyFileUri = if (keyFileCheckBox.isChecked) mKeyFileUri else null
-        val hardwareKey = if (hardwareKeyCheckBox.isChecked) mHardwareKey else null
-        return MainCredential(masterPassword, keyFileUri, hardwareKey)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        // To check checkboxes if a text is present
-        passKeyView.addTextChangedListener(passwordTextWatcher)
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        passKeyView.removeTextChangedListener(passwordTextWatcher)
-    }
-
     private fun verifyPassword(): Boolean {
         var error = false
+        passwordRepeatTextInputLayout.error = null
         if (passwordCheckBox.isChecked) {
-            mMasterPassword = passKeyView.passwordString
+            mMasterPassword = passwordView.passwordString
             val confPassword = passwordRepeatView.text.toString()
 
             // Verify that passwords match
@@ -245,21 +257,13 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 // Passwords do not match
                 passwordRepeatTextInputLayout.error = getString(R.string.error_pass_match)
             }
-
-            if ((mMasterPassword.isNullOrEmpty())
-                && (!keyFileCheckBox.isChecked
-                        || keyFileSelectionView.uri == null)
-                && (!hardwareKeyCheckBox.isChecked
-                        || hardwareKeySelectionView.hardwareKey == null)) {
-                error = true
-                showEmptyPasswordConfirmationDialog()
-            }
         }
         return error
     }
 
     private fun verifyKeyFile(): Boolean {
         var error = false
+        keyFileSelectionView.error = null
         if (keyFileCheckBox.isChecked) {
             keyFileSelectionView.uri?.let { uri ->
                 mKeyFileUri = uri
@@ -273,14 +277,36 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private fun verifyHardwareKey(): Boolean {
         var error = false
+        hardwareKeySelectionView.error = null
         if (hardwareKeyCheckBox.isChecked) {
-            hardwareKeySelectionView.hardwareKey.let { hardwareKey ->
+            hardwareKeySelectionView.hardwareKey?.let { hardwareKey ->
                 mHardwareKey = hardwareKey
+            } ?: run {
+                error = true
+                hardwareKeySelectionView.error = getString(R.string.error_no_hardware_key)
             }
-            // TODO verify drivers
-            // error = true
         }
         return error
+    }
+
+    private fun retrieveMainCredential(): MainCredential {
+        val masterPassword = if (passwordCheckBox.isChecked) mMasterPassword else null
+        val keyFileUri = if (keyFileCheckBox.isChecked) mKeyFileUri else null
+        val hardwareKey = if (hardwareKeyCheckBox.isChecked) mHardwareKey else null
+        return MainCredential(masterPassword, keyFileUri, hardwareKey)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // To check checkboxes if a text is present
+        passwordView.addTextChangedListener(passwordTextWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        passwordView.removeTextChangedListener(passwordTextWatcher)
     }
 
     private fun showEmptyPasswordConfirmationDialog() {
@@ -288,10 +314,8 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
-                        if (!verifyKeyFile()) {
-                            mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
-                            this@SetMainCredentialDialogFragment.dismiss()
-                        }
+                        mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
+                        this@SetMainCredentialDialogFragment.dismiss()
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
             mEmptyPasswordConfirmationDialog = builder.create()

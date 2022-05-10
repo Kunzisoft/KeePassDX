@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Filter
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.readEnum
@@ -25,8 +26,9 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
 
     private var mHardwareKey: HardwareKey? = null
 
+    private val hardwareKeyLayout: TextInputLayout
     private val hardwareKeyCompletion: AppCompatAutoCompleteTextView
-    var selectionListener: ((HardwareKey?)-> Unit)? = null
+    var selectionListener: ((HardwareKey)-> Unit)? = null
 
     private val mHardwareKeyAdapter = ArrayAdapterNoFilter(context)
 
@@ -66,6 +68,7 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_hardware_key_selection, this)
 
+        hardwareKeyLayout = findViewById(R.id.input_entry_hardware_key_layout)
         hardwareKeyCompletion = findViewById(R.id.input_entry_hardware_key_completion)
 
         hardwareKeyCompletion.inputType = InputType.TYPE_NULL
@@ -74,7 +77,9 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
         hardwareKeyCompletion.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 mHardwareKey = HardwareKey.fromPosition(position)
-                selectionListener?.invoke(mHardwareKey)
+                mHardwareKey?.let { hardwareKey ->
+                    selectionListener?.invoke(hardwareKey)
+                }
             }
     }
 
@@ -86,6 +91,12 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
             mHardwareKey = value
             if (value != null)
                 hardwareKeyCompletion.setSelection(value.ordinal)
+        }
+
+    var error: CharSequence?
+        get() = hardwareKeyLayout.error
+        set(value) {
+            hardwareKeyLayout.error = value
         }
 
     override fun onSaveInstanceState(): Parcelable {

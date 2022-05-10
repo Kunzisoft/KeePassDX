@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
@@ -84,7 +85,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -134,8 +135,12 @@ class DatabaseTaskProvider {
                 respondToChallengeIfAllowed()
             }
             this.requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
-                override fun onChallengeResponseRequested(hardwareKey: HardwareKey?, seed: ByteArray?) {
-                    mHardwareKeyResponseHelper?.launchChallengeForResponse(hardwareKey, seed)
+                override fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?) {
+                    if (HardwareKeyResponseHelper.isHardwareKeyAvailable(activity, hardwareKey)) {
+                        mHardwareKeyResponseHelper?.launchChallengeForResponse(hardwareKey, seed)
+                    } else {
+                        throw InvalidCredentialsDatabaseException("Driver for $hardwareKey is required.")
+                    }
                 }
             }
         } else {

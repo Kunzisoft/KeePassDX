@@ -269,11 +269,11 @@ object UriUtil {
 
     fun contributingUser(context: Context): Boolean {
         return (Education.isEducationScreenReclickedPerformed(context)
-                || isExternalAppInstalled(context, "com.kunzisoft.keepass.pro", false)
+                || isExternalAppInstalled(context, KEEPASSDX_PRO_PACKAGE, false)
                 )
     }
 
-    private fun isExternalAppInstalled(context: Context, packageName: String, showError: Boolean = true): Boolean {
+    fun isExternalAppInstalled(context: Context, packageName: String, showError: Boolean = true): Boolean {
         try {
             context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
             Education.setEducationScreenReclickedPerformed(context)
@@ -317,4 +317,6 @@ object UriUtil {
     }
 
     private const val TAG = "UriUtil"
+
+    const val KEEPASSDX_PRO_PACKAGE = "com.kunzisoft.keepass.pro"
 }

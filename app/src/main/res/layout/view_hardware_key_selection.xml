@@ -12,7 +12,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
-        android:id="@+id/input_entry_hardware_key"
+        android:id="@+id/input_entry_hardware_key_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hardware_key">

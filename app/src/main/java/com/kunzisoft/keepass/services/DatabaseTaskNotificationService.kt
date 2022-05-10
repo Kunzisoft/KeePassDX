@@ -70,7 +70,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
     // Channel to connect asynchronously a listener or a response
-    private var mRequestChallengeListenerChannel = Channel<RequestChallengeListener?>(0)
+    private var mRequestChallengeListenerChannel = Channel<RequestChallengeListener>(0)
     private var mResponseChallengeChannel = Channel<ByteArray?>(0)
 
     private var mActionRunning = false
@@ -156,7 +156,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface RequestChallengeListener {
-        fun onChallengeResponseRequested(hardwareKey: HardwareKey?, seed: ByteArray?)
+        fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?)
     }
 
     fun checkDatabase() {
@@ -598,7 +598,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         runBlocking {
             // Send the request
             val challengeResponseRequestListener = mRequestChallengeListenerChannel.receive()
-            challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
+            challengeResponseRequestListener.onChallengeResponseRequested(hardwareKey, seed)
             // Wait the response
             response = mResponseChallengeChannel.receive() ?: byteArrayOf()
         }
