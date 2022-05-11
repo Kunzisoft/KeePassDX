@@ -369,16 +369,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
     }
 
-    override fun onValidateSpecialMode() {
-        super.onValidateSpecialMode()
-        finish()
-    }
-
-    override fun onCancelSpecialMode() {
-        super.onCancelSpecialMode()
-        finish()
-    }
-
     override fun retrieveCredentialForEncryption(): ByteArray {
         return mainCredentialView?.retrieveCredentialForStorage(credentialStorageListener)
             ?: byteArrayOf()

@@ -1,0 +1,4 @@
+ * Fix crash in New Android 13 #1321
+ * Better backstack management for selection mode
+ * Prevent Tapjacking #1318
+ * Small changes #1298

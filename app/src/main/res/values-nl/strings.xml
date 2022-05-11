@@ -472,13 +472,13 @@
     <string name="autofill_read_only_save">Het opslaan van gegevens is niet toegestaan voor een database die is geopend als alleen-lezen.</string>
     <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer het invullen van een formulier is voltooid</string>
     <string name="autofill_ask_to_save_data_title">Vragen om gegevens op te slaan</string>
-    <string name="autofill_save_search_info_summary">Probeer zoekinformatie op te slaan bij het maken van een handmatige selectie</string>
+    <string name="autofill_save_search_info_summary">Probeer zoekinformatie op te slaan bij het maken van een handmatige invoerselectie voor eenvoudiger toekomstig gebruik</string>
     <string name="autofill_save_search_info_title">Zoekinformatie opslaan</string>
     <string name="autofill_close_database_summary">Sluit de database na een selectie voor automatisch aanvullen</string>
     <string name="autofill_close_database_title">Database sluiten</string>
     <string name="keyboard_previous_lock_summary">Schakel na het vergrendelen van de database automatisch terug naar het vorige toetsenbord</string>
     <string name="keyboard_previous_lock_title">Database vergrendelen</string>
-    <string name="keyboard_save_search_info_summary">Nadat informatie is gedeeld met KeePassDX, wanneer een item is geselecteerd, probeer de informatie in het item op te slaan voor eenvoudiger toekomstig gebruik</string>
+    <string name="keyboard_save_search_info_summary">Probeer gedeelde informatie op te slaan bij het maken van een handmatige invoerselectie voor eenvoudiger toekomstig gebruik</string>
     <string name="keyboard_save_search_info_title">Gedeelde info opslaan</string>
     <string name="notification">Melding</string>
     <string name="biometric_security_update_required">Biometrische beveiligingsupdate vereist.</string>

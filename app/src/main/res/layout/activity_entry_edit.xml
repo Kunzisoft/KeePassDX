@@ -24,7 +24,8 @@
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/entry_edit_coordinator_layout"

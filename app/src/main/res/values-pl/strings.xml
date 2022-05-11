@@ -470,13 +470,13 @@
     <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej jako tylko do odczytu.</string>
     <string name="autofill_ask_to_save_data_summary">Pytaj o zapisanie danych po zakończeniu wypełniania formularza</string>
     <string name="autofill_ask_to_save_data_title">Pytaj o zapisanie danych</string>
-    <string name="autofill_save_search_info_summary">Spróbuj zapisać informacje wyszukiwania podczas dokonywania ręcznego wyboru pozycji</string>
+    <string name="autofill_save_search_info_summary">Staraj się zapisywać informacje wyszukiwania podczas dokonywania ręcznego wyboru wpisu, aby ułatwić sobie przyszłe użycie</string>
     <string name="autofill_save_search_info_title">Zapisz informacje wyszukiwania</string>
     <string name="autofill_close_database_summary">Zamknij bazę danych po wybraniu autouzupełniania</string>
     <string name="autofill_close_database_title">Zamknij bazę danych</string>
     <string name="keyboard_previous_lock_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury po zablokowaniu bazy danych</string>
     <string name="keyboard_previous_lock_title">Zablokuj bazę danych</string>
-    <string name="keyboard_save_search_info_summary">Po udostępnieniu informacji KeePassDX, kiedy wpis jest wybrany, spróbuj zapisać informacje we wpisie do łatwiejszego wykorzystania w przyszłości</string>
+    <string name="keyboard_save_search_info_summary">Staraj się zapisywać udostępnione informacje podczas dokonywania ręcznego wyboru wpisu, aby ułatwić sobie przyszłe użycie</string>
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
     <string name="notification">Powiadomienia</string>
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>

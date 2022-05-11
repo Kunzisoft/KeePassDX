@@ -4,6 +4,8 @@ import android.content.Context
 import android.text.InputType
 import android.util.AttributeSet
 import android.widget.ArrayAdapter
+import android.widget.Filter
+import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import com.kunzisoft.keepass.R
 
@@ -11,10 +13,43 @@ class InheritedCompletionView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : AppCompatAutoCompleteTextView(context, attrs) {
 
-    val adapter = ArrayAdapter(
+    private val adapter = ArrayAdapterNoFilter(
         context,
-        android.R.layout.simple_list_item_1,
-        InheritedStatus.listOfStrings(context))
+        android.R.layout.simple_list_item_1
+    )
+
+    private class ArrayAdapterNoFilter(context: Context,
+                                       @LayoutRes private val layoutResource: Int)
+        : ArrayAdapter<String>(context, layoutResource) {
+        val items = InheritedStatus.listOfStrings(context)
+
+        override fun getCount(): Int {
+            return items.size
+        }
+
+        override fun getItem(position: Int): String {
+            return items[position]
+        }
+
+        override fun getItemId(position: Int): Long {
+            // Or just return p0
+            return items[position].hashCode().toLong()
+        }
+
+        override fun getFilter(): Filter {
+            return object : Filter() {
+                override fun performFiltering(p0: CharSequence?): FilterResults {
+                    return FilterResults().apply {
+                        values = items
+                    }
+                }
+
+                override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+                    notifyDataSetChanged()
+                }
+            }
+        }
+    }
 
     init {
         setAdapter(adapter)

@@ -320,16 +320,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onValidateSpecialMode() {
-        super.onValidateSpecialMode()
-        finish()
-    }
-
-    override fun onCancelSpecialMode() {
-        super.onCancelSpecialMode()
-        finish()
-    }
-
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
         launchPasswordActivity(databaseUri, null)
         // Delete flickering for kitkat <=
