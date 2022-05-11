@@ -19,11 +19,13 @@
 
 package com.kunzisoft.keepass.database.element.database
 
+import android.content.ContentResolver
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.element.CompositeKey
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -31,6 +33,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
+import com.kunzisoft.keepass.model.MainCredential
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
@@ -58,9 +61,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
     override val passwordEncoding: Charset
         get() = Charsets.ISO_8859_1
-
-    override val allowXMLKeyFile: Boolean
-        get() = false
 
     override var numberKeyEncryptionRounds = 300L
 
@@ -125,6 +125,43 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
         // Write checksum Checksum
         finalKey = HashManager.hashSha256(masterSeed, transformedKey)
+    }
+
+    fun deriveMasterKey(
+        contentResolver: ContentResolver,
+        mainCredential: MainCredential
+    ) {
+        if (mainCredential.password == null && mainCredential.keyFileUri == null)
+            throw IllegalArgumentException("Key cannot be empty.")
+        if (mainCredential.hardwareKey != null)
+            throw IllegalArgumentException("Hardware key is not supported.")
+        this.masterKey = compositeKeyToMasterKey(retrieveCompositeKey(
+            contentResolver,
+            mainCredential
+        ))
+    }
+
+    @Throws(IOException::class)
+    private fun retrieveCompositeKey(contentResolver: ContentResolver,
+                                     mainCredential: MainCredential
+    ): CompositeKey {
+        // Save to rebuild master password with new seed later
+        mMainCredential = mainCredential
+        val password = mainCredential.password
+        val keyFileUri = mainCredential.keyFileUri
+        val passwordBytes = if (password != null) CompositeKey.retrievePasswordKey(
+            password,
+            passwordEncoding
+        ) else null
+        val keyFileBytes = if (keyFileUri != null) CompositeKey.retrieveFileKey(
+            contentResolver,
+            keyFileUri,
+            false
+        ) else null
+        val compositeKey = CompositeKey(passwordBytes, keyFileBytes)
+        // Save to rebuild master password with new seed later
+        mCompositeKey = compositeKey
+        return compositeKey
     }
 
     override fun createGroup(): GroupKDB {

@@ -58,7 +58,7 @@ import kotlin.experimental.or
 
 class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                          outputStream: OutputStream,
-                         private val mAssignMasterKey: ((seed: ByteArray?) -> ByteArray))
+                         private val mAssignMasterKey: (() -> Unit))
     : DatabaseOutput<DatabaseHeaderKDBX>(outputStream) {
 
     private var randomStream: StreamCipher? = null
@@ -329,7 +329,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             setIVs(header)
 
             // TODO Check modification
-            mDatabaseKDBX.masterKey = mAssignMasterKey.invoke(header.transformSeed)
+            mAssignMasterKey.invoke()
 
             val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)
             pho.output()

@@ -50,7 +50,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
     @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               progressTaskUpdater: ProgressTaskUpdater?,
-                              assignMasterKey: ((seed: ByteArray?) -> Unit)): DatabaseKDB {
+                              assignMasterKey: (() -> Unit)): DatabaseKDB {
 
         try {
             startKeyTimer(progressTaskUpdater)
@@ -77,7 +77,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
             }
 
             mDatabase.transformSeed = header.transformSeed
-            assignMasterKey.invoke(header.transformSeed)
+            assignMasterKey.invoke()
 
             // Select algorithm
             when {

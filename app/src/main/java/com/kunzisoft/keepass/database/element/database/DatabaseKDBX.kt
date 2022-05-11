@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.content.ContentResolver
 import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
@@ -31,10 +32,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
-import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.Tags
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -49,9 +47,12 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -225,6 +226,63 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
+    fun deriveMasterKey(
+        contentResolver: ContentResolver,
+        mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ) {
+        this.masterKey = compositeKeyToMasterKey(retrieveCompositeKey(
+            contentResolver,
+            mainCredential,
+            transformSeed,
+            challengeResponseRetriever
+        ))
+    }
+
+    @Throws(DatabaseOutputException::class)
+    fun deriveCompositeKey(
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ) {
+        if (mCompositeKey.hardwareKeyData == null)
+            this.masterKey = compositeKeyToMasterKey(mCompositeKey)
+        val hardwareKey = mMainCredential.hardwareKey
+        val hardwareKeyBytes = if (hardwareKey != null) CompositeKey.retrieveHardwareKey(
+            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+        ) else null
+        this.masterKey = compositeKeyToMasterKey(mCompositeKey.apply {
+            this.hardwareKeyData = hardwareKeyBytes
+        })
+    }
+
+    @Throws(IOException::class)
+    private fun retrieveCompositeKey(contentResolver: ContentResolver,
+                                     mainCredential: MainCredential,
+                                     transformSeed: ByteArray?,
+                                     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    ): CompositeKey {
+        // Save to rebuild master password with new seed later
+        mMainCredential = mainCredential
+        val password = mainCredential.password
+        val keyFileUri = mainCredential.keyFileUri
+        val hardwareKey = mainCredential.hardwareKey
+        val passwordBytes = if (password != null) CompositeKey.retrievePasswordKey(
+            password,
+            passwordEncoding
+        ) else null
+        val keyFileBytes = if (keyFileUri != null) CompositeKey.retrieveFileKey(
+            contentResolver,
+            keyFileUri,
+            true
+        ) else null
+        val hardwareKeyBytes = if (hardwareKey != null) CompositeKey.retrieveHardwareKey(
+            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+        ) else null
+        val compositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKeyBytes)
+        // Save to rebuild master password with new seed later
+        mCompositeKey = compositeKey
+        return compositeKey
+    }
+
     fun getMinKdbxVersion(): UnsignedInt {
         val entryHandler = EntryOperationHandler()
         val groupHandler = GroupOperationHandler()
@@ -358,9 +416,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
     override val passwordEncoding: Charset
         get() = Charsets.UTF_8
-
-    override val allowXMLKeyFile: Boolean
-        get() = true
 
     private fun getGroupByUUID(groupUUID: UUID): GroupKDBX? {
         if (groupUUID == UUID_ZERO)
