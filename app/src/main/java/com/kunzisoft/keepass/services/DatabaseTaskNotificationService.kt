@@ -135,7 +135,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         fun removeRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
             mainScope.launch {
-                // TODO mRequestChallengeListenerChannel.cancel()
+                mRequestChallengeListenerChannel.cancel()
+                mRequestChallengeListenerChannel = Channel(0)
             }
         }
     }

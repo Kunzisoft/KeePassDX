@@ -52,7 +52,6 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException

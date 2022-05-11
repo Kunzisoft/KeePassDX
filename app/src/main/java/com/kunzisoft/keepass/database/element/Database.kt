@@ -792,28 +792,39 @@ class Database {
                 try {
                     outputStream = UriUtil.getUriOutputStream(contentResolver, saveUri)
                     outputStream?.let { definedOutputStream ->
-                        val databaseOutput =
-                            mDatabaseKDB?.let {
-                                DatabaseOutputKDB(it, definedOutputStream)
+                        mDatabaseKDB?.let { databaseKDB ->
+                            DatabaseOutputKDB(databaseKDB).apply {
+                                writeDatabase(definedOutputStream) {
+                                    if (mainCredential != null) {
+                                        databaseKDB.deriveMasterKey(
+                                            contentResolver,
+                                            mainCredential
+                                        )
+                                    } else {
+                                        // No master key change
+                                    }
+                                }
                             }
-                            ?: mDatabaseKDBX?.let {
-                                DatabaseOutputKDBX(it, definedOutputStream) {
+                        }
+                        ?: mDatabaseKDBX?.let { databaseKDBX ->
+                            DatabaseOutputKDBX(databaseKDBX).apply {
+                                writeDatabase(definedOutputStream) {
                                     if (mainCredential != null) {
                                         // Build new master key from MainCredential
-                                        mDatabaseKDBX?.deriveMasterKey(
+                                        databaseKDBX.deriveMasterKey(
                                             contentResolver,
                                             mainCredential,
                                             challengeResponseRetriever
                                         )
                                     } else {
                                         // Reuse composite key parts
-                                        mDatabaseKDBX?.deriveCompositeKey(
+                                        databaseKDBX.deriveCompositeKey(
                                             challengeResponseRetriever
                                         )
                                     }
                                 }
                             }
-                        databaseOutput?.output()
+                        }
                     }
                 } catch (e: Exception) {
                     throw IOException(e)

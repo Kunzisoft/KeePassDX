@@ -56,10 +56,8 @@ import javax.crypto.CipherOutputStream
 import kotlin.experimental.or
 
 
-class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
-                         outputStream: OutputStream,
-                         private val mAssignMasterKey: (() -> Unit))
-    : DatabaseOutput<DatabaseHeaderKDBX>(outputStream) {
+class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
+    : DatabaseOutput<DatabaseHeaderKDBX>() {
 
     private var randomStream: StreamCipher? = null
     private lateinit var xml: XmlSerializer
@@ -68,21 +66,22 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private var headerHmac: ByteArray? = null
 
     @Throws(DatabaseOutputException::class)
-    override fun output() {
+    override fun writeDatabase(outputStream: OutputStream,
+                               assignMasterKey: () -> Unit) {
 
         try {
-            header = outputHeader(mOutputStream)
+            header = outputHeader(outputStream, assignMasterKey)
 
             val osPlain: OutputStream = if (header!!.version.isBefore(FILE_VERSION_40)) {
-                val cos = attachStreamEncryptor(header!!, mOutputStream)
+                val cos = attachStreamEncryptor(header!!, outputStream)
                 cos.write(header!!.streamStartBytes)
 
                 HashedBlockOutputStream(cos)
             } else {
-                mOutputStream.write(hashOfHeader!!)
-                mOutputStream.write(headerHmac!!)
+                outputStream.write(hashOfHeader!!)
+                outputStream.write(headerHmac!!)
 
-                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOutputStream, mDatabaseKDBX.hmacKey!!))
+                attachStreamEncryptor(header!!, HmacBlockOutputStream(outputStream, mDatabaseKDBX.hmacKey!!))
             }
 
             val xmlOutputStream: OutputStream
@@ -323,13 +322,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(DatabaseOutputException::class)
-    override fun outputHeader(outputStream: OutputStream): DatabaseHeaderKDBX {
+    private fun outputHeader(outputStream: OutputStream,
+                             assignMasterKey: () -> Unit): DatabaseHeaderKDBX {
         try {
             val header = DatabaseHeaderKDBX(mDatabaseKDBX)
             setIVs(header)
 
-            // TODO Check modification
-            mAssignMasterKey.invoke()
+            mDatabaseKDBX.transformSeed = header.transformSeed
+            assignMasterKey.invoke()
 
             val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)
             pho.output()

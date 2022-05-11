@@ -55,13 +55,11 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_DATABASE_KEY
@@ -107,16 +105,10 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
 
-    private var mHardwareKeyResponseHelper = HardwareKeyResponseHelper(this)
-
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             AutofillHelper.buildActivityResultLauncher(this)
         else null
-
-    override fun initializeDatabaseTaskProvider(): DatabaseTaskProvider {
-        return DatabaseTaskProvider(this, mHardwareKeyResponseHelper)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
