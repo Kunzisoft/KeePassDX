@@ -46,7 +46,7 @@ import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseExcept
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
@@ -394,7 +394,8 @@ class DatabaseTaskProvider {
     */
 
     fun startDatabaseCreate(databaseUri: Uri,
-                            mainCredential: MainCredential) {
+                            mainCredential: MainCredential
+    ) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
@@ -447,7 +448,8 @@ class DatabaseTaskProvider {
     }
 
     fun startDatabaseAssignPassword(databaseUri: Uri,
-                                    mainCredential: MainCredential) {
+                                    mainCredential: MainCredential
+    ) {
 
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)

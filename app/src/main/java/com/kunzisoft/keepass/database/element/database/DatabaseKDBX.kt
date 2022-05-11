@@ -52,7 +52,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VER
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.longTo8Bytes
 import java.io.IOException
@@ -65,6 +65,9 @@ import kotlin.math.min
 
 
 class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
+
+    // To resave the database with same credential when already loaded
+    private var mCompositeKey = CompositeKey()
 
     var hmacKey: ByteArray? = null
         private set
@@ -231,56 +234,72 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         mainCredential: MainCredential,
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
     ) {
-        this.masterKey = compositeKeyToMasterKey(retrieveCompositeKey(
+        // Retrieve each plain credential
+        val password = mainCredential.password
+        val keyFileUri = mainCredential.keyFileUri
+        val hardwareKey = mainCredential.hardwareKey
+        val passwordBytes = if (password != null) MainCredential.retrievePasswordKey(
+            password,
+            passwordEncoding
+        ) else null
+        val keyFileBytes = if (keyFileUri != null) MainCredential.retrieveFileKey(
             contentResolver,
-            mainCredential,
-            transformSeed,
-            challengeResponseRetriever
-        ))
+            keyFileUri,
+            true
+        ) else null
+        val hardwareKeyBytes = if (hardwareKey != null) MainCredential.retrieveHardwareKey(
+            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+        ) else null
+
+        // Save to rebuild master password with new seed later
+        mCompositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKey)
+
+        // Build the master key
+        this.masterKey = composedKeyToMasterKey(
+            passwordBytes,
+            keyFileBytes,
+            hardwareKeyBytes
+        )
     }
 
     @Throws(DatabaseOutputException::class)
     fun deriveCompositeKey(
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
     ) {
-        if (mCompositeKey.hardwareKeyData == null)
-            this.masterKey = compositeKeyToMasterKey(mCompositeKey)
-        val hardwareKey = mMainCredential.hardwareKey
-        val hardwareKeyBytes = if (hardwareKey != null) CompositeKey.retrieveHardwareKey(
-            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
-        ) else null
-        this.masterKey = compositeKeyToMasterKey(mCompositeKey.apply {
-            this.hardwareKeyData = hardwareKeyBytes
-        })
+        val passwordBytes = mCompositeKey.passwordData
+        val keyFileBytes = mCompositeKey.keyFileData
+        val hardwareKey = mCompositeKey.hardwareKey
+        if (hardwareKey == null) {
+            // If no hardware key, simply rebuild from composed keys
+            this.masterKey = composedKeyToMasterKey(
+                passwordBytes,
+                keyFileBytes
+            )
+        } else {
+            val hardwareKeyBytes = MainCredential.retrieveHardwareKey(
+                challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+            )
+            this.masterKey = composedKeyToMasterKey(
+                passwordBytes,
+                keyFileBytes,
+                hardwareKeyBytes
+            )
+        }
     }
 
-    @Throws(IOException::class)
-    private fun retrieveCompositeKey(contentResolver: ContentResolver,
-                                     mainCredential: MainCredential,
-                                     transformSeed: ByteArray?,
-                                     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    ): CompositeKey {
-        // Save to rebuild master password with new seed later
-        mMainCredential = mainCredential
-        val password = mainCredential.password
-        val keyFileUri = mainCredential.keyFileUri
-        val hardwareKey = mainCredential.hardwareKey
-        val passwordBytes = if (password != null) CompositeKey.retrievePasswordKey(
-            password,
-            passwordEncoding
-        ) else null
-        val keyFileBytes = if (keyFileUri != null) CompositeKey.retrieveFileKey(
-            contentResolver,
-            keyFileUri,
-            true
-        ) else null
-        val hardwareKeyBytes = if (hardwareKey != null) CompositeKey.retrieveHardwareKey(
-            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
-        ) else null
-        val compositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKeyBytes)
-        // Save to rebuild master password with new seed later
-        mCompositeKey = compositeKey
-        return compositeKey
+    private fun composedKeyToMasterKey(passwordData: ByteArray?,
+                                       keyFileData: ByteArray?,
+                                       hardwareKeyData: ByteArray? = null): ByteArray {
+        return HashManager.hashSha256(
+            passwordData,
+            keyFileData,
+            hardwareKeyData
+        )
+    }
+
+    fun copyMasterKeyFrom(databaseVersioned: DatabaseKDBX) {
+        super.copyMasterKeyFrom(databaseVersioned)
+        this.mCompositeKey = databaseVersioned.mCompositeKey
     }
 
     fun getMinKdbxVersion(): UnsignedInt {

@@ -25,7 +25,6 @@ import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
-import com.kunzisoft.keepass.database.element.CompositeKey
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -33,7 +32,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
@@ -131,37 +130,30 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         contentResolver: ContentResolver,
         mainCredential: MainCredential
     ) {
+        // Exception when no password
         if (mainCredential.password == null && mainCredential.keyFileUri == null)
             throw IllegalArgumentException("Key cannot be empty.")
         if (mainCredential.hardwareKey != null)
             throw IllegalArgumentException("Hardware key is not supported.")
-        this.masterKey = compositeKeyToMasterKey(retrieveCompositeKey(
-            contentResolver,
-            mainCredential
-        ))
-    }
 
-    @Throws(IOException::class)
-    private fun retrieveCompositeKey(contentResolver: ContentResolver,
-                                     mainCredential: MainCredential
-    ): CompositeKey {
-        // Save to rebuild master password with new seed later
-        mMainCredential = mainCredential
+        // Retrieve plain data
         val password = mainCredential.password
         val keyFileUri = mainCredential.keyFileUri
-        val passwordBytes = if (password != null) CompositeKey.retrievePasswordKey(
+        val passwordBytes = if (password != null) MainCredential.retrievePasswordKey(
             password,
             passwordEncoding
         ) else null
-        val keyFileBytes = if (keyFileUri != null) CompositeKey.retrieveFileKey(
+        val keyFileBytes = if (keyFileUri != null) MainCredential.retrieveFileKey(
             contentResolver,
             keyFileUri,
             false
         ) else null
-        val compositeKey = CompositeKey(passwordBytes, keyFileBytes)
-        // Save to rebuild master password with new seed later
-        mCompositeKey = compositeKey
-        return compositeKey
+
+        // Build master key
+        this.masterKey = HashManager.hashSha256(
+            passwordBytes,
+            keyFileBytes
+        )
     }
 
     override fun createGroup(): GroupKDB {

@@ -20,10 +20,8 @@
 package com.kunzisoft.keepass.database.element.database
 
 import android.util.Log
-import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.CompositeKey
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
@@ -33,7 +31,6 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import com.kunzisoft.keepass.model.MainCredential
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
@@ -59,10 +56,6 @@ abstract class DatabaseVersioned<
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
-
-    // To resave the database with same credential when already loaded
-    protected var mMainCredential = MainCredential()
-    protected var mCompositeKey = CompositeKey()
     var transformSeed: ByteArray? = null
 
     abstract val version: String
@@ -126,17 +119,7 @@ abstract class DatabaseVersioned<
 
     fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
         this.masterKey = databaseVersioned.masterKey
-        this.mMainCredential = databaseVersioned.mMainCredential
-        this.mCompositeKey = databaseVersioned.mCompositeKey
         this.transformSeed = databaseVersioned.transformSeed
-    }
-
-    protected fun compositeKeyToMasterKey(compositeKey: CompositeKey): ByteArray {
-        return HashManager.hashSha256(
-            compositeKey.passwordData,
-            compositeKey.keyFileData,
-            compositeKey.hardwareKeyData
-        )
     }
 
     /*

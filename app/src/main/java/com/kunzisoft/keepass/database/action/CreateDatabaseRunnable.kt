@@ -25,7 +25,7 @@ import android.util.Log
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class CreateDatabaseRunnable(context: Context,
