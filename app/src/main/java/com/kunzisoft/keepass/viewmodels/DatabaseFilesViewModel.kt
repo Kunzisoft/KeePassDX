@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.app.database.IOActionTask
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil
@@ -72,8 +73,12 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun addDatabaseFile(databaseUri: Uri, keyFileUri: Uri?) {
-        mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(databaseUri, keyFileUri) { databaseFileAdded ->
+    fun addDatabaseFile(databaseUri: Uri, keyFileUri: Uri?, hardwareKey: HardwareKey?) {
+        mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(
+            databaseUri,
+            keyFileUri,
+            hardwareKey
+        ) { databaseFileAdded ->
             databaseFileAdded?.let { _ ->
                 databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     this.databaseFileAction = DatabaseFileAction.ADD
@@ -96,6 +101,7 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
                             .find { it.databaseUri == databaseFileUpdated.databaseUri }
                             ?.apply {
                                 keyFileUri = databaseFileUpdated.keyFileUri
+                                hardwareKey = databaseFileUpdated.hardwareKey
                                 databaseAlias = databaseFileUpdated.databaseAlias
                                 databaseFileExists = databaseFileUpdated.databaseFileExists
                                 databaseLastModified = databaseFileUpdated.databaseLastModified

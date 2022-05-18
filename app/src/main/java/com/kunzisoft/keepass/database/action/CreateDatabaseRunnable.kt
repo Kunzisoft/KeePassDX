@@ -60,8 +60,11 @@ class CreateDatabaseRunnable(context: Context,
             // Add database to recent files
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context.applicationContext)
-                        .addOrUpdateDatabaseUri(mDatabaseUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mainCredential.keyFileUri else null)
+                        .addOrUpdateDatabaseUri(
+                            mDatabaseUri,
+                            if (PreferencesUtil.rememberKeyFileLocations(context)) mainCredential.keyFileUri else null,
+                            if (PreferencesUtil.rememberHardwareKey(context)) mainCredential.hardwareKey else null,
+                        )
             }
 
             // Register the current time to init the lock timer

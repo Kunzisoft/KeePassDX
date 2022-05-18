@@ -91,6 +91,8 @@
     <bool name="hide_broken_locations_default" translatable="false">true</bool>
     <string name="remember_keyfile_locations_key" translatable="false">remember_keyfile_locations_key</string>
     <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
+    <string name="remember_hardware_key_key" translatable="false">remember_hardware_key_key</string>
+    <bool name="remember_hardware_key_default" translatable="false">true</bool>
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>

@@ -71,6 +71,11 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
         hardwareKeyLayout = findViewById(R.id.input_entry_hardware_key_layout)
         hardwareKeyCompletion = findViewById(R.id.input_entry_hardware_key_completion)
 
+        hardwareKeyCompletion.isFocusable = false
+        hardwareKeyCompletion.isFocusableInTouchMode = false
+        //hardwareKeyCompletion.isEnabled = false
+        hardwareKeyCompletion.isCursorVisible = false
+        hardwareKeyCompletion.setTextIsSelectable(false)
         hardwareKeyCompletion.inputType = InputType.TYPE_NULL
         hardwareKeyCompletion.setAdapter(mHardwareKeyAdapter)
 
@@ -89,8 +94,7 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             mHardwareKey = value
-            if (value != null)
-                hardwareKeyCompletion.setSelection(value.ordinal)
+            hardwareKeyCompletion.setText(value?.toString() ?: "")
         }
 
     var error: CharSequence?

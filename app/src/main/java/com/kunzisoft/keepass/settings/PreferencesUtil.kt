@@ -96,6 +96,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.remember_keyfile_locations_default))
     }
 
+    fun rememberHardwareKey(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.remember_hardware_key_key),
+            context.resources.getBoolean(R.bool.remember_hardware_key_default))
+    }
+
     fun automaticallyFocusSearch(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.auto_focus_search_key),

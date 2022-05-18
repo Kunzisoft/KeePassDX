@@ -4,6 +4,10 @@ enum class HardwareKey(val value: String) {
     FIDO2_SECRET("FIDO2 secret"),
     CHALLENGE_RESPONSE_YUBIKEY("Yubikey challenge-response");
 
+    override fun toString(): String {
+        return value
+    }
+
     companion object {
         val DEFAULT = FIDO2_SECRET
 
@@ -19,7 +23,9 @@ enum class HardwareKey(val value: String) {
             }
         }
 
-        fun getHardwareKeyFromString(text: String): HardwareKey {
+        fun getHardwareKeyFromString(text: String?): HardwareKey? {
+            if (text == null)
+                return null
             values().find { it.value == text }?.let {
                 return it
             }

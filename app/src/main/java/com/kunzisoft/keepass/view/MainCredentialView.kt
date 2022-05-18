@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 class MainCredentialView @JvmOverloads constructor(context: Context,
                                                    attrs: AttributeSet? = null,
@@ -153,6 +154,18 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             keyFileSelectionView.uri = uri
             if (!checkboxKeyFileView.isChecked)
                 checkboxKeyFileView.isChecked = true
+        }
+    }
+
+    fun populateHardwareKeyView(hardwareKey: HardwareKey?) {
+        if (hardwareKey == null) {
+            hardwareKeySelectionView.hardwareKey = null
+            if (checkboxHardwareView.isChecked)
+                checkboxHardwareView.isChecked = false
+        } else {
+            hardwareKeySelectionView.hardwareKey = hardwareKey
+            if (!checkboxHardwareView.isChecked)
+                checkboxHardwareView.isChecked = true
         }
     }
 

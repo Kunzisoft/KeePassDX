@@ -226,10 +226,10 @@ object UriUtil {
         }
     }
 
-    fun getUriFromIntent(intent: Intent, key: String): Uri? {
+    fun getUriFromIntent(intent: Intent?, key: String): Uri? {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                val clipData = intent.clipData
+                val clipData = intent?.clipData
                 if (clipData != null) {
                     if (clipData.description.label == key) {
                         if (clipData.itemCount == 1) {
@@ -242,7 +242,7 @@ object UriUtil {
                 }
             }
         } catch (e: Exception) {
-            return intent.getParcelableExtra(key)
+            return intent?.getParcelableExtra(key)
         }
         return null
     }
