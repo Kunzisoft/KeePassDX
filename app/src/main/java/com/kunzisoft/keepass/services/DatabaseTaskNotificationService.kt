@@ -125,7 +125,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun addRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
             mainScope.launch {
                 if (!mRequestChallengeListenerChannel.isEmpty) {
-                    mRequestChallengeListenerChannel.cancel(CancellationException("Challenge already requested"))
+                    mRequestChallengeListenerChannel.cancel(CancellationException(getString(R.string.error_challenge_already_requested)))
                     mRequestChallengeListenerChannel = Channel(0)
                 } else {
                     mRequestChallengeListenerChannel.send(requestChallengeListener)
@@ -234,11 +234,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     fun respondToChallenge(response: ByteArray) {
         mainScope.launch {
-            if (response.isEmpty()) {
-                mResponseChallengeChannel.cancel(CancellationException(("Unable to get the response from challenge")))
+            if (!mResponseChallengeChannel.isEmpty) {
+                mResponseChallengeChannel.cancel(CancellationException(getString(R.string.error_response_already_provided)))
                 mResponseChallengeChannel = Channel(0)
             } else {
-                mResponseChallengeChannel.send(response)
+                if (response.isEmpty()) {
+                    mResponseChallengeChannel.cancel(CancellationException(getString(R.string.error_no_response_from_challenge)))
+                    mResponseChallengeChannel = Channel(0)
+                } else {
+                    mResponseChallengeChannel.send(response)
+                }
             }
         }
     }

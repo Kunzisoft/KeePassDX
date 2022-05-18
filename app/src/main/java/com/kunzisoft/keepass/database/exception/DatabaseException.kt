@@ -24,21 +24,60 @@ import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import java.io.PrintStream
+import java.io.PrintWriter
+import java.lang.StringBuilder
 
 abstract class DatabaseException : Exception {
 
+    var innerMessage: String? = null
     abstract var errorId: Int
     var parameters: (Array<out String>)? = null
+    var mThrowable: Throwable? = null
 
     constructor() : super()
     constructor(message: String) : super(message)
-    constructor(message: String, throwable: Throwable) : super(message, throwable)
-    constructor(throwable: Throwable) : super(throwable)
+    constructor(message: String, throwable: Throwable) {
+        mThrowable = throwable
+        innerMessage = StringBuilder().apply {
+            append(message)
+            if (throwable.localizedMessage != null) {
+                append(" ")
+                append(throwable.localizedMessage)
+            }
+        }.toString()
+    }
+    constructor(throwable: Throwable) {
+        mThrowable = throwable
+        innerMessage = throwable.localizedMessage
+    }
 
     fun getLocalizedMessage(resources: Resources): String {
-        parameters?.let {
-            return resources.getString(errorId, *it)
-        } ?: return resources.getString(errorId)
+        val localMessage = parameters?.let {
+            resources.getString(errorId, *it)
+        } ?: resources.getString(errorId)
+        return StringBuilder().apply {
+            append(localMessage)
+            if (innerMessage != null) {
+                append(" ")
+                append(innerMessage)
+            }
+        }.toString()
+    }
+
+    override fun printStackTrace() {
+        mThrowable?.printStackTrace()
+        super.printStackTrace()
+    }
+
+    override fun printStackTrace(s: PrintStream) {
+        mThrowable?.printStackTrace(s)
+        super.printStackTrace(s)
+    }
+
+    override fun printStackTrace(s: PrintWriter) {
+        mThrowable?.printStackTrace(s)
+        super.printStackTrace(s)
     }
 }
 
