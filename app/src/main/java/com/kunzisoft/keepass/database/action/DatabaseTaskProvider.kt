@@ -158,15 +158,25 @@ class DatabaseTaskProvider {
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
-            startDialog(titleId, messageId, warningId)
+        override fun onStartAction(database: Database,
+                                   titleId: Int?,
+                                   messageId: Int?,
+                                   warningId: Int?,
+                                   cancelable: (() -> Unit)?) {
+            startDialog(titleId, messageId, warningId, cancelable)
         }
 
-        override fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
-            updateDialog(titleId, messageId, warningId)
+        override fun onUpdateAction(database: Database,
+                                    titleId: Int?,
+                                    messageId: Int?,
+                                    warningId: Int?,
+                                    cancelable: (() -> Unit)?) {
+            updateDialog(titleId, messageId, warningId, cancelable)
         }
 
-        override fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result) {
+        override fun onStopAction(database: Database,
+                                  actionTask: String,
+                                  result: ActionRunnable.Result) {
             onActionFinish?.invoke(database, actionTask, result)
             // Remove the progress task
             stopDialog()
@@ -233,9 +243,10 @@ class DatabaseTaskProvider {
         }
     }
 
-    private fun startDialog(titleId: Int? = null,
-                            messageId: Int? = null,
-                            warningId: Int? = null) {
+    private fun startDialog(titleId: Int?,
+                            messageId: Int?,
+                            warningId: Int?,
+                            cancelable: (() -> Unit)?) {
         activity?.let { activity ->
             activity.lifecycleScope.launch {
                 if (progressTaskDialogFragment == null) {
@@ -249,12 +260,15 @@ class DatabaseTaskProvider {
                         PROGRESS_TASK_DIALOG_TAG
                     )
                 }
-                updateDialog(titleId, messageId, warningId)
+                updateDialog(titleId, messageId, warningId, cancelable)
             }
         }
     }
 
-    private fun updateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
+    private fun updateDialog(titleId: Int?,
+                             messageId: Int?,
+                             warningId: Int?,
+                             cancelable: (() -> Unit)?) {
         progressTaskDialogFragment?.apply {
             titleId?.let {
                 updateTitle(it)
@@ -265,6 +279,7 @@ class DatabaseTaskProvider {
             warningId?.let {
                 updateWarning(it)
             }
+            setCancellable(cancelable)
         }
     }
 

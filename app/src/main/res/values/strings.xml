@@ -79,6 +79,8 @@
     <string name="content_description_keyboard_close_fields">Close fields</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
+    <string name="waiting_challenge_request">Waiting for the challenge request…</string>
+    <string name="waiting_challenge_response">Waiting for the challenge response…</string>
     <string name="database">Database</string>
     <string name="template_group_name">Templates</string>
     <string name="decrypting_db">Decrypting database content…</string>
@@ -198,6 +200,7 @@
     <string name="error_challenge_already_requested">"Challenge already requested"</string>
     <string name="error_response_already_provided">Response already provided.</string>
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
+    <string name="error_cancel_by_user">Cancelled by user.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>

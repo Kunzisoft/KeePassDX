@@ -81,7 +81,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mTitleId: Int = R.string.database_opened
     private var mMessageId: Int? = null
     private var mWarningId: Int? = null
-
+    private var mCancelable: (() -> Unit)? = null
 
     override fun retrieveChannelId(): String {
         return CHANNEL_DATABASE_ID
@@ -151,9 +151,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface ActionTaskListener {
-        fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
-        fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
-        fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result)
+        fun onStartAction(database: Database,
+                          titleId: Int?,
+                          messageId: Int?,
+                          warningId: Int?,
+                          cancelable: (() -> Unit)? = null)
+        fun onUpdateAction(database: Database,
+                           titleId: Int?,
+                           messageId: Int?,
+                           warningId: Int?,
+                           cancelable: (() -> Unit)? = null)
+        fun onStopAction(database: Database,
+                         actionTask: String,
+                         result: ActionRunnable.Result)
     }
 
     interface RequestChallengeListener {
@@ -226,7 +236,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mDatabase?.let { database ->
             if (mActionRunning) {
                 mActionTaskListeners.forEach { actionTaskListener ->
-                    actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
+                    actionTaskListener.onStartAction(
+                        database, mTitleId, mMessageId, mWarningId, mCancelable
+                    )
                 }
             }
         }
@@ -332,7 +344,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
+                                actionTaskListener.onStartAction(
+                                    database, mTitleId, mMessageId, mWarningId, mCancelable
+                                )
                             }
 
                         },
@@ -575,7 +589,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mMessageId = resId
         mDatabase?.let { database ->
             mActionTaskListeners.forEach { actionTaskListener ->
-                actionTaskListener.onUpdateAction(database, mTitleId, mMessageId, mWarningId)
+                actionTaskListener.onUpdateAction(
+                    database, mTitleId, mMessageId, mWarningId, mCancelable
+                )
             }
         }
     }
@@ -603,10 +619,26 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         var response: ByteArray
         runBlocking {
             // Send the request
+            val previousMessageId = mMessageId
+            mCancelable = {
+                mRequestChallengeListenerChannel.cancel(CancellationException(getString(R.string.error_cancel_by_user)))
+                mRequestChallengeListenerChannel = Channel(0)
+            }
+            updateMessage(R.string.waiting_challenge_request)
             val challengeResponseRequestListener = mRequestChallengeListenerChannel.receive()
             challengeResponseRequestListener.onChallengeResponseRequested(hardwareKey, seed)
             // Wait the response
+            mCancelable = {
+                mResponseChallengeChannel.cancel(CancellationException(getString(R.string.error_cancel_by_user)))
+                mResponseChallengeChannel = Channel(0)
+            }
+            updateMessage(R.string.waiting_challenge_response)
             response = mResponseChallengeChannel.receive() ?: byteArrayOf()
+            // Restore previous message
+            mCancelable = null
+            previousMessageId?.let {
+                updateMessage(it)
+            }
         }
         return response
     }
