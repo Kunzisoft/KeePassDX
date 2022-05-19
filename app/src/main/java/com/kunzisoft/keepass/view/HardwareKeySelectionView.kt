@@ -79,6 +79,9 @@ class HardwareKeySelectionView @JvmOverloads constructor(context: Context,
         hardwareKeyCompletion.inputType = InputType.TYPE_NULL
         hardwareKeyCompletion.setAdapter(mHardwareKeyAdapter)
 
+        hardwareKeyCompletion.setOnClickListener {
+            hardwareKeyCompletion.showDropDown()
+        }
         hardwareKeyCompletion.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, position, _ ->
                 mHardwareKey = HardwareKey.fromPosition(position)
