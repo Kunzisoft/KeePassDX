@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
@@ -37,13 +38,13 @@ import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -70,8 +71,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
     // Channel to connect asynchronously a listener or a response
-    private var mRequestChallengeListenerChannel = Channel<RequestChallengeListener>(0)
-    private var mResponseChallengeChannel = Channel<ByteArray?>(0)
+    private var mRequestChallengeListenerChannel: Channel<RequestChallengeListener>? = null
+    private var mResponseChallengeChannel: Channel<ByteArray?>? = null
 
     private var mActionRunning = false
     private var mTaskRemovedRequested = false
@@ -124,19 +125,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         fun addRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
             mainScope.launch {
-                if (!mRequestChallengeListenerChannel.isEmpty) {
-                    mRequestChallengeListenerChannel.cancel(CancellationException(getString(R.string.error_challenge_already_requested)))
-                    mRequestChallengeListenerChannel = Channel(0)
+                val requestChannel = mRequestChallengeListenerChannel
+                if (requestChannel == null || requestChannel.isEmpty) {
+                    initializeChallengeResponse()
+                    mRequestChallengeListenerChannel?.send(requestChallengeListener)
                 } else {
-                    mRequestChallengeListenerChannel.send(requestChallengeListener)
+                    cancelChallengeResponse(R.string.error_challenge_already_requested)
                 }
             }
         }
 
-        fun removeRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
+        fun removeRequestChallengeListener() {
             mainScope.launch {
-                mRequestChallengeListenerChannel.cancel()
-                mRequestChallengeListenerChannel = Channel(0)
+                mRequestChallengeListenerChannel?.cancel()
+                mRequestChallengeListenerChannel = null
             }
         }
     }
@@ -244,28 +246,42 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    fun respondToChallenge(response: ByteArray) {
-        mainScope.launch {
-            if (!mResponseChallengeChannel.isEmpty) {
-                mResponseChallengeChannel.cancel(CancellationException(getString(R.string.error_response_already_provided)))
-                mResponseChallengeChannel = Channel(0)
-            } else {
-                if (response.isEmpty()) {
-                    mResponseChallengeChannel.cancel(CancellationException(getString(R.string.error_no_response_from_challenge)))
-                    mResponseChallengeChannel = Channel(0)
-                } else {
-                    mResponseChallengeChannel.send(response)
-                }
-            }
+    private fun initializeChallengeResponse() {
+        // Init the channels
+        if (mRequestChallengeListenerChannel == null) {
+            mRequestChallengeListenerChannel = Channel(0)
+        }
+        if (mResponseChallengeChannel == null) {
+            mResponseChallengeChannel = Channel(0)
         }
     }
 
-    fun cancelChallengeResponse() {
+    private fun closeChallengeResponse() {
+        mRequestChallengeListenerChannel?.close()
+        mResponseChallengeChannel?.close()
+        mRequestChallengeListenerChannel = null
+        mResponseChallengeChannel = null
+    }
+
+    private fun cancelChallengeResponse(@StringRes error: Int) {
+        mRequestChallengeListenerChannel?.cancel(CancellationException(getString(error)))
+        mRequestChallengeListenerChannel = null
+        mResponseChallengeChannel?.cancel(CancellationException(getString(error)))
+        mResponseChallengeChannel = null
+    }
+
+    fun respondToChallenge(response: ByteArray) {
         mainScope.launch {
-            mRequestChallengeListenerChannel.cancel()
-            mRequestChallengeListenerChannel = Channel(0)
-            mResponseChallengeChannel.cancel()
-            mResponseChallengeChannel = Channel(0)
+            val responseChannel = mResponseChallengeChannel
+            if (responseChannel == null || responseChannel.isEmpty) {
+                if (response.isEmpty()) {
+                    cancelChallengeResponse(R.string.error_no_response_from_challenge)
+                } else {
+                    mResponseChallengeChannel?.send(response)
+                }
+            } else {
+                cancelChallengeResponse(R.string.error_response_already_provided)
+            }
         }
     }
 
@@ -618,22 +634,21 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         // Request a challenge - response
         var response: ByteArray
         runBlocking {
-            // Send the request
+            // Initialize the channels
+            initializeChallengeResponse()
             val previousMessageId = mMessageId
             mCancelable = {
-                mRequestChallengeListenerChannel.cancel(CancellationException(getString(R.string.error_cancel_by_user)))
-                mRequestChallengeListenerChannel = Channel(0)
+                cancelChallengeResponse(R.string.error_cancel_by_user)
             }
+            // Send the request
             updateMessage(R.string.waiting_challenge_request)
-            val challengeResponseRequestListener = mRequestChallengeListenerChannel.receive()
-            challengeResponseRequestListener.onChallengeResponseRequested(hardwareKey, seed)
+            val challengeResponseRequestListener = mRequestChallengeListenerChannel?.receive()
+            challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
             // Wait the response
-            mCancelable = {
-                mResponseChallengeChannel.cancel(CancellationException(getString(R.string.error_cancel_by_user)))
-                mResponseChallengeChannel = Channel(0)
-            }
             updateMessage(R.string.waiting_challenge_response)
-            response = mResponseChallengeChannel.receive() ?: byteArrayOf()
+            response = mResponseChallengeChannel?.receive() ?: byteArrayOf()
+            // Close channels
+            closeChallengeResponse()
             // Restore previous message
             mCancelable = null
             previousMessageId?.let {

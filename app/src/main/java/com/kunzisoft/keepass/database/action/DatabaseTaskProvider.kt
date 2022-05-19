@@ -225,11 +225,6 @@ class DatabaseTaskProvider {
         }
     }
 
-    // TODO Cancel challenge response
-    private fun cancelChallengeResponse() {
-        mBinder?.getService()?.cancelChallengeResponse()
-    }
-
     private fun startDialog(titleId: Int?,
                             messageId: Int?,
                             warningId: Int?,
@@ -309,9 +304,7 @@ class DatabaseTaskProvider {
         service?.removeActionTaskListener(actionTaskListener)
         service?.removeDatabaseFileInfoListener(databaseInfoListener)
         service?.removeDatabaseListener(databaseListener)
-        requestChallengeListener?.let {
-            service?.removeRequestChallengeListener(it)
-        }
+        service?.removeRequestChallengeListener()
     }
 
     private fun bindService() {
