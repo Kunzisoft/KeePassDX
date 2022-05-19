@@ -43,10 +43,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngine
-import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.database.exception.IODatabaseException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
+import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
@@ -564,7 +561,7 @@ class Database {
         this.dataModifiedSinceLastLoading = false
     }
 
-    @Throws(LoadDatabaseException::class)
+    @Throws(DatabaseInputException::class)
     fun loadData(
         contentResolver: ContentResolver,
         databaseUri: Uri,
@@ -622,10 +619,9 @@ class Database {
                     }
             )
             loaded = true
-        } catch (e: LoadDatabaseException) {
-            throw e
         } catch (e: Exception) {
-            throw LoadDatabaseException(e)
+            Log.e(TAG, "Unable to load the database")
+            throw DatabaseInputException(e)
         } finally {
             dataModifiedSinceLastLoading = false
         }
@@ -635,7 +631,7 @@ class Database {
         return mDatabaseKDBX != null
     }
 
-    @Throws(LoadDatabaseException::class)
+    @Throws(DatabaseInputException::class)
     fun mergeData(
         contentResolver: ContentResolver,
         databaseToMergeUri: Uri?,
@@ -646,7 +642,7 @@ class Database {
     ) {
 
         mDatabaseKDB?.let {
-            throw IODatabaseException("Unable to merge from a database V1")
+            throw MergeDatabaseKDBException()
         }
 
         // New database instance to get new changes
@@ -715,18 +711,17 @@ class Database {
                     }
                 }
             } else {
-                throw IODatabaseException("Database URI is null, database cannot be merged")
+                throw UnknownDatabaseLocationException()
             }
-        } catch (e: LoadDatabaseException) {
-            throw e
         } catch (e: Exception) {
-            throw LoadDatabaseException(e)
+            Log.e(TAG, "Unable to merge the database")
+            throw DatabaseInputException(e)
         } finally {
             databaseToMerge.clearAndClose()
         }
     }
 
-    @Throws(LoadDatabaseException::class)
+    @Throws(DatabaseInputException::class)
     fun reloadData(
         contentResolver: ContentResolver,
         isRAMSufficient: (memoryWanted: Long) -> Boolean,
@@ -769,14 +764,53 @@ class Database {
                 )
                 loaded = true
             } else {
-                throw IODatabaseException("Database URI is null, database cannot be reloaded")
+                throw UnknownDatabaseLocationException()
             }
-        } catch (e: LoadDatabaseException) {
-            throw e
         } catch (e: Exception) {
-            throw LoadDatabaseException(e)
+            Log.e(TAG, "Unable to reload the database")
+            throw DatabaseInputException(e)
         } finally {
             dataModifiedSinceLastLoading = false
+        }
+    }
+
+    @Throws(Exception::class)
+    private fun readDatabaseStream(contentResolver: ContentResolver,
+                                   databaseUri: Uri,
+                                   openDatabaseKDB: (InputStream) -> Unit,
+                                   openDatabaseKDBX: (InputStream) -> Unit) {
+        try {
+            // Load Data, pass Uris as InputStreams
+            val databaseStream = UriUtil.getUriInputStream(contentResolver, databaseUri)
+                ?: throw UnknownDatabaseLocationException()
+
+            BufferedInputStream(databaseStream).use { databaseInputStream ->
+
+                // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
+                databaseInputStream.mark(10)
+
+                // Get the file directory to save the attachments
+                val sig1 = databaseInputStream.readBytes4ToUInt()
+                val sig2 = databaseInputStream.readBytes4ToUInt()
+
+                // Return to the start
+                databaseInputStream.reset()
+
+                when {
+                    // Header of database KDB
+                    DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> openDatabaseKDB(
+                        databaseInputStream
+                    )
+                    // Header of database KDBX
+                    DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> openDatabaseKDBX(
+                        databaseInputStream
+                    )
+                    // Header not recognized
+                    else -> throw SignatureDatabaseException()
+                }
+            }
+        } catch (fileNotFoundException : FileNotFoundException) {
+            throw FileNotFoundDatabaseException()
         }
     }
 
@@ -785,59 +819,54 @@ class Database {
                  databaseCopyUri: Uri?,
                  mainCredential: MainCredential?,
                  challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray) {
+        val saveUri = databaseCopyUri ?: this.fileUri
         try {
-            val saveUri = databaseCopyUri ?: this.fileUri
             if (saveUri != null) {
-                var outputStream: OutputStream? = null
-                try {
-                    outputStream = UriUtil.getUriOutputStream(contentResolver, saveUri)
-                    outputStream?.let { definedOutputStream ->
-                        mDatabaseKDB?.let { databaseKDB ->
-                            DatabaseOutputKDB(databaseKDB).apply {
-                                writeDatabase(definedOutputStream) {
-                                    if (mainCredential != null) {
-                                        databaseKDB.deriveMasterKey(
-                                            contentResolver,
-                                            mainCredential
-                                        )
-                                    } else {
-                                        // No master key change
-                                    }
-                                }
-                            }
-                        }
-                        ?: mDatabaseKDBX?.let { databaseKDBX ->
-                            DatabaseOutputKDBX(databaseKDBX).apply {
-                                writeDatabase(definedOutputStream) {
-                                    if (mainCredential != null) {
-                                        // Build new master key from MainCredential
-                                        databaseKDBX.deriveMasterKey(
-                                            contentResolver,
-                                            mainCredential,
-                                            challengeResponseRetriever
-                                        )
-                                    } else {
-                                        // Reuse composite key parts
-                                        databaseKDBX.deriveCompositeKey(
-                                            challengeResponseRetriever
-                                        )
-                                    }
+                UriUtil.getUriOutputStream(contentResolver, saveUri)?.use { outputStream ->
+                    mDatabaseKDB?.let { databaseKDB ->
+                        DatabaseOutputKDB(databaseKDB).apply {
+                            writeDatabase(outputStream) {
+                                if (mainCredential != null) {
+                                    databaseKDB.deriveMasterKey(
+                                        contentResolver,
+                                        mainCredential
+                                    )
+                                } else {
+                                    // No master key change
                                 }
                             }
                         }
                     }
-                } catch (e: Exception) {
-                    throw IOException(e)
-                } finally {
-                    outputStream?.close()
+                    ?: mDatabaseKDBX?.let { databaseKDBX ->
+                        DatabaseOutputKDBX(databaseKDBX).apply {
+                            writeDatabase(outputStream) {
+                                if (mainCredential != null) {
+                                    // Build new master key from MainCredential
+                                    databaseKDBX.deriveMasterKey(
+                                        contentResolver,
+                                        mainCredential,
+                                        challengeResponseRetriever
+                                    )
+                                } else {
+                                    // Reuse composite key parts
+                                    databaseKDBX.deriveCompositeKey(
+                                        challengeResponseRetriever
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
-                if (databaseCopyUri == null) {
-                    this.dataModifiedSinceLastLoading = false
-                }
+            } else {
+                throw UnknownDatabaseLocationException()
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to save database", e)
             throw DatabaseOutputException(e)
+        } finally {
+            if (databaseCopyUri == null) {
+                this.dataModifiedSinceLastLoading = false
+            }
         }
     }
 
@@ -1328,44 +1357,5 @@ class Database {
     companion object : SingletonHolder<Database>(::Database) {
 
         private val TAG = Database::class.java.name
-
-        @Throws(Exception::class)
-        private fun readDatabaseStream(contentResolver: ContentResolver,
-                                       databaseUri: Uri,
-                                       openDatabaseKDB: (InputStream) -> Unit,
-                                       openDatabaseKDBX: (InputStream) -> Unit) {
-            // Load Data, pass Uris as InputStreams
-            val databaseStream = UriUtil.getUriInputStream(contentResolver, databaseUri)
-                ?: throw IOException("Database input stream cannot be retrieve")
-
-            BufferedInputStream(databaseStream).use { databaseInputStream ->
-                if (!databaseInputStream.markSupported()) {
-                    throw IOException("Input stream does not support mark.")
-                }
-
-                // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-                databaseInputStream.mark(10)
-
-                // Get the file directory to save the attachments
-                val sig1 = databaseInputStream.readBytes4ToUInt()
-                val sig2 = databaseInputStream.readBytes4ToUInt()
-
-                // Return to the start
-                databaseInputStream.reset()
-
-                when {
-                    // Header of database KDB
-                    DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> openDatabaseKDB(
-                        databaseInputStream
-                    )
-                    // Header of database KDBX
-                    DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> openDatabaseKDBX(
-                        databaseInputStream
-                    )
-                    // Header not recognized
-                    else -> throw SignatureDatabaseException()
-                }
-            }
-        }
     }
 }

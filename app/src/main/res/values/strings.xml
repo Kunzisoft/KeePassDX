@@ -165,7 +165,8 @@
     <string name="error_nokeyfile">Select a keyfile.</string>
     <string name="error_no_hardware_key">Select a hardware key.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
-    <string name="error_load_database">Could not load your database.</string>
+    <string name="error_XML_malformed">XML malformed.</string>
+    <string name="error_load_database">Could not load the database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_disallow_no_credentials">At least one credential must be set.</string>
@@ -181,7 +182,7 @@
     <string name="error_copy_group_here">You cannot copy a group here.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
-    <string name="error_save_database">Could not save database.</string>
+    <string name="error_save_database">Could not save the database.</string>
     <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
@@ -202,9 +203,12 @@
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
     <string name="error_driver_required">Driver for %1$s is required.</string>
+    <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
+    <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
+    <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
     <string name="hint_conf_pass">Confirm password</string>

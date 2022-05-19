@@ -23,7 +23,7 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -55,7 +55,7 @@ class MergeDatabaseRunnable(private val context: Context,
                 },
                 progressTaskUpdater
             )
-        } catch (e: LoadDatabaseException) {
+        } catch (e: DatabaseInputException) {
             setError(e)
         }
 

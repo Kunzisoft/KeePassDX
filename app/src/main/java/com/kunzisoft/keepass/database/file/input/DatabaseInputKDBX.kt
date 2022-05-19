@@ -99,7 +99,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
         this.isRAMSufficient = method
     }
 
-    @Throws(LoadDatabaseException::class)
+    @Throws(DatabaseInputException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               assignMasterKey: (() -> Unit)): DatabaseKDBX {
@@ -157,7 +157,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                     throw InvalidCredentialsDatabaseException()
                 }
 
-                val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
+                val hmacKey = mDatabase.hmacKey ?: throw DatabaseInputException()
 
                 val blockKey = HmacBlock.getHmacKey64(hmacKey, UnsignedLong.MAX_BYTES)
                 val hmac: Mac = HmacBlock.getHmacSha256(blockKey)
@@ -189,7 +189,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             try {
                 randomStream = CrsAlgorithm.getCipher(header.innerRandomStream, header.innerRandomStreamKey)
             } catch (e: Exception) {
-                throw LoadDatabaseException(e)
+                throw DatabaseInputException(e)
             }
 
             val xmlPullParserFactory = XmlPullParserFactory.newInstance().apply {
@@ -202,19 +202,12 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
 
             stopContentTimer()
 
-        } catch (e: LoadDatabaseException) {
-            throw e
-        } catch (e: XmlPullParserException) {
-            throw IODatabaseException(e)
-        } catch (e: IOException) {
+        } catch (e: Error) {
+            if (e is OutOfMemoryError)
+                throw NoMemoryDatabaseException(e)
             if (e.message?.contains("Hash failed with code") == true)
                 throw KDFMemoryDatabaseException(e)
-            else
-                throw IODatabaseException(e)
-        } catch (e: OutOfMemoryError) {
-            throw NoMemoryDatabaseException(e)
-        } catch (e: Exception) {
-            throw LoadDatabaseException(e)
+            throw DatabaseInputException(e)
         }
 
         return mDatabase
@@ -229,7 +222,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             val fieldId = dataInputStream.read().toByte()
 
             val size = dataInputStream.readBytes4ToUInt().toKotlinInt()
-            if (size < 0) throw IOException("Corrupted file")
+            if (size < 0) throw CorruptedDatabaseException()
 
             var data = ByteArray(0)
             try {
@@ -240,7 +233,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 }
             } catch (e: Exception) {
                 // OOM only if corrupted file
-                throw IOException("Corrupted file")
+                throw CorruptedDatabaseException()
             }
 
             readStream = true
@@ -299,7 +292,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
         Binaries
     }
 
-    @Throws(XmlPullParserException::class, IOException::class, LoadDatabaseException::class)
+    @Throws(XmlPullParserException::class, IOException::class, DatabaseInputException::class)
     private fun readDocumentStreamed(xpp: XmlPullParser) {
 
         ctxGroups.clear()
@@ -326,11 +319,11 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
         }
 
         // Error checks
-        if (ctx != KdbContext.Null) throw IOException("Malformed")
-        if (ctxGroups.size != 0) throw IOException("Malformed")
+        if (ctx != KdbContext.Null) throw XMLMalformedDatabaseException()
+        if (ctxGroups.size != 0) throw XMLMalformedDatabaseException()
     }
 
-    @Throws(XmlPullParserException::class, IOException::class, LoadDatabaseException::class)
+    @Throws(XmlPullParserException::class, IOException::class, DatabaseInputException::class)
     private fun readXmlElement(ctx: KdbContext, xpp: XmlPullParser): KdbContext {
         val name = xpp.name
         when (ctx) {
@@ -354,7 +347,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 if (encodedHash.isNotEmpty() && hashOfHeader != null) {
                     val hash = Base64.decode(encodedHash, BASE_64_FLAG)
                     if (!Arrays.equals(hash, hashOfHeader)) {
-                        throw LoadDatabaseException()
+                        throw DatabaseInputException()
                     }
                 }
             } else if (name.equals(DatabaseKDBXXML.ElemSettingsChanged, ignoreCase = true)) {
@@ -826,7 +819,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             if (ctx != null) {
                 contextName = ctx.name
             }
-            throw RuntimeException("Invalid end element: Context " + contextName + "End element: " + name)
+            throw XMLMalformedDatabaseException("Invalid end element: Context " + contextName + "End element: " + name)
         }
     }
 
