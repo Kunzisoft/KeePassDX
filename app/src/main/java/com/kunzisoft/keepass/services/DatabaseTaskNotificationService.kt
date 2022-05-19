@@ -77,9 +77,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private var mActionRunning = false
     private var mTaskRemovedRequested = false
-    private var mCreationState = false
+    private var mSaveState = false
 
-    private var mIconId: Int = R.drawable.notification_ic_database_load
     private var mProgressMessage: ProgressMessage = ProgressMessage(R.string.database_opened)
 
     override fun retrieveChannelId(): String {
@@ -198,7 +197,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
                     // Call listener to indicate a change in database info
-                    if (!mCreationState && previousDatabaseInfo != null) {
+                    if (!mSaveState && previousDatabaseInfo != null) {
                         mDatabaseInfoListeners.forEach { listener ->
                             listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
                         }
@@ -293,8 +292,27 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         }
 
+        // Get save state
+        if (intent != null) {
+            if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+                mSaveState = !database.isReadOnly && intent.getBooleanExtra(
+                    SAVE_DATABASE_KEY,
+                    mSaveState
+                )
+            }
+            when (intent.action) {
+                ACTION_DATABASE_CREATE_TASK,
+                ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
+                ACTION_DATABASE_SAVE -> {
+                    mSaveState = true
+                }
+            }
+        } else {
+            mSaveState = false
+        }
+
         // Create the notification
-        buildMessage(intent, database.isReadOnly)
+        buildNotification(intent)
 
         val intentAction = intent?.action
 
@@ -429,63 +447,47 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildMessage(intent: Intent?, readOnly: Boolean) {
+    private fun buildNotification(intent: Intent?) {
         // Assign elements for updates
         val intentAction = intent?.action
 
-        var saveAction = false
-        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
-            saveAction = !readOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
-        }
-
-        mIconId = if (intentAction == null)
+        // Get icon depending action state
+        val iconId = if (intentAction == null)
             R.drawable.notification_ic_database_open
         else
-            R.drawable.notification_ic_database_load
+            R.drawable.notification_ic_database_action
 
-        mProgressMessage.titleId = when {
-            saveAction -> {
-                R.string.saving_database
-            }
-            intentAction == null -> {
+        // Title depending on action
+        mProgressMessage.titleId =
+            if (intentAction == null) {
                 R.string.database_opened
-            }
-            else -> {
-                when (intentAction) {
-                    ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-                    ACTION_DATABASE_LOAD_TASK,
-                    ACTION_DATABASE_MERGE_TASK,
-                    ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
-                    ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
-                    ACTION_DATABASE_SAVE -> {
-                        saveAction = true
+            } else when (intentAction) {
+                ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
+                ACTION_DATABASE_LOAD_TASK,
+                ACTION_DATABASE_MERGE_TASK,
+                ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
+                ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
+                ACTION_DATABASE_SAVE -> R.string.saving_database
+                else -> {
+                    if (mSaveState)
                         R.string.saving_database
-                    }
-                    else -> {
+                    else
                         R.string.command_execution
-                    }
                 }
             }
-        }
 
-        mProgressMessage.messageId = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK,
-            ACTION_DATABASE_MERGE_TASK,
-            ACTION_DATABASE_RELOAD_TASK -> null
-            else -> null
-        }
+        // Updated later
+        mProgressMessage.messageId = null
 
+        // Warning if data is saved
         mProgressMessage.warningId =
-                if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK
-                        || intentAction == ACTION_DATABASE_MERGE_TASK
-                        || intentAction == ACTION_DATABASE_RELOAD_TASK)
-                    null
-                else
+                if (mSaveState)
                     R.string.do_not_kill_app
+                else
+                    null
 
         val notificationBuilder =  buildNewNotification().apply {
-            setSmallIcon(mIconId)
+            setSmallIcon(iconId)
             intent?.let {
                 setContentTitle(getString(
                     intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId))
@@ -605,11 +607,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    override fun updateMessage(progressMessage: ProgressMessage) {
-        mProgressMessage = progressMessage
-        notifyProgressMessage()
-    }
-
     override fun updateMessage(resId: Int) {
         mProgressMessage.messageId = resId
         notifyProgressMessage()
@@ -647,20 +644,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 }
             }
             // Send the request
-            updateMessage(mProgressMessage)
+            notifyProgressMessage()
             val challengeResponseRequestListener = mRequestChallengeListenerChannel?.receive()
             challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
             // Wait the response
             mProgressMessage.apply {
                 messageId = R.string.waiting_challenge_response
             }
-            updateMessage(mProgressMessage)
+            notifyProgressMessage()
             response = mResponseChallengeChannel?.receive() ?: byteArrayOf()
             // Close channels
             closeChallengeResponse()
             // Restore previous message
-            mProgressMessage.cancelable = null
-            updateMessage(previousMessage)
+            mProgressMessage = previousMessage
+            notifyProgressMessage()
         }
         return response
     }
@@ -675,8 +672,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             if (databaseUri == null)
                 return null
-
-            mCreationState = true
 
             return CreateDatabaseRunnable(this,
                 database,
@@ -714,8 +709,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             if (databaseUri == null)
                 return  null
-
-            mCreationState = false
 
             return LoadDatabaseRunnable(
                 this,
