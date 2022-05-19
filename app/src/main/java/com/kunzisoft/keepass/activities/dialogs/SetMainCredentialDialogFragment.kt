@@ -171,7 +171,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                 hardwareKeySelectionView.error =
                     if (!HardwareKeyResponseHelper.isHardwareKeyAvailable(requireActivity(), hardwareKey)) {
                         // show hardware driver dialog if required
-                        getString(R.string.warning_hardware_key_required)
+                        getString(R.string.error_driver_required, hardwareKey.toString())
                     } else {
                         null
                     }
@@ -236,7 +236,8 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         ) {
             // show hardware driver dialog if required
             error = true
-            hardwareKeySelectionView.error = getString(R.string.warning_hardware_key_required)
+            hardwareKeySelectionView.error =
+                getString(R.string.error_driver_required, hardwareKey.toString())
         }
         if (!error) {
             mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())

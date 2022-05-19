@@ -31,7 +31,9 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
+import kotlinx.coroutines.launch
 
 open class ProgressTaskDialogFragment : DialogFragment() {
 
@@ -89,12 +91,21 @@ open class ProgressTaskDialogFragment : DialogFragment() {
     }
 
     private fun updateView(textView: TextView?, @StringRes resId: Int) {
-        activity?.runOnUiThread {
+        activity?.lifecycleScope?.launch {
             if (resId == UNDEFINED) {
                 textView?.visibility = View.GONE
             } else {
                 textView?.setText(resId)
                 textView?.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun updateCancelable() {
+        activity?.lifecycleScope?.launch {
+            cancelButton?.isVisible = cancellable != null
+            cancelButton?.setOnClickListener {
+                cancellable?.invoke()
             }
         }
     }
@@ -116,10 +127,7 @@ open class ProgressTaskDialogFragment : DialogFragment() {
 
     fun setCancellable(cancellable: (() -> Unit)?) {
         this.cancellable = cancellable
-        cancelButton?.isVisible = cancellable != null
-        cancelButton?.setOnClickListener {
-            cancellable?.invoke()
-        }
+        updateCancelable()
     }
 
     companion object {

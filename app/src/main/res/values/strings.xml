@@ -201,6 +201,7 @@
     <string name="error_response_already_provided">Response already provided.</string>
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
+    <string name="error_driver_required">Driver for %1$s is required.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -364,7 +365,6 @@
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
-    <string name="warning_hardware_key_required">Driver for this hardware is required.</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>

@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -46,7 +47,6 @@ import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseExcept
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
@@ -95,7 +95,6 @@ import java.util.*
 class DatabaseTaskProvider {
 
     private var activity: FragmentActivity? = null
-    private var service: Service? = null
     private var context: Context
 
     var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
@@ -114,44 +113,35 @@ class DatabaseTaskProvider {
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
-    // To manage hardware key challenge response
-    private var mHardwareKeyResponseHelper: HardwareKeyResponseHelper? = null
-
     private var mChallengeResponseData: ByteArray? = null
-    private var mCancelChallengeResponse: Boolean = false
 
-    constructor(activity: FragmentActivity,
-                hardwareKeyResponseHelper: HardwareKeyResponseHelper? = null) {
+    constructor(activity: FragmentActivity) {
         this.activity = activity
         this.context = activity
         this.intentDatabaseTask = Intent(activity.applicationContext,
             DatabaseTaskNotificationService::class.java)
 
-        if (hardwareKeyResponseHelper != null) {
-            this.mHardwareKeyResponseHelper = hardwareKeyResponseHelper
-            this.mHardwareKeyResponseHelper?.buildHardwareKeyResponse { responseData, _ ->
-                // TODO Verify database
-                mChallengeResponseData = responseData ?: ByteArray(0)
-                respondToChallengeIfAllowed()
-            }
-            this.requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
-                override fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?) {
-                    if (HardwareKeyResponseHelper.isHardwareKeyAvailable(activity, hardwareKey)) {
-                        mHardwareKeyResponseHelper?.launchChallengeForResponse(hardwareKey, seed)
-                    } else {
-                        throw InvalidCredentialsDatabaseException("Driver for $hardwareKey is required.")
-                    }
+        // To manage hardware key challenge response
+        val hardwareKeyResponseHelper = HardwareKeyResponseHelper(activity)
+        hardwareKeyResponseHelper.buildHardwareKeyResponse { responseData, _ ->
+            // TODO Verify database
+            mChallengeResponseData = responseData ?: ByteArray(0)
+            respondToChallengeIfAllowed()
+        }
+        this.requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
+            override fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?) {
+                if (HardwareKeyResponseHelper.isHardwareKeyAvailable(activity, hardwareKey)) {
+                    hardwareKeyResponseHelper.launchChallengeForResponse(hardwareKey, seed)
+                } else {
+                    throw InvalidCredentialsDatabaseException(
+                        context.getString(R.string.error_driver_required, hardwareKey.toString())
+                    )
                 }
             }
-        } else {
-            // It's not a credential screen, cancel the challenge response
-            mCancelChallengeResponse = true
-            cancelChallengeResponseIfAllowed()
         }
     }
 
     constructor(service: Service) {
-        this.service = service
         this.context = service
         this.intentDatabaseTask = Intent(service.applicationContext,
             DatabaseTaskNotificationService::class.java)
@@ -235,12 +225,9 @@ class DatabaseTaskProvider {
         }
     }
 
-    private fun cancelChallengeResponseIfAllowed() {
-        mBinder?.let { binder ->
-            if (mCancelChallengeResponse) {
-                binder.getService().cancelChallengeResponse()
-            }
-        }
+    // TODO Cancel challenge response
+    private fun cancelChallengeResponse() {
+        mBinder?.getService()?.cancelChallengeResponse()
     }
 
     private fun startDialog(titleId: Int?,
@@ -299,7 +286,6 @@ class DatabaseTaskProvider {
                         getService().checkAction()
                     }
                     respondToChallengeIfAllowed()
-                    cancelChallengeResponseIfAllowed()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
@@ -398,7 +384,7 @@ class DatabaseTaskProvider {
             context.startService(intentDatabaseTask)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to perform database action", e)
-            Toast.makeText(activity, R.string.error_start_database_action, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.error_start_database_action, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -93,14 +93,16 @@ class HardwareKeyResponseHelper {
         private const val YKDROID_SEED_KEY = "challenge"
         private const val EXTRA_BUNDLE_KEY = "EXTRA_BUNDLE_KEY"
 
-        fun isHardwareKeyAvailable(activity: FragmentActivity,
-                                   hardwareKey: HardwareKey,
-                                   showDialog: Boolean = true): Boolean {
+        fun isHardwareKeyAvailable(
+            activity: FragmentActivity,
+            hardwareKey: HardwareKey,
+            showDialog: Boolean = true
+        ): Boolean {
             return when (hardwareKey) {
                 HardwareKey.FIDO2_SECRET -> {
                     // TODO FIDO2
                     if (showDialog)
-                        showHardwareKeyDriverNeeded(activity)
+                        showHardwareKeyDriverNeeded(activity, hardwareKey)
                     false
                 }
                 HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
@@ -110,11 +112,17 @@ class HardwareKeyResponseHelper {
             }
         }
 
-        private fun showHardwareKeyDriverNeeded(activity: FragmentActivity) {
+        private fun showHardwareKeyDriverNeeded(
+            activity: FragmentActivity,
+            hardwareKey: HardwareKey
+        ) {
             activity.lifecycleScope.launch {
                 val builder = AlertDialog.Builder(activity)
-                builder.setMessage(R.string.warning_hardware_key_required)
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                builder
+                    .setMessage(
+                        activity.getString(R.string.error_driver_required, hardwareKey.toString())
+                    )
+                    .setPositiveButton(R.string.download) { _, _ ->
                         UriUtil.openExternalApp(activity, UriUtil.KEEPASSDX_PRO_PACKAGE)
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
