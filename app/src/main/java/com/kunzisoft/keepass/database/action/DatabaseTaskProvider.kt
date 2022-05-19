@@ -85,6 +85,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import com.kunzisoft.keepass.viewmodels.ChallengeResponseViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -113,21 +114,35 @@ class DatabaseTaskProvider {
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
-    private var mChallengeResponseData: ByteArray? = null
+    private var mChallengeResponseViewModel: ChallengeResponseViewModel? = null
 
-    constructor(activity: FragmentActivity) {
+    constructor(activity: FragmentActivity,
+                challengeResponseViewModel: ChallengeResponseViewModel) {
         this.activity = activity
         this.context = activity
         this.intentDatabaseTask = Intent(activity.applicationContext,
             DatabaseTaskNotificationService::class.java)
 
+        // ViewModel used to keep response if activity recreated
+        this.mChallengeResponseViewModel = challengeResponseViewModel
         // To manage hardware key challenge response
         val hardwareKeyResponseHelper = HardwareKeyResponseHelper(activity)
         hardwareKeyResponseHelper.buildHardwareKeyResponse { responseData, _ ->
             // TODO Verify database
-            mChallengeResponseData = responseData ?: ByteArray(0)
-            respondToChallengeIfAllowed()
+            // Send to view model in case activity is restarted and not yet connected to service
+            challengeResponseViewModel.respond(responseData ?: ByteArray(0))
         }
+        challengeResponseViewModel.dataResponded.observe(activity) { response ->
+            // Consume the response
+            if (response != null) {
+                val binder = mBinder
+                if (binder != null) {
+                    binder.getService().respondToChallenge(response)
+                    challengeResponseViewModel.consumeResponse()
+                }
+            }
+        }
+
         this.requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
             override fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?) {
                 if (HardwareKeyResponseHelper.isHardwareKeyAvailable(activity, hardwareKey)) {
@@ -145,6 +160,18 @@ class DatabaseTaskProvider {
         this.context = service
         this.intentDatabaseTask = Intent(service.applicationContext,
             DatabaseTaskNotificationService::class.java)
+    }
+
+    fun destroy() {
+        this.activity = null
+        this.onDatabaseRetrieved = null
+        this.onActionFinish = null
+        this.databaseTaskBroadcastReceiver = null
+        this.mBinder = null
+        this.serviceConnection = null
+        this.progressTaskDialogFragment = null
+        this.databaseChangedDialogFragment = null
+        this.mChallengeResponseViewModel = null
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
@@ -215,16 +242,6 @@ class DatabaseTaskProvider {
 
     private var requestChallengeListener: DatabaseTaskNotificationService.RequestChallengeListener? = null
 
-    private fun respondToChallengeIfAllowed() {
-        // To wait binder and response
-        mBinder?.let { binder ->
-            mChallengeResponseData?.let { responseData ->
-                binder.getService().respondToChallenge(responseData)
-                mChallengeResponseData = null
-            }
-        }
-    }
-
     private fun startDialog(titleId: Int?,
                             messageId: Int?,
                             warningId: Int?,
@@ -280,7 +297,7 @@ class DatabaseTaskProvider {
                         getService().checkDatabaseInfo()
                         getService().checkAction()
                     }
-                    respondToChallengeIfAllowed()
+                    mChallengeResponseViewModel?.resendResponse()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
