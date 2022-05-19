@@ -621,6 +621,8 @@ class Database {
             loaded = true
         } catch (e: Exception) {
             Log.e(TAG, "Unable to load the database")
+            if (e is DatabaseInputException)
+                throw e
             throw DatabaseInputException(e)
         } finally {
             dataModifiedSinceLastLoading = false
@@ -715,6 +717,8 @@ class Database {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to merge the database")
+            if (e is DatabaseException)
+                throw e
             throw DatabaseInputException(e)
         } finally {
             databaseToMerge.clearAndClose()
@@ -768,6 +772,8 @@ class Database {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to reload the database")
+            if (e is DatabaseException)
+                throw e
             throw DatabaseInputException(e)
         } finally {
             dataModifiedSinceLastLoading = false
@@ -862,6 +868,8 @@ class Database {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to save database", e)
+            if (e is DatabaseException)
+                throw e
             throw DatabaseOutputException(e)
         } finally {
             if (databaseCopyUri == null) {
