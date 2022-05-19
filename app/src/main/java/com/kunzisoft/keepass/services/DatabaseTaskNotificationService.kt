@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -79,10 +80,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mCreationState = false
 
     private var mIconId: Int = R.drawable.notification_ic_database_load
-    private var mTitleId: Int = R.string.database_opened
-    private var mMessageId: Int? = null
-    private var mWarningId: Int? = null
-    private var mCancelable: (() -> Unit)? = null
+    private var mProgressMessage: ProgressMessage = ProgressMessage(R.string.database_opened)
 
     override fun retrieveChannelId(): String {
         return CHANNEL_DATABASE_ID
@@ -154,15 +152,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     interface ActionTaskListener {
         fun onStartAction(database: Database,
-                          titleId: Int?,
-                          messageId: Int?,
-                          warningId: Int?,
-                          cancelable: (() -> Unit)? = null)
+                          progressMessage: ProgressMessage)
         fun onUpdateAction(database: Database,
-                           titleId: Int?,
-                           messageId: Int?,
-                           warningId: Int?,
-                           cancelable: (() -> Unit)? = null)
+                           progressMessage: ProgressMessage)
         fun onStopAction(database: Database,
                          actionTask: String,
                          result: ActionRunnable.Result)
@@ -239,7 +231,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             if (mActionRunning) {
                 mActionTaskListeners.forEach { actionTaskListener ->
                     actionTaskListener.onStartAction(
-                        database, mTitleId, mMessageId, mWarningId, mCancelable
+                        database, mProgressMessage
                     )
                 }
             }
@@ -354,14 +346,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             mActionRunning = true
 
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                putExtra(DATABASE_TASK_TITLE_KEY, mTitleId)
-                                putExtra(DATABASE_TASK_MESSAGE_KEY, mMessageId)
-                                putExtra(DATABASE_TASK_WARNING_KEY, mWarningId)
+                                putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
+                                putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
                                 actionTaskListener.onStartAction(
-                                    database, mTitleId, mMessageId, mWarningId, mCancelable
+                                    database, mProgressMessage
                                 )
                             }
 
@@ -451,7 +443,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         else
             R.drawable.notification_ic_database_load
 
-        mTitleId = when {
+        mProgressMessage.titleId = when {
             saveAction -> {
                 R.string.saving_database
             }
@@ -476,14 +468,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         }
 
-        mMessageId = when (intentAction) {
+        mProgressMessage.messageId = when (intentAction) {
             ACTION_DATABASE_LOAD_TASK,
             ACTION_DATABASE_MERGE_TASK,
             ACTION_DATABASE_RELOAD_TASK -> null
             else -> null
         }
 
-        mWarningId =
+        mProgressMessage.warningId =
                 if (!saveAction
                         || intentAction == ACTION_DATABASE_LOAD_TASK
                         || intentAction == ACTION_DATABASE_MERGE_TASK
@@ -495,7 +487,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val notificationBuilder =  buildNewNotification().apply {
             setSmallIcon(mIconId)
             intent?.let {
-                setContentTitle(getString(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mTitleId)))
+                setContentTitle(getString(
+                    intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId))
+                )
             }
             setAutoCancel(false)
             setContentIntent(null)
@@ -601,15 +595,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    override fun updateMessage(resId: Int) {
-        mMessageId = resId
+    private fun notifyProgressMessage() {
         mDatabase?.let { database ->
             mActionTaskListeners.forEach { actionTaskListener ->
                 actionTaskListener.onUpdateAction(
-                    database, mTitleId, mMessageId, mWarningId, mCancelable
+                    database, mProgressMessage
                 )
             }
         }
+    }
+
+    override fun updateMessage(progressMessage: ProgressMessage) {
+        mProgressMessage = progressMessage
+        notifyProgressMessage()
+    }
+
+    override fun updateMessage(resId: Int) {
+        mProgressMessage.messageId = resId
+        notifyProgressMessage()
     }
 
     override fun actionOnLock() {
@@ -636,24 +639,28 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         runBlocking {
             // Initialize the channels
             initializeChallengeResponse()
-            val previousMessageId = mMessageId
-            mCancelable = {
-                cancelChallengeResponse(R.string.error_cancel_by_user)
+            val previousMessage = mProgressMessage.copy()
+            mProgressMessage.apply {
+                messageId = R.string.waiting_challenge_request
+                cancelable = {
+                    cancelChallengeResponse(R.string.error_cancel_by_user)
+                }
             }
             // Send the request
-            updateMessage(R.string.waiting_challenge_request)
+            updateMessage(mProgressMessage)
             val challengeResponseRequestListener = mRequestChallengeListenerChannel?.receive()
             challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
             // Wait the response
-            updateMessage(R.string.waiting_challenge_response)
+            mProgressMessage.apply {
+                messageId = R.string.waiting_challenge_response
+            }
+            updateMessage(mProgressMessage)
             response = mResponseChallengeChannel?.receive() ?: byteArrayOf()
             // Close channels
             closeChallengeResponse()
             // Restore previous message
-            mCancelable = null
-            previousMessageId?.let {
-                updateMessage(it)
-            }
+            mProgressMessage.cancelable = null
+            updateMessage(previousMessage)
         }
         return response
     }

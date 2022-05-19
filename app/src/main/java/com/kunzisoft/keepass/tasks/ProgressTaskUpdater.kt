@@ -20,7 +20,9 @@
 package com.kunzisoft.keepass.tasks
 
 import androidx.annotation.StringRes
+import com.kunzisoft.keepass.model.ProgressMessage
 
 interface ProgressTaskUpdater {
+    fun updateMessage(progressMessage: ProgressMessage)
     fun updateMessage(@StringRes resId: Int)
 }

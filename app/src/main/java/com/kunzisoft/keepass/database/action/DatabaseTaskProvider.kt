@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseExcept
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
@@ -176,19 +177,13 @@ class DatabaseTaskProvider {
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(database: Database,
-                                   titleId: Int?,
-                                   messageId: Int?,
-                                   warningId: Int?,
-                                   cancelable: (() -> Unit)?) {
-            startDialog(titleId, messageId, warningId, cancelable)
+                                   progressMessage: ProgressMessage) {
+            startDialog(progressMessage)
         }
 
         override fun onUpdateAction(database: Database,
-                                    titleId: Int?,
-                                    messageId: Int?,
-                                    warningId: Int?,
-                                    cancelable: (() -> Unit)?) {
-            updateDialog(titleId, messageId, warningId, cancelable)
+                                    progressMessage: ProgressMessage) {
+            updateDialog(progressMessage)
         }
 
         override fun onStopAction(database: Database,
@@ -242,10 +237,7 @@ class DatabaseTaskProvider {
 
     private var requestChallengeListener: DatabaseTaskNotificationService.RequestChallengeListener? = null
 
-    private fun startDialog(titleId: Int?,
-                            messageId: Int?,
-                            warningId: Int?,
-                            cancelable: (() -> Unit)?) {
+    private fun startDialog(progressMessage: ProgressMessage) {
         activity?.let { activity ->
             activity.lifecycleScope.launch {
                 if (progressTaskDialogFragment == null) {
@@ -259,26 +251,17 @@ class DatabaseTaskProvider {
                         PROGRESS_TASK_DIALOG_TAG
                     )
                 }
-                updateDialog(titleId, messageId, warningId, cancelable)
+                updateDialog(progressMessage)
             }
         }
     }
 
-    private fun updateDialog(titleId: Int?,
-                             messageId: Int?,
-                             warningId: Int?,
-                             cancelable: (() -> Unit)?) {
+    private fun updateDialog(progressMessage: ProgressMessage) {
         progressTaskDialogFragment?.apply {
-            titleId?.let {
-                updateTitle(it)
-            }
-            messageId?.let {
-                updateMessage(it)
-            }
-            warningId?.let {
-                updateWarning(it)
-            }
-            setCancellable(cancelable)
+            updateTitle(progressMessage.titleId)
+            updateMessage(progressMessage.messageId)
+            updateWarning(progressMessage.warningId)
+            setCancellable(progressMessage.cancelable)
         }
     }
 

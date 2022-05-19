@@ -110,18 +110,18 @@ open class ProgressTaskDialogFragment : DialogFragment() {
         }
     }
 
-    fun updateTitle(@StringRes resId: Int) {
-        this.title = resId
+    fun updateTitle(@StringRes resId: Int?) {
+        this.title = resId ?: UNDEFINED
         updateView(titleView, title)
     }
 
-    fun updateMessage(@StringRes resId: Int) {
-        this.message = resId
+    fun updateMessage(@StringRes resId: Int?) {
+        this.message = resId ?: UNDEFINED
         updateView(messageView, message)
     }
 
-    fun updateWarning(@StringRes resId: Int) {
-        this.warning = resId
+    fun updateWarning(@StringRes resId: Int?) {
+        this.warning = resId ?: UNDEFINED
         updateView(warningView, warning)
     }
 
