@@ -672,7 +672,7 @@ class Database {
                                     }
                                 }
                             }
-                        setDatabaseKDB(databaseToMergeKDB)
+                        databaseToMerge.setDatabaseKDB(databaseToMergeKDB)
                     },
                     { databaseInputStream ->
                         val databaseToMergeKDBX = DatabaseKDBX()
@@ -692,7 +692,7 @@ class Database {
                                 }
                             }
                         }
-                        setDatabaseKDBX(databaseToMergeKDBX)
+                        databaseToMerge.setDatabaseKDBX(databaseToMergeKDBX)
                     }
                 )
                 loaded = true
