@@ -65,6 +65,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private var mDatabase: Database? = null
 
+    // File description
+    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+    private var mLastLocalSaveTime: Long = 0
+
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
     private var mDatabaseListeners = mutableListOf<DatabaseListener>()
@@ -293,23 +297,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         // Get save state
-        if (intent != null) {
+        mSaveState = if (intent != null) {
             if (intent.hasExtra(SAVE_DATABASE_KEY)) {
-                mSaveState = !database.isReadOnly && intent.getBooleanExtra(
+                !database.isReadOnly && intent.getBooleanExtra(
                     SAVE_DATABASE_KEY,
                     mSaveState
                 )
-            }
-            when (intent.action) {
-                ACTION_DATABASE_CREATE_TASK,
-                ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
-                ACTION_DATABASE_SAVE -> {
-                    mSaveState = true
-                }
-            }
-        } else {
-            mSaveState = false
-        }
+            } else (intent.action == ACTION_DATABASE_CREATE_TASK
+                    || intent.action == ACTION_DATABASE_ASSIGN_PASSWORD_TASK
+                    || intent.action == ACTION_DATABASE_SAVE)
+        } else false
 
         // Create the notification
         buildNotification(intent)
@@ -1170,9 +1167,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
-
-        private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
-        private var mLastLocalSaveTime: Long = 0
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()
