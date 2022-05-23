@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">피드백</string>
     <string name="homepage">홈페이지</string>
     <string name="about_description">KeePass 암호 관리자의 Android 구현본</string>
@@ -160,4 +159,7 @@
     <string name="content_description_remove_field">필드 제거</string>
     <string name="error_move_entry_here">항목을 여기로 옮길 수 없습니다.</string>
     <string name="error_copy_entry_here">항목을 여기로 복사할 수 없습니다.</string>
+    <string name="content_description_credentials_information">인증서</string>
+    <string name="master_key">마스터키</string>
+    <string name="contribution">기여</string>
 </resources>
