@@ -1,0 +1,1 @@
+ * Keep screen on by default when viewing an entry
