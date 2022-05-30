@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.launch
 
@@ -37,8 +38,8 @@ class HardwareKeyResponseHelper {
                                                         extra: Bundle?) -> Unit) {
         val resultCallback = ActivityResultCallback<ActivityResult> { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val challengeResponse: ByteArray? = result.data?.getByteArrayExtra("response")
-                Log.d(TAG, "Response form challenge : " + challengeResponse.contentToString())
+                val challengeResponse: ByteArray? = result.data?.getByteArrayExtra(HARDWARE_KEY_RESPONSE_KEY)
+                Log.d(TAG, "Response form challenge")
                 onChallengeResponded.invoke(challengeResponse,
                     result.data?.getBundleExtra(EXTRA_BUNDLE_KEY))
             } else {
@@ -64,7 +65,7 @@ class HardwareKeyResponseHelper {
     fun launchChallengeForResponse(hardwareKey: HardwareKey, seed: ByteArray?) {
         when (hardwareKey) {
             HardwareKey.FIDO2_SECRET -> {
-                // TODO FIDO2
+                // TODO FIDO2 under development
                 throw Exception("FIDO2 not implemented")
             }
             HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
@@ -76,10 +77,12 @@ class HardwareKeyResponseHelper {
                     challenge.fill(32, 32, 64)
                 }
                 // Send to the driver
-                getChallengeResponseResultLauncher!!.launch(Intent(YKDROID_CHALLENGE_RESPONSE_INTENT).apply {
-                    putExtra(YKDROID_SEED_KEY, challenge)
-                })
-                Log.d(TAG, "Challenge sent : " + challenge.contentToString())
+                getChallengeResponseResultLauncher!!.launch(
+                    Intent(YUBIKEY_CHALLENGE_RESPONSE_INTENT).apply {
+                        putExtra(HARDWARE_KEY_CHALLENGE_KEY, challenge)
+                    }
+                )
+                Log.d(TAG, "Challenge sent")
             }
         }
     }
@@ -87,10 +90,11 @@ class HardwareKeyResponseHelper {
     companion object {
         private val TAG = HardwareKeyResponseHelper::class.java.simpleName
 
-        private const val YKDROID_PACKAGE = "net.pp3345.ykdroid"
-        private const val YKDROID_CHALLENGE_RESPONSE_INTENT =
-            "$YKDROID_PACKAGE.intent.action.CHALLENGE_RESPONSE"
-        private const val YKDROID_SEED_KEY = "challenge"
+        private const val YUBIKEY_CHALLENGE_RESPONSE_INTENT =
+            "net.pp3345.ykdroid.intent.action.CHALLENGE_RESPONSE"
+            // TODO Change to a generic "android.yubikey.intent.action.CHALLENGE_RESPONSE"
+        private const val HARDWARE_KEY_CHALLENGE_KEY = "challenge"
+        private const val HARDWARE_KEY_RESPONSE_KEY = "response"
         private const val EXTRA_BUNDLE_KEY = "EXTRA_BUNDLE_KEY"
 
         fun isHardwareKeyAvailable(
@@ -100,14 +104,20 @@ class HardwareKeyResponseHelper {
         ): Boolean {
             return when (hardwareKey) {
                 HardwareKey.FIDO2_SECRET -> {
-                    // TODO FIDO2
+                    // TODO FIDO2 under development
                     if (showDialog)
-                        showHardwareKeyDriverNeeded(activity, hardwareKey)
+                        UnderDevelopmentFeatureDialogFragment()
+                            .show(activity.supportFragmentManager, "underDevFeatureDialog")
                     false
                 }
                 HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
-                    // TODO (UriUtil.isExternalAppInstalled(activity, KEEPASSDX_PRO_PACKAGE)
-                    UriUtil.isExternalAppInstalled(activity, YKDROID_PACKAGE)
+                    // Check available intent
+                    val yubikeyDriverAvailable =
+                        Intent(YUBIKEY_CHALLENGE_RESPONSE_INTENT)
+                            .resolveActivity(activity.packageManager) != null
+                    if (showDialog && !yubikeyDriverAvailable)
+                        showHardwareKeyDriverNeeded(activity, hardwareKey)
+                    yubikeyDriverAvailable
                 }
             }
         }

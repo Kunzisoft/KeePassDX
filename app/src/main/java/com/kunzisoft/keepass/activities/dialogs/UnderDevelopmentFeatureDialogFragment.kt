@@ -39,6 +39,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(activity)
 
             val stringBuilder = SpannableStringBuilder()
+            /*
             if (UriUtil.contributingUser(activity)) {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_thanks), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_rose), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
@@ -46,6 +47,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_upgrade), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
                 builder.setPositiveButton(android.R.string.ok) { _, _ -> dismiss() }
             } else {
+             */
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_contibute), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
@@ -53,7 +55,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                     UriUtil.gotoUrl(requireContext(), R.string.contribution_url)
                 }
                 builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
-            }
+            //}
             builder.setMessage(stringBuilder)
             // Create the AlertDialog object and return it
             return builder.create()
