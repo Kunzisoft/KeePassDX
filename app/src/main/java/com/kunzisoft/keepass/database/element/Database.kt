@@ -57,9 +57,7 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.SingletonHolder
-import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.*
 import java.io.*
 import java.util.*
 
@@ -822,13 +820,17 @@ class Database {
 
     @Throws(DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver,
+                 cacheDir: File,
                  databaseCopyUri: Uri?,
                  mainCredential: MainCredential?,
                  challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray) {
         val saveUri = databaseCopyUri ?: this.fileUri
+        // Build temp database file to avoid file corruption if error
+        val cacheFile = File(cacheDir, saveUri.hashCode().toString())
         try {
             if (saveUri != null) {
-                UriUtil.getUriOutputStream(contentResolver, saveUri)?.use { outputStream ->
+                // Save in a temp memory to avoid exception
+                cacheFile.outputStream().use { outputStream ->
                     mDatabaseKDB?.let { databaseKDB ->
                         DatabaseOutputKDB(databaseKDB).apply {
                             writeDatabase(outputStream) {
@@ -863,6 +865,14 @@ class Database {
                         }
                     }
                 }
+                // Copy from the cache to the final stream
+                UriUtil.getUriOutputStream(contentResolver, saveUri)?.use { outputStream ->
+                    cacheFile.inputStream().use { inputStream ->
+                        inputStream.readAllBytes { buffer ->
+                            outputStream.write(buffer)
+                        }
+                    }
+                }
             } else {
                 throw UnknownDatabaseLocationException()
             }
@@ -872,6 +882,12 @@ class Database {
                 throw e
             throw DatabaseOutputException(e)
         } finally {
+            try {
+                Log.d(TAG, "Delete database cache file $cacheFile")
+                cacheFile.delete()
+            } catch (e: Exception) {
+                Log.e(TAG, "Cache file $cacheFile cannot be deleted", e)
+            }
             if (databaseCopyUri == null) {
                 this.dataModifiedSinceLastLoading = false
             }

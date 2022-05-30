@@ -45,6 +45,7 @@ open class SaveDatabaseRunnable(protected var context: Context,
             try {
                 database.saveData(
                     context.contentResolver,
+                    context.cacheDir,
                     databaseCopyUri,
                     mainCredential,
                     challengeResponseRetriever)
