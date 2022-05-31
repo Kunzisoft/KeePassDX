@@ -1,1 +1,2 @@
+ * Fix device credential unlocking #1344
  * Keep screen on by default when viewing an entry
