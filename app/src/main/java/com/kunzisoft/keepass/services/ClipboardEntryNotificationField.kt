@@ -33,6 +33,10 @@ class ClipboardEntryNotificationField : Parcelable {
 
     private var id: NotificationFieldId = NotificationFieldId.UNKNOWN
     var label: String = ""
+    val isSensitive: Boolean
+        get() {
+            return id == NotificationFieldId.PASSWORD
+        }
 
     val actionKey: String
         get() = getActionKey(id)

@@ -1,2 +1,3 @@
  * Fix device credential unlocking #1344
+ * New clipboard manager #1343
  * Keep screen on by default when viewing an entry

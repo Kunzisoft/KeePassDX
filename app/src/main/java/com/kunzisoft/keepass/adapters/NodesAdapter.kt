@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
@@ -521,13 +521,14 @@ class NodesAdapter (private val context: Context,
         }
         holder?.otpContainer?.setOnClickListener {
             otpElement?.token?.let { token ->
-                Toast.makeText(
-                        context,
-                        context.getString(R.string.copy_field,
-                                TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN)),
-                        Toast.LENGTH_LONG
-                ).show()
-                mClipboardHelper.copyToClipboard(token)
+                try {
+                    mClipboardHelper.copyToClipboard(
+                        TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
+                        token
+                    )
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to copy the OTP token", e)
+                }
             }
         }
     }

@@ -78,9 +78,11 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(context)
             passphraseCopyView?.setOnClickListener {
-                clipboardHelper.timeoutCopyToClipboard(passKeyView.passwordString,
-                    getString(R.string.copy_field,
-                        getString(R.string.entry_password)))
+                clipboardHelper.timeoutCopyToClipboard(
+                    getString(R.string.passphrase),
+                    passKeyView.passwordString,
+                    true
+                )
             }
 
             wordCaseAdapter = ArrayAdapter(context,
