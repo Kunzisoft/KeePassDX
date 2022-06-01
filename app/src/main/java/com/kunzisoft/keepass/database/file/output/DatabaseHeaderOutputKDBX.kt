@@ -92,7 +92,7 @@ constructor(private val databaseKDBX: DatabaseKDBX,
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, uIntTo4Bytes(header.innerRandomStream!!.id))
         }
 
-        if (databaseKDBX.containsPublicCustomData()) {
+        if (databaseKDBX.publicCustomData.size() > 0) {
             val bos = ByteArrayOutputStream()
             VariantDictionary.serialize(databaseKDBX.publicCustomData, bos)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.PublicCustomData, bos.toByteArray())

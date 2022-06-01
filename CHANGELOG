@@ -1,4 +1,5 @@
 KeePassDX(3.4.5)
+ * Fix custom data in group (fix KeeShare) #1335
  * Fix device credential unlocking #1344
  * New clipboard manager #1343
  * Keep screen on by default when viewing an entry
