@@ -3,3 +3,4 @@
  * Nouveau gestionnaire de presse-papier #1343
  * Garde l'écran allumé par défaut lors d'une visualisation d'entrée
  * Changement d'ordre des filtres de recherche
+ * Correction de la selection cherchable

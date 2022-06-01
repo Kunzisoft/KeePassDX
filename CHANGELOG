@@ -4,6 +4,7 @@ KeePassDX(3.4.5)
  * New clipboard manager #1343
  * Keep screen on by default when viewing an entry
  * Change the order of the search filters
+ * Fix searchable selection
 
 KeePassDX(3.4.4)
  * Fix crash in New Android 13 #1321

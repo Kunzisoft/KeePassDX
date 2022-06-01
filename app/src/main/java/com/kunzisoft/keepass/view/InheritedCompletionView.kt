@@ -52,9 +52,16 @@ class InheritedCompletionView @JvmOverloads constructor(
     }
 
     init {
-        setAdapter(adapter)
+        isFocusable = false
+        isFocusableInTouchMode = false
+        //hardwareKeyCompletion.isEnabled = false
+        isCursorVisible = false
+        setTextIsSelectable(false)
         inputType = InputType.TYPE_NULL
-        adapter.filter.filter(null)
+        setAdapter(adapter)
+        setOnClickListener {
+            showDropDown()
+        }
     }
 
     fun getValue(): Boolean? {
@@ -63,7 +70,6 @@ class InheritedCompletionView @JvmOverloads constructor(
 
     fun setValue(inherited: Boolean?) {
         setText(context.getString(InheritedStatus.getStatusFromValue(inherited).stringId))
-        adapter.filter.filter(null)
     }
 
     private enum class InheritedStatus(val stringId: Int, val value: Boolean?) {

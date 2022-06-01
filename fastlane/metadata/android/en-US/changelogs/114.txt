@@ -3,3 +3,4 @@
  * New clipboard manager #1343
  * Keep screen on by default when viewing an entry
  * Change the order of the search filters
+ * Fix searchable selection
