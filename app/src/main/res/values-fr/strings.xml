@@ -291,7 +291,7 @@
 \n\"Modifiable\" vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger votre base de données.</string>
-    <string name="error_load_database_KDF_memory">Impossible de charger la clé. Veuillez essayer de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
+    <string name="error_load_database_KDF_memory">Impossible de charger la clé. Essayez de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
     <string name="list_entries_show_username_title">Afficher les noms d’utilisateur</string>
     <string name="list_entries_show_username_summary">Affiche les noms d’utilisateur dans les listes d’entrées</string>
     <string name="build_label">Compilation %1$s</string>

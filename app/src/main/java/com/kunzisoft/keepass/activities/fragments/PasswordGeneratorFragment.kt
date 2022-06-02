@@ -99,9 +99,11 @@ class PasswordGeneratorFragment : DatabaseFragment() {
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(context)
             passwordCopyView?.setOnClickListener {
-                clipboardHelper.timeoutCopyToClipboard(passKeyView.passwordString,
-                    getString(R.string.copy_field,
-                        getString(R.string.entry_password)))
+                clipboardHelper.timeoutCopyToClipboard(
+                    getString(R.string.password),
+                    passKeyView.passwordString,
+                    true
+                )
             }
         }
 

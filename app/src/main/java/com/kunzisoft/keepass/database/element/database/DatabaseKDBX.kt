@@ -855,10 +855,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         mFieldReferenceEngine.clear()
     }
 
-    fun containsPublicCustomData(): Boolean {
-        return publicCustomData.size() > 0
-    }
-
     fun buildNewBinaryAttachment(smallSize: Boolean,
                                  compression: Boolean,
                                  protection: Boolean,

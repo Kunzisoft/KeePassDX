@@ -471,13 +471,13 @@
     <string name="autofill_read_only_save">Uložení dat není povoleno, je-li databáze v režimu pouze pro čtení.</string>
     <string name="autofill_ask_to_save_data_summary">Po dokončení vyplňování formuláře se zeptat na uložení dat</string>
     <string name="autofill_ask_to_save_data_title">Zeptat se před uložením</string>
-    <string name="autofill_save_search_info_summary">Pokuste se uložit údaje hledání, když manuálně vybíráte položku</string>
+    <string name="autofill_save_search_info_summary">Pokusit se uložit údaje hledání pro příští použití, vybíráte-li manuálně záznam</string>
     <string name="autofill_save_search_info_title">Uložit výsledky vyhledávání</string>
     <string name="autofill_close_database_summary">Zavřít databázi po samovyplnění polí</string>
     <string name="autofill_close_database_title">Zavřít databázi</string>
     <string name="keyboard_previous_lock_summary">Po uzamknutí databáze automaticky přepnout zpět na předchozí klávesnici</string>
     <string name="keyboard_previous_lock_title">Uzamknout databázi</string>
-    <string name="keyboard_save_search_info_summary">Je-li po sdílení URL s KeePassDX vybrán záznam, pokusit se zapamatovat onen záznam pro další použití</string>
+    <string name="keyboard_save_search_info_summary">Pokusit se uložit sdílený záznam pro příští použití, je-li záznam manuálně vybrán</string>
     <string name="keyboard_save_search_info_title">Uložit sdílené info</string>
     <string name="notification">Oznámení</string>
     <string name="biometric_security_update_required">Vyžadována aktualizace biometrického zabezpečení.</string>
@@ -504,7 +504,7 @@
     <string name="advanced_unlock_invalid_key">Nedaří se načíst klíč rozšířeného odemknutí. Prosím, smažte ho a opakujte proces rozpoznání odemknutí.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Načíst důvěrný údaj pomocí dat rozšířeného odemknutí</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Otevřít pomocí rozšířeného odemykání</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Varování: Pokud použijete rozpoznání rozšířeného odemknutí, musíte si i nadále pamatovat hlavní heslo.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Pokud použijete rozpoznání rozšířeného odemknutí, musíte si i nadále pamatovat hlavní heslo.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Rozpoznání rozšířeného odemknutí</string>
     <string name="open_advanced_unlock_prompt_store_credential">Pro uložení důvěrných údajů otevřete pobídku rozšířeného odemknutí</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Databázi otevřete i pomocí nabídky rozšířeného odemykání</string>
@@ -622,4 +622,27 @@
     <string name="navigation_drawer_close">Zavření navigačního panelu</string>
     <string name="inherited">Převzít</string>
     <string name="auto_type_sequence">Posloupnost automatického vyplňování</string>
+    <string name="content_description_passphrase_word_count">Počet slov hesla</string>
+    <string name="passphrase">Heslo</string>
+    <string name="colorize_password_title">Zabarvit hesla</string>
+    <string name="colorize_password_summary">Zabarvit znaky hesla podle typu</string>
+    <string name="warning_database_already_opened">Databáze je již otevřená, zavřete ji, než otevřete jinou</string>
+    <string name="advanced_unlock_keystore_warning">Tato funkce uloží přihlašovací údaje v bezpečném úložišti klíčů Vašeho zařízení.
+\n
+\nV závislosti na implementaci nativního API operačního systému nemusí být plně funkční.
+\nOvěřte kompatibilitu a zabezpečení úložiště klíčů u výrobce svého zařízení a dodavatele operačního systému, jejž používáte.</string>
+    <string name="keyboard_previous_search_title">Panel hledání</string>
+    <string name="keyboard_previous_search_summary">Automaticky přepnout na předchozí klávesnici v panelu hledání</string>
+    <string name="entropy">Entropie: %1$s bitů</string>
+    <string name="entropy_calculate">Entropie: spočítat…</string>
+    <string name="at_least_one_char">Alespoň jeden znak z každé</string>
+    <string name="entropy_high">Entropie: vysoká</string>
+    <string name="exclude_ambiguous_chars">Vyloučit víceznačné znaky</string>
+    <string name="consider_chars_filter">Uvážit znaky</string>
+    <string name="word_separator">Oddělovač</string>
+    <string name="ignore_chars_filter">Vyloučit znaky</string>
+    <string name="lower_case">malá písmena</string>
+    <string name="upper_case">VELKÁ PÍSMENA</string>
+    <string name="title_case">Titulové Psaní</string>
+    <string name="character_count">Počet znaků: %1$d</string>
 </resources>

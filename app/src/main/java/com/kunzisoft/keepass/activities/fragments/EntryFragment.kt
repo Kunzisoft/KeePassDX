@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
-import java.util.*
 
 class EntryFragment: DatabaseFragment() {
 
@@ -158,11 +157,9 @@ class EntryFragment: DatabaseFragment() {
 
             setOnCopyActionClickListener { field ->
                 mClipboardHelper?.timeoutCopyToClipboard(
+                    TemplateField.getLocalizedName(context, field.name),
                     field.protectedValue.stringValue,
-                    getString(
-                        R.string.copy_field,
-                        TemplateField.getLocalizedName(context, field.name)
-                    )
+                    field.protectedValue.isProtected
                 )
             }
         }
@@ -251,8 +248,7 @@ class EntryFragment: DatabaseFragment() {
 
     fun launchEntryCopyEducationAction() {
         val appNameString = getString(R.string.app_name)
-        mClipboardHelper?.timeoutCopyToClipboard(appNameString,
-            getString(R.string.copy_field, appNameString))
+        mClipboardHelper?.timeoutCopyToClipboard(appNameString, appNameString)
     }
 
     companion object {
