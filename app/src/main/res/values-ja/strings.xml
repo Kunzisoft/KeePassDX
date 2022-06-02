@@ -634,7 +634,7 @@
     <string name="navigation_drawer_open">ナビゲーション ドロワーが開いています</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
     <string name="auto_type_sequence">Auto-Type シークエンス</string>
-    <string name="current_group">現在のグループ</string>
+    <string name="current_group">選択されたグループ</string>
     <string name="keyboard_previous_search_summary">検索画面で切り替え前のキーボードに自動的に戻します</string>
     <string name="menu_merge_from">マージ…</string>
     <string name="entropy_calculate">エントロピー：計算中…</string>

@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">피드백</string>
     <string name="homepage">홈페이지</string>
     <string name="about_description">KeePass 암호 관리자의 Android 구현본</string>
@@ -28,19 +27,19 @@
     <string name="encryption">암호화</string>
     <string name="encryption_algorithm">안호화 방식</string>
     <string name="key_derivation_function">키 파생 기능</string>
-    <string name="app_timeout">앱 자동 종료 시간</string>
-    <string name="app_timeout_summary">앱이 잠기기 전에 비활성화됨</string>
+    <string name="app_timeout">자동 종료 시간</string>
+    <string name="app_timeout_summary">데이터베이스를 잠그기 전 유휴 시간</string>
     <string name="application">앱</string>
     <string name="brackets">브라켓</string>
     <string name="extended_ASCII">확장 ASCII</string>
-    <string name="file_manager_install_description">OpenIntents File Manager를 설치하여 파일 찾아보기</string>
+    <string name="file_manager_install_description">파일 관리자는 데이터베이스 파일 생성, 열기 및 저장하기 위해 ACTION_CREATE_DOCUMENT 및 ACTION_OPEN_DOCUMENT 인텐트 액션의 허가가 필요합니다.</string>
     <string name="allow">허가</string>
     <string name="clipboard_cleared">클립보드 비워짐</string>
     <string name="clipboard_error_title">클립보드 오류</string>
-    <string name="clipboard_error">일부 삼성 안드로이드 폰은 앱이 클립보드를 사용하지 못하게 합니다.</string>
+    <string name="clipboard_error">일부 장치는 앱이 클립보드를 사용하지 못하게 할 수 있습니다.</string>
     <string name="clipboard_error_clear">클립보드를 비울 수 없음</string>
     <string name="clipboard_timeout">클립보드 시간 초과</string>
-    <string name="clipboard_timeout_summary">클립보드 저장이 유지될 시간</string>
+    <string name="clipboard_timeout_summary">클립보드 저장이 유지될 시간 (장치가 지원한다면)</string>
     <string name="select_to_copy">%1$s 을(를) 클립보드에 복사하려면 선택하십시오.</string>
     <string name="retrieving_db_key">데이터베이스 키를 검색하는 중…</string>
     <string name="database">데이터베이스</string>
@@ -152,7 +151,7 @@
     <string name="content_description_add_group">그룹 추가</string>
     <string name="content_description_file_information">파일 정보</string>
     <string name="content_description_password_checkbox">비밀번호 체크박스</string>
-    <string name="content_description_keyfile_checkbox">내용_설명_키파일_체크박스</string>
+    <string name="content_description_keyfile_checkbox">키파일 체크박스</string>
     <string name="content_description_repeat_toggle_password_visibility">토글 비밀번호 가시성 반복</string>
     <string name="entry_password_generator">비밀번호 생성</string>
     <string name="content_description_password_length">비밀번호 길이</string>
@@ -160,4 +159,44 @@
     <string name="content_description_remove_field">필드 제거</string>
     <string name="error_move_entry_here">항목을 여기로 옮길 수 없습니다.</string>
     <string name="error_copy_entry_here">항목을 여기로 복사할 수 없습니다.</string>
+    <string name="content_description_credentials_information">인증서</string>
+    <string name="master_key">마스터키</string>
+    <string name="contribution">기여</string>
+    <string name="entry_add_attachment">첨부파일 추가</string>
+    <string name="content_description_passphrase_word_count">비밀구절 단어 수</string>
+    <string name="expired">만료됨</string>
+    <string name="case_sensitive">대소문자 구분</string>
+    <string name="error_create_database">데이터베이스 파일을 생성할 수 없습니다.</string>
+    <string name="id_card">신분증</string>
+    <string name="place_of_issue">발행지</string>
+    <string name="cryptocurrency">가상 화폐 지갑</string>
+    <string name="error_word_reserved">이 단어는 예약되어 사용할 수 없습니다.</string>
+    <string name="error_invalid_OTP">OTP 비밀키가 유효하지 않습니다.</string>
+    <string name="error_disallow_no_credentials">하나 이상의 자격 증명을 설정해야 합니다.</string>
+    <string name="error_save_database">데이터베이스를 저장할 수 없습니다.</string>
+    <string name="error_otp_secret_key">비밀키는 Base32 포맷이어야 합니다.</string>
+    <string name="error_create_database_file">이 비밀번호와 키파일로 데이터베이스를 생성할 수 없습니다.</string>
+    <string name="content_description_database_color">데이터베이스 색상</string>
+    <string name="content_description_entry_foreground_color">항목 전면 색상</string>
+    <string name="content_description_entry_background_color">항목 배경 색상</string>
+    <string name="discard_changes">변경사항을 취소하시겠습니까\?</string>
+    <string name="debit_credit_card">직불 / 신용 카드</string>
+    <string name="otp_algorithm">알고리즘</string>
+    <string name="date_of_issue">발행일자</string>
+    <string name="error_move_group_here">그룹을 여기로 옮길 수 없습니다.</string>
+    <string name="error_copy_group_here">그룹을 여기로 복사할 수 없습니다.</string>
+    <string name="content_description_otp_information">일회용 암호 정보</string>
+    <string name="security">보안</string>
+    <string name="content_description_entry_icon">항목 아이콘</string>
+    <string name="content_description_add_item">아이템 추가</string>
+    <string name="contact">문의</string>
+    <string name="content_description_update_from_list">갱신</string>
+    <string name="validate">검증</string>
+    <string name="html_about_contribution"><strong>우리의 자유를 지키고</strong>, <strong>버그를 고치고</strong>, <strong>기능을 추가</strong>하고, <strong>언제나 활성화</strong>되기 위해 우리는 당신의 <strong>기여</strong>를 믿습니다.</string>
+    <string name="entry_setup_otp">일회용 비밀번호 설정</string>
+    <string name="otp_type">OTP 유형</string>
+    <string name="otp_period">주기 (초)</string>
+    <string name="search_filters">검색 필터</string>
+    <string name="regex">정규 표현식</string>
+    <string name="error_label_exists">이미 존재하는 라벨입니다.</string>
 </resources>
