@@ -50,7 +50,7 @@
     <string name="entry_notes">Заметки</string>
     <string name="entry_confpassword">Подтверждение пароля</string>
     <string name="entry_created">Создано</string>
-    <string name="entry_expires">Срок действия</string>
+    <string name="entry_expires">Окончание</string>
     <string name="entry_keyfile">Файл ключа</string>
     <string name="entry_modified">Изменено</string>
     <string name="entry_not_found">Данные записи не найдены.</string>

@@ -564,4 +564,7 @@
     <string name="custom_data">Brugerdefinerede data</string>
     <string name="search_filters">Søg filtre</string>
     <string name="current_group">Nuværende gruppe</string>
+    <string name="number">Nummer</string>
+    <string name="name">Navn</string>
+    <string name="type">Type</string>
 </resources>
