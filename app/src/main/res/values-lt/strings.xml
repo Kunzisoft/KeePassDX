@@ -59,7 +59,7 @@
     <string name="about">Apie</string>
     <string name="settings">Nustatymai</string>
     <string name="menu_database_settings">Duomenų bazės nustatymai</string>
-    <string name="menu_delete">Išrinti</string>
+    <string name="menu_delete">Ištrinti</string>
     <string name="menu_donate">Aukoti</string>
     <string name="menu_edit">Keisti</string>
     <string name="menu_open">Atidaryti</string>
@@ -90,7 +90,7 @@
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
     <string name="entry_keyfile">Rakto failas</string>
     <string name="search">Įrašo pavadinimas/aprašymas</string>
-    <string name="menu_change_key_settings">Pakeisti master raktą</string>
+    <string name="menu_change_key_settings">Pakeisti pagrindinį raktą</string>
     <string name="entry_accessed">Naudota</string>
     <string name="hide_password_title">Maskuoti slaptažodį</string>
     <string name="space">Tarpas</string>
@@ -103,7 +103,7 @@
     <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Pasirūpininkite, kad kelias būtų teisingas.</string>
-    <string name="education_unlock_summary">Įveskite slaptažodį ir/ar rakto failą, kad atvertumėte jūsų duomenų bazę.
+    <string name="education_unlock_summary">Įveskite slaptažodį ir/ar rakto failą, kad atrakintumėte savo duomenų bazę.
 \n
 \nSukurkite atsarginę duomenų bazės failo kopiją saugioje vietoje po kiekvieno pakeitimo.</string>
     <string name="clipboard_error">Kai kurie įrenginiai neleidžia programėlėms naudoti iškarpinės.</string>
@@ -157,4 +157,7 @@
     <string name="error_save_database">Nepavyko įrašyti duomenų bazės.</string>
     <string name="error_create_database_file">Nepavyko sukurti duomenų bazes su šiuo slaptažodžiu ir rakto failu.</string>
     <string name="error_out_of_memory">Nėra atminties kad užkrauti visą jūsų duomenų bazę.</string>
+    <string name="lock">Užrakinti</string>
+    <string name="education_unlock_title">Atrakinkite savo duomenų bazę</string>
+    <string name="menu_lock">Užrakinti duomenų bazę</string>
 </resources>
