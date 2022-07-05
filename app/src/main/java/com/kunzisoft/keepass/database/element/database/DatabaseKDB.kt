@@ -150,10 +150,15 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         ) else null
 
         // Build master key
-        this.masterKey = HashManager.hashSha256(
-            passwordBytes,
-            keyFileBytes
-        )
+        if (passwordBytes != null
+            && keyFileBytes != null) {
+            this.masterKey = HashManager.hashSha256(
+                passwordBytes,
+                keyFileBytes
+            )
+        } else {
+            this.masterKey = passwordBytes ?: keyFileBytes ?: byteArrayOf(0)
+        }
     }
 
     override fun createGroup(): GroupKDB {
