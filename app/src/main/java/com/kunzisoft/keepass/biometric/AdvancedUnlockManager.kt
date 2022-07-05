@@ -74,6 +74,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
 
     private var isKeyManagerInit = false
 
+    private val unlockNfcEnable = PreferencesUtil.isUnlockNfcEnable(retrieveContext())
     private val biometricUnlockEnable = PreferencesUtil.isBiometricUnlockEnable(retrieveContext())
     private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(retrieveContext())
 
@@ -101,7 +102,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
     }
 
     init {
-        if (isDeviceSecure(retrieveContext())
+        if (unlockNfcEnable || isDeviceSecure(retrieveContext())
                 && (biometricUnlockEnable || deviceCredentialUnlockEnable)) {
             try {
                 this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
@@ -213,15 +214,16 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    @Synchronized fun encryptData(value: ByteArray) {
+    @Synchronized fun encryptData(value: ByteArray, unlockData: String? = null, databaseKeyId: Int? = null) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
-            val encrypted = cipher?.doFinal(value) ?: byteArrayOf()
+            val dataAndValue = if (true == unlockData?.isNotBlank()) ("${String(value)}\n$unlockData").toByteArray() else value
+            val encrypted = cipher?.doFinal(dataAndValue) ?: byteArrayOf()
             // passes updated iv spec on to callback so this can be stored for decryption
             cipher?.parameters?.getParameterSpec(IvParameterSpec::class.java)?.let{ spec ->
-                advancedUnlockCallback?.handleEncryptedResult(encrypted, spec.iv)
+                advancedUnlockCallback?.handleEncryptedResult(encrypted, spec.iv, databaseKeyId)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to encrypt data", e)
@@ -278,14 +280,19 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    @Synchronized fun decryptData(encryptedValue: ByteArray) {
+    @Synchronized fun decryptData(encryptedValue: ByteArray, unlockData: String? = null, databaseKeyId: Int? = null) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
             // actual decryption here
-            cipher?.doFinal(encryptedValue)?.let { decrypted ->
-                advancedUnlockCallback?.handleDecryptedResult(decrypted)
+            cipher?.doFinal(encryptedValue)?.let { valueArray ->
+                val decrypted = if (true == unlockData?.isNotBlank()) {
+                    val dataAndValue = String(valueArray)
+                    if (unlockData != dataAndValue.substringAfter("\n")) throw Exception("Unknown NFC tag")
+                    dataAndValue.substringBefore("\n").toByteArray()
+                } else valueArray
+                advancedUnlockCallback?.handleDecryptedResult(decrypted, databaseKeyId)
             }
         } catch (badPaddingException: BadPaddingException) {
             Log.e(TAG, "Unable to decrypt data", badPaddingException)
@@ -360,8 +367,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         fun onAuthenticationSucceeded()
         fun onAuthenticationFailed()
         fun onAuthenticationError(errorCode: Int, errString: CharSequence)
-        fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray)
-        fun handleDecryptedResult(decryptedValue: ByteArray)
+        fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray, databaseKeyId: Int?)
+        fun handleDecryptedResult(decryptedValue: ByteArray, databaseKeyId: Int?)
     }
 
     companion object {
@@ -455,9 +462,9 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
 
                     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {}
 
-                    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray) {}
+                    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray, databaseKeyId: Int?) {}
 
-                    override fun handleDecryptedResult(decryptedValue: ByteArray) {}
+                    override fun handleDecryptedResult(decryptedValue: ByteArray, databaseKeyId: Int?) {}
 
                     override fun onUnrecoverableKeyException(e: Exception) {
                         advancedCallback.onUnrecoverableKeyException(e)

@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.password.PassphraseGenerator
+import com.kunzisoft.keepass.services.NfcService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
@@ -483,6 +484,12 @@ object PreferencesUtil {
         return isBiometricUnlockEnable(context) || isDeviceCredentialUnlockEnable(context)
     }
 
+    fun isUnlockNfcEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.unlock_nfc_enable_key),
+            context.resources.getBoolean(R.bool.unlock_nfc_enable_default))
+    }
+
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val biometricSupported = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -618,6 +625,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
                 context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
+    }
+
+    fun isKeyboardEntryNfcEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_selection_nfc_key),
+            context.resources.getBoolean(R.bool.keyboard_selection_nfc_default))
     }
 
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
@@ -796,6 +809,7 @@ object PreferencesUtil {
                 context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_broken_locations_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.remember_keyfile_locations_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.unlock_nfc_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.biometric_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.device_credential_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.biometric_auto_open_prompt_key) -> editor.putBoolean(name, value.toBoolean())
@@ -811,6 +825,7 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
                 context.getString(R.string.keyboard_selection_entry_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_selection_nfc_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())
@@ -861,6 +876,50 @@ object PreferencesUtil {
         putPropertiesInPreferences(properties,
                 Education.getEducationSharedPreferences(context)) { editor, name, value ->
             Education.putPropertiesInEducationPreferences(context, editor, name, value)
+        }
+    }
+
+    //todo-op? move to common util functions
+    // isEmulatorProbably - From device-info plugin, Flutter/Google
+    private val isEmulatorProbably = (android.os.Build.BRAND.startsWith("generic") && android.os.Build.DEVICE.startsWith("generic"))
+            || android.os.Build.MANUFACTURER.contains("Genymotion")
+            || android.os.Build.FINGERPRINT.startsWith("generic") || android.os.Build.FINGERPRINT.startsWith("unknown")
+            || android.os.Build.HARDWARE.contains("goldfish") || android.os.Build.HARDWARE.contains("ranchu")
+            || android.os.Build.MODEL.contains("google_sdk") || android.os.Build.MODEL.contains("Emulator")
+            || android.os.Build.MODEL.contains("Android SDK built for x86")
+            || android.os.Build.PRODUCT.contains("sdk_google") || android.os.Build.PRODUCT.contains("google_sdk")
+            || android.os.Build.PRODUCT.contains("sdk") || android.os.Build.PRODUCT.contains("sdk_x86")
+            || android.os.Build.PRODUCT.contains("sdk_gphone64_arm64") || android.os.Build.PRODUCT.contains("vbox86p")
+            || android.os.Build.PRODUCT.contains("emulator") || android.os.Build.PRODUCT.contains("simulator")
+
+    object Nfc {
+        val isDebug = isEmulatorProbably // debug in emulator //todo-op!!! disable
+
+        fun isSupported(context: Context): Boolean = isDebug || NfcService().isSupported(context)
+
+        fun debugAskNfcTagData(context: Context, windowToken: android.os.IBinder? = null, onOK: (String) -> Unit) {
+            val input = android.widget.EditText(context)
+            input.inputType = android.text.InputType.TYPE_CLASS_TEXT
+            val dialog = androidx.appcompat.app.AlertDialog.Builder(context)
+                .setTitle("Debug NFC")
+                .setMessage("Enter NFC tag data:")
+                .setView(input)
+                .setPositiveButton(context?.getString(android.R.string.ok)) { _, _ ->
+                    onOK(input.text.toString())
+                }.setNegativeButton(context?.getString(android.R.string.cancel)) { dialog, _ ->
+                    dialog.cancel()
+                }.create()
+            windowToken?.let { windowToken ->
+                // for Magikeyboard: 'dialog.show() crashed InputMethodService?' from: https://stackoverflow.com/questions/7244637/dialog-show-crashed-inputmethodservice
+                dialog.window?.also { window ->
+                    window.attributes = window.attributes?.also {
+                        it.token = windowToken
+                        it.type = android.view.WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG
+                    }
+                    window.addFlags(android.view.WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM) // window doesn't need input method
+                }
+            }
+            dialog.show()
         }
     }
 }

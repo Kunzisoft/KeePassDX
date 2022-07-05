@@ -350,8 +350,14 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
     }
 
+    override fun onStop() {
+        advancedUnlockFragment?.nfc?.stop() // moved from AdvancedUnlockFragment.connect (onTap NFC tag...)
+        super.onStop()
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        if (true == advancedUnlockFragment?.nfc?.checkAndProcessTag(intent)) return
         getUriFromIntent(intent)
     }
 
