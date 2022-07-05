@@ -105,6 +105,16 @@ class UnknownDatabaseLocationException : DatabaseException() {
     override var errorId: Int = R.string.error_location_unknown
 }
 
+class HardwareKeyDatabaseException : DatabaseException() {
+    @StringRes
+    override var errorId: Int = R.string.error_hardware_key_unsupported
+}
+
+class EmptyKeyDatabaseException : DatabaseException() {
+    @StringRes
+    override var errorId: Int = R.string.error_empty_key
+}
+
 class SignatureDatabaseException : DatabaseInputException() {
     @StringRes
     override var errorId: Int = R.string.invalid_db_sig

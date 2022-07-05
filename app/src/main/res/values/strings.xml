@@ -205,6 +205,8 @@
     <string name="error_driver_required">Driver for %1$s is required.</string>
     <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
     <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
+    <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
+    <string name="error_empty_key">"Key cannot be empty."</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>

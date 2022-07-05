@@ -25,6 +25,7 @@ import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -32,7 +33,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.exception.EmptyKeyDatabaseException
+import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
@@ -131,10 +133,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         mainCredential: MainCredential
     ) {
         // Exception when no password
-        if (mainCredential.password == null && mainCredential.keyFileUri == null)
-            throw IllegalArgumentException("Key cannot be empty.")
         if (mainCredential.hardwareKey != null)
-            throw IllegalArgumentException("Hardware key is not supported.")
+            throw HardwareKeyDatabaseException()
+        if (mainCredential.password == null && mainCredential.keyFileUri == null)
+            throw EmptyKeyDatabaseException()
 
         // Retrieve plain data
         val password = mainCredential.password
