@@ -222,6 +222,9 @@ class KeeAutofillService : AutofillService() {
                         }
                         types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
                         requiredIds.add(passwordInfo)
+                        parseResult.confirmPasswordId?.let { confirmPasswordId ->
+                            requiredIds.add(confirmPasswordId)
+                        }
                     }
                     // or a credit card form
                     if (requiredIds.isEmpty()) {

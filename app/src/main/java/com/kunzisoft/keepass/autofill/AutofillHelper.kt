@@ -123,6 +123,9 @@ object AutofillHelper {
         struct.passwordId?.let { passwordId ->
             builder.setValue(passwordId, AutofillValue.forText(entryInfo.password))
         }
+        struct.confirmPasswordId?.let { confirmPasswordId ->
+            builder.setValue(confirmPasswordId, AutofillValue.forText(entryInfo.password))
+        }
 
         if (entryInfo.expires) {
             val year = entryInfo.expiryTime.getYearInt()

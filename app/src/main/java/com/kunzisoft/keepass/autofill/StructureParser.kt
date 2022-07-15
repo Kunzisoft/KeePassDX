@@ -120,8 +120,6 @@ class StructureParser(private val structure: AssistStructure) {
             for (i in 0 until node.childCount) {
                 if (parseViewNode(node.getChildAt(i)))
                     returnValue = true
-                if (domainNotEmpty && returnValue)
-                    return true
             }
         }
         return returnValue
@@ -429,6 +427,15 @@ class StructureParser(private val structure: AssistStructure) {
 
         var passwordId: AutofillId? = null
             set(value) {
+                if (field == null) {
+                    field = value
+                } else {
+                    confirmPasswordId = value
+                }
+            }
+
+        var confirmPasswordId: AutofillId? = null
+            set(value) {
                 if (field == null)
                     field = value
             }
@@ -481,6 +488,9 @@ class StructureParser(private val structure: AssistStructure) {
                 all.add(it)
             }
             passwordId?.let {
+                all.add(it)
+            }
+            confirmPasswordId?.let {
                 all.add(it)
             }
             creditCardHolderId?.let {
