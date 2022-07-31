@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.services.NfcService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil
@@ -238,9 +239,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             findPreference<SwitchPreference>(getString(R.string.unlock_nfc_enable_key))?.let { pref ->
-                if (!PreferencesUtil.Nfc.isSupported(requireContext())) pref.isChecked = false
+                if (!NfcService.isSupported(requireContext())) pref.isChecked = false
                 pref.setOnPreferenceClickListener {
-                    if (!PreferencesUtil.Nfc.isSupported(requireContext())) {
+                    if (!NfcService.isSupported(requireContext())) {
                         pref.isChecked = false
                         UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M).show(parentFragmentManager, "unavailableFeatureDialog")
                         false

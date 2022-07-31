@@ -684,7 +684,9 @@
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
 
-    <string name="nfc_not_enabled">Enable NFC to use this feature</string>
-    <string name="nfc_record_overwrite">NFC unlock record exists. Overwrite it?</string>
-    <string name="nfc_unlock_hint">" (Tap NFC tag)"</string>
+    <string name="nfc_not_enabled">Enable NFC to use this feature.</string>
+    <string name="nfc_unlock_hint"> (Tap NFC tag)</string>
+    <string name="nfc_unlock_hint_write"> (Tap NFC tag and hold it)</string>
+    <string name="nfc_tag_not_supported">This NFC tag is not supported.</string>
+    <string name="nfc_tag_write_not_supported">"Write is not supported for this NFC tag."</string>
 </resources>

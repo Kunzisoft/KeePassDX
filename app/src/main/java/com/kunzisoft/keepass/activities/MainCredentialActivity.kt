@@ -155,13 +155,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             }
         }
         advancedUnlockFragment = supportFragmentManager
-                .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
+            .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
         if (advancedUnlockFragment == null) {
             advancedUnlockFragment = AdvancedUnlockFragment()
             supportFragmentManager.commit {
                 replace(R.id.fragment_advanced_unlock_container_view,
-                        advancedUnlockFragment!!,
-                        UNLOCK_FRAGMENT_TAG)
+                    advancedUnlockFragment!!,
+                    UNLOCK_FRAGMENT_TAG)
             }
         }
 
@@ -197,12 +197,12 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             // Post init uri with KeyFile only if needed
             val databaseKeyFileUri = mainCredentialView?.getMainCredential()?.keyFileUri
             val keyFileUri =
-                    if (mRememberKeyFile
-                            && (databaseKeyFileUri == null || databaseKeyFileUri.toString().isEmpty())) {
-                        databaseFile?.keyFileUri
-                    } else {
-                        databaseKeyFileUri
-                    }
+                if (mRememberKeyFile
+                    && (databaseKeyFileUri == null || databaseKeyFileUri.toString().isEmpty())) {
+                    databaseFile?.keyFileUri
+                } else {
+                    databaseKeyFileUri
+                }
 
             // Define title
             filenameView?.text = databaseFile?.databaseAlias ?: ""
@@ -333,7 +333,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         // If is a view intent
         val action = intent?.action
         if (action != null
-                && action == VIEW_INTENT) {
+            && action == VIEW_INTENT) {
             mDatabaseFileUri = intent.data
             mainCredentialView?.populateKeyFileTextView(UriUtil.getUriFromIntent(intent, KEY_KEYFILE))
         } else {
@@ -348,11 +348,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         mDatabaseFileUri?.let {
             mDatabaseFileViewModel.checkIfIsDefaultDatabase(it)
         }
-    }
-
-    override fun onStop() {
-        advancedUnlockFragment?.nfc?.stop() // moved from AdvancedUnlockFragment.connect (onTap NFC tag...)
-        super.onStop()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -503,13 +498,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
 
         if (mReadOnly && (
-                mSpecialMode == SpecialMode.SAVE
-                || mSpecialMode == SpecialMode.REGISTRATION)
+                    mSpecialMode == SpecialMode.SAVE
+                            || mSpecialMode == SpecialMode.REGISTRATION)
         ) {
             Log.e(TAG, getString(R.string.autofill_read_only_save))
             Snackbar.make(coordinatorLayout,
-                    R.string.autofill_read_only_save,
-                    Snackbar.LENGTH_LONG).asError().show()
+                R.string.autofill_read_only_save,
+                Snackbar.LENGTH_LONG).asError().show()
         } else {
             databaseFileUri?.let { databaseUri ->
                 // Show the progress dialog and load the database
@@ -581,17 +576,17 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         val educationToolbar = toolbar
         val unlockEducationPerformed = educationToolbar != null
                 && mPasswordActivityEducation.checkAndPerformedUnlockEducation(
-                educationToolbar,
-                        {
-                            performedNextEducation(menu)
-                        },
-                        {
-                            performedNextEducation(menu)
-                        })
+            educationToolbar,
+            {
+                performedNextEducation(menu)
+            },
+            {
+                performedNextEducation(menu)
+            })
         if (!unlockEducationPerformed) {
             val readOnlyEducationPerformed =
-                    educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
-                    && mPasswordActivityEducation.checkAndPerformedReadOnlyEducation(
+                educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
+                        && mPasswordActivityEducation.checkAndPerformedReadOnlyEducation(
                     educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
                         try {
@@ -609,8 +604,8 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                     && !readOnlyEducationPerformed) {
                     val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(this)
                     if ((biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                            && advancedUnlockButton != null) {
+                                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                        && advancedUnlockButton != null) {
                         mPasswordActivityEducation.checkAndPerformedBiometricEducation(
                             advancedUnlockButton!!,
                             {
@@ -705,9 +700,9 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                   searchInfo: SearchInfo) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 EntrySelectionHelper.startActivityForSearchModeResult(
-                        activity,
-                        intent,
-                        searchInfo)
+                    activity,
+                    intent,
+                    searchInfo)
             }
         }
 
@@ -724,9 +719,9 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                 searchInfo: SearchInfo) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 EntrySelectionHelper.startActivityForSaveModeResult(
-                        activity,
-                        intent,
-                        searchInfo)
+                    activity,
+                    intent,
+                    searchInfo)
             }
         }
 
@@ -743,9 +738,9 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
-                        activity,
-                        intent,
-                        searchInfo)
+                    activity,
+                    intent,
+                    searchInfo)
             }
         }
 
@@ -765,11 +760,11 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 AutofillHelper.startActivityForAutofillResult(
-                        activity,
-                        intent,
-                        activityResultLauncher,
-                        autofillComponent,
-                        searchInfo)
+                    activity,
+                    intent,
+                    activityResultLauncher,
+                    autofillComponent,
+                    searchInfo)
             }
         }
 
@@ -784,9 +779,9 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                   registerInfo: RegisterInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 EntrySelectionHelper.startActivityForRegistrationModeResult(
-                        activity,
-                        intent,
-                        registerInfo)
+                    activity,
+                    intent,
+                    registerInfo)
             }
         }
 
@@ -805,46 +800,46 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
             try {
                 EntrySelectionHelper.doSpecialAction(activity.intent,
-                        {
-                            MainCredentialActivity.launch(activity,
-                                    databaseUri, keyFile)
-                        },
-                        { searchInfo -> // Search Action
-                            MainCredentialActivity.launchForSearchResult(activity,
-                                    databaseUri, keyFile,
-                                    searchInfo)
+                    {
+                        MainCredentialActivity.launch(activity,
+                            databaseUri, keyFile)
+                    },
+                    { searchInfo -> // Search Action
+                        MainCredentialActivity.launchForSearchResult(activity,
+                            databaseUri, keyFile,
+                            searchInfo)
+                        onLaunchActivitySpecialMode()
+                    },
+                    { searchInfo -> // Save Action
+                        MainCredentialActivity.launchForSaveResult(activity,
+                            databaseUri, keyFile,
+                            searchInfo)
+                        onLaunchActivitySpecialMode()
+                    },
+                    { searchInfo -> // Keyboard Selection Action
+                        MainCredentialActivity.launchForKeyboardResult(activity,
+                            databaseUri, keyFile,
+                            searchInfo)
+                        onLaunchActivitySpecialMode()
+                    },
+                    { searchInfo, autofillComponent -> // Autofill Selection Action
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            MainCredentialActivity.launchForAutofillResult(activity,
+                                databaseUri, keyFile,
+                                autofillActivityResultLauncher,
+                                autofillComponent,
+                                searchInfo)
                             onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo -> // Save Action
-                            MainCredentialActivity.launchForSaveResult(activity,
-                                    databaseUri, keyFile,
-                                    searchInfo)
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo -> // Keyboard Selection Action
-                            MainCredentialActivity.launchForKeyboardResult(activity,
-                                    databaseUri, keyFile,
-                                    searchInfo)
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo, autofillComponent -> // Autofill Selection Action
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                MainCredentialActivity.launchForAutofillResult(activity,
-                                        databaseUri, keyFile,
-                                        autofillActivityResultLauncher,
-                                        autofillComponent,
-                                        searchInfo)
-                                onLaunchActivitySpecialMode()
-                            } else {
-                                onCancelSpecialMode()
-                            }
-                        },
-                        { registerInfo -> // Registration Action
-                            MainCredentialActivity.launchForRegistration(activity,
-                                    databaseUri, keyFile,
-                                    registerInfo)
-                            onLaunchActivitySpecialMode()
+                        } else {
+                            onCancelSpecialMode()
                         }
+                    },
+                    { registerInfo -> // Registration Action
+                        MainCredentialActivity.launchForRegistration(activity,
+                            databaseUri, keyFile,
+                            registerInfo)
+                        onLaunchActivitySpecialMode()
+                    }
                 )
             } catch (e: FileNotFoundException) {
                 fileNoFoundAction(e)

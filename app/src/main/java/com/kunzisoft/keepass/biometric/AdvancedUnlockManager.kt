@@ -103,14 +103,14 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
 
     init {
         if (unlockNfcEnable || isDeviceSecure(retrieveContext())
-                && (biometricUnlockEnable || deviceCredentialUnlockEnable)) {
+            && (biometricUnlockEnable || deviceCredentialUnlockEnable)) {
             try {
                 this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
                 this.keyGenerator = KeyGenerator.getInstance(ADVANCED_UNLOCK_KEY_ALGORITHM, ADVANCED_UNLOCK_KEYSTORE)
                 this.cipher = Cipher.getInstance(
-                        ADVANCED_UNLOCK_KEY_ALGORITHM + "/"
-                                + ADVANCED_UNLOCK_BLOCKS_MODES + "/"
-                                + ADVANCED_UNLOCK_ENCRYPTION_PADDING)
+                    ADVANCED_UNLOCK_KEY_ALGORITHM + "/"
+                            + ADVANCED_UNLOCK_BLOCKS_MODES + "/"
+                            + ADVANCED_UNLOCK_ENCRYPTION_PADDING)
                 isKeyManagerInit = (keyStore != null
                         && keyGenerator != null
                         && cipher != null)
@@ -139,25 +139,25 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                         // Set the alias of the entry in Android KeyStore where the key will appear
                         // and the constrains (purposes) in the constructor of the Builder
                         keyGenerator?.init(
-                                KeyGenParameterSpec.Builder(
-                                    ADVANCED_UNLOCK_KEYSTORE_KEY,
-                                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                                    .setBlockModes(ADVANCED_UNLOCK_BLOCKS_MODES)
-                                    .setEncryptionPaddings(ADVANCED_UNLOCK_ENCRYPTION_PADDING)
-                                    .apply {
-                                        // Require the user to authenticate with a fingerprint to authorize every use
-                                        // of the key, don't use it for device credential because it's the user authentication
-                                        if (biometricUnlockEnable) {
-                                            setUserAuthenticationRequired(true)
-                                        }
-                                        // To store in the security chip
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-                                            && retrieveContext().packageManager.hasSystemFeature(
-                                                PackageManager.FEATURE_STRONGBOX_KEYSTORE)) {
-                                            setIsStrongBoxBacked(true)
-                                        }
+                            KeyGenParameterSpec.Builder(
+                                ADVANCED_UNLOCK_KEYSTORE_KEY,
+                                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                                .setBlockModes(ADVANCED_UNLOCK_BLOCKS_MODES)
+                                .setEncryptionPaddings(ADVANCED_UNLOCK_ENCRYPTION_PADDING)
+                                .apply {
+                                    // Require the user to authenticate with a fingerprint to authorize every use
+                                    // of the key, don't use it for device credential because it's the user authentication
+                                    if (biometricUnlockEnable) {
+                                        setUserAuthenticationRequired(true)
                                     }
-                                    .build())
+                                    // To store in the security chip
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                                        && retrieveContext().packageManager.hasSystemFeature(
+                                            PackageManager.FEATURE_STRONGBOX_KEYSTORE)) {
+                                        setIsStrongBoxBacked(true)
+                                    }
+                                }
+                                .build())
                         keyGenerator?.generateKey()
                     }
                 } catch (e: Exception) {
@@ -179,7 +179,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
     }
 
     @Synchronized private fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
-                                firstLaunch: Boolean) {
+                                              firstLaunch: Boolean) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -189,11 +189,11 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                     cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
                     actionIfCypherInit.invoke(
-                            AdvancedUnlockCryptoPrompt(
-                                    cipher,
-                                    R.string.advanced_unlock_prompt_store_credential_title,
-                                    R.string.advanced_unlock_prompt_store_credential_message,
-                                    isDeviceCredentialOperation(), isBiometricOperation())
+                        AdvancedUnlockCryptoPrompt(
+                            cipher,
+                            R.string.advanced_unlock_prompt_store_credential_title,
+                            R.string.advanced_unlock_prompt_store_credential_message,
+                            isDeviceCredentialOperation(), isBiometricOperation())
                     )
                 }
             }
@@ -214,13 +214,14 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    @Synchronized fun encryptData(value: ByteArray, unlockData: String? = null, databaseKeyId: Int? = null) {
+    @Synchronized fun encryptData(value: ByteArray, unlockData: List<Byte>? = null, databaseKeyId: Int? = null) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
-            val dataAndValue = if (true == unlockData?.isNotBlank()) ("${String(value)}\n$unlockData").toByteArray() else value
-            val encrypted = cipher?.doFinal(dataAndValue) ?: byteArrayOf()
+            val valueAndData = if (true != unlockData?.isNotEmpty()) value else
+                value.toMutableList().also { it.addAll(unlockData) }.toByteArray()
+            val encrypted = cipher?.doFinal(valueAndData) ?: byteArrayOf()
             // passes updated iv spec on to callback so this can be stored for decryption
             cipher?.parameters?.getParameterSpec(IvParameterSpec::class.java)?.let{ spec ->
                 advancedUnlockCallback?.handleEncryptedResult(encrypted, spec.iv, databaseKeyId)
@@ -232,13 +233,13 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
     }
 
     @Synchronized fun initDecryptData(ivSpecValue: ByteArray,
-                        actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
+                                      actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
         initDecryptData(ivSpecValue, actionIfCypherInit, true)
     }
 
     @Synchronized private fun initDecryptData(ivSpecValue: ByteArray,
-                        actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
-                        firstLaunch: Boolean = true) {
+                                              actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
+                                              firstLaunch: Boolean = true) {
         if (!isKeyManagerInitialized) {
             return
         }
@@ -250,11 +251,11 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                     cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
 
                     actionIfCypherInit.invoke(
-                            AdvancedUnlockCryptoPrompt(
-                                    cipher,
-                                    R.string.advanced_unlock_prompt_extract_credential_title,
-                                    null,
-                                    isDeviceCredentialOperation(), isBiometricOperation())
+                        AdvancedUnlockCryptoPrompt(
+                            cipher,
+                            R.string.advanced_unlock_prompt_extract_credential_title,
+                            null,
+                            isDeviceCredentialOperation(), isBiometricOperation())
                     )
                 }
             }
@@ -280,18 +281,18 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
     }
 
-    @Synchronized fun decryptData(encryptedValue: ByteArray, unlockData: String? = null, databaseKeyId: Int? = null) {
+    @Synchronized fun decryptData(encryptedValue: ByteArray, unlockDataSize: Int = 0, databaseKeyId: Int? = null, onUnlockData: ((ByteArray, List<Byte>) -> Boolean)? = null) {
         if (!isKeyManagerInitialized) {
             return
         }
         try {
             // actual decryption here
             cipher?.doFinal(encryptedValue)?.let { valueArray ->
-                val decrypted = if (true == unlockData?.isNotBlank()) {
-                    val dataAndValue = String(valueArray)
-                    if (unlockData != dataAndValue.substringAfter("\n")) throw Exception("Unknown NFC tag")
-                    dataAndValue.substringBefore("\n").toByteArray()
-                } else valueArray
+                val decrypted = if (valueArray.size <= unlockDataSize) valueArray else {
+                    valueArray.take(valueArray.size - unlockDataSize).toByteArray().also {
+                        if (true != onUnlockData?.invoke(it, valueArray.takeLast(unlockDataSize))) throw Exception("Invalid unlock data.")
+                    }
+                }
                 advancedUnlockCallback?.handleDecryptedResult(decrypted, databaseKeyId)
             }
         } catch (badPaddingException: BadPaddingException) {
@@ -314,13 +315,13 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
     }
 
     @Synchronized fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt,
-                                 deviceCredentialResultLauncher: ActivityResultLauncher<Intent>
+                                               deviceCredentialResultLauncher: ActivityResultLauncher<Intent>
     ) {
         // Init advanced unlock prompt
         if (biometricPrompt == null) {
             biometricPrompt = BiometricPrompt(retrieveContext(),
-                    Executors.newSingleThreadExecutor(),
-                    authenticationCallback)
+                Executors.newSingleThreadExecutor(),
+                authenticationCallback)
         }
 
         val promptTitle = retrieveContext().getString(cryptoPrompt.promptTitleId)
@@ -341,8 +342,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                 }
             }.build()
             biometricPrompt?.authenticate(
-                    promptInfoExtractCredential,
-                    BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
+                promptInfoExtractCredential,
+                BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
         }
         else if (cryptoPrompt.isDeviceCredentialOperation) {
             val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
@@ -386,7 +387,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             return try {
                 BiometricManager.from(context).canAuthenticate(
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                            && PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
+                        && PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
                         BIOMETRIC_STRONG or DEVICE_CREDENTIAL
                     } else {
                         BIOMETRIC_STRONG
@@ -396,12 +397,12 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                 Log.e(TAG, "Unable to authenticate with strong biometric.", e)
                 try {
                     BiometricManager.from(context).canAuthenticate(
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                                    && PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
-                                BIOMETRIC_WEAK or DEVICE_CREDENTIAL
-                            } else {
-                                BIOMETRIC_WEAK
-                            }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                            && PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
+                            BIOMETRIC_WEAK or DEVICE_CREDENTIAL
+                        } else {
+                            BIOMETRIC_WEAK
+                        }
                     )
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to authenticate with weak biometric.", e)
@@ -432,7 +433,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                     || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
-            )
+                    )
         }
 
         fun deviceCredentialUnlockSupported(context: Context): Boolean {

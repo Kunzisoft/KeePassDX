@@ -27,6 +27,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
+import com.kunzisoft.keepass.services.NfcService
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 
 class MagikeyboardSettingsFragment : PreferenceFragmentCompat() {
@@ -36,9 +37,9 @@ class MagikeyboardSettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences_keyboard, rootKey)
 
         findPreference<SwitchPreference>(getString(R.string.keyboard_selection_nfc_key))?.let { pref ->
-            if (!PreferencesUtil.Nfc.isSupported(requireContext())) pref.isChecked = false
+            if (!NfcService.isSupported(requireContext())) pref.isChecked = false
             pref.setOnPreferenceClickListener {
-                if (!PreferencesUtil.Nfc.isSupported(requireContext())) {
+                if (!NfcService.isSupported(requireContext())) {
                     pref.isChecked = false
                     UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M).show(parentFragmentManager, "unavailableFeatureDialog")
                     false
