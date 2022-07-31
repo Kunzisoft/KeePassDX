@@ -325,7 +325,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         super.onCreateView(inflater, container, savedInstanceState)
 
         val rootView = inflater.cloneInContext(contextThemed)
-            .inflate(R.layout.fragment_advanced_unlock, container, false)
+                .inflate(R.layout.fragment_advanced_unlock, container, false)
 
         mAdvancedUnlockInfoView = rootView.findViewById(R.id.advanced_unlock_view)
 
@@ -366,7 +366,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // To get device credential unlock result, only if same database uri
             if (databaseUri != null
-                && mAdvancedUnlockEnabled) {
+                    && mAdvancedUnlockEnabled) {
                 val deviceCredentialAuthSucceeded = mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
                 deviceCredentialAuthSucceeded?.let {
                     if (databaseUri == databaseFileUri) {
@@ -405,8 +405,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                     // or manually disable
                     val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
                     if (!PreferencesUtil.isAdvancedUnlockEnable(context)
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
                         toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
                     } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
                         toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
@@ -537,7 +537,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                 }
 
                 onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
-                    context.getString(R.string.credential_before_click_advanced_unlock_button))
+                        context.getString(R.string.credential_before_click_advanced_unlock_button))
             }
         }
     }
