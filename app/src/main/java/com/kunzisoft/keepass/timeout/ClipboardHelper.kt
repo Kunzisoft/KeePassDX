@@ -24,117 +24,117 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
+import android.os.PersistableBundle
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
+import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.exception.ClipboardException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
-class ClipboardHelper(private val context: Context) {
+class ClipboardHelper(context: Context) {
 
+    private var mAppContext = context.applicationContext
     private var mClipboardManager: ClipboardManager? = null
 
     private val mTimer = Timer()
 
     private fun getClipboardManager(): ClipboardManager? {
         if (mClipboardManager == null)
-            mClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+            mClipboardManager = mAppContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
         return mClipboardManager
     }
 
-    fun timeoutCopyToClipboard(text: String, toastString: String = "") {
-        if (toastString.isNotEmpty())
-            Toast.makeText(context, toastString, Toast.LENGTH_LONG).show()
-
+    fun timeoutCopyToClipboard(label: String, text: String, sensitive: Boolean = false) {
         try {
-            copyToClipboard(text)
-        } catch (e: ClipboardException) {
+            copyToClipboard(label, text, sensitive)
+        } catch (e: Exception) {
             showClipboardErrorDialog()
             return
         }
 
-        val clipboardTimeout = PreferencesUtil.getClipboardTimeout(context)
+        val clipboardTimeout = PreferencesUtil.getClipboardTimeout(mAppContext)
         if (clipboardTimeout > 0) {
-            mTimer.schedule(ClearClipboardTask(context, text), clipboardTimeout)
+            mTimer.schedule(ClearClipboardTask(text), clipboardTimeout)
         }
     }
 
-    fun getClipboard(context: Context): CharSequence {
-        if (getClipboardManager()?.hasPrimaryClip() == true) {
-            val data = getClipboardManager()?.primaryClip
-            if (data != null && data.itemCount > 0) {
-                val text = data.getItemAt(0).coerceToText(context)
-                if (text != null) {
-                    return text
+    fun copyToClipboard(label: String, value: String, sensitive: Boolean = false) {
+        getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(DEFAULT_LABEL, value).apply {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                description.extras = PersistableBundle().apply {
+                    putBoolean("android.content.extra.IS_SENSITIVE", sensitive)
                 }
             }
+        })
+        if (label.isNotEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.S_V2) {
+            Toast.makeText(
+                mAppContext,
+                mAppContext.getString(
+                    R.string.copy_field,
+                    label
+                ),
+                Toast.LENGTH_LONG
+            ).show()
         }
-        return ""
     }
 
-    @Throws(ClipboardException::class)
-    fun copyToClipboard(value: String) {
-        copyToClipboard("", value)
-    }
-
-    @Throws(ClipboardException::class)
-    fun copyToClipboard(label: String, value: String) {
-        try {
-            getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(label, value))
-        } catch (e: Exception) {
-            throw ClipboardException(e)
-        }
-
-    }
-
-    @Throws(ClipboardException::class)
-    fun cleanClipboard(label: String = "") {
+    fun cleanClipboard() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 getClipboardManager()?.clearPrimaryClip()
             } else {
-                copyToClipboard(label, "")
+                copyToClipboard(DEFAULT_LABEL, "")
             }
         } catch (e: Exception) {
-            throw ClipboardException(e)
+            Log.e("ClipboardHelper", "Unable to clean the clipboard", e)
         }
     }
 
     // Task which clears the clipboard, and sends a toast to the foreground.
-    private inner class ClearClipboardTask (private val mCtx: Context,
-                                            private val mClearText: String) : TimerTask() {
+    private inner class ClearClipboardTask (private val mClearText: String) : TimerTask() {
         override fun run() {
-            val currentClip = getClipboard(mCtx).toString()
-            if (currentClip == mClearText) {
-                try {
-                    cleanClipboard()
-                    R.string.clipboard_cleared
-                } catch (e: ClipboardException) {
-                    R.string.clipboard_error_clear
+            if (getClipboard(mAppContext).toString() == mClearText) {
+                cleanClipboard()
+            }
+        }
+
+        private fun getClipboard(context: Context): CharSequence {
+            if (getClipboardManager()?.hasPrimaryClip() == true) {
+                val data = getClipboardManager()?.primaryClip
+                if (data != null && data.itemCount > 0) {
+                    val text = data.getItemAt(0).coerceToText(context)
+                    if (text != null) {
+                        return text
+                    }
                 }
             }
+            return ""
         }
     }
 
     private fun showClipboardErrorDialog() {
-        val textDescription = context.getString(R.string.clipboard_error)
+        val textDescription = mAppContext.getString(R.string.clipboard_error)
         val spannableString = SpannableString(textDescription)
-        val textView = TextView(context).apply {
+        val textView = TextView(mAppContext).apply {
             text = spannableString
             autoLinkMask = Activity.RESULT_OK
             movementMethod = LinkMovementMethod.getInstance()
         }
 
         Linkify.addLinks(spannableString, Linkify.WEB_URLS)
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(mAppContext)
                 .setTitle(R.string.clipboard_error_title)
                 .setView(textView)
                 .setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
                 .show()
+    }
+
+    companion object {
+        private const val DEFAULT_LABEL = ""
     }
 }

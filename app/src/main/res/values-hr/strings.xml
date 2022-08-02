@@ -461,7 +461,7 @@
     <string name="data">Podaci</string>
     <string name="warning_sure_remove_data">Svejedno ukloniti ove podatke\?</string>
     <string name="content_description_credentials_information">Podaci za prijavu</string>
-    <string name="autofill_save_search_info_summary">Pokušaj spremiti podatke pretrage prilikom odabira ručnog unosa</string>
+    <string name="autofill_save_search_info_summary">Pokušaj spremiti podatke prilikom odabira ručnog unosa za jednostavniju buduću upotrebu</string>
     <string name="notification">Obavijest</string>
     <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka</string>
     <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
@@ -474,7 +474,7 @@
     <string name="autofill_close_database_title">Zatvori bazu podataka</string>
     <string name="keyboard_previous_lock_summary">Automatski prebaci na prethodnu tipkovnicu nakon zaključavanja baze podataka</string>
     <string name="keyboard_previous_lock_title">Zaključaj bazu podataka</string>
-    <string name="keyboard_save_search_info_summary">Nakon dijeljenja informacija s KeePassDX-om, kad je unos odabran, pokušaj zapamtiti taj unos za buduće korištenje</string>
+    <string name="keyboard_save_search_info_summary">Pokušaj spremiti dijeljene podatke prilikom ručnog odabira unosa za jednostavniju buduću upotrebu</string>
     <string name="keyboard_save_search_info_title">Spremi dijeljene informacije</string>
     <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
     <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>

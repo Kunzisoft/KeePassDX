@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
-import java.util.*
 
 class ClipboardEntryNotificationService : LockNotificationService() {
 
@@ -75,7 +74,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             }
             ACTION_CLEAN_CLIPBOARD == intent.action -> {
                 mTimerJob?.cancel()
-                cleanClipboard()
+                clipboardHelper?.cleanClipboard()
                 stopNotificationAndSendLockIfNeeded()
             }
             else -> for (actionKey in ClipboardEntryNotificationField.allActionKeys) {
@@ -153,7 +152,11 @@ class ClipboardEntryNotificationService : LockNotificationService() {
 
         try {
             var generatedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
-            clipboardHelper?.copyToClipboard(fieldToCopy.label, generatedValue)
+            clipboardHelper?.copyToClipboard(
+                fieldToCopy.label,
+                generatedValue,
+                fieldToCopy.isSensitive
+            )
 
             val builder = buildNewNotification()
                     .setSmallIcon(R.drawable.notification_ic_clipboard_key_24dp)
@@ -186,13 +189,17 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                     // New auto generated value
                     if (generatedValue != newGeneratedValue) {
                         generatedValue = newGeneratedValue
-                        clipboardHelper?.copyToClipboard(fieldToCopy.label, generatedValue)
+                        clipboardHelper?.copyToClipboard(
+                            fieldToCopy.label,
+                            generatedValue,
+                            fieldToCopy.isSensitive
+                        )
                     }
                 }) {
                     stopNotificationAndSendLockIfNeeded()
                     // Clean password only if no next field
                     if (nextFields.size <= 0)
-                        cleanClipboard()
+                        clipboardHelper?.cleanClipboard()
                 }
             } else {
                 // No timer
@@ -202,25 +209,15 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         } catch (e: Exception) {
             Log.e(TAG, "Clipboard can't be populate", e)
         }
-
-    }
-
-    private fun cleanClipboard() {
-        try {
-            clipboardHelper?.cleanClipboard()
-        } catch (e: Exception) {
-            Log.e(TAG, "Clipboard can't be cleaned", e)
-        }
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        cleanClipboard()
-
+        clipboardHelper?.cleanClipboard()
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
-        cleanClipboard()
+        clipboardHelper?.cleanClipboard()
         super.onDestroy()
     }
 

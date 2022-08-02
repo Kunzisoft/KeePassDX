@@ -403,13 +403,11 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             }
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
         fun isDeviceSecure(context: Context): Boolean {
-            val keyguardManager = ContextCompat.getSystemService(context, KeyguardManager::class.java)
-            return keyguardManager?.isDeviceSecure ?: false
+            return ContextCompat.getSystemService(context, KeyguardManager::class.java)
+                ?.isDeviceSecure ?: false
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
         fun biometricUnlockSupported(context: Context): Boolean {
             val biometricCanAuthenticate = try {
                 BiometricManager.from(context).canAuthenticate(BIOMETRIC_STRONG)
@@ -430,28 +428,23 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             )
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
         fun deviceCredentialUnlockSupported(context: Context): Boolean {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate(DEVICE_CREDENTIAL)
-                return (biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+                (biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_STATUS_UNKNOWN
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                         || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED
                         )
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ContextCompat.getSystemService(context, KeyguardManager::class.java)?.apply {
-                    return isDeviceSecure
-                }
+            } else {
+                true
             }
-            return false
         }
 
         /**
          * Remove entry key in keystore
          */
-        @RequiresApi(api = Build.VERSION_CODES.M)
         fun deleteEntryKeyInKeystoreForBiometric(fragmentActivity: FragmentActivity,
                                                  advancedCallback: AdvancedUnlockErrorCallback) {
             AdvancedUnlockManager{ fragmentActivity }.apply {

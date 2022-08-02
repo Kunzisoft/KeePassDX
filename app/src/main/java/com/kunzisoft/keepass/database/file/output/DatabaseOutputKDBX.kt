@@ -353,6 +353,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writeBoolean(DatabaseKDBXXML.ElemEnableAutoType, group.enableAutoType)
         writeBoolean(DatabaseKDBXXML.ElemEnableSearching, group.enableSearching)
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleEntry, group.lastTopVisibleEntry)
+        writeCustomData(group.customData)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
