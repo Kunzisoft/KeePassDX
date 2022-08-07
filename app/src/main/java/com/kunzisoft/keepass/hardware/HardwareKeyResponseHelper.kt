@@ -90,9 +90,7 @@ class HardwareKeyResponseHelper {
     companion object {
         private val TAG = HardwareKeyResponseHelper::class.java.simpleName
 
-        private const val YUBIKEY_CHALLENGE_RESPONSE_INTENT =
-            "net.pp3345.ykdroid.intent.action.CHALLENGE_RESPONSE"
-            // TODO Change to a generic "android.yubikey.intent.action.CHALLENGE_RESPONSE"
+        private const val YUBIKEY_CHALLENGE_RESPONSE_INTENT = "android.yubikey.intent.action.CHALLENGE_RESPONSE"
         private const val HARDWARE_KEY_CHALLENGE_KEY = "challenge"
         private const val HARDWARE_KEY_RESPONSE_KEY = "response"
         private const val EXTRA_BUNDLE_KEY = "EXTRA_BUNDLE_KEY"
@@ -133,7 +131,7 @@ class HardwareKeyResponseHelper {
                         activity.getString(R.string.error_driver_required, hardwareKey.toString())
                     )
                     .setPositiveButton(R.string.download) { _, _ ->
-                        UriUtil.openExternalApp(activity, UriUtil.KEEPASSDX_PRO_PACKAGE)
+                        UriUtil.openExternalApp(activity, activity.getString(R.string.key_driver_app_id))
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
                 builder.create().show()

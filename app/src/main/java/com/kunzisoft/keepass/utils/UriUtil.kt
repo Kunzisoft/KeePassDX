@@ -269,7 +269,11 @@ object UriUtil {
 
     fun contributingUser(context: Context): Boolean {
         return (Education.isEducationScreenReclickedPerformed(context)
-                || isExternalAppInstalled(context, KEEPASSDX_PRO_PACKAGE, false)
+                || isExternalAppInstalled(
+                        context,
+                        context.getString(R.string.keepro_app_id),
+                        false
+                    )
                 )
     }
 
@@ -298,7 +302,7 @@ object UriUtil {
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setData(Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
+                        .setData(Uri.parse(context.getString(R.string.play_store_url, packageName)))
                 )
             } else {
                 context.startActivity(launchIntent)
@@ -317,6 +321,4 @@ object UriUtil {
     }
 
     private const val TAG = "UriUtil"
-
-    const val KEEPASSDX_PRO_PACKAGE = "com.kunzisoft.keepass.pro"
 }

@@ -45,13 +45,16 @@ class ProFeatureDialogFragment : DialogFragment() {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_ad_free), FROM_HTML_MODE_LEGACY)).append("\n\n")
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_buy_pro), FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.download) { _, _ ->
-                    UriUtil.gotoUrl(requireContext(), R.string.app_pro_url)
+                    UriUtil.gotoUrl(activity,
+                        activity.getString(R.string.play_store_url,
+                            activity.getString(R.string.keepro_app_id))
+                    )
                 }
             } else {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_feature_generosity), FROM_HTML_MODE_LEGACY)).append("\n\n")
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_donation), FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    UriUtil.gotoUrl(requireContext(), R.string.contribution_url)
+                    UriUtil.gotoUrl(activity, R.string.contribution_url)
                 }
             }
             builder.setMessage(stringBuilder)
