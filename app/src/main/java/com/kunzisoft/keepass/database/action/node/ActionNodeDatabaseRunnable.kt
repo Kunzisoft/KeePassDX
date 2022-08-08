@@ -22,13 +22,15 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 abstract class ActionNodeDatabaseRunnable(
         context: Context,
         database: Database,
         private val afterActionNodesFinish: AfterActionNodesFinish?,
-        save: Boolean)
-    : SaveDatabaseRunnable(context, database, save) {
+        save: Boolean,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
+    : SaveDatabaseRunnable(context, database, save, null, challengeResponseRetriever) {
 
     /**
      * Function do to a node action

@@ -41,11 +41,6 @@ class CipherEncryptDatabase(): Parcelable {
         parcel.readByteArray(specParameters)
     }
 
-    fun replaceContent(copy: CipherEncryptDatabase) {
-        this.encryptedValue = copy.encryptedValue
-        this.specParameters = copy.specParameters
-    }
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(databaseUri, flags)
         parcel.writeEnum(credentialStorage)

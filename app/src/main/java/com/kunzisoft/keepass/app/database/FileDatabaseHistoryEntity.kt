@@ -35,6 +35,9 @@ data class FileDatabaseHistoryEntity(
         @ColumnInfo(name = "keyfile_uri")
             var keyFileUri: String?,
 
+        @ColumnInfo(name = "hardware_key")
+            var hardwareKey: String?,
+
         @ColumnInfo(name = "updated")
             val updated: Long
 ) {

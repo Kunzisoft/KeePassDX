@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
+import android.content.ContentResolver
 import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
@@ -31,10 +32,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
-import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.Tags
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -49,29 +47,26 @@ import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_31
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_41
-import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
-import com.kunzisoft.keepass.utils.StringUtil.toHexString
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.longTo8Bytes
-import org.apache.commons.codec.binary.Hex
-import org.w3c.dom.Node
 import java.io.IOException
-import java.io.InputStream
+import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 import javax.crypto.Mac
-import javax.xml.XMLConstants
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
-import kotlin.collections.HashSet
 import kotlin.math.min
 
 
 class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
+
+    // To resave the database with same credential when already loaded
+    private var mCompositeKey = CompositeKey()
 
     var hmacKey: ByteArray? = null
         private set
@@ -233,6 +228,79 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
+    fun deriveMasterKey(
+        contentResolver: ContentResolver,
+        mainCredential: MainCredential,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ) {
+        // Retrieve each plain credential
+        val password = mainCredential.password
+        val keyFileUri = mainCredential.keyFileUri
+        val hardwareKey = mainCredential.hardwareKey
+        val passwordBytes = if (password != null) MainCredential.retrievePasswordKey(
+            password,
+            passwordEncoding
+        ) else null
+        val keyFileBytes = if (keyFileUri != null) MainCredential.retrieveFileKey(
+            contentResolver,
+            keyFileUri,
+            true
+        ) else null
+        val hardwareKeyBytes = if (hardwareKey != null) MainCredential.retrieveHardwareKey(
+            challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+        ) else null
+
+        // Save to rebuild master password with new seed later
+        mCompositeKey = CompositeKey(passwordBytes, keyFileBytes, hardwareKey)
+
+        // Build the master key
+        this.masterKey = composedKeyToMasterKey(
+            passwordBytes,
+            keyFileBytes,
+            hardwareKeyBytes
+        )
+    }
+
+    @Throws(DatabaseOutputException::class)
+    fun deriveCompositeKey(
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ) {
+        val passwordBytes = mCompositeKey.passwordData
+        val keyFileBytes = mCompositeKey.keyFileData
+        val hardwareKey = mCompositeKey.hardwareKey
+        if (hardwareKey == null) {
+            // If no hardware key, simply rebuild from composed keys
+            this.masterKey = composedKeyToMasterKey(
+                passwordBytes,
+                keyFileBytes
+            )
+        } else {
+            val hardwareKeyBytes = MainCredential.retrieveHardwareKey(
+                challengeResponseRetriever.invoke(hardwareKey, transformSeed)
+            )
+            this.masterKey = composedKeyToMasterKey(
+                passwordBytes,
+                keyFileBytes,
+                hardwareKeyBytes
+            )
+        }
+    }
+
+    private fun composedKeyToMasterKey(passwordData: ByteArray?,
+                                       keyFileData: ByteArray?,
+                                       hardwareKeyData: ByteArray? = null): ByteArray {
+        return HashManager.hashSha256(
+            passwordData,
+            keyFileData,
+            hardwareKeyData
+        )
+    }
+
+    fun copyMasterKeyFrom(databaseVersioned: DatabaseKDBX) {
+        super.copyMasterKeyFrom(databaseVersioned)
+        this.mCompositeKey = databaseVersioned.mCompositeKey
+    }
+
     fun getMinKdbxVersion(): UnsignedInt {
         val entryHandler = EntryOperationHandler()
         val groupHandler = GroupOperationHandler()
@@ -364,8 +432,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 kdfEngine.setParallelism(kdfParameters!!, parallelism)
         }
 
-    override val passwordEncoding: String
-        get() = "UTF-8"
+    override val passwordEncoding: Charset
+        get() = Charsets.UTF_8
 
     private fun getGroupByUUID(groupUUID: UUID): GroupKDBX? {
         if (groupUUID == UUID_ZERO)
@@ -529,22 +597,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     @Throws(IOException::class)
-    public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
-
-        var masterKey = byteArrayOf()
-
-        if (key != null && keyInputStream != null) {
-            return getCompositeKey(key, keyInputStream)
-        } else if (key != null) { // key.length() >= 0
-            masterKey = getPasswordKey(key)
-        } else if (keyInputStream != null) { // key == null
-            masterKey = getFileKey(keyInputStream)
-        }
-
-        return HashManager.hashSha256(masterKey)
-    }
-
-    @Throws(IOException::class)
     fun makeFinalKey(masterSeed: ByteArray) {
 
         kdfParameters?.let { keyDerivationFunctionParameters ->
@@ -613,115 +665,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
         Arrays.fill(hash, 0.toByte())
         return ret
-    }
-
-    override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
-        try {
-            val documentBuilderFactory = DocumentBuilderFactory.newInstance()
-
-            // Disable certain unsecure XML-Parsing DocumentBuilderFactory features
-            try {
-                documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
-            } catch (e : ParserConfigurationException) {
-                Log.w(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)")
-            }
-
-            val documentBuilder = documentBuilderFactory.newDocumentBuilder()
-            val doc = documentBuilder.parse(keyInputStream)
-
-            var xmlKeyFileVersion = 1F
-
-            val docElement = doc.documentElement
-            val keyFileChildNodes = docElement.childNodes
-            // <KeyFile> Root node
-            if (docElement == null
-                    || !docElement.nodeName.equals(XML_NODE_ROOT_NAME, ignoreCase = true)) {
-                return null
-            }
-            if (keyFileChildNodes.length < 2)
-                return null
-            for (keyFileChildPosition in 0 until keyFileChildNodes.length) {
-                val keyFileChildNode = keyFileChildNodes.item(keyFileChildPosition)
-                // <Meta>
-                if (keyFileChildNode.nodeName.equals(XML_NODE_META_NAME, ignoreCase = true)) {
-                    val metaChildNodes = keyFileChildNode.childNodes
-                    for (metaChildPosition in 0 until metaChildNodes.length) {
-                        val metaChildNode = metaChildNodes.item(metaChildPosition)
-                        // <Version>
-                        if (metaChildNode.nodeName.equals(XML_NODE_VERSION_NAME, ignoreCase = true)) {
-                            val versionChildNodes = metaChildNode.childNodes
-                            for (versionChildPosition in 0 until versionChildNodes.length) {
-                                val versionChildNode = versionChildNodes.item(versionChildPosition)
-                                if (versionChildNode.nodeType == Node.TEXT_NODE) {
-                                    val versionText = versionChildNode.textContent.removeSpaceChars()
-                                    try {
-                                        xmlKeyFileVersion = versionText.toFloat()
-                                        Log.i(TAG, "Reading XML KeyFile version : $xmlKeyFileVersion")
-                                    } catch (e: Exception) {
-                                        Log.e(TAG, "XML Keyfile version cannot be read : $versionText")
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                // <Key>
-                if (keyFileChildNode.nodeName.equals(XML_NODE_KEY_NAME, ignoreCase = true)) {
-                    val keyChildNodes = keyFileChildNode.childNodes
-                    for (keyChildPosition in 0 until keyChildNodes.length) {
-                        val keyChildNode = keyChildNodes.item(keyChildPosition)
-                        // <Data>
-                        if (keyChildNode.nodeName.equals(XML_NODE_DATA_NAME, ignoreCase = true)) {
-                            var hashString : String? = null
-                            if (keyChildNode.hasAttributes()) {
-                                val dataNodeAttributes = keyChildNode.attributes
-                                hashString = dataNodeAttributes
-                                        .getNamedItem(XML_ATTRIBUTE_DATA_HASH).nodeValue
-                            }
-                            val dataChildNodes = keyChildNode.childNodes
-                            for (dataChildPosition in 0 until dataChildNodes.length) {
-                                val dataChildNode = dataChildNodes.item(dataChildPosition)
-                                if (dataChildNode.nodeType == Node.TEXT_NODE) {
-                                    val dataString = dataChildNode.textContent.removeSpaceChars()
-                                    when (xmlKeyFileVersion) {
-                                        1F -> {
-                                            // No hash in KeyFile XML version 1
-                                            return Base64.decode(dataString, BASE_64_FLAG)
-                                        }
-                                        2F -> {
-                                            return if (hashString != null
-                                                    && checkKeyFileHash(dataString, hashString)) {
-                                                Log.i(TAG, "Successful key file hash check.")
-                                                Hex.decodeHex(dataString.toCharArray())
-                                            } else {
-                                                Log.e(TAG, "Unable to check the hash of the key file.")
-                                                null
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            return null
-        }
-        return null
-    }
-
-    private fun checkKeyFileHash(data: String, hash: String): Boolean {
-        var success = false
-        try {
-            // hexadecimal encoding of the first 4 bytes of the SHA-256 hash of the key.
-            val dataDigest = HashManager.hashSha256(Hex.decodeHex(data.toCharArray()))
-                    .copyOfRange(0, 4).toHexString()
-            success = dataDigest == hash
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return success
     }
 
     override fun newGroupId(): NodeIdUUID {
@@ -927,13 +870,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
         private const val DEFAULT_HISTORY_MAX_ITEMS = 10 // -1 unlimited
         private const val DEFAULT_HISTORY_MAX_SIZE = (6 * 1024 * 1024).toLong() // -1 unlimited
-
-        private const val XML_NODE_ROOT_NAME = "KeyFile"
-        private const val XML_NODE_META_NAME = "Meta"
-        private const val XML_NODE_VERSION_NAME = "Version"
-        private const val XML_NODE_KEY_NAME = "Key"
-        private const val XML_NODE_DATA_NAME = "Data"
-        private const val XML_ATTRIBUTE_DATA_HASH = "Hash"
 
         const val BASE_64_FLAG = Base64.NO_WRAP
     }

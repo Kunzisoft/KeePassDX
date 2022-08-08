@@ -21,12 +21,14 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 class RemoveUnlinkedDataDatabaseRunnable (
         context: Context,
         database: Database,
-        saveDatabase: Boolean)
-    : SaveDatabaseRunnable(context, database, saveDatabase) {
+        saveDatabase: Boolean,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
+    : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
 
     override fun onActionRun() {
         try {

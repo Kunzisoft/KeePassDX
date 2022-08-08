@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.file.input
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.InputStream
 
@@ -33,15 +33,9 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>> (protected var m
 
     /**
      * Load a versioned database file, return contents in a new DatabaseVersioned.
-     *
-     * @param databaseInputStream  Existing file to load.
-     * @param password Pass phrase for infile.
-     * @return new DatabaseVersioned container.
-     *
-     * @throws LoadDatabaseException on database error (contains IO exceptions)
      */
 
-    @Throws(LoadDatabaseException::class)
+    @Throws(DatabaseInputException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               assignMasterKey: (() -> Unit)): D

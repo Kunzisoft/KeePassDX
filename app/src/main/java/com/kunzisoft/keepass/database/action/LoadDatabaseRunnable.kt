@@ -25,9 +25,10 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -35,8 +36,9 @@ import com.kunzisoft.keepass.utils.UriUtil
 
 class LoadDatabaseRunnable(private val context: Context,
                            private val mDatabase: Database,
-                           private val mUri: Uri,
+                           private val mDatabaseUri: Uri,
                            private val mMainCredential: MainCredential,
+                           private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,
                            private val mReadonly: Boolean,
                            private val mCipherEncryptDatabase: CipherEncryptDatabase?,
                            private val mFixDuplicateUUID: Boolean,
@@ -51,18 +53,21 @@ class LoadDatabaseRunnable(private val context: Context,
 
     override fun onActionRun() {
         try {
-            mDatabase.loadData(mUri,
-                    mMainCredential,
-                    mReadonly,
-                    context.contentResolver,
-                    UriUtil.getBinaryDir(context),
-                    { memoryWanted ->
-                        BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
-                    },
-                    mFixDuplicateUUID,
-                    progressTaskUpdater)
+            mDatabase.loadData(
+                context.contentResolver,
+                mDatabaseUri,
+                mMainCredential,
+                mChallengeResponseRetriever,
+                mReadonly,
+                UriUtil.getBinaryDir(context),
+                { memoryWanted ->
+                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
+                },
+                mFixDuplicateUUID,
+                progressTaskUpdater
+            )
         }
-        catch (e: LoadDatabaseException) {
+        catch (e: DatabaseInputException) {
             setError(e)
         }
 
@@ -70,8 +75,11 @@ class LoadDatabaseRunnable(private val context: Context,
             // Save keyFile in app database
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context)
-                        .addOrUpdateDatabaseUri(mUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null)
+                        .addOrUpdateDatabaseUri(
+                            mDatabaseUri,
+                            if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null,
+                            if (PreferencesUtil.rememberHardwareKey(context)) mMainCredential.hardwareKey else null,
+                        )
             }
 
             // Register the biometric

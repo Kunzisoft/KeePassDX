@@ -55,7 +55,8 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
@@ -155,8 +156,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryOpenListener { fileDatabaseHistoryEntityToOpen ->
             fileDatabaseHistoryEntityToOpen.databaseUri?.let { databaseFileUri ->
                 launchPasswordActivity(
-                        databaseFileUri,
-                        fileDatabaseHistoryEntityToOpen.keyFileUri
+                    databaseFileUri,
+                    fileDatabaseHistoryEntityToOpen.keyFileUri,
+                    fileDatabaseHistoryEntityToOpen.hardwareKey
                 )
             }
         }
@@ -250,7 +252,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                                 ?: MainCredential()
                         databaseFilesViewModel.addDatabaseFile(
                             databaseUri,
-                            mainCredential.keyFileUri
+                            mainCredential.keyFileUri,
+                            mainCredential.hardwareKey
                         )
                     }
                 }
@@ -297,10 +300,11 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
     }
 
-    private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
+    private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?, hardwareKey: HardwareKey?) {
         MainCredentialActivity.launch(this,
                 databaseUri,
                 keyFile,
+                hardwareKey,
                 { exception ->
                     fileNoFoundAction(exception)
                 },
@@ -321,7 +325,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
-        launchPasswordActivity(databaseUri, null)
+        launchPasswordActivity(databaseUri, null, null)
         // Delete flickering for kitkat <=
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             overridePendingTransition(0, 0)

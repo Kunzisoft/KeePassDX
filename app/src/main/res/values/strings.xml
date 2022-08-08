@@ -56,6 +56,7 @@
     <string name="content_description_otp_information">One-time password info</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
+    <string name="content_description_hardware_key_checkbox">Hardware key checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
     <string name="content_description_entry_icon">Entry icon</string>
     <string name="content_description_database_color">Database color</string>
@@ -78,6 +79,8 @@
     <string name="content_description_keyboard_close_fields">Close fields</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
+    <string name="waiting_challenge_request">Waiting for the challenge request…</string>
+    <string name="waiting_challenge_response">Waiting for the challenge response…</string>
     <string name="database">Database</string>
     <string name="template_group_name">Templates</string>
     <string name="decrypting_db">Decrypting database content…</string>
@@ -96,6 +99,7 @@
     <string name="entry_history">History</string>
     <string name="entry_attachments">Attachments</string>
     <string name="entry_keyfile">Keyfile</string>
+    <string name="hardware_key">Hardware key</string>
     <string name="entry_modified">Modified</string>
     <string name="searchable">Searchable</string>
     <string name="inherited">Inherit</string>
@@ -159,8 +163,10 @@
     <string name="error_no_name">Enter a name.</string>
     <string name="error_word_reserved">This word is reserved and cannot be used.</string>
     <string name="error_nokeyfile">Select a keyfile.</string>
+    <string name="error_no_hardware_key">Select a hardware key.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
-    <string name="error_load_database">Could not load your database.</string>
+    <string name="error_XML_malformed">XML malformed.</string>
+    <string name="error_load_database">Could not load the database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_disallow_no_credentials">At least one credential must be set.</string>
@@ -176,7 +182,7 @@
     <string name="error_copy_group_here">You cannot copy a group here.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
-    <string name="error_save_database">Could not save database.</string>
+    <string name="error_save_database">Could not save the database.</string>
     <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
@@ -192,9 +198,19 @@
     <string name="error_duplicate_file">The file data already exists.</string>
     <string name="error_remove_file">An error occurred while removing the file data.</string>
     <string name="error_start_database_action">An error occurred while performing an action on the database.</string>
+    <string name="error_challenge_already_requested">"Challenge already requested"</string>
+    <string name="error_response_already_provided">Response already provided.</string>
+    <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
+    <string name="error_cancel_by_user">Cancelled by user.</string>
+    <string name="error_driver_required">Driver for %1$s is required.</string>
+    <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
+    <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
+    <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
+    <string name="error_empty_key">"Key cannot be empty."</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
+    <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
     <string name="hint_conf_pass">Confirm password</string>
@@ -289,6 +305,8 @@
     <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
     <string name="remember_keyfile_locations_title">Remember keyfile locations</string>
     <string name="remember_keyfile_locations_summary">Keeps track of where keyfiles are stored</string>
+    <string name="remember_hardware_key_title">Remember hardware keys</string>
+    <string name="remember_hardware_key_summary">Keeps track of the hardware keys used</string>
     <string name="show_recent_files_title">Show recent files</string>
     <string name="show_recent_files_summary">Show locations of recent databases</string>
     <string name="hide_broken_locations_title">Hide broken database links</string>

@@ -26,7 +26,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 
 class PasswordEncodingDialogFragment : DialogFragment() {
 

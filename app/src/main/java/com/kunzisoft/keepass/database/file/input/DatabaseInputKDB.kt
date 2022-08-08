@@ -47,7 +47,7 @@ import javax.crypto.CipherInputStream
 class DatabaseInputKDB(database: DatabaseKDB)
     : DatabaseInput<DatabaseKDB>(database) {
 
-    @Throws(LoadDatabaseException::class)
+    @Throws(DatabaseInputException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               progressTaskUpdater: ProgressTaskUpdater?,
                               assignMasterKey: (() -> Unit)): DatabaseKDB {
@@ -76,6 +76,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                 throw VersionDatabaseException()
             }
 
+            mDatabase.transformSeed = header.transformSeed
             assignMasterKey.invoke()
 
             // Select algorithm
@@ -310,18 +311,11 @@ class DatabaseInputKDB(database: DatabaseKDB)
 
             stopContentTimer()
 
-        } catch (e: LoadDatabaseException) {
+        } catch (e: Error) {
             mDatabase.clearAll()
-            throw e
-        } catch (e: IOException) {
-            mDatabase.clearAll()
-            throw IODatabaseException(e)
-        } catch (e: OutOfMemoryError) {
-            mDatabase.clearAll()
-            throw NoMemoryDatabaseException(e)
-        } catch (e: Exception) {
-            mDatabase.clearAll()
-            throw LoadDatabaseException(e)
+            if (e is OutOfMemoryError)
+                throw NoMemoryDatabaseException(e)
+            throw DatabaseInputException(e)
         }
 
         return mDatabase

@@ -27,7 +27,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.MainCredentialView
 
@@ -95,7 +95,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
             mExternalFileHelper = ExternalFileHelper(this)
             mExternalFileHelper?.buildOpenDocument { uri ->
                 if (uri != null) {
-                    mainCredentialView?.populateKeyFileTextView(uri)
+                    mainCredentialView?.populateKeyFileView(uri)
                 }
             }
             mainCredentialView?.setOpenKeyfileClickListener(mExternalFileHelper)

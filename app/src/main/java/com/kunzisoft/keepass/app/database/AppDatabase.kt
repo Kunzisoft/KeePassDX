@@ -23,8 +23,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
+import androidx.room.AutoMigration
 
-@Database(version = 1, entities = [FileDatabaseHistoryEntity::class, CipherDatabaseEntity::class])
+@Database(
+    version = 2,
+    entities = [FileDatabaseHistoryEntity::class, CipherDatabaseEntity::class],
+    autoMigrations = [
+        AutoMigration (from = 1, to = 2)
+    ]
+)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun fileDatabaseHistoryDao(): FileDatabaseHistoryDao

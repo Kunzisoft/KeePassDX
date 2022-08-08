@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.app.database
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
@@ -44,6 +45,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     DatabaseFile(
                             databaseUri,
                             UriUtil.parse(fileDatabaseHistoryEntity?.keyFileUri),
+                            HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
                             UriUtil.decode(fileDatabaseHistoryEntity?.databaseUri),
                             fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias ?: ""),
                             fileDatabaseInfo.exists,
@@ -85,13 +87,14 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                 || !hideBrokenLocations) {
                             databaseFileListLoaded.add(
                                     DatabaseFile(
-                                            UriUtil.parse(fileDatabaseHistoryEntity.databaseUri),
-                                            UriUtil.parse(fileDatabaseHistoryEntity.keyFileUri),
-                                            UriUtil.decode(fileDatabaseHistoryEntity.databaseUri),
-                                            fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
-                                            fileDatabaseInfo.exists,
-                                            fileDatabaseInfo.getLastModificationString(),
-                                            fileDatabaseInfo.getSizeString()
+                                        UriUtil.parse(fileDatabaseHistoryEntity.databaseUri),
+                                        UriUtil.parse(fileDatabaseHistoryEntity.keyFileUri),
+                                        HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity.hardwareKey),
+                                        UriUtil.decode(fileDatabaseHistoryEntity.databaseUri),
+                                        fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
+                                        fileDatabaseInfo.exists,
+                                        fileDatabaseInfo.getLastModificationString(),
+                                        fileDatabaseInfo.getSizeString()
                                     )
                             )
                         }
@@ -107,11 +110,14 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun addOrUpdateDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null,
+    fun addOrUpdateDatabaseUri(databaseUri: Uri,
+                               keyFileUri: Uri? = null,
+                               hardwareKey: HardwareKey? = null,
                                databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
         addOrUpdateDatabaseFile(DatabaseFile(
-                databaseUri,
-                keyFileUri
+            databaseUri,
+            keyFileUri,
+            hardwareKey
         ), databaseFileAddedOrUpdatedResult)
     }
 
@@ -130,6 +136,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                         ?: fileDatabaseHistoryRetrieve?.databaseAlias
                                         ?: "",
                                 databaseFileToAddOrUpdate.keyFileUri?.toString(),
+                                databaseFileToAddOrUpdate.hardwareKey?.value,
                                 System.currentTimeMillis()
                         )
 
@@ -147,13 +154,14 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                         val fileDatabaseInfo = FileDatabaseInfo(applicationContext,
                                 fileDatabaseHistory.databaseUri)
                         DatabaseFile(
-                                UriUtil.parse(fileDatabaseHistory.databaseUri),
-                                UriUtil.parse(fileDatabaseHistory.keyFileUri),
-                                UriUtil.decode(fileDatabaseHistory.databaseUri),
-                                fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
-                                fileDatabaseInfo.exists,
-                                fileDatabaseInfo.getLastModificationString(),
-                                fileDatabaseInfo.getSizeString()
+                            UriUtil.parse(fileDatabaseHistory.databaseUri),
+                            UriUtil.parse(fileDatabaseHistory.keyFileUri),
+                            HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                            UriUtil.decode(fileDatabaseHistory.databaseUri),
+                            fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
+                            fileDatabaseInfo.exists,
+                            fileDatabaseInfo.getLastModificationString(),
+                            fileDatabaseInfo.getSizeString()
                         )
                     }
                 },
@@ -172,10 +180,11 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                             val returnValue = databaseFileHistoryDao.delete(fileDatabaseHistory)
                             if (returnValue > 0) {
                                 DatabaseFile(
-                                        UriUtil.parse(fileDatabaseHistory.databaseUri),
-                                        UriUtil.parse(fileDatabaseHistory.keyFileUri),
-                                        UriUtil.decode(fileDatabaseHistory.databaseUri),
-                                        databaseFileToDelete.databaseAlias
+                                    UriUtil.parse(fileDatabaseHistory.databaseUri),
+                                    UriUtil.parse(fileDatabaseHistory.keyFileUri),
+                                    HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                                    UriUtil.decode(fileDatabaseHistory.databaseUri),
+                                    databaseFileToDelete.databaseAlias
                                 )
                             } else {
                                 null

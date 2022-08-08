@@ -39,19 +39,24 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.model.CredentialStorage
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 class MainCredentialView @JvmOverloads constructor(context: Context,
                                                    attrs: AttributeSet? = null,
                                                    defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
-    private var passwordTextView: EditText
-    private var keyFileSelectionView: KeyFileSelectionView
     private var checkboxPasswordView: CompoundButton
+    private var passwordTextView: EditText
     private var checkboxKeyFileView: CompoundButton
+    private var keyFileSelectionView: KeyFileSelectionView
+    private var checkboxHardwareView: CompoundButton
+    private var hardwareKeySelectionView: HardwareKeySelectionView
 
     var onPasswordChecked: (CompoundButton.OnCheckedChangeListener)? = null
+    var onKeyFileChecked: (CompoundButton.OnCheckedChangeListener)? = null
+    var onHardwareKeyChecked: (CompoundButton.OnCheckedChangeListener)? = null
     var onValidateListener: (() -> Unit)? = null
 
     private var mCredentialStorage: CredentialStorage = CredentialStorage.PASSWORD
@@ -60,15 +65,17 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_main_credentials, this)
 
-        passwordTextView = findViewById(R.id.password_text_view)
-        keyFileSelectionView = findViewById(R.id.keyfile_selection)
         checkboxPasswordView = findViewById(R.id.password_checkbox)
-        checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
+        passwordTextView = findViewById(R.id.password_text_view)
+        checkboxKeyFileView = findViewById(R.id.keyfile_checkbox)
+        keyFileSelectionView = findViewById(R.id.keyfile_selection)
+        checkboxHardwareView = findViewById(R.id.hardware_key_checkbox)
+        hardwareKeySelectionView = findViewById(R.id.hardware_key_selection)
 
         val onEditorActionListener = object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    onValidateListener?.invoke()
+                    validateCredential()
                     return true
                 }
                 return false
@@ -91,7 +98,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             if (keyEvent.action == KeyEvent.ACTION_DOWN
                 && keyEvent?.keyCode == KeyEvent.KEYCODE_ENTER
             ) {
-                onValidateListener?.invoke()
+                validateCredential()
                 handled = true
             }
             handled
@@ -100,10 +107,30 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         checkboxPasswordView.setOnCheckedChangeListener { view, checked ->
             onPasswordChecked?.onCheckedChanged(view, checked)
         }
+        checkboxKeyFileView.setOnCheckedChangeListener { view, checked ->
+            if (checked) {
+                if (keyFileSelectionView.uri == null) {
+                    checkboxKeyFileView.isChecked = false
+                }
+            }
+            onKeyFileChecked?.onCheckedChanged(view, checked)
+        }
+        checkboxHardwareView.setOnCheckedChangeListener { view, checked ->
+            if (checked) {
+                if (hardwareKeySelectionView.hardwareKey == null) {
+                    checkboxHardwareView.isChecked = false
+                }
+            }
+            onHardwareKeyChecked?.onCheckedChanged(view, checked)
+        }
+
+        hardwareKeySelectionView.selectionListener = { _ ->
+            checkboxHardwareView.isChecked = true
+        }
     }
 
-    fun setOpenKeyfileClickListener(externalFileHelper: ExternalFileHelper?) {
-        keyFileSelectionView.setOpenDocumentClickListener(externalFileHelper)
+    fun validateCredential() {
+        onValidateListener?.invoke()
     }
 
     fun populatePasswordTextView(text: String?) {
@@ -118,7 +145,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun populateKeyFileTextView(uri: Uri?) {
+    fun populateKeyFileView(uri: Uri?) {
         if (uri == null || uri.toString().isEmpty()) {
             keyFileSelectionView.uri = null
             if (checkboxKeyFileView.isChecked)
@@ -130,16 +157,36 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         }
     }
 
+    fun populateHardwareKeyView(hardwareKey: HardwareKey?) {
+        if (hardwareKey == null) {
+            hardwareKeySelectionView.hardwareKey = null
+            if (checkboxHardwareView.isChecked)
+                checkboxHardwareView.isChecked = false
+        } else {
+            hardwareKeySelectionView.hardwareKey = hardwareKey
+            if (!checkboxHardwareView.isChecked)
+                checkboxHardwareView.isChecked = true
+        }
+    }
+
+    fun setOpenKeyfileClickListener(externalFileHelper: ExternalFileHelper?) {
+        keyFileSelectionView.setOpenDocumentClickListener(externalFileHelper)
+    }
+
     fun isFill(): Boolean {
-        return checkboxPasswordView.isChecked || checkboxKeyFileView.isChecked
+        return checkboxPasswordView.isChecked
+                || (checkboxKeyFileView.isChecked && keyFileSelectionView.uri != null)
+                || (checkboxHardwareView.isChecked && hardwareKeySelectionView.hardwareKey != null)
     }
 
     fun getMainCredential(): MainCredential {
         return MainCredential().apply {
-            this.masterPassword = if (checkboxPasswordView.isChecked)
+            this.password = if (checkboxPasswordView.isChecked)
                 passwordTextView.text?.toString() else null
             this.keyFileUri = if (checkboxKeyFileView.isChecked)
                 keyFileSelectionView.uri else null
+            this.hardwareKey = if (checkboxHardwareView.isChecked)
+                hardwareKeySelectionView.hardwareKey else null
         }
     }
 
@@ -151,7 +198,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         // TODO HARDWARE_KEY
         return when (mCredentialStorage) {
             CredentialStorage.PASSWORD -> checkboxPasswordView.isChecked
-            CredentialStorage.KEY_FILE -> checkboxPasswordView.isChecked
+            CredentialStorage.KEY_FILE -> false
             CredentialStorage.HARDWARE_KEY -> false
         }
     }

@@ -56,9 +56,8 @@ import javax.crypto.CipherOutputStream
 import kotlin.experimental.or
 
 
-class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
-                         outputStream: OutputStream)
-    : DatabaseOutput<DatabaseHeaderKDBX>(outputStream) {
+class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
+    : DatabaseOutput<DatabaseHeaderKDBX>() {
 
     private var randomStream: StreamCipher? = null
     private lateinit var xml: XmlSerializer
@@ -67,43 +66,34 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     private var headerHmac: ByteArray? = null
 
     @Throws(DatabaseOutputException::class)
-    override fun output() {
+    override fun writeDatabase(outputStream: OutputStream,
+                               assignMasterKey: () -> Unit) {
 
         try {
-            header = outputHeader(mOutputStream)
+            header = outputHeader(outputStream, assignMasterKey)
 
             val osPlain: OutputStream = if (header!!.version.isBefore(FILE_VERSION_40)) {
-                val cos = attachStreamEncryptor(header!!, mOutputStream)
+                val cos = attachStreamEncryptor(header!!, outputStream)
                 cos.write(header!!.streamStartBytes)
 
                 HashedBlockOutputStream(cos)
             } else {
-                mOutputStream.write(hashOfHeader!!)
-                mOutputStream.write(headerHmac!!)
+                outputStream.write(hashOfHeader!!)
+                outputStream.write(headerHmac!!)
 
-                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOutputStream, mDatabaseKDBX.hmacKey!!))
+                attachStreamEncryptor(header!!, HmacBlockOutputStream(outputStream, mDatabaseKDBX.hmacKey!!))
             }
 
-            val xmlOutputStream: OutputStream
-            try {
-                xmlOutputStream = when(mDatabaseKDBX.compressionAlgorithm) {
-                    CompressionAlgorithm.GZip -> GZIPOutputStream(osPlain)
-                    else -> osPlain
-                }
-
+            when(mDatabaseKDBX.compressionAlgorithm) {
+                CompressionAlgorithm.GZip -> GZIPOutputStream(osPlain)
+                else -> osPlain
+            }.use { xmlOutputStream ->
                 if (!header!!.version.isBefore(FILE_VERSION_40)) {
                     outputInnerHeader(mDatabaseKDBX, header!!, xmlOutputStream)
                 }
-
                 outputDatabase(xmlOutputStream)
-                xmlOutputStream.close()
-            } catch (e: IllegalArgumentException) {
-                throw DatabaseOutputException(e)
-            } catch (e: IllegalStateException) {
-                throw DatabaseOutputException(e)
             }
-
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             throw DatabaseOutputException(e)
         }
     }
@@ -322,10 +312,14 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(DatabaseOutputException::class)
-    override fun outputHeader(outputStream: OutputStream): DatabaseHeaderKDBX {
+    private fun outputHeader(outputStream: OutputStream,
+                             assignMasterKey: () -> Unit): DatabaseHeaderKDBX {
         try {
             val header = DatabaseHeaderKDBX(mDatabaseKDBX)
             setIVs(header)
+
+            mDatabaseKDBX.transformSeed = header.transformSeed
+            assignMasterKey.invoke()
 
             val pho = DatabaseHeaderOutputKDBX(mDatabaseKDBX, header, outputStream)
             pho.output()
