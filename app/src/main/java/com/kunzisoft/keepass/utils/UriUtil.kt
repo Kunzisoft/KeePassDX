@@ -299,6 +299,7 @@ object UriUtil {
         }
         try {
             if (launchIntent == null) {
+                // TODO F-Droid
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
