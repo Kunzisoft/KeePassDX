@@ -27,7 +27,7 @@
     android:filterTouchesWhenObscured="true"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_group_container_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,16 +36,17 @@
             android:id="@+id/special_mode_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="?attr/toolbarSpecialAppearance" />
+            android:theme="?attr/toolbarSpecialAppearance"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:title="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_below="@+id/special_mode_view"
             android:background="?attr/colorPrimary"
-            android:theme="?attr/toolbarAppearance" >
+            android:theme="?attr/toolbarAppearance"
+            android:title="@string/app_name"
+            app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
             <FrameLayout
                 android:id="@+id/database_name_container"
                 android:layout_width="wrap_content"
@@ -64,10 +65,12 @@
         <FrameLayout
             android:layout_width="48dp"
             android:layout_height="?attr/actionBarSize"
-            android:layout_below="@+id/special_mode_view"
             android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp">
-            <ImageView
+            android:layout_marginLeft="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
+
+        <ImageView
                 android:id="@+id/database_color"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
@@ -91,9 +94,9 @@
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/group_coordinator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
-            android:layout_above="@+id/toolbar_action">
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/toolbar_action"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"
@@ -159,7 +162,7 @@
             android:layout_height="?attr/actionBarSize"
             android:visibility="gone"
             android:theme="?attr/toolbarActionAppearance"
-            android:layout_alignParentBottom="true" />
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -177,9 +180,10 @@
             layout="@layout/view_button_lock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"/>
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
-    </RelativeLayout>
+        <include layout="@layout/view_screenshot_mode_banner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.kunzisoft.keepass.view.NavigationDatabaseView
         android:id="@+id/database_nav_view"

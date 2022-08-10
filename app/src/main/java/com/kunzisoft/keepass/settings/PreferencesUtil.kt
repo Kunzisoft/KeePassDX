@@ -485,6 +485,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.enable_keep_screen_on_default))
     }
 
+    fun isScreenshotModeEnabled(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.enable_screenshot_mode_key),
+            context.resources.getBoolean(R.bool.enable_screenshot_mode_key_default))
+    }
+
     fun isAdvancedUnlockEnable(context: Context): Boolean {
         return isBiometricUnlockEnable(context) || isDeviceCredentialUnlockEnable(context)
     }

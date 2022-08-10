@@ -21,14 +21,21 @@ package com.kunzisoft.keepass.activities.stylish
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.WindowManager
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.NestedAppSettingsFragment.Companion.DATABASE_PREFERENCE_CHANGED
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 /**
  * Stylish Hide Activity that apply a dynamic style and sets FLAG_SECURE to prevent screenshots / from
@@ -81,8 +88,24 @@ abstract class StylishActivity : AppCompatActivity() {
             setTheme(themeId)
         }
 
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .registerOnSharedPreferenceChangeListener(onScreenshotModePrefListener)
+    }
+    private val onScreenshotModePrefListener = OnSharedPreferenceChangeListener { _, key ->
+        if (key != getString(R.string.enable_screenshot_mode_key)) return@OnSharedPreferenceChangeListener
+
+        setScreenshotMode(PreferencesUtil.isScreenshotModeEnabled(this))
+    }
+
+    private fun setScreenshotMode(isEnabled: Boolean) {
+        findViewById<View>(R.id.screenshot_mode_banner)?.visibility = if (isEnabled) VISIBLE else GONE
+
         // Several gingerbread devices have problems with FLAG_SECURE
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+        if (isEnabled) {
+            window.clearFlags(FLAG_SECURE)
+        } else {
+            window.setFlags(FLAG_SECURE, FLAG_SECURE)
+        }
     }
 
     override fun onResume() {
@@ -94,6 +117,7 @@ abstract class StylishActivity : AppCompatActivity() {
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
             recreateActivity()
         }
+        setScreenshotMode(PreferencesUtil.isScreenshotModeEnabled(this))
     }
 
     private fun recreateActivity() {

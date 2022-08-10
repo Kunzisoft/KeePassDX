@@ -607,6 +607,8 @@
     <string name="warning_keyfile_integrity">El hash del archivo no está garantizado porque Android puede cambiar sus datos sobre la marcha. Cambia la extensión del archivo a .bin para una correcta integridad.</string>
     <string name="enable_keep_screen_on_title">Mantener la pantalla encendida</string>
     <string name="enable_keep_screen_on_summary">Mantenga la pantalla encendida cuando vea la entrada</string>
+    <string name="enable_screenshot_mode_title">Modo captura de pantalla</string>
+    <string name="enable_screenshot_mode_summary">Permitir que otras aplicaciones graben o tomen capturas de pantalla de la aplicación</string>
     <string name="show_entry_colors_summary">Muestra los colores de primer y segundo plano en una entrada</string>
     <string name="show_entry_colors_title">Colores de entrada</string>
     <string name="menu_merge_database">Fusionar datos</string>
@@ -647,4 +649,5 @@
     <string name="upper_case">MAYÚSCULAS</string>
     <string name="title_case">Tipo Titular</string>
     <string name="character_count">Conteo de caracteres: %1$d</string>
+    <string name="screenshot_mode_banner_text">Modo captura de pantalla</string>
 </resources>

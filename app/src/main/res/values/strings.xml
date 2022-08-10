@@ -559,6 +559,8 @@
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
     <string name="enable_keep_screen_on_title">Keep screen on</string>
     <string name="enable_keep_screen_on_summary">Keep the screen on when watching the entry</string>
+    <string name="enable_screenshot_mode_title">Screenshot mode</string>
+    <string name="enable_screenshot_mode_summary">Allow third party apps to record or take screenshots of the app</string>
     <string name="enable_education_screens_title">Educational hints</string>
     <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational hints</string>
@@ -635,6 +637,7 @@
     <string name="upper_case">UPPER CASE</string>
     <string name="title_case">Title Case</string>
     <string name="character_count">Character count: %1$d</string>
+    <string name="screenshot_mode_banner_text">Screenshot mode</string>
     <string-array name="word_case_array">
         <item>@string/lower_case</item>
         <item>@string/upper_case</item>

@@ -47,6 +47,11 @@
             android:title="@string/enable_keep_screen_on_title"
             android:summary="@string/enable_keep_screen_on_summary"
             android:defaultValue="@bool/enable_keep_screen_on_default"/>
+        <SwitchPreference
+            android:key="@string/enable_screenshot_mode_key"
+            android:title="@string/enable_screenshot_mode_title"
+            android:summary="@string/enable_screenshot_mode_summary"
+            android:defaultValue="@bool/enable_screenshot_mode_key_default"/>
 
     </PreferenceCategory>
 
