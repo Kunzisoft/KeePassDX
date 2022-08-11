@@ -150,7 +150,7 @@
     </string-array>
     <string name="warning_empty_password">Soll das Entsperren ohne Passwort wirklich möglich sein\?</string>
     <string name="warning_no_encryption_key">Soll wirklich kein Verschlüsselungsschlüssel verwendet werden\?</string>
-    <string name="menu_appearance_settings">Aussehen</string>
+    <string name="menu_appearance_settings">Erscheinungsbild</string>
     <string name="password_size_title">Generierte Passwortlänge</string>
     <string name="password_size_summary">Legt die Standardlänge des generierten Passworts fest</string>
     <string name="clipboard_notifications_title">Zwischenablage-Benachrichtigung</string>
@@ -303,7 +303,7 @@
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Beim Schließen löschen</string>
     <string name="keyboard_notification_entry_clear_close_summary">Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
-    <string name="keyboard_appearance_category">Aussehen</string>
+    <string name="keyboard_appearance_category">Erscheinungsbild</string>
     <string name="keyboard_theme_title">Tastaturdesign</string>
     <string name="keyboard_keys_category">Tasten</string>
     <string name="keyboard_key_vibrate_title">Vibrierende Tastendrücke</string>
@@ -416,8 +416,8 @@
     <string name="entry_attachments">Anhänge</string>
     <string name="menu_restore_entry_history">Historie wiederherstellen</string>
     <string name="menu_delete_entry_history">Historie löschen</string>
-    <string name="keyboard_auto_go_action_title">Auto-Key-Aktion</string>
-    <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
+    <string name="keyboard_auto_go_action_title">Autom. Tastenbetätigung</string>
+    <string name="keyboard_auto_go_action_summary">Nach dem Drücken eines Feldes automatisch die Eingabe-Taste ausführen</string>
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren …</string>
     <string name="download_progression">Fortschritt: %1$d%%</string>

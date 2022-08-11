@@ -628,10 +628,11 @@
     <string name="passphrase">Frase di accesso</string>
     <string name="colorize_password_title">Colora le password</string>
     <string name="colorize_password_summary">Colora i tipi di carattere della password</string>
-    <string name="warning_database_already_opened">Un database è già aperto, chiuderlo prima di aprirne un altro.</string>
+    <string name="warning_database_already_opened">Un database è già aperto, chiuderlo prima di aprirne un altro</string>
     <string name="auto_type_sequence">Sequenza di autodigitazione</string>
     <string name="advanced_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
-\nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienanente funzionante.
+\n
+\nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienamente funzionante.
 \nVerificare la compatibilità e la sicurezza del KeyStore consultando sia il costruttore del dispositivo che il creatore della ROM in uso nel dispositivo stesso.</string>
     <string name="keyboard_previous_search_title">Schermata di ricerca</string>
     <string name="keyboard_previous_search_summary">Ritornare automaticamente alla tastiera precedente quando ci si trova sulla schermata di ricerca</string>
