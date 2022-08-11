@@ -645,4 +645,25 @@
     <string name="title_case">Регістр Заголовка</string>
     <string name="word_separator">Роздільник</string>
     <string name="upper_case">ВЕРХНІЙ РЕГІСТР</string>
+    <string name="content_description_hardware_key_checkbox">Прапорець апаратного ключа</string>
+    <string name="hardware_key">Апаратний ключ</string>
+    <string name="error_XML_malformed">Хибний XML.</string>
+    <string name="error_response_already_provided">Відповідь уже надана.</string>
+    <string name="error_driver_required">Вимагається драйвер для %1$s.</string>
+    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з базою даних V1.</string>
+    <string name="remember_hardware_key_title">Пам\'ятати апаратні ключі</string>
+    <string name="remember_hardware_key_summary">Пам\'ятати використовувані апаратні ключі</string>
+    <string name="enable_screenshot_mode_title">Режим знімка екрана</string>
+    <string name="enable_screenshot_mode_summary">Дозволити стороннім застосункам записувати або робити знімки екрана застосунку</string>
+    <string name="screenshot_mode_banner_text">Режим знімка екрана</string>
+    <string name="waiting_challenge_request">Очікування запиту на виклик…</string>
+    <string name="error_hardware_key_unsupported">Апаратний ключ не підтримується.</string>
+    <string name="waiting_challenge_response">Очікування відповіді на виклик…</string>
+    <string name="error_no_hardware_key">Виберіть апаратний ключ.</string>
+    <string name="error_challenge_already_requested">Виклик уже запитаний</string>
+    <string name="error_no_response_from_challenge">Не вдалося отримати відповідь на виклик.</string>
+    <string name="error_cancel_by_user">Скасовано користувачем.</string>
+    <string name="error_location_unknown">Розташування бази даних невідоме, дія бази даних не може бути виконана.</string>
+    <string name="error_empty_key">Ключ не може бути порожнім.</string>
+    <string name="corrupted_file">Пошкоджений файл.</string>
 </resources>
