@@ -285,7 +285,7 @@
 \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank.
 \nMit „Änderbar“ können Sie alle Elemente nach Belieben hinzufügen, löschen oder ändern.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
-    <string name="error_load_database">Datenbank kann nicht geladen werden.</string>
+    <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
