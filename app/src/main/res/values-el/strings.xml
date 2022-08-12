@@ -267,7 +267,7 @@
 \nΤο \"Προστατευμένο από εγγραφή\" αποτρέπει τυχόν μη επιθυμητές αλλαγές στη βάση δεδομένων.
 \nΤο \"Τροποποιητικό\" σάς επιτρέπει να προσθέσετε, να διαγράψετε ή να τροποποιήσετε όλα τα στοιχεία όπως επιθυμείτε.</string>
     <string name="edit_entry">Επεξεργασία καταχώρησης</string>
-    <string name="error_load_database">Δεν ήταν δυνατή η φόρτωση της βάσης δεδομένων σας.</string>
+    <string name="error_load_database">Δεν ήταν δυνατή η φόρτωση της βάσης δεδομένων.</string>
     <string name="error_load_database_KDF_memory">Δεν ήταν δυνατή η φόρτωση του κλειδιού. Προσπαθήστε να μειώσετε την KDF \"Χρήση μνήμης\".</string>
     <string name="list_entries_show_username_title">Εμφάνιση ονομάτων χρηστών</string>
     <string name="list_entries_show_username_summary">Εμφάνιση ονομάτων χρηστών σε λίστες καταχώρησης</string>
@@ -645,4 +645,25 @@
     <string name="upper_case">ΚΕΦΑΛΑΙΑ ΓΡΑΜΜΑΤΑ</string>
     <string name="word_separator">Διαχωριστής</string>
     <string name="character_count">Αριθμός χαρακτήρων: %1$d</string>
+    <string name="error_no_hardware_key">Επιλέξτε ένα κλειδί υλικού.</string>
+    <string name="error_XML_malformed">Το XML είναι εσφαλμένο.</string>
+    <string name="error_cancel_by_user">Ακυρώθηκε από τον χρήστη.</string>
+    <string name="error_driver_required">Απαιτείται πρόγραμμα οδήγησης για %1$s.</string>
+    <string name="error_hardware_key_unsupported">Το κλειδί υλικού δεν υποστηρίζεται.</string>
+    <string name="remember_hardware_key_title">Να θυμάται τα κλειδιά υλικού</string>
+    <string name="remember_hardware_key_summary">Παρακολουθεί τα κλειδιά υλικού που χρησιμοποιούνται</string>
+    <string name="enable_screenshot_mode_summary">Επιτρέψτε σε εφαρμογές τρίτων να καταγράφουν ή να λαμβάνουν στιγμιότυπα οθόνης της εφαρμογής</string>
+    <string name="waiting_challenge_request">Αναμονή για το αίτημα πρόκλησης…</string>
+    <string name="waiting_challenge_response">Αναμονή για το αίτημα πρόκλησης…</string>
+    <string name="content_description_hardware_key_checkbox">Πλαίσιο ελέγχου κλειδιού υλικού</string>
+    <string name="hardware_key">Κλειδί υλικού</string>
+    <string name="error_no_response_from_challenge">Δεν είναι δυνατή η λήψη της απάντησης από την πρόκληση.</string>
+    <string name="enable_screenshot_mode_title">Λειτουργία στιγμιότυπου οθόνης</string>
+    <string name="screenshot_mode_banner_text">Λειτουργία στιγμιότυπου οθόνης</string>
+    <string name="error_challenge_already_requested">Η πρόκληση έχει ήδη ζητηθεί</string>
+    <string name="error_response_already_provided">Η απάντηση έχει ήδη δοθεί.</string>
+    <string name="error_location_unknown">Η θέση της βάσης δεδομένων είναι άγνωστη, η ενέργεια της βάσης δεδομένων δεν μπορεί να εκτελεστεί.</string>
+    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση από μια βάση δεδομένων V1.</string>
+    <string name="error_empty_key">Το κλειδί δεν μπορεί να είναι κενό.</string>
+    <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
 </resources>
