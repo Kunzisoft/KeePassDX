@@ -108,7 +108,7 @@ dependencies {
     implementation 'androidx.media:media:1.6.0'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
-    implementation 'androidx.fragment:fragment-ktx:1.5.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.2'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
     // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed
