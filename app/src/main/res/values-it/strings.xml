@@ -648,4 +648,9 @@
     <string name="title_case">Iniziali maiuscole</string>
     <string name="character_count">Numero di caratteri: %1$d</string>
     <string name="entropy">Entropia: %1$s bit</string>
+    <string name="corrupted_file">File danneggiato.</string>
+    <string name="enable_screenshot_mode_summary">Consenti alle app di terze parti di registrare o acquisire schermate dell\'app</string>
+    <string name="error_cancel_by_user">Annullato dall\'utente.</string>
+    <string name="error_unable_merge_database_kdb">Impossibile eseguire l\'unione da un database V1.</string>
+    <string name="error_location_unknown">Il percorso del database è sconosciuto, non è possibile eseguire l\'azione sul database.</string>
 </resources>
