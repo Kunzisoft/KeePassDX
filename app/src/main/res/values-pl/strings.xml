@@ -667,4 +667,5 @@
     <string name="error_no_hardware_key">Wybierz klucz sprzętowy.</string>
     <string name="error_XML_malformed">Zniekształcony XML.</string>
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
+    <string name="html_about_privacy"><strong>Żadne dane użytkownika nie są pobierane</strong>, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
 </resources>
