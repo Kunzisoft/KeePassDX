@@ -432,7 +432,7 @@
     <string name="parallelism_explanation">Ступінь паралелізму (тобто кількість потоків), необхідних для функції створення ключа.</string>
     <string name="parallelism">Паралельність</string>
     <string name="memory_usage">Використання пам\'яті</string>
-    <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних.</string>
+    <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних</string>
     <string name="autofill_block_restart">Перезапустіть застосунок, який містить форму, для застосування блокування.</string>
     <string name="autofill_block">Блокування автозаповнення</string>
     <string name="autofill_web_domain_blocklist_summary">Вебдомени для яких вимкнено автозаповнення</string>
@@ -666,4 +666,6 @@
     <string name="error_location_unknown">Розташування бази даних невідоме, дія бази даних не може бути виконана.</string>
     <string name="error_empty_key">Ключ не може бути порожнім.</string>
     <string name="corrupted_file">Пошкоджений файл.</string>
+    <string name="html_about_privacy"><strong>Жодні користувацькі дані не збираються</strong>, цей застосунок не з\'єднується з жодним сервером, він працює лише локально та повністю поважає приватність користувачів.</string>
+    <string name="auto_type">Автовведення</string>
 </resources>
