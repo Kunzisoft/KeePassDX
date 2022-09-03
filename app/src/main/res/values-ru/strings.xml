@@ -666,4 +666,5 @@
     <string name="enable_screenshot_mode_summary">Разрешать сторонним приложениям делать снимки или запись экрана приложения</string>
     <string name="waiting_challenge_request">Ожидание запроса на вызов…</string>
     <string name="waiting_challenge_response">Ожидание ответа на вызов…</string>
+    <string name="html_about_privacy"><strong>Никакие пользовательские данные не собираются</strong>, это приложение не подключается ни к одному серверу, работает исключительно локально и полностью соблюдает конфиденциальность пользователей.</string>
 </resources>
