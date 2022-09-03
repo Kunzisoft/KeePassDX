@@ -150,7 +150,7 @@
     </string-array>
     <string name="warning_empty_password">Soll das Entsperren ohne Passwort wirklich möglich sein\?</string>
     <string name="warning_no_encryption_key">Soll wirklich kein Verschlüsselungsschlüssel verwendet werden\?</string>
-    <string name="menu_appearance_settings">Aussehen</string>
+    <string name="menu_appearance_settings">Erscheinungsbild</string>
     <string name="password_size_title">Generierte Passwortlänge</string>
     <string name="password_size_summary">Legt die Standardlänge des generierten Passworts fest</string>
     <string name="clipboard_notifications_title">Zwischenablage-Benachrichtigung</string>
@@ -162,7 +162,7 @@
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
-    <string name="biometric_unlock_enable_summary">Ermöglicht Ihre Biometrie zu scannen, um die Datenbank zu öffnen.</string>
+    <string name="biometric_unlock_enable_summary">Ermöglicht das Scannen Ihrer biometrischen Daten, um die Datenbank zu öffnen</string>
     <string name="advanced_unlock">Moderne Entsperrung</string>
     <string name="biometric_unlock_enable_title">Biometrische Entsperrung</string>
     <string name="lock">Sperren</string>
@@ -260,7 +260,7 @@
     <string name="html_text_dev_feature_encourage">Sie ermutigen die Entwickler:innen, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß Ihren Anmerkungen &lt;strong&gt;Fehler zu beheben&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
-    <string name="html_text_dev_feature_upgrade">Denken Sie daran, Ihre App auf dem neuesten Stand zu halten, indem Sie neue Versionen installieren.</string>
+    <string name="html_text_dev_feature_upgrade">Denken Sie daran, Ihre App durch die Installation neuer Versionen auf dem aktuellsten Stand zu halten.</string>
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
     <string name="icon_pack_choose_title">Symbolpaket</string>
@@ -285,7 +285,7 @@
 \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank.
 \nMit „Änderbar“ können Sie alle Elemente nach Belieben hinzufügen, löschen oder ändern.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
-    <string name="error_load_database">Datenbank kann nicht geladen werden.</string>
+    <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
@@ -303,16 +303,16 @@
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Beim Schließen löschen</string>
     <string name="keyboard_notification_entry_clear_close_summary">Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
-    <string name="keyboard_appearance_category">Aussehen</string>
+    <string name="keyboard_appearance_category">Erscheinungsbild</string>
     <string name="keyboard_theme_title">Tastaturdesign</string>
     <string name="keyboard_keys_category">Tasten</string>
     <string name="keyboard_key_vibrate_title">Vibrierende Tastendrücke</string>
     <string name="keyboard_key_sound_title">Hörbare Tastendrücke</string>
     <string name="selection_mode">Auswahlmodus</string>
     <string name="remember_database_locations_title">Datenbank-Speicherorte merken</string>
-    <string name="remember_database_locations_summary">Verfolgt, wo Datenbanken gespeichert sind</string>
+    <string name="remember_database_locations_summary">Verfolgt den Speicherort der Datenbanken</string>
     <string name="remember_keyfile_locations_title">Schlüsseldatei-Speicherorte merken</string>
-    <string name="remember_keyfile_locations_summary">Verfolgt, wo Schlüsseldateien gespeichert sind</string>
+    <string name="remember_keyfile_locations_summary">Verfolgt den Speicherort der Schlüsseldateien</string>
     <string name="show_recent_files_title">Zuletzt verwendete Dateien anzeigen</string>
     <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
@@ -349,7 +349,7 @@
     <string name="content_description_background">Hintergrund</string>
     <string name="content_description_update_from_list">Aktualisieren</string>
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
-    <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
+    <string name="error_create_database_file">Die Datenbank kann mit diesem Passwort und dieser Schlüsseldatei nicht erstellt werden.</string>
     <string name="menu_advanced_unlock_settings">Modernes Entsperren</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
@@ -385,7 +385,7 @@
     <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden und danach fortfahren\?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
-    <string name="advanced_unlock_explanation_summary">Modernes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
+    <string name="advanced_unlock_explanation_summary">Modernes Entsperren verwenden, um eine Datenbank einfacher zu öffnen</string>
     <string name="database_data_compression_title">Datenkompression</string>
     <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße</string>
     <string name="max_history_items_title">Maximale Anzahl</string>
@@ -416,8 +416,8 @@
     <string name="entry_attachments">Anhänge</string>
     <string name="menu_restore_entry_history">Historie wiederherstellen</string>
     <string name="menu_delete_entry_history">Historie löschen</string>
-    <string name="keyboard_auto_go_action_title">Auto-Key-Aktion</string>
-    <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
+    <string name="keyboard_auto_go_action_title">Automatische Tastenaktion</string>
+    <string name="keyboard_auto_go_action_summary">Nach dem Drücken einer Feldtaste automatisch die Eingabetaste ausführen</string>
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren …</string>
     <string name="download_progression">Fortschritt: %1$d%%</string>
@@ -440,7 +440,7 @@
     <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einrichten einer Einmal-Passwortverwaltung (HOTP / TOTP), um ein Token zu generieren, das für die Zwei-Faktor-Authentifizierung (2FA) angefordert wird.</string>
     <string name="education_setup_OTP_title">OTP einrichten</string>
-    <string name="error_create_database">Es ist nicht möglich, eine Datenbankdatei zu erstellen.</string>
+    <string name="error_create_database">Die Datenbankdatei kann nicht erstellt werden.</string>
     <string name="entry_add_attachment">Anhang hinzufügen</string>
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
@@ -464,7 +464,7 @@
     <string name="content_description_add_item">Element hinzufügen</string>
     <string name="filter">Filter</string>
     <string name="keyboard_change">Tastatur wechseln</string>
-    <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
+    <string name="keyboard_previous_fill_in_title">Automatische Tastenaktion</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
     <string name="keyboard_previous_fill_in_summary">Nach dem Ausführen der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_database_credentials_summary">Auf dem Datenbank-Anmeldebildschirm automatisch zur vorherigen Tastatur wechseln</string>
@@ -531,7 +531,7 @@
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
     <string name="credential_before_click_advanced_unlock_button">Geben Sie das Passwort ein und klicken Sie dann auf diesen Knopf.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Dialog für modernes Entsperren konnte nicht gestartet werden.</string>
+    <string name="advanced_unlock_prompt_not_initialized">Der Dialog für modernes Entsperren konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler beim modernen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum modernen Entsperren nicht erkannt</string>
     <string name="advanced_unlock_invalid_key">Schlüssel zum modernen Entsperren nicht lesbar. Bitte löschen Sie ihn und wiederholen Sie die Prozedur zur Entsperrerkennung.</string>
@@ -658,4 +658,25 @@
     <string name="character_count">Anzahl der Zeichen: %1$d</string>
     <string name="exclude_ambiguous_chars">Mehrdeutige Zeichen ausschließen</string>
     <string name="title_case">Groß-/Kleinschreibung des Titels</string>
+    <string name="content_description_hardware_key_checkbox">Hardwareschlüssel-Kontrollkästchen</string>
+    <string name="hardware_key">Hardwareschlüssel</string>
+    <string name="error_no_hardware_key">Hardwareschlüssel auswählen.</string>
+    <string name="error_XML_malformed">XML fehlerhaft.</string>
+    <string name="waiting_challenge_response">Warte auf die Response-Antwort …</string>
+    <string name="waiting_challenge_request">Warte auf die Challenge-Aufgabe …</string>
+    <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
+    <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
+    <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
+    <string name="error_location_unknown">Der Speicherort der Datenbank ist unbekannt, Datenbank-Aktion kann nicht ausgeführt werden.</string>
+    <string name="error_hardware_key_unsupported">Der Hardwareschlüssel wird nicht unterstützt.</string>
+    <string name="error_empty_key">Der Schlüssel darf nicht leer sein.</string>
+    <string name="corrupted_file">Die Datei ist beschädigt.</string>
+    <string name="error_no_response_from_challenge">Die Response-Antwort kann nicht abgerufen werden.</string>
+    <string name="error_challenge_already_requested">Die Challenge-Aufgabe wurde bereits angefordert.</string>
+    <string name="error_response_already_provided">Die Response-Antwort wurde bereits übertragen.</string>
+    <string name="enable_screenshot_mode_title">Screenshot-Modus</string>
+    <string name="enable_screenshot_mode_summary">Erlauben Sie Apps von Drittanbietern, Screenshots der Anwendung aufzuzeichnen oder zu erstellen</string>
+    <string name="screenshot_mode_banner_text">Screenshot-Modus</string>
+    <string name="remember_hardware_key_title">Hardwareschlüssel merken</string>
+    <string name="remember_hardware_key_summary">Verfolgt die verwendeten Hardwareschlüssel</string>
 </resources>
