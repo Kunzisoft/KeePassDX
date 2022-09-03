@@ -323,7 +323,7 @@
     <string name="success_export_app_properties">App properties exported</string>
     <string name="error_export_app_properties">Error during app properties exportation</string>
     <string name="root">Root</string>
-    <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
+    <string name="encryption_explanation">Database encryption algorithm used for all data</string>
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
@@ -569,7 +569,7 @@
     <string name="reset_education_screens_summary">Show all educational info again</string>
     <string name="reset_education_screens_text">Educational hints reset</string>
     <string name="education_create_database_title">Create your database file</string>
-    <string name="education_create_database_summary">Create your first password management file.</string>
+    <string name="education_create_database_summary">Create your first password management file!</string>
     <string name="education_select_database_title">Open an existing database</string>
     <string name="education_select_database_summary">Open your earlier database file from your file browser to continue using it.</string>
     <string name="education_new_node_title">Add items to your database</string>
