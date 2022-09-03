@@ -54,7 +54,6 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
                     UriUtil.gotoUrl(requireContext(), R.string.contribution_url)
                 }
-                builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             //}
             builder.setMessage(stringBuilder)
             // Create the AlertDialog object and return it
