@@ -145,7 +145,7 @@
     <string name="copy_field">Αντιγραφή του %1$s</string>
     <string name="menu_form_filling_settings">Γέμισμα Φόρμας</string>
     <string name="read_only">Προστασία εγγραφής</string>
-    <string name="encryption_explanation">Αλγόριθμος κρυπτογράφησης βάσης δεδομένων που χρησιμοποιείται για όλα τα δεδομένα.</string>
+    <string name="encryption_explanation">Αλγόριθμος κρυπτογράφησης βάσης δεδομένων που χρησιμοποιείται για όλα τα δεδομένα</string>
     <string name="kdf_explanation">Για να δημιουργηθεί το κλειδί για τον αλγόριθμο κρυπτογράφησης, το κύριο κλειδί μετασχηματίζεται χρησιμοποιώντας μια τυχαία εμπλουτισμένη συνάρτηση παραγωγής κλειδιού.</string>
     <string name="memory_usage">Χρήση μνήμης</string>
     <string name="memory_usage_explanation">Ποσότητα μνήμης που θα χρησιμοποιηθεί από τη συνάρτηση παραγωγής κλειδιού.</string>
@@ -607,7 +607,7 @@
     <string name="enable_keep_screen_on_summary">Κρατήστε την οθόνη ενεργή όταν παρακολουθείτε την καταχώρηση</string>
     <string name="enable_keep_screen_on_title">Διατηρήστε την οθόνη ενεργή</string>
     <string name="show_entry_colors_title">Χρώματα καταχώρησης</string>
-    <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου σε μια καταχώρηση</string>
+    <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου για μια καταχώρηση</string>
     <string name="searchable">Αναζητήσιμο</string>
     <string name="case_sensitive">Διάκριση πεζών-κεφαλαίων</string>
     <string name="menu_merge_from">Συγχώνευση από …</string>
@@ -667,4 +667,5 @@
     <string name="error_empty_key">Το κλειδί δεν μπορεί να είναι κενό.</string>
     <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
+    <string name="auto_type">Αυτόματη-Πληκτρολόγηση</string>
 </resources>
