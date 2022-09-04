@@ -444,7 +444,7 @@
     <string name="education_setup_OTP_title">Sett opp OTP</string>
     <string name="download_canceled">Avbrutt!</string>
     <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
-    <string name="html_about_contribution">For å <strong> beholde vår frihet </strong>, <strong> fikse feil </strong>, <strong> legge til funksjoner </strong> og <strong> være alltid aktiv </strong>, stoler vi på ditt <strong> bidrag </strong>.</string>
+    <string name="html_about_contribution">For å &lt;strong&gt; beholde vår frihet &lt;/strong&gt;, &lt;strong&gt; fikse feil &lt;/strong&gt;, &lt;strong&gt; legge til funksjoner &lt;/strong&gt; og &lt;strong&gt; være alltid aktiv &lt;/strong&gt;, stoler vi på ditt &lt;strong&gt; bidrag &lt;/strong&gt;.</string>
     <string name="content_description_repeat_toggle_password_visibility">Gjenta for å skifte passordsynlighet</string>
     <string name="icon_section_custom">Egendefinert</string>
     <string name="icon_section_standard">Forvalg</string>

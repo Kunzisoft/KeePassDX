@@ -428,7 +428,7 @@
     <string name="error_create_database">Não foi possível criar o arquivo do banco de dados.</string>
     <string name="error_label_exists">Este rótulo já existe.</string>
     <string name="entry_attachments">Anexos</string>
-    <string name="html_about_contribution">Para <strong>manter nossa liberdade</strong>, <strong>consertar erros</strong>, <strong>adicionar recursos</strong> e <strong>para estar sempre ativo</strong>, contamos com sua <strong>contribuição</strong>.</string>
+    <string name="html_about_contribution">Para &lt;strong&gt;manter nossa liberdade&lt;/strong&gt;, &lt;strong&gt;consertar erros&lt;/strong&gt;, &lt;strong&gt;adicionar recursos&lt;/strong&gt; e &lt;strong&gt;para estar sempre ativo&lt;/strong&gt;, contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Adicionar anexo</string>
     <string name="discard_changes">Descartar mudanças\?</string>
     <string name="validate">Validar</string>

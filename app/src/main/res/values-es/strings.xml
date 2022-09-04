@@ -243,9 +243,9 @@
     <string name="education_sort_summary">Ordenar registros y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
-    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de gestión de contraseñas, esta <strong>no tiene publicidad</strong>, es <strong>libre, con licencia «copyleft»</strong> y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de gestión de contraseñas, esta &lt;strong&gt;no tiene publicidad&lt;/strong&gt;, es &lt;strong&gt;libre, con licencia «copyleft»&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
     <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso al &lt;strong&gt;estilo visual &lt;/strong&gt;y ayudará especialmente a &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Este <strong>estilo visual</strong> está disponible gracias a su generosidad.</string>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponible gracias a su generosidad.</string>
     <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu &lt;strong&gt;contribución.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
     <string name="html_text_dev_feature_buy_pro">Al comprar la versión &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -499,7 +499,7 @@
     <string name="autofill_application_id_blocklist_title">Lista de bloqueo de las aplicaciones</string>
     <string name="autofill_ask_to_save_data_summary">Solicitar datos de guardado al completar el llenado de un formulario</string>
     <string name="autofill_ask_to_save_data_title">Pedir que se guarden los datos</string>
-    <string name="autofill_save_search_info_summary">Intente guardar la información de la búsqueda cuando haga una selección de entrada manual</string>
+    <string name="autofill_save_search_info_summary">Trate de guardar la información de búsqueda al hacer una selección de entrada manual para facilitar los usos futuros</string>
     <string name="autofill_save_search_info_title">Guardar la información de la búsqueda</string>
     <string name="autofill_close_database_summary">Cerrar la base de datos después de una selección de autocompletado</string>
     <string name="autofill_close_database_title">Cerrar la base de datos</string>
@@ -515,7 +515,7 @@
     <string name="keyboard_previous_database_credentials_summary">Cambiar automáticamente al teclado anterior en la pantalla de credenciales de la base de datos</string>
     <string name="keyboard_previous_database_credentials_title">Pantalla de credenciales de la base de datos</string>
     <string name="keyboard_auto_go_action_title">Acción de la tecla automática</string>
-    <string name="keyboard_save_search_info_summary">Tras compartir informe a KeePassDX, cuando esté seleccionado un apunte, intente guardar el informe dentro del apunte para posibles futuros usos</string>
+    <string name="keyboard_save_search_info_summary">Trate de guardar la información compartida al hacer una selección de entrada manual para facilitar los usos futuros</string>
     <string name="keyboard_save_search_info_title">Guardar información compartida</string>
     <string name="show_uuid_summary">Muestra el UUID vinculado a una entrada o a un grupo</string>
     <string name="show_uuid_title">Mostrar UUID</string>

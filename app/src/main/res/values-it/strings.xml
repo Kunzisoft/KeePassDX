@@ -370,7 +370,7 @@
     <string name="auto_focus_search_title">Ricerca rapida</string>
     <string name="menu_delete_entry_history">Cancella cronologia</string>
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
-    <string name="html_about_contribution">Per poter <strong>mantenere la nostra libertà</strong>, <strong>correggere errori</strong>, <strong>aggiungere funzionalità</strong> ed <strong>essere sempre attivi</strong>, facciamo affidamento sul tuo <strong>contributo</strong>.</string>
+    <string name="html_about_contribution">Per poter &lt;strong&gt;mantenere la nostra libertà&lt;/strong&gt;, &lt;strong&gt;correggere errori&lt;/strong&gt;, &lt;strong&gt;aggiungere funzionalità&lt;/strong&gt; ed &lt;strong&gt;essere sempre attivi&lt;/strong&gt;, facciamo affidamento sul tuo &lt;strong&gt;contributo&lt;/strong&gt;.</string>
     <string name="contact">Contatto</string>
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
@@ -628,10 +628,11 @@
     <string name="passphrase">Frase di accesso</string>
     <string name="colorize_password_title">Colora le password</string>
     <string name="colorize_password_summary">Colora i tipi di carattere della password</string>
-    <string name="warning_database_already_opened">Un database è già aperto, chiuderlo prima di aprirne un altro.</string>
+    <string name="warning_database_already_opened">Un database è già aperto, chiuderlo prima di aprirne un altro</string>
     <string name="auto_type_sequence">Sequenza di autodigitazione</string>
     <string name="advanced_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
-\nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienanente funzionante.
+\n
+\nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienamente funzionante.
 \nVerificare la compatibilità e la sicurezza del KeyStore consultando sia il costruttore del dispositivo che il creatore della ROM in uso nel dispositivo stesso.</string>
     <string name="keyboard_previous_search_title">Schermata di ricerca</string>
     <string name="keyboard_previous_search_summary">Ritornare automaticamente alla tastiera precedente quando ci si trova sulla schermata di ricerca</string>
@@ -647,4 +648,25 @@
     <string name="title_case">Iniziali maiuscole</string>
     <string name="character_count">Numero di caratteri: %1$d</string>
     <string name="entropy">Entropia: %1$s bit</string>
+    <string name="corrupted_file">File danneggiato.</string>
+    <string name="enable_screenshot_mode_summary">Consenti alle app di terze parti di registrare o acquisire schermate dell\'app</string>
+    <string name="error_cancel_by_user">Annullato dall\'utente.</string>
+    <string name="error_unable_merge_database_kdb">Impossibile eseguire l\'unione da un database V1.</string>
+    <string name="error_location_unknown">Il percorso del database è sconosciuto, non è possibile eseguire l\'azione sul database.</string>
+    <string name="remember_hardware_key_title">Ricorda le chiavi hardware</string>
+    <string name="remember_hardware_key_summary">Tiene traccia delle chiavi hardware usate</string>
+    <string name="content_description_hardware_key_checkbox">Checkbox chiave hardware</string>
+    <string name="waiting_challenge_request">In attesa della richiesta di verifica…</string>
+    <string name="waiting_challenge_response">In attesa della risposta alla verifica…</string>
+    <string name="hardware_key">Chiave hardware</string>
+    <string name="error_no_hardware_key">Seleziona una chiave hardware.</string>
+    <string name="error_XML_malformed">XML malformato.</string>
+    <string name="error_challenge_already_requested">Verifica già richiesta</string>
+    <string name="error_response_already_provided">Risposta già fornita.</string>
+    <string name="error_no_response_from_challenge">Impossibile ottenere una risposta dalla verifica.</string>
+    <string name="error_driver_required">È necessario un driver per %1$s.</string>
+    <string name="error_hardware_key_unsupported">La chiave hardware non è supportata.</string>
+    <string name="error_empty_key">La chiave non può essere vuota.</string>
+    <string name="enable_screenshot_mode_title">Modalità di cattura schermo</string>
+    <string name="screenshot_mode_banner_text">Modalità di cattura schermo</string>
 </resources>

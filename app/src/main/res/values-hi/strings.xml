@@ -45,8 +45,8 @@
     <string name="decrypting_db">डेटाबेस सामग्री डिक्रिप्ट कर रहे है…</string>
     <string name="default_checkbox">डिफ़ॉल्ट डेटाबेस के रूप में उपयोग करें</string>
     <string name="digits">अंक</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>ओपन सोर्स</strong> है और <strong>बिना किसी विज्ञापन</strong> के उपलब्ध है।
-\nइसे <strong>GPLv3</strong> लाइसेंस के अन्तर्गत बिना किसी वारन्टि के प्रदान किया गया है।</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;ओपन सोर्स&lt;/strong&gt; है और &lt;strong&gt;बिना किसी विज्ञापन&lt;/strong&gt; के उपलब्ध है।
+\nइसे &lt;strong&gt;GPLv3&lt;/strong&gt; लाइसेंस के अन्तर्गत बिना किसी वारन्टि के प्रदान किया गया है।</string>
     <string name="entry_accessed">एक्सेस किया गया</string>
     <string name="entry_cancel">रद्द करें</string>
     <string name="entry_notes">टिप्पणियाँ</string>
