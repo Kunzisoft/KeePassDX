@@ -116,8 +116,8 @@
     <string name="decrypting_db">A descifrar o contido da base de datos…</string>
     <string name="content_description_remove_field">Remover campo</string>
     <string name="template_group_name">Modelos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ten o <strong>código fonte aberto</strong> e <strong>sen publicidade</strong>.
-\nÉ provisto como está, baixo a <strong>licenza GPLv3</strong>, sen ningunha garantía.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ten o &lt;strong&gt;código fonte aberto&lt;/strong&gt; e &lt;strong&gt;sen publicidade&lt;/strong&gt;.
+\nÉ provisto como está, baixo a &lt;strong&gt;licenza GPLv3&lt;/strong&gt;, sen ningunha garantía.</string>
     <string name="entry_UUID">UUID</string>
     <string name="entry_keyfile">Ficheiro-clave</string>
     <string name="searchable">Procurábel</string>
@@ -153,7 +153,7 @@
     <string name="standard">Estándar</string>
     <string name="content_description_passphrase_word_count">Número de palabras do frase-sinal</string>
     <string name="custom_data">Datos personalizados</string>
-    <string name="html_about_contribution">Para <strong>manter a liberdade</strong>, <strong>corrixir erros</strong>, <strong>engadir funcionalidades</strong> e <strong>para estar sempre activos</strong>, contamos coa súa <strong>contribución</strong>.</string>
+    <string name="html_about_contribution">Para &lt;strong&gt;manter a liberdade&lt;/strong&gt;, &lt;strong&gt;corrixir erros&lt;/strong&gt;, &lt;strong&gt;engadir funcionalidades&lt;/strong&gt; e &lt;strong&gt;para estar sempre activos&lt;/strong&gt;, contamos coa súa &lt;strong&gt;contribución&lt;/strong&gt;.</string>
     <string name="otp_secret">Segredo</string>
     <string name="cryptocurrency">Carteira de criptomoedas</string>
     <string name="token">Token</string>

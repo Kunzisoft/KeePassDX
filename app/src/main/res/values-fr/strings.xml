@@ -658,7 +658,7 @@
     <string name="auto_type">Auto-Type</string>
     <string name="error_empty_key">La clé ne peut pas être vide.</string>
     <string name="remember_hardware_key_title">Mémoriser les clés matérielles</string>
-    <string name="html_about_privacy"><strong>Aucune donnée utilisateur n\'est récupérée</strong>, cette application ne se connecte à aucun serveur, ne fonctionne que localement et respecte totalement la vie privée des utilisateurs.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Aucune donnée utilisateur n\'est récupérée&lt;/strong&gt;, cette application ne se connecte à aucun serveur, ne fonctionne que localement et respecte totalement la vie privée des utilisateurs.</string>
     <string name="screenshot_mode_banner_text">Mode capture d\'écran</string>
     <string name="hardware_key">Clé matérielle</string>
     <string name="error_location_unknown">L\'emplacement de la base de données est inconnu, l\'action sur la base de données ne peut pas être exécutée.</string>

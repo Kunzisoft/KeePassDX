@@ -263,13 +263,13 @@
     <string name="education_sort_summary">Vyberte řazení položek a skupin.</string>
     <string name="education_donation_title">Zapojit se</string>
     <string name="education_donation_summary">Zapojte se a pomozte zvýšit stabilitu, zabezpečení a doplnění dalších funkcí.</string>
-    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato <strong>bez reklam</strong>, je <strong>svobodný software pod copyleft licencí</strong> a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
-    <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k tomuto <strong>vizuálnímu stylu</strong> a hlavně pomůžete <strong>uskutečnění komunitních projektů.</strong></string>
+    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato &lt;strong&gt;bez reklam&lt;/strong&gt;, je &lt;strong&gt;svobodný software pod copyleft licencí&lt;/strong&gt; a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
+    <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k tomuto &lt;strong&gt;vizuálnímu stylu&lt;/strong&gt; a hlavně pomůžete &lt;strong&gt;uskutečnění komunitních projektů.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuální styl&lt;/strong&gt; je k dispozici díky vaší štědrosti.</string>
     <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity počítáme s Vaším &lt;strong&gt;přispěním.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Tato funkce je &lt;strong&gt;ve vývoji&lt;/strong&gt; a potřebuje Váš &lt;strong&gt;příspěvek&lt;/strong&gt;, aby byla brzy k dispozici.</string>
     <string name="html_text_dev_feature_buy_pro">Zakoupením &lt;strong&gt;pro&lt;/strong&gt; varianty,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Podpořením vývoje</strong>,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Podpořením vývoje&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">povzbudíte vývojáře k doplnění &lt;strong&gt;nových funkcí&lt;/strong&gt; a &lt;strong&gt;opravám chyb&lt;/strong&gt; dle vašich připomínek.</string>
     <string name="html_text_dev_feature_thanks">Mnohokrát děkujeme za Váš příspěvek.</string>
     <string name="html_text_dev_feature_work_hard">Tvrdě pracujeme na brzkém vydání této funkce.</string>
@@ -419,9 +419,9 @@
     <string name="hide_broken_locations_title">Skrýt chybné odkazy na databáze</string>
     <string name="hide_broken_locations_summary">Skrýt chybné odkazy v seznamu nedávných databází</string>
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>open source</strong> a <strong>bez reklam</strong>.
-\nJe poskytován jak je, od licencí <strong>GPLv3</strong>, bez jakékoli záruky.</string>
-    <string name="html_about_contribution">Abychom si <strong>udrželi svoji svobodu</strong>, <strong>mohli opravovat chyby</strong>, <strong>přidávat nové funkce</strong> a <strong>byli pořád aktivní</strong>, počítáme s Vaším <strong>přispěním</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklam&lt;/strong&gt;.
+\nJe poskytován jak je, od licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
+    <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;mohli opravovat chyby&lt;/strong&gt;, &lt;strong&gt;přidávat nové funkce&lt;/strong&gt; a &lt;strong&gt;byli pořád aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
     <string name="error_create_database">Nepodařilo se vytvořit soubor databáze.</string>
     <string name="entry_add_attachment">Přidat přílohu</string>
     <string name="discard">Zahodit</string>

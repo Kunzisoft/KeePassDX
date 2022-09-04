@@ -243,9 +243,9 @@
     <string name="education_sort_summary">Ordenar registros y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
-    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de gestión de contraseñas, esta <strong>no tiene publicidad</strong>, es <strong>libre, con licencia «copyleft»</strong> y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de gestión de contraseñas, esta &lt;strong&gt;no tiene publicidad&lt;/strong&gt;, es &lt;strong&gt;libre, con licencia «copyleft»&lt;/strong&gt; y no recopila datos personales en sus servidores, sin importar la versión que use.</string>
     <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso al &lt;strong&gt;estilo visual &lt;/strong&gt;y ayudará especialmente a &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Este <strong>estilo visual</strong> está disponible gracias a su generosidad.</string>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponible gracias a su generosidad.</string>
     <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu &lt;strong&gt;contribución.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
     <string name="html_text_dev_feature_buy_pro">Al comprar la versión &lt;strong&gt;pro&lt;/strong&gt;,</string>

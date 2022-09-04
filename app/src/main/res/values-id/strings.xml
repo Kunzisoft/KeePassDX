@@ -385,7 +385,7 @@
     <string name="delete_entered_password_title">Hapus kata sandi</string>
     <string name="education_sort_title">Pengurutan item</string>
     <string name="html_text_dev_feature_thanks">Terima kasih banyak atas kontribusinya.</string>
-    <string name="html_text_dev_feature_contibute">Dengan <strong>berkontribusi</strong>,</string>
+    <string name="html_text_dev_feature_contibute">Dengan &lt;strong&gt;berkontribusi&lt;/strong&gt;,</string>
     <string name="education_lock_title">Kunci basisdata</string>
     <string name="education_unlock_title">Buka basisdata anda</string>
     <string name="education_field_copy_title">Salin bidang</string>
@@ -488,7 +488,7 @@
 \n\"Terlindungi-tulis\" mencegah perubahan tak diinginkan ke basis data.
 \n\"Bisa dimodifikasi\" memungkinkan Anda untuk menambah, menghapus, atau menyunting semua elemen yang Anda inginkan.</string>
     <string name="show_otp_token_summary">Tampilkan token OTP dalam daftar entri</string>
-    <string name="html_text_buy_pro">Dengan membeli versi pro, Anda akan mendapatkan akses ke <strong>gaya visual </strong> ini dan Anda akan terutama membantu <strong>realisasi proyek komunitas.</strong></string>
+    <string name="html_text_buy_pro">Dengan membeli versi pro, Anda akan mendapatkan akses ke &lt;strong&gt;gaya visual &lt;/strong&gt; ini dan Anda akan terutama membantu &lt;strong&gt;realisasi proyek komunitas.&lt;/strong&gt;</string>
     <string name="clear_clipboard_notification_summary">Kunci basis data ketika durasi papan klip kedaluwarsa atau notifikasi ditutup setelah Anda mulai menggunakannya</string>
     <string name="allow_copy_password_warning">Peringatan: Papan klip dipakai oleh semua aplikasi. Jika data sensitif disalin, perangkat lunak lain mungkin dapat mendapatkannya.</string>
     <string name="education_lock_summary">Kunci basis data Anda dengan cepat, Anda bisa mengatur aplikasi untuk mengunci sendiri setelah beberapa saat dan ketika layar berubah mati.</string>
@@ -514,17 +514,17 @@
 \n
 \nGunakan metode pengisian formulir yang Anda sukai.</string>
     <string name="education_donation_summary">Bantu meningkatkan stabilitas, keamanan, dan menambahkan lebih banyak fitur.</string>
-    <string name="html_text_ad_free">Tidak seperti banyak aplikasi pengelola kata sandi, ini <strong>bebas iklan</strong>, <strong>perangkat lunak libre copyleft</strong>, dan tidak mengumpulkan data pribadi di peladennya, tidak peduli versi apa yang Anda gunakan.</string>
-    <string name="html_text_feature_generosity"><strong>Gaya visual</strong> ini tersedia berkat kemurahan hati Anda.</string>
-    <string name="html_text_donation">Untuk menjaga kebebasan kami dan untuk kami selalu aktif, kami mengandalkan <strong>kontribusi</strong> Anda.</string>
-    <string name="html_text_dev_feature">Fitur ini <strong>sedang dalam pengembangan</strong> dan memerlukan <strong>kontribusi</strong> Anda untuk bisa tersedia segera.</string>
+    <string name="html_text_ad_free">Tidak seperti banyak aplikasi pengelola kata sandi, ini &lt;strong&gt;bebas iklan&lt;/strong&gt;, &lt;strong&gt;perangkat lunak libre copyleft&lt;/strong&gt;, dan tidak mengumpulkan data pribadi di peladennya, tidak peduli versi apa yang Anda gunakan.</string>
+    <string name="html_text_feature_generosity">&lt;strong&gt;Gaya visual&lt;/strong&gt; ini tersedia berkat kemurahan hati Anda.</string>
+    <string name="html_text_donation">Untuk menjaga kebebasan kami dan untuk kami selalu aktif, kami mengandalkan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda.</string>
+    <string name="html_text_dev_feature">Fitur ini &lt;strong&gt;sedang dalam pengembangan&lt;/strong&gt; dan memerlukan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda untuk bisa tersedia segera.</string>
     <string name="show_otp_token_title">Tampilkan Token OTP</string>
     <string name="text_appearance">Teks</string>
     <string name="database_custom_color_title">Warna basis data kustom</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Pembaruan paksa lain kali</string>
     <string name="settings_database_force_changing_master_key_title">Pembaruan paksa</string>
-    <string name="html_text_dev_feature_encourage">Anda menyemangati pengembang untuk membuat <strong>fitur baru</strong> dan untuk <strong>memperbaiki kutu</strong> sesuai dengan komentar Anda.</string>
-    <string name="html_text_dev_feature_buy_pro">Dengan membeli versi <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature_encourage">Anda menyemangati pengembang untuk membuat &lt;strong&gt;fitur baru&lt;/strong&gt; dan untuk &lt;strong&gt;memperbaiki kutu&lt;/strong&gt; sesuai dengan komentar Anda.</string>
+    <string name="html_text_dev_feature_buy_pro">Dengan membeli versi &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="content_description_database_color">Warna basis data</string>
     <string name="menu_merge_database">Gabung data</string>
     <string name="warning_database_info_reloaded">Memuat ulang database akan menghapus data yang diubah secara lokal.</string>

@@ -370,7 +370,7 @@
     <string name="auto_focus_search_title">Ricerca rapida</string>
     <string name="menu_delete_entry_history">Cancella cronologia</string>
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
-    <string name="html_about_contribution">Per poter <strong>mantenere la nostra libertà</strong>, <strong>correggere errori</strong>, <strong>aggiungere funzionalità</strong> ed <strong>essere sempre attivi</strong>, facciamo affidamento sul tuo <strong>contributo</strong>.</string>
+    <string name="html_about_contribution">Per poter &lt;strong&gt;mantenere la nostra libertà&lt;/strong&gt;, &lt;strong&gt;correggere errori&lt;/strong&gt;, &lt;strong&gt;aggiungere funzionalità&lt;/strong&gt; ed &lt;strong&gt;essere sempre attivi&lt;/strong&gt;, facciamo affidamento sul tuo &lt;strong&gt;contributo&lt;/strong&gt;.</string>
     <string name="contact">Contatto</string>
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>

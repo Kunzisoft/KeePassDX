@@ -86,8 +86,8 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is <strong>open source</strong> and <strong>without advertising</strong>.
-\nIt is provided as is, under <strong>GPLv3</strong> license, without any warranty.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;.
+\nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="html_about_privacy">&lt;strong&gt;No user data is retrieved&lt;/strong&gt;, this application does not connect to any server, works only locally and fully respects the privacy of users.</string>
     <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="entry_accessed">Accessed</string>
@@ -606,7 +606,7 @@
     <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual style&lt;/strong&gt; and you will especially help &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">This &lt;strong&gt;visual style&lt;/strong&gt; is available thanks to your generosity.</string>
-    <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your <strong>contribution.</strong></string>
+    <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">This feature is &lt;strong&gt;under development&lt;/strong&gt; and requires your &lt;strong&gt;contribution&lt;/strong&gt; to be available soon.</string>
     <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
     <string name="html_text_dev_feature_contibute">By &lt;strong&gt;contributing&lt;/strong&gt;,</string>

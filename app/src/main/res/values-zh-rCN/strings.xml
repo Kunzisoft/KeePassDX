@@ -39,8 +39,8 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个<strong>不含广告</strong>的<strong>开源软件</strong>。
-\n它是根据<strong>GPLv3</strong>许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。
+\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -292,7 +292,7 @@
     <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款<strong>没有广告</strong>，<strong>基于 copylefted 版权协议的自由软件</strong>。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
     <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的&lt;strong&gt;捐赠。&lt;/strong&gt;</string>

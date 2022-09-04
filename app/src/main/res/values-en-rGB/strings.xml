@@ -20,7 +20,7 @@
 \n
 \nGroups (~folders) organise entries in your database.</string>
     <string name="error_otp_type">The existing OTP type is not recognised by this form, its validation may no longer correctly generate the token.</string>
-    <string name="html_text_buy_pro">By buying the pro version, you will have access to this <strong>visual style</strong> and you will especially help <strong>the realisation of community projects.</strong></string>
+    <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual style&lt;/strong&gt; and you will especially help &lt;strong&gt;the realisation of community projects.&lt;/strong&gt;</string>
     <string name="key_derivation_function">Key derivation function</string>
     <string name="feedback">Feedback</string>
     <string name="homepage">Homepage</string>

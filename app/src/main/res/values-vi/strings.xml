@@ -34,9 +34,9 @@
     <string name="entry_notes">Ghi chú</string>
     <string name="entry_cancel">Huỷ bỏ</string>
     <string name="entry_accessed">Đã truy cập</string>
-    <string name="html_about_contribution">Để có thể <strong>duy trì sự tự do</strong>, <strong>sửa lỗi</strong>, <strong>thêm tính năng</strong> và <strong>luôn hoạt động</strong>, chúng tôi dựa vào <strong>sự đóng góp</strong> của bạn.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft là <strong>mã nguồn mở</strong> và <strong>không có quảng cáo</strong>.
-\nĐược cung cấp nguyên trạng, với điều khoản của giấy phép <strong>GPLv3</strong>, không có bất cứ bảo đảm nào.</string>
+    <string name="html_about_contribution">Để có thể &lt;strong&gt;duy trì sự tự do&lt;/strong&gt;, &lt;strong&gt;sửa lỗi&lt;/strong&gt;, &lt;strong&gt;thêm tính năng&lt;/strong&gt; và &lt;strong&gt;luôn hoạt động&lt;/strong&gt;, chúng tôi dựa vào &lt;strong&gt;sự đóng góp&lt;/strong&gt; của bạn.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft là &lt;strong&gt;mã nguồn mở&lt;/strong&gt; và &lt;strong&gt;không có quảng cáo&lt;/strong&gt;.
+\nĐược cung cấp nguyên trạng, với điều khoản của giấy phép &lt;strong&gt;GPLv3&lt;/strong&gt;, không có bất cứ bảo đảm nào.</string>
     <string name="digits">Chữ số</string>
     <string name="default_checkbox">Dùng làm cơ sở dữ liệu mặc định</string>
     <string name="decrypting_db">Đang giải mã nội dung cơ sở dữ liệu…</string>

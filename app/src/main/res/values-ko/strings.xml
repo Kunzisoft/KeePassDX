@@ -193,7 +193,7 @@
     <string name="contact">문의</string>
     <string name="content_description_update_from_list">갱신</string>
     <string name="validate">검증</string>
-    <string name="html_about_contribution"><strong>우리의 자유를 지키고</strong>, <strong>버그를 고치고</strong>, <strong>기능을 추가</strong>하고, <strong>언제나 활성화</strong>되기 위해 우리는 당신의 <strong>기여</strong>를 믿습니다.</string>
+    <string name="html_about_contribution">&lt;strong&gt;우리의 자유를 지키고&lt;/strong&gt;, &lt;strong&gt;버그를 고치고&lt;/strong&gt;, &lt;strong&gt;기능을 추가&lt;/strong&gt;하고, &lt;strong&gt;언제나 활성화&lt;/strong&gt;되기 위해 우리는 당신의 &lt;strong&gt;기여&lt;/strong&gt;를 믿습니다.</string>
     <string name="entry_setup_otp">일회용 비밀번호 설정</string>
     <string name="otp_type">OTP 유형</string>
     <string name="otp_period">주기 (초)</string>
