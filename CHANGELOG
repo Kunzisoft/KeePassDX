@@ -1,3 +1,10 @@
+KeePassDX(3.5.0)
+ * Support YubiKey challenge-response #8 #137
+ * Better exception management during database save #1346
+ * Better management of mime-types and extensions #1211
+ * Add "Screenshot mode" setting #459 #1377 #1354 (Thx @GianpaMX)
+ * Hide clipboard sensitive text when copy entry field #1386
+
 KeePassDX(3.4.5)
  * Fix custom data in group (fix KeeShare) #1335
  * Fix device credential unlocking #1344
