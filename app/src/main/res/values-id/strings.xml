@@ -66,7 +66,7 @@
     <string name="error_otp_period">Periode harus antara %1$d dan %2$d detik.</string>
     <string name="error_otp_counter">Penghitung harus antara %1$d dan %2$d.</string>
     <string name="error_otp_secret_key">Kunci rahasia harus dalam format Base32.</string>
-    <string name="error_save_database">Tidak bisa menyimpan basisdata.</string>
+    <string name="error_save_database">Tidak dapat menyimpan basis data.</string>
     <string name="error_create_database_file">Tidak bisa membuat basisdata dengan kata sandi dan file kunci ini.</string>
     <string name="error_create_database">Tidak bisa membuat berkas database.</string>
     <string name="error_copy_group_here">Anda tidak bisa menyalin grup di sini.</string>
@@ -81,7 +81,7 @@
     <string name="error_disallow_no_credentials">Setidaknya ada satu kredensial yang harus ditetapkan.</string>
     <string name="error_pass_gen_type">Setidaknya ada satu jenis pembuatan kata sandi yang harus dipilih.</string>
     <string name="error_load_database_KDF_memory">Tidak bisa memuat kunci. Cobalah untuk mengurangi penggunaan memori (mematikan aplikasi lainnya).</string>
-    <string name="error_load_database">Tidak bisa memuat basisdata anda.</string>
+    <string name="error_load_database">Tidak dapat memuat basis data.</string>
     <string name="error_out_of_memory">Tidak cukup memori untuk memuat seluruh basisdata anda.</string>
     <string name="entry_keyfile">File Kunci</string>
     <string name="error_nokeyfile">Pilih file kunci.</string>
@@ -622,4 +622,25 @@
     <string name="keyboard_save_search_info_summary">Coba simpan informasi terbagi ketika membuat sebuah pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
     <string name="enable_read_only_title">Terlindungi-tulis</string>
     <string name="enable_keep_screen_on_summary">Jaga layar tetap menyala saat melihat entri</string>
+    <string name="content_description_hardware_key_checkbox">Kotak centang kunci perangkat keras</string>
+    <string name="waiting_challenge_request">Menunggu untuk permintaan tantangan…</string>
+    <string name="waiting_challenge_response">Menunggu untuk tanggapan tantangan…</string>
+    <string name="hardware_key">Kunci perangkat keras</string>
+    <string name="error_no_hardware_key">Pilih sebuah kunci perangkat keras.</string>
+    <string name="error_XML_malformed">XML tidak benar.</string>
+    <string name="error_challenge_already_requested">Tantangan sudah diminta</string>
+    <string name="error_response_already_provided">Tanggapan sudah disediakan.</string>
+    <string name="error_no_response_from_challenge">Tidak bisa mendapatkan tanggapan dari tantangan.</string>
+    <string name="error_cancel_by_user">Dibatalkan oleh pengguna.</string>
+    <string name="error_driver_required">Driver untuk %1$s dibutuhkan.</string>
+    <string name="error_unable_merge_database_kdb">Tidak dapat menggabungkan dari sebuah basis data V1.</string>
+    <string name="error_location_unknown">Lokasi basis data tidak diketahui, tindakan basis data tidak dapat dilakukan.</string>
+    <string name="error_hardware_key_unsupported">Kunci perangkat keras tidak didukung.</string>
+    <string name="error_empty_key">Kunci tidak bisa kosong.</string>
+    <string name="corrupted_file">Berkas terkorup.</string>
+    <string name="remember_hardware_key_title">Ingat kunci perangkat keras</string>
+    <string name="screenshot_mode_banner_text">Mode tangkapan layar</string>
+    <string name="enable_screenshot_mode_title">Mode tangkapan layar</string>
+    <string name="remember_hardware_key_summary">Mengingat kunci perangkat keras yang telah digunakan</string>
+    <string name="enable_screenshot_mode_summary">Perbolehkan aplikasi pihak ketiga untuk merekam atau mengambil tangkapan layar aplikasi</string>
 </resources>

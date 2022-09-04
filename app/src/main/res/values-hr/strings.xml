@@ -639,4 +639,20 @@
     <string name="title_case">Velika Početna Slova</string>
     <string name="character_count">Broj znakova: %1$d</string>
     <string name="upper_case">VELIKA SLOVA</string>
+    <string name="hardware_key">Hardverski ključ</string>
+    <string name="error_no_hardware_key">Odaberi hardverski ključ.</string>
+    <string name="error_unable_merge_database_kdb">Spajanje iz baze podataka V1 nije moguće.</string>
+    <string name="error_location_unknown">Mjesto baze podataka nije poznato, radnja baze podataka se ne može izvršiti.</string>
+    <string name="error_cancel_by_user">Korisnik je prekinuo radnju.</string>
+    <string name="error_driver_required">Potreban je pogon za %1$s.</string>
+    <string name="error_hardware_key_unsupported">Hardverski ključ nije podržan.</string>
+    <string name="error_empty_key">Ključ ne smije biti prazan.</string>
+    <string name="corrupted_file">Neispravna datoteka.</string>
+    <string name="remember_hardware_key_summary">Pamti korištene hardverske ključeve</string>
+    <string name="screenshot_mode_banner_text">Modus snimanja ekrana</string>
+    <string name="error_XML_malformed">Neispravno formatiran XML.</string>
+    <string name="enable_screenshot_mode_title">Modus snimanja ekrana</string>
+    <string name="content_description_hardware_key_checkbox">Potvrdni okvir hardverskog ključa</string>
+    <string name="remember_hardware_key_title">Zapamti hardverske ključeve</string>
+    <string name="enable_screenshot_mode_summary">Dopusti stranim aplikacijama snimanje ili slikanje ekrana aplikacije</string>
 </resources>

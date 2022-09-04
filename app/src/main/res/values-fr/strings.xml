@@ -126,7 +126,7 @@
     <string name="read_only_warning">Selon votre gestionnaire de fichiers, KeePassDX peut ne pas être autorisé à écrire dans votre stockage.</string>
     <string name="content_description_remove_from_list">Supprimer</string>
     <string name="root">Racine</string>
-    <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données.</string>
+    <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données</string>
     <string name="kdf_explanation">Afin de générer la clé pour l’algorithme de chiffrement, la clé principale est transformée en utilisant une fonction de dérivation de clé salée aléatoirement.</string>
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Des tours de chiffrement supplémentaires fournissent une protection plus élevée contre les attaques par force brute, mais cela peut considérablement ralentir les opérations de chargement et d’enregistrement.</string>
@@ -290,7 +290,7 @@
 \n\"Protéger en écriture\" empêche les modifications involontaires de la base de données.
 \n\"Modifiable\" vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
-    <string name="error_load_database">Impossible de charger votre base de données.</string>
+    <string name="error_load_database">Impossible de charger la base de données.</string>
     <string name="error_load_database_KDF_memory">Impossible de charger la clé. Essayez de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
     <string name="list_entries_show_username_title">Afficher les noms d’utilisateur</string>
     <string name="list_entries_show_username_summary">Affiche les noms d’utilisateur dans les listes d’entrées</string>
@@ -319,7 +319,7 @@
     <string name="keyboard_previous_fill_in_title">Action de touche automatique</string>
     <string name="keyboard_previous_fill_in_summary">Revenir automatiquement au clavier précédent après avoir exécuté \"Action de touche automatique\"</string>
     <string name="selection_mode">Mode sélection</string>
-    <string name="do_not_kill_app">Veuillez ne pas tuer l’application…</string>
+    <string name="do_not_kill_app">Ne pas tuer l\'application…</string>
     <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verrouiller</string>
     <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
@@ -492,7 +492,7 @@
     <string name="autofill_close_database_title">Fermer la base de données</string>
     <string name="keyboard_previous_lock_summary">Revient automatiquement au clavier précédent après le verrouillage de la base de données</string>
     <string name="keyboard_previous_lock_title">Verrouiller la base de données</string>
-    <string name="keyboard_save_search_info_summary">Essaye de sauvegarder les informations partagées lors de la sélection manuelle d\'une entrée pour faciliter les utilisations futures.</string>
+    <string name="keyboard_save_search_info_summary">Essaye de sauvegarder les informations partagées lors de la sélection manuelle d\'une entrée pour faciliter les utilisations futures</string>
     <string name="keyboard_save_search_info_title">Enregistrer les infos partagées</string>
     <string name="notification">Notification</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
@@ -614,7 +614,7 @@
     <string name="enable_keep_screen_on_summary">Maintiens l\'écran allumé lorsque l\'entrée est visionnée</string>
     <string name="warning_keyfile_integrity">Le hachage du fichier n\'est pas garanti car Android peut modifier ses données à la volée. Changez l\'extension du fichier en .bin pour une intégrité correcte.</string>
     <string name="enable_keep_screen_on_title">Maintenir l\'écran allumé</string>
-    <string name="show_entry_colors_summary">Affiche les couleurs de premier plan et d\'arrière-plan dans une entrée</string>
+    <string name="show_entry_colors_summary">Affiche les couleurs de premier plan et d\'arrière-plan pour une entrée</string>
     <string name="warning_database_info_reloaded">Le rechargement de la base de données supprimera les données modifiées localement.</string>
     <string name="show_entry_colors_title">Couleurs d\'entrée</string>
     <string name="current_group">Groupe actuel</string>
@@ -655,4 +655,27 @@
     <string name="consider_chars_filter">Considérer les caractères</string>
     <string name="word_separator">Séparateur</string>
     <string name="character_count">Nombre de caractères : %1$d</string>
+    <string name="auto_type">Auto-Type</string>
+    <string name="error_empty_key">La clé ne peut pas être vide.</string>
+    <string name="remember_hardware_key_title">Mémoriser les clés matérielles</string>
+    <string name="html_about_privacy"><strong>Aucune donnée utilisateur n\'est récupérée</strong>, cette application ne se connecte à aucun serveur, ne fonctionne que localement et respecte totalement la vie privée des utilisateurs.</string>
+    <string name="screenshot_mode_banner_text">Mode capture d\'écran</string>
+    <string name="hardware_key">Clé matérielle</string>
+    <string name="error_location_unknown">L\'emplacement de la base de données est inconnu, l\'action sur la base de données ne peut pas être exécutée.</string>
+    <string name="enable_screenshot_mode_summary">Autoriser les applications tierces à enregistrer ou à faire des captures d\'écran de l\'application</string>
+    <string name="error_no_hardware_key">Sélectionnez une clé matérielle.</string>
+    <string name="error_XML_malformed">XML malformé.</string>
+    <string name="error_hardware_key_unsupported">La clé matérielle n\'est pas prise en charge.</string>
+    <string name="corrupted_file">Fichier corrompu.</string>
+    <string name="remember_hardware_key_summary">Conserve la trace des clés matérielles utilisées</string>
+    <string name="enable_screenshot_mode_title">Mode capture d\'écran</string>
+    <string name="content_description_hardware_key_checkbox">Case à cocher de clé matérielle</string>
+    <string name="waiting_challenge_request">En attente de la requête de challenge…</string>
+    <string name="waiting_challenge_response">En attente de la réponse de challenge…</string>
+    <string name="error_challenge_already_requested">Challenge déjà demandé</string>
+    <string name="error_response_already_provided">Réponse déjà fournie.</string>
+    <string name="error_no_response_from_challenge">Impossible d\'obtenir la réponse du challenge.</string>
+    <string name="error_cancel_by_user">Annulé par l\'utilisateur.</string>
+    <string name="error_driver_required">Le pilote pour %1$s est nécessaire.</string>
+    <string name="error_unable_merge_database_kdb">Impossible de fusionner à partir d\'une base de données V1.</string>
 </resources>

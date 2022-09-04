@@ -645,4 +645,26 @@
     <string name="exclude_ambiguous_chars">Исключить неоднозначные символы</string>
     <string name="entropy_calculate">Энтропия: вычисление…</string>
     <string name="upper_case">ВЕРХНИЙ РЕГИСТР</string>
+    <string name="content_description_hardware_key_checkbox">Флажок аппаратного ключа</string>
+    <string name="error_XML_malformed">XML испорчен.</string>
+    <string name="error_driver_required">Для %1$s требуется драйвер.</string>
+    <string name="error_no_hardware_key">Выберите аппаратный ключ.</string>
+    <string name="error_cancel_by_user">Отменено пользователем.</string>
+    <string name="error_response_already_provided">Ответ уже предоставлен.</string>
+    <string name="error_challenge_already_requested">Вызов уже запрошен</string>
+    <string name="error_no_response_from_challenge">Невозможно получить ответ на вызов.</string>
+    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение из базы V1.</string>
+    <string name="error_hardware_key_unsupported">Аппаратный ключ не поддерживается.</string>
+    <string name="error_empty_key">Ключ не может быть пустым.</string>
+    <string name="corrupted_file">Файл повреждён.</string>
+    <string name="error_location_unknown">Расположение базы неизвестно, действие с базой не может быть выполнено.</string>
+    <string name="remember_hardware_key_title">Помнить аппаратные ключи</string>
+    <string name="remember_hardware_key_summary">Помнить используемые аппаратные ключи</string>
+    <string name="screenshot_mode_banner_text">Режим снимка экрана</string>
+    <string name="enable_screenshot_mode_title">Режим снимка экрана</string>
+    <string name="hardware_key">Аппаратный ключ</string>
+    <string name="enable_screenshot_mode_summary">Разрешать сторонним приложениям делать снимки или запись экрана приложения</string>
+    <string name="waiting_challenge_request">Ожидание запроса на вызов…</string>
+    <string name="waiting_challenge_response">Ожидание ответа на вызов…</string>
+    <string name="html_about_privacy"><strong>Никакие пользовательские данные не собираются</strong>, это приложение не подключается ни к одному серверу, работает исключительно локально и полностью соблюдает конфиденциальность пользователей.</string>
 </resources>
