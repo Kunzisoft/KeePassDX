@@ -645,4 +645,6 @@
     <string name="word_separator">Separador</string>
     <string name="lower_case">minúsculas</string>
     <string name="character_count">Número de caracteres: %1$d</string>
+    <string name="waiting_challenge_request">Aguardando o pedido de desafio…</string>
+    <string name="waiting_challenge_response">Aguardando a resposta do desafio…</string>
 </resources>
