@@ -497,23 +497,21 @@ object PreferencesUtil {
 
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val biometricSupported = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            AdvancedUnlockManager.biometricUnlockSupported(context)
-        } else {
-            false
-        }
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
-                && biometricSupported
+                && (if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                        AdvancedUnlockManager.biometricUnlockSupported(context)
+                    } else {
+                        false
+                    })
     }
 
     fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         // Priority to biometric unlock
-        val biometricAlreadySupported = isBiometricUnlockEnable(context)
         return prefs.getBoolean(context.getString(R.string.device_credential_unlock_enable_key),
                 context.resources.getBoolean(R.bool.device_credential_unlock_enable_default))
-                && !biometricAlreadySupported
+                && !isBiometricUnlockEnable(context)
     }
 
     fun isTempAdvancedUnlockEnable(context: Context): Boolean {
