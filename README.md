@@ -8,7 +8,7 @@
 
  - Create database files / entries and groups.
  - Support for **.kdb** and **.kdbx** files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm.
- - **Compatible** with the majority of alternative programs (KeePass, KeePassX, KeePassXC, …).
+ - **Compatible** with the majority of alternative programs (KeePass, KeePassXC, KeeWeb, …).
  - Allows opening and **copying URI / URL fields quickly**.
  - **Biometric recognition** for fast unlocking *(fingerprint / face unlock / …)*.
  - **One-Time Password** management *(HOTP / TOTP)* for Two-factor authentication (2FA).

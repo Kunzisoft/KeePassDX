@@ -3,7 +3,7 @@ KeePassDX ist <b>Open Source</b> und <b>werbefrei</b>. <b>Als KeePass Multiforma
 <b>Funktionalitäten</b>
  - Erstellung von Datenbanken / Einträgen und Gruppen.
  - Unterstützung von .kdb- und .kdbx-Dateien (Version 1 bis 4) mit AES - Twofish - ChaCha20 - Argon2 Algorithmus.
- - Kompatibel mit den meisten alternativen Programmen (KeePass, KeePassX, KeePassXC, ...).
+ - Kompatibel mit den meisten alternativen Programmen (KeePass, KeePassXC, KeeWeb, ...).
  - Ermöglicht das schnelle Kopieren von Feldern und das Öffnen von URIs /URLs.
  - Biometrische Erkennung für eine schnelle Entsperrung (Fingerabdrücke / Entsperrung durch Gesicht / ...).
  - Verwaltung von Einmalpasswörtern (One-Time Password HOTP / TOTP) für die Zwei-Faktor-Authentifizierung (2FA).
