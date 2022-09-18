@@ -620,7 +620,7 @@
     <string name="enable_keep_screen_on_title">Bildschirm eingeschaltet lassen</string>
     <string name="warning_keyfile_integrity">Der Hash der Datei ist nicht garantiert, da Android die Daten im laufenden Betrieb ändern kann. Ändern Sie die Dateierweiterung in .bin, um die Integrität zu gewährleisten.</string>
     <string name="enable_keep_screen_on_summary">Den Bildschirm beim Ansehen des Eintrags eingeschaltet lassen</string>
-    <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe für einem Eintrag anzeigen</string>
+    <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe für einen Eintrag anzeigen</string>
     <string name="auto_type_sequence">Automatische Eingabefolge</string>
     <string name="regex">Regulärer Ausdruck</string>
     <string name="searchable">Durchsuchbar</string>
