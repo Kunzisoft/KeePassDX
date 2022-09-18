@@ -411,7 +411,7 @@
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="education_create_database_title">データベース ファイルを作成</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
-    <string name="education_select_database_title">既存のデータペースを開く</string>
+    <string name="education_select_database_title">既存のデータベースを開く</string>
     <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
