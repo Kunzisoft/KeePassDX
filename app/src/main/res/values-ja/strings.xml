@@ -645,4 +645,16 @@
     <string name="consider_chars_filter">対象に加える文字</string>
     <string name="ignore_chars_filter">使用しない文字</string>
     <string name="title_case">語頭を大文字</string>
+    <string name="enable_screenshot_mode_summary">サードパーティのアプリでこのアプリのスクリーンショットを撮れるようにします</string>
+    <string name="enable_screenshot_mode_title">スクリーンショット モード</string>
+    <string name="html_about_privacy"><strong>ユーザーからデータを取得しません</strong>。このアプリケーションは特定のサーバーに接続せず、ローカルでのみ動作し、ユーザーのプライバシーを完全に尊重します。</string>
+    <string name="hardware_key">ハードウェアキー</string>
+    <string name="error_no_hardware_key">ハードウェアキーを選択してください。</string>
+    <string name="error_XML_malformed">XMLの形式が正しくありません。</string>
+    <string name="error_hardware_key_unsupported">ハードウェアキーには対応していません。</string>
+    <string name="remember_hardware_key_title">ハードウェアキーを記憶</string>
+    <string name="remember_hardware_key_summary">ハードウェアキーの使用記録を保持します</string>
+    <string name="screenshot_mode_banner_text">スクリーンショット モード</string>
+    <string name="content_description_nav_header">ナビゲーション ヘッダー</string>
+    <string name="content_description_hardware_key_checkbox">ハードウェアキーのチェックボックス</string>
 </resources>
