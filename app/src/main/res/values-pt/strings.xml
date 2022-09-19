@@ -128,7 +128,7 @@
     <string name="rounds_explanation">As rodadas adicionais de encriptação fornecem mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e guardar mais lentos.</string>
     <string name="rounds">Rodadas de transformação</string>
     <string name="kdf_explanation">Para gerar a chave para o algoritmo de encriptação, a chave mestra é transformada usando uma função de derivação de chave com um salt aleatório.</string>
-    <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
+    <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados</string>
     <string name="root">Raiz</string>
     <string name="read_only_warning">Dependendo do seu gestor de ficheiros, o KeePassDX pode não ter permissão de escrita no armazenamento.</string>
     <string name="read_only">Apenas leitura</string>
@@ -644,4 +644,6 @@
     <string name="enable_screenshot_mode_title">Modo de captura de ecrã</string>
     <string name="enable_screenshot_mode_summary">Permitir que aplicações de terceiros registem ou fotografem os ecrãs da aplicação</string>
     <string name="screenshot_mode_banner_text">Modo de captura de ecrã</string>
+    <string name="html_about_privacy"><strong>Nenhum dado de utilizador é recuperado</strong>, esta aplicação não se liga a nenhum servidor, funciona apenas localmente e respeita plenamente a privacidade dos utilizadores.</string>
+    <string name="auto_type">Preenchimento automático</string>
 </resources>
