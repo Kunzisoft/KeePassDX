@@ -657,4 +657,9 @@
     <string name="screenshot_mode_banner_text">スクリーンショット モード</string>
     <string name="content_description_nav_header">ナビゲーション ヘッダー</string>
     <string name="content_description_hardware_key_checkbox">ハードウェアキーのチェックボックス</string>
+    <string name="error_empty_key">キーを空にすることはできません。</string>
+    <string name="corrupted_file">ファイルが破損しています。</string>
+    <string name="error_cancel_by_user">ユーザーによってキャンセルされました。</string>
+    <string name="error_location_unknown">データベースの場所が不明です。データベースへの操作を実行できません。</string>
+    <string name="error_driver_required">%1$s 用のドライバーが必要です。</string>
 </resources>
