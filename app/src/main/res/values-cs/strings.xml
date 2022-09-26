@@ -300,7 +300,7 @@
     <string name="keyboard_key_vibrate_title">Vibrovat při stisku klávesy</string>
     <string name="keyboard_key_sound_title">Vydat zvuk při stisku klávesy</string>
     <string name="selection_mode">Režim výběru</string>
-    <string name="do_not_kill_app">Neshoďte aplikaci…</string>
+    <string name="do_not_kill_app">Nezavírejte aplikaci…</string>
     <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět</string>
     <string name="lock_database_back_root_summary">Zamknout obrazovku, pokud uživatel stiskne tlačítko Zpět v hlavním panelu</string>
     <string name="clear_clipboard_notification_title">Vymazat při ukončení</string>
