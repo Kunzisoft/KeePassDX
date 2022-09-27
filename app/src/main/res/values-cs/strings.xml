@@ -171,7 +171,7 @@
     <string name="sort_last_access_time">Přístup</string>
     <string name="warning">Varování</string>
     <string name="warning_password_encoding">Nepoužívejte v hesle pro databázový soubor znaky mimo znaky kódování textu (nerozpoznané znaky budou konvertovány na stejné písmeno).</string>
-    <string name="warning_empty_password">Pokračovat bez ochrany odemknutí heslem\?</string>
+    <string name="warning_empty_password">Pokračovat bez ochrany heslem\?</string>
     <string name="warning_no_encryption_key">Pokračovat bez šifrovacího klíče\?</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
     <string name="no_credentials_stored">Tato databáze zatím nemá uložené heslo.</string>
