@@ -5,6 +5,7 @@ KeePassDX(3.5.0)
  * Hide clipboard sensitive text when copy entry field #1386
  * Fix attachment download button #1401
  * Add monochrome icon #1403 #1404 (Thx @Sandelinos)
+ * Fix lock with back button #1412 #1414 (Thx @ryg-git)
 
 KeePassDX(3.4.5)
  * Fix custom data in group (fix KeeShare) #1335

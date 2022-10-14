@@ -155,7 +155,7 @@
     <string name="protection">Ochrona</string>
     <string name="read_only">Chroniony przed zapisem</string>
     <string name="read_only_warning">KeePassDX potrzebuje uprawnień do zapisu, aby mógł modyfikować bazę danych.</string>
-    <string name="encryption_explanation">Algorytm szyfrowania bazy danych używany dla wszystkich danych.</string>
+    <string name="encryption_explanation">Algorytm szyfrowania bazy danych używany dla wszystkich danych</string>
     <string name="kdf_explanation">Aby wygenerować klucz dla algorytmu szyfrowania, klucz główny jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
     <string name="memory_usage">Użycie pamięci</string>
     <string name="memory_usage_explanation">Ilość pamięci do użycia przez funkcję wyprowadzania klucza.</string>
@@ -607,7 +607,7 @@
     <string name="enable_keep_screen_on_summary">Nie wyłączaj ekranu podczas oglądania wpisu</string>
     <string name="tags">Znaczniki</string>
     <string name="enable_keep_screen_on_title">Nie wyłączaj ekranu</string>
-    <string name="show_entry_colors_summary">Wyświetla kolory pierwszego planu i tła we wpisie</string>
+    <string name="show_entry_colors_summary">Wyświetla kolory pierwszego planu i tła wpisu</string>
     <string name="content_description_nav_header">Nagłówek nawigacyjny</string>
     <string name="navigation_drawer_open">Szuflada nawigacyjna otwarta</string>
     <string name="navigation_drawer_close">Szuflada nawigacyjna zamknięta</string>

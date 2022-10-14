@@ -32,7 +32,7 @@
 
     <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
     <string name="keepro_app_id" translatable="false">com.kunzisoft.keepass.pro</string>
-    <string name="key_driver_url" translatable="false">https://gitlab.com/kunzisoft/android-hardware-key-driver#user-content-download</string>
+    <string name="key_driver_app_id" translatable="false">com.kunzisoft.hardware.key</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/#donation</string>
     <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
     <string name="external_icon_url" translatable="false">https://www.keepassdx.com/#icons</string>

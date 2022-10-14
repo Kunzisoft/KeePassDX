@@ -148,7 +148,7 @@
     <string name="error_autofill_enable_service">Служба автозаполнения не может быть включена.</string>
     <string name="copy_field">%1$s скопировано</string>
     <string name="menu_form_filling_settings">Заполнение форм</string>
-    <string name="encryption_explanation">Алгоритм шифрования всех данных базы.</string>
+    <string name="encryption_explanation">Алгоритм шифрования всех данных базы</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
     <string name="memory_usage">Использование памяти</string>
     <string name="memory_usage_explanation">Объём памяти, который будет использоваться функцией формирования ключа.</string>
@@ -667,4 +667,5 @@
     <string name="waiting_challenge_request">Ожидание запроса на вызов…</string>
     <string name="waiting_challenge_response">Ожидание ответа на вызов…</string>
     <string name="html_about_privacy">&lt;strong&gt;Никакие пользовательские данные не собираются&lt;/strong&gt;, это приложение не подключается ни к одному серверу, работает исключительно локально и полностью соблюдает конфиденциальность пользователей.</string>
+    <string name="auto_type">Автонабор</string>
 </resources>

@@ -156,7 +156,7 @@
     <string name="read_only_warning">根据您的文件管理器，KeePassDX 可能不允许在您的存储中写入数据。</string>
     <string name="show_recent_files_title">显示最近打开的文件</string>
     <string name="show_recent_files_summary">显示最近打开数据库的位置</string>
-    <string name="encryption_explanation">加密数据库所有数据时采用的算法。</string>
+    <string name="encryption_explanation">用于所有数据的数据库加密算法</string>
     <string name="kdf_explanation">将迭代主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
     <string name="memory_usage">内存使用量</string>
     <string name="memory_usage_explanation">密钥推导算法使用的内存。</string>
@@ -667,4 +667,5 @@
     <string name="enable_screenshot_mode_title">截屏模式</string>
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>
+    <string name="html_about_privacy"><strong>不获取用户数据</strong>，此应用不连接任何服务器，仅在本地运行，并充分尊重用户的隐私。</string>
 </resources>
