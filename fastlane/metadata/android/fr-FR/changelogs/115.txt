@@ -3,3 +3,4 @@
  * Meilleure gestion des mime-types et extensions #1211
  * Ajout du "Mode Capture d'Ecran" dans les paramètres #459 #1377 #1354 (Thx @GianpaMX)
  * Masquage du texte sensible dans le presse-papiers lors de la copie du champ de saisie #1386
+ * Correction du verrouillage avec le bouton arrière #1412 #1414 (Thx @ryg-git)

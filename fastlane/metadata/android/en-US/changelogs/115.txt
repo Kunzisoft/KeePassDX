@@ -3,3 +3,4 @@
  * Better management of mime-types and extensions #1211
  * Add "Screenshot mode" setting #459 #1377 #1354 (Thx @GianpaMX)
  * Hide clipboard sensitive text when copy entry field #1386
+ * Fix lock with back button #1412 #1414 (Thx @ryg-git)
