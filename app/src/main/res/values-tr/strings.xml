@@ -640,7 +640,7 @@
     <string name="word_separator">Ayırıcı</string>
     <string name="upper_case">BÜYÜK HARF</string>
     <string name="title_case">İlk Harfleri Büyük</string>
-    <string name="html_about_privacy"><strong>Hiçbir kullanıcı verisi alınmaz</strong>, bu uygulama herhangi bir sunucuya bağlanmaz, yalnızca yerel olarak çalışır ve kullanıcıların gizliliğine tamamen saygı duyar.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Hiçbir kullanıcı verisi alınmaz&lt;/strong&gt;, bu uygulama herhangi bir sunucuya bağlanmaz, yalnızca yerel olarak çalışır ve kullanıcıların gizliliğine tamamen saygı duyar.</string>
     <string name="error_empty_key">Anahtar boş olamaz.</string>
     <string name="remember_hardware_key_title">Donanım anahtarlarını hatırla</string>
     <string name="error_unable_merge_database_kdb">V1 veri tabanından birleştirme yapılamıyor.</string>

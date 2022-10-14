@@ -647,7 +647,7 @@
     <string name="title_case">語頭を大文字</string>
     <string name="enable_screenshot_mode_summary">サードパーティのアプリでこのアプリのスクリーンショットを撮れるようにします</string>
     <string name="enable_screenshot_mode_title">スクリーンショット モード</string>
-    <string name="html_about_privacy"><strong>ユーザーからデータを取得しません</strong>。このアプリケーションは特定のサーバーに接続せず、ローカルでのみ動作し、ユーザーのプライバシーを完全に尊重します。</string>
+    <string name="html_about_privacy">&lt;strong&gt;ユーザーからデータを取得しません&lt;/strong&gt;。このアプリケーションは特定のサーバーに接続せず、ローカルでのみ動作し、ユーザーのプライバシーを完全に尊重します。</string>
     <string name="hardware_key">ハードウェアキー</string>
     <string name="error_no_hardware_key">ハードウェアキーを選択してください。</string>
     <string name="error_XML_malformed">XMLの形式が正しくありません。</string>

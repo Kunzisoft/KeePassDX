@@ -666,6 +666,6 @@
     <string name="error_location_unknown">Розташування бази даних невідоме, дія бази даних не може бути виконана.</string>
     <string name="error_empty_key">Ключ не може бути порожнім.</string>
     <string name="corrupted_file">Пошкоджений файл.</string>
-    <string name="html_about_privacy"><strong>Жодні користувацькі дані не збираються</strong>, цей застосунок не з\'єднується з жодним сервером, він працює лише локально та повністю поважає приватність користувачів.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Жодні користувацькі дані не збираються&lt;/strong&gt;, цей застосунок не з\'єднується з жодним сервером, він працює лише локально та повністю поважає приватність користувачів.</string>
     <string name="auto_type">Автовведення</string>
 </resources>

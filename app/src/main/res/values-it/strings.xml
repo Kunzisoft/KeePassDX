@@ -669,6 +669,6 @@
     <string name="error_empty_key">La chiave non può essere vuota.</string>
     <string name="enable_screenshot_mode_title">Modalità di cattura schermo</string>
     <string name="screenshot_mode_banner_text">Modalità di cattura schermo</string>
-    <string name="html_about_privacy"><strong>Nessun dato dell\'utente viene prelevato</strong>, questa applicazione non si connette ad alcun server, funziona solo in locale e rispetta pienamente la privacy degli utenti.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nessun dato dell\'utente viene prelevato&lt;/strong&gt;, questa applicazione non si connette ad alcun server, funziona solo in locale e rispetta pienamente la privacy degli utenti.</string>
     <string name="auto_type">Auto-digita</string>
 </resources>

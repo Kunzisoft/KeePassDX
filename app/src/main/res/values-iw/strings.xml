@@ -173,7 +173,7 @@
     <string name="content_description_otp_information">פרטי סיסמה חד-פעמית</string>
     <string name="error_otp_type">סוג הסיסמה החד-פעמית הקיים אינו מזוהה בטופס זה, ייתכן שהאימות שלו לא יחולל יותר כראוי את ה-Token.</string>
     <string name="hint_icon_name">שם הסמל</string>
-    <string name="html_about_privacy"><strong>אין אחזור של נתוני משתמש</strong>, יישום זה אינו מתחבר לשום שרת, פועל באופן מקומי בלבד ומכבד באופן מלא את פרטיות המשתמשים.</string>
+    <string name="html_about_privacy">&lt;strong&gt;אין אחזור של נתוני משתמש&lt;/strong&gt;, יישום זה אינו מתחבר לשום שרת, פועל באופן מקומי בלבד ומכבד באופן מלא את פרטיות המשתמשים.</string>
     <string name="hardware_key">מפתח פיזי</string>
     <string name="custom_data">נתונים מותאמים אישית</string>
     <string name="otp_type">סוג סיסמה חד-פעמית</string>
@@ -232,9 +232,9 @@
     <string name="content_description_nav_header">כותרת ניווט</string>
     <string name="navigation_drawer_open">פתיחת מגירת ניווט</string>
     <string name="navigation_drawer_close">סגירת מגירת ניווט</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft הוא יישום <strong>קוד פתוח</strong> ו<strong>בלי פרסום</strong>.
-\nהוא ניתן כפי שהוא, תחת רישיון <strong>GPLv3</strong>, ללא כל אחריות.</string>
-    <string name="html_about_contribution">בכדי <strong>לשמור על החופש שלנו</strong>, <strong>לתקן באגים</strong>, <strong>להוסיף תכונות</strong> <strong>ולהיות תמיד פעילים</strong>, אנו סומכים על <strong>תרומתך</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft הוא יישום &lt;strong&gt;קוד פתוח&lt;/strong&gt; ו&lt;strong&gt;בלי פרסום&lt;/strong&gt;.
+\nהוא ניתן כפי שהוא, תחת רישיון &lt;strong&gt;GPLv3&lt;/strong&gt;, ללא כל אחריות.</string>
+    <string name="html_about_contribution">בכדי &lt;strong&gt;לשמור על החופש שלנו&lt;/strong&gt;, &lt;strong&gt;לתקן באגים&lt;/strong&gt;, &lt;strong&gt;להוסיף תכונות&lt;/strong&gt; &lt;strong&gt;ולהיות תמיד פעילים&lt;/strong&gt;, אנו סומכים על &lt;strong&gt;תרומתך&lt;/strong&gt;.</string>
     <string name="searchable">ניתן לחיפוש</string>
     <string name="inherited">לָרֶשֶׁת</string>
     <string name="auto_type_sequence">רצף הקלדה אוטומטית</string>

@@ -245,7 +245,7 @@
     <string name="configure_biometric">কোনো বায়োমেট্রিক বা ডিভাইস শংসাপত্র নথিভুক্ত করা হয় না.</string>
     <string name="content_description_nav_header">নেভিগেশন হেডার</string>
     <string name="encryption_explanation">ডেটাবেস এনক্রিপশন অ্যালগরিদম সমস্ত ডেটার জন্য ব্যবহৃত হয়</string>
-    <string name="html_about_privacy"><strong>কোন ব্যবহারকারীর ডেটা পুনরুদ্ধার করা হয় না</strong>, এই অ্যাপ্লিকেশনটি কোনো সার্ভারের সাথে সংযোগ করে না, শুধুমাত্র স্থানীয়ভাবে কাজ করে এবং ব্যবহারকারীদের গোপনীয়তাকে সম্পূর্ণভাবে সম্মান করে।</string>
+    <string name="html_about_privacy">&lt;strong&gt;কোন ব্যবহারকারীর ডেটা পুনরুদ্ধার করা হয় না&lt;/strong&gt;, এই অ্যাপ্লিকেশনটি কোনো সার্ভারের সাথে সংযোগ করে না, শুধুমাত্র স্থানীয়ভাবে কাজ করে এবং ব্যবহারকারীদের গোপনীয়তাকে সম্পূর্ণভাবে সম্মান করে।</string>
     <string name="cryptocurrency">ক্রিপ্টোকারেন্সি ওয়ালেট</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="secure_note">সুরক্ষিত নোট</string>
@@ -300,9 +300,9 @@
     <string name="expired">মেয়াদোত্তীর্ণ</string>
     <string name="select_to_copy">ক্লিপবোর্ডে অনুলিপি করতে নির্বাচন করুন</string>
     <string name="entry_setup_otp">এককালীন পাসওয়ার্ড সেট আপ করুন</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft হল <strong>ওপেন সোর্স</strong> এবং <strong>বিজ্ঞাপন ছাড়াই</strong>।
-\nএটি <strong>GPLv3</strong> লাইসেন্সের অধীনে, কোনো ওয়ারেন্টি ছাড়াই প্রদান করা হয়।</string>
-    <string name="html_about_contribution"><strong>আমাদের স্বাধীনতা বজায় রাখতে</strong>, <strong>বাগগুলি ঠিক করতে</strong>, <strong>বৈশিষ্ট্য যোগ করুন</strong> এবং <strong>সর্বদা সক্রিয় থাকার জন্য</strong>, আমরা আপনার উপর নির্ভর করি <strong>অবদান</strong>।</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft হল &lt;strong&gt;ওপেন সোর্স&lt;/strong&gt; এবং &lt;strong&gt;বিজ্ঞাপন ছাড়াই&lt;/strong&gt;।
+\nএটি &lt;strong&gt;GPLv3&lt;/strong&gt; লাইসেন্সের অধীনে, কোনো ওয়ারেন্টি ছাড়াই প্রদান করা হয়।</string>
+    <string name="html_about_contribution">&lt;strong&gt;আমাদের স্বাধীনতা বজায় রাখতে&lt;/strong&gt;, &lt;strong&gt;বাগগুলি ঠিক করতে&lt;/strong&gt;, &lt;strong&gt;বৈশিষ্ট্য যোগ করুন&lt;/strong&gt; এবং &lt;strong&gt;সর্বদা সক্রিয় থাকার জন্য&lt;/strong&gt;, আমরা আপনার উপর নির্ভর করি &lt;strong&gt;অবদান&lt;/strong&gt;।</string>
     <string name="hardware_key">হার্ডওয়্যার কী</string>
     <string name="id_card">পরিচয় পত্র</string>
     <string name="error_out_of_memory">আপনার সম্পূর্ণ ডাটাবেস লোড করার জন্য কোন মেমরি নেই।</string>

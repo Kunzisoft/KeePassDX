@@ -643,7 +643,7 @@
     <string name="enable_screenshot_mode_title">Mode tangkapan layar</string>
     <string name="remember_hardware_key_summary">Mengingat kunci perangkat keras yang telah digunakan</string>
     <string name="enable_screenshot_mode_summary">Perbolehkan aplikasi pihak ketiga untuk merekam atau mengambil tangkapan layar aplikasi</string>
-    <string name="html_about_privacy"><strong>Tidak ada data pengguna yang didapatkan</strong>, aplikasi ini tidak menghubungkan ke server apa pun, bekerja secara lokal dan menghargai privasi pengguna.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Tidak ada data pengguna yang didapatkan&lt;/strong&gt;, aplikasi ini tidak menghubungkan ke server apa pun, bekerja secara lokal dan menghargai privasi pengguna.</string>
     <string name="content_description_nav_header">Tajuk navigasi</string>
     <string name="auto_type">Ketik Otomatis</string>
 </resources>

@@ -230,7 +230,7 @@
     <string name="show_otp_token_title">Mostrar token OTP</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="show_otp_token_summary">Mostra os tokens OTP na lista de entradas</string>
-    <string name="html_about_privacy"><strong>Datos do usuario non recuperados </strong>, esta aplicación non se conecta a ningún servidor, só opera localmente e respecta totalmente a privacidade dos usuarios.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Datos do usuario non recuperados &lt;/strong&gt;, esta aplicación non se conecta a ningún servidor, só opera localmente e respecta totalmente a privacidade dos usuarios.</string>
     <string name="error_create_database_file">Non foi posíbel crear a base de datos con ese contrasinal e ficheiro clave.</string>
     <string name="error_save_database">Non foi posíbel gardar a base de datos.</string>
     <string name="error_rebuild_list">Non é posíbel reconstruír a lista adecuadamente.</string>

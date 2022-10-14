@@ -664,7 +664,7 @@
     <string name="error_unable_merge_database_kdb">Samenvoegen vanuit database V1 niet mogelijk.</string>
     <string name="error_no_hardware_key">Kies een fysieke sleutel.</string>
     <string name="remember_hardware_key_summary">Houdt de gebruikte fysieke sleutels bij</string>
-    <string name="html_about_privacy"><strong> Er worden geen gebruikersgegevens opgehaald </strong>, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>
+    <string name="html_about_privacy">&lt;strong&gt; Er worden geen gebruikersgegevens opgehaald &lt;/strong&gt;, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>
     <string name="error_location_unknown">Locatie van database is onbekend, actie kan niet worden uitgevoerd.</string>
     <string name="content_description_hardware_key_checkbox">Fysieke sleutel-selectie</string>
     <string name="waiting_challenge_request">In afwachting van de reactietest-vraag…</string>

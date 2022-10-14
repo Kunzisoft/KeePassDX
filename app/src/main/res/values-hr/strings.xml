@@ -655,7 +655,7 @@
     <string name="content_description_hardware_key_checkbox">Potvrdni okvir hardverskog ključa</string>
     <string name="remember_hardware_key_title">Zapamti hardverske ključeve</string>
     <string name="enable_screenshot_mode_summary">Dopusti stranim aplikacijama snimanje ili slikanje ekrana aplikacije</string>
-    <string name="html_about_privacy"><strong>Korisnički podaci se ne dohvaćaju</strong>, ova aplikacija se ne povezuje ni s jednim poslužiteljem, radi samo lokalno i u potpunosti poštuje privatnost korisnika.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Korisnički podaci se ne dohvaćaju&lt;/strong&gt;, ova aplikacija se ne povezuje ni s jednim poslužiteljem, radi samo lokalno i u potpunosti poštuje privatnost korisnika.</string>
     <string name="error_no_response_from_challenge">Nije moguće dobiti odgovor na izazov.</string>
     <string name="content_description_nav_header">Zaglavlje navigacije</string>
     <string name="waiting_challenge_response">Čeka se odgovor za izazov …</string>
