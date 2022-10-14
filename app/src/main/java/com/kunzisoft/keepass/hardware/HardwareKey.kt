@@ -1,7 +1,7 @@
 package com.kunzisoft.keepass.hardware
 
 enum class HardwareKey(val value: String) {
-    FIDO2_SECRET("FIDO2 secret"),
+    // FIDO2_SECRET("FIDO2 secret"),
     CHALLENGE_RESPONSE_YUBIKEY("Yubikey challenge-response");
 
     override fun toString(): String {
@@ -9,7 +9,7 @@ enum class HardwareKey(val value: String) {
     }
 
     companion object {
-        val DEFAULT = FIDO2_SECRET
+        val DEFAULT = CHALLENGE_RESPONSE_YUBIKEY
 
         fun getStringValues(): List<String> {
             return values().map { it.value }
@@ -17,8 +17,8 @@ enum class HardwareKey(val value: String) {
 
         fun fromPosition(position: Int): HardwareKey {
             return when (position) {
-                0 -> FIDO2_SECRET
-                1 -> CHALLENGE_RESPONSE_YUBIKEY
+                // 0 -> FIDO2_SECRET
+                0 -> CHALLENGE_RESPONSE_YUBIKEY
                 else -> DEFAULT
             }
         }

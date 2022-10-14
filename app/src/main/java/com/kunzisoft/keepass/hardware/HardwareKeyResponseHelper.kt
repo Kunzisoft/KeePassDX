@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.launch
 
@@ -64,10 +63,12 @@ class HardwareKeyResponseHelper {
 
     fun launchChallengeForResponse(hardwareKey: HardwareKey, seed: ByteArray?) {
         when (hardwareKey) {
+            /*
             HardwareKey.FIDO2_SECRET -> {
                 // TODO FIDO2 under development
                 throw Exception("FIDO2 not implemented")
             }
+            */
             HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
                 // Transform the seed before sending
                 var challenge: ByteArray? = null
@@ -101,6 +102,7 @@ class HardwareKeyResponseHelper {
             showDialog: Boolean = true
         ): Boolean {
             return when (hardwareKey) {
+                /*
                 HardwareKey.FIDO2_SECRET -> {
                     // TODO FIDO2 under development
                     if (showDialog)
@@ -108,6 +110,7 @@ class HardwareKeyResponseHelper {
                             .show(activity.supportFragmentManager, "underDevFeatureDialog")
                     false
                 }
+                */
                 HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
                     // Check available intent
                     val yubikeyDriverAvailable =
