@@ -1368,7 +1368,6 @@ class GroupActivity : DatabaseLockActivity(),
                 EntrySelectionHelper.removeInfoFromIntent(intent)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
-                    super.onRegularBackPressed()
                 } else {
                     backToTheAppCaller()
                 }
