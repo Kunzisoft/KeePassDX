@@ -124,6 +124,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             mActionTaskListeners.remove(actionTaskListener)
         }
 
+        @ExperimentalCoroutinesApi
         fun addRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
             mainScope.launch {
                 val requestChannel = mRequestChallengeListenerChannel
@@ -138,7 +139,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         fun removeRequestChallengeListener() {
             mainScope.launch {
-                mRequestChallengeListenerChannel?.cancel()
+                try {
+                    mRequestChallengeListenerChannel?.cancel()
+                } catch (e: Exception) {
+                    Log.w(TAG, "Request challenge listener cannot be closed.", e)
+                }
                 mRequestChallengeListenerChannel = null
             }
         }
@@ -265,6 +270,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mResponseChallengeChannel = null
     }
 
+    @ExperimentalCoroutinesApi
     fun respondToChallenge(response: ByteArray) {
         mainScope.launch {
             val responseChannel = mResponseChallengeChannel
@@ -416,7 +422,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                         try {
                                             startService(Intent(applicationContext,
                                                     DatabaseTaskNotificationService::class.java))
-                                        } catch (e: IllegalStateException) {}
+                                        } catch (e: IllegalStateException) {
+                                            Log.w(TAG, "Cannot restart the database task service", e)
+                                        }
                                     }
                                 }
                                 mTaskRemovedRequested = false
