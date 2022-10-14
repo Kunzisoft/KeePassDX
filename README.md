@@ -53,10 +53,12 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
       height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
-
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Get it on Google Play"
 	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
+[<img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
+      alt="Get it on Github"
+	height="80">](https://github.com/Kunzisoft/KeePassDX/releases)
 	
 ## Frequently Asked Questions
 
