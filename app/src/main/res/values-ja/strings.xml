@@ -411,7 +411,7 @@
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="education_create_database_title">データベース ファイルを作成</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
-    <string name="education_select_database_title">既存のデータペースを開く</string>
+    <string name="education_select_database_title">既存のデータベースを開く</string>
     <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
@@ -633,7 +633,7 @@
 \nKeyStore の互換性と安全性については、お使いのデバイスの製造元および使用するROMの作成者にご確認ください。</string>
     <string name="navigation_drawer_open">ナビゲーション ドロワーが開いています</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
-    <string name="auto_type_sequence">Auto-Type シークエンス</string>
+    <string name="auto_type_sequence">自動入力シークエンス</string>
     <string name="current_group">選択されたグループ</string>
     <string name="keyboard_previous_search_summary">検索画面で切り替え前のキーボードに自動的に戻します</string>
     <string name="menu_merge_from">マージ…</string>
@@ -645,4 +645,22 @@
     <string name="consider_chars_filter">対象に加える文字</string>
     <string name="ignore_chars_filter">使用しない文字</string>
     <string name="title_case">語頭を大文字</string>
+    <string name="enable_screenshot_mode_summary">サードパーティのアプリでこのアプリのスクリーンショットを撮れるようにします</string>
+    <string name="enable_screenshot_mode_title">スクリーンショット モード</string>
+    <string name="html_about_privacy"><strong>ユーザーからデータを取得しません</strong>。このアプリケーションは特定のサーバーに接続せず、ローカルでのみ動作し、ユーザーのプライバシーを完全に尊重します。</string>
+    <string name="hardware_key">ハードウェアキー</string>
+    <string name="error_no_hardware_key">ハードウェアキーを選択してください。</string>
+    <string name="error_XML_malformed">XMLの形式が正しくありません。</string>
+    <string name="error_hardware_key_unsupported">ハードウェアキーには対応していません。</string>
+    <string name="remember_hardware_key_title">ハードウェアキーを記憶</string>
+    <string name="remember_hardware_key_summary">ハードウェアキーの使用記録を保持します</string>
+    <string name="screenshot_mode_banner_text">スクリーンショット モード</string>
+    <string name="content_description_nav_header">ナビゲーション ヘッダー</string>
+    <string name="content_description_hardware_key_checkbox">ハードウェアキーのチェックボックス</string>
+    <string name="error_empty_key">キーを空にすることはできません。</string>
+    <string name="corrupted_file">ファイルが破損しています。</string>
+    <string name="error_cancel_by_user">ユーザーによってキャンセルされました。</string>
+    <string name="error_location_unknown">データベースの場所が不明です。データベースへの操作を実行できません。</string>
+    <string name="error_driver_required">%1$s 用のドライバーが必要です。</string>
+    <string name="auto_type">自動入力</string>
 </resources>

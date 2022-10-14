@@ -157,7 +157,7 @@
     <string name="menu_cancel">Annulla</string>
     <string name="menu_file_selection_read_only">Sola lettura</string>
     <string name="menu_open_file_read_and_write">Modificabile</string>
-    <string name="encryption_explanation">Algoritmo di cifratura del database usato per tutti i dati.</string>
+    <string name="encryption_explanation">Algoritmo di cifratura del database usato per tutti i dati</string>
     <string name="kdf_explanation">Per generare la chiave per l\'algoritmo di cifratura, la chiave principale viene trasformata usando una funzione di derivazione della chiave (con un sale casuale).</string>
     <string name="memory_usage">Utilizzo di memoria</string>
     <string name="memory_usage_explanation">Quantità di memoria utilizzabili dalla funzione di derivazione della chiave.</string>
@@ -610,7 +610,7 @@
     <string name="enable_keep_screen_on_title">Tieni lo schermo acceso</string>
     <string name="enable_keep_screen_on_summary">Tieni lo schermo acceso mentre si vede la voce</string>
     <string name="show_entry_colors_title">Colori della voce</string>
-    <string name="show_entry_colors_summary">Mostra colori in evidenza e in secondo piano in una voce</string>
+    <string name="show_entry_colors_summary">Mostra colori in evidenza e in secondo piano per una voce</string>
     <string name="custom_data">Dati personalizzati</string>
     <string name="current_group">Gruppo attuale</string>
     <string name="navigation_drawer_open">Apertura del cassetto di navigazione</string>
@@ -669,4 +669,6 @@
     <string name="error_empty_key">La chiave non può essere vuota.</string>
     <string name="enable_screenshot_mode_title">Modalità di cattura schermo</string>
     <string name="screenshot_mode_banner_text">Modalità di cattura schermo</string>
+    <string name="html_about_privacy"><strong>Nessun dato dell\'utente viene prelevato</strong>, questa applicazione non si connette ad alcun server, funziona solo in locale e rispetta pienamente la privacy degli utenti.</string>
+    <string name="auto_type">Auto-digita</string>
 </resources>

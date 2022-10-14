@@ -179,7 +179,7 @@
     <string name="error_autofill_enable_service">Dienst für automatisches Ausfüllen kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Formularausfüllung</string>
-    <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet.</string>
+    <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet</string>
     <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
     <string name="memory_usage_explanation">Größe des Speichers, der für die Schlüsselableitung genutzt wird.</string>
@@ -620,8 +620,8 @@
     <string name="enable_keep_screen_on_title">Bildschirm eingeschaltet lassen</string>
     <string name="warning_keyfile_integrity">Der Hash der Datei ist nicht garantiert, da Android die Daten im laufenden Betrieb ändern kann. Ändern Sie die Dateierweiterung in .bin, um die Integrität zu gewährleisten.</string>
     <string name="enable_keep_screen_on_summary">Den Bildschirm beim Ansehen des Eintrags eingeschaltet lassen</string>
-    <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe in einem Eintrag anzeigen</string>
-    <string name="auto_type_sequence">Auto-Type-Sequenz</string>
+    <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe für einen Eintrag anzeigen</string>
+    <string name="auto_type_sequence">Automatische Eingabefolge</string>
     <string name="regex">Regulärer Ausdruck</string>
     <string name="searchable">Durchsuchbar</string>
     <string name="inherited">Vererbt</string>
@@ -679,4 +679,6 @@
     <string name="screenshot_mode_banner_text">Screenshot-Modus</string>
     <string name="remember_hardware_key_title">Hardwareschlüssel merken</string>
     <string name="remember_hardware_key_summary">Verfolgt die verwendeten Hardwareschlüssel</string>
+    <string name="auto_type">Automatische Eingabe</string>
+    <string name="html_about_privacy"><strong>Es werden keine Benutzerdaten abgerufen</strong>, diese App stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert die Privatsphäre der Benutzer vollständig.</string>
 </resources>

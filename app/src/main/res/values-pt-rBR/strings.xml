@@ -153,7 +153,7 @@
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
     <string name="show_recent_files_title">Exibir arquivos recentes</string>
     <string name="show_recent_files_summary">Exibir locais de bancos de dados recentes</string>
-    <string name="encryption_explanation">Algoritmo de criptografia usado para todos os dados.</string>
+    <string name="encryption_explanation">Algoritmo de criptografia usado para todos os dados</string>
     <string name="kdf_explanation">Para gerar uma chave para o algoritmo de criptografia, a chave-mestra é transformada usando uma função de derivação de chave salgada aleatoriamente.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
@@ -210,7 +210,7 @@
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
     <string name="allow_copy_password_title">Confiança na área de transferência</string>
     <string name="allow_copy_password_summary">Permitir a cópia da senha e de campos protegidos para a área de transferência</string>
-    <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-los.</string>
+    <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem acessá-los.</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
@@ -220,10 +220,10 @@
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
-    <string name="allow_no_password_title">Não permitir chave-mestra</string>
-    <string name="allow_no_password_summary">Permitir tocar no botão \"Abrir\" se nenhuma credencial for selecionada</string>
+    <string name="allow_no_password_title">Permitir chave-mestra vazia</string>
+    <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" mesmo se nenhuma credencial for selecionada</string>
     <string name="enable_read_only_title">Somente leitura</string>
-    <string name="enable_read_only_summary">Por padrão, abrir seu banco de dados no modo somente leitura</string>
+    <string name="enable_read_only_summary">Abre o banco de dados no modo somente leitura por padrão</string>
     <string name="enable_education_screens_title">Dicas educacionais</string>
     <string name="enable_education_screens_summary">Destaque os elementos para aprender como o aplicativo funciona</string>
     <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
@@ -279,7 +279,7 @@
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
-    <string name="error_load_database">Não foi possível carregar seu banco de dados.</string>
+    <string name="error_load_database">Não foi possível carregar o banco de dados.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
     <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
@@ -305,8 +305,8 @@
     <string name="keyboard_key_sound_title">Teclas audíveis</string>
     <string name="selection_mode">Modo seleção</string>
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
-    <string name="lock_database_back_root_title">Pressione \'Voltar\' para bloquear</string>
-    <string name="lock_database_back_root_summary">Trancar a base de dados quando o usuário pressiona o botão \"Voltar\" na tela inicial</string>
+    <string name="lock_database_back_root_title">Pressionar \'Voltar\' para bloquear</string>
+    <string name="lock_database_back_root_summary">Tranca o banco de dados quando o usuário pressiona o botão \"Voltar\" na tela inicial</string>
     <string name="clear_clipboard_notification_title">Limpar ao fechar</string>
     <string name="clear_clipboard_notification_summary">Bloquear o banco de dados quando a duração da área de transferência expirar ou a notificação for fechada depois do início do uso</string>
     <string name="recycle_bin">Lixeira</string>
@@ -368,8 +368,8 @@
     <string name="contains_duplicate_uuid">O banco de dados contém UUIDs duplicados.</string>
     <string name="contains_duplicate_uuid_procedure">Consertar o problema gerando nova UUIDs para duplicatas para continuar\?</string>
     <string name="database_opened">Banco de dados aberto</string>
-    <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
-    <string name="advanced_unlock_explanation_summary">Usar destravamento avançado para abrir o banco de dados mais facilmente</string>
+    <string name="clipboard_explanation_summary">Copie campos de entrada usando a área de transferência do seu dispositivo</string>
+    <string name="advanced_unlock_explanation_summary">Use o desbloqueio avançado para abrir o banco de dados mais facilmente</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
     <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados</string>
     <string name="max_history_items_title">Número máximo</string>
@@ -388,7 +388,7 @@
     <string name="compression_none">Nada</string>
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
-    <string name="error_save_database">Não foi possível salvar no banco de dados.</string>
+    <string name="error_save_database">Não foi possível salvar o banco de dados.</string>
     <string name="menu_save_database">Salvar dados</string>
     <string name="menu_empty_recycle_bin">Esvaziar lixeira</string>
     <string name="command_execution">Executando o comando…</string>
@@ -396,7 +396,7 @@
     <string name="keystore_not_accessible">O armazenamento chaves não foi propriamente inicializado.</string>
     <string name="recycle_bin_group_title">Grupo de lixeira</string>
     <string name="enable_auto_save_database_title">Salvar automaticamente o banco de dados</string>
-    <string name="enable_auto_save_database_summary">Salvar automaticamente o banco de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
+    <string name="enable_auto_save_database_summary">Salva automaticamente o banco de dados após cada ação importante (somente no modo \"Modificável\")</string>
     <string name="discard">Descartar</string>
     <string name="contact">Contato</string>
     <string name="auto_focus_search_title">Busca rápida</string>
@@ -604,7 +604,7 @@
     <string name="enable_keep_screen_on_title">Mantenha a tela ligada</string>
     <string name="enable_keep_screen_on_summary">Mantenha a tela ligada enquanto estiver vendo a entrada</string>
     <string name="show_entry_colors_title">Cores de entrada</string>
-    <string name="show_entry_colors_summary">Exibe as cores de primeiro plano e de fundo em uma entrada</string>
+    <string name="show_entry_colors_summary">Exibe as cores de primeiro plano e de fundo de uma entrada</string>
     <string name="error_move_group_here">Você não pode mover um grupo pra cá.</string>
     <string name="wireless">Wi-Fi</string>
     <string name="warning_keyfile_integrity">O hash do arquivo não é garantido porque o Android pode alterar seus dados em tempo real. Altere a extensão do arquivo para .bin para obter a integridade correta.</string>
@@ -625,7 +625,7 @@
     <string name="content_description_passphrase_word_count">Número de palavras da senha</string>
     <string name="warning_database_already_opened">Um banco de dados já está aberto, feche-o primeiro para abrir o novo</string>
     <string name="keyboard_previous_search_title">Tela de busca</string>
-    <string name="entropy_calculate">Entropia: Calcular…</string>
+    <string name="entropy_calculate">Entropia: Calculando…</string>
     <string name="at_least_one_char">Pelo menos um caractere de cada</string>
     <string name="exclude_ambiguous_chars">Excluir caracteres ambíguos</string>
     <string name="consider_chars_filter">Considerar caracteres</string>
@@ -645,4 +645,25 @@
     <string name="word_separator">Separador</string>
     <string name="lower_case">minúsculas</string>
     <string name="character_count">Número de caracteres: %1$d</string>
+    <string name="waiting_challenge_request">Aguardando o pedido de desafio…</string>
+    <string name="waiting_challenge_response">Aguardando a resposta do desafio…</string>
+    <string name="error_cancel_by_user">Cancelado pelo usuário.</string>
+    <string name="error_hardware_key_unsupported">A chave física não é suportada.</string>
+    <string name="error_unable_merge_database_kdb">Não é possível mesclar a partir de um banco de dados V1.</string>
+    <string name="error_location_unknown">Localização do banco de dados desconhecida, a ação do banco de dados não pode ser executada.</string>
+    <string name="error_empty_key">A chave não pode estar vazia.</string>
+    <string name="html_about_privacy"><strong>Nenhum dado do usuário é coletado</strong>, este aplicativo não se conecta a nenhum servidor, funciona apenas localmente e respeita totalmente a privacidade dos usuários.</string>
+    <string name="hardware_key">Chave física</string>
+    <string name="error_no_hardware_key">Selecione uma chave física.</string>
+    <string name="error_XML_malformed">XML malformado.</string>
+    <string name="error_challenge_already_requested">Desafio já solicitado</string>
+    <string name="error_response_already_provided">Resposta já fornecida.</string>
+    <string name="error_no_response_from_challenge">Não foi possível obter a resposta do desafio.</string>
+    <string name="error_driver_required">É necessário o driver para %1$s.</string>
+    <string name="remember_hardware_key_title">Lembrar chaves físicas</string>
+    <string name="remember_hardware_key_summary">Mantém um registro das chaves físicas utilizadas</string>
+    <string name="enable_screenshot_mode_title">Modo de captura de tela</string>
+    <string name="enable_screenshot_mode_summary">Permitir que aplicativos de terceiros gravem ou façam capturas de tela do aplicativo</string>
+    <string name="screenshot_mode_banner_text">Modo de captura de tela</string>
+    <string name="corrupted_file">Arquivo corrompido.</string>
 </resources>
