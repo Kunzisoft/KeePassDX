@@ -628,11 +628,11 @@
     <string name="entropy_calculate">Entropia: Calculando…</string>
     <string name="at_least_one_char">Pelo menos um caractere de cada</string>
     <string name="exclude_ambiguous_chars">Excluir caracteres ambíguos</string>
-    <string name="consider_chars_filter">Considerar caracteres</string>
+    <string name="consider_chars_filter">Considere caracteres</string>
     <string name="upper_case">MAIÚSCULAS</string>
     <string name="title_case">Capitalização de Título</string>
     <string name="colorize_password_title">Colorir senhas</string>
-    <string name="colorize_password_summary">Colorir caracteres da senha por tipo</string>
+    <string name="colorize_password_summary">Colorir caracteres de senha por tipo</string>
     <string name="passphrase">Frase secreta</string>
     <string name="entropy">Entropia: %1$s bit</string>
     <string name="entropy_high">Entropia: Alta</string>
@@ -644,7 +644,7 @@
     <string name="ignore_chars_filter">Ignorar caracteres</string>
     <string name="word_separator">Separador</string>
     <string name="lower_case">minúsculas</string>
-    <string name="character_count">Número de caracteres: %1$d</string>
+    <string name="character_count">Contagem de caracteres: %1$d</string>
     <string name="waiting_challenge_request">Aguardando o pedido de desafio…</string>
     <string name="waiting_challenge_response">Aguardando a resposta do desafio…</string>
     <string name="error_cancel_by_user">Cancelado pelo usuário.</string>
@@ -666,4 +666,6 @@
     <string name="enable_screenshot_mode_summary">Permitir que aplicativos de terceiros gravem ou façam capturas de tela do aplicativo</string>
     <string name="screenshot_mode_banner_text">Modo de captura de tela</string>
     <string name="corrupted_file">Arquivo corrompido.</string>
+    <string name="auto_type">Preenchimento automático</string>
+    <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
 </resources>
