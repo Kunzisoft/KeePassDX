@@ -408,7 +408,7 @@
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
-    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;sprawdzać błędy&lt;/strong&gt;, &lt;strong&gt;dodawać funkcje&lt;/strong&gt; i &lt;strong&gt; być zawsze aktywnym&lt;/strong&gt;, liczymy na Twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Aby <strong>zachować naszą wolność</strong>, <strong>naprawiać błędy</strong>, <strong>dodawać funkcje</strong> i <strong> być zawsze aktywnym</strong>, liczymy na Twój <strong>wkład</strong>.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
     <string name="remember_database_locations_title">Zapamiętaj lokalizacje baz danych</string>
