@@ -34,9 +34,9 @@
     <string name="allow">Permitir</string>
     <string name="clipboard_cleared">Portapapeis limpo</string>
     <string name="clipboard_error_title">Erro do portapapeis</string>
-    <string name="clipboard_error_clear">Fallou a limpeza do portapapeis</string>
+    <string name="clipboard_error_clear">Non foi posíbel limpar o portapapeis</string>
     <string name="clipboard_timeout">Tempo límite para o portapapeis</string>
-    <string name="clipboard_timeout_summary">Tempo antes de limpar o portapapeis após copiar usuario ou contrasinal</string>
+    <string name="clipboard_timeout_summary">Duración do almacenamento do portapapeis (se for soportado polo seu dispositivo)</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="select_to_copy">Seleccione para copiar %1$s para o portapapeis</string>
     <string name="retrieving_db_key">A criar a chave da base de dados…</string>
@@ -180,7 +180,7 @@
     <string name="menu_copy">Copiar</string>
     <string name="error_file_to_big">O arquivo que está a tentar enviar é demasiado grande.</string>
     <string name="menu_save_copy_to">Gardar unha copia en …</string>
-    <string name="menu_file_selection_read_only">Só lectura</string>
+    <string name="menu_file_selection_read_only">Protección contra escritura</string>
     <string name="menu_open_file_read_and_write">Modificábel</string>
     <string name="error_hardware_key_unsupported">A clave hardware non é soportada.</string>
     <string name="field_value">Valor do campo</string>
@@ -431,4 +431,28 @@
     <string name="autofill_service_name">Servizo de autocompletado do KeePassDX</string>
     <string name="database_history">Historial</string>
     <string name="advanced_unlock_prompt_store_credential_message">Aínda precisa lembrar a súa credencial principal se usar o recoñecemento de desbloqueo avanzado.</string>
+    <string name="temp_advanced_unlock_enable_title">Desbloqueo avanzado temporal</string>
+    <string name="file_name">Nome do arquivo</string>
+    <string name="temp_advanced_unlock_timeout_title">Duración do desbloqueo avanzado</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duración do uso do desbloqueo avanzado antes de borrar os seus contidos</string>
+    <string name="advanced_unlock_timeout">Tempo límite de desbloqueo avanzado</string>
+    <string name="biometric_delete_all_key_summary">Borrar todas as claves de cifrado relacionadas co desbloqueo de recoñecemento avanzado</string>
+    <string name="assign_master_key">Asignar unha clave mestra</string>
+    <string name="data">Datos</string>
+    <string name="database_data_compression_summary">A compresión de datos reduce o tamaño da base de datos</string>
+    <string name="database_data_remove_unlinked_attachments_title">Borrar datos non ligados</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Borrar anexos contidos na base de datos mais non ligados a unha entrada</string>
+    <string name="unavailable_feature_text">Non foi posíbel iniciar esta funcionalidade.</string>
+    <string name="database_data_compression_title">Compresión de datos</string>
+    <string name="biometric_auto_open_prompt_summary">Pedir automaticamente o desbloqueo avanzado se a base de datos estiver configurada para o seu uso</string>
+    <string name="temp_advanced_unlock_enable_summary">Non almacenar ningún contido cifrado para o desbloqueo avanzado</string>
+    <string name="advanced_unlock_delete_all_key_warning">Borrar todas as claves de cifrado relacionadas co desbloqueo de recoñecemento avanzado\?</string>
+    <string name="advanced_unlock_keystore_warning">Esta funcionalidade almacenará os datos de credenciais cifrados na KeyStore do seu dispositivo.
+\n
+\nDependendo da implementación da API nativa do seu sistema operativo, pode non ser completamente funcional.
+\nRevise a compatibilidade e seguranza da KeyStore co fabricante do seu dispositivo e co creador da ROM que está a usar.</string>
+    <string name="unavailable_feature_version">Este dispositivo está a usar Android %1$s, mais precisa do %2$s ou posterior.</string>
+    <string name="biometric_delete_all_key_title">Borrar claves de cifrado</string>
+    <string name="unavailable_feature_hardware">Non foi posíbel encontrar o hardware correspondente.</string>
+    <string name="path">Ruta</string>
 </resources>
