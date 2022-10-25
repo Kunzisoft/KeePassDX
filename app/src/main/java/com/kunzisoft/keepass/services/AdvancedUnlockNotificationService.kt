@@ -2,15 +2,16 @@ package com.kunzisoft.keepass.services
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 class AdvancedUnlockNotificationService : NotificationService() {
 
@@ -44,7 +45,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
     }
 
     override fun retrieveChannelName(): String {
-        return getString(R.string.advanced_unlock)
+        return getString(com.kunzisoft.keepass.R.string.advanced_unlock)
     }
 
     override fun onCreate() {
@@ -69,12 +70,12 @@ class AdvancedUnlockNotificationService : NotificationService() {
         val biometricUnlockEnabled = PreferencesUtil.isBiometricUnlockEnable(this)
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(if (biometricUnlockEnabled) {
-                R.drawable.notification_ic_fingerprint_unlock_24dp
+                com.kunzisoft.keepass.R.drawable.notification_ic_fingerprint_unlock_24dp
             } else {
-                R.drawable.notification_ic_device_unlock_24dp
+                com.kunzisoft.keepass.R.drawable.notification_ic_device_unlock_24dp
             })
-            setContentTitle(getString(R.string.advanced_unlock))
-            setContentText(getString(R.string.advanced_unlock_tap_delete))
+            setContentTitle(getString(com.kunzisoft.keepass.R.string.advanced_unlock))
+            setContentText(getString(com.kunzisoft.keepass.R.string.advanced_unlock_tap_delete))
             setContentIntent(pendingDeleteIntent)
             // Unfortunately swipe is disabled in lollipop+
             setDeleteIntent(pendingDeleteIntent)
@@ -82,7 +83,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
 
         val notificationTimeoutMilliSecs = PreferencesUtil.getAdvancedUnlockTimeout(this)
         // Not necessarily a foreground service
-        if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
+        if (mTimerJob == null && notificationTimeoutMilliSecs != com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER) {
             defineTimerJob(notificationBuilder, notificationTimeoutMilliSecs) {
                 sendBroadcast(Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION))
             }
@@ -122,7 +123,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
         // Only one service connection
         fun bindService(context: Context, serviceConnection: ServiceConnection, flags: Int) {
             context.bindService(Intent(context,
-                    AdvancedUnlockNotificationService::class.java),
+                AdvancedUnlockNotificationService::class.java),
                     serviceConnection,
                     flags)
         }

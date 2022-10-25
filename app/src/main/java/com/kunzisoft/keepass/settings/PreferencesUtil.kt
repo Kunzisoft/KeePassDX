@@ -1,22 +1,3 @@
-/*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
- * This file is part of KeePassDX.
- *
- *  KeePassDX is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  KeePassDX is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 package com.kunzisoft.keepass.settings
 
 import android.app.backup.BackupManager
@@ -26,18 +7,18 @@ import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import androidx.preference.PreferenceManager
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.Stylish
-import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
-import com.kunzisoft.keepass.password.PassphraseGenerator
-import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
-import java.util.*
+import java.util.HashSet
+import java.util.Properties
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.APP_TIMEOUT_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.HIDE_EXPIRED_ENTRIES_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.SETTING_ICON_PACK_CHOOSE_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.SUBDOMAIN_SEARCH_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.TIMEOUT_BACKUP_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.TIMEOUT_DEFAULT
 
 object PreferencesUtil {
 
@@ -61,7 +42,8 @@ object PreferencesUtil {
 
     fun saveNodeSort(context: Context,
                      sortNodeEnum: SortNodeEnum,
-                     sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+                     sortNodeParameters: SortNodeEnum.SortNodeParameters
+    ) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
             putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
@@ -108,12 +90,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.auto_focus_search_default))
     }
 
-    fun searchSubdomains(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.subdomain_search_key),
-                context.resources.getBoolean(R.bool.subdomain_search_default))
-    }
-
     fun showEntryColors(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_entry_colors_key),
@@ -156,35 +132,35 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.show_uuid_default))
     }
 
-    fun showExpiredEntries(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
-                context.resources.getBoolean(R.bool.hide_expired_entries_default))
-    }
-
     fun getStyle(context: Context): String {
-        val defaultStyleString = Stylish.defaultStyle(context)
+        val defaultStyleString =
+            com.kunzisoft.keepass.activities.stylish.Stylish.defaultStyle(context)
         val styleString = PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(context.getString(R.string.setting_style_key), defaultStyleString)
                 ?: defaultStyleString
         // Return the system style
-        return Stylish.retrieveEquivalentSystemStyle(context, styleString)
+        return com.kunzisoft.keepass.activities.stylish.Stylish.retrieveEquivalentSystemStyle(
+            context,
+            styleString)
     }
 
     fun setStyle(context: Context, styleString: String) {
         var tempThemeString = styleString
-        if (!UriUtil.contributingUser(context)) {
-            if (tempThemeString in BuildConfig.STYLES_DISABLED) {
-                tempThemeString = Stylish.defaultStyle(context)
+        if (!com.kunzisoft.keepass.utils.UriUtil.contributingUser(context)) {
+            if (tempThemeString in com.kunzisoft.keepass.BuildConfig.STYLES_DISABLED) {
+                tempThemeString =
+                    com.kunzisoft.keepass.activities.stylish.Stylish.defaultStyle(context)
             }
         }
         // Store light style to show selection in array list
-        tempThemeString = Stylish.retrieveEquivalentLightStyle(context, tempThemeString)
+        tempThemeString =
+            com.kunzisoft.keepass.activities.stylish.Stylish.retrieveEquivalentLightStyle(context,
+                tempThemeString)
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(context.getString(R.string.setting_style_key), tempThemeString)
                 .apply()
-        Stylish.load(context)
+        com.kunzisoft.keepass.activities.stylish.Stylish.load(context)
     }
 
     fun getStyleBrightness(context: Context): String? {
@@ -292,16 +268,16 @@ object PreferencesUtil {
         }
     }
 
-    fun getDefaultPassphraseWordCase(context: Context): PassphraseGenerator.WordCase {
+    fun getDefaultPassphraseWordCase(context: Context): com.kunzisoft.keepass.password.PassphraseGenerator.WordCase {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return PassphraseGenerator.WordCase
-            .getByOrdinal(prefs.getInt(context
+        return com.kunzisoft.keepass.password.PassphraseGenerator.WordCase.Companion.getByOrdinal(
+            prefs.getInt(context
                 .getString(R.string.passphrase_generator_word_case_key),
                 0)
-            )
+        )
     }
 
-    fun setDefaultPassphraseWordCase(context: Context, wordCase: PassphraseGenerator.WordCase) {
+    fun setDefaultPassphraseWordCase(context: Context, wordCase: com.kunzisoft.keepass.password.PassphraseGenerator.WordCase) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
             putInt(
                 context.getString(R.string.passphrase_generator_word_case_key),
@@ -414,45 +390,23 @@ object PreferencesUtil {
      */
     fun saveCurrentTime(context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
-            putLong(context.getString(R.string.timeout_backup_key), System.currentTimeMillis())
+            putLong(TIMEOUT_BACKUP_KEY, System.currentTimeMillis())
             apply()
-        }
-    }
-
-    /**
-     * Time previously saved in milliseconds (commonly used to compare with current time and check timeout)
-     */
-    fun getTimeSaved(context: Context): Long {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getLong(context.getString(R.string.timeout_backup_key),
-                TimeoutHelper.NEVER)
-    }
-
-    /**
-     * App timeout selected in milliseconds
-     */
-    fun getAppTimeout(context: Context): Long {
-        return try {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            (prefs.getString(context.getString(R.string.app_timeout_key),
-                    context.getString(R.string.timeout_default)) ?: "300000").toLong()
-        } catch (e: NumberFormatException) {
-            TimeoutHelper.DEFAULT_TIMEOUT
         }
     }
 
     fun getClipboardTimeout(context: Context): Long {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getString(context.getString(R.string.clipboard_timeout_key),
-                context.getString(R.string.clipboard_timeout_default))?.toLong()
-                ?: TimeoutHelper.DEFAULT_TIMEOUT
+            TIMEOUT_DEFAULT)?.toLong()
+                ?: com.kunzisoft.keepass.timeout.TimeoutHelper.DEFAULT_TIMEOUT
     }
 
     fun getAdvancedUnlockTimeout(context: Context): Long {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getString(context.getString(R.string.temp_advanced_unlock_timeout_key),
                 context.getString(R.string.temp_advanced_unlock_timeout_default))?.toLong()
-                ?: TimeoutHelper.DEFAULT_TIMEOUT
+                ?: com.kunzisoft.keepass.timeout.TimeoutHelper.DEFAULT_TIMEOUT
     }
 
     fun isLockDatabaseWhenScreenShutOffEnable(context: Context): Boolean {
@@ -500,7 +454,8 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
                 && (if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        AdvancedUnlockManager.biometricUnlockSupported(context)
+            com.kunzisoft.keepass.biometric.AdvancedUnlockManager.Companion.biometricUnlockSupported(
+                context)
                     } else {
                         false
                     })
@@ -593,13 +548,6 @@ object PreferencesUtil {
                 .apply()
     }
 
-    fun getIconPackSelectedId(context: Context): String? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(
-                context.getString(R.string.setting_icon_pack_choose_key),
-                context.getString(R.string.setting_icon_pack_choose_default))
-    }
-
     fun emptyPasswordAllowed(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.allow_no_password_key),
@@ -631,7 +579,9 @@ object PreferencesUtil {
     }
 
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
-        if (!MagikeyboardService.activatedInSettings(context))
+        if (!com.kunzisoft.keepass.magikeyboard.MagikeyboardService.Companion.activatedInSettings(
+                context)
+        )
             return false
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_save_search_info_key),
@@ -716,7 +666,7 @@ object PreferencesUtil {
     fun getDefaultApplicationIdBlocklist(resources: Resources?): Set<String> {
         return resources?.getStringArray(R.array.autofill_application_id_blocklist_default)
                 ?.toMutableSet()?.apply {
-                    add(BuildConfig.APPLICATION_ID)
+                    add(com.kunzisoft.keepass.BuildConfig.APPLICATION_ID)
                 } ?: emptySet()
     }
 
@@ -754,10 +704,12 @@ object PreferencesUtil {
 
     fun getAppProperties(context: Context): Properties {
         val properties = Properties()
-        for ((name, value) in PreferenceManager.getDefaultSharedPreferences(context).all) {
+        for ((name, value) in PreferenceManager.getDefaultSharedPreferences(
+            context).all) {
             properties[name] = value.toString()
         }
-        for ((name, value) in Education.getEducationSharedPreferences(context).all) {
+        for ((name, value) in com.kunzisoft.keepass.education.Education.Companion.getEducationSharedPreferences(
+            context).all) {
             properties[name] = value.toString()
         }
         return properties
@@ -780,7 +732,9 @@ object PreferencesUtil {
                 try {
                     putProperty(this, name as String, value as String)
                 } catch (e:Exception) {
-                    Log.e("PreferencesUtil", "Error when trying to parse app property $name=$value", e)
+                    Log.e("PreferencesUtil",
+                        "Error when trying to parse app property $name=$value",
+                        e)
                 }
             }
         }.apply()
@@ -788,7 +742,7 @@ object PreferencesUtil {
 
     fun setAppProperties(context: Context, properties: Properties) {
         putPropertiesInPreferences(properties,
-                PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->
+            PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->
             when (name) {
                 context.getString(R.string.allow_no_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.delete_entered_password_key) -> editor.putBoolean(name, value.toBoolean())
@@ -796,8 +750,8 @@ object PreferencesUtil {
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.subdomain_search_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.app_timeout_key) -> editor.putString(name, value.toLong().toString())
+                SUBDOMAIN_SEARCH_KEY -> editor.putBoolean(name, value.toBoolean())
+                APP_TIMEOUT_KEY -> editor.putString(name, value.toLong().toString())
                 context.getString(R.string.lock_database_screen_off_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_back_root_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
@@ -839,7 +793,7 @@ object PreferencesUtil {
 
                 context.getString(R.string.setting_style_key) -> setStyle(context, value)
                 context.getString(R.string.setting_style_brightness_key) -> editor.putString(name, value)
-                context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
+                SETTING_ICON_PACK_CHOOSE_KEY -> editor.putString(name, value)
                 context.getString(R.string.show_entry_colors_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.colorize_password_key) -> editor.putBoolean(name, value.toBoolean())
@@ -849,7 +803,7 @@ object PreferencesUtil {
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                HIDE_EXPIRED_ENTRIES_KEY -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 
                 context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())
@@ -869,8 +823,13 @@ object PreferencesUtil {
         }
 
         putPropertiesInPreferences(properties,
-                Education.getEducationSharedPreferences(context)) { editor, name, value ->
-            Education.putPropertiesInEducationPreferences(context, editor, name, value)
+            Education.getEducationSharedPreferences(
+                context)) { editor, name, value ->
+            Education.putPropertiesInEducationPreferences(
+                context,
+                editor,
+                name,
+                value)
         }
     }
 }

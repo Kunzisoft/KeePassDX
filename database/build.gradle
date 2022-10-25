@@ -1,7 +1,7 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-}
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 32
@@ -16,6 +16,13 @@ android {
         consumerProguardFiles "consumer-rules.pro"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
+
+        kapt {
+            arguments {
+                arg("room.incremental", "true")
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
 
     buildTypes {
@@ -33,6 +40,8 @@ android {
     }
 }
 
+def room_version = "2.4.3"
+
 dependencies {
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
@@ -46,6 +55,10 @@ dependencies {
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
+
+    // Database
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     implementation project(path: ':crypto')
 

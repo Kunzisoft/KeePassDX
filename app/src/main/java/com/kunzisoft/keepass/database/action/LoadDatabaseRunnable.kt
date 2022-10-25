@@ -21,30 +21,29 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UriUtil
 
-class LoadDatabaseRunnable(private val context: Context,
-                           private val mDatabase: Database,
-                           private val mDatabaseUri: Uri,
-                           private val mMainCredential: MainCredential,
-                           private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,
-                           private val mReadonly: Boolean,
-                           private val mCipherEncryptDatabase: CipherEncryptDatabase?,
-                           private val mFixDuplicateUUID: Boolean,
-                           private val progressTaskUpdater: ProgressTaskUpdater?,
-                           private val mLoadDatabaseResult: ((Result) -> Unit)?)
-    : ActionRunnable() {
+class LoadDatabaseRunnable(
+    private val context: Context,
+    private val mDatabase: Database,
+    private val mDatabaseUri: Uri,
+    private val mMainCredential: MainCredential,
+    private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,
+    private val mReadonly: Boolean,
+    private val mCipherEncryptDatabase: CipherEncryptDatabase?,
+    private val mFixDuplicateUUID: Boolean,
+    private val progressTaskUpdater: ProgressTaskUpdater?,
+    private val mLoadDatabaseResult: ((Result) -> Unit)?,
+) : ActionRunnable() {
 
     override fun onStartRun() {
         // Clear before we load
@@ -59,15 +58,14 @@ class LoadDatabaseRunnable(private val context: Context,
                 mMainCredential,
                 mChallengeResponseRetriever,
                 mReadonly,
-                UriUtil.getBinaryDir(context),
+                com.kunzisoft.keepass.utils.UriUtilDatabase.getBinaryDir(context),
                 { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
                 mFixDuplicateUUID,
                 progressTaskUpdater
             )
-        }
-        catch (e: DatabaseInputException) {
+        } catch (e: DatabaseInputException) {
             setError(e)
         }
 
@@ -75,17 +73,17 @@ class LoadDatabaseRunnable(private val context: Context,
             // Save keyFile in app database
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context)
-                        .addOrUpdateDatabaseUri(
-                            mDatabaseUri,
-                            if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null,
-                            if (PreferencesUtil.rememberHardwareKey(context)) mMainCredential.hardwareKey else null,
-                        )
+                    .addOrUpdateDatabaseUri(
+                        mDatabaseUri,
+                        if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null,
+                        if (PreferencesUtil.rememberHardwareKey(context)) mMainCredential.hardwareKey else null,
+                    )
             }
 
             // Register the biometric
             mCipherEncryptDatabase?.let { cipherDatabase ->
-                CipherDatabaseAction.getInstance(context)
-                        .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
+                com.kunzisoft.keepass.app.database.CipherDatabaseAction.getInstance(context)
+                    .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
             }
 
             // Register the current time to init the lock timer

@@ -78,7 +78,8 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
         private const val NEW_FILE_DATABASE_INFO = "NEW_FILE_DATABASE_INFO"
 
         fun getInstance(oldSnapFileDatabaseInfo: SnapFileDatabaseInfo,
-                        newSnapFileDatabaseInfo: SnapFileDatabaseInfo)
+                        newSnapFileDatabaseInfo: SnapFileDatabaseInfo
+        )
         : DatabaseChangedDialogFragment {
             val fragment = DatabaseChangedDialogFragment()
             fragment.arguments = Bundle().apply {

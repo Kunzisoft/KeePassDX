@@ -21,13 +21,6 @@ android {
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
         manifestPlaceholders = [ googleAndroidBackupAPIKey:"unused" ]
-
-        kapt {
-            arguments {
-                arg("room.incremental", "true")
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-            }
-        }
     }
 
     buildTypes {

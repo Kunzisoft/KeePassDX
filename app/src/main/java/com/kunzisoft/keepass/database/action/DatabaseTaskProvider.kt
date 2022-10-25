@@ -1,33 +1,18 @@
-/*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *
- * This file is part of KeePassDX.
- *
- *  KeePassDX is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  KeePassDX is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 package com.kunzisoft.keepass.database.action
 
+import android.app.AlertDialog
 import android.app.Service
-import android.content.*
-import android.content.Context.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -87,8 +72,9 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.viewmodels.ChallengeResponseViewModel
+import java.util.ArrayList
+import java.util.UUID
 import kotlinx.coroutines.launch
-import java.util.*
 
 /**
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
@@ -103,7 +89,8 @@ class DatabaseTaskProvider {
 
     var onActionFinish: ((database: Database,
                           actionTask: String,
-                          result: ActionRunnable.Result) -> Unit)? = null
+                          result: ActionRunnable.Result
+    ) -> Unit)? = null
 
     private var intentDatabaseTask: Intent
 
@@ -177,7 +164,8 @@ class DatabaseTaskProvider {
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(database: Database,
-                                   progressMessage: ProgressMessage) {
+                                   progressMessage: ProgressMessage
+        ) {
             startDialog(progressMessage)
         }
 
@@ -188,7 +176,8 @@ class DatabaseTaskProvider {
 
         override fun onStopAction(database: Database,
                                   actionTask: String,
-                                  result: ActionRunnable.Result) {
+                                  result: ActionRunnable.Result
+        ) {
             onActionFinish?.invoke(database, actionTask, result)
             // Remove the progress task
             stopDialog()
@@ -310,7 +299,7 @@ class DatabaseTaskProvider {
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
-            context.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_IMPORTANT or BIND_ABOVE_CLIENT)
+            context.bindService(intentDatabaseTask, it, Context.BIND_AUTO_CREATE or Context.BIND_IMPORTANT or Context.BIND_ABOVE_CLIENT)
         }
     }
 
