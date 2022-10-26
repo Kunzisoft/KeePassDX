@@ -251,7 +251,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                     setOnPreferenceChangeListener { _, newValue ->
                         val templatesEnabled = newValue as Boolean
                         database.enableTemplates(templatesEnabled,
-                            TemplateEngine.getDefaultTemplateGroupName(resources)
+                            resources.getString(R.string.templates)
                         )
                         refreshTemplatesGroup(database)
                         // Save the database if not in readonly mode

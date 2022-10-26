@@ -211,10 +211,6 @@ abstract class TemplateEngine(private val mDatabase: DatabaseKDBX) {
                     IconImage(IconImageStandard(IconImageStandard.BUILD_ID)),
                     sections)
             }
-
-        fun getDefaultTemplateGroupName(resources: Resources): String {
-            return resources.getString(R.string.templates)
-        }
         
         fun getDefaults(): List<Template> {
             val templateBuilder = TemplateBuilder()
