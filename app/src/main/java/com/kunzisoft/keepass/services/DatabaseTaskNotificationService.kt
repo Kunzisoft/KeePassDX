@@ -39,7 +39,8 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.toCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -646,9 +647,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    override fun updateMessage(resId: Int) {
+    fun updateMessage(resId: Int) {
         mProgressMessage.messageId = resId
         notifyProgressMessage()
+    }
+
+    override fun updateMessageRetrievingDBKey() {
+        updateMessage(R.string.retrieving_db_key)
+    }
+
+    override fun updateMessageDecryptingDB() {
+        updateMessage(R.string.decrypting_db)
     }
 
     override fun actionOnLock() {
@@ -1110,8 +1119,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
 
-            val oldElement: CompressionAlgorithm? = intent.getParcelableExtra(OLD_ELEMENT_KEY)
-            val newElement: CompressionAlgorithm? = intent.getParcelableExtra(NEW_ELEMENT_KEY)
+            val oldElement: NamedCompressionAlgorithm? = intent.getParcelableExtra(OLD_ELEMENT_KEY)
+            val newElement: NamedCompressionAlgorithm? = intent.getParcelableExtra(NEW_ELEMENT_KEY)
 
             if (oldElement == null
                 || newElement == null
@@ -1120,8 +1129,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             return UpdateCompressionBinariesDatabaseRunnable(this,
                 database,
-                oldElement,
-                newElement,
+                oldElement.toCompressionAlgorithm(),
+                newElement.toCompressionAlgorithm(),
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)

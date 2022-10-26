@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -615,8 +615,8 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_UPDATE_COLOR_TASK)
     }
 
-    fun startDatabaseSaveCompression(oldCompression: CompressionAlgorithm,
-                                     newCompression: CompressionAlgorithm,
+    fun startDatabaseSaveCompression(oldCompression: NamedCompressionAlgorithm,
+                                     newCompression: NamedCompressionAlgorithm,
                                      save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldCompression)

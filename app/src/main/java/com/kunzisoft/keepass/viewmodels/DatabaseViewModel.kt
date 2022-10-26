@@ -7,7 +7,7 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseViewModel: ViewModel() {
@@ -119,8 +119,8 @@ class DatabaseViewModel: ViewModel() {
         _saveColor.value = SuperString(oldValue, newValue, save)
     }
 
-    fun saveCompression(oldValue: CompressionAlgorithm,
-                        newValue: CompressionAlgorithm,
+    fun saveCompression(oldValue: NamedCompressionAlgorithm,
+                        newValue: NamedCompressionAlgorithm,
                         save: Boolean) {
         _saveCompression.value = SuperCompression(oldValue, newValue, save)
     }
@@ -196,8 +196,8 @@ class DatabaseViewModel: ViewModel() {
     data class SuperLong(val oldValue: Long,
                          val newValue: Long,
                          val save: Boolean)
-    data class SuperCompression(val oldValue: CompressionAlgorithm,
-                                val newValue: CompressionAlgorithm,
+    data class SuperCompression(val oldValue: NamedCompressionAlgorithm,
+                                val newValue: NamedCompressionAlgorithm,
                                 val save: Boolean)
     data class SuperEncryption(val oldValue: EncryptionAlgorithm,
                                val newValue: EncryptionAlgorithm,

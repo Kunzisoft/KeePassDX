@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="compression_none">None</string>
-    <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
     <string name="templates">Templates</string>
-
-    <string name="retrieving_db_key">Retrieving database key…</string>
-    <string name="decrypting_db">Decrypting database content…</string>
-
 </resources>

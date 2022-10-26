@@ -308,7 +308,8 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
     }
 
     fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
-                                    newCompression: CompressionAlgorithm) {
+                                    newCompression: CompressionAlgorithm
+    ) {
         mDatabaseKDBX?.changeBinaryCompression(oldCompression, newCompression)
         dataModifiedSinceLastLoading = true
     }
