@@ -1050,6 +1050,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             DeleteNodesRunnable(this,
                 database,
                 getListNodesFromBundle(database, intent.extras!!),
+                resources.getString(R.string.recycle_bin),
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                 AfterActionNodesRunnable()
             ) { hardwareKey, seed ->

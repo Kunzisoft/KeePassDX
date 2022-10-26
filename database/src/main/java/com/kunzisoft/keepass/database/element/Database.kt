@@ -466,10 +466,10 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         // Backup is always enabled in KDB database
         get() = mDatabaseKDB != null || mDatabaseKDBX?.isRecycleBinEnabled ?: false
 
-    fun enableRecycleBin(enable: Boolean, resources: Resources) {
+    fun enableRecycleBin(enable: Boolean, recyclerBinTitle: String) {
         mDatabaseKDBX?.isRecycleBinEnabled = enable
         if (enable) {
-            ensureRecycleBinExists(resources)
+            ensureRecycleBinExists(recyclerBinTitle)
         } else {
             mDatabaseKDBX?.removeRecycleBin()
         }
@@ -1221,9 +1221,9 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
                 })
     }
 
-    fun ensureRecycleBinExists(resources: Resources) {
+    fun ensureRecycleBinExists(recyclerBinTitle: String) {
         mDatabaseKDB?.ensureBackupExists()
-        mDatabaseKDBX?.ensureRecycleBinExists(resources)
+        mDatabaseKDBX?.ensureRecycleBinExists(recyclerBinTitle)
     }
 
     fun canRecycle(entry: Entry): Boolean {
@@ -1248,8 +1248,8 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         return canRecycle ?: false
     }
 
-    fun recycle(entry: Entry, resources: Resources) {
-        ensureRecycleBinExists(resources)
+    fun recycle(entry: Entry, recyclerBinTitle: String) {
+        ensureRecycleBinExists(recyclerBinTitle)
         entry.parent?.let { parent ->
             removeEntryFrom(entry, parent)
         }
@@ -1259,8 +1259,8 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         entry.afterAssignNewParent()
     }
 
-    fun recycle(group: Group, resources: Resources) {
-        ensureRecycleBinExists(resources)
+    fun recycle(group: Group, recyclerBinTitle: String) {
+        ensureRecycleBinExists(recyclerBinTitle)
         group.parent?.let { parent ->
             removeGroupFrom(group, parent)
         }

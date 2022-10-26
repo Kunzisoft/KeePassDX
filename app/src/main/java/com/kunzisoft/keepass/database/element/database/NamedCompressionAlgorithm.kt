@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element.database
 import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.R
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum

@@ -217,7 +217,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                 isEnabled = if (!mDatabaseReadOnly) {
                     setOnPreferenceChangeListener { _, newValue ->
                         val recycleBinEnabled = newValue as Boolean
-                        database.enableRecycleBin(recycleBinEnabled, resources)
+                        database.enableRecycleBin(recycleBinEnabled, resources.getString(R.string.recycle_bin))
                         refreshRecycleBinGroup(database)
                         // Save the database if not in readonly mode
                         saveDatabase(mDatabaseAutoSaveEnabled)

@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 class DeleteNodesRunnable(context: Context,
                           database: Database,
                           private val mNodesToDelete: List<Node>,
+                          private val recyclerBinTitle: String,
                           save: Boolean,
                           afterActionNodesFinish: AfterActionNodesFinish,
                           challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
@@ -54,7 +55,7 @@ class DeleteNodesRunnable(context: Context,
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(groupToDelete)
                     if (mCanRecycle) {
-                        database.recycle(groupToDelete, context.resources)
+                        database.recycle(groupToDelete, recyclerBinTitle)
                         groupToDelete.setPreviousParentGroup(mOldParent)
                         groupToDelete.touch(modified = true, touchParents = true)
                     } else {
@@ -68,7 +69,7 @@ class DeleteNodesRunnable(context: Context,
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(entryToDelete)
                     if (mCanRecycle) {
-                        database.recycle(entryToDelete, context.resources)
+                        database.recycle(entryToDelete, recyclerBinTitle)
                         entryToDelete.setPreviousParentGroup(mOldParent)
                         entryToDelete.touch(modified = true, touchParents = true)
                     } else {

@@ -753,15 +753,15 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
      * Ensure that the recycle bin tree exists, if enabled and create it
      * if it doesn't exist
      */
-    fun ensureRecycleBinExists(resources: Resources) {
+    fun ensureRecycleBinExists(recyclerBinTitle: String) {
         if (recycleBin == null) {
             // Create recycle bin only if a group with a valid name don't already exists
             val firstGroupWithValidName = getGroupIndexes().firstOrNull {
-                it.title == resources.getString(R.string.recycle_bin)
+                it.title == recyclerBinTitle
             }
             val recycleBinGroup = if (firstGroupWithValidName == null) {
                 val newRecycleBinGroup = createGroup().apply {
-                    title = resources.getString(R.string.recycle_bin)
+                    title = recyclerBinTitle
                     icon.standard = getStandardIcon(IconImageStandard.TRASH_ID)
                     enableAutoType = false
                     enableSearching = false
