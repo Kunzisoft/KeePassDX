@@ -32,7 +32,6 @@ import android.widget.RemoteViews
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
-import com.kunzisoft.keepass.database.R
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -96,7 +95,7 @@ class IconDrawableFactory(
             return SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor),
                 iconPack.tintable())
         } ?: run {
-            return SuperDrawable(PatternIcon(context.resources).blankDrawable)
+            return SuperDrawable(PatternIcon(iconPackChooser.getDefaultIconSize()).blankDrawable)
         }
     }
 
@@ -108,7 +107,7 @@ class IconDrawableFactory(
         icon: IconImageCustom,
         iconCustomBinary: BinaryData?,
     ): Drawable? {
-        val patternIcon = PatternIcon(resources)
+        val patternIcon = PatternIcon(iconPackChooser.getDefaultIconSize())
         val binaryManager = retrieveBinaryCache()
         if (binaryManager != null) {
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
@@ -161,7 +160,7 @@ class IconDrawableFactory(
         }
 
         if (draw == null) {
-            draw = PatternIcon(resources).blankDrawable
+            draw = PatternIcon(iconPackChooser.getDefaultIconSize()).blankDrawable
         }
         draw.isFilterBitmap = false
 
@@ -277,15 +276,15 @@ class IconDrawableFactory(
      * Build a blankDrawable drawable
      * @param res Resource to build the drawable
      */
-    private class PatternIcon(res: Resources) {
+    private class PatternIcon(defaultIconSize : Int) {
 
         var blankDrawable: Drawable = ColorDrawable(Color.TRANSPARENT)
         var width = -1
         var height = -1
 
         init {
-            width = res.getDimension(R.dimen.icon_size).toInt()
-            height = res.getDimension(R.dimen.icon_size).toInt()
+            width = defaultIconSize
+            height = defaultIconSize
             blankDrawable.setBounds(0, 0, width, height)
         }
     }

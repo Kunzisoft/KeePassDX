@@ -9,4 +9,6 @@ interface InterfaceIconPackChooser {
     fun setSelectedIconPack(iconPackIdString: String?)
     fun getSelectedIconPack(context: Context): IconPack?
     fun getIconPackList(context: Context): List<IconPack>
+    fun setDefaultIconSize(int: Int)
+    fun getDefaultIconSize(): Int
 }

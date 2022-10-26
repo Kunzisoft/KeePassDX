@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.DatabasePreferencesUtil
 import java.util.ArrayList
 
@@ -17,6 +18,7 @@ object IconPackChooser : InterfaceIconPackChooser {
 
     private val iconPackList = ArrayList<IconPack>()
     private var iconPackSelected: IconPack? = null
+    private var defaultIconSize: Int? = null
 
     private var isIconPackChooserBuilt: Boolean = false
 
@@ -42,6 +44,9 @@ object IconPackChooser : InterfaceIconPackChooser {
                 if (iconPackList.isEmpty()) {
                     Log.e(TAG, "Icon packs can't be load, retry with one by default")
                     addDefaultIconPack(context)
+                }
+                if(defaultIconSize == null) {
+                    setDefaultIconSize(context.resources.getDimension(R.dimen.icon_size).toInt())
                 }
             }
         }
@@ -104,5 +109,13 @@ object IconPackChooser : InterfaceIconPackChooser {
     override fun getIconPackList(context: Context): List<IconPack> {
         build(context)
         return iconPackList
+    }
+
+    override fun setDefaultIconSize(size: Int) {
+        defaultIconSize = size
+    }
+
+    override fun getDefaultIconSize(): Int {
+        return defaultIconSize!!
     }
 }
