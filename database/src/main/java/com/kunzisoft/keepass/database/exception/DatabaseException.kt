@@ -19,9 +19,6 @@
  */
 package com.kunzisoft.keepass.database.exception
 
-import android.content.res.Resources
-import androidx.annotation.StringRes
-import com.kunzisoft.keepass.database.R
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import java.io.PrintStream
@@ -30,7 +27,6 @@ import java.io.PrintWriter
 abstract class DatabaseException : Exception {
 
     var innerMessage: String? = null
-    abstract var errorId: Int
     var parameters: (Array<out String>)? = null
     var mThrowable: Throwable? = null
 
@@ -46,25 +42,10 @@ abstract class DatabaseException : Exception {
             }
         }.toString()
     }
+
     constructor(throwable: Throwable) {
         mThrowable = throwable
         innerMessage = throwable.localizedMessage
-    }
-
-    fun getLocalizedMessage(resources: Resources): String {
-        val throwable = mThrowable
-        if (throwable is DatabaseException)
-            errorId = throwable.errorId
-        val localMessage = parameters?.let {
-            resources.getString(errorId, *it)
-        } ?: resources.getString(errorId)
-        return StringBuilder().apply {
-            append(localMessage)
-            if (innerMessage != null) {
-                append(" ")
-                append(innerMessage)
-            }
-        }.toString()
     }
 
     override fun printStackTrace() {
@@ -83,116 +64,62 @@ abstract class DatabaseException : Exception {
     }
 }
 
-class FileNotFoundDatabaseException : DatabaseInputException() {
-    @StringRes
-    override var errorId: Int = R.string.file_not_found_content
-}
+class FileNotFoundDatabaseException : DatabaseInputException()
 
-class CorruptedDatabaseException : DatabaseInputException() {
-    @StringRes
-    override var errorId: Int = R.string.corrupted_file
-}
+class CorruptedDatabaseException : DatabaseInputException()
 
 class InvalidAlgorithmDatabaseException : DatabaseInputException {
-    @StringRes
-    override var errorId: Int = R.string.invalid_algorithm
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class UnknownDatabaseLocationException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_location_unknown
-}
+class UnknownDatabaseLocationException : DatabaseException()
 
-class HardwareKeyDatabaseException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_hardware_key_unsupported
-}
+class HardwareKeyDatabaseException : DatabaseException()
 
-class EmptyKeyDatabaseException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_empty_key
-}
+class EmptyKeyDatabaseException : DatabaseException()
 
-class SignatureDatabaseException : DatabaseInputException() {
-    @StringRes
-    override var errorId: Int = R.string.invalid_db_sig
-}
+class SignatureDatabaseException : DatabaseInputException()
 
-class VersionDatabaseException : DatabaseInputException() {
-    @StringRes
-    override var errorId: Int = R.string.unsupported_db_version
-}
+class VersionDatabaseException : DatabaseInputException()
 
 class InvalidCredentialsDatabaseException : DatabaseInputException {
-    @StringRes
-    override var errorId: Int = R.string.invalid_credentials
     constructor() : super()
     constructor(string: String) : super(string)
 }
 
-class KDFMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception) {
-    @StringRes
-    override var errorId: Int = R.string.error_load_database_KDF_memory
-}
+class KDFMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
 
-class NoMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception) {
-    @StringRes
-    override var errorId: Int = R.string.error_out_of_memory
-}
+class NoMemoryDatabaseException(exception: Throwable) : DatabaseInputException(exception)
 
 class DuplicateUuidDatabaseException(type: Type, uuid: NodeId<*>) : DatabaseInputException() {
-    @StringRes
-    override var errorId: Int = R.string.invalid_db_same_uuid
     init {
         parameters = arrayOf(type.name, uuid.toString())
     }
 }
 
 class XMLMalformedDatabaseException : DatabaseInputException {
-    @StringRes
-    override var errorId: Int = R.string.error_XML_malformed
     constructor() : super()
     constructor(string: String) : super(string)
 }
 
-class MergeDatabaseKDBException : DatabaseInputException() {
-    @StringRes
-    override var errorId: Int = R.string.error_unable_merge_database_kdb
-}
+class MergeDatabaseKDBException : DatabaseInputException()
 
-class MoveEntryDatabaseException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_move_entry_here
-}
+class MoveEntryDatabaseException : DatabaseException()
 
-class MoveGroupDatabaseException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_move_group_here
-}
+class MoveGroupDatabaseException : DatabaseException()
 
-class CopyEntryDatabaseException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_copy_entry_here
-}
+class CopyEntryDatabaseException : DatabaseException()
 
-class CopyGroupDatabaseException : DatabaseException() {
-    @StringRes
-    override var errorId: Int = R.string.error_copy_group_here
-}
+class CopyGroupDatabaseException : DatabaseException()
 
 open class DatabaseInputException : DatabaseException {
-    @StringRes
-    override var errorId: Int = R.string.error_load_database
     constructor() : super()
     constructor(string: String) : super(string)
     constructor(throwable: Throwable) : super(throwable)
 }
 
 open class DatabaseOutputException : DatabaseException {
-    @StringRes
-    override var errorId: Int = R.string.error_save_database
     constructor(string: String) : super(string)
     constructor(string: String, e: Exception) : super(string, e)
     constructor(e: Exception) : super(e)

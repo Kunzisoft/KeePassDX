@@ -54,6 +54,7 @@ import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.kunzisoft.keepass.database.exception.getLocalizedMessage
 
 
 /**
@@ -226,8 +227,8 @@ fun View.updateLockPaddingLeft() {
 
 fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.errorId?.let { errorId ->
-            Toast.makeText(this, errorId, Toast.LENGTH_LONG).show()
+        result.exception?.let { exception ->
+            Toast.makeText(this, exception.getLocalizedMessage(resources), Toast.LENGTH_LONG).show()
         } ?: result.message?.let { message ->
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
@@ -236,8 +237,8 @@ fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
 
 fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.errorId?.let { errorId ->
-            Snackbar.make(this, errorId, Snackbar.LENGTH_LONG).asError().show()
+        result.exception?.let { exception ->
+            Snackbar.make(this, exception.getLocalizedMessage(resources), Snackbar.LENGTH_LONG).asError().show()
         } ?: result.message?.let { message ->
             Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
         }
