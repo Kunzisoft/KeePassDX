@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.file.input
 
 import android.util.Log
-import com.kunzisoft.keepass.database.R
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater

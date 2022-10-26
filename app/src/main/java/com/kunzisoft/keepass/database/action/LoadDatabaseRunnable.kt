@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.MainCredential
@@ -31,6 +32,7 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.UriUtilDatabase
 
 class LoadDatabaseRunnable(
     private val context: Context,
@@ -58,7 +60,7 @@ class LoadDatabaseRunnable(
                 mMainCredential,
                 mChallengeResponseRetriever,
                 mReadonly,
-                com.kunzisoft.keepass.utils.UriUtilDatabase.getBinaryDir(context),
+                UriUtilDatabase.getBinaryDir(context),
                 { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
@@ -82,7 +84,7 @@ class LoadDatabaseRunnable(
 
             // Register the biometric
             mCipherEncryptDatabase?.let { cipherDatabase ->
-                com.kunzisoft.keepass.app.database.CipherDatabaseAction.getInstance(context)
+                CipherDatabaseAction.getInstance(context)
                     .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
             }
 

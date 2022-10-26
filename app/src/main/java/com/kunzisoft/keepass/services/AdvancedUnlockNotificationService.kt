@@ -10,8 +10,10 @@ import android.net.Uri
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 class AdvancedUnlockNotificationService : NotificationService() {
 
@@ -45,7 +47,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
     }
 
     override fun retrieveChannelName(): String {
-        return getString(com.kunzisoft.keepass.R.string.advanced_unlock)
+        return getString(R.string.advanced_unlock)
     }
 
     override fun onCreate() {
@@ -70,12 +72,12 @@ class AdvancedUnlockNotificationService : NotificationService() {
         val biometricUnlockEnabled = PreferencesUtil.isBiometricUnlockEnable(this)
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(if (biometricUnlockEnabled) {
-                com.kunzisoft.keepass.R.drawable.notification_ic_fingerprint_unlock_24dp
+                R.drawable.notification_ic_fingerprint_unlock_24dp
             } else {
-                com.kunzisoft.keepass.R.drawable.notification_ic_device_unlock_24dp
+                R.drawable.notification_ic_device_unlock_24dp
             })
-            setContentTitle(getString(com.kunzisoft.keepass.R.string.advanced_unlock))
-            setContentText(getString(com.kunzisoft.keepass.R.string.advanced_unlock_tap_delete))
+            setContentTitle(getString(R.string.advanced_unlock))
+            setContentText(getString(R.string.advanced_unlock_tap_delete))
             setContentIntent(pendingDeleteIntent)
             // Unfortunately swipe is disabled in lollipop+
             setDeleteIntent(pendingDeleteIntent)
@@ -83,7 +85,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
 
         val notificationTimeoutMilliSecs = PreferencesUtil.getAdvancedUnlockTimeout(this)
         // Not necessarily a foreground service
-        if (mTimerJob == null && notificationTimeoutMilliSecs != com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER) {
+        if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
             defineTimerJob(notificationBuilder, notificationTimeoutMilliSecs) {
                 sendBroadcast(Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION))
             }

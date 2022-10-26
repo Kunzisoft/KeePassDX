@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.hardware.HardwareKey
@@ -53,7 +54,7 @@ open class AssignMainCredentialInDatabaseRunnable (
         super.onFinishRun()
 
         // Erase the biometric
-        com.kunzisoft.keepass.app.database.CipherDatabaseAction.getInstance(context)
+        CipherDatabaseAction.getInstance(context)
                 .deleteByDatabaseUri(mDatabaseUri)
         // Erase the register keyfile
         FileDatabaseHistoryAction.getInstance(context)

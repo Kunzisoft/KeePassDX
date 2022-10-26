@@ -1008,7 +1008,7 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
     }
 
     fun clearAndClose(context: Context? = null) {
-        clearIndexesAndBinaries(context?.let { com.kunzisoft.keepass.utils.UriUtilDatabase.getBinaryDir(context) })
+        clearIndexesAndBinaries(context?.let { UriUtilDatabase.getBinaryDir(context) })
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null

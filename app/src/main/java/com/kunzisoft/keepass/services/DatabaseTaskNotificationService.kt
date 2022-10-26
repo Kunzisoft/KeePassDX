@@ -421,8 +421,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             when (intentAction) {
                                 ACTION_DATABASE_LOAD_TASK,
                                 ACTION_DATABASE_MERGE_TASK,
-                                ACTION_DATABASE_RELOAD_TASK,
-                                -> {
+                                ACTION_DATABASE_RELOAD_TASK, -> {
                                     saveDatabaseInfo()
                                 }
                             }
@@ -501,11 +500,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
                 ACTION_DATABASE_LOAD_TASK,
                 ACTION_DATABASE_MERGE_TASK,
-                ACTION_DATABASE_RELOAD_TASK,
-                -> R.string.loading_database
+                ACTION_DATABASE_RELOAD_TASK, -> R.string.loading_database
                 ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
-                ACTION_DATABASE_SAVE,
-                -> R.string.saving_database
+                ACTION_DATABASE_SAVE, -> R.string.saving_database
                 else -> {
                     if (mSaveState)
                         R.string.saving_database
@@ -1216,8 +1213,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
 
-        private const val CHANNEL_DATABASE_ID =
-            "com.kunzisoft.keepass.notification.channel.database"
+        private const val CHANNEL_DATABASE_ID = "com.kunzisoft.keepass.notification.channel.database"
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
@@ -1234,30 +1230,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_RESTORE_ENTRY_HISTORY = "ACTION_DATABASE_RESTORE_ENTRY_HISTORY"
         const val ACTION_DATABASE_DELETE_ENTRY_HISTORY = "ACTION_DATABASE_DELETE_ENTRY_HISTORY"
         const val ACTION_DATABASE_UPDATE_NAME_TASK = "ACTION_DATABASE_UPDATE_NAME_TASK"
-        const val ACTION_DATABASE_UPDATE_DESCRIPTION_TASK =
-            "ACTION_DATABASE_UPDATE_DESCRIPTION_TASK"
-        const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK =
-            "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"
+        const val ACTION_DATABASE_UPDATE_DESCRIPTION_TASK = "ACTION_DATABASE_UPDATE_DESCRIPTION_TASK"
+        const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"
         const val ACTION_DATABASE_UPDATE_COLOR_TASK = "ACTION_DATABASE_UPDATE_COLOR_TASK"
-        const val ACTION_DATABASE_UPDATE_COMPRESSION_TASK =
-            "ACTION_DATABASE_UPDATE_COMPRESSION_TASK"
-        const val ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK =
-            "ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK"
-        const val ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK =
-            "ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK"
-        const val ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK =
-            "ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK"
-        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK =
-            "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
-        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK =
-            "ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
+        const val ACTION_DATABASE_UPDATE_COMPRESSION_TASK = "ACTION_DATABASE_UPDATE_COMPRESSION_TASK"
+        const val ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK = "ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK"
+        const val ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK = "ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK"
+        const val ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK = "ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK"
+        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
+        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK ="ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
         const val ACTION_DATABASE_UPDATE_ENCRYPTION_TASK = "ACTION_DATABASE_UPDATE_ENCRYPTION_TASK"
-        const val ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK =
-            "ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK"
-        const val ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK =
-            "ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK"
-        const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK =
-            "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
+        const val ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK ="ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK"
+        const val ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK ="ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK"
+        const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK ="ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
 
@@ -1281,10 +1266,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val SAVE_DATABASE_KEY = "SAVE_DATABASE_KEY"
         const val OLD_NODES_KEY = "OLD_NODES_KEY"
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
-        const val OLD_ELEMENT_KEY =
-            "OLD_ELEMENT_KEY" // Warning type of this thing change every time
-        const val NEW_ELEMENT_KEY =
-            "NEW_ELEMENT_KEY" // Warning type of this thing change every time
+        const val OLD_ELEMENT_KEY ="OLD_ELEMENT_KEY" // Warning type of this thing change every time
+        const val NEW_ELEMENT_KEY ="NEW_ELEMENT_KEY" // Warning type of this thing change every time
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()

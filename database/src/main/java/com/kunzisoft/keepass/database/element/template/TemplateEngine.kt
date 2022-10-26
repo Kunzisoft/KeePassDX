@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.database.element.template
 import android.content.res.Resources
 import android.graphics.Color
 import android.util.Log
-import com.kunzisoft.keepass.database.R
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX

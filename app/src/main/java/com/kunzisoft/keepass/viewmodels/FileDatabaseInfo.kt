@@ -1,8 +1,29 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.viewmodels
 
 import android.content.Context
 import android.net.Uri
 import android.text.format.Formatter
+import androidx.documentfile.provider.DocumentFile
+import com.kunzisoft.keepass.utils.UriUtil
 import java.io.Serializable
 import java.text.DateFormat
 import java.util.Date
@@ -10,7 +31,7 @@ import java.util.Date
 class FileDatabaseInfo : Serializable {
 
     private var context: Context
-    private var documentFile: androidx.documentfile.provider.DocumentFile? = null
+    private var documentFile: DocumentFile? = null
     var fileUri: Uri?
         private set
 
@@ -22,16 +43,16 @@ class FileDatabaseInfo : Serializable {
 
     constructor(context: Context, filePath: String) {
         this.context = context
-        this.fileUri = com.kunzisoft.keepass.utils.UriUtil.parse(filePath)
+        this.fileUri = UriUtil.parse(filePath)
         init()
     }
 
     fun init() {
         // Check permission
         fileUri?.let { uri ->
-            com.kunzisoft.keepass.utils.UriUtil.takeUriPermission(context.contentResolver, uri)
+            UriUtil.takeUriPermission(context.contentResolver, uri)
         }
-        documentFile = com.kunzisoft.keepass.utils.UriUtil.getFileData(context, fileUri)
+        documentFile = UriUtil.getFileData(context, fileUri)
     }
 
     var exists: Boolean = false

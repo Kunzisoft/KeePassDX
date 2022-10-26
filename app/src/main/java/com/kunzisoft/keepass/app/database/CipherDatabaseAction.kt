@@ -1,3 +1,22 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.app.database
 
 import android.content.ComponentName
@@ -9,6 +28,7 @@ import android.os.IBinder
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
 import java.util.LinkedList
@@ -17,17 +37,16 @@ class CipherDatabaseAction(context: Context) {
 
     private val applicationContext = context.applicationContext
     private val cipherDatabaseDao =
-            AppDatabase.getDatabase(applicationContext)
-                    .cipherDatabaseDao()
+        AppDatabase.getDatabase(applicationContext).cipherDatabaseDao()
 
     // Temp DAO to easily remove content if object no longer in memory
     private var useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
 
-    private var mBinder: com.kunzisoft.keepass.services.AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
+    private var mBinder: AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
 
     private var mDatabaseListeners = LinkedList<CipherDatabaseListener>()
-    private var mAdvancedUnlockBroadcastReceiver = com.kunzisoft.keepass.services.AdvancedUnlockNotificationService.AdvancedUnlockReceiver {
+    private var mAdvancedUnlockBroadcastReceiver = AdvancedUnlockNotificationService.AdvancedUnlockReceiver {
         deleteAll()
         removeAllDataAndDetach()
     }
@@ -49,12 +68,12 @@ class CipherDatabaseAction(context: Context) {
     @Synchronized
     private fun attachService(performedAction: () -> Unit) {
         applicationContext.registerReceiver(mAdvancedUnlockBroadcastReceiver, IntentFilter().apply {
-            addAction(com.kunzisoft.keepass.services.AdvancedUnlockNotificationService.REMOVE_ADVANCED_UNLOCK_KEY_ACTION)
+            addAction(AdvancedUnlockNotificationService.REMOVE_ADVANCED_UNLOCK_KEY_ACTION)
         })
 
         mServiceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
-                mBinder = (serviceBinder as com.kunzisoft.keepass.services.AdvancedUnlockNotificationService.AdvancedUnlockBinder)
+                mBinder = (serviceBinder as AdvancedUnlockNotificationService.AdvancedUnlockBinder)
                 performedAction.invoke()
             }
 
@@ -63,7 +82,7 @@ class CipherDatabaseAction(context: Context) {
             }
         }
         try {
-            com.kunzisoft.keepass.services.AdvancedUnlockNotificationService.bindService(applicationContext,
+            AdvancedUnlockNotificationService.bindService(applicationContext,
                     mServiceConnection!!,
                 Context.BIND_AUTO_CREATE)
         } catch (e: Exception) {
@@ -79,7 +98,7 @@ class CipherDatabaseAction(context: Context) {
         } catch (e: Exception) {}
 
         mServiceConnection?.let {
-            com.kunzisoft.keepass.services.AdvancedUnlockNotificationService.unbindService(applicationContext, it)
+            AdvancedUnlockNotificationService.unbindService(applicationContext, it)
         }
     }
 

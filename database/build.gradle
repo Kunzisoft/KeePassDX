@@ -15,8 +15,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
-
         kapt {
             arguments {
                 arg("room.incremental", "true")

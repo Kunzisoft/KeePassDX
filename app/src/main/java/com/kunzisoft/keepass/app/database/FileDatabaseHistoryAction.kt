@@ -1,3 +1,22 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.app.database
 
 import android.content.Context
@@ -6,17 +25,17 @@ import android.util.Log
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.SingletonHolderParameter
 import com.kunzisoft.keepass.utils.UriUtilDatabase
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 
 class FileDatabaseHistoryAction(private val applicationContext: Context) {
 
     private val databaseFileHistoryDao =
-            AppDatabase.getDatabase(applicationContext)
-                .fileDatabaseHistoryDao()
+            AppDatabase.getDatabase(applicationContext).fileDatabaseHistoryDao()
 
     fun getDatabaseFile(databaseUri: Uri,
-                        databaseFileResult: (com.kunzisoft.keepass.model.DatabaseFile?) -> Unit) {
+                        databaseFileResult: (DatabaseFile?) -> Unit) {
         IOActionTask(
             {
                 val fileDatabaseHistoryEntity =
@@ -59,7 +78,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun getDatabaseFileList(databaseFileListResult: (List<com.kunzisoft.keepass.model.DatabaseFile>) -> Unit) {
+    fun getDatabaseFileList(databaseFileListResult: (List<DatabaseFile>) -> Unit) {
         IOActionTask(
             {
                 val hideBrokenLocations =
@@ -101,16 +120,16 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
     fun addOrUpdateDatabaseUri(databaseUri: Uri,
                                keyFileUri: Uri? = null,
                                hardwareKey: HardwareKey? = null,
-                               databaseFileAddedOrUpdatedResult: ((com.kunzisoft.keepass.model.DatabaseFile?) -> Unit)? = null) {
-        addOrUpdateDatabaseFile(com.kunzisoft.keepass.model.DatabaseFile(
+                               databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
+        addOrUpdateDatabaseFile(DatabaseFile(
             databaseUri,
             keyFileUri,
             hardwareKey
         ), databaseFileAddedOrUpdatedResult)
     }
 
-    fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: com.kunzisoft.keepass.model.DatabaseFile,
-                                databaseFileAddedOrUpdatedResult: ((com.kunzisoft.keepass.model.DatabaseFile?) -> Unit)? = null) {
+    fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: DatabaseFile,
+                                databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
         IOActionTask(
             {
                 databaseFileToAddOrUpdate.databaseUri?.let { databaseUri ->
@@ -162,8 +181,8 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun deleteDatabaseFile(databaseFileToDelete: com.kunzisoft.keepass.model.DatabaseFile,
-                           databaseFileDeletedResult: (com.kunzisoft.keepass.model.DatabaseFile?) -> Unit) {
+    fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile,
+                           databaseFileDeletedResult: (DatabaseFile?) -> Unit) {
         IOActionTask(
             {
                 databaseFileToDelete.databaseUri?.let { databaseUri ->
@@ -224,7 +243,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    companion object : com.kunzisoft.keepass.utils.SingletonHolderParameter<FileDatabaseHistoryAction, Context>(::FileDatabaseHistoryAction) {
+    companion object : SingletonHolderParameter<FileDatabaseHistoryAction, Context>(::FileDatabaseHistoryAction) {
         private val TAG = FileDatabaseHistoryAction::class.java.name
     }
 }

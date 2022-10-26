@@ -193,6 +193,20 @@ fun bytes4ToUInt(buf: ByteArray): UnsignedInt {
             + (buf[3].toInt() and 0xFF shl 24))
 }
 
+fun bytes16ToUuid(buf: ByteArray): UUID {
+    var lsb: Long = 0
+    for (i in 15 downTo 8) {
+        lsb = lsb shl 8 or (buf[i].toLong() and 0xff)
+    }
+
+    var msb: Long = 0
+    for (i in 7 downTo 0) {
+        msb = msb shl 8 or (buf[i].toLong() and 0xff)
+    }
+
+    return UUID(msb, lsb)
+}
+
 /**
  * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
  * to a java.util.Date instance.
@@ -249,6 +263,14 @@ fun uIntTo4Bytes(value: UnsignedInt): ByteArray {
 
 fun uLongTo8Bytes(value: UnsignedLong): ByteArray {
     return longTo8Bytes(value.toKotlinLong())
+}
+
+fun longTo8Bytes(value: Long): ByteArray {
+    val buf = ByteArray(8)
+    for (i in 0 until 8) {
+        buf[i] = (value.ushr(8 * i) and 0xFF).toByte()
+    }
+    return buf
 }
 
 fun uuidTo16Bytes(uuid: UUID): ByteArray {
@@ -328,26 +350,4 @@ fun writeStringToStream(outputStream: OutputStream, string: String?): Int {
     outputStream.write(0x00)
 
     return length
-}
-
-fun bytes16ToUuid(buf: ByteArray): UUID {
-    var lsb: Long = 0
-    for (i in 15 downTo 8) {
-        lsb = lsb shl 8 or (buf[i].toLong() and 0xff)
-    }
-
-    var msb: Long = 0
-    for (i in 7 downTo 0) {
-        msb = msb shl 8 or (buf[i].toLong() and 0xff)
-    }
-
-    return UUID(msb, lsb)
-}
-
-fun longTo8Bytes(value: Long): ByteArray {
-    val buf = ByteArray(8)
-    for (i in 0 until 8) {
-        buf[i] = (value.ushr(8 * i) and 0xFF).toByte()
-    }
-    return buf
 }

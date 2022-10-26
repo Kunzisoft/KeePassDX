@@ -1,3 +1,22 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.database.action
 
 import android.app.AlertDialog
@@ -5,6 +24,9 @@ import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
+import android.content.Context.BIND_ABOVE_CLIENT
+import android.content.Context.BIND_AUTO_CREATE
+import android.content.Context.BIND_IMPORTANT
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
@@ -89,8 +111,7 @@ class DatabaseTaskProvider {
 
     var onActionFinish: ((database: Database,
                           actionTask: String,
-                          result: ActionRunnable.Result
-    ) -> Unit)? = null
+                          result: ActionRunnable.Result) -> Unit)? = null
 
     private var intentDatabaseTask: Intent
 
@@ -164,8 +185,7 @@ class DatabaseTaskProvider {
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(database: Database,
-                                   progressMessage: ProgressMessage
-        ) {
+                                   progressMessage: ProgressMessage) {
             startDialog(progressMessage)
         }
 
@@ -176,8 +196,7 @@ class DatabaseTaskProvider {
 
         override fun onStopAction(database: Database,
                                   actionTask: String,
-                                  result: ActionRunnable.Result
-        ) {
+                                  result: ActionRunnable.Result) {
             onActionFinish?.invoke(database, actionTask, result)
             // Remove the progress task
             stopDialog()
@@ -299,7 +318,7 @@ class DatabaseTaskProvider {
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
-            context.bindService(intentDatabaseTask, it, Context.BIND_AUTO_CREATE or Context.BIND_IMPORTANT or Context.BIND_ABOVE_CLIENT)
+            context.bindService(intentDatabaseTask, it, BIND_AUTO_CREATE or BIND_IMPORTANT or BIND_ABOVE_CLIENT)
         }
     }
 
