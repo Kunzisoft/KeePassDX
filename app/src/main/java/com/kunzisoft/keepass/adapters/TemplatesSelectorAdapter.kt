@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.element.template.getLocalizedName
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 
 

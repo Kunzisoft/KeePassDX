@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.element.template.getLocalizedName
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil

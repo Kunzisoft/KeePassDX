@@ -39,6 +39,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.element.template.isStandardPasswordName
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil

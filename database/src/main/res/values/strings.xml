@@ -4,44 +4,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
     <string name="templates">Templates</string>
-
-    <string name="standard">Standard</string>
-    <string name="template">Template</string>
-    <string name="version">Version</string>
-
-    <string name="entry_title">Title</string>
-    <string name="entry_user_name">Username</string>
-    <string name="entry_password">Password</string>
-    <string name="entry_url">URL</string>
-    <string name="entry_expires">Expires</string>
-    <string name="entry_notes">Notes</string>
-
-    <string name="debit_credit_card">Debit / Credit Card</string>
-    <string name="holder">Holder</string>
-    <string name="number">Number</string>
-    <string name="card_verification_value">CVV</string>
-    <string name="personal_identification_number">PIN</string>
-    <string name="id_card">ID Card</string>
-    <string name="name">Name</string>
-    <string name="place_of_issue">Place of issue</string>
-    <string name="date_of_issue">Date of issue</string>
-    <string name="email">Email</string>
-    <string name="email_address">Email address</string>
-    <string name="wireless">Wi-Fi</string>
-    <string name="ssid">SSID</string>
-    <string name="type">Type</string>
-    <string name="cryptocurrency">Cryptocurrency wallet</string>
-    <string name="token">Token</string>
-    <string name="public_key">Public key</string>
-    <string name="private_key">Private key</string>
-    <string name="seed">Seed</string>
-    <string name="account">Account</string>
-    <string name="bank">Bank</string>
-    <string name="bank_identifier_code">SWIFT / BIC</string>
-    <string name="international_bank_account_number">IBAN</string>
-    <string name="secure_note">Secure Note</string>
-    <string name="membership">Membership</string>
-
+    
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
     <string name="corrupted_file">Corrupted file.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
