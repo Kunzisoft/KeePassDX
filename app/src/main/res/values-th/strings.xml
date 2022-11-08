@@ -1,2 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="encryption_algorithm">อัลกอริทึมของการเข้ารหัส</string>
+    <string name="encryption">การเข้ารหัส</string>
+    <string name="contribution">ร่วมแก้ไข</string>
+    <string name="feedback">ข้อเสนอแนะ</string>
+    <string name="about_description">แอปพลิเคชั่นการจัดการรหัสผ่าน KeePass บน Android</string>
+    <string name="accept">ยอมรับ</string>
+    <string name="add_group">เพื่มกลุ่ม</string>
+    <string name="master_key">รหัสผ่านหลัก</string>
+    <string name="application">แอป</string>
+    <string name="brackets">วงเล็บ</string>
+    <string name="allow">อนุญาต</string>
+    <string name="clipboard_cleared">ล้างคลิปบอร์ดแล้ว</string>
+    <string name="clipboard_error_title">คลิปบอร์ดผิดพลาด</string>
+    <string name="entry_confpassword">ยืนยันรหัสผ่าน</string>
+    <string name="entry_password">รหัสผ่าน</string>
+    <string name="entry_setup_otp">ตั้งค่ารหัสผ่านแบบใช้ครั้งเดียว</string>
+    <string name="error_pass_match">รหัสผ่านไม่ตรงกัน</string>
+    <string name="menu_app_settings">การตั้งค่าแอป</string>
+    <string name="homepage">หน้าหลัก</string>
+    <string name="security">ความปลอดภัย</string>
+    <string name="hide_password_summary">ปิดบังรหัสผ่านเป็น (***) โดยค่าเรื่มต้น</string>
+    <string name="app_timeout_summary">ระยะเวลาที่ไม่ได้ใช้งานก่อนที่ฐานข้อมูลจะถูกล็อก</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">ใช้งานการยืนยันข้้นสูงเพื่อปลดล็อกฐานข้อมูล</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="hint_pass">รหัสผ่าน</string>
+    <string name="hint_generated_password">สร้างรหัสผ่าน</string>
+    <string name="menu_change_key_settings">เปลี่ยนรหัสผ่านหลัก</string>
+    <string name="menu_master_key_settings">การตั้งค่ารหัสผ่านหลัก</string>
+    <string name="assign_master_key">กำหนดรหัสผ่านหลัก</string>
+    <string name="content_description_password_length">ความยาวของรหัสผ่าน</string>
+    <string name="error_pass_gen_type">ต้องเลือกรูปแบบของรหัสผ่านที่จะสร้างอย่างน้อยหนึ่งประเภท</string>
+    <string name="generate_password">สร้างรหัสผ่าน</string>
+    <string name="password">รหัสผ่าน</string>
+    <string name="hide_password_title">ซ่อนรหัสผ่าน</string>
+    <string name="hint_conf_pass">ยืนยันรหัสผ่าน</string>
+</resources>
