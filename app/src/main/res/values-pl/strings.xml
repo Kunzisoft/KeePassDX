@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Informacje zwrotne</string>
+    <string name="feedback">Zgłoś błąd lub sugestię</string>
     <string name="homepage">Strona główna</string>
     <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android</string>
     <string name="accept">Akceptuj</string>
@@ -37,7 +37,7 @@
     <string name="retrieving_db_key">Tworzenie klucza bazy danych…</string>
     <string name="database">Baza danych</string>
     <string name="decrypting_db">Odszyfrowywanie zawartości bazy danych…</string>
-    <string name="default_checkbox">Użyj jako domyślnej bazy danych</string>
+    <string name="default_checkbox">Ustaw jako domyślną bazę danych</string>
     <string name="digits">Cyfry</string>
     <string name="select_database_file">Otwórz istniejącą bazę danych</string>
     <string name="entry_accessed">Dostęp do pliku</string>
@@ -82,13 +82,13 @@
     <string name="loading_database">Wczytywanie bazy danych…</string>
     <string name="lowercase">Małe litery</string>
     <string name="hide_password_title">Ukryj hasła</string>
-    <string name="hide_password_summary">Maskuj hasła (***) domyślnie</string>
-    <string name="about">Informacje</string>
+    <string name="hide_password_summary">Domyślnie maskuj hasła (***)</string>
+    <string name="about">O aplikacji</string>
     <string name="menu_change_key_settings">Zmień klucz główny</string>
     <string name="settings">Ustawienia</string>
     <string name="menu_database_settings">Ustawienia bazy danych</string>
     <string name="menu_delete">Usuń</string>
-    <string name="menu_donate">Dotuj</string>
+    <string name="menu_donate">Wspomóż</string>
     <string name="menu_edit">Edytuj</string>
     <string name="menu_hide_password">Ukryj hasło</string>
     <string name="menu_lock">Zablokuj bazę danych</string>
@@ -193,7 +193,7 @@
     <string name="clipboard_notifications_title">Powiadomienia ze schowka</string>
     <string name="clipboard_notifications_summary">Pokaż powiadomienia schowka, aby skopiować pola podczas przeglądania wpisu</string>
     <string name="clipboard_warning">Jeśli automatyczne usuwanie schowka nie powiedzie się, ręcznie usuń jego historię.</string>
-    <string name="lock">Blokada</string>
+    <string name="lock">Zablokuj bazę danych</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych po kilku sekundach od wyłączenia ekranu</string>
     <string name="advanced_unlock">Zaawansowane odblokowywanie</string>
@@ -211,7 +211,7 @@
     <string name="recycle_bin_title">Wykorzystaj kosz</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Czcionka pola</string>
-    <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
+    <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność znaków</string>
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalanie na kopiowanie hasła wejściowego i chronionych pól do schowka</string>
     <string name="allow_copy_password_warning">Ostrzeżenie: Schowek jest współużytkowany przez wszystkie aplikacje. Jeśli poufne dane są kopiowane, inne oprogramowanie może je odzyskać.</string>
@@ -277,7 +277,7 @@
     <string name="html_text_dev_feature_work_hard">Ciężko pracujemy, aby szybko udostępnić tę funkcję.</string>
     <string name="html_text_dev_feature_upgrade">Pamiętaj, aby aktualizować swoją aplikację, instalując nowe wersje.</string>
     <string name="download">Pobieranie</string>
-    <string name="contribute">Przyczyń się</string>
+    <string name="contribute">Wspomóż projekt</string>
     <string name="style_choose_title">Motyw aplikacji</string>
     <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
@@ -365,7 +365,7 @@
     <string name="settings_database_recommend_changing_master_key_summary">Zaleca się zmianę klucza głównego (dni)</string>
     <string name="settings_database_force_changing_master_key_summary">Wymagaj zmiany klucza głównego (dni)</string>
     <string name="database_default_username_title">Domyślna nazwa użytkownika</string>
-    <string name="database_custom_color_title">Niestandardowy kolor bazy danych</string>
+    <string name="database_custom_color_title">Własny kolor bazy danych</string>
     <string name="compression">Kompresja</string>
     <string name="compression_none">Żadna</string>
     <string name="compression_gzip">Gzip</string>
@@ -382,7 +382,7 @@
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych</string>
     <string name="max_history_items_title">Maksymalna liczba</string>
-    <string name="max_history_size_summary">Ogranicz rozmiar historii na wpis</string>
+    <string name="max_history_size_summary">Ogranicz rozmiar historii każdego wpisu</string>
     <string name="settings_database_force_changing_master_key_title">Wymuś odnowienie</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Wymuś odnowienie następnym razem</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Wymagaj zmiany klucza głównego następnym razem (raz)</string>
@@ -404,7 +404,7 @@
     <string name="download_initialization">Inicjowanie…</string>
     <string name="download_progression">W trakcie realizacji: %1$d%%</string>
     <string name="download_finalization">Kończę…</string>
-    <string name="download_complete">Kompletny!</string>
+    <string name="download_complete">Ukończono!</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
@@ -420,7 +420,7 @@
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
     <string name="hide_broken_locations_summary">Ukryj uszkodzone łącza na liście najnowszych baz danych</string>
     <string name="warning_database_read_only">Przyznaj dostęp do zapisu pliku, aby zapisać zmiany w bazie danych</string>
-    <string name="contribution">Wkład</string>
+    <string name="contribution">Wsparcie finansowe</string>
     <string name="education_setup_OTP_summary">Skonfiguruj zarządzanie hasłem jednorazowym (HOTP / TOTP), aby wygenerować token wymagany do uwierzytelniania dwuskładnikowego (2FA).</string>
     <string name="education_setup_OTP_title">Konfiguracja OTP</string>
     <string name="error_create_database">Nie można utworzyć pliku bazy danych.</string>
@@ -451,7 +451,7 @@
     <string name="keyboard_change">Przełącz klawiaturę</string>
     <string name="upload_attachment">Prześlij %1$s</string>
     <string name="education_add_attachment_summary">Prześlij załącznik do wpisu, aby zapisać ważne dane zewnętrzne.</string>
-    <string name="education_add_attachment_title">Dodawanie załącznika</string>
+    <string name="education_add_attachment_title">Dodaj załącznik</string>
     <string name="warning_sure_add_file">Czy mimo to dodać plik\?</string>
     <string name="warning_replace_file">Przesłanie tego pliku spowoduje zastąpienie istniejącego.</string>
     <string name="warning_file_too_big">Baza danych KeePass powinna zawierać tylko małe pliki narzędziowe (takie jak pliki kluczy PGP).
@@ -523,9 +523,9 @@
     <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby przechowywać poświadczenia</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
-    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianam.</string>
+    <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianami.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
-    <string name="menu_reload_database">Ponownie załaduj dane</string>
+    <string name="menu_reload_database">Przeładuj dane</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
@@ -543,13 +543,13 @@
     <string name="error_duplicate_file">Dane pliku już istnieją.</string>
     <string name="properties">Właściwości</string>
     <string name="error_export_app_properties">Błąd podczas eksportowania właściwości aplikacji</string>
-    <string name="success_export_app_properties">Wyeksportowano właściwości aplikacji</string>
+    <string name="success_export_app_properties">Eksportowano właściwości aplikacji</string>
     <string name="error_import_app_properties">Błąd podczas importowania właściwości aplikacji</string>
-    <string name="success_import_app_properties">Zaimportowano właściwości aplikacji</string>
+    <string name="success_import_app_properties">Importowano właściwości aplikacji</string>
     <string name="description_app_properties">Właściwości KeePassDX do zarządzania ustawieniami aplikacji</string>
-    <string name="export_app_properties_summary">Utwórz plik, aby wyeksportować właściwości aplikacji</string>
+    <string name="export_app_properties_summary">Utwórz plik, aby eksportować właściwości aplikacji</string>
     <string name="export_app_properties_title">Eksportuj właściwości aplikacji</string>
-    <string name="import_app_properties_summary">Wybierz plik, aby zaimportować właściwości aplikacji</string>
+    <string name="import_app_properties_summary">Wybierz plik, aby importować właściwości aplikacji</string>
     <string name="import_app_properties_title">Importuj właściwości aplikacji</string>
     <string name="error_start_database_action">Wystąpił błąd podczas wykonywania akcji w bazie danych.</string>
     <string name="error_move_group_here">Nie możesz tutaj przenieść grupy.</string>
@@ -605,7 +605,7 @@
     <string name="show_entry_colors_title">Kolory wpisu</string>
     <string name="warning_keyfile_integrity">Hash pliku nie jest gwarantowany, ponieważ system Android może zmieniać swoje dane w locie. Zmień rozszerzenie pliku na .bin, aby uzyskać prawidłową integralność.</string>
     <string name="enable_keep_screen_on_summary">Nie wyłączaj ekranu podczas oglądania wpisu</string>
-    <string name="tags">Znaczniki</string>
+    <string name="tags">Etykiety</string>
     <string name="enable_keep_screen_on_title">Nie wyłączaj ekranu</string>
     <string name="show_entry_colors_summary">Wyświetla kolory pierwszego planu i tła wpisu</string>
     <string name="content_description_nav_header">Nagłówek nawigacyjny</string>
@@ -617,11 +617,11 @@
     <string name="auto_type_sequence">Sekwencja automatycznego wpisywania</string>
     <string name="current_group">Obecna grupa</string>
     <string name="custom_data">Dane niestandardowe</string>
-    <string name="menu_merge_from">Scal z…</string>
+    <string name="menu_merge_from">Scal z …</string>
     <string name="search_filters">Filtry wyszukiwania</string>
     <string name="auto_type">Automatyczne wpisywanie</string>
     <string name="searchable">Przeszukiwalne</string>
-    <string name="menu_save_copy_to">Zapisz kopię w…</string>
+    <string name="menu_save_copy_to">Zapisz kopię w …</string>
     <string name="expired">Wygasłe</string>
     <string name="warning_database_already_opened">Baza danych jest już otwarta, należy ją najpierw zamknąć, aby otworzyć nową</string>
     <string name="advanced_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia.
