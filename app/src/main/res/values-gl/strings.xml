@@ -542,4 +542,67 @@
     <string name="autofill_save_search_info_summary">Tentar gardar informacións de procuras ao facer unha selección manual da entrada para usos futuros</string>
     <string name="autofill_application_id_blocklist_title">Lista de bloqueo das aplicacións</string>
     <string name="autofill_application_id_blocklist_summary">Lista de bloqueo sen permiso para autocompletar automaticamente</string>
+    <string name="education_select_database_summary">Abra o seu arquivo de base de datos dende o seu explorador de ficheiros para usalo.</string>
+    <string name="education_field_copy_summary">Os campos copiados poden ser pegados en calquer lado.
+\n
+\nUse un método de completado de formularios da súa escolla.</string>
+    <string name="education_lock_title">Bloquear base de datos</string>
+    <string name="keyboard_selection_entry_summary">Ao ver unha entrada en KeePassDX, completar con esta o Magikeyboard</string>
+    <string name="keyboard_previous_lock_summary">Mudar automaticamente ao teclado previo despois de bloquear a base de datos</string>
+    <string name="autofill_ask_to_save_data_title">Pedir para gardar datos</string>
+    <string name="autofill_read_only_save">Non é posíbel gardar nunha base datos aberta en modo só lectura.</string>
+    <string name="autofill_ask_to_save_data_summary">Pedir para gardar datos cando terminar de autocompletar un formulario</string>
+    <string name="delete_entered_password_summary">Borrar o contrasinal introducido após un intento de conexión a unha base de datos</string>
+    <string name="reset_education_screens_title">Restabelecer suxestións educativas</string>
+    <string name="education_advanced_unlock_title">Desbloqueo avanzado da base de datos</string>
+    <string name="education_advanced_unlock_summary">Ligue o seu contrasinal á súa credencial biométrica ou credenciais do dispositivo para desbloquear rapidamente a súa base de datos.</string>
+    <string name="enable_auto_save_database_title">Gardar base de datos automaticamente</string>
+    <string name="enable_keep_screen_on_title">Manter a pantalla acesa</string>
+    <string name="allow_no_password_summary">Permitir pulsar o botón \"Abrir\" se non seleccionar ningunha credencial</string>
+    <string name="enable_read_only_title">Só lectura</string>
+    <string name="enable_education_screens_summary">Destacar elementos para saber como funciona a aplicación</string>
+    <string name="reset_education_screens_text">Suxestións educativas restabelecidas</string>
+    <string name="education_create_database_title">Crear o teu arquivo de base de datos</string>
+    <string name="education_create_database_summary">Cree o seu primeiro arquivo de xestión de contrasinais.</string>
+    <string name="education_select_database_title">Abrir unha base de datos existente</string>
+    <string name="education_new_node_title">Engadir elementos á súa base de datos</string>
+    <string name="education_new_node_summary">As entradas axudan a xestionar as súas identidades dixitais.
+\n
+\nOs grupos (~cartafois) organizan entradas na súa base de datos.</string>
+    <string name="education_search_title">Procurar nas entradas</string>
+    <string name="education_search_summary">Introduza título, nome de usuario ou outros campos para recuperar os seus contrasinais.</string>
+    <string name="education_entry_edit_title">Editar a entrada</string>
+    <string name="education_entry_new_field_summary">Rexistre un campo adicional, engada un valor e opcionalmente protéxao</string>
+    <string name="education_add_attachment_title">Engadir un anexo</string>
+    <string name="education_setup_OTP_title">Configurar OTP</string>
+    <string name="education_unlock_summary">Introduza un contrasinal e/ou un arquivo para desbloquear a súa base de datos.
+\n
+\nFaga unha copia de seguranza da súa base de datos nun lugar seguro despois de cada cambio.</string>
+    <string name="education_read_only_title">Protexa a base de datos contra escritura</string>
+    <string name="education_read_only_summary">Cambie o modo de apertura da sesión.
+\n
+\n\"Protección contra escritura\" evita cambios non desexados na base de datos.
+\n\"Modificábel\" permite engadir, borrar, ou modificar todos os elementos.</string>
+    <string name="education_field_copy_title">Copia un campo</string>
+    <string name="enter">Enter</string>
+    <string name="biometric_auto_open_prompt_title">Abrir petición automaticamente</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
+    <string name="keyboard_setting_label">Configuración do Magikeyboard</string>
+    <string name="keyboard_previous_fill_in_summary">Mudar automaticamente para o teclado previo após executar \"Acción de tecla automática\"</string>
+    <string name="enable_screenshot_mode_summary">Permitir ás aplicacións de terceiros gravar ou tomar capturas na aplicación</string>
+    <string name="enable_education_screens_title">Suxestións educativas</string>
+    <string name="reset_education_screens_summary">Mostrar suxestións educativas outra vez</string>
+    <string name="education_generate_password_title">Crear un contrasinal forte</string>
+    <string name="education_entry_new_field_title">Engadir campos personalizados</string>
+    <string name="menu_form_filling_settings">Completado de formularios</string>
+    <string name="keyboard_notification_entry_content_title">%1$s dispoñíbel no Magikeyboard</string>
+    <string name="enable_read_only_summary">Abrir a base de datos en modo de só lectura por defecto</string>
+    <string name="education_setup_OTP_summary">Configure a xestión do contrasinal dun só uso (HOTP / TOTP) para xerar un token solicitado para a autenticación de dous factores (2FA).</string>
+    <string name="education_unlock_title">Desbloquee a súa base de datos</string>
+    <string name="delete_entered_password_title">Eliminar contrasinal</string>
+    <string name="autofill_inline_suggestions_keyboard">Engadidas suxestións de autocompletado.</string>
+    <string name="allow_no_password_title">Non permitir clave mestra</string>
+    <string name="enable_auto_save_database_summary">Gardar a base de datos após unha acción importante (en modo \"Modificábel\")</string>
+    <string name="enable_keep_screen_on_summary">Manter a pantalla acesa ao ver unha entrada</string>
+    <string name="enable_screenshot_mode_title">Modo captura de pantalla</string>
 </resources>
