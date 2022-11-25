@@ -370,7 +370,7 @@
     <string name="compression_none">Żadna</string>
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
-    <string name="error_invalid_OTP">"Nieprawidłowy klucz  OTP."</string>
+    <string name="error_invalid_OTP">Nieprawidłowy klucz OTP.</string>
     <string name="error_disallow_no_credentials">Należy ustawić co najmniej jedno poświadczenie.</string>
     <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
     <string name="error_otp_counter">Licznik musi być między %1$d a %2$d.</string>
