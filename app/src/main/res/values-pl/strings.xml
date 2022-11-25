@@ -27,7 +27,7 @@
     <string name="app_timeout">Koniec czasu</string>
     <string name="app_timeout_summary">Czas bezczynności przed zablokowaniem bazy danych</string>
     <string name="application">Aplikacja</string>
-    <string name="menu_app_settings">Ustawienia aplikacji</string>
+    <string name="menu_app_settings">Ustawienia ogólne</string>
     <string name="brackets">Nawiasy</string>
     <string name="file_manager_install_description">Do tworzenia, otwierania i zapisywania plików bazy danych potrzebny jest menedżer plików, który akceptuje działanie Intent Action ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Schowek został wyczyszczony</string>
@@ -108,7 +108,7 @@
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
     <string name="saving_database">Zapisywanie bazy danych…</string>
     <string name="space">Spacja</string>
-    <string name="sort_db">Porządek naturalny</string>
+    <string name="sort_db">Porządek domyślny</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>
     <string name="underline">Podkreślenie</string>
@@ -153,7 +153,7 @@
     <string name="menu_file_selection_read_only">Chroniony przed zapisem</string>
     <string name="menu_open_file_read_and_write">Modyfikowalne</string>
     <string name="protection">Ochrona</string>
-    <string name="read_only">Chroniony przed zapisem</string>
+    <string name="read_only">Ochrona przed zapisem</string>
     <string name="read_only_warning">KeePassDX potrzebuje uprawnień do zapisu, aby mógł modyfikować bazę danych.</string>
     <string name="encryption_explanation">Algorytm szyfrowania bazy danych używany dla wszystkich danych</string>
     <string name="kdf_explanation">Aby wygenerować klucz dla algorytmu szyfrowania, klucz główny jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
@@ -169,13 +169,13 @@
     <string name="sort_last_access_time">Dostęp</string>
     <string name="warning">Ostrzeżenie</string>
     <string name="warning_password_encoding">Unikaj znaków hasła spoza formatu kodowania tekstu w pliku bazy danych (nierozpoznane znaki są konwertowane na tę samą literę).</string>
-    <string name="sort_recycle_bin_bottom">Kosz na dole</string>
+    <string name="sort_recycle_bin_bottom">Pokaż Kosz na dole listy</string>
     <string name="sort_title">Tytuł</string>
     <string name="warning_empty_password">Kontynuować bez ochrony odblokowującej hasło\?</string>
     <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
-    <string name="sort_groups_before">Grupy poprzednie</string>
+    <string name="sort_groups_before">Pokaż Grupy na górze listy</string>
     <string name="no_credentials_stored">Baza danych nie ma jeszcze hasła.</string>
     <string name="database_history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
@@ -190,7 +190,7 @@
     <string name="list_password_generator_options_title">Znaki hasła</string>
     <string name="list_password_generator_options_summary">Ustaw dozwolone znaki generatora haseł</string>
     <string name="clipboard">Schowek</string>
-    <string name="clipboard_notifications_title">Powiadomienia ze schowka</string>
+    <string name="clipboard_notifications_title">Powiadomienia schowka</string>
     <string name="clipboard_notifications_summary">Pokaż powiadomienia schowka, aby skopiować pola podczas przeglądania wpisu</string>
     <string name="clipboard_warning">Jeśli automatyczne usuwanie schowka nie powiedzie się, ręcznie usuń jego historię.</string>
     <string name="lock">Zablokuj bazę danych</string>
@@ -212,7 +212,7 @@
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Czcionka pola</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność znaków</string>
-    <string name="allow_copy_password_title">Zaufanie do schowka</string>
+    <string name="allow_copy_password_title">Ochrona schowka</string>
     <string name="allow_copy_password_summary">Zezwalanie na kopiowanie hasła wejściowego i chronionych pól do schowka</string>
     <string name="allow_copy_password_warning">Ostrzeżenie: Schowek jest współużytkowany przez wszystkie aplikacje. Jeśli poufne dane są kopiowane, inne oprogramowanie może je odzyskać.</string>
     <string name="database_name_title">Nazwa bazy danych</string>
@@ -370,7 +370,7 @@
     <string name="compression_none">Żadna</string>
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
-    <string name="error_invalid_OTP">Nieprawidłowy klucz tajny OTP.</string>
+    <string name="error_invalid_OTP">"Nieprawidłowy klucz  OTP."</string>
     <string name="error_disallow_no_credentials">Należy ustawić co najmniej jedno poświadczenie.</string>
     <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
     <string name="error_otp_counter">Licznik musi być między %1$d a %2$d.</string>
@@ -415,7 +415,7 @@
     <string name="remember_database_locations_summary">Śledzi, gdzie przechowywane są bazy danych</string>
     <string name="remember_keyfile_locations_title">Zapamiętaj lokalizacje plików kluczy</string>
     <string name="remember_keyfile_locations_summary">Śledzi, gdzie przechowywane są pliki z kluczami</string>
-    <string name="show_recent_files_title">Pokaż najnowsze pliki</string>
+    <string name="show_recent_files_title">Pokaż ostatnie pliki</string>
     <string name="show_recent_files_summary">Pokaż lokalizacje najnowszych baz danych</string>
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
     <string name="hide_broken_locations_summary">Ukryj uszkodzone łącza na liście najnowszych baz danych</string>
@@ -467,7 +467,7 @@
     <string name="content_description_credentials_information">Informacje o poświadczeniach</string>
     <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem lub grupą</string>
     <string name="show_uuid_title">Pokaż UUID</string>
-    <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej jako tylko do odczytu.</string>
+    <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej tylko do odczytu.</string>
     <string name="autofill_ask_to_save_data_summary">Pytaj o zapisanie danych po zakończeniu wypełniania formularza</string>
     <string name="autofill_ask_to_save_data_title">Pytaj o zapisanie danych</string>
     <string name="autofill_save_search_info_summary">Staraj się zapisywać informacje wyszukiwania podczas dokonywania ręcznego wyboru wpisu, aby ułatwić sobie przyszłe użycie</string>
@@ -497,7 +497,7 @@
     <string name="device_credential_unlock_enable_title">Odblokowywanie uwierzytelniające urządzenia</string>
     <string name="device_credential">Uwierzytelnienie urządzenia</string>
     <string name="credential_before_click_advanced_unlock_button">Wpisz hasło, a następnie kliknij ten przycisk.</string>
-    <string name="advanced_unlock_not_recognized">Nie można rozpoznać zaawansowanego wydruku odblokowującego</string>
+    <string name="advanced_unlock_not_recognized">Nie można rozpoznać wprowadzonych danych odblokowujących</string>
     <string name="advanced_unlock_invalid_key">Nie można odczytać zaawansowanego klucza odblokowującego. Usuń go i powtórz procedurę rozpoznawania odblokowania.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z zaawansowanymi danymi odblokowującymi</string>
     <string name="advanced_unlock_prompt_store_credential_message">Jeśli używasz zaawansowanego rozpoznawania odblokowania, nadal musisz zapamiętać główne dane uwierzytelniające.</string>
@@ -588,7 +588,7 @@
     <string name="holder">Posiadacz</string>
     <string name="debit_credit_card">Karta debetowa / kredytowa</string>
     <string name="template_group_name">Szablony</string>
-    <string name="show_otp_token_summary">Wyświetla tokeny OTP na liście wpisów</string>
+    <string name="show_otp_token_summary">Pokaż tokeny OTP na liście wpisów</string>
     <string name="show_otp_token_title">Pokaż token OTP</string>
     <string name="menu_external_icon">Ikona zewnętrzna</string>
     <string name="autofill_manual_selection_summary">Wyświetl opcję pozwalającą użytkownikowi wybrać wpis bazy danych</string>
