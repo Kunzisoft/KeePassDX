@@ -262,30 +262,26 @@ class IconPickerActivity : DatabaseLockActivity() {
                             iconCustomState.errorStringId = R.string.error_file_to_big
                         } else {
                             mDatabase?.buildNewCustomIcon { customIcon, binary ->
-                                if (customIcon != null) {
-                                    iconCustomState.iconCustom = customIcon
-                                    mDatabase?.let { database ->
-                                        BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
-                                                contentResolver,
-                                                database,
-                                                iconToUploadUri,
-                                                binary)
-                                        when {
-                                            binary == null -> {
-                                            }
-                                            binary.getSize() <= 0 -> {
-                                            }
-                                            database.isCustomIconBinaryDuplicate(binary) -> {
-                                                iconCustomState.errorStringId = R.string.error_duplicate_file
-                                            }
-                                            else -> {
-                                                iconCustomState.error = false
-                                            }
+                                iconCustomState.iconCustom = customIcon
+                                mDatabase?.let { database ->
+                                    BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
+                                            contentResolver,
+                                            database,
+                                            iconToUploadUri,
+                                            binary)
+                                    when {
+                                        binary.getSize() <= 0 -> {
+                                        }
+                                        database.isCustomIconBinaryDuplicate(binary) -> {
+                                            iconCustomState.errorStringId = R.string.error_duplicate_file
+                                        }
+                                        else -> {
+                                            iconCustomState.error = false
                                         }
                                     }
-                                    if (iconCustomState.error) {
-                                        mDatabase?.removeCustomIcon(customIcon)
-                                    }
+                                }
+                                if (iconCustomState.error) {
+                                    mDatabase?.removeCustomIcon(customIcon)
                                 }
                             }
                         }

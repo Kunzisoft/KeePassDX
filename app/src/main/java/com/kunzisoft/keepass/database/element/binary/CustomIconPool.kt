@@ -12,7 +12,7 @@ class CustomIconPool : BinaryPool<UUID>() {
             name: String,
             lastModificationTime: DateInstant?,
             builder: (uniqueBinaryId: String) -> BinaryData,
-            result: (IconImageCustom, BinaryData?) -> Unit) {
+            result: (IconImageCustom, BinaryData) -> Unit) {
         val keyBinary = super.put(key, builder)
         val uuid = keyBinary.keys.first()
         val customIcon = IconImageCustom(uuid, name, lastModificationTime)

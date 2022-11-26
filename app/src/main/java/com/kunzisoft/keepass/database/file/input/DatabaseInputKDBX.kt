@@ -701,7 +701,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                         customIconName,
                         customIconLastModificationTime,
                         isRAMSufficient.invoke(iconData.size.toLong())) { _, binary ->
-                    binary?.getOutputDataStream(mDatabase.binaryCache)?.use { outputStream ->
+                    binary.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
                         outputStream.write(iconData)
                     }
                 }

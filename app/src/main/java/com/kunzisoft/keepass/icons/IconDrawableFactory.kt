@@ -99,25 +99,23 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     /**
      * Build a custom [Drawable] from custom [icon]
      */
-    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, iconCustomBinary: BinaryData?): Drawable? {
+    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, binaryFile: BinaryData): Drawable? {
         val patternIcon = PatternIcon(resources)
         val binaryManager = retrieveBinaryCache()
         if (binaryManager != null) {
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
-                iconCustomBinary?.let { binaryFile ->
-                    try {
-                        var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryManager))
-                        bitmap?.let { bitmapIcon ->
-                            bitmap = resize(bitmapIcon, patternIcon)
-                            val createdDraw = BitmapDrawable(resources, bitmap)
-                            customIconMap[icon.uuid] = WeakReference(createdDraw)
-                            return createdDraw
-                        }
-                    } catch (e: Exception) {
-                        customIconMap.remove(icon.uuid)
-                        Log.e(TAG, "Unable to create the bitmap icon", e)
+                try {
+                    var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryManager))
+                    bitmap?.let { bitmapIcon ->
+                        bitmap = resize(bitmapIcon, patternIcon)
+                        val createdDraw = BitmapDrawable(resources, bitmap)
+                        customIconMap[icon.uuid] = WeakReference(createdDraw)
+                        return createdDraw
                     }
+                } catch (e: Exception) {
+                    customIconMap.remove(icon.uuid)
+                    Log.e(TAG, "Unable to create the bitmap icon", e)
                 }
             } else {
                 return draw

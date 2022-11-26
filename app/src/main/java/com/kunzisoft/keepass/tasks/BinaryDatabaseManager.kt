@@ -94,23 +94,21 @@ object BinaryDatabaseManager {
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
                                              database: Database,
                                              bitmapUri: Uri?,
-                                             binaryData: BinaryData?) {
+                                             binaryData: BinaryData) {
         try {
-            binaryData?.let {
-                UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
-                    BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
-                        val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
-                        val byteArrayOutputStream = ByteArrayOutputStream()
-                        bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
-                        val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
-                        val byteArrayInputStream = ByteArrayInputStream(bitmapData)
-                        uploadToDatabase(
-                                database.binaryCache,
-                                byteArrayInputStream,
-                                bitmapData.size.toLong(),
-                                binaryData
-                        )
-                    }
+            UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
+                BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
+                    val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
+                    val byteArrayOutputStream = ByteArrayOutputStream()
+                    bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
+                    val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
+                    val byteArrayInputStream = ByteArrayInputStream(bitmapData)
+                    uploadToDatabase(
+                            database.binaryCache,
+                            byteArrayInputStream,
+                            bitmapData.size.toLong(),
+                            binaryData
+                    )
                 }
             }
         } catch (e: Exception) {

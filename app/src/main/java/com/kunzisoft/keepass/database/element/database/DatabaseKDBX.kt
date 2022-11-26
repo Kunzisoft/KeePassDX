@@ -456,7 +456,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun buildNewCustomIcon(customIconId: UUID? = null,
-                           result: (IconImageCustom, BinaryData?) -> Unit) {
+                           result: (IconImageCustom, BinaryData) -> Unit) {
         // Create a binary file for a brand new custom icon
         addCustomIcon(customIconId, "", null, false, result)
     }
@@ -465,7 +465,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                       name: String,
                       lastModificationTime: DateInstant?,
                       smallSize: Boolean,
-                      result: (IconImageCustom, BinaryData?) -> Unit) {
+                      result: (IconImageCustom, BinaryData) -> Unit) {
         iconsManager.addCustomIcon(customIconId, name, lastModificationTime, { uniqueBinaryId ->
             // Create a byte array for better performance with small data
             binaryCache.getBinaryData(uniqueBinaryId, smallSize)

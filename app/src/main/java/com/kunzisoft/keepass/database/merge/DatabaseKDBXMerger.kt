@@ -281,9 +281,9 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                     false
                 ) { _, newBinaryData ->
                     binaryData.getInputDataStream(databaseToMerge.binaryCache).use { inputStream ->
-                        newBinaryData?.getOutputDataStream(database.binaryCache).use { outputStream ->
+                        newBinaryData.getOutputDataStream(database.binaryCache).use { outputStream ->
                             inputStream.readAllBytes { buffer ->
-                                outputStream?.write(buffer)
+                                outputStream.write(buffer)
                             }
                         }
                     }
