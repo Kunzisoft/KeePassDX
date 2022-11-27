@@ -43,7 +43,7 @@ class IconPickerFragment : DatabaseFragment() {
             remove(ICON_TAB_ARG)
         }
 
-        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) { _ ->
+        iconPickerViewModel.customIconAdded.observe(viewLifecycleOwner) {
             viewPager.currentItem = 1
         }
     }

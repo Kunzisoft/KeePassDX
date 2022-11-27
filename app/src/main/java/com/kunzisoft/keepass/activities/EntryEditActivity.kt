@@ -564,18 +564,18 @@ class EntryEditActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_add_field)?.apply {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.menu_add_field)?.apply {
             isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_add_attachment)?.apply {
+        menu.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
             isEnabled = !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_add_otp)?.apply {
+        menu.findItem(R.id.menu_add_otp)?.apply {
             // OTP not compatible below KitKat
             isEnabled = mAllowOTP
                     && !mIsTemplate

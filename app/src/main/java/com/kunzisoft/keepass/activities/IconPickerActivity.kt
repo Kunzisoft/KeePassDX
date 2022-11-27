@@ -207,18 +207,18 @@ class IconPickerActivity : DatabaseLockActivity() {
         toolbar.updateLockPaddingLeft()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.icon, menu)
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_edit)?.apply {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.menu_edit)?.apply {
             isEnabled = mIconsSelected.size == 1
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_delete)?.apply {
+        menu.findItem(R.id.menu_delete)?.apply {
             isEnabled = mCustomIconsSelectionMode
             isVisible = isEnabled
         }
