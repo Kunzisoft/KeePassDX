@@ -16,6 +16,8 @@
         android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission
         android:name="android.permission.VIBRATE"/>
+    <uses-permission
+        android:name="com.kunzisoft.keepass.icons.loader.ACCESS"/>
     <!-- Open apps from links -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"

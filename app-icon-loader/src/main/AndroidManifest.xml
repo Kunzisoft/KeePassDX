@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.kunzisoft.keepass.icons.loader"
+    android:installLocation="auto">
+
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <permission
+        android:name="com.kunzisoft.keepass.icons.loader.ACCESS"
+        android:protectionLevel="signature" />
+
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round">
+
+        <provider
+            android:name=".KeePassIconsProvider"
+            android:authorities="com.kunzisoft.keepass.icons.loader"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.kunzisoft.keepass.icons.loader.ACCESS" />
+    </application>
+</manifest> 

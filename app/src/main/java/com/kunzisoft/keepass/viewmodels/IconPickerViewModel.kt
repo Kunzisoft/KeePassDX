@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.model.IconProviderData
 
 class IconPickerViewModel: ViewModel() {
+
+    var iconProviderData: IconProviderData? = null
 
     val standardIconPicked: MutableLiveData<IconImageStandard> by lazy {
         MutableLiveData<IconImageStandard>()

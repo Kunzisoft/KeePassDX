@@ -560,8 +560,9 @@
     <string name="error_move_group_here">Hierher kann keine Gruppe verschoben werden.</string>
     <string name="autofill_inline_suggestions_title">Ausfüllvorschläge</string>
     <string name="error_word_reserved">Dieses Wort ist reserviert und kann nicht verwendet werden.</string>
-    <string name="icon_section_custom">Benutzerdefiniert</string>
+    <string name="icon_section_custom">Benutzer</string>
     <string name="icon_section_standard">Standard</string>
+    <string name="icon_section_loader">Extern</string>
     <string name="style_brightness_summary">Helles oder dunkles Design auswählen</string>
     <string name="style_brightness_title">Designhelligkeit</string>
     <string name="unit_gibibyte">GiB</string>

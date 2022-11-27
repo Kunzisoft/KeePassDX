@@ -30,7 +30,7 @@ class IconStandardFragment : IconFragment<IconImageStandard>() {
         return R.layout.fragment_icon_grid
     }
 
-    override fun defineIconList(database: Database?) {
+    override suspend fun defineIconList(database: Database?) {
         database?.doForEachStandardIcons { standardIcon ->
             iconPickerAdapter.addIcon(standardIcon, false)
         }
