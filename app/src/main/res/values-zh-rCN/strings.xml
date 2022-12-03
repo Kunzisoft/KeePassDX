@@ -56,7 +56,7 @@
     <string name="entry_url">网址</string>
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持Arcfour流式加密。</string>
-    <string name="error_can_not_handle_uri">无法在KeePassDX中处理此URI。</string>
+    <string name="error_can_not_handle_uri">无法在 KeePassDX 中处理此 URI 。</string>
     <string name="error_file_not_create">无法新建文件</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径正确。</string>
@@ -311,7 +311,7 @@
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在KeePass DX中查看条目时，用该条目填充 Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
