@@ -332,7 +332,7 @@
     <string name="at_least_one_char">Të paktën një shenjë nga secili</string>
     <string name="exclude_ambiguous_chars">Përjashto shenja të dykuptimta</string>
     <string name="word_separator">Ndarës</string>
-    <string name="lower_case">Të vogla</string>
+    <string name="lower_case">të vogla</string>
     <string name="upper_case">TË MËDHA</string>
     <string name="character_count">Numër shenjash: %1$d</string>
     <string name="style_choose_title">Temë aplikacioni</string>
@@ -344,4 +344,22 @@
     <string name="show_entry_colors_title">Ngjyra zërash</string>
     <string name="hide_expired_entries_title">Fshihi zërat e skaduar</string>
     <string name="error_XML_malformed">XML e keqformuar.</string>
+    <string name="advanced_unlock_scanning_error">Gabim shkyçjeje të thelluar: %1$s</string>
+    <string name="autofill_block">Blloko vetëplotësim</string>
+    <string name="allow_no_password_summary">Lejon prekjen e butoni “Hape”, nëse s’janë përzgjedhur kredenciale</string>
+    <string name="about_description">Sendërtim për Android i përgjegjësit KeePass të fjalëkalimeve</string>
+    <string name="auto_focus_search_summary">Kërko një kërkim, kur hapet një bazë të dhënash</string>
+    <string name="warning_replace_file">Ngarkimi i kësaj kartele do të zëvendësojë atë ekzistuesen.</string>
+    <string name="autofill">Vetëplotësoje</string>
+    <string name="advanced_unlock_tap_delete">Prekeni që të fshihen kyçe shkyçjeje të thelluar</string>
+    <string name="biometric_unlock_enable_title">Shkyçje biometrike</string>
+    <string name="biometric_unlock_enable_summary">Ju lejon të skanoni elementë biometrikë për të hapur bazën e të dhënave</string>
+    <string name="biometric_delete_all_key_summary">Fshi krejt kyçet e fshehtëzimit të lidhur me njohje shkyçjesh të thelluaara</string>
+    <string name="advanced_unlock_delete_all_key_warning">Të fshihen krejt kyçet e fshehtëzimit të lidhur me njohje shkyçjesh të thelluara\?</string>
+    <string name="back_to_previous_keyboard">Mbrapsht te tastiera e mëparshme</string>
+    <string name="backspace">Tasti “Backspace”</string>
+    <string name="autofill_ask_to_save_data_title">Pyet të ruhen të dhënat</string>
+    <string name="autofill_ask_to_save_data_summary">Pyet për ruajtje të dhënash, kur plotësohet mbushja e një formulari</string>
+    <string name="autofill_application_id_blocklist_summary">Listë bllokimesh që pengon vetëplotësim nga aplikacione</string>
+    <string name="autofill_web_domain_blocklist_title">Listë bllokimesh përkatësish Web</string>
 </resources>
