@@ -1,2 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="edit_entry">Përpunoni zë</string>
+    <string name="database">Bazë të dhënash</string>
+    <string name="entry_notes">Shënime</string>
+    <string name="properties">Veti</string>
+    <string name="password">Fjalëkalim</string>
+    <string name="root">Rrënjë</string>
+    <string name="warning">Kujdes</string>
+    <string name="keyboard_previous_lock_title">Kyçe bazën e të dhënave</string>
+    <string name="menu_change_key_settings">Ndrysho kyçin e përgjithshëm</string>
+    <string name="current_group">Grupi i tanishëm</string>
+    <string name="keyboard_notification_entry_content_title_text">Zë</string>
+    <string name="auto_type">Vetë-Shtype</string>
+    <string name="database_history">Historik</string>
+    <string name="content_description_add_entry">Shtoni zë</string>
+    <string name="menu_edit">Përpunim</string>
+    <string name="content_description_remove_from_list">Hiqe</string>
+    <string name="entry_attachments">Bashkëngjitje</string>
+    <string name="save">Ruaje</string>
+    <string name="menu_open">Hape</string>
+    <string name="menu_delete">Fshije</string>
+    <string name="entry_expires">Skadon më</string>
+    <string name="content_description_add_group">Shto grup</string>
+    <string name="enable">Aktivizoje</string>
+    <string name="disable">Çaktivizoje</string>
+    <string name="name">Emër</string>
+    <string name="search">Kërko</string>
+    <string name="sort_username">Emër përdoruesi</string>
+    <string name="entry_url">URL</string>
+    <string name="sort_title">Titull</string>
+    <string name="about">Mbi</string>
+    <string name="autofill_close_database_title">Mbylle bazën e të dhënave</string>
+    <string name="menu_database_settings">Rregullime baze të dhënash</string>
+    <string name="settings">Rregullime</string>
+    <string name="accept">Pranoje</string>
+    <string name="case_sensitive">Ndjeshmëri ndaj shkrimi me të mëdha/të vogla</string>
+    <string name="general">Të përgjithshme</string>
+    <string name="security">Siguri</string>
+</resources>
