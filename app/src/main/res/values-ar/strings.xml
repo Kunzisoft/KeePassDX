@@ -520,4 +520,6 @@
     <string name="notification">الإشعارات</string>
     <string name="temp_advanced_unlock_enable_summary">لا تستخدم أي محتوى معمى لاستخدام فك القفل المتقدم</string>
     <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فك القفل المتقدم</string>
+    <string name="hide_expired_entries_title">إخفاء الإدخالات منتهية الصلاحية</string>
+    <string name="content_description_hardware_key_checkbox">خانة إختيار مفتاح الجهاز</string>
 </resources>
