@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
 import java.io.FileNotFoundException
 
@@ -271,18 +272,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     launchGroupActivityIfLoaded(database)
                 }
             }
-        } else {
-            var resultError = ""
-            val resultMessage = result.message
-            // Show error message
-            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                resultError = "$resultError $resultMessage"
-            }
-            Log.e(TAG, resultError)
-            Snackbar.make(coordinatorLayout,
-                resultError,
-                Snackbar.LENGTH_LONG).asError().show()
         }
+        coordinatorLayout.showActionErrorIfNeeded(result)
     }
 
     /**
