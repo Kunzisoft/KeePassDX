@@ -35,4 +35,16 @@
     <string name="password">รหัสผ่าน</string>
     <string name="hide_password_title">ซ่อนรหัสผ่าน</string>
     <string name="hint_conf_pass">ยืนยันรหัสผ่าน</string>
+    <string name="contact">ติดต่อ</string>
+    <string name="select_database_file">เปิดฐานข้อมูลที่มีอยู่แล้ว</string>
+    <string name="warning_database_link_revoked">การเข้าถึงไฟล์ถูกเพิกถอนโดยตัวจัดการไฟล์</string>
+    <string name="warning_database_revoked">การเข้าถึงไฟล์ถูกเพิกถอนโดยตัวจัดการไฟล์ ปิดฐานข้อมูลและเปิดใหม่จากตำแหน่งดังกล่าวอีกครั้ง</string>
+    <string name="education_select_database_title">เปิดไฟล์ฐานข้อมูลที่มีอยู่แล้ว</string>
+    <string name="education_create_database_title">สรัางไฟล์ฐานข้อมูลของคุณ</string>
+    <string name="education_create_database_summary">สร้างไฟล์ฐานข้อมูลรหัสผ่านแรกของคุณ</string>
+    <string name="education_unlock_summary">ป้อนรหัสผ่าน และ/หรือ Keyfile เพื่อปลดล็อกฐานข้อมูลของคุณ
+\n
+\n
+\nสำรองไฟล์ฐานข้อมูลของคุณในที่ปลอดภัยหลังจากการเปลี่ยนแปลงแต่ละครั้ง</string>
+    <string name="education_unlock_title">ปลดล็อกฐานข้อมูล</string>
 </resources>
