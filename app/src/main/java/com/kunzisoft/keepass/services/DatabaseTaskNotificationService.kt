@@ -753,9 +753,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         return MergeDatabaseRunnable(
             this,
-            database,
             databaseToMergeUri,
             databaseToMergeMainCredential,
+            { hardwareKey, seed ->
+                // TODO fix first challenge response
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            },
+            database,
+            !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
             { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },

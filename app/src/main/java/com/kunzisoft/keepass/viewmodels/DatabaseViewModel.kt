@@ -87,8 +87,8 @@ class DatabaseViewModel: ViewModel() {
         _saveDatabase.value = save
     }
 
-    fun mergeDatabase(fixDuplicateUuid: Boolean) {
-        _mergeDatabase.value = fixDuplicateUuid
+    fun mergeDatabase(save: Boolean) {
+        _mergeDatabase.value = save
     }
 
     fun reloadDatabase(fixDuplicateUuid: Boolean) {
@@ -196,6 +196,8 @@ class DatabaseViewModel: ViewModel() {
     data class SuperLong(val oldValue: Long,
                          val newValue: Long,
                          val save: Boolean)
+    data class SuperMerge(val fixDuplicateUuid: Boolean,
+                          val save: Boolean)
     data class SuperCompression(val oldValue: CompressionAlgorithm,
                                 val newValue: CompressionAlgorithm,
                                 val save: Boolean)

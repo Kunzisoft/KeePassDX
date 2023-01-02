@@ -90,8 +90,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
-        mDatabaseViewModel.mergeDatabase.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseMerge()
+        mDatabaseViewModel.mergeDatabase.observe(this) { save ->
+            mDatabaseTaskProvider?.startDatabaseMerge(save)
         }
 
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
@@ -227,6 +227,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 // Reload the current activity
                 if (result.isSuccess) {
                     reloadActivity()
+                    if (actionTask == DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK) {
+                        Toast.makeText(this, R.string.merge_success, Toast.LENGTH_LONG).show()
+                    }
                 } else {
                     this.showActionErrorIfNeeded(result)
                     finish()
@@ -270,11 +273,11 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun mergeDatabase() {
-        mDatabaseTaskProvider?.startDatabaseMerge()
+        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable)
     }
 
     fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
-        mDatabaseTaskProvider?.startDatabaseMerge(uri, mainCredential)
+        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable, uri, mainCredential)
     }
 
     fun reloadDatabase() {
