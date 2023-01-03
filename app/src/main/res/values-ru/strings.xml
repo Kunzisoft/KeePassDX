@@ -413,7 +413,7 @@
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
     <string name="remember_database_locations_title">Помнить расположение баз</string>
-    <string name="remember_database_locations_summary">Отслеживать расположение баз</string>
+    <string name="remember_database_locations_summary">Помнить расположение файлов баз</string>
     <string name="remember_keyfile_locations_title">Помнить расположение файлов ключей</string>
     <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
