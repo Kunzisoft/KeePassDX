@@ -105,7 +105,7 @@
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
     <string name="feedback">أرسل انطباعاتك</string>
-    <string name="about_description">التنفيذ لمُدير كلمات المرور «كي‌ باس» على نظام أندرويد</string>
+    <string name="about_description">\"KeePassDX\" هو تطبيق أندرويد لمدير كلمات المرور كي باس \"KeePass\"</string>
     <string name="add_entry">أضف مدخل</string>
     <string name="edit_entry">تحرير مدخل</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
