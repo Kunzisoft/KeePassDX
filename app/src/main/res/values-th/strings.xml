@@ -4,7 +4,7 @@
     <string name="encryption">การเข้ารหัส</string>
     <string name="contribution">ร่วมแก้ไข</string>
     <string name="feedback">ข้อเสนอแนะ</string>
-    <string name="about_description">แอปพลิเคชั่นการจัดการรหัสผ่าน KeePass บน Android</string>
+    <string name="about_description">แอปพลิเคชั่นจัดการรหัสผ่านแบบ KeePass บน Android</string>
     <string name="accept">ยอมรับ</string>
     <string name="add_group">เพื่มกลุ่ม</string>
     <string name="master_key">รหัสผ่านหลัก</string>
@@ -44,7 +44,46 @@
     <string name="education_create_database_summary">สร้างไฟล์ฐานข้อมูลรหัสผ่านแรกของคุณ</string>
     <string name="education_unlock_summary">ป้อนรหัสผ่าน และ/หรือ Keyfile เพื่อปลดล็อกฐานข้อมูลของคุณ
 \n
-\n
 \nสำรองไฟล์ฐานข้อมูลของคุณในที่ปลอดภัยหลังจากการเปลี่ยนแปลงแต่ละครั้ง</string>
     <string name="education_unlock_title">ปลดล็อกฐานข้อมูล</string>
+    <string name="content_description_keyfile_checkbox">ช่องทำเครื่องหมาย Keyfile</string>
+    <string name="content_description_repeat_toggle_password_visibility">ปุ่มสลับการมองเห็นรหัสผ่าน</string>
+    <string name="content_description_passphrase_word_count">จำนวนคำวลีรหัสผ่าน</string>
+    <string name="content_description_add_node">เพิ่มโหนด</string>
+    <string name="content_description_entry_background_color">สีพื้นหลังของรายการ</string>
+    <string name="add_entry">เพิ่มรายการ</string>
+    <string name="edit_entry">แก้ไขรายการ</string>
+    <string name="key_derivation_function">อนุพันธ์ของฟังก์ชันหลัก</string>
+    <string name="app_timeout">หมดเวลา</string>
+    <string name="extended_ASCII">Extended ASCII</string>
+    <string name="clipboard_error">ในบางอุปกรณ์ ระบบไม่อนุญาตให้แอปใช้คลิปบอร์ด</string>
+    <string name="clipboard_error_clear">ไม่สามารถล้างคลิปบอร์ด</string>
+    <string name="clipboard_timeout">ระยะเวลาของคลิปบอร์ด</string>
+    <string name="clipboard_timeout_summary">ระยะเวลาของข้อมูลในคลิปบอร์ด (หากอุปกรณ์รองรับ)</string>
+    <string name="content_description_background">พื้นหลัง</string>
+    <string name="content_description_open_file">เปิดไฟล์</string>
+    <string name="content_description_add_entry">เพิ่มรายการ</string>
+    <string name="content_description_add_group">เพิ่มกลุ่ม</string>
+    <string name="content_description_add_item">เพื่มรายการ</string>
+    <string name="content_description_file_information">ข้อมูลไฟล์</string>
+    <string name="content_description_credentials_information">ข้อมูลประจำตัว</string>
+    <string name="content_description_otp_information">ข้อมูลรหัสผ่านแบบใช้ครั้งเดียว</string>
+    <string name="content_description_password_checkbox">ช่องทำเครื่องหมายรหัสผ่าน</string>
+    <string name="content_description_hardware_key_checkbox">ช่องทำเครื่องหมายคีย์ฮาร์ดแวร์</string>
+    <string name="content_description_entry_icon">ไอคอนรายการ</string>
+    <string name="content_description_database_color">สีของฐานข้อมูล</string>
+    <string name="content_description_entry_foreground_color">สีพื้นหน้ารายการ</string>
+    <string name="content_description_nav_header">ส่วนหัวของการนำทาง</string>
+    <string name="navigation_drawer_open">ลิ้นชักการนำทางเปิดอยู่</string>
+    <string name="navigation_drawer_close">ปิดลิ้นชักการนำทาง</string>
+    <string name="validate">ตรวจสอบ</string>
+    <string name="discard_changes">ละทิ้งการเปลี่ยนแปลง\?</string>
+    <string name="discard">ละทิ้ง</string>
+    <string name="entry_password_generator">ตัวสร้างรหัสผ่าน</string>
+    <string name="entry_add_field">เพิ่มช่อง</string>
+    <string name="entry_add_attachment">เพิ่มไฟล์แนบ</string>
+    <string name="content_description_remove_field">ลบฟิลด์</string>
+    <string name="content_description_update_from_list">อัปเดต</string>
+    <string name="content_description_remove_from_list">ลบ</string>
+    <string name="content_description_keyboard_close_fields">ปิดฟิลด์</string>
 </resources>
