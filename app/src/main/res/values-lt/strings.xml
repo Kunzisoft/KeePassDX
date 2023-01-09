@@ -271,4 +271,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Pakartotinai perjungti slaptažodžio matomumą</string>
     <string name="content_description_passphrase_word_count">Slaptafrazės žodžių skaičius</string>
     <string name="error_label_exists">Ši etiketė jau egzistuoja.</string>
+    <string name="error_response_already_provided">Atsakymas jau pateiktas.</string>
+    <string name="error_no_response_from_challenge">Nepavyko gauti atsakymo į iššūkį.</string>
+    <string name="error_cancel_by_user">Atšaukė naudotojas.</string>
+    <string name="error_remove_file">Įvyko klaida šalinant failo duomenis.</string>
+    <string name="error_start_database_action">Įvyko klaida atliekant veiksmą duomenų bazėje.</string>
 </resources>
