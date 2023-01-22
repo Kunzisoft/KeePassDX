@@ -11,7 +11,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.legacy.DatabaseActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.utils.UriUtil
 
@@ -19,7 +19,7 @@ import com.kunzisoft.keepass.utils.UriUtil
  * Special activity to deal with hardware key drivers,
  * return the response to the database service once finished
  */
-class HardwareKeyActivity: DatabaseActivity(){
+class HardwareKeyActivity: DatabaseModeActivity(){
 
     // To manage hardware key challenge response
     private val resultCallback = ActivityResultCallback<ActivityResult> { result ->
