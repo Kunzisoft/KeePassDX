@@ -262,14 +262,14 @@
     <string name="education_sort_summary">Vælg hvordan poster og grupper er sorteret.</string>
     <string name="education_donation_title">Deltag</string>
     <string name="education_donation_summary">Hjælp med at øge stabiliteten og sikkerheden og med at tilføje flere funktioner.</string>
-    <string name="html_text_ad_free">I modsætning til andre apps til adgangskodeadministration er denne <strong>reklamefri</strong>, <strong>copyleft fri software</strong>, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
-    <string name="html_text_buy_pro">Ved at købe pro-versionen får du adgang til <strong>visuel stil</strong>, og du vil især hjælpe med <strong>gennemførelsen af fællesskabets projekter.</strong></string>
-    <string name="html_text_feature_generosity">Denne <strong>visuelle stil</strong> er tilgængelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For at vi kan bevare vores frihed og altid være aktive, er vi afhængige af dit <strong>bidrag.</strong></string>
+    <string name="html_text_ad_free">I modsætning til andre apps til adgangskodeadministration er denne &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleft fri software&lt;/strong&gt;, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
+    <string name="html_text_buy_pro">Ved at købe pro-versionen får du adgang til &lt;strong&gt;visuel stil&lt;/strong&gt;, og du vil især hjælpe med &lt;strong&gt;gennemførelsen af fællesskabets projekter.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stil&lt;/strong&gt; er tilgængelig takket være din generøsitet.</string>
+    <string name="html_text_donation">For at vi kan bevare vores frihed og altid være aktive, er vi afhængige af dit &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Funktionen er &lt;strong&gt;under udvikling&lt;/strong&gt;, og det kræver &lt;strong&gt;bidrag&lt;/strong&gt;, for snart at være tilgængelig.</string>
     <string name="html_text_dev_feature_buy_pro">Ved at købe &lt;strong&gt;pro&lt;/strong&gt; versionen,</string>
     <string name="html_text_dev_feature_contibute">Ved at &lt;strong&gt;bidrage&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">tilskyndes udviklerne til at lave <strong>nye funktioner</strong> og <strong>rette fejl</strong> i henhold dine bemærkninger.</string>
+    <string name="html_text_dev_feature_encourage">tilskyndes udviklerne til at lave &lt;strong&gt;nye funktioner&lt;/strong&gt; og &lt;strong&gt;rette fejl&lt;/strong&gt; i henhold dine bemærkninger.</string>
     <string name="html_text_dev_feature_thanks">Mange tak for dit bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Vi arbejder hårdt på hurtigt at frigive denne funktion.</string>
     <string name="html_text_dev_feature_upgrade">Husk at holde din app opdateret ved at installere den nyeste version.</string>
@@ -408,9 +408,9 @@
     <string name="contact">Kontakt</string>
     <string name="contribution">Bidrag</string>
     <string name="feedback">Tilbagemelding</string>
-    <string name="html_about_licence">KeePassDX ©%1$d Kunzisoft er <strong>open source</strong> og <strong>uden reklamer</strong>.
-\nDen leveres som den er, under <strong>GPLv3</strong> licens, uden nogen form for garanti.</string>
-    <string name="html_about_contribution">For at <strong>vi kan bevare vores frihed</strong>, <strong>rette fejl</strong>, <strong>tilføje funktioner</strong> og <strong>altid være aktive</strong>, er vi afhængige af <strong>bidrag</strong>.</string>
+    <string name="html_about_licence">KeePassDX ©%1$d Kunzisoft er &lt;strong&gt;open source&lt;/strong&gt; og &lt;strong&gt;uden reklamer&lt;/strong&gt;.
+\nDen leveres som den er, under &lt;strong&gt;GPLv3&lt;/strong&gt; licens, uden nogen form for garanti.</string>
+    <string name="html_about_contribution">For at &lt;strong&gt;vi kan bevare vores frihed&lt;/strong&gt;, &lt;strong&gt;rette fejl&lt;/strong&gt;, &lt;strong&gt;tilføje funktioner&lt;/strong&gt; og &lt;strong&gt;altid være aktive&lt;/strong&gt;, er vi afhængige af &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Hurtig søgning</string>
     <string name="auto_focus_search_summary">Anmod om søgning ved åbning af en database</string>
     <string name="remember_database_locations_title">Husk placeringer af databaser</string>
@@ -651,7 +651,7 @@
 \nKontroller KeyStore\'s kompatibilitet og sikkerhed med producenten af din enhed og skaberen af den ROM, du bruger.</string>
     <string name="entropy">Entropi: %1$s bit</string>
     <string name="consider_chars_filter">Overvej tegn</string>
-    <string name="html_about_privacy"><strong>Der hentes ingen brugerdata</strong>, denne applikation opretter ikke forbindelse til nogen server, kører kun lokalt og respekterer fuldt ud brugernes privatliv.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Der hentes ingen brugerdata&lt;/strong&gt;, denne applikation opretter ikke forbindelse til nogen server, kører kun lokalt og respekterer fuldt ud brugernes privatliv.</string>
     <string name="navigation_drawer_open">Navigationsskuffe åben</string>
     <string name="content_description_nav_header">Navigationsoverskrift</string>
     <string name="navigation_drawer_close">Navigationsskuffe lukke</string>

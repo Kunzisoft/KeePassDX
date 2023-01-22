@@ -329,7 +329,7 @@
     <string name="error_export_app_properties">앱 속성을 내보내던 중 오류 발생</string>
     <string name="rounds">변환 차수</string>
     <string name="parallelism_explanation">키 파생 함수에 사용되는 병렬 처리 수준 (즉, 스레드의 갯수)</string>
-    <string name="html_about_privacy"><strong>사용자 데이터를 받아오지 않습니다.</strong> 어떤 서버에도 연결하지 않고 로컬로만 동작하며 사용자의 사생활(프라이버시)를 최우선시합니다.</string>
+    <string name="html_about_privacy">&lt;strong&gt;사용자 데이터를 받아오지 않습니다.&lt;/strong&gt; 어떤 서버에도 연결하지 않고 로컬로만 동작하며 사용자의 사생활(프라이버시)를 최우선시합니다.</string>
     <string name="error_rebuild_list">목록 재구축을 알맞게 할 수 없습니다.</string>
     <string name="error_file_to_big">업로드하려는 파일이 너무 큽니다.</string>
     <string name="error_no_response_from_challenge">요청한 시도로부터 응답을 받을 수 없습니다.</string>

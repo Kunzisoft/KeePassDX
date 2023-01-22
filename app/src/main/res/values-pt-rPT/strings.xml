@@ -601,7 +601,7 @@
     <string name="content_description_passphrase_word_count">Número de palavras da frase-chave</string>
     <string name="waiting_challenge_request">À espera do pedido de desafio…</string>
     <string name="waiting_challenge_response">À espera da resposta ao desafio…</string>
-    <string name="html_about_privacy"><strong>Nenhum dado de utilizador é recuperado</strong>, esta aplicação não se liga a nenhum servidor, funciona apenas localmente e respeita plenamente a privacidade dos utilizadores.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nenhum dado de utilizador é recuperado&lt;/strong&gt;, esta aplicação não se liga a nenhum servidor, funciona apenas localmente e respeita plenamente a privacidade dos utilizadores.</string>
     <string name="tags">Etiquetas</string>
     <string name="search_filters">Filtros de pesquisa</string>
     <string name="wireless">Wi-Fi</string>

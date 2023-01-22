@@ -605,8 +605,8 @@
     <string name="enable_auto_save_database_summary">Gardar a base de datos após unha acción importante (en modo \"Modificábel\")</string>
     <string name="enable_keep_screen_on_summary">Manter a pantalla acesa ao ver unha entrada</string>
     <string name="enable_screenshot_mode_title">Modo captura de pantalla</string>
-    <string name="html_text_buy_pro">Ao mercar a versión pro, terá acceso ao <strong>estilo visual</strong> e axudará especialmente a <strong> realizar proxectos comunitarios.</strong></string>
-    <string name="html_text_dev_feature_contibute">Ao <strong>contribuír</strong>,</string>
+    <string name="html_text_buy_pro">Ao mercar a versión pro, terá acceso ao &lt;strong&gt;estilo visual&lt;/strong&gt; e axudará especialmente a &lt;strong&gt; realizar proxectos comunitarios.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature_contibute">Ao &lt;strong&gt;contribuír&lt;/strong&gt;,</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="download_complete">Completado!</string>
     <string name="entropy">Entropía: %1$s bit</string>
@@ -626,8 +626,8 @@
     <string name="hide_expired_entries_summary">Entradas expiradas non son mostradas</string>
     <string name="education_donation_title">Participe</string>
     <string name="education_donation_summary">Axude a aumentar a estabilidade, seguranza e número de funcionalidades.</string>
-    <string name="html_text_feature_generosity">Este <strong>estilo visual</strong> está dispoñíbel grazas á súa xenerosidade.</string>
-    <string name="html_text_donation">Para manter a nosa liberdade e estarmos sempre activos, contamos coa súa <strong>contribución.</strong></string>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está dispoñíbel grazas á súa xenerosidade.</string>
+    <string name="html_text_donation">Para manter a nosa liberdade e estarmos sempre activos, contamos coa súa &lt;strong&gt;contribución.&lt;/strong&gt;</string>
     <string name="download_attachment">Descarregar %1$s</string>
     <string name="download_initialization">A inicializar…</string>
     <string name="download_progression">En progreso: %1$d%%</string>
@@ -640,7 +640,7 @@
     <string name="education_lock_summary">Bloquee a súa base de datos rapidamente. Pode configurar a aplicación para bloqueala despois dun tempo ou cando a pantalla se apague.</string>
     <string name="education_sort_title">Ordenación de elementos</string>
     <string name="education_sort_summary">Escolla as entradas e grupos a ordenar.</string>
-    <string name="html_text_dev_feature">Esta funcionalidade está <strong>en desenvolvemento</strong> e precisa da súa <strong>contribución</strong> para a súa futura dispoñibilidade.</string>
+    <string name="html_text_dev_feature">Esta funcionalidade está &lt;strong&gt;en desenvolvemento&lt;/strong&gt; e precisa da súa &lt;strong&gt;contribución&lt;/strong&gt; para a súa futura dispoñibilidade.</string>
     <string name="html_text_dev_feature_thanks">Moitas grazas pola súa contribución.</string>
     <string name="html_text_dev_feature_upgrade">Lembre manter a súa aplicación actualizada, instalando as novas versións.</string>
     <string name="contribute">Contribuír</string>
@@ -656,11 +656,11 @@
     <string name="download_canceled">Cancelado!</string>
     <string name="education_generate_password_summary">Xere un contrasinal forte a asociar coa súa entrada, defínao facilmente segundo os criterios do formulario e non esqueza tornalo seguro.</string>
     <string name="education_add_attachment_summary">Suba un anexo á súa entrada para gardar datos externos importantes.</string>
-    <string name="html_text_ad_free">Ao contrario de moitas aplicacións de xestión de contrasinais, esta aplicación <strong>non ten anuncios</strong>, é <strong>un programa de software libre \"copyleft\"</strong> e non recolle datos persoais para os seus servidores, sen importar a versión a usar.</string>
+    <string name="html_text_ad_free">Ao contrario de moitas aplicacións de xestión de contrasinais, esta aplicación &lt;strong&gt;non ten anuncios&lt;/strong&gt;, é &lt;strong&gt;un programa de software libre \"copyleft\"&lt;/strong&gt; e non recolle datos persoais para os seus servidores, sen importar a versión a usar.</string>
     <string name="education_entry_edit_summary">Edite a entrada cos campos personalizados. Os conxuntos de datos poden ser referenciados en entradas diferentes.</string>
     <string name="consider_chars_filter">Considerar caracteres</string>
     <string name="icon_section_custom">Personalizado</string>
     <string name="icon_pack_choose_summary">Cambiar o paquete de iconos da aplicación</string>
-    <string name="html_text_dev_feature_buy_pro">Ao comprar a versión <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_encourage">está a incentivar os programadores a crear <strong>novas funcionalidades</strong> e a <strong>corrixir erros</strong> reportados.</string>
+    <string name="html_text_dev_feature_buy_pro">Ao comprar a versión &lt;strong&gt;pro&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">está a incentivar os programadores a crear &lt;strong&gt;novas funcionalidades&lt;/strong&gt; e a &lt;strong&gt;corrixir erros&lt;/strong&gt; reportados.</string>
 </resources>

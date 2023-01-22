@@ -219,8 +219,8 @@
     <string name="error_field_name_already_exists">Įrašo pavadinimas jau egzistuoja.</string>
     <string name="error_database_uri_null">Duomenų bazės URI nepavyko gauti.</string>
     <string name="key_derivation_function">Rakto išvedimo funkcija</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft yra <strong>atviro kodo</strong> ir <strong>be reklamų</strong>.
-\nJis teikiamas toks, koks yra, pagal <strong>GPLv3</strong> licenciją, be jokių garantijų.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft yra &lt;strong&gt;atviro kodo&lt;/strong&gt; ir &lt;strong&gt;be reklamų&lt;/strong&gt;.
+\nJis teikiamas toks, koks yra, pagal &lt;strong&gt;GPLv3&lt;/strong&gt; licenciją, be jokių garantijų.</string>
     <string name="private_key">Privatus raktas</string>
     <string name="date_of_issue">Išdavimo data</string>
     <string name="email_address">El. pašto adresas</string>
@@ -237,7 +237,7 @@
     <string name="content_description_otp_information">Vienkartinio slaptažodžio info</string>
     <string name="error_file_to_big">Failas, kurį bandote įkelti, yra per didelis.</string>
     <string name="error_otp_type">Ši forma neatpažįsta esamo OTP tipo, jos patvirtinimas gali nebegeneruoti teisingo žetono.</string>
-    <string name="html_about_privacy"><strong>Jokie naudotojo duomenys nerenkami</strong>, ši programa neprisijungia prie jokio serverio, veikia tik vietoje ir visiškai nepažeidžia naudotojų privatumo.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Jokie naudotojo duomenys nerenkami&lt;/strong&gt;, ši programa neprisijungia prie jokio serverio, veikia tik vietoje ir visiškai nepažeidžia naudotojų privatumo.</string>
     <string name="debit_credit_card">Debit / Kreditinė kortelė</string>
     <string name="holder">Turėtojas</string>
     <string name="email">El. paštas</string>
