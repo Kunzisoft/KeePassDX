@@ -138,7 +138,7 @@
     </string-array>
     <string name="encryption">Κρυπτογράφηση</string>
     <string name="key_derivation_function">Συνάρτηση παραγωγής κλειδιού</string>
-    <string name="extended_ASCII">Extended ASCII</string>
+    <string name="extended_ASCII">Εκτεταμένο ASCII</string>
     <string name="allow">Δέχομαι</string>
     <string name="error_autofill_enable_service">Δεν ήταν δυνατή η ενεργοποίηση της υπηρεσίας αυτόματης συμπλήρωσης.</string>
     <string name="file_not_found_content">Δεν ήταν δυνατή η εύρεση αρχείου. Δοκιμάστε να το ανοίξετε ξανά από το πρόγραμμα περιήγησης αρχείων σας.</string>

@@ -19,7 +19,7 @@
 
     Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 --><resources>
-    <string name="feedback">Reacties</string>
+    <string name="feedback">Opmerkingen</string>
     <string name="homepage">Startpagina</string>
     <string name="about_description">Android-implementatie van KeePass-wachtwoordbeheer</string>
     <string name="accept">Accepteren</string>
@@ -27,11 +27,11 @@
     <string name="add_group">Groep toevoegen</string>
     <string name="encryption_algorithm">Versleutelingsalgoritme</string>
     <string name="app_timeout">Time-out</string>
-    <string name="app_timeout_summary">Tijd tot vergrendeling bij inactiviteit</string>
+    <string name="app_timeout_summary">Inactieve tijd tot vergrendeling van de database</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-instellingen</string>
     <string name="brackets">Haakjes</string>
-    <string name="file_manager_install_description">Bestandsbeheer dat de Intent-actie ACTION_CREATE_DOCUMENT en ACTION_OPEN_DOCUMENT accepteert, is nodig om databasebestanden aan te maken, te openen en op te slaan.</string>
+    <string name="file_manager_install_description">Een bestandsbeheerder die de actie ACTION_CREATE_DOCUMENT en ACTION_OPEN_DOCUMENT accepteert, is vereist om databasebestanden te maken, openen en opslaan.</string>
     <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Time-out van het klembord</string>
     <string name="clipboard_timeout_summary">Duur van opslag op het klembord (indien ondersteund op dit apparaat)</string>
@@ -134,7 +134,7 @@
     <string name="allow">Toestaan</string>
     <string name="clipboard_error_title">Klembordfout</string>
     <string name="clipboard_error">Sommige apparaten staan niet toe dat apps het klembord gebruiken.</string>
-    <string name="clipboard_error_clear">Wissen van klembord mislukt</string>
+    <string name="clipboard_error_clear">Klembord is niet gewist</string>
     <string name="entry_not_found">Geen iteminhoud gevonden.</string>
     <string name="error_load_database">De database is niet geladen.</string>
     <string name="error_load_database_KDF_memory">De sleutel kan niet worden geladen. Probeer om het \"geheugengebruik\" van KDF te verminderen.</string>
@@ -169,7 +169,7 @@
     <string name="sort_menu">Sorteren</string>
     <string name="sort_ascending">Laagste eerst ↓</string>
     <string name="sort_groups_before">Groepen vooraan plaatsen</string>
-    <string name="sort_recycle_bin_bottom">Prullenbak onderaan plaatsen</string>
+    <string name="sort_recycle_bin_bottom">Prullenbak onderaan</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Gebruikersnaam</string>
     <string name="sort_creation_time">Gecreëerd op</string>
@@ -190,7 +190,7 @@
     <string name="set_autofill_service_title">Dienst automatisch aanvullen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>
     <string name="password_size_title">Gegenereerde wachtwoordlengte</string>
-    <string name="password_size_summary">Stel de standaardlengte van gegenereerd wachtwoord in</string>
+    <string name="password_size_summary">Stel de standaardlengte van gegenereerde wachtwoorden in</string>
     <string name="list_password_generator_options_title">Wachtwoordtekens</string>
     <string name="list_password_generator_options_summary">Toegestane wachtwoordtekens instellen</string>
     <string name="clipboard">Klembord</string>
@@ -311,7 +311,7 @@
     <string name="lock_database_back_root_summary">Vergrendel de database wanneer de gebruiker in het hoofdscherm op de knop Terug klikt</string>
     <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
     <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer de duur van het klembord verloopt of de melding wordt gesloten nadat u deze bent gaan gebruiken</string>
-    <string name="recycle_bin">Prullenmand</string>
+    <string name="recycle_bin">Prullenbak</string>
     <string name="keyboard_selection_entry_title">Itemselectie</string>
     <string name="keyboard_selection_entry_summary">Vul, bij het bekijken van een item in KeePassDX, Magikeyboard met dat item</string>
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
@@ -322,8 +322,8 @@
     <string name="content_description_add_entry">Item toevoegen</string>
     <string name="content_description_add_group">Groep toevoegen</string>
     <string name="content_description_file_information">Bestandsinformatie</string>
-    <string name="content_description_password_checkbox">Wachtwoord-selectie</string>
-    <string name="content_description_keyfile_checkbox">Sleutelbestand-selectie</string>
+    <string name="content_description_password_checkbox">Wachtwoord-selectievak</string>
+    <string name="content_description_keyfile_checkbox">Sleutelbestand-selectievak</string>
     <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
     <string name="content_description_entry_icon">Item-pictogram</string>
     <string name="entry_password_generator">Wachtwoordgenerator</string>
@@ -403,7 +403,7 @@
     <string name="download_attachment">Download %1$s</string>
     <string name="education_setup_OTP_summary">Stel eenmalig wachtwoordbeheer (HOTP / TOTP) in om een token te genereren voor tweefactorauthenticatie (2FA).</string>
     <string name="enable_auto_save_database_title">Automatisch opslaan</string>
-    <string name="recycle_bin_group_title">Prullenbak</string>
+    <string name="recycle_bin_group_title">Prullenbak-groep</string>
     <string name="lock_database_show_button_summary">Toont de vergrendelknop in de gebruikersinterface</string>
     <string name="lock_database_show_button_title">Vergrendelknop tonen</string>
     <string name="autofill_preference_title">Instellingen voor automatisch aanvullen</string>
@@ -431,7 +431,7 @@
     <string name="discard">Weggooien</string>
     <string name="discard_changes">Veranderingen ongedaan maken\?</string>
     <string name="validate">Valideren</string>
-    <string name="contribution">Bijdragen</string>
+    <string name="contribution">Donatie</string>
     <string name="contact">Contact</string>
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
@@ -666,7 +666,7 @@
     <string name="remember_hardware_key_summary">Houdt de gebruikte fysieke sleutels bij</string>
     <string name="html_about_privacy">&lt;strong&gt; Er worden geen gebruikersgegevens opgehaald &lt;/strong&gt;, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>
     <string name="error_location_unknown">Locatie van database is onbekend, actie kan niet worden uitgevoerd.</string>
-    <string name="content_description_hardware_key_checkbox">Fysieke sleutel-selectie</string>
+    <string name="content_description_hardware_key_checkbox">Fysieke sleutel-selectievak</string>
     <string name="waiting_challenge_request">In afwachting van de reactietest-vraag…</string>
     <string name="waiting_challenge_response">In afwachting van het reactietest-antwoord…</string>
     <string name="error_hardware_key_unsupported">Deze fysieke sleutel wordt niet ondersteund.</string>
