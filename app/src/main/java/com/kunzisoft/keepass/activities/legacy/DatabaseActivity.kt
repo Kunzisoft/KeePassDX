@@ -9,7 +9,6 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.viewmodels.ChallengeResponseViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
@@ -18,12 +17,10 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
     protected var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     protected var mDatabase: Database? = null
 
-    private val mChallengeResponseViewModel: ChallengeResponseViewModel by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mDatabaseTaskProvider = DatabaseTaskProvider(this, mChallengeResponseViewModel)
+        mDatabaseTaskProvider = DatabaseTaskProvider(this)
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
             val databaseWasReloaded = database?.wasReloaded == true

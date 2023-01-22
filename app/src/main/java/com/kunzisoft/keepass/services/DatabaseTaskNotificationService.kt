@@ -124,8 +124,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             mActionTaskListeners.remove(actionTaskListener)
         }
 
-        @ExperimentalCoroutinesApi
-        fun addRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
+        @OptIn(ExperimentalCoroutinesApi::class)
+        fun setRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
             mainScope.launch {
                 val requestChannel = mRequestChallengeListenerChannel
                 if (requestChannel == null || requestChannel.isEmpty) {
@@ -169,7 +169,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface RequestChallengeListener {
-        fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?)
+        fun onChallengeResponseRequested(
+            hardwareKey: HardwareKey,
+            seed: ByteArray?
+        )
     }
 
     fun checkDatabase() {
@@ -270,8 +273,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mResponseChallengeChannel = null
     }
 
-    @ExperimentalCoroutinesApi
-    fun respondToChallenge(response: ByteArray) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun respondToChallenge(response: ByteArray) {
         mainScope.launch {
             val responseChannel = mResponseChallengeChannel
             if (responseChannel == null || responseChannel.isEmpty) {
@@ -321,6 +324,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         if (intentAction == null && !database.loaded) {
             stopSelf()
+        }
+
+        if (intentAction == ACTION_CHALLENGE_RESPONDED) {
+            intent.getByteArrayExtra(DATA_BYTES)?.let {
+                respondToChallenge(it)
+            }
         }
 
         val actionRunnable: ActionRunnable? =  when (intentAction) {
@@ -756,7 +765,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             databaseToMergeUri,
             databaseToMergeMainCredential,
             { hardwareKey, seed ->
-                // TODO fix first challenge response
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
             database,
@@ -1157,6 +1165,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
+        const val ACTION_CHALLENGE_RESPONDED = "ACTION_CHALLENGE_RESPONDED"
 
         const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
         const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
@@ -1180,6 +1189,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
+        const val DATA_BYTES = "DATA_BYTES"
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()
