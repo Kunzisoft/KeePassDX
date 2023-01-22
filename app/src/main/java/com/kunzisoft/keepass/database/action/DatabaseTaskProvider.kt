@@ -42,8 +42,6 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.hardware.HardwareKeyActivity
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -188,20 +186,6 @@ class DatabaseTaskProvider(private var context: Context) {
         }
     }
 
-    private var requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
-        override fun onChallengeResponseRequested(
-            hardwareKey: HardwareKey,
-            seed: ByteArray?
-        ) {
-            HardwareKeyActivity
-                .launchHardwareKeyActivity(
-                    context,
-                    hardwareKey,
-                    seed
-                )
-        }
-    }
-
     private fun startDialog(progressMessage: ProgressMessage) {
         activity?.let { activity ->
             activity.lifecycleScope.launch {
@@ -259,14 +243,12 @@ class DatabaseTaskProvider(private var context: Context) {
         service?.addDatabaseListener(databaseListener)
         service?.addDatabaseFileInfoListener(databaseInfoListener)
         service?.addActionTaskListener(actionTaskListener)
-        service?.setRequestChallengeListener(requestChallengeListener)
     }
 
     private fun removeServiceListeners(service: DatabaseTaskNotificationService.ActionTaskBinder?) {
         service?.removeActionTaskListener(actionTaskListener)
         service?.removeDatabaseFileInfoListener(databaseInfoListener)
         service?.removeDatabaseListener(databaseListener)
-        service?.removeRequestChallengeListener()
     }
 
     private fun bindService() {

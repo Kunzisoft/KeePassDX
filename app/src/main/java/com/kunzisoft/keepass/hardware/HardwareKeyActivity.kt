@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.hardware
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -96,7 +97,7 @@ class HardwareKeyActivity: DatabaseActivity(){
             seed: ByteArray?
         ) {
             context.startActivity(Intent(context, HardwareKeyActivity::class.java).apply {
-                //flags = FLAG_ACTIVITY_NEW_TASK
+                flags = FLAG_ACTIVITY_NEW_TASK
                 putExtra(DATA_HARDWARE_KEY, hardwareKey.value)
                 putExtra(DATA_SEED, seed)
             })
