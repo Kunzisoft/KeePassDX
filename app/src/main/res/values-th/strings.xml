@@ -22,7 +22,7 @@
     <string name="security">ความปลอดภัย</string>
     <string name="hide_password_summary">ปิดบังรหัสผ่านเป็น (***) โดยค่าเรื่มต้น</string>
     <string name="app_timeout_summary">ระยะเวลาที่ไม่ได้ใช้งานก่อนที่ฐานข้อมูลจะถูกล็อก</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">ใช้งานการยืนยันข้้นสูงเพื่อปลดล็อกฐานข้อมูล</string>
+    <string name="open_advanced_unlock_prompt_unlock_database">ใช้งานการยืนยันตัวข้้นสูงเพื่อปลดล็อกฐานข้อมูล</string>
     <string name="settings">การตั้งค่า</string>
     <string name="hint_pass">รหัสผ่าน</string>
     <string name="hint_generated_password">สร้างรหัสผ่าน</string>
@@ -69,7 +69,7 @@
     <string name="content_description_credentials_information">ข้อมูลประจำตัว</string>
     <string name="content_description_otp_information">ข้อมูลรหัสผ่านแบบใช้ครั้งเดียว</string>
     <string name="content_description_password_checkbox">ช่องทำเครื่องหมายรหัสผ่าน</string>
-    <string name="content_description_hardware_key_checkbox">ช่องทำเครื่องหมายคีย์ฮาร์ดแวร์</string>
+    <string name="content_description_hardware_key_checkbox">ช่องทำเครื่องหมายกุญแจฮาร์ดแวร์</string>
     <string name="content_description_entry_icon">ไอคอนรายการ</string>
     <string name="content_description_database_color">สีของฐานข้อมูล</string>
     <string name="content_description_entry_foreground_color">สีพื้นหน้ารายการ</string>
@@ -86,4 +86,14 @@
     <string name="content_description_update_from_list">อัปเดต</string>
     <string name="content_description_remove_from_list">ลบ</string>
     <string name="content_description_keyboard_close_fields">ปิดฟิลด์</string>
+    <string name="retrieving_db_key">กำลังเรียกกุญแจของฐานข้อมูล…</string>
+    <string name="error_no_hardware_key">เลือกกุญแจฮาร์ดแวร์</string>
+    <string name="error_hardware_key_unsupported">ไม่รองรับกุญแจฮาร์ดแวร์</string>
+    <string name="create_keepass_file">สร้างฐานข้อมูลใหม่</string>
+    <string name="configure_biometric">ไม่ได้กำหนดข้อมูลไบโอเมตริกหรือข้อมูลการเข้าสู่ระบบไว้</string>
+    <string name="open_advanced_unlock_prompt_store_credential">เปิดใช้งานการปลดล็อกขั้นสูงเพื่อเก็บข้อมูลการเข้าสู่ระบบไว้</string>
+    <string name="advanced_unlock_prompt_store_credential_message">คุณยังจำเป็นต้องจดจำข้อมูลการเข้าสู่ระบบหลักไว้ถ้าใช้การปลดล็อกด้วยการยืนยันตัวขั้นสูง</string>
+    <string name="hardware_key">กุญแจฮาร์ดแวร์</string>
+    <string name="loading_database">กำลังโหลดฐานข้อมูล…</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการยืนยันตัวขั้นสูง</string>
 </resources>
