@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.education.Education
 import java.io.*
-import java.net.URL
 import java.util.*
 
 
