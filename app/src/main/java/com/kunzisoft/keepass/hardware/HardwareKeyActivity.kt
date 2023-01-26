@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -157,7 +158,11 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     context.getString(R.string.error_driver_required, hardwareKey.toString())
                 )
                 .setPositiveButton(R.string.download) { _, _ ->
-                    UriUtil.openExternalApp(context, context.getString(R.string.key_driver_app_id))
+                    UriUtil.openExternalApp(
+                        context,
+                        context.getString(R.string.key_driver_app_id),
+                        context.getString(R.string.key_driver_url)
+                    )
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> }
                 .setOnDismissListener(onDialogDismissed)
