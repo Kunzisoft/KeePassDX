@@ -19,11 +19,13 @@
 
 package com.kunzisoft.keepass.database.element.database
 
+import android.content.ContentResolver
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -31,8 +33,10 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
+import com.kunzisoft.keepass.database.exception.EmptyKeyDatabaseException
+import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import java.io.IOException
-import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.*
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
@@ -56,8 +60,8 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         KdfFactory.aesKdf
     )
 
-    override val passwordEncoding: String
-        get() = "ISO-8859-1"
+    override val passwordEncoding: Charset
+        get() = Charsets.ISO_8859_1
 
     override var numberKeyEncryptionRounds = 300L
 
@@ -117,25 +121,46 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     @Throws(IOException::class)
-    override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
-
-        return if (key != null && keyInputStream != null) {
-            getCompositeKey(key, keyInputStream)
-        } else if (key != null) { // key.length() >= 0
-            getPasswordKey(key)
-        } else if (keyInputStream != null) { // key == null
-            getFileKey(keyInputStream)
-        } else {
-            throw IllegalArgumentException("Key cannot be empty.")
-        }
-    }
-
-    @Throws(IOException::class)
     fun makeFinalKey(masterSeed: ByteArray, transformSeed: ByteArray, numRounds: Long) {
         // Encrypt the master key a few times to make brute-force key-search harder
         val transformedKey = AESTransformer.transformKey(transformSeed, masterKey, numRounds) ?: ByteArray(0)
         // Write checksum Checksum
         finalKey = HashManager.hashSha256(masterSeed, transformedKey)
+    }
+
+    fun deriveMasterKey(
+        contentResolver: ContentResolver,
+        mainCredential: MainCredential
+    ) {
+        // Exception when no password
+        if (mainCredential.hardwareKey != null)
+            throw HardwareKeyDatabaseException()
+        if (mainCredential.password == null && mainCredential.keyFileUri == null)
+            throw EmptyKeyDatabaseException()
+
+        // Retrieve plain data
+        val password = mainCredential.password
+        val keyFileUri = mainCredential.keyFileUri
+        val passwordBytes = if (password != null) MainCredential.retrievePasswordKey(
+            password,
+            passwordEncoding
+        ) else null
+        val keyFileBytes = if (keyFileUri != null) MainCredential.retrieveFileKey(
+            contentResolver,
+            keyFileUri,
+            false
+        ) else null
+
+        // Build master key
+        if (passwordBytes != null
+            && keyFileBytes != null) {
+            this.masterKey = HashManager.hashSha256(
+                passwordBytes,
+                keyFileBytes
+            )
+        } else {
+            this.masterKey = passwordBytes ?: keyFileBytes ?: byteArrayOf(0)
+        }
     }
 
     override fun createGroup(): GroupKDB {

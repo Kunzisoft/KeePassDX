@@ -30,8 +30,12 @@
     <string name="app_name_part2" translatable="false">DX</string>
     <string name="app_name_part3" translatable="false">Pro</string>
 
-    <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
-    <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
+    <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
+    <string name="f_droid_url" translatable="false">https://f-droid.org/en/packages/%1$s</string>
+    <string name="keepro_app_id" translatable="false">com.kunzisoft.keepass.pro</string>
+    <string name="key_driver_app_id" translatable="false">com.kunzisoft.hardware.key</string>
+    <string name="key_driver_url" translatable="false">https://gitlab.com/kunzisoft/android-hardware-key-driver/-/releases/</string>
+    <string name="contribution_url" translatable="false">https://www.keepassdx.com/#donation</string>
     <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
     <string name="external_icon_url" translatable="false">https://www.keepassdx.com/#icons</string>
     <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
@@ -70,6 +74,8 @@
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>
     <bool name="enable_keep_screen_on_default" translatable="false">true</bool>
+    <string name="enable_screenshot_mode_key" translatable="false">enable_screenshot_mode_key</string>
+    <bool name="enable_screenshot_mode_key_default" translatable="false">false</bool>
     <string name="auto_focus_search_key" translatable="false">auto_focus_search_key</string>
     <bool name="auto_focus_search_default" translatable="false">false</bool>
     <string name="subdomain_search_key" translatable="false">subdomain_search_key</string>
@@ -91,6 +97,8 @@
     <bool name="hide_broken_locations_default" translatable="false">true</bool>
     <string name="remember_keyfile_locations_key" translatable="false">remember_keyfile_locations_key</string>
     <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
+    <string name="remember_hardware_key_key" translatable="false">remember_hardware_key_key</string>
+    <bool name="remember_hardware_key_default" translatable="false">true</bool>
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>

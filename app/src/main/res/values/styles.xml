@@ -565,7 +565,7 @@
     </style>
 
     <!-- Transparent -->
-    <style name="Theme.Transparent" parent="Theme.MaterialComponents">
+    <style name="Theme.Transparent" parent="Theme.Material3.DynamicColors.Dark">
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

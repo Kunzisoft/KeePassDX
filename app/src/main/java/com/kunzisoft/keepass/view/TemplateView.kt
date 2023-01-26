@@ -68,7 +68,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                             setCopyButtonState(TextFieldView.ButtonState.ACTIVATE)
                             setCopyButtonClickListener { label, value ->
                                 mOnCopyActionClickListener
-                                    ?.invoke(Field(label, ProtectedString(false, value)))
+                                    ?.invoke(Field(label, ProtectedString(true, value)))
                             }
                         } else {
                             setCopyButtonState(TextFieldView.ButtonState.GONE)

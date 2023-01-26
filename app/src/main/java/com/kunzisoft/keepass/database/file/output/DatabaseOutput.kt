@@ -26,7 +26,7 @@ import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 
-abstract class DatabaseOutput<Header : DatabaseHeader> protected constructor(protected var mOutputStream: OutputStream) {
+abstract class DatabaseOutput<Header : DatabaseHeader> {
 
     @Throws(DatabaseOutputException::class)
     protected open fun setIVs(header: Header): SecureRandom {
@@ -44,9 +44,7 @@ abstract class DatabaseOutput<Header : DatabaseHeader> protected constructor(pro
     }
 
     @Throws(DatabaseOutputException::class)
-    abstract fun output()
-
-    @Throws(DatabaseOutputException::class)
-    abstract fun outputHeader(outputStream: OutputStream): Header
+    abstract fun writeDatabase(outputStream: OutputStream,
+                               assignMasterKey: () -> Unit)
 
 }

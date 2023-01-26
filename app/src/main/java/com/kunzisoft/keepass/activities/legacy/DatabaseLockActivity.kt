@@ -32,7 +32,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DatabaseDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -44,7 +43,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -91,8 +90,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
-        mDatabaseViewModel.mergeDatabase.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseMerge()
+        mDatabaseViewModel.mergeDatabase.observe(this) { save ->
+            mDatabaseTaskProvider?.startDatabaseMerge(save)
         }
 
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
@@ -228,6 +227,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 // Reload the current activity
                 if (result.isSuccess) {
                     reloadActivity()
+                    if (actionTask == DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK) {
+                        Toast.makeText(this, R.string.merge_success, Toast.LENGTH_LONG).show()
+                    }
                 } else {
                     this.showActionErrorIfNeeded(result)
                     finish()
@@ -271,11 +273,11 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun mergeDatabase() {
-        mDatabaseTaskProvider?.startDatabaseMerge()
+        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable)
     }
 
     fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
-        mDatabaseTaskProvider?.startDatabaseMerge(uri, mainCredential)
+        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable, uri, mainCredential)
     }
 
     fun reloadDatabase() {

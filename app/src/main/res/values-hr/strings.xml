@@ -148,7 +148,7 @@
     <string name="protection">Zaštita</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplicirane UUID-ove.</string>
     <string name="selection_mode">Modus odabira</string>
-    <string name="encryption_explanation">Algoritam šifriranja baze podataka koji se koristi za sve podatke.</string>
+    <string name="encryption_explanation">Algoritam šifriranja baze podataka koji se koristi za sve podatke</string>
     <string name="memory_usage">Korištenje memorije</string>
     <string name="parallelism">Paralelnost</string>
     <string name="parallelism_explanation">Stupanj paralelnosti (odnosno broj threadova) koji će koristiti funkcija za generiranje ključeva.</string>
@@ -599,7 +599,7 @@
     <string name="enable_keep_screen_on_title">Ostavi ekran uključen</string>
     <string name="enable_keep_screen_on_summary">Ostavi ekran uključen tijekom gledanja unosa</string>
     <string name="show_entry_colors_title">Boje unosa</string>
-    <string name="show_entry_colors_summary">Prikazuje prednje boje i boje pozadine u unosu</string>
+    <string name="show_entry_colors_summary">Prikazuje prednje boje i boje pozadine za unos</string>
     <string name="content_description_entry_foreground_color">Prednja boja unosa</string>
     <string name="content_description_database_color">Boja baze podataka</string>
     <string name="content_description_entry_background_color">Pozadinska boja unosa</string>
@@ -610,7 +610,7 @@
     <string name="searchable">Pretraživo</string>
     <string name="inherited">Naslijedi</string>
     <string name="custom_data">Prilagođeni podaci</string>
-    <string name="auto_type_sequence">Slijed automatskog popunjavanja</string>
+    <string name="auto_type_sequence">Slijed automatskog unosa</string>
     <string name="regex">Regularni izraz</string>
     <string name="menu_merge_from">Sjedini iz …</string>
     <string name="menu_save_copy_to">Spremi kopiju u …</string>
@@ -639,4 +639,28 @@
     <string name="title_case">Velika Početna Slova</string>
     <string name="character_count">Broj znakova: %1$d</string>
     <string name="upper_case">VELIKA SLOVA</string>
+    <string name="hardware_key">Hardverski ključ</string>
+    <string name="error_no_hardware_key">Odaberi hardverski ključ.</string>
+    <string name="error_unable_merge_database_kdb">Spajanje iz baze podataka V1 nije moguće.</string>
+    <string name="error_location_unknown">Mjesto baze podataka nije poznato, radnja baze podataka se ne može izvršiti.</string>
+    <string name="error_cancel_by_user">Korisnik je prekinuo radnju.</string>
+    <string name="error_driver_required">Potreban je pogon za %1$s.</string>
+    <string name="error_hardware_key_unsupported">Hardverski ključ nije podržan.</string>
+    <string name="error_empty_key">Ključ ne smije biti prazan.</string>
+    <string name="corrupted_file">Neispravna datoteka.</string>
+    <string name="remember_hardware_key_summary">Pamti korištene hardverske ključeve</string>
+    <string name="screenshot_mode_banner_text">Modus snimanja ekrana</string>
+    <string name="error_XML_malformed">Neispravno formatiran XML.</string>
+    <string name="enable_screenshot_mode_title">Modus snimanja ekrana</string>
+    <string name="content_description_hardware_key_checkbox">Potvrdni okvir hardverskog ključa</string>
+    <string name="remember_hardware_key_title">Zapamti hardverske ključeve</string>
+    <string name="enable_screenshot_mode_summary">Dopusti stranim aplikacijama snimanje ili slikanje ekrana aplikacije</string>
+    <string name="html_about_privacy">&lt;strong&gt;Korisnički podaci se ne dohvaćaju&lt;/strong&gt;, ova aplikacija se ne povezuje ni s jednim poslužiteljem, radi samo lokalno i u potpunosti poštuje privatnost korisnika.</string>
+    <string name="error_no_response_from_challenge">Nije moguće dobiti odgovor na izazov.</string>
+    <string name="content_description_nav_header">Zaglavlje navigacije</string>
+    <string name="waiting_challenge_response">Čeka se odgovor za izazov …</string>
+    <string name="auto_type">Automatski unos</string>
+    <string name="waiting_challenge_request">Čeka se zahtjev za izazov …</string>
+    <string name="error_challenge_already_requested">Izazov je već zatražen</string>
+    <string name="error_response_already_provided">Odgovor je već dat.</string>
 </resources>

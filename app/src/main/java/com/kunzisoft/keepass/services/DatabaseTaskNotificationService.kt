@@ -27,6 +27,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
@@ -37,12 +38,15 @@ import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.HardwareKeyActivity
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -53,6 +57,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import java.util.*
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
@@ -61,20 +66,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private var mDatabase: Database? = null
 
+    // File description
+    private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
+    private var mLastLocalSaveTime: Long = 0
+
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
-    private var mDatabaseListeners = LinkedList<DatabaseListener>()
-    private var mDatabaseInfoListeners = LinkedList<DatabaseInfoListener>()
+    private var mDatabaseListeners = mutableListOf<DatabaseListener>()
+    private var mDatabaseInfoListeners = mutableListOf<DatabaseInfoListener>()
     private var mActionTaskBinder = ActionTaskBinder()
-    private var mActionTaskListeners = LinkedList<ActionTaskListener>()
+    private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
+    // Channel to connect asynchronously a response
+    private var mResponseChallengeChannel: Channel<ByteArray?>? = null
+
     private var mActionRunning = false
     private var mTaskRemovedRequested = false
-    private var mCreationState = false
+    private var mSaveState = false
 
-    private var mIconId: Int = R.drawable.notification_ic_database_load
-    private var mTitleId: Int = R.string.database_opened
-    private var mMessageId: Int? = null
-    private var mWarningId: Int? = null
+    private var mProgressMessage: ProgressMessage = ProgressMessage(R.string.database_opened)
 
     override fun retrieveChannelId(): String {
         return CHANNEL_DATABASE_ID
@@ -126,9 +135,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface ActionTaskListener {
-        fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
-        fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?)
-        fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result)
+        fun onStartAction(database: Database,
+                          progressMessage: ProgressMessage)
+        fun onUpdateAction(database: Database,
+                           progressMessage: ProgressMessage)
+        fun onStopAction(database: Database,
+                         actionTask: String,
+                         result: ActionRunnable.Result)
+    }
+
+    interface RequestChallengeListener {
+        fun onChallengeResponseRequested(
+            hardwareKey: HardwareKey,
+            seed: ByteArray?
+        )
     }
 
     fun checkDatabase() {
@@ -165,7 +185,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
                     // Call listener to indicate a change in database info
-                    if (!mCreationState && previousDatabaseInfo != null) {
+                    if (!mSaveState && previousDatabaseInfo != null) {
                         mDatabaseInfoListeners.forEach { listener ->
                             listener.onDatabaseInfoChanged(previousDatabaseInfo, lastFileDatabaseInfo)
                         }
@@ -197,10 +217,45 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mDatabase?.let { database ->
             if (mActionRunning) {
                 mActionTaskListeners.forEach { actionTaskListener ->
-                    actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
+                    actionTaskListener.onStartAction(
+                        database, mProgressMessage
+                    )
                 }
             }
         }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun sendResponseToChallenge(response: ByteArray) {
+        mainScope.launch {
+            val responseChannel = mResponseChallengeChannel
+            if (responseChannel == null || responseChannel.isEmpty) {
+                if (response.isEmpty()) {
+                    cancelChallengeResponse(R.string.error_no_response_from_challenge)
+                } else {
+                    mResponseChallengeChannel?.send(response)
+                }
+            } else {
+                cancelChallengeResponse(R.string.error_response_already_provided)
+            }
+        }
+    }
+
+    private fun initializeChallengeResponse() {
+        // Init the channels
+        if (mResponseChallengeChannel == null) {
+            mResponseChallengeChannel = Channel(0)
+        }
+    }
+
+    private fun closeChallengeResponse() {
+        mResponseChallengeChannel?.close()
+        mResponseChallengeChannel = null
+    }
+
+    private fun cancelChallengeResponse(@StringRes error: Int) {
+        mResponseChallengeChannel?.cancel(CancellationException(getString(error)))
+        mResponseChallengeChannel = null
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -219,8 +274,20 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
         }
 
+        // Get save state
+        mSaveState = if (intent != null) {
+            if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+                !database.isReadOnly && intent.getBooleanExtra(
+                    SAVE_DATABASE_KEY,
+                    mSaveState
+                )
+            } else (intent.action == ACTION_DATABASE_CREATE_TASK
+                    || intent.action == ACTION_DATABASE_ASSIGN_PASSWORD_TASK
+                    || intent.action == ACTION_DATABASE_SAVE)
+        } else false
+
         // Create the notification
-        buildMessage(intent, database.isReadOnly)
+        buildNotification(intent)
 
         val intentAction = intent?.action
 
@@ -258,7 +325,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
             ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
-            ACTION_DATABASE_SAVE -> buildDatabaseSave(intent, database)
+            ACTION_DATABASE_SAVE -> buildDatabaseSaveActionTask(intent, database)
+            ACTION_CHALLENGE_RESPONDED -> buildChallengeRespondedActionTask(intent)
             else -> null
         }
 
@@ -272,15 +340,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             mActionRunning = true
 
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                putExtra(DATABASE_TASK_TITLE_KEY, mTitleId)
-                                putExtra(DATABASE_TASK_MESSAGE_KEY, mMessageId)
-                                putExtra(DATABASE_TASK_WARNING_KEY, mWarningId)
+                                putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
+                                putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStartAction(database, mTitleId, mMessageId, mWarningId)
+                                actionTaskListener.onStartAction(
+                                    database, mProgressMessage
+                                )
                             }
-
                         },
                         {
                             actionRunnable
@@ -325,7 +394,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                         try {
                                             startService(Intent(applicationContext,
                                                     DatabaseTaskNotificationService::class.java))
-                                        } catch (e: IllegalStateException) {}
+                                        } catch (e: IllegalStateException) {
+                                            Log.w(TAG, "Cannot restart the database task service", e)
+                                        }
                                     }
                                 }
                                 mTaskRemovedRequested = false
@@ -353,61 +424,51 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildMessage(intent: Intent?, readOnly: Boolean) {
+    private fun buildNotification(intent: Intent?) {
         // Assign elements for updates
         val intentAction = intent?.action
 
-        var saveAction = false
-        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
-            saveAction = !readOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
-        }
-
-        mIconId = if (intentAction == null)
+        // Get icon depending action state
+        val iconId = if (intentAction == null)
             R.drawable.notification_ic_database_open
         else
-            R.drawable.notification_ic_database_load
+            R.drawable.notification_ic_database_action
 
-        mTitleId = when {
-            saveAction -> {
-                R.string.saving_database
-            }
-            intentAction == null -> {
+        // Title depending on action
+        mProgressMessage.titleId =
+            if (intentAction == null) {
                 R.string.database_opened
-            }
-            else -> {
-                when (intentAction) {
-                    ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-                    ACTION_DATABASE_LOAD_TASK,
-                    ACTION_DATABASE_MERGE_TASK,
-                    ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
-                    ACTION_DATABASE_SAVE -> R.string.saving_database
-                    else -> {
+            } else when (intentAction) {
+                ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
+                ACTION_DATABASE_LOAD_TASK,
+                ACTION_DATABASE_MERGE_TASK,
+                ACTION_DATABASE_RELOAD_TASK -> R.string.loading_database
+                ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
+                ACTION_DATABASE_SAVE -> R.string.saving_database
+                else -> {
+                    if (mSaveState)
+                        R.string.saving_database
+                    else
                         R.string.command_execution
-                    }
                 }
             }
-        }
 
-        mMessageId = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK,
-            ACTION_DATABASE_MERGE_TASK,
-            ACTION_DATABASE_RELOAD_TASK -> null
-            else -> null
-        }
+        // Updated later
+        mProgressMessage.messageId = null
 
-        mWarningId =
-                if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK
-                        || intentAction == ACTION_DATABASE_MERGE_TASK
-                        || intentAction == ACTION_DATABASE_RELOAD_TASK)
-                    null
-                else
+        // Warning if data is saved
+        mProgressMessage.warningId =
+                if (mSaveState)
                     R.string.do_not_kill_app
+                else
+                    null
 
         val notificationBuilder =  buildNewNotification().apply {
-            setSmallIcon(mIconId)
+            setSmallIcon(iconId)
             intent?.let {
-                setContentTitle(getString(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mTitleId)))
+                setContentTitle(getString(
+                    intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId))
+                )
             }
             setAutoCancel(false)
             setContentIntent(null)
@@ -513,13 +574,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    override fun updateMessage(resId: Int) {
-        mMessageId = resId
+    private fun notifyProgressMessage() {
         mDatabase?.let { database ->
             mActionTaskListeners.forEach { actionTaskListener ->
-                actionTaskListener.onUpdateAction(database, mTitleId, mMessageId, mWarningId)
+                actionTaskListener.onUpdateAction(
+                    database, mProgressMessage
+                )
             }
         }
+    }
+
+    override fun updateMessage(resId: Int) {
+        mProgressMessage.messageId = resId
+        notifyProgressMessage()
     }
 
     override fun actionOnLock() {
@@ -539,6 +606,43 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         super.onTaskRemoved(rootIntent)
     }
 
+    private fun retrieveResponseFromChallenge(hardwareKey: HardwareKey,
+                                              seed: ByteArray?): ByteArray {
+        // Request a challenge - response
+        var response: ByteArray
+        runBlocking {
+            // Initialize the channels
+            initializeChallengeResponse()
+            val previousMessage = mProgressMessage.copy()
+            mProgressMessage.apply {
+                messageId = R.string.waiting_challenge_request
+                cancelable = {
+                    cancelChallengeResponse(R.string.error_cancel_by_user)
+                }
+            }
+            // Send the request
+            notifyProgressMessage()
+            HardwareKeyActivity
+                .launchHardwareKeyActivity(
+                    this@DatabaseTaskNotificationService,
+                    hardwareKey,
+                    seed
+                )
+            // Wait the response
+            mProgressMessage.apply {
+                messageId = R.string.waiting_challenge_response
+            }
+            notifyProgressMessage()
+            response = mResponseChallengeChannel?.receive() ?: byteArrayOf()
+            // Close channels
+            closeChallengeResponse()
+            // Restore previous message
+            mProgressMessage = previousMessage
+            notifyProgressMessage()
+        }
+        return response
+    }
+
     private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
@@ -550,15 +654,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             if (databaseUri == null)
                 return null
 
-            mCreationState = true
-
             return CreateDatabaseRunnable(this,
                 database,
                 databaseUri,
                 getString(R.string.database_default_name),
                 getString(R.string.database),
                 getString(R.string.template_group_name),
-                mainCredential
+                mainCredential,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             ) { result ->
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
@@ -586,17 +691,18 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             if (databaseUri == null)
                 return  null
 
-            mCreationState = false
-
             return LoadDatabaseRunnable(
-                    this,
-                    database,
-                    databaseUri,
-                    mainCredential,
-                    readOnly,
-                    cipherEncryptDatabase,
-                    intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
-                    this
+                this,
+                database,
+                databaseUri,
+                mainCredential,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                readOnly,
+                cipherEncryptDatabase,
+                intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
+                this
             ) { result ->
                 // Add each info to reload database after thrown duplicate UUID exception
                 result.data = Bundle().apply {
@@ -623,9 +729,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         return MergeDatabaseRunnable(
             this,
-            database,
             databaseToMergeUri,
             databaseToMergeMainCredential,
+            { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            },
+            database,
+            !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+            { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            },
             this
         ) { result ->
             // No need to add each info to reload database
@@ -653,7 +766,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 database,
                 databaseUri,
                 intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
-            )
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }
         } else {
             null
         }
@@ -687,7 +802,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     newGroup,
                     parent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -712,7 +830,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     oldGroup,
                     newGroup,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -737,7 +858,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     newEntry,
                     parent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -762,7 +886,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     oldEntry,
                     newEntry,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -783,7 +910,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -804,7 +934,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -820,7 +953,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
                     !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodesRunnable())
+                    AfterActionNodesRunnable()
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
         } else {
             null
         }
@@ -838,7 +974,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -857,7 +996,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                ) { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             }
         } else {
             null
@@ -881,7 +1023,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 oldElement,
                 newElement,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            ).apply {
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }.apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
@@ -897,7 +1041,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             return RemoveUnlinkedDataDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
-            ).apply {
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }.apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
@@ -911,7 +1057,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                null,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
             ).apply {
                 mAfterSaveDatabase = { result ->
                     result.data = intent.extras
@@ -925,7 +1075,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     /**
      * Save database without parameter
      */
-    private fun buildDatabaseSave(intent: Intent, database: Database): ActionRunnable? {
+    private fun buildDatabaseSaveActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
 
             var databaseCopyUri: Uri? = null
@@ -936,7 +1086,29 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             SaveDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                null,
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                },
                 databaseCopyUri)
+        } else {
+            null
+        }
+    }
+
+    private fun buildChallengeRespondedActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(DATA_BYTES)) {
+            object : ActionRunnable() {
+                override fun onStartRun() {}
+                override fun onActionRun() {
+                    mainScope.launch {
+                        intent.getByteArrayExtra(DATA_BYTES)?.let { response ->
+                            sendResponseToChallenge(response)
+                        }
+                    }
+                }
+                override fun onFinishRun() {}
+            }
         } else {
             null
         }
@@ -978,6 +1150,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
+        const val ACTION_CHALLENGE_RESPONDED = "ACTION_CHALLENGE_RESPONDED"
 
         const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
         const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
@@ -1001,9 +1174,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
-
-        private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
-        private var mLastLocalSaveTime: Long = 0
+        const val DATA_BYTES = "DATA_BYTES"
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()

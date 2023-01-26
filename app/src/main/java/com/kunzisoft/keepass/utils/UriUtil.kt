@@ -28,6 +28,7 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.education.Education
@@ -226,10 +227,10 @@ object UriUtil {
         }
     }
 
-    fun getUriFromIntent(intent: Intent, key: String): Uri? {
+    fun getUriFromIntent(intent: Intent?, key: String): Uri? {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                val clipData = intent.clipData
+                val clipData = intent?.clipData
                 if (clipData != null) {
                     if (clipData.description.label == key) {
                         if (clipData.itemCount == 1) {
@@ -242,7 +243,7 @@ object UriUtil {
                 }
             }
         } catch (e: Exception) {
-            return intent.getParcelableExtra(key)
+            return intent?.getParcelableExtra(key)
         }
         return null
     }
@@ -269,11 +270,15 @@ object UriUtil {
 
     fun contributingUser(context: Context): Boolean {
         return (Education.isEducationScreenReclickedPerformed(context)
-                || isExternalAppInstalled(context, "com.kunzisoft.keepass.pro", false)
+                || isExternalAppInstalled(
+                        context,
+                        context.getString(R.string.keepro_app_id),
+                        false
+                    )
                 )
     }
 
-    private fun isExternalAppInstalled(context: Context, packageName: String, showError: Boolean = true): Boolean {
+    fun isExternalAppInstalled(context: Context, packageName: String, showError: Boolean = true): Boolean {
         try {
             context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
             Education.setEducationScreenReclickedPerformed(context)
@@ -285,20 +290,35 @@ object UriUtil {
         return false
     }
 
-    fun openExternalApp(context: Context, packageName: String) {
+    fun openExternalApp(context: Context, packageName: String, sourcesURL: String? = null) {
         var launchIntent: Intent? = null
         try {
             launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-        } catch (ignored: Exception) {
-        }
+        } catch (ignored: Exception) { }
         try {
             if (launchIntent == null) {
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setData(Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
+                        .setData(
+                            Uri.parse(
+                                if (sourcesURL != null
+                                    && !BuildConfig.CLOSED_STORE
+                                ) {
+                                    sourcesURL
+                                } else {
+                                    context.getString(
+                                        if (BuildConfig.CLOSED_STORE)
+                                            R.string.play_store_url
+                                        else
+                                            R.string.f_droid_url,
+                                        packageName
+                                    )
+                                }
+                            )
+                        )
                 )
             } else {
                 context.startActivity(launchIntent)

@@ -34,12 +34,10 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.getkeepsafe.taptargetview.TapTargetView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
-import com.kunzisoft.keepass.database.exception.IODatabaseException
-import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
@@ -398,7 +396,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                         }
                     } ?: deleteEncryptedDatabaseKey()
                 }
-            } ?: throw IODatabaseException()
+            } ?: throw UnknownDatabaseLocationException()
         } ?: throw Exception("AdvancedUnlockManager not initialized")
     }
 

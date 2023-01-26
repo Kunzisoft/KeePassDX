@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element.database
 
 import android.util.Log
-import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
@@ -32,11 +31,9 @@ import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
-import org.apache.commons.codec.binary.Hex
-import java.io.ByteArrayInputStream
-import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
+import java.nio.charset.Charset
 import java.util.*
 
 abstract class DatabaseVersioned<
@@ -46,7 +43,6 @@ abstract class DatabaseVersioned<
         Entry : EntryVersioned<GroupId, EntryId, Group, Entry>
         > {
 
-
     // Algorithm used to encrypt the database
     abstract var encryptionAlgorithm: EncryptionAlgorithm
     abstract val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
@@ -55,11 +51,12 @@ abstract class DatabaseVersioned<
     abstract val kdfAvailableList: List<KdfEngine>
     abstract var numberKeyEncryptionRounds: Long
 
-    protected abstract val passwordEncoding: String
+    abstract val passwordEncoding: Charset
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
         protected set
+    var transformSeed: ByteArray? = null
 
     abstract val version: String
     abstract val defaultFileExtension: String
@@ -91,58 +88,6 @@ abstract class DatabaseVersioned<
         return getGroupIndexes().filter { it != rootGroup }
     }
 
-    @Throws(IOException::class)
-    protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
-
-    @Throws(IOException::class)
-    fun retrieveMasterKey(key: String?, keyfileInputStream: InputStream?) {
-        masterKey = getMasterKey(key, keyfileInputStream)
-    }
-
-    @Throws(IOException::class)
-    protected fun getCompositeKey(key: String, keyfileInputStream: InputStream): ByteArray {
-        val fileKey = getFileKey(keyfileInputStream)
-        val passwordKey = getPasswordKey(key)
-        return HashManager.hashSha256(passwordKey, fileKey)
-    }
-
-    @Throws(IOException::class)
-    protected fun getPasswordKey(key: String): ByteArray {
-        val bKey: ByteArray = try {
-            key.toByteArray(charset(passwordEncoding))
-        } catch (e: UnsupportedEncodingException) {
-            key.toByteArray()
-        }
-        return HashManager.hashSha256(bKey)
-    }
-
-    @Throws(IOException::class)
-    protected fun getFileKey(keyInputStream: InputStream): ByteArray {
-        try {
-            val keyData = keyInputStream.readBytes()
-
-            // Check XML key file
-            val xmlKeyByteArray = loadXmlKeyFile(ByteArrayInputStream(keyData))
-            if (xmlKeyByteArray != null) {
-                return xmlKeyByteArray
-            }
-
-            // Check 32 bytes key file
-            when (keyData.size) {
-                32 -> return keyData
-                64 -> try {
-                    return Hex.decodeHex(String(keyData).toCharArray())
-                } catch (ignoredException: Exception) {
-                    // Key is not base 64, treat it as binary data
-                }
-            }
-            // Hash file as binary data
-            return HashManager.hashSha256(keyData)
-        } catch (outOfMemoryError: OutOfMemoryError) {
-            throw IOException("Keyfile data is too large", outOfMemoryError)
-        }
-    }
-
     protected open fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
         return null
     }
@@ -158,18 +103,23 @@ abstract class DatabaseVersioned<
 
         val bKey: ByteArray
         try {
-            bKey = password.toByteArray(charset(encoding))
+            bKey = password.toByteArray(encoding)
         } catch (e: UnsupportedEncodingException) {
             return false
         }
 
         val reEncoded: String
         try {
-            reEncoded = String(bKey, charset(encoding))
+            reEncoded = String(bKey, encoding)
         } catch (e: UnsupportedEncodingException) {
             return false
         }
         return password == reEncoded
+    }
+
+    fun copyMasterKeyFrom(databaseVersioned: DatabaseVersioned<GroupId, EntryId, Group, Entry>) {
+        this.masterKey = databaseVersioned.masterKey
+        this.transformSeed = databaseVersioned.transformSeed
     }
 
     /*

@@ -56,6 +56,7 @@
     <string name="content_description_otp_information">One-time password info</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
+    <string name="content_description_hardware_key_checkbox">Hardware key checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
     <string name="content_description_entry_icon">Entry icon</string>
     <string name="content_description_database_color">Database color</string>
@@ -78,12 +79,16 @@
     <string name="content_description_keyboard_close_fields">Close fields</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
+    <string name="waiting_challenge_request">Waiting for the challenge request…</string>
+    <string name="waiting_challenge_response">Waiting for the challenge response…</string>
     <string name="database">Database</string>
     <string name="template_group_name">Templates</string>
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;. \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;.
+\nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
+    <string name="html_about_privacy">&lt;strong&gt;No user data is retrieved&lt;/strong&gt;, this application does not connect to any server, works only locally and fully respects the privacy of users.</string>
     <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
@@ -96,6 +101,7 @@
     <string name="entry_history">History</string>
     <string name="entry_attachments">Attachments</string>
     <string name="entry_keyfile">Keyfile</string>
+    <string name="hardware_key">Hardware key</string>
     <string name="entry_modified">Modified</string>
     <string name="searchable">Searchable</string>
     <string name="inherited">Inherit</string>
@@ -159,8 +165,10 @@
     <string name="error_no_name">Enter a name.</string>
     <string name="error_word_reserved">This word is reserved and cannot be used.</string>
     <string name="error_nokeyfile">Select a keyfile.</string>
+    <string name="error_no_hardware_key">Select a hardware key.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
-    <string name="error_load_database">Could not load your database.</string>
+    <string name="error_XML_malformed">XML malformed.</string>
+    <string name="error_load_database">Could not load the database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_disallow_no_credentials">At least one credential must be set.</string>
@@ -176,7 +184,7 @@
     <string name="error_copy_group_here">You cannot copy a group here.</string>
     <string name="error_create_database">Unable to create database file.</string>
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
-    <string name="error_save_database">Could not save database.</string>
+    <string name="error_save_database">Could not save the database.</string>
     <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
@@ -192,9 +200,19 @@
     <string name="error_duplicate_file">The file data already exists.</string>
     <string name="error_remove_file">An error occurred while removing the file data.</string>
     <string name="error_start_database_action">An error occurred while performing an action on the database.</string>
+    <string name="error_challenge_already_requested">"Challenge already requested"</string>
+    <string name="error_response_already_provided">Response already provided.</string>
+    <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
+    <string name="error_cancel_by_user">Cancelled by user.</string>
+    <string name="error_driver_required">Driver for %1$s is required.</string>
+    <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
+    <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
+    <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
+    <string name="error_empty_key">"Key cannot be empty."</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
+    <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
     <string name="hint_conf_pass">Confirm password</string>
@@ -289,6 +307,8 @@
     <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
     <string name="remember_keyfile_locations_title">Remember keyfile locations</string>
     <string name="remember_keyfile_locations_summary">Keeps track of where keyfiles are stored</string>
+    <string name="remember_hardware_key_title">Remember hardware keys</string>
+    <string name="remember_hardware_key_summary">Keeps track of the hardware keys used</string>
     <string name="show_recent_files_title">Show recent files</string>
     <string name="show_recent_files_summary">Show locations of recent databases</string>
     <string name="hide_broken_locations_title">Hide broken database links</string>
@@ -303,7 +323,7 @@
     <string name="success_export_app_properties">App properties exported</string>
     <string name="error_export_app_properties">Error during app properties exportation</string>
     <string name="root">Root</string>
-    <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
+    <string name="encryption_explanation">Database encryption algorithm used for all data</string>
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
@@ -353,6 +373,7 @@
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
+    <string name="merge_success">Merge successfully completed</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
@@ -541,6 +562,8 @@
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
     <string name="enable_keep_screen_on_title">Keep screen on</string>
     <string name="enable_keep_screen_on_summary">Keep the screen on when watching the entry</string>
+    <string name="enable_screenshot_mode_title">Screenshot mode</string>
+    <string name="enable_screenshot_mode_summary">Allow third party apps to record or take screenshots of the app</string>
     <string name="enable_education_screens_title">Educational hints</string>
     <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational hints</string>
@@ -617,6 +640,7 @@
     <string name="upper_case">UPPER CASE</string>
     <string name="title_case">Title Case</string>
     <string name="character_count">Character count: %1$d</string>
+    <string name="screenshot_mode_banner_text">Screenshot mode</string>
     <string-array name="word_case_array">
         <item>@string/lower_case</item>
         <item>@string/upper_case</item>
@@ -676,7 +700,7 @@
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="show_entry_colors_title">Entry colors</string>
-    <string name="show_entry_colors_summary">Displays foreground and background colors in an entry</string>
+    <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
 </resources>

@@ -14,7 +14,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <ProgressBar
@@ -30,4 +30,6 @@
             android:layout_gravity="center"
             android:contentDescription="@string/entry_attachments" />
     </FrameLayout>
+
+    <include layout="@layout/view_screenshot_mode_banner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

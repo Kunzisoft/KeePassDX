@@ -226,8 +226,8 @@ fun View.updateLockPaddingLeft() {
 
 fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.errorId?.let { errorId ->
-            Toast.makeText(this, errorId, Toast.LENGTH_LONG).show()
+        result.exception?.getLocalizedMessage(resources)?.let { errorMessage ->
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
         } ?: result.message?.let { message ->
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
@@ -236,8 +236,8 @@ fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
 
 fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.errorId?.let { errorId ->
-            Snackbar.make(this, errorId, Snackbar.LENGTH_LONG).asError().show()
+        result.exception?.getLocalizedMessage(resources)?.let { errorMessage ->
+            Snackbar.make(this, errorMessage, Snackbar.LENGTH_LONG).asError().show()
         } ?: result.message?.let { message ->
             Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
         }

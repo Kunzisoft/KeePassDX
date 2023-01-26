@@ -1,9 +1,11 @@
 package com.kunzisoft.keepass.model
 
 import android.net.Uri
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 data class DatabaseFile(var databaseUri: Uri? = null,
                         var keyFileUri: Uri? = null,
+                        var hardwareKey: HardwareKey? = null,
                         var databaseDecodedPath: String? = null,
                         var databaseAlias: String? = null,
                         var databaseFileExists: Boolean = false,

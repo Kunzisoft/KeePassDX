@@ -105,7 +105,7 @@
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
     <string name="feedback">أرسل انطباعاتك</string>
-    <string name="about_description">التنفيذ لمُدير كلمات المرور «كي‌ باس» على نظام أندرويد</string>
+    <string name="about_description">\"KeePassDX\" هو تطبيق أندرويد لمدير كلمات المرور كي باس \"KeePass\"</string>
     <string name="add_entry">أضف مدخل</string>
     <string name="edit_entry">تحرير مدخل</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
@@ -118,8 +118,8 @@
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">يجلب مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
-    <string name="html_about_licence">KeePassDX © %1$d كونزيسوفت <strong>مفتوح المصدر</strong> و <strong>بدون اعلانات</strong>.
-\n يوزع كما هو، بدون ضمان, تحت ترخيص <strong>GPLv3</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d كونزيسوفت &lt;strong&gt;مفتوح المصدر&lt;/strong&gt; و &lt;strong&gt;بدون اعلانات&lt;/strong&gt;.
+\n يوزع كما هو، بدون ضمان, تحت ترخيص &lt;strong&gt;GPLv3&lt;/strong&gt;.</string>
     <string name="entry_accessed">نُفذ إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>
@@ -520,4 +520,6 @@
     <string name="notification">الإشعارات</string>
     <string name="temp_advanced_unlock_enable_summary">لا تستخدم أي محتوى معمى لاستخدام فك القفل المتقدم</string>
     <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فك القفل المتقدم</string>
+    <string name="hide_expired_entries_title">إخفاء الإدخالات منتهية الصلاحية</string>
+    <string name="content_description_hardware_key_checkbox">خانة إختيار مفتاح الجهاز</string>
 </resources>

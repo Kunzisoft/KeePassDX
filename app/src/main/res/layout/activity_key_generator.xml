@@ -43,7 +43,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         android:theme="?attr/toolbarActionAppearance"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/key_generator_validation"
@@ -55,7 +55,7 @@
         android:tint="?attr/colorOnAccentColor"
         app:fabSize="mini"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -64,5 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
+
+    <include layout="@layout/view_screenshot_mode_banner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

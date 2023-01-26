@@ -622,4 +622,30 @@
 \n
 \n基於操作系統的原始 API 實現，Keystore 有可能無法發揮其應有的作用。
 \n請向設備的製造商和 ROM 的創建者咨詢 KeyStore 的兼容性和安全性。</string>
+    <string name="content_description_passphrase_word_count">密碼短句字數</string>
+    <string name="passphrase">密碼短句</string>
+    <string name="colorize_password_title">以顏色標示密碼</string>
+    <string name="entropy">強度：%1$s 位元</string>
+    <string name="entropy_high">強度：高</string>
+    <string name="entropy_calculate">強度：計算中…</string>
+    <string name="lower_case">小寫</string>
+    <string name="exclude_ambiguous_chars">排除容易混淆的字元</string>
+    <string name="content_description_hardware_key_checkbox">硬件密鑰方塊</string>
+    <string name="hardware_key">硬件密鑰</string>
+    <string name="error_response_already_provided">已提供回應。</string>
+    <string name="error_cancel_by_user">已被用戶取消。</string>
+    <string name="error_location_unknown">資料庫位置不明，無法操作資料庫。</string>
+    <string name="error_hardware_key_unsupported">不支援硬件密鑰。</string>
+    <string name="error_empty_key">密鑰不可留空。</string>
+    <string name="corrupted_file">已損毀的檔案。</string>
+    <string name="remember_hardware_key_title">記住硬件密鑰</string>
+    <string name="keyboard_previous_search_title">搜尋介面</string>
+    <string name="keyboard_previous_search_summary">在搜尋介面自動切換到之前的鍵盤</string>
+    <string name="upper_case">大寫</string>
+    <string name="enable_screenshot_mode_title">螢幕截圖模式</string>
+    <string name="error_no_hardware_key">選擇硬件密鑰。</string>
+    <string name="enable_screenshot_mode_summary">允許第三方應用程式對本應用程式錄影或截圖</string>
+    <string name="character_count">字元數： %1$d</string>
+    <string name="word_separator">分隔符號</string>
+    <string name="screenshot_mode_banner_text">螢幕截圖模式</string>
 </resources>

@@ -1,0 +1,22 @@
+KeePassDX ist <b>Open Source</b> und <b>werbefrei</b>. <b>Als KeePass Multiformat-Passwortmanager</b> ermöglicht die Anwendung das sichere Speichern und Verwenden von Passwörtern, Schlüsseln und digitalen Identitäten. Sie integriert die Android-Designstandards und <b>benötigt keine Internetverbindung</b>.
+
+<b>Funktionalitäten</b>
+ - Erstellung von Datenbanken / Einträgen und Gruppen.
+ - Unterstützung von .kdb- und .kdbx-Dateien (Version 1 bis 4) mit AES - Twofish - ChaCha20 - Argon2 Algorithmus.
+ - Kompatibel mit den meisten alternativen Programmen (KeePass, KeePassXC, KeeWeb, ...).
+ - Ermöglicht das schnelle Kopieren von Feldern und das Öffnen von URIs /URLs.
+ - Biometrische Erkennung für eine schnelle Entsperrung (Fingerabdrücke / Entsperrung durch Gesicht / ...).
+ - Verwaltung von Einmalpasswörtern (One-Time Password HOTP / TOTP) für die Zwei-Faktor-Authentifizierung (2FA).
+ - Material Design mit Themen.
+ - Automatisches Ausfüllen von Feldern.
+ - Tastatur zum Ausfüllen von Feldern.
+ - Dynamische Schablonen.
+ - Historie jedes Eintrags.
+ - Präzise Verwaltung der Parameter.
+ - In nativen Sprachen geschriebener Code (Kotlin / Java / JNI / C).
+
+Sie können spenden oder die Pro-Version kaufen, um einen besseren Service und eine schnelle Entwicklung der von Ihnen gewünschten Funktionen zu erhalten: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Das Projekt wird ständig weiterentwickelt. Zögern Sie nicht, den Entwicklungsstand der nächsten Updates zu überprüfen: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Sie haben einen Bug : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.action
 
-import android.app.Service
 import android.content.*
 import android.content.Context.*
 import android.net.Uri
@@ -38,14 +37,16 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.model.MainCredential
+import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
@@ -89,11 +90,12 @@ import java.util.*
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
  * Useful to retrieve a database instance and sending tasks commands
  */
-class DatabaseTaskProvider {
+class DatabaseTaskProvider(private var context: Context,
+                           private var showDialog: Boolean = true) {
 
-    private var activity: FragmentActivity? = null
-    private var service: Service? = null
-    private var context: Context
+    // To show dialog only if context is an activity
+    private var activity: FragmentActivity? = try { context as? FragmentActivity? }
+        catch (_: Exception) { null }
 
     var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
 
@@ -101,7 +103,10 @@ class DatabaseTaskProvider {
                           actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
-    private var intentDatabaseTask: Intent
+    private var intentDatabaseTask: Intent = Intent(
+        context.applicationContext,
+        DatabaseTaskNotificationService::class.java
+    )
 
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
@@ -111,30 +116,33 @@ class DatabaseTaskProvider {
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
-    constructor(activity: FragmentActivity) {
-        this.activity = activity
-        this.context = activity
-        this.intentDatabaseTask = Intent(activity.applicationContext,
-            DatabaseTaskNotificationService::class.java)
-    }
-
-    constructor(service: Service) {
-        this.service = service
-        this.context = service
-        this.intentDatabaseTask = Intent(service.applicationContext,
-            DatabaseTaskNotificationService::class.java)
+    fun destroy() {
+        this.activity = null
+        this.onDatabaseRetrieved = null
+        this.onActionFinish = null
+        this.databaseTaskBroadcastReceiver = null
+        this.mBinder = null
+        this.serviceConnection = null
+        this.progressTaskDialogFragment = null
+        this.databaseChangedDialogFragment = null
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onStartAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
-            startDialog(titleId, messageId, warningId)
+        override fun onStartAction(database: Database,
+                                   progressMessage: ProgressMessage) {
+            if (showDialog)
+                startDialog(progressMessage)
         }
 
-        override fun onUpdateAction(database: Database, titleId: Int?, messageId: Int?, warningId: Int?) {
-            updateDialog(titleId, messageId, warningId)
+        override fun onUpdateAction(database: Database,
+                                    progressMessage: ProgressMessage) {
+            if (showDialog)
+                updateDialog(progressMessage)
         }
 
-        override fun onStopAction(database: Database, actionTask: String, result: ActionRunnable.Result) {
+        override fun onStopAction(database: Database,
+                                  actionTask: String,
+                                  result: ActionRunnable.Result) {
             onActionFinish?.invoke(database, actionTask, result)
             // Remove the progress task
             stopDialog()
@@ -181,9 +189,7 @@ class DatabaseTaskProvider {
         }
     }
 
-    private fun startDialog(titleId: Int? = null,
-                            messageId: Int? = null,
-                            warningId: Int? = null) {
+    private fun startDialog(progressMessage: ProgressMessage) {
         activity?.let { activity ->
             activity.lifecycleScope.launch {
                 if (progressTaskDialogFragment == null) {
@@ -197,22 +203,17 @@ class DatabaseTaskProvider {
                         PROGRESS_TASK_DIALOG_TAG
                     )
                 }
-                updateDialog(titleId, messageId, warningId)
+                updateDialog(progressMessage)
             }
         }
     }
 
-    private fun updateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
+    private fun updateDialog(progressMessage: ProgressMessage) {
         progressTaskDialogFragment?.apply {
-            titleId?.let {
-                updateTitle(it)
-            }
-            messageId?.let {
-                updateMessage(it)
-            }
-            warningId?.let {
-                updateWarning(it)
-            }
+            updateTitle(progressMessage.titleId)
+            updateMessage(progressMessage.messageId)
+            updateWarning(progressMessage.warningId)
+            setCancellable(progressMessage.cancelable)
         }
     }
 
@@ -226,9 +227,7 @@ class DatabaseTaskProvider {
             serviceConnection = object : ServiceConnection {
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
-                        addDatabaseListener(databaseListener)
-                        addDatabaseFileInfoListener(databaseInfoListener)
-                        addActionTaskListener(actionTaskListener)
+                        addServiceListeners(this)
                         getService().checkDatabase()
                         getService().checkDatabaseInfo()
                         getService().checkAction()
@@ -236,13 +235,23 @@ class DatabaseTaskProvider {
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
-                    mBinder?.removeActionTaskListener(actionTaskListener)
-                    mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
-                    mBinder?.removeDatabaseListener(databaseListener)
+                    removeServiceListeners(mBinder)
                     mBinder = null
                 }
             }
         }
+    }
+
+    private fun addServiceListeners(service: DatabaseTaskNotificationService.ActionTaskBinder?) {
+        service?.addDatabaseListener(databaseListener)
+        service?.addDatabaseFileInfoListener(databaseInfoListener)
+        service?.addActionTaskListener(actionTaskListener)
+    }
+
+    private fun removeServiceListeners(service: DatabaseTaskNotificationService.ActionTaskBinder?) {
+        service?.removeActionTaskListener(actionTaskListener)
+        service?.removeDatabaseFileInfoListener(databaseInfoListener)
+        service?.removeDatabaseListener(databaseListener)
     }
 
     private fun bindService() {
@@ -260,10 +269,6 @@ class DatabaseTaskProvider {
             context.unbindService(it)
         }
         serviceConnection = null
-    }
-
-    fun isBinded(): Boolean {
-        return mBinder != null
     }
 
     fun registerProgressTask() {
@@ -299,9 +304,7 @@ class DatabaseTaskProvider {
     fun unregisterProgressTask() {
         stopDialog()
 
-        mBinder?.removeActionTaskListener(actionTaskListener)
-        mBinder?.removeDatabaseFileInfoListener(databaseInfoListener)
-        mBinder?.removeDatabaseListener(databaseListener)
+        removeServiceListeners(mBinder)
         mBinder = null
 
         unBindService()
@@ -321,7 +324,7 @@ class DatabaseTaskProvider {
             context.startService(intentDatabaseTask)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to perform database action", e)
-            Toast.makeText(activity, R.string.error_start_database_action, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, R.string.error_start_database_action, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -332,7 +335,8 @@ class DatabaseTaskProvider {
     */
 
     fun startDatabaseCreate(databaseUri: Uri,
-                            mainCredential: MainCredential) {
+                            mainCredential: MainCredential
+    ) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
@@ -355,9 +359,11 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
-    fun startDatabaseMerge(fromDatabaseUri: Uri? = null,
+    fun startDatabaseMerge(save: Boolean,
+                           fromDatabaseUri: Uri? = null,
                            mainCredential: MainCredential? = null) {
         start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
@@ -385,7 +391,8 @@ class DatabaseTaskProvider {
     }
 
     fun startDatabaseAssignPassword(databaseUri: Uri,
-                                    mainCredential: MainCredential) {
+                                    mainCredential: MainCredential
+    ) {
 
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
@@ -700,6 +707,13 @@ class DatabaseTaskProvider {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
         }
                 , ACTION_DATABASE_SAVE)
+    }
+
+    fun startChallengeResponded(response: ByteArray?) {
+        start(Bundle().apply {
+            putByteArray(DatabaseTaskNotificationService.DATA_BYTES, response)
+        }
+                , ACTION_CHALLENGE_RESPONDED)
     }
 
     companion object {

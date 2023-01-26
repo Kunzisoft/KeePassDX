@@ -77,6 +77,12 @@ class AboutActivity : StylishActivity() {
                     HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
 
+        findViewById<TextView>(R.id.activity_about_privacy_text).apply {
+            movementMethod = LinkMovementMethod.getInstance()
+            text = HtmlCompat.fromHtml(getString(R.string.html_about_privacy),
+                HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
+
         findViewById<TextView>(R.id.activity_about_contribution_text).apply {
             movementMethod = LinkMovementMethod.getInstance()
             text = HtmlCompat.fromHtml(getString(R.string.html_about_contribution),

@@ -84,7 +84,7 @@
         android:layout_height="?attr/actionBarSize"
         android:theme="?attr/toolbarActionAppearance"
         android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"
@@ -96,7 +96,7 @@
         android:tint="?attr/colorOnAccentColor"
         app:fabSize="mini"
         app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -105,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"/>
 
     <ProgressBar
         android:id="@+id/loading"
@@ -119,4 +119,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include layout="@layout/view_screenshot_mode_banner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

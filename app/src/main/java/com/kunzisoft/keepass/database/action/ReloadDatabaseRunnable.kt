@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -47,7 +47,7 @@ class ReloadDatabaseRunnable(private val context: Context,
                         BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                     },
                     progressTaskUpdater)
-        } catch (e: LoadDatabaseException) {
+        } catch (e: DatabaseException) {
             setError(e)
         }
 

@@ -24,15 +24,18 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
-import java.lang.Exception
+import kotlinx.coroutines.launch
 
-open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
+open class ProgressTaskDialogFragment : DialogFragment() {
 
     @StringRes
     private var title = UNDEFINED
@@ -40,10 +43,12 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     private var message = UNDEFINED
     @StringRes
     private var warning = UNDEFINED
+    private var cancellable: (() -> Unit)? = null
 
     private var titleView: TextView? = null
     private var messageView: TextView? = null
     private var warningView: TextView? = null
+    private var cancelButton: Button? = null
     private var progressView: ProgressBar? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -63,11 +68,13 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
                 titleView = root.findViewById(R.id.progress_dialog_title)
                 messageView = root.findViewById(R.id.progress_dialog_message)
                 warningView = root.findViewById(R.id.progress_dialog_warning)
+                cancelButton = root.findViewById(R.id.progress_dialog_cancel)
                 progressView = root.findViewById(R.id.progress_dialog_bar)
 
                 updateTitle(title)
                 updateMessage(message)
                 updateWarning(warning)
+                setCancellable(cancellable)
 
                 isCancelable = false
 
@@ -84,7 +91,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     }
 
     private fun updateView(textView: TextView?, @StringRes resId: Int) {
-        activity?.runOnUiThread {
+        activity?.lifecycleScope?.launch {
             if (resId == UNDEFINED) {
                 textView?.visibility = View.GONE
             } else {
@@ -94,19 +101,33 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
         }
     }
 
-    fun updateTitle(@StringRes resId: Int) {
-        this.title = resId
+    private fun updateCancelable() {
+        activity?.lifecycleScope?.launch {
+            cancelButton?.isVisible = cancellable != null
+            cancelButton?.setOnClickListener {
+                cancellable?.invoke()
+            }
+        }
+    }
+
+    fun updateTitle(@StringRes resId: Int?) {
+        this.title = resId ?: UNDEFINED
         updateView(titleView, title)
     }
 
-    override fun updateMessage(@StringRes resId: Int) {
-        this.message = resId
+    fun updateMessage(@StringRes resId: Int?) {
+        this.message = resId ?: UNDEFINED
         updateView(messageView, message)
     }
 
-    fun updateWarning(@StringRes resId: Int) {
-        this.warning = resId
+    fun updateWarning(@StringRes resId: Int?) {
+        this.warning = resId ?: UNDEFINED
         updateView(warningView, warning)
+    }
+
+    fun setCancellable(cancellable: (() -> Unit)?) {
+        this.cancellable = cancellable
+        updateCancelable()
     }
 
     companion object {

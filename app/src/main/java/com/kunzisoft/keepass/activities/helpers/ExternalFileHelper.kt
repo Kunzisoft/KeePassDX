@@ -56,7 +56,7 @@ class ExternalFileHelper {
 
     fun buildOpenDocument(onFileSelected: ((uri: Uri?) -> Unit)?) {
 
-        val resultCallback = ActivityResultCallback<Uri> { result ->
+        val resultCallback = ActivityResultCallback<Uri?> { result ->
             result?.let { uri ->
                 UriUtil.takeUriPermission(activity?.contentResolver, uri)
                 onFileSelected?.invoke(uri)
@@ -91,7 +91,7 @@ class ExternalFileHelper {
     fun buildCreateDocument(typeString: String = "application/octet-stream",
                             onFileCreated: (fileCreated: Uri?)->Unit) {
 
-        val resultCallback = ActivityResultCallback<Uri> { result ->
+        val resultCallback = ActivityResultCallback<Uri?> { result ->
             onFileCreated.invoke(result)
         }
 
@@ -150,7 +150,7 @@ class ExternalFileHelper {
 
     class OpenDocument : ActivityResultContracts.OpenDocument() {
         @SuppressLint("InlinedApi")
-        override fun createIntent(context: Context, input: Array<out String>): Intent {
+        override fun createIntent(context: Context, input: Array<String>): Intent {
             return super.createIntent(context, input).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
@@ -178,11 +178,10 @@ class ExternalFileHelper {
         }
     }
 
-    class CreateDocument(private val typeString: String) : ActivityResultContracts.CreateDocument() {
+    class CreateDocument(typeString: String) : ActivityResultContracts.CreateDocument(typeString) {
         override fun createIntent(context: Context, input: String): Intent {
             return super.createIntent(context, input).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
-                type = typeString
             }
         }
     }

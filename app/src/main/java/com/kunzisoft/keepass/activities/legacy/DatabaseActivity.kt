@@ -6,8 +6,8 @@ import androidx.activity.viewModels
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.model.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
@@ -20,7 +20,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider = DatabaseTaskProvider(this, showDatabaseDialog())
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
             val databaseWasReloaded = database?.wasReloaded == true
@@ -34,6 +34,17 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider?.onActionFinish = { database, actionTask, result ->
             onDatabaseActionFinished(database, actionTask, result)
         }
+    }
+
+    protected open fun showDatabaseDialog(): Boolean {
+        return true
+    }
+
+    override fun onDestroy() {
+        mDatabaseTaskProvider?.destroy()
+        mDatabaseTaskProvider = null
+        mDatabase = null
+        super.onDestroy()
     }
 
     override fun onDatabaseRetrieved(database: Database?) {

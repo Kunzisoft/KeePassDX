@@ -39,9 +39,8 @@ import java.security.*
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
 
-class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
-                        outputStream: OutputStream)
-    : DatabaseOutput<DatabaseHeaderKDB>(outputStream) {
+class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB)
+    : DatabaseOutput<DatabaseHeaderKDB>() {
 
     private var headerHashBlock: ByteArray? = null
 
@@ -60,15 +59,15 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     @Throws(DatabaseOutputException::class)
-    override fun output() {
+    override fun writeDatabase(outputStream: OutputStream,
+                               assignMasterKey: () -> Unit) {
         // Before we output the header, we should sort our list of groups
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
         // also remove the virtual root not present in kdb
         val rootGroup = mDatabaseKDB.rootGroup
         sortNodesForOutput()
 
-        val header = outputHeader(mOutputStream)
-
+        val header = outputHeader(outputStream, assignMasterKey)
         val finalKey = getFinalKey(header)
 
         val cipher: Cipher = try {
@@ -81,7 +80,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         }
 
         try {
-            val cos = CipherOutputStream(mOutputStream, cipher)
+            val cos = CipherOutputStream(outputStream, cipher)
             val bos = BufferedOutputStream(cos)
             outputPlanGroupAndEntries(bos)
             bos.flush()
@@ -107,7 +106,8 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     @Throws(DatabaseOutputException::class)
-    override fun outputHeader(outputStream: OutputStream): DatabaseHeaderKDB {
+    private fun outputHeader(outputStream: OutputStream,
+                             assignMasterKey: () -> Unit): DatabaseHeaderKDB {
         // Build header
         val header = DatabaseHeaderKDB()
         header.signature1 = DatabaseHeaderKDB.DBSIG_1
@@ -131,6 +131,9 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.numberKeyEncryptionRounds)
 
         setIVs(header)
+
+        mDatabaseKDB.transformSeed = header.transformSeed
+        assignMasterKey()
 
         // Header checksum
         val headerDigest: MessageDigest = HashManager.getHash256()

@@ -39,8 +39,8 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个<strong>不含广告</strong>的<strong>开源软件</strong>。
-\n它是根据<strong>GPLv3</strong>许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。
+\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -56,7 +56,7 @@
     <string name="entry_url">网址</string>
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持Arcfour流式加密。</string>
-    <string name="error_can_not_handle_uri">无法在KeePassDX中处理此URI。</string>
+    <string name="error_can_not_handle_uri">无法在 KeePassDX 中处理此 URI 。</string>
     <string name="error_file_not_create">无法新建文件</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径正确。</string>
@@ -135,7 +135,7 @@
     <string name="edit_entry">编辑条目</string>
     <string name="key_derivation_function">密钥推导函数</string>
     <string name="entry_not_found">找不到条目数据。</string>
-    <string name="error_load_database">无法加载您的数据库。</string>
+    <string name="error_load_database">无法加载数据库。</string>
     <string name="error_load_database_KDF_memory">无法加载密钥。尝试降低KDF的“内存使用”值。</string>
     <string name="error_autofill_enable_service">无法启用自动填充服务。</string>
     <string name="file_not_found_content">找不到文件。请重新打开文件。</string>
@@ -156,7 +156,7 @@
     <string name="read_only_warning">根据您的文件管理器，KeePassDX 可能不允许在您的存储中写入数据。</string>
     <string name="show_recent_files_title">显示最近打开的文件</string>
     <string name="show_recent_files_summary">显示最近打开数据库的位置</string>
-    <string name="encryption_explanation">加密数据库所有数据时采用的算法。</string>
+    <string name="encryption_explanation">用于所有数据的数据库加密算法</string>
     <string name="kdf_explanation">将迭代主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
     <string name="memory_usage">内存使用量</string>
     <string name="memory_usage_explanation">密钥推导算法使用的内存。</string>
@@ -292,7 +292,7 @@
     <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款<strong>没有广告</strong>，<strong>基于 copylefted 版权协议的自由软件</strong>。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
     <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的&lt;strong&gt;捐赠。&lt;/strong&gt;</string>
@@ -311,7 +311,7 @@
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在KeePass DX中查看条目时，用该条目填充 Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
@@ -646,4 +646,26 @@
     <string name="colorize_password_summary">按类型给密码字符加上颜色</string>
     <string name="entropy_high">熵：高</string>
     <string name="entropy">熵：%1$s bit</string>
+    <string name="content_description_hardware_key_checkbox">硬件秘钥复选框</string>
+    <string name="waiting_challenge_request">等待挑战请求中…</string>
+    <string name="waiting_challenge_response">等待挑战响应中…</string>
+    <string name="hardware_key">硬件秘钥</string>
+    <string name="error_no_hardware_key">选择硬件秘钥。</string>
+    <string name="error_XML_malformed">XML 文件畸形。</string>
+    <string name="error_challenge_already_requested">已请求挑战</string>
+    <string name="error_response_already_provided">已提供响应。</string>
+    <string name="error_no_response_from_challenge">无法从挑战获取响应。</string>
+    <string name="error_cancel_by_user">被用户取消。</string>
+    <string name="error_unable_merge_database_kdb">无法从 v1 版数据库进行合并。</string>
+    <string name="error_location_unknown">数据库位置未知，无法进行数据库操作。</string>
+    <string name="error_hardware_key_unsupported">硬件秘钥不受支持。</string>
+    <string name="error_driver_required">%1$s 的驱动是必需的。</string>
+    <string name="error_empty_key">秘钥不能为空。</string>
+    <string name="corrupted_file">文件损坏。</string>
+    <string name="remember_hardware_key_title">记住硬件秘钥</string>
+    <string name="remember_hardware_key_summary">保留所用硬件秘钥的痕迹</string>
+    <string name="enable_screenshot_mode_title">截屏模式</string>
+    <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
+    <string name="screenshot_mode_banner_text">截屏模式</string>
+    <string name="html_about_privacy">&lt;strong&gt;不获取用户数据&lt;/strong&gt;，此应用不连接任何服务器，仅在本地运行，并充分尊重用户的隐私。</string>
 </resources>
