@@ -555,7 +555,6 @@ class Database {
         setDatabaseKDBX(newDatabase)
         this.fileUri = databaseUri
         // Set Database state
-        this.loaded = true
         this.dataModifiedSinceLastLoading = false
     }
 

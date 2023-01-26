@@ -75,6 +75,7 @@ import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
@@ -292,67 +293,49 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                     launchGroupActivityIfLoaded(database)
                 } else {
                     mainCredentialView?.requestPasswordFocus()
+                    // Manage special exceptions
+                    when (result.exception) {
+                        is DuplicateUuidDatabaseException -> {
+                            // Relaunch loading if we need to fix UUID
+                            showLoadDatabaseDuplicateUuidMessage {
 
-                    var resultError = ""
-                    val resultException = result.exception
-                    val resultMessage = result.message
+                                var databaseUri: Uri? = null
+                                var mainCredential = MainCredential()
+                                var readOnly = true
+                                var cipherEncryptDatabase: CipherEncryptDatabase? = null
 
-                    if (resultException != null) {
-                        resultError = resultException.getLocalizedMessage(resources)
-
-                        when (resultException) {
-                            is DuplicateUuidDatabaseException -> {
-                                // Relaunch loading if we need to fix UUID
-                                showLoadDatabaseDuplicateUuidMessage {
-
-                                    var databaseUri: Uri? = null
-                                    var mainCredential = MainCredential()
-                                    var readOnly = true
-                                    var cipherEncryptDatabase: CipherEncryptDatabase? = null
-
-                                    result.data?.let { resultData ->
-                                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                        mainCredential =
-                                            resultData.getParcelable(MAIN_CREDENTIAL_KEY)
-                                                ?: mainCredential
-                                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                        cipherEncryptDatabase =
-                                            resultData.getParcelable(CIPHER_DATABASE_KEY)
-                                    }
-
-                                    databaseUri?.let { databaseFileUri ->
-                                        showProgressDialogAndLoadDatabase(
-                                            databaseFileUri,
-                                            mainCredential,
-                                            readOnly,
-                                            cipherEncryptDatabase,
-                                            true
-                                        )
-                                    }
+                                result.data?.let { resultData ->
+                                    databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                    mainCredential =
+                                        resultData.getParcelable(MAIN_CREDENTIAL_KEY)
+                                            ?: mainCredential
+                                    readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                    cipherEncryptDatabase =
+                                        resultData.getParcelable(CIPHER_DATABASE_KEY)
                                 }
-                            }
-                            is FileNotFoundDatabaseException -> {
-                                // Remove this default database inaccessible
-                                if (mDefaultDatabase) {
-                                    mDatabaseFileViewModel.removeDefaultDatabase()
+
+                                databaseUri?.let { databaseFileUri ->
+                                    showProgressDialogAndLoadDatabase(
+                                        databaseFileUri,
+                                        mainCredential,
+                                        readOnly,
+                                        cipherEncryptDatabase,
+                                        true
+                                    )
                                 }
                             }
                         }
+                        is FileNotFoundDatabaseException -> {
+                            // Remove this default database inaccessible
+                            if (mDefaultDatabase) {
+                                mDatabaseFileViewModel.removeDefaultDatabase()
+                            }
+                        }
                     }
-
-                    // Show error message
-                    if (resultMessage != null && resultMessage.isNotEmpty()) {
-                        resultError = "$resultError $resultMessage"
-                    }
-                    Log.e(TAG, resultError)
-                    Snackbar.make(
-                        coordinatorLayout,
-                        resultError,
-                        Snackbar.LENGTH_LONG
-                    ).asError().show()
                 }
             }
         }
+        coordinatorLayout.showActionErrorIfNeeded(result)
     }
 
     private fun getUriFromIntent(intent: Intent?) {

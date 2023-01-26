@@ -28,6 +28,7 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.education.Education
@@ -289,21 +290,35 @@ object UriUtil {
         return false
     }
 
-    fun openExternalApp(context: Context, packageName: String) {
+    fun openExternalApp(context: Context, packageName: String, sourcesURL: String? = null) {
         var launchIntent: Intent? = null
         try {
             launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-        } catch (ignored: Exception) {
-        }
+        } catch (ignored: Exception) { }
         try {
             if (launchIntent == null) {
-                // TODO F-Droid
                 context.startActivity(
                     Intent(Intent.ACTION_VIEW)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setData(Uri.parse(context.getString(R.string.play_store_url, packageName)))
+                        .setData(
+                            Uri.parse(
+                                if (sourcesURL != null
+                                    && !BuildConfig.CLOSED_STORE
+                                ) {
+                                    sourcesURL
+                                } else {
+                                    context.getString(
+                                        if (BuildConfig.CLOSED_STORE)
+                                            R.string.play_store_url
+                                        else
+                                            R.string.f_droid_url,
+                                        packageName
+                                    )
+                                }
+                            )
+                        )
                 )
             } else {
                 context.startActivity(launchIntent)

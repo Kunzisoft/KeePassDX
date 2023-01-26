@@ -77,6 +77,9 @@ class CreateDatabaseRunnable(context: Context,
     override fun onFinishRun() {
         super.onFinishRun()
 
+        if (result.isSuccess) {
+            mDatabase.loaded = true
+        }
         createDatabaseResult?.invoke(result)
     }
 }

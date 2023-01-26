@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
+import com.kunzisoft.keepass.hardware.HardwareKeyActivity
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.utils.UriUtil
@@ -169,7 +169,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             hardwareKeySelectionView.selectionListener = { hardwareKey ->
                 hardwareKeyCheckBox.isChecked = true
                 hardwareKeySelectionView.error =
-                    if (!HardwareKeyResponseHelper.isHardwareKeyAvailable(requireActivity(), hardwareKey)) {
+                    if (!HardwareKeyActivity.isHardwareKeyAvailable(requireActivity(), hardwareKey)) {
                         // show hardware driver dialog if required
                         getString(R.string.error_driver_required, hardwareKey.toString())
                     } else {
@@ -231,7 +231,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             showEmptyPasswordConfirmationDialog()
         } else if (!error
             && hardwareKey != null
-            && !HardwareKeyResponseHelper.isHardwareKeyAvailable(
+            && !HardwareKeyActivity.isHardwareKeyAvailable(
                 requireActivity(), hardwareKey, false)
         ) {
             // show hardware driver dialog if required

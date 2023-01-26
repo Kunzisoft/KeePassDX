@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.action
 
-import android.app.Service
 import android.content.*
 import android.content.Context.*
 import android.net.Uri
@@ -43,13 +42,11 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
-import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.hardware.HardwareKeyResponseHelper
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
@@ -86,7 +83,6 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import com.kunzisoft.keepass.viewmodels.ChallengeResponseViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -94,10 +90,12 @@ import java.util.*
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
  * Useful to retrieve a database instance and sending tasks commands
  */
-class DatabaseTaskProvider {
+class DatabaseTaskProvider(private var context: Context,
+                           private var showDialog: Boolean = true) {
 
-    private var activity: FragmentActivity? = null
-    private var context: Context
+    // To show dialog only if context is an activity
+    private var activity: FragmentActivity? = try { context as? FragmentActivity? }
+        catch (_: Exception) { null }
 
     var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
 
@@ -105,7 +103,10 @@ class DatabaseTaskProvider {
                           actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
-    private var intentDatabaseTask: Intent
+    private var intentDatabaseTask: Intent = Intent(
+        context.applicationContext,
+        DatabaseTaskNotificationService::class.java
+    )
 
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
@@ -114,54 +115,6 @@ class DatabaseTaskProvider {
 
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
-
-    private var mChallengeResponseViewModel: ChallengeResponseViewModel? = null
-
-    constructor(activity: FragmentActivity,
-                challengeResponseViewModel: ChallengeResponseViewModel) {
-        this.activity = activity
-        this.context = activity
-        this.intentDatabaseTask = Intent(activity.applicationContext,
-            DatabaseTaskNotificationService::class.java)
-
-        // ViewModel used to keep response if activity recreated
-        this.mChallengeResponseViewModel = challengeResponseViewModel
-        // To manage hardware key challenge response
-        val hardwareKeyResponseHelper = HardwareKeyResponseHelper(activity)
-        hardwareKeyResponseHelper.buildHardwareKeyResponse { responseData, _ ->
-            // TODO Verify database
-            // Send to view model in case activity is restarted and not yet connected to service
-            challengeResponseViewModel.respond(responseData ?: ByteArray(0))
-        }
-        challengeResponseViewModel.dataResponded.observe(activity) { response ->
-            // Consume the response
-            if (response != null) {
-                val binder = mBinder
-                if (binder != null) {
-                    binder.getService().respondToChallenge(response)
-                    challengeResponseViewModel.consumeResponse()
-                }
-            }
-        }
-
-        this.requestChallengeListener = object: DatabaseTaskNotificationService.RequestChallengeListener {
-            override fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?) {
-                if (HardwareKeyResponseHelper.isHardwareKeyAvailable(activity, hardwareKey)) {
-                    hardwareKeyResponseHelper.launchChallengeForResponse(hardwareKey, seed)
-                } else {
-                    throw InvalidCredentialsDatabaseException(
-                        context.getString(R.string.error_driver_required, hardwareKey.toString())
-                    )
-                }
-            }
-        }
-    }
-
-    constructor(service: Service) {
-        this.context = service
-        this.intentDatabaseTask = Intent(service.applicationContext,
-            DatabaseTaskNotificationService::class.java)
-    }
 
     fun destroy() {
         this.activity = null
@@ -172,18 +125,19 @@ class DatabaseTaskProvider {
         this.serviceConnection = null
         this.progressTaskDialogFragment = null
         this.databaseChangedDialogFragment = null
-        this.mChallengeResponseViewModel = null
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(database: Database,
                                    progressMessage: ProgressMessage) {
-            startDialog(progressMessage)
+            if (showDialog)
+                startDialog(progressMessage)
         }
 
         override fun onUpdateAction(database: Database,
                                     progressMessage: ProgressMessage) {
-            updateDialog(progressMessage)
+            if (showDialog)
+                updateDialog(progressMessage)
         }
 
         override fun onStopAction(database: Database,
@@ -235,8 +189,6 @@ class DatabaseTaskProvider {
         }
     }
 
-    private var requestChallengeListener: DatabaseTaskNotificationService.RequestChallengeListener? = null
-
     private fun startDialog(progressMessage: ProgressMessage) {
         activity?.let { activity ->
             activity.lifecycleScope.launch {
@@ -280,7 +232,6 @@ class DatabaseTaskProvider {
                         getService().checkDatabaseInfo()
                         getService().checkAction()
                     }
-                    mChallengeResponseViewModel?.resendResponse()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {
@@ -295,16 +246,12 @@ class DatabaseTaskProvider {
         service?.addDatabaseListener(databaseListener)
         service?.addDatabaseFileInfoListener(databaseInfoListener)
         service?.addActionTaskListener(actionTaskListener)
-        requestChallengeListener?.let {
-            service?.addRequestChallengeListener(it)
-        }
     }
 
     private fun removeServiceListeners(service: DatabaseTaskNotificationService.ActionTaskBinder?) {
         service?.removeActionTaskListener(actionTaskListener)
         service?.removeDatabaseFileInfoListener(databaseInfoListener)
         service?.removeDatabaseListener(databaseListener)
-        service?.removeRequestChallengeListener()
     }
 
     private fun bindService() {
@@ -412,9 +359,11 @@ class DatabaseTaskProvider {
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
-    fun startDatabaseMerge(fromDatabaseUri: Uri? = null,
+    fun startDatabaseMerge(save: Boolean,
+                           fromDatabaseUri: Uri? = null,
                            mainCredential: MainCredential? = null) {
         start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, fromDatabaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
@@ -758,6 +707,13 @@ class DatabaseTaskProvider {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
         }
                 , ACTION_DATABASE_SAVE)
+    }
+
+    fun startChallengeResponded(response: ByteArray?) {
+        start(Bundle().apply {
+            putByteArray(DatabaseTaskNotificationService.DATA_BYTES, response)
+        }
+                , ACTION_CHALLENGE_RESPONDED)
     }
 
     companion object {

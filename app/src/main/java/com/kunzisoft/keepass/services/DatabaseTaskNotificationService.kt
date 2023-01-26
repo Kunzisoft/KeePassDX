@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.hardware.HardwareKeyActivity
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -75,8 +76,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mDatabaseInfoListeners = mutableListOf<DatabaseInfoListener>()
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
-    // Channel to connect asynchronously a listener or a response
-    private var mRequestChallengeListenerChannel: Channel<RequestChallengeListener>? = null
+    // Channel to connect asynchronously a response
     private var mResponseChallengeChannel: Channel<ByteArray?>? = null
 
     private var mActionRunning = false
@@ -123,30 +123,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.remove(actionTaskListener)
         }
-
-        @ExperimentalCoroutinesApi
-        fun addRequestChallengeListener(requestChallengeListener: RequestChallengeListener) {
-            mainScope.launch {
-                val requestChannel = mRequestChallengeListenerChannel
-                if (requestChannel == null || requestChannel.isEmpty) {
-                    initializeChallengeResponse()
-                    mRequestChallengeListenerChannel?.send(requestChallengeListener)
-                } else {
-                    cancelChallengeResponse(R.string.error_challenge_already_requested)
-                }
-            }
-        }
-
-        fun removeRequestChallengeListener() {
-            mainScope.launch {
-                try {
-                    mRequestChallengeListenerChannel?.cancel()
-                } catch (e: Exception) {
-                    Log.w(TAG, "Request challenge listener cannot be closed.", e)
-                }
-                mRequestChallengeListenerChannel = null
-            }
-        }
     }
 
     interface DatabaseListener {
@@ -169,7 +145,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface RequestChallengeListener {
-        fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?)
+        fun onChallengeResponseRequested(
+            hardwareKey: HardwareKey,
+            seed: ByteArray?
+        )
     }
 
     fun checkDatabase() {
@@ -246,32 +225,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun initializeChallengeResponse() {
-        // Init the channels
-        if (mRequestChallengeListenerChannel == null) {
-            mRequestChallengeListenerChannel = Channel(0)
-        }
-        if (mResponseChallengeChannel == null) {
-            mResponseChallengeChannel = Channel(0)
-        }
-    }
-
-    private fun closeChallengeResponse() {
-        mRequestChallengeListenerChannel?.close()
-        mResponseChallengeChannel?.close()
-        mRequestChallengeListenerChannel = null
-        mResponseChallengeChannel = null
-    }
-
-    private fun cancelChallengeResponse(@StringRes error: Int) {
-        mRequestChallengeListenerChannel?.cancel(CancellationException(getString(error)))
-        mRequestChallengeListenerChannel = null
-        mResponseChallengeChannel?.cancel(CancellationException(getString(error)))
-        mResponseChallengeChannel = null
-    }
-
-    @ExperimentalCoroutinesApi
-    fun respondToChallenge(response: ByteArray) {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun sendResponseToChallenge(response: ByteArray) {
         mainScope.launch {
             val responseChannel = mResponseChallengeChannel
             if (responseChannel == null || responseChannel.isEmpty) {
@@ -284,6 +239,23 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 cancelChallengeResponse(R.string.error_response_already_provided)
             }
         }
+    }
+
+    private fun initializeChallengeResponse() {
+        // Init the channels
+        if (mResponseChallengeChannel == null) {
+            mResponseChallengeChannel = Channel(0)
+        }
+    }
+
+    private fun closeChallengeResponse() {
+        mResponseChallengeChannel?.close()
+        mResponseChallengeChannel = null
+    }
+
+    private fun cancelChallengeResponse(@StringRes error: Int) {
+        mResponseChallengeChannel?.cancel(CancellationException(getString(error)))
+        mResponseChallengeChannel = null
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -353,7 +325,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
             ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent, database)
-            ACTION_DATABASE_SAVE -> buildDatabaseSave(intent, database)
+            ACTION_DATABASE_SAVE -> buildDatabaseSaveActionTask(intent, database)
+            ACTION_CHALLENGE_RESPONDED -> buildChallengeRespondedActionTask(intent)
             else -> null
         }
 
@@ -377,7 +350,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                     database, mProgressMessage
                                 )
                             }
-
                         },
                         {
                             actionRunnable
@@ -650,8 +622,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             }
             // Send the request
             notifyProgressMessage()
-            val challengeResponseRequestListener = mRequestChallengeListenerChannel?.receive()
-            challengeResponseRequestListener?.onChallengeResponseRequested(hardwareKey, seed)
+            HardwareKeyActivity
+                .launchHardwareKeyActivity(
+                    this@DatabaseTaskNotificationService,
+                    hardwareKey,
+                    seed
+                )
             // Wait the response
             mProgressMessage.apply {
                 messageId = R.string.waiting_challenge_response
@@ -753,9 +729,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         return MergeDatabaseRunnable(
             this,
-            database,
             databaseToMergeUri,
             databaseToMergeMainCredential,
+            { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            },
+            database,
+            !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
             { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
@@ -1095,7 +1075,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     /**
      * Save database without parameter
      */
-    private fun buildDatabaseSave(intent: Intent, database: Database): ActionRunnable? {
+    private fun buildDatabaseSaveActionTask(intent: Intent, database: Database): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
 
             var databaseCopyUri: Uri? = null
@@ -1111,6 +1091,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 },
                 databaseCopyUri)
+        } else {
+            null
+        }
+    }
+
+    private fun buildChallengeRespondedActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(DATA_BYTES)) {
+            object : ActionRunnable() {
+                override fun onStartRun() {}
+                override fun onActionRun() {
+                    mainScope.launch {
+                        intent.getByteArrayExtra(DATA_BYTES)?.let { response ->
+                            sendResponseToChallenge(response)
+                        }
+                    }
+                }
+                override fun onFinishRun() {}
+            }
         } else {
             null
         }
@@ -1152,6 +1150,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
+        const val ACTION_CHALLENGE_RESPONDED = "ACTION_CHALLENGE_RESPONDED"
 
         const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
         const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
@@ -1175,6 +1174,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_NODES_KEY = "NEW_NODES_KEY"
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
+        const val DATA_BYTES = "DATA_BYTES"
 
         fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()
