@@ -90,7 +90,8 @@ import java.util.*
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
  * Useful to retrieve a database instance and sending tasks commands
  */
-class DatabaseTaskProvider(private var context: Context) {
+class DatabaseTaskProvider(private var context: Context,
+                           private var showDialog: Boolean = true) {
 
     // To show dialog only if context is an activity
     private var activity: FragmentActivity? = try { context as? FragmentActivity? }
@@ -129,12 +130,14 @@ class DatabaseTaskProvider(private var context: Context) {
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(database: Database,
                                    progressMessage: ProgressMessage) {
-            startDialog(progressMessage)
+            if (showDialog)
+                startDialog(progressMessage)
         }
 
         override fun onUpdateAction(database: Database,
                                     progressMessage: ProgressMessage) {
-            updateDialog(progressMessage)
+            if (showDialog)
+                updateDialog(progressMessage)
         }
 
         override fun onStopAction(database: Database,

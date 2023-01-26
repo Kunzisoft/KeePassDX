@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.hardware
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.util.Log
@@ -39,13 +40,23 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         resultCallback
     )
 
+    override fun applyCustomStyle(): Boolean {
+        return false
+    }
+
+    override fun showDatabaseDialog(): Boolean {
+        return false
+    }
+
     override fun onDatabaseRetrieved(database: Database?) {
         super.onDatabaseRetrieved(database)
 
         val hardwareKey = HardwareKey.getHardwareKeyFromString(
             intent.getStringExtra(DATA_HARDWARE_KEY)
         )
-        if (isHardwareKeyAvailable(this, hardwareKey)) {
+        if (isHardwareKeyAvailable(this, hardwareKey, true) {
+                mDatabaseTaskProvider?.startChallengeResponded(ByteArray(0))
+            }) {
             when (hardwareKey) {
                 /*
                 HardwareKey.FIDO2_SECRET -> {
@@ -60,8 +71,6 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     finish()
                 }
             }
-        } else {
-            finish()
         }
     }
 
@@ -106,7 +115,8 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         fun isHardwareKeyAvailable(
             context: Context,
             hardwareKey: HardwareKey?,
-            showDialog: Boolean = true
+            showDialog: Boolean = true,
+            onDialogDismissed: DialogInterface.OnDismissListener? = null
         ): Boolean {
             if (hardwareKey == null)
                 return false
@@ -125,8 +135,12 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     val yubikeyDriverAvailable =
                         Intent(YUBIKEY_CHALLENGE_RESPONSE_INTENT)
                             .resolveActivity(context.packageManager) != null
-                    if (showDialog && !yubikeyDriverAvailable)
-                        showHardwareKeyDriverNeeded(context, hardwareKey)
+                    if (showDialog && !yubikeyDriverAvailable
+                        && context is Activity)
+                        showHardwareKeyDriverNeeded(context, hardwareKey) {
+                            onDialogDismissed?.onDismiss(it)
+                            context.finish()
+                        }
                     yubikeyDriverAvailable
                 }
             }
@@ -134,7 +148,8 @@ class HardwareKeyActivity: DatabaseModeActivity(){
 
         private fun showHardwareKeyDriverNeeded(
             context: Context,
-            hardwareKey: HardwareKey
+            hardwareKey: HardwareKey,
+            onDialogDismissed: DialogInterface.OnDismissListener
         ) {
             val builder = AlertDialog.Builder(context)
             builder
@@ -145,6 +160,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     UriUtil.openExternalApp(context, context.getString(R.string.key_driver_app_id))
                 }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                .setOnDismissListener(onDialogDismissed)
             builder.create().show()
         }
     }

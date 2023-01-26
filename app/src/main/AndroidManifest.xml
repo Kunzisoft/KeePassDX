@@ -157,7 +157,8 @@
         <activity
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
         <activity
-            android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity" />
+            android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity"
+            android:theme="@style/Theme.Transparent" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
             android:theme="@style/Theme.Transparent"

@@ -20,7 +20,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mDatabaseTaskProvider = DatabaseTaskProvider(this)
+        mDatabaseTaskProvider = DatabaseTaskProvider(this, showDatabaseDialog())
 
         mDatabaseTaskProvider?.onDatabaseRetrieved = { database ->
             val databaseWasReloaded = database?.wasReloaded == true
@@ -34,6 +34,10 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         mDatabaseTaskProvider?.onActionFinish = { database, actionTask, result ->
             onDatabaseActionFinished(database, actionTask, result)
         }
+    }
+
+    protected open fun showDatabaseDialog(): Boolean {
+        return true
     }
 
     override fun onDestroy() {
