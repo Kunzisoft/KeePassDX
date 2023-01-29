@@ -646,4 +646,5 @@
     <string name="html_about_privacy">&lt;strong&gt;Tidak ada data pengguna yang didapatkan&lt;/strong&gt;, aplikasi ini tidak menghubungkan ke server apa pun, bekerja secara lokal dan menghargai privasi pengguna.</string>
     <string name="content_description_nav_header">Tajuk navigasi</string>
     <string name="auto_type">Ketik Otomatis</string>
+    <string name="merge_success">Penggabungan berhasil dilakukan</string>
 </resources>
