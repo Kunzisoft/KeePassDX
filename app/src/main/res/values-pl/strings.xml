@@ -668,4 +668,5 @@
     <string name="error_XML_malformed">Zniekształcony XML.</string>
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
     <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
+    <string name="merge_success">Scalanie zostało pomyślnie zakończone</string>
 </resources>
