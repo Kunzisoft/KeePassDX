@@ -668,4 +668,5 @@
     <string name="regex">Expressão regular</string>
     <string name="menu_merge_from">Unir de…</string>
     <string name="menu_save_copy_to">Guardar uma cópia em…</string>
+    <string name="merge_success">Fusão concluída com sucesso</string>
 </resources>
