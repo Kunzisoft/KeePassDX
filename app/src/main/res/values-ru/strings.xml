@@ -668,4 +668,5 @@
     <string name="waiting_challenge_response">Ожидание ответа на вызов…</string>
     <string name="html_about_privacy">&lt;strong&gt;Никакие пользовательские данные не собираются&lt;/strong&gt;, это приложение не подключается ни к одному серверу, работает исключительно локально и полностью соблюдает конфиденциальность пользователей.</string>
     <string name="auto_type">Автонабор</string>
+    <string name="merge_success">Объединение выполнено</string>
 </resources>
