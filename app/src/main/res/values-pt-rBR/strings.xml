@@ -668,4 +668,5 @@
     <string name="corrupted_file">Arquivo corrompido.</string>
     <string name="auto_type">Preenchimento automático</string>
     <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
+    <string name="merge_success">Merge concluído com sucesso</string>
 </resources>
