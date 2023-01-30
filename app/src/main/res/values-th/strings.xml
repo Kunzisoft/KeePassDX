@@ -21,11 +21,11 @@
     <string name="homepage">หน้าหลัก</string>
     <string name="security">ความปลอดภัย</string>
     <string name="hide_password_summary">ปิดบังรหัสผ่านเป็น (***) โดยค่าเรื่มต้น</string>
-    <string name="app_timeout_summary">ระยะเวลาที่ไม่ได้ใช้งานแอปก่อนที่จะทำการล็อกฐานข้อมูล</string>
+    <string name="app_timeout_summary">ระยะเวลาที่ไม่ได้ใช้งานก่อนที่จะทำการล็อกฐานข้อมูล</string>
     <string name="open_advanced_unlock_prompt_unlock_database">ยืนยันการปลดล็อกขั้นสูงเพื่อปลดล็อกฐานข้อมูล</string>
     <string name="settings">การตั้งค่า</string>
     <string name="hint_pass">รหัสผ่าน</string>
-    <string name="hint_generated_password">สร้างรหัสผ่าน</string>
+    <string name="hint_generated_password">สร้างรหัสผ่านแล้ว</string>
     <string name="menu_change_key_settings">เปลี่ยนรหัสผ่านหลัก</string>
     <string name="menu_master_key_settings">การตั้งค่ารหัสผ่านหลัก</string>
     <string name="assign_master_key">กำหนดรหัสผ่านหลัก</string>
@@ -47,7 +47,7 @@
 \nสำรองฐานข้อมูลไว้ในที่ปลอดภัยหลังจากการเปลี่ยนแปลงแต่ละครั้ง</string>
     <string name="education_unlock_title">ปลดล็อกฐานข้อมูล</string>
     <string name="content_description_keyfile_checkbox">ช่องทำเครื่องหมาย Keyfile</string>
-    <string name="content_description_repeat_toggle_password_visibility">สลับการมองเห็นรหัส่ผ่าน</string>
+    <string name="content_description_repeat_toggle_password_visibility">สลับการมองเห็นรหัสผ่าน</string>
     <string name="content_description_passphrase_word_count">จำนวนคำวลีรหัสผ่าน</string>
     <string name="content_description_add_node">เพื่มโหนด</string>
     <string name="content_description_entry_background_color">สีพื้นหลังของรายการ</string>
@@ -97,7 +97,7 @@
     <string name="loading_database">กำลังโหลดฐานข้อมูล…</string>
     <string name="advanced_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกขั้นสูง</string>
     <string name="waiting_challenge_response">กำลังรอการตอบกลับจากกุญแจฮาร์ดแวร์</string>
-    <string name="html_about_licence">แอป KeePassDX © %1$d Kunzisoft เป็น <strong>โอเพนซอร์ซ</strong> และ <strong>ไม่มีโฆษณา</strong>.
+    <string name="html_about_licence">แอป KeePassDX © %1$d Kunzisoft เป็นแอป <strong>โอเพนซอร์ซ</strong> และ <strong>ไม่มีโฆษณา</strong>.
 \nIt is provided as is, under <strong>GPLv3</strong> license, without any warranty.</string>
     <string name="ssid">SSID</string>
     <string name="account">บัญชี</string>
@@ -107,15 +107,15 @@
     <string name="error_arc4">ไม่รองรับการเข้ารหัสแบบ RC4</string>
     <string name="entry_url">ที่อยู่ URL</string>
     <string name="entry_user_name">ชื่อผู้ใช้</string>
-    <string name="error_can_not_handle_uri">ไม่สามารถเปิด URI นี้ใน KeePassDX ได้.</string>
+    <string name="error_can_not_handle_uri">ไม่สามารถเปิด URI นี้ใน KeePassDX ได้</string>
     <string name="error_file_not_create">ไม่สามารถสร้างไฟล์</string>
     <string name="error_label_exists">ป้ายกำกับนี้มีอยู่แล้ว</string>
     <string name="error_rounds_too_large">\"รอบการเปลี่ยนรูปแบบ\" สูงเกินไป ตั้งค่าเป็น 2147483648</string>
     <string name="error_wrong_length">ป้อนจำนวนเต็มบวกในช่อง \"ความยาว\"</string>
     <string name="error_autofill_enable_service">ไม่สามารถเปิดใช้งานบริการป้อนข้อมูลอัตโนมัติ</string>
     <string name="error_field_name_already_exists">ชื่อช่องนี้มีอยู่แล้ว</string>
-    <string name="error_duplicate_file">ข้อมูลไฟล์มีอยู่แล้ว</string>
-    <string name="error_remove_file">เกิดข้อผิดพลาดขณะลบข้อมูลไฟล์</string>
+    <string name="error_duplicate_file">ไฟล์ข้อมูลมีอยู่แล้ว</string>
+    <string name="error_remove_file">เกิดข้อผิดพลาดขณะลบไฟล์ข้อมูล</string>
     <string name="error_start_database_action">เกิดข้อผิดพลาดขณะดำเนินการกับฐานข้อมูล</string>
     <string name="error_no_response_from_challenge">ไม่สามารถรับการตอบสนองจากคีย์ฮาร์ดแวร์ได้</string>
     <string name="error_cancel_by_user">ยกเลิกโดยผู้ใช้</string>
@@ -141,7 +141,7 @@
     <string name="menu_copy">คัดลอก</string>
     <string name="menu_paste">วาง</string>
     <string name="menu_save_database">บันทึกข้อมูล</string>
-    <string name="menu_merge_from">รวมจาก…</string>
+    <string name="menu_merge_from">ควบรวมจาก…</string>
     <string name="menu_open_file_read_and_write">แก้ไขได้</string>
     <string name="auto_focus_search_title">ค้นหาอย่างรวดเร็ว</string>
     <string name="subdomain_search_title">ค้นหาโดเมนย่อย</string>
@@ -195,22 +195,22 @@
     <string name="education_generate_password_title">สร้างรหัสผ่านที่แข็งแรง</string>
     <string name="education_entry_new_field_title">เพื่มช่องเขตข้อมูลที่กำหนดเอง</string>
     <string name="education_add_attachment_title">เพื่มเอกสารแนบ</string>
-    <string name="education_read_only_summary">Change opening mode for the session.
+    <string name="education_read_only_summary">เปลี่ยนโหมดที่จะเปิดในเซสชั่น
 \n
-\n\"Write-protected\" prevents unintended changes to the database.
-\n\"Modifiable\" lets you add, delete, or modify all the elements as you wish.</string>
-    <string name="education_field_copy_summary">Copied fields can be pasted anywhere.
+\n\"ป้องกันการเขียน\" ป้องกันการเปลี่ยนแปลงที่ไม่ได้ตั้งใจถูกบันทึกลงในฐานข้อมูล
+\n\"แก้ไขได้\" ให้คุณเพื่ม, ลบ, หรือเปลี่ยนแปลงทุกๆองค์ประกอบได้ตามต้องการ</string>
+    <string name="education_field_copy_summary">เขตข้อมูลที่คัดลอกแล้วสามารถวางได้ที่ใหนก็ได้
 \n
-\nUse the form filling method you prefer.</string>
+\nใช้การวิธีการกรอกข้อมูลตามต้องการ</string>
     <string name="education_lock_title">Lock the database</string>
-    <string name="education_lock_summary">Lock your database quickly, you can set up the app to lock it after a while, and when the screen turns off.</string>
-    <string name="education_sort_title">Item sorting</string>
-    <string name="education_sort_summary">Choose how entries and groups are sorted.</string>
+    <string name="education_lock_summary">ล็อกฐานข้อมูลอย่างรวดเร็ว คุณสามารถตั้งค่าการล็อกมันหลังจากผ่านไปสักพัก และเมื่อปิดหน้าจอ</string>
+    <string name="education_sort_title">จัดเรียงรายการ</string>
+    <string name="education_sort_summary">เลือกรายการและกลุ่มที่จะถูกจัดเรียง</string>
     <string name="html_text_donation">เพื่อเป็นการรักษาความอิสระและพัฒนาอยู่เสมอ เรารอคอยการ<strong>ร่วมแก้ไข</strong>ของคุณ</string>
     <string name="html_text_dev_feature_encourage">you are encouraging developers to create <strong>new features</strong> and to <strong>fix bugs</strong> according to your remarks.</string>
-    <string name="html_text_dev_feature_thanks">Thanks a lot for your contribution.</string>
-    <string name="html_text_dev_feature_work_hard">We are working hard to release this feature quickly.</string>
-    <string name="html_text_dev_feature_upgrade">Remember to keep your app up to date by installing new versions.</string>
+    <string name="html_text_dev_feature_thanks">ขอขอบคุณสำหรับการร่วมแก้ไขของคุณเป็นอย่างมาก</string>
+    <string name="html_text_dev_feature_work_hard">เรากำลังทำงานหนักเพื่อปล่อยให้ใด้ใช้งานฟีเจอร์นี้โดยเร็วที่สุด</string>
+    <string name="html_text_dev_feature_upgrade">อย่าลืมอัปเดทแอปให้ทันสมัยอยู่เสมอด้วยการติดตั้งเวอร์ชั่นใหม่</string>
     <string name="download">ดาวน์โหลด</string>
     <string name="contribute">ร่วมแก้ไข</string>
     <string name="download_attachment">ดาวน์โหลด %1$s</string>
@@ -227,13 +227,13 @@
     <string name="entropy">Entropy: %1$s บิต</string>
     <string name="entropy_high">Entropy: สูง</string>
     <string name="entropy_calculate">Entropy: คำนวน…</string>
-    <string name="at_least_one_char">At least one character from each</string>
-    <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
-    <string name="consider_chars_filter">Consider characters</string>
-    <string name="word_separator">Separator</string>
-    <string name="ignore_chars_filter">Ignore characters</string>
-    <string name="lower_case">lower case</string>
-    <string name="character_count">Character count: %1$d</string>
+    <string name="at_least_one_char">อย่างน้อยหนึ่งอักขระจากแต่ละตัว</string>
+    <string name="exclude_ambiguous_chars">ยกเว้นอักขระที่คลุมเครือ</string>
+    <string name="consider_chars_filter">พิจารณาตัวอักษร</string>
+    <string name="word_separator">ตัวคั่น</string>
+    <string name="ignore_chars_filter">ละเว้นอักขระ</string>
+    <string name="lower_case">ตัวพิมพ์เล็ก</string>
+    <string name="character_count">จำนวนตัวอักษร: %1$d</string>
     <string name="screenshot_mode_banner_text">Screenshot mode</string>
     <string name="style_brightness_title">ความสว่างของธีม</string>
     <string name="icon_section_standard">Standard</string>
@@ -249,14 +249,14 @@
     <string name="error_otp_digits">โทเค็นต้องอยู่ระหว่าง %1$d ถึง %2$d หลัก</string>
     <string name="error_otp_type">ชนิดของ OTP ที่มีอยู่ไม่รู้จักโดยฟอร์มนี้ ในการตรวจสอบความถูกต้องอาจไม่สามารถสร้างโทเค็นได้อย่างถูกต้องอีกต่อไป</string>
     <string name="error_registration_read_only">ไม่อนุญาตให้บันทึกรายการใหม่ในฐานข้อมูลแบบอ่านอย่างเดียว</string>
-    <string name="error_response_already_provided">มีการตอบกลับจากคีย์ฮา่ร์ดแวร์ไปแล้ว</string>
+    <string name="error_response_already_provided">มีการตอบกลับจากคีย์ฮาร์ดแวร์ไปแล้ว</string>
     <string name="error_save_database">ไม่สามารถบันทึกฐานข้อมูล</string>
     <string name="error_otp_counter">ตัวนับต้องอยู่ระหว่าง %1$d และ %2$d.</string>
     <string name="error_string_type">ข้อความนี้ไม่ตรงกับรายการที่ร้องขอ</string>
     <string name="sort_recycle_bin_bottom">ถังขยะอยู่ด้านล่าง</string>
     <string name="error_challenge_already_requested">ขอการตอบกลับจากคีย์ฮาร์ดแวร์ไปแล้ว</string>
     <string name="error_empty_key">คีย์นี้ไม่สามารถว่างเปล่าได้</string>
-    <string name="error_unable_merge_database_kdb">ไม่สามารถผสานจากฐานข้อมูล V1</string>
+    <string name="error_unable_merge_database_kdb">ไม่สามารถควบรวมจากฐานข้อมูล V1</string>
     <string name="error_location_unknown">ไม่ทราบตําแหน่งที่ตั้งฐานข้อมูล ไม่สามารถดําเนินการกับฐานข้อมูลได้</string>
     <string name="show_uuid_title">แสดง UUID</string>
     <string name="list_size_summary">ขนาดข้อความในรายการองค์ประกอบ</string>
@@ -281,7 +281,7 @@
     <string name="menu_delete">ลบ</string>
     <string name="menu_cancel">ยกเลิก</string>
     <string name="menu_reload_database">โหลดข้อมูลซ้ํา</string>
-    <string name="menu_merge_database">รวมข้อมูล</string>
+    <string name="menu_merge_database">ควบรวมข้อมูล</string>
     <string name="menu_save_copy_to">บันทึกสำเนาไปที่…</string>
     <string name="menu_open">เปิด</string>
     <string name="menu_url">ไปที่ URL</string>
@@ -333,7 +333,7 @@
     <string name="warning_remove_unlinked_attachment">การลบข้อมูลที่ไม่ได้เชื่อมโยงอาจลดขนาดฐานข้อมูลของคุณ แต่อาจลบข้อมูลที่ใช้สำหรับปลั๊กอิน KeePass ด้วย</string>
     <string name="entry_title">หัวเรื่อง</string>
     <string name="place_of_issue">สถานที่ออก</string>
-    <string name="error_upload_file">เกิดข้อผิดพลาดขณะอัปโหลดข้อมูลไฟล์</string>
+    <string name="error_upload_file">เกิดข้อผิดพลาดขณะอัปโหลดไฟล์ข้อมูล</string>
     <string name="error_invalid_OTP">กุญแจลับของ OTP ไม่ถูกต้อง</string>
     <string name="error_string_key">แต่ละสตริงต้องมีชื่อเขตข้อมูล</string>
     <string name="field_name">ชื่อเขตข้อมูล</string>
@@ -352,8 +352,8 @@
     <string name="inherited">สืบทอด</string>
     <string name="entry_not_found">ไม่พบข้อมูลรายการ</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_load_database_KDF_memory">โหลดข้อมูลกุญแจไม่ได้ ลองลดค่า \"การใช้หน่วยความจำ\" ของ KDF ลง</string>
-    <string name="secure_note">โน้ตลับ</string>
+    <string name="error_load_database_KDF_memory">โหลดกุญแจไม่ได้ ลองลดค่า \"การใช้หน่วยความจำ\" ของ KDF ลง</string>
+    <string name="secure_note">โน้ตนิรภัย</string>
     <string name="error_disallow_no_credentials">ต้องตั้งค่าข้อมูลประจําตัวอย่างน้อยหนึ่งรายการ</string>
     <string name="error_database_uri_null">ไม่สามารถดึงข้อมูล URI ของฐานข้อมูลได้</string>
     <string name="error_rebuild_list">ไม่สามารถสร้างรายการใหม่ได้อย่างถูกต้อง</string>
@@ -473,7 +473,7 @@
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="upper_case">UPPER CASE</string>
     <string name="title_case">Title Case</string>
-    <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
+    <string name="show_entry_colors_summary">แสดงสีพื้นหน้าและสีพื้นหลังสําหรับรายการ</string>
     <string name="file_manager_install_description">ต้องการตัวจัดการไฟล์ที่ยอมรับ Intent Action ACTION_CREATE_DOCUMENT ACTION_OPEN_DOCUMENT เพื่อจะสร้าง, เปิด, และบันทึกไฟล์ฐานข้อมูล</string>
     <string name="id_card">บัตรประจำตัว</string>
     <string name="cryptocurrency">กระเป๋าเงิน Cryptocurrency</string>
@@ -506,7 +506,7 @@
     <string name="error_otp_period">ระยะเวลาต้องอยู่ระหว่าง %1$d และ %2$d วินาที</string>
     <string name="sort_title">หัวข้อ</string>
     <string name="warning_empty_keyfile">ไม่แนะนำให้เพิ่มไฟล์ keyfile เปล่าๆ</string>
-    <string name="html_about_contribution">เพื่อที่จะ <strong>คงความอิสระ</strong>, <strong>แก้ไขบั้ก</strong>, <strong>เพื่มฟีเจอร์</strong> และ <strong>ทำให้พัฒนาอยู่เสมอ</strong>, เรารอคุณมา<strong>ร่วมแก้ไข</strong>อยู่</string>
+    <string name="html_about_contribution">เพื่อที่จะ <strong>คงความเป็นอิสระ</strong>, <strong>แก้ไขบั้ก</strong>, <strong>เพื่มฟีเจอร์</strong> และ <strong>ทำให้พัฒนาอยู่เสมอ</strong>, เรารอคุณมา<strong>ร่วมแก้ไข</strong>อยู่</string>
     <string name="field_value">ค่าเขตข้อมูล</string>
     <string name="warning_database_info_changed">ข้อมูลที่อยู่ในไฟล์ฐานข้อมูลของคุณถูกแก้ไขจากภายนอกแอป</string>
     <string name="description_app_properties">คุณสมบัติของ KeePassDX เพื่อจัดการการตั้งค่าแอป</string>
@@ -646,4 +646,5 @@
     <string name="html_text_feature_generosity"><strong>สไตล์ของแอป</strong> นี้ใช้งานได้ ขอขอบคุณการสนับสนุนของคุณ</string>
     <string name="html_text_dev_feature">ฟีเจอร์นี้ <strong>อยู่ในระหว่างการพัฒนา</strong> และต้องการ <strong>ร่วมแก้ไข</strong>ของคุณ และเปิดให้ใช้งานเร็วๆนี้</string>
     <string name="html_text_dev_feature_buy_pro">โดยการซื้อเวอร์ขั่น<strong>โปร</strong></string>
+    <string name="merge_success">การควบรวมเสร็จสมบูรณ์</string>
 </resources>
