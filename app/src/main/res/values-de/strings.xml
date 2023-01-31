@@ -681,4 +681,5 @@
     <string name="remember_hardware_key_summary">Verfolgt die verwendeten Hardwareschlüssel</string>
     <string name="auto_type">Automatische Eingabe</string>
     <string name="html_about_privacy">&lt;strong&gt;Es werden keine Benutzerdaten abgerufen&lt;/strong&gt;, diese App stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert die Privatsphäre der Benutzer vollständig.</string>
+    <string name="merge_success">Zusammenführung erfolgreich abgeschlossen</string>
 </resources>
