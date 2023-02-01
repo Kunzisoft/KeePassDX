@@ -671,4 +671,5 @@
     <string name="screenshot_mode_banner_text">Modalità di cattura schermo</string>
     <string name="html_about_privacy">&lt;strong&gt;Nessun dato dell\'utente viene prelevato&lt;/strong&gt;, questa applicazione non si connette ad alcun server, funziona solo in locale e rispetta pienamente la privacy degli utenti.</string>
     <string name="auto_type">Auto-digita</string>
+    <string name="merge_success">Unione completata correttamente</string>
 </resources>
