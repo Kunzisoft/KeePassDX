@@ -663,4 +663,5 @@
     <string name="waiting_challenge_request">Čeka se zahtjev za izazov …</string>
     <string name="error_challenge_already_requested">Izazov je već zatražen</string>
     <string name="error_response_already_provided">Odgovor je već dat.</string>
+    <string name="merge_success">Sjedinjavanje uspješno završeno</string>
 </resources>
