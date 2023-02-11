@@ -663,4 +663,5 @@
     <string name="icon_pack_choose_summary">Cambiar o paquete de iconos da aplicación</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versión &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">está a incentivar os programadores a crear &lt;strong&gt;novas funcionalidades&lt;/strong&gt; e a &lt;strong&gt;corrixir erros&lt;/strong&gt; reportados.</string>
+    <string name="merge_success">A fusión completouse correctamente</string>
 </resources>
