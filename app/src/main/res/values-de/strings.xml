@@ -662,8 +662,8 @@
     <string name="hardware_key">Hardwareschlüssel</string>
     <string name="error_no_hardware_key">Hardwareschlüssel auswählen.</string>
     <string name="error_XML_malformed">XML fehlerhaft.</string>
-    <string name="waiting_challenge_response">Warte auf die Response-Antwort …</string>
-    <string name="waiting_challenge_request">Warte auf die Challenge-Aufgabe …</string>
+    <string name="waiting_challenge_response">Warte auf die Response-Antwort …</string>
+    <string name="waiting_challenge_request">Warte auf die Challenge-Aufgabe …</string>
     <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
     <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
     <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
