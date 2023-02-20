@@ -280,9 +280,9 @@
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Schreibschutz der Datenbank aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Den Modus bei Eröffnung der Sitzung ändern.
+    <string name="education_read_only_summary">Den Modus beim Öffnen der Sitzung ändern.
 \n
-\n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank.
+\n„Schreibgeschützt“ verhindert unbeabsichtigtes Ändern der Datenbank.
 \nMit „Änderbar“ können alle Elemente nach Belieben hinzugefügt, gelöscht oder geändert werden.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
@@ -502,7 +502,7 @@
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Die gemeinsamen Informationen bei manueller Eintragsauswahl speichern, zur einfacheren zukünftigen Verwendung</string>
+    <string name="keyboard_save_search_info_summary">Bei manueller Eintragsauswahl gemeinsame Informationen speichern, um sie später leichter verwenden zu können</string>
     <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten dauerhaft aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
