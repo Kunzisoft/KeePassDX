@@ -41,7 +41,7 @@
     <string name="clipboard_error">Einige Geräte lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablage-Inaktivitätszeit</string>
-    <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage (falls vom Gerät unterstützt)</string>
+    <string name="clipboard_timeout_summary">Zeitdauer der Speicherung in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
     <string name="database">Datenbank</string>
@@ -202,7 +202,7 @@
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
-    <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperrerkennung zusammenhängen</string>
+    <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperr-Erkennung zusammenhängen</string>
     <string name="unavailable_feature_version">Das Gerät läuft mit Android %1$s, benötigt aber %2$s oder höher.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
     <string name="recycle_bin_title">Papierkorb-Nutzung</string>
@@ -339,7 +339,7 @@
     <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in einer Gruppe anzeigen</string>
     <string name="content_description_add_node">Knoten hinzufügen</string>
     <string name="lock_database_back_root_title">„Zurück“ drücken, um zu sperren</string>
-    <string name="clear_clipboard_notification_summary">Die Datenbank sperren, wenn die Dauer der Zwischenablage abläuft oder die Benachrichtigung geschlossen wird, nachdem Sie sie benutzt haben</string>
+    <string name="clear_clipboard_notification_summary">Die Datenbank nach der Verwendung sperren, wenn die Zeitdauer der Zwischenablage abgelaufen ist oder die Benachrichtigung geschlossen wird</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
     <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
@@ -386,8 +386,8 @@
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="advanced_unlock_explanation_summary">Modernes Entsperren verwenden, um eine Datenbank einfacher zu öffnen</string>
-    <string name="database_data_compression_title">Datenkompression</string>
-    <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße</string>
+    <string name="database_data_compression_title">Datenkomprimierung</string>
+    <string name="database_data_compression_summary">Datenkomprimierung reduziert die Datenbankgröße</string>
     <string name="max_history_items_title">Maximale Anzahl</string>
     <string name="max_history_items_summary">Anzahl der Verlaufseinträge pro Eintrag begrenzen</string>
     <string name="max_history_size_title">Maximale Größe</string>
@@ -414,8 +414,8 @@
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
     <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus „Bearbeiten“)</string>
     <string name="entry_attachments">Anhänge</string>
-    <string name="menu_restore_entry_history">Historie wiederherstellen</string>
-    <string name="menu_delete_entry_history">Historie löschen</string>
+    <string name="menu_restore_entry_history">Verlauf wiederherstellen</string>
+    <string name="menu_delete_entry_history">Verlauf löschen</string>
     <string name="keyboard_auto_go_action_title">Automatische Tastenaktion</string>
     <string name="keyboard_auto_go_action_summary">Nach dem Drücken einer Feldtaste automatisch die Eingabetaste ausführen</string>
     <string name="download_attachment">%1$s herunterladen</string>
@@ -452,7 +452,7 @@
     <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
-    <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
+    <string name="autofill_block_restart">Die das Formular enthaltene App neu starten, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Liste der Domains, für die ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
@@ -479,7 +479,7 @@
     <string name="warning_replace_file">Durch das Hochladen dieser Datei wird die bestehende Datei ersetzt.</string>
     <string name="warning_file_too_big">Eine KeePass-Datenbank sollte nur kleine Dienstprogrammdateien beinhalten (zum Beispiel PGP-Schlüsseldateien).
 \n
-\nMit diesem Upload kann die Datenbank sehr groß werden und die Leistung beeinträchtigen.</string>
+\nMit diesem Upload kann die Datenbank sehr groß und die Leistung beeinträchtigt werden.</string>
     <string name="upload_attachment">%1$s hochladen</string>
     <string name="education_add_attachment_title">Anhang hinzufügen</string>
     <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge, die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
@@ -497,16 +497,16 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
-    <string name="autofill_save_search_info_summary">Wenn möglich, die Suchinformationen bei manueller Eintragsauswahl, zur einfacheren zukünftigen Verwendung, speichern</string>
+    <string name="autofill_save_search_info_summary">Die Suchinformationen bei manueller Eintragsauswahl speichern, zur einfacheren zukünftigen Verwendung</string>
     <string name="autofill_ask_to_save_data_summary">Nachfragen, ob die Daten gespeichert werden sollen, wenn ein Formular ausgefüllt ist</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Wenn möglich, die gemeinsamen Informationen bei manueller Eintragsauswahl, zur einfacheren zukünftigen Verwendung, speichern</string>
+    <string name="keyboard_save_search_info_summary">Die gemeinsamen Informationen bei manueller Eintragsauswahl speichern, zur einfacheren zukünftigen Verwendung</string>
     <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten dauerhaft aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie die moderne Entsperrerkennung verwenden.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie die moderne Entsperr-Erkennung verwenden.</string>
     <string name="open_advanced_unlock_prompt_store_credential">Zum Speichern der Anmeldeinformationen Dialog zum modernen Entsperren öffnen</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Dialog zum modernen Entsperren der Datenbank öffnen</string>
     <string name="menu_keystore_remove_key">Schlüssel für modernes Entsperren löschen</string>
@@ -514,14 +514,14 @@
     <string name="education_advanced_unlock_summary">Verknüpfen Sie Ihr Passwort mit Ihren gescannten Biometriedaten oder Daten zur Geräteanmeldung, um schnell Ihre Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Moderne Entsperrung der Datenbank</string>
     <string name="advanced_unlock_timeout">Verfallszeit der modernen Entsperrung</string>
-    <string name="temp_advanced_unlock_timeout_summary">Laufzeit der modernen Entsperrung, bevor ihr Inhalt gelöscht wird</string>
+    <string name="temp_advanced_unlock_timeout_summary">Zeitdauer der modernen Entsperrung, bevor ihr Inhalt gelöscht wird</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keine zur modernen Entsperrung verwendeten, verschlüsselten Inhalte speichern</string>
     <string name="temp_advanced_unlock_enable_title">Befristete moderne Entsperrung</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräte-Anmeldeinformationen</string>
     <string name="advanced_unlock_tap_delete">Drücken, um Schlüssel für modernes Entsperren zu löschen</string>
     <string name="content">Inhalt</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit moderner Entsperrerkennung öffnen</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit moderner Entsperr-Erkennung öffnen</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
@@ -534,7 +534,7 @@
     <string name="advanced_unlock_prompt_not_initialized">Der Dialog für modernes Entsperren konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler beim modernen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum modernen Entsperren nicht erkannt</string>
-    <string name="advanced_unlock_invalid_key">Schlüssel zum modernen Entsperren nicht lesbar. Bitte löschen Sie ihn und wiederholen Sie die Prozedur zur Entsperrerkennung.</string>
+    <string name="advanced_unlock_invalid_key">Schlüssel zum modernen Entsperren nicht lesbar. Bitte löschen Sie ihn und wiederholen Sie die Prozedur zur Entsperr-Erkennung.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten mit Daten aus moderner Entsperrung extrahieren</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
@@ -609,7 +609,7 @@
     <string name="show_otp_token_title">OTP-Token anzeigen</string>
     <string name="hint_icon_name">Symbolname</string>
     <string name="permission">Berechtigung</string>
-    <string name="warning_exact_alarm">Der App wurde nicht erlaubt, einen genauen Alarm zu verwenden. Deshalb werden die Funktionen, die einen Timer erfordern, nicht zur genauen Zeit ausgeführt.</string>
+    <string name="warning_exact_alarm">Der App wurde nicht erlaubt, einen genauen Alarm zu verwenden. Deshalb werden die von einem Timer abhängigen Funktionen nicht zur genauen Zeit ausgeführt.</string>
     <string name="content_description_database_color">Datenbankfarbe</string>
     <string name="content_description_entry_foreground_color">Vordergrundfarbe des Eintrags</string>
     <string name="content_description_entry_background_color">Hintergrundfarbe des Eintrags</string>
@@ -675,7 +675,7 @@
     <string name="error_challenge_already_requested">Die Challenge wurde bereits angefordert.</string>
     <string name="error_response_already_provided">Die Response-Antwort wurde bereits übertragen.</string>
     <string name="enable_screenshot_mode_title">Screenshot-Modus</string>
-    <string name="enable_screenshot_mode_summary">Erlauben Sie Apps von Drittanbietern, Screenshots der Anwendung aufzuzeichnen oder zu erstellen</string>
+    <string name="enable_screenshot_mode_summary">Apps von Drittanbietern erlauben, Screenshots der App aufzuzeichnen oder zu erstellen</string>
     <string name="screenshot_mode_banner_text">Screenshot-Modus</string>
     <string name="remember_hardware_key_title">Hardwareschlüssel merken</string>
     <string name="remember_hardware_key_summary">Verfolgt die verwendeten Hardwareschlüssel</string>
