@@ -41,7 +41,7 @@
     <string name="clipboard_error">Einige Geräte lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablage-Inaktivitätszeit</string>
-    <string name="clipboard_timeout_summary">Zeitdauer der Speicherung in der Zwischenablage (falls vom Gerät unterstützt)</string>
+    <string name="clipboard_timeout_summary">Speicherdauer in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
     <string name="database">Datenbank</string>
@@ -178,7 +178,7 @@
     <string name="allow">Erlauben</string>
     <string name="error_autofill_enable_service">Dienst für automatisches Ausfüllen kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
-    <string name="menu_form_filling_settings">Formularausfüllung</string>
+    <string name="menu_form_filling_settings">Ausfüllen von Formularen</string>
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet</string>
     <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
@@ -534,7 +534,7 @@
     <string name="advanced_unlock_prompt_not_initialized">Der Dialog für modernes Entsperren konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler beim modernen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum modernen Entsperren nicht erkannt</string>
-    <string name="advanced_unlock_invalid_key">Schlüssel zum modernen Entsperren nicht lesbar. Bitte löschen Sie ihn und wiederholen Sie die Prozedur zur Entsperr-Erkennung.</string>
+    <string name="advanced_unlock_invalid_key">Schlüssel zum modernen Entsperren nicht lesbar. Bitte diesen löschen und die Prozedur zur Entsperr-Erkennung wiederholen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten mit Daten aus moderner Entsperrung extrahieren</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
