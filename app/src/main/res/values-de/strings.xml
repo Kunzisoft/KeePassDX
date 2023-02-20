@@ -238,7 +238,7 @@
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort, um es mit Ihrem Eintrag zu verknüpfen, definieren Sie es einfach nach den Kriterien des Formulars und denken Sie an die Passwortsicherheit.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
+    <string name="education_entry_new_field_summary">Ein zusätzliches Feld eintragen, einen Wert hinzufügen und es optional schützen.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
     <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden.
@@ -468,7 +468,7 @@
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
     <string name="keyboard_previous_fill_in_summary">Nach dem Ausführen der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_database_credentials_summary">Auf dem Datenbank-Anmeldebildschirm automatisch zur vorherigen Tastatur wechseln</string>
-    <string name="education_add_attachment_summary">Laden Sie einen Anhang für Ihren Eintrag hoch, um wichtige externe Daten zu speichern.</string>
+    <string name="education_add_attachment_summary">Einen Anhang zum Eintrag hochladen, um wichtige externe Daten zu speichern.</string>
     <string name="content_description_credentials_information">Anmeldeinformationen</string>
     <string name="data">Daten</string>
     <string name="database_data_remove_unlinked_attachments_title">Unverknüpfte Daten entfernen</string>
@@ -497,7 +497,7 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Das Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist nicht zulässig</string>
-    <string name="autofill_save_search_info_summary">Die Suchinformationen bei manueller Eintragsauswahl speichern, zur einfacheren zukünftigen Verwendung</string>
+    <string name="autofill_save_search_info_summary">Bei manueller Eintragsauswahl die Suchinformationen speichern, um sie später leichter verwenden zu können</string>
     <string name="autofill_ask_to_save_data_summary">Nachfragen, ob die Daten gespeichert werden sollen, wenn ein Formular ausgefüllt ist</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
@@ -530,7 +530,7 @@
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperr-Erkennung zusammenhängen\?</string>
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
-    <string name="credential_before_click_advanced_unlock_button">Das Passwort eingeben und dann auf diesen Schalter klicken.</string>
+    <string name="credential_before_click_advanced_unlock_button">Das Passwort eingeben und dann auf diese Taste drücken.</string>
     <string name="advanced_unlock_prompt_not_initialized">Der Dialog für modernes Entsperren konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler beim modernen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum modernen Entsperren nicht erkannt</string>
