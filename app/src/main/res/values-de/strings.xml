@@ -283,7 +283,7 @@
     <string name="education_read_only_summary">Den Modus bei Eröffnung der Sitzung ändern.
 \n
 \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank.
-\nMit „Änderbar“ können Sie alle Elemente nach Belieben hinzufügen, löschen oder ändern.</string>
+\nMit „Änderbar“ können alle Elemente nach Belieben hinzugefügt, gelöscht oder geändert werden.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
@@ -339,7 +339,7 @@
     <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in einer Gruppe anzeigen</string>
     <string name="content_description_add_node">Knoten hinzufügen</string>
     <string name="lock_database_back_root_title">„Zurück“ drücken, um zu sperren</string>
-    <string name="clear_clipboard_notification_summary">Die Datenbank nach der Verwendung sperren, wenn die Zeitdauer der Zwischenablage abgelaufen ist oder die Benachrichtigung geschlossen wird</string>
+    <string name="clear_clipboard_notification_summary">Die Datenbank nach der Verwendung sperren, wenn die Speicherdauer der Zwischenablage abgelaufen ist oder die Benachrichtigung geschlossen wird</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
     <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
@@ -511,14 +511,14 @@
     <string name="open_advanced_unlock_prompt_unlock_database">Dialog zum modernen Entsperren der Datenbank öffnen</string>
     <string name="menu_keystore_remove_key">Schlüssel für modernes Entsperren löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Moderne Entsperr-Erkennung</string>
-    <string name="education_advanced_unlock_summary">Verknüpfen Sie Ihr Passwort mit Ihren gescannten Biometriedaten oder Daten zur Geräteanmeldung, um schnell Ihre Datenbank zu entsperren.</string>
+    <string name="education_advanced_unlock_summary">Das Passwort mit den gescannten Biometriedaten oder Geräteanmeldedaten verknüpfen, um schnell die Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Moderne Entsperrung der Datenbank</string>
     <string name="advanced_unlock_timeout">Verfallszeit der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_timeout_summary">Zeitdauer der modernen Entsperrung, bevor ihr Inhalt gelöscht wird</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keine zur modernen Entsperrung verwendeten, verschlüsselten Inhalte speichern</string>
     <string name="temp_advanced_unlock_enable_title">Befristete moderne Entsperrung</string>
-    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräte-Anmeldeinformationen</string>
+    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldeinformationen</string>
     <string name="advanced_unlock_tap_delete">Drücken, um Schlüssel für modernes Entsperren zu löschen</string>
     <string name="content">Inhalt</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit moderner Entsperr-Erkennung öffnen</string>
@@ -591,7 +591,7 @@
     <string name="standard">Standard</string>
     <string name="membership">Mitgliedschaft</string>
     <string name="international_bank_account_number">IBAN</string>
-    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="bank_identifier_code">SWIFT/BIC</string>
     <string name="bank_name">Name der Bank</string>
     <string name="bank">Bank</string>
     <string name="account">Konto</string>
