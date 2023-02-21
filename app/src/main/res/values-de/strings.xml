@@ -180,7 +180,7 @@
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Ausfüllen von Formularen</string>
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet</string>
-    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
+    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliges Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
     <string name="memory_usage_explanation">Größe des Speichers, der für die Schlüsselableitung genutzt wird.</string>
     <string name="parallelism">Parallelismus</string>
@@ -234,10 +234,10 @@
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben, um die Passwörter wiederzufinden.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit eigenen Feldern. Eigene Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
+    <string name="education_entry_edit_summary">Die benutzerdefinierten Felder des Eintrags bearbeiten. Benutzerdefinierte Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort, um es mit Ihrem Eintrag zu verknüpfen, definieren Sie es einfach nach den Kriterien des Formulars und denken Sie an die Passwortsicherheit.</string>
-    <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
+    <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld eintragen, einen Wert hinzufügen und es optional schützen.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
@@ -502,7 +502,7 @@
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
     <string name="autofill_close_database_summary">Datenbank nach Auswahl eines Eintrags zum automatischen Ausfüllen schließen</string>
-    <string name="keyboard_save_search_info_summary">Bei manueller Eintragsauswahl gemeinsame Informationen speichern, um sie später leichter verwenden zu können</string>
+    <string name="keyboard_save_search_info_summary">Bei manueller Eintragsauswahl die gemeinsamen Informationen speichern, um sie später leichter verwenden zu können</string>
     <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten dauerhaft aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
@@ -526,7 +526,7 @@
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
-    <string name="custom_fields">Eigene Felder</string>
+    <string name="custom_fields">Benutzerdefinierte Felder</string>
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperr-Erkennung zusammenhängen\?</string>
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
