@@ -161,7 +161,7 @@
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
-    <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
+    <string name="unavailable_feature_text">Diese Funktion konnte nicht gestartet werden.</string>
     <string name="biometric_unlock_enable_summary">Ermöglicht das Scannen der biometrischen Daten, um die Datenbank zu öffnen</string>
     <string name="advanced_unlock">Moderne Entsperrung</string>
     <string name="biometric_unlock_enable_title">Biometrisches Entsperren</string>
@@ -530,7 +530,7 @@
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel löschen, die mit der modernen Entsperr-Erkennung zusammenhängen\?</string>
     <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
     <string name="device_credential">Geräteanmeldedaten</string>
-    <string name="credential_before_click_advanced_unlock_button">Das Passwort eingeben und dann auf diese Taste drücken.</string>
+    <string name="credential_before_click_advanced_unlock_button">Das Passwort eingeben und dann diese Taste drücken.</string>
     <string name="advanced_unlock_prompt_not_initialized">Der Dialog für modernes Entsperren konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler beim modernen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum modernen Entsperren nicht erkannt</string>
@@ -636,10 +636,10 @@
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="expired">Abgelaufen</string>
     <string name="warning_database_already_opened">Eine Datenbank ist bereits geöffnet; diese muss zuerst geschlossen werden, um die neue zu öffnen</string>
-    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher Ihres Geräts.
+    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
 \n
-\nAbhängig von der nativen API-Implementierung des Betriebssystems ist sie möglicherweise nicht voll funktionsfähig.
-\nÜberprüfen Sie die Kompatibilität und Sicherheit des Schlüsselspeichers mit dem Hersteller Ihres Geräts und dem Ersteller des von Ihnen verwendeten ROMs.</string>
+\nJe nach der internen API-Implementierung des Betriebssystems kann sie eingeschränkt sein.
+\nBitte die Kompatibilität und Sicherheit des Schlüsselspeichers vom Gerätehersteller und vom Ersteller des verwendeten ROMs abgleichen.</string>
     <string name="content_description_passphrase_word_count">Passphrase-Wortanzahl</string>
     <string name="passphrase">Passphrase</string>
     <string name="colorize_password_title">Passwörter einfärben</string>
