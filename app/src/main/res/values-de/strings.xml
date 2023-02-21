@@ -672,7 +672,7 @@
     <string name="error_empty_key">Der Schlüssel darf nicht leer sein.</string>
     <string name="corrupted_file">Die Datei ist beschädigt.</string>
     <string name="error_no_response_from_challenge">Die Response-Antwort kann nicht abgerufen werden.</string>
-    <string name="error_challenge_already_requested">Die Challenge wurde bereits angefordert</string>
+    <string name="error_challenge_already_requested">Die Challenge wurde bereits angefordert.</string>
     <string name="error_response_already_provided">Die Response-Antwort wurde bereits übertragen.</string>
     <string name="enable_screenshot_mode_title">Screenshot-Modus</string>
     <string name="enable_screenshot_mode_summary">Apps von Drittanbietern erlauben, Screenshots der App aufzuzeichnen oder zu erstellen</string>
