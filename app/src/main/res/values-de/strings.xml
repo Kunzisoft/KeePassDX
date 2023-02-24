@@ -162,7 +162,7 @@
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Diese Funktion konnte nicht gestartet werden.</string>
-    <string name="biometric_unlock_enable_summary">Ermöglicht das Scannen der biometrischen Daten, um die Datenbank zu öffnen</string>
+    <string name="biometric_unlock_enable_summary">Ermöglicht das Scannen biometrischer Merkmale, um die Datenbank zu öffnen</string>
     <string name="advanced_unlock">Moderne Entsperrung</string>
     <string name="biometric_unlock_enable_title">Biometrisches Entsperren</string>
     <string name="lock">Sperren</string>
