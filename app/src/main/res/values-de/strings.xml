@@ -350,7 +350,7 @@
     <string name="content_description_update_from_list">Aktualisieren</string>
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Die Datenbank kann mit diesem Passwort und dieser Schlüsseldatei nicht erstellt werden.</string>
-    <string name="menu_advanced_unlock_settings">Modernes Entsperren</string>
+    <string name="menu_advanced_unlock_settings">Biometrisches Entsperren</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
@@ -509,7 +509,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie die moderne Entsperr-Erkennung verwenden.</string>
     <string name="open_advanced_unlock_prompt_store_credential">Zum Speichern der Anmeldeinformationen Dialog zum modernen Entsperren öffnen</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Dialog zum modernen Entsperren der Datenbank öffnen</string>
-    <string name="menu_keystore_remove_key">Schlüssel für modernes Entsperren löschen</string>
+    <string name="menu_keystore_remove_key">Biometrischen Entsperrschlüssel löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Moderne Entsperr-Erkennung</string>
     <string name="education_advanced_unlock_summary">Das Passwort mit den gescannten Biometriedaten oder Geräteanmeldedaten verknüpfen, um schnell die Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Moderne Entsperrung der Datenbank</string>
@@ -517,7 +517,7 @@
     <string name="temp_advanced_unlock_timeout_summary">Zeitdauer der modernen Entsperrung, bevor ihr Inhalt gelöscht wird</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der modernen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keine zur modernen Entsperrung verwendeten, verschlüsselten Inhalte speichern</string>
-    <string name="temp_advanced_unlock_enable_title">Befristete moderne Entsperrung</string>
+    <string name="temp_advanced_unlock_enable_title">Kurzzeitiges biometrisches Entsperren</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldeinformationen</string>
     <string name="advanced_unlock_tap_delete">Drücken, um Schlüssel für modernes Entsperren zu löschen</string>
     <string name="content">Inhalt</string>
