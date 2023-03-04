@@ -276,7 +276,7 @@
 \n
 \n\"Apenas leitura\" evita que faça alterações não intencionais na base de dados.
 \n\"Alterável\" permite adicionar, eliminar ou alterar todos os elementos.</string>
-    <string name="list_entries_show_username_summary">Mostra nomes de utilizador nas listas de entradas</string>
+    <string name="list_entries_show_username_summary">Apresenta nomes de Utilizador nas listas de entradas</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -325,14 +325,14 @@
     <string name="error_move_entry_here">Não se pode mover uma entrada para aqui.</string>
     <string name="error_copy_entry_here">Não se pode copiar uma entrada aqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
-    <string name="list_groups_show_number_entries_summary">Mostra o número de entradas dentro de um grupo</string>
+    <string name="list_groups_show_number_entries_summary">Mostra o número de entradas num grupo</string>
     <string name="database_custom_color_title">Cor personalizada da base de dados</string>
     <string name="database_data_compression_summary">A compressão de dados reduz o tamanho da base de dados</string>
     <string name="biometric_unlock_enable_summary">Permite que leia os seus dados biométricos para abrir a base de dados</string>
     <string name="advanced_unlock_explanation_summary">Usar desbloqueio avançado para abrir a base de dados mais facilmente</string>
     <string name="database_opened">Base de dados aberta</string>
     <string name="contains_duplicate_uuid">A base de dados contém UUIDs duplicados.</string>
-    <string name="menu_save_database">Guardar dados</string>
+    <string name="menu_save_database">Guardar base de dados</string>
     <string name="creating_database">A criar a base de dados…</string>
     <string name="error_save_database">Não foi possível guardar a base de dados.</string>
     <string name="error_create_database_file">Não foi possível criar a base de dados com essa palavra-passe e ficheiro-chave.</string>
@@ -487,7 +487,7 @@
     <string name="save_mode">Modo de guardar</string>
     <string name="search_mode">Modo de pesquisa</string>
     <string name="menu_keystore_remove_key">Eliminar chave de desbloqueio avançada</string>
-    <string name="menu_reload_database">Recarregar dados</string>
+    <string name="menu_reload_database">Recarregar base de dados</string>
     <string name="error_rebuild_list">Não foi possível reconstruir adequadamente a lista.</string>
     <string name="error_database_uri_null">Não foi possível recuperar o URI da base de dados.</string>
     <string name="error_field_name_already_exists">O nome do campo já existe.</string>
@@ -592,7 +592,7 @@
     <string name="device_credential_unlock_enable_title">Desbloqueio das credenciais do dispositivo</string>
     <string name="advanced_unlock_tap_delete">Tocar para as eliminar chaves de desbloqueio avançado</string>
     <string name="content">Conteúdo</string>
-    <string name="expired">Expirou</string>
+    <string name="expired">Expirado</string>
     <string name="passphrase">Frase-chave</string>
     <string name="enable_keep_screen_on_title">Manter o ecrã ligado</string>
     <string name="error_move_group_here">Não se pode mover um grupo para aqui.</string>
@@ -613,10 +613,10 @@
     <string name="error_hardware_key_unsupported">A chave física não é suportada.</string>
     <string name="error_empty_key">A chave não pode estar vazia.</string>
     <string name="corrupted_file">Ficheiro corrompido.</string>
-    <string name="colorize_password_title">Colorir palavras-passe</string>
+    <string name="colorize_password_title">Colorir passwords</string>
     <string name="remember_hardware_key_summary">Mantém um registo das chaves físicas utilizadas</string>
-    <string name="warning_database_already_opened">Já está aberta uma base de dados, feche-a primeiro para poder abrir uma nova</string>
-    <string name="warning_database_info_reloaded">Recarregar a base de dados irá eliminar os dados alterados localmente.</string>
+    <string name="warning_database_already_opened">Uma base de dados já está aberta, feche-a primeiro para abrir a nova base</string>
+    <string name="warning_database_info_reloaded">Recarregar a base de dados eliminará os dados modificados localmente.</string>
     <string name="warning_keyfile_integrity">O hash do ficheiro não é garantido porque o Android pode alterar os seus dados em tempo real. Altere a extensão do ficheiro para .bin para obter a integridade correta.</string>
     <string name="advanced_unlock_keystore_warning">Esta funcionalidade irá armazenar dados encriptados de credenciais na KeyStore segura do seu dispositivo.
 \n
@@ -632,33 +632,33 @@
     <string name="ignore_chars_filter">Ignorar caracteres</string>
     <string name="upper_case">MAIÚSCULAS</string>
     <string name="title_case">Capitalização de Título</string>
-    <string name="show_entry_colors_title">Cores da entrada</string>
+    <string name="show_entry_colors_title">Cores de entrada</string>
     <string name="screenshot_mode_banner_text">Modo de captura de ecrã</string>
     <string name="show_entry_colors_summary">Mostra as cores de fundo e de primeiro plano numa entrada</string>
     <string name="keyboard_previous_search_title">Ecrã de pesquisa</string>
-    <string name="enable_keep_screen_on_summary">Manter o ecrã ligado ao ver uma entrada</string>
-    <string name="at_least_one_char">Pelo menos um caractere de cada um</string>
+    <string name="enable_keep_screen_on_summary">Mantenha o ecrã ligado ao ver a entrada</string>
+    <string name="at_least_one_char">Pelo menos um carácter de cada</string>
     <string name="exclude_ambiguous_chars">Excluir caracteres ambíguos</string>
     <string name="character_count">Número de caracteres: %1$d</string>
     <string name="content_description_database_color">Cor da base de dados</string>
-    <string name="content_description_entry_background_color">Cor do fundo da página inicial</string>
+    <string name="content_description_entry_background_color">Cor de fundo da entrada</string>
     <string name="warning_exact_alarm">Não permitiu que a aplicação usasse um alarme exato. Como resultado, as funcionalidades que requerem um temporizador não serão feitas com um tempo exato.</string>
     <string name="permission">Permissão</string>
-    <string name="colorize_password_summary">Colorir caracteres da palavra-passe por tipo</string>
+    <string name="colorize_password_summary">Colorir passwords pelo tipo de caracteres</string>
     <string name="hint_icon_name">Nome do ícone</string>
     <string name="hardware_key">Chave física</string>
     <string name="error_no_hardware_key">Selecione uma chave física.</string>
     <string name="error_XML_malformed">XML malformado.</string>
     <string name="error_cancel_by_user">Cancelado pelo utilizador.</string>
     <string name="error_driver_required">É necessário o driver para %1$s.</string>
-    <string name="menu_merge_database">Unir dados</string>
+    <string name="menu_merge_database">Juntar dados</string>
     <string name="remember_hardware_key_title">Lembrar chaves físicas</string>
     <string name="enable_screenshot_mode_title">Modo de captura de ecrã</string>
-    <string name="lower_case">minúsculas</string>
+    <string name="lower_case">Minúsculas</string>
     <string name="content_description_nav_header">Cabeçalho de navegação</string>
     <string name="navigation_drawer_open">Gaveta de navegação aberta</string>
     <string name="navigation_drawer_close">Gaveta de navegação fechada</string>
-    <string name="inherited">Herdar</string>
+    <string name="inherited">Herdado</string>
     <string name="searchable">Pesquisável</string>
     <string name="auto_type">Preenchimento automático</string>
     <string name="auto_type_sequence">Sequência de preenchimento automático</string>
@@ -666,7 +666,7 @@
     <string name="current_group">Grupo atual</string>
     <string name="case_sensitive">Sensível a maiúsculas e minúsculas</string>
     <string name="regex">Expressão regular</string>
-    <string name="menu_merge_from">Unir de…</string>
-    <string name="menu_save_copy_to">Guardar uma cópia em…</string>
+    <string name="menu_merge_from">Juntar de …</string>
+    <string name="menu_save_copy_to">Guarde uma cópia para …</string>
     <string name="merge_success">Fusão concluída com sucesso</string>
 </resources>
