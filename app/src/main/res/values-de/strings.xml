@@ -456,7 +456,7 @@
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Liste der Domains, für die ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
-    <string name="autofill_application_id_blocklist_summary">Liste der Apps, in denen ein automatisches Ausfüllen verhindert wird</string>
+    <string name="autofill_application_id_blocklist_summary">Liste von Apps, für die ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_application_id_blocklist_title">Liste gesperrter Anwendungen</string>
     <string name="subdomain_search_summary">Webdomains mit Subdomain-Beschränkungen durchsuchen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
@@ -663,7 +663,7 @@
     <string name="error_no_hardware_key">Hardwareschlüssel auswählen.</string>
     <string name="error_XML_malformed">XML fehlerhaft.</string>
     <string name="waiting_challenge_response">Auf die Response-Antwort wird gewartet …</string>
-    <string name="waiting_challenge_request">Auf die Challenge-Aufgabe wird gewartet …</string>
+    <string name="waiting_challenge_request">Auf die Challenge-Anfrage wird gewartet …</string>
     <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
     <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
     <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
