@@ -43,9 +43,9 @@
     <string name="clipboard_timeout">Zwischenablage-Inaktivitätszeit</string>
     <string name="clipboard_timeout_summary">Speicherdauer in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
+    <string name="retrieving_db_key">Datenbankschlüssel abrufen …</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
+    <string name="decrypting_db">Datenbankinhalte entschlüsseln …</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Zahlen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
@@ -662,8 +662,8 @@
     <string name="hardware_key">Hardwareschlüssel</string>
     <string name="error_no_hardware_key">Hardwareschlüssel auswählen.</string>
     <string name="error_XML_malformed">XML fehlerhaft.</string>
-    <string name="waiting_challenge_response">Auf die Response-Antwort wird gewartet …</string>
-    <string name="waiting_challenge_request">Auf die Challenge-Anfrage wird gewartet …</string>
+    <string name="waiting_challenge_response">Challenge-Antwort abwarten …</string>
+    <string name="waiting_challenge_request">Challenge-Anfrage abwarten …</string>
     <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
     <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
     <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
