@@ -425,8 +425,8 @@
     <string name="hide_broken_locations_summary">Dölj felaktiga länkar i listan över senaste databaser</string>
     <string name="hide_broken_locations_title">Dölj felaktiga databaslänkar</string>
     <string name="show_recent_files_summary">Visa sökväg till senaste databaser</string>
-    <string name="remember_database_locations_title">Spara sökvägar till databaserna</string>
-    <string name="error_label_exists">Denna etikett finns redan.</string>
+    <string name="remember_database_locations_title">Spara platsen för databaser</string>
+    <string name="error_label_exists">Den här etiketten finns redan.</string>
     <string name="entry_attachments">Bifogat</string>
     <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;fixa buggfixar&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt; alltid vara aktiv&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bifoga fil</string>
