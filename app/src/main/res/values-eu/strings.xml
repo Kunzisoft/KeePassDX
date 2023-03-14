@@ -133,4 +133,11 @@
         <item>Ertaina</item>
         <item>Handia</item>
     </string-array>
+    <string name="security">Segurtasuna</string>
+    <string name="contact">Harremanetarako</string>
+    <string name="contribution">Diru-laguntza</string>
+    <string name="master_key">Gako nagusia</string>
+    <string name="edit_entry">Sarrera editatu</string>
+    <string name="key_derivation_function">Gakoaren eratorpen funtzioa</string>
+    <string name="encryption">Zifraketa</string>
 </resources>
