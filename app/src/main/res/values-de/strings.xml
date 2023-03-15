@@ -452,12 +452,12 @@
     <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
-    <string name="autofill_block_restart">Die das Formular enthaltene App neu starten, um die Sperrung zu aktivieren.</string>
+    <string name="autofill_block_restart">App, die das Formular enthält, neu starten, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Liste der Domains, für die ein automatisches Ausfüllen verhindert wird</string>
-    <string name="autofill_web_domain_blocklist_title">Liste gesperrter Web-Domains</string>
+    <string name="autofill_web_domain_blocklist_title">Web-Domain-Sperrliste</string>
     <string name="autofill_application_id_blocklist_summary">Liste von Apps, für die ein automatisches Ausfüllen verhindert wird</string>
-    <string name="autofill_application_id_blocklist_title">Liste gesperrter Anwendungen</string>
+    <string name="autofill_application_id_blocklist_title">App-Sperrliste</string>
     <string name="subdomain_search_summary">Webdomains mit Subdomain-Beschränkungen durchsuchen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
     <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
