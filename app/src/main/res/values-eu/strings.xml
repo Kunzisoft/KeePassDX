@@ -140,4 +140,8 @@
     <string name="edit_entry">Sarrera editatu</string>
     <string name="key_derivation_function">Gakoaren eratorpen funtzioa</string>
     <string name="encryption">Zifraketa</string>
+    <string name="content_description_file_information">Fitxategiaren informazioa</string>
+    <string name="content_description_add_item">Txertatu elementua</string>
+    <string name="extended_ASCII">ASCII hedatua</string>
+    <string name="content_description_credentials_information">Kredentzial informazioa</string>
 </resources>
