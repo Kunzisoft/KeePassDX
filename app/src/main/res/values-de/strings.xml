@@ -455,7 +455,7 @@
     <string name="autofill_block_restart">App, die das Formular enthält, neu starten, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Liste der Domains, für die ein automatisches Ausfüllen verhindert wird</string>
-    <string name="autofill_web_domain_blocklist_title">Web-Domain-Sperrliste</string>
+    <string name="autofill_web_domain_blocklist_title">Webdomain-Sperrliste</string>
     <string name="autofill_application_id_blocklist_summary">Liste von Apps, für die ein automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_application_id_blocklist_title">App-Sperrliste</string>
     <string name="subdomain_search_summary">Webdomains mit Subdomain-Beschränkungen durchsuchen</string>
