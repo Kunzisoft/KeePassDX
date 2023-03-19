@@ -514,7 +514,7 @@
     <string name="education_advanced_unlock_summary">Das Passwort mit den gescannten Biometriedaten oder Geräteanmeldedaten verknüpfen, um schnell die Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Biometrisches Entsperren der Datenbank</string>
     <string name="advanced_unlock_timeout">Verfallszeit der biometrischen Entsperrung</string>
-    <string name="temp_advanced_unlock_timeout_summary">Zeitdauer der biometrischen Entsperrung, bevor ihr Inhalt gelöscht wird</string>
+    <string name="temp_advanced_unlock_timeout_summary">Dauer der Nutzung biometrischer Entsperrdaten bis sie gelöscht werden</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der biometrischen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keine zum biometrischen Entsperren verwendeten, verschlüsselten Inhalte speichern</string>
     <string name="temp_advanced_unlock_enable_title">Kurzzeitiges biometrisches Entsperren</string>
@@ -535,7 +535,7 @@
     <string name="advanced_unlock_scanning_error">Fehler beim biometrischen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum biometrischen Entsperren nicht erkannt</string>
     <string name="advanced_unlock_invalid_key">Schlüssel zum biometrischen Entsperren nicht lesbar. Bitte diesen löschen und die Prozedur zur Entsperr-Erkennung wiederholen.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten mit Daten aus biometrischer Entsperrung extrahieren</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus biometrischen Entsperrdaten gewinnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Daten neu laden</string>
