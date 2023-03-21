@@ -144,4 +144,5 @@
     <string name="content_description_add_item">Txertatu elementua</string>
     <string name="extended_ASCII">ASCII hedatua</string>
     <string name="content_description_credentials_information">Kredentzial informazioa</string>
+    <string name="html_about_privacy"><strong>Erabiltzailearen daturik ez da bilduko</strong>, aplikazio hau ez da inongo zerbitzarira konektatzen, lokalean funtzionatzen du eta erabiltzailearen pribatutasuna errespetatzen du.</string>
 </resources>
