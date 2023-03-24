@@ -314,7 +314,7 @@
     <string name="sort_creation_time">Creación</string>
     <string name="parallelism">Paralelismo</string>
     <string name="memory_usage_explanation">Cantidade de memoria a ser usada pola función de derivación de clave.</string>
-    <string name="unsupported_db_version">Versión da base de datos non soportada</string>
+    <string name="unsupported_db_version">Versión da base de datos non soportada.</string>
     <string name="warning_file_too_big">Unha base de datos de KeePass debe conter só pequenos ficheiros utilitarios (como ficheiros clave PGP).
 \n
 \nA súa base de datos pode acabar sendo moi grande e reducir o rendemento.</string>
@@ -572,7 +572,7 @@
     <string name="education_search_title">Procurar nas entradas</string>
     <string name="education_search_summary">Introduza título, nome de usuario ou outros campos para recuperar os seus contrasinais.</string>
     <string name="education_entry_edit_title">Editar a entrada</string>
-    <string name="education_entry_new_field_summary">Rexistre un campo adicional, engada un valor e opcionalmente protéxao</string>
+    <string name="education_entry_new_field_summary">Rexistre un campo adicional, engada un valor e opcionalmente protéxao.</string>
     <string name="education_add_attachment_title">Engadir un anexo</string>
     <string name="education_setup_OTP_title">Configurar OTP</string>
     <string name="education_unlock_summary">Introduza un contrasinal e/ou un arquivo para desbloquear a súa base de datos.
