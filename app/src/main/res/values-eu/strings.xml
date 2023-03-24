@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Basque translation by David García-Abad
 --><resources>
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Atzeraelikadura</string>
     <string name="homepage">Hasiera orria</string>
     <string name="about_description">KeePass pasahitza kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
@@ -29,11 +29,11 @@
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
     <string name="menu_app_settings">Aplikazioaren ezarpenak</string>
-    <string name="brackets">Brackets</string>
+    <string name="brackets">Kortxete</string>
     <string name="file_manager_install_description">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
-    <string name="clipboard_cleared">Arbela ezabatuta.</string>
+    <string name="clipboard_cleared">Arbela ezabatu</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
-    <string name="clipboard_error">Samsung Android telefono batzuek akats bat daukate arbelaren inplementazioan, eta honen ondorioz aplikazioetatik kopiatzeak huts egiten du. Xehetasun gehiagotarako ondokora joan:</string>
+    <string name="clipboard_error">Gailu batzuek ez dute arbela erabiltzen uzten.</string>
     <string name="clipboard_error_clear">Arbela ezabatzen errorea</string>
     <string name="clipboard_timeout">Arbela denbora pasatu da</string>
     <string name="clipboard_timeout_summary">Erabiltzaile izena edo pasahitza kopiatu ondoren arbela ezabatzeko igaro beharreko denbora</string>
@@ -43,7 +43,8 @@
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen…</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ez dakar inolako bermerik. Lan hau software librea da. banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>kode irekiko</strong> eta <strong>iragarki gabekoa da</strong>.
+\n<strong>GPLv3</strong> lizentziapean banatu da, hori dela eta ez dakar inolako bermerik.</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_cancel">Utzi</string>
@@ -67,11 +68,11 @@
     <string name="error_no_name">Izen bat behar da.</string>
     <string name="error_nokeyfile">Pasahitz edo gako fitxategi bat beharrezkoak dira.</string>
     <string name="error_out_of_memory">Telefonoa memoriarik gabe gelditu da zure datubasea arakatzean. Handiegia izan daiteke zure telefonorako.</string>
-    <string name="error_pass_gen_type">Pasahitza sortzeko mota bat gutxienez aukeratu behar da</string>
+    <string name="error_pass_gen_type">Gutxienez pasahitza sortzeko mota bat aukeratu behar da.</string>
     <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
     <string name="error_rounds_too_large">Rondak handiegiak.   2147483648 balorean jarrita.</string>
     <string name="error_string_key">Eremu izen bat behar da testu kate bakoitzerako.</string>
-    <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
+    <string name="error_wrong_length">\"Luzera\" eremuan zenbaki oso positibo bat sartu.</string>
     <string name="field_name">Eremuaren izena</string>
     <string name="field_value">Eremuaren balorea</string>
     <string name="file_browser">Fitxategien nabigatzailea</string>
@@ -127,7 +128,9 @@
     <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
     <string name="uppercase">Maiuskulak</string>
     <string name="version_label">Bertsioa %1$s</string>
-    <string name="education_unlock_summary">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko.</string>
+    <string name="education_unlock_summary">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko.
+\n
+\nAldaketa bat egin odoren egin datu-basearen segurtasun kopia bat leku seguru batean.</string>
     <string-array name="list_size_options">
         <item>Txikia</item>
         <item>Ertaina</item>
@@ -145,4 +148,13 @@
     <string name="extended_ASCII">ASCII hedatua</string>
     <string name="content_description_credentials_information">Kredentzial informazioa</string>
     <string name="html_about_privacy"><strong>Erabiltzailearen daturik ez da bilduko</strong>, aplikazio hau ez da inongo zerbitzarira konektatzen, lokalean funtzionatzen du eta erabiltzailearen pribatutasuna errespetatzen du.</string>
+    <string name="content_description_password_checkbox">Pasahitzaren kutxa</string>
+    <string name="content_description_add_group">Taldea gehitu</string>
+    <string name="content_description_add_entry">Gehitu sarrera</string>
+    <string name="content_description_node_children">Nodo umea</string>
+    <string name="content_description_add_node">Gehitu nodoa</string>
+    <string name="allow">Baimendu</string>
+    <string name="content_description_background">Atzeko planoa</string>
+    <string name="content_description_open_file">Ireki fitxategia</string>
+    <string name="content_description_otp_information">Erabilpen bakarreko pasahitzaren informazioa</string>
 </resources>
