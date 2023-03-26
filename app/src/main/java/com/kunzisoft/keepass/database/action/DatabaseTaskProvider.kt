@@ -128,24 +128,28 @@ class DatabaseTaskProvider(private var context: Context,
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onStartAction(database: Database,
-                                   progressMessage: ProgressMessage) {
+        override fun onActionStarted(database: Database,
+                                     progressMessage: ProgressMessage) {
             if (showDialog)
                 startDialog(progressMessage)
         }
 
-        override fun onUpdateAction(database: Database,
-                                    progressMessage: ProgressMessage) {
+        override fun onActionUpdated(database: Database,
+                                     progressMessage: ProgressMessage) {
             if (showDialog)
                 updateDialog(progressMessage)
         }
 
-        override fun onStopAction(database: Database,
-                                  actionTask: String,
-                                  result: ActionRunnable.Result) {
-            onActionFinish?.invoke(database, actionTask, result)
+        override fun onActionStopped(database: Database) {
             // Remove the progress task
             stopDialog()
+        }
+
+        override fun onActionFinished(database: Database,
+                                      actionTask: String,
+                                      result: ActionRunnable.Result) {
+            onActionFinish?.invoke(database, actionTask, result)
+            onActionStopped(database)
         }
     }
 
@@ -225,6 +229,16 @@ class DatabaseTaskProvider(private var context: Context,
     private fun initServiceConnection() {
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {
+                override fun onBindingDied(name: ComponentName?) {
+                    stopDialog()
+                    super.onBindingDied(name)
+                }
+
+                override fun onNullBinding(name: ComponentName?) {
+                    stopDialog()
+                    super.onNullBinding(name)
+                }
+
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
                     mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder?)?.apply {
                         addServiceListeners(this)
@@ -272,8 +286,6 @@ class DatabaseTaskProvider(private var context: Context,
     }
 
     fun registerProgressTask() {
-        stopDialog()
-
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -284,7 +296,6 @@ class DatabaseTaskProvider(private var context: Context,
                     }
                     DATABASE_STOP_TASK_ACTION -> {
                         // Remove the progress task
-                        stopDialog()
                         unBindService()
                     }
                 }
@@ -302,8 +313,6 @@ class DatabaseTaskProvider(private var context: Context,
     }
 
     fun unregisterProgressTask() {
-        stopDialog()
-
         removeServiceListeners(mBinder)
         mBinder = null
 

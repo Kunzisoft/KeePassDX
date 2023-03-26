@@ -79,7 +79,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     // Channel to connect asynchronously a response
     private var mResponseChallengeChannel: Channel<ByteArray?>? = null
 
-    private var mActionRunning = false
+    private var mActionRunning = 0
     private var mTaskRemovedRequested = false
     private var mSaveState = false
 
@@ -135,20 +135,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface ActionTaskListener {
-        fun onStartAction(database: Database,
-                          progressMessage: ProgressMessage)
-        fun onUpdateAction(database: Database,
-                           progressMessage: ProgressMessage)
-        fun onStopAction(database: Database,
-                         actionTask: String,
-                         result: ActionRunnable.Result)
-    }
-
-    interface RequestChallengeListener {
-        fun onChallengeResponseRequested(
-            hardwareKey: HardwareKey,
-            seed: ByteArray?
-        )
+        fun onActionStarted(database: Database,
+                            progressMessage: ProgressMessage)
+        fun onActionUpdated(database: Database,
+                            progressMessage: ProgressMessage)
+        fun onActionStopped(database: Database)
+        fun onActionFinished(database: Database,
+                             actionTask: String,
+                             result: ActionRunnable.Result)
     }
 
     fun checkDatabase() {
@@ -211,14 +205,22 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     /**
-     * Force to call [ActionTaskListener.onStartAction] if the action is still running
+     * Force to call [ActionTaskListener.onActionStarted] if the action is still running
+     * or [ActionTaskListener.onActionStopped] if the action is no longer running
      */
     fun checkAction() {
         mDatabase?.let { database ->
-            if (mActionRunning) {
+            // Check if action / sub-action is running
+            if (mActionRunning > 0) {
                 mActionTaskListeners.forEach { actionTaskListener ->
-                    actionTaskListener.onStartAction(
+                    actionTaskListener.onActionStarted(
                         database, mProgressMessage
+                    )
+                }
+            } else {
+                mActionTaskListeners.forEach { actionTaskListener ->
+                    actionTaskListener.onActionStopped(
+                        database
                     )
                 }
             }
@@ -330,81 +332,104 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             else -> null
         }
 
+        // Sub action is an action in another action, don't perform pre and post action
+        val isMainAction = intentAction != ACTION_CHALLENGE_RESPONDED
+
         // Build and launch the action
         if (actionRunnable != null) {
             mainScope.launch {
                 executeAction(this@DatabaseTaskNotificationService,
                         {
-                            TimeoutHelper.temporarilyDisableTimeout()
+                            mActionRunning++
+                            if (isMainAction) {
+                                TimeoutHelper.temporarilyDisableTimeout()
 
-                            mActionRunning = true
+                                sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
+                                    putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
+                                    putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
+                                    putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
+                                })
 
-                            sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
-                                putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
-                                putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
-                            })
-
-                            mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStartAction(
-                                    database, mProgressMessage
-                                )
+                                mActionTaskListeners.forEach { actionTaskListener ->
+                                    actionTaskListener.onActionStarted(
+                                        database,
+                                        mProgressMessage
+                                    )
+                                }
                             }
                         },
                         {
                             actionRunnable
                         },
                         { result ->
-                            try {
-                                mActionTaskListeners.forEach { actionTaskListener ->
-                                    mTaskRemovedRequested = false
-                                    actionTaskListener.onStopAction(database, intentAction!!, result)
-                                }
-                            } finally {
-                                // Save the database info before performing action
-                                when (intentAction) {
-                                    ACTION_DATABASE_LOAD_TASK,
-                                    ACTION_DATABASE_MERGE_TASK,
-                                    ACTION_DATABASE_RELOAD_TASK -> {
-                                        saveDatabaseInfo()
+                            if (isMainAction) {
+                                try {
+                                    mActionTaskListeners.forEach { actionTaskListener ->
+                                        mTaskRemovedRequested = false
+                                        actionTaskListener.onActionFinished(
+                                            database,
+                                            intentAction!!,
+                                            result
+                                        )
                                     }
-                                }
-                                val save = !database.isReadOnly
-                                        && (intentAction == ACTION_DATABASE_SAVE
-                                        || intent?.getBooleanExtra(SAVE_DATABASE_KEY, false) == true)
-                                // Save the database info after performing save action
-                                if (save) {
-                                    database.fileUri?.let {
-                                        val newSnapFileDatabaseInfo = SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                                                FileDatabaseInfo(applicationContext, it))
-                                        mLastLocalSaveTime = System.currentTimeMillis()
-                                        mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
-                                    }
-                                }
-                                removeIntentData(intent)
-                                TimeoutHelper.releaseTemporarilyDisableTimeout()
-                                // Stop service after save if user remove task
-                                if (save && mTaskRemovedRequested) {
-                                    actionOnLock()
-                                } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                                    if (!database.loaded) {
-                                        stopSelf()
-                                    } else {
-                                        // Restart the service to open lock notification
-                                        try {
-                                            startService(Intent(applicationContext,
-                                                    DatabaseTaskNotificationService::class.java))
-                                        } catch (e: IllegalStateException) {
-                                            Log.w(TAG, "Cannot restart the database task service", e)
+                                } finally {
+                                    // Save the database info before performing action
+                                    when (intentAction) {
+                                        ACTION_DATABASE_LOAD_TASK,
+                                        ACTION_DATABASE_MERGE_TASK,
+                                        ACTION_DATABASE_RELOAD_TASK -> {
+                                            saveDatabaseInfo()
                                         }
                                     }
+                                    val save = !database.isReadOnly
+                                            && (intentAction == ACTION_DATABASE_SAVE
+                                            || intent?.getBooleanExtra(
+                                        SAVE_DATABASE_KEY,
+                                        false
+                                    ) == true)
+                                    // Save the database info after performing save action
+                                    if (save) {
+                                        database.fileUri?.let {
+                                            val newSnapFileDatabaseInfo =
+                                                SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                                                    FileDatabaseInfo(applicationContext, it)
+                                                )
+                                            mLastLocalSaveTime = System.currentTimeMillis()
+                                            mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                        }
+                                    }
+                                    removeIntentData(intent)
+                                    TimeoutHelper.releaseTemporarilyDisableTimeout()
+                                    // Stop service after save if user remove task
+                                    if (save && mTaskRemovedRequested) {
+                                        actionOnLock()
+                                    } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                        if (!database.loaded) {
+                                            stopSelf()
+                                        } else {
+                                            // Restart the service to open lock notification
+                                            try {
+                                                startService(
+                                                    Intent(
+                                                        applicationContext,
+                                                        DatabaseTaskNotificationService::class.java
+                                                    )
+                                                )
+                                            } catch (e: IllegalStateException) {
+                                                Log.w(
+                                                    TAG,
+                                                    "Cannot restart the database task service",
+                                                    e
+                                                )
+                                            }
+                                        }
+                                    }
+                                    mTaskRemovedRequested = false
                                 }
-                                mTaskRemovedRequested = false
+
+                                sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
                             }
-
-                            sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
-
-                            mActionRunning = false
+                            mActionRunning--
                         }
                 )
             }
@@ -577,7 +602,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private fun notifyProgressMessage() {
         mDatabase?.let { database ->
             mActionTaskListeners.forEach { actionTaskListener ->
-                actionTaskListener.onUpdateAction(
+                actionTaskListener.onActionUpdated(
                     database, mProgressMessage
                 )
             }
