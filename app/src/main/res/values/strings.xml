@@ -427,6 +427,8 @@
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="advanced_unlock_tap_delete">Tap to delete advanced unlocking keys</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
+    <string name="unlock_nfc_enable_title">NFC unlocking</string>
+    <string name="unlock_nfc_enable_summary">Lets you tap NFC tag to open the database</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
     <string name="device_credential_unlock_enable_title">Device credential unlocking</string>
@@ -502,6 +504,8 @@
     <string name="keyboard_entry_category">Entry</string>
     <string name="keyboard_selection_entry_title">Entry selection</string>
     <string name="keyboard_selection_entry_summary">When viewing an entry in KeePassDX, populate Magikeyboard with that entry</string>
+    <string name="keyboard_selection_nfc_title">NFC tag selection</string>
+    <string name="keyboard_selection_nfc_summary">Tap NFC tag and select entry associated with it</string>
     <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
     <string name="keyboard_save_search_info_title">Save shared info</string>
@@ -703,4 +707,10 @@
     <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+
+    <string name="nfc_not_enabled">Enable NFC to use this feature.</string>
+    <string name="nfc_unlock_hint"> (Tap NFC tag)</string>
+    <string name="nfc_unlock_hint_write"> (Tap NFC tag and hold it)</string>
+    <string name="nfc_tag_not_supported">This NFC tag is not supported.</string>
+    <string name="nfc_tag_write_not_supported">"Write is not supported for this NFC tag."</string>
 </resources>

@@ -28,6 +28,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
@@ -41,7 +42,11 @@ import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.services.NfcService
+import com.kunzisoft.keepass.services.NfcTag
+import com.kunzisoft.keepass.services.NfcTagUnlock
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
@@ -103,10 +108,186 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         keepConnection = false
     }
 
+    class Nfc(private val that: AdvancedUnlockFragment) {
+        private var nfcService: NfcService? = null
+
+        private var tagPending: NfcTag? = null
+        private val tagInProgress = mutableMapOf<Char, Boolean>() // deal with async events
+        private fun tagInProgress() = null != tagInProgress.toList().find { it.second }
+
+        private fun onError(@androidx.annotation.StringRes msgId: Int, info: Boolean = false) =
+            Toast.makeText(that.context, msgId, Toast.LENGTH_LONG).show()
+        private fun onError(message: String, e: Throwable?) =
+            if (e is Exception) that.onGenericException(e)
+            else Toast.makeText(that.context, message, Toast.LENGTH_LONG).show()
+
+        fun startIfEnabled() {
+            if (!PreferencesUtil.isUnlockNfcEnable(that.requireContext())) return
+            if (nfcService == null) nfcService = NfcService(that.requireContext().packageName, ::onError)
+            nfcService?.enable(that.activity, that.activity?.javaClass, ::onTapNfcTag)
+            checkAndSetupDebug(true)
+            if (true != nfcService?.isEnabled && NfcService.isDebug) onError(R.string.nfc_not_enabled)
+
+            if (!tagInProgress()) tagPending?.let { // onTap NFC tag...
+                tagPending = null
+                onTapNfcTag(it)
+            }
+        }
+
+        fun stop() {
+            checkAndSetupDebug(false)
+            if (that.isVisible) nfcService?.disable(that.activity)
+        }
+
+        private fun checkAndSetupDebug(enable: Boolean) { // debug in emulator: simulate tap NFC tag
+            if (NfcService.isDebug) return
+            if (!enable) that.mAdvancedUnlockInfoView?.setOnClickListener(null)
+            else that.mAdvancedUnlockInfoView?.setOnClickListener {
+                nfcService?.debugTap(that.activity, ::onTapNfcTag)
+            }
+        }
+
+        fun checkAndProcessTag(intent: Intent? = null): Boolean {
+            return !tagInProgress() && nfcService?.tagRead(intent) { nfcTag ->
+                // onTap NFC tag -> Activity.onNewIntent -> Fragment.onPause -> disconnect()
+                // After 'disconnect', databaseFileUri is null. Therefore process tag after resume
+                if (null != nfcTag)
+                    if (null != that.databaseFileUri) onTapNfcTag(nfcTag)
+                    else tagPending = nfcTag
+            } ?: false
+        }
+
+        private fun onTapNfcTag(nfcTag: NfcTag) {
+            // Credential DB extract/store:
+            //    biometric/device record: key = DBFileUri; value = credential
+            //    NFC tag record: key = DBFileUri + '#nfc'; value = credential + unlockNfcTag
+            // unlockNfcTag = NFC tag unique data. Example: NFC tag ID ('Anti-cloning support by unique 7-byte serial number for each device')
+            //
+            // NFC tag read/write: unlockUnique
+            // unlockUnique = unique bytes, checksum based on credential (password)
+            //    Needs re-write NFC tag after password change.
+            //    Alternative - checksum based on Device or App installation?
+
+            if (nfcTag !is NfcTagUnlock) return
+
+            fun unlockCheck(): Boolean {
+                if (true != nfcTag.unlockNfcTag?.isNotEmpty()) {
+                    onError(R.string.nfc_tag_not_supported)
+                    return false
+                } else if (!nfcTag.unlockCanWrite)
+                    onError(R.string.nfc_tag_write_not_supported, true)
+                return true
+            }
+
+            //@RequiresApi(Build.VERSION_CODES.M)
+            fun extractCredential() { // Like onAuthenticationSucceeded() for Mode.EXTRACT_CREDENTIAL
+                that.advancedUnlockManager?.let { advancedUnlockManager ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        that.getDatabaseKey(DatabaseKeyId.Nfc.value)?.let { databaseKey ->
+                            tagInProgress['G'] = true // deal with async events
+                            that.cipherDatabaseAction.getCipherDatabase(databaseKey) { cipherDatabase ->
+                                try {
+                                    cipherDatabase?.encryptedValue?.let { encryptedValue ->
+                                        advancedUnlockManager.initDecryptData(cipherDatabase.specParameters) {} // Like initDecryptData()
+                                        if (!unlockCheck()) return@getCipherDatabase
+                                        advancedUnlockManager.decryptData(encryptedValue,
+                                            nfcTag.unlockNfcTag?.size ?: 0, DatabaseKeyId.Nfc.value) { credential, unlockData ->
+                                            unlockData == nfcTag.unlockNfcTag && (!nfcTag.unlockCanWrite || nfcTag.unlockCheck(credential))
+                                        }
+                                    } ?: that.deleteEncryptedDatabaseKey(DatabaseKeyId.Nfc.value)
+                                } finally {
+                                    tagInProgress['G'] = false // deal with async events
+                                }
+                            }
+                        } ?: that.onAuthenticationError(-1, that.getString(R.string.error_database_uri_null))
+                } //?: throw Exception("AdvancedUnlockManager not initialized")
+            }
+
+            //@RequiresApi(Build.VERSION_CODES.M)
+            fun storeCredential(containsCipher: Boolean) { // Like onAuthenticationSucceeded() for Mode.STORE_CREDENTIAL
+                that.advancedUnlockManager?.let { advancedUnlockManager ->
+                    that.mBuilderListener?.retrieveCredentialForEncryption()?.let { credential ->
+                        tagInProgress['W'] = true // deal with async events
+                        nfcTag.unlockWriteAsk(that.requireContext(), containsCipher, onNo = {
+                                tagInProgress['W'] = false // deal with async events
+                            }) { nfcNoWrite,
+                                 ndefClearMessage, ndefClearRecord, ndefIgnore,
+                                 ndefMakeReadOnly, ndefFormat, miUlClearPages, miUlClearLast,
+                                 nTagClearPass, nTagClearProtect, nTagPass,
+                                 nTagProtect, nTagProtectConfig, nTagProtectPass ->
+                            try {
+                                if (!unlockCheck()) return@unlockWriteAsk
+                                val done = !nfcTag.unlockCanWrite || nfcNoWrite || nfcTag.unlockWrite(credential,
+                                        ndefClearMessage, ndefClearRecord, ndefIgnore,
+                                        ndefMakeReadOnly, ndefFormat, miUlClearPages, miUlClearLast,
+                                        nTagClearPass, nTagClearProtect, nTagPass,
+                                        nTagProtect, nTagProtectConfig, nTagProtectPass)
+                                if (done)
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        advancedUnlockManager.initEncryptData {} // Like initEncryptData()
+                                        advancedUnlockManager.encryptData(credential, nfcTag.unlockNfcTag, DatabaseKeyId.Nfc.value)
+                                    }
+                            } finally {
+                                tagInProgress['W'] = false // deal with async events
+                            }
+                        }
+                    }
+                } //?: throw Exception("AdvancedUnlockManager not initialized")
+            }
+
+            try {
+                that.getDatabaseKey(DatabaseKeyId.Nfc.value)?.also { databaseKey ->
+                    if ((that.biometricMode == Mode.EXTRACT_CREDENTIAL || that.biometricMode == Mode.WAIT_CREDENTIAL)
+                        && true != that.mBuilderListener?.conditionToStoreCredential()) {
+                        tagInProgress['D'] = true // deal with async events
+                        nfcTag.unlockInfoAsk(that.requireContext(), {
+                            tagInProgress['D'] = false // deal with async events
+                        }) {
+                            try {
+                                tagInProgress['C'] = true // deal with async events
+                                that.cipherDatabaseAction.containsCipherDatabase(databaseKey) { containsCipher ->
+                                    try {
+                                        if (containsCipher) extractCredential()
+                                    } finally {
+                                        tagInProgress['C'] = false // deal with async events
+                                    }
+                                }
+                            } finally {
+                                tagInProgress['D'] = false // deal with async events
+                            }
+                        }
+                    } else if ((that.biometricMode == Mode.STORE_CREDENTIAL || that.biometricMode == Mode.WAIT_CREDENTIAL)
+                        && true == that.mBuilderListener?.conditionToStoreCredential()) {
+                        tagInProgress['C'] = true // deal with async events
+                        that.cipherDatabaseAction.containsCipherDatabase(databaseKey) { containsCipher ->
+                            try {
+                                storeCredential(containsCipher)
+                            } finally {
+                                tagInProgress['C'] = false // deal with async events
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                that.onGenericException(e)
+            }
+        }
+    }
+    val nfc = Nfc(this)
+
+    enum class DatabaseKeyId(val value: Int?) { None(null), Nfc(1) }
+
+    // NFC unlock data - stored with different key, not overriding Biometric/DeviceCredential data
+    private fun getDatabaseKey(databaseKeyId: Int?): Uri? =
+        if (databaseKeyId == DatabaseKeyId.Nfc.value)
+            databaseFileUri?.let { Uri.parse("$it#nfc") }
+        else databaseFileUri
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
-        mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(context)
+        mAdvancedUnlockEnabled = PreferencesUtil.isUnlockNfcEnable(requireContext())
+                || PreferencesUtil.isAdvancedUnlockEnable(context)
         mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(context)
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -152,7 +333,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onResume() {
         super.onResume()
         context?.let {
-            mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(it)
+            mAdvancedUnlockEnabled = PreferencesUtil.isUnlockNfcEnable(requireContext())
+                    || PreferencesUtil.isAdvancedUnlockEnable(it)
             mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(it)
         }
         keepConnection = false
@@ -214,6 +396,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 allowOpenBiometricPrompt = true
                 if (PreferencesUtil.isBiometricUnlockEnable(context)) {
+                    mAdvancedUnlockInfoView?.setIconBackgroundTint()
                     mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
 
                     // biometric not supported (by API level or hardware) so keep option hidden
@@ -234,12 +417,23 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                         }
                     }
                 } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
+                    mAdvancedUnlockInfoView?.setIconBackgroundTint()
                     mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
                     if (AdvancedUnlockManager.isDeviceSecure(context)) {
                         selectMode()
                     } else {
                         toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                     }
+                } else { // Only NFC unlock
+                    mAdvancedUnlockInfoView?.setIconBackgroundTint(resources.getColor(R.color.green_light, null))
+                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.ic_app_white_24dp)
+                    if (advancedUnlockManager?.isKeyManagerInitialized != true) { // Like selectMode()
+                        advancedUnlockManager = AdvancedUnlockManager { requireActivity() }
+                        advancedUnlockManager?.advancedUnlockCallback = this // callback for fingerprint findings
+                    }
+                    toggleMode(Mode.WAIT_CREDENTIAL, true)
+                    // Force setAdvancedUnlockedTitleView() - password/keyfile switch will not change the Mode
+                    // Force invalidateBiometricMenu() - delete NFC data will not change the Mode
                 }
             }
         }
@@ -279,8 +473,8 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun toggleMode(newBiometricMode: Mode) {
-        if (newBiometricMode != biometricMode) {
+    private fun toggleMode(newBiometricMode: Mode, force: Boolean = false) {
+        if (force || newBiometricMode != biometricMode) {
             biometricMode = newBiometricMode
             initAdvancedUnlockMode()
         }
@@ -334,6 +528,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
         context?.let { context ->
             mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
+                if (!PreferencesUtil.isBiometricUnlockEnable(context) &&
+                    !PreferencesUtil.isDeviceCredentialUnlockEnable(context)) { // Only NFC unlock
+                    context.startActivity(Intent(activity, SettingsAdvancedUnlockActivity::class.java))
+                    return@setIconViewClickListener
+                }
+
                 onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
                         context.getString(R.string.credential_before_click_advanced_unlock_button))
             }
@@ -431,6 +631,19 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
                     mAddBiometricMenuInProgress = false
                     activity?.invalidateOptionsMenu()
+
+                    //todo-op? 1) After mAddBiometricMenuInProgress = false; 2) Invalidate twice; Needs single call of containsCipherDatabase for all database keys
+                    if (!mAllowAdvancedUnlockMenu)
+                        DatabaseKeyId.values().filter { null != it.value }.forEach {
+                            getDatabaseKey(it.value)?.let { databaseKey ->
+                                cipherDatabaseAction.containsCipherDatabase(databaseKey) { containsCipher ->
+                                    if (!mAllowAdvancedUnlockMenu && containsCipher) {
+                                        mAllowAdvancedUnlockMenu = true
+                                        activity?.invalidateOptionsMenu() // invalidate again if needed
+                                    }
+                                }
+                            }
+                        }
                 }
             }
         }
@@ -453,11 +666,15 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             }
         }
         checkUnlockAvailability()
+
+        nfc.startIfEnabled() // after onResume! (onPause/onResume)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun disconnect(hideViews: Boolean = true,
                    closePrompt: Boolean = true) {
+        nfc.stop() // before onPause! (onPause/onResume)
+
         this.databaseFileUri = null
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
@@ -473,14 +690,21 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun deleteEncryptedDatabaseKey() {
+    fun deleteEncryptedDatabaseKey(databaseKeyId: Int? = null) {
         mAllowAdvancedUnlockMenu = false
         advancedUnlockManager?.closeBiometricPrompt()
-        databaseFileUri?.let { databaseUri ->
-            cipherDatabaseAction.deleteByDatabaseUri(databaseUri) {
-                checkUnlockAvailability()
+
+        //todo-op? Multiple checkUnlockAvailability; Needs single call of deleteByDatabaseUri for all database keys
+        var checkNow = true
+        DatabaseKeyId.values().filter { null == databaseKeyId || databaseKeyId == it.value }.forEach {
+            getDatabaseKey(it.value)?.let { databaseKey ->
+                checkNow = false
+                cipherDatabaseAction.deleteByDatabaseUri(databaseKey) {
+                    checkUnlockAvailability()
+                }
             }
-        } ?: checkUnlockAvailability()
+        }
+        if (checkNow) checkUnlockAvailability()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -535,11 +759,11 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         }
     }
 
-    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray) {
-        databaseFileUri?.let { databaseUri ->
+    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray, databaseKeyId: Int?) {
+        getDatabaseKey(databaseKeyId)?.let { databaseKey ->
             mBuilderListener?.onCredentialEncrypted(
                 CipherEncryptDatabase().apply {
-                    this.databaseUri = databaseUri
+                    this.databaseUri = databaseKey
                     this.credentialStorage = credentialDatabaseStorage
                     this.encryptedValue = encryptedValue
                     this.specParameters = ivSpec
@@ -548,12 +772,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         }
     }
 
-    override fun handleDecryptedResult(decryptedValue: ByteArray) {
+    override fun handleDecryptedResult(decryptedValue: ByteArray, databaseKeyId: Int?) {
         // Load database directly with password retrieve
-        databaseFileUri?.let { databaseUri ->
+        getDatabaseKey(databaseKeyId)?.let { databaseKey ->
             mBuilderListener?.onCredentialDecrypted(
                 CipherDecryptDatabase().apply {
-                    this.databaseUri = databaseUri
+                    this.databaseUri = databaseKey
                     this.credentialStorage = credentialDatabaseStorage
                     this.decryptedValue = decryptedValue
                 }
@@ -592,8 +816,26 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedTitleView(textId: Int) {
+        //todo-op! Better message if Mode.WAIT_CREDENTIAL
+        if (PreferencesUtil.isUnlockNfcEnable(requireContext())
+            && (biometricMode == Mode.EXTRACT_CREDENTIAL || biometricMode == Mode.WAIT_CREDENTIAL)
+            && true != mBuilderListener?.conditionToStoreCredential())
+            getDatabaseKey(DatabaseKeyId.Nfc.value)?.let { databaseKey ->
+                mAdvancedUnlockInfoView?.setTitle(textId) // default
+                cipherDatabaseAction.containsCipherDatabase(databaseKey) { containsCipher ->
+                    if (containsCipher) mAdvancedUnlockInfoView?.title = mAdvancedUnlockInfoView?.title.toString() + getString(R.string.nfc_unlock_hint)
+                }
+                return
+            }
+
         lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.setTitle(textId)
+
+            if (PreferencesUtil.isUnlockNfcEnable(requireContext())
+                && (biometricMode == Mode.STORE_CREDENTIAL || biometricMode == Mode.WAIT_CREDENTIAL)
+                && true == mBuilderListener?.conditionToStoreCredential()) {
+                mAdvancedUnlockInfoView?.title = mAdvancedUnlockInfoView?.title.toString() + getString(R.string.nfc_unlock_hint_write)
+            }
         }
     }
 

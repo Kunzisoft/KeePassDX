@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.password.PassphraseGenerator
+import com.kunzisoft.keepass.services.NfcService
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
 import java.util.*
@@ -495,6 +496,12 @@ object PreferencesUtil {
         return isBiometricUnlockEnable(context) || isDeviceCredentialUnlockEnable(context)
     }
 
+    fun isUnlockNfcEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.unlock_nfc_enable_key),
+            context.resources.getBoolean(R.bool.unlock_nfc_enable_default))
+    }
+
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
@@ -628,6 +635,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
                 context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
+    }
+
+    fun isKeyboardEntryNfcEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_selection_nfc_key),
+            context.resources.getBoolean(R.bool.keyboard_selection_nfc_default))
     }
 
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
@@ -806,6 +819,7 @@ object PreferencesUtil {
                 context.getString(R.string.show_recent_files_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_broken_locations_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.remember_keyfile_locations_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.unlock_nfc_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.biometric_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.device_credential_unlock_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.biometric_auto_open_prompt_key) -> editor.putBoolean(name, value.toBoolean())
@@ -821,6 +835,7 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
                 context.getString(R.string.keyboard_selection_entry_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.keyboard_selection_nfc_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_save_search_info_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_auto_go_action_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_key_vibrate_key) -> editor.putBoolean(name, value.toBoolean())

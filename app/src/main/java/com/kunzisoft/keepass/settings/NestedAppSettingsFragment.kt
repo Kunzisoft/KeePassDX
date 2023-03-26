@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.services.NfcService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil
@@ -237,6 +238,29 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_advanced_unlock, rootKey)
 
         activity?.let { activity ->
+            findPreference<SwitchPreference>(getString(R.string.unlock_nfc_enable_key))?.let { pref ->
+                if (!NfcService.isSupported(requireContext())) pref.isChecked = false
+                pref.setOnPreferenceClickListener {
+                    if (!NfcService.isSupported(requireContext())) {
+                        pref.isChecked = false
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M).show(parentFragmentManager, "unavailableFeatureDialog")
+                        false
+                    } else if (pref.isChecked) {
+                        warningMessage(activity, keystoreWarning = true, deleteKeys = false) {
+                            pref.isChecked = true
+                        }
+                        pref.isChecked = false
+                        true
+                    } else {
+                        //todo-op!! Delete only NFC data! Better message for NFC unlock!
+                        warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
+                            pref.isChecked = false
+                        }
+                        pref.isChecked = true
+                        true
+                    }
+                }
+            }
 
             val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
             val deviceCredentialUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.device_credential_unlock_enable_key))

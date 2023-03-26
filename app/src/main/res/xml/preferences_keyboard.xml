@@ -46,6 +46,11 @@
             android:title="@string/keyboard_selection_entry_title"
             android:summary="@string/keyboard_selection_entry_summary"
             android:defaultValue="@bool/keyboard_selection_entry_default"/>
+        <SwitchPreference
+            android:key="@string/keyboard_selection_nfc_key"
+            android:title="@string/keyboard_selection_nfc_title"
+            android:summary="@string/keyboard_selection_nfc_summary"
+            android:defaultValue="@bool/keyboard_selection_nfc_default"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/save">

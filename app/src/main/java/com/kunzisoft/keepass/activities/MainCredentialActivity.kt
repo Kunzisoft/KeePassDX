@@ -373,6 +373,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        if (true == advancedUnlockFragment?.nfc?.checkAndProcessTag(intent)) return
         getUriFromIntent(intent)
     }
 

@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -70,6 +71,13 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
             R.drawable.fingerprint -> FingerPrintAnimatedVector(context, unlockIconImageView!!)
             else -> null
         }
+    }
+
+    //todo-op? How to resources.getColor(R.attr.colorAccent)? What after the theme is changed?
+    private var saveDefaultBackgroundTint: Int? = null
+    fun setIconBackgroundTint(color: Int? = null) {
+        if (saveDefaultBackgroundTint == null) saveDefaultBackgroundTint = unlockIconImageView?.backgroundTintList?.defaultColor
+        (color ?: saveDefaultBackgroundTint)?.let { unlockIconImageView?.backgroundTintList = ColorStateList.valueOf(it) }
     }
 
     fun setIconViewClickListener(animation: Boolean = true,
