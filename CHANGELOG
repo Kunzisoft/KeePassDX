@@ -1,3 +1,6 @@
+KeePassDX(3.5.1)
+ * Fix action dialog with YubiKey challenge-response #1506
+
 KeePassDX(3.5.0)
  * Support YubiKey challenge-response #8 #137
  * Better exception management during database save #1346

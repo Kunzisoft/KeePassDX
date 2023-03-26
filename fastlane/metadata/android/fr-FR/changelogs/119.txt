@@ -1,0 +1,1 @@
+ * Correction de la fenêtre d'action pour la Yubikey #1506
