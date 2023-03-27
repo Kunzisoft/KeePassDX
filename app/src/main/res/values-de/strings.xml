@@ -171,7 +171,7 @@
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
+    <string name="no_credentials_stored">Diese Datenbank enthält noch keine Anmeldedaten.</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweiterte ASCII</string>
@@ -506,11 +506,11 @@
     <string name="keyboard_save_search_info_title">Gemeinsame Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten dauerhaft aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie die biometrische Entsperr-Erkennung verwenden.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie biometrisches Entsperren verwenden.</string>
     <string name="open_advanced_unlock_prompt_store_credential">Zum Speichern der Anmeldeinformationen Dialog zum biometrischen Entsperren öffnen</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Dialog zum biometrischen Entsperren der Datenbank öffnen</string>
     <string name="menu_keystore_remove_key">Biometrischen Entsperrschlüssel löschen</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Biometrische Entsperr-Erkennung</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Biometrisches Entsperren</string>
     <string name="education_advanced_unlock_summary">Das Passwort mit den gescannten Biometriedaten oder Geräteanmeldedaten verknüpfen, um schnell die Datenbank zu entsperren.</string>
     <string name="education_advanced_unlock_title">Biometrisches Entsperren der Datenbank</string>
     <string name="advanced_unlock_timeout">Verfallszeit der biometrischen Entsperrung</string>
