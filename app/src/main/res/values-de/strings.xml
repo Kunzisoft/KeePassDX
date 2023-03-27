@@ -245,7 +245,7 @@
 \n 
 \nAus den verschiedene Methoden zum Ausfüllen von Formularen einfach die bevorzugte auswählen.</string>
     <string name="education_lock_title">Datenbank sperren</string>
-    <string name="education_lock_summary">Schnell die Datenbank sperren, in den App-Einstellungen lässt sich eine Sperre nach Zeit und bei Ausschalten des Bildschirms festlegen.</string>
+    <string name="education_lock_summary">Die Datenbank schnell sperren. Die App lässt sich so einstellen, dass sie nach einer gewissen Zeit und beim Ausschalten des Bildschirms gesperrt wird.</string>
     <string name="education_sort_title">Sortierung der Einträge</string>
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
