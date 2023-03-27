@@ -22,19 +22,23 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -61,6 +65,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.view.TagsListView
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import org.w3c.dom.Text
@@ -358,7 +363,6 @@ class NodesAdapter (
         return nodeViewHolder
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
         val subNode = mNodeSortedList.get(position)
 
@@ -481,37 +485,8 @@ class NodesAdapter (
                 holder.meta.setTextColor(mColorOnAccentColor)
             }
 
-            holder.tagsContainer?.children?.forEach { child ->
-                if (child !is Flow) holder.tagsContainer?.removeView(child)
-            }
-            holder.tagsFlow?.referencedIds = IntArray(0)
             holder.tagsContainer?.apply {
-                val referencedIds = IntArray(subNode.tags.size())
-                subNode.tags.toList().forEachIndexed { i, tag ->
-                    val id = generateViewId()
-                    referencedIds[i] = id
-                    val view = TextView(context)
-                    view.text = tag
-                    view.id = id
-                    val bg = ContextCompat.getDrawable(context, R.drawable.background_rounded_hollow_square) as GradientDrawable
-                    val color = when {
-                        holder.container.isSelected -> {
-                            mColorOnAccentColor
-                        }
-                        foregroundColor != null -> {
-                            foregroundColor
-                        }
-                        else -> {
-                            mTextColorSecondary
-                        }
-                    }
-                    bg?.setStroke(3, color)
-                    view.background = bg
-                    view.setPadding(20, 10, 20, 10)
-                    view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
-                    addView(view)
-                }
-                holder.tagsFlow?.referencedIds = referencedIds
+                currentTags = subNode.tags.toList()
             }
 
             database.stopManageEntry(entry)
@@ -550,6 +525,21 @@ class NodesAdapter (
         holder.container.setOnLongClickListener {
             mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
+    }
+
+    private fun GradientDrawable.adjustBgColor(holder: NodeViewHolder, foregroundColor: Int?) {
+        val color = when {
+            holder.container.isSelected -> {
+                mColorOnAccentColor
+            }
+            foregroundColor != null -> {
+                foregroundColor
+            }
+            else -> {
+                mTextColorSecondary
+            }
+        }
+        setStroke(3, color)
     }
 
     private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
@@ -633,8 +623,7 @@ class NodesAdapter (
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
-        var tagsFlow: Flow? = itemView.findViewById(R.id.node_tags_flow)
-        var tagsContainer: ConstraintLayout? = itemView.findViewById(R.id.node_tags_container)
+        var tagsContainer: TagsListView? = itemView.findViewById(R.id.node_tags_container)
     }
 
     companion object {

@@ -113,25 +113,11 @@
                 tools:text="Database / Group A / Group B" />
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.kunzisoft.keepass.view.TagsListView
                 android:id="@+id/node_tags_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-                <androidx.constraintlayout.helper.widget.Flow
-                    android:id="@+id/node_tags_flow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:flow_wrapMode="chain"
-                    app:flow_horizontalAlign="start"
-                    app:flow_horizontalStyle="packed"
-                    app:flow_horizontalGap="4dp"
-                    app:flow_verticalGap="2dp"
-                    app:flow_horizontalBias="0"
-                    app:flow_verticalBias="0"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <LinearLayout
