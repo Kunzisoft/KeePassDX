@@ -90,7 +90,7 @@
     <string name="hint_length">Länge</string>
     <string name="hint_pass">Passwort</string>
     <string name="password">Passwort</string>
-    <string name="invalid_credentials">Die Anmeldeinformationen konnten nicht gelesen werden.</string>
+    <string name="invalid_credentials">Die Anmeldedaten konnten nicht gelesen werden.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
     <string name="keyfile_is_empty">Die Schlüsseldatei ist leer.</string>
@@ -272,7 +272,7 @@
     <string name="clipboard_warning">Wenn das automatische Löschen der Zwischenablage fehlschlägt, bitte den Verlauf manuell löschen.</string>
     <string name="allow_copy_password_warning">WARNUNG: Alle Apps teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
     <string name="allow_no_password_title">Entsperren ohne Hauptschlüssel</string>
-    <string name="allow_no_password_summary">Erlaubt das Antippen der „Öffnen“-Taste, wenn keine Anmeldeinformationen festgelegt sind</string>
+    <string name="allow_no_password_summary">Erlaubt das Antippen der „Öffnen“-Taste, wenn keine Anmeldedaten festgelegt sind</string>
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der App zu lernen</string>
     <string name="menu_open_file_read_and_write">Änderbar</string>
@@ -492,7 +492,7 @@
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrische Sicherheitsaktualisierung erforderlich.</string>
-    <string name="configure_biometric">Es sind keine biometrischen oder Geräteanmeldeinformationen registriert.</string>
+    <string name="configure_biometric">Es sind keine biometrischen oder Geräteanmeldedaten registriert.</string>
     <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
@@ -518,10 +518,10 @@
     <string name="temp_advanced_unlock_timeout_title">Verfall der biometrischen Entsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Keine zum biometrischen Entsperren verwendeten, verschlüsselten Inhalte speichern</string>
     <string name="temp_advanced_unlock_enable_title">Kurzzeitiges biometrisches Entsperren</string>
-    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldeinformationen</string>
+    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldedaten</string>
     <string name="advanced_unlock_tap_delete">Drücken, um die Schlüssel für biometrisches Entsperren zu löschen</string>
     <string name="content">Inhalt</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mittels biometrischer Entsperr-Erkennung öffnen</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank durch biometrisches Entsperren öffnen</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
