@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.utils.dp
 
 class TagsListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -42,8 +43,8 @@ class TagsListView @JvmOverloads constructor(
             setWrapMode(Flow.WRAP_CHAIN)
             setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
             setHorizontalStyle(Flow.CHAIN_PACKED)
-            setHorizontalGap(4)
-            setVerticalGap(2)
+            setHorizontalGap(4.dp.intPx)
+            setVerticalGap(2.dp.intPx)
             setHorizontalBias(0f)
             setVerticalBias(0f)
         }
@@ -98,6 +99,9 @@ class TagsListView @JvmOverloads constructor(
     }
 }
 
+private val VERTICAL_PADDING = 5.dp.intPx
+private val HORIZONTAL_PADDING = 10.dp.intPx
+
 private fun TagsListView.createTagView(tag: String): View {
     val view = AppCompatTextView(context)
     view.text = tag
@@ -111,7 +115,8 @@ private fun TagsListView.createTagView(tag: String): View {
     textColor?.let {
         view.setTextColor(it)
     }
-    view.setPadding(30, 30, 30, 30)
+
+    view.setPadding(VERTICAL_PADDING, HORIZONTAL_PADDING, VERTICAL_PADDING, HORIZONTAL_PADDING)
     view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
 
     val bg = createTagBg()
@@ -131,7 +136,7 @@ private fun TagsListView.createTagBg(): Drawable? {
     ) as? GradientDrawable
 
     bgColor?.let {
-        bg?.setStroke(3, it)
+        bg?.setStroke(1.dp.intPx, it)
     }
 
     return bg
