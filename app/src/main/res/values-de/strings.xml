@@ -355,7 +355,7 @@
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
     <string name="biometric_auto_open_prompt_title">Abfrage automatisch öffnen</string>
-    <string name="biometric_auto_open_prompt_summary">Automatisch biometrisches Entsperren abfragen, wenn die Datenbank dafür eingerichtet ist</string>
+    <string name="biometric_auto_open_prompt_summary">Automatisch zum biometrischen Entsperren auffordern, wenn die Datenbank dafür eingerichtet ist</string>
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
@@ -516,7 +516,7 @@
     <string name="advanced_unlock_timeout">Verfallszeit der biometrischen Entsperrung</string>
     <string name="temp_advanced_unlock_timeout_summary">Dauer der Nutzung biometrischer Entsperrdaten bis sie gelöscht werden</string>
     <string name="temp_advanced_unlock_timeout_title">Verfall der biometrischen Entsperrung</string>
-    <string name="temp_advanced_unlock_enable_summary">Keine zum biometrischen Entsperren verwendeten, verschlüsselten Inhalte speichern</string>
+    <string name="temp_advanced_unlock_enable_summary">Keine verschlüsselten Inhalte speichern, um biometrisches Entsperren zu verwenden</string>
     <string name="temp_advanced_unlock_enable_title">Kurzzeitiges biometrisches Entsperren</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldedaten</string>
     <string name="advanced_unlock_tap_delete">Drücken, um die Schlüssel für biometrisches Entsperren zu löschen</string>
