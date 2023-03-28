@@ -1,36 +1,39 @@
 package com.kunzisoft.keepass.view
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.helper.widget.Flow
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
-import androidx.core.view.updatePadding
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.utils.dp
-import com.kunzisoft.keepass.utils.sp
 
 class TagsListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
 
     init {
+        inflate(context, R.layout.tags_list_view, this)
         initialize()
     }
 
     var textColor: Int? = null
         set(value) {
             if (field == value) {
-               return
+                return
             }
             field = value
             styleDotsView()
@@ -43,34 +46,36 @@ class TagsListView @JvmOverloads constructor(
             field = value
             styleDotsView()
         }
-
-    private var flow: Flow? = null
-    private var dotsView: View? = null
-    private var expanded: Boolean = false
-
     var currentTags: List<String> = emptyList()
         set(value) {
             field = value
             clear()
-            makeTagsList()
+            drawAllTagsAndMeasure()
+            clear()
+            makeTagsList(true)
         }
 
+    private var flow: Flow? = null
+    private var dotsView: View? = null
+    private var expanded: Boolean = false
+    private var cachedTopPadding: Int = 0
+    private var expandCllbacks: List<(() -> Unit)> = emptyList()
+    private var initialMeasure = false
+
     private fun initialize() {
-        flow = Flow(context).apply {
-            setWrapMode(Flow.WRAP_CHAIN)
-            setHorizontalAlign(Flow.HORIZONTAL_ALIGN_START)
-            setHorizontalStyle(Flow.CHAIN_PACKED)
-            setHorizontalGap(4.dp.intPx)
-            setVerticalGap(2.dp.intPx)
-            setHorizontalBias(0f)
-            setVerticalBias(0f)
-        }
-        addView(flow)
+        flow = findViewById(R.id.flow)
         dotsView = createTagView("...")
-        dotsView?.setOnClickListener {
+
+        findViewById<AppCompatImageView>(R.id.button)?.setOnClickListener {
             clear()
             expanded = !expanded
             makeTagsList()
+            it.animate().rotationBy(180f).start()
+            if (expanded) {
+                //animateTagsChange(lastHeight, lastHeight + 30.dp.intPx)
+                expandCllbacks.forEach { it() }
+                expandCllbacks = emptyList()
+            }
         }
     }
 
@@ -81,27 +86,56 @@ class TagsListView @JvmOverloads constructor(
 
     private fun clear() {
         for (child in children.toList()) {
-            if (child == flow) continue
+            if (child == flow || child.id == R.id.button) continue
             removeView(child)
             flow?.removeView(child)
         }
     }
 
-    private fun makeTagsList() {
-        val upperBound = calculateUpperBound()
-        val showDots = shouldShowDots()
-        val tags = currentTags.subList(0, upperBound)
-
+    private fun drawAllTagsAndMeasure() {
+        initialMeasure = true
+        val tags = currentTags
         for (i in tags.indices) {
             val view = createTagView(tags[i])
             addView(view)
             flow?.addView(view)
         }
+        requestLayout()
+        invalidate()
+    }
 
-        if (showDots) {
-            addView(dotsView)
-            flow?.addView(dotsView)
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        if (initialMeasure) {
+            initialMeasure = false
+            cachedTopPadding = measuredHeight
+            Log.d("DAMN", "Dfasfas $cachedTopPadding")
         }
+    }
+
+    private fun makeTagsList(initial: Boolean = false) {
+        val lastHeight = measuredHeight
+        val upperBound = calculateUpperBound()
+        val tags = currentTags.subList(0, upperBound)
+        val callbacks = mutableListOf<(() -> Unit)>()
+
+        for (i in tags.indices) {
+            val view = createTagView(tags[i])
+            addView(view)
+            if (i >= MAX_TAGS_IN_COLLAPSED) {
+                view.alpha = 0f
+                callbacks.add {
+                    view.animate().alpha(1f).start()
+                }
+            }
+            flow?.addView(view)
+        }
+
+        expandCllbacks = callbacks
+
+        val currentHeight = measuredHeight
+        requestLayout()
+        Log.d("DAMN", "${lastHeight} ${currentHeight}")
     }
 
     private fun calculateUpperBound(): Int {
@@ -112,8 +146,64 @@ class TagsListView @JvmOverloads constructor(
         }
     }
 
-    private fun shouldShowDots(): Boolean {
-        return currentTags.size > MAX_TAGS_IN_COLLAPSED
+    private fun animateTagsChange(from: Int, to: Int) {
+        if (expanded) {
+            animateExpand(from, to)
+        } else {
+            animateCollapse(from, to)
+        }
+    }
+
+    private fun animateExpand(from: Int, to: Int) {
+        layoutParams.height = 0
+        val slideAnimator = ValueAnimator.ofInt(from, to)
+        slideAnimator.duration = 300L
+        slideAnimator.addUpdateListener { animation ->
+            layoutParams.height = animation.animatedValue as Int
+            requestLayout()
+        }
+
+        val f = flow ?: return
+        val slideAnimator2 = ValueAnimator.ofInt(cachedTopPadding, 0)
+        slideAnimator2.duration = 248L
+        slideAnimator2.addUpdateListener { animation ->
+            f.paddingTop = animation.animatedValue as Int
+            requestLayout()
+        }
+        AnimatorSet().apply {
+            play(slideAnimator)
+            interpolator = AccelerateDecelerateInterpolator()
+        }.start()
+        AnimatorSet().apply {
+            play(slideAnimator2)
+            interpolator = AccelerateDecelerateInterpolator()
+        }.start()
+    }
+
+    private fun animateCollapse(from: Int, to: Int) {
+        layoutParams.height = 0
+        val slideAnimator = ValueAnimator.ofInt(from, to)
+        slideAnimator.duration = 300L
+        slideAnimator.addUpdateListener { animation ->
+            layoutParams.height = animation.animatedValue as Int
+            requestLayout()
+        }
+
+        val f = flow ?: return
+        val slideAnimator2 = ValueAnimator.ofInt(0, cachedTopPadding)
+        slideAnimator2.duration = 300L
+        slideAnimator2.addUpdateListener { animation ->
+            f.paddingTop = animation.animatedValue as Int
+            requestLayout()
+        }
+        AnimatorSet().apply {
+            play(slideAnimator)
+            interpolator = AccelerateDecelerateInterpolator()
+        }.start()
+        AnimatorSet().apply {
+            play(slideAnimator2)
+            interpolator = AccelerateDecelerateInterpolator()
+        }.start()
     }
 
     companion object {
