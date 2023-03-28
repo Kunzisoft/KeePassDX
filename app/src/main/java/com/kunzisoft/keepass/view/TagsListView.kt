@@ -14,7 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.utils.dp
+import com.kunzisoft.keepass.utils.sp
 
 class TagsListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -25,7 +27,21 @@ class TagsListView @JvmOverloads constructor(
     }
 
     var textColor: Int? = null
+        set(value) {
+            if (field == value) {
+               return
+            }
+            field = value
+            styleDotsView()
+        }
     var bgColor: Int? = null
+        set(value) {
+            if (field == value) {
+                return
+            }
+            field = value
+            styleDotsView()
+        }
 
     private var flow: Flow? = null
     private var dotsView: View? = null
@@ -55,6 +71,11 @@ class TagsListView @JvmOverloads constructor(
             expanded = !expanded
             makeTagsList()
         }
+    }
+
+    private fun styleDotsView() {
+        val view = dotsView as? AppCompatTextView ?: return
+        styleTagView(view)
     }
 
     private fun clear() {
@@ -106,6 +127,10 @@ private fun TagsListView.createTagView(tag: String): View {
     val view = AppCompatTextView(context)
     view.text = tag
     view.id = generateViewId()
+    return styleTagView(view)
+}
+
+private fun TagsListView.styleTagView(view: AppCompatTextView): View {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         view.setTextAppearance(R.style.KeepassDXStyle_TextAppearance_Entry_Meta)
     } else {
@@ -117,7 +142,7 @@ private fun TagsListView.createTagView(tag: String): View {
     }
 
     view.setPadding(VERTICAL_PADDING, HORIZONTAL_PADDING, VERTICAL_PADDING, HORIZONTAL_PADDING)
-    view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+    view.textSize = 13.sp.floatPx
 
     val bg = createTagBg()
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

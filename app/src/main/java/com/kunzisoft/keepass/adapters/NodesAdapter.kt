@@ -468,6 +468,8 @@ class NodesAdapter (
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
                     iconColor = foregroundColor
+                    holder.tagsContainer?.textColor = foregroundColor
+                    holder.tagsContainer?.bgColor = foregroundColor
                 } else {
                     holder.text.setTextColor(mTextColor)
                     holder.subText?.setTextColor(mTextColorSecondary)
@@ -475,6 +477,8 @@ class NodesAdapter (
                     holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
+                    holder.tagsContainer?.textColor = mTextColorSecondary
+                    holder.tagsContainer?.bgColor = mTextColorSecondary
                 }
             } else {
                 holder.text.setTextColor(mColorOnAccentColor)
@@ -483,6 +487,8 @@ class NodesAdapter (
                 holder.otpProgress?.setIndicatorColor(mColorOnAccentColor)
                 holder.attachmentIcon?.setColorFilter(mColorOnAccentColor)
                 holder.meta.setTextColor(mColorOnAccentColor)
+                holder.tagsContainer?.textColor = mColorOnAccentColor
+                holder.tagsContainer?.bgColor = mColorOnAccentColor
             }
 
             holder.tagsContainer?.apply {
@@ -525,21 +531,6 @@ class NodesAdapter (
         holder.container.setOnLongClickListener {
             mNodeClickCallback?.onNodeLongClick(database, subNode) ?: false
         }
-    }
-
-    private fun GradientDrawable.adjustBgColor(holder: NodeViewHolder, foregroundColor: Int?) {
-        val color = when {
-            holder.container.isSelected -> {
-                mColorOnAccentColor
-            }
-            foregroundColor != null -> {
-                foregroundColor
-            }
-            else -> {
-                mTextColorSecondary
-            }
-        }
-        setStroke(3, color)
     }
 
     private fun populateOtpView(holder: NodeViewHolder?, otpElement: OtpElement?) {
