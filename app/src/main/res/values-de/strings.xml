@@ -507,7 +507,7 @@
     <string name="warning_empty_recycle_bin">Alle Knoten dauerhaft aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
     <string name="advanced_unlock_prompt_store_credential_message">Sie müssen sich immer noch an Ihre Anmeldedaten erinnern, wenn Sie biometrisches Entsperren verwenden.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Zum Speichern der Anmeldeinformationen Dialog zum biometrischen Entsperren öffnen</string>
+    <string name="open_advanced_unlock_prompt_store_credential">Dialog zum biometrischen Entsperren öffnen, um Anmeldedaten zu speichern</string>
     <string name="open_advanced_unlock_prompt_unlock_database">Dialog zum biometrischen Entsperren der Datenbank öffnen</string>
     <string name="menu_keystore_remove_key">Biometrischen Entsperrschlüssel löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Biometrisches Entsperren</string>
