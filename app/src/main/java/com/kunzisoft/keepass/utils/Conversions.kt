@@ -12,7 +12,6 @@ sealed class Dimension(
     abstract fun toSp(): Float
 
     val intPx: Int get() = toPx().toInt()
-    val floatPx: Float get() = toPx()
 
     override fun compareTo(other: Dimension): Int {
         return toPx().compareTo(other.toPx())

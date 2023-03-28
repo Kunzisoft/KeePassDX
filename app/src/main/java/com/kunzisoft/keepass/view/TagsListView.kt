@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
+import androidx.core.view.updatePadding
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.utils.dp
@@ -120,8 +121,8 @@ class TagsListView @JvmOverloads constructor(
     }
 }
 
-private val VERTICAL_PADDING = 5.dp.intPx
-private val HORIZONTAL_PADDING = 10.dp.intPx
+private val VERTICAL_PADDING = 2.dp.intPx
+private val HORIZONTAL_PADDING = 5.dp.intPx
 
 private fun TagsListView.createTagView(tag: String): View {
     val view = AppCompatTextView(context)
@@ -131,6 +132,13 @@ private fun TagsListView.createTagView(tag: String): View {
 }
 
 private fun TagsListView.styleTagView(view: AppCompatTextView): View {
+    val bg = createTagBg()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        view.background = bg
+    } else {
+        view.setBackgroundDrawable(bg)
+    }
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         view.setTextAppearance(R.style.KeepassDXStyle_TextAppearance_Entry_Meta)
     } else {
@@ -141,15 +149,8 @@ private fun TagsListView.styleTagView(view: AppCompatTextView): View {
         view.setTextColor(it)
     }
 
-    view.setPadding(VERTICAL_PADDING, HORIZONTAL_PADDING, VERTICAL_PADDING, HORIZONTAL_PADDING)
-    view.textSize = 13.sp.floatPx
-
-    val bg = createTagBg()
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        view.background = bg
-    } else {
-        view.setBackgroundDrawable(bg)
-    }
+    view.setPadding(HORIZONTAL_PADDING, VERTICAL_PADDING, HORIZONTAL_PADDING, VERTICAL_PADDING)
+    view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
 
     return view
 }
@@ -161,7 +162,7 @@ private fun TagsListView.createTagBg(): Drawable? {
     ) as? GradientDrawable
 
     bgColor?.let {
-        bg?.setStroke(1.dp.intPx, it)
+        bg?.setStroke(1.2f.dp.intPx, it)
     }
 
     return bg
