@@ -1,15 +1,19 @@
 package com.kunzisoft.keepass.view
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -18,8 +22,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
+import androidx.core.view.isGone
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.dp
+import kotlin.math.max
+import kotlin.math.min
 
 class TagsListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -29,6 +36,9 @@ class TagsListView @JvmOverloads constructor(
         inflate(context, R.layout.tags_list_view, this)
         initialize()
     }
+
+    private var measureingCollapsedHeight: Boolean = false
+    private var currentHeight: Int = 0
 
     var textColor: Int? = null
         set(value) {
@@ -51,8 +61,6 @@ class TagsListView @JvmOverloads constructor(
             field = value
             clear()
             drawAllTagsAndMeasure()
-            clear()
-            makeTagsList(true)
         }
 
     private var flow: Flow? = null
@@ -60,22 +68,20 @@ class TagsListView @JvmOverloads constructor(
     private var expanded: Boolean = false
     private var cachedTopPadding: Int = 0
     private var expandCllbacks: List<(() -> Unit)> = emptyList()
-    private var initialMeasure = false
+    private var expandedHeight = 0
+    private var measureingExpandedHeight = false
 
     private fun initialize() {
         flow = findViewById(R.id.flow)
         dotsView = createTagView("...")
+        viewTreeObserver.addOnGlobalLayoutListener(Observer())
 
         findViewById<AppCompatImageView>(R.id.button)?.setOnClickListener {
             clear()
             expanded = !expanded
+            animateTagsChange(currentHeight, expandedHeight)
             makeTagsList()
             it.animate().rotationBy(180f).start()
-            if (expanded) {
-                //animateTagsChange(lastHeight, lastHeight + 30.dp.intPx)
-                expandCllbacks.forEach { it() }
-                expandCllbacks = emptyList()
-            }
         }
     }
 
@@ -93,24 +99,17 @@ class TagsListView @JvmOverloads constructor(
     }
 
     private fun drawAllTagsAndMeasure() {
-        initialMeasure = true
+        measureingExpandedHeight = true
         val tags = currentTags
         for (i in tags.indices) {
             val view = createTagView(tags[i])
             addView(view)
             flow?.addView(view)
         }
-        requestLayout()
-        invalidate()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (initialMeasure) {
-            initialMeasure = false
-            cachedTopPadding = measuredHeight
-            Log.d("DAMN", "Dfasfas $cachedTopPadding")
-        }
     }
 
     private fun makeTagsList(initial: Boolean = false) {
@@ -123,8 +122,10 @@ class TagsListView @JvmOverloads constructor(
             val view = createTagView(tags[i])
             addView(view)
             if (i >= MAX_TAGS_IN_COLLAPSED) {
+                view.isGone = true
                 view.alpha = 0f
                 callbacks.add {
+                    view.isGone = false
                     view.animate().alpha(1f).start()
                 }
             }
@@ -133,8 +134,6 @@ class TagsListView @JvmOverloads constructor(
 
         expandCllbacks = callbacks
 
-        val currentHeight = measuredHeight
-        requestLayout()
         Log.d("DAMN", "${lastHeight} ${currentHeight}")
     }
 
@@ -150,7 +149,7 @@ class TagsListView @JvmOverloads constructor(
         if (expanded) {
             animateExpand(from, to)
         } else {
-            animateCollapse(from, to)
+            animateExpand(to, from)
         }
     }
 
@@ -162,20 +161,19 @@ class TagsListView @JvmOverloads constructor(
             layoutParams.height = animation.animatedValue as Int
             requestLayout()
         }
+        slideAnimator.addListener(object : Animator.AnimatorListener{
+            override fun onAnimationStart(p0: Animator?) {}
+            override fun onAnimationEnd(p0: Animator?) {
+                expandCllbacks.forEach { it() }
+                expandCllbacks = emptyList()
+            }
+            override fun onAnimationCancel(p0: Animator?) {}
+            override fun onAnimationRepeat(p0: Animator?) {}
 
-        val f = flow ?: return
-        val slideAnimator2 = ValueAnimator.ofInt(cachedTopPadding, 0)
-        slideAnimator2.duration = 248L
-        slideAnimator2.addUpdateListener { animation ->
-            f.paddingTop = animation.animatedValue as Int
-            requestLayout()
-        }
+        })
+
         AnimatorSet().apply {
             play(slideAnimator)
-            interpolator = AccelerateDecelerateInterpolator()
-        }.start()
-        AnimatorSet().apply {
-            play(slideAnimator2)
             interpolator = AccelerateDecelerateInterpolator()
         }.start()
     }
@@ -189,21 +187,28 @@ class TagsListView @JvmOverloads constructor(
             requestLayout()
         }
 
-        val f = flow ?: return
-        val slideAnimator2 = ValueAnimator.ofInt(0, cachedTopPadding)
-        slideAnimator2.duration = 300L
-        slideAnimator2.addUpdateListener { animation ->
-            f.paddingTop = animation.animatedValue as Int
-            requestLayout()
-        }
         AnimatorSet().apply {
             play(slideAnimator)
             interpolator = AccelerateDecelerateInterpolator()
         }.start()
-        AnimatorSet().apply {
-            play(slideAnimator2)
-            interpolator = AccelerateDecelerateInterpolator()
-        }.start()
+    }
+
+    private inner class Observer : ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            if (measureingExpandedHeight) {
+                measureingExpandedHeight = false
+                expandedHeight = measuredHeight
+                Handler(Looper.getMainLooper()).post {
+                    measureingCollapsedHeight = true
+                    clear()
+                    makeTagsList()
+                }
+            } else if (measureingCollapsedHeight) {
+                measureingCollapsedHeight = false
+                currentHeight = measuredHeight
+                viewTreeObserver.removeGlobalOnLayoutListener(this)
+            }
+        }
     }
 
     companion object {
