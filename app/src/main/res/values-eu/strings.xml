@@ -30,7 +30,7 @@
     <string name="application">Aplikazio</string>
     <string name="menu_app_settings">Aplikazio ezarpenak</string>
     <string name="brackets">Kortxete</string>
-    <string name="file_manager_install_description">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
+    <string name="file_manager_install_description">Datu-basea sortu, ireki eta gordetzeko ACTION_CREATE_DOCUMENT eta CTION_OPEN_DOCUMENT akzioak onartzen dituen fitxategi kudeatzailea behar da.</string>
     <string name="clipboard_cleared">Arbela garbituta</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
     <string name="clipboard_error">Gailu batzuek ez dute arbela erabiltzen uzten.</string>
@@ -38,15 +38,15 @@
     <string name="clipboard_timeout">Arbela denbora pasatu da</string>
     <string name="clipboard_timeout_summary">Arbelean biltegiratuta iraungo duen denbora ( Gailuak onartzen badu)</string>
     <string name="select_to_copy">Aukeratu %1$s arbelera kopiatzeko</string>
-    <string name="retrieving_db_key">Datubasearen gakoa sortzen…</string>
-    <string name="database">Datubasea</string>
+    <string name="retrieving_db_key">Datu-basearen gakoa berreskuratzen…</string>
+    <string name="database">Datu-basea</string>
     <string name="decrypting_db">Datu-basearen edukia deszifratzen…</string>
     <string name="default_checkbox">Erabili lehenetsitako datu-base gisa</string>
-    <string name="digits">Zenbakiak</string>
+    <string name="digits">Digituak</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>kode irekiko</strong> eta <strong>iragarki gabekoa da</strong>.
 \n<strong>GPLv3</strong> lizentziapean banatu da, hori dela eta ez dakar inolako bermerik.</string>
     <string name="select_database_file">Ireki aurrez sortutako datu-basea</string>
-    <string name="entry_accessed">Akzesoa</string>
+    <string name="entry_accessed">Atzituta</string>
     <string name="entry_cancel">Utzi</string>
     <string name="entry_notes">Iruzkinak</string>
     <string name="entry_confpassword">Pasahitza berretsi</string>
@@ -75,7 +75,7 @@
     <string name="error_wrong_length">\"Luzera\" eremuan zenbaki oso positibo bat sartu.</string>
     <string name="field_name">Eremu-izena</string>
     <string name="field_value">Eremuaren balioa</string>
-    <string name="file_browser">Fitxategi nabigatzailea</string>
+    <string name="file_browser">Fitxategi kudeatzailea</string>
     <string name="generate_password">Sortu pasahitza</string>
     <string name="hint_conf_pass">Berretsi pasahitza</string>
     <string name="hint_generated_password">Sortutako pasahitza</string>
@@ -157,4 +157,17 @@
     <string name="content_description_background">Atzeko planoa</string>
     <string name="content_description_open_file">Ireki fitxategia</string>
     <string name="content_description_otp_information">Erabilpen bakarreko pasahitzaren informazioa</string>
+    <string name="content_description_database_color">Datu-basearen kolorea</string>
+    <string name="content_description_entry_foreground_color">Lehen planoaren sarrera kolorea</string>
+    <string name="content_description_repeat_toggle_password_visibility">Errepikatu pasahitzaren kommutazio ikusgarritasuna</string>
+    <string name="content_description_entry_icon">Sartu ikonoa</string>
+    <string name="content_description_keyfile_checkbox">fitxategi-gakoaren kontorl-laukia</string>
+    <string name="content_description_nav_header">Nabigazio goiburua</string>
+    <string name="navigation_drawer_open">Nabigazio kutxa ireki</string>
+    <string name="navigation_drawer_close">Nabigazio kutxa itxi</string>
+    <string name="content_description_entry_background_color">Atzeko planoaren sarrera kolorea</string>
+    <string name="validate">Baliozkotu</string>
+    <string name="discard_changes">Ezeztatu aldaketak\?</string>
+    <string name="discard">Ezeztatu</string>
+    <string name="content_description_hardware_key_checkbox">Gako fisikoaren kontrol-laukia</string>
 </resources>
