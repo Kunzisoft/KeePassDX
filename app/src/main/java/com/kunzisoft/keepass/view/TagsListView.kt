@@ -8,15 +8,11 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.helper.widget.Flow
@@ -26,19 +22,12 @@ import androidx.core.view.ViewCompat.generateViewId
 import androidx.core.view.children
 import androidx.core.view.isGone
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.utils.StubAnimatorListener
 import com.kunzisoft.keepass.utils.dp
-import kotlin.math.exp
 
 class TagsListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
-
-    init {
-        inflate(context, R.layout.tags_list_view, this)
-        initialize()
-    }
-
-    private var measureingCollapsedHeight: Boolean = false
 
     var textColor: Int? = null
         set(value) {
@@ -60,50 +49,47 @@ class TagsListView @JvmOverloads constructor(
             drawAllTagsAndMeasure()
         }
 
+    init {
+        inflate(context, R.layout.tags_list_view, this)
+        initialize()
+    }
+
     private var flow: Flow? = null
     private var expandBtn: View? = null
-    private var expanded: Boolean = false
-    private var expandCllbacks: List<(() -> Unit)> = emptyList()
-    private var measureingExpandedHeight = false
     private var hiddenViews: MutableList<View> = mutableListOf()
-    private var initialLayoutParams: ViewGroup.LayoutParams? = null
-    private var capturingInitialLp = true
-
-    private var expandedHeight: Int = 0
-    private var collapsedHeight: Int = 0
+    private var currentState: State = State.IDLE
+    private var animationHelper: AnimationHelper? = null
 
     private fun initialize() {
-        viewTreeObserver.addOnGlobalLayoutListener(Observer())
+        viewTreeObserver.addOnGlobalLayoutListener(InitialMeasuringObserver())
         flow = findViewById(R.id.flow)
         expandBtn = findViewById<AppCompatImageView>(R.id.button)
         expandBtn?.setOnClickListener {
-            expanded = !expanded
-            animateTagsChange(collapsedHeight, expandedHeight)
-            it.animate().rotationBy(180f).start()
+            animationHelper?.startAnimation()
+            val sign = if (currentState == State.EXPANDED) -1 else 1
+            it.animate().rotationBy(180f * sign).start()
+        }
+    }
+
+    private fun drawAllTagsAndMeasure() {
+        clear()
+        post {
+            layoutParams.height = WRAP_CONTENT
+            currentState = State.MEASURING_EXPANDED
+            makeTagsList()
         }
     }
 
     private fun clear() {
         for (child in children.toList()) {
-            if (child == flow || child.id == R.id.button) continue
+            if (child.id == R.id.flow || child.id == R.id.button) continue
             removeView(child)
             flow?.removeView(child)
         }
         hiddenViews.clear()
     }
 
-    private fun drawAllTagsAndMeasure() {
-        clear()
-        layoutParams?.apply {
-            height = WRAP_CONTENT
-        }
-        post {
-            measureingExpandedHeight = true
-            makeTagsList(false)
-        }
-    }
-
-    private fun makeTagsList(hideExtra: Boolean) {
+    private fun makeTagsList() {
         for (i in currentTags.indices) {
             val view = createTagView(currentTags[i])
             addView(view)
@@ -114,86 +100,125 @@ class TagsListView @JvmOverloads constructor(
         }
     }
 
-    private fun hideViews() {
-        hiddenViews.forEach {
-            it.isGone = true
-            it.alpha = 0f
+    private fun toggleHiddenViews(animate: Boolean) {
+        for (ind in hiddenViews.indices) {
+            toggleHiddenView(ind, animate)
         }
     }
 
-    private fun calculateUpperBound(): Int {
-        return when {
-            expanded -> currentTags.size
-            else -> currentTags.size
+    private fun toggleHiddenView(ind: Int, animate: Boolean) {
+        val isGone = hiddenViews[ind].isGone
+        val alpha = if (isGone) 1f else 0f
+        if (!animate) {
+            hiddenViews[ind].isGone = !isGone
+            hiddenViews[ind].alpha = alpha
+            return
         }
-    }
 
-    private fun animateTagsChange(from: Int, to: Int) {
-        if (expanded) {
-            animateExpand(from, to)
-        } else {
-            animateExpand(to, from)
+        if (isGone) {
+            hiddenViews[ind].isGone = !isGone
         }
-    }
-
-    private fun animateExpand(from: Int, to: Int) {
-        val slideAnimator = ValueAnimator.ofInt(from, to)
-        slideAnimator.duration = 300L
-        slideAnimator.addUpdateListener { animation ->
-            layoutParams.height = animation.animatedValue as Int
-            requestLayout()
-        }
-        slideAnimator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(p0: Animator?) {
-                if (!expanded) {
-                    hiddenViews.forEach {
-                        it.isGone = true
-                        it.animate().alpha(0f).start()
-                    }
-                }
-            }
-
+        hiddenViews[ind].animate().setListener(object : StubAnimatorListener() {
             override fun onAnimationEnd(p0: Animator?) {
-                if (expanded) {
-                    hiddenViews.forEach {
-                        it.isGone = false
-                        it.animate().alpha(1f).start()
-                    }
-                }
+                if (isGone) return
+                hiddenViews[ind].isGone = !isGone
             }
-            override fun onAnimationCancel(p0: Animator?) {}
-            override fun onAnimationRepeat(p0: Animator?) {}
-
-        })
-
-        AnimatorSet().apply {
-            play(slideAnimator)
-            interpolator = AccelerateDecelerateInterpolator()
-        }.start()
+        }).alpha(alpha).start()
     }
 
-    private inner class Observer : ViewTreeObserver.OnGlobalLayoutListener {
-        override fun onGlobalLayout() {
-            if (measureingExpandedHeight) {
-                measureingExpandedHeight = false
-                Log.d("DAMN", expandedHeight.toString())
-                expandedHeight = measuredHeight
-                Log.d("DAMN", measuredHeight.toString())
-                Log.d("DAMN", children.filter { it is AppCompatTextView }.map { "(${it.x}, ${it.y})" }.toList().toString())
+    private inner class AnimationHelper(
+        expandedHeight: Int,
+        collapsedHeight: Int,
+    ) : StubAnimatorListener() {
+
+        private val collapsingAnimator = setupAnimator(expandedHeight, collapsedHeight)
+        private val expandingAnimator = setupAnimator(collapsedHeight, expandedHeight)
+
+        fun startAnimation() {
+            when (currentState) {
+                State.EXPANDED -> animateInternal(collapsingAnimator)
+                State.COLLAPSED -> animateInternal(expandingAnimator)
+                else -> { /* np-op */ }
+            }
+        }
+
+        private fun animateInternal(animator: Animator) {
+            AnimatorSet().apply {
+                play(animator)
+                interpolator = AccelerateDecelerateInterpolator()
+            }.start()
+        }
+
+        override fun onAnimationStart(p0: Animator?) {
+            if (currentState == State.COLLAPSED) return
+            toggleHiddenViews(false)
+        }
+
+        override fun onAnimationEnd(p0: Animator?) {
+            currentState = currentState.next()
+            if (currentState == State.EXPANDED) {
+                toggleHiddenViews(true)
+            }
+        }
+
+        private fun setupAnimator(from: Int, to: Int): Animator {
+            val animator = ValueAnimator.ofInt(from, to)
+            animator.duration = ANIMATION_DURATION
+            animator.addUpdateListener { animation ->
                 post {
-                    measureingCollapsedHeight = true
-                    hideViews()
+                    layoutParams.height = animation.animatedValue as Int
+                    requestLayout()
                 }
             }
-            if (measureingCollapsedHeight) {
-                measureingCollapsedHeight = false
-                collapsedHeight = measuredHeight
+            animator.addListener(this)
+            return animator
+        }
+    }
+
+    private inner class InitialMeasuringObserver : ViewTreeObserver.OnGlobalLayoutListener {
+        private var expandedHeight = 0
+
+        override fun onGlobalLayout() {
+            when (currentState) {
+                State.MEASURING_EXPANDED -> {
+                    expandedHeight = measuredHeight
+                    post {
+                        currentState = currentState.next()
+                        toggleHiddenViews(false)
+                    }
+                }
+                State.MEASURING_COLLAPSED -> {
+                    currentState = currentState.next()
+                    animationHelper = AnimationHelper(expandedHeight, measuredHeight)
+                }
+                else -> { /* no-op */ }
             }
         }
     }
 
-    companion object {
-        private const val MAX_TAGS_IN_COLLAPSED = 4
+    private enum class State {
+        MEASURING_EXPANDED {
+            override fun next() = MEASURING_COLLAPSED
+        },
+        MEASURING_COLLAPSED {
+            override fun next() = COLLAPSED
+        },
+        EXPANDED {
+            override fun next() = COLLAPSED
+        },
+        COLLAPSED {
+            override fun next() = EXPANDED
+        },
+        IDLE {
+            override fun next() = MEASURING_EXPANDED
+        };
+
+        abstract fun next(): State
+    }
+
+    private companion object {
+        const val MAX_TAGS_IN_COLLAPSED = 4
+        const val ANIMATION_DURATION = 300L
     }
 }
 
