@@ -7,14 +7,16 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.helper.widget.Flow
@@ -25,8 +27,7 @@ import androidx.core.view.children
 import androidx.core.view.isGone
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.dp
-import kotlin.math.max
-import kotlin.math.min
+import kotlin.math.exp
 
 class TagsListView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
@@ -38,7 +39,6 @@ class TagsListView @JvmOverloads constructor(
     }
 
     private var measureingCollapsedHeight: Boolean = false
-    private var currentHeight: Int = 0
 
     var textColor: Int? = null
         set(value) {
@@ -46,7 +46,6 @@ class TagsListView @JvmOverloads constructor(
                 return
             }
             field = value
-            styleDotsView()
         }
     var bgColor: Int? = null
         set(value) {
@@ -54,40 +53,34 @@ class TagsListView @JvmOverloads constructor(
                 return
             }
             field = value
-            styleDotsView()
         }
     var currentTags: List<String> = emptyList()
         set(value) {
             field = value
-            clear()
             drawAllTagsAndMeasure()
         }
 
     private var flow: Flow? = null
-    private var dotsView: View? = null
+    private var expandBtn: View? = null
     private var expanded: Boolean = false
-    private var cachedTopPadding: Int = 0
     private var expandCllbacks: List<(() -> Unit)> = emptyList()
-    private var expandedHeight = 0
     private var measureingExpandedHeight = false
+    private var hiddenViews: MutableList<View> = mutableListOf()
+    private var initialLayoutParams: ViewGroup.LayoutParams? = null
+    private var capturingInitialLp = true
+
+    private var expandedHeight: Int = 0
+    private var collapsedHeight: Int = 0
 
     private fun initialize() {
-        flow = findViewById(R.id.flow)
-        dotsView = createTagView("...")
         viewTreeObserver.addOnGlobalLayoutListener(Observer())
-
-        findViewById<AppCompatImageView>(R.id.button)?.setOnClickListener {
-            clear()
+        flow = findViewById(R.id.flow)
+        expandBtn = findViewById<AppCompatImageView>(R.id.button)
+        expandBtn?.setOnClickListener {
             expanded = !expanded
-            animateTagsChange(currentHeight, expandedHeight)
-            makeTagsList()
+            animateTagsChange(collapsedHeight, expandedHeight)
             it.animate().rotationBy(180f).start()
         }
-    }
-
-    private fun styleDotsView() {
-        val view = dotsView as? AppCompatTextView ?: return
-        styleTagView(view)
     }
 
     private fun clear() {
@@ -96,51 +89,41 @@ class TagsListView @JvmOverloads constructor(
             removeView(child)
             flow?.removeView(child)
         }
+        hiddenViews.clear()
     }
 
     private fun drawAllTagsAndMeasure() {
-        measureingExpandedHeight = true
-        val tags = currentTags
-        for (i in tags.indices) {
-            val view = createTagView(tags[i])
-            addView(view)
-            flow?.addView(view)
+        clear()
+        layoutParams?.apply {
+            height = WRAP_CONTENT
+        }
+        post {
+            measureingExpandedHeight = true
+            makeTagsList(false)
         }
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-    }
-
-    private fun makeTagsList(initial: Boolean = false) {
-        val lastHeight = measuredHeight
-        val upperBound = calculateUpperBound()
-        val tags = currentTags.subList(0, upperBound)
-        val callbacks = mutableListOf<(() -> Unit)>()
-
-        for (i in tags.indices) {
-            val view = createTagView(tags[i])
+    private fun makeTagsList(hideExtra: Boolean) {
+        for (i in currentTags.indices) {
+            val view = createTagView(currentTags[i])
             addView(view)
             if (i >= MAX_TAGS_IN_COLLAPSED) {
-                view.isGone = true
-                view.alpha = 0f
-                callbacks.add {
-                    view.isGone = false
-                    view.animate().alpha(1f).start()
-                }
+                hiddenViews.add(view)
             }
             flow?.addView(view)
         }
+    }
 
-        expandCllbacks = callbacks
-
-        Log.d("DAMN", "${lastHeight} ${currentHeight}")
+    private fun hideViews() {
+        hiddenViews.forEach {
+            it.isGone = true
+            it.alpha = 0f
+        }
     }
 
     private fun calculateUpperBound(): Int {
         return when {
             expanded -> currentTags.size
-            currentTags.size > MAX_TAGS_IN_COLLAPSED -> MAX_TAGS_IN_COLLAPSED
             else -> currentTags.size
         }
     }
@@ -154,18 +137,29 @@ class TagsListView @JvmOverloads constructor(
     }
 
     private fun animateExpand(from: Int, to: Int) {
-        layoutParams.height = 0
         val slideAnimator = ValueAnimator.ofInt(from, to)
         slideAnimator.duration = 300L
         slideAnimator.addUpdateListener { animation ->
             layoutParams.height = animation.animatedValue as Int
             requestLayout()
         }
-        slideAnimator.addListener(object : Animator.AnimatorListener{
-            override fun onAnimationStart(p0: Animator?) {}
+        slideAnimator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(p0: Animator?) {
+                if (!expanded) {
+                    hiddenViews.forEach {
+                        it.isGone = true
+                        it.animate().alpha(0f).start()
+                    }
+                }
+            }
+
             override fun onAnimationEnd(p0: Animator?) {
-                expandCllbacks.forEach { it() }
-                expandCllbacks = emptyList()
+                if (expanded) {
+                    hiddenViews.forEach {
+                        it.isGone = false
+                        it.animate().alpha(1f).start()
+                    }
+                }
             }
             override fun onAnimationCancel(p0: Animator?) {}
             override fun onAnimationRepeat(p0: Animator?) {}
@@ -178,35 +172,22 @@ class TagsListView @JvmOverloads constructor(
         }.start()
     }
 
-    private fun animateCollapse(from: Int, to: Int) {
-        layoutParams.height = 0
-        val slideAnimator = ValueAnimator.ofInt(from, to)
-        slideAnimator.duration = 300L
-        slideAnimator.addUpdateListener { animation ->
-            layoutParams.height = animation.animatedValue as Int
-            requestLayout()
-        }
-
-        AnimatorSet().apply {
-            play(slideAnimator)
-            interpolator = AccelerateDecelerateInterpolator()
-        }.start()
-    }
-
     private inner class Observer : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             if (measureingExpandedHeight) {
                 measureingExpandedHeight = false
+                Log.d("DAMN", expandedHeight.toString())
                 expandedHeight = measuredHeight
-                Handler(Looper.getMainLooper()).post {
+                Log.d("DAMN", measuredHeight.toString())
+                Log.d("DAMN", children.filter { it is AppCompatTextView }.map { "(${it.x}, ${it.y})" }.toList().toString())
+                post {
                     measureingCollapsedHeight = true
-                    clear()
-                    makeTagsList()
+                    hideViews()
                 }
-            } else if (measureingCollapsedHeight) {
+            }
+            if (measureingCollapsedHeight) {
                 measureingCollapsedHeight = false
-                currentHeight = measuredHeight
-                viewTreeObserver.removeGlobalOnLayoutListener(this)
+                collapsedHeight = measuredHeight
             }
         }
     }
