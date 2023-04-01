@@ -35,6 +35,7 @@ class TagsListView @JvmOverloads constructor(
                 return
             }
             field = value
+            expandBtn?.setColorFilter(value!!)
         }
     var bgColor: Int? = null
         set(value) {
@@ -49,16 +50,16 @@ class TagsListView @JvmOverloads constructor(
             drawAllTagsAndMeasure()
         }
 
+    private var flow: Flow? = null
+    private var expandBtn: AppCompatImageView? = null
+    private var hiddenViews: MutableList<View> = mutableListOf()
+    private var currentState: State = State.IDLE
+    private var animationHelper: AnimationHelper? = null
+
     init {
         inflate(context, R.layout.tags_list_view, this)
         initialize()
     }
-
-    private var flow: Flow? = null
-    private var expandBtn: View? = null
-    private var hiddenViews: MutableList<View> = mutableListOf()
-    private var currentState: State = State.IDLE
-    private var animationHelper: AnimationHelper? = null
 
     private fun initialize() {
         viewTreeObserver.addOnGlobalLayoutListener(InitialMeasuringObserver())
@@ -120,8 +121,10 @@ class TagsListView @JvmOverloads constructor(
         }
         hiddenViews[ind].animate().setListener(object : StubAnimatorListener() {
             override fun onAnimationEnd(p0: Animator?) {
-                if (isGone) return
-                hiddenViews[ind].isGone = !isGone
+                if (!isGone) {
+                    hiddenViews[ind].isGone = !isGone
+                }
+                requestLayout()
             }
         }).alpha(alpha).start()
     }
@@ -182,10 +185,8 @@ class TagsListView @JvmOverloads constructor(
             when (currentState) {
                 State.MEASURING_EXPANDED -> {
                     expandedHeight = measuredHeight
-                    post {
-                        currentState = currentState.next()
-                        toggleHiddenViews(false)
-                    }
+                    currentState = currentState.next()
+                    toggleHiddenViews(false)
                 }
                 State.MEASURING_COLLAPSED -> {
                     currentState = currentState.next()
@@ -224,6 +225,8 @@ class TagsListView @JvmOverloads constructor(
 
 private val VERTICAL_PADDING = 2.dp.intPx
 private val HORIZONTAL_PADDING = 5.dp.intPx
+private const val TAG_TEXT_SIZE = 13f
+private val TAG_STROKE = 1.2f.dp.intPx
 
 private fun TagsListView.createTagView(tag: String): View {
     val view = AppCompatTextView(context)
@@ -251,7 +254,7 @@ private fun TagsListView.styleTagView(view: AppCompatTextView): View {
     }
 
     view.setPadding(HORIZONTAL_PADDING, VERTICAL_PADDING, HORIZONTAL_PADDING, VERTICAL_PADDING)
-    view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f)
+    view.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAG_TEXT_SIZE)
 
     return view
 }
@@ -263,7 +266,7 @@ private fun TagsListView.createTagBg(): Drawable? {
     ) as? GradientDrawable
 
     bgColor?.let {
-        bg?.setStroke(1.2f.dp.intPx, it)
+        bg?.setStroke(TAG_STROKE, it)
     }
 
     return bg

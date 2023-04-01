@@ -208,6 +208,7 @@ class NodesAdapter (
                         && oldItem.foregroundColor == newItem.foregroundColor
                         && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
+                        && oldItem.tags == newItem.tags
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
                         && oldItem.notes == newItem.notes
