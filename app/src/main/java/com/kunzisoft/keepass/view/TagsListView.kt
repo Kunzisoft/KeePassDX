@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
@@ -35,7 +36,7 @@ class TagsListView @JvmOverloads constructor(
                 return
             }
             field = value
-            expandBtn?.setColorFilter(value!!)
+            expandBtn?.setColorFilter(value ?: Color.TRANSPARENT)
         }
     var bgColor: Int? = null
         set(value) {
