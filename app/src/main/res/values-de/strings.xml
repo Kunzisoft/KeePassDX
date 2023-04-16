@@ -534,7 +534,7 @@
     <string name="advanced_unlock_prompt_not_initialized">Der Dialog für biometrisches Entsperren konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler beim biometrischen Entsperren: %1$s</string>
     <string name="advanced_unlock_not_recognized">Abdruck zum biometrischen Entsperren nicht erkannt</string>
-    <string name="advanced_unlock_invalid_key">Schlüssel zum erweiterten Entsperren nicht lesbar. Bitte diesen löschen und die Prozedur zur Entsperr-Erkennung wiederholen.</string>
+    <string name="advanced_unlock_invalid_key">Schlüssel zum biometrischen Entsperren nicht lesbar. Bitte diesen löschen und die Prozedur zur Entsperr-Erkennung wiederholen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus biometrischen Entsperrdaten gewinnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
