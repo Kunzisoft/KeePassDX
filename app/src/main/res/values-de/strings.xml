@@ -528,7 +528,7 @@
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
     <string name="custom_fields">Benutzerdefinierte Felder</string>
     <string name="advanced_unlock_delete_all_key_warning">Alle Verschlüsselungsschlüssel löschen, die mit der biometrischen Entsperr-Erkennung zusammenhängen\?</string>
-    <string name="device_credential_unlock_enable_title">Geräteanmeldedaten entsperren</string>
+    <string name="device_credential_unlock_enable_title">Geräteanmeldedaten Entsperrung</string>
     <string name="device_credential">Geräteanmeldedaten</string>
     <string name="credential_before_click_advanced_unlock_button">Das Passwort eingeben und dann diese Taste drücken.</string>
     <string name="advanced_unlock_prompt_not_initialized">Der Dialog für biometrisches Entsperren konnte nicht gestartet werden.</string>
