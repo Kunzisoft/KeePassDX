@@ -668,4 +668,5 @@
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>
     <string name="html_about_privacy">&lt;strong&gt;不获取用户数据&lt;/strong&gt;，此应用不连接任何服务器，仅在本地运行，并充分尊重用户的隐私。</string>
+    <string name="merge_success">合并成功完成</string>
 </resources>

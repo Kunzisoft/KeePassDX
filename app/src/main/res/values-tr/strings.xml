@@ -663,4 +663,5 @@
     <string name="enable_screenshot_mode_title">Ekran görüntüsü modu</string>
     <string name="enable_screenshot_mode_summary">Üçüncü taraf uygulamaların uygulamanın ekran görüntülerini kaydetmesine veya almasına izin verin</string>
     <string name="screenshot_mode_banner_text">Ekran görüntüsü modu</string>
+    <string name="merge_success">Birleştirme başarıyla tamamlandı</string>
 </resources>

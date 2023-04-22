@@ -646,4 +646,5 @@
     <string name="screenshot_mode_banner_text">Modo de captura de ecrã</string>
     <string name="html_about_privacy">&lt;strong&gt;Nenhum dado de utilizador é recuperado&lt;/strong&gt;, esta aplicação não se liga a nenhum servidor, funciona apenas localmente e respeita plenamente a privacidade dos utilizadores.</string>
     <string name="auto_type">Preenchimento automático</string>
+    <string name="merge_success">Fusão concluída com sucesso</string>
 </resources>

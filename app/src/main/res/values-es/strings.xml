@@ -670,4 +670,5 @@
     <string name="content_description_hardware_key_checkbox">Casilla de llave física</string>
     <string name="waiting_challenge_request">Esperando solicitud de desafío…</string>
     <string name="waiting_challenge_response">Esperando respuesta al desafío…</string>
+    <string name="merge_success">Fusión finalizada con éxito</string>
 </resources>

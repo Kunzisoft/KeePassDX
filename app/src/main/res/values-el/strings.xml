@@ -668,4 +668,5 @@
     <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
     <string name="auto_type">Αυτόματη-Πληκτρολόγηση</string>
+    <string name="merge_success">Η συγχώνευση ολοκληρώθηκε με επιτυχία</string>
 </resources>

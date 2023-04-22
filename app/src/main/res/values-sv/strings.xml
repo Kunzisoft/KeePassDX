@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Swedish translation by Niclas Burgren (burgren@gmail.com)
 --><resources>
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Synpunkter</string>
     <string name="homepage">Hemsida</string>
     <string name="about_description">Android-implementation av KeePass password manager</string>
     <string name="accept">OK</string>
@@ -26,11 +26,11 @@
     <string name="add_group">Ny grupp</string>
     <string name="encryption_algorithm">Krypterings algoritm</string>
     <string name="app_timeout">Tidsgräns för app</string>
-    <string name="app_timeout_summary">Inaktivitet innan appen låses</string>
+    <string name="app_timeout_summary">Inaktivitet innan databasen låses</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-inställningar</string>
     <string name="brackets">Parenteser</string>
-    <string name="file_manager_install_description">En filhanterare som accepterar avsiktlig åtgärd ACTION_CREATE_DOCUMENT och ACTION_OPEN_DOCUMENT krävs för att skapa, öppna och spara databasfiler</string>
+    <string name="file_manager_install_description">En filhanterare som accepterar avsiktlig åtgärd ACTION_CREATE_DOCUMENT och ACTION_OPEN_DOCUMENT krävs för att skapa, öppna och spara databasfiler.</string>
     <string name="clipboard_cleared">Urklipp har rensats</string>
     <string name="clipboard_error_title">Urklippsfel</string>
     <string name="clipboard_error">Vissa enheter låter inte appar använda urklipp.</string>
@@ -61,7 +61,7 @@
     <string name="error_arc4">Strömchiffret Arcfour stöds inte.</string>
     <string name="error_can_not_handle_uri">KeePassDX kunde inte hantera denna URI.</string>
     <string name="error_file_not_create">Kunde inte skapa filen</string>
-    <string name="error_invalid_db">Kunde inte läsa databas.</string>
+    <string name="error_invalid_db">Kunde inte läsa databasen.</string>
     <string name="error_invalid_path">Se till att sökvägen är korrekt.</string>
     <string name="error_no_name">Ange ett namn.</string>
     <string name="error_nokeyfile">Välj en nyckelfil.</string>
@@ -164,7 +164,7 @@
     <string name="menu_form_filling_settings">Formulär-ifyllning</string>
     <string name="read_only">Skrivskyddad</string>
     <string name="read_only_warning">Beroende på din filhanterare så kanske inte KeePassDX har skrivbehörighet för att skriva till din enhet.</string>
-    <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen.</string>
+    <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen</string>
     <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelderivatsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>
     <string name="memory_usage_explanation">Mängd minne som ska användas av nyckelderivatsfunktionen.</string>
@@ -244,21 +244,21 @@
 \n
 \nAnvänd den formulärfyllningsmetoden som du föredrar.</string>
     <string name="education_lock_title">Lås databasen</string>
-    <string name="education_lock_summary">Lås databasen snabbt, du kan ställa in att appen låser den efter ett tag och när skärmen släcks.</string>
+    <string name="education_lock_summary">Lås databasen snabbt, du kan ställa in att appen låser den efter en stund och när skärmen släcks.</string>
     <string name="education_sort_title">Objektsortering</string>
     <string name="education_sort_summary">Välj hur poster och grupper sorteras.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Hjälp till att öka stabilitet, säkerhet och med att lägga till fler funktioner.</string>
     <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
-    <string name="html_text_buy_pro">Genom att köpa proffsversionen får du tillgång till den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförseln av community-projekt.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
+    <string name="html_text_buy_pro">Genom att köpa proffsversionen får du tillgång till den här <strong>visuella funktionen</strong> och du hjälper särskilt till med <strong>genomförandet av community-projekt.</strong></string>
+    <string name="html_text_feature_generosity">Den här <strong>visuella funktionen</strong> är tillgänglig tack vare din generositet.</string>
     <string name="html_text_donation">För att behålla vår frihet och alltid vara aktiva räknar vi med ditt &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Den här funktionen är under &lt;strong&gt;utveckling&lt;/strong&gt; och kräver ditt &lt;strong&gt;bidrag&lt;/strong&gt; för att vara tillgänglig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Genom att köpa &lt;strong&gt;pro&lt;/strong&gt;-versionen,</string>
     <string name="html_text_dev_feature_contibute">Genom att &lt;strong&gt;bidra&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">så uppmuntrar du utvecklare att skapa &lt;strong&gt;nya funktioner&lt;/strong&gt; och att &lt;strong&gt;fixa buggar&lt;/strong&gt; efter dina anmärkningar.</string>
     <string name="html_text_dev_feature_thanks">Stort tack för ditt bidrag.</string>
-    <string name="html_text_dev_feature_work_hard">Vi jobbar hårt med att släppa den här funktionen snart.</string>
+    <string name="html_text_dev_feature_work_hard">Vi jobbar hårt med att introducera den här funktionen snart.</string>
     <string name="html_text_dev_feature_upgrade">Glöm inte att hålla appen uppdaterad genom att installera nya versioner.</string>
     <string name="download">Ladda ner</string>
     <string name="contribute">Bidra</string>
@@ -283,9 +283,9 @@
     <string name="education_read_only_title">Skrivskydda din databas</string>
     <string name="education_read_only_summary">Ändra öppningsläge för sessionen.
 \n
-\n\"Skriv-skyddad\" förhindrar oavsiktliga ändringar till databasen.
-\n\"Modifierbar\" låter dig lägga till, radera eller ändra alla element.</string>
-    <string name="error_load_database">Kunde inte ladda in databas.</string>
+\n\"Skrivskyddad\" förhindrar oavsiktliga ändringar till databasen.
+\n\"Ändringsbar\" låter dig lägga till, radera eller ändra alla element.</string>
+    <string name="error_load_database">Kunde inte ladda in databasen.</string>
     <string name="error_load_database_KDF_memory">Kunde inte ladda in nyckeln. Prova att sänka KDF \"Minnesanvändning\".</string>
     <string name="list_entries_show_username_title">Visa användarnamn</string>
     <string name="list_entries_show_username_summary">Visa användarnamn i post-listor</string>
@@ -307,8 +307,8 @@
     <string name="keyboard_appearance_category">Utseende</string>
     <string name="keyboard_theme_title">Tangentbordstema</string>
     <string name="keyboard_keys_category">Tangenter</string>
-    <string name="keyboard_key_vibrate_title">Vibrera vid knapptryckning</string>
-    <string name="keyboard_key_sound_title">Ljud vid knapptryckning</string>
+    <string name="keyboard_key_vibrate_title">Knapptryckningsvibration</string>
+    <string name="keyboard_key_sound_title">Knapptryckningsljud</string>
     <string name="selection_mode">Val-läge</string>
     <string name="do_not_kill_app">Stäng inte appen…</string>
     <string name="lock_database_back_root_title">Tryck på tillbaka-knappen för att låsa</string>
@@ -319,7 +319,7 @@
     <string name="keyboard_selection_entry_title">Val av post</string>
     <string name="keyboard_selection_entry_summary">Visa inmatningsfält i Magikeyboard när en post visas</string>
     <string name="delete_entered_password_title">Radera lösenord</string>
-    <string name="delete_entered_password_summary">Raderar det skrivna lösenordet efter ett anslutningsförsök</string>
+    <string name="delete_entered_password_summary">Raderar det skrivna lösenordet efter ett anslutningsförsök till en databas</string>
     <string name="content_description_node_children">Under-noder</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Du kan inte flytta en post hit.</string>
@@ -361,14 +361,14 @@
     <string name="menu_security_settings">Säkerhetsinställningar</string>
     <string name="menu_master_key_settings">Inställningar för huvudnyckel</string>
     <string name="contains_duplicate_uuid">Databasen innehåller dubbla UUID:er.</string>
-    <string name="contains_duplicate_uuid_procedure">Lös problemet genom att generera nya UUID-er för dubbletter för att fortsätta.</string>
+    <string name="contains_duplicate_uuid_procedure">Lös problemet genom att generera nya UUID-er för dubbletter för att fortsätta\?</string>
     <string name="database_history">Historik</string>
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
     <string name="clipboard_explanation_summary">Kopiera post-fält med hjälp av enhetens urklipp</string>
     <string name="advanced_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
     <string name="database_data_compression_title">Datakomprimering</string>
-    <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek.</string>
+    <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek</string>
     <string name="max_history_items_title">Max. historikobjekt</string>
     <string name="max_history_items_summary">Begränsar antalet historikobjekt per post</string>
     <string name="max_history_size_title">Max. historikstorlek</string>
@@ -386,7 +386,7 @@
     <string name="compression_gzip">Gzip</string>
     <string name="magic_keyboard_explanation_summary">Aktivera ett anpassat tangentbord som innehåller dina lösenord och alla identitetsfält</string>
     <string name="device_keyboard_setting_title">Enhetens tangentbordsinställningar</string>
-    <string name="error_save_database">Kunde inte spara databas.</string>
+    <string name="error_save_database">Kunde inte spara databasen.</string>
     <string name="menu_save_database">Spara databas</string>
     <string name="menu_empty_recycle_bin">Töm papperskorgen</string>
     <string name="command_execution">Utför kommandot …</string>
@@ -406,7 +406,7 @@
     <string name="error_create_database">Det gick inte att skapa databasfilen.</string>
     <string name="discard">Förkasta</string>
     <string name="contact">Kontakt</string>
-    <string name="hide_expired_entries_summary">Utgångna poster är dolda</string>
+    <string name="hide_expired_entries_summary">Utgångna poster visas ej</string>
     <string name="hide_expired_entries_title">Dölj utgångna poster</string>
     <string name="download_complete">Färdigt!</string>
     <string name="download_finalization">Färdigställande…</string>
@@ -425,12 +425,49 @@
     <string name="hide_broken_locations_summary">Dölj felaktiga länkar i listan över senaste databaser</string>
     <string name="hide_broken_locations_title">Dölj felaktiga databaslänkar</string>
     <string name="show_recent_files_summary">Visa sökväg till senaste databaser</string>
-    <string name="remember_database_locations_title">Spara sökvägar till databaserna</string>
-    <string name="error_label_exists">Denna etikett finns redan.</string>
+    <string name="remember_database_locations_title">Spara platsen för databaser</string>
+    <string name="error_label_exists">Den här etiketten finns redan.</string>
     <string name="entry_attachments">Bifogat</string>
     <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;fixa buggfixar&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt; alltid vara aktiv&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bifoga fil</string>
     <string name="discard_changes">Ignorera ändringar\?</string>
     <string name="validate">Bekräfta</string>
     <string name="contribution">Bidrag</string>
+    <string name="expired">Utgånget</string>
+    <string name="date_of_issue">Utgivningsdatum</string>
+    <string name="debit_credit_card">Debit / Kreditkort</string>
+    <string name="id_card">ID-kort</string>
+    <string name="name">Namn</string>
+    <string name="bank_identifier_code">SWIFT / BIC</string>
+    <string name="international_bank_account_number">IBAN</string>
+    <string name="standard">Standard</string>
+    <string name="template">Mall</string>
+    <string name="wireless">WiFI</string>
+    <string name="content_description_database_color">Databasfärg</string>
+    <string name="card_verification_value">CVV</string>
+    <string name="number">Nummer</string>
+    <string name="personal_identification_number">PIN</string>
+    <string name="email">E-post</string>
+    <string name="email_address">Epostadress</string>
+    <string name="ssid">SSID</string>
+    <string name="bank">Bank</string>
+    <string name="bank_name">Banknamn</string>
+    <string name="account">Konto</string>
+    <string name="membership">Medlemskap</string>
+    <string name="error_move_group_here">Du kan inte flytta en grupp hit.</string>
+    <string name="content_description_otp_information">Engångslösenordsinformation</string>
+    <string name="html_about_privacy"><strong>Ingen användardata samlas in</strong>, denna app ansluter inte till någon server och fungerar endast lokalt och respekterar fullt ut användarnas integritet.</string>
+    <string name="cryptocurrency">Kryptovalutaplånbok</string>
+    <string name="version">Version</string>
+    <string name="tags">Taggar</string>
+    <string name="template_group_name">Mallar</string>
+    <string name="search_filters">Sökfilter</string>
+    <string name="current_group">Nuvarande grupp</string>
+    <string name="case_sensitive">Versalkänslig</string>
+    <string name="content_description_hardware_key_checkbox">Hårdvarunyckelruta</string>
+    <string name="hardware_key">Hårdvarunyckel</string>
+    <string name="searchable">Sökbar</string>
+    <string name="error_no_hardware_key">Välj hårdvarunyckel.</string>
+    <string name="content_description_add_item">Lägg till ny</string>
+    <string name="content_description_credentials_information">Inloggningsuppgifter</string>
 </resources>

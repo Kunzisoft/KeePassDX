@@ -670,4 +670,5 @@
     <string name="waiting_challenge_request">In afwachting van de reactietest-vraag…</string>
     <string name="waiting_challenge_response">In afwachting van het reactietest-antwoord…</string>
     <string name="error_hardware_key_unsupported">Deze fysieke sleutel wordt niet ondersteund.</string>
+    <string name="merge_success">Samenvoeging met succes voltooid</string>
 </resources>

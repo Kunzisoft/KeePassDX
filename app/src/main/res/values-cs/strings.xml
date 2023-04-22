@@ -669,4 +669,5 @@
     <string name="corrupted_file">Poškozený soubor.</string>
     <string name="remember_hardware_key_title">Pamatovat si hardwarové klíče</string>
     <string name="remember_hardware_key_summary">Udržuje znalost o použitých hardwarových klíčích</string>
+    <string name="merge_success">Sloučení bylo úspěšně dokončeno</string>
 </resources>

@@ -668,4 +668,5 @@
     <string name="corrupted_file">Пошкоджений файл.</string>
     <string name="html_about_privacy">&lt;strong&gt;Жодні користувацькі дані не збираються&lt;/strong&gt;, цей застосунок не з\'єднується з жодним сервером, він працює лише локально та повністю поважає приватність користувачів.</string>
     <string name="auto_type">Автовведення</string>
+    <string name="merge_success">Успішно об\'єднано</string>
 </resources>
