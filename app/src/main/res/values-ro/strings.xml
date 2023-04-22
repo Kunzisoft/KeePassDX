@@ -469,7 +469,7 @@
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de siguranță</string>
-    <string name="html_about_privacy"><strong>Nu se recuperează date de utilizator </strong>, această aplicație nu se conectează la niciun server, funcționează doar la nivel local și respectă pe deplin confidențialitatea utilizatorilor.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nu se recuperează date de utilizator &lt;/strong&gt;, această aplicație nu se conectează la niciun server, funcționează doar la nivel local și respectă pe deplin confidențialitatea utilizatorilor.</string>
     <string name="current_group">Grup curent</string>
     <string name="search_filters">Filtre de căutare</string>
     <string name="navigation_drawer_close">Sertar de navigare închis</string>

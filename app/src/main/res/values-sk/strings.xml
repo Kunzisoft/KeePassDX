@@ -39,8 +39,8 @@
     <string name="decrypting_db">Dešifrujem obsah databázy…</string>
     <string name="default_checkbox">Použiť ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>open source</strong> a <strong>bez reklamy</strong>.
-\nPoskytuje sa tak, ako je, na základe licencie <strong>GPLv3</strong> bez akejkoľvek záruky.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklamy&lt;/strong&gt;.
+\nPoskytuje sa tak, ako je, na základe licencie &lt;strong&gt;GPLv3&lt;/strong&gt; bez akejkoľvek záruky.</string>
     <string name="select_database_file">Otvorte existujúcu databázu</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
@@ -155,7 +155,7 @@
     <string name="autofill_web_domain_blocklist_title">Zoznam blokovaných webových domén</string>
     <string name="enable_education_screens_summary">Zvýraznite prvky a zistite, ako aplikácia funguje</string>
     <string name="education_search_summary">Zadajte názov, používateľské meno alebo obsah iných polí na získanie hesiel.</string>
-    <string name="html_about_contribution">Pre <strong>udržanie našej slobody</strong>, <strong>opravu chýb</strong>, <strong>pridávanie nových funkcií</strong> a <strong>boli stále aktívny</strong>, sa spoliehame na vaše <strong>príspevky</strong>.</string>
+    <string name="html_about_contribution">Pre &lt;strong&gt;udržanie našej slobody&lt;/strong&gt;, &lt;strong&gt;opravu chýb&lt;/strong&gt;, &lt;strong&gt;pridávanie nových funkcií&lt;/strong&gt; a &lt;strong&gt;boli stále aktívny&lt;/strong&gt;, sa spoliehame na vaše &lt;strong&gt;príspevky&lt;/strong&gt;.</string>
     <string name="education_add_attachment_summary">Nahrajte prílohu k svojmu záznamu, aby ste uložili dôležité externé údaje.</string>
     <string name="personal_identification_number">PIN</string>
     <string name="id_card">ID karty</string>
@@ -173,7 +173,7 @@
     <string name="warning_empty_recycle_bin">Natrvalo odstrániť všetky uzly z koša\?</string>
     <string name="warning_no_encryption_key">Pokračovať bez šifrovacieho kľúča\?</string>
     <string name="warning_replace_file">Nahraním tohto súboru nahradíte existujúci súbor.</string>
-    <string name="html_text_buy_pro">Kúpou pro verzie získate prístup k tomuto <strong>vizuálnemu štýlu</strong> a pomôžete najmä <strong>realizácii komunitných projektov.</strong></string>
+    <string name="html_text_buy_pro">Kúpou pro verzie získate prístup k tomuto &lt;strong&gt;vizuálnemu štýlu&lt;/strong&gt; a pomôžete najmä &lt;strong&gt;realizácii komunitných projektov.&lt;/strong&gt;</string>
     <string name="education_read_only_summary">Zmeňte režim otvárania relácie.
 \n
 \n\"Chránené proti zápisu\" zabraňuje neúmyselným zmenám v databáze.
@@ -184,8 +184,8 @@
     <string name="clipboard_notifications_summary">Zobrazovať upozornenia schránky na kopírovanie polí pri prezeraní záznamu</string>
     <string name="device_credential_unlock_enable_summary">Umožňuje vám použiť heslo vášho zariadenia na otvorenie databázy</string>
     <string name="biometric_auto_open_prompt_summary">Automaticky požiadať o rozšírené odomknutie, ak je databáza nastavená na jej používanie</string>
-    <string name="html_text_ad_free">Na rozdiel od mnohých aplikácií na správu hesiel je táto <strong>bez reklám</strong>, <strong>kopírovatelný bezplatný softvér</strong> a nezhromažďuje osobné údaje na svojich serveroch bez ohľadu na to, akú verziu používate.</string>
-    <string name="html_text_dev_feature_encourage">nabádate vývojárov, aby vytvorili <strong>nové funkcie</strong> a <strong>opravili chyby</strong> podľa vašich poznámok.</string>
+    <string name="html_text_ad_free">Na rozdiel od mnohých aplikácií na správu hesiel je táto &lt;strong&gt;bez reklám&lt;/strong&gt;, &lt;strong&gt;kopírovatelný bezplatný softvér&lt;/strong&gt; a nezhromažďuje osobné údaje na svojich serveroch bez ohľadu na to, akú verziu používate.</string>
+    <string name="html_text_dev_feature_encourage">nabádate vývojárov, aby vytvorili &lt;strong&gt;nové funkcie&lt;/strong&gt; a &lt;strong&gt;opravili chyby&lt;/strong&gt; podľa vašich poznámok.</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="field_value">Hodnota poľa</string>
     <string name="content_description_passphrase_word_count">Počet slov prístupovej frázy</string>
@@ -312,7 +312,7 @@
     <string name="autofill_inline_suggestions_keyboard">Boli pridané návrhy automatického dopĺňania.</string>
     <string name="education_new_node_title">Pridajte položky do databázy</string>
     <string name="education_advanced_unlock_title">Pokročilé odblokovanie databázy</string>
-    <string name="html_text_feature_generosity">Tento <strong>vizuálny štýl</strong> je dostupný vďaka vašej štedrosti.</string>
+    <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuálny štýl&lt;/strong&gt; je dostupný vďaka vašej štedrosti.</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostupných v Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_theme_title">Vzhľad klávesnice</string>
@@ -334,7 +334,7 @@
     <string name="education_add_attachment_title">Pridať prílohu</string>
     <string name="education_setup_OTP_summary">Nastavte správu jednorazových hesiel (HOTP / TOTP) na generovanie tokenu požadovaného pre dvojfaktorovú autentifikáciu (2FA).</string>
     <string name="education_unlock_title">Odomknite svoju databázu</string>
-    <string name="html_text_dev_feature">Táto funkcia je <strong>vo vývoji</strong> a vyžaduje, váš <strong>príspevok</strong> aby bola čoskoro k dispozícii.</string>
+    <string name="html_text_dev_feature">Táto funkcia je &lt;strong&gt;vo vývoji&lt;/strong&gt; a vyžaduje, váš &lt;strong&gt;príspevok&lt;/strong&gt; aby bola čoskoro k dispozícii.</string>
     <string name="character_count">Počet znakov: %1$d</string>
     <string name="style_choose_summary">Téma použitá v aplikácii</string>
     <string name="style_brightness_title">Jas témy</string>
@@ -406,7 +406,7 @@
     <string name="biometric">Biometrika</string>
     <string name="lock_database_back_root_summary">Uzamknite databázu kliknutím na tlačidlo späť na hlavnej obrazovke</string>
     <string name="lock_database_show_button_summary">Zobrazí tlačidlo uzamknutia v používateľskom rozhraní</string>
-    <string name="html_about_privacy"><strong>Nie sú zhromažďované žiadne užívateľské údaje</strong>, táto aplikácia sa nepripája na žiadny server, pracuje iba lokálne a plne rešpektuje súkromie užívateľov.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nie sú zhromažďované žiadne užívateľské údaje&lt;/strong&gt;, táto aplikácia sa nepripája na žiadny server, pracuje iba lokálne a plne rešpektuje súkromie užívateľov.</string>
     <string name="entry_UUID">UUID</string>
     <string name="entry_history">História</string>
     <string name="searchable">Vyhľadateľné</string>
@@ -646,9 +646,9 @@
     <string name="education_lock_summary">Rýchlo uzamknite svoju databázu, aplikáciu môžete nastaviť tak, aby sa po chvíli uzamkla a tiež, keď sa obrazovka vypne.</string>
     <string name="education_sort_title">Radenie položiek</string>
     <string name="education_donation_title">Zapojiť sa</string>
-    <string name="html_text_donation">Aby sme si zachovali slobodu a boli vždy aktívni, počítame s vaším <strong>príspevkom.</strong></string>
-    <string name="html_text_dev_feature_buy_pro">Zakúpením verzie <strong>pro</strong></string>
-    <string name="html_text_dev_feature_contibute">Ak <strong>prispejete</strong>,</string>
+    <string name="html_text_donation">Aby sme si zachovali slobodu a boli vždy aktívni, počítame s vaším &lt;strong&gt;príspevkom.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature_buy_pro">Zakúpením verzie &lt;strong&gt;pro&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature_contibute">Ak &lt;strong&gt;prispejete&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_thanks">Ďakujem pekne za prispevok.</string>
     <string name="download">Stiahnuť</string>
     <string name="contribute">Podporiť vývoj</string>

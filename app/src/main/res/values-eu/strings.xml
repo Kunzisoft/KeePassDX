@@ -43,8 +43,8 @@
     <string name="decrypting_db">Datu-basearen edukia deszifratzen…</string>
     <string name="default_checkbox">Erabili lehenetsitako datu-base gisa</string>
     <string name="digits">Digituak</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>kode irekiko</strong> eta <strong>iragarki gabekoa da</strong>.
-\n<strong>GPLv3</strong> lizentziapean banatu da, hori dela eta ez dakar inolako bermerik.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;kode irekiko&lt;/strong&gt; eta &lt;strong&gt;iragarki gabekoa da&lt;/strong&gt;.
+\n&lt;strong&gt;GPLv3&lt;/strong&gt; lizentziapean banatu da, hori dela eta ez dakar inolako bermerik.</string>
     <string name="select_database_file">Ireki aurrez sortutako datu-basea</string>
     <string name="entry_accessed">Atzituta</string>
     <string name="entry_cancel">Utzi</string>
@@ -147,7 +147,7 @@
     <string name="content_description_add_item">Txertatu elementua</string>
     <string name="extended_ASCII">ASCII hedatua</string>
     <string name="content_description_credentials_information">Kredentzial informazioa</string>
-    <string name="html_about_privacy"><strong>Erabiltzailearen daturik ez da bilduko</strong>, aplikazio hau ez da inongo zerbitzarira konektatzen, soilik lokalean funtzionatzen du eta erabiltzailearen pribatutasuna errespetatzen du.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Erabiltzailearen daturik ez da bilduko&lt;/strong&gt;, aplikazio hau ez da inongo zerbitzarira konektatzen, soilik lokalean funtzionatzen du eta erabiltzailearen pribatutasuna errespetatzen du.</string>
     <string name="content_description_password_checkbox">Pasahitz-lauki</string>
     <string name="content_description_add_group">Taldea gehitu</string>
     <string name="content_description_add_entry">Gehitu sarrera</string>
@@ -245,7 +245,7 @@
     <string name="error_registration_read_only">Ezin da elementu bat gehitu irakurketa soileko datu-basean</string>
     <string name="error_otp_counter">Kontagailuak %1$d eta %2$d artean egon behar du.</string>
     <string name="error_load_database">Ezin izan da datu-basea kargatu.</string>
-    <string name="html_about_contribution"><strong> Gure askatasuna mantentzeko </strong>, <strong>bugak konpontzeko </strong>, <strong> ezaugarriak konpontzeko </strong> eta <strong> beti aktibo egoteko</strong>, zure <strong> ekarpenen</strong> zain gaude.</string>
+    <string name="html_about_contribution">&lt;strong&gt; Gure askatasuna mantentzeko &lt;/strong&gt;, &lt;strong&gt;bugak konpontzeko &lt;/strong&gt;, &lt;strong&gt; ezaugarriak konpontzeko &lt;/strong&gt; eta &lt;strong&gt; beti aktibo egoteko&lt;/strong&gt;, zure &lt;strong&gt; ekarpenen&lt;/strong&gt; zain gaude.</string>
     <string name="cryptocurrency">Kriptotxanpon-zorroa</string>
     <string name="public_key">Gako publikoa</string>
     <string name="type">Mota</string>

@@ -680,6 +680,6 @@
     <string name="remember_hardware_key_title">Hardwareschlüssel merken</string>
     <string name="remember_hardware_key_summary">Verfolgt die verwendeten Hardwareschlüssel</string>
     <string name="auto_type">Automatische Eingabe</string>
-    <string name="html_about_privacy"><strong>Es werden keine Benutzerdaten ausgelesen</strong>, diese Anwendung stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert vollständig die Privatsphäre der Benutzer.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Es werden keine Benutzerdaten ausgelesen&lt;/strong&gt;, diese Anwendung stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert vollständig die Privatsphäre der Benutzer.</string>
     <string name="merge_success">Zusammenführung erfolgreich abgeschlossen</string>
 </resources>
