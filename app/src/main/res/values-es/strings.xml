@@ -31,7 +31,7 @@
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Corchetes</string>
-    <string name="file_manager_install_description">Se requiere un administrador de archivos que acepte la acciones de intención ACTION_CREATE_DOCUMENT y ACTION_OPEN_DOCUMENT para crear, abrir y guardar los archivos de la base de datos.</string>
+    <string name="file_manager_install_description">Se requiere un administrador de archivos que acepte las acciones de intención ACTION_CREATE_DOCUMENT y ACTION_OPEN_DOCUMENT para crear, abrir y guardar los archivos de la base de datos.</string>
     <string name="clipboard_cleared">Portapapeles vaciado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
     <string name="clipboard_timeout_summary">Duración del almacenamiento en el portapapeles (si el dispositivo lo admite)</string>
@@ -308,7 +308,7 @@
     <string name="keyboard_selection_entry_title">Selección de entrada</string>
     <string name="keyboard_selection_entry_summary">Al ver una entrada en KeePassDX, rellenar con esta el teclado mágico</string>
     <string name="delete_entered_password_title">Eliminar contraseña</string>
-    <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una bse de datos</string>
+    <string name="delete_entered_password_summary">Elimina la contraseña introducida tras un intento de conexión a una base de datos</string>
     <string name="content_description_open_file">Abrir archivo</string>
     <string name="content_description_node_children">Nodo heredado</string>
     <string name="content_description_add_node">Añadir nodo</string>
@@ -488,7 +488,7 @@
     <string name="hide_expired_entries_title">Ocultar las entradas expiradas</string>
     <string name="upload_attachment">Cargar %1$s</string>
     <string name="education_setup_OTP_summary">Configurar la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un token solicitado para la autenticación de dos factores (2FA).</string>
-    <string name="education_setup_OTP_title">Establecer la contaseña de un solo uso</string>
+    <string name="education_setup_OTP_title">Establecer la contraseña de un solo uso</string>
     <string name="education_advanced_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
     <string name="education_advanced_unlock_title">Desbloqueo avanzado de la base de datos</string>
     <string name="autofill_read_only_save">No se permite guardar datos en una base de datos abierta como de sólo lectura.</string>
@@ -627,7 +627,7 @@
     <string name="inherited">Heredar</string>
     <string name="expired">Caducada</string>
     <string name="colorize_password_summary">Colorear caracteres de contraseña por tipo</string>
-    <string name="warning_database_already_opened">Ya hay abierta una base de datos, cierrela antes de abrir otra</string>
+    <string name="warning_database_already_opened">Ya hay abierta una base de datos, ciérrela antes de abrir otra</string>
     <string name="exclude_ambiguous_chars">Excluya caracteres ambiguos</string>
     <string name="consider_chars_filter">Considere caracteres</string>
     <string name="entropy_calculate">Entropía: calcular…</string>
