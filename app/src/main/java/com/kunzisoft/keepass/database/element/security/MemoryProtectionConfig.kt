@@ -21,28 +21,35 @@ package com.kunzisoft.keepass.database.element.security
 
 class MemoryProtectionConfig {
 
-    var protectTitle = false
-    var protectUserName = false
-    var protectPassword = false
-    var protectUrl = false
-    var protectNotes = false
+    var protectTitle = DEFAULT_PROTECT_TITLE
+    var protectUserName = DEFAULT_PROTECT_USERNAME
+    var protectPassword = DEFAULT_PROTECT_PASSWORD
+    var protectUrl = DEFAULT_PROTECT_URL
+    var protectNotes = DEFAULT_PROTECT_NOTES
 
-    var autoEnableVisualHiding = false
+    var autoEnableVisualHiding = DEFAULT_AUTO_ENABLE_VISUAL_HIDING
 
     fun isProtected(field: String): Boolean {
-        if (field.equals(ProtectDefinition.TITLE_FIELD, ignoreCase = true)) return protectTitle
-        if (field.equals(ProtectDefinition.USERNAME_FIELD, ignoreCase = true)) return protectUserName
-        if (field.equals(ProtectDefinition.PASSWORD_FIELD, ignoreCase = true)) return protectPassword
-        if (field.equals(ProtectDefinition.URL_FIELD, ignoreCase = true)) return protectUrl
-        return if (field.equals(ProtectDefinition.NOTES_FIELD, ignoreCase = true)) protectNotes else false
-
+        if (field.equals(TITLE_FIELD, ignoreCase = true)) return protectTitle
+        if (field.equals(USERNAME_FIELD, ignoreCase = true)) return protectUserName
+        if (field.equals(PASSWORD_FIELD, ignoreCase = true)) return protectPassword
+        if (field.equals(URL_FIELD, ignoreCase = true)) return protectUrl
+        if (field.equals(NOTES_FIELD, ignoreCase = true)) return protectNotes
+        return false
     }
 
-    object ProtectDefinition {
+    companion object ProtectDefinition {
         const val TITLE_FIELD = "Title"
         const val USERNAME_FIELD = "UserName"
         const val PASSWORD_FIELD = "Password"
         const val URL_FIELD = "URL"
         const val NOTES_FIELD = "Notes"
+
+        const val DEFAULT_PROTECT_TITLE = false
+        const val DEFAULT_PROTECT_USERNAME = false
+        const val DEFAULT_PROTECT_PASSWORD = true
+        const val DEFAULT_PROTECT_URL = false
+        const val DEFAULT_PROTECT_NOTES = true
+        const val DEFAULT_AUTO_ENABLE_VISUAL_HIDING = false
     }
 }

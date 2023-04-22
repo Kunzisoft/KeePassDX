@@ -551,11 +551,11 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         var protect = value.isProtected
 
         when (label) {
-            MemoryProtectionConfig.ProtectDefinition.TITLE_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectTitle
-            MemoryProtectionConfig.ProtectDefinition.USERNAME_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectUserName
-            MemoryProtectionConfig.ProtectDefinition.PASSWORD_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectPassword
-            MemoryProtectionConfig.ProtectDefinition.URL_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectUrl
-            MemoryProtectionConfig.ProtectDefinition.NOTES_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectNotes
+            MemoryProtectionConfig.TITLE_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectTitle
+            MemoryProtectionConfig.USERNAME_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectUserName
+            MemoryProtectionConfig.PASSWORD_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectPassword
+            MemoryProtectionConfig.URL_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectUrl
+            MemoryProtectionConfig.NOTES_FIELD -> protect = mDatabaseKDBX.memoryProtection.protectNotes
         }
 
         if (protect) {

@@ -1,3 +1,6 @@
+KeePassDX(3.5.2)
+ * Modification of the internal default configuration of the database
+
 KeePassDX(3.5.1)
  * Fix action dialog with YubiKey challenge-response #1506
 

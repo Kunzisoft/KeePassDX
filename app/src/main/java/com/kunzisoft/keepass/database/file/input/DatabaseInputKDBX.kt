@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
+import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -405,17 +406,17 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             }
 
             KdbContext.MemoryProtection -> if (name.equals(DatabaseKDBXXML.ElemProtTitle, ignoreCase = true)) {
-                mDatabase.memoryProtection.protectTitle = readBool(xpp, false)
+                mDatabase.memoryProtection.protectTitle = readBool(xpp, MemoryProtectionConfig.DEFAULT_PROTECT_TITLE)
             } else if (name.equals(DatabaseKDBXXML.ElemProtUserName, ignoreCase = true)) {
-                mDatabase.memoryProtection.protectUserName = readBool(xpp, false)
+                mDatabase.memoryProtection.protectUserName = readBool(xpp, MemoryProtectionConfig.DEFAULT_PROTECT_USERNAME)
             } else if (name.equals(DatabaseKDBXXML.ElemProtPassword, ignoreCase = true)) {
-                mDatabase.memoryProtection.protectPassword = readBool(xpp, false)
+                mDatabase.memoryProtection.protectPassword = readBool(xpp, MemoryProtectionConfig.DEFAULT_PROTECT_PASSWORD)
             } else if (name.equals(DatabaseKDBXXML.ElemProtURL, ignoreCase = true)) {
-                mDatabase.memoryProtection.protectUrl = readBool(xpp, false)
+                mDatabase.memoryProtection.protectUrl = readBool(xpp, MemoryProtectionConfig.DEFAULT_PROTECT_URL)
             } else if (name.equals(DatabaseKDBXXML.ElemProtNotes, ignoreCase = true)) {
-                mDatabase.memoryProtection.protectNotes = readBool(xpp, false)
+                mDatabase.memoryProtection.protectNotes = readBool(xpp, MemoryProtectionConfig.DEFAULT_PROTECT_NOTES)
             } else if (name.equals(DatabaseKDBXXML.ElemProtAutoHide, ignoreCase = true)) {
-                mDatabase.memoryProtection.autoEnableVisualHiding = readBool(xpp, false)
+                mDatabase.memoryProtection.autoEnableVisualHiding = readBool(xpp, MemoryProtectionConfig.DEFAULT_AUTO_ENABLE_VISUAL_HIDING)
             } else {
                 readUnknown(xpp)
             }
