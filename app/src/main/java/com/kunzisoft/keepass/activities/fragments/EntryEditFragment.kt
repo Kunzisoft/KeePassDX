@@ -309,7 +309,7 @@ class EntryEditFragment: DatabaseFragment() {
         setAttachments(entryInfo?.attachments ?: listOf())
     }
 
-    private fun retrieveEntryInfo(): EntryInfo {
+    fun retrieveEntryInfo(): EntryInfo {
         val entryInfo = templateView.getEntryInfo()
         entryInfo.tags = tagsCompletionView.getTags()
         entryInfo.attachments = getAttachments().toMutableList()

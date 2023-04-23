@@ -33,18 +33,13 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.lang.ref.WeakReference
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
@@ -99,25 +94,23 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     /**
      * Build a custom [Drawable] from custom [icon]
      */
-    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, iconCustomBinary: BinaryData?): Drawable? {
+    private fun getIconDrawable(resources: Resources, icon: IconImageCustom, binaryFile: BinaryData): Drawable? {
         val patternIcon = PatternIcon(resources)
         val binaryManager = retrieveBinaryCache()
         if (binaryManager != null) {
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
-                iconCustomBinary?.let { binaryFile ->
-                    try {
-                        var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryManager))
-                        bitmap?.let { bitmapIcon ->
-                            bitmap = resize(bitmapIcon, patternIcon)
-                            val createdDraw = BitmapDrawable(resources, bitmap)
-                            customIconMap[icon.uuid] = WeakReference(createdDraw)
-                            return createdDraw
-                        }
-                    } catch (e: Exception) {
-                        customIconMap.remove(icon.uuid)
-                        Log.e(TAG, "Unable to create the bitmap icon", e)
+                try {
+                    var bitmap: Bitmap? = BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryManager))
+                    bitmap?.let { bitmapIcon ->
+                        bitmap = resize(bitmapIcon, patternIcon)
+                        val createdDraw = BitmapDrawable(resources, bitmap)
+                        customIconMap[icon.uuid] = WeakReference(createdDraw)
+                        return createdDraw
                     }
+                } catch (e: Exception) {
+                    customIconMap.remove(icon.uuid)
+                    Log.e(TAG, "Unable to create the bitmap icon", e)
                 }
             } else {
                 return draw
@@ -176,15 +169,22 @@ class IconDrawableFactory(private val retrieveBinaryCache : () -> BinaryCache?,
     fun assignDatabaseIcon(imageView: ImageView,
                            icon: IconImageDraw,
                            tintColor: Int = Color.WHITE) {
+        val context = imageView.context
+
+        // Cancel ongoing download and reset icon
+        (imageView.tag as? Job)?.cancel()
+        imageView.setImageResource(R.drawable.ic_downloading_white_24dp)
+        ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))
+
         try {
-            val context = imageView.context
-            CoroutineScope(Dispatchers.IO).launch {
+            // Start download of new icon in background
+            imageView.tag = CoroutineScope(Dispatchers.IO).launch {
                 addToCustomCache(context.resources, icon)
+                val superDrawable = getIconSuperDrawable(context,
+                        icon,
+                        imageView.width,
+                        tintColor)
                 withContext(Dispatchers.Main) {
-                    val superDrawable = getIconSuperDrawable(context,
-                            icon,
-                            imageView.width,
-                            tintColor)
                     imageView.setImageDrawable(superDrawable.drawable)
                     if (superDrawable.tintable) {
                         ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))

@@ -61,10 +61,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
-import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.model.EntryAttachmentState
-import com.kunzisoft.keepass.model.RegisterInfo
-import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
@@ -257,7 +254,16 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@EntryEditActivity, iconImage, mIconSelectionActivityResultLauncher)
+            val entryEditFragment = supportFragmentManager.findFragmentById(R.id.entry_edit_content)
+                as? EntryEditFragment?
+            val info = entryEditFragment?.retrieveEntryInfo()
+
+            IconPickerActivity.launch(
+                context = this,
+                previousIcon = iconImage,
+                iconProviderData = info?.toIconProviderData(),
+                resultLauncher = mIconSelectionActivityResultLauncher,
+            )
         }
 
         mEntryEditViewModel.requestColorSelection.observe(this) { color ->
@@ -564,18 +570,18 @@ class EntryEditActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_add_field)?.apply {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.menu_add_field)?.apply {
             isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_add_attachment)?.apply {
+        menu.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
             isEnabled = !mIsTemplate
                     && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_add_otp)?.apply {
+        menu.findItem(R.id.menu_add_otp)?.apply {
             // OTP not compatible below KitKat
             isEnabled = mAllowOTP
                     && !mIsTemplate

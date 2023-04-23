@@ -5,11 +5,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.utils.readAllBytes
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.readAllBytes
 import kotlinx.coroutines.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -94,30 +94,35 @@ object BinaryDatabaseManager {
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
                                              database: Database,
                                              bitmapUri: Uri?,
-                                             binaryData: BinaryData?) {
+                                             binaryData: BinaryData) {
         try {
-            binaryData?.let {
-                UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
-                    BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
-                        val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
-                        val byteArrayOutputStream = ByteArrayOutputStream()
-                        bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
-                        val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
-                        val byteArrayInputStream = ByteArrayInputStream(bitmapData)
-                        uploadToDatabase(
-                                database.binaryCache,
-                                byteArrayInputStream,
-                                bitmapData.size.toLong(),
-                                binaryData
-                        )
-                    }
-                }
+            UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
+                resizeBitmapAndStoreDataInBinaryFile(database, inputStream, binaryData)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to resize bitmap to store it in binary", e)
         }
     }
 
+    fun resizeBitmapAndStoreDataInBinaryFile(
+        database: Database,
+        inputStream: InputStream,
+        binaryData: BinaryData,
+    ) {
+        BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
+            val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmapResized?.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream)
+            val bitmapData: ByteArray = byteArrayOutputStream.toByteArray()
+            val byteArrayInputStream = ByteArrayInputStream(bitmapData)
+            uploadToDatabase(
+                database.binaryCache,
+                byteArrayInputStream,
+                bitmapData.size.toLong(),
+                binaryData
+            )
+        }
+    }
 
     /**
      * reduces the size of the image

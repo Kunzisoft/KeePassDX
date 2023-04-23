@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.model.IconProviderData
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import com.kunzisoft.keepass.utils.UriUtil
@@ -98,6 +99,10 @@ class IconPickerActivity : DatabaseLockActivity() {
 
         intent?.getParcelableExtra<IconImage>(EXTRA_ICON)?.let {
             mIconImage = it
+        }
+
+        intent?.getParcelableExtra<IconProviderData>(EXTRA_ICON_PROVIDER_DATA)?.let {
+            iconPickerViewModel.iconProviderData = it
         }
 
         if (savedInstanceState == null) {
@@ -207,18 +212,18 @@ class IconPickerActivity : DatabaseLockActivity() {
         toolbar.updateLockPaddingLeft()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.icon, menu)
         return true
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_edit)?.apply {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        menu.findItem(R.id.menu_edit)?.apply {
             isEnabled = mIconsSelected.size == 1
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_delete)?.apply {
+        menu.findItem(R.id.menu_delete)?.apply {
             isEnabled = mCustomIconsSelectionMode
             isVisible = isEnabled
         }
@@ -262,30 +267,26 @@ class IconPickerActivity : DatabaseLockActivity() {
                             iconCustomState.errorStringId = R.string.error_file_to_big
                         } else {
                             mDatabase?.buildNewCustomIcon { customIcon, binary ->
-                                if (customIcon != null) {
-                                    iconCustomState.iconCustom = customIcon
-                                    mDatabase?.let { database ->
-                                        BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
-                                                contentResolver,
-                                                database,
-                                                iconToUploadUri,
-                                                binary)
-                                        when {
-                                            binary == null -> {
-                                            }
-                                            binary.getSize() <= 0 -> {
-                                            }
-                                            database.isCustomIconBinaryDuplicate(binary) -> {
-                                                iconCustomState.errorStringId = R.string.error_duplicate_file
-                                            }
-                                            else -> {
-                                                iconCustomState.error = false
-                                            }
+                                iconCustomState.iconCustom = customIcon
+                                mDatabase?.let { database ->
+                                    BinaryDatabaseManager.resizeBitmapAndStoreDataInBinaryFile(
+                                            contentResolver,
+                                            database,
+                                            iconToUploadUri,
+                                            binary)
+                                    when {
+                                        binary.getSize() <= 0 -> {
+                                        }
+                                        database.isCustomIconBinaryDuplicate(binary) -> {
+                                            iconCustomState.errorStringId = R.string.error_duplicate_file
+                                        }
+                                        else -> {
+                                            iconCustomState.error = false
                                         }
                                     }
-                                    if (iconCustomState.error) {
-                                        mDatabase?.removeCustomIcon(customIcon)
-                                    }
+                                }
+                                if (iconCustomState.error) {
+                                    mDatabase?.removeCustomIcon(customIcon)
                                 }
                             }
                         }
@@ -330,7 +331,8 @@ class IconPickerActivity : DatabaseLockActivity() {
 
         private const val ICON_PICKER_FRAGMENT_TAG = "ICON_PICKER_FRAGMENT_TAG"
         private const val EXTRA_ICON = "EXTRA_ICON"
-        private const val MAX_ICON_SIZE = 5242880
+        private const val EXTRA_ICON_PROVIDER_DATA = "EXTRA_ICON_PROVIDER_DATA"
+        const val MAX_ICON_SIZE = 5_242_880
 
         fun registerIconSelectionForResult(context: FragmentActivity,
                                            listener: (icon: IconImage) -> Unit): ActivityResultLauncher<Intent> {
@@ -343,13 +345,16 @@ class IconPickerActivity : DatabaseLockActivity() {
 
         fun launch(context: FragmentActivity,
                    previousIcon: IconImage?,
+                   iconProviderData: IconProviderData?,
                    resultLauncher: ActivityResultLauncher<Intent>) {
             // Create an instance to return the picker icon
             resultLauncher.launch(
                 Intent(context, IconPickerActivity::class.java).apply {
-                        if (previousIcon != null)
-                            putExtra(EXTRA_ICON, previousIcon)
+                    if (previousIcon != null) {
+                        putExtra(EXTRA_ICON, previousIcon)
                     }
+                    putExtra(EXTRA_ICON_PROVIDER_DATA, iconProviderData)
+                }
             )
         }
     }

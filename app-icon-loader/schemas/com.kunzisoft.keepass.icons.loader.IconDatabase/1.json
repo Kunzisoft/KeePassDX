@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "59d0e9ab5e46349b7903321c59da5e1f",
+    "entities": [
+      {
+        "tableName": "Icon",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` BLOB NOT NULL, `name` TEXT NOT NULL, `sourceKey` TEXT NOT NULL, `source` TEXT NOT NULL, PRIMARY KEY(`uuid`))",
+        "fields": [
+          {
+            "fieldPath": "uuid",
+            "columnName": "uuid",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceKey",
+            "columnName": "sourceKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "uuid"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Icon_sourceKey_source",
+            "unique": true,
+            "columnNames": [
+              "sourceKey",
+              "source"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Icon_sourceKey_source` ON `${TABLE_NAME}` (`sourceKey`, `source`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '59d0e9ab5e46349b7903321c59da5e1f')"
+    ]
+  }
+}

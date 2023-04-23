@@ -47,7 +47,7 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
 
     abstract fun retrieveMainLayoutId(): Int
 
-    abstract fun defineIconList(database: Database?)
+    abstract suspend fun defineIconList(database: Database?)
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -75,12 +75,9 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
         iconPickerAdapter.iconDrawableFactory = database?.iconDrawableFactory
 
         CoroutineScope(Dispatchers.IO).launch {
-            val populateList = launch {
-                iconPickerAdapter.clear()
-                defineIconList(database)
-            }
+            iconPickerAdapter.clear()
+            defineIconList(database)
             withContext(Dispatchers.Main) {
-                populateList.join()
                 iconPickerAdapter.notifyDataSetChanged()
             }
         }

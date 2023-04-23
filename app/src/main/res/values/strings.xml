@@ -697,6 +697,7 @@
     </string-array>
     <string name="icon_section_standard">Standard</string>
     <string name="icon_section_custom">Custom</string>
+    <string name="icon_section_loader">External</string>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="show_entry_colors_title">Entry colors</string>

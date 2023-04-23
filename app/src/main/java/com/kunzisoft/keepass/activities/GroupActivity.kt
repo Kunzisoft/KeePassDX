@@ -424,7 +424,12 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         mGroupEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@GroupActivity, iconImage, mIconSelectionActivityResultLauncher)
+            IconPickerActivity.launch(
+                context = this,
+                previousIcon = iconImage,
+                iconProviderData = null,
+                resultLauncher = mIconSelectionActivityResultLauncher,
+            )
         }
 
         mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->

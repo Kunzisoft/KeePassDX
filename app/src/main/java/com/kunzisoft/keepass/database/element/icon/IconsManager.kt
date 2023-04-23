@@ -54,7 +54,7 @@ class IconsManager {
                       name: String,
                       lastModificationTime: DateInstant?,
                       builder: (uniqueBinaryId: String) -> BinaryData,
-                      result: (IconImageCustom, BinaryData?) -> Unit) {
+                      result: (IconImageCustom, BinaryData) -> Unit) {
         customCache.put(key, name, lastModificationTime, builder, result)
     }
 

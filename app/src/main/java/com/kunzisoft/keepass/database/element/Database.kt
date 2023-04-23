@@ -133,7 +133,7 @@ class Database {
         return iconsManager.getIcon(iconId)
     }
 
-    fun buildNewCustomIcon(result: (IconImageCustom?, BinaryData?) -> Unit) {
+    fun buildNewCustomIcon(result: (IconImageCustom, BinaryData) -> Unit) {
         mDatabaseKDBX?.buildNewCustomIcon(null, result)
     }
 
