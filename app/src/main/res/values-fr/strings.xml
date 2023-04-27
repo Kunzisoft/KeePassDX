@@ -678,4 +678,5 @@
     <string name="error_cancel_by_user">Annulé par l\'utilisateur.</string>
     <string name="error_driver_required">Le pilote pour %1$s est nécessaire.</string>
     <string name="error_unable_merge_database_kdb">Impossible de fusionner à partir d\'une base de données V1.</string>
+    <string name="merge_success">Fusion terminée avec succès</string>
 </resources>
