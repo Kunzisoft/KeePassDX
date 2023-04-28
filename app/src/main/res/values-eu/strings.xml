@@ -504,7 +504,7 @@
     <string name="education_entry_edit_title">Sarrera editatu</string>
     <string name="hide_expired_entries_title">Ezkutatu iraungitako sarrerak</string>
     <string name="permission">Baimena</string>
-    <string name="build_label">Konpilazioa %1$s</string>
+    <string name="build_label">Konpilazio bertsioa%1$s</string>
     <string name="database_history">Historiala</string>
     <string name="advanced_unlock_tap_delete">Ukitu desblokeatze aurreratuko gakoak ezabatzeko</string>
     <string name="file_name">Fitxategiaren izena</string>
@@ -540,13 +540,13 @@
 \n\"Idazketaren aurka babestuta\" datu-basean nahi ez diren aldaketak saihesten ditu.
 \n\"Editagarri\" datuak nahi dituzun moduan gehitu, ezabatu edo aldatzen uzten du.</string>
     <string name="education_donation_summary">Parte hartu egonkortasuna, segurtasuna eta ezaugarri gehiago gehitzeko.</string>
-    <string name="html_text_ad_free">Pasahitzak kudeatzeko aplikazio asko ez bezala, hau <strong> iragarkirik gabekoa</strong>, <strong> copyleft software librea</strong> da eta ez du datu pertsonalik biltzen zerbitzarietan, edozein bertsio erabilita.</string>
+    <string name="html_text_ad_free">Pasahitzak kudeatzeko aplikazio asko ez bezala, hau <strong> iragarkirik gabekoa</strong> eta <strong> copyleft software libreako</strong> da eta ez du datu pertsonalik biltzen zerbitzarietan, aplikazioaren edozein bertsiotan.</string>
     <string name="html_text_dev_feature">Ezaugarri hau <strong>garapen prozesuan </strong> dago eta zure <strong> kontribuzioa </strong> behar du ahalik eta lehen eskuragarri egoteko.</string>
     <string name="credential_before_click_advanced_unlock_button">Idatzi pasahitza eta klikatu botoi hau.</string>
     <string name="properties">Propietateak</string>
     <string name="temp_advanced_unlock_timeout_summary">Desblokeatze aurreratua erabiltzeko denbora bere edukia ezabatu aurretik</string>
     <string name="warning_empty_keyfile_explanation">Fitxategi-gakoko edukia ez litzake inoiz aldatu beharko, eta kasu hoberenetan, ausaz sortutako datuak eduki beharko lituzke.</string>
-    <string name="warning_empty_recycle_bin">Ezabatu betiko nodo guztiak zakarrontzitik\?</string>
+    <string name="warning_empty_recycle_bin">Ezabatu betirako nodo guztiak zakarrontzitik\?</string>
     <string name="warning_database_info_changed">Zure datu-base fitxategiko informazioa aplikaziotik kanpo aldatu da.</string>
     <string name="configure_biometric">Ez dago kredentzial biometrikorik gailuan.</string>
     <string name="warning_file_too_big">KeePass datu-basea soilik baliagarritasun txikiko fitxategiak (PGP gakoak) edukitzeko dago pentsatuta.
@@ -590,7 +590,7 @@
     <string name="clipboard_notifications_title">Arbelaren jakinarazpenak</string>
     <string name="password_size_title">Sortuko den pasahitzaren tamaina</string>
     <string name="password_size_summary">Lehenetsi sortuko diren pasahitzen luzera</string>
-    <string name="clipboard_notifications_summary">Erakutsi arbelaren jakinarazpenak sarrera bat ikustean eremuak kopiatzeko</string>
+    <string name="clipboard_notifications_summary">Erakutsi arbelaren eremuak kopiatzeko jakinarazpenak sarrera bat ikustean</string>
     <string name="clipboard_warning">Arbelaren ezabatze automatikoak huts egiten badu, ezabatu historiala eskuz.</string>
     <string name="lock_database_screen_off_title">Pantaila blokeatu</string>
     <string name="lock_database_back_root_summary">Blokeatu datu-basea erabiltzaileak atzera botoia sakatzen duenean hasierako pantailan</string>
@@ -613,8 +613,8 @@
     <string name="database_data_remove_unlinked_attachments_summary">Ezabatu datu-baseko eranskinak baina ez sarrera bati lotuta daudenak</string>
     <string name="recycle_bin_title">Zakarrontziaren erabilera</string>
     <string name="recycle_bin_summary">Taldeak eta sarrerak \"zakarrontzira\" mugitzen ditu ezabatu aurretik</string>
-    <string name="education_generate_password_summary">Sortu pasahitz segurua zure sarrerarekin erlazionatzeko. Defini ezazu errez formularioaren irizpidearen arabera eta ez ahaztu pasahitz zail eta segurua jartzea.</string>
-    <string name="education_entry_new_field_summary">Erregistratu eremu gehigarri bat, eman balio bat, eta nahi baduzu babestu.</string>
+    <string name="education_generate_password_summary">Sortu pasahitz segurua zure sarrerarekin erlazionatzeko. Defini ezazu modu errazean formularioaren irizpidearen arabera eta ez ahaztu pasahitz zail eta segurua jartzea.</string>
+    <string name="education_entry_new_field_summary">Erregistratu eremu gehigarri bat, eman balio bat eta nahi baduzu babestu.</string>
     <string name="education_add_attachment_title">Gehitu</string>
     <string name="education_add_attachment_summary">Kargatu fitxategi bat zure sarreran kanpoko datu garrantzitsuak gordetzeko.</string>
     <string name="education_setup_OTP_title">Ezarri erabilera bakarreko pasahitza (OTP)</string>
@@ -637,8 +637,37 @@
     <string name="education_sort_title">Ordenatu elementuak</string>
     <string name="education_sort_summary">Aukeratu sarrerak eta taldeak nola ordenatu.</string>
     <string name="education_donation_title">Parte hartu</string>
-    <string name="html_text_buy_pro">Pro bertsioa erostean, <strong>estilo bisual</strong> hau erabili ahalko duzu eta <strong>proiektu komunitarioak garatzen </strong> lagunduko duzu.</string>
+    <string name="html_text_buy_pro">Pro bertsioa erostean, <strong>estilo bisual</strong> hau erabili ahalko duzu eta zure laguntza eskeniko duzu <strong>proiektu komunitarioak garatzeko.</strong></string>
     <string name="html_text_feature_generosity"><strong>Estilo bisual</strong> hau zure eskuzabaltasunari esker dago eskuragarri.</string>
     <string name="html_text_dev_feature_buy_pro"><strong>Pro</strong> bertsioa erostean,</string>
     <string name="html_text_dev_feature_contibute"><strong>kontribuituz</strong>,</string>
+    <string name="download_attachment">Deskargatu %1$s</string>
+    <string name="upload_attachment">Kargatu %1$s</string>
+    <string name="download_initialization">Hasten…</string>
+    <string name="title_case">Titulu mota</string>
+    <string name="lower_case">minuskulak</string>
+    <string name="upper_case">MAIUSKULAK</string>
+    <string name="html_text_dev_feature_thanks">Milesker zure kontribuzioarengatik.</string>
+    <string name="unit_kibibyte">KiB</string>
+    <string name="unit_byte">B</string>
+    <string name="word_separator">Bereizlea</string>
+    <string name="ignore_chars_filter">Baztertu karaktereak</string>
+    <string name="consider_chars_filter">Aintzat hatu karaktereak</string>
+    <string name="unit_mebibyte">MiB</string>
+    <string name="entropy_calculate">Entropia: kalkulatu…</string>
+    <string name="html_text_dev_feature_encourage">Zure iruzkinekin garatzaileak <strong>funtzio berriak</strong> garatu eta <strong>bugak konpontzera</strong> animatzen dituzu.</string>
+    <string name="contribute">Kontribuitu</string>
+    <string name="unit_gibibyte">GiB</string>
+    <string name="entropy">Entropia:%1$s bit</string>
+    <string name="entropy_high">Entropia: Altua</string>
+    <string name="at_least_one_char">Gutxienez karaktere bat bakoitzeko</string>
+    <string name="exclude_ambiguous_chars">Karaktere anbiguoak kanporatu</string>
+    <string name="html_text_dev_feature_work_hard">Gogor ari gara lanean ezaugarri hau ahalik eta lehen publikatzeko.</string>
+    <string name="html_text_dev_feature_upgrade">Gogoratu zure aplikazioa eguneratuta mantentzeaz bertsio berriak instalatuz.</string>
+    <string name="download">Deskargatu</string>
+    <string name="download_finalization">Amaitzen…</string>
+    <string name="download_complete">Amaituta!</string>
+    <string name="download_canceled">Bertan behera utzi da!</string>
+    <string name="character_count">Karaktere kopurua:%1$d</string>
+    <string name="download_progression">Oraingoz egindakoa:%1$d%%</string>
 </resources>
