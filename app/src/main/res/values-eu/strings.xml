@@ -20,7 +20,7 @@
 --><resources>
     <string name="feedback">Atzeraelikadura</string>
     <string name="homepage">Hasiera orria</string>
-    <string name="about_description">KeePass pasahitza kudeatzailearen Androiderako inplementazioa</string>
+    <string name="about_description">KeePass pasahitz kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>
@@ -30,7 +30,7 @@
     <string name="application">Aplikazio</string>
     <string name="menu_app_settings">Aplikazio ezarpenak</string>
     <string name="brackets">Kortxete</string>
-    <string name="file_manager_install_description">Datu-basea sortu, ireki eta gordetzeko ACTION_CREATE_DOCUMENT eta CTION_OPEN_DOCUMENT akzioak onartzen dituen fitxategi kudeatzailea behar da.</string>
+    <string name="file_manager_install_description">Datu-basea sortu, ireki eta gordetzeko ACTION_CREATE_DOCUMENT eta ACTION_OPEN_DOCUMENT akzioak onartzen dituen fitxategi kudeatzailea behar da.</string>
     <string name="clipboard_cleared">Arbela garbituta</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
     <string name="clipboard_error">Gailu batzuek ez dute arbela erabiltzen uzten.</string>
@@ -96,7 +96,7 @@
     <string name="hide_password_title">Pasahitza estali</string>
     <string name="hide_password_summary">Pasahitza estali modu lehenetsian</string>
     <string name="about">Honi buruz</string>
-    <string name="menu_change_key_settings">Gako Maisua Aldatu</string>
+    <string name="menu_change_key_settings">Gako nagusia aldatu</string>
     <string name="settings">Ezarpenak</string>
     <string name="menu_database_settings">Datubasearen ezarpenak</string>
     <string name="menu_delete">Ezabatu</string>
@@ -156,7 +156,7 @@
     <string name="allow">Baimendu</string>
     <string name="content_description_background">Atzeko planoa</string>
     <string name="content_description_open_file">Ireki fitxategia</string>
-    <string name="content_description_otp_information">Erabilpen bakarreko pasahitzaren informazioa</string>
+    <string name="content_description_otp_information">Erabilpen bakarreko pasahitzaren (OTP) informazioa</string>
     <string name="content_description_database_color">Datu-basearen kolorea</string>
     <string name="content_description_entry_foreground_color">Lehen planoaren sarrera kolorea</string>
     <string name="content_description_repeat_toggle_password_visibility">Errepikatu pasahitzaren kommutazio ikusgarritasuna</string>
@@ -179,7 +179,7 @@
     <string name="name">Izena</string>
     <string name="number">Zenbaki</string>
     <string name="template_group_name">Txantiloiak</string>
-    <string name="entry_setup_otp">Ezarri erabilera bakarreko pasahitza</string>
+    <string name="entry_setup_otp">Ezarri erabilera bakarreko pasahitza (OTP)</string>
     <string name="content_description_remove_field">Eremua ezabatu</string>
     <string name="waiting_challenge_request">Erronka eskaeraren zain…</string>
     <string name="waiting_challenge_response">Erronkaren erantzunaren zain…</string>
@@ -195,7 +195,7 @@
     <string name="searchable">Lokalizagarria</string>
     <string name="otp_period">Periodoa (segundutan)</string>
     <string name="custom_data">Datu pertsonalizatuak</string>
-    <string name="otp_type">Erabilpen bakarreko pasahitz mota</string>
+    <string name="otp_type">Erabilpen bakarreko pasahitz (OTP) mota</string>
     <string name="otp_secret">Sekretua</string>
     <string name="otp_counter">Kontagailua</string>
     <string name="otp_digits">Digituak</string>
@@ -268,7 +268,7 @@
     <string name="keyboard_notification_entry_summary">Erakutsi jakinarazpen bat sarrera bat eskuragarri dagoenean</string>
     <string name="keyboard_notification_entry_clear_close_title">Hustu ixtean</string>
     <string name="keyboard_key_vibrate_title">Bibratu tekla zapaltzean</string>
-    <string name="custom_fields">Neurrira egindako eremuak</string>
+    <string name="custom_fields">Pertsonalizatutako eremuak</string>
     <string name="keyboard_previous_fill_in_summary">Aldatu automatikoki aurreko teklatura \"Tekla automatikoaren akzioa\" exekutatu ondoren</string>
     <string name="autofill_inline_suggestions_title">Lerroko iradokizuna</string>
     <string name="autofill_manual_selection_title">Eskuzko hautatzea</string>
@@ -307,7 +307,7 @@
     <string name="templates">Txantiloiak</string>
     <string name="device_keyboard_setting_title">Gailuaren teklatuaren ezarpenak</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="magic_keyboard_explanation_summary">Aktibatu zure pasahitzak eta identitate eremuak errez beteko dituen neurrira egindako teklatua</string>
+    <string name="magic_keyboard_explanation_summary">Aktibatu zure pasahitzak eta identitate eremuak errez beteko dituen pertsonalizatutako teklatua</string>
     <string name="enter">Sartu</string>
     <string name="autofill_close_database_title">Itxi datu-basea</string>
     <string name="show_otp_token_summary">Erakutsi OTP tokenak sarrera zerrendetan</string>
@@ -384,7 +384,7 @@
     <string name="monospace_font_fields_enable_title">Eremuaren tipografia</string>
     <string name="disable">Desgaitu</string>
     <string name="notification">Jakinarazpen</string>
-    <string name="database_custom_color_title">Neurrira egindako datu-basearen kolorea</string>
+    <string name="database_custom_color_title">Pertsonalizatutako datu-basearen kolorea</string>
     <string name="database_version_title">Datu-basearen bertsioa</string>
     <string name="text_appearance">Testua</string>
     <string name="enable_auto_save_database_title">Gorde datu-basea automatikoki</string>
