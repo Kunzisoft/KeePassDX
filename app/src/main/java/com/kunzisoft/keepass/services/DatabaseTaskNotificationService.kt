@@ -148,10 +148,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                              result: ActionRunnable.Result)
     }
 
-    interface RequestChallengeListener {
-        fun onChallengeResponseRequested(hardwareKey: HardwareKey, seed: ByteArray?)
-    }
-
     fun checkDatabase() {
         mDatabaseListeners.forEach { databaseListener ->
             databaseListener.onDatabaseRetrieved(mDatabase)
