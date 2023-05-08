@@ -21,13 +21,6 @@ android {
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
         manifestPlaceholders = [ googleAndroidBackupAPIKey:"unused" ]
-
-        kapt {
-            arguments {
-                arg("room.incremental", "true")
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-            }
-        }
     }
 
     buildTypes {
@@ -129,8 +122,9 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
-    // Encrypt lib
-    implementation project(path: ':crypto')
+    
+    implementation project(path: ':database')
+
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')

@@ -40,7 +40,6 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TASK_ACTION"
 const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_ACTION"
 
-const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY_MAGIKEYBOARD"
 const val BACK_PREVIOUS_KEYBOARD_ACTION = "com.kunzisoft.keepass.BACK_PREVIOUS_KEYBOARD"
 

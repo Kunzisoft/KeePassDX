@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action
 
+import android.app.AlertDialog
 import android.content.*
 import android.content.Context.*
 import android.net.Uri
@@ -26,7 +27,6 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -584,8 +584,8 @@ class DatabaseTaskProvider(private var context: Context,
                 , ACTION_DATABASE_UPDATE_COLOR_TASK)
     }
 
-    fun startDatabaseSaveCompression(oldCompression: CompressionAlgorithm,
-                                     newCompression: CompressionAlgorithm,
+    fun startDatabaseSaveCompression(oldCompression: NamedCompressionAlgorithm,
+                                     newCompression: NamedCompressionAlgorithm,
                                      save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldCompression)

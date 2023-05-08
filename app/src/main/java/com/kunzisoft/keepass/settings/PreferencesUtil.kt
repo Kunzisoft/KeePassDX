@@ -1,6 +1,6 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -35,9 +35,15 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.password.PassphraseGenerator
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.APP_TIMEOUT_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.HIDE_EXPIRED_ENTRIES_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.SETTING_ICON_PACK_CHOOSE_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.SUBDOMAIN_SEARCH_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.TIMEOUT_BACKUP_KEY
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil.TIMEOUT_DEFAULT
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil
-import java.util.*
+import java.util.Properties
 
 object PreferencesUtil {
 
@@ -61,7 +67,8 @@ object PreferencesUtil {
 
     fun saveNodeSort(context: Context,
                      sortNodeEnum: SortNodeEnum,
-                     sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+                     sortNodeParameters: SortNodeEnum.SortNodeParameters
+    ) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
             putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
@@ -108,12 +115,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.auto_focus_search_default))
     }
 
-    fun searchSubdomains(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.subdomain_search_key),
-                context.resources.getBoolean(R.bool.subdomain_search_default))
-    }
-
     fun showEntryColors(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_entry_colors_key),
@@ -156,12 +157,6 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.show_uuid_default))
     }
 
-    fun showExpiredEntries(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
-                context.resources.getBoolean(R.bool.hide_expired_entries_default))
-    }
-
     fun getStyle(context: Context): String {
         val defaultStyleString = Stylish.defaultStyle(context)
         val styleString = PreferenceManager.getDefaultSharedPreferences(context)
@@ -199,8 +194,7 @@ object PreferencesUtil {
     fun getListTextSize(context: Context): Float {
         val index = try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            val listSizeString = prefs.getString(context.getString(R.string.list_size_key),
-                    context.getString(R.string.list_size_string_medium))
+            val listSizeString = prefs.getString(context.getString(R.string.list_size_key), context.getString(R.string.list_size_string_medium))
             context.resources.getStringArray(R.array.list_size_string_values).indexOf(listSizeString)
         } catch (e: Exception) {
             1
@@ -213,8 +207,7 @@ object PreferencesUtil {
 
     fun getDefaultPasswordLength(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getInt(context.getString(R.string.password_generator_length_key),
-                context.resources.getInteger(R.integer.password_generator_length_default))
+        return prefs.getInt(context.getString(R.string.password_generator_length_key), context.resources.getInteger(R.integer.password_generator_length_default))
     }
 
     fun setDefaultPasswordLength(context: Context, passwordLength: Int) {
@@ -246,8 +239,7 @@ object PreferencesUtil {
 
     fun getDefaultPasswordConsiderChars(context: Context): String {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(context.getString(R.string.password_generator_consider_chars_key),
-            context.getString(R.string.password_generator_consider_chars_default)) ?: ""
+        return prefs.getString(context.getString(R.string.password_generator_consider_chars_key), context.getString(R.string.password_generator_consider_chars_default)) ?: ""
     }
 
     fun setDefaultPasswordConsiderChars(context: Context, considerChars: String) {
@@ -262,8 +254,7 @@ object PreferencesUtil {
 
     fun getDefaultPasswordIgnoreChars(context: Context): String {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(context.getString(R.string.password_generator_ignore_chars_key),
-            context.getString(R.string.password_generator_ignore_chars_default)) ?: ""
+        return prefs.getString(context.getString(R.string.password_generator_ignore_chars_key), context.getString(R.string.password_generator_ignore_chars_default)) ?: ""
     }
 
     fun setDefaultPasswordIgnoreChars(context: Context, ignoreChars: String) {
@@ -278,8 +269,7 @@ object PreferencesUtil {
 
     fun getDefaultPassphraseWordCount(context: Context): Int {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getInt(context.getString(R.string.passphrase_generator_word_count_key),
-            context.resources.getInteger(R.integer.passphrase_generator_word_count_default))
+        return prefs.getInt(context.getString(R.string.passphrase_generator_word_count_key), context.resources.getInteger(R.integer.passphrase_generator_word_count_default))
     }
 
     fun setDefaultPassphraseWordCount(context: Context, passphraseWordCount: Int) {
@@ -294,11 +284,11 @@ object PreferencesUtil {
 
     fun getDefaultPassphraseWordCase(context: Context): PassphraseGenerator.WordCase {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return PassphraseGenerator.WordCase
-            .getByOrdinal(prefs.getInt(context
+        return PassphraseGenerator.WordCase.getByOrdinal(
+            prefs.getInt(context
                 .getString(R.string.passphrase_generator_word_case_key),
                 0)
-            )
+        )
     }
 
     fun setDefaultPassphraseWordCase(context: Context, wordCase: PassphraseGenerator.WordCase) {
@@ -414,75 +404,44 @@ object PreferencesUtil {
      */
     fun saveCurrentTime(context: Context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
-            putLong(context.getString(R.string.timeout_backup_key), System.currentTimeMillis())
+            putLong(TIMEOUT_BACKUP_KEY, System.currentTimeMillis())
             apply()
-        }
-    }
-
-    /**
-     * Time previously saved in milliseconds (commonly used to compare with current time and check timeout)
-     */
-    fun getTimeSaved(context: Context): Long {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getLong(context.getString(R.string.timeout_backup_key),
-                TimeoutHelper.NEVER)
-    }
-
-    /**
-     * App timeout selected in milliseconds
-     */
-    fun getAppTimeout(context: Context): Long {
-        return try {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            (prefs.getString(context.getString(R.string.app_timeout_key),
-                    context.getString(R.string.timeout_default)) ?: "300000").toLong()
-        } catch (e: NumberFormatException) {
-            TimeoutHelper.DEFAULT_TIMEOUT
         }
     }
 
     fun getClipboardTimeout(context: Context): Long {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(context.getString(R.string.clipboard_timeout_key),
-                context.getString(R.string.clipboard_timeout_default))?.toLong()
-                ?: TimeoutHelper.DEFAULT_TIMEOUT
+        return prefs.getString(context.getString(R.string.clipboard_timeout_key), TIMEOUT_DEFAULT)?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
     }
 
     fun getAdvancedUnlockTimeout(context: Context): Long {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(context.getString(R.string.temp_advanced_unlock_timeout_key),
-                context.getString(R.string.temp_advanced_unlock_timeout_default))?.toLong()
-                ?: TimeoutHelper.DEFAULT_TIMEOUT
+        return prefs.getString(context.getString(R.string.temp_advanced_unlock_timeout_key), context.getString(R.string.temp_advanced_unlock_timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
     }
 
     fun isLockDatabaseWhenScreenShutOffEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.lock_database_screen_off_key),
-                context.resources.getBoolean(R.bool.lock_database_screen_off_default))
+        return prefs.getBoolean(context.getString(R.string.lock_database_screen_off_key), context.resources.getBoolean(R.bool.lock_database_screen_off_default))
     }
 
     fun isLockDatabaseWhenBackButtonOnRootClicked(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.lock_database_back_root_key),
-                context.resources.getBoolean(R.bool.lock_database_back_root_default))
+        return prefs.getBoolean(context.getString(R.string.lock_database_back_root_key), context.resources.getBoolean(R.bool.lock_database_back_root_default))
     }
 
     fun showLockDatabaseButton(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.lock_database_show_button_key),
-                context.resources.getBoolean(R.bool.lock_database_show_button_default))
+        return prefs.getBoolean(context.getString(R.string.lock_database_show_button_key), context.resources.getBoolean(R.bool.lock_database_show_button_default))
     }
 
     fun isAutoSaveDatabaseEnabled(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.enable_auto_save_database_key),
-                context.resources.getBoolean(R.bool.enable_auto_save_database_default))
+        return prefs.getBoolean(context.getString(R.string.enable_auto_save_database_key), context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
     fun isKeepScreenOnEnabled(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.enable_keep_screen_on_key),
-            context.resources.getBoolean(R.bool.enable_keep_screen_on_default))
+        return prefs.getBoolean(context.getString(R.string.enable_keep_screen_on_key), context.resources.getBoolean(R.bool.enable_keep_screen_on_default))
     }
 
     fun isScreenshotModeEnabled(context: Context): Boolean {
@@ -500,10 +459,10 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
                 && (if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-                        AdvancedUnlockManager.biometricUnlockSupported(context)
-                    } else {
-                        false
-                    })
+                    AdvancedUnlockManager.biometricUnlockSupported(context)
+                } else {
+                    false
+                })
     }
 
     fun isDeviceCredentialUnlockEnable(context: Context): Boolean {
@@ -591,13 +550,6 @@ object PreferencesUtil {
                 .putBoolean(context.getString(R.string.allow_copy_password_first_time_key), false)
                 .putBoolean(context.getString(R.string.allow_copy_password_key), allowCopy)
                 .apply()
-    }
-
-    fun getIconPackSelectedId(context: Context): String? {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(
-                context.getString(R.string.setting_icon_pack_choose_key),
-                context.getString(R.string.setting_icon_pack_choose_default))
     }
 
     fun emptyPasswordAllowed(context: Context): Boolean {
@@ -754,7 +706,8 @@ object PreferencesUtil {
 
     fun getAppProperties(context: Context): Properties {
         val properties = Properties()
-        for ((name, value) in PreferenceManager.getDefaultSharedPreferences(context).all) {
+        for ((name, value) in PreferenceManager.getDefaultSharedPreferences(
+            context).all) {
             properties[name] = value.toString()
         }
         for ((name, value) in Education.getEducationSharedPreferences(context).all) {
@@ -779,7 +732,7 @@ object PreferencesUtil {
             for ((name, value) in properties) {
                 try {
                     putProperty(this, name as String, value as String)
-                } catch (e:Exception) {
+                } catch (e: Exception) {
                     Log.e("PreferencesUtil", "Error when trying to parse app property $name=$value", e)
                 }
             }
@@ -788,7 +741,7 @@ object PreferencesUtil {
 
     fun setAppProperties(context: Context, properties: Properties) {
         putPropertiesInPreferences(properties,
-                PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->
+            PreferenceManager.getDefaultSharedPreferences(context)) { editor, name, value ->
             when (name) {
                 context.getString(R.string.allow_no_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.delete_entered_password_key) -> editor.putBoolean(name, value.toBoolean())
@@ -796,8 +749,8 @@ object PreferencesUtil {
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.subdomain_search_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.app_timeout_key) -> editor.putString(name, value.toLong().toString())
+                SUBDOMAIN_SEARCH_KEY -> editor.putBoolean(name, value.toBoolean())
+                APP_TIMEOUT_KEY -> editor.putString(name, value.toLong().toString())
                 context.getString(R.string.lock_database_screen_off_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_back_root_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.lock_database_show_button_key) -> editor.putBoolean(name, value.toBoolean())
@@ -839,7 +792,7 @@ object PreferencesUtil {
 
                 context.getString(R.string.setting_style_key) -> setStyle(context, value)
                 context.getString(R.string.setting_style_brightness_key) -> editor.putString(name, value)
-                context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
+                SETTING_ICON_PACK_CHOOSE_KEY -> editor.putString(name, value)
                 context.getString(R.string.show_entry_colors_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.colorize_password_key) -> editor.putBoolean(name, value.toBoolean())
@@ -849,7 +802,7 @@ object PreferencesUtil {
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                HIDE_EXPIRED_ENTRIES_KEY -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 
                 context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())
@@ -869,8 +822,13 @@ object PreferencesUtil {
         }
 
         putPropertiesInPreferences(properties,
-                Education.getEducationSharedPreferences(context)) { editor, name, value ->
-            Education.putPropertiesInEducationPreferences(context, editor, name, value)
+            Education.getEducationSharedPreferences(
+                context)) { editor, name, value ->
+            Education.putPropertiesInEducationPreferences(
+                context,
+                editor,
+                name,
+                value)
         }
     }
 }

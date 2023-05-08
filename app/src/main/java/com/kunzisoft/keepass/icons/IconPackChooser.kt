@@ -22,20 +22,22 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.settings.DatabasePreferencesUtil
+import java.util.ArrayList
 
 /**
  * Utility class to built and select an IconPack dynamically by libraries importation
  *
  * @author J-Jamet
  */
-object IconPackChooser {
+object IconPackChooser : InterfaceIconPackChooser {
 
     private val TAG = IconPackChooser::class.java.name
 
     private val iconPackList = ArrayList<IconPack>()
     private var iconPackSelected: IconPack? = null
+    private var defaultIconSize: Int? = null
 
     private var isIconPackChooserBuilt: Boolean = false
 
@@ -50,7 +52,7 @@ object IconPackChooser {
      * @param context Context to construct each pack with the resources
      * @return An unique instance of [IconPackChooser], recall [.build] provide the same instance
      */
-    fun build(context: Context) {
+    override fun build(context: Context) {
         synchronized(IconPackChooser::class.java) {
             if (!isIconPackChooserBuilt) {
                 isIconPackChooserBuilt = true
@@ -62,6 +64,9 @@ object IconPackChooser {
                     Log.e(TAG, "Icon packs can't be load, retry with one by default")
                     addDefaultIconPack(context)
                 }
+                if(defaultIconSize == null) {
+                    setDefaultIconSize(context.resources.getDimension(R.dimen.icon_size).toInt())
+                }
             }
         }
     }
@@ -69,7 +74,7 @@ object IconPackChooser {
     /**
      * Construct dynamically the icon pack provide by the default string resource "resource_id"
      */
-    private fun addDefaultIconPack(context: Context) {
+    override fun addDefaultIconPack(context: Context) {
         val resourceId = context.resources.getIdentifier("resource_id", "string", context.packageName)
         iconPackList.add(IconPack(context.packageName, context.resources, resourceId))
     }
@@ -77,9 +82,11 @@ object IconPackChooser {
     /**
      * Utility method to add new icon pack or catch exception if not retrieve
      */
-    private fun addOrCatchNewIconPack(context: Context, iconPackString: String) {
+    override fun addOrCatchNewIconPack(context: Context, iconPackString: String) {
         try {
-            iconPackList.add(IconPack(context.packageName, context.resources, context.resources.getIdentifier(
+            iconPackList.add(IconPack(context.packageName,
+                context.resources,
+                context.resources.getIdentifier(
                     iconPackString + "_resource_id",
                     "string",
                     context.packageName)))
@@ -89,7 +96,7 @@ object IconPackChooser {
 
     }
 
-    fun setSelectedIconPack(iconPackIdString: String?) {
+    override fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
                 iconPackSelected = iconPack
@@ -104,10 +111,10 @@ object IconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack currently in usage
      */
-    fun getSelectedIconPack(context: Context): IconPack? {
+    override fun getSelectedIconPack(context: Context): IconPack? {
         build(context)
         if (iconPackSelected == null) {
-            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
+            setSelectedIconPack(DatabasePreferencesUtil.getIconPackSelectedId(context))
         }
         return iconPackSelected
     }
@@ -118,8 +125,16 @@ object IconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack available
      */
-    fun getIconPackList(context: Context): List<IconPack> {
+    override fun getIconPackList(context: Context): List<IconPack> {
         build(context)
         return iconPackList
+    }
+
+    override fun setDefaultIconSize(size: Int) {
+        defaultIconSize = size
+    }
+
+    override fun getDefaultIconSize(): Int {
+        return defaultIconSize!!
     }
 }

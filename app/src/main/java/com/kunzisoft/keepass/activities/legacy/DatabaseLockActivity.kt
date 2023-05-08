@@ -322,7 +322,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabase?.let { database ->
             // If recycle bin enabled, ensure it exists
             if (database.isRecycleBinEnabled) {
-                database.ensureRecycleBinExists(resources)
+                database.ensureRecycleBinExists(resources.getString(R.string.recycle_bin))
             }
 
             // If recycle bin enabled and not in recycle bin, move in recycle bin

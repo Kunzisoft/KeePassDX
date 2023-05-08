@@ -26,7 +26,7 @@ import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.Serializable
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 
 class FileDatabaseInfo : Serializable {
 

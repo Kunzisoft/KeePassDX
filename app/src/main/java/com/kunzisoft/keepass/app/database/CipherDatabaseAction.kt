@@ -19,7 +19,10 @@
  */
 package com.kunzisoft.keepass.app.database
 
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
 import android.util.Base64
@@ -28,15 +31,13 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import java.util.*
+import java.util.LinkedList
 
 class CipherDatabaseAction(context: Context) {
 
     private val applicationContext = context.applicationContext
     private val cipherDatabaseDao =
-            AppDatabase
-                    .getDatabase(applicationContext)
-                    .cipherDatabaseDao()
+        AppDatabase.getDatabase(applicationContext).cipherDatabaseDao()
 
     // Temp DAO to easily remove content if object no longer in memory
     private var useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
@@ -83,7 +84,7 @@ class CipherDatabaseAction(context: Context) {
         try {
             AdvancedUnlockNotificationService.bindService(applicationContext,
                     mServiceConnection!!,
-                    Context.BIND_AUTO_CREATE)
+                Context.BIND_AUTO_CREATE)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to start cipher action", e)
             performedAction.invoke()
@@ -148,8 +149,9 @@ class CipherDatabaseAction(context: Context) {
             }
         } else {
             IOActionTask(
-                    {
-                        cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())?.let { cipherDatabaseEntity ->
+                {
+                    cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
+                        ?.let { cipherDatabaseEntity ->
                             CipherEncryptDatabase().apply {
                                 this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
                                 this.encryptedValue = Base64.decode(
@@ -162,10 +164,10 @@ class CipherDatabaseAction(context: Context) {
                                 )
                             }
                         }
-                    },
-                    {
-                        cipherDatabaseResultListener.invoke(it)
-                    }
+                },
+                {
+                    cipherDatabaseResultListener.invoke(it)
+                }
             ).execute()
         }
     }
@@ -222,12 +224,12 @@ class CipherDatabaseAction(context: Context) {
             }
         } else {
             IOActionTask(
-                    {
-                        cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
-                    },
-                    {
-                        cipherDatabaseResultListener?.invoke()
-                    }
+                {
+                    cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
+                },
+                {
+                    cipherDatabaseResultListener?.invoke()
+                }
             ).execute()
         }
     }
@@ -240,9 +242,9 @@ class CipherDatabaseAction(context: Context) {
         }
         // To erase the residues
         IOActionTask(
-                {
-                    cipherDatabaseDao.deleteAll()
-                }
+            {
+                cipherDatabaseDao.deleteAll()
+            }
         ).execute()
         // Unbind
         removeAllDataAndDetach()

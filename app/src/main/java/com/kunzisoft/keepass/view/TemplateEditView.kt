@@ -16,6 +16,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.element.template.getLocalizedName
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
