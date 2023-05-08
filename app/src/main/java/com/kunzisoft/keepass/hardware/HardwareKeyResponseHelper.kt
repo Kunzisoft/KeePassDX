@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 import kotlinx.coroutines.launch
 
 class HardwareKeyResponseHelper {
@@ -134,7 +134,7 @@ class HardwareKeyResponseHelper {
                         activity.getString(R.string.error_driver_required, hardwareKey.toString())
                     )
                     .setPositiveButton(R.string.download) { _, _ ->
-                        UriUtil.openExternalApp(activity, activity.getString(R.string.key_driver_app_id))
+                        activity.openExternalApp(activity.getString(R.string.key_driver_app_id))
                     }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
                 builder.create().show()

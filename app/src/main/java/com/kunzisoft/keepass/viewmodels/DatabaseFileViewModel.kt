@@ -6,10 +6,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.IOActionTask
+import com.kunzisoft.keepass.utils.UriHelper.parseUri
 
 class DatabaseFileViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -26,8 +26,8 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
     fun checkIfIsDefaultDatabase(databaseUri: Uri) {
         IOActionTask(
                 {
-                    (UriUtil.parse(PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext))
-                        == databaseUri)
+                    (PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
+                        ?.parseUri() == databaseUri)
                 },
                 {
                     isDefaultDatabase.value = it

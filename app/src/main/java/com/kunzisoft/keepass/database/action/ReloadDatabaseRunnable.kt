@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UriUtilDatabase
+import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class ReloadDatabaseRunnable(
     private val context: Context,
@@ -35,10 +35,11 @@ class ReloadDatabaseRunnable(
     private val mLoadDatabaseResult: ((Result) -> Unit)?
 ) : ActionRunnable() {
 
+    private val binaryDir = context.getBinaryDir()
+
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.clearIndexesAndBinaries(UriUtilDatabase.getBinaryDir(
-            context))
+        mDatabase.clearIndexesAndBinaries(binaryDir)
         mDatabase.wasReloaded = true
     }
 
@@ -57,7 +58,7 @@ class ReloadDatabaseRunnable(
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.clearAndClose(context)
+            mDatabase.clearAndClose(binaryDir)
         }
     }
 

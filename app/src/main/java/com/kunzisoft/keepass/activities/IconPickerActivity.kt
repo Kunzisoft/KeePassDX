@@ -46,7 +46,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
@@ -243,7 +244,7 @@ class IconPickerActivity : DatabaseLockActivity() {
                 }
             }
             R.id.menu_external_icon -> {
-                UriUtil.gotoUrl(this, R.string.external_icon_url)
+                this.openUrl(R.string.external_icon_url)
             }
         }
 
@@ -257,7 +258,7 @@ class IconPickerActivity : DatabaseLockActivity() {
                 // on Progress with thread
                 val asyncResult: Deferred<IconPickerViewModel.IconCustomState?> = async {
                     val iconCustomState = IconPickerViewModel.IconCustomState(null, true, R.string.error_upload_file)
-                    UriUtil.getFileData(this@IconPickerActivity, iconToUploadUri)?.also { documentFile ->
+                    iconToUploadUri?.getDocumentFile(this@IconPickerActivity)?.also { documentFile ->
                         if (documentFile.length() > MAX_ICON_SIZE) {
                             iconCustomState.errorStringId = R.string.error_file_to_big
                         } else {

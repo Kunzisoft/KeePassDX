@@ -73,6 +73,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getUri
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -344,7 +345,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         if (action == VIEW_INTENT) {
             fillCredentials(
                 intent.data,
-                UriUtil.getUriFromIntent(intent, KEY_KEYFILE),
+                intent.getUri(KEY_KEYFILE),
                 HardwareKey.getHardwareKeyFromString(intent.getStringExtra(KEY_HARDWARE_KEY))
             )
         } else {
@@ -357,7 +358,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         try {
             intent?.removeExtra(KEY_KEYFILE)
             intent?.removeExtra(KEY_HARDWARE_KEY)
-        } catch (e: Exception) {}
+        } catch (_: Exception) {}
         mDatabaseFileUri?.let {
             mDatabaseFileViewModel.checkIfIsDefaultDatabase(it)
         }

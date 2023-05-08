@@ -69,7 +69,6 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -81,7 +80,7 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
@@ -302,7 +301,7 @@ class GroupActivity : DatabaseLockActivity(),
                         lockAndExit()
                     }
                     R.id.menu_contribute -> {
-                        UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)
+                        this@GroupActivity.openUrl(R.string.contribution_url)
                     }
                     R.id.menu_about -> {
                         startActivity(Intent(this@GroupActivity, AboutActivity::class.java))

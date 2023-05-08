@@ -36,11 +36,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -67,7 +67,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
@@ -473,7 +473,7 @@ class EntryActivity : DatabaseLockActivity() {
             }
             R.id.menu_goto_url -> {
                 mUrl?.let { url ->
-                    UriUtil.gotoUrl(this, url)
+                    this.openUrl(url)
                 }
                 return true
             }

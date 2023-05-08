@@ -36,6 +36,8 @@ import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
+import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
 const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TASK_ACTION"
 const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_ACTION"
@@ -161,8 +163,8 @@ fun Context.closeDatabase(database: Database?) {
         cancelAll()
     }
     // Clear data
-    database?.clearAndClose(this)
+    database?.clearAndClose(this.getBinaryDir())
 
     // Release not useful URI permission
-    UriUtil.releaseAllUnnecessaryPermissionUris(applicationContext)
+    applicationContext.releaseAllUnnecessaryPermissionUris()
 }

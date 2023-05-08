@@ -33,7 +33,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 
 class ExternalFileHelper {
 
@@ -57,10 +57,8 @@ class ExternalFileHelper {
     fun buildOpenDocument(onFileSelected: ((uri: Uri?) -> Unit)?) {
 
         val resultCallback = ActivityResultCallback<Uri?> { result ->
-            result?.let { uri ->
-                UriUtil.takeUriPermission(activity?.contentResolver, uri)
-                onFileSelected?.invoke(uri)
-            }
+            activity?.contentResolver?.takeUriPermission(result)
+            onFileSelected?.invoke(result)
         }
 
         getContentResultLauncher = if (fragment != null) {

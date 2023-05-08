@@ -47,7 +47,9 @@ import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
 
 class NestedAppSettingsFragment : NestedSettingsFragment() {
@@ -81,7 +83,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.remember_database_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
                     FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll {
-                        UriUtil.releaseAllUnnecessaryPermissionUris(activity.applicationContext)
+                        activity.releaseAllUnnecessaryPermissionUris()
                     }
                 }
                 true
@@ -90,7 +92,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.remember_keyfile_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
                     FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles {
-                        UriUtil.releaseAllUnnecessaryPermissionUris(activity.applicationContext)
+                        activity.releaseAllUnnecessaryPermissionUris()
                     }
                 }
                 true
@@ -168,7 +170,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.magic_keyboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.magic_keyboard_explanation_url)
+            context?.openUrl(R.string.magic_keyboard_explanation_url)
             false
         }
 
@@ -185,7 +187,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.autofill_explanation_url)
+            context?.openUrl(R.string.autofill_explanation_url)
             false
         }
 
@@ -202,7 +204,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.clipboard_explanation_url)
+            context?.openUrl(R.string.clipboard_explanation_url)
             false
         }
 
@@ -360,7 +362,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.advanced_unlock_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.advanced_unlock_explanation_url)
+            context?.openUrl(R.string.advanced_unlock_explanation_url)
             false
         }
     }
@@ -404,7 +406,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
                 val styleIdString = newValue as String
-                if (!UriUtil.contributingUser(activity)) {
+                if (!activity.isContributingUser()) {
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
@@ -435,7 +437,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (!UriUtil.contributingUser(activity)) {
+                if (!activity.isContributingUser()) {
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false

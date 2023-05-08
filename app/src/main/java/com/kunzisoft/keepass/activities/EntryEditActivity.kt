@@ -76,7 +76,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.view.*
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
@@ -185,7 +185,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             uri?.let { attachmentToUploadUri ->
-                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                attachmentToUploadUri.getDocumentFile(this)?.also { documentFile ->
                     documentFile.name?.let { fileName ->
                         if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
                             FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)

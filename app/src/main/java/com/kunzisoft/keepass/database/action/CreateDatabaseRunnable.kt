@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class CreateDatabaseRunnable(
     context: Context,
@@ -47,7 +48,7 @@ class CreateDatabaseRunnable(
                 createData(mDatabaseUri, databaseName, rootName, templateGroupName)
             }
         } catch (e: Exception) {
-            mDatabase.clearAndClose(context)
+            mDatabase.clearAndClose(context.getBinaryDir())
             setError(e)
         }
 

@@ -27,7 +27,8 @@ import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import com.kunzisoft.keepass.utils.UriUtilDatabase
+import com.kunzisoft.keepass.utils.UriHelper.decodeUri
+import com.kunzisoft.keepass.utils.UriHelper.parseUri
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 
 class FileDatabaseHistoryAction(private val applicationContext: Context) {
@@ -46,9 +47,9 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     databaseUri)
                 DatabaseFile(
                     databaseUri,
-                    UriUtilDatabase.parse(fileDatabaseHistoryEntity?.keyFileUri),
+                    fileDatabaseHistoryEntity?.keyFileUri?.parseUri(),
                     HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
-                    UriUtilDatabase.decode(fileDatabaseHistoryEntity?.databaseUri),
+                    fileDatabaseHistoryEntity?.databaseUri?.decodeUri(),
                     fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias
                         ?: ""),
                     fileDatabaseInfo.exists,
@@ -71,8 +72,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
             {
                 it?.let { fileHistoryEntity ->
                     fileHistoryEntity.keyFileUri?.let { keyFileUri ->
-                        keyFileUriResultListener.invoke(UriUtilDatabase.parse(
-                            keyFileUri))
+                        keyFileUriResultListener.invoke(keyFileUri.parseUri())
                     }
                 } ?: keyFileUriResultListener.invoke(null)
             }
@@ -96,10 +96,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     ) {
                         databaseFileListLoaded.add(
                             DatabaseFile(
-                                UriUtilDatabase.parse(fileDatabaseHistoryEntity.databaseUri),
-                                UriUtilDatabase.parse(fileDatabaseHistoryEntity.keyFileUri),
+                                fileDatabaseHistoryEntity.databaseUri.parseUri(),
+                                fileDatabaseHistoryEntity.keyFileUri?.parseUri(),
                                 HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity.hardwareKey),
-                                UriUtilDatabase.decode(fileDatabaseHistoryEntity.databaseUri),
+                                fileDatabaseHistoryEntity.databaseUri.decodeUri(),
                                 fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
                                 fileDatabaseInfo.exists,
                                 fileDatabaseInfo.getLastModificationString(),
@@ -165,10 +165,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                         FileDatabaseInfo(applicationContext,
                             fileDatabaseHistory.databaseUri)
                     DatabaseFile(
-                        UriUtilDatabase.parse(fileDatabaseHistory.databaseUri),
-                        UriUtilDatabase.parse(fileDatabaseHistory.keyFileUri),
+                        fileDatabaseHistory.databaseUri.parseUri(),
+                        fileDatabaseHistory.keyFileUri?.parseUri(),
                         HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
-                        UriUtilDatabase.decode(fileDatabaseHistory.databaseUri),
+                        fileDatabaseHistory.databaseUri.decodeUri(),
                         fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
                         fileDatabaseInfo.exists,
                         fileDatabaseInfo.getLastModificationString(),
@@ -192,10 +192,10 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                             val returnValue = databaseFileHistoryDao.delete(fileDatabaseHistory)
                             if (returnValue > 0) {
                                 DatabaseFile(
-                                    UriUtilDatabase.parse(fileDatabaseHistory.databaseUri),
-                                    UriUtilDatabase.parse(fileDatabaseHistory.keyFileUri),
+                                    fileDatabaseHistory.databaseUri.parseUri(),
+                                    fileDatabaseHistory.keyFileUri?.parseUri(),
                                     HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
-                                    UriUtilDatabase.decode(fileDatabaseHistory.databaseUri),
+                                    fileDatabaseHistory.databaseUri.decodeUri(),
                                     databaseFileToDelete.databaseAlias
                                 )
                             } else {

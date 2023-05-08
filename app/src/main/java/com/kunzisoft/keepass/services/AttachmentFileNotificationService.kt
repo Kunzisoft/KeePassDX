@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -218,7 +218,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             }
         )
 
-        val fileName = UriUtil.getFileData(this, attachmentNotification.uri)?.name
+        val fileName = attachmentNotification.uri.getDocumentFile(this)?.name
                 ?: attachmentNotification.uri.path
 
         val builder = buildNewNotification().apply {

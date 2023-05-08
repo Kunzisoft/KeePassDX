@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import java.util.*
 
 object PreferencesUtil {
@@ -173,7 +173,7 @@ object PreferencesUtil {
 
     fun setStyle(context: Context, styleString: String) {
         var tempThemeString = styleString
-        if (!UriUtil.contributingUser(context)) {
+        if (!context.isContributingUser()) {
             if (tempThemeString in BuildConfig.STYLES_DISABLED) {
                 tempThemeString = Stylish.defaultStyle(context)
             }

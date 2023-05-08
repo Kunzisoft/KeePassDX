@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
-import com.kunzisoft.keepass.utils.UriUtilDatabase
+import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 import org.apache.commons.codec.binary.Hex
@@ -148,7 +148,7 @@ data class MainCredential(var password: String? = null,
         @Throws(Exception::class)
         private fun getKeyFileData(contentResolver: ContentResolver,
                                    keyFileUri: Uri): ByteArray? {
-            UriUtilDatabase.getUriInputStream(contentResolver, keyFileUri)?.use { keyFileInputStream ->
+            contentResolver.getUriInputStream(keyFileUri)?.use { keyFileInputStream ->
                 return keyFileInputStream.readBytes()
             }
             return null

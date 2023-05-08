@@ -9,6 +9,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
@@ -76,7 +77,7 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
     }
 
     protected fun closeDatabase() {
-        mDatabase?.clearAndClose(this)
+        mDatabase?.clearAndClose(this.getBinaryDir())
     }
 
     override fun onResume() {

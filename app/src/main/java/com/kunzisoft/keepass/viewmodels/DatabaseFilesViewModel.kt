@@ -6,11 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.IOActionTask
+import com.kunzisoft.keepass.utils.UriHelper.parseUri
+import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -31,7 +32,8 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     fun checkDefaultDatabase() {
         IOActionTask(
                 {
-                    UriUtil.parse(PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext))
+                    PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
+                        ?.parseUri()
                 },
                 {
                     defaultDatabase.value = it
@@ -118,18 +120,8 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
             databaseFileDeleted?.let { _ ->
                 // Release database and keyfile URIs permissions
                 val contentResolver = getApplication<App>().applicationContext.contentResolver
-                databaseFileDeleted.databaseUri?.let { databaseUri ->
-                    UriUtil.releaseUriPermission(
-                        contentResolver,
-                        databaseUri
-                    )
-                }
-                databaseFileDeleted.keyFileUri?.let { keyFileUri ->
-                    UriUtil.releaseUriPermission(
-                        contentResolver,
-                        keyFileUri
-                    )
-                }
+                contentResolver.releaseUriPermission(databaseFileDeleted.databaseUri)
+                contentResolver.releaseUriPermission(databaseFileDeleted.keyFileUri)
                 // Call the feedback
                 databaseFilesLoaded.value = getDatabaseFilesLoadedValue().apply {
                     databaseFileAction = DatabaseFileAction.DELETE

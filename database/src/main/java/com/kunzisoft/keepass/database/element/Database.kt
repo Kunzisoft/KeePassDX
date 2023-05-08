@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
-import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
@@ -58,6 +57,8 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.InterfaceIconPackChooser
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
+import com.kunzisoft.keepass.utils.UriHelper.getUriOutputStream
 import java.io.*
 import java.util.*
 
@@ -786,7 +787,7 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
                                    openDatabaseKDBX: (InputStream) -> Unit) {
         try {
             // Load Data, pass Uris as InputStreams
-            val databaseStream = UriUtilDatabase.getUriInputStream(contentResolver, databaseUri)
+            val databaseStream = contentResolver.getUriInputStream(databaseUri)
                 ?: throw UnknownDatabaseLocationException()
 
             BufferedInputStream(databaseStream).use { databaseInputStream ->
@@ -867,7 +868,7 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
                     }
                 }
                 // Copy from the cache to the final stream
-                UriUtilDatabase.getUriOutputStream(contentResolver, saveUri)?.use { outputStream ->
+                contentResolver.getUriOutputStream(saveUri)?.use { outputStream ->
                     cacheFile.inputStream().use { inputStream ->
                         inputStream.readAllBytes { buffer ->
                             outputStream.write(buffer)
@@ -1005,8 +1006,8 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         }
     }
 
-    fun clearAndClose(context: Context? = null) {
-        clearIndexesAndBinaries(context?.let { UriUtilDatabase.getBinaryDir(context) })
+    fun clearAndClose(filesDirectory: File? = null) {
+        clearIndexesAndBinaries(filesDirectory)
         this.mDatabaseKDB = null
         this.mDatabaseKDBX = null
         this.fileUri = null

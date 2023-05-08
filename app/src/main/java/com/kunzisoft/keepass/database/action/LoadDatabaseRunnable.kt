@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UriUtilDatabase
+import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class LoadDatabaseRunnable(
     private val context: Context,
@@ -47,9 +47,11 @@ class LoadDatabaseRunnable(
     private val mLoadDatabaseResult: ((Result) -> Unit)?,
 ) : ActionRunnable() {
 
+    private val binaryDir = context.getBinaryDir()
+
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.clearAndClose(context)
+        mDatabase.clearAndClose(binaryDir)
     }
 
     override fun onActionRun() {
@@ -60,7 +62,7 @@ class LoadDatabaseRunnable(
                 mMainCredential,
                 mChallengeResponseRetriever,
                 mReadonly,
-                UriUtilDatabase.getBinaryDir(context),
+                binaryDir,
                 { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
@@ -91,7 +93,7 @@ class LoadDatabaseRunnable(
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.clearAndClose(context)
+            mDatabase.clearAndClose(binaryDir)
         }
     }
 

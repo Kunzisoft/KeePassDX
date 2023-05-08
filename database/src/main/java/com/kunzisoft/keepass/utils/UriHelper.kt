@@ -19,65 +19,50 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.annotation.SuppressLint
 import android.content.ContentResolver
-import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
-import java.util.Locale
+import java.io.*
+import java.util.*
 
 
-object UriUtilDatabase {
-    fun parse(stringUri: String?): Uri? {
-        return if (stringUri?.isNotEmpty() == true) {
-            Uri.parse(stringUri)
-        } else
-            null
+object UriHelper {
+
+    fun String.parseUri(): Uri? {
+        return if (this.isNotEmpty()) Uri.parse(this) else null
     }
 
-    fun decode(uri: String?): String {
-        return Uri.decode(uri) ?: ""
-    }
-
-    fun getBinaryDir(context: Context): File {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.applicationContext.noBackupFilesDir
-        } else {
-            context.applicationContext.filesDir
-        }
+    fun String.decodeUri(): String {
+        return Uri.decode(this) ?: ""
     }
 
     @Throws(FileNotFoundException::class)
-    fun getUriInputStream(contentResolver: ContentResolver, fileUri: Uri?): InputStream? {
+    fun ContentResolver.getUriInputStream(fileUri: Uri?): InputStream? {
         if (fileUri == null)
             return null
         return when {
-            isFileScheme(fileUri) -> fileUri.path?.let { FileInputStream(it) }
-            isContentScheme(fileUri) -> contentResolver.openInputStream(fileUri)
+            fileUri.withFileScheme() -> fileUri.path?.let { FileInputStream(it) }
+            fileUri.withContentScheme() -> this.openInputStream(fileUri)
             else -> null
         }
     }
 
+    @SuppressLint("Recycle")
     @Throws(FileNotFoundException::class)
-    fun getUriOutputStream(contentResolver: ContentResolver, fileUri: Uri?): OutputStream? {
+    fun ContentResolver.getUriOutputStream(fileUri: Uri?): OutputStream? {
         if (fileUri == null)
             return null
         return when {
-            isFileScheme(fileUri) -> fileUri.path?.let { FileOutputStream(it) }
-            isContentScheme(fileUri) -> {
+            fileUri.withFileScheme() -> fileUri.path?.let { FileOutputStream(it) }
+            fileUri.withContentScheme() -> {
                 try {
-                    contentResolver.openOutputStream(fileUri, "wt")
+                    this.openOutputStream(fileUri, "wt")
                 } catch (e: FileNotFoundException) {
                     Log.e(TAG, "Unable to open stream in `wt` mode, retry in `rwt` mode.", e)
                     // https://issuetracker.google.com/issues/180526528
                     // Try with rwt to fix content provider issue
-                    val outStream = contentResolver.openOutputStream(fileUri, "rwt")
+                    val outStream = this.openOutputStream(fileUri, "rwt")
                     Log.w(TAG, "`rwt` mode used.")
                     outStream
                 }
@@ -86,16 +71,16 @@ object UriUtilDatabase {
         }
     }
 
-    private fun isFileScheme(fileUri: Uri): Boolean {
-        val scheme = fileUri.scheme
+    fun Uri.withFileScheme(): Boolean {
+        val scheme = this.scheme
         if (scheme == null || scheme.isEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
             return true
         }
         return false
     }
 
-    private fun isContentScheme(fileUri: Uri): Boolean {
-        val scheme = fileUri.scheme
+    fun Uri.withContentScheme(): Boolean {
+        val scheme = this.scheme
         if (scheme != null && scheme.lowercase(Locale.ENGLISH) == "content") {
             return true
         }
