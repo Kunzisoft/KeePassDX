@@ -628,16 +628,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    fun updateMessage(resId: Int) {
+    private fun updateMessage(resId: Int) {
         mProgressMessage.messageId = resId
         notifyProgressMessage()
     }
 
-    override fun updateMessageRetrievingDBKey() {
+    override fun retrievingDatabaseKey() {
         updateMessage(R.string.retrieving_db_key)
     }
 
-    override fun updateMessageDecryptingDB() {
+    override fun decryptingDatabase() {
         updateMessage(R.string.decrypting_db)
     }
 

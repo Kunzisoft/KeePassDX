@@ -40,7 +40,7 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>> (protected var m
                               assignMasterKey: (() -> Unit)): D
 
     protected fun startKeyTimer(progressTaskUpdater: ProgressTaskUpdater?) {
-        progressTaskUpdater?.updateMessageRetrievingDBKey()
+        progressTaskUpdater?.retrievingDatabaseKey()
         Log.d(TAG, "Start retrieving database key...")
         startTimeKey = System.currentTimeMillis()
     }
@@ -50,7 +50,7 @@ abstract class DatabaseInput<D : DatabaseVersioned<*, *, *, *>> (protected var m
     }
 
     protected fun startContentTimer(progressTaskUpdater: ProgressTaskUpdater?) {
-        progressTaskUpdater?.updateMessageDecryptingDB()
+        progressTaskUpdater?.decryptingDatabase()
         Log.d(TAG, "Start decrypting database content...")
         startTimeContent = System.currentTimeMillis()
     }

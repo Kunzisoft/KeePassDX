@@ -20,6 +20,6 @@
 package com.kunzisoft.keepass.tasks
 
 interface ProgressTaskUpdater {
-    fun updateMessageRetrievingDBKey()
-    fun updateMessageDecryptingDB()
+    fun retrievingDatabaseKey()
+    fun decryptingDatabase()
 }

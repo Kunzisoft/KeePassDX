@@ -550,12 +550,13 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         this.mDatabaseKDBX = databaseKDBX
     }
 
-    fun createData(databaseUri: Uri,
-                   databaseName: String,
-                   rootName: String,
-                   templateGroupName: String?) {
-        val newDatabase = DatabaseKDBX(databaseName, rootName, templateGroupName)
-        setDatabaseKDBX(newDatabase)
+    fun createData(
+        databaseUri: Uri,
+        databaseName: String,
+        rootName: String,
+        templateGroupName: String?
+    ) {
+        setDatabaseKDBX(DatabaseKDBX(databaseName, rootName, templateGroupName))
         this.fileUri = databaseUri
         // Set Database state
         this.dataModifiedSinceLastLoading = false
@@ -781,10 +782,12 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
     }
 
     @Throws(Exception::class)
-    private fun readDatabaseStream(contentResolver: ContentResolver,
-                                   databaseUri: Uri,
-                                   openDatabaseKDB: (InputStream) -> Unit,
-                                   openDatabaseKDBX: (InputStream) -> Unit) {
+    private fun readDatabaseStream(
+        contentResolver: ContentResolver,
+        databaseUri: Uri,
+        openDatabaseKDB: (InputStream) -> Unit,
+        openDatabaseKDBX: (InputStream) -> Unit
+    ) {
         try {
             // Load Data, pass Uris as InputStreams
             val databaseStream = contentResolver.getUriInputStream(databaseUri)
@@ -821,11 +824,13 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
     }
 
     @Throws(DatabaseOutputException::class)
-    fun saveData(contentResolver: ContentResolver,
-                 cacheDir: File,
-                 databaseCopyUri: Uri?,
-                 mainCredential: MainCredential?,
-                 challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray) {
+    fun saveData(
+        contentResolver: ContentResolver,
+        cacheDir: File,
+        databaseCopyUri: Uri?,
+        mainCredential: MainCredential?,
+        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+    ) {
         val saveUri = databaseCopyUri ?: this.fileUri
         // Build temp database file to avoid file corruption if error
         val cacheFile = File(cacheDir, saveUri.hashCode().toString())
@@ -915,15 +920,19 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         return false
     }
 
-    fun createVirtualGroupFromSearch(searchParameters: SearchParameters,
-                                     fromGroup: NodeId<*>? = null,
-                                     max: Int = Integer.MAX_VALUE): Group? {
+    fun createVirtualGroupFromSearch(
+        searchParameters: SearchParameters,
+         fromGroup: NodeId<*>? = null,
+         max: Int = Integer.MAX_VALUE
+    ): Group? {
         return mSearchHelper.createVirtualGroupWithSearchResult(this,
             searchParameters, fromGroup, max)
     }
 
-    fun createVirtualGroupFromSearchInfo(searchInfoString: String,
-                                         max: Int = Integer.MAX_VALUE): Group? {
+    fun createVirtualGroupFromSearchInfo(
+        searchInfoString: String,
+        max: Int = Integer.MAX_VALUE
+    ): Group? {
         return mSearchHelper.createVirtualGroupWithSearchResult(this,
                 SearchParameters().apply {
                     searchQuery = searchInfoString
