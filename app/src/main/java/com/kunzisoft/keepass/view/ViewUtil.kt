@@ -49,7 +49,7 @@ import androidx.core.view.updatePadding
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.exception.getLocalizedMessage
+import com.kunzisoft.keepass.database.helper.getLocalizedMessage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 

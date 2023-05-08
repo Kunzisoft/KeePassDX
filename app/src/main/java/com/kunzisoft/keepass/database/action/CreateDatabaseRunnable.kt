@@ -24,20 +24,21 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class CreateDatabaseRunnable(context: Context,
-                             private val mDatabase: Database,
-                             databaseUri: Uri,
-                             private val databaseName: String,
-                             private val rootName: String,
-                             private val templateGroupName: String?,
-                             val mainCredential: MainCredential,
-                             challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-                             private val createDatabaseResult: ((Result) -> Unit)?)
-    : AssignMainCredentialInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential, challengeResponseRetriever) {
+class CreateDatabaseRunnable(
+    context: Context,
+    private val mDatabase: Database,
+    databaseUri: Uri,
+    private val databaseName: String,
+    private val rootName: String,
+    private val templateGroupName: String?,
+    val mainCredential: MainCredential,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    private val createDatabaseResult: ((Result) -> Unit)?
+) : AssignMainCredentialInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential, challengeResponseRetriever) {
 
     override fun onStartRun() {
         try {

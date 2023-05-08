@@ -27,14 +27,14 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class UpdateEntryRunnable constructor(
-        context: Context,
-        database: Database,
-        private val mOldEntry: Entry,
-        private val mNewEntry: Entry,
-        save: Boolean,
-        afterActionNodesFinish: AfterActionNodesFinish?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+    context: Context,
+    database: Database,
+    private val mOldEntry: Entry,
+    private val mNewEntry: Entry,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish?,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     override fun nodeAction() {
         if (mOldEntry.nodeId == mNewEntry.nodeId) {

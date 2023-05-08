@@ -19,7 +19,33 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-enum class CompressionAlgorithm {
-    None,
-    GZip;
+import android.os.Parcel
+import android.os.Parcelable
+import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.writeEnum
+
+// Note: We can get away with using int's to store unsigned 32-bit ints
+//       since we won't do arithmetic on these values (also unlikely to
+//       reach negative ids).
+enum class CompressionAlgorithm : Parcelable {
+    NONE,
+    GZIP;
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeEnum(this)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<CompressionAlgorithm> {
+        override fun createFromParcel(parcel: Parcel): CompressionAlgorithm {
+            return parcel.readEnum<CompressionAlgorithm>() ?: NONE
+        }
+
+        override fun newArray(size: Int): Array<CompressionAlgorithm?> {
+            return arrayOfNulls(size)
+        }
+    }
 }

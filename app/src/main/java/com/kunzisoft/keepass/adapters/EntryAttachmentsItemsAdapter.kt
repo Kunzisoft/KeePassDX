@@ -33,7 +33,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ImageViewerActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
@@ -130,7 +131,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
         holder.binaryFileSize.text = Formatter.formatFileSize(context, size)
         holder.binaryFileCompression.apply {
             if (entryAttachmentState.attachment.binaryData.isCompressed) {
-                text = NamedCompressionAlgorithm.GZip.getName(context.resources)
+                text = CompressionAlgorithm.GZIP.getLocalizedName(context.resources)
                 visibility = View.VISIBLE
             } else {
                 text = ""

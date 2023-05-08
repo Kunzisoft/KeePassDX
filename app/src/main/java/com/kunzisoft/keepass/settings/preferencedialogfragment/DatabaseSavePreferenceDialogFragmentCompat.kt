@@ -28,7 +28,7 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
@@ -90,8 +90,8 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         mDatabaseViewModel.saveColor(oldColorString, newColorString, mDatabaseAutoSaveEnable)
     }
 
-    protected fun saveCompression(oldCompression: NamedCompressionAlgorithm,
-                                  newCompression: NamedCompressionAlgorithm
+    protected fun saveCompression(oldCompression: CompressionAlgorithm,
+                                  newCompression: CompressionAlgorithm
     ) {
         mDatabaseViewModel.saveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
     }

@@ -27,14 +27,14 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class AddEntryRunnable constructor(
-        context: Context,
-        database: Database,
-        private val mNewEntry: Entry,
-        private val mParent: Group,
-        save: Boolean,
-        afterActionNodesFinish: AfterActionNodesFinish?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+    context: Context,
+    database: Database,
+    private val mNewEntry: Entry,
+    private val mParent: Group,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish?,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     override fun nodeAction() {
         mNewEntry.touch(modified = true, touchParents = true)

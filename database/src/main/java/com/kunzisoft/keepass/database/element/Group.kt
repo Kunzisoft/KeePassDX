@@ -30,7 +30,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.settings.DatabasePreferencesUtil
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -86,8 +85,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         META_STREAM, EXPIRED;
 
         companion object {
-            fun getDefaults(context: Context): Array<ChildFilter> {
-                return if (DatabasePreferencesUtil.showExpiredEntries(context)) {
+            fun getDefaults(showExpiredEntries: Boolean): Array<ChildFilter> {
+                return if (showExpiredEntries) {
                     arrayOf(META_STREAM)
                 } else {
                     arrayOf(META_STREAM, EXPIRED)

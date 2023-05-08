@@ -31,14 +31,14 @@ import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class MoveNodesRunnable constructor(
-        context: Context,
-        database: Database,
-        private val mNodesToMove: List<Node>,
-        private val mNewParent: Group,
-        save: Boolean,
-        afterActionNodesFinish: AfterActionNodesFinish?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+    context: Context,
+    database: Database,
+    private val mNodesToMove: List<Node>,
+    private val mNewParent: Group,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish?,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mOldParent: Group? = null
 

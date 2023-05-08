@@ -31,14 +31,14 @@ import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class CopyNodesRunnable constructor(
-        context: Context,
-        database: Database,
-        private val mNodesToCopy: List<Node>,
-        private val mNewParent: Group,
-        save: Boolean,
-        afterActionNodesFinish: AfterActionNodesFinish?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+    context: Context,
+    database: Database,
+    private val mNodesToCopy: List<Node>,
+    private val mNewParent: Group,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish?,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mEntriesCopied = ArrayList<Entry>()
 

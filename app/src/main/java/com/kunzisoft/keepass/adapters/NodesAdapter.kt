@@ -42,7 +42,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.element.template.getLocalizedName
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -153,7 +153,9 @@ class NodesAdapter (private val context: Context,
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
-        this.mEntryFilters = Group.ChildFilter.getDefaults(context)
+        this.mEntryFilters = Group.ChildFilter.getDefaults(
+            PreferencesUtil.showExpiredEntries(context)
+        )
 
         // Reinit textSize for all view type
         mCalculateViewTypeTextSize.forEachIndexed { index, _ -> mCalculateViewTypeTextSize[index] = true }

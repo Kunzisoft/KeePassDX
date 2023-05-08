@@ -20,24 +20,16 @@
 package com.kunzisoft.keepass.database.element.database
 
 import android.content.ContentResolver
-import android.content.res.Resources
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.database.R
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.VariantDictionary
 import com.kunzisoft.keepass.database.crypto.kdf.AesKdf
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.crypto.kdf.KdfParameters
-import com.kunzisoft.keepass.database.element.CompositeKey
-import com.kunzisoft.keepass.database.element.CustomData
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.element.DeletedObject
-import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.database.element.Tags
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -45,10 +37,7 @@ import com.kunzisoft.keepass.database.element.entry.FieldReferencesEngine
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
-import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
-import com.kunzisoft.keepass.database.element.node.NodeVersioned
+import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngineCompatible
@@ -63,8 +52,7 @@ import java.io.IOException
 import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
-import java.util.UUID
+import java.util.*
 import javax.crypto.Mac
 import kotlin.math.min
 
@@ -127,7 +115,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         KdfFactory.argon2idKdf
     )
 
-    var compressionAlgorithm = CompressionAlgorithm.GZip
+    var compressionAlgorithm = CompressionAlgorithm.GZIP
 
     private val mFieldReferenceEngine = FieldReferencesEngine(this)
     private val mTemplateEngine = TemplateEngineCompatible(this)
@@ -353,8 +341,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     val availableCompressionAlgorithms: List<CompressionAlgorithm> = listOf(
-        CompressionAlgorithm.None,
-        CompressionAlgorithm.GZip
+        CompressionAlgorithm.NONE,
+        CompressionAlgorithm.GZIP
     )
 
     fun changeBinaryCompression(
@@ -362,11 +350,11 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         newCompression: CompressionAlgorithm,
     ) {
         when (oldCompression) {
-            CompressionAlgorithm.None -> {
+            CompressionAlgorithm.NONE -> {
                 when (newCompression) {
-                    CompressionAlgorithm.None -> {
+                    CompressionAlgorithm.NONE -> {
                     }
-                    CompressionAlgorithm.GZip -> {
+                    CompressionAlgorithm.GZIP -> {
                         // Only in databaseV3.1, in databaseV4 the header is zipped during the save
                         if (kdbxVersion.isBefore(FILE_VERSION_40)) {
                             compressAllBinaries()
@@ -374,14 +362,14 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                     }
                 }
             }
-            CompressionAlgorithm.GZip -> {
+            CompressionAlgorithm.GZIP -> {
                 // In databaseV4 the header is zipped during the save, so not necessary here
                 if (kdbxVersion.isBefore(FILE_VERSION_40)) {
                     when (newCompression) {
-                        CompressionAlgorithm.None -> {
+                        CompressionAlgorithm.NONE -> {
                             decompressAllBinaries()
                         }
-                        CompressionAlgorithm.GZip -> {
+                        CompressionAlgorithm.GZIP -> {
                         }
                     }
                 } else {

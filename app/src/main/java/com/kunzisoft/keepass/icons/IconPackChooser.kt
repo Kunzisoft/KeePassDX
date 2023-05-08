@@ -23,8 +23,7 @@ import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.settings.DatabasePreferencesUtil
-import java.util.ArrayList
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 /**
  * Utility class to built and select an IconPack dynamically by libraries importation
@@ -114,7 +113,7 @@ object IconPackChooser : InterfaceIconPackChooser {
     override fun getSelectedIconPack(context: Context): IconPack? {
         build(context)
         if (iconPackSelected == null) {
-            setSelectedIconPack(DatabasePreferencesUtil.getIconPackSelectedId(context))
+            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
         }
         return iconPackSelected
     }

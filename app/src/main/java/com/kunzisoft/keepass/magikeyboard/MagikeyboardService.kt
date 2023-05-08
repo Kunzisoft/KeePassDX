@@ -47,7 +47,7 @@ import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD

@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.viewmodels
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kunzisoft.keepass.app.database.IOActionTask
+import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard

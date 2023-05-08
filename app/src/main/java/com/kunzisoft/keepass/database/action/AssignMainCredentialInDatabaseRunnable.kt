@@ -24,16 +24,16 @@ import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.hardware.HardwareKey
 
 open class AssignMainCredentialInDatabaseRunnable (
     context: Context,
     database: Database,
     protected val mDatabaseUri: Uri,
     mainCredential: MainCredential,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : SaveDatabaseRunnable(context, database, true, mainCredential, challengeResponseRetriever) {
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : SaveDatabaseRunnable(context, database, true, mainCredential, challengeResponseRetriever) {
 
     private var mBackupKey: ByteArray? = null
 

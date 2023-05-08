@@ -22,11 +22,11 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kunzisoft.keepass.app.database.IOActionTask
+import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 
 

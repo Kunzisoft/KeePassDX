@@ -25,7 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.settings.DatabasePreferencesUtil
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 object TimeoutHelper {
@@ -59,7 +59,7 @@ object TimeoutHelper {
      */
     private fun startLockTimer(context: Context, databaseLoaded: Boolean) {
         if (databaseLoaded) {
-            val timeout = DatabasePreferencesUtil.getAppTimeout(context)
+            val timeout = PreferencesUtil.getAppTimeout(context)
             if (timeout != NEVER) {
                 // No timeout don't start timeout service
                 (context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
@@ -111,7 +111,7 @@ object TimeoutHelper {
                 || lastAppTimeoutRecord!! + 2000 <= System.currentTimeMillis()) {
             Log.d(TAG, "Record app timeout")
             // Record timeout time in case timeout service is killed
-            DatabasePreferencesUtil.saveCurrentTime(context)
+            PreferencesUtil.saveCurrentTime(context)
             startLockTimer(context, databaseLoaded)
             lastAppTimeoutRecord = System.currentTimeMillis()
         }
@@ -131,14 +131,14 @@ object TimeoutHelper {
         val currentTime = System.currentTimeMillis()
 
         // Retrieve the timeout programmatically backup
-        val timeoutBackup = DatabasePreferencesUtil.getTimeSaved(context)
+        val timeoutBackup = PreferencesUtil.getTimeSaved(context)
         // The timeout never started
         if (timeoutBackup == NEVER) {
             return true
         }
 
         // Retrieve the app timeout in settings
-        val appTimeout = DatabasePreferencesUtil.getAppTimeout((context))
+        val appTimeout = PreferencesUtil.getAppTimeout((context))
         // We are set to never timeout
         if (appTimeout == NEVER) {
             return true

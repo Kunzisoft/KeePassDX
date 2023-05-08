@@ -25,18 +25,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.toCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.toNamedCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseDataCompressionPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
-        ListRadioItemAdapter.RadioItemSelectedCallback<NamedCompressionAlgorithm> {
+        ListRadioItemAdapter.RadioItemSelectedCallback<CompressionAlgorithm> {
 
     private var mRecyclerView: RecyclerView? = null
-    private var mCompressionAdapter: ListRadioItemAdapter<NamedCompressionAlgorithm>? = null
-    private var compressionSelected: NamedCompressionAlgorithm? = null
+    private var mCompressionAdapter: ListRadioItemAdapter<CompressionAlgorithm>? = null
+    private var compressionSelected: CompressionAlgorithm? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -47,7 +45,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
         mRecyclerView?.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            mCompressionAdapter = ListRadioItemAdapter<NamedCompressionAlgorithm>(activity)
+            mCompressionAdapter = ListRadioItemAdapter<CompressionAlgorithm>(activity)
             mCompressionAdapter?.setRadioItemSelectedCallback(this)
         }
     }
@@ -59,8 +57,8 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
         mRecyclerView?.adapter = mCompressionAdapter
 
         database?.let {
-            compressionSelected = it.compressionAlgorithm?.toNamedCompressionAlgorithm()
-            mCompressionAdapter?.setItems(it.availableCompressionAlgorithms.map { it.toNamedCompressionAlgorithm() }, compressionSelected)
+            compressionSelected = it.compressionAlgorithm
+            mCompressionAdapter?.setItems(it.availableCompressionAlgorithms, compressionSelected)
         }
     }
 
@@ -71,16 +69,16 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
                 if (compressionSelected != null) {
                     val newCompression = compressionSelected
                     val oldCompression = database.compressionAlgorithm
-                    database.compressionAlgorithm = newCompression?.toCompressionAlgorithm()
+                    database.compressionAlgorithm = newCompression
 
                     if (oldCompression != null && newCompression != null)
-                        saveCompression(oldCompression.toNamedCompressionAlgorithm(), newCompression)
+                        saveCompression(oldCompression, newCompression)
                 }
             }
         }
     }
 
-    override fun onItemSelected(item: NamedCompressionAlgorithm) {
+    override fun onItemSelected(item: CompressionAlgorithm) {
         this.compressionSelected = item
     }
 

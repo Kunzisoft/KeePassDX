@@ -19,16 +19,12 @@
  */
 package com.kunzisoft.keepass.database.search
 
-import android.content.Context
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UuidUtil
 
 class SearchHelper {
@@ -120,53 +116,6 @@ class SearchHelper {
     }
 
     companion object {
-        const val MAX_SEARCH_ENTRY = 1000
-
-        /**
-         * Method to show the number of search results with max results
-         */
-        fun showNumberOfSearchResults(number: Int): String {
-            return if (number >= MAX_SEARCH_ENTRY) {
-                (MAX_SEARCH_ENTRY-1).toString() + "+"
-            } else {
-                number.toString()
-            }
-        }
-
-        /**
-         * Utility method to perform actions if item is found or not after an auto search in [database]
-         */
-        fun checkAutoSearchInfo(context: Context,
-                                database: Database?,
-                                searchInfo: SearchInfo?,
-                                onItemsFound: (openedDatabase: Database,
-                                               items: List<EntryInfo>) -> Unit,
-                                onItemNotFound: (openedDatabase: Database) -> Unit,
-                                onDatabaseClosed: () -> Unit) {
-            if (database == null || !database.loaded) {
-                onDatabaseClosed.invoke()
-            } else if (TimeoutHelper.checkTime(context)) {
-                var searchWithoutUI = false
-                if (searchInfo != null
-                    && !searchInfo.manualSelection
-                    && !searchInfo.containsOnlyNullValues()) {
-                    // If search provide results
-                    database.createVirtualGroupFromSearchInfo(
-                            searchInfo.toString(),
-                            MAX_SEARCH_ENTRY
-                    )?.let { searchGroup ->
-                        if (searchGroup.numberOfChildEntries > 0) {
-                            searchWithoutUI = true
-                            onItemsFound.invoke(database,
-                                    searchGroup.getChildEntriesInfo(database))
-                        }
-                    }
-                }
-                if (!searchWithoutUI) {
-                    onItemNotFound.invoke(database)
-                }
-            }
-        }
 
         /**
          * Return true if the search query in search parameters is found in available parameters

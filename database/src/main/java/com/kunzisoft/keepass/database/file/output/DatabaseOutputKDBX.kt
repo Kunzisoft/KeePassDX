@@ -23,7 +23,6 @@ import android.util.Base64
 import android.util.Log
 import android.util.Xml
 import com.kunzisoft.encrypt.StreamCipher
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.*
@@ -34,6 +33,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -85,7 +85,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             }
 
             when(mDatabaseKDBX.compressionAlgorithm) {
-                CompressionAlgorithm.GZip -> GZIPOutputStream(osPlain)
+                CompressionAlgorithm.GZIP -> GZIPOutputStream(osPlain)
                 else -> osPlain
             }.use { xmlOutputStream ->
                 if (!header!!.version.isBefore(FILE_VERSION_40)) {

@@ -25,12 +25,12 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 abstract class ActionNodeDatabaseRunnable(
-        context: Context,
-        database: Database,
-        private val afterActionNodesFinish: AfterActionNodesFinish?,
-        save: Boolean,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : SaveDatabaseRunnable(context, database, save, null, challengeResponseRetriever) {
+    context: Context,
+    database: Database,
+    private val afterActionNodesFinish: AfterActionNodesFinish?,
+    save: Boolean,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : SaveDatabaseRunnable(context, database, save, null, challengeResponseRetriever) {
 
     /**
      * Function do to a node action

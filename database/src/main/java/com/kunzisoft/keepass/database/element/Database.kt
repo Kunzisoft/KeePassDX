@@ -21,12 +21,10 @@ package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.androidclearchroma.ChromaUtil
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
@@ -38,6 +36,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconsManager
+import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -301,7 +300,7 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
             return false
         // Default compression not necessary if stored in header
         mDatabaseKDBX?.let {
-            return it.compressionAlgorithm == CompressionAlgorithm.GZip
+            return it.compressionAlgorithm == CompressionAlgorithm.GZIP
                     && it.kdbxVersion.isBefore(FILE_VERSION_40)
         }
         return false

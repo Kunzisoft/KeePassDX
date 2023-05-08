@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.action.node
+package com.kunzisoft.keepass.database.element.node
 
 
 /** "Delegate" class for operating on each group when traversing all of

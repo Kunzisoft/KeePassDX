@@ -145,35 +145,35 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             return true
 
         if (fieldData != null)
-        when (fieldID) {
-            PwDbHeaderV4Fields.CipherID -> setCipher(fieldData)
+            when (fieldID) {
+                PwDbHeaderV4Fields.CipherID -> setCipher(fieldData)
 
-            PwDbHeaderV4Fields.CompressionFlags -> setCompressionFlags(fieldData)
+                PwDbHeaderV4Fields.CompressionFlags -> setCompressionFlags(fieldData)
 
-            PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
+                PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformSeed -> if (version.isBefore(FILE_VERSION_40))
-                transformSeed = fieldData
+                PwDbHeaderV4Fields.TransformSeed -> if (version.isBefore(FILE_VERSION_40))
+                    transformSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformRounds -> if (version.isBefore(FILE_VERSION_40))
-                setTransformRound(fieldData)
+                PwDbHeaderV4Fields.TransformRounds -> if (version.isBefore(FILE_VERSION_40))
+                    setTransformRound(fieldData)
 
-            PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
+                PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.isBefore(FILE_VERSION_40))
-                innerRandomStreamKey = fieldData
+                PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.isBefore(FILE_VERSION_40))
+                    innerRandomStreamKey = fieldData
 
-            PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
+                PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.isBefore(FILE_VERSION_40))
-                setRandomStreamID(fieldData)
+                PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.isBefore(FILE_VERSION_40))
+                    setRandomStreamID(fieldData)
 
-            PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
+                PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
 
-            PwDbHeaderV4Fields.PublicCustomData -> databaseV4.publicCustomData = VariantDictionary.deserialize(fieldData)
+                PwDbHeaderV4Fields.PublicCustomData -> databaseV4.publicCustomData = VariantDictionary.deserialize(fieldData)
 
-            else -> throw IOException("Invalid header type: $fieldID")
-        }
+                else -> throw IOException("Invalid header type: $fieldID")
+            }
 
         return false
     }
@@ -256,15 +256,15 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         fun getCompressionFromFlag(flag: UnsignedInt): CompressionAlgorithm? {
             return when (flag.toKotlinInt()) {
-                0 -> CompressionAlgorithm.None
-                1 -> CompressionAlgorithm.GZip
+                0 -> CompressionAlgorithm.NONE
+                1 -> CompressionAlgorithm.GZIP
                 else -> null
             }
         }
 
         fun getFlagFromCompression(compression: CompressionAlgorithm): UnsignedInt {
             return when (compression) {
-                CompressionAlgorithm.GZip -> UnsignedInt(1)
+                CompressionAlgorithm.GZIP -> UnsignedInt(1)
                 else -> UnsignedInt(0)
             }
         }

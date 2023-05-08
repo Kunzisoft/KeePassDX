@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element.group
 
-import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 
 interface GroupVersionedInterface<Group: GroupVersionedInterface<Group, Entry>, Entry> : NodeVersionedInterface<Group> {

@@ -27,14 +27,15 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class DeleteNodesRunnable(context: Context,
-                          database: Database,
-                          private val mNodesToDelete: List<Node>,
-                          private val recyclerBinTitle: String,
-                          save: Boolean,
-                          afterActionNodesFinish: AfterActionNodesFinish,
-                          challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+class DeleteNodesRunnable(
+    context: Context,
+    database: Database,
+    private val mNodesToDelete: List<Node>,
+    private val recyclerBinTitle: String,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false

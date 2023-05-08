@@ -37,10 +37,8 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.toCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.toNamedCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.template.TemplateEngine
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.helper.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
@@ -200,8 +198,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         // Database compression
         dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
         if (database.allowDataCompression) {
-            dbDataCompressionPref?.summary = (database.compressionAlgorithm?.toNamedCompressionAlgorithm()
-                ?: NamedCompressionAlgorithm.None).getName(resources)
+            dbDataCompressionPref?.summary = (database.compressionAlgorithm
+                ?: CompressionAlgorithm.NONE).getLocalizedName(resources)
         } else {
             dbCompressionPrefCategory?.isVisible = false
         }
@@ -435,16 +433,16 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         dbCustomColorPref?.summary = defaultColorToShow
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
-                        val oldCompression = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as NamedCompressionAlgorithm
-                        val newCompression = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as NamedCompressionAlgorithm
+                        val oldCompression = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as CompressionAlgorithm
+                        val newCompression = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as CompressionAlgorithm
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newCompression
                                 } else {
-                                    mDatabase?.compressionAlgorithm = oldCompression.toCompressionAlgorithm()
+                                    mDatabase?.compressionAlgorithm = oldCompression
                                     oldCompression
                                 }
-                        dbDataCompressionPref?.summary = algorithmToShow.getName(resources)
+                        dbDataCompressionPref?.summary = algorithmToShow.getLocalizedName(resources)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
                         val oldRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)

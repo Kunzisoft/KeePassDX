@@ -37,10 +37,11 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.CompatInlineSuggestionsRequest
 import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.WebDomain
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
@@ -73,7 +74,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         }
                         // Build search param
                         bundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
-                            SearchInfo.getConcreteWebDomain(
+                            WebDomain.getConcreteWebDomain(
                                 this,
                                 searchInfo.webDomain
                             ) { concreteWebDomain ->
@@ -101,7 +102,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     // To register info
                     val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
                         launchRegistration(database, searchInfo, registerInfo)
                     }

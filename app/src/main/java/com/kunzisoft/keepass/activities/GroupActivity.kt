@@ -64,7 +64,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService

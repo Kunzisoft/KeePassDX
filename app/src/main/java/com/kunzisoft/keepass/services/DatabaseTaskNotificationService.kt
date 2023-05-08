@@ -39,8 +39,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.database.element.database.NamedCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.database.toCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -78,9 +77,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mDatabaseInfoListeners = mutableListOf<DatabaseInfoListener>()
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = mutableListOf<ActionTaskListener>()
-
-    // Channel to connect asynchronously a listener or a response
-    private var mRequestChallengeListenerChannel: Channel<RequestChallengeListener>? = null
+    // Channel to connect asynchronously a response
     private var mResponseChallengeChannel: Channel<ByteArray?>? = null
 
     private var mActionRunning = 0
@@ -829,7 +826,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
-            AssignMainCredentialInDatabaseRunnable(this,
+            com.kunzisoft.keepass.database.action.AssignMainCredentialInDatabaseRunnable(
+                this,
                 database,
                 databaseUri,
                 intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
@@ -1116,8 +1114,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
 
-            val oldElement: NamedCompressionAlgorithm? = intent.getParcelableExtra(OLD_ELEMENT_KEY)
-            val newElement: NamedCompressionAlgorithm? = intent.getParcelableExtra(NEW_ELEMENT_KEY)
+            val oldElement: CompressionAlgorithm? = intent.getParcelableExtra(OLD_ELEMENT_KEY)
+            val newElement: CompressionAlgorithm? = intent.getParcelableExtra(NEW_ELEMENT_KEY)
 
             if (oldElement == null
                 || newElement == null
@@ -1126,8 +1124,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
             return UpdateCompressionBinariesDatabaseRunnable(this,
                 database,
-                oldElement.toCompressionAlgorithm(),
-                newElement.toCompressionAlgorithm(),
+                oldElement,
+                newElement,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)

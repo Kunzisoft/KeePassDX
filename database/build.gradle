@@ -14,13 +14,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-
-        kapt {
-            arguments {
-                arg("room.incremental", "true")
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-            }
-        }
     }
 
     buildTypes {
@@ -38,8 +31,6 @@ android {
     }
 }
 
-def room_version = "2.4.3"
-
 dependencies {
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
@@ -51,12 +42,5 @@ dependencies {
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
 
-    // Database
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
     implementation project(path: ':crypto')
-
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
 }

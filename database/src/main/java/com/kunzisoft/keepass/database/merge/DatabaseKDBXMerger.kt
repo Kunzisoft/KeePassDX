@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.merge
 
-import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -29,6 +28,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID

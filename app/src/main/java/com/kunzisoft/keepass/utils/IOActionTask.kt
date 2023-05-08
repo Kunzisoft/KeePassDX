@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.app.database
+package com.kunzisoft.keepass.utils
 
 import kotlinx.coroutines.*
 
