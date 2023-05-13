@@ -33,7 +33,7 @@
     <string name="app_timeout">Inaktivitätszeit</string>
     <string name="app_timeout_summary">Zeit bis zum Sperren der Datenbank</string>
     <string name="application">App</string>
-    <string name="menu_app_settings">App Einstellungen</string>
+    <string name="menu_app_settings">App-Einstellungen</string>
     <string name="brackets">Klammern</string>
     <string name="file_manager_install_description">Zum Erstellen, Öffnen und Speichern von Datenbankdateien wird ein Dateimanager benötigt, der die beabsichtigte Aktion ACTION_CREATE_DOCUMENT und ACTION_OPEN_DOCUMENT akzeptiert.</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>
@@ -43,9 +43,9 @@
     <string name="clipboard_timeout">Zwischenablage-Inaktivitätszeit</string>
     <string name="clipboard_timeout_summary">Speicherdauer in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="retrieving_db_key">Datenbankschlüssel abrufen…</string>
+    <string name="retrieving_db_key">Datenbankschlüssel abrufen …</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Entschlüssel Datenbankinhalte…</string>
+    <string name="decrypting_db">Entschlüssele Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Stellen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
@@ -97,7 +97,7 @@
     <string name="length">Länge</string>
     <string name="list_size_title">Größe der Listenelemente</string>
     <string name="list_size_summary">Schriftgröße der Listenelemente</string>
-    <string name="loading_database">Lade Datenbank…</string>
+    <string name="loading_database">Lade Datenbank …</string>
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="hide_password_title">Passwörter verbergen</string>
     <string name="hide_password_summary">Passwörter mit (***) maskieren</string>
@@ -120,8 +120,8 @@
     <string name="no_url_handler">Installiere einen Webbrowser, um diese URL zu öffnen.</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
-    <string name="progress_create">Erstelle neue Datenbank…</string>
-    <string name="progress_title">Arbeite…</string>
+    <string name="progress_create">Erstelle neue Datenbank …</string>
+    <string name="progress_title">Arbeite …</string>
     <string name="protection">Schutz</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">Abhängig von deinem Dateienmanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
@@ -129,7 +129,7 @@
     <string name="root">Start</string>
     <string name="rounds">Verschlüsselungsrunden</string>
     <string name="rounds_explanation">Zusätzliche Verschlüsselungsrunden bieten besseren Schutz gegen Brute-Force-Angriffe. Allerdings dauert das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="saving_database">Speicher Datenbank…</string>
+    <string name="saving_database">Speichere Datenbank …</string>
     <string name="space">Leerzeichen</string>
     <string name="sort_db">Natürliche Reihenfolge</string>
     <string name="special">Spezialsymbole</string>
@@ -199,7 +199,7 @@
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_autofill_service_title">Standard Autofill-Service festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare in anderen Apps schnell auszufüllen</string>
-    <string name="autofill_select_entry">Eintrag auswählen…</string>
+    <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle mit der biometrischen Erkennung verknüpften Verschlüsselungsschlüssel löschen</string>
@@ -317,7 +317,7 @@
     <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
-    <string name="do_not_kill_app">Beende die App nicht…</string>
+    <string name="do_not_kill_app">Beende die App nicht …</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn im Wurzelordner die Zurück-Taste gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -378,7 +378,7 @@
     <string name="error_otp_period">Zeitraum muss zwischen %1$d und %2$d Sekunden liegen.</string>
     <string name="error_otp_digits">Token muss %1$d bis %2$d Stellen enthalten.</string>
     <string name="invalid_db_same_uuid">%1$s mit derselben UUID %2$s existiert bereits.</string>
-    <string name="creating_database">Erstelle Datenbank…</string>
+    <string name="creating_database">Erstelle Datenbank …</string>
     <string name="menu_security_settings">Sicherheitseinstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüsseleinstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält doppelte UUIDs.</string>
@@ -407,7 +407,7 @@
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
     <string name="menu_save_database">Daten speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
-    <string name="command_execution">Befehl wird ausgeführt…</string>
+    <string name="command_execution">Befehl wird ausgeführt …</string>
     <string name="warning_permanently_delete_nodes">Ausgewählten Knoten unwiderruflich löschen\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
@@ -419,9 +419,9 @@
     <string name="keyboard_auto_go_action_title">Automatische Tastenaktion</string>
     <string name="keyboard_auto_go_action_summary">Eingabetasteaktion nach dem Drücken einer Feldtaste</string>
     <string name="download_attachment">%1$s herunterladen</string>
-    <string name="download_initialization">Initialisieren…</string>
+    <string name="download_initialization">Initialisieren …</string>
     <string name="download_progression">Fortschritt: %1$d%%</string>
-    <string name="download_finalization">Fertigstellen…</string>
+    <string name="download_finalization">Fertigstellen …</string>
     <string name="download_complete">Vollständig!</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge nicht anzeigen</string>
@@ -648,7 +648,7 @@
     <string name="keyboard_previous_search_summary">Auf dem Suchbildschirm automatisch zur vorherigen Tastatur wechseln</string>
     <string name="entropy">Entropie: %1$s Bit</string>
     <string name="entropy_high">Entropie: Hoch</string>
-    <string name="entropy_calculate">Entropie: Berechnen…</string>
+    <string name="entropy_calculate">Entropie: Berechne …</string>
     <string name="at_least_one_char">Mindestens jedes Zeichen einmal</string>
     <string name="consider_chars_filter">Zeichen beinhalteten</string>
     <string name="word_separator">Trennzeichen</string>
@@ -663,7 +663,7 @@
     <string name="error_no_hardware_key">Hardwareschlüssel auswählen.</string>
     <string name="error_XML_malformed">XML fehlerhaft.</string>
     <string name="waiting_challenge_response">Challenge-Antwort abwarten …</string>
-    <string name="waiting_challenge_request">Challenge-Anfrage abwarten…</string>
+    <string name="waiting_challenge_request">Challenge-Anfrage abwarten …</string>
     <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
     <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
     <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
