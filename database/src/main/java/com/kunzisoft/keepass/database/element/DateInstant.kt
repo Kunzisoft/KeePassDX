@@ -123,19 +123,20 @@ class DateInstant : Parcelable {
     }
 
     fun getDateTimeString(resources: Resources): String {
+        val locale = ConfigurationCompat.getLocales(resources.configuration)[0] ?: Locale.ROOT
         return when (mType) {
             Type.DATE -> DateFormat.getDateInstance(
                 DateFormat.MEDIUM,
-                ConfigurationCompat.getLocales(resources.configuration)[0])
+                locale)
                 .format(jDate)
             Type.TIME -> DateFormat.getTimeInstance(
                 DateFormat.SHORT,
-                ConfigurationCompat.getLocales(resources.configuration)[0])
+                locale)
                 .format(jDate)
             else -> DateFormat.getDateTimeInstance(
                 DateFormat.MEDIUM,
                 DateFormat.SHORT,
-                ConfigurationCompat.getLocales(resources.configuration)[0])
+                locale)
                 .format(jDate)
         }
     }
