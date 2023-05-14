@@ -445,16 +445,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         }
 
     fun isSearchable(): Boolean {
-        val searchableGroup = searchable
-        if (searchableGroup == null) {
-            val parenGroup = parent
-            if (parenGroup == null)
-                return true
-            else
-                return parenGroup.isSearchable()
-        } else {
-            return searchableGroup
-        }
+        return searchable ?: (parent?.isSearchable() ?: true)
     }
 
     var enableAutoType: Boolean?
