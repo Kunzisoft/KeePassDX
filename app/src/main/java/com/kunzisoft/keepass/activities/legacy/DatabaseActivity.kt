@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir

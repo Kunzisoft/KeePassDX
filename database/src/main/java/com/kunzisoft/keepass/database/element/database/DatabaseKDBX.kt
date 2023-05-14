@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.database
 
-import android.content.ContentResolver
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
@@ -226,24 +225,22 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     }
 
     fun deriveMasterKey(
-        contentResolver: ContentResolver,
-        mainCredential: MainCredential,
+        masterCredential: MasterCredential,
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     ) {
         // Retrieve each plain credential
-        val password = mainCredential.password
-        val keyFileUri = mainCredential.keyFileUri
-        val hardwareKey = mainCredential.hardwareKey
-        val passwordBytes = if (password != null) MainCredential.retrievePasswordKey(
+        val password = masterCredential.password
+        val keyFileData = masterCredential.keyFileData
+        val hardwareKey = masterCredential.hardwareKey
+        val passwordBytes = if (password != null) MasterCredential.retrievePasswordKey(
             password,
             passwordEncoding
         ) else null
-        val keyFileBytes = if (keyFileUri != null) MainCredential.retrieveFileKey(
-            contentResolver,
-            keyFileUri,
+        val keyFileBytes = if (keyFileData != null) MasterCredential.retrieveKeyFileDecodedKey(
+            keyFileData,
             true
         ) else null
-        val hardwareKeyBytes = if (hardwareKey != null) MainCredential.retrieveHardwareKey(
+        val hardwareKeyBytes = if (hardwareKey != null) MasterCredential.retrieveHardwareKey(
             challengeResponseRetriever.invoke(hardwareKey, transformSeed)
         ) else null
 
@@ -272,7 +269,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 keyFileBytes
             )
         } else {
-            val hardwareKeyBytes = MainCredential.retrieveHardwareKey(
+            val hardwareKeyBytes = MasterCredential.retrieveHardwareKey(
                 challengeResponseRetriever.invoke(hardwareKey, transformSeed)
             )
             this.masterKey = composedKeyToMasterKey(
@@ -873,10 +870,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         }
     }
 
-    override fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+    override fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
         if (password == null)
             return true
-        return super.validatePasswordEncoding(password, containsKeyFile)
+        return super.isValidCredential(password, containsKeyFile)
     }
 
     override fun clearIndexes() {

@@ -22,10 +22,12 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.UriHelper.getUriOutputStream
+import java.io.File
 
 open class SaveDatabaseRunnable(
     protected var context: Context,
@@ -44,11 +46,14 @@ open class SaveDatabaseRunnable(
         database.checkVersion()
         if (saveDatabase && result.isSuccess) {
             try {
+                val contentResolver = context.contentResolver
+                // Build temp database file to avoid file corruption if error
                 database.saveData(
-                    context.contentResolver,
-                    context.cacheDir,
-                    databaseCopyUri,
-                    mainCredential,
+                    cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
+                    databaseOutputStream = context.contentResolver
+                        .getUriOutputStream(databaseCopyUri ?: database.fileUri),
+                    isNewLocation = databaseCopyUri == null,
+                    mainCredential?.toMasterCredential(contentResolver),
                     challengeResponseRetriever)
             } catch (e: DatabaseException) {
                 setError(e)

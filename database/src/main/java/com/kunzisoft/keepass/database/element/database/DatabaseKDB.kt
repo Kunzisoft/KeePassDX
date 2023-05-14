@@ -19,13 +19,12 @@
 
 package com.kunzisoft.keepass.database.element.database
 
-import android.content.ContentResolver
 import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.encrypt.aes.AESTransformer
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.element.MasterCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -129,25 +128,23 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     fun deriveMasterKey(
-        contentResolver: ContentResolver,
-        mainCredential: MainCredential
+        masterCredential: MasterCredential
     ) {
         // Exception when no password
-        if (mainCredential.hardwareKey != null)
+        if (masterCredential.hardwareKey != null)
             throw HardwareKeyDatabaseException()
-        if (mainCredential.password == null && mainCredential.keyFileUri == null)
+        if (masterCredential.password == null && masterCredential.keyFileData == null)
             throw EmptyKeyDatabaseException()
 
         // Retrieve plain data
-        val password = mainCredential.password
-        val keyFileUri = mainCredential.keyFileUri
-        val passwordBytes = if (password != null) MainCredential.retrievePasswordKey(
+        val password = masterCredential.password
+        val keyFileData = masterCredential.keyFileData
+        val passwordBytes = if (password != null) MasterCredential.retrievePasswordKey(
             password,
             passwordEncoding
         ) else null
-        val keyFileBytes = if (keyFileUri != null) MainCredential.retrieveFileKey(
-            contentResolver,
-            keyFileUri,
+        val keyFileBytes = if (keyFileData != null) MasterCredential.retrieveKeyFileDecodedKey(
+            keyFileData,
             false
         ) else null
 

@@ -37,10 +37,10 @@ import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.model.GroupInfo
@@ -251,7 +251,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(mainCredential)) {
+                if (database.isValidCredential(mainCredential.toMasterCredential(contentResolver))) {
                     assignDatabasePassword(databaseUri, mainCredential)
                 } else {
                     PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)

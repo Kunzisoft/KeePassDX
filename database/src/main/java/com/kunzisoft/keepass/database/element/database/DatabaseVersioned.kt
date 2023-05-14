@@ -93,7 +93,7 @@ abstract class DatabaseVersioned<
         return null
     }
 
-    open fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+    open fun isValidCredential(password: String?, containsKeyFile: Boolean): Boolean {
         if (password == null && !containsKeyFile)
             return false
 

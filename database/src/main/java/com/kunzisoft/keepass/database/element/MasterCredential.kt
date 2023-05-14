@@ -18,8 +18,6 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.content.ContentResolver
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
@@ -29,8 +27,9 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
-import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
+import com.kunzisoft.keepass.utils.readByteArrayCompat
 import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.writeByteArrayCompat
 import com.kunzisoft.keepass.utils.writeEnum
 import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
@@ -43,19 +42,19 @@ import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.parsers.ParserConfigurationException
 
-data class MainCredential(var password: String? = null,
-                          var keyFileUri: Uri? = null,
-                          var hardwareKey: HardwareKey? = null): Parcelable {
+data class MasterCredential(var password: String? = null,
+                            var keyFileData: ByteArray? = null,
+                            var hardwareKey: HardwareKey? = null): Parcelable {
 
     constructor(parcel: Parcel) : this() {
         password = parcel.readString()
-        keyFileUri = parcel.readParcelable(Uri::class.java.classLoader)
+        keyFileData = parcel.readByteArrayCompat()
         hardwareKey = parcel.readEnum<HardwareKey>()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(password)
-        parcel.writeParcelable(keyFileUri, flags)
+        parcel.writeByteArrayCompat(keyFileData)
         parcel.writeEnum(hardwareKey)
     }
 
@@ -67,10 +66,10 @@ data class MainCredential(var password: String? = null,
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as MainCredential
+        other as MasterCredential
 
         if (password != other.password) return false
-        if (keyFileUri != other.keyFileUri) return false
+        if (!keyFileData.contentEquals(other.keyFileData)) return false
         if (hardwareKey != other.hardwareKey) return false
 
         return true
@@ -78,21 +77,21 @@ data class MainCredential(var password: String? = null,
 
     override fun hashCode(): Int {
         var result = password?.hashCode() ?: 0
-        result = 31 * result + (keyFileUri?.hashCode() ?: 0)
+        result = 31 * result + (keyFileData?.hashCode() ?: 0)
         result = 31 * result + (hardwareKey?.hashCode() ?: 0)
         return result
     }
 
-    companion object CREATOR : Parcelable.Creator<MainCredential> {
-        override fun createFromParcel(parcel: Parcel): MainCredential {
-            return MainCredential(parcel)
+    companion object CREATOR : Parcelable.Creator<MasterCredential> {
+        override fun createFromParcel(parcel: Parcel): MasterCredential {
+            return MasterCredential(parcel)
         }
 
-        override fun newArray(size: Int): Array<MainCredential?> {
+        override fun newArray(size: Int): Array<MasterCredential?> {
             return arrayOfNulls(size)
         }
 
-        private val TAG = MainCredential::class.java.simpleName
+        private val TAG = MasterCredential::class.java.simpleName
 
         @Throws(IOException::class)
         fun retrievePasswordKey(key: String,
@@ -107,17 +106,14 @@ data class MainCredential(var password: String? = null,
         }
 
         @Throws(IOException::class)
-        fun retrieveFileKey(contentResolver: ContentResolver,
-                            keyFileUri: Uri?,
-                            allowXML: Boolean): ByteArray {
-            if (keyFileUri == null)
-                throw IOException("Keyfile URI is null")
-            val keyData = getKeyFileData(contentResolver, keyFileUri)
-                ?: throw IOException("No data retrieved")
+        fun retrieveKeyFileDecodedKey(
+            keyFileData: ByteArray,
+            allowXML: Boolean
+        ): ByteArray {
             try {
                 // Check XML key file
                 val xmlKeyByteArray = if (allowXML)
-                    loadXmlKeyFile(ByteArrayInputStream(keyData))
+                    loadXmlKeyFile(ByteArrayInputStream(keyFileData))
                 else
                     null
                 if (xmlKeyByteArray != null) {
@@ -125,16 +121,16 @@ data class MainCredential(var password: String? = null,
                 }
 
                 // Check 32 bytes key file
-                when (keyData.size) {
-                    32 -> return keyData
+                when (keyFileData.size) {
+                    32 -> return keyFileData
                     64 -> try {
-                        return Hex.decodeHex(String(keyData).toCharArray())
+                        return Hex.decodeHex(String(keyFileData).toCharArray())
                     } catch (ignoredException: Exception) {
                         // Key is not base 64, treat it as binary data
                     }
                 }
                 // Hash file as binary data
-                return HashManager.hashSha256(keyData)
+                return HashManager.hashSha256(keyFileData)
             } catch (e: Exception) {
                 throw IOException("Unable to load the keyfile.", e)
             }
@@ -143,15 +139,6 @@ data class MainCredential(var password: String? = null,
         @Throws(IOException::class)
         fun retrieveHardwareKey(keyData: ByteArray): ByteArray {
             return HashManager.hashSha256(keyData)
-        }
-
-        @Throws(Exception::class)
-        private fun getKeyFileData(contentResolver: ContentResolver,
-                                   keyFileUri: Uri): ByteArray? {
-            contentResolver.getUriInputStream(keyFileUri)?.use { keyFileInputStream ->
-                return keyFileInputStream.readBytes()
-            }
-            return null
         }
 
         private fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {

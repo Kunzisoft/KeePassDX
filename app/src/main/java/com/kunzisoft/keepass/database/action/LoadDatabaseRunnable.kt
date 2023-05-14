@@ -24,14 +24,16 @@ import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
 import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class LoadDatabaseRunnable(
@@ -56,10 +58,13 @@ class LoadDatabaseRunnable(
 
     override fun onActionRun() {
         try {
+            val contentResolver = context.contentResolver
+            // Save database URI
+            mDatabase.fileUri = mDatabaseUri
             mDatabase.loadData(
-                context.contentResolver,
-                mDatabaseUri,
-                mMainCredential,
+                contentResolver.getUriInputStream(mDatabaseUri)
+                    ?: throw UnknownDatabaseLocationException(),
+                mMainCredential.toMasterCredential(contentResolver),
                 mChallengeResponseRetriever,
                 mReadonly,
                 binaryDir,

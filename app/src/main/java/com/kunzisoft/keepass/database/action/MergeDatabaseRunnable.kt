@@ -22,12 +22,14 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
+import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
 
 class MergeDatabaseRunnable(
     context: Context,
@@ -48,10 +50,12 @@ class MergeDatabaseRunnable(
 
     override fun onActionRun() {
         try {
+            val contentResolver = context.contentResolver
             database.mergeData(
-                context.contentResolver,
-                mDatabaseToMergeUri,
-                mDatabaseToMergeMainCredential,
+                context.contentResolver.getUriInputStream(
+                    mDatabaseToMergeUri ?: database.fileUri
+                ) ?: throw UnknownDatabaseLocationException(),
+                mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver),
                 mDatabaseToMergeChallengeResponseRetriever,
                 { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
