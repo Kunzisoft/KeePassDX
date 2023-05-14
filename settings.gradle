@@ -1,2 +1,3 @@
-include ':app', ':icon-pack-classic', ':icon-pack-material', ':crypto'
-include ':database'
+include ':app'
+include ':database', ':database:crypto'
+include ':icon-pack', ':icon-pack:classic', ':icon-pack:material'

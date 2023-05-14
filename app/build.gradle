@@ -129,11 +129,9 @@ dependencies {
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
     
+    // Modules import
     implementation project(path: ':database')
-
-    // Icon pack
-    implementation project(path: ':icon-pack-classic')
-    implementation project(path: ':icon-pack-material')
+    implementation project(path: ':icon-pack')
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"

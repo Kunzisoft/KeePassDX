@@ -38,5 +38,5 @@ dependencies {
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
 
-    implementation project(path: ':crypto')
+    implementation project(path: ':database:crypto')
 }
