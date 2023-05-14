@@ -29,9 +29,9 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
@@ -48,7 +48,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class AttachmentFileNotificationService: LockNotificationService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private val mPendingCommands: MutableList<Intent?> = mutableListOf()
 
     override val notificationId: Int = 10000
@@ -366,7 +366,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private class AttachmentFileAction(
         private val attachmentNotification: AttachmentNotification,
-        private val database: Database,
+        private val database: ContextualDatabase,
         private val contentResolver: ContentResolver) {
 
         private val updateMinFrequency = 1000

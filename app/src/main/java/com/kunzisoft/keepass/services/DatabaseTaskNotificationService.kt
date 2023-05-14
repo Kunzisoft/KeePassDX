@@ -37,7 +37,6 @@ import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.*
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -1288,7 +1287,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
         const val DATA_BYTES = "DATA_BYTES"
 
-        fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
+        fun getListNodesFromBundle(database: ContextualDatabase, bundle: Bundle): List<Node> {
             val nodesAction = ArrayList<Node>()
             bundle.getParcelableArrayList<NodeId<*>>(GROUPS_ID_KEY)?.forEach {
                 database.getGroupById(it)?.let { groupRetrieve ->

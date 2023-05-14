@@ -53,7 +53,6 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
@@ -527,7 +526,7 @@ class EntryActivity : DatabaseLockActivity() {
          * Open standard Entry activity
          */
         fun launch(activity: Activity,
-                   database: Database,
+                   database: ContextualDatabase,
                    entryId: NodeId<UUID>,
                    activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
@@ -543,7 +542,7 @@ class EntryActivity : DatabaseLockActivity() {
          * Open history Entry activity
          */
         fun launch(activity: Activity,
-                   database: Database,
+                   database: ContextualDatabase,
                    entryId: NodeId<UUID>,
                    historyPosition: Int,
                    activityResultLauncher: ActivityResultLauncher<Intent>) {

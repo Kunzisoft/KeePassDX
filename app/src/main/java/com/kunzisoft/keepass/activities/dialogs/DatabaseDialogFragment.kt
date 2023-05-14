@@ -6,7 +6,6 @@ import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -15,7 +14,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
 
     protected var mIconDrawableFactory: IconDrawableFactory? = null
 

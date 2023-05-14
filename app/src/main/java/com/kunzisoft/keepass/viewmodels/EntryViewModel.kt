@@ -22,16 +22,16 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kunzisoft.keepass.utils.IOActionTask
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
-import java.util.*
+import com.kunzisoft.keepass.utils.IOActionTask
+import java.util.UUID
 
 
 class EntryViewModel: ViewModel() {
@@ -59,11 +59,11 @@ class EntryViewModel: ViewModel() {
     val historySelected : LiveData<EntryHistory> get() = _historySelected
     private val _historySelected = SingleLiveEvent<EntryHistory>()
 
-    fun loadDatabase(database: Database?) {
+    fun loadDatabase(database: ContextualDatabase?) {
         loadEntry(database, mMainEntryId, mHistoryPosition)
     }
 
-    fun loadEntry(database: Database?, mainEntryId: NodeId<UUID>?, historyPosition: Int = -1) {
+    fun loadEntry(database: ContextualDatabase?, mainEntryId: NodeId<UUID>?, historyPosition: Int = -1) {
         this.mMainEntryId = mainEntryId
         this.mHistoryPosition = historyPosition
 

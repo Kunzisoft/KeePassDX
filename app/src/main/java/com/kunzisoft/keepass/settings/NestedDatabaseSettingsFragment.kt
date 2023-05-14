@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrF
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.helper.*
@@ -49,7 +48,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private var mDatabaseReadOnly: Boolean = false
     private var mMergeDataAllowed: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
@@ -150,7 +149,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun onCreateDatabasePreference(database: Database) {
+    private fun onCreateDatabasePreference(database: ContextualDatabase) {
         val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
 
         // Database name
@@ -283,7 +282,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun refreshRecycleBinGroup(database: Database?) {
+    private fun refreshRecycleBinGroup(database: ContextualDatabase?) {
         recycleBinGroupPref?.apply {
             if (database?.isRecycleBinEnabled == true) {
                 summary = database.recycleBin?.toString()
@@ -295,7 +294,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun refreshTemplatesGroup(database: Database?) {
+    private fun refreshTemplatesGroup(database: ContextualDatabase?) {
         templatesGroupPref?.apply {
             if (database?.isTemplatesEnabled == true) {
                 summary = database.templatesGroup?.toString()
@@ -307,7 +306,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun onCreateDatabaseSecurityPreference(database: Database) {
+    private fun onCreateDatabaseSecurityPreference(database: ContextualDatabase) {
         // Encryption Algorithm
         mEncryptionAlgorithmPref = findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.apply {
             summary = database.getEncryptionAlgorithmName()
@@ -334,7 +333,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun onCreateDatabaseMasterKeyPreference(database: Database) {
+    private fun onCreateDatabaseMasterKeyPreference(database: ContextualDatabase) {
         findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
             isEnabled = if (!mDatabaseReadOnly) {
                 onPreferenceClickListener = Preference.OnPreferenceClickListener {

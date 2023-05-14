@@ -32,7 +32,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ImageViewerActivity
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.AttachmentState
@@ -46,7 +46,7 @@ import kotlin.math.max
 class EntryAttachmentsItemsAdapter(context: Context)
     : AnimatedItemsAdapter<EntryAttachmentState, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
-    var database: Database? = null
+    var database: ContextualDatabase? = null
     var onItemClickListener: ((item: EntryAttachmentState)->Unit)? = null
     var onBinaryPreviewLoaded: ((item: EntryAttachmentState) -> Unit)? = null
 

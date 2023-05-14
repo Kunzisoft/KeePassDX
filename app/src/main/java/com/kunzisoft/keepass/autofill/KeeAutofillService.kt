@@ -37,7 +37,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -154,7 +153,7 @@ class KeeAutofillService : AutofillService() {
 
     @SuppressLint("RestrictedApi")
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
-                                        database: Database?,
+                                        database: ContextualDatabase?,
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                         callback: FillCallback) {

@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
@@ -23,7 +23,7 @@ import kotlin.math.pow
 
 object BinaryDatabaseManager {
 
-    fun downloadFromDatabase(database: Database,
+    fun downloadFromDatabase(database: ContextualDatabase,
                              attachmentToUploadUri: Uri,
                              binaryData: BinaryData,
                              contentResolver: ContentResolver,
@@ -57,7 +57,7 @@ object BinaryDatabaseManager {
         }
     }
 
-    fun uploadToDatabase(database: Database,
+    fun uploadToDatabase(database: ContextualDatabase,
                          attachmentFromDownloadUri: Uri,
                          binaryData: BinaryData,
                          contentResolver: ContentResolver,
@@ -93,7 +93,7 @@ object BinaryDatabaseManager {
     }
 
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              bitmapUri: Uri?,
                                              binaryData: BinaryData?) {
         try {
@@ -139,7 +139,7 @@ object BinaryDatabaseManager {
         return Bitmap.createScaledBitmap(this, width, height, true)
     }
 
-    fun loadBitmap(database: Database,
+    fun loadBitmap(database: ContextualDatabase,
                    binaryData: BinaryData,
                    maxWidth: Int,
                    actionOnFinish: (Bitmap?) -> Unit) {

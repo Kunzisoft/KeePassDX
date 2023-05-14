@@ -67,7 +67,6 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Field
@@ -452,7 +451,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
@@ -778,7 +777,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
         fun launchToUpdate(activity: Activity,
-                           database: Database,
+                           database: ContextualDatabase,
                            entryId: NodeId<UUID>,
                            activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
@@ -794,7 +793,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in an existent group
          */
         fun launchToCreate(activity: Activity,
-                           database: Database,
+                           database: ContextualDatabase,
                            groupId: NodeId<*>,
                            activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
@@ -807,7 +806,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         fun launchToUpdateForSave(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entryId: NodeId<UUID>,
                                   searchInfo: SearchInfo) {
             if (database.loaded && !database.isReadOnly) {
@@ -824,7 +823,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         fun launchToCreateForSave(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   groupId: NodeId<*>,
                                   searchInfo: SearchInfo) {
             if (database.loaded && !database.isReadOnly) {
@@ -844,7 +843,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in keyboard selection
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              groupId: NodeId<*>,
                                              searchInfo: SearchInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
@@ -865,7 +864,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: AppCompatActivity,
-                                    database: Database,
+                                    database: ContextualDatabase,
                                     activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     groupId: NodeId<*>,
@@ -889,7 +888,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
         fun launchToUpdateForRegistration(context: Context,
-                                          database: Database,
+                                          database: ContextualDatabase,
                                           entryId: NodeId<UUID>,
                                           registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
@@ -909,7 +908,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register a new entry (from autofill)
          */
         fun launchToCreateForRegistration(context: Context,
-                                          database: Database,
+                                          database: ContextualDatabase,
                                           groupId: NodeId<*>,
                                           registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {

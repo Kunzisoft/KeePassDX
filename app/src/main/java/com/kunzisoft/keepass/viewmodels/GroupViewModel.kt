@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.utils.IOActionTask
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -41,7 +41,7 @@ class GroupViewModel: ViewModel() {
     val firstPositionVisible : LiveData<Int> get() = _firstPositionVisible
     private val _firstPositionVisible = MutableLiveData<Int>()
 
-    fun loadMainGroup(database: Database?,
+    fun loadMainGroup(database: ContextualDatabase?,
                       groupId: NodeId<*>?,
                       showFromPosition: Int?) {
         IOActionTask(
@@ -63,7 +63,7 @@ class GroupViewModel: ViewModel() {
         ).execute()
     }
 
-    fun loadSearchGroup(database: Database?,
+    fun loadSearchGroup(database: ContextualDatabase?,
                         searchParameters: SearchParameters,
                         fromGroup: NodeId<*>?,
                         showFromPosition: Int?) {

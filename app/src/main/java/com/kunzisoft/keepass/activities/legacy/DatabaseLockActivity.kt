@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
@@ -303,7 +302,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseMoveNodes(nodesToMove, newParent, mAutoSaveEnable)
     }
 
-    private fun eachNodeRecyclable(database: Database, nodes: List<Node>): Boolean {
+    private fun eachNodeRecyclable(database: ContextualDatabase, nodes: List<Node>): Boolean {
         return nodes.find { node ->
             var cannotRecycle = true
             if (node is Entry) {

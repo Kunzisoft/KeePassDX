@@ -30,7 +30,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
@@ -150,7 +150,7 @@ fun Context.unregisterLockReceiver(lockReceiver: LockReceiver?) {
     }
 }
 
-fun Context.closeDatabase(database: Database?) {
+fun Context.closeDatabase(database: ContextualDatabase?) {
     // Stop the Magikeyboard service
     stopService(Intent(this, KeyboardEntryNotificationService::class.java))
     MagikeyboardService.removeEntry(this)
