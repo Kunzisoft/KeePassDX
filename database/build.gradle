@@ -29,6 +29,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -39,4 +44,8 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
 
     implementation project(path: ':database:crypto')
+
+    // Tests
+    androidTestImplementation "androidx.test:runner:$android_test_version"
+    testImplementation "androidx.test:runner:$android_test_version"
 }

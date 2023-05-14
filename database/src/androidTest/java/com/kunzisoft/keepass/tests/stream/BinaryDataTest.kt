@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryFile
-import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 import com.kunzisoft.keepass.utils.readAllBytes
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
@@ -19,7 +18,7 @@ class BinaryDataTest {
         InstrumentationRegistry.getInstrumentation().context
     }
 
-    private val cacheDirectory = InstrumentationRegistry.getInstrumentation().targetContext.getBinaryDir()
+    private val cacheDirectory = context.filesDir
     private val fileA = File(cacheDirectory, TEST_FILE_CACHE_A)
     private val fileB = File(cacheDirectory, TEST_FILE_CACHE_B)
     private val fileC = File(cacheDirectory, TEST_FILE_CACHE_C)
