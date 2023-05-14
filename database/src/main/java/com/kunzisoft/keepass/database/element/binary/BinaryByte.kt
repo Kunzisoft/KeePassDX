@@ -21,10 +21,11 @@ package com.kunzisoft.keepass.database.element.binary
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.binary.BinaryCache.Companion.UNKNOWN
+import android.util.Base64
+import android.util.Base64InputStream
+import android.util.Base64OutputStream
 import com.kunzisoft.keepass.utils.readAllBytes
-import org.apache.commons.codec.binary.Base64InputStream
-import org.apache.commons.codec.binary.Base64OutputStream
+import com.kunzisoft.keepass.database.element.binary.BinaryCache.Companion.UNKNOWN
 import java.io.*
 import java.util.zip.GZIPOutputStream
 
@@ -59,12 +60,12 @@ class BinaryByte : BinaryData {
 
     @Throws(IOException::class)
     override fun getInputDataStream(binaryCache: BinaryCache): InputStream {
-        return Base64InputStream(ByteArrayInputStream(getByteArray(binaryCache)), false)
+        return Base64InputStream(ByteArrayInputStream(getByteArray(binaryCache)), Base64.NO_WRAP)
     }
 
     @Throws(IOException::class)
     override fun getOutputDataStream(binaryCache: BinaryCache): OutputStream {
-        return BinaryCountingOutputStream(Base64OutputStream(ByteOutputStream(binaryCache), true))
+        return BinaryCountingOutputStream(Base64OutputStream(ByteOutputStream(binaryCache), Base64.NO_WRAP))
     }
 
     @Throws(IOException::class)

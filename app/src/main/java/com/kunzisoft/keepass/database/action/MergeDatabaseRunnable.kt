@@ -23,9 +23,9 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
-import com.kunzisoft.keepass.database.helper.MemoryHelper.canMemoryBeAllocatedInRAM
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -58,7 +58,7 @@ class MergeDatabaseRunnable(
                 mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver),
                 mDatabaseToMergeChallengeResponseRetriever,
                 { memoryWanted ->
-                    canMemoryBeAllocatedInRAM(context, memoryWanted)
+                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
                 progressTaskUpdater
             )

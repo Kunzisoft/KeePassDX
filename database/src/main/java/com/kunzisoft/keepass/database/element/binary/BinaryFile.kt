@@ -21,9 +21,10 @@ package com.kunzisoft.keepass.database.element.binary
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Base64
+import android.util.Base64InputStream
+import android.util.Base64OutputStream
 import com.kunzisoft.keepass.utils.readAllBytes
-import org.apache.commons.codec.binary.Base64InputStream
-import org.apache.commons.codec.binary.Base64OutputStream
 import java.io.*
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
@@ -74,7 +75,7 @@ class BinaryFile : BinaryData {
         return when {
             file != null && file.length() > 0 -> {
                 cipherDecryption.init(Cipher.DECRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), false)
+                Base64InputStream(CipherInputStream(FileInputStream(file), cipherDecryption), Base64.NO_WRAP)
             }
             else -> ByteArrayInputStream(ByteArray(0))
         }
@@ -86,7 +87,7 @@ class BinaryFile : BinaryData {
         return when {
             file != null -> {
                 cipherEncryption.init(Cipher.ENCRYPT_MODE, cipherKey.key, IvParameterSpec(cipherKey.iv))
-                BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), true))
+                BinaryCountingOutputStream(Base64OutputStream(CipherOutputStream(FileOutputStream(file), cipherEncryption), Base64.NO_WRAP))
             }
             else -> throw IOException("Unable to write in an unknown file")
         }
