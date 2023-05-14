@@ -20,10 +20,8 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
@@ -31,6 +29,7 @@ import com.kunzisoft.keepass.utils.readByteArrayCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeByteArrayCompat
 import com.kunzisoft.keepass.utils.writeEnum
+import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.binary.Hex
 import org.w3c.dom.Node
 import java.io.ByteArrayInputStream
@@ -212,9 +211,7 @@ data class MasterCredential(var password: String? = null,
                                         when (xmlKeyFileVersion) {
                                             1F -> {
                                                 // No hash in KeyFile XML version 1
-                                                return Base64.decode(dataString,
-                                                    DatabaseKDBX.BASE_64_FLAG
-                                                )
+                                                return Base64.decodeBase64(dataString)
                                             }
                                             2F -> {
                                                 return if (hashString != null

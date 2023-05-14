@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.file.input
 
-import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CipherEngine
@@ -29,7 +28,6 @@ import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
@@ -47,6 +45,7 @@ import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
+import org.apache.commons.codec.binary.Base64
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
@@ -55,7 +54,10 @@ import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 import java.text.ParseException
-import java.util.*
+import java.util.Arrays
+import java.util.Date
+import java.util.Stack
+import java.util.UUID
 import java.util.zip.GZIPInputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
@@ -346,7 +348,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             } else if (name.equals(DatabaseKDBXXML.ElemHeaderHash, ignoreCase = true)) {
                 val encodedHash = readString(xpp)
                 if (encodedHash.isNotEmpty() && hashOfHeader != null) {
-                    val hash = Base64.decode(encodedHash, BASE_64_FLAG)
+                    val hash = Base64.decodeBase64(encodedHash)
                     if (!Arrays.equals(hash, hashOfHeader)) {
                         throw DatabaseInputException()
                     }
@@ -432,7 +434,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconItemData, ignoreCase = true)) {
                 val strData = readString(xpp)
                 if (strData.isNotEmpty()) {
-                    customIconData = Base64.decode(strData, BASE_64_FLAG)
+                    customIconData = Base64.decodeBase64(strData)
                 }
             } else if (name.equals(DatabaseKDBXXML.ElemName, ignoreCase = true)) {
                 customIconName = readString(xpp)
@@ -836,7 +838,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 // Catch with null test below
             }
         } else {
-            var buf = Base64.decode(sDate, BASE_64_FLAG)
+            var buf = Base64.decodeBase64(sDate)
             if (buf.size != 8) {
                 val buf8 = ByteArray(8)
                 System.arraycopy(buf, 0, buf8, 0, min(buf.size, 8))
@@ -902,7 +904,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
         }
 
         return try {
-            val buf = Base64.decode(encoded, BASE_64_FLAG)
+            val buf = Base64.decodeBase64(encoded)
             bytes16ToUuid(buf)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to read base 64 UUID, create a random one", e)
@@ -1022,7 +1024,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 isRAMSufficient.invoke(base64.length.toLong()), compressed, protected, binaryId)
         try {
             binaryAttachment.getOutputDataStream(mDatabase.binaryCache).use { outputStream ->
-                outputStream.write(Base64.decode(base64, BASE_64_FLAG))
+                outputStream.write(Base64.decodeBase64(base64))
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to read base 64 attachment", e)
@@ -1055,7 +1057,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
         if (xpp.attributeCount > 0) {
             val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
             if (protect != null && protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)) {
-                Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { data ->
+                Base64.decodeBase64(xpp.safeNextText())?.let { data ->
                     return randomStream?.processBytes(data)
                 }
                 return ByteArray(0)

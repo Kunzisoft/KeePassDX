@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import android.util.Base64
 import android.util.Log
 import android.util.Xml
 import com.kunzisoft.encrypt.StreamCipher
@@ -28,7 +27,6 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -45,11 +43,13 @@ import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.utils.*
+import org.apache.commons.codec.binary.Base64
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
 import java.io.OutputStream
 import java.security.SecureRandom
-import java.util.*
+import java.util.Stack
+import java.util.UUID
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
@@ -216,7 +216,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writeString(DatabaseKDBXXML.ElemGenerator, mDatabaseKDBX.localizedAppName)
 
         if (hashOfHeader != null) {
-            writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
+            writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encodeBase64(hashOfHeader!!)))
         }
 
         if (!header!!.version.isBefore(FILE_VERSION_40)) {
@@ -417,7 +417,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             writeString(name, DatabaseKDBXXML.DateFormatter.format(date))
         } else {
             val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(date))
-            val b64 = String(Base64.encode(buf, BASE_64_FLAG))
+            val b64 = String(Base64.encodeBase64(buf))
             writeString(name, b64)
         }
     }
@@ -441,7 +441,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeUuid(name: String, uuid: UUID) {
         val data = uuidTo16Bytes(uuid)
-        writeString(name, String(Base64.encode(data, BASE_64_FLAG)))
+        writeString(name, String(Base64.encodeBase64(data)))
     }
 
     /*
@@ -490,7 +490,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
                     // Write the XML
                     binary.getInputDataStream(binaryCache).use { inputStream ->
                         inputStream.readAllBytes { buffer ->
-                            xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+                            xml.text(String(Base64.encodeBase64(buffer)))
                         }
                     }
                 } catch (e: Exception) {
@@ -562,7 +562,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
             val data = value.toString().toByteArray()
             val encoded = randomStream?.processBytes(data) ?: ByteArray(0)
-            xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
+            xml.text(String(Base64.encodeBase64(encoded)))
         } else {
             xml.text(value.toString())
         }
@@ -723,7 +723,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
                     Log.e(TAG, "Unable to write custom icon", e)
                 } finally {
                     writeString(DatabaseKDBXXML.ElemCustomIconItemData,
-                            String(Base64.encode(customImageData, BASE_64_FLAG)))
+                            String(Base64.encodeBase64(customImageData)))
                 }
                 if (iconCustom.name.isNotEmpty()) {
                     writeString(DatabaseKDBXXML.ElemName, iconCustom.name)
