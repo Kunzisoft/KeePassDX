@@ -891,7 +891,5 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
 
         private const val DEFAULT_HISTORY_MAX_ITEMS = 10 // -1 unlimited
         private const val DEFAULT_HISTORY_MAX_SIZE = (6 * 1024 * 1024).toLong() // -1 unlimited
-
-        const val BASE_64_FLAG = Base64.NO_WRAP
     }
 }

@@ -23,7 +23,7 @@ import android.os.Parcelable
 import android.util.Base64
 import android.util.Log
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
@@ -212,9 +212,7 @@ data class MasterCredential(var password: String? = null,
                                         when (xmlKeyFileVersion) {
                                             1F -> {
                                                 // No hash in KeyFile XML version 1
-                                                return Base64.decode(dataString,
-                                                    DatabaseKDBX.BASE_64_FLAG
-                                                )
+                                                return Base64.decode(dataString, BASE64_FLAG)
                                             }
                                             2F -> {
                                                 return if (hashString != null

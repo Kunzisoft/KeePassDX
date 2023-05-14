@@ -23,6 +23,7 @@ import android.app.ActivityManager
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Base64
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -181,6 +182,7 @@ abstract class BinaryData : Parcelable {
     companion object {
         private val TAG = BinaryData::class.java.name
         private const val MAX_BINARY_BYTE = 10485760 // 10 MB
+        const val BASE64_FLAG = Base64.NO_WRAP
 
         fun canMemoryBeAllocatedInRAM(context: Context, memoryWanted: Long): Boolean {
             if (memoryWanted > MAX_BINARY_BYTE)

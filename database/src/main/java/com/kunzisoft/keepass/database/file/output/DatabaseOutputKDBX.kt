@@ -26,9 +26,9 @@ import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
@@ -216,7 +216,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
         writeString(DatabaseKDBXXML.ElemGenerator, mDatabaseKDBX.localizedAppName)
 
         if (hashOfHeader != null) {
-            writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
+            writeString(DatabaseKDBXXML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE64_FLAG)))
         }
 
         if (!header!!.version.isBefore(FILE_VERSION_40)) {
@@ -417,7 +417,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             writeString(name, DatabaseKDBXXML.DateFormatter.format(date))
         } else {
             val buf = longTo8Bytes(DateKDBXUtil.convertDateToKDBX4Time(date))
-            val b64 = String(Base64.encode(buf, BASE_64_FLAG))
+            val b64 = String(Base64.encode(buf, BASE64_FLAG))
             writeString(name, b64)
         }
     }
@@ -441,7 +441,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeUuid(name: String, uuid: UUID) {
         val data = uuidTo16Bytes(uuid)
-        writeString(name, String(Base64.encode(data, BASE_64_FLAG)))
+        writeString(name, String(Base64.encode(data, BASE64_FLAG)))
     }
 
     /*
@@ -490,7 +490,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
                     // Write the XML
                     binary.getInputDataStream(binaryCache).use { inputStream ->
                         inputStream.readAllBytes { buffer ->
-                            xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+                            xml.text(String(Base64.encode(buffer, BASE64_FLAG)))
                         }
                     }
                 } catch (e: Exception) {
@@ -562,7 +562,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
             xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
             val data = value.toString().toByteArray()
             val encoded = randomStream?.processBytes(data) ?: ByteArray(0)
-            xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
+            xml.text(String(Base64.encode(encoded, BASE64_FLAG)))
         } else {
             xml.text(value.toString())
         }
@@ -723,7 +723,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
                     Log.e(TAG, "Unable to write custom icon", e)
                 } finally {
                     writeString(DatabaseKDBXXML.ElemCustomIconItemData,
-                            String(Base64.encode(customImageData, BASE_64_FLAG)))
+                            String(Base64.encode(customImageData, BASE64_FLAG)))
                 }
                 if (iconCustom.name.isNotEmpty()) {
                     writeString(DatabaseKDBXXML.ElemName, iconCustom.name)

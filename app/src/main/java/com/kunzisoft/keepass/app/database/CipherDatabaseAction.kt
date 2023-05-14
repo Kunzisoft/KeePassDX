@@ -27,6 +27,7 @@ import android.net.Uri
 import android.os.IBinder
 import android.util.Base64
 import android.util.Log
+import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -138,11 +139,11 @@ class CipherDatabaseAction(context: Context) {
                         this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
                         this.encryptedValue = Base64.decode(
                             cipherDatabaseEntity.encryptedValue,
-                            Base64.NO_WRAP
+                            BASE64_FLAG
                         )
                         this.specParameters = Base64.decode(
                             cipherDatabaseEntity.specParameters,
-                            Base64.NO_WRAP
+                            BASE64_FLAG
                         )
                     }
                 }
@@ -186,8 +187,8 @@ class CipherDatabaseAction(context: Context) {
 
             val cipherDatabaseEntity = CipherDatabaseEntity(
                 databaseUri.toString(),
-                Base64.encodeToString(cipherEncryptDatabase.encryptedValue, Base64.NO_WRAP),
-                Base64.encodeToString(cipherEncryptDatabase.specParameters, Base64.NO_WRAP),
+                Base64.encodeToString(cipherEncryptDatabase.encryptedValue, BASE64_FLAG),
+                Base64.encodeToString(cipherEncryptDatabase.specParameters, BASE64_FLAG),
             )
 
             if (useTempDao) {
