@@ -45,7 +45,7 @@
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="retrieving_db_key">Datenbankschlüssel abrufen …</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Entschlüssele Datenbankinhalte …</string>
+    <string name="decrypting_db">Entschlüssele Datenbankinhalte…</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Stellen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
@@ -121,7 +121,7 @@
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
     <string name="progress_create">Erstelle neue Datenbank …</string>
-    <string name="progress_title">Arbeite …</string>
+    <string name="progress_title">Arbeite…</string>
     <string name="protection">Schutz</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">Abhängig von deinem Dateienmanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
@@ -129,7 +129,7 @@
     <string name="root">Start</string>
     <string name="rounds">Verschlüsselungsrunden</string>
     <string name="rounds_explanation">Zusätzliche Verschlüsselungsrunden bieten besseren Schutz gegen Brute-Force-Angriffe. Allerdings dauert das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="saving_database">Speichere Datenbank …</string>
+    <string name="saving_database">Speichere Datenbank…</string>
     <string name="space">Leerzeichen</string>
     <string name="sort_db">Natürliche Reihenfolge</string>
     <string name="special">Spezialsymbole</string>
@@ -317,7 +317,7 @@
     <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
-    <string name="do_not_kill_app">Beende die App nicht …</string>
+    <string name="do_not_kill_app">Beende die App nicht…</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn im Wurzelordner die Zurück-Taste gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -648,7 +648,7 @@
     <string name="keyboard_previous_search_summary">Auf dem Suchbildschirm automatisch zur vorherigen Tastatur wechseln</string>
     <string name="entropy">Entropie: %1$s Bit</string>
     <string name="entropy_high">Entropie: Hoch</string>
-    <string name="entropy_calculate">Entropie: Berechne …</string>
+    <string name="entropy_calculate">Entropie: Berechne…</string>
     <string name="at_least_one_char">Mindestens jedes Zeichen einmal</string>
     <string name="consider_chars_filter">Zeichen beinhalteten</string>
     <string name="word_separator">Trennzeichen</string>
