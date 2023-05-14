@@ -24,17 +24,16 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
-import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class ReloadDatabaseRunnable(
     private val context: Context,
     private val mDatabase: ContextualDatabase,
     private val progressTaskUpdater: ProgressTaskUpdater?,
-    private val mLoadDatabaseResult: ((Result) -> Unit)?
+    private val reloadDatabaseResult: ((Result) -> Unit)?
 ) : ActionRunnable() {
 
     private val binaryDir = context.getBinaryDir()
@@ -58,15 +57,12 @@ class ReloadDatabaseRunnable(
             setError(e)
         }
 
-        if (result.isSuccess) {
-            // Register the current time to init the lock timer
-            PreferencesUtil.saveCurrentTime(context)
-        } else {
+        if (!result.isSuccess) {
             mDatabase.clearAndClose(binaryDir)
         }
     }
 
     override fun onFinishRun() {
-        mLoadDatabaseResult?.invoke(result)
+        reloadDatabaseResult?.invoke(result)
     }
 }

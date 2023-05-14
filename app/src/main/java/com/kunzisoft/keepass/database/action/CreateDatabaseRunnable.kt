@@ -21,13 +21,10 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 
 class CreateDatabaseRunnable(
     context: Context,
@@ -39,7 +36,14 @@ class CreateDatabaseRunnable(
     val mainCredential: MainCredential,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val createDatabaseResult: ((Result) -> Unit)?
-) : AssignMainCredentialInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential, challengeResponseRetriever) {
+) : AssignMainCredentialInDatabaseRunnable(
+    context,
+    mDatabase,
+    databaseUri,
+    mainCredential,
+    challengeResponseRetriever,
+    createDatabaseResult
+) {
 
     override fun onStartRun() {
         try {
@@ -54,27 +58,6 @@ class CreateDatabaseRunnable(
         }
 
         super.onStartRun()
-    }
-
-    override fun onActionRun() {
-        super.onActionRun()
-
-        if (result.isSuccess) {
-            // Add database to recent files
-            if (PreferencesUtil.rememberDatabaseLocations(context)) {
-                FileDatabaseHistoryAction.getInstance(context.applicationContext)
-                        .addOrUpdateDatabaseUri(
-                            mDatabaseUri,
-                            if (PreferencesUtil.rememberKeyFileLocations(context)) mainCredential.keyFileUri else null,
-                            if (PreferencesUtil.rememberHardwareKey(context)) mainCredential.hardwareKey else null,
-                        )
-            }
-
-            // Register the current time to init the lock timer
-            PreferencesUtil.saveCurrentTime(context)
-        } else {
-            Log.e("CreateDatabaseRunnable", "Unable to create the database")
-        }
     }
 
     override fun onFinishRun() {

@@ -6,10 +6,10 @@ import androidx.activity.viewModels
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
+import com.kunzisoft.keepass.services.DatabaseTaskProvider
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
@@ -63,16 +63,20 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         // optional method implementation
     }
 
-    fun createDatabase(databaseUri: Uri,
-                       mainCredential: MainCredential) {
+    fun createDatabase(
+        databaseUri: Uri,
+        mainCredential: MainCredential
+    ) {
         mDatabaseTaskProvider?.startDatabaseCreate(databaseUri, mainCredential)
     }
 
-    fun loadDatabase(databaseUri: Uri,
-                     mainCredential: MainCredential,
-                     readOnly: Boolean,
-                     cipherEncryptDatabase: CipherEncryptDatabase?,
-                     fixDuplicateUuid: Boolean) {
+    fun loadDatabase(
+        databaseUri: Uri,
+        mainCredential: MainCredential,
+        readOnly: Boolean,
+        cipherEncryptDatabase: CipherEncryptDatabase?,
+        fixDuplicateUuid: Boolean
+    ) {
         mDatabaseTaskProvider?.startDatabaseLoad(databaseUri, mainCredential, readOnly, cipherEncryptDatabase, fixDuplicateUuid)
     }
 

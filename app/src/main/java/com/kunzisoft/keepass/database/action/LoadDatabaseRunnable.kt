@@ -21,20 +21,16 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
-import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class LoadDatabaseRunnable(
     private val context: Context,
@@ -43,10 +39,9 @@ class LoadDatabaseRunnable(
     private val mMainCredential: MainCredential,
     private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,
     private val mReadonly: Boolean,
-    private val mCipherEncryptDatabase: CipherEncryptDatabase?,
     private val mFixDuplicateUUID: Boolean,
     private val progressTaskUpdater: ProgressTaskUpdater?,
-    private val mLoadDatabaseResult: ((Result) -> Unit)?,
+    private val loadDatabaseResult: ((Result) -> Unit)?,
 ) : ActionRunnable() {
 
     private val binaryDir = context.getBinaryDir()
@@ -78,31 +73,12 @@ class LoadDatabaseRunnable(
             setError(e)
         }
 
-        if (result.isSuccess) {
-            // Save keyFile in app database
-            if (PreferencesUtil.rememberDatabaseLocations(context)) {
-                FileDatabaseHistoryAction.getInstance(context)
-                    .addOrUpdateDatabaseUri(
-                        mDatabaseUri,
-                        if (PreferencesUtil.rememberKeyFileLocations(context)) mMainCredential.keyFileUri else null,
-                        if (PreferencesUtil.rememberHardwareKey(context)) mMainCredential.hardwareKey else null,
-                    )
-            }
-
-            // Register the biometric
-            mCipherEncryptDatabase?.let { cipherDatabase ->
-                CipherDatabaseAction.getInstance(context)
-                    .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
-            }
-
-            // Register the current time to init the lock timer
-            PreferencesUtil.saveCurrentTime(context)
-        } else {
+        if (!result.isSuccess) {
             mDatabase.clearAndClose(binaryDir)
         }
     }
 
     override fun onFinishRun() {
-        mLoadDatabaseResult?.invoke(result)
+        loadDatabaseResult?.invoke(result)
     }
 }

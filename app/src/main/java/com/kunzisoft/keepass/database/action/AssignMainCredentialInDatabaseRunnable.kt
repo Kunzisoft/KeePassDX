@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
@@ -32,8 +30,15 @@ open class AssignMainCredentialInDatabaseRunnable (
     database: ContextualDatabase,
     protected val mDatabaseUri: Uri,
     mainCredential: MainCredential,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : SaveDatabaseRunnable(context, database, true, mainCredential, challengeResponseRetriever) {
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    private val assignMainCredentialResult: ((Result) -> Unit)?
+) : SaveDatabaseRunnable(
+    context,
+    database,
+    true,
+    mainCredential,
+    challengeResponseRetriever
+) {
 
     private var mBackupKey: ByteArray? = null
 
@@ -53,13 +58,6 @@ open class AssignMainCredentialInDatabaseRunnable (
     override fun onFinishRun() {
         super.onFinishRun()
 
-        // Erase the biometric
-        CipherDatabaseAction.getInstance(context)
-                .deleteByDatabaseUri(mDatabaseUri)
-        // Erase the register keyfile
-        FileDatabaseHistoryAction.getInstance(context)
-                .deleteKeyFileByDatabaseUri(mDatabaseUri)
-
         if (!result.isSuccess) {
             // Erase the current master key
             erase(database.masterKey)
@@ -67,6 +65,8 @@ open class AssignMainCredentialInDatabaseRunnable (
                 database.masterKey = it
             }
         }
+
+        assignMainCredentialResult?.invoke(result)
     }
 
     /**

@@ -21,7 +21,9 @@ package com.kunzisoft.keepass.utils
 
 import android.annotation.SuppressLint
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import java.io.*
 import java.util.*
@@ -35,6 +37,14 @@ object UriHelper {
 
     fun String.decodeUri(): String {
         return Uri.decode(this) ?: ""
+    }
+
+    fun Context.getBinaryDir(): File {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.applicationContext.noBackupFilesDir
+        } else {
+            this.applicationContext.filesDir
+        }
     }
 
     @Throws(FileNotFoundException::class)

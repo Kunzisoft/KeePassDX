@@ -31,6 +31,8 @@ import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.action.*
@@ -47,6 +49,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyActivity
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -348,98 +351,99 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         // Build and launch the action
         if (actionRunnable != null) {
             mainScope.launch {
-                executeAction(this@DatabaseTaskNotificationService,
-                        {
-                            mActionRunning++
-                            if (isMainAction) {
-                                TimeoutHelper.temporarilyDisableTimeout()
+                executeAction(
+                    this@DatabaseTaskNotificationService,
+                    {
+                        mActionRunning++
+                        if (isMainAction) {
+                            TimeoutHelper.temporarilyDisableTimeout()
 
-                                sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                    putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
-                                    putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
-                                    putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
-                                })
+                            sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
+                                putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
+                                putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
+                            })
 
+                            mActionTaskListeners.forEach { actionTaskListener ->
+                                actionTaskListener.onActionStarted(
+                                    database,
+                                    mProgressMessage
+                                )
+                            }
+                        }
+                    },
+                    {
+                        actionRunnable
+                    },
+                    { result ->
+                        if (isMainAction) {
+                            try {
                                 mActionTaskListeners.forEach { actionTaskListener ->
-                                    actionTaskListener.onActionStarted(
+                                    mTaskRemovedRequested = false
+                                    actionTaskListener.onActionFinished(
                                         database,
-                                        mProgressMessage
+                                        intentAction!!,
+                                        result
                                     )
                                 }
-                            }
-                        },
-                        {
-                            actionRunnable
-                        },
-                        { result ->
-                            if (isMainAction) {
-                                try {
-                                    mActionTaskListeners.forEach { actionTaskListener ->
-                                        mTaskRemovedRequested = false
-                                        actionTaskListener.onActionFinished(
-                                            database,
-                                            intentAction!!,
-                                            result
-                                        )
+                            } finally {
+                                // Save the database info before performing action
+                                when (intentAction) {
+                                    ACTION_DATABASE_LOAD_TASK,
+                                    ACTION_DATABASE_MERGE_TASK,
+                                    ACTION_DATABASE_RELOAD_TASK -> {
+                                        saveDatabaseInfo()
                                     }
-                                } finally {
-                                    // Save the database info before performing action
-                                    when (intentAction) {
-                                        ACTION_DATABASE_LOAD_TASK,
-                                        ACTION_DATABASE_MERGE_TASK,
-                                        ACTION_DATABASE_RELOAD_TASK -> {
-                                            saveDatabaseInfo()
-                                        }
-                                    }
-                                    val save = !database.isReadOnly
-                                            && (intentAction == ACTION_DATABASE_SAVE
-                                            || intent?.getBooleanExtra(
-                                        SAVE_DATABASE_KEY,
-                                        false
-                                    ) == true)
-                                    // Save the database info after performing save action
-                                    if (save) {
-                                        database.fileUri?.let {
-                                            val newSnapFileDatabaseInfo =
-                                                SnapFileDatabaseInfo.fromFileDatabaseInfo(
-                                                    FileDatabaseInfo(applicationContext, it)
-                                                )
-                                            mLastLocalSaveTime = System.currentTimeMillis()
-                                            mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
-                                        }
-                                    }
-                                    removeIntentData(intent)
-                                    TimeoutHelper.releaseTemporarilyDisableTimeout()
-                                    // Stop service after save if user remove task
-                                    if (save && mTaskRemovedRequested) {
-                                        actionOnLock()
-                                    } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                                        if (!database.loaded) {
-                                            stopSelf()
-                                        } else {
-                                            // Restart the service to open lock notification
-                                            try {
-                                                startService(
-                                                    Intent(
-                                                        applicationContext,
-                                                        DatabaseTaskNotificationService::class.java
-                                                    )
-                                                )
-                                            } catch (e: IllegalStateException) {
-                                                Log.w(
-                                                    TAG,
-                                                    "Cannot restart the database task service",
-                                                    e
-                                                )
-                                            }
-                                        }
-                                    }
-                                    mTaskRemovedRequested = false
                                 }
-                                sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
+                                val save = !database.isReadOnly
+                                        && (intentAction == ACTION_DATABASE_SAVE
+                                        || intent?.getBooleanExtra(
+                                    SAVE_DATABASE_KEY,
+                                    false
+                                ) == true)
+                                // Save the database info after performing save action
+                                if (save) {
+                                    database.fileUri?.let {
+                                        val newSnapFileDatabaseInfo =
+                                            SnapFileDatabaseInfo.fromFileDatabaseInfo(
+                                                FileDatabaseInfo(applicationContext, it)
+                                            )
+                                        mLastLocalSaveTime = System.currentTimeMillis()
+                                        mSnapFileDatabaseInfo = newSnapFileDatabaseInfo
+                                    }
+                                }
+                                removeIntentData(intent)
+                                TimeoutHelper.releaseTemporarilyDisableTimeout()
+                                // Stop service after save if user remove task
+                                if (save && mTaskRemovedRequested) {
+                                    actionOnLock()
+                                } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                    if (!database.loaded) {
+                                        stopSelf()
+                                    } else {
+                                        // Restart the service to open lock notification
+                                        try {
+                                            startService(
+                                                Intent(
+                                                    applicationContext,
+                                                    DatabaseTaskNotificationService::class.java
+                                                )
+                                            )
+                                        } catch (e: IllegalStateException) {
+                                            Log.w(
+                                                TAG,
+                                                "Cannot restart the database task service",
+                                                e
+                                            )
+                                        }
+                                    }
+                                }
+                                mTaskRemovedRequested = false
                             }
-                            mActionRunning--
+                            sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
                         }
+                        mActionRunning--
+                    }
                 )
             }
         }
@@ -715,6 +719,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 }
             ) { result ->
+                afterAssignMainCredential(databaseUri)
+                if (result.isSuccess) {
+                    // Add database to recent files
+                    if (PreferencesUtil.rememberDatabaseLocations(applicationContext)) {
+                        FileDatabaseHistoryAction.getInstance(applicationContext)
+                            .addOrUpdateDatabaseUri(
+                                databaseUri,
+                                if (PreferencesUtil.rememberKeyFileLocations(applicationContext))
+                                    mainCredential.keyFileUri else null,
+                                if (PreferencesUtil.rememberHardwareKey(applicationContext))
+                                    mainCredential.hardwareKey else null,
+                            )
+                    }
+                    // Register the current time to init the lock timer
+                    PreferencesUtil.saveCurrentTime(applicationContext)
+                } else {
+                    Log.e(TAG, "Unable to create the database")
+                }
+                // Pass result to activity
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
                     putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
@@ -754,10 +777,31 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 },
                 readOnly,
-                cipherEncryptDatabase,
                 intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                 this
             ) { result ->
+                if (result.isSuccess) {
+                    // Save keyFile in app database
+                    if (PreferencesUtil.rememberDatabaseLocations(applicationContext)) {
+                        FileDatabaseHistoryAction.getInstance(applicationContext)
+                            .addOrUpdateDatabaseUri(
+                                databaseUri,
+                                if (PreferencesUtil.rememberKeyFileLocations(applicationContext))
+                                    mainCredential.keyFileUri else null,
+                                if (PreferencesUtil.rememberHardwareKey(applicationContext))
+                                    mainCredential.hardwareKey else null,
+                            )
+                    }
+
+                    // Register the biometric
+                    cipherEncryptDatabase?.let { cipherDatabase ->
+                        CipherDatabaseAction.getInstance(applicationContext)
+                            .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
+                    }
+
+                    // Register the current time to init the lock timer
+                    PreferencesUtil.saveCurrentTime(applicationContext)
+                }
                 // Add each info to reload database after thrown duplicate UUID exception
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
@@ -798,6 +842,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             },
             this
         ) { result ->
+            if (result.isSuccess) {
+                PreferencesUtil.saveCurrentTime(applicationContext)
+            }
             // No need to add each info to reload database
             result.data = Bundle()
         }
@@ -811,6 +858,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             database,
             this
         ) { result ->
+            if (result.isSuccess) {
+                PreferencesUtil.saveCurrentTime(applicationContext)
+            }
             // No need to add each info to reload database
             result.data = Bundle()
         }
@@ -828,13 +878,25 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 this,
                 database,
                 databaseUri,
-                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
-            ) { hardwareKey, seed ->
-                retrieveResponseFromChallenge(hardwareKey, seed)
+                intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
+                { hardwareKey, seed ->
+                    retrieveResponseFromChallenge(hardwareKey, seed)
+                }
+            ) {
+                afterAssignMainCredential(databaseUri)
             }
         } else {
             null
         }
+    }
+
+    private fun afterAssignMainCredential(databaseUri: Uri) {
+        // Erase the biometric
+        CipherDatabaseAction.getInstance(this)
+            .deleteByDatabaseUri(databaseUri)
+        // Erase the register keyfile
+        FileDatabaseHistoryAction.getInstance(this)
+            .deleteKeyFileByDatabaseUri(databaseUri)
     }
 
     private inner class AfterActionNodesRunnable : AfterActionNodesFinish() {

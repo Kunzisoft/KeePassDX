@@ -267,13 +267,5 @@ object UriUtil {
         }
     }
 
-    fun Context.getBinaryDir(): File {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.applicationContext.noBackupFilesDir
-        } else {
-            this.applicationContext.filesDir
-        }
-    }
-
     private const val TAG = "UriUtil"
 }

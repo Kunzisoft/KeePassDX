@@ -1126,15 +1126,19 @@ class GroupActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onAskMainCredentialDialogPositiveClick(databaseUri: Uri?,
-                                                        mainCredential: MainCredential) {
+    override fun onAskMainCredentialDialogPositiveClick(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
         databaseUri?.let {
             mergeDatabaseFrom(it, mainCredential)
         }
     }
 
-    override fun onAskMainCredentialDialogNegativeClick(databaseUri: Uri?,
-                                                        mainCredential: MainCredential) { }
+    override fun onAskMainCredentialDialogNegativeClick(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) { }
 
     override fun onResume() {
         super.onResume()

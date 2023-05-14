@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
 
@@ -40,7 +39,7 @@ class MergeDatabaseRunnable(
     saveDatabase: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,
-    private val mLoadDatabaseResult: ((Result) -> Unit)?
+    private val mergeDatabaseResult: ((Result) -> Unit)?
 ) : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
 
     override fun onStartRun() {
@@ -66,15 +65,11 @@ class MergeDatabaseRunnable(
             setError(e)
         }
 
-        if (result.isSuccess) {
-            // Register the current time to init the lock timer
-            PreferencesUtil.saveCurrentTime(context)
-        }
         super.onActionRun()
     }
 
     override fun onFinishRun() {
         super.onFinishRun()
-        mLoadDatabaseResult?.invoke(result)
+        mergeDatabaseResult?.invoke(result)
     }
 }

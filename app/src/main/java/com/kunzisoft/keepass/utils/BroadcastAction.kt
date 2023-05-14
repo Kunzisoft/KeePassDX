@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
 const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TASK_ACTION"

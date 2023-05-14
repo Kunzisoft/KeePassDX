@@ -36,7 +36,7 @@ import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
+import com.kunzisoft.keepass.services.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.RegisterInfo

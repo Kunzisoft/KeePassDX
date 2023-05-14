@@ -30,7 +30,6 @@ import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
