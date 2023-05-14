@@ -19,10 +19,8 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.graphics.Color
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
@@ -38,8 +36,9 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
-import java.util.*
-import kotlin.collections.ArrayList
+import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
+import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
+import java.util.UUID
 
 class Entry : Node, EntryVersionedInterface<Group> {
 
@@ -246,17 +245,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
             var colorInt: Int? = null
             entryKDBX?.backgroundColor?.let {
                 try {
-                    colorInt = Color.parseColor(it)
-                } catch (e: Exception) {}
+                    colorInt = it.toFormattedColorInt()
+                } catch (_: Exception) {}
             }
             return colorInt
         }
         set(value) {
-            entryKDBX?.backgroundColor = if (value == null) {
-                ""
-            } else {
-                ChromaUtil.getFormattedColorString(value, false)
-            }
+            entryKDBX?.backgroundColor = value?.toFormattedColorString() ?: ""
         }
 
     var foregroundColor: Int?
@@ -264,17 +259,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
             var colorInt: Int? = null
             entryKDBX?.foregroundColor?.let {
                 try {
-                    colorInt = Color.parseColor(it)
-                } catch (e: Exception) {}
+                    colorInt = it.toFormattedColorInt()
+                } catch (_: Exception) {}
             }
             return colorInt
         }
         set(value) {
-            entryKDBX?.foregroundColor = if (value == null) {
-                ""
-            } else {
-                ChromaUtil.getFormattedColorString(value, false)
-            }
+            entryKDBX?.foregroundColor = value?.toFormattedColorString() ?: ""
         }
 
     var customData: CustomData

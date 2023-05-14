@@ -34,8 +34,6 @@ android {
 dependencies {
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-    // Color
-    implementation 'com.github.Kunzisoft:AndroidClearChroma:2.6'
     // Time
     implementation 'joda-time:joda-time:2.10.13'
     // Apache Commons

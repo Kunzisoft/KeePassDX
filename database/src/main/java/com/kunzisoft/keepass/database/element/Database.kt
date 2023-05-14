@@ -19,9 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.graphics.Color
 import android.util.Log
-import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
@@ -54,6 +52,8 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
+import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
 import java.io.*
 import java.util.*
 
@@ -236,18 +236,14 @@ open class Database {
             var colorInt: Int? = null
             mDatabaseKDBX?.color?.let {
                 try {
-                    colorInt = Color.parseColor(it)
-                } catch (e: Exception) {}
+                    colorInt = it.toFormattedColorInt()
+                } catch (_: Exception) {}
             }
             return mDatabaseKDB?.color ?: colorInt
         }
         set(value) {
             mDatabaseKDB?.color = value
-            mDatabaseKDBX?.color = if (value == null) {
-                ""
-            } else {
-                ChromaUtil.getFormattedColorString(value, false)
-            }
+            mDatabaseKDBX?.color = value?.toFormattedColorString() ?: ""
             mDatabaseKDBX?.settingsChanged = DateInstant()
             dataModifiedSinceLastLoading = true
         }
