@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
@@ -34,7 +34,7 @@ class MergeDatabaseRunnable(
     private val mDatabaseToMergeUri: Uri?,
     private val mDatabaseToMergeMainCredential: MainCredential?,
     private val mDatabaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    database: Database,
+    database: ContextualDatabase,
     saveDatabase: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,

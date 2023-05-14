@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -133,7 +133,7 @@ class EntryFragment: DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         context?.let { context ->
             attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
             attachmentsAdapter?.database = database

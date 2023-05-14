@@ -31,6 +31,7 @@ import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
@@ -45,7 +46,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyActivity
-import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -65,7 +65,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     override val notificationId: Int = 575
 
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
 
     // File description
     private var mSnapFileDatabaseInfo: SnapFileDatabaseInfo? = null
@@ -127,7 +127,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface DatabaseListener {
-        fun onDatabaseRetrieved(database: Database?)
+        fun onDatabaseRetrieved(database: ContextualDatabase?)
     }
 
     interface DatabaseInfoListener {
@@ -138,12 +138,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     interface ActionTaskListener {
-        fun onActionStarted(database: Database,
+        fun onActionStarted(database: ContextualDatabase,
                             progressMessage: ProgressMessage)
-        fun onActionUpdated(database: Database,
+        fun onActionUpdated(database: ContextualDatabase,
                             progressMessage: ProgressMessage)
-        fun onActionStopped(database: Database)
-        fun onActionFinished(database: Database,
+        fun onActionStopped(database: ContextualDatabase)
+        fun onActionFinished(database: ContextualDatabase,
                              actionTask: String,
                              result: ActionRunnable.Result)
     }
@@ -272,7 +272,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        val database = Database.getInstance(IconPackChooser)
+        val database = ContextualDatabase.getInstance()
         if (mDatabase != database) {
             mDatabase = database
             mDatabaseListeners.forEach { listener ->
@@ -697,8 +697,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         return response
     }
 
-    private fun buildDatabaseCreateActionTask(intent: Intent, database: Database): ActionRunnable? {
-
+    private fun buildDatabaseCreateActionTask(
+        intent: Intent,
+        database: ContextualDatabase
+    ): ActionRunnable? {
         if (intent.hasExtra(DATABASE_URI_KEY)
             && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
@@ -730,8 +732,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseLoadActionTask(intent: Intent, database: Database): ActionRunnable? {
-
+    private fun buildDatabaseLoadActionTask(
+        intent: Intent,
+        database: ContextualDatabase
+    ): ActionRunnable? {
         if (intent.hasExtra(DATABASE_URI_KEY)
             && intent.hasExtra(MAIN_CREDENTIAL_KEY)
             && intent.hasExtra(READ_ONLY_KEY)
@@ -774,7 +778,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseMergeActionTask(intent: Intent, database: Database): ActionRunnable {
+    private fun buildDatabaseMergeActionTask(
+        intent: Intent,
+        database: ContextualDatabase
+    ): ActionRunnable {
         var databaseToMergeUri: Uri? = null
         var databaseToMergeMainCredential: MainCredential? = null
         if (intent.hasExtra(DATABASE_URI_KEY)) {
@@ -803,7 +810,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseReloadActionTask(database: Database): ActionRunnable {
+    private fun buildDatabaseReloadActionTask(
+        database: ContextualDatabase
+    ): ActionRunnable {
         return ReloadDatabaseRunnable(
             this,
             database,
@@ -816,13 +825,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseAssignPasswordActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(DATABASE_URI_KEY)
             && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
-            com.kunzisoft.keepass.database.action.AssignMainCredentialInDatabaseRunnable(
+            AssignMainCredentialInDatabaseRunnable(
                 this,
                 database,
                 databaseUri,
@@ -849,7 +858,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseCreateGroupActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(GROUP_KEY)
             && intent.hasExtra(PARENT_ID_KEY)
@@ -881,7 +890,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseUpdateGroupActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(GROUP_ID_KEY)
             && intent.hasExtra(GROUP_KEY)
@@ -913,7 +922,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseCreateEntryActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_KEY)
             && intent.hasExtra(PARENT_ID_KEY)
@@ -945,7 +954,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseUpdateEntryActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_ID_KEY)
             && intent.hasExtra(ENTRY_KEY)
@@ -977,7 +986,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseCopyNodesActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(GROUPS_ID_KEY)
             && intent.hasExtra(ENTRIES_ID_KEY)
@@ -1004,7 +1013,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseMoveNodesActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(GROUPS_ID_KEY)
             && intent.hasExtra(ENTRIES_ID_KEY)
@@ -1031,7 +1040,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseDeleteNodesActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(GROUPS_ID_KEY)
             && intent.hasExtra(ENTRIES_ID_KEY)
@@ -1053,7 +1062,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseRestoreEntryHistoryActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_ID_KEY)
             && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
@@ -1078,7 +1087,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseDeleteEntryHistoryActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(ENTRY_ID_KEY)
             && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
@@ -1103,7 +1112,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseUpdateCompressionActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(OLD_ELEMENT_KEY)
             && intent.hasExtra(NEW_ELEMENT_KEY)
@@ -1137,7 +1146,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseRemoveUnlinkedDataActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
 
@@ -1158,7 +1167,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
     private fun buildDatabaseUpdateElementActionTask(
         intent: Intent,
-        database: Database,
+        database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
@@ -1181,7 +1190,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     /**
      * Save database without parameter
      */
-    private fun buildDatabaseSaveActionTask(intent: Intent, database: Database): ActionRunnable? {
+    private fun buildDatabaseSaveActionTask(
+        intent: Intent,
+        database: ContextualDatabase
+    ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
 
             var databaseCopyUri: Uri? = null

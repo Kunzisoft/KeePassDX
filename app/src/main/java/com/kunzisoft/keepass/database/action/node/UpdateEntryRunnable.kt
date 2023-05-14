@@ -20,15 +20,15 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class UpdateEntryRunnable constructor(
     context: Context,
-    database: Database,
+    database: ContextualDatabase,
     private val mOldEntry: Entry,
     private val mNewEntry: Entry,
     save: Boolean,

@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo
@@ -89,7 +89,7 @@ object AutofillHelper {
     }
 
     private fun newRemoteViews(context: Context,
-                               database: Database,
+                               database: ContextualDatabase,
                                remoteViewsText: String,
                                remoteViewsIcon: IconImage? = null): RemoteViews {
         val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
@@ -108,7 +108,7 @@ object AutofillHelper {
     }
 
     private fun buildDataset(context: Context,
-                             database: Database,
+                             database: ContextualDatabase,
                              entryInfo: EntryInfo,
                              struct: StructureParser.Result,
                              additionalBuild: ((build: Dataset.Builder) -> Unit)? = null): Dataset? {
@@ -214,7 +214,7 @@ object AutofillHelper {
      * Method to assign a drawable to a new icon from a database icon
      */
     private fun buildIconFromEntry(context: Context,
-                                   database: Database,
+                                   database: ContextualDatabase,
                                    entryInfo: EntryInfo): Icon? {
         try {
             database.iconDrawableFactory.getBitmapFromIcon(context,
@@ -230,7 +230,7 @@ object AutofillHelper {
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
     private fun buildInlinePresentationForEntry(context: Context,
-                                                database: Database,
+                                                database: ContextualDatabase,
                                                 compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest,
                                                 positionItem: Int,
                                                 entryInfo: EntryInfo): InlinePresentation? {
@@ -302,7 +302,7 @@ object AutofillHelper {
     }
 
     fun buildResponse(context: Context,
-                      database: Database,
+                      database: ContextualDatabase,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
                       compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest?): FillResponse? {
@@ -395,7 +395,7 @@ object AutofillHelper {
      * Build the Autofill response for one entry
      */
     fun buildResponseAndSetResult(activity: Activity,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entryInfo: EntryInfo) {
         buildResponseAndSetResult(activity, database, ArrayList<EntryInfo>().apply { add(entryInfo) })
     }
@@ -404,7 +404,7 @@ object AutofillHelper {
      * Build the Autofill response for many entry
      */
     fun buildResponseAndSetResult(activity: Activity,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entriesInfo: List<EntryInfo>) {
         if (entriesInfo.isEmpty()) {
             activity.setResult(Activity.RESULT_CANCELED)

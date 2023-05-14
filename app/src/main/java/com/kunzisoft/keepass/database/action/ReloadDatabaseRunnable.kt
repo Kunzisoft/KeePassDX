@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.Context
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class ReloadDatabaseRunnable(
     private val context: Context,
-    private val mDatabase: Database,
+    private val mDatabase: ContextualDatabase,
     private val progressTaskUpdater: ProgressTaskUpdater?,
     private val mLoadDatabaseResult: ((Result) -> Unit)?
 ) : ActionRunnable() {

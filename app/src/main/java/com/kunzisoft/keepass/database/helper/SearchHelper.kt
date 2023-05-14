@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.helper
 
 import android.content.Context
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -44,11 +44,11 @@ object SearchHelper {
      * Utility method to perform actions if item is found or not after an auto search in [database]
      */
     fun checkAutoSearchInfo(context: Context,
-                            database: Database?,
+                            database: ContextualDatabase?,
                             searchInfo: SearchInfo?,
-                            onItemsFound: (openedDatabase: Database,
+                            onItemsFound: (openedDatabase: ContextualDatabase,
                                            items: List<EntryInfo>) -> Unit,
-                            onItemNotFound: (openedDatabase: Database) -> Unit,
+                            onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
                             onDatabaseClosed: () -> Unit) {
         if (database == null || !database.loaded) {
             onDatabaseClosed.invoke()

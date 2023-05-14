@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.IconPickerPagerAdapter
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 class IconPickerFragment : DatabaseFragment() {
@@ -48,7 +48,7 @@ class IconPickerFragment : DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         iconPickerPagerAdapter = IconPickerPagerAdapter(this,
             if (database?.allowCustomIcons == true) 2 else 1)
         viewPager.adapter = iconPickerPagerAdapter

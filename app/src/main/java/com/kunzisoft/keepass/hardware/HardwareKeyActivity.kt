@@ -13,7 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
 /**
@@ -48,7 +48,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         return false
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         val hardwareKey = HardwareKey.getHardwareKeyFromString(

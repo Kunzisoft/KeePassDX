@@ -32,7 +32,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -318,7 +318,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         super.onDestroy()
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         // Nothing here
     }
 

@@ -36,14 +36,14 @@ import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -66,8 +66,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     protected var mDatabaseReadOnly: Boolean = true
     protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
-
-    protected var mIconDrawableFactory: IconDrawableFactory? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,7 +165,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         // End activity if database not loaded
@@ -207,7 +205,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
             mDatabaseReadOnly = database.isReadOnly
             mMergeDataAllowed = database.isMergeDataAllowed()
-            mIconDrawableFactory = database.iconDrawableFactory
 
             checkRegister()
         }
@@ -216,7 +213,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     abstract fun viewToInvalidateTimeout(): View?
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {

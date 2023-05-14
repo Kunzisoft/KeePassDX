@@ -34,7 +34,7 @@ import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
@@ -49,15 +49,16 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
-import java.util.*
+import java.util.LinkedList
 
 /**
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-class NodesAdapter (private val context: Context,
-                    private val database: Database)
-    : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
+class NodesAdapter (
+    private val context: Context,
+    private val database: ContextualDatabase
+) : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
     private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
     private val mNodeSortedListCallback: NodeSortedListCallback
@@ -565,8 +566,8 @@ class NodesAdapter (private val context: Context,
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(database: Database, node: Node)
-        fun onNodeLongClick(database: Database, node: Node): Boolean
+        fun onNodeClick(database: ContextualDatabase, node: Node)
+        fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

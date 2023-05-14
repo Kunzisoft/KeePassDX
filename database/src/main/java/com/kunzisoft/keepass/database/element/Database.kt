@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.NUMBER_STANDARD_ICONS
 import com.kunzisoft.keepass.database.element.icon.IconsManager
 import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -53,8 +54,6 @@ import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.icons.InterfaceIconPackChooser
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
@@ -63,7 +62,7 @@ import java.io.*
 import java.util.*
 
 
-class Database(private val iconPackChooser: InterfaceIconPackChooser) {
+open class Database {
 
     // To keep a reference for specific methods provided by version
     private var mDatabaseKDB: DatabaseKDB? = null
@@ -75,12 +74,6 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
     private var mSearchHelper: SearchHelper = SearchHelper()
 
     var isReadOnly = false
-
-    val iconDrawableFactory = IconDrawableFactory(
-        iconPackChooser = iconPackChooser,
-        retrieveBinaryCache = { binaryCache },
-        retrieveCustomIconBinary = { iconId -> iconsManager.getBinaryForCustomIcon(iconId) }
-    )
 
     var loaded = false
         set(value) {
@@ -113,7 +106,8 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
 
     private val iconsManager: IconsManager
         get() {
-            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager ?: IconsManager()
+            return mDatabaseKDB?.iconsManager ?: mDatabaseKDBX?.iconsManager
+            ?: IconsManager(NUMBER_STANDARD_ICONS)
         }
 
     fun doForEachStandardIcons(action: (IconImageStandard) -> Unit) {
@@ -143,8 +137,11 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         return mDatabaseKDBX?.isCustomIconBinaryDuplicate(binaryData) ?: false
     }
 
-    fun removeCustomIcon(customIcon: IconImageCustom) {
-        iconDrawableFactory.clearFromCache(customIcon)
+    fun getBinaryForCustomIcon(iconId: UUID): BinaryData? {
+        return iconsManager.getBinaryForCustomIcon(iconId)
+    }
+
+    open fun removeCustomIcon(customIcon: IconImageCustom) {
         iconsManager.removeCustomIcon(customIcon.uuid, binaryCache)
         mDatabaseKDBX?.addDeletedObject(customIcon.uuid)
     }
@@ -649,7 +646,7 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         }
 
         // New database instance to get new changes
-        val databaseToMerge = Database(iconPackChooser)
+        val databaseToMerge = Database()
         databaseToMerge.fileUri = databaseToMergeUri ?: this.fileUri
 
         try {
@@ -990,7 +987,7 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
         dataModifiedSinceLastLoading = true
     }
 
-    fun clearIndexesAndBinaries(filesDirectory: File? = null) {
+    open fun clearIndexesAndBinaries(filesDirectory: File?) {
         this.mDatabaseKDB?.clearIndexes()
         this.mDatabaseKDBX?.clearIndexes()
 
@@ -1002,8 +999,6 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
 
         this.mDatabaseKDB?.clearBinaries()
         this.mDatabaseKDBX?.clearBinaries()
-
-        iconDrawableFactory.clearCache()
 
         // delete all the files in the temp dir if allowed
         try {
@@ -1390,7 +1385,6 @@ class Database(private val iconPackChooser: InterfaceIconPackChooser) {
     }
 
     companion object : SingletonHolder<Database>(::Database) {
-
         private val TAG = Database::class.java.name
     }
 }

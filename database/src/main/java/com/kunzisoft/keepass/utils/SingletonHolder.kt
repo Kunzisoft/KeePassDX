@@ -19,32 +19,32 @@
  */
 package com.kunzisoft.keepass.utils
 
-import com.kunzisoft.keepass.icons.InterfaceIconPackChooser
-
-open class SingletonHolder<out T>(private val constructor: (iconPackChooser : InterfaceIconPackChooser) -> T) {
+open class SingletonHolderParameter<out T, in A>(private val constructor: (A) -> T) {
 
     @Volatile
     private var instance: T? = null
 
-    fun getInstance(iconPackChooser: InterfaceIconPackChooser): T {
+    fun getInstance(arg: A): T {
         return when {
             instance != null -> instance!!
             else -> synchronized(this) {
-                if (instance == null) instance = constructor(iconPackChooser)
+                if (instance == null) instance = constructor(arg)
                 instance!!
             }
         }
     }
 }
 
-open class SingletonHolderParameter<out T, in A>(private val constructor: (A) -> T) {
+open class SingletonHolder<out T>(private val constructor: () -> T) {
+
     @Volatile
     private var instance: T? = null
-    fun getInstance(arg: A): T {
+
+    fun getInstance(): T {
         return when {
             instance != null -> instance!!
             else -> synchronized(this) {
-                if (instance == null) instance = constructor(arg)
+                if (instance == null) instance = constructor()
                 instance!!
             }
         }

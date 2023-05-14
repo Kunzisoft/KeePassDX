@@ -35,13 +35,13 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import org.joda.time.DateTime
-import java.util.*
+import java.util.Properties
 
 open class SettingsActivity
     : DatabaseLockActivity(),
@@ -150,7 +150,7 @@ open class SettingsActivity
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {

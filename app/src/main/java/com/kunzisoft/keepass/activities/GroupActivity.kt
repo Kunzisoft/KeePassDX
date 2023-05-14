@@ -27,13 +27,23 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.DatePicker
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -50,7 +60,12 @@ import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.DatePickerFragment
+import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.MainCredentialDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.TimePickerFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -59,7 +74,12 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
@@ -81,7 +101,13 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.view.AddNodeButtonView
+import com.kunzisoft.keepass.view.NavigationDatabaseView
+import com.kunzisoft.keepass.view.SearchFiltersView
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.DateTime
@@ -569,7 +595,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
@@ -613,7 +639,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -799,7 +825,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onNodeClick(
-        database: Database,
+        database: ContextualDatabase,
         node: Node
     ) {
         when (node.type) {
@@ -872,7 +898,7 @@ class GroupActivity : DatabaseLockActivity(),
         reloadGroupIfSearch()
     }
 
-    private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
+    private fun entrySelectedForSave(database: ContextualDatabase, entry: Entry, searchInfo: SearchInfo) {
         reloadCurrentGroup()
         // Save to update the entry
         EntryEditActivity.launchToUpdateForSave(
@@ -884,7 +910,7 @@ class GroupActivity : DatabaseLockActivity(),
         onLaunchActivitySpecialMode()
     }
 
-    private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
+    private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
         reloadCurrentGroup()
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
@@ -894,7 +920,7 @@ class GroupActivity : DatabaseLockActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForAutofillSelection(database: Database, entry: Entry) {
+    private fun entrySelectedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(
@@ -907,7 +933,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun entrySelectedForRegistration(
-        database: Database,
+        database: ContextualDatabase,
         entry: Entry,
         registerInfo: RegisterInfo?
     ) {
@@ -923,7 +949,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun updateEntryWithSearchInfo(
-        database: Database,
+        database: ContextualDatabase,
         entry: Entry,
         searchInfo: SearchInfo
     ) {
@@ -963,7 +989,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onNodeSelected(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         if (nodes.isNotEmpty()) {
@@ -989,7 +1015,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onOpenMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         node: Node
     ): Boolean {
         finishNodeAction()
@@ -998,7 +1024,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onEditMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         node: Node
     ): Boolean {
         finishNodeAction()
@@ -1046,7 +1072,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onCopyMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
@@ -1056,7 +1082,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onMoveMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
@@ -1066,7 +1092,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onPasteMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         pasteMode: GroupFragment.PasteMode?,
         nodes: List<Node>
     ): Boolean {
@@ -1091,7 +1117,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onDeleteMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         deleteNodes(nodes)
@@ -1474,7 +1500,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launch(context: Context,
-                   database: Database,
+                   database: ContextualDatabase,
                    autoSearch: Boolean = false) {
             if (database.loaded) {
                 checkTimeAndBuildIntent(context, null) { intent ->
@@ -1490,7 +1516,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForSearchResult(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   searchInfo: SearchInfo,
                                   autoSearch: Boolean = false) {
             if (database.loaded) {
@@ -1511,7 +1537,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForSaveResult(context: Context,
-                                database: Database,
+                                database: ContextualDatabase,
                                 searchInfo: SearchInfo,
                                 autoSearch: Boolean = false) {
             if (database.loaded && !database.isReadOnly) {
@@ -1532,7 +1558,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              searchInfo: SearchInfo? = null,
                                              autoSearch: Boolean = false) {
             if (database.loaded) {
@@ -1554,7 +1580,7 @@ class GroupActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: AppCompatActivity,
-                                    database: Database,
+                                    database: ContextualDatabase,
                                     activityResultLaunch: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
@@ -1579,7 +1605,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForRegistration(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
                 checkTimeAndBuildIntent(context, null) { intent ->
@@ -1599,7 +1625,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launch(activity: AppCompatActivity,
-                   database: Database,
+                   database: ContextualDatabase,
                    onValidateSpecialMode: () -> Unit,
                    onCancelSpecialMode: () -> Unit,
                    onLaunchActivitySpecialMode: () -> Unit,

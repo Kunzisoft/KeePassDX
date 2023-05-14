@@ -25,12 +25,11 @@ import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.binary.CustomIconPool
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.KEY_ID
-import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
-import java.util.*
+import java.util.UUID
 
-class IconsManager {
+class IconsManager(numberOfIcons: Int) {
 
-    private val standardCache = List(NB_ICONS) {
+    private val standardCache = List(numberOfIcons) {
         IconImageStandard(it)
     }
     private val customCache = CustomIconPool()

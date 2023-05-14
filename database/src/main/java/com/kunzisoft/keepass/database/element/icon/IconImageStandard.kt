@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.icons.IconPack.Companion.NB_ICONS
 
 class IconImageStandard : IconImageDraw {
 
@@ -74,6 +73,8 @@ class IconImageStandard : IconImageDraw {
 
     companion object {
 
+        const val NUMBER_STANDARD_ICONS = 69
+
         const val KEY_ID = 0
         const val ID_CARD_ID = 9
         const val WIRELESS_ID = 12
@@ -88,7 +89,7 @@ class IconImageStandard : IconImageDraw {
         const val DOLLAR_ID = 66
 
         fun isCorrectIconId(iconId: Int): Boolean {
-            return iconId in 0 until NB_ICONS
+            return iconId in 0 until NUMBER_STANDARD_ICONS
         }
 
         @JvmField

@@ -23,13 +23,13 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 open class AssignMainCredentialInDatabaseRunnable (
     context: Context,
-    database: Database,
+    database: ContextualDatabase,
     protected val mDatabaseUri: Uri,
     mainCredential: MainCredential,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray

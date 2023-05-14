@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned

@@ -55,7 +55,7 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -72,7 +72,6 @@ import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.UriUtil.getUri
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
@@ -263,7 +262,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         if (database != null) {
             // Trying to load another database
@@ -280,7 +279,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -377,7 +376,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         getUriFromIntent(intent)
     }
 
-    private fun launchGroupActivityIfLoaded(database: Database) {
+    private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         // Check if database really loaded
         if (database.loaded) {
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)

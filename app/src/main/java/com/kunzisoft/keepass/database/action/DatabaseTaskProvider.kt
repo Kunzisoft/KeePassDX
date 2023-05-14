@@ -20,8 +20,15 @@
 package com.kunzisoft.keepass.database.action
 
 import android.app.AlertDialog
-import android.content.*
-import android.content.Context.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Context.BIND_ABOVE_CLIENT
+import android.content.Context.BIND_AUTO_CREATE
+import android.content.Context.BIND_IMPORTANT
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
@@ -32,9 +39,9 @@ import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.MainCredential
@@ -84,7 +91,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 /**
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
@@ -97,9 +104,9 @@ class DatabaseTaskProvider(private var context: Context,
     private var activity: FragmentActivity? = try { context as? FragmentActivity? }
         catch (_: Exception) { null }
 
-    var onDatabaseRetrieved: ((database: Database?) -> Unit)? = null
+    var onDatabaseRetrieved: ((database: ContextualDatabase?) -> Unit)? = null
 
-    var onActionFinish: ((database: Database,
+    var onActionFinish: ((database: ContextualDatabase,
                           actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
@@ -128,24 +135,24 @@ class DatabaseTaskProvider(private var context: Context,
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onActionStarted(database: Database,
+        override fun onActionStarted(database: ContextualDatabase,
                                      progressMessage: ProgressMessage) {
             if (showDialog)
                 startDialog(progressMessage)
         }
 
-        override fun onActionUpdated(database: Database,
+        override fun onActionUpdated(database: ContextualDatabase,
                                      progressMessage: ProgressMessage) {
             if (showDialog)
                 updateDialog(progressMessage)
         }
 
-        override fun onActionStopped(database: Database) {
+        override fun onActionStopped(database: ContextualDatabase) {
             // Remove the progress task
             stopDialog()
         }
 
-        override fun onActionFinished(database: Database,
+        override fun onActionFinished(database: ContextualDatabase,
                                       actionTask: String,
                                       result: ActionRunnable.Result) {
             onActionFinish?.invoke(database, actionTask, result)
@@ -188,7 +195,7 @@ class DatabaseTaskProvider(private var context: Context,
     }
 
     private var databaseListener = object: DatabaseTaskNotificationService.DatabaseListener {
-        override fun onDatabaseRetrieved(database: Database?) {
+        override fun onDatabaseRetrieved(database: ContextualDatabase?) {
             onDatabaseRetrieved?.invoke(database)
         }
     }

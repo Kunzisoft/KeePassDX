@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,14 +29,9 @@ import android.view.Window
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import com.kunzisoft.androidclearchroma.IndicatorMode
-import com.kunzisoft.androidclearchroma.colormode.ColorMode
-import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment
-import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.*
 import com.kunzisoft.androidclearchroma.view.ChromaColorView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 
 class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -101,7 +95,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         return dialog
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         database?.let {
@@ -117,7 +111,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         }
     }
 
-    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+    override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
             val newColor: Int? = if (enableSwitchView.isChecked)

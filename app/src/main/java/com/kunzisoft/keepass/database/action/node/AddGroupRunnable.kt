@@ -20,14 +20,14 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class AddGroupRunnable constructor(
     context: Context,
-    database: Database,
+    database: ContextualDatabase,
     private val mNewGroup: Group,
     private val mParent: Group,
     save: Boolean,

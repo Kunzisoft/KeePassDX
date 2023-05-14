@@ -23,7 +23,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class CreateDatabaseRunnable(
     context: Context,
-    private val mDatabase: Database,
+    private val mDatabase: ContextualDatabase,
     databaseUri: Uri,
     private val databaseName: String,
     private val rootName: String,

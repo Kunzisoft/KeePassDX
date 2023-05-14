@@ -32,7 +32,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.DatePicker
+import android.widget.ProgressBar
+import android.widget.Spinner
+import android.widget.TimePicker
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -46,8 +50,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.DatePickerFragment
+import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.TimePickerFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -55,7 +65,12 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
@@ -77,11 +92,15 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
-import java.util.*
+import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
@@ -221,7 +240,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 this@EntryEditActivity,
                                 templates
                             ).apply {
-                                iconDrawableFactory = mIconDrawableFactory
+                                iconDrawableFactory = mDatabase?.iconDrawableFactory
                             }
                             adapter = mTemplatesSelectorAdapter
                             val selectedTemplate = if (mTemplate != null)
@@ -368,19 +387,19 @@ class EntryEditActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
         mEntryEditViewModel.loadDatabase(database)
         mTemplatesSelectorAdapter?.apply {
-            iconDrawableFactory = mIconDrawableFactory
+            iconDrawableFactory = mDatabase?.iconDrawableFactory
             notifyDataSetChanged()
         }
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -444,7 +463,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForAutofillSelection(database: Database, entry: Entry) {
+    private fun entryValidatedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,

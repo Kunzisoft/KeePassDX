@@ -30,15 +30,16 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
  *
  * @author J-Jamet
  */
-object IconPackChooser : InterfaceIconPackChooser {
+object IconPackChooser {
 
     private val TAG = IconPackChooser::class.java.name
 
     private val iconPackList = ArrayList<IconPack>()
     private var iconPackSelected: IconPack? = null
-    private var defaultIconSize: Int? = null
+    var defaultIconSize: Int = 0
 
     private var isIconPackChooserBuilt: Boolean = false
+
 
     /**
      * Built the icon pack chooser based on imports made in *build.gradle*
@@ -51,7 +52,7 @@ object IconPackChooser : InterfaceIconPackChooser {
      * @param context Context to construct each pack with the resources
      * @return An unique instance of [IconPackChooser], recall [.build] provide the same instance
      */
-    override fun build(context: Context) {
+    private fun build(context: Context) {
         synchronized(IconPackChooser::class.java) {
             if (!isIconPackChooserBuilt) {
                 isIconPackChooserBuilt = true
@@ -63,8 +64,8 @@ object IconPackChooser : InterfaceIconPackChooser {
                     Log.e(TAG, "Icon packs can't be load, retry with one by default")
                     addDefaultIconPack(context)
                 }
-                if(defaultIconSize == null) {
-                    setDefaultIconSize(context.resources.getDimension(R.dimen.icon_size).toInt())
+                if(defaultIconSize == 0) {
+                    defaultIconSize = context.resources.getDimension(R.dimen.icon_size).toInt()
                 }
             }
         }
@@ -73,7 +74,7 @@ object IconPackChooser : InterfaceIconPackChooser {
     /**
      * Construct dynamically the icon pack provide by the default string resource "resource_id"
      */
-    override fun addDefaultIconPack(context: Context) {
+    private fun addDefaultIconPack(context: Context) {
         val resourceId = context.resources.getIdentifier("resource_id", "string", context.packageName)
         iconPackList.add(IconPack(context.packageName, context.resources, resourceId))
     }
@@ -81,21 +82,23 @@ object IconPackChooser : InterfaceIconPackChooser {
     /**
      * Utility method to add new icon pack or catch exception if not retrieve
      */
-    override fun addOrCatchNewIconPack(context: Context, iconPackString: String) {
+    private fun addOrCatchNewIconPack(context: Context, iconPackString: String) {
         try {
-            iconPackList.add(IconPack(context.packageName,
+            iconPackList.add(
+                IconPack(context.packageName,
                 context.resources,
                 context.resources.getIdentifier(
                     iconPackString + "_resource_id",
                     "string",
-                    context.packageName)))
+                    context.packageName))
+            )
         } catch (e: Exception) {
             Log.w(TAG, "Icon pack $iconPackString can't be load")
         }
 
     }
 
-    override fun setSelectedIconPack(iconPackIdString: String?) {
+    fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
                 iconPackSelected = iconPack
@@ -110,7 +113,7 @@ object IconPackChooser : InterfaceIconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack currently in usage
      */
-    override fun getSelectedIconPack(context: Context): IconPack? {
+    fun getSelectedIconPack(context: Context): IconPack? {
         build(context)
         if (iconPackSelected == null) {
             setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context))
@@ -124,16 +127,8 @@ object IconPackChooser : InterfaceIconPackChooser {
      * @param context Context to build the icon pack if not already build
      * @return IconPack available
      */
-    override fun getIconPackList(context: Context): List<IconPack> {
+    fun getIconPackList(context: Context): List<IconPack> {
         build(context)
         return iconPackList
-    }
-
-    override fun setDefaultIconSize(size: Int) {
-        defaultIconSize = size
-    }
-
-    override fun getDefaultIconSize(): Int {
-        return defaultIconSize!!
     }
 }

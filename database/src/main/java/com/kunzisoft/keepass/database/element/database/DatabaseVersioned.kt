@@ -67,7 +67,8 @@ abstract class DatabaseVersioned<
      * Can be used to temporarily store database elements
      */
     var binaryCache = BinaryCache()
-    var iconsManager = IconsManager()
+    // For now, same number of icons for each database version
+    var iconsManager = IconsManager(IconImageStandard.NUMBER_STANDARD_ICONS)
     var attachmentPool = AttachmentPool()
 
     var changeDuplicateId = false

@@ -23,7 +23,7 @@ import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.utils.UriUtil.getBinaryDir
 
 class LoadDatabaseRunnable(
     private val context: Context,
-    private val mDatabase: Database,
+    private val mDatabase: ContextualDatabase,
     private val mDatabaseUri: Uri,
     private val mMainCredential: MainCredential,
     private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,

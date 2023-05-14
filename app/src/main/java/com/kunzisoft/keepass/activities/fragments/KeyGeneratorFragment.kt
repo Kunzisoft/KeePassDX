@@ -30,7 +30,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.KeyGeneratorPagerAdapter
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 
 class KeyGeneratorFragment : DatabaseFragment() {
@@ -107,7 +107,7 @@ class KeyGeneratorFragment : DatabaseFragment() {
         super.onDestroyView()
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         // Nothing here
     }
 

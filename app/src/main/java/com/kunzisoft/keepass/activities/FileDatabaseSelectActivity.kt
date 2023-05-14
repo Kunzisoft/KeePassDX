@@ -53,7 +53,7 @@ import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.hardware.HardwareKey
@@ -233,7 +233,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         if (database != null) {
             launchGroupActivityIfLoaded(database)
@@ -241,7 +241,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -309,7 +309,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 mAutofillActivityResultLauncher)
     }
 
-    private fun launchGroupActivityIfLoaded(database: Database) {
+    private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         if (database.loaded) {
             GroupActivity.launch(this,
                 database,

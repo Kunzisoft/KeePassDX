@@ -27,7 +27,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -44,7 +44,7 @@ class IconEditDialogFragment : DatabaseDialogFragment() {
 
     private var mCustomIcon: IconImageCustom? = null
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon)

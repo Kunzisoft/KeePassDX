@@ -6,6 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -38,7 +39,7 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {

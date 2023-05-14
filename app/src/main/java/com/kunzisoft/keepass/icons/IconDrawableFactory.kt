@@ -36,18 +36,17 @@ import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageDraw
-import java.lang.ref.WeakReference
-import java.util.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.ref.WeakReference
+import java.util.*
 
 /**
  * Factory class who build database icons dynamically, can assign an icon of IconPack, or a custom icon to an ImageView with a tint
  */
 class IconDrawableFactory(
-    private val iconPackChooser: InterfaceIconPackChooser,
     private val retrieveBinaryCache: () -> BinaryCache?,
     private val retrieveCustomIconBinary: (iconId: UUID) -> BinaryData?,
 ) {
@@ -86,7 +85,7 @@ class IconDrawableFactory(
                 return SuperDrawable(it)
             }
         }
-        val iconPack = iconPackChooser.getSelectedIconPack(context)
+        val iconPack = IconPackChooser.getSelectedIconPack(context)
         if (mCurrentIconPack != iconPack) {
             this.mCurrentIconPack = iconPack
             this.clearCache()
@@ -95,7 +94,7 @@ class IconDrawableFactory(
             return SuperDrawable(getIconDrawable(context.resources, iconId, width, tintColor),
                 iconPack.tintable())
         } ?: run {
-            return SuperDrawable(PatternIcon(iconPackChooser.getDefaultIconSize()).blankDrawable)
+            return SuperDrawable(PatternIcon(IconPackChooser.defaultIconSize).blankDrawable)
         }
     }
 
@@ -107,15 +106,14 @@ class IconDrawableFactory(
         icon: IconImageCustom,
         iconCustomBinary: BinaryData?,
     ): Drawable? {
-        val patternIcon = PatternIcon(iconPackChooser.getDefaultIconSize())
-        val binaryManager = retrieveBinaryCache()
-        if (binaryManager != null) {
+        val patternIcon = PatternIcon(IconPackChooser.defaultIconSize)
+        retrieveBinaryCache()?.let { binaryCache ->
             val draw: Drawable? = customIconMap[icon.uuid]?.get()
             if (draw == null) {
                 iconCustomBinary?.let { binaryFile ->
                     try {
                         var bitmap: Bitmap? =
-                            BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryManager))
+                            BitmapFactory.decodeStream(binaryFile.getInputDataStream(binaryCache))
                         bitmap?.let { bitmapIcon ->
                             bitmap = resize(bitmapIcon, patternIcon)
                             val createdDraw = BitmapDrawable(resources, bitmap)
@@ -160,7 +158,7 @@ class IconDrawableFactory(
         }
 
         if (draw == null) {
-            draw = PatternIcon(iconPackChooser.getDefaultIconSize()).blankDrawable
+            draw = PatternIcon(IconPackChooser.defaultIconSize).blankDrawable
         }
         draw.isFilterBitmap = false
 

@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
@@ -123,7 +124,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         mDatabaseViewModel.reloadDatabase(false)
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         mDatabase = database
         mDatabaseReadOnly = database?.isReadOnly == true
         mMergeDataAllowed = database?.isMergeDataAllowed() == true
@@ -371,7 +372,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     }
 
     // TODO check error
-    override fun onDatabaseActionFinished(database: Database,
+    override fun onDatabaseActionFinished(database: ContextualDatabase,
                                           actionTask: String,
                                           result: ActionRunnable.Result) {
         result.data?.let { data ->

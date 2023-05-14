@@ -365,9 +365,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     private class AttachmentFileAction(
-            private val attachmentNotification: AttachmentNotification,
-            private val database: Database,
-            private val contentResolver: ContentResolver) {
+        private val attachmentNotification: AttachmentNotification,
+        private val database: Database,
+        private val contentResolver: ContentResolver) {
 
         private val updateMinFrequency = 1000
         private var previousSaveTime = System.currentTimeMillis()

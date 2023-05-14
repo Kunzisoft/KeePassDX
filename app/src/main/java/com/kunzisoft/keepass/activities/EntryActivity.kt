@@ -51,6 +51,7 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
@@ -74,7 +75,7 @@ import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
-import java.util.*
+import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
@@ -310,14 +311,14 @@ class EntryActivity : DatabaseLockActivity() {
         return coordinatorLayout
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         mEntryViewModel.loadDatabase(database)
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -376,7 +377,7 @@ class EntryActivity : DatabaseLockActivity() {
             .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
         mIcon?.let { icon ->
             titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(
+                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
                     iconView,
                     icon,
                     mForegroundColor ?: mColorAccent

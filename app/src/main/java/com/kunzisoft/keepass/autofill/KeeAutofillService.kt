@@ -35,6 +35,7 @@ import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -52,7 +53,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class KeeAutofillService : AutofillService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private var applicationIdBlocklist: Set<String>? = null
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
@@ -124,7 +125,7 @@ class KeeAutofillService : AutofillService() {
         }
     }
 
-    private fun launchSelection(database: Database?,
+    private fun launchSelection(database: ContextualDatabase?,
                                 searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
