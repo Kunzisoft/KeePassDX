@@ -73,7 +73,7 @@ object UriHelper {
 
     fun Uri.withFileScheme(): Boolean {
         val scheme = this.scheme
-        if (scheme == null || scheme.isEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
+        if (scheme.isNullOrEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
             return true
         }
         return false
@@ -87,5 +87,5 @@ object UriHelper {
         return false
     }
 
-    private const val TAG = "UriUtilDatabase"
+    private const val TAG = "UriHelper"
 }

@@ -38,7 +38,7 @@ class IconPackListPreference @JvmOverloads constructor(context: Context,
         for (iconPack in IconPackChooser.getIconPackList(context)) {
             if (iconPack.id != null) {
                 entries.add(iconPack.name)
-                values.add(iconPack.id!!)
+                values.add(iconPack.id)
             }
         }
 

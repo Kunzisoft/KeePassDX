@@ -190,7 +190,7 @@ object UriUtil {
 
     fun Context.openUrl(url: String?) {
         try {
-            if (url != null && url.isNotEmpty()) {
+            if (!url.isNullOrEmpty()) {
                 // Default http:// if no protocol specified
                 val newUrl = if (!url.contains("://")) {
                     "http://$url"
@@ -210,20 +210,17 @@ object UriUtil {
 
     fun Context.isContributingUser(): Boolean {
         return (Education.isEducationScreenReclickedPerformed(this)
-                || isExternalAppInstalled(
-            this,
-            this.getString(R.string.keepro_app_id),
-            false
-            )
+                || isExternalAppInstalled(this.getString(R.string.keepro_app_id), false)
         )
     }
 
-    private fun isExternalAppInstalled(context: Context,
-                                       packageName: String,
-                                       showError: Boolean = true): Boolean {
+    fun Context.isExternalAppInstalled(packageName: String, showError: Boolean = true): Boolean {
         try {
-            context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
-            Education.setEducationScreenReclickedPerformed(context)
+            this.applicationContext.packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_ACTIVITIES
+            )
+            Education.setEducationScreenReclickedPerformed(this)
             return true
         } catch (e: Exception) {
             if (showError)
