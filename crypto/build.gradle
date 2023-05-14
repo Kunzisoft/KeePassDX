@@ -1,12 +1,12 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-kapt'
 }
 
 android {
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
+    ndkVersion "21.4.7075529"
 
     defaultConfig {
         minSdkVersion 15
@@ -42,5 +42,5 @@ dependencies {
     // Crypto
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
 
-    androidTestImplementation "androidx.test:runner:$android_test_version"
+    testImplementation "androidx.test:runner:$android_test_version"
 }
