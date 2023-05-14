@@ -21,9 +21,9 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
+import com.kunzisoft.keepass.database.helper.MemoryHelper.canMemoryBeAllocatedInRAM
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -51,7 +51,7 @@ class ReloadDatabaseRunnable(
                 context.contentResolver.getUriInputStream(mDatabase.fileUri)
                     ?: throw UnknownDatabaseLocationException(),
                 { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
+                    canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
                 progressTaskUpdater)
         } catch (e: DatabaseException) {

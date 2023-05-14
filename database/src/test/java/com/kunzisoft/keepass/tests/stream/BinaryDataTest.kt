@@ -1,7 +1,5 @@
 package com.kunzisoft.keepass.tests.stream
 
-import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryFile
 import com.kunzisoft.keepass.utils.readAllBytes
@@ -14,19 +12,22 @@ import kotlin.random.Random
 
 class BinaryDataTest {
 
-    private val context: Context by lazy {
-        InstrumentationRegistry.getInstrumentation().context
-    }
-
-    private val cacheDirectory = context.filesDir
-    private val fileA = File(cacheDirectory, TEST_FILE_CACHE_A)
-    private val fileB = File(cacheDirectory, TEST_FILE_CACHE_B)
-    private val fileC = File(cacheDirectory, TEST_FILE_CACHE_C)
+    private val fileA = File.createTempFile(TEST_FILE_CACHE_A, null)
+    private val fileB = File.createTempFile(TEST_FILE_CACHE_B, null)
+    private val fileC = File.createTempFile(TEST_FILE_CACHE_C, null)
 
     private val binaryCache = BinaryCache()
 
+    private fun buildFile(stringFile: String): File {
+        return File(javaClass.getResource("/$stringFile")!!.path)
+    }
+
+    private fun buildFileStream(stringFile: String): InputStream {
+        return javaClass.getResourceAsStream("/$stringFile")!!
+    }
+
     private fun saveBinary(asset: String, binaryData: BinaryFile) {
-        context.assets.open(asset).use { assetInputStream ->
+        buildFileStream(asset).use { assetInputStream ->
             binaryData.getOutputDataStream(binaryCache).use { binaryOutputStream ->
                 assetInputStream.readAllBytes(DEFAULT_BUFFER_SIZE) { buffer ->
                     binaryOutputStream.write(buffer)
@@ -129,7 +130,7 @@ class BinaryDataTest {
     fun testReadText() {
         val binaryA = BinaryFile(fileA)
         saveBinary(TEST_TEXT_ASSET, binaryA)
-        assert(streamAreEquals(context.assets.open(TEST_TEXT_ASSET),
+        assert(streamAreEquals(buildFileStream(TEST_TEXT_ASSET),
                 binaryA.getInputDataStream(binaryCache)))
     }
 
@@ -137,7 +138,7 @@ class BinaryDataTest {
     fun testReadImage() {
         val binaryA = BinaryFile(fileA)
         saveBinary(TEST_IMAGE_ASSET, binaryA)
-        assert(streamAreEquals(context.assets.open(TEST_IMAGE_ASSET),
+        assert(streamAreEquals(buildFileStream(TEST_IMAGE_ASSET),
                 binaryA.getInputDataStream(binaryCache)))
     }
 

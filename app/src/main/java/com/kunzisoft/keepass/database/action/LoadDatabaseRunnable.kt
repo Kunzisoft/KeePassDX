@@ -25,9 +25,9 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
+import com.kunzisoft.keepass.database.helper.MemoryHelper.canMemoryBeAllocatedInRAM
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -69,7 +69,7 @@ class LoadDatabaseRunnable(
                 mReadonly,
                 binaryDir,
                 { memoryWanted ->
-                    BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
+                    canMemoryBeAllocatedInRAM(context, memoryWanted)
                 },
                 mFixDuplicateUUID,
                 progressTaskUpdater
