@@ -19,16 +19,20 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.core.os.ConfigurationCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
-import org.joda.time.*
-import java.text.DateFormat
+import org.joda.time.Duration
+import org.joda.time.Instant
+import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
+import org.joda.time.LocalTime
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class DateInstant : Parcelable {
 
@@ -120,25 +124,6 @@ class DateInstant : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeSerializable(jDate)
         dest.writeEnum(mType)
-    }
-
-    fun getDateTimeString(resources: Resources): String {
-        val locale = ConfigurationCompat.getLocales(resources.configuration)[0] ?: Locale.ROOT
-        return when (mType) {
-            Type.DATE -> DateFormat.getDateInstance(
-                DateFormat.MEDIUM,
-                locale)
-                .format(jDate)
-            Type.TIME -> DateFormat.getTimeInstance(
-                DateFormat.SHORT,
-                locale)
-                .format(jDate)
-            else -> DateFormat.getDateTimeInstance(
-                DateFormat.MEDIUM,
-                DateFormat.SHORT,
-                locale)
-                .format(jDate)
-        }
     }
 
     fun getYearInt(): Int {

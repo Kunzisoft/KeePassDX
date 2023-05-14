@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.model.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
@@ -135,26 +134,34 @@ class DatabaseTaskProvider(private var context: Context,
     }
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onActionStarted(database: ContextualDatabase,
-                                     progressMessage: ProgressMessage) {
+        override fun onActionStarted(
+            database: ContextualDatabase,
+            progressMessage: ProgressMessage
+        ) {
             if (showDialog)
                 startDialog(progressMessage)
         }
 
-        override fun onActionUpdated(database: ContextualDatabase,
-                                     progressMessage: ProgressMessage) {
+        override fun onActionUpdated(
+            database: ContextualDatabase,
+            progressMessage: ProgressMessage
+        ) {
             if (showDialog)
                 updateDialog(progressMessage)
         }
 
-        override fun onActionStopped(database: ContextualDatabase) {
+        override fun onActionStopped(
+            database: ContextualDatabase
+        ) {
             // Remove the progress task
             stopDialog()
         }
 
-        override fun onActionFinished(database: ContextualDatabase,
-                                      actionTask: String,
-                                      result: ActionRunnable.Result) {
+        override fun onActionFinished(
+            database: ContextualDatabase,
+            actionTask: String,
+            result: ActionRunnable.Result
+        ) {
             onActionFinish?.invoke(database, actionTask, result)
             onActionStopped(database)
         }

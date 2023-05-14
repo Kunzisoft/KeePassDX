@@ -32,7 +32,6 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:$android_core_version"
     // Time
     implementation 'joda-time:joda-time:2.10.13'
     // Apache Commons

@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.utils;
 
-import androidx.annotation.Nullable;
-
 import java.util.UUID;
 
 import static com.kunzisoft.keepass.utils.StreamBytesUtilsKt.uuidTo16Bytes;
+
+import org.jetbrains.annotations.Nullable;
 
 public class UuidUtil {
 
