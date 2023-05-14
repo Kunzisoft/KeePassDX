@@ -298,7 +298,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     mSaveState
                 )
             } else (intent.action == ACTION_DATABASE_CREATE_TASK
-                    || intent.action == ACTION_DATABASE_ASSIGN_PASSWORD_TASK
+                    || intent.action == ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK
                     || intent.action == ACTION_DATABASE_SAVE)
         } else false
 
@@ -316,7 +316,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent, database)
             ACTION_DATABASE_MERGE_TASK -> buildDatabaseMergeActionTask(intent, database)
             ACTION_DATABASE_RELOAD_TASK -> buildDatabaseReloadActionTask(database)
-            ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent, database)
+            ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK -> buildDatabaseAssignCredentialActionTask(intent, database)
             ACTION_DATABASE_CREATE_GROUP_TASK -> buildDatabaseCreateGroupActionTask(intent, database)
             ACTION_DATABASE_UPDATE_GROUP_TASK -> buildDatabaseUpdateGroupActionTask(intent, database)
             ACTION_DATABASE_CREATE_ENTRY_TASK -> buildDatabaseCreateEntryActionTask(intent, database)
@@ -483,7 +483,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 ACTION_DATABASE_LOAD_TASK,
                 ACTION_DATABASE_MERGE_TASK,
                 ACTION_DATABASE_RELOAD_TASK, -> R.string.loading_database
-                ACTION_DATABASE_ASSIGN_PASSWORD_TASK,
+                ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK,
                 ACTION_DATABASE_SAVE, -> R.string.saving_database
                 else -> {
                     if (mSaveState)
@@ -867,7 +867,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun buildDatabaseAssignPasswordActionTask(
+    private fun buildDatabaseAssignCredentialActionTask(
         intent: Intent,
         database: ContextualDatabase,
     ): ActionRunnable? {
@@ -875,16 +875,19 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(MAIN_CREDENTIAL_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
-            AssignMainCredentialInDatabaseRunnable(
+            SaveDatabaseRunnable(
                 this,
                 database,
-                databaseUri,
+                saveDatabase = true,
                 intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential(),
                 { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
+                },
+                null
+            ).apply {
+                afterSaveDatabase = {
+                    afterAssignMainCredential(databaseUri)
                 }
-            ) {
-                afterAssignMainCredential(databaseUri)
             }
         } else {
             null
@@ -1191,7 +1194,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
-                mAfterSaveDatabase = { result ->
+                afterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
             }
@@ -1212,7 +1215,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
-                mAfterSaveDatabase = { result ->
+                afterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
             }
@@ -1234,7 +1237,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 }
             ).apply {
-                mAfterSaveDatabase = { result ->
+                afterSaveDatabase = { result ->
                     result.data = intent.extras
                 }
             }
@@ -1298,7 +1301,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
         const val ACTION_DATABASE_MERGE_TASK = "ACTION_DATABASE_MERGE_TASK"
         const val ACTION_DATABASE_RELOAD_TASK = "ACTION_DATABASE_RELOAD_TASK"
-        const val ACTION_DATABASE_ASSIGN_PASSWORD_TASK = "ACTION_DATABASE_ASSIGN_PASSWORD_TASK"
+        const val ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK = "ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK"
         const val ACTION_DATABASE_CREATE_GROUP_TASK = "ACTION_DATABASE_CREATE_GROUP_TASK"
         const val ACTION_DATABASE_UPDATE_GROUP_TASK = "ACTION_DATABASE_UPDATE_GROUP_TASK"
         const val ACTION_DATABASE_CREATE_ENTRY_TASK = "ACTION_DATABASE_CREATE_ENTRY_TASK"

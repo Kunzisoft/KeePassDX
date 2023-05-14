@@ -234,15 +234,19 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                                    mainCredential: MainCredential) {
+    override fun onPasswordEncodingValidateListener(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
         assignDatabasePassword(databaseUri, mainCredential)
     }
 
-    private fun assignDatabasePassword(databaseUri: Uri?,
-                                       mainCredential: MainCredential) {
+    private fun assignDatabasePassword(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
         if (databaseUri != null) {
-            mDatabaseTaskProvider?.startDatabaseAssignPassword(databaseUri, mainCredential)
+            mDatabaseTaskProvider?.startDatabaseAssignCredential(databaseUri, mainCredential)
         }
     }
 

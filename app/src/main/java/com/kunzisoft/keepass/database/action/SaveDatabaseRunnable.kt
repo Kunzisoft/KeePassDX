@@ -38,7 +38,7 @@ open class SaveDatabaseRunnable(
     private var databaseCopyUri: Uri? = null
 ) : ActionRunnable() {
 
-    var mAfterSaveDatabase: ((Result) -> Unit)? = null
+    var afterSaveDatabase: ((Result) -> Unit)? = null
 
     override fun onStartRun() {}
 
@@ -63,6 +63,6 @@ open class SaveDatabaseRunnable(
 
     override fun onFinishRun() {
         // Need to call super.onFinishRun() in child class
-        mAfterSaveDatabase?.invoke(result)
+        afterSaveDatabase?.invoke(result)
     }
 }

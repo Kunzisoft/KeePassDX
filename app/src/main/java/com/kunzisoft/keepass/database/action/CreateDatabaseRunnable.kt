@@ -29,27 +29,26 @@ import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 class CreateDatabaseRunnable(
     context: Context,
     private val mDatabase: ContextualDatabase,
-    databaseUri: Uri,
+    private val databaseUri: Uri,
     private val databaseName: String,
     private val rootName: String,
     private val templateGroupName: String?,
     val mainCredential: MainCredential,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val createDatabaseResult: ((Result) -> Unit)?
-) : AssignMainCredentialInDatabaseRunnable(
+) : SaveDatabaseRunnable(
     context,
     mDatabase,
-    databaseUri,
+    true,
     mainCredential,
-    challengeResponseRetriever,
-    createDatabaseResult
+    challengeResponseRetriever
 ) {
 
     override fun onStartRun() {
         try {
             // Create new database record
             mDatabase.apply {
-                this.fileUri = mDatabaseUri
+                this.fileUri = databaseUri
                 createData(databaseName, rootName, templateGroupName)
             }
         } catch (e: Exception) {
