@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.services
+package com.kunzisoft.keepass.database
 
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
@@ -39,9 +39,6 @@ import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
-import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.database.action.ProgressMessage
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
@@ -52,6 +49,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_CHALLENGE_RESPONDED
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
@@ -96,8 +94,10 @@ import java.util.UUID
  * Utility class to connect an activity or a service to the DatabaseTaskNotificationService,
  * Useful to retrieve a database instance and sending tasks commands
  */
-class DatabaseTaskProvider(private var context: Context,
-                           private var showDialog: Boolean = true) {
+class DatabaseTaskProvider(
+    private var context: Context,
+    private var showDialog: Boolean = true
+) {
 
     // To show dialog only if context is an activity
     private var activity: FragmentActivity? = try { context as? FragmentActivity? }
@@ -173,7 +173,8 @@ class DatabaseTaskProvider(private var context: Context,
         }
     }
 
-    private var databaseInfoListener = object: DatabaseTaskNotificationService.DatabaseInfoListener {
+    private var databaseInfoListener = object:
+        DatabaseTaskNotificationService.DatabaseInfoListener {
         override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
                                            newDatabaseInfo: SnapFileDatabaseInfo) {
             activity?.let { activity ->

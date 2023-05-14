@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.database.action
+package com.kunzisoft.keepass.database
 
 import androidx.annotation.StringRes
 

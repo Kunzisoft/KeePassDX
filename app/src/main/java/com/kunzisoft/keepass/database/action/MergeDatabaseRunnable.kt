@@ -40,7 +40,13 @@ class MergeDatabaseRunnable(
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,
     private val mergeDatabaseResult: ((Result) -> Unit)?
-) : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
+) : SaveDatabaseRunnable(
+    context,
+    database,
+    saveDatabase,
+    null,
+    challengeResponseRetriever
+) {
 
     override fun onStartRun() {
         database.wasReloaded = true

@@ -31,7 +31,13 @@ class UpdateCompressionBinariesDatabaseRunnable (
     private val newCompressionAlgorithm: CompressionAlgorithm,
     saveDatabase: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
+) : SaveDatabaseRunnable(
+    context,
+    database,
+    saveDatabase,
+    null,
+    challengeResponseRetriever
+) {
 
     override fun onStartRun() {
         // Set new compression

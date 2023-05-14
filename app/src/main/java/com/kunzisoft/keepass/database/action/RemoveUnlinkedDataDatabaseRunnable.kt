@@ -28,7 +28,13 @@ class RemoveUnlinkedDataDatabaseRunnable (
     database: ContextualDatabase,
     saveDatabase: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
-) : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
+) : SaveDatabaseRunnable(
+    context,
+    database,
+    saveDatabase,
+    null,
+    challengeResponseRetriever
+) {
 
     override fun onActionRun() {
         try {

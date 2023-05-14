@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.services.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
