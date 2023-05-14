@@ -25,13 +25,13 @@ import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.net.Uri
 import android.os.IBinder
+import android.util.Base64
 import android.util.Log
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import org.apache.commons.codec.binary.Base64
 import java.util.LinkedList
 
 class CipherDatabaseAction(context: Context) {
@@ -136,11 +136,13 @@ class CipherDatabaseAction(context: Context) {
                 mBinder?.getCipherDatabase(databaseUri)?.let { cipherDatabaseEntity ->
                     cipherDatabase = CipherEncryptDatabase().apply {
                         this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
-                        this.encryptedValue = Base64.decodeBase64(
-                            cipherDatabaseEntity.encryptedValue
+                        this.encryptedValue = Base64.decode(
+                            cipherDatabaseEntity.encryptedValue,
+                            Base64.NO_WRAP
                         )
-                        this.specParameters = Base64.decodeBase64(
-                            cipherDatabaseEntity.specParameters
+                        this.specParameters = Base64.decode(
+                            cipherDatabaseEntity.specParameters,
+                            Base64.NO_WRAP
                         )
                     }
                 }
@@ -153,11 +155,13 @@ class CipherDatabaseAction(context: Context) {
                         ?.let { cipherDatabaseEntity ->
                             CipherEncryptDatabase().apply {
                                 this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
-                                this.encryptedValue = Base64.decodeBase64(
-                                    cipherDatabaseEntity.encryptedValue
+                                this.encryptedValue = Base64.decode(
+                                    cipherDatabaseEntity.encryptedValue,
+                                    Base64.NO_WRAP
                                 )
-                                this.specParameters = Base64.decodeBase64(
-                                    cipherDatabaseEntity.specParameters
+                                this.specParameters = Base64.decode(
+                                    cipherDatabaseEntity.specParameters,
+                                    Base64.NO_WRAP
                                 )
                             }
                         }
@@ -182,8 +186,8 @@ class CipherDatabaseAction(context: Context) {
 
             val cipherDatabaseEntity = CipherDatabaseEntity(
                 databaseUri.toString(),
-                Base64.encodeBase64String(cipherEncryptDatabase.encryptedValue),
-                Base64.encodeBase64String(cipherEncryptDatabase.specParameters),
+                Base64.encodeToString(cipherEncryptDatabase.encryptedValue, Base64.NO_WRAP),
+                Base64.encodeToString(cipherEncryptDatabase.specParameters, Base64.NO_WRAP),
             )
 
             if (useTempDao) {
