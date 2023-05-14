@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
-import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.icon.IconPack
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 /**
@@ -65,7 +65,7 @@ object IconPackChooser {
                     addDefaultIconPack(context)
                 }
                 if(defaultIconSize == 0) {
-                    defaultIconSize = context.resources.getDimension(R.dimen.icon_size).toInt()
+                    defaultIconSize = IconPack.defaultIconSize(context)
                 }
             }
         }

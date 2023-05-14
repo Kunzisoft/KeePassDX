@@ -17,11 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.icons
+package com.kunzisoft.keepass.icon
 
+import android.content.Context
 import android.content.res.Resources
 import android.util.SparseIntArray
-import com.kunzisoft.keepass.database.R
 import java.util.*
 
 /**
@@ -73,7 +73,7 @@ class IconPack(packageName: String, resources: Resources, resourceId: Int) {
 
         // Build the list of icons
         var num = 0
-        while (num < NB_ICONS) {
+        while (num < NB_DEFAULT_ICONS) {
             // To construct the id with name_ic_XX_32dp (ex : classic_ic_08_32dp )
             val resId = resources.getIdentifier(
                     id + "_" + String.format(Locale.ENGLISH, "%02d", num) + "_32dp",
@@ -129,6 +129,10 @@ class IconPack(packageName: String, resources: Resources, resourceId: Int) {
     }
 
     companion object {
-        const val NB_ICONS = 69
+        private const val NB_DEFAULT_ICONS = 69
+
+        fun defaultIconSize(context: Context): Int {
+            return context.resources.getDimension(R.dimen.icon_size).toInt()
+        }
     }
 }

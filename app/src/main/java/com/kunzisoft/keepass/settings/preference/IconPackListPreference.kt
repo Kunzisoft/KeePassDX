@@ -36,9 +36,9 @@ class IconPackListPreference @JvmOverloads constructor(context: Context,
         val entries = ArrayList<String>()
         val values = ArrayList<String>()
         for (iconPack in IconPackChooser.getIconPackList(context)) {
-            if (iconPack.id != null) {
+            iconPack.id?.let { iconPackId ->
                 entries.add(iconPack.name)
-                values.add(iconPack.id)
+                values.add(iconPackId)
             }
         }
 
