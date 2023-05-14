@@ -1,3 +1,4 @@
 include ':app'
-include ':database', ':database:crypto'
+include ':database'
+include ':crypto'
 include ':icon-pack', ':icon-pack:classic', ':icon-pack:material'
