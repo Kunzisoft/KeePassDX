@@ -21,21 +21,24 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.UriHelper.getUriOutputStream
+import java.io.File
 
-open class SaveDatabaseRunnable(protected var context: Context,
-                                protected var database: Database,
-                                private var saveDatabase: Boolean,
-                                private var mainCredential: MainCredential?, // If null, uses composite Key
-                                private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-                                private var databaseCopyUri: Uri? = null)
-    : ActionRunnable() {
+open class SaveDatabaseRunnable(
+    protected var context: Context,
+    protected var database: ContextualDatabase,
+    private var saveDatabase: Boolean,
+    private var mainCredential: MainCredential?, // If null, uses composite Key
+    private var challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
+    private var databaseCopyUri: Uri? = null
+) : ActionRunnable() {
 
-    var mAfterSaveDatabase: ((Result) -> Unit)? = null
+    var afterSaveDatabase: ((Result) -> Unit)? = null
 
     override fun onStartRun() {}
 
@@ -43,11 +46,14 @@ open class SaveDatabaseRunnable(protected var context: Context,
         database.checkVersion()
         if (saveDatabase && result.isSuccess) {
             try {
+                val contentResolver = context.contentResolver
+                // Build temp database file to avoid file corruption if error
                 database.saveData(
-                    context.contentResolver,
-                    context.cacheDir,
-                    databaseCopyUri,
-                    mainCredential,
+                    cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
+                    databaseOutputStream = contentResolver
+                        .getUriOutputStream(databaseCopyUri ?: database.fileUri),
+                    isNewLocation = databaseCopyUri == null,
+                    mainCredential?.toMasterCredential(contentResolver),
                     challengeResponseRetriever)
             } catch (e: DatabaseException) {
                 setError(e)
@@ -57,6 +63,6 @@ open class SaveDatabaseRunnable(protected var context: Context,
 
     override fun onFinishRun() {
         // Need to call super.onFinishRun() in child class
-        mAfterSaveDatabase?.invoke(result)
+        afterSaveDatabase?.invoke(result)
     }
 }

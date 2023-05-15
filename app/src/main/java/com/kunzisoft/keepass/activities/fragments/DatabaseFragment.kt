@@ -6,7 +6,7 @@ import androidx.fragment.app.activityViewModels
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
@@ -14,7 +14,7 @@ import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    protected var mDatabase: Database? = null
+    protected var mDatabase: ContextualDatabase? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +38,7 @@ abstract class DatabaseFragment : StylishFragment(), DatabaseRetrieval {
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {

@@ -23,7 +23,7 @@ import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 
 class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -37,7 +37,7 @@ class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePre
         }.toString()
     }
 
-    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+    override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         super.onDialogClosed(database, positiveResult)
         database?.let {
             if (positiveResult) {

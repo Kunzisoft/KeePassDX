@@ -23,7 +23,9 @@ import android.content.Context
 import android.net.Uri
 import android.text.format.Formatter
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriHelper.parseUri
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 import java.io.Serializable
 import java.text.DateFormat
 import java.util.*
@@ -43,16 +45,14 @@ class FileDatabaseInfo : Serializable {
 
     constructor(context: Context, filePath: String) {
         this.context = context
-        this.fileUri = UriUtil.parse(filePath)
+        this.fileUri = filePath.parseUri()
         init()
     }
 
     fun init() {
         // Check permission
-        fileUri?.let { uri ->
-            UriUtil.takeUriPermission(context.contentResolver, uri)
-        }
-        documentFile = UriUtil.getFileData(context, fileUri)
+        context.contentResolver.takeUriPermission(fileUri)
+        documentFile = fileUri?.getDocumentFile(context)
     }
 
     var exists: Boolean = false

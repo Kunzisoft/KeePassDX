@@ -5,11 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.utils.readAllBytes
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
+import com.kunzisoft.keepass.utils.UriHelper.getUriOutputStream
+import com.kunzisoft.keepass.utils.readAllBytes
 import kotlinx.coroutines.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -22,14 +23,14 @@ import kotlin.math.pow
 
 object BinaryDatabaseManager {
 
-    fun downloadFromDatabase(database: Database,
+    fun downloadFromDatabase(database: ContextualDatabase,
                              attachmentToUploadUri: Uri,
                              binaryData: BinaryData,
                              contentResolver: ContentResolver,
                              update: ((percent: Int)->Unit)? = null,
                              canceled: ()-> Boolean = { false },
                              bufferSize: Int = DEFAULT_BUFFER_SIZE) {
-        UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)?.use { outputStream ->
+        contentResolver.getUriOutputStream(attachmentToUploadUri)?.use { outputStream ->
             downloadFromDatabase(database.binaryCache, outputStream, binaryData, update, canceled, bufferSize)
         }
     }
@@ -56,7 +57,7 @@ object BinaryDatabaseManager {
         }
     }
 
-    fun uploadToDatabase(database: Database,
+    fun uploadToDatabase(database: ContextualDatabase,
                          attachmentFromDownloadUri: Uri,
                          binaryData: BinaryData,
                          contentResolver: ContentResolver,
@@ -64,7 +65,7 @@ object BinaryDatabaseManager {
                          canceled: ()-> Boolean = { false },
                          bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         val fileSize = contentResolver.openFileDescriptor(attachmentFromDownloadUri, "r")?.statSize ?: 0
-        UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)?.use { inputStream ->
+        contentResolver.getUriInputStream(attachmentFromDownloadUri)?.use { inputStream ->
             uploadToDatabase(database.binaryCache, inputStream, fileSize, binaryData, update, canceled, bufferSize)
         }
     }
@@ -92,12 +93,12 @@ object BinaryDatabaseManager {
     }
 
     fun resizeBitmapAndStoreDataInBinaryFile(contentResolver: ContentResolver,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              bitmapUri: Uri?,
                                              binaryData: BinaryData?) {
         try {
             binaryData?.let {
-                UriUtil.getUriInputStream(contentResolver, bitmapUri)?.use { inputStream ->
+                contentResolver.getUriInputStream(bitmapUri)?.use { inputStream ->
                     BitmapFactory.decodeStream(inputStream)?.let { bitmap ->
                         val bitmapResized = bitmap.resize(DEFAULT_ICON_WIDTH)
                         val byteArrayOutputStream = ByteArrayOutputStream()
@@ -138,7 +139,7 @@ object BinaryDatabaseManager {
         return Bitmap.createScaledBitmap(this, width, height, true)
     }
 
-    fun loadBitmap(database: Database,
+    fun loadBitmap(database: ContextualDatabase,
                    binaryData: BinaryData,
                    maxWidth: Int,
                    actionOnFinish: (Bitmap?) -> Unit) {

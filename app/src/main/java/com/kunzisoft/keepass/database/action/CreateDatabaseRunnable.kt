@@ -21,65 +21,46 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
 
-class CreateDatabaseRunnable(context: Context,
-                             private val mDatabase: Database,
-                             databaseUri: Uri,
-                             private val databaseName: String,
-                             private val rootName: String,
-                             private val templateGroupName: String?,
-                             val mainCredential: MainCredential,
-                             challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-                             private val createDatabaseResult: ((Result) -> Unit)?)
-    : AssignMainCredentialInDatabaseRunnable(context, mDatabase, databaseUri, mainCredential, challengeResponseRetriever) {
-
+class CreateDatabaseRunnable(
+    context: Context,
+    private val mDatabase: ContextualDatabase,
+    private val databaseUri: Uri,
+    private val databaseName: String,
+    private val rootName: String,
+    private val templateGroupName: String?,
+    val mainCredential: MainCredential,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : SaveDatabaseRunnable(
+    context,
+    mDatabase,
+    true,
+    mainCredential,
+    challengeResponseRetriever
+) {
     override fun onStartRun() {
         try {
             // Create new database record
             mDatabase.apply {
-                createData(mDatabaseUri, databaseName, rootName, templateGroupName)
+                this.fileUri = databaseUri
+                createData(databaseName, rootName, templateGroupName)
             }
         } catch (e: Exception) {
-            mDatabase.clearAndClose(context)
+            mDatabase.clearAndClose(context.getBinaryDir())
             setError(e)
         }
 
         super.onStartRun()
     }
 
-    override fun onActionRun() {
-        super.onActionRun()
-
-        if (result.isSuccess) {
-            // Add database to recent files
-            if (PreferencesUtil.rememberDatabaseLocations(context)) {
-                FileDatabaseHistoryAction.getInstance(context.applicationContext)
-                        .addOrUpdateDatabaseUri(
-                            mDatabaseUri,
-                            if (PreferencesUtil.rememberKeyFileLocations(context)) mainCredential.keyFileUri else null,
-                            if (PreferencesUtil.rememberHardwareKey(context)) mainCredential.hardwareKey else null,
-                        )
-            }
-
-            // Register the current time to init the lock timer
-            PreferencesUtil.saveCurrentTime(context)
-        } else {
-            Log.e("CreateDatabaseRunnable", "Unable to create the database")
-        }
-    }
-
     override fun onFinishRun() {
-        super.onFinishRun()
-
         if (result.isSuccess) {
             mDatabase.loaded = true
         }
-        createDatabaseResult?.invoke(result)
+        super.onFinishRun()
     }
 }

@@ -22,7 +22,12 @@ package com.kunzisoft.keepass.activities.fragments
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +39,7 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodesAdapter
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
@@ -42,7 +47,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
-import java.util.*
+import java.util.LinkedList
 
 class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
 
@@ -143,7 +148,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         setHasOptionsMenu(true)
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         mRecycleBinEnable = database?.isRecycleBinEnabled == true
         mRecycleBin = database?.recycleBin
 
@@ -151,7 +156,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             database?.let { database ->
                 mAdapter = NodesAdapter(context, database).apply {
                     setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                        override fun onNodeClick(database: Database, node: Node) {
+                        override fun onNodeClick(database: ContextualDatabase, node: Node) {
                             if (mCurrentGroup?.isVirtual == false
                                 && nodeActionSelectionMode) {
                                 if (listActionNodes.contains(node)) {
@@ -169,7 +174,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                             }
                         }
 
-                        override fun onNodeLongClick(database: Database, node: Node): Boolean {
+                        override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
                             if (mCurrentGroup?.isVirtual == false
                                 && nodeActionPasteMode == PasteMode.UNDEFINED) {
                                 // Select the first item after a long click
@@ -191,7 +196,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -329,7 +334,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    fun actionNodesCallback(database: Database,
+    fun actionNodesCallback(database: ContextualDatabase,
                             nodes: List<Node>,
                             menuListener: NodesActionMenuListener?,
                             onDestroyActionMode: (mode: ActionMode?) -> Unit) : ActionMode.Callback {
@@ -433,20 +438,20 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickListener {
-        fun onNodeClick(database: Database, node: Node)
-        fun onNodeSelected(database: Database, nodes: List<Node>): Boolean
+        fun onNodeClick(database: ContextualDatabase, node: Node)
+        fun onNodeSelected(database: ContextualDatabase, nodes: List<Node>): Boolean
     }
 
     /**
      * Menu listener to redefine to do an action in menu
      */
     interface NodesActionMenuListener {
-        fun onOpenMenuClick(database: Database, node: Node): Boolean
-        fun onEditMenuClick(database: Database, node: Node): Boolean
-        fun onCopyMenuClick(database: Database, nodes: List<Node>): Boolean
-        fun onMoveMenuClick(database: Database, nodes: List<Node>): Boolean
-        fun onDeleteMenuClick(database: Database, nodes: List<Node>): Boolean
-        fun onPasteMenuClick(database: Database, pasteMode: PasteMode?, nodes: List<Node>): Boolean
+        fun onOpenMenuClick(database: ContextualDatabase, node: Node): Boolean
+        fun onEditMenuClick(database: ContextualDatabase, node: Node): Boolean
+        fun onCopyMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
+        fun onMoveMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
+        fun onDeleteMenuClick(database: ContextualDatabase, nodes: List<Node>): Boolean
+        fun onPasteMenuClick(database: ContextualDatabase, pasteMode: PasteMode?, nodes: List<Node>): Boolean
     }
 
     enum class PasteMode {

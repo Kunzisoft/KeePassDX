@@ -39,10 +39,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
 
 class TextFieldView @JvmOverloads constructor(context: Context,
@@ -252,7 +253,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
                 val packageName = valueView.text.toString()
                 // TODO #996 if (UriUtil.isExternalAppInstalled(context, packageName)) {
                     valueView.customLink {
-                        UriUtil.openExternalApp(context, packageName)
+                        context.openExternalApp(packageName)
                     }
                 //}
             }

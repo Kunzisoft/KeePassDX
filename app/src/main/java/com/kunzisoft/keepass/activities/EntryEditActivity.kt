@@ -32,7 +32,11 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.DatePicker
+import android.widget.ProgressBar
+import android.widget.Spinner
+import android.widget.TimePicker
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -46,8 +50,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.DatePickerFragment
+import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.TimePickerFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -55,7 +65,11 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
@@ -76,12 +90,16 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import org.joda.time.DateTime
-import java.util.*
+import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
@@ -185,7 +203,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             uri?.let { attachmentToUploadUri ->
-                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                attachmentToUploadUri.getDocumentFile(this)?.also { documentFile ->
                     documentFile.name?.let { fileName ->
                         if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
                             FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
@@ -221,7 +239,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 this@EntryEditActivity,
                                 templates
                             ).apply {
-                                iconDrawableFactory = mIconDrawableFactory
+                                iconDrawableFactory = mDatabase?.iconDrawableFactory
                             }
                             adapter = mTemplatesSelectorAdapter
                             val selectedTemplate = if (mTemplate != null)
@@ -368,19 +386,19 @@ class EntryEditActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
         mEntryEditViewModel.loadDatabase(database)
         mTemplatesSelectorAdapter?.apply {
-            iconDrawableFactory = mIconDrawableFactory
+            iconDrawableFactory = mDatabase?.iconDrawableFactory
             notifyDataSetChanged()
         }
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -433,7 +451,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
@@ -444,7 +462,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForAutofillSelection(database: Database, entry: Entry) {
+    private fun entryValidatedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
@@ -759,7 +777,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
         fun launchToUpdate(activity: Activity,
-                           database: Database,
+                           database: ContextualDatabase,
                            entryId: NodeId<UUID>,
                            activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
@@ -775,7 +793,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in an existent group
          */
         fun launchToCreate(activity: Activity,
-                           database: Database,
+                           database: ContextualDatabase,
                            groupId: NodeId<*>,
                            activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
@@ -788,7 +806,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         fun launchToUpdateForSave(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entryId: NodeId<UUID>,
                                   searchInfo: SearchInfo) {
             if (database.loaded && !database.isReadOnly) {
@@ -805,7 +823,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         fun launchToCreateForSave(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   groupId: NodeId<*>,
                                   searchInfo: SearchInfo) {
             if (database.loaded && !database.isReadOnly) {
@@ -825,7 +843,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in keyboard selection
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              groupId: NodeId<*>,
                                              searchInfo: SearchInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
@@ -846,7 +864,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: AppCompatActivity,
-                                    database: Database,
+                                    database: ContextualDatabase,
                                     activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     groupId: NodeId<*>,
@@ -870,7 +888,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
         fun launchToUpdateForRegistration(context: Context,
-                                          database: Database,
+                                          database: ContextualDatabase,
                                           entryId: NodeId<UUID>,
                                           registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
@@ -890,7 +908,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register a new entry (from autofill)
          */
         fun launchToCreateForRegistration(context: Context,
-                                          database: Database,
+                                          database: ContextualDatabase,
                                           groupId: NodeId<*>,
                                           registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {

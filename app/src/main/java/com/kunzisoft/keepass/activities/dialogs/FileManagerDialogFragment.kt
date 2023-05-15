@@ -21,12 +21,12 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 
 class FileManagerDialogFragment : DialogFragment() {
 
@@ -42,7 +42,7 @@ class FileManagerDialogFragment : DialogFragment() {
             textDescription.text = getString(R.string.file_manager_install_description)
 
             root.findViewById<Button>(R.id.file_manager_button).setOnClickListener {
-                UriUtil.gotoUrl(requireContext(), R.string.file_manager_explanation_url)
+                context?.openUrl(R.string.file_manager_explanation_url)
                 dismiss()
             }
 

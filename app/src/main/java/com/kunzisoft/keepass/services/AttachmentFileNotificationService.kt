@@ -29,14 +29,14 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,7 +48,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class AttachmentFileNotificationService: LockNotificationService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private val mPendingCommands: MutableList<Intent?> = mutableListOf()
 
     override val notificationId: Int = 10000
@@ -218,7 +218,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             }
         )
 
-        val fileName = UriUtil.getFileData(this, attachmentNotification.uri)?.name
+        val fileName = attachmentNotification.uri.getDocumentFile(this)?.name
                 ?: attachmentNotification.uri.path
 
         val builder = buildNewNotification().apply {
@@ -365,9 +365,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     private class AttachmentFileAction(
-            private val attachmentNotification: AttachmentNotification,
-            private val database: Database,
-            private val contentResolver: ContentResolver) {
+        private val attachmentNotification: AttachmentNotification,
+        private val database: ContextualDatabase,
+        private val contentResolver: ContentResolver) {
 
         private val updateMinFrequency = 1000
         private var previousSaveTime = System.currentTimeMillis()

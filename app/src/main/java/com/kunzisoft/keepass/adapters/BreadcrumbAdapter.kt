@@ -112,7 +112,11 @@ class BreadcrumbAdapter(val context: Context)
 
                 holder.groupNumbersView?.apply {
                     if (mShowNumberEntries) {
-                        group.refreshNumberOfChildEntries(Group.ChildFilter.getDefaults(context))
+                        group.refreshNumberOfChildEntries(
+                            Group.ChildFilter.getDefaults(
+                                PreferencesUtil.showExpiredEntries(context)
+                            )
+                        )
                         text = group.numberOfChildEntries.toString()
                         visibility = View.VISIBLE
                     } else {

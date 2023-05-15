@@ -32,7 +32,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
@@ -45,7 +44,8 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import java.util.*
 
 class SetOTPDialogFragment : DatabaseDialogFragment() {
@@ -206,7 +206,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             }
             // Proprietary only on full version
             mTotpTokenTypeArray = OtpTokenType.getTotpTokenTypeValues(
-                UriUtil.contributingUser(activity)
+                activity.isContributingUser()
             )
             totpTokenTypeAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, mTotpTokenTypeArray!!).apply {
@@ -242,7 +242,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             }
 
             root?.findViewById<View>(R.id.otp_information)?.setOnClickListener {
-                UriUtil.gotoUrl(activity, R.string.otp_explanation_url)
+                activity.openUrl(R.string.otp_explanation_url)
             }
 
             return builder.create()

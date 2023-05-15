@@ -26,7 +26,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 
 /**
  * Custom Dialog that asks the user to download the pro version or make a donation.
@@ -40,7 +40,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
 
             val stringBuilder = SpannableStringBuilder()
             /*
-            if (UriUtil.contributingUser(activity)) {
+            if (activity.isContributingUser()) {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_thanks), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_rose), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_work_hard), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n")
@@ -52,7 +52,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_contibute), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    UriUtil.gotoUrl(requireContext(), R.string.contribution_url)
+                    context?.openUrl(R.string.contribution_url)
                 }
             //}
             builder.setMessage(stringBuilder)

@@ -26,7 +26,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.MainCredential
 
 class PasswordEncodingDialogFragment : DialogFragment() {
 
@@ -78,8 +78,10 @@ class PasswordEncodingDialogFragment : DialogFragment() {
         private const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         private const val MAIN_CREDENTIAL = "MAIN_CREDENTIAL"
 
-        fun getInstance(databaseUri: Uri,
-                        mainCredential: MainCredential): SortDialogFragment {
+        fun getInstance(
+            databaseUri: Uri,
+            mainCredential: MainCredential
+        ): SortDialogFragment {
             val fragment = SortDialogFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(DATABASE_URI_KEY, databaseUri)

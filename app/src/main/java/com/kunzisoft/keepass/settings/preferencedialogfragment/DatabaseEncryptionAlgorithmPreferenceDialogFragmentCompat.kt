@@ -24,8 +24,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
@@ -51,7 +51,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         database?.let {
             algorithmSelected = database.encryptionAlgorithm
@@ -59,7 +59,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+    override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
             database?.let {

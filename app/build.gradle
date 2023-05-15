@@ -6,7 +6,6 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
-    ndkVersion "21.4.7075529"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
@@ -129,11 +128,10 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
-    // Encrypt lib
-    implementation project(path: ':crypto')
-    // Icon pack
-    implementation project(path: ':icon-pack-classic')
-    implementation project(path: ':icon-pack-material')
+    
+    // Modules import
+    implementation project(path: ':database')
+    implementation project(path: ':icon-pack')
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"

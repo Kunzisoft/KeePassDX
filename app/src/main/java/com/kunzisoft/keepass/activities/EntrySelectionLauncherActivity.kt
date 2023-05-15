@@ -26,11 +26,12 @@ import android.os.Bundle
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.utils.WebDomain
 
 /**
  * Activity to search or select entry in database,
@@ -46,7 +47,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         val keySelectionBundle = intent.getBundleExtra(KEY_SELECTION_BUNDLE)
@@ -95,7 +96,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
         finish()
     }
 
-    private fun launchSelection(database: Database?,
+    private fun launchSelection(database: ContextualDatabase?,
                                 sharedWebDomain: String?,
                                 otpString: String?) {
         // Build domain search param
@@ -104,13 +105,13 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             this.otpString = otpString
         }
 
-        SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+        WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
             searchInfo.webDomain = concreteWebDomain
             launch(database, searchInfo)
         }
     }
 
-    private fun launch(database: Database?,
+    private fun launch(database: ContextualDatabase?,
                        searchInfo: SearchInfo) {
 
         // Setting to integrate Magikeyboard

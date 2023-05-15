@@ -2,7 +2,10 @@ package com.kunzisoft.keepass.services
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.net.Uri
 import android.os.Binder
 import android.os.Build
@@ -122,7 +125,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
         // Only one service connection
         fun bindService(context: Context, serviceConnection: ServiceConnection, flags: Int) {
             context.bindService(Intent(context,
-                    AdvancedUnlockNotificationService::class.java),
+                AdvancedUnlockNotificationService::class.java),
                     serviceConnection,
                     flags)
         }

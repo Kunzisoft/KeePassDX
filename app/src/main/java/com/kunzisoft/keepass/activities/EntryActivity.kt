@@ -36,11 +36,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -51,8 +51,8 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
@@ -67,14 +67,14 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
-import java.util.*
+import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
@@ -310,14 +310,14 @@ class EntryActivity : DatabaseLockActivity() {
         return coordinatorLayout
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         mEntryViewModel.loadDatabase(database)
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -376,7 +376,7 @@ class EntryActivity : DatabaseLockActivity() {
             .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
         mIcon?.let { icon ->
             titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(
+                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
                     iconView,
                     icon,
                     mForegroundColor ?: mColorAccent
@@ -473,7 +473,7 @@ class EntryActivity : DatabaseLockActivity() {
             }
             R.id.menu_goto_url -> {
                 mUrl?.let { url ->
-                    UriUtil.gotoUrl(this, url)
+                    this.openUrl(url)
                 }
                 return true
             }
@@ -526,7 +526,7 @@ class EntryActivity : DatabaseLockActivity() {
          * Open standard Entry activity
          */
         fun launch(activity: Activity,
-                   database: Database,
+                   database: ContextualDatabase,
                    entryId: NodeId<UUID>,
                    activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
@@ -542,7 +542,7 @@ class EntryActivity : DatabaseLockActivity() {
          * Open history Entry activity
          */
         fun launch(activity: Activity,
-                   database: Database,
+                   database: ContextualDatabase,
                    entryId: NodeId<UUID>,
                    historyPosition: Int,
                    activityResultLauncher: ActivityResultLauncher<Intent>) {

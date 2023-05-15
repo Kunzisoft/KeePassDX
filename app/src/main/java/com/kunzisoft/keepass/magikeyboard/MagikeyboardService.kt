@@ -43,11 +43,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.adapters.FieldsAdapter
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -59,7 +59,7 @@ import java.util.*
 class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
 
     private var keyboardView: KeyboardView? = null
     private var entryContainer: View? = null

@@ -30,12 +30,14 @@ import android.content.IntentFilter
 import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
+import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
 const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TASK_ACTION"
 const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_ACTION"
@@ -148,7 +150,7 @@ fun Context.unregisterLockReceiver(lockReceiver: LockReceiver?) {
     }
 }
 
-fun Context.closeDatabase(database: Database?) {
+fun Context.closeDatabase(database: ContextualDatabase?) {
     // Stop the Magikeyboard service
     stopService(Intent(this, KeyboardEntryNotificationService::class.java))
     MagikeyboardService.removeEntry(this)
@@ -161,8 +163,8 @@ fun Context.closeDatabase(database: Database?) {
         cancelAll()
     }
     // Clear data
-    database?.clearAndClose(this)
+    database?.clearAndClose(this.getBinaryDir())
 
     // Release not useful URI permission
-    UriUtil.releaseAllUnnecessaryPermissionUris(applicationContext)
+    applicationContext.releaseAllUnnecessaryPermissionUris()
 }

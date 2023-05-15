@@ -3,17 +3,17 @@ package com.kunzisoft.keepass.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseViewModel: ViewModel() {
 
-    val database : LiveData<Database?> get() = _database
-    private val _database = MutableLiveData<Database?>()
+    val database : LiveData<ContextualDatabase?> get() = _database
+    private val _database = MutableLiveData<ContextualDatabase?>()
 
     val actionFinished : LiveData<ActionResult> get() = _actionFinished
     private val _actionFinished = SingleLiveEvent<ActionResult>()
@@ -73,11 +73,11 @@ class DatabaseViewModel: ViewModel() {
     private val _saveParallelism = SingleLiveEvent<SuperLong>()
 
 
-    fun defineDatabase(database: Database?) {
+    fun defineDatabase(database: ContextualDatabase?) {
         this._database.value = database
     }
 
-    fun onActionFinished(database: Database,
+    fun onActionFinished(database: ContextualDatabase,
                          actionTask: String,
                          result: ActionRunnable.Result) {
         this._actionFinished.value = ActionResult(database, actionTask, result)
@@ -184,7 +184,7 @@ class DatabaseViewModel: ViewModel() {
         _saveParallelism.value = SuperLong(oldValue, newValue, save)
     }
 
-    data class ActionResult(val database: Database,
+    data class ActionResult(val database: ContextualDatabase,
                             val actionTask: String,
                             val result: ActionRunnable.Result)
     data class SuperString(val oldValue: String,

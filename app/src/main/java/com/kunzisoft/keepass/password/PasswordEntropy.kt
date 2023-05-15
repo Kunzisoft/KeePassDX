@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.password
 import android.content.res.Resources
 import android.graphics.Color
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.app.database.IOActionTask
+import com.kunzisoft.keepass.utils.IOActionTask
 import kotlinx.coroutines.*
 import me.gosimple.nbvcxz.Nbvcxz
 import me.gosimple.nbvcxz.resources.Configuration

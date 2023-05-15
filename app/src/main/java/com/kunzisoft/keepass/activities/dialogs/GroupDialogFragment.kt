@@ -31,10 +31,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.TagsAdapter
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
@@ -60,10 +61,10 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var uuidContainerView: ViewGroup
     private lateinit var uuidReferenceView: TextView
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            mIconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconView, mGroupInfo.icon)
 

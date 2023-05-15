@@ -26,7 +26,7 @@ import android.os.Parcelable
 import android.text.format.Formatter
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 
 /**
  * Utility data class to get FileDatabaseInfo at a `t` time
@@ -92,10 +92,10 @@ data class SnapFileDatabaseInfo(var fileUri: Uri?,
 
         fun fromFileDatabaseInfo(fileDatabaseInfo: FileDatabaseInfo): SnapFileDatabaseInfo {
             return SnapFileDatabaseInfo(
-                    fileDatabaseInfo.fileUri,
-                    fileDatabaseInfo.exists,
-                    fileDatabaseInfo.getLastModification(),
-                    fileDatabaseInfo.getSize())
+                fileDatabaseInfo.fileUri,
+                fileDatabaseInfo.exists,
+                fileDatabaseInfo.getLastModification(),
+                fileDatabaseInfo.getSize())
         }
     }
 }
