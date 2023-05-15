@@ -705,43 +705,44 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
             val mainCredential: MainCredential =
                 intent.getParcelableExtra(MAIN_CREDENTIAL_KEY) ?: MainCredential()
-
-            if (databaseUri == null)
-                return null
-
+            if (databaseUri == null) return null
             return CreateDatabaseRunnable(this,
                 database,
                 databaseUri,
                 getString(R.string.database_default_name),
                 getString(R.string.database),
                 getString(R.string.template_group_name),
-                mainCredential,
-                { hardwareKey, seed ->
-                    retrieveResponseFromChallenge(hardwareKey, seed)
-                }
-            ) { result ->
-                afterAssignMainCredential(databaseUri)
-                if (result.isSuccess) {
-                    // Add database to recent files
-                    if (PreferencesUtil.rememberDatabaseLocations(applicationContext)) {
-                        FileDatabaseHistoryAction.getInstance(applicationContext)
-                            .addOrUpdateDatabaseUri(
-                                databaseUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(applicationContext))
-                                    mainCredential.keyFileUri else null,
-                                if (PreferencesUtil.rememberHardwareKey(applicationContext))
-                                    mainCredential.hardwareKey else null,
-                            )
+                mainCredential
+            ) { hardwareKey, seed ->
+                retrieveResponseFromChallenge(hardwareKey, seed)
+            }.apply {
+                afterSaveDatabase = { result ->
+                    eraseCredentials(databaseUri)
+                    if (result.isSuccess) {
+                        // Add database to recent files
+                        if (PreferencesUtil.rememberDatabaseLocations(applicationContext)) {
+                            FileDatabaseHistoryAction.getInstance(applicationContext)
+                                .addOrUpdateDatabaseUri(
+                                    databaseUri,
+                                    if (PreferencesUtil.rememberKeyFileLocations(
+                                            applicationContext
+                                        )
+                                    )
+                                        mainCredential.keyFileUri else null,
+                                    if (PreferencesUtil.rememberHardwareKey(applicationContext))
+                                        mainCredential.hardwareKey else null,
+                                )
+                        }
+                        // Register the current time to init the lock timer
+                        PreferencesUtil.saveCurrentTime(applicationContext)
+                    } else {
+                        Log.e(TAG, "Unable to create the database")
                     }
-                    // Register the current time to init the lock timer
-                    PreferencesUtil.saveCurrentTime(applicationContext)
-                } else {
-                    Log.e(TAG, "Unable to create the database")
-                }
-                // Pass result to activity
-                result.data = Bundle().apply {
-                    putParcelable(DATABASE_URI_KEY, databaseUri)
-                    putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
+                    // Pass result to activity
+                    result.data = Bundle().apply {
+                        putParcelable(DATABASE_URI_KEY, databaseUri)
+                        putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
+                    }
                 }
             }
         } else {
@@ -765,10 +766,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
             val cipherEncryptDatabase: CipherEncryptDatabase? =
                 intent.getParcelableExtra(CIPHER_DATABASE_KEY)
-
-            if (databaseUri == null)
-                return null
-
+            if (databaseUri == null) return null
             return LoadDatabaseRunnable(
                 this,
                 database,
@@ -780,35 +778,37 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 readOnly,
                 intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                 this
-            ) { result ->
-                if (result.isSuccess) {
-                    // Save keyFile in app database
-                    if (PreferencesUtil.rememberDatabaseLocations(applicationContext)) {
-                        FileDatabaseHistoryAction.getInstance(applicationContext)
-                            .addOrUpdateDatabaseUri(
-                                databaseUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(applicationContext))
-                                    mainCredential.keyFileUri else null,
-                                if (PreferencesUtil.rememberHardwareKey(applicationContext))
-                                    mainCredential.hardwareKey else null,
-                            )
-                    }
+            ).apply {
+                afterLoadDatabase = { result ->
+                    if (result.isSuccess) {
+                        // Save keyFile in app database
+                        if (PreferencesUtil.rememberDatabaseLocations(applicationContext)) {
+                            FileDatabaseHistoryAction.getInstance(applicationContext)
+                                .addOrUpdateDatabaseUri(
+                                    databaseUri,
+                                    if (PreferencesUtil.rememberKeyFileLocations(applicationContext))
+                                        mainCredential.keyFileUri else null,
+                                    if (PreferencesUtil.rememberHardwareKey(applicationContext))
+                                        mainCredential.hardwareKey else null,
+                                )
+                        }
 
-                    // Register the biometric
-                    cipherEncryptDatabase?.let { cipherDatabase ->
-                        CipherDatabaseAction.getInstance(applicationContext)
-                            .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
-                    }
+                        // Register the biometric
+                        cipherEncryptDatabase?.let { cipherDatabase ->
+                            CipherDatabaseAction.getInstance(applicationContext)
+                                .addOrUpdateCipherDatabase(cipherDatabase) // return value not called
+                        }
 
-                    // Register the current time to init the lock timer
-                    PreferencesUtil.saveCurrentTime(applicationContext)
-                }
-                // Add each info to reload database after thrown duplicate UUID exception
-                result.data = Bundle().apply {
-                    putParcelable(DATABASE_URI_KEY, databaseUri)
-                    putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
-                    putBoolean(READ_ONLY_KEY, readOnly)
-                    putParcelable(CIPHER_DATABASE_KEY, cipherEncryptDatabase)
+                        // Register the current time to init the lock timer
+                        PreferencesUtil.saveCurrentTime(applicationContext)
+                    }
+                    // Add each info to reload database after thrown duplicate UUID exception
+                    result.data = Bundle().apply {
+                        putParcelable(DATABASE_URI_KEY, databaseUri)
+                        putParcelable(MAIN_CREDENTIAL_KEY, mainCredential)
+                        putBoolean(READ_ONLY_KEY, readOnly)
+                        putParcelable(CIPHER_DATABASE_KEY, cipherEncryptDatabase)
+                    }
                 }
             }
         } else {
@@ -828,7 +828,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         if (intent.hasExtra(MAIN_CREDENTIAL_KEY)) {
             databaseToMergeMainCredential = intent.getParcelableExtra(MAIN_CREDENTIAL_KEY)
         }
-
         return MergeDatabaseRunnable(
             this,
             databaseToMergeUri,
@@ -842,12 +841,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
             this
-        ) { result ->
-            if (result.isSuccess) {
-                PreferencesUtil.saveCurrentTime(applicationContext)
+        ).apply {
+            afterSaveDatabase = { result ->
+                if (result.isSuccess) {
+                    PreferencesUtil.saveCurrentTime(applicationContext)
+                }
+                // No need to add each info to merge database
+                result.data = Bundle()
             }
-            // No need to add each info to reload database
-            result.data = Bundle()
         }
     }
 
@@ -858,12 +859,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             this,
             database,
             this
-        ) { result ->
-            if (result.isSuccess) {
-                PreferencesUtil.saveCurrentTime(applicationContext)
+        ).apply {
+            afterReloadDatabase = { result ->
+                if (result.isSuccess) {
+                    PreferencesUtil.saveCurrentTime(applicationContext)
+                }
+                // No need to add each info to reload database
+                result.data = Bundle()
             }
-            // No need to add each info to reload database
-            result.data = Bundle()
         }
     }
 
@@ -886,7 +889,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 null
             ).apply {
                 afterSaveDatabase = {
-                    afterAssignMainCredential(databaseUri)
+                    eraseCredentials(databaseUri)
                 }
             }
         } else {
@@ -894,7 +897,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun afterAssignMainCredential(databaseUri: Uri) {
+    private fun eraseCredentials(databaseUri: Uri) {
         // Erase the biometric
         CipherDatabaseAction.getInstance(this)
             .deleteByDatabaseUri(databaseUri)
@@ -925,12 +928,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val parentId: NodeId<*>? = intent.getParcelableExtra(PARENT_ID_KEY)
             val newGroup: Group? = intent.getParcelableExtra(GROUP_KEY)
-
-            if (parentId == null
-                || newGroup == null
-            )
-                return null
-
+            if (parentId == null || newGroup == null) return null
             database.getGroupById(parentId)?.let { parent ->
                 AddGroupRunnable(this,
                     database,
@@ -957,12 +955,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val groupId: NodeId<*>? = intent.getParcelableExtra(GROUP_ID_KEY)
             val newGroup: Group? = intent.getParcelableExtra(GROUP_KEY)
-
-            if (groupId == null
-                || newGroup == null
-            )
-                return null
-
+            if (groupId == null || newGroup == null) return null
             database.getGroupById(groupId)?.let { oldGroup ->
                 UpdateGroupRunnable(this,
                     database,
@@ -989,12 +982,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val parentId: NodeId<*>? = intent.getParcelableExtra(PARENT_ID_KEY)
             val newEntry: Entry? = intent.getParcelableExtra(ENTRY_KEY)
-
-            if (parentId == null
-                || newEntry == null
-            )
-                return null
-
+            if (parentId == null || newEntry == null) return null
             database.getGroupById(parentId)?.let { parent ->
                 AddEntryRunnable(this,
                     database,
@@ -1021,12 +1009,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         ) {
             val entryId: NodeId<UUID>? = intent.getParcelableExtra(ENTRY_ID_KEY)
             val newEntry: Entry? = intent.getParcelableExtra(ENTRY_KEY)
-
-            if (entryId == null
-                || newEntry == null
-            )
-                return null
-
+            if (entryId == null || newEntry == null) return null
             database.getEntryById(entryId)?.let { oldEntry ->
                 UpdateEntryRunnable(this,
                     database,
@@ -1053,7 +1036,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
-
             database.getGroupById(parentId)?.let { newParent ->
                 CopyNodesRunnable(this,
                     database,
@@ -1080,7 +1062,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
-
             database.getGroupById(parentId)?.let { newParent ->
                 MoveNodesRunnable(this,
                     database,
@@ -1128,7 +1109,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
-
             database.getEntryById(entryId)?.let { mainEntry ->
                 RestoreEntryHistoryDatabaseRunnable(this,
                     database,
@@ -1153,7 +1133,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
-
             database.getEntryById(entryId)?.let { mainEntry ->
                 DeleteEntryHistoryDatabaseRunnable(this,
                     database,
@@ -1177,15 +1156,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(NEW_ELEMENT_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-
             val oldElement: CompressionAlgorithm? = intent.getParcelableExtra(OLD_ELEMENT_KEY)
             val newElement: CompressionAlgorithm? = intent.getParcelableExtra(NEW_ELEMENT_KEY)
-
-            if (oldElement == null
-                || newElement == null
-            )
-                return null
-
+            if (oldElement == null || newElement == null) return null
             return UpdateCompressionBinariesDatabaseRunnable(this,
                 database,
                 oldElement,
@@ -1208,7 +1181,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
-
             return RemoveUnlinkedDataDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
@@ -1254,12 +1226,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
-
             var databaseCopyUri: Uri? = null
             if (intent.hasExtra(DATABASE_URI_KEY)) {
                 databaseCopyUri = intent.getParcelableExtra(DATABASE_URI_KEY)
             }
-
             SaveDatabaseRunnable(this,
                 database,
                 !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),

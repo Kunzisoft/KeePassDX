@@ -34,8 +34,7 @@ class CreateDatabaseRunnable(
     private val rootName: String,
     private val templateGroupName: String?,
     val mainCredential: MainCredential,
-    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    private val createDatabaseResult: ((Result) -> Unit)?
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
 ) : SaveDatabaseRunnable(
     context,
     mDatabase,
@@ -43,7 +42,6 @@ class CreateDatabaseRunnable(
     mainCredential,
     challengeResponseRetriever
 ) {
-
     override fun onStartRun() {
         try {
             // Create new database record
@@ -60,11 +58,9 @@ class CreateDatabaseRunnable(
     }
 
     override fun onFinishRun() {
-        super.onFinishRun()
-
         if (result.isSuccess) {
             mDatabase.loaded = true
         }
-        createDatabaseResult?.invoke(result)
+        super.onFinishRun()
     }
 }

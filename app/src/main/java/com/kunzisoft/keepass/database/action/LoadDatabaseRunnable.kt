@@ -40,9 +40,10 @@ class LoadDatabaseRunnable(
     private val mChallengeResponseRetriever: (hardwareKey: HardwareKey, seed: ByteArray?) -> ByteArray,
     private val mReadonly: Boolean,
     private val mFixDuplicateUUID: Boolean,
-    private val progressTaskUpdater: ProgressTaskUpdater?,
-    private val loadDatabaseResult: ((Result) -> Unit)?,
+    private val progressTaskUpdater: ProgressTaskUpdater?
 ) : ActionRunnable() {
+
+    var afterLoadDatabase : ((Result) -> Unit)? = null
 
     private val binaryDir = context.getBinaryDir()
 
@@ -79,6 +80,6 @@ class LoadDatabaseRunnable(
     }
 
     override fun onFinishRun() {
-        loadDatabaseResult?.invoke(result)
+        afterLoadDatabase?.invoke(result)
     }
 }

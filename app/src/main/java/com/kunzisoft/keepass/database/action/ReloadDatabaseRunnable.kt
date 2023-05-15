@@ -32,9 +32,10 @@ import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
 class ReloadDatabaseRunnable(
     private val context: Context,
     private val mDatabase: ContextualDatabase,
-    private val progressTaskUpdater: ProgressTaskUpdater?,
-    private val reloadDatabaseResult: ((Result) -> Unit)?
+    private val progressTaskUpdater: ProgressTaskUpdater?
 ) : ActionRunnable() {
+
+    var afterReloadDatabase : ((Result) -> Unit)? = null
 
     private val binaryDir = context.getBinaryDir()
 
@@ -63,6 +64,6 @@ class ReloadDatabaseRunnable(
     }
 
     override fun onFinishRun() {
-        reloadDatabaseResult?.invoke(result)
+        afterReloadDatabase?.invoke(result)
     }
 }
