@@ -45,7 +45,7 @@
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="retrieving_db_key">Datenbankschlüssel abrufen …</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Datenbankinhalte entschlüsseln…</string>
+    <string name="decrypting_db">Datenbankinhalt wird entschlüsselt …</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Stellen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
@@ -97,7 +97,7 @@
     <string name="length">Länge</string>
     <string name="list_size_title">Größe der Listenelemente</string>
     <string name="list_size_summary">Schriftgröße der Listenelemente</string>
-    <string name="loading_database">Datenbank wird geladen…</string>
+    <string name="loading_database">Datenbank wird geladen …</string>
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="hide_password_title">Passwörter verbergen</string>
     <string name="hide_password_summary">Passwörter mit (***) maskieren</string>
@@ -120,8 +120,8 @@
     <string name="no_url_handler">Installiere einen Webbrowser, um diese URL zu öffnen.</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
-    <string name="progress_create">Neue Datenbank wird erstellt…</string>
-    <string name="progress_title">Arbeite…</string>
+    <string name="progress_create">Neue Datenbank wird erstellt …</string>
+    <string name="progress_title">Bearbeitung läuft …</string>
     <string name="protection">Schutz</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">Abhängig von deinem Dateienmanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
@@ -129,7 +129,7 @@
     <string name="root">Start</string>
     <string name="rounds">Verschlüsselungsrunden</string>
     <string name="rounds_explanation">Zusätzliche Verschlüsselungsrunden bieten besseren Schutz gegen Brute-Force-Angriffe. Allerdings dauert das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="saving_database">Datenbank wird gespeichert…</string>
+    <string name="saving_database">Datenbank wird gespeichert …</string>
     <string name="space">Leerzeichen</string>
     <string name="sort_db">Natürliche Reihenfolge</string>
     <string name="special">Spezialsymbole</string>
@@ -317,7 +317,7 @@
     <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
-    <string name="do_not_kill_app">App nicht beenden…</string>
+    <string name="do_not_kill_app">App nicht beenden …</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn im Wurzelordner die Zurück-Taste gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -378,7 +378,7 @@
     <string name="error_otp_period">Zeitraum muss zwischen %1$d und %2$d Sekunden liegen.</string>
     <string name="error_otp_digits">Token muss %1$d bis %2$d Stellen enthalten.</string>
     <string name="invalid_db_same_uuid">%1$s mit derselben UUID %2$s existiert bereits.</string>
-    <string name="creating_database">Datenbank wird erstellt…</string>
+    <string name="creating_database">Datenbank wird erstellt …</string>
     <string name="menu_security_settings">Sicherheitseinstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüsseleinstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält doppelte UUIDs.</string>
@@ -407,7 +407,7 @@
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
     <string name="menu_save_database">Daten speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
-    <string name="command_execution">Befehl wird ausgeführt…</string>
+    <string name="command_execution">Befehl wird ausgeführt …</string>
     <string name="warning_permanently_delete_nodes">Ausgewählten Knoten unwiderruflich löschen\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
@@ -648,7 +648,7 @@
     <string name="keyboard_previous_search_summary">Auf dem Suchbildschirm automatisch zur vorherigen Tastatur wechseln</string>
     <string name="entropy">Entropie: %1$s Bit</string>
     <string name="entropy_high">Entropie: Hoch</string>
-    <string name="entropy_calculate">Entropie: Berechnen…</string>
+    <string name="entropy_calculate">Entropie: Berechnen …</string>
     <string name="at_least_one_char">Mindestens jedes Zeichen einmal</string>
     <string name="consider_chars_filter">Zeichen beinhalten</string>
     <string name="word_separator">Trennzeichen</string>
