@@ -200,7 +200,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
-        override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+        override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
             searchFiltersView?.visibility = View.VISIBLE
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
@@ -215,7 +215,7 @@ class GroupActivity : DatabaseLockActivity(),
             return true
         }
 
-        override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+        override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
             searchFiltersView?.onParametersChangeListener = null
             searchView?.setOnQueryTextListener(null)
             searchFiltersView?.visibility = View.GONE

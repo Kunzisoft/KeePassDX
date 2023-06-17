@@ -5,13 +5,13 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.kunzisoft.keepass'
-    compileSdkVersion 32
-    buildToolsVersion "32.0.0"
+    compileSdkVersion 33
+    buildToolsVersion "33.0.2"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode = 120
         versionName = "3.5.2"
         multiDexEnabled true
@@ -93,7 +93,7 @@ android {
     }
 }
 
-def room_version = "2.4.3"
+def room_version = "2.5.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -102,13 +102,13 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta02'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.1.0'
     implementation 'androidx.media:media:1.6.0'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
-    implementation 'androidx.fragment:fragment-ktx:1.5.2'
+    implementation 'androidx.fragment:fragment-ktx:1.6.0'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
     // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed
