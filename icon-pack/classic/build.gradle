@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'com.kunzisoft.keepass.icon.classic'
     compileSdkVersion 32
     buildToolsVersion '32.0.0'
 
