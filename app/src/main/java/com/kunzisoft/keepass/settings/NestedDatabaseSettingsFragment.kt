@@ -23,6 +23,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
@@ -72,8 +73,51 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     private var mMemoryPref: InputKdfSizePreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
 
+    private val menuProvider: MenuProvider = object: MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.database, menu)
+            if (mDatabaseReadOnly) {
+                menu.findItem(R.id.menu_save_database)?.isVisible = false
+                menu.findItem(R.id.menu_merge_database)?.isVisible = false
+            }
+            if (!mMergeDataAllowed) {
+                menu.findItem(R.id.menu_merge_database)?.isVisible = false
+            }
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return when (menuItem.itemId) {
+                R.id.menu_save_database -> {
+                    saveDatabase(!mDatabaseReadOnly)
+                    true
+                }
+                R.id.menu_merge_database -> {
+                    mergeDatabase(!mDatabaseReadOnly)
+                    true
+                }
+                R.id.menu_reload_database -> {
+                    reloadDatabase()
+                    true
+                }
+                R.id.menu_app_settings -> {
+                    // Check the time lock before launching settings
+                    // TODO activity menu
+                    (activity as SettingsActivity?)?.let {
+                        SettingsActivity.launch(it, true)
+                    }
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
             mDatabase = database
@@ -87,8 +131,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
-        setHasOptionsMenu(true)
-
         mScreen = screen
         val database = mDatabase
         // Load the preferences from an XML resource
@@ -650,47 +692,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         context?.let { context ->
             mDatabaseAutoSaveEnabled = PreferencesUtil.isAutoSaveDatabaseEnabled(context)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.database, menu)
-        if (mDatabaseReadOnly) {
-            menu.findItem(R.id.menu_save_database)?.isVisible = false
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-        if (!mMergeDataAllowed) {
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_save_database -> {
-                saveDatabase(!mDatabaseReadOnly)
-                true
-            }
-            R.id.menu_merge_database -> {
-                mergeDatabase(!mDatabaseReadOnly)
-                true
-            }
-            R.id.menu_reload_database -> {
-                reloadDatabase()
-                true
-            }
-            R.id.menu_app_settings -> {
-                // Check the time lock before launching settings
-                // TODO activity menu
-                (activity as SettingsActivity?)?.let {
-                    SettingsActivity.launch(it, true)
-                }
-                true
-            }
-            else -> {
-                super.onOptionsItemSelected(item)
-            }
         }
     }
 

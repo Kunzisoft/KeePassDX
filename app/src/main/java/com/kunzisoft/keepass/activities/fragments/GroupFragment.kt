@@ -29,6 +29,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -104,6 +105,40 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
+    private val menuProvider: MenuProvider = object: MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.tree, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return when (menuItem.itemId) {
+                R.id.menu_sort -> {
+                    context?.let { context ->
+                        val sortDialogFragment: SortDialogFragment =
+                            if (mRecycleBinEnable) {
+                                SortDialogFragment.getInstance(
+                                    PreferencesUtil.getListSort(context),
+                                    PreferencesUtil.getAscendingSort(context),
+                                    PreferencesUtil.getGroupsBeforeSort(context),
+                                    PreferencesUtil.getRecycleBinBottomSort(context)
+                                )
+                            } else {
+                                SortDialogFragment.getInstance(
+                                    PreferencesUtil.getListSort(context),
+                                    PreferencesUtil.getAscendingSort(context),
+                                    PreferencesUtil.getGroupsBeforeSort(context)
+                                )
+                            }
+
+                        sortDialogFragment.show(childFragmentManager, "sortDialog")
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -140,12 +175,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         onScrollListener = null
         groupRefreshed = null
         super.onDetach()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
@@ -218,6 +247,8 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         mNodesRecyclerView = view.findViewById(R.id.nodes_list)
         notFoundView = view.findViewById(R.id.not_found_container)
@@ -295,42 +326,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             rebuildList()
         } catch (e:Exception) {
             Log.e(TAG, "Unable to sort the list", e)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.tree, menu)
-
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-
-            R.id.menu_sort -> {
-                context?.let { context ->
-                    val sortDialogFragment: SortDialogFragment =
-                            if (mRecycleBinEnable) {
-                                SortDialogFragment.getInstance(
-                                    PreferencesUtil.getListSort(context),
-                                    PreferencesUtil.getAscendingSort(context),
-                                    PreferencesUtil.getGroupsBeforeSort(context),
-                                    PreferencesUtil.getRecycleBinBottomSort(context)
-                                )
-                            } else {
-                                SortDialogFragment.getInstance(
-                                    PreferencesUtil.getListSort(context),
-                                    PreferencesUtil.getAscendingSort(context),
-                                    PreferencesUtil.getGroupsBeforeSort(context)
-                                )
-                            }
-
-                    sortDialogFragment.show(childFragmentManager, "sortDialog")
-                }
-                return true
-            }
-
-            else -> return super.onOptionsItemSelected(item)
         }
     }
 

@@ -32,6 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -103,6 +104,25 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         keepConnection = false
     }
 
+    private val menuProvider: MenuProvider = object: MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // biometric menu
+                if (mAllowAdvancedUnlockMenu)
+                    menuInflater.inflate(R.menu.advanced_unlock, menu)
+            }
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    deleteEncryptedDatabaseKey()
+                }
+            }
+            return false
+        }
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -120,8 +140,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setHasOptionsMenu(true)
 
         cipherDatabaseAction = CipherDatabaseAction.getInstance(requireContext().applicationContext)
 
@@ -149,6 +167,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
         return rootView
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
+    }
+
     override fun onResume() {
         super.onResume()
         context?.let {
@@ -156,26 +180,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(it)
         }
         keepConnection = false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // biometric menu
-            if (mAllowAdvancedUnlockMenu)
-                inflater.inflate(R.menu.advanced_unlock, menu)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deleteEncryptedDatabaseKey()
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun onDatabaseLoaded(databaseUri: Uri?) {
