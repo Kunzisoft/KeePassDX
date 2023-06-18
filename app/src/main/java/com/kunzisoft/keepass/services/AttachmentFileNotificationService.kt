@@ -281,7 +281,14 @@ class AttachmentFileNotificationService: LockNotificationService() {
             AttachmentState.CANCELED,
             AttachmentState.ERROR -> {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
-                notificationManager?.notify(attachmentNotification.notificationId, builder.build())
+                try {
+                    notificationManager?.notify(
+                        attachmentNotification.notificationId,
+                        builder.build()
+                    )
+                } catch (e: SecurityException) {
+                    Log.e(TAG, "Unable to notify the attachment state", e)
+                }
             } else -> {
                 startForeground(attachmentNotification.notificationId, builder.build())
             }

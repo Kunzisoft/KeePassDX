@@ -613,6 +613,9 @@
     <string name="menu_merge_database">Fusionner les données</string>
     <string name="enable_keep_screen_on_summary">Maintiens l\'écran allumé lorsque l\'entrée est visionnée</string>
     <string name="warning_keyfile_integrity">Le hachage du fichier n\'est pas garanti car Android peut modifier ses données à la volée. Changez l\'extension du fichier en .bin pour une intégrité correcte.</string>
+    <string name="later">Plus tard</string>
+    <string name="ask">Demander</string>
+    <string name="warning_database_notification_permission">L\'autorisation de notification permet d\'afficher l\'état de la base de données et de la verrouiller à l\'aide d\'un bouton facilement accessible.\n\nSi vous n\'activez pas cette permission, la base de données ouverte en arrière-plan ne sera pas visible si une autre application est en premier plan.</string>
     <string name="enable_keep_screen_on_title">Maintenir l\'écran allumé</string>
     <string name="show_entry_colors_summary">Affiche les couleurs de premier plan et d\'arrière-plan pour une entrée</string>
     <string name="warning_database_info_reloaded">Le rechargement de la base de données supprimera les données modifiées localement.</string>

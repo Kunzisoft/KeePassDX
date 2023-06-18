@@ -309,12 +309,14 @@
     <style name="KeepassDXStyle.Light.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert.Bridge">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:background">@color/white_dark</item>
         <item name="background">@color/white_dark</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.MaterialComponents.Dialog.Alert.Bridge">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:background">@color/grey_dark</item>
         <item name="background">@color/grey_dark</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>

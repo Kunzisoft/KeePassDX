@@ -373,6 +373,9 @@
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
+    <string name="warning_database_notification_permission">The notification permission allows you to display the status of the database and lock it with an easily accessible button.\n\nIf you do not activate this permission, the database open in the background will not be visible if another application is in the foreground.</string>
+    <string name="later">Later</string>
+    <string name="ask">Ask</string>
     <string name="merge_success">Merge successfully completed</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>

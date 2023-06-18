@@ -29,11 +29,15 @@ import android.content.Context.BIND_IMPORTANT
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -340,7 +344,42 @@ class DatabaseTaskProvider(
         }
     }
 
+    private val tempServiceParameters = mutableListOf<Pair<Bundle?, String>>()
+    private val requestPermissionLauncher = activity?.registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { _ ->
+            // Whether or not the user has accepted, the service can be started,
+            // There just won't be any notification if it's not allowed.
+            tempServiceParameters.removeFirstOrNull()?.let {
+                startService(it.first, it.second)
+            }
+        }
+
     private fun start(bundle: Bundle? = null, actionTask: String) {
+        val contextActivity = activity
+        if (ContextCompat.checkSelfPermission(context, NOTIFICATION_PERMISSION)
+            == PackageManager.PERMISSION_GRANTED) {
+            startService(bundle, actionTask)
+        } else if (contextActivity != null
+                && shouldShowRequestPermissionRationale(contextActivity, NOTIFICATION_PERMISSION)) {
+            // it's not the first time, so the user deliberately chooses not to display the notification
+            startService(bundle, actionTask)
+        } else {
+            AlertDialog.Builder(activity)
+                .setMessage(R.string.warning_database_notification_permission)
+                .setNegativeButton(R.string.later) { _, _ ->
+                    // Refuses the notification, so start the service
+                    startService(bundle, actionTask)
+                }
+                .setPositiveButton(R.string.ask) { _, _ ->
+                    // Save the temp parameters to ask the permission
+                    tempServiceParameters.add(Pair(bundle, actionTask))
+                    requestPermissionLauncher?.launch(NOTIFICATION_PERMISSION)
+                }.create().show()
+        }
+    }
+
+    private fun startService(bundle: Bundle? = null, actionTask: String) {
         try {
             if (bundle != null)
                 intentDatabaseTask.putExtras(bundle)
@@ -742,5 +781,7 @@ class DatabaseTaskProvider(
 
     companion object {
         private val TAG = DatabaseTaskProvider::class.java.name
+
+        private const val NOTIFICATION_PERMISSION = "android.permission.POST_NOTIFICATIONS"
     }
 }
