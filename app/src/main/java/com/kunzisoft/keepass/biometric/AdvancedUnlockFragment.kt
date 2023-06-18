@@ -95,11 +95,14 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     // Only keep connection when we request a device credential activity
     private var keepConnection = false
 
-    private var mDeviceCredentialResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private var mDeviceCredentialResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
         // To wait resume
         if (keepConnection) {
-            mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded = result.resultCode == Activity.RESULT_OK
+            mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded =
+                result.resultCode == Activity.RESULT_OK
         }
         keepConnection = false
     }
@@ -300,8 +303,23 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun openBiometricSetting() {
         mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
-            // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
-            context?.startActivity(Intent(Settings.ACTION_SETTINGS))
+            try {
+                when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
+                        context?.startActivity(Intent(Settings.ACTION_BIOMETRIC_ENROLL))
+                    }
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                        @Suppress("DEPRECATION") context
+                            ?.startActivity(Intent(Settings.ACTION_FINGERPRINT_ENROLL))
+                    }
+                    else -> {
+                        context?.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
+                    }
+                }
+            } catch (e: Exception) {
+                // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
+                context?.startActivity(Intent(Settings.ACTION_SETTINGS))
+            }
         }
     }
 
