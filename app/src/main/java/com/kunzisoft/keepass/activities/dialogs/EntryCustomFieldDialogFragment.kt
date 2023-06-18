@@ -35,6 +35,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 
 
 class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
@@ -72,7 +73,7 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
             customFieldDeleteButton = root?.findViewById(R.id.entry_custom_field_delete)
             customFieldProtectionButton = root?.findViewById(R.id.entry_custom_field_protection)
 
-            oldField = arguments?.getParcelable(KEY_FIELD)
+            oldField = arguments?.getParcelableCompat(KEY_FIELD)
             oldField?.let { oldCustomField ->
                 customFieldLabel?.text = oldCustomField.name
                 customFieldProtectionButton?.isChecked = oldCustomField.protectedValue.isProtected

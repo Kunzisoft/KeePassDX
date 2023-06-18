@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 
 class KeyboardEntryNotificationService : LockNotificationService() {
 
@@ -73,7 +74,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
             else -> {
                 notificationManager?.cancel(notificationId)
                 if (intent.hasExtra(ENTRY_INFO_KEY)) {
-                    intent.getParcelableExtra<EntryInfo>(ENTRY_INFO_KEY)?.let {
+                    intent.getParcelableExtraCompat<EntryInfo>(ENTRY_INFO_KEY)?.let {
                         newNotification(it)
                     }
                 }

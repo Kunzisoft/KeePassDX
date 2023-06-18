@@ -5,8 +5,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.utils.UuidUtil
-import java.util.*
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 open class NodeInfo() : Parcelable {
 
@@ -20,12 +19,12 @@ open class NodeInfo() : Parcelable {
 
     constructor(parcel: Parcel) : this() {
         title = parcel.readString() ?: title
-        icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
-        creationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: creationTime
-        lastModificationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: lastModificationTime
+        icon = parcel.readParcelableCompat() ?: icon
+        creationTime = parcel.readParcelableCompat() ?: creationTime
+        lastModificationTime = parcel.readParcelableCompat() ?: lastModificationTime
         expires = parcel.readInt() != 0
-        expiryTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: expiryTime
-        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: customData
+        expiryTime = parcel.readParcelableCompat() ?: expiryTime
+        customData = parcel.readParcelableCompat() ?: customData
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

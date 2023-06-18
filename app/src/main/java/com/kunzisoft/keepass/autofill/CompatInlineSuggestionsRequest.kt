@@ -26,6 +26,7 @@ import android.os.Parcelable
 import android.service.autofill.FillRequest
 import android.view.inputmethod.InlineSuggestionsRequest
 import androidx.annotation.RequiresApi
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 /**
  * Utility class only to prevent java.lang.NoClassDefFoundError for old Android version and new lib compilation
@@ -52,8 +53,7 @@ class CompatInlineSuggestionsRequest : Parcelable {
 
     constructor(parcel: Parcel) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            this.inlineSuggestionsRequest =
-                parcel.readParcelable(FillRequest::class.java.classLoader)
+            this.inlineSuggestionsRequest = parcel.readParcelableCompat()
         }
         else {
             this.inlineSuggestionsRequest = null

@@ -68,6 +68,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.DexUtil
 import com.kunzisoft.keepass.utils.MagikeyboardUtil
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 import com.kunzisoft.keepass.utils.UriHelper.parseUri
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
@@ -194,7 +195,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         // Retrieve the database URI provided by file manager after an orientation change
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
-            mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
+            mDatabaseFileUri = savedInstanceState.getParcelableCompat(EXTRA_DATABASE_URI)
         }
 
         // Observe list of databases
@@ -252,9 +253,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             when (actionTask) {
                 ACTION_DATABASE_CREATE_TASK,
                 ACTION_DATABASE_LOAD_TASK -> {
-                    result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
+                    result.data?.getParcelableCompat<Uri>(DATABASE_URI_KEY)?.let { databaseUri ->
                         val mainCredential =
-                            result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
+                            result.data?.getParcelableCompat(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
                                 ?: MainCredential()
                         databaseFilesViewModel.addDatabaseFile(
                             databaseUri,

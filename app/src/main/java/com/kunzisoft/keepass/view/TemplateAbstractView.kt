@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 
 abstract class TemplateAbstractView<
@@ -710,10 +711,8 @@ abstract class TemplateAbstractView<
         constructor(superState: Parcelable?) : super(superState)
 
         private constructor(parcel: Parcel) : super(parcel) {
-            template = parcel.readParcelable(Template::class.java.classLoader)
-                ?: template
-            entryInfo = parcel.readParcelable(EntryInfo::class.java.classLoader)
-                ?: entryInfo
+            template = parcel.readParcelableCompat() ?: template
+            entryInfo = parcel.readParcelableCompat() ?: entryInfo
             val dateTimeViewId = parcel.readInt()
             if (dateTimeViewId != -1)
                 tempDateTimeViewId = dateTimeViewId

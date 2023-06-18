@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import java.util.*
@@ -126,14 +127,14 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         // Retrieve OTP model from instance state
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_OTP)) {
-                savedInstanceState.getParcelable<OtpModel>(KEY_OTP)?.let { otpModel ->
+                savedInstanceState.getParcelableCompat<OtpModel>(KEY_OTP)?.let { otpModel ->
                     mOtpElement = OtpElement(otpModel)
                 }
             }
         } else {
             arguments?.apply {
                 if (containsKey(KEY_OTP)) {
-                    getParcelable<OtpModel?>(KEY_OTP)?.let { otpModel ->
+                    getParcelableCompat<OtpModel>(KEY_OTP)?.let { otpModel ->
                         mOtpElement = OtpElement(otpModel)
                     }
                 }

@@ -25,6 +25,7 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 
 
 class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
@@ -40,8 +41,8 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
 
-            val oldSnapFileDatabaseInfo: SnapFileDatabaseInfo? = arguments?.getParcelable(OLD_FILE_DATABASE_INFO)
-            val newSnapFileDatabaseInfo: SnapFileDatabaseInfo? = arguments?.getParcelable(NEW_FILE_DATABASE_INFO)
+            val oldSnapFileDatabaseInfo: SnapFileDatabaseInfo? = arguments?.getParcelableCompat(OLD_FILE_DATABASE_INFO)
+            val newSnapFileDatabaseInfo: SnapFileDatabaseInfo? = arguments?.getParcelableCompat(NEW_FILE_DATABASE_INFO)
 
             if (oldSnapFileDatabaseInfo != null && newSnapFileDatabaseInfo != null) {
                 // Use the Builder class for convenient dialog construction

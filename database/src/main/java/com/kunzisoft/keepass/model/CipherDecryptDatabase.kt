@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.model
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
@@ -32,7 +33,7 @@ class CipherDecryptDatabase(): Parcelable {
     var decryptedValue: ByteArray = byteArrayOf()
 
     constructor(parcel: Parcel): this() {
-        databaseUri = parcel.readParcelable(Uri::class.java.classLoader)
+        databaseUri = parcel.readParcelableCompat()
         credentialStorage = parcel.readEnum<CredentialStorage>() ?: credentialStorage
         decryptedValue = ByteArray(parcel.readInt())
         parcel.readByteArray(decryptedValue)

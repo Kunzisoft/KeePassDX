@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.changeControlColor
@@ -180,7 +181,7 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get Entry from UUID
         try {
-            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { mainEntryId ->
+            intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY)?.let { mainEntryId ->
                 intent.removeExtra(KEY_ENTRY)
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)

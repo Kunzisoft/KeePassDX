@@ -41,6 +41,8 @@ import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.WebDomain
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -70,10 +72,10 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         // To pass extra inline request
                         var compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            compatInlineSuggestionsRequest = bundle.getParcelable(KEY_INLINE_SUGGESTION)
+                            compatInlineSuggestionsRequest = bundle.getParcelableCompat(KEY_INLINE_SUGGESTION)
                         }
                         // Build search param
-                        bundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
+                        bundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
                             WebDomain.getConcreteWebDomain(
                                 this,
                                 searchInfo.webDomain
@@ -100,7 +102,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 }
                 SpecialMode.REGISTRATION -> {
                     // To register info
-                    val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
+                    val registerInfo = intent.getParcelableExtraCompat<RegisterInfo>(KEY_REGISTER_INFO)
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
                     WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain

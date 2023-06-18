@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 import com.kunzisoft.keepass.view.DateTimeEditFieldView
 import com.kunzisoft.keepass.view.InheritedCompletionView
 import com.kunzisoft.keepass.view.TagsCompletionView
@@ -174,13 +175,13 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
                     && savedInstanceState.containsKey(KEY_ACTION_ID)
                     && savedInstanceState.containsKey(KEY_GROUP_INFO)) {
                 mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(savedInstanceState.getInt(KEY_ACTION_ID))
-                mGroupInfo = savedInstanceState.getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
+                mGroupInfo = savedInstanceState.getParcelableCompat(KEY_GROUP_INFO) ?: mGroupInfo
             } else {
                 arguments?.apply {
                     if (containsKey(KEY_ACTION_ID))
                         mEditGroupDialogAction = EditGroupDialogAction.getActionFromOrdinal(getInt(KEY_ACTION_ID))
                     if (containsKey(KEY_GROUP_INFO)) {
-                        mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
+                        mGroupInfo = getParcelableCompat(KEY_GROUP_INFO) ?: mGroupInfo
                     }
                 }
             }

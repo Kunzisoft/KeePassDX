@@ -100,6 +100,11 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableList
+import com.kunzisoft.keepass.utils.ParcelableUtil.putParcelableList
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.NavigationDatabaseView
@@ -386,7 +391,7 @@ class GroupActivity : DatabaseLockActivity(),
                 savedInstanceState.remove(REQUEST_STARTUP_SEARCH_KEY)
             }
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
-                mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
+                mOldGroupToUpdate = savedInstanceState.getParcelableCompat(OLD_GROUP_TO_UPDATE_KEY)
                 savedInstanceState.remove(OLD_GROUP_TO_UPDATE_KEY)
             }
         }
@@ -394,9 +399,8 @@ class GroupActivity : DatabaseLockActivity(),
         // Retrieve previous groups
         if (savedInstanceState != null && savedInstanceState.containsKey(PREVIOUS_GROUPS_IDS_KEY)) {
             try {
-                mPreviousGroupsIds =
-                    (savedInstanceState.getParcelableArray(PREVIOUS_GROUPS_IDS_KEY)
-                        ?.map { it as GroupState })?.toMutableList() ?: mutableListOf()
+                mPreviousGroupsIds = savedInstanceState.getParcelableList(PREVIOUS_GROUPS_IDS_KEY)
+                    ?: mutableListOf()
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to retrieve previous groups", e)
             }
@@ -733,7 +737,7 @@ class GroupActivity : DatabaseLockActivity(),
     private fun manageIntent(intent: Intent?) {
         intent?.let {
             if (intent.extras?.containsKey(GROUP_STATE_KEY) == true) {
-                mMainGroupState = intent.getParcelableExtra(GROUP_STATE_KEY)
+                mMainGroupState = intent.getParcelableExtraCompat(GROUP_STATE_KEY)
                 intent.removeExtra(GROUP_STATE_KEY)
             }
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
@@ -764,7 +768,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArray(PREVIOUS_GROUPS_IDS_KEY, mPreviousGroupsIds.toTypedArray())
+        outState.putParcelableList(PREVIOUS_GROUPS_IDS_KEY, mPreviousGroupsIds)
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
@@ -1410,8 +1414,7 @@ class GroupActivity : DatabaseLockActivity(),
     ) : Parcelable {
 
         private constructor(parcel: Parcel) : this(
-            parcel.readParcelable<SearchParameters>
-                (SearchParameters::class.java.classLoader) ?: SearchParameters(),
+            parcel.readParcelableCompat<SearchParameters>() ?: SearchParameters(),
             parcel.readInt()
         )
 
@@ -1439,7 +1442,7 @@ class GroupActivity : DatabaseLockActivity(),
     ) : Parcelable {
 
         private constructor(parcel: Parcel) : this(
-            parcel.readParcelable<NodeId<*>>(NodeId::class.java.classLoader),
+            parcel.readParcelableCompat<NodeId<*>>(),
             parcel.readInt()
         )
 

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element.node
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import com.kunzisoft.keepass.utils.UuidUtil
 import java.util.*
 
@@ -37,7 +38,7 @@ class NodeIdUUID : NodeId<UUID> {
     }
 
     constructor(parcel: Parcel) {
-        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
+        id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

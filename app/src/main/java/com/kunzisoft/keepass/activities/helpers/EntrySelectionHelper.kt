@@ -26,7 +26,9 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import java.io.Serializable
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.getEnumExtra
+import com.kunzisoft.keepass.utils.putEnumExtra
 
 object EntrySelectionHelper {
 
@@ -82,7 +84,7 @@ object EntrySelectionHelper {
     }
 
     fun retrieveSearchInfoFromIntent(intent: Intent): SearchInfo? {
-        return intent.getParcelableExtra(KEY_SEARCH_INFO)
+        return intent.getParcelableExtraCompat(KEY_SEARCH_INFO)
     }
 
     private fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
@@ -92,7 +94,7 @@ object EntrySelectionHelper {
     }
 
     fun retrieveRegisterInfoFromIntent(intent: Intent): RegisterInfo? {
-        return intent.getParcelableExtra(KEY_REGISTER_INFO)
+        return intent.getParcelableExtraCompat(KEY_REGISTER_INFO)
     }
 
     fun removeInfoFromIntent(intent: Intent) {
@@ -101,7 +103,7 @@ object EntrySelectionHelper {
     }
 
     fun addSpecialModeInIntent(intent: Intent, specialMode: SpecialMode) {
-        intent.putExtra(KEY_SPECIAL_MODE, specialMode as Serializable)
+        intent.putEnumExtra(KEY_SPECIAL_MODE, specialMode)
     }
 
     fun retrieveSpecialModeFromIntent(intent: Intent): SpecialMode {
@@ -109,12 +111,11 @@ object EntrySelectionHelper {
             if (AutofillHelper.retrieveAutofillComponent(intent) != null)
                 return SpecialMode.SELECTION
         }
-        return intent.getSerializableExtra(KEY_SPECIAL_MODE) as SpecialMode?
-                ?: SpecialMode.DEFAULT
+        return intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
     }
 
     private fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
-        intent.putExtra(KEY_TYPE_MODE, typeMode as Serializable)
+        intent.putEnumExtra(KEY_TYPE_MODE, typeMode)
     }
 
     fun retrieveTypeModeFromIntent(intent: Intent): TypeMode {
@@ -122,7 +123,7 @@ object EntrySelectionHelper {
             if (AutofillHelper.retrieveAutofillComponent(intent) != null)
                 return TypeMode.AUTOFILL
         }
-        return intent.getSerializableExtra(KEY_TYPE_MODE) as TypeMode? ?: TypeMode.DEFAULT
+        return intent.getEnumExtra<TypeMode>(KEY_TYPE_MODE) ?: TypeMode.DEFAULT
     }
 
     fun removeModesFromIntent(intent: Intent) {
@@ -175,7 +176,7 @@ object EntrySelectionHelper {
                     }
                 }
                 if (!autofillComponentInit) {
-                    if (intent.getSerializableExtra(KEY_SPECIAL_MODE) != null) {
+                    if (intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) != null) {
                         when (retrieveTypeModeFromIntent(intent)) {
                             TypeMode.DEFAULT -> {
                                 removeModesFromIntent(intent)

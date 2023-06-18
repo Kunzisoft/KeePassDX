@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 class IconEditDialogFragment : DatabaseDialogFragment() {
@@ -63,11 +64,11 @@ class IconEditDialogFragment : DatabaseDialogFragment() {
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_CUSTOM_ICON_ID)) {
-                mCustomIcon = savedInstanceState.getParcelable(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
+                mCustomIcon = savedInstanceState.getParcelableCompat(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
             } else {
                 arguments?.apply {
                     if (containsKey(KEY_CUSTOM_ICON_ID)) {
-                        mCustomIcon = getParcelable(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
+                        mCustomIcon = getParcelableCompat(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
                     }
                 }
             }

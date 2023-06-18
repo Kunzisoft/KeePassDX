@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import java.util.*
 
 class DeletedObject : Parcelable {
@@ -38,8 +39,8 @@ class DeletedObject : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
-        deletionTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: deletionTime
+        uuid = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: DatabaseVersioned.UUID_ZERO
+        deletionTime = parcel.readParcelableCompat() ?: deletionTime
     }
 
     override fun equals(other: Any?): Boolean {

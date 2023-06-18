@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.AutofillBlocklistAdapter
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableArrayCompat
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashSet
@@ -49,11 +50,9 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
         super.onCreate(savedInstanceState)
 
         // To get items for saved instance state
-        savedInstanceState?.getParcelableArray(ITEMS_KEY)?.let {
+        savedInstanceState?.getParcelableArrayCompat<SearchInfo>(ITEMS_KEY)?.let {
             it.forEach { itemSaved ->
-                (itemSaved as SearchInfo?)?.let { item ->
-                    persistedItems.add(item)
-                }
+                persistedItems.add(itemSaved)
             }
         } ?: run {
             // Or from preference

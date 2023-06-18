@@ -46,6 +46,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.asError
@@ -102,7 +104,7 @@ class IconPickerActivity : DatabaseLockActivity() {
             lockAndExit()
         }
 
-        intent?.getParcelableExtra<IconImage>(EXTRA_ICON)?.let {
+        intent?.getParcelableExtraCompat<IconImage>(EXTRA_ICON)?.let {
             mIconImage = it
         }
 
@@ -118,7 +120,7 @@ class IconPickerActivity : DatabaseLockActivity() {
                 ), ICON_PICKER_FRAGMENT_TAG)
             }
         } else {
-            mIconImage = savedInstanceState.getParcelable(EXTRA_ICON) ?: mIconImage
+            mIconImage = savedInstanceState.getParcelableCompat(EXTRA_ICON) ?: mIconImage
         }
 
         iconPickerViewModel.standardIconPicked.observe(this) { iconStandard ->
@@ -342,7 +344,7 @@ class IconPickerActivity : DatabaseLockActivity() {
                                            listener: (icon: IconImage) -> Unit): ActivityResultLauncher<Intent> {
             return context.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    listener.invoke(result.data?.getParcelableExtra(EXTRA_ICON) ?: IconImage())
+                    listener.invoke(result.data?.getParcelableExtraCompat(EXTRA_ICON) ?: IconImage())
                 }
             }
         }

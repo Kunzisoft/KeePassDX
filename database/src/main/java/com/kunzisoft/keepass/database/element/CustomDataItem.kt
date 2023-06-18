@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 class CustomDataItem : Parcelable {
 
@@ -12,7 +13,7 @@ class CustomDataItem : Parcelable {
     constructor(parcel: Parcel) {
         key = parcel.readString() ?: ""
         value = parcel.readString() ?: ""
-        lastModificationTime = parcel.readParcelable(DateInstant::class.java.classLoader)
+        lastModificationTime = parcel.readParcelableCompat()
     }
 
     constructor(key: String, value: String, lastModificationTime: DateInstant? = null) {

@@ -27,6 +27,7 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 
 /**
  * Custom Dialog to confirm big file to upload
@@ -62,7 +63,7 @@ class FileTooBigDialogFragment : DialogFragment() {
             })
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mActionChooseListener?.onValidateUploadFileTooBig(
-                        arguments?.getParcelable(KEY_FILE_URI),
+                        arguments?.getParcelableCompat(KEY_FILE_URI),
                         arguments?.getString(KEY_FILE_NAME))
             }
             builder.setNegativeButton(android.R.string.cancel) { _, _ ->

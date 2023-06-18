@@ -29,6 +29,8 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import com.kunzisoft.keepass.utils.ParcelableUtil.readListCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import java.util.*
 
 class EntryInfo : NodeInfo {
@@ -50,20 +52,20 @@ class EntryInfo : NodeInfo {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
+        id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
+        tags = parcel.readParcelableCompat() ?: tags
         val readBgColor = parcel.readInt()
         backgroundColor = if (readBgColor == -1) null else readBgColor
         val readFgColor = parcel.readInt()
         foregroundColor = if (readFgColor == -1) null else readFgColor
-        parcel.readList(customFields, Field::class.java.classLoader)
-        parcel.readList(attachments, Attachment::class.java.classLoader)
-        autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
-        otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
+        parcel.readListCompat(customFields)
+        parcel.readListCompat(attachments)
+        autoType = parcel.readParcelableCompat() ?: autoType
+        otpModel = parcel.readParcelableCompat() ?: otpModel
         isTemplate = parcel.readByte().toInt() != 0
     }
 

@@ -21,7 +21,8 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.readStringParcelableMap
+import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringParcelableMap
 import java.util.*
 
 class CustomData : Parcelable {
@@ -37,9 +38,7 @@ class CustomData : Parcelable {
 
     constructor(parcel: Parcel) {
         mCustomDataItems.clear()
-        mCustomDataItems.putAll(ParcelableUtil
-            .readStringParcelableMap(parcel, CustomDataItem::class.java)
-        )
+        mCustomDataItems.putAll(parcel.readStringParcelableMap())
     }
 
     fun get(key: String): CustomDataItem? {
@@ -73,7 +72,7 @@ class CustomData : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        ParcelableUtil.writeStringParcelableMap(parcel, flags, mCustomDataItems)
+        parcel.writeStringParcelableMap(mCustomDataItems, flags)
     }
 
     override fun describeContents(): Int {

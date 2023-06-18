@@ -22,7 +22,11 @@ package com.kunzisoft.keepass.database.element.entry
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.CustomData
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.binary.AttachmentPool
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
@@ -32,11 +36,14 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.readStringIntMap
+import com.kunzisoft.keepass.utils.ParcelableUtil.readStringParcelableMap
+import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringIntMap
+import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringParcelableMap
 import com.kunzisoft.keepass.utils.UnsignedLong
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
+import java.util.Date
+import java.util.UUID
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
@@ -67,22 +74,22 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     constructor(parcel: Parcel) : super(parcel) {
         usageCount = UnsignedLong(parcel.readLong())
-        locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
-        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
-        fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
-        binaries = ParcelableUtil.readStringIntMap(parcel)
+        locationChanged = parcel.readParcelableCompat() ?: locationChanged
+        customData = parcel.readParcelableCompat() ?: CustomData()
+        fields = parcel.readStringParcelableMap()
+        binaries = parcel.readStringIntMap()
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
-        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
-        previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
-        autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
+        tags = parcel.readParcelableCompat() ?: tags
+        previousParentGroup = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: DatabaseVersioned.UUID_ZERO
+        autoType = parcel.readParcelableCompat() ?: autoType
         parcel.readTypedList(history, CREATOR)
         additional = parcel.readString() ?: additional
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
-        return parcel.readParcelable(GroupKDBX::class.java.classLoader)
+        return parcel.readParcelableCompat()
     }
 
     override fun writeParentParcelable(parent: GroupKDBX?, parcel: Parcel, flags: Int) {
@@ -94,8 +101,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
-        ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
-        ParcelableUtil.writeStringIntMap(dest, binaries)
+        dest.writeStringParcelableMap(fields, flags)
+        dest.writeStringIntMap(binaries)
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)

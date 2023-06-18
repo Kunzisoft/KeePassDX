@@ -27,6 +27,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 
 class PasswordEncodingDialogFragment : DialogFragment() {
 
@@ -49,8 +50,8 @@ class PasswordEncodingDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val databaseUri: Uri? = savedInstanceState?.getParcelable(DATABASE_URI_KEY)
-        val mainCredential: MainCredential = savedInstanceState?.getParcelable(MAIN_CREDENTIAL) ?: MainCredential()
+        val databaseUri: Uri? = savedInstanceState?.getParcelableCompat(DATABASE_URI_KEY)
+        val mainCredential: MainCredential = savedInstanceState?.getParcelableCompat(MAIN_CREDENTIAL) ?: MainCredential()
 
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)

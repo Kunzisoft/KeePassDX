@@ -23,6 +23,8 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.utils.ParcelableUtil.readListCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -83,12 +85,12 @@ class Template : Parcelable {
 
     constructor(parcel: Parcel) {
         version = parcel.readInt()
-        uuid = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: uuid
+        uuid = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: uuid
         title = parcel.readString() ?: title
-        icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
+        icon = parcel.readParcelableCompat() ?: icon
         backgroundColor = parcel.readInt()
         foregroundColor = parcel.readInt()
-        parcel.readList(sections, TemplateSection::class.java.classLoader)
+        parcel.readListCompat(sections)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

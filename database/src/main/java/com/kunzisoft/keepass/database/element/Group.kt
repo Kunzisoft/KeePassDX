@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -75,8 +76,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     }
 
     constructor(parcel: Parcel) {
-        groupKDB = parcel.readParcelable(GroupKDB::class.java.classLoader)
-        groupKDBX = parcel.readParcelable(GroupKDBX::class.java.classLoader)
+        groupKDB = parcel.readParcelableCompat()
+        groupKDBX = parcel.readParcelableCompat()
         isVirtual = parcel.readByte().toInt() != 0
     }
 

@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.binary.BinaryByte
 import com.kunzisoft.keepass.database.element.binary.BinaryData
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 
 data class Attachment(var name: String,
@@ -30,7 +31,7 @@ data class Attachment(var name: String,
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readParcelable(BinaryData::class.java.classLoader) ?: BinaryByte()
+            parcel.readParcelableCompat<BinaryData>() ?: BinaryByte()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

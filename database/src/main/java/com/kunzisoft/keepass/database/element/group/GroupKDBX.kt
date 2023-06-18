@@ -31,6 +31,8 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.readSerializableCompat
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 
@@ -65,8 +67,8 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     constructor(parcel: Parcel) : super(parcel) {
         usageCount = UnsignedLong(parcel.readLong())
-        locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
-        customData = parcel.readParcelable(CustomData::class.java.classLoader) ?: CustomData()
+        locationChanged = parcel.readParcelableCompat() ?: locationChanged
+        customData = parcel.readParcelableCompat() ?: CustomData()
         notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
         val isSearchingEnabled = parcel.readInt()
@@ -74,13 +76,13 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         val isAutoTypeEnabled = parcel.readInt()
         enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
-        lastTopVisibleEntry = parcel.readSerializable() as UUID
-        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
-        previousParentGroup = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: DatabaseVersioned.UUID_ZERO
+        lastTopVisibleEntry = parcel.readSerializableCompat() ?: UUID.randomUUID()
+        tags = parcel.readParcelableCompat() ?: tags
+        previousParentGroup = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: DatabaseVersioned.UUID_ZERO
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDBX? {
-        return parcel.readParcelable(GroupKDBX::class.java.classLoader)
+        return parcel.readParcelableCompat()
     }
 
     override fun writeParentParcelable(parent: GroupKDBX?, parcel: Parcel, flags: Int) {

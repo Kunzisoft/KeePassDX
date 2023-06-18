@@ -20,7 +20,7 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 
@@ -34,7 +34,7 @@ data class TemplateAttribute(var label: String,
             parcel.readString() ?: "",
             parcel.readEnum<TemplateAttributeType>() ?: TemplateAttributeType.TEXT,
         parcel.readByte() != 0.toByte(),
-        parcel.readParcelable(TemplateAttributeOption::class.java.classLoader) ?: TemplateAttributeOption(),
+        parcel.readParcelableCompat() ?: TemplateAttributeOption(),
         parcel.readEnum<TemplateAttributeAction>() ?: TemplateAttributeAction.NONE)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

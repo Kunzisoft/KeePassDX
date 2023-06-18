@@ -43,6 +43,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.getSerializableCompat
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
@@ -433,8 +435,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         dbCustomColorPref?.summary = defaultColorToShow
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
-                        val oldCompression = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as CompressionAlgorithm
-                        val newCompression = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as CompressionAlgorithm
+                        val oldCompression = data.getSerializableCompat<CompressionAlgorithm>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newCompression = data.getSerializableCompat<CompressionAlgorithm>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newCompression
@@ -442,11 +444,11 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                     mDatabase?.compressionAlgorithm = oldCompression
                                     oldCompression
                                 }
-                        dbDataCompressionPref?.summary = algorithmToShow.getLocalizedName(resources)
+                        dbDataCompressionPref?.summary = algorithmToShow?.getLocalizedName(resources)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
-                        val oldRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val oldRecycleBin = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newRecycleBin = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val recycleBinToShow =
                                 if (result.isSuccess) {
                                     newRecycleBin
@@ -457,8 +459,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         refreshRecycleBinGroup(database)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
-                        val oldTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val oldTemplatesGroup = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newTemplatesGroup = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val templatesGroupToShow =
                             if (result.isSuccess) {
                                 newTemplatesGroup
@@ -499,8 +501,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                     --------
                      */
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK -> {
-                        val oldEncryption = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as EncryptionAlgorithm
-                        val newEncryption = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as EncryptionAlgorithm
+                        val oldEncryption = data.getSerializableCompat<EncryptionAlgorithm>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newEncryption = data.getSerializableCompat<EncryptionAlgorithm>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newEncryption
@@ -511,8 +513,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         mEncryptionAlgorithmPref?.summary = algorithmToShow.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> {
-                        val oldKeyDerivationEngine = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as KdfEngine
-                        val newKeyDerivationEngine = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as KdfEngine
+                        val oldKeyDerivationEngine = data.getSerializableCompat<KdfEngine>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newKeyDerivationEngine = data.getSerializableCompat<KdfEngine>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val kdfEngineToShow =
                                 if (result.isSuccess) {
                                     newKeyDerivationEngine
@@ -522,10 +524,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 }
                         mKeyDerivationPref?.summary = kdfEngineToShow.toString()
 
-                        mRoundPref?.summary = kdfEngineToShow.defaultKeyRounds.toString()
+                        mRoundPref?.summary = kdfEngineToShow?.defaultKeyRounds.toString()
                         // Disable memory and parallelism if not available
-                        mMemoryPref?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
-                        mParallelismPref?.summary = kdfEngineToShow.defaultParallelism.toString()
+                        mMemoryPref?.summary = kdfEngineToShow?.defaultMemoryUsage.toString()
+                        mParallelismPref?.summary = kdfEngineToShow?.defaultParallelism.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> {
                         val oldIterations = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)

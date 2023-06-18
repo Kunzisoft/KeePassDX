@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element.icon
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 class IconImage() : IconImageDraw() {
 
@@ -42,8 +43,8 @@ class IconImage() : IconImageDraw() {
     }
 
     constructor(parcel: Parcel) : this() {
-        standard = parcel.readParcelable(IconImageStandard::class.java.classLoader) ?: standard
-        custom = parcel.readParcelable(IconImageCustom::class.java.classLoader) ?: custom
+        standard = parcel.readParcelableCompat() ?: standard
+        custom = parcel.readParcelableCompat() ?: custom
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

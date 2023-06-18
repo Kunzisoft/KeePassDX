@@ -24,6 +24,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.format.Formatter
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import java.text.DateFormat
 import java.util.Date
@@ -37,7 +38,7 @@ data class SnapFileDatabaseInfo(var fileUri: Uri?,
                                 var size: Long?): Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readParcelable(Uri::class.java.classLoader),
+            parcel.readParcelableCompat(),
             parcel.readByte() != 0.toByte(),
             parcel.readValue(Long::class.java.classLoader) as? Long,
             parcel.readValue(Long::class.java.classLoader) as? Long) {

@@ -72,6 +72,8 @@ import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getUri
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
@@ -305,13 +307,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                 var cipherEncryptDatabase: CipherEncryptDatabase? = null
 
                                 result.data?.let { resultData ->
-                                    databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                    databaseUri = resultData.getParcelableCompat(DATABASE_URI_KEY)
                                     mainCredential =
-                                        resultData.getParcelable(MAIN_CREDENTIAL_KEY)
+                                        resultData.getParcelableCompat(MAIN_CREDENTIAL_KEY)
                                             ?: mainCredential
                                     readOnly = resultData.getBoolean(READ_ONLY_KEY)
                                     cipherEncryptDatabase =
-                                        resultData.getParcelable(CIPHER_DATABASE_KEY)
+                                        resultData.getParcelableCompat(CIPHER_DATABASE_KEY)
                                 }
 
                                 databaseUri?.let { databaseFileUri ->
@@ -349,8 +351,8 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             )
         } else {
             fillCredentials(
-                intent?.getParcelableExtra(KEY_FILENAME),
-                intent?.getParcelableExtra(KEY_KEYFILE),
+                intent?.getParcelableExtraCompat(KEY_FILENAME),
+                intent?.getParcelableExtraCompat(KEY_KEYFILE),
                 HardwareKey.getHardwareKeyFromString(intent?.getStringExtra(KEY_HARDWARE_KEY))
             )
         }

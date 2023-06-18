@@ -35,6 +35,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.DateTimeFieldView
@@ -113,11 +114,11 @@ class GroupDialogFragment : DatabaseDialogFragment() {
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_GROUP_INFO)) {
-                mGroupInfo = savedInstanceState.getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
+                mGroupInfo = savedInstanceState.getParcelableCompat(KEY_GROUP_INFO) ?: mGroupInfo
             } else {
                 arguments?.apply {
                     if (containsKey(KEY_GROUP_INFO)) {
-                        mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
+                        mGroupInfo = getParcelableCompat(KEY_GROUP_INFO) ?: mGroupInfo
                     }
                 }
             }

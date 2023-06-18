@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
 import java.util.UUID
@@ -76,8 +77,8 @@ class Entry : Node, EntryVersionedInterface<Group> {
     }
 
     constructor(parcel: Parcel) {
-        entryKDB = parcel.readParcelable(EntryKDB::class.java.classLoader)
-        entryKDBX = parcel.readParcelable(EntryKDBX::class.java.classLoader)
+        entryKDB = parcel.readParcelableCompat()
+        entryKDBX = parcel.readParcelableCompat()
     }
 
     override fun describeContents(): Int {

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 class Field : Parcelable {
 
@@ -40,7 +41,7 @@ class Field : Parcelable {
 
     constructor(parcel: Parcel) {
         this.name = parcel.readString() ?: name
-        this.protectedValue = parcel.readParcelable(ProtectedString::class.java.classLoader) ?: protectedValue
+        this.protectedValue = parcel.readParcelableCompat() ?: protectedValue
     }
 
     override fun describeContents(): Int {

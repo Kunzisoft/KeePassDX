@@ -20,21 +20,22 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readListCompat
 
 class TemplateSection: Parcelable {
 
     var name: String = ""
-    var attributes: List<TemplateAttribute> = ArrayList()
+    var attributes: MutableList<TemplateAttribute> = mutableListOf()
         private set
 
-    constructor(attributes: List<TemplateAttribute>, name: String = "") {
+    constructor(attributes: MutableList<TemplateAttribute>, name: String = "") {
         this.name = name
         this.attributes = attributes
     }
 
     constructor(parcel: Parcel) {
         this.name = parcel.readString() ?: name
-        parcel.readList(this.attributes, TemplateAttribute::class.java.classLoader)
+        parcel.readListCompat(this.attributes)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

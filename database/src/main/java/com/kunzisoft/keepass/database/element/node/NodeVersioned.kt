@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 /**
  * Abstract class who manage Groups and Entries
@@ -43,13 +44,13 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
     protected constructor()
 
     protected constructor(parcel: Parcel) {
-        this.nodeId = parcel.readParcelable(NodeId::class.java.classLoader) ?: nodeId
+        this.nodeId = parcel.readParcelableCompat() ?: nodeId
         this.parent = this.readParentParcelable(parcel)
-        this.icon = parcel.readParcelable(IconImage::class.java.classLoader) ?: icon
-        this.creationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: creationTime
-        this.lastModificationTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: lastModificationTime
-        this.lastAccessTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: lastAccessTime
-        this.expiryTime = parcel.readParcelable(DateInstant::class.java.classLoader) ?: expiryTime
+        this.icon = parcel.readParcelableCompat() ?: icon
+        this.creationTime = parcel.readParcelableCompat() ?: creationTime
+        this.lastModificationTime = parcel.readParcelableCompat() ?: lastModificationTime
+        this.lastAccessTime = parcel.readParcelableCompat() ?: lastAccessTime
+        this.expiryTime = parcel.readParcelableCompat() ?: expiryTime
         this.expires = parcel.readByte().toInt() != 0
     }
 

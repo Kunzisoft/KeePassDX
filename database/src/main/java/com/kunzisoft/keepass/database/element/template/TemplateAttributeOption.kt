@@ -21,18 +21,22 @@ package com.kunzisoft.keepass.database.element.template
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil.readStringStringMap
+import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringStringMap
 
 class TemplateAttributeOption() : Parcelable {
 
     private val mOptions: MutableMap<String, String> = mutableMapOf()
 
     constructor(parcel: Parcel) : this() {
-        ParcelableUtil.readStringParcelableMap(parcel)
+        mOptions.apply {
+            clear()
+            putAll(parcel.readStringStringMap())
+        }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        ParcelableUtil.writeStringParcelableMap(parcel, LinkedHashMap(mOptions))
+        parcel.writeStringStringMap(mOptions)
     }
 
     override fun describeContents(): Int {

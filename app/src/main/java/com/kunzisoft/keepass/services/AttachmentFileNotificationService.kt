@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -131,7 +132,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private fun actionRequested(intent: Intent?) {
 
         val downloadFileUri: Uri? = if (intent?.hasExtra(FILE_URI_KEY) == true) {
-            intent.getParcelableExtra(FILE_URI_KEY)
+            intent.getParcelableExtraCompat(FILE_URI_KEY)
         } else null
 
         when(intent?.action) {
@@ -149,7 +150,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     StreamDirection.DOWNLOAD)
             }
             ACTION_ATTACHMENT_REMOVE -> {
-                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                intent.getParcelableExtraCompat<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
                     attachmentNotificationList.firstOrNull { it.entryAttachmentState.attachment == entryAttachment }?.let { elementToRemove ->
                         attachmentNotificationList.remove(elementToRemove)
                     }
@@ -325,7 +326,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         if (fileUri != null
                 && intent.hasExtra(ATTACHMENT_KEY)) {
             try {
-                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                intent.getParcelableExtraCompat<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
 
                     val nextNotificationId = (attachmentNotificationList.maxByOrNull { it.notificationId }
                             ?.notificationId ?: notificationId) + 1

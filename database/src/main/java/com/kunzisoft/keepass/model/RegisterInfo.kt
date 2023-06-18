@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 data class RegisterInfo(val searchInfo: SearchInfo,
                         val username: String?,
@@ -9,10 +10,10 @@ data class RegisterInfo(val searchInfo: SearchInfo,
                         val creditCard: CreditCard?): Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readParcelable(SearchInfo::class.java.classLoader) ?: SearchInfo(),
+            parcel.readParcelableCompat() ?: SearchInfo(),
             parcel.readString() ?: "",
             parcel.readString() ?: "",
-            parcel.readParcelable(CreditCard::class.java.classLoader)) {
+            parcel.readParcelableCompat()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

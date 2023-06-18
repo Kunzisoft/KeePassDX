@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import kotlin.math.max
 
 class ImageViewerActivity : DatabaseLockActivity() {
@@ -105,7 +106,7 @@ class ImageViewerActivity : DatabaseLockActivity() {
 
         try {
             progressView.visibility = View.VISIBLE
-            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
+            intent.getParcelableExtraCompat<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
 
                 supportActionBar?.title = attachment.name
 

@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readSerializableCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 import org.joda.time.Duration
@@ -113,7 +114,7 @@ class DateInstant : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        jDate = parcel.readSerializable() as? Date? ?: jDate
+        jDate = parcel.readSerializableCompat() ?: jDate
         mType = parcel.readEnum<Type>() ?: mType
     }
 

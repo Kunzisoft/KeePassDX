@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import java.util.*
 
 class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface {
@@ -41,7 +42,7 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
-        return parcel.readParcelable(GroupKDB::class.java.classLoader)
+        return parcel.readParcelableCompat()
     }
 
     override fun writeParentParcelable(parent: GroupKDB?, parcel: Parcel, flags: Int) {

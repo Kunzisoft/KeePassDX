@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ParcelableUtil.readSerializableCompat
 import org.joda.time.DateTime
 
 data class CreditCard(val cardholder: String?,
@@ -12,7 +13,7 @@ data class CreditCard(val cardholder: String?,
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readString(),
-            parcel.readSerializable() as DateTime?,
+            parcel.readSerializableCompat<DateTime>(),
             parcel.readString()) {
     }
 

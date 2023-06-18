@@ -90,6 +90,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
@@ -179,14 +180,14 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // Entry is retrieve, it's an entry to update
         var entryId: NodeId<UUID>? = null
-        intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
+        intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
             intent.removeExtra(KEY_ENTRY)
             entryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
         var parentId: NodeId<*>? = null
-        intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
+        intent.getParcelableExtraCompat<NodeId<*>>(KEY_PARENT)?.let { parent ->
             intent.removeExtra(KEY_PARENT)
             parentId = parent
         }
@@ -752,7 +753,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             return fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
-                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                        result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
                     )
                 } else {
                     entryAddedOrUpdatedListener.invoke(null)
@@ -765,7 +766,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
-                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                        result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
                     )
                 } else {
                     entryAddedOrUpdatedListener.invoke(null)

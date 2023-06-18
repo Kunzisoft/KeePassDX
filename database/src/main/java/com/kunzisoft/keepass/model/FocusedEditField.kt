@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 class FocusedEditField : Parcelable {
 
@@ -13,7 +14,7 @@ class FocusedEditField : Parcelable {
     constructor()
 
     constructor(parcel: Parcel) {
-        this.field = parcel.readParcelable(Field::class.java.classLoader)
+        this.field = parcel.readParcelableCompat()
         this.cursorSelectionStart = parcel.readInt()
         this.cursorSelectionEnd = parcel.readInt()
     }

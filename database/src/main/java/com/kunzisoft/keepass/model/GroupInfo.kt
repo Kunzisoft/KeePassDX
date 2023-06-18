@@ -6,6 +6,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 import java.util.*
 
 class GroupInfo : NodeInfo {
@@ -24,14 +25,14 @@ class GroupInfo : NodeInfo {
     constructor(): super()
 
     constructor(parcel: Parcel): super(parcel) {
-        id = parcel.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)?.uuid ?: id
+        id = parcel.readParcelableCompat<ParcelUuid>()?.uuid ?: id
         notes = parcel.readString()
         val isSearchingEnabled = parcel.readInt()
         searchable = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         val isAutoTypeEnabled = parcel.readInt()
         enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
-        tags = parcel.readParcelable(Tags::class.java.classLoader) ?: tags
+        tags = parcel.readParcelableCompat() ?: tags
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

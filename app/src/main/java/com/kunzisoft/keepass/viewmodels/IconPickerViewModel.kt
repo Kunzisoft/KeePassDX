@@ -2,11 +2,11 @@ package com.kunzisoft.keepass.viewmodels
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
 
 
 class IconPickerViewModel: ViewModel() {
@@ -69,7 +69,7 @@ class IconPickerViewModel: ViewModel() {
                                var errorConsumed: Boolean = false): Parcelable {
 
         constructor(parcel: Parcel) : this(
-                parcel.readParcelable(IconImageCustom::class.java.classLoader),
+                parcel.readParcelableCompat(),
                 parcel.readByte() != 0.toByte(),
                 parcel.readInt(),
                 parcel.readByte() != 0.toByte())

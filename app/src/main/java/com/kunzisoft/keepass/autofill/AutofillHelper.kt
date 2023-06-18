@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -65,10 +66,10 @@ object AutofillHelper {
     private const val EXTRA_INLINE_SUGGESTIONS_REQUEST = "com.kunzisoft.keepass.autofill.INLINE_SUGGESTIONS_REQUEST"
 
     fun retrieveAutofillComponent(intent: Intent?): AutofillComponent? {
-        intent?.getParcelableExtra<AssistStructure?>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
+        intent?.getParcelableExtraCompat<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 AutofillComponent(assistStructure,
-                        intent.getParcelableExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+                        intent.getParcelableExtraCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST))
             } else {
                 AutofillComponent(assistStructure, null)
             }
@@ -410,11 +411,11 @@ object AutofillHelper {
             activity.setResult(Activity.RESULT_CANCELED)
         } else {
             var setResultOk = false
-            activity.intent?.getParcelableExtra<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
+            activity.intent?.getParcelableExtraCompat<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
                 StructureParser(structure).parse()?.let { result ->
                     // New Response
                     val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtra<CompatInlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtraCompat<CompatInlineSuggestionsRequest>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
                         if (compatInlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }
