@@ -73,6 +73,17 @@ class Tags: Parcelable {
         return mTags.joinToString(DELIMITER.toString())
     }
 
+    override fun equals(other: Any?): Boolean {
+        return when (other) {
+            !is Tags -> false
+            else -> mTags == other.toList()
+        }
+    }
+
+    override fun hashCode(): Int {
+        return mTags.hashCode()
+    }
+
     companion object CREATOR : Parcelable.Creator<Tags> {
         const val DELIMITER= ','
         const val DELIMITER1= ';'

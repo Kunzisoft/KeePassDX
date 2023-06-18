@@ -166,6 +166,38 @@ fun View.expand(animate: Boolean = true,
     }.start()
 }
 
+fun View.expand(
+    from: Int,
+    to: Int,
+    onExpandFinished: (() -> Unit)? = null,
+)  {
+    layoutParams.height = 0
+    val slideAnimator = ValueAnimator
+        .ofInt(from, to)
+    slideAnimator.duration = 300L
+    var alreadyVisible = false
+    slideAnimator.addUpdateListener { animation ->
+        layoutParams.height = animation.animatedValue as Int
+        if (!alreadyVisible && layoutParams.height > 0) {
+            visibility = View.VISIBLE
+            alreadyVisible = true
+        }
+        requestLayout()
+    }
+    AnimatorSet().apply {
+        play(slideAnimator)
+        interpolator = AccelerateDecelerateInterpolator()
+        addListener(object: Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                onExpandFinished?.invoke()
+            }
+            override fun onAnimationCancel(animation: Animator?) {}
+        })
+    }.start()
+}
+
 /***
  * This function returns the actual height the layout.
  * The getHeight() function returns the current height which might be zero if

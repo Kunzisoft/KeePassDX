@@ -20,15 +20,33 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.os.Build
+import android.text.TextUtils
 import android.util.Log
 import android.util.TypedValue
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.constraintlayout.helper.widget.Flow
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat.generateViewId
+import androidx.core.view.children
+import androidx.core.view.isGone
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -47,8 +65,10 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.view.TagsListView
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
+import org.w3c.dom.Text
 import java.util.LinkedList
 
 /**
@@ -188,6 +208,7 @@ class NodesAdapter (
                         && oldItem.foregroundColor == newItem.foregroundColor
                         && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
+                        && oldItem.tags == newItem.tags
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
                         && oldItem.notes == newItem.notes
@@ -448,6 +469,8 @@ class NodesAdapter (
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
                     iconColor = foregroundColor
+                    holder.tagsContainer?.textColor = foregroundColor
+                    holder.tagsContainer?.bgColor = foregroundColor
                 } else {
                     holder.text.setTextColor(mTextColor)
                     holder.subText?.setTextColor(mTextColorSecondary)
@@ -455,6 +478,8 @@ class NodesAdapter (
                     holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
+                    holder.tagsContainer?.textColor = mTextColorSecondary
+                    holder.tagsContainer?.bgColor = mTextColorSecondary
                 }
             } else {
                 holder.text.setTextColor(mColorOnAccentColor)
@@ -463,6 +488,12 @@ class NodesAdapter (
                 holder.otpProgress?.setIndicatorColor(mColorOnAccentColor)
                 holder.attachmentIcon?.setColorFilter(mColorOnAccentColor)
                 holder.meta.setTextColor(mColorOnAccentColor)
+                holder.tagsContainer?.textColor = mColorOnAccentColor
+                holder.tagsContainer?.bgColor = mColorOnAccentColor
+            }
+
+            holder.tagsContainer?.apply {
+                currentTags = subNode.tags.toList()
             }
 
             database.stopManageEntry(entry)
@@ -584,6 +615,7 @@ class NodesAdapter (
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
+        var tagsContainer: TagsListView? = itemView.findViewById(R.id.node_tags_container)
     }
 
     companion object {
