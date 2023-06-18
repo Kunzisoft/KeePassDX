@@ -522,4 +522,6 @@
     <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فك القفل المتقدم</string>
     <string name="hide_expired_entries_title">إخفاء الإدخالات منتهية الصلاحية</string>
     <string name="content_description_hardware_key_checkbox">خانة إختيار مفتاح الجهاز</string>
+    <string name="content_description_passphrase_word_count">عدد عبارات المرور</string>
+    <string name="content_description_entry_background_color">لون خلفية المدخل</string>
 </resources>

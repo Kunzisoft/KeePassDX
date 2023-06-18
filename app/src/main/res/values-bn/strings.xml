@@ -365,4 +365,5 @@
     <string name="error_save_database">ডাটাবেস সংরক্ষণ করা যায়নি.</string>
     <string name="parallelism_explanation">কী ডেরিভেশন ফাংশন দ্বারা ব্যবহৃত সমান্তরালতার ডিগ্রি (যেমন থ্রেডের সংখ্যা)।</string>
     <string name="saving_database">ডাটাবেস সংরক্ষণ করা হচ্ছে…</string>
+    <string name="consider_chars_filter">Aintzat hartu karaktereak</string>
 </resources>
