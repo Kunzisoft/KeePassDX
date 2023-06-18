@@ -72,6 +72,7 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.allowCreateDocumentByStorageAccessFramework
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
@@ -337,7 +338,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
-                if (ExternalFileHelper.allowCreateDocumentByStorageAccessFramework(packageManager)) {
+                if (packageManager.allowCreateDocumentByStorageAccessFramework()) {
                     // There is an activity which can handle this intent.
                     createDatabaseButtonView?.visibility = View.VISIBLE
                 } else{
