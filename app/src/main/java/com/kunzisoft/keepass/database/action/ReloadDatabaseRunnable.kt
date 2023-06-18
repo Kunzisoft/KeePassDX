@@ -26,8 +26,8 @@ import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
-import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
+import com.kunzisoft.keepass.utils.getBinaryDir
+import com.kunzisoft.keepass.utils.getUriInputStream
 
 class ReloadDatabaseRunnable(
     private val context: Context,

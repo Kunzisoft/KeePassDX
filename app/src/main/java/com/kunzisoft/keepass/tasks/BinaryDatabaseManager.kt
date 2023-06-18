@@ -8,8 +8,8 @@ import android.util.Log
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.binary.BinaryCache
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.utils.UriHelper.getUriInputStream
-import com.kunzisoft.keepass.utils.UriHelper.getUriOutputStream
+import com.kunzisoft.keepass.utils.getUriInputStream
+import com.kunzisoft.keepass.utils.getUriOutputStream
 import com.kunzisoft.keepass.utils.readAllBytes
 import kotlinx.coroutines.*
 import java.io.ByteArrayInputStream

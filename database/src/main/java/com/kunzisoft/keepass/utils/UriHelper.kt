@@ -22,80 +22,85 @@ package com.kunzisoft.keepass.utils
 import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
 import java.io.*
 import java.util.*
 
-
-object UriHelper {
-
-    fun String.parseUri(): Uri? {
-        return if (this.isNotEmpty()) Uri.parse(this) else null
-    }
-
-    fun String.decodeUri(): String {
-        return Uri.decode(this) ?: ""
-    }
-
-    fun Context.getBinaryDir(): File {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            this.applicationContext.noBackupFilesDir
-        } else {
-            this.applicationContext.filesDir
-        }
-    }
-
-    @Throws(FileNotFoundException::class)
-    fun ContentResolver.getUriInputStream(fileUri: Uri?): InputStream? {
-        if (fileUri == null)
-            return null
-        return when {
-            fileUri.withFileScheme() -> fileUri.path?.let { FileInputStream(it) }
-            fileUri.withContentScheme() -> this.openInputStream(fileUri)
-            else -> null
-        }
-    }
-
-    @SuppressLint("Recycle")
-    @Throws(FileNotFoundException::class)
-    fun ContentResolver.getUriOutputStream(fileUri: Uri?): OutputStream? {
-        if (fileUri == null)
-            return null
-        return when {
-            fileUri.withFileScheme() -> fileUri.path?.let { FileOutputStream(it) }
-            fileUri.withContentScheme() -> {
-                try {
-                    this.openOutputStream(fileUri, "wt")
-                } catch (e: FileNotFoundException) {
-                    Log.e(TAG, "Unable to open stream in `wt` mode, retry in `rwt` mode.", e)
-                    // https://issuetracker.google.com/issues/180526528
-                    // Try with rwt to fix content provider issue
-                    val outStream = this.openOutputStream(fileUri, "rwt")
-                    Log.w(TAG, "`rwt` mode used.")
-                    outStream
-                }
-            }
-            else -> null
-        }
-    }
-
-    fun Uri.withFileScheme(): Boolean {
-        val scheme = this.scheme
-        if (scheme.isNullOrEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
-            return true
-        }
-        return false
-    }
-
-    fun Uri.withContentScheme(): Boolean {
-        val scheme = this.scheme
-        if (scheme != null && scheme.lowercase(Locale.ENGLISH) == "content") {
-            return true
-        }
-        return false
-    }
-
-    private const val TAG = "UriHelper"
+fun String.parseUri(): Uri? {
+    return if (this.isNotEmpty()) Uri.parse(this) else null
 }
+
+fun String.decodeUri(): String {
+    return Uri.decode(this) ?: ""
+}
+
+fun Context.getBinaryDir(): File {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        this.applicationContext.noBackupFilesDir
+    } else {
+        this.applicationContext.filesDir
+    }
+}
+
+@Throws(FileNotFoundException::class)
+fun ContentResolver.getUriInputStream(fileUri: Uri?): InputStream? {
+    if (fileUri == null)
+        return null
+    return when {
+        fileUri.withFileScheme() -> fileUri.path?.let { FileInputStream(it) }
+        fileUri.withContentScheme() -> this.openInputStream(fileUri)
+        else -> null
+    }
+}
+
+@SuppressLint("Recycle")
+@Throws(FileNotFoundException::class)
+fun ContentResolver.getUriOutputStream(fileUri: Uri?): OutputStream? {
+    if (fileUri == null)
+        return null
+    return when {
+        fileUri.withFileScheme() -> fileUri.path?.let { FileOutputStream(it) }
+        fileUri.withContentScheme() -> {
+            try {
+                this.openOutputStream(fileUri, "wt")
+            } catch (e: FileNotFoundException) {
+                Log.e(TAG, "Unable to open stream in `wt` mode, retry in `rwt` mode.", e)
+                // https://issuetracker.google.com/issues/180526528
+                // Try with rwt to fix content provider issue
+                val outStream = this.openOutputStream(fileUri, "rwt")
+                Log.w(TAG, "`rwt` mode used.")
+                outStream
+            }
+        }
+        else -> null
+    }
+}
+
+fun Uri.withFileScheme(): Boolean {
+    val scheme = this.scheme
+    if (scheme.isNullOrEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
+        return true
+    }
+    return false
+}
+
+fun Uri.withContentScheme(): Boolean {
+    val scheme = this.scheme
+    if (scheme != null && scheme.lowercase(Locale.ENGLISH) == "content") {
+        return true
+    }
+    return false
+}
+fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): PackageInfo =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
+    } else {
+        @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
+    }
+
+
+private const val TAG = "UriHelper"

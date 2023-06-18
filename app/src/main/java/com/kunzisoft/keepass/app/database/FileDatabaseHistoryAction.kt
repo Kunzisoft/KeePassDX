@@ -27,8 +27,8 @@ import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import com.kunzisoft.keepass.utils.UriHelper.decodeUri
-import com.kunzisoft.keepass.utils.UriHelper.parseUri
+import com.kunzisoft.keepass.utils.decodeUri
+import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 
 class FileDatabaseHistoryAction(private val applicationContext: Context) {

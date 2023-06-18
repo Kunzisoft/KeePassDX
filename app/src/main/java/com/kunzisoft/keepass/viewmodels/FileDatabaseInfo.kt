@@ -23,7 +23,7 @@ import android.content.Context
 import android.net.Uri
 import android.text.format.Formatter
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.utils.UriHelper.parseUri
+import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 import java.io.Serializable

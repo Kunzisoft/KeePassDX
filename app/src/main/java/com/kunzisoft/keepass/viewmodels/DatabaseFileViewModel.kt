@@ -9,7 +9,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
-import com.kunzisoft.keepass.utils.UriHelper.parseUri
+import com.kunzisoft.keepass.utils.parseUri
 
 class DatabaseFileViewModel(application: Application) : AndroidViewModel(application) {
 

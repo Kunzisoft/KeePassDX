@@ -24,7 +24,7 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
+import com.kunzisoft.keepass.utils.getBinaryDir
 
 class CreateDatabaseRunnable(
     context: Context,

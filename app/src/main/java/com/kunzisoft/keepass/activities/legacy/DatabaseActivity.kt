@@ -9,7 +9,7 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.UriHelper.getBinaryDir
+import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {

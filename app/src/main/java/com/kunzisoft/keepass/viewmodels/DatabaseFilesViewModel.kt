@@ -10,7 +10,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
-import com.kunzisoft.keepass.utils.UriHelper.parseUri
+import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {

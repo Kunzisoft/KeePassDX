@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.UriHelper.getUriOutputStream
+import com.kunzisoft.keepass.utils.getUriOutputStream
 import java.io.File
 
 open class SaveDatabaseRunnable(

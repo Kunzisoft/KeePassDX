@@ -32,8 +32,6 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.utils.UriHelper.withContentScheme
-import com.kunzisoft.keepass.utils.UriHelper.withFileScheme
 import java.io.File
 
 
@@ -216,7 +214,7 @@ object UriUtil {
 
     fun Context.isExternalAppInstalled(packageName: String, showError: Boolean = true): Boolean {
         try {
-            this.applicationContext.packageManager.getPackageInfo(
+            this.applicationContext.packageManager.getPackageInfoCompat(
                 packageName,
                 PackageManager.GET_ACTIVITIES
             )
