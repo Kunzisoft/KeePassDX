@@ -112,7 +112,7 @@ dependencies {
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
     // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed
-    // implementation "com.splitwise:tokenautocomplete:4.0.0-beta04"
+    implementation "com.splitwise:tokenautocomplete:4.0.0-beta05"
     // Database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
