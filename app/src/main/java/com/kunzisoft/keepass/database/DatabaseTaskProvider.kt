@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.ComponentName
@@ -31,6 +32,7 @@ import android.content.IntentFilter
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -356,26 +358,34 @@ class DatabaseTaskProvider(
         }
 
     private fun start(bundle: Bundle? = null, actionTask: String) {
-        val contextActivity = activity
-        if (ContextCompat.checkSelfPermission(context, NOTIFICATION_PERMISSION)
-            == PackageManager.PERMISSION_GRANTED) {
-            startService(bundle, actionTask)
-        } else if (contextActivity != null
-                && shouldShowRequestPermissionRationale(contextActivity, NOTIFICATION_PERMISSION)) {
-            // it's not the first time, so the user deliberately chooses not to display the notification
-            startService(bundle, actionTask)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val contextActivity = activity
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED
+            ) {
+                startService(bundle, actionTask)
+            } else if (contextActivity != null && shouldShowRequestPermissionRationale(
+                    contextActivity,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            ) {
+                // it's not the first time, so the user deliberately chooses not to display the notification
+                startService(bundle, actionTask)
+            } else {
+                AlertDialog.Builder(activity)
+                    .setMessage(R.string.warning_database_notification_permission)
+                    .setNegativeButton(R.string.later) { _, _ ->
+                        // Refuses the notification, so start the service
+                        startService(bundle, actionTask)
+                    }
+                    .setPositiveButton(R.string.ask) { _, _ ->
+                        // Save the temp parameters to ask the permission
+                        tempServiceParameters.add(Pair(bundle, actionTask))
+                        requestPermissionLauncher?.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }.create().show()
+            }
         } else {
-            AlertDialog.Builder(activity)
-                .setMessage(R.string.warning_database_notification_permission)
-                .setNegativeButton(R.string.later) { _, _ ->
-                    // Refuses the notification, so start the service
-                    startService(bundle, actionTask)
-                }
-                .setPositiveButton(R.string.ask) { _, _ ->
-                    // Save the temp parameters to ask the permission
-                    tempServiceParameters.add(Pair(bundle, actionTask))
-                    requestPermissionLauncher?.launch(NOTIFICATION_PERMISSION)
-                }.create().show()
+            startService(bundle, actionTask)
         }
     }
 
@@ -781,7 +791,5 @@ class DatabaseTaskProvider(
 
     companion object {
         private val TAG = DatabaseTaskProvider::class.java.name
-
-        private const val NOTIFICATION_PERMISSION = "android.permission.POST_NOTIFICATIONS"
     }
 }

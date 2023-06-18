@@ -67,9 +67,9 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
@@ -234,7 +234,7 @@ class EntryActivity : DatabaseLockActivity() {
                 // Manage entry copy to start notification if allowed (at the first start)
                 if (savedInstanceState == null) {
                     // Manage entry to launch copying notification if allowed
-                    ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
+                    ClipboardEntryNotificationService.checkAndLaunchNotification(this, entryInfo)
                     // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
                     if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
                         MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)

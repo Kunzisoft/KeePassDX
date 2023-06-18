@@ -19,11 +19,16 @@
  */
 package com.kunzisoft.keepass.services
 
+import android.Manifest
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -148,7 +153,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                         getCopyPendingIntent(fieldToAdd, fieldsToAdd))
             }
         }
-        notificationManager?.notify(notificationId, builder.build())
+
+        checkNotificationsPermission {
+            notificationManager?.notify(notificationId, builder.build())
+        }
     }
 
     private fun copyField(fieldToCopy: ClipboardEntryNotificationField, nextFields: MutableList<ClipboardEntryNotificationField>) {
@@ -207,11 +215,22 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                 }
             } else {
                 // No timer
-                notificationManager?.notify(notificationId, builder.build())
+                checkNotificationsPermission {
+                    notificationManager?.notify(notificationId, builder.build())
+                }
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Clipboard can't be populate", e)
+        }
+    }
+
+    private fun checkNotificationsPermission(action: () -> Unit) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED) {
+            action.invoke()
+        } else {
+            showPermissionError(this)
         }
     }
 
@@ -236,7 +255,29 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         const val EXTRA_CLIPBOARD_FIELDS = "EXTRA_CLIPBOARD_FIELDS"
         const val ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD"
 
-        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+        private fun showPermissionError(context: Context) {
+            Toast.makeText(context, R.string.warning_copy_permission, Toast.LENGTH_LONG).show()
+        }
+
+        fun checkAndLaunchNotification(
+            activity: Activity,
+            entry: EntryInfo
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        activity,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED) {
+                        launchNotificationIfAllowed(activity, entry)
+                } else {
+                    showPermissionError(activity)
+                }
+            } else {
+                launchNotificationIfAllowed(activity, entry)
+            }
+        }
+
+        private fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
 
             val containsUsernameToCopy = entry.username.isNotEmpty()
             val containsPasswordToCopy = entry.password.isNotEmpty()
