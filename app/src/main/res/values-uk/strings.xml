@@ -233,7 +233,7 @@
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Щоб <strong>зберігати нашу свободу</strong>, <strong>налагодження</strong>, <strong>додавати функції</strong> та <strong>бути завжди активним проєктом</strong>, ми розраховуємо на вашу <strong>допомогу</strong>.</string>
+    <string name="html_about_contribution">Щоб &lt;strong&gt;зберігати нашу свободу&lt;/strong&gt;, &lt;strong&gt;налагодження&lt;/strong&gt;, &lt;strong&gt;додавати функції&lt;/strong&gt; та &lt;strong&gt;бути завжди активним проєктом&lt;/strong&gt;, ми розраховуємо на вашу &lt;strong&gt;допомогу&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Закрити поля</string>
     <string name="content_description_remove_field">Вилучити поле</string>
     <string name="entry_add_attachment">Додати вкладення</string>
