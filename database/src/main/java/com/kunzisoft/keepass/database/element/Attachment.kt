@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.binary.BinaryByte
 import com.kunzisoft.keepass.database.element.binary.BinaryData
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 
 
 data class Attachment(var name: String,

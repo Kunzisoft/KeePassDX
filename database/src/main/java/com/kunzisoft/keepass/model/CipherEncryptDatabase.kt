@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.model
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.writeEnum
 

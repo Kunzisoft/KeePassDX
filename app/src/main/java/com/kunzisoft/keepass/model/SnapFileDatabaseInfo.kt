@@ -24,7 +24,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.format.Formatter
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import java.text.DateFormat
 import java.util.Date

@@ -6,7 +6,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard.Companion.FOLDER_ID
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.util.*
 
 class GroupInfo : NodeInfo {

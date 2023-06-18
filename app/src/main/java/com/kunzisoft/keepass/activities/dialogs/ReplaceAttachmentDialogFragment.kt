@@ -27,7 +27,7 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableCompat
 
 /**
  * Custom Dialog to confirm big file to upload

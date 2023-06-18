@@ -31,9 +31,9 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
-import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableExtraCompat
-import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableList
-import com.kunzisoft.keepass.utils.ParcelableUtil.putParcelableList
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.putParcelableList
 
 class ClipboardEntryNotificationService : LockNotificationService() {
 

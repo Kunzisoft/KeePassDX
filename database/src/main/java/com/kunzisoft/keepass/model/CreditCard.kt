@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.ParcelableUtil.readSerializableCompat
+import com.kunzisoft.keepass.utils.readSerializableCompat
 import org.joda.time.DateTime
 
 data class CreditCard(val cardholder: String?,

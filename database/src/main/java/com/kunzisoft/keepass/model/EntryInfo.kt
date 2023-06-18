@@ -29,8 +29,8 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
-import com.kunzisoft.keepass.utils.ParcelableUtil.readListCompat
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.readListCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.util.*
 
 class EntryInfo : NodeInfo {

@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.database.element.template
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.ParcelableUtil.readStringStringMap
-import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringStringMap
+import com.kunzisoft.keepass.utils.readStringStringMap
+import com.kunzisoft.keepass.utils.writeStringStringMap
 
 class TemplateAttributeOption() : Parcelable {
 

@@ -31,8 +31,8 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
-import com.kunzisoft.keepass.utils.ParcelableUtil.readSerializableCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readSerializableCompat
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 

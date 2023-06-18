@@ -42,8 +42,8 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableList
-import com.kunzisoft.keepass.utils.ParcelableUtil.putParcelableList
+import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.view.TemplateEditView
 import com.kunzisoft.keepass.view.collapse

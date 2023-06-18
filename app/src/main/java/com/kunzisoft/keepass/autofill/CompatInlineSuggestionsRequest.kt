@@ -26,7 +26,7 @@ import android.os.Parcelable
 import android.service.autofill.FillRequest
 import android.view.inputmethod.InlineSuggestionsRequest
 import androidx.annotation.RequiresApi
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
+import com.kunzisoft.keepass.utils.readParcelableCompat
 
 /**
  * Utility class only to prevent java.lang.NoClassDefFoundError for old Android version and new lib compilation

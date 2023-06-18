@@ -25,7 +25,7 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
-import com.kunzisoft.keepass.utils.ParcelableUtil.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableCompat
 
 
 class DatabaseChangedDialogFragment : DatabaseDialogFragment() {

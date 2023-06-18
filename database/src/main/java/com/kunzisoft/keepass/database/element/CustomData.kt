@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.ParcelableUtil.readStringParcelableMap
-import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringParcelableMap
+import com.kunzisoft.keepass.utils.readStringParcelableMap
+import com.kunzisoft.keepass.utils.writeStringParcelableMap
 import java.util.*
 
 class CustomData : Parcelable {

@@ -36,11 +36,11 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.ParcelableUtil.readParcelableCompat
-import com.kunzisoft.keepass.utils.ParcelableUtil.readStringIntMap
-import com.kunzisoft.keepass.utils.ParcelableUtil.readStringParcelableMap
-import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringIntMap
-import com.kunzisoft.keepass.utils.ParcelableUtil.writeStringParcelableMap
+import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.readStringIntMap
+import com.kunzisoft.keepass.utils.readStringParcelableMap
+import com.kunzisoft.keepass.utils.writeStringIntMap
+import com.kunzisoft.keepass.utils.writeStringParcelableMap
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.Date
 import java.util.UUID

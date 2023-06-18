@@ -20,7 +20,7 @@ package com.kunzisoft.keepass.database.element.template
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.ParcelableUtil.readListCompat
+import com.kunzisoft.keepass.utils.readListCompat
 
 class TemplateSection: Parcelable {
 
