@@ -43,7 +43,11 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
     var addButtonView: FloatingActionButton? = null
     private lateinit var addEntryView: View
+    private lateinit var textAddEntryView: View
+    private lateinit var fabAddEntryView: View
     private lateinit var addGroupView: View
+    private lateinit var textAddGroupView: View
+    private lateinit var fabAddGroupView: View
 
     private var addEntryEnable: Boolean = false
     private var addGroupEnable: Boolean = false
@@ -77,7 +81,11 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
         addButtonView = findViewById(R.id.add_button)
         addEntryView = findViewById(R.id.container_add_entry)
+        textAddEntryView = findViewById(R.id.text_add_entry)
+        fabAddEntryView = findViewById(R.id.fab_add_entry)
         addGroupView = findViewById(R.id.container_add_group)
+        textAddGroupView = findViewById(R.id.text_add_group)
+        fabAddGroupView = findViewById(R.id.fab_add_group)
 
         animationDuration = 300L
 
@@ -189,24 +197,23 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
         }
     }
 
+    private fun onButtonClickListener(onClickListener: OnClickListener) =
+        OnClickListener { view ->
+            onClickListener.onClick(view)
+            closeButtonIfOpen()
+        }
+
     fun setAddGroupClickListener(onClickListener: OnClickListener) {
-        if (addGroupEnable)
-            addGroupView.setOnClickListener { view ->
-                onClickListener.onClick(view)
-                closeButtonIfOpen()
-            }
+        if (addGroupEnable) {
+            textAddGroupView.setOnClickListener(onButtonClickListener(onClickListener))
+            fabAddGroupView.setOnClickListener(onButtonClickListener(onClickListener))
+        }
     }
 
     fun setAddEntryClickListener(onClickListener: OnClickListener) {
         if (addEntryEnable) {
-            addEntryView.setOnClickListener { view ->
-                onClickListener.onClick(view)
-                closeButtonIfOpen()
-            }
-            addEntryView.setOnClickListener { view ->
-                onClickListener.onClick(view)
-                closeButtonIfOpen()
-            }
+            textAddEntryView.setOnClickListener(onButtonClickListener(onClickListener))
+            fabAddEntryView.setOnClickListener(onButtonClickListener(onClickListener))
         }
     }
 

@@ -10,10 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="mini"
+        app:fabCustomSize="@dimen/button_small_size"
         android:layout_gravity="center"
-        android:layout_margin="9dp"
+        android:layout_margin="8dp"
         android:contentDescription="@string/lock"
-        android:visibility="gone"
+        android:visibility="visible"
         android:src="@drawable/ic_lock_white_padding_24dp"
         xmlns:app="http://schemas.android.com/apk/res-auto" />
 </FrameLayout>

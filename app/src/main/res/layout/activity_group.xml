@@ -87,7 +87,7 @@
                 android:layout_gravity="center_vertical|start"
                 android:visibility="gone"
                 android:src="@drawable/ic_modified_white_12dp"
-                android:tint="?attr/textColorInverse"
+                app:tint="?attr/textColorInverse"
                 android:contentDescription="@string/save"/>
         </FrameLayout>
 
