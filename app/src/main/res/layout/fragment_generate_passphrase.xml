@@ -44,8 +44,7 @@
             android:layout_marginRight="@dimen/card_view_margin_horizontal"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/card_view_margin_vertical"
-            android:layout_gravity="bottom"
-            app:cardCornerRadius="4dp">
+            android:layout_gravity="bottom">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

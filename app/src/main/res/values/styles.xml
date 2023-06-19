@@ -370,6 +370,7 @@
         <item name="android:layout_marginLeft">@dimen/card_view_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/card_view_margin_horizontal</item>
         <item name="android:padding">@dimen/card_view_padding</item>
+        <item name="cardCornerRadius">18dp</item>
     </style>
 
     <!-- CheckBox -->
