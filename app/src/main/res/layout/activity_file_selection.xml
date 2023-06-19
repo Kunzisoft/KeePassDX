@@ -47,7 +47,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_parallax_height"
-            android:background="?attr/colorPrimaryDark">
+            android:background="?attr/colorPrimary">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
@@ -63,7 +63,7 @@
                     android:layout_gravity="center_horizontal|bottom"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingBottom="26dp">
+                    android:paddingBottom="36dp">
                     <TextView
                         android:id="@+id/file_selection_title_part_1"
                         android:layout_width="wrap_content"
@@ -126,7 +126,6 @@
                     app:navigationIcon="@drawable/ic_info_white_24dp"
                     app:navigationContentDescription="@string/about"
                     android:background="?attr/colorPrimary"
-                    android:elevation="4dp"
                     app:layout_collapseMode="pin"
                     android:theme="?attr/toolbarHomeAppearance" />
 
