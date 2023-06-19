@@ -8,6 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="?attr/colorPrimaryDark"
+        android:background="?attr/colorPrimary"
         android:visibility="gone"/>
 </FrameLayout>

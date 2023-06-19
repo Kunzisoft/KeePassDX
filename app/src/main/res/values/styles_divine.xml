@@ -30,9 +30,9 @@
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_lighter</item>
         <item name="colorControlNormal">@color/grey_light</item>
-        <item name="colorControlActivated">@color/green_light</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="android:textColorPrimary">@color/orange_light</item>
+        <item name="android:textColorHintInverse">@color/orange_lighter</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="toolbarColorControl">@color/grey_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.White</item>
@@ -117,9 +117,9 @@
         <item name="colorAccent">@color/orange_darker</item>
         <item name="colorAccentLight">@color/orange</item>
         <item name="colorControlNormal">@color/grey_light</item>
-        <item name="colorControlActivated">@color/green</item>
-        <item name="android:textColorPrimary">@color/green_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="android:textColorPrimary">@color/orange_lighter</item>
+        <item name="android:textColorHintInverse">@color/orange_lighter</item>
         <item name="android:textColorSecondaryInverse">@color/white_dark</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
