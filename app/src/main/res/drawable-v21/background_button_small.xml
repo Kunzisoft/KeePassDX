@@ -8,7 +8,7 @@
             <item android:bottom="2dp" android:left="2dp">
                 <shape>
                     <corners
-                        android:radius="8dp" />
+                        android:radius="@dimen/dialog_radius" />
                     <padding
                         android:left="14dp"
                         android:right="14dp"

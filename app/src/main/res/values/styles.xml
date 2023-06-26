@@ -307,11 +307,11 @@
     </style>
     <style name="KeepassDXStyle.Switch.Light" parent="KeepassDXStyle.Light">
         <item name="colorPrimary">@color/orange</item>
-        <item name="colorOnPrimary">@color/green_white_dark</item>
+        <item name="colorOnPrimary">@color/green_white</item>
         <item name="colorOnAccentColor">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/orange</item>
-        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+        <item name="colorSurfaceVariant">@color/green_white</item>
     </style>
     <style name="KeepassDXStyle.Switch.Night" parent="KeepassDXStyle.Night">
         <item name="colorPrimary">@color/orange</item>
@@ -403,7 +403,7 @@
         <item name="android:layout_marginLeft">@dimen/card_view_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/card_view_margin_horizontal</item>
         <item name="android:padding">@dimen/card_view_padding</item>
-        <item name="cardCornerRadius">16dp</item>
+        <item name="cardCornerRadius">@dimen/dialog_radius</item>
     </style>
     <style name="KeepassDXStyle.Cardview.Light" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/green_white</item>
