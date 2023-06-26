@@ -61,7 +61,7 @@
         android:contentDescription="@string/menu_delete"
         style="@style/KeepassDXStyle.ImageButton.Simple" />
 
-    <androidx.appcompat.widget.SwitchCompat
+    <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/entry_custom_field_protection"
         style="@style/KeepassDXStyle.TextAppearance.Small"
         android:layout_width="wrap_content"
@@ -71,6 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:theme="?attr/switchAppearance"
         android:text="@string/protection" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

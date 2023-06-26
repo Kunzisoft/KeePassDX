@@ -35,7 +35,7 @@
 		android:layout_marginBottom="8dp"
 		style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
 
-	<androidx.appcompat.widget.SwitchCompat
+	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -43,6 +43,7 @@
 		android:text="@string/enable"
 		android:background="@drawable/background_button_small"
 		android:textColor="?attr/textColorInverse"
+		android:theme="?attr/switchAppearance"
 		android:minHeight="48dp"/>
 
 	<androidx.constraintlayout.widget.ConstraintLayout

@@ -61,11 +61,12 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/explanation_text" />
 
-		<androidx.appcompat.widget.SwitchCompat
+		<com.google.android.material.materialswitch.MaterialSwitch
 			android:id="@+id/switch_element"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/enable"
+			android:theme="?attr/switchAppearance"
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="20dp"
 			android:layout_marginLeft="20dp"

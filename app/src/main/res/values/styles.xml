@@ -347,12 +347,13 @@
     </style>
 
     <!-- Dialog -->
-    <style name="KeepassDXStyle.Light.Dialog" parent="Theme.Material3.Light.Dialog.Alert">
+    <style name="KeepassDXStyle.Light.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/green_white</item>
         <item name="background">@color/green_white</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="dialogCornerRadius">@dimen/dialog_radius</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Light.Dialog.PositiveButtonStyle</item>
     </style>
@@ -370,12 +371,13 @@
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Light.Dialog.PositiveButtonStyle</item>
     </style>
 
-    <style name="KeepassDXStyle.Night.Dialog" parent="Theme.Material3.Dark.Dialog.Alert">
+    <style name="KeepassDXStyle.Night.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:background">@color/grey_dark</item>
-        <item name="background">@color/grey_dark</item>
+        <item name="android:background">@color/green_black_light</item>
+        <item name="background">@color/green_black_light</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="dialogCornerRadius">@dimen/dialog_radius</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Night.Dialog.PositiveButtonStyle</item>
     </style>
