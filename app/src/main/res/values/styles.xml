@@ -110,6 +110,9 @@
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
+
+        <!-- Snackbar -->
+        <item name="snackbarStyle">@style/KeepassDXStyle.SnackBar</item>
     </style>
 
     <!-- Night application theme -->
@@ -195,6 +198,9 @@
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
+
+        <!-- Snackbar -->
+        <item name="snackbarStyle">@style/KeepassDXStyle.SnackBar</item>
     </style>
 
     <!-- Light WhiteBar Style -->
@@ -300,17 +306,19 @@
         <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
     <style name="KeepassDXStyle.Switch.Light" parent="KeepassDXStyle.Light">
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorOnPrimary">@color/green_white_dark</item>
         <item name="colorOnAccentColor">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
-        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorOutline">@color/orange</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
     <style name="KeepassDXStyle.Switch.Night" parent="KeepassDXStyle.Night">
+        <item name="colorPrimary">@color/orange</item>
         <item name="colorOnPrimary">@color/green_black_light</item>
         <item name="colorOnAccentColor">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
-        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorOutline">@color/orange</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 
@@ -354,10 +362,12 @@
     <style name="KeepassDXStyle.Light.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/text_color_light</item>
     </style>
-    <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.Material3.Light.Dialog">
+    <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
         <item name="android:windowBackground">@color/green_white</item>
+        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Light.Dialog.PositiveButtonStyle</item>
     </style>
 
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.Material3.Dark.Dialog.Alert">
@@ -375,10 +385,13 @@
     <style name="KeepassDXStyle.Night.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/text_color_night</item>
     </style>
-    <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.Material3.Dark.Dialog">
+    <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="colorAccent">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:windowBackground">@color/grey_dark</item>
+        <item name="buttonBarStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Night.Dialog.PositiveButtonStyle</item>
     </style>
 
     <!-- CardView -->
@@ -621,6 +634,11 @@
     <style name="KeepassDXStyle.ProgressBar.Circle" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
         <item name="android:background">@drawable/background_progress_circle</item>
+    </style>
+
+    <!-- Snackbar -->
+    <style name="KeepassDXStyle.SnackBar" parent="Widget.Material3.Snackbar.FullWidth">
+        <item name="backgroundTint">@color/red</item>
     </style>
 
     <!-- Transparent -->
