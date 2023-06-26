@@ -22,12 +22,12 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 
 class UnavailableFeatureDialogFragment : DialogFragment() {
@@ -43,7 +43,7 @@ class UnavailableFeatureDialogFragment : DialogFragment() {
             val rootView = activity.layoutInflater.inflate(R.layout.fragment_unavailable_feature, null)
             val messageView = rootView.findViewById<TextView>(R.id.unavailable_feature_message)
 
-            val builder = AlertDialog.Builder(activity)
+            val builder = MaterialAlertDialogBuilder(activity)
 
             val message = SpannableStringBuilder()
             message.append(getString(R.string.unavailable_feature_text))

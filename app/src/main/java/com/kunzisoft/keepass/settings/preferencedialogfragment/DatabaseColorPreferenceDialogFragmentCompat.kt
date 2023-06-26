@@ -28,7 +28,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.androidclearchroma.view.ChromaColorView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -45,7 +45,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
     private var mActivated = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val alertDialogBuilder = AlertDialog.Builder(requireActivity())
+        val alertDialogBuilder = MaterialAlertDialogBuilder(requireActivity())
 
         rootView = requireActivity().layoutInflater.inflate(R.layout.fragment_color_picker, null)
         enableSwitchView = rootView.findViewById(R.id.switch_element)

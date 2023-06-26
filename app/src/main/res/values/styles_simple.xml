@@ -57,6 +57,8 @@
         <item name="chipFilterTextColor">@color/text_color_light</item>
         <item name="chipFilterBackgroundColor">@color/blue_white</item>
         <item name="chipFilterBackgroundColorDisabled">@color/white_dark</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Simple</item>
     </style>
     <!-- Toolbar Style Simple -->
     <style name="KeepassDXStyle.Toolbar.Simple" parent="KeepassDXStyle.Simple">
@@ -130,6 +132,8 @@
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/grey_black_slight</item>
         <item name="chipFilterBackgroundColorDisabled">@color/grey_darker</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Simple.Night</item>
     </style>
     <!-- Toolbar Style Night -->
     <style name="KeepassDXStyle.Toolbar.Simple.Night" parent="KeepassDXStyle.Simple.Night">
@@ -171,5 +175,22 @@
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Simple.Night" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/grey_slight</item>
+    </style>
+    <!-- Switch -->
+    <style name="KeepassDXStyle.Switch.Simple" parent="KeepassDXStyle.Simple">
+        <item name="colorPrimary">@color/blue_slight</item>
+        <item name="colorOnPrimary">?android:attr/windowBackground</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Simple.Night" parent="KeepassDXStyle.Simple.Night">
+        <item name="colorPrimary">@color/blue_slight</item>
+        <item name="colorOnPrimary">?android:attr/windowBackground</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

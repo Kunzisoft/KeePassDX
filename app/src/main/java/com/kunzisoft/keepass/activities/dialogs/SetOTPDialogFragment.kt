@@ -31,6 +31,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
@@ -231,7 +232,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
 
             attachListeners()
 
-            val builder = AlertDialog.Builder(activity)
+            val builder = MaterialAlertDialogBuilder(activity)
             builder.apply {
                 setView(root)
                         .setPositiveButton(android.R.string.ok) { _, _ ->

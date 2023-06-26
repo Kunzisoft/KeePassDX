@@ -29,7 +29,7 @@
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
         <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
-        <item name="android:windowBackground">@color/white_dark</item>
+        <item name="android:windowBackground">@color/red_white_light</item>
         <item name="toolbarColorControl">@color/white</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red</item>
@@ -37,12 +37,15 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Red</item>
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
 
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/red_lighter</item>
         <item name="chipFilterBackgroundColorDisabled">@color/red</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Red</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red" parent="KeepassDXStyle.Red">
@@ -94,19 +97,22 @@
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
         <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
-        <item name="android:windowBackground">@color/grey_dark</item>
+        <item name="android:windowBackground">@color/red_black_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red.Night</item>
         <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red.Night</item>
         <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Red.Night</item>
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red.Night</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Red.Night</item>
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
 
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/red_lighter</item>
         <item name="chipFilterBackgroundColorDisabled">@color/red</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Red.Night</item>
     </style>
     <!-- Toolbar Style Red -->
     <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
@@ -145,5 +151,29 @@
         <item name="colorAccent">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:windowBackground">@color/grey_dark</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Red" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/red_white_light</item>
+    </style>
+    <style name="KeepassDXStyle.Cardview.Red.Night" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/red_black</item>
+    </style>
+    <!-- Switch -->
+    <style name="KeepassDXStyle.Switch.Red" parent="KeepassDXStyle.Red">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorOnPrimary">@color/red_white_light</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">@color/orange</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Red.Night" parent="KeepassDXStyle.Red.Night">
+        <item name="colorPrimary">@color/orange_dark</item>
+        <item name="colorOnPrimary">@color/red_black_dark</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">@color/orange_dark</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

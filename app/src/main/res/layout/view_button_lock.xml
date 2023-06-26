@@ -5,16 +5,16 @@
     android:layout_height="wrap_content"
     android:filterTouchesWhenObscured="true">
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/lock_button"
         style="@style/KeepassDXStyle.Fab.Special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="mini"
         app:fabCustomSize="@dimen/button_small_size"
-        android:layout_gravity="center"
+        app:useCompatPadding="false"
         android:layout_margin="8dp"
         android:contentDescription="@string/lock"
         android:visibility="visible"
-        android:src="@drawable/ic_lock_white_padding_24dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        android:src="@drawable/ic_lock_white_padding_24dp" />
 </FrameLayout>

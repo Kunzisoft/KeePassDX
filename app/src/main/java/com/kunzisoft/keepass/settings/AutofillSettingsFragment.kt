@@ -24,7 +24,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistAppIdPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistWebDomainPreferenceDialogFragmentCompat
@@ -35,7 +35,7 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         // Load the preferences from an XML resource
         setPreferencesFromResource(R.xml.preferences_autofill, rootKey)
 
-        val autofillInlineSuggestionsPreference: SwitchPreference? = findPreference(getString(R.string.autofill_inline_suggestions_key))
+        val autofillInlineSuggestionsPreference: TwoStatePreference? = findPreference(getString(R.string.autofill_inline_suggestions_key))
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             autofillInlineSuggestionsPreference?.isVisible = false
         }

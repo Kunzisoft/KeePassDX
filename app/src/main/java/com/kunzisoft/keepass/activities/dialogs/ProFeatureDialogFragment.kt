@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
@@ -38,7 +38,7 @@ class ProFeatureDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(activity)
+            val builder = MaterialAlertDialogBuilder(activity)
 
             val stringBuilder = SpannableStringBuilder()
             if (BuildConfig.CLOSED_STORE) {

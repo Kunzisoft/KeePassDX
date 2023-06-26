@@ -31,10 +31,11 @@ import android.text.util.Linkify
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 class ClipboardHelper(context: Context) {
 
@@ -127,7 +128,7 @@ class ClipboardHelper(context: Context) {
         }
 
         Linkify.addLinks(spannableString, Linkify.WEB_URLS)
-        AlertDialog.Builder(mAppContext)
+        MaterialAlertDialogBuilder(mAppContext)
                 .setTitle(R.string.clipboard_error_title)
                 .setView(textView)
                 .setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }

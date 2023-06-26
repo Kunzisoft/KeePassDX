@@ -5,8 +5,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.androidclearchroma.view.ChromaColorView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
@@ -53,7 +53,7 @@ class ColorPickerDialogFragment : DatabaseDialogFragment() {
                     enableSwitchView.isChecked = true
             }
 
-            val builder = AlertDialog.Builder(activity)
+            val builder = MaterialAlertDialogBuilder(activity)
             builder.setView(root)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     val color: Int? = if (enableSwitchView.isChecked)

@@ -24,12 +24,12 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 
 class MainCredentialDialogFragment : DatabaseDialogFragment() {
@@ -69,7 +69,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
                     databaseUri = getParcelableCompat(KEY_ASK_CREDENTIAL_URI)
             }
 
-            val builder = AlertDialog.Builder(activity)
+            val builder = MaterialAlertDialogBuilder(activity)
 
             val root = activity.layoutInflater.inflate(R.layout.fragment_main_credential, null)
             mainCredentialView = root.findViewById(R.id.main_credential_view)

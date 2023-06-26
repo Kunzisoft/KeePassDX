@@ -8,10 +8,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 import kotlinx.coroutines.launch
@@ -128,7 +128,7 @@ class HardwareKeyResponseHelper {
             hardwareKey: HardwareKey
         ) {
             activity.lifecycleScope.launch {
-                val builder = AlertDialog.Builder(activity)
+                val builder = MaterialAlertDialogBuilder(activity)
                 builder
                     .setMessage(
                         activity.getString(R.string.error_driver_required, hardwareKey.toString())

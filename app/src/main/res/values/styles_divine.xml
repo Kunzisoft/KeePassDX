@@ -59,6 +59,8 @@
         <item name="chipFilterTextColor">@color/grey_light</item>
         <item name="chipFilterBackgroundColor">@color/white_darkest</item>
         <item name="chipFilterBackgroundColorDisabled">@color/white</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.White</item>
     </style>
     <!-- Toolbar Style White -->
     <style name="KeepassDXStyle.Toolbar.White" parent="KeepassDXStyle.White">
@@ -137,6 +139,8 @@
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/grey_darker</item>
         <item name="chipFilterBackgroundColorDisabled">@color/black_light</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Black</item>
     </style>
     <!-- Toolbar Style Black -->
     <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
@@ -184,5 +188,22 @@
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Black" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_light</item>
+    </style>
+    <!-- Switch -->
+    <style name="KeepassDXStyle.Switch.White" parent="KeepassDXStyle.White">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorOnPrimary">?android:attr/windowBackground</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Black" parent="KeepassDXStyle.Black">
+        <item name="colorPrimary">@color/orange_darker</item>
+        <item name="colorOnPrimary">?android:attr/windowBackground</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

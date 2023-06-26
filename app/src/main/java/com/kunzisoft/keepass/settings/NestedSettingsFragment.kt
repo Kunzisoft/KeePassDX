@@ -23,7 +23,7 @@ import android.content.res.Resources
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 
@@ -49,7 +49,7 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
     protected fun preferenceInDevelopment(preferenceInDev: Preference) {
         preferenceInDev.setOnPreferenceClickListener { preference ->
             try { // don't check if we can
-                (preference as SwitchPreference).isChecked = false
+                (preference as TwoStatePreference).isChecked = false
             } catch (ignored: Exception) {
             }
             UnderDevelopmentFeatureDialogFragment().show(parentFragmentManager, "underDevFeatureDialog")

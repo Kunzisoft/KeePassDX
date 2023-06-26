@@ -24,8 +24,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.getParcelableCompat
 
@@ -55,7 +55,7 @@ class FileTooBigDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(activity)
+            val builder = MaterialAlertDialogBuilder(activity)
             builder.setMessage(SpannableStringBuilder().apply {
                 append(getString(R.string.warning_file_too_big))
                 append("\n\n")

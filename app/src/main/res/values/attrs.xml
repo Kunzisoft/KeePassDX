@@ -23,6 +23,8 @@
     <attr name="toolbarSpecialAppearance" format="reference" />
     <attr name="toolbarActionAppearance" format="reference" />
 
+    <attr name="switchAppearance" format="reference" />
+
     <attr name="chipFilterTextColor" format="color" />
     <attr name="chipFilterBackgroundColor" format="color" />
     <attr name="chipFilterBackgroundColorDisabled" format="color" />

@@ -58,7 +58,7 @@
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
-        <item name="android:windowBackground">@color/white_dark</item>
+        <item name="android:windowBackground">@color/green_white_dark</item>
         <item name="cardBackgroundTransparentColor">#DDFFFFFF</item>
 
         <item name="android:textColor">@color/text_color_light</item>
@@ -81,7 +81,7 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
 
         <!-- CardView -->
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Light</item>
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
@@ -94,7 +94,10 @@
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
         <!-- Switch -->
-        <item name="materialSwitchStyle">@style/KeepassDXStyle.Switch</item>
+        <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Light</item>
 
         <!-- Chip -->
         <item name="chipFilterTextColor">@color/white</item>
@@ -140,7 +143,7 @@
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
-        <item name="android:windowBackground">@color/grey_dark</item>
+        <item name="android:windowBackground">@color/green_black</item>
         <item name="cardBackgroundTransparentColor">@color/grey_dark_transparent</item>
 
         <item name="android:textColor">@color/text_color_night</item>
@@ -163,7 +166,7 @@
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
 
         <!-- CardView -->
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Night</item>
 
         <!-- Toolbar -->
         <item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>
@@ -176,7 +179,10 @@
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
         <!-- Switch -->
-        <item name="materialSwitchStyle">@style/KeepassDXStyle.Switch</item>
+        <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Night</item>
 
         <!-- Chip -->
         <item name="chipFilterTextColor">@color/white</item>
@@ -290,8 +296,22 @@
     </style>
 
     <!-- Switch -->
-    <style name="KeepassDXStyle.Switch" parent="Theme.MaterialComponents.Bridge">
-        <item name="colorAccent">@color/orange</item>
+    <style name="KeepassDXStyle.SwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Light" parent="KeepassDXStyle.Light">
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Night" parent="KeepassDXStyle.Night">
+        <item name="colorOnPrimary">@color/green_black_light</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">?attr/colorPrimary</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 
     <!-- Chip -->
@@ -322,8 +342,8 @@
     <style name="KeepassDXStyle.Light.Dialog" parent="Theme.Material3.Light.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:background">@color/white_dark</item>
-        <item name="background">@color/white_dark</item>
+        <item name="android:background">@color/green_white</item>
+        <item name="background">@color/green_white</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Light.Dialog.PositiveButtonStyle</item>
@@ -337,7 +357,7 @@
     <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.Material3.Light.Dialog">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:windowBackground">@color/white_dark</item>
+        <item name="android:windowBackground">@color/green_white</item>
     </style>
 
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.Material3.Dark.Dialog.Alert">
@@ -370,7 +390,13 @@
         <item name="android:layout_marginLeft">@dimen/card_view_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/card_view_margin_horizontal</item>
         <item name="android:padding">@dimen/card_view_padding</item>
-        <item name="cardCornerRadius">18dp</item>
+        <item name="cardCornerRadius">16dp</item>
+    </style>
+    <style name="KeepassDXStyle.Cardview.Light" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/green_white</item>
+    </style>
+    <style name="KeepassDXStyle.Cardview.Night" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/green_black_light</item>
     </style>
 
     <!-- CheckBox -->

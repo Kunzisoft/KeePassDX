@@ -45,6 +45,8 @@
         <item name="chipFilterTextColor">@color/white_purple_light</item>
         <item name="chipFilterBackgroundColor">@color/purple_light</item>
         <item name="chipFilterBackgroundColorDisabled">@color/purple</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Purple</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
@@ -123,6 +125,8 @@
         <item name="chipFilterTextColor">@color/white_purple_light</item>
         <item name="chipFilterBackgroundColor">@color/purple_dark</item>
         <item name="chipFilterBackgroundColorDisabled">@color/purple_darker</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Purple.Dark</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
@@ -171,5 +175,22 @@
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Purple.Dark" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_purple</item>
+    </style>
+    <!-- Switch -->
+    <style name="KeepassDXStyle.Switch.Purple" parent="KeepassDXStyle.Purple">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorOnPrimary">@color/white_purple_light</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">@color/purple_light</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorOnPrimary">@color/purple_darker</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">@color/purple_dark</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

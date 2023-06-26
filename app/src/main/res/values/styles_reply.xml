@@ -45,6 +45,8 @@
         <item name="chipFilterTextColor">@color/reply_black</item>
         <item name="chipFilterBackgroundColor">@color/reply_orange</item>
         <item name="chipFilterBackgroundColorDisabled">@color/reply_blue_light</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Reply</item>
     </style>
     <!-- Toolbar Style Reply -->
     <style name="KeepassDXStyle.Toolbar.Reply" parent="KeepassDXStyle.Reply">
@@ -120,6 +122,8 @@
         <item name="chipFilterTextColor">@color/reply_black</item>
         <item name="chipFilterBackgroundColor">@color/reply_orange</item>
         <item name="chipFilterBackgroundColorDisabled">@color/reply_blue_light</item>
+
+        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Reply.Night</item>
     </style>
     <!-- Toolbar Style Reply -->
     <style name="KeepassDXStyle.Toolbar.Reply.Night" parent="KeepassDXStyle.Reply.Night">
@@ -168,5 +172,22 @@
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Reply.Night" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/reply_black_dark</item>
+    </style>
+    <!-- Switch -->
+    <style name="KeepassDXStyle.Switch.Reply" parent="KeepassDXStyle.Reply">
+        <item name="colorPrimary">@color/reply_orange</item>
+        <item name="colorOnPrimary">@color/reply_blue_light</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">@color/reply_orange</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
+    </style>
+    <style name="KeepassDXStyle.Switch.Reply.Night" parent="KeepassDXStyle.Reply.Night">
+        <item name="colorPrimary">@color/reply_orange</item>
+        <item name="colorOnPrimary">@color/reply_black</item>
+        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
+        <item name="colorOutline">@color/reply_orange</item>
+        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

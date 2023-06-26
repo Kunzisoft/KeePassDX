@@ -10,7 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -151,7 +151,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
             hardwareKey: HardwareKey,
             onDialogDismissed: DialogInterface.OnDismissListener
         ) {
-            val builder = AlertDialog.Builder(context)
+            val builder = MaterialAlertDialogBuilder(context)
             builder
                 .setMessage(
                     context.getString(R.string.error_driver_required, hardwareKey.toString())

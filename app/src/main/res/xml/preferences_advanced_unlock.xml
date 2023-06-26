@@ -24,17 +24,17 @@
             android:key="@string/advanced_unlock_explanation_key"
             android:icon="@drawable/prefs_info_24dp"
             android:summary="@string/advanced_unlock_explanation_summary"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/biometric_unlock_enable_key"
             android:title="@string/biometric_unlock_enable_title"
             android:summary="@string/biometric_unlock_enable_summary"
             android:defaultValue="@bool/biometric_unlock_enable_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/device_credential_unlock_enable_key"
             android:title="@string/device_credential_unlock_enable_title"
             android:summary="@string/device_credential_unlock_enable_summary"
             android:defaultValue="@bool/device_credential_unlock_enable_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/biometric_auto_open_prompt_key"
             android:title="@string/biometric_auto_open_prompt_title"
             android:summary="@string/biometric_auto_open_prompt_summary"
@@ -42,7 +42,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/content">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/temp_advanced_unlock_enable_key"
             android:title="@string/temp_advanced_unlock_enable_title"
             android:summary="@string/temp_advanced_unlock_enable_summary"
