@@ -79,6 +79,8 @@
     <style name="KeepassDXStyle.Blue.Dialog" parent="KeepassDXStyle.Light.Dialog">
         <item name="colorAccent">@color/blue_white_dark</item>
         <item name="android:textColorPrimary">@color/blue</item>
+        <item name="android:background">@color/blue_white_light</item>
+        <item name="background">@color/blue_white_light</item>
     </style>
     <style name="KeepassDXStyle.Blue.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/blue</item>
@@ -147,6 +149,8 @@
     <style name="KeepassDXStyle.Blue.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">@color/blue_white_dark</item>
         <item name="android:textColorPrimary">@color/blue</item>
+        <item name="android:background">@color/blue_black_dark</item>
+        <item name="background">@color/blue_black_dark</item>
     </style>
     <style name="KeepassDXStyle.Blue.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorAccent">@color/blue</item>
