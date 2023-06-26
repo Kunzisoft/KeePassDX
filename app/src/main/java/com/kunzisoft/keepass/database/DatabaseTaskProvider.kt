@@ -252,12 +252,10 @@ class DatabaseTaskProvider(
             serviceConnection = object : ServiceConnection {
                 override fun onBindingDied(name: ComponentName?) {
                     stopDialog()
-                    super.onBindingDied(name)
                 }
 
                 override fun onNullBinding(name: ComponentName?) {
                     stopDialog()
-                    super.onNullBinding(name)
                 }
 
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
