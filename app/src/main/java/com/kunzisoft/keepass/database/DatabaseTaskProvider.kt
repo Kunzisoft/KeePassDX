@@ -37,11 +37,11 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
@@ -370,7 +370,7 @@ class DatabaseTaskProvider(
                 // it's not the first time, so the user deliberately chooses not to display the notification
                 startService(bundle, actionTask)
             } else {
-                MaterialAlertDialogBuilder(context)
+                AlertDialog.Builder(context)
                     .setMessage(R.string.warning_database_notification_permission)
                     .setNegativeButton(R.string.later) { _, _ ->
                         // Refuses the notification, so start the service
@@ -450,7 +450,7 @@ class DatabaseTaskProvider(
 
     fun askToStartDatabaseReload(conditionToAsk: Boolean, approved: () -> Unit) {
         if (conditionToAsk) {
-            MaterialAlertDialogBuilder(context)
+            AlertDialog.Builder(context)
                 .setMessage(R.string.warning_database_info_reloaded)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok) { _, _ ->

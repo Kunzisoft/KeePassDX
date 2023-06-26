@@ -31,7 +31,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Field
@@ -88,7 +87,7 @@ class EntryCustomFieldDialogFragment: DatabaseDialogFragment() {
                 customFieldDeleteButton?.visibility = View.GONE
             }
 
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok, null)
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }

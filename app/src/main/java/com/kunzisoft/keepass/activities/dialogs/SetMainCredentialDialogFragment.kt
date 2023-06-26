@@ -31,7 +31,6 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -314,7 +313,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private fun showEmptyPasswordConfirmationDialog() {
         activity?.let {
-            val builder = MaterialAlertDialogBuilder(it)
+            val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
@@ -328,7 +327,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private fun showNoKeyConfirmationDialog() {
         activity?.let {
-            val builder = MaterialAlertDialogBuilder(it)
+            val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_no_encryption_key)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
@@ -342,7 +341,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
     private fun showEmptyKeyFileConfirmationDialog() {
         activity?.let {
-            val builder = MaterialAlertDialogBuilder(it)
+            val builder = AlertDialog.Builder(it)
             builder.setMessage(SpannableStringBuilder().apply {
                 append(getString(R.string.warning_empty_keyfile))
                 append("\n\n")

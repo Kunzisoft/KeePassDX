@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -191,7 +190,7 @@ class EntryFragment: DatabaseFragment() {
 
     private fun showClipboardDialog() {
         context?.let {
-            MaterialAlertDialogBuilder(it)
+            AlertDialog.Builder(it)
                 .setMessage(
                     getString(R.string.allow_copy_password_warning) +
                             "\n\n" +

@@ -23,8 +23,8 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -73,7 +73,7 @@ class IconEditDialogFragment : DatabaseDialogFragment() {
                 }
             }
 
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         retrieveIconInfoFromViews()

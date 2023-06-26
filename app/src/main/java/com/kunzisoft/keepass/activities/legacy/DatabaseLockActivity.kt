@@ -30,7 +30,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
@@ -438,7 +438,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     protected fun lockAndExit() {
         // Ask confirmation if modification not saved
         if (mDatabase?.dataModifiedSinceLastLoading == true) {
-            MaterialAlertDialogBuilder(this)
+            AlertDialog.Builder(this)
                 .setMessage(R.string.discard_changes)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.lock) { _, _ ->

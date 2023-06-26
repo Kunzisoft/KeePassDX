@@ -23,8 +23,8 @@ import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.utils.getParcelableCompat
@@ -54,7 +54,7 @@ class PasswordEncodingDialogFragment : DialogFragment() {
         val mainCredential: MainCredential = savedInstanceState?.getParcelableCompat(MAIN_CREDENTIAL) ?: MainCredential()
 
         activity?.let { activity ->
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
             builder.setMessage(activity.getString(R.string.warning_password_encoding)).setTitle(R.string.warning)
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mListener?.onPasswordEncodingValidateListener(

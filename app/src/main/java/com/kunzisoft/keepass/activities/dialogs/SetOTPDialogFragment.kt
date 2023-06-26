@@ -31,7 +31,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
@@ -45,9 +44,9 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
-import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import java.util.*
 
 class SetOTPDialogFragment : DatabaseDialogFragment() {
@@ -232,7 +231,7 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
 
             attachListeners()
 
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
             builder.apply {
                 setView(root)
                         .setPositiveButton(android.R.string.ok) { _, _ ->

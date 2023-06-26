@@ -25,7 +25,6 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 
@@ -37,7 +36,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
 
             val stringBuilder = SpannableStringBuilder()
             /*

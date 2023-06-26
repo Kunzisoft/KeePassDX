@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
@@ -44,7 +44,7 @@ class DeleteNodesDialogFragment : DatabaseDialogFragment() {
         }
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
 
             builder.setMessage(if (recycleBin)
                 getString(R.string.warning_empty_recycle_bin)

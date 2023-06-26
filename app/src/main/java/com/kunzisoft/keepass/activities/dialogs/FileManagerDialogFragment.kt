@@ -23,8 +23,8 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 
@@ -32,7 +32,7 @@ class FileManagerDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
             // Get the layout inflater
             val root = activity.layoutInflater.inflate(R.layout.fragment_browser_install, null)
             builder.setView(root)

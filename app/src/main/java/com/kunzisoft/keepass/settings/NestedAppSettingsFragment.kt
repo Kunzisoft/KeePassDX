@@ -35,7 +35,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
@@ -215,7 +214,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 val message = getString(R.string.allow_copy_password_warning) +
                         "\n\n" +
                         getString(R.string.clipboard_warning)
-                MaterialAlertDialogBuilder(requireContext())
+                AlertDialog.Builder(requireContext())
                         .setMessage(message)
                         .create()
                         .apply {
@@ -382,7 +381,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         if (deleteKeys) {
             message += resources.getString(R.string.advanced_unlock_delete_all_key_warning)
         }
-        warningAlertDialog = MaterialAlertDialogBuilder(activity)
+        warningAlertDialog = AlertDialog.Builder(activity)
             .setMessage(message)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setPositiveButton(resources.getString(android.R.string.ok)

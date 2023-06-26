@@ -24,7 +24,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.utils.getParcelableCompat
@@ -55,7 +55,7 @@ class ReplaceFileDialogFragment : DatabaseDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
             builder.setMessage(SpannableStringBuilder().apply {
                 append(getString(R.string.warning_replace_file))
                 append("\n\n")

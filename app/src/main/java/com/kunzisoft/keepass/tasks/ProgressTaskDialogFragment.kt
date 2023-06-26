@@ -28,10 +28,10 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kunzisoft.keepass.R
 import kotlinx.coroutines.launch
 
@@ -55,7 +55,7 @@ open class ProgressTaskDialogFragment : DialogFragment() {
 
         try {
             activity?.let {
-                val builder = MaterialAlertDialogBuilder(it)
+                val builder = AlertDialog.Builder(it)
                 // Get the layout inflater
                 val inflater = it.layoutInflater
 

@@ -41,13 +41,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
@@ -90,8 +90,8 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
@@ -711,7 +711,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private fun onApprovedBackPressed(approved: () -> Unit) {
         if (!backPressedAlreadyApproved) {
-            MaterialAlertDialogBuilder(this)
+            AlertDialog.Builder(this)
                     .setMessage(R.string.discard_changes)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(R.string.discard) { _, _ ->

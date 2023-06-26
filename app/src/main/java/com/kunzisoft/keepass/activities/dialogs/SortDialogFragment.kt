@@ -26,7 +26,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import androidx.annotation.IdRes
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 
@@ -60,7 +60,7 @@ class SortDialogFragment : DatabaseDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
-            val builder = MaterialAlertDialogBuilder(activity)
+            val builder = AlertDialog.Builder(activity)
 
             var recycleBinAllowed = false
 
