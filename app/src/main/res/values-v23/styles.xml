@@ -26,11 +26,4 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
-
-    <style name="KeepassDXStyle.v23.Button" parent="Base.TextAppearance.MaterialComponents.Button">
-        <item name="android:drawableTint">?attr/colorOnAccentColor</item>
-    </style>
-    <style name="KeepassDXStyle.v23.Button.Primary" parent="Base.TextAppearance.MaterialComponents.Button">
-        <item name="android:drawableTint">?attr/textColorInverse</item>
-    </style>
 </resources>

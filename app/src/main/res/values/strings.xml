@@ -286,8 +286,8 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">Install a web browser to open this URL.</string>
-    <string name="select_database_file">Open existing database</string>
-    <string name="create_keepass_file">Create new database</string>
+    <string name="select_database_file">Open existing vault</string>
+    <string name="create_keepass_file">Create new vault</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="subdomain_search_title">Subdomain search</string>
@@ -428,6 +428,7 @@
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="content">Content</string>
+    <string name="unlock">Unlock</string>
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="advanced_unlock_tap_delete">Tap to delete advanced unlocking keys</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>

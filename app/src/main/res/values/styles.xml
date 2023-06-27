@@ -38,8 +38,9 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
-        <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
+        <item name="android:buttonStyle">@style/KeepassDXStyle.Button.Primary</item>
+        <item name="buttonStyle">@style/KeepassDXStyle.Button.Primary</item>
+        <item name="materialButtonStyle">@style/KeepassDXStyle.Button.Primary</item>
 
         <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
         <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
@@ -126,8 +127,9 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
-        <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
+        <item name="android:buttonStyle">@style/KeepassDXStyle.Button.Primary</item>
+        <item name="buttonStyle">@style/KeepassDXStyle.Button.Primary</item>
+        <item name="materialButtonStyle">@style/KeepassDXStyle.Button.Primary</item>
 
         <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
         <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
@@ -529,37 +531,30 @@
     </style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.v23.Button" parent="Base.TextAppearance.MaterialComponents.Button" />
-    <style name="KeepassDXStyle.v23.Button.Primary" parent="Base.TextAppearance.MaterialComponents.Button" />
-    <style name="KeepassDXStyle.v21.Button" parent="KeepassDXStyle.v23.Button">
-        <item name="android:gravity">center</item>
-    </style>
-    <style name="KeepassDXStyle.v21.Button.Primary" parent="KeepassDXStyle.v23.Button.Primary">
-        <item name="android:gravity">center</item>
-    </style>
-    <style name="KeepassDXStyle.v21.ImageButton" parent="Widget.AppCompat.ImageButton">
-        <item name="android:gravity">center</item>
-    </style>
-    <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
-        <item name="android:textColor">@color/text_color_button</item>
-        <item name="android:background">@drawable/background_button</item>
-        <item name="backgroundTint">@color/background_button_color_accent</item>
-        <item name="drawableTint">?attr/colorOnAccentColor</item>
-    </style>
-    <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button.Primary">
+    <style name="KeepassDXStyle.Button.Primary" parent="Widget.Material3.Button">
         <item name="android:textColor">?attr/textColorInverse</item>
-        <item name="android:background">@drawable/background_button</item>
         <item name="backgroundTint">@color/background_button_color_primary</item>
-        <item name="drawableTint">?attr/textColorInverse</item>
+        <item name="iconTint">?attr/textColorInverse</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+    <style name="KeepassDXStyle.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/background_button_color_secondary</item>
+        <item name="android:textColor">@color/background_button_color_secondary</item>
+        <item name="iconTint">@color/background_button_color_secondary</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+    <style name="KeepassDXStyle.Base.ImageButton" parent="Widget.AppCompat.ImageButton" />
+    <style name="KeepassDXStyle.v21.ImageButton" parent="KeepassDXStyle.Base.ImageButton">
+        <item name="android:gravity">center</item>
     </style>
     <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:colorForeground">?attr/textColorInverse</item>
         <item name="android:background">@drawable/background_image_button</item>
-        <item name="backgroundTint">@color/background_button_color_accent</item>
+        <item name="backgroundTint">@color/background_button_color_secondary</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:colorForeground">@color/background_button_color_accent</item>
-        <item name="tint">@color/background_button_color_accent</item>
+        <item name="android:colorForeground">@color/background_button_color_secondary</item>
+        <item name="tint">@color/background_button_color_secondary</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="backgroundTint">@null</item>
         <item name="android:padding">12dp</item>
@@ -567,14 +562,14 @@
         <item name="android:layout_height">48dp</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple.Secondary" parent="KeepassDXStyle.ImageButton.Simple">
-        <item name="android:colorForeground">@color/background_button_color_secondary</item>
-        <item name="tint">@color/background_button_color_secondary</item>
+        <item name="android:colorForeground">@color/background_button_color_on_primary</item>
+        <item name="tint">@color/background_button_color_on_primary</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple.Mini" parent="KeepassDXStyle.ImageButton.Simple">
         <item name="android:padding">12dp</item>
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">36dp</item>
-        <item name="android:colorForeground">@color/background_button_color_secondary</item>
+        <item name="android:colorForeground">@color/background_button_color_on_primary</item>
         <item name="tint">?android:attr/textColor</item>
     </style>
 
@@ -585,7 +580,7 @@
     </style>
 
     <!-- Icon Style -->
-    <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.Button">
+    <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.ImageButton">
         <item name="android:background">@drawable/background_icon</item>
         <item name="backgroundTint">?android:attr/windowBackground</item>
     </style>
@@ -606,7 +601,7 @@
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">?attr/colorOnAccentColor</item>
         <item name="android:background">@drawable/background_button_small</item>
-        <item name="backgroundTint">@color/background_button_color_accent</item>
+        <item name="backgroundTint">@color/background_button_color_secondary</item>
     </style>
 
     <!-- Form -->
