@@ -173,7 +173,7 @@
     <string name="warning_empty_password">Fortsæt uden adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Fortsæt uden krypteringsnøgle\?</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
-    <string name="no_credentials_stored">Denne database har endnu ikke gemt legitimationsoplysninger.</string>
+    <string name="unavailable">Denne database har endnu ikke gemt legitimationsoplysninger.</string>
     <string name="database_history">Historik</string>
     <string name="menu_appearance_settings">Udseende</string>
     <string name="general">Generelt</string>
@@ -524,7 +524,6 @@
     <string name="content_description_otp_information">Oplysninger om engangsadgangskode</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Udtræk database legitimationsoplysninger med avancerede oplåsningdata</string>
     <string name="advanced_unlock_prompt_store_credential_message">Du skal stadig huske din primære legitimationsoplysning, hvis du bruger avanceret oplåsningsgenkendelse.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Åbn den avancerede låseprompt for at låse databasen op</string>
     <string name="warning_database_revoked">Adgang til filen tilbagekaldt af filhåndteringsprogrammet, luk databasen og genåbn den fra dens placering.</string>
     <string name="error_start_database_action">Der opstod en fejl under udførelsen af en handling på databasen.</string>
     <string name="error_remove_file">Der opstod en fejl under fjernelsen af fildata.</string>
@@ -543,7 +542,6 @@
     <string name="temp_advanced_unlock_enable_title">Midlertidig avanceret oplåsning</string>
     <string name="device_credential">Enhedens legitimation</string>
     <string name="properties">Egenskaber</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Åbn den avancerede låseprompt for at gemme legitimationsoplysninger</string>
     <string name="error_export_app_properties">Fejl under eksport af app-egenskaber</string>
     <string name="success_export_app_properties">App-egenskaber eksporteret</string>
     <string name="error_import_app_properties">Fejl under importering af app-egenskaber</string>

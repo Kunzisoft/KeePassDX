@@ -290,8 +290,6 @@
     <string name="warning_sure_add_file">Chcete súbor napriek tomu pridať\?</string>
     <string name="biometric_security_update_required">Vyžaduje sa biometrická aktualizácia zabezpečenia.</string>
     <string name="keystore_not_accessible">Úložisko kľúčov nie je správne inicializované.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Ak chcete odomknúť databázu, otvorte výzvu na rozšírené odomknutie</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Ak chcete uložiť poverenia, otvorte výzvu na rozšírené odomknutie</string>
     <string name="autofill_preference_title">Nastavenia automatického dopĺňania</string>
     <string name="password_size_title">Veľkosť vygenerovaného hesla</string>
     <string name="password_size_summary">Nastaví predvolenú veľkosť generovaných hesiel</string>
@@ -363,7 +361,7 @@
     <string name="warning_database_link_revoked">Prístup k súboru odmietnutý správcom súborov</string>
     <string name="warning_sure_remove_data">Chcete napriek tomu tieto údaje odstrániť\?</string>
     <string name="warning_database_info_changed">Informácie obsiahnuté vo vašom databázovom súbore boli upravené mimo aplikácie.</string>
-    <string name="no_credentials_stored">Táto databáza zatiaľ nemá uložené poverenia.</string>
+    <string name="unavailable">Táto databáza zatiaľ nemá uložené poverenia.</string>
     <string name="advanced_unlock_prompt_not_initialized">Nie je možné inicializovať výzvu na rozšírené odomknutie.</string>
     <string name="content">Obsah</string>
     <string name="database_data_remove_unlinked_attachments_title">Odstráňte neprepojené údaje</string>

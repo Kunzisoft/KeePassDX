@@ -238,7 +238,6 @@
     <string name="other">Lainnya</string>
     <string name="application_appearance">Tampilan</string>
     <string name="advanced_unlock_prompt_store_credential_title">Pengenalan pembuka kunci tingkat lanjut</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Buka prompt buka kunci lanjutan untuk membuka kunci database</string>
     <string name="keystore_not_accessible">Keystore tidak diinisialisasi dengan benar.</string>
     <string name="biometric_security_update_required">Pembaruan keamanan biometrik diperlukan.</string>
     <string name="configure_biometric">Tidak ada kredensial biometrik atau perangkat yang terdaftar.</string>
@@ -416,7 +415,7 @@
     <string name="biometric_unlock_enable_summary">Memperbolehkan Anda memindai biometrik Anda untuk membuka basis data</string>
     <string name="biometric_unlock_enable_title">Membuka kunci biometrik</string>
     <string name="advanced_unlock_explanation_summary">Gunakan buka kunci lanjutan untuk membuka database dengan lebih mudah</string>
-    <string name="no_credentials_stored">Basis data ini belum menyimpan kredensial.</string>
+    <string name="unavailable">Basis data ini belum menyimpan kredensial.</string>
     <string name="advanced_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci lanjutan</string>
     <string name="advanced_unlock_invalid_key">Tidak dapat membaca kunci pembuka lanjutan. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data lanjutan</string>
@@ -533,7 +532,6 @@
     <string name="content_description_entry_background_color">Warna latar belakang entri</string>
     <string name="wireless">Wi-Fi</string>
     <string name="tags">Label</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Buka penguncian lanjutan untuk menyimpan kredensial</string>
     <string name="warning_permanently_delete_nodes">Hapus permanen node yang dipilih\?</string>
     <string name="magic_keyboard_explanation_summary">Aktifkan keyboard kustom yang mengisi kata sandi Anda dan semua bidang identitas</string>
     <string name="autofill_manual_selection_title">Pemilihan manual</string>

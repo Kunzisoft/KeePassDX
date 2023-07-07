@@ -405,7 +405,7 @@
     <string name="biometric">Біометричний ключ</string>
     <string name="menu_appearance_settings">Зовнішній вигляд</string>
     <string name="database_history">Історія</string>
-    <string name="no_credentials_stored">У цій базі даних ще немає збережених облікових даних.</string>
+    <string name="unavailable">У цій базі даних ще немає збережених облікових даних.</string>
     <string name="encrypted_value_stored">Зашифрований пароль збережено</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>
@@ -500,8 +500,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Відкрити базу даних розширеним розпізнаванням розблокування</string>
     <string name="advanced_unlock_prompt_store_credential_message">Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати основні облікові дані.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Розпізнавання розширеного розблокування</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Відкривати запит розширеного розблокування, щоб зберегти облікові дані</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Відкривати запит розширеного розблокування, щоб розблокувати базу даних</string>
     <string name="menu_keystore_remove_key">Видалити ключ розширеного розблокування</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>

@@ -384,8 +384,7 @@
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>
     <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Open the advanced unlock prompt to unlock the database</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Open the advanced unlock prompt to store credentials</string>
+    <string name="link_biometric_and_unlock">Link biometric and unlock</string>
     <string name="advanced_unlock_prompt_store_credential_title">Advanced unlock recognition</string>
     <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your main credential if you use advanced unlock recognition.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>
@@ -394,7 +393,7 @@
     <string name="advanced_unlock_invalid_key">Cannot read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="advanced_unlock_not_recognized">Could not recognize advanced unlock print</string>
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
-    <string name="no_credentials_stored">This database does not have stored credential yet.</string>
+    <string name="unavailable">Unavailable</string>
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
     <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>
     <string name="database_history">History</string>

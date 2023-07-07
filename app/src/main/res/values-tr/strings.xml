@@ -487,7 +487,7 @@
     <string name="device_credential">Aygıt kimlik bilgileri</string>
     <string name="credential_before_click_advanced_unlock_button">Parolayı yazın ve ardından bu düğmeye tıklayın.</string>
     <string name="advanced_unlock_prompt_not_initialized">Gelişmiş kilit açma istemi başlatılamıyor.</string>
-    <string name="no_credentials_stored">Bu veri tabanında henüz saklanmış kimlik bilgisi yok.</string>
+    <string name="unavailable">Bu veri tabanında henüz saklanmış kimlik bilgisi yok.</string>
     <string name="advanced_unlock_scanning_error">Gelişmiş kilit açma hatası: %1$s</string>
     <string name="advanced_unlock_not_recognized">Gelişmiş kilit açma parmak izi tanınamadı</string>
     <string name="advanced_unlock_invalid_key">Gelişmiş kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma işlemini tekrarlayın.</string>
@@ -495,8 +495,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Veri tabanını gelişmiş kilit açma tanıma ile aç</string>
     <string name="advanced_unlock_prompt_store_credential_message">Gelişmiş kilit açma tanıma kullanırsanız, yine de ana kimlik bilgilerinizi hatırlamanız gerekmektedir.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Gelişmiş kilit açma tanıma</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Kimlik bilgilerini saklamak için gelişmiş kilit açma istemini aç</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Veri tabanının kilidini açmak için gelişmiş kilit açma istemini aç</string>
     <string name="menu_keystore_remove_key">Gelişmiş kilit açma anahtarını sil</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>

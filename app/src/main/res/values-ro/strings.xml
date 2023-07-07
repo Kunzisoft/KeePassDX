@@ -232,7 +232,7 @@
     <string name="build_label">Construiți %1$s</string>
     <string name="keystore_not_accessible">Magazinul de chei nu este inițializat corect.</string>
     <string name="encrypted_value_stored">Parola criptată stocată</string>
-    <string name="no_credentials_stored">Această bază de date nu are încă credențiale stocate.</string>
+    <string name="unavailable">Această bază de date nu are încă credențiale stocate.</string>
     <string name="database_history">Istoric</string>
     <string name="menu_appearance_settings">Aparenta</string>
     <string name="biometric">Biometric</string>

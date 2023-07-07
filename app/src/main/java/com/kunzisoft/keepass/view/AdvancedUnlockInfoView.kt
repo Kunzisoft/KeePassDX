@@ -23,15 +23,12 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.biometric.FingerPrintAnimatedVector
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
@@ -39,60 +36,26 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
                                                        defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
-    private val unlockContainerView: View
-    private var unlockAnimatedVector: FingerPrintAnimatedVector? = null
-    private var unlockTitleTextView: TextView? = null
-    private var unlockIconImageView: ImageView? = null
+    private var biometricButtonView: TextView? = null
 
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_advanced_unlock, this)
 
-        unlockContainerView = findViewById(R.id.fingerprint_container)
-        unlockTitleTextView = findViewById(R.id.biometric_title)
-        unlockIconImageView = findViewById(R.id.biometric_image)
+        biometricButtonView = findViewById(R.id.biometric_button)
     }
 
-    private fun startIconViewAnimation() {
-        unlockAnimatedVector?.startScan()
-    }
-
-    private fun stopIconViewAnimation() {
-        unlockAnimatedVector?.stopScan()
-    }
-
-    fun setIconResource(iconId: Int) {
-        unlockIconImageView?.setImageResource(iconId)
-        // Init the fingerprint animation
-        unlockAnimatedVector = when (iconId) {
-            R.drawable.fingerprint -> FingerPrintAnimatedVector(context, unlockIconImageView!!)
-            else -> null
-        }
-    }
-
-    fun setIconViewClickListener(animation: Boolean = true,
-                                 listener: ((view: View)->Unit)?) {
-        var animateButton = animation
-        if (listener == null)
-            animateButton = false
-        if (animateButton) {
-            startIconViewAnimation()
-            unlockContainerView.alpha = 1f
-        } else {
-            stopIconViewAnimation()
-            unlockContainerView.alpha = 0.8f
-        }
-        unlockIconImageView?.setOnClickListener(listener)
-        unlockTitleTextView?.setOnClickListener(listener)
+    fun setIconViewClickListener(listener: OnClickListener?) {
+        biometricButtonView?.setOnClickListener(listener)
     }
 
     var title: CharSequence
         get() {
-            return unlockTitleTextView?.text?.toString() ?: ""
+            return biometricButtonView?.text?.toString() ?: ""
         }
         set(value) {
-            unlockTitleTextView?.text = value
+            biometricButtonView?.text = value
         }
 
     fun setTitle(@StringRes textId: Int) {

@@ -171,7 +171,7 @@
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="no_credentials_stored">Diese Datenbank enthält noch keine Anmeldedaten.</string>
+    <string name="unavailable">Diese Datenbank enthält noch keine Anmeldedaten.</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweiterte ASCII</string>
@@ -507,8 +507,6 @@
     <string name="warning_empty_recycle_bin">Alle Knoten unwiderruflich aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
     <string name="advanced_unlock_prompt_store_credential_message">Du musst dich weiterhin an dein Passwort erinnern, wenn du schnelle Entsperrmethoden verwendest.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abfrage schneller Entsperrung öffnen, um Anmeldedaten zu speichern</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Abfrage schneller Entsperrung öffnen, um Datenbank zu entsperren</string>
     <string name="menu_keystore_remove_key">Schlüssel für Schnellentsperrung löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Schnelle Entsperrmethoden</string>
     <string name="education_advanced_unlock_summary">Verknüpfe dein Passwort mit Biometrie- oder Geräteanmeldedaten, um die Datenbank schnell zu entsperren.</string>

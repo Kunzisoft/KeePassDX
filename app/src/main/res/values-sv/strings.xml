@@ -328,7 +328,7 @@
     <string name="list_groups_show_number_entries_summary">Visa antalet poster i en grupp</string>
     <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfil.</string>
     <string name="menu_advanced_unlock_settings">Avancerad upplåsning</string>
-    <string name="no_credentials_stored">Den här databasen har inga sparade autentiseringsuppgifter ännu.</string>
+    <string name="unavailable">Den här databasen har inga sparade autentiseringsuppgifter ännu.</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="biometric">Biometrik</string>
     <string name="advanced_unlock">Avancerad upplåsning</string>

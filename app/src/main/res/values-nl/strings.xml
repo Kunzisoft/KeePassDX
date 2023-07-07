@@ -180,7 +180,7 @@
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
     <string name="warning_no_encryption_key">Doorgaan zonder coderingssleutel\?</string>
     <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
-    <string name="no_credentials_stored">Deze database heeft nog geen opgeslagen gegevens.</string>
+    <string name="unavailable">Deze database heeft nog geen opgeslagen gegevens.</string>
     <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
     <string name="general">Algemeen</string>
@@ -515,8 +515,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Open database met geavanceerde ontgrendelingsherkenning</string>
     <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je geavanceerde ontgrendelingsherkenning gebruikt.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Geavanceerde ontgrendelingsherkenning</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Open de geavanceerde ontgrendelingsprompt om inloggegevens op te slaan</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Open de geavanceerde ontgrendelingsprompt om de database te ontgrendelen</string>
     <string name="menu_keystore_remove_key">Geavanceerde ontgrendelingssleutel verwijderen</string>
     <string name="error_field_name_already_exists">De veldnaam bestaat al.</string>
     <string name="unit_gibibyte">GiB</string>

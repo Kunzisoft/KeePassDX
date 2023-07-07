@@ -169,7 +169,7 @@
     <string name="encrypted_value_stored">Contraseña cifrada almacenada</string>
     <string name="database_history">Historial</string>
     <string name="autofill_explanation_summary">Habilite el servicio para completar formularios fácilmente desde otras aplicaciones</string>
-    <string name="no_credentials_stored">Esta base de datos aún no tiene credenciales almacenadas.</string>
+    <string name="unavailable">Esta base de datos aún no tiene credenciales almacenadas.</string>
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletado</string>
@@ -463,8 +463,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Abrir la base de datos con reconocimiento de desbloqueo avanzado</string>
     <string name="advanced_unlock_prompt_store_credential_message">Aún debe recordar su contraseña maestra si emplea el reconocimiento de desbloqueo avanzado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconocimiento de desbloqueo avanzado</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abrir el indicador de desbloqueo avanzado para almacenar las credenciales</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Abrir el aviso de desbloqueo avanzado para desbloquear la base de datos</string>
     <string name="keystore_not_accessible">El almacén de claves no está debidamente inicializado.</string>
     <string name="biometric_security_update_required">Se requiere una actualización de la seguridad biométrica.</string>
     <string name="configure_biometric">No se ha inscrito ninguna credencial biométrica o del dispositivo.</string>

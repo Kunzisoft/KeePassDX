@@ -487,9 +487,8 @@
     <string name="warning_database_info_changed_options">Fusionatu datuak, gain idatzi kanpo aldaketak datu-basean gordez edo birkargatu azken aldaketekin.</string>
     <string name="warning_exact_alarm">Ez diozu aplikazioari alarma zehatz bat erabiltzen utzi, Hori dela eta, tenporizadore bat behar dituzten ezaugarriak ez dira ordu zehatz batean egingo.</string>
     <string name="advanced_unlock_prompt_store_credential_message">Zure pasahitz-nagusia gogoratu behar duzu desblokeo aurreratuko ezagutzea erabili arren.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Ireki desblokeo aurreratuko abisua kredentzialak gordetzeko</string>
     <string name="encrypted_value_stored">Zifratutako pasahitza gordeta</string>
-    <string name="no_credentials_stored">Datu-base honek ez du biltegiratuta kredentzialik.</string>
+    <string name="unavailable">Datu-base honek ez du biltegiratuta kredentzialik.</string>
     <string name="advanced_unlock_scanning_error">Desblokeatze aurreratuko errorea: %1$s</string>
     <string name="menu_appearance_settings">Itxura</string>
     <string name="autofill_sign_in_prompt">KeePassDXekin erregistratu</string>
@@ -520,7 +519,6 @@
     <string name="warning_database_info_reloaded">Datu-basea berriz kargatzeak lokalean aldatutako datuak ezabatuko ditu.</string>
     <string name="merge_success">Fusioa arrakastaz bukatu da</string>
     <string name="keystore_not_accessible">Gako-biltegia ez da behar bezala hasieratu.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Ireki desblokeo aurreratuko abisua datu-basea desblokeatzeko</string>
     <string name="style_choose_title">Aplikazio diseinua</string>
     <string name="education_search_summary">Bilatu sarrerak titulu, erabiltzaile izen edo beste eremu batzuk erabiliz pasahitzak errez berreskuratzeko.</string>
     <string name="style_choose_summary">Aplikazioan erabilitako diseinua</string>

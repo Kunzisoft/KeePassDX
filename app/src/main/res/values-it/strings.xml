@@ -134,7 +134,7 @@
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file del database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
     <string name="version_label">Versione %1$s</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
-    <string name="no_credentials_stored">Questo database non contiene alcuna credenziale.</string>
+    <string name="unavailable">Questo database non contiene alcuna credenziale.</string>
     <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
 \n
 \nEseguire il backup del file del database in un luogo sicuro dopo ogni modifica.</string>
@@ -517,8 +517,6 @@
     <string name="credential_before_click_advanced_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
     <string name="advanced_unlock_scanning_error">Errore sblocco avanzato: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Apri il database con lo sblocco avanzato</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Autentica con lo sblocco avanzato per sbloccare il database</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Autentica con lo sblocco avanzato per salvare le credenziali</string>
     <string name="menu_keystore_remove_key">Elimina chiave di sblocco avanzato</string>
     <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>
     <string name="error_database_uri_null">Non è stato recuperato l\'indirizzo del database.</string>
