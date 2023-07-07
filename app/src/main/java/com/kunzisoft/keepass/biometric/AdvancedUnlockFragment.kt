@@ -629,7 +629,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
-            mAdvancedUnlockInfoView?.message = text
+            mAdvancedUnlockInfoView?.setMessage(text)
         }
     }
 

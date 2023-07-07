@@ -27,6 +27,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
@@ -41,7 +42,6 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
     private val unlockContainerView: View
     private var unlockAnimatedVector: FingerPrintAnimatedVector? = null
     private var unlockTitleTextView: TextView? = null
-    private var unlockMessageTextView: TextView? = null
     private var unlockIconImageView: ImageView? = null
 
     init {
@@ -51,7 +51,6 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
 
         unlockContainerView = findViewById(R.id.fingerprint_container)
         unlockTitleTextView = findViewById(R.id.biometric_title)
-        unlockMessageTextView = findViewById(R.id.biometric_message)
         unlockIconImageView = findViewById(R.id.biometric_image)
     }
 
@@ -85,6 +84,7 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
             unlockContainerView.alpha = 0.8f
         }
         unlockIconImageView?.setOnClickListener(listener)
+        unlockTitleTextView?.setOnClickListener(listener)
     }
 
     var title: CharSequence
@@ -99,22 +99,13 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         title = context.getString(textId)
     }
 
-    var message: CharSequence?
-        get() {
-            return unlockMessageTextView?.text?.toString() ?: ""
-        }
-        set(value) {
-            if (value == null || value.isEmpty()) {
-                unlockMessageTextView?.visibility = GONE
-            } else {
-                unlockMessageTextView?.visibility = VISIBLE
-                stopIconViewAnimation()
-            }
-            unlockMessageTextView?.text = value ?: ""
-        }
+    fun setMessage(text: CharSequence) {
+        if (text.isNotEmpty())
+            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+    }
 
     fun setMessage(@StringRes textId: Int) {
-        message = context.getString(textId)
+        Toast.makeText(context, textId, Toast.LENGTH_LONG).show()
     }
 
 }

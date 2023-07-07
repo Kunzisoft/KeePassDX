@@ -479,7 +479,12 @@
     <style name="KeepassDXStyle.TextAppearance.Tiny" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.Warning" parent="KeepassDXStyle.TextAppearance">
+    <style name="KeepassDXStyle.TextAppearance.Tiny.Secondary" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="KeepassDXStyle.TextAppearance.Warning" parent="KeepassDXStyle.TextAppearance">
 		<item name="android:textColor">?attr/colorAccent</item>
 	</style>
 
