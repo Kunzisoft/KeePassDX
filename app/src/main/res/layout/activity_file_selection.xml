@@ -112,11 +112,6 @@
                         android:gravity="center"
                         android:text="@string/app_name_part3"/>
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    android:background="?attr/colorPrimary" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"

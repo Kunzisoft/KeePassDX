@@ -381,10 +381,11 @@
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
+    <string name="configure">Configure</string>
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>
     <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
-    <string name="link_biometric_and_unlock">Link biometric and unlock</string>
+    <string name="unlock_and_link_biometric">Unlock and link biometric</string>
     <string name="advanced_unlock_prompt_store_credential_title">Advanced unlock recognition</string>
     <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your main credential if you use advanced unlock recognition.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>

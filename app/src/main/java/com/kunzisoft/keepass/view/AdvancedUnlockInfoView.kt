@@ -23,8 +23,8 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
@@ -36,10 +36,9 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
                                                        defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
-    private var biometricButtonView: TextView? = null
+    private var biometricButtonView: Button
 
     init {
-
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_advanced_unlock, this)
 
@@ -47,15 +46,15 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
     }
 
     fun setIconViewClickListener(listener: OnClickListener?) {
-        biometricButtonView?.setOnClickListener(listener)
+        biometricButtonView.setOnClickListener(listener)
     }
 
     var title: CharSequence
         get() {
-            return biometricButtonView?.text?.toString() ?: ""
+            return biometricButtonView.text?.toString() ?: ""
         }
         set(value) {
-            biometricButtonView?.text = value
+            biometricButtonView.text = value
         }
 
     fun setTitle(@StringRes textId: Int) {

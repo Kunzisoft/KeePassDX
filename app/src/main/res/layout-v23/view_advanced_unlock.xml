@@ -17,13 +17,11 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<Button
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/biometric_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     style="@style/KeepassDXStyle.Button.Secondary"
     app:icon="@drawable/ic_fingerprint_24"
-    tools:text="@string/advanced_unlock_prompt_store_credential_title" />
+    android:text="@string/configure" />

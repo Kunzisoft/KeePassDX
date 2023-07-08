@@ -379,7 +379,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initEncryptData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.link_biometric_and_unlock)
+        setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
         setAdvancedUnlockedMessageView("")
 
         advancedUnlockManager?.initEncryptData { cryptoPrompt ->
