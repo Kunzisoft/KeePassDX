@@ -58,8 +58,8 @@
     <color name="cyan">#2c7a96</color>
     <color name="cyan_dark">#0E2D37</color>
 
-    <color name="green_white">#F4F8F3</color>
-    <color name="green_white_dark">#ebf1ea</color>
+    <color name="green_white">#EFF8ED</color>
+    <color name="green_white_dark">#DEEFDB</color>
     <color name="green_lightest">#a5d6a7</color>
     <color name="green_lighter">#66BB6A</color>
     <color name="green_light">#4caf50</color>
