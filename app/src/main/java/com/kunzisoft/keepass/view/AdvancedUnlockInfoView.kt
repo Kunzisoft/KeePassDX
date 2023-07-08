@@ -36,7 +36,7 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
                                                        defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
-    private var biometricButtonView: Button
+    private var biometricButtonView: Button? = null
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -46,15 +46,15 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
     }
 
     fun setIconViewClickListener(listener: OnClickListener?) {
-        biometricButtonView.setOnClickListener(listener)
+        biometricButtonView?.setOnClickListener(listener)
     }
 
     var title: CharSequence
         get() {
-            return biometricButtonView.text?.toString() ?: ""
+            return biometricButtonView?.text?.toString() ?: ""
         }
         set(value) {
-            biometricButtonView.text = value
+            biometricButtonView?.text = value
         }
 
     fun setTitle(@StringRes textId: Int) {
