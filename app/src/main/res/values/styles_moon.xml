@@ -23,8 +23,11 @@
     <style name="KeepassDXStyle.Blue.v21" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/blue_lighter</item>
-        <item name="colorAccentLight">@color/blue_white_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/blue_lighter</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/blue_white_dark</item>
+        <item name="colorOnTertiary">@color/blue_white</item>
         <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_white_dark</item>
@@ -77,13 +80,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Blue.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/blue_white_dark</item>
+        <item name="colorSecondary">@color/blue_white_dark</item>
         <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:background">@color/blue_white_light</item>
         <item name="background">@color/blue_white_light</item>
     </style>
     <style name="KeepassDXStyle.Blue.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
         <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:windowBackground">@color/white_dark</item>
     </style>
@@ -94,8 +97,11 @@
     <style name="KeepassDXStyle.Blue.Night.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/blue_lighter</item>
-        <item name="colorAccentLight">@color/blue_white_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/blue_lighter</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/blue_black</item>
+        <item name="colorOnTertiary">@color/blue_black_dark</item>
         <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_white_dark</item>
@@ -147,13 +153,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Blue.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/blue_white_dark</item>
+        <item name="colorSecondary">@color/blue_white_dark</item>
         <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:background">@color/blue_black_dark</item>
         <item name="background">@color/blue_black_dark</item>
     </style>
     <style name="KeepassDXStyle.Blue.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
         <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:windowBackground">@color/grey_dark</item>
     </style>
@@ -167,14 +173,14 @@
     <!-- Switch -->
     <style name="KeepassDXStyle.Switch.Blue" parent="KeepassDXStyle.Blue">
         <item name="colorOnPrimary">@color/blue_white_light</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/blue_lighter</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
     <style name="KeepassDXStyle.Switch.Blue.Night" parent="KeepassDXStyle.Blue.Night">
         <item name="colorOnPrimary">@color/blue_black_dark</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/blue_lighter</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>

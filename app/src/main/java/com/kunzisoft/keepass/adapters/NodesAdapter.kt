@@ -95,9 +95,9 @@ class NodesAdapter (
     @ColorInt
     private val mTextColorSecondary: Int
     @ColorInt
-    private val mColorAccentLight: Int
+    private val mColorSecondary: Int
     @ColorInt
-    private val mColorOnAccentColor: Int
+    private val mColorOnSecondary: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -127,13 +127,13 @@ class NodesAdapter (
         this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
         taTextColorSecondary.recycle()
         // To get background color for selection
-        val taColorAccentLight = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
-        this.mColorAccentLight = taColorAccentLight.getColor(0, Color.GRAY)
-        taColorAccentLight.recycle()
+        val taColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
+        taColorSecondary.recycle()
         // To get text color for selection
-        val taColorOnAccentColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
-        this.mColorOnAccentColor = taColorOnAccentColor.getColor(0, Color.WHITE)
-        taColorOnAccentColor.recycle()
+        val taColorOnSecondary = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
+        this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
+        taColorOnSecondary.recycle()
     }
 
     private fun assignPreferences() {
@@ -380,7 +380,7 @@ class NodesAdapter (
 
         // Assign icon colors
         var iconColor = if (holder.container.isSelected)
-            mColorOnAccentColor
+            mColorOnSecondary
         else when (subNode.type) {
             Type.GROUP -> mTextColorPrimary
             Type.ENTRY -> mTextColor
@@ -436,7 +436,7 @@ class NodesAdapter (
                     holder.container.setBackgroundColor(Color.TRANSPARENT)
                 }
             } else {
-                holder.container.setBackgroundColor(mColorAccentLight)
+                holder.container.setBackgroundColor(mColorSecondary)
             }
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
@@ -457,12 +457,12 @@ class NodesAdapter (
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mColorOnAccentColor)
-                holder.subText?.setTextColor(mColorOnAccentColor)
-                holder.otpToken?.setTextColor(mColorOnAccentColor)
-                holder.otpProgress?.setIndicatorColor(mColorOnAccentColor)
-                holder.attachmentIcon?.setColorFilter(mColorOnAccentColor)
-                holder.meta.setTextColor(mColorOnAccentColor)
+                holder.text.setTextColor(mColorOnSecondary)
+                holder.subText?.setTextColor(mColorOnSecondary)
+                holder.otpToken?.setTextColor(mColorOnSecondary)
+                holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
+                holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
+                holder.meta.setTextColor(mColorOnSecondary)
             }
 
             database.stopManageEntry(entry)

@@ -26,8 +26,11 @@
     <style name="KeepassDXStyle.Simple.Base" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/white_slight</item>
         <item name="colorPrimaryDark">@color/white_slight</item>
-        <item name="colorAccent">@color/blue_deep</item>
-        <item name="colorAccentLight">@color/blue_deep</item>
+        <item name="colorOnPrimary">@color/grey_light</item>
+        <item name="colorSecondary">@color/blue_deep</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/white_darkest</item>
+        <item name="colorOnTertiary">@color/white</item>
         <item name="colorControlActivated">@color/blue_deep</item>
         <item name="android:textColorPrimary">@color/grey</item>
         <item name="android:textColorHintInverse">@color/grey</item>
@@ -48,7 +51,6 @@
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:textColorLink">@color/text_color_light</item>
         <item name="android:editTextColor">@color/grey_light</item>
-        <item name="textColorInverse">@color/grey_light</item>
         <item name="android:textColorPrimaryInverse">@color/grey_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
@@ -91,13 +93,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Simple.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/blue_deep</item>
+        <item name="colorSecondary">@color/blue_deep</item>
         <item name="android:textColorPrimary">@color/grey</item>
         <item name="android:background">@color/white_slight</item>
         <item name="background">@color/white_slight</item>
     </style>
     <style name="KeepassDXStyle.Simple.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/blue_deep</item>
+        <item name="colorSecondary">@color/blue_deep</item>
         <item name="android:textColorPrimary">@color/grey</item>
         <item name="android:windowBackground">@color/white_slight</item>
     </style>
@@ -111,8 +113,10 @@
     <style name="KeepassDXStyle.Simple.Night.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/grey_slight</item>
         <item name="colorPrimaryDark">@color/grey_slight</item>
-        <item name="colorAccent">@color/blue_slight</item>
-        <item name="colorAccentLight">@color/blue_slight</item>
+        <item name="colorSecondary">@color/blue_slight</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/black_light</item>
+        <item name="colorOnTertiary">@color/black</item>
         <item name="colorControlActivated">@color/blue_slight</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorHintInverse">@color/white</item>
@@ -162,13 +166,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Simple.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/blue_slight</item>
+        <item name="colorSecondary">@color/blue_slight</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:background">@color/grey_slight</item>
         <item name="background">@color/grey_slight</item>
     </style>
     <style name="KeepassDXStyle.Simple.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/blue_slight</item>
+        <item name="colorSecondary">@color/blue_slight</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:windowBackground">@color/grey_slight</item>
     </style>
@@ -180,7 +184,7 @@
     <style name="KeepassDXStyle.Switch.Simple" parent="KeepassDXStyle.Simple">
         <item name="colorPrimary">@color/blue_slight</item>
         <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">?attr/colorPrimary</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -188,7 +192,7 @@
     <style name="KeepassDXStyle.Switch.Simple.Night" parent="KeepassDXStyle.Simple.Night">
         <item name="colorPrimary">@color/blue_slight</item>
         <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">?attr/colorPrimary</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>

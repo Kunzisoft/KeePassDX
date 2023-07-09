@@ -82,7 +82,7 @@
                     android:id="@+id/entry_progress"
                     android:visibility="gone"
                     android:indeterminate="false"
-                    app:indicatorColor="?attr/colorAccent"
+                    app:indicatorColor="?attr/colorSecondary"
                     android:progress="10"
                     android:max="30"
                     android:layout_gravity="bottom"
@@ -109,9 +109,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     android:visibility="gone"
-                    android:background="?attr/colorAccent"
+                    android:background="?attr/colorSecondary"
                     android:padding="12dp"
-                    android:textColor="?attr/colorOnAccentColor"
+                    android:textColor="?attr/colorOnSecondary"
                     android:text="@string/entry_history"/>
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -61,7 +61,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/default_file_button"
-                android:textColor="?attr/textColorInverse"
+                android:textColor="?attr/colorOnPrimary"
                 tools:text="DatabaseAlias" />
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/default_file_button"

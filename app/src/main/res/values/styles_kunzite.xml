@@ -23,8 +23,11 @@
     <style name="KeepassDXStyle.Purple.v21" parent="KeepassDXStyle.Light.v21" >
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryDark">@color/purple_dark</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="colorAccentLight">@color/red_light</item>
+        <item name="colorOnPrimary">@color/white_purple</item>
+        <item name="colorSecondary">@color/red</item>
+        <item name="colorOnSecondary">@color/purple_lighter</item>
+        <item name="colorTertiary">@color/purple_lightest</item>
+        <item name="colorOnTertiary">@color/white_purple_light</item>
         <item name="colorControlActivated">@color/red_light</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
@@ -82,13 +85,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Purple.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
         <item name="android:background">@color/white_purple</item>
         <item name="background">@color/white_purple</item>
     </style>
     <style name="KeepassDXStyle.Purple.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
         <item name="android:windowBackground">@color/white_purple</item>
     </style>
@@ -102,8 +105,11 @@
     <style name="KeepassDXStyle.Purple.Dark.v21" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">@color/purple_darker</item>
         <item name="colorPrimaryDark">@color/black_purple</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="colorAccentLight">@color/red_light</item>
+        <item name="colorOnPrimary">@color/white_purple_light</item>
+        <item name="colorSecondary">@color/red</item>
+        <item name="colorOnSecondary">@color/white_purple_light</item>
+        <item name="colorTertiary">@color/black_purple</item>
+        <item name="colorOnTertiary">@color/black_purple_dark</item>
         <item name="colorControlActivated">@color/red_light</item>
         <item name="android:textColorPrimary">@color/purple_lighter</item>
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
@@ -162,13 +168,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Purple.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/purple_lighter</item>
         <item name="android:background">@color/black_purple_dark</item>
         <item name="background">@color/black_purple_dark</item>
     </style>
     <style name="KeepassDXStyle.Purple.Dark.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/black_purple_dark</item>
     </style>
@@ -180,7 +186,7 @@
     <style name="KeepassDXStyle.Switch.Purple" parent="KeepassDXStyle.Purple">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorOnPrimary">@color/white_purple_light</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/purple_light</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -188,7 +194,7 @@
     <style name="KeepassDXStyle.Switch.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
         <item name="colorPrimary">@color/purple</item>
         <item name="colorOnPrimary">@color/purple_darker</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/purple_dark</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>

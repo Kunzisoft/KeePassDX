@@ -23,8 +23,11 @@
     <style name="KeepassDXStyle.Red.v21" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/red_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
+        <item name="colorOnPrimary">@color/red_white_light</item>
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/red_lightest</item>
+        <item name="colorOnTertiary">@color/red_white_light</item>
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
@@ -77,13 +80,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:background">@color/red_white_light</item>
         <item name="background">@color/red_white_light</item>
     </style>
     <style name="KeepassDXStyle.Red.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:windowBackground">@color/white_dark</item>
     </style>
@@ -93,8 +96,11 @@
     <style name="KeepassDXStyle.Red.Night.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/red_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
+        <item name="colorOnPrimary">@color/red_white_light</item>
+        <item name="colorSecondary">@color/orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/red_black</item>
+        <item name="colorOnTertiary">@color/red_black_dark</item>
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
@@ -146,19 +152,19 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:background">@color/red_black_dark</item>
         <item name="background">@color/red_black_dark</item>
     </style>
     <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:windowBackground">@color/grey_dark</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Red" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/red_white_light</item>
+        <item name="cardBackgroundColor">@color/red_white_lightest</item>
     </style>
     <style name="KeepassDXStyle.Cardview.Red.Night" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/red_black</item>
@@ -166,8 +172,8 @@
     <!-- Switch -->
     <style name="KeepassDXStyle.Switch.Red" parent="KeepassDXStyle.Red">
         <item name="colorPrimary">@color/orange</item>
-        <item name="colorOnPrimary">@color/red_white_light</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnPrimary">@color/red_white_lightest</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/orange</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -175,7 +181,7 @@
     <style name="KeepassDXStyle.Switch.Red.Night" parent="KeepassDXStyle.Red.Night">
         <item name="colorPrimary">@color/orange_dark</item>
         <item name="colorOnPrimary">@color/red_black_dark</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/orange_dark</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>

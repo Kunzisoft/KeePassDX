@@ -23,9 +23,12 @@
     <style name="KeepassDXStyle.Reply.v21" parent="KeepassDXStyle.Light.v21" >
         <item name="colorPrimary">@color/reply_blue_dark</item>
         <item name="colorPrimaryDark">@color/reply_blue</item>
-        <item name="colorAccent">@color/reply_orange</item>
-        <item name="colorAccentLight">@color/reply_orange_light</item>
-        <item name="colorControlActivated">@color/reply_blue_light</item>
+        <item name="colorOnPrimary">@color/reply_blue_light</item>
+        <item name="colorSecondary">@color/reply_orange</item>
+        <item name="colorOnSecondary">@color/reply_black</item>
+        <item name="colorTertiary">@color/reply_blue_light</item>
+        <item name="colorOnTertiary">@color/reply_blue_lighter</item>
+        <item name="colorControlActivated">@color/reply_blue</item>
         <item name="android:textColorPrimary">@color/reply_blue</item>
         <item name="android:textColorHintInverse">@color/reply_orange</item>
         <item name="android:textColorSecondaryInverse">@color/reply_orange</item>
@@ -38,9 +41,9 @@
         <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Reply</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Reply.Light</item>
         <item name="educationCircleColor">@color/reply_orange</item>
         <item name="educationTextColor">@color/reply_black</item>
-        <item name="colorOnAccentColor">@color/reply_black</item>
 
         <item name="chipFilterTextColor">@color/reply_black</item>
         <item name="chipFilterBackgroundColor">@color/reply_orange</item>
@@ -82,15 +85,19 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Reply.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/reply_orange</item>
+        <item name="colorSecondary">@color/reply_orange</item>
         <item name="android:textColorPrimary">@color/reply_blue_dark</item>
         <item name="android:background">@color/reply_blue_lighter</item>
         <item name="background">@color/reply_blue_lighter</item>
     </style>
     <style name="KeepassDXStyle.Reply.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/reply_blue_dark</item>
+        <item name="colorSecondary">@color/reply_blue_dark</item>
         <item name="android:textColorPrimary">@color/reply_blue_dark</item>
         <item name="android:windowBackground">@color/reply_blue_lighter</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Reply.Light" parent="KeepassDXStyle.Cardview">
+        <item name="cardBackgroundColor">@color/reply_blue_lightest</item>
     </style>
 
 
@@ -99,8 +106,11 @@
     <style name="KeepassDXStyle.Reply.Night.v21" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">@color/reply_blue_dark</item>
         <item name="colorPrimaryDark">@color/reply_black</item>
-        <item name="colorAccent">@color/reply_orange</item>
-        <item name="colorAccentLight">@color/reply_orange_light</item>
+        <item name="colorOnPrimary">@color/reply_blue_light</item>
+        <item name="colorSecondary">@color/reply_orange</item>
+        <item name="colorOnSecondary">@color/reply_black</item>
+        <item name="colorTertiary">@color/reply_black_dark</item>
+        <item name="colorOnTertiary">@color/reply_black</item>
         <item name="colorControlActivated">@color/reply_blue_light</item>
         <item name="android:textColorPrimary">@color/reply_blue_lighter</item>
         <item name="android:textColorHintInverse">@color/reply_blue_light</item>
@@ -117,7 +127,6 @@
         <item name="cardBackgroundTransparentColor">@color/reply_black_transparent</item>
         <item name="educationCircleColor">@color/reply_orange</item>
         <item name="educationTextColor">@color/reply_black</item>
-        <item name="colorOnAccentColor">@color/reply_black</item>
 
         <item name="chipFilterTextColor">@color/reply_black</item>
         <item name="chipFilterBackgroundColor">@color/reply_orange</item>
@@ -159,13 +168,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Reply.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/reply_blue_lighter</item>
+        <item name="colorSecondary">@color/reply_blue_lighter</item>
         <item name="android:textColorPrimary">@color/reply_orange</item>
         <item name="android:background">@color/reply_black</item>
         <item name="background">@color/reply_black</item>
     </style>
     <style name="KeepassDXStyle.Reply.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/reply_blue_dark</item>
+        <item name="colorSecondary">@color/reply_blue_dark</item>
         <item name="android:textColorPrimary">@color/reply_orange</item>
         <item name="android:windowBackground">@color/reply_black</item>
     </style>
@@ -176,8 +185,8 @@
     <!-- Switch -->
     <style name="KeepassDXStyle.Switch.Reply" parent="KeepassDXStyle.Reply">
         <item name="colorPrimary">@color/reply_orange</item>
-        <item name="colorOnPrimary">@color/reply_blue_light</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnPrimary">@color/reply_blue_lightest</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/reply_orange</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -185,7 +194,7 @@
     <style name="KeepassDXStyle.Switch.Reply.Night" parent="KeepassDXStyle.Reply.Night">
         <item name="colorPrimary">@color/reply_orange</item>
         <item name="colorOnPrimary">@color/reply_black</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/reply_orange</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>

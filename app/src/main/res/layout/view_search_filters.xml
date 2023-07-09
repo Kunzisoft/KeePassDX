@@ -61,7 +61,7 @@
             style="@style/KeepassDXStyle.ImageButton.Simple"
             android:contentDescription="@string/search_filters"
             android:src="@drawable/ic_list_white_24dp"
-            app:tint="?attr/textColorInverse"/>
+            app:tint="?attr/colorOnPrimary"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:id="@+id/search_advance_filters"

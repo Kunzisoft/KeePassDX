@@ -70,7 +70,7 @@
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_dialog_bar"
-        app:indicatorColor="?attr/colorAccent"
+        app:indicatorColor="?attr/colorSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"

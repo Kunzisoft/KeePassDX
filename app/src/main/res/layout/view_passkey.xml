@@ -14,7 +14,7 @@
         android:importantForAccessibility="no"
         android:importantForAutofill="no"
         app:endIconMode="password_toggle"
-        app:endIconTint="?attr/colorAccent"
+        app:endIconTint="?attr/colorSecondary"
         tools:ignore="UnusedAttribute">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -45,7 +45,7 @@
         tools:text="Entropy: 72.50 bit"
         android:textSize="11sp"
         android:layout_margin="4dp"
-        android:textColor="?attr/colorAccent"
+        android:textColor="?attr/colorSecondary"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/password_input_layout"
         app:layout_constraintEnd_toEndOf="@+id/password_input_layout" />

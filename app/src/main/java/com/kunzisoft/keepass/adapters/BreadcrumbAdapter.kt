@@ -40,7 +40,7 @@ class BreadcrumbAdapter(val context: Context)
         mShowUUID = PreferencesUtil.showUUID(context)
 
         // Retrieve the textColor to tint the icon
-        val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnPrimary))
         mIconColor = taTextColor.getColor(0, Color.WHITE)
         taTextColor.recycle()
     }

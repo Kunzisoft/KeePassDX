@@ -26,8 +26,11 @@
     <style name="KeepassDXStyle.Clear.Base" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/white_grey_lighter</item>
         <item name="colorPrimaryDark">@color/white_grey_light</item>
-        <item name="colorAccent">@color/cyan_lighter</item>
-        <item name="colorAccentLight">@color/cyan_lightest</item>
+        <item name="colorOnPrimary">@color/grey_light</item>
+        <item name="colorSecondary">@color/cyan_lighter</item>
+        <item name="colorOnSecondary">@color/white_darkest</item>
+        <item name="colorTertiary">@color/white_grey_lighter</item>
+        <item name="colorOnTertiary">@color/white</item>
         <item name="colorControlActivated">@color/cyan_lightest</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:textColorHintInverse">@color/cyan_lightest</item>
@@ -48,7 +51,6 @@
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:textColorLink">@color/text_color_light</item>
         <item name="android:editTextColor">@color/grey_light</item>
-        <item name="textColorInverse">@color/grey_light</item>
         <item name="android:textColorPrimaryInverse">@color/grey_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
@@ -91,13 +93,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Clear.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorSecondary">@color/cyan_lighter</item>
         <item name="android:textColorPrimary">@color/cyan</item>
         <item name="android:background">@color/white_grey_lighter</item>
         <item name="background">@color/white_grey_lighter</item>
     </style>
     <style name="KeepassDXStyle.Clear.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorSecondary">@color/cyan_lighter</item>
         <item name="android:textColorPrimary">@color/cyan</item>
         <item name="android:windowBackground">@color/white_grey_lighter</item>
     </style>
@@ -111,8 +113,10 @@
     <style name="KeepassDXStyle.Dark.v21" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/grey_darker</item>
         <item name="colorPrimaryDark">@color/black_light</item>
-        <item name="colorAccent">@color/cyan</item>
-        <item name="colorAccentLight">@color/cyan_lightest</item>
+        <item name="colorSecondary">@color/cyan</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/black_light</item>
+        <item name="colorOnTertiary">@color/black</item>
         <item name="colorControlActivated">@color/cyan_lightest</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:textColorHintInverse">@color/cyan_lightest</item>
@@ -162,13 +166,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorSecondary">@color/cyan_lighter</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:background">@color/black_lighter</item>
         <item name="background">@color/black_lighter</item>
     </style>
     <style name="KeepassDXStyle.Dark.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/cyan_lighter</item>
+        <item name="colorSecondary">@color/cyan_lighter</item>
         <item name="android:textColorPrimary">@color/cyan_lightest</item>
         <item name="android:windowBackground">@color/black_lighter</item>
     </style>
@@ -180,7 +184,7 @@
     <style name="KeepassDXStyle.Switch.Clear" parent="KeepassDXStyle.Clear">
         <item name="colorPrimary">@color/cyan_lighter</item>
         <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">?attr/colorPrimary</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -188,7 +192,7 @@
     <style name="KeepassDXStyle.Switch.Dark" parent="KeepassDXStyle.Dark">
         <item name="colorPrimary">@color/cyan_lighter</item>
         <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">?attr/colorPrimary</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>

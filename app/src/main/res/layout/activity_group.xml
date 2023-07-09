@@ -87,7 +87,7 @@
                 android:layout_gravity="center_vertical|start"
                 android:visibility="gone"
                 android:src="@drawable/ic_modified_white_12dp"
-                app:tint="?attr/textColorInverse"
+                app:tint="?attr/colorOnSecondary"
                 android:contentDescription="@string/save"/>
         </FrameLayout>
 
@@ -191,7 +191,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:itemTextColor="?android:attr/textColor"
-        app:subheaderColor="?attr/colorAccent"
+        app:subheaderColor="?attr/colorSecondary"
         android:fitsSystemWindows="true" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

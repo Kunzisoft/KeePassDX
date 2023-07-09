@@ -44,7 +44,7 @@
         android:layout_marginBottom="12dp"
         app:srcCompat="@drawable/ic_database_white_36dp"
         style="@style/KeepassDXStyle.Icon"
-        app:tint="?attr/colorAccent" />
+        app:tint="?attr/colorSecondary" />
 
     <ImageView
         android:id="@+id/nav_database_modified"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/save"
         android:src="@drawable/ic_modified_white_12dp"
-        android:tint="?attr/textColorInverse"
+        app:tint="?attr/colorOnPrimary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/nav_database_icon"
         app:layout_constraintStart_toEndOf="@+id/nav_database_icon"

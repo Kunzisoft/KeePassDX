@@ -70,6 +70,7 @@
     <color name="green_black_light">#24352A</color>
     <color name="green_black">#202923</color>
 
+    <color name="red_white_lightest">#FBECEE</color>
     <color name="red_white_light">#FCE6E8</color>
     <color name="red_lightest">#ef9a9a</color>
     <color name="red_lighter">#EF5350</color>
@@ -90,6 +91,7 @@
     <color name="white_purple">#F2EDFA</color>
     <color name="white_purple_light">#F7F3FD</color>
     <color name="white_purple_light_transparent">#E0F7F3FD</color>
+    <color name="purple_lightest">#F7D9FB</color>
     <color name="purple_lighter">#ce93d8</color>
     <color name="purple_light">#9048bc</color>
     <color name="purple">#743998</color>
@@ -112,6 +114,7 @@
 
     <color name="reply_orange_light">#FFBA52</color>
     <color name="reply_orange">#F9AA33</color>
+    <color name="reply_blue_lightest">#F6F8FA</color>
     <color name="reply_blue_lighter">#EDF0F2</color>
     <color name="reply_blue_light">#D1DBE0</color>
     <color name="reply_blue">#4A6572</color>

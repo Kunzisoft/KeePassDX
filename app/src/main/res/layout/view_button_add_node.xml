@@ -52,8 +52,8 @@
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_key_white_24dp"
             android:contentDescription="@string/add_entry"
-            app:tint="?attr/colorOnAccentColor"
-            app:backgroundTint="?attr/colorAccent"
+            app:tint="?attr/colorOnSecondary"
+            app:backgroundTint="?attr/colorSecondary"
             app:fabSize="mini"
             app:fabCustomSize="@dimen/button_small_size"
             app:useCompatPadding="true" />
@@ -86,8 +86,8 @@
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_folder_white_24dp"
             android:contentDescription="@string/add_group"
-            app:tint="?attr/colorOnAccentColor"
-            app:backgroundTint="?attr/colorAccent"
+            app:tint="?attr/colorOnSecondary"
+            app:backgroundTint="?attr/colorSecondary"
             app:fabSize="mini"
             app:fabCustomSize="@dimen/button_small_size"
             app:useCompatPadding="true" />
@@ -103,7 +103,7 @@
         android:layout_alignParentBottom="true"
         android:contentDescription="@string/content_description_add_node"
         android:src="@drawable/ic_add_white_24dp"
-        app:tint="?attr/colorOnAccentColor"
+        app:tint="?attr/colorOnSecondary"
         app:fabSize="normal"
         app:useCompatPadding="true" />
 

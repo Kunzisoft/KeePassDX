@@ -112,7 +112,7 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private var mIcon: IconImage? = null
-    private var mColorAccent: Int = 0
+    private var mColorSecondary: Int = 0
     private var mControlColor: Int = 0
     private var mColorPrimary: Int = 0
     private var mColorBackground: Int = 0
@@ -146,15 +146,15 @@ class EntryActivity : DatabaseLockActivity() {
         toolbar?.title = " "
 
         // Retrieve the textColor to tint the toolbar
-        val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+        val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
         val taControlColor = theme.obtainStyledAttributes(intArrayOf(R.attr.toolbarColorControl))
         val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
         val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
-        mColorAccent = taColorAccent.getColor(0, Color.BLACK)
+        mColorSecondary = taColorSecondary.getColor(0, Color.BLACK)
         mControlColor = taControlColor.getColor(0, Color.BLACK)
         mColorPrimary = taColorPrimary.getColor(0, Color.BLACK)
         mColorBackground = taColorBackground.getColor(0, Color.BLACK)
-        taColorAccent.recycle()
+        taColorSecondary.recycle()
         taControlColor.recycle()
         taColorPrimary.recycle()
         taColorBackground.recycle()
@@ -227,7 +227,7 @@ class EntryActivity : DatabaseLockActivity() {
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
                 if (entryIsHistory) {
                     collapsingToolbarLayout?.contentScrim =
-                        ColorDrawable(mColorAccent)
+                        ColorDrawable(mColorSecondary)
                 }
 
                 val entryInfo = entryInfoHistory.entryInfo
@@ -380,7 +380,7 @@ class EntryActivity : DatabaseLockActivity() {
                 mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
                     iconView,
                     icon,
-                    mForegroundColor ?: mColorAccent
+                    mForegroundColor ?: mColorSecondary
                 )
             }
         }

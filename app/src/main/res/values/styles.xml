@@ -49,9 +49,11 @@
 
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/green_lightest</item>
+        <item name="colorOnTertiary">@color/green_white_dark</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -65,7 +67,6 @@
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:textColorLink">@color/text_color_light</item>
         <item name="android:editTextColor">@color/grey_light</item>
-        <item name="textColorInverse">@color/white</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
@@ -74,8 +75,6 @@
         <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
-
-        <item name="colorOnAccentColor">@color/white</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
@@ -138,9 +137,11 @@
 
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/orange</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/green_black_light</item>
+        <item name="colorOnTertiary">@color/green_black</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -154,7 +155,6 @@
         <item name="android:textColor">@color/text_color_night</item>
         <item name="android:textColorLink">@color/text_color_night</item>
         <item name="android:editTextColor">@color/white</item>
-        <item name="textColorInverse">@color/white</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
@@ -163,8 +163,6 @@
         <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
-
-        <item name="colorOnAccentColor">@color/white</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
@@ -283,23 +281,23 @@
 
     <!-- Edit Text -->
     <style name="ThemeOverlay.KeepassDXTheme.TextInputEditText" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
-        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="colorControlActivated">?attr/colorSecondary</item>
     </style>
     <style name="ThemeOverlay.KeepassDXTheme.CompleteTextView" parent="ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox">
-        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="colorControlActivated">?attr/colorSecondary</item>
     </style>
     <style name="KeepassDXStyle.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="android:paddingTop">2dp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
-        <item name="hintTextColor">?attr/colorAccent</item>
+        <item name="hintTextColor">?attr/colorSecondary</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.TextInputEditText</item>
     </style>
     <style name="KeepassDXStyle.TextInputLayout.ExposedMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="android:paddingTop">2dp</item>
         <item name="android:paddingBottom">2dp</item>
         <item name="boxStrokeColor">@color/edit_text_stroke_color</item>
-        <item name="hintTextColor">?attr/colorAccent</item>
+        <item name="hintTextColor">?attr/colorSecondary</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.CompleteTextView</item>
     </style>
 
@@ -310,7 +308,7 @@
     <style name="KeepassDXStyle.Switch.Light" parent="KeepassDXStyle.Light">
         <item name="colorPrimary">@color/orange</item>
         <item name="colorOnPrimary">@color/green_white</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/orange</item>
         <item name="colorSurfaceVariant">@color/green_white</item>
@@ -318,7 +316,7 @@
     <style name="KeepassDXStyle.Switch.Night" parent="KeepassDXStyle.Night">
         <item name="colorPrimary">@color/orange</item>
         <item name="colorOnPrimary">@color/green_black_light</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">@color/orange</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -350,7 +348,7 @@
 
     <!-- Dialog -->
     <style name="KeepassDXStyle.Light.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/green_white</item>
         <item name="background">@color/green_white</item>
@@ -366,7 +364,7 @@
         <item name="android:textColor">@color/text_color_light</item>
     </style>
     <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
         <item name="android:windowBackground">@color/green_white</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
@@ -374,7 +372,7 @@
     </style>
 
     <style name="KeepassDXStyle.Night.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/green_black_light</item>
         <item name="background">@color/green_black_light</item>
@@ -390,7 +388,7 @@
         <item name="android:textColor">@color/text_color_night</item>
     </style>
     <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
-        <item name="colorAccent">@color/orange_darker</item>
+        <item name="colorSecondary">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:windowBackground">@color/grey_dark</item>
         <item name="buttonBarStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>
@@ -426,8 +424,8 @@
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" parent="android:style/TextAppearance">
-        <item name="android:textColor">?attr/textColorInverse</item>
-        <item name="drawableTint">?attr/textColorInverse</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="drawableTint">?attr/colorOnPrimary</item>
         <item name="android:drawablePadding">8dp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
@@ -436,7 +434,7 @@
         <item name="android:textStyle">italic</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Warning.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>
@@ -481,18 +479,18 @@
     </style>
     <style name="KeepassDXStyle.TextAppearance.Tiny.Secondary" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
     <style name="KeepassDXStyle.TextAppearance.Warning" parent="KeepassDXStyle.TextAppearance">
-		<item name="android:textColor">?attr/colorAccent</item>
+		<item name="android:textColor">?attr/colorSecondary</item>
 	</style>
 
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">?attr/colorOnAccentColor</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_rounded_square</item>
-        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
 
     <!-- Nodes Text Style -->
@@ -536,16 +534,16 @@
     </style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.Button.Primary" parent="Widget.Material3.Button">
-        <item name="android:textColor">?attr/textColorInverse</item>
-        <item name="backgroundTint">@color/background_button_color_primary</item>
-        <item name="iconTint">?attr/textColorInverse</item>
+    <style name="KeepassDXStyle.Button.Primary" parent="Widget.Material3.Button.ElevatedButton">
+        <item name="backgroundTint">@color/color_button_primary</item>
+        <item name="android:textColor">@color/color_on_button_primary</item>
+        <item name="iconTint">@color/color_on_button_primary</item>
         <item name="android:layout_margin">8dp</item>
     </style>
     <style name="KeepassDXStyle.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="strokeColor">@color/background_button_color_secondary</item>
-        <item name="android:textColor">@color/background_button_color_secondary</item>
-        <item name="iconTint">@color/background_button_color_secondary</item>
+        <item name="strokeColor">@color/color_button_secondary</item>
+        <item name="android:textColor">@color/color_button_secondary</item>
+        <item name="iconTint">@color/color_button_secondary</item>
         <item name="android:layout_margin">8dp</item>
     </style>
     <style name="KeepassDXStyle.Base.ImageButton" parent="Widget.AppCompat.ImageButton" />
@@ -553,13 +551,13 @@
         <item name="android:gravity">center</item>
     </style>
     <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:colorForeground">?attr/textColorInverse</item>
+        <item name="android:colorForeground">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_image_button</item>
-        <item name="backgroundTint">@color/background_button_color_secondary</item>
+        <item name="backgroundTint">@color/color_button_secondary</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:colorForeground">@color/background_button_color_secondary</item>
-        <item name="tint">@color/background_button_color_secondary</item>
+        <item name="android:colorForeground">@color/color_button_secondary</item>
+        <item name="tint">@color/color_button_secondary</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="backgroundTint">@null</item>
         <item name="android:padding">12dp</item>
@@ -596,7 +594,7 @@
     </style>
     <style name="KeepassDXStyle.Fab.Special" parent="KeepassDXStyle.v21.Fab">
         <item name="backgroundTint">?attr/colorPrimary</item>
-        <item name="tint">?attr/textColorInverse</item>
+        <item name="tint">?attr/colorOnPrimary</item>
     </style>
 
     <!-- Menu FAB -->
@@ -604,14 +602,14 @@
     </style>
     <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
         <item name="android:textSize">15sp</item>
-        <item name="android:textColor">?attr/colorOnAccentColor</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_button_small</item>
-        <item name="backgroundTint">@color/background_button_color_secondary</item>
+        <item name="backgroundTint">@color/color_button_secondary</item>
     </style>
 
     <!-- Form -->
 	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
 		<item name="android:textSize">12sp</item>
         <item name="android:paddingLeft">4dp</item>
         <item name="android:paddingStart">4dp</item>

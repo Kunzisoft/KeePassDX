@@ -26,9 +26,11 @@
     <style name="KeepassDXStyle.White.Base" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorOnPrimary">@color/grey_light</item>
         <item name="colorSecondary">@color/orange</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/white_darkest</item>
+        <item name="colorOnTertiary">@color/white</item>
         <item name="colorControlNormal">@color/grey_light</item>
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/orange_light</item>
@@ -50,7 +52,6 @@
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:textColorLink">@color/text_color_light</item>
         <item name="android:editTextColor">@color/grey_light</item>
-        <item name="textColorInverse">@color/grey_light</item>
         <item name="android:textColorPrimaryInverse">@color/grey_light</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
@@ -96,13 +97,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.White.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="android:textColorPrimary">@color/grey_light</item>
         <item name="android:background">@color/white</item>
         <item name="background">@color/white</item>
     </style>
     <style name="KeepassDXStyle.White.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorSecondary">@color/orange</item>
         <item name="android:textColorPrimary">@color/orange_darker</item>
         <item name="android:windowBackground">@color/white</item>
     </style>
@@ -116,8 +117,10 @@
     <style name="KeepassDXStyle.Black.v21" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">@color/black_light</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/orange_darker</item>
-        <item name="colorAccentLight">@color/orange</item>
+        <item name="colorSecondary">@color/orange_darker</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorTertiary">@color/black_light</item>
+        <item name="colorOnTertiary">@color/black</item>
         <item name="colorControlNormal">@color/grey_light</item>
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/orange_lighter</item>
@@ -175,13 +178,13 @@
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/orange_darker</item>
+        <item name="colorSecondary">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:background">@color/black_lighter</item>
         <item name="background">@color/black_lighter</item>
     </style>
     <style name="KeepassDXStyle.Black.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/orange_darker</item>
+        <item name="colorSecondary">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:windowBackground">@color/black_lighter</item>
     </style>
@@ -193,7 +196,7 @@
     <style name="KeepassDXStyle.Switch.White" parent="KeepassDXStyle.White">
         <item name="colorPrimary">@color/orange</item>
         <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">?attr/colorPrimary</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
@@ -201,7 +204,7 @@
     <style name="KeepassDXStyle.Switch.Black" parent="KeepassDXStyle.Black">
         <item name="colorPrimary">@color/orange_darker</item>
         <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnAccentColor">@color/white</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
         <item name="colorOutline">?attr/colorPrimary</item>
         <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
