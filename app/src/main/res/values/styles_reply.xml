@@ -28,6 +28,8 @@
         <item name="colorOnSecondary">@color/reply_black</item>
         <item name="colorTertiary">@color/reply_blue_light</item>
         <item name="colorOnTertiary">@color/reply_blue_lighter</item>
+        <item name="colorSurface">@color/reply_blue_lighter</item>
+
         <item name="colorControlActivated">@color/reply_blue</item>
         <item name="android:textColorPrimary">@color/reply_blue</item>
         <item name="android:textColorHintInverse">@color/reply_orange</item>
@@ -111,6 +113,8 @@
         <item name="colorOnSecondary">@color/reply_black</item>
         <item name="colorTertiary">@color/reply_black_dark</item>
         <item name="colorOnTertiary">@color/reply_black</item>
+        <item name="colorSurface">@color/reply_black</item>
+
         <item name="colorControlActivated">@color/reply_blue_light</item>
         <item name="android:textColorPrimary">@color/reply_blue_lighter</item>
         <item name="android:textColorHintInverse">@color/reply_blue_light</item>

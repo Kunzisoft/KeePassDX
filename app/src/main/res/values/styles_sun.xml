@@ -28,6 +28,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorTertiary">@color/red_lightest</item>
         <item name="colorOnTertiary">@color/red_white_light</item>
+        <item name="colorSurface">@color/red_white_light</item>
+
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>
@@ -101,6 +103,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorTertiary">@color/red_black</item>
         <item name="colorOnTertiary">@color/red_black_dark</item>
+        <item name="colorSurface">@color/red_black_dark</item>
+
         <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lightest</item>

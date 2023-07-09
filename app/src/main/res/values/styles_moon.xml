@@ -28,6 +28,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorTertiary">@color/blue_white_dark</item>
         <item name="colorOnTertiary">@color/blue_white</item>
+        <item name="colorSurface">@color/blue_white</item>
+
         <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_white_dark</item>
@@ -102,6 +104,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorTertiary">@color/blue_black</item>
         <item name="colorOnTertiary">@color/blue_black_dark</item>
+        <item name="colorSurface">@color/blue_black_dark</item>
+
         <item name="colorControlActivated">@color/blue_lighter</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_white_dark</item>

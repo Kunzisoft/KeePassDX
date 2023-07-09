@@ -54,6 +54,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorTertiary">@color/green_lightest</item>
         <item name="colorOnTertiary">@color/green_white_dark</item>
+        <item name="colorSurface">@color/green_white</item>
+        <item name="colorOnSurface">@color/text_color_light</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -92,6 +94,9 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+
+        <!-- Tab -->
+        <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
 
         <!-- Switch -->
         <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
@@ -142,6 +147,8 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorTertiary">@color/green_black_light</item>
         <item name="colorOnTertiary">@color/green_black</item>
+        <item name="colorSurface">@color/green_black_light</item>
+        <item name="colorOnSurface">@color/text_color_night</item>
 
         <item name="colorControlNormal">@color/grey_lighter</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -180,6 +187,9 @@
         <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
+
+        <!-- Tab -->
+        <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
 
         <!-- Switch -->
         <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
@@ -300,6 +310,9 @@
         <item name="hintTextColor">?attr/colorSecondary</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.KeepassDXTheme.CompleteTextView</item>
     </style>
+
+    <!-- Tab -->
+    <style name="KeepassDXStyle.TabLayout" parent="@style/Widget.Material3.TabLayout" />
 
     <!-- Switch -->
     <style name="KeepassDXStyle.SwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
