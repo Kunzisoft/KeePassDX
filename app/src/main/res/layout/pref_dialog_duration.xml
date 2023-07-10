@@ -66,7 +66,6 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="@string/enable"
-			android:theme="?attr/switchAppearance"
 			android:layout_marginTop="8dp"
 			android:layout_marginStart="20dp"
 			android:layout_marginLeft="20dp"

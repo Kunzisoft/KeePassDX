@@ -10,8 +10,6 @@
         style="@style/KeepassDXStyle.Fab.Special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="mini"
-        app:fabCustomSize="@dimen/button_small_size"
         app:useCompatPadding="false"
         android:layout_margin="8dp"
         android:contentDescription="@string/lock"

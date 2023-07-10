@@ -36,6 +36,5 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/expiration_label"
         app:layout_constraintBottom_toBottomOf="@+id/expiration_label"
-        android:theme="?attr/switchAppearance"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

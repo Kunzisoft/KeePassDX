@@ -18,7 +18,6 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true"
@@ -35,28 +34,17 @@
         android:layout_marginBottom="-12dp"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_add_entry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:text="@string/add_entry"
-            style="@style/KeepassDXStyle.FabMenu"
-            tools:ignore="UnusedAttribute" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab_add_entry"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_small_size"
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
-            android:src="@drawable/ic_key_white_24dp"
+            app:icon="@drawable/ic_key_white_24dp"
             android:contentDescription="@string/add_entry"
-            app:tint="?attr/colorOnSecondary"
-            app:backgroundTint="?attr/colorSecondary"
-            app:fabSize="mini"
-            app:fabCustomSize="@dimen/button_small_size"
-            app:useCompatPadding="true" />
+            style="@style/KeepassDXStyle.Fab.Menu"
+            android:text="@string/add_entry" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,27 +58,16 @@
         android:layout_marginBottom="-12dp"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_add_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/add_group"
-            style="@style/KeepassDXStyle.FabMenu"
-            tools:ignore="UnusedAttribute" />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab_add_group"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_small_size"
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
-            android:src="@drawable/ic_folder_white_24dp"
+            app:icon="@drawable/ic_folder_white_24dp"
             android:contentDescription="@string/add_group"
-            app:tint="?attr/colorOnSecondary"
-            app:backgroundTint="?attr/colorSecondary"
-            app:fabSize="mini"
-            app:fabCustomSize="@dimen/button_small_size"
-            app:useCompatPadding="true" />
+            style="@style/KeepassDXStyle.Fab.Menu"
+            android:text="@string/add_group"/>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -103,8 +80,6 @@
         android:layout_alignParentBottom="true"
         android:contentDescription="@string/content_description_add_node"
         android:src="@drawable/ic_add_white_24dp"
-        app:tint="?attr/colorOnSecondary"
-        app:fabSize="normal"
         app:useCompatPadding="true" />
 
 </RelativeLayout>

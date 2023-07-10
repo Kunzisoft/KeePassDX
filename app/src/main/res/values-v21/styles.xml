@@ -25,21 +25,22 @@
     </style>
     <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
     </style>
-    <style name="KeepassDXStyle.Light.WhiteBar.v21" parent="KeepassDXStyle.Light.Base" >
-        <item name="android:statusBarColor">@color/grey_darker</item>
-        <item name="android:navigationBarColor">@color/grey_darker</item>
-    </style>
     <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="KeepassDXStyle.Toolbar.v21" parent="KeepassDXStyle.Toolbar.Base">
+        <item name="android:elevation">0dp</item>
     </style>
 
     <!-- Preference Theme -->
@@ -52,13 +53,8 @@
         <item name="android:elevation">4dp</item>
     </style>
 
-    <!-- FAB -->
-    <style name="KeepassDXStyle.v21.Fab" parent="Widget.Design.FloatingActionButton">
-        <item name="android:elevation">4dp</item>
-    </style>
-
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+    <style name="KeepassDXStyle.Fab.MenuText.v21" parent="android:style/TextAppearance">
         <item name="android:elevation">2dp</item>
     </style>
 </resources>

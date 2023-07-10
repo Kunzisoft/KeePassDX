@@ -40,9 +40,8 @@
     <com.kunzisoft.keepass.view.ToolbarAction
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:theme="?attr/toolbarActionAppearance"
         app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,8 +51,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/validate"
         android:src="@drawable/ic_check_white_24dp"
-        app:tint="?attr/colorOnSecondary"
-        app:fabSize="mini"
         app:fabCustomSize="@dimen/button_small_size"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"

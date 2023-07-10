@@ -35,10 +35,9 @@
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:textColorSecondaryInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/white_purple</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Purple</item>
+        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
+        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
         <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
@@ -50,8 +49,6 @@
         <item name="chipFilterTextColor">@color/white_purple_light</item>
         <item name="chipFilterBackgroundColor">@color/purple_light</item>
         <item name="chipFilterBackgroundColorDisabled">@color/purple</item>
-
-        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Purple</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
@@ -67,15 +64,8 @@
     <style name="KeepassDXStyle.Toolbar.Popup.Purple" parent="KeepassDXStyle.Toolbar.Purple">
         <item name="android:colorBackground">@color/white_purple</item>
     </style>
-    <!-- Toolbar Home Purple -->
-    <style name="KeepassDXStyle.Toolbar.Home.Purple" parent="KeepassDXStyle.Toolbar.Purple">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
     <!-- Special Toolbar Purple -->
     <style name="KeepassDXStyle.Toolbar.Special.Purple" parent="KeepassDXStyle.Toolbar.Purple">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Purple</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Purple" parent="KeepassDXStyle.Toolbar.Widget.Special">
         <item name="android:background">@color/purple_dark</item>
     </style>
     <!-- Action Toolbar Purple -->
@@ -119,11 +109,9 @@
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:textColorSecondaryInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/black_purple_dark</item>
-        <item name="toolbarColorControl">@color/white</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple.Dark</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple.Dark</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple.Dark</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Purple.Dark</item>
+        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
+        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Purple.Dark</item>
         <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
@@ -135,8 +123,6 @@
         <item name="chipFilterTextColor">@color/white_purple_light</item>
         <item name="chipFilterBackgroundColor">@color/purple_dark</item>
         <item name="chipFilterBackgroundColorDisabled">@color/purple_darker</item>
-
-        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Purple.Dark</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
@@ -152,15 +138,8 @@
     <style name="KeepassDXStyle.Toolbar.Popup.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
         <item name="android:colorBackground">@color/black_purple</item>
     </style>
-    <!-- Toolbar Home Purple -->
-    <style name="KeepassDXStyle.Toolbar.Home.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
     <!-- Special Toolbar Purple -->
     <style name="KeepassDXStyle.Toolbar.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Purple.Dark</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Widget.Special">
         <item name="android:background">@color/black_purple</item>
     </style>
     <!-- Action Toolbar Purple -->
@@ -185,22 +164,5 @@
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Purple.Dark" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/black_purple</item>
-    </style>
-    <!-- Switch -->
-    <style name="KeepassDXStyle.Switch.Purple" parent="KeepassDXStyle.Purple">
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorOnPrimary">@color/white_purple_light</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
-        <item name="colorOutline">@color/purple_light</item>
-        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
-    </style>
-    <style name="KeepassDXStyle.Switch.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorOnPrimary">@color/purple_darker</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
-        <item name="colorOutline">@color/purple_dark</item>
-        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

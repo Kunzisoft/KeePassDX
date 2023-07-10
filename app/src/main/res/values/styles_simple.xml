@@ -37,11 +37,9 @@
         <item name="android:textColorPrimary">@color/grey</item>
         <item name="android:textColorHintInverse">@color/grey</item>
         <item name="android:windowBackground">@color/white_slight</item>
-        <item name="toolbarColorControl">@color/grey_light</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Simple</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Simple</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Simple</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Simple</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Simple</item>
+        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Simple</item>
+        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Simple</item>
         <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Simple</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Simple.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Simple.Dialog</item>
@@ -61,8 +59,6 @@
         <item name="chipFilterTextColor">@color/text_color_light</item>
         <item name="chipFilterBackgroundColor">@color/blue_white</item>
         <item name="chipFilterBackgroundColorDisabled">@color/white_dark</item>
-
-        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Simple</item>
     </style>
     <!-- Toolbar Style Simple -->
     <style name="KeepassDXStyle.Toolbar.Simple" parent="KeepassDXStyle.Simple">
@@ -75,15 +71,8 @@
     <style name="KeepassDXStyle.Toolbar.Popup.Simple" parent="KeepassDXStyle.Toolbar.Simple">
         <item name="android:colorBackground">@color/white</item>
     </style>
-    <!-- Toolbar Home Simple -->
-    <style name="KeepassDXStyle.Toolbar.Home.Simple" parent="KeepassDXStyle.Toolbar.Simple">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
     <!-- Special Toolbar Simple -->
     <style name="KeepassDXStyle.Toolbar.Special.Simple" parent="KeepassDXStyle.Toolbar.Simple">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Simple</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Simple" parent="KeepassDXStyle.Toolbar.Widget.Special">
         <item name="android:background">@color/white_slight</item>
     </style>
     <!-- Action Toolbar Simple -->
@@ -126,10 +115,9 @@
         <item name="android:textColorHintInverse">@color/white</item>
         <item name="android:textColorSecondaryInverse">@color/white_dark</item>
         <item name="android:windowBackground">@color/grey_slight</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Simple.Night</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Simple.Night</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Simple.Night</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Simple.Night</item>
+        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Simple.Night</item>
+        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Simple.Night</item>
+        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Simple.Night</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Simple.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Simple.Night.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Simple.Night</item>
@@ -140,8 +128,6 @@
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/grey_black_slight</item>
         <item name="chipFilterBackgroundColorDisabled">@color/grey_darker</item>
-
-        <item name="switchAppearance">@style/KeepassDXStyle.Switch.Simple.Night</item>
     </style>
     <!-- Toolbar Style Night -->
     <style name="KeepassDXStyle.Toolbar.Simple.Night" parent="KeepassDXStyle.Simple.Night">
@@ -150,15 +136,8 @@
         <item name="android:textColorSecondary">@color/grey_lighter</item>
         <item name="android:tint">@color/white</item>
     </style>
-    <!-- Toolbar Home Night -->
-    <style name="KeepassDXStyle.Toolbar.Home.Simple.Night" parent="KeepassDXStyle.Toolbar.Simple.Night">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
     <!-- Special Toolbar Night -->
     <style name="KeepassDXStyle.Toolbar.Special.Simple.Night" parent="KeepassDXStyle.Toolbar.Simple.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Simple.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Simple.Night" parent="KeepassDXStyle.Toolbar.Widget.Special">
         <item name="android:background">@color/grey_slight</item>
     </style>
     <!-- Action Toolbar Night -->
@@ -183,22 +162,5 @@
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Simple.Night" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">@color/grey_slight_dark</item>
-    </style>
-    <!-- Switch -->
-    <style name="KeepassDXStyle.Switch.Simple" parent="KeepassDXStyle.Simple">
-        <item name="colorPrimary">@color/blue_slight</item>
-        <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
-        <item name="colorOutline">?attr/colorPrimary</item>
-        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
-    </style>
-    <style name="KeepassDXStyle.Switch.Simple.Night" parent="KeepassDXStyle.Simple.Night">
-        <item name="colorPrimary">@color/blue_slight</item>
-        <item name="colorOnPrimary">?android:attr/windowBackground</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorPrimaryContainer">?android:attr/windowBackground</item>
-        <item name="colorOutline">?attr/colorPrimary</item>
-        <item name="colorSurfaceVariant">?android:attr/windowBackground</item>
     </style>
 </resources>

@@ -4,7 +4,6 @@
     android:id="@+id/switchWidget"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:theme="?attr/switchAppearance"
     android:focusable="false"
     android:clickable="false"
     android:background="@null" />

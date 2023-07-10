@@ -26,14 +26,14 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.MaterialToolbar
 import com.kunzisoft.keepass.R
 
-class SpecialModeView @JvmOverloads constructor(context: Context,
-                                                attrs: AttributeSet? = null,
-                                                defStyle: Int = androidx.appcompat.R.attr.toolbarStyle)
-    : Toolbar(context, attrs, defStyle) {
+class ToolbarSpecial @JvmOverloads constructor(context: Context,
+                                               attrs: AttributeSet? = null,
+                                               defStyle: Int = R.attr.toolbarSpecialStyle)
+    : MaterialToolbar(context, attrs, defStyle) {
 
     init {
         ContextCompat.getDrawable(context, R.drawable.ic_arrow_back_white_24dp)?.let { closeDrawable ->

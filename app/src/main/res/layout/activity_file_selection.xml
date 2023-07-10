@@ -27,11 +27,10 @@
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
 
-    <com.kunzisoft.keepass.view.SpecialModeView
+    <com.kunzisoft.keepass.view.ToolbarSpecial
         android:id="@+id/special_mode_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="?attr/toolbarSpecialAppearance"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -46,8 +45,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_parallax_height"
-            android:background="?attr/colorPrimary">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
@@ -75,7 +73,7 @@
                         android:shadowDy="2"
                         android:shadowRadius="4"
                         android:paddingTop="?attr/actionBarSize"
-                        android:textColor="?attr/colorOnPrimary"
+                        android:textColor="@color/green_light"
                         android:gravity="center"
                         android:text="@string/app_name_part1"/>
                     <TextView
@@ -91,15 +89,16 @@
                         android:shadowDy="2"
                         android:shadowRadius="4"
                         android:paddingTop="?attr/actionBarSize"
-                        android:textColor="?attr/colorSecondary"
+                        android:textColor="@color/orange"
                         android:gravity="center"
                         android:text="@string/app_name_part2"/>
                     <TextView
                         android:id="@+id/file_selection_title_part_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:paddingHorizontal="4dp"
                         android:textSize="32sp"
                         android:textStyle="bold"
                         android:visibility="gone"
@@ -108,21 +107,19 @@
                         android:shadowDy="2"
                         android:shadowRadius="4"
                         android:paddingTop="?attr/actionBarSize"
-                        android:textColor="?android:attr/textColorHintInverse"
+                        android:textColor="@color/green_lightest"
                         android:gravity="center"
                         android:text="@string/app_name_part3"/>
                 </LinearLayout>
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:navigationIcon="@drawable/ic_info_white_24dp"
                     app:navigationContentDescription="@string/about"
-                    android:background="?attr/colorPrimary"
-                    app:layout_collapseMode="pin"
-                    android:theme="?attr/toolbarHomeAppearance" />
+                    app:layout_collapseMode="pin"/>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
@@ -140,6 +137,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
+        android:background="?attr/colorSurface"
         android:orientation="horizontal"
         android:weightSum="2">
 
