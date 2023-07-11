@@ -65,7 +65,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
-            mIconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconView, mGroupInfo.icon)
 
