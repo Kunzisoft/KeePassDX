@@ -35,9 +35,7 @@
         <item name="android:textColorHintInverse">@color/red_lightest</item>
         <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
         <item name="android:windowBackground">@color/red_white_light</item>
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Red</item>
-        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Red</item>
-        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Red</item>
+
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Red</item>
@@ -47,27 +45,6 @@
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/red_lighter</item>
         <item name="chipFilterBackgroundColorDisabled">@color/red</item>
-    </style>
-    <!-- Toolbar Style Red -->
-    <style name="KeepassDXStyle.Toolbar.Red" parent="KeepassDXStyle.Red">
-        <item name="colorControlActivated">@color/red_lightest</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/red_lightest</item>
-        <item name="android:tint">@color/white</item>
-    </style>
-    <!-- Special Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Special.Red" parent="KeepassDXStyle.Toolbar.Red">
-        <item name="android:background">@color/red_dark</item>
-    </style>
-    <!-- Action Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Action.Red" parent="KeepassDXStyle.Toolbar.Red">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Red</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Red" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/red</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Light.Dialog">
@@ -99,9 +76,7 @@
         <item name="android:textColorHintInverse">@color/red_lightest</item>
         <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
         <item name="android:windowBackground">@color/red_black_dark</item>
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Red.Night</item>
-        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Red.Night</item>
-        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Red.Night</item>
+
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Red.Night</item>
@@ -111,27 +86,6 @@
         <item name="chipFilterTextColor">@color/white</item>
         <item name="chipFilterBackgroundColor">@color/red_lighter</item>
         <item name="chipFilterBackgroundColorDisabled">@color/red</item>
-    </style>
-    <!-- Toolbar Style Red -->
-    <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
-        <item name="colorControlActivated">@color/red_lightest</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/red_lightest</item>
-        <item name="android:tint">@color/white</item>
-    </style>
-    <!-- Special Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
-        <item name="android:background">@color/red_dark</item>
-    </style>
-    <!-- Action Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Action.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Red.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Red.Night" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/red</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">

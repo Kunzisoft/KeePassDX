@@ -137,6 +137,7 @@
                     android:id="@+id/nodes_list_fragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingTop="@dimen/selectable_margin_vertical"
                     android:background="?android:attr/windowBackground" />
             </RelativeLayout>
 

@@ -35,10 +35,7 @@
         <item name="android:textColorHintInverse">@color/reply_orange</item>
         <item name="android:textColorSecondaryInverse">@color/reply_orange</item>
         <item name="android:windowBackground">@color/reply_blue_lighter</item>
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Reply</item>
-        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Reply</item>
-        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Reply</item>
-        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Reply</item>
+
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Reply.Light</item>
@@ -48,31 +45,6 @@
         <item name="chipFilterTextColor">@color/reply_black</item>
         <item name="chipFilterBackgroundColor">@color/reply_orange</item>
         <item name="chipFilterBackgroundColorDisabled">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Style Reply -->
-    <style name="KeepassDXStyle.Toolbar.Reply" parent="KeepassDXStyle.Reply">
-        <item name="colorControlActivated">@color/reply_blue_light</item>
-        <item name="colorControlNormal">@color/reply_blue_lighter</item>
-        <item name="android:textColorPrimary">@color/reply_blue_light</item>
-        <item name="android:textColorSecondary">@color/reply_orange_light</item>
-        <item name="android:editTextColor">@color/reply_blue_light</item>
-        <item name="android:textColorHint">@color/reply_orange_light</item>
-        <item name="android:tint">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="android:colorBackground">@color/reply_blue_lighter</item>
-    </style>
-    <!-- Special Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Special.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="android:background">@color/reply_blue_dark</item>
-    </style>
-    <!-- Action Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Action.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Reply</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Reply" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/reply_blue_dark</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Reply.Dialog" parent="KeepassDXStyle.Light.Dialog">
@@ -109,10 +81,7 @@
         <item name="android:textColorHintInverse">@color/reply_blue_light</item>
         <item name="android:textColorSecondaryInverse">@color/reply_blue_light</item>
         <item name="android:windowBackground">@color/reply_black</item>
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Reply.Night</item>
-        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special.Reply.Night</item>
-        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action.Reply.Night</item>
-        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Reply.Night</item>
+
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Reply.Night</item>
@@ -123,31 +92,6 @@
         <item name="chipFilterTextColor">@color/reply_black</item>
         <item name="chipFilterBackgroundColor">@color/reply_orange</item>
         <item name="chipFilterBackgroundColorDisabled">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Style Reply -->
-    <style name="KeepassDXStyle.Toolbar.Reply.Night" parent="KeepassDXStyle.Reply.Night">
-        <item name="colorControlActivated">@color/reply_blue_light</item>
-        <item name="colorControlNormal">@color/reply_blue_lighter</item>
-        <item name="android:textColorPrimary">@color/reply_blue_light</item>
-        <item name="android:textColorSecondary">@color/reply_orange_light</item>
-        <item name="android:editTextColor">@color/reply_blue_light</item>
-        <item name="android:textColorHint">@color/reply_orange_light</item>
-        <item name="android:tint">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="android:colorBackground">@color/reply_black</item>
-    </style>
-    <!-- Special Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Special.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="android:background">@color/reply_black</item>
-    </style>
-    <!-- Action Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Action.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Reply.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Reply.Night" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/reply_blue_dark</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Reply.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">

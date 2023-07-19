@@ -428,16 +428,6 @@ class NodesAdapter (
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            val backgroundColor = if (mShowEntryColors) entry.backgroundColor else null
-            if (!holder.container.isSelected) {
-                if (backgroundColor != null) {
-                    holder.container.setBackgroundColor(backgroundColor)
-                } else {
-                    holder.container.setBackgroundColor(Color.TRANSPARENT)
-                }
-            } else {
-                holder.container.setBackgroundColor(mColorSecondary)
-            }
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {

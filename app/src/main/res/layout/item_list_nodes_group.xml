@@ -24,19 +24,20 @@
     android:id="@+id/node_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/KeepassDXStyle.Selectable.Item">
+    android:paddingVertical="@dimen/selectable_margin_vertical"
+    android:paddingHorizontal="@dimen/selectable_margin_horizontal">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:minHeight="48dp"
+        android:minHeight="@dimen/selectable_min_height"
+        style="@style/KeepassDXStyle.Selectable.Item"
         app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="?android:attr/selectableItemBackground" >
+        app:layout_constraintEnd_toEndOf="parent" >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"

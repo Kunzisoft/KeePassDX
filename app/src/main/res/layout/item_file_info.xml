@@ -213,7 +213,7 @@
                     android:src="@drawable/ic_content_delete_white_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:tint="?attr/colorOnSecondaryContainer"
+                    app:tint="?attr/colorOnSurface"
                     style="@style/KeepassDXStyle.ImageButton.OnSurface"/>
 
                 <androidx.appcompat.widget.AppCompatTextView

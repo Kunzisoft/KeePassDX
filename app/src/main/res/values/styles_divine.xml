@@ -103,15 +103,6 @@
         <item name="chipFilterBackgroundColor">@color/grey_darker</item>
         <item name="chipFilterBackgroundColorDisabled">@color/black_light</item>
     </style>
-    <!-- Toolbar Style Black -->
-    <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/grey_lighter</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/white</item>
-        <item name="android:tint">@color/white</item>
-    </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorSecondary">@color/orange_darker</item>

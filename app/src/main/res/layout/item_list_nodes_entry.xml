@@ -24,15 +24,16 @@
     android:id="@+id/node_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/KeepassDXStyle.Selectable.Item">
+    android:paddingVertical="@dimen/selectable_margin_vertical"
+    android:paddingHorizontal="@dimen/selectable_margin_horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:background="?android:attr/selectableItemBackground"
-        android:minHeight="48dp"
+        android:minHeight="@dimen/selectable_min_height"
+        style="@style/KeepassDXStyle.Selectable.Item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -178,16 +179,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/node_otp_container" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="72dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginRight="48dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
