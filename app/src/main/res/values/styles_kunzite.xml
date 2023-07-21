@@ -30,11 +30,9 @@
         <item name="colorOnTertiary">@color/white_purple_light</item>
         <item name="colorSurface">@color/white_purple</item>
 
-        <item name="colorControlActivated">@color/red_light</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
-        <item name="android:textColorHintInverse">@color/purple_lighter</item>
-        <item name="android:textColorSecondaryInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/white_purple</item>
+
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple</item>
@@ -75,11 +73,9 @@
         <item name="colorOnTertiary">@color/black_purple_dark</item>
         <item name="colorSurface">@color/black_purple_dark</item>
 
-        <item name="colorControlActivated">@color/red_light</item>
         <item name="android:textColorPrimary">@color/purple_lighter</item>
-        <item name="android:textColorHintInverse">@color/purple_lighter</item>
-        <item name="android:textColorSecondaryInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/black_purple_dark</item>
+
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple.Dark</item>

@@ -23,12 +23,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.annotation.ColorInt
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.ViewSwitcher
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -83,20 +85,6 @@ class FileDatabaseHistoryAdapter(context: Context)
             }
         }
     )
-
-    @ColorInt
-    private val defaultColor: Int
-    @ColorInt
-    private val warningColor: Int
-
-    init {
-        val typedValue = TypedValue()
-        val theme = context.theme
-        theme.resolveAttribute(R.attr.colorSecondary, typedValue, true)
-        warningColor = typedValue.data
-        theme.resolveAttribute(android.R.attr.textColorHintInverse, typedValue, true)
-        defaultColor = typedValue.data
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileDatabaseHistoryViewHolder {
         val view = inflater.inflate(R.layout.item_file_info, parent, false)

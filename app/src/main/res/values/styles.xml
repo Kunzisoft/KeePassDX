@@ -52,6 +52,7 @@
         <item name="colorErrorContainer">@color/forest_theme_light_errorContainer</item>
         <item name="colorOnError">@color/forest_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/forest_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/green_white</item>
         <item name="android:colorBackground">@color/forest_theme_light_background</item>
         <item name="colorOnBackground">@color/forest_theme_light_onBackground</item>
         <item name="colorSurface">@color/forest_theme_light_surface</item>
@@ -71,7 +72,6 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:fitsSystemWindows">false</item>
-        <item name="android:windowBackground">@color/green_white</item>
 
         <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
         <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
@@ -89,9 +89,7 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorSecondaryInverse">@color/green_lightest</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
@@ -160,6 +158,7 @@
         <item name="colorErrorContainer">@color/forest_theme_night_errorContainer</item>
         <item name="colorOnError">@color/forest_theme_night_onError</item>
         <item name="colorOnErrorContainer">@color/forest_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">?attr/colorSurfaceContainerHighest</item>
         <item name="android:colorBackground">@color/forest_theme_night_background</item>
         <item name="colorOnBackground">@color/forest_theme_night_onBackground</item>
         <item name="colorSurface">@color/forest_theme_night_surface</item>
@@ -179,7 +178,6 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:fitsSystemWindows">false</item>
-        <item name="android:windowBackground">?attr/colorSurfaceContainerHighest</item>
 
         <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
         <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
@@ -197,9 +195,7 @@
         <item name="android:textColorPrimary">@color/green_light</item>
         <item name="android:textColorPrimaryInverse">@color/white_darkest</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
-        <item name="android:textColorSecondaryInverse">@color/green_lightest</item>
         <item name="android:textColorHint">@color/grey_lighter</item>
-        <item name="android:textColorHintInverse">@color/green_lightest</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 

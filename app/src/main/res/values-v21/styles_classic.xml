@@ -19,16 +19,10 @@
 -->
 <resources>
     <style name="KeepassDXStyle.Clear.v21" parent="KeepassDXStyle.Clear.Base" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">@color/grey_dark</item>
-        <item name="android:navigationBarColor">@color/grey_dark</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Clear.DateTime.Dialog</item>
     </style>
-    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Dark.v21" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    <style name="KeepassDXStyle.Dark.v21" parent="KeepassDXStyle.Dark.Base" >
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Dark.DateTime.Dialog</item>
     </style>

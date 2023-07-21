@@ -23,34 +23,48 @@
     <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.White.Base" />
     <style name="KeepassDXStyle.White.Base" parent="KeepassDXStyle.Light">
 
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryDark">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/orange</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorTertiary">@color/white_darkest</item>
-        <item name="colorOnTertiary">@color/white</item>
-        <item name="colorSurface">@color/white</item>
+        <item name="colorPrimary">@color/divine_theme_light_primary</item>
+        <item name="colorPrimaryDark">@color/divine_theme_light_primaryDark</item>
+        <item name="colorOnPrimary">@color/divine_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/divine_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/divine_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/divine_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/divine_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/divine_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/divine_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/divine_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/divine_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/divine_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/divine_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/divine_theme_light_error</item>
+        <item name="colorErrorContainer">@color/divine_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/divine_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/divine_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/divine_theme_light_background</item>
+        <item name="android:colorBackground">@color/divine_theme_light_background</item>
+        <item name="colorOnBackground">@color/divine_theme_light_onBackground</item>
+        <item name="colorSurface">@color/divine_theme_light_surface</item>
+        <item name="colorOnSurface">@color/divine_theme_light_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/divine_theme_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/divine_theme_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/divine_theme_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/divine_theme_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/divine_theme_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/divine_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/divine_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/divine_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/divine_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/divine_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/divine_theme_light_inversePrimary</item>
 
-        <item name="colorOnContainer">@color/text_color_light</item>
-        <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/orange_light</item>
-        <item name="android:textColorHintInverse">@color/orange_lighter</item>
-        <item name="android:windowBackground">@color/white</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.White</item>
+
         <item name="cardBackgroundTransparentColor">@color/white_transparent</item>
         <item name="educationCircleColor">@color/orange</item>
         <item name="educationTextColor">@color/white</item>
-
-        <item name="android:textColor">@color/text_color_light</item>
-        <item name="android:textColorLink">@color/text_color_light</item>
-        <item name="android:editTextColor">@color/grey_light</item>
-        <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
-        <item name="android:textColorSecondaryInverse">@color/grey_lighter</item>
-        <item name="android:textColorHint">@color/grey_lighter</item>
 
         <item name="chipFilterTextColor">@color/grey_light</item>
         <item name="chipFilterBackgroundColor">@color/white_darkest</item>
@@ -78,23 +92,45 @@
     <style name="KeepassDXStyle.Black.v21" parent="KeepassDXStyle.Black.Base" />
     <style name="KeepassDXStyle.Black.Base" parent="KeepassDXStyle.Night" >
 
-        <item name="colorPrimary">@color/black_light</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorSecondary">@color/orange_darker</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorTertiary">@color/black_light</item>
-        <item name="colorOnTertiary">@color/black</item>
-        <item name="colorSurface">@color/black</item>
+        <item name="colorPrimary">@color/divine_theme_night_primary</item>
+        <item name="colorPrimaryDark">@color/divine_theme_night_primaryDark</item>
+        <item name="colorOnPrimary">@color/divine_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/divine_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/divine_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/divine_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/divine_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/divine_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/divine_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/divine_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/divine_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/divine_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/divine_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/divine_theme_night_error</item>
+        <item name="colorErrorContainer">@color/divine_theme_night_errorContainer</item>
+        <item name="colorOnError">@color/divine_theme_night_onError</item>
+        <item name="colorOnErrorContainer">@color/divine_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">@color/divine_theme_night_background</item>
+        <item name="android:colorBackground">@color/divine_theme_night_background</item>
+        <item name="colorOnBackground">@color/divine_theme_night_onBackground</item>
+        <item name="colorSurface">@color/divine_theme_night_surface</item>
+        <item name="colorOnSurface">@color/divine_theme_night_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/divine_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/divine_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/divine_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/divine_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/divine_theme_night_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/divine_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/divine_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/divine_theme_night_outline</item>
+        <item name="colorOnSurfaceInverse">@color/divine_theme_night_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/divine_theme_night_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/divine_theme_night_inversePrimary</item>
 
-        <item name="colorControlActivated">@color/orange</item>
         <item name="android:textColorPrimary">@color/orange_lighter</item>
-        <item name="android:textColorHintInverse">@color/orange_lighter</item>
-        <item name="android:textColorSecondaryInverse">@color/white_dark</item>
-        <item name="android:windowBackground">@color/black</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Black</item>
+
         <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
         <item name="educationCircleColor">@color/orange_darker</item>
         <item name="educationTextColor">@color/white</item>
@@ -114,9 +150,5 @@
         <item name="colorSecondary">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:windowBackground">@color/black_lighter</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Black" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/black_light</item>
     </style>
 </resources>

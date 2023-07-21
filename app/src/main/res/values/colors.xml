@@ -119,6 +119,7 @@
     <color name="blue_deep">#1A73E8</color>
     
     <!-- Themes colors -->
+    <!-- Forest -->
 
     <color name="forest_theme_light_primary">@color/green</color>
     <color name="forest_theme_light_primaryDark">@color/green_whitest</color>
@@ -185,6 +186,144 @@
     <color name="forest_theme_night_inverseOnSurface">#1A1C19</color>
     <color name="forest_theme_night_inverseSurface">#E2E3DD</color>
     <color name="forest_theme_night_inversePrimary">#006E1C</color>
+
+    <!-- Classic -->
+
+    <color name="classic_theme_light_primary">@color/cyan_lighter</color>
+    <color name="classic_theme_light_primaryDark">@color/white_darkest</color>
+    <color name="classic_theme_light_onPrimary">@color/white</color>
+    <color name="classic_theme_light_primaryContainer">@color/cyan_lighter</color>
+    <color name="classic_theme_light_onPrimaryContainer">@color/white_darkest</color>
+    <color name="classic_theme_light_secondary">@color/cyan</color>
+    <color name="classic_theme_light_onSecondary">@color/white_grey_light</color>
+    <color name="classic_theme_light_secondaryContainer">@color/cyan</color>
+    <color name="classic_theme_light_onSecondaryContainer">@color/white_grey_light</color>
+    <color name="classic_theme_light_tertiary">@color/cyan_dark</color>
+    <color name="classic_theme_light_onTertiary">@color/white</color>
+    <color name="classic_theme_light_tertiaryContainer">@color/cyan_dark</color>
+    <color name="classic_theme_light_onTertiaryContainer">@color/white</color>
+    <color name="classic_theme_light_error">#BA1A1A</color>
+    <color name="classic_theme_light_errorContainer">#FFDAD6</color>
+    <color name="classic_theme_light_onError">#FFFFFF</color>
+    <color name="classic_theme_light_onErrorContainer">#410002</color>
+    <color name="classic_theme_light_background">#E1E3E4</color>
+    <color name="classic_theme_light_onBackground">@color/cyan_dark</color>
+    <color name="classic_theme_light_surface">#D4D4D4</color>
+    <color name="classic_theme_light_onSurface">@color/cyan_dark</color>
+    <color name="classic_theme_light_surfaceContainerLowest">#E6E8EA</color>
+    <color name="classic_theme_light_surfaceContainerLow">#E6E8EA</color>
+    <color name="classic_theme_light_surfaceContainer">#DBDDDF</color>
+    <color name="classic_theme_light_surfaceContainerHigh">#D8DCDF</color>
+    <color name="classic_theme_light_surfaceContainerHighest">#D3D8DC</color>
+    <color name="classic_theme_light_surfaceVariant">#DEE5D8</color>
+    <color name="classic_theme_light_onSurfaceVariant">#404649</color>
+    <color name="classic_theme_light_outline">#72796F</color>
+    <color name="classic_theme_light_inverseOnSurface">#F0F1EB</color>
+    <color name="classic_theme_light_inverseSurface">#2D2F31</color>
+    <color name="classic_theme_light_inversePrimary">#4FC3F7</color>
+
+    <color name="classic_theme_night_primary">#209BC6</color>
+    <color name="classic_theme_night_primaryDark">@color/black_light</color>
+    <color name="classic_theme_night_onPrimary">@color/white</color>
+    <color name="classic_theme_night_primaryContainer">@color/cyan</color>
+    <color name="classic_theme_night_onPrimaryContainer">@color/white</color>
+    <color name="classic_theme_night_secondary">#268EB3</color>
+    <color name="classic_theme_night_onSecondary">@color/white</color>
+    <color name="classic_theme_night_secondaryContainer">#215B70</color>
+    <color name="classic_theme_night_onSecondaryContainer">@color/white_grey_light</color>
+    <color name="classic_theme_night_tertiary">@color/cyan_dark</color>
+    <color name="classic_theme_night_onTertiary">@color/white</color>
+    <color name="classic_theme_night_tertiaryContainer">@color/cyan_dark</color>
+    <color name="classic_theme_night_onTertiaryContainer">@color/white</color>
+    <color name="classic_theme_night_error">#FFB4AB</color>
+    <color name="classic_theme_night_errorContainer">#93000A</color>
+    <color name="classic_theme_night_onError">#690005</color>
+    <color name="classic_theme_night_onErrorContainer">#FFDAD6</color>
+    <color name="classic_theme_night_background">#0C0E0E</color>
+    <color name="classic_theme_night_onBackground">#DDE3E3</color>
+    <color name="classic_theme_night_surface">#1A2125</color>
+    <color name="classic_theme_night_onSurface">#F1F2F3</color>
+    <color name="classic_theme_night_surfaceContainerLowest">#222D30</color>
+    <color name="classic_theme_night_surfaceContainerLow">#212B2F</color>
+    <color name="classic_theme_night_surfaceContainer">#1D262C</color>
+    <color name="classic_theme_night_surfaceContainerHigh">#1B252B</color>
+    <color name="classic_theme_night_surfaceContainerHighest">#182025</color>
+    <color name="classic_theme_night_surfaceVariant">#404649</color>
+    <color name="classic_theme_night_onSurfaceVariant">#C2C9BD</color>
+    <color name="classic_theme_night_outline">#888F93</color>
+    <color name="classic_theme_night_inverseOnSurface">#191B1C</color>
+    <color name="classic_theme_night_inverseSurface">#DDE1E3</color>
+    <color name="classic_theme_night_inversePrimary">#00486E</color>
+
+    <!-- Divine -->
+
+    <color name="divine_theme_light_primary">@color/orange_dark</color>
+    <color name="divine_theme_light_primaryDark">@color/white</color>
+    <color name="divine_theme_light_onPrimary">@color/white</color>
+    <color name="divine_theme_light_primaryContainer">@color/green_dark</color>
+    <color name="divine_theme_light_onPrimaryContainer">@color/white</color>
+    <color name="divine_theme_light_secondary">@color/orange_dark</color>
+    <color name="divine_theme_light_onSecondary">#FBEFE5</color>
+    <color name="divine_theme_light_secondaryContainer">@color/orange_dark</color>
+    <color name="divine_theme_light_onSecondaryContainer">@color/white</color>
+    <color name="divine_theme_light_tertiary">@color/orange_lightest</color>
+    <color name="divine_theme_light_onTertiary">#3A1A04</color>
+    <color name="divine_theme_light_tertiaryContainer">@color/orange_lightest</color>
+    <color name="divine_theme_light_onTertiaryContainer">#3A1A04</color>
+    <color name="divine_theme_light_error">#BA1A1A</color>
+    <color name="divine_theme_light_errorContainer">#FFDAD6</color>
+    <color name="divine_theme_light_onError">#FFFFFF</color>
+    <color name="divine_theme_light_onErrorContainer">#410002</color>
+    <color name="divine_theme_light_background">@color/white</color>
+    <color name="divine_theme_light_onBackground">@color/orange_darkest</color>
+    <color name="divine_theme_light_surface">@color/white</color>
+    <color name="divine_theme_light_onSurface">#351904</color>
+    <color name="divine_theme_light_surfaceContainerLowest">#FFFCF9</color>
+    <color name="divine_theme_light_surfaceContainerLow">#FFFBF6</color>
+    <color name="divine_theme_light_surfaceContainer">#FEF9F2</color>
+    <color name="divine_theme_light_surfaceContainerHigh">#FBF5EC</color>
+    <color name="divine_theme_light_surfaceContainerHighest">#FAF2E7</color>
+    <color name="divine_theme_light_surfaceVariant">#E5DED8</color>
+    <color name="divine_theme_light_onSurfaceVariant">#494340</color>
+    <color name="divine_theme_light_outline">#79736F</color>
+    <color name="divine_theme_light_inverseOnSurface">#F1EEEB</color>
+    <color name="divine_theme_light_inverseSurface">#312F2D</color>
+    <color name="divine_theme_light_inversePrimary">#F7924F</color>
+
+    <color name="divine_theme_night_primary">@color/orange_darkest</color>
+    <color name="divine_theme_night_primaryDark">@color/black</color>
+    <color name="divine_theme_night_onPrimary">@color/white</color>
+    <color name="divine_theme_night_primaryContainer">@color/green_darkest</color>
+    <color name="divine_theme_night_onPrimaryContainer">@color/white</color>
+    <color name="divine_theme_night_secondary">@color/orange_dark</color>
+    <color name="divine_theme_night_onSecondary">@color/white</color>
+    <color name="divine_theme_night_secondaryContainer">@color/orange_darkest</color>
+    <color name="divine_theme_night_onSecondaryContainer">@color/white</color>
+    <color name="divine_theme_night_tertiary">@color/green_darkest</color>
+    <color name="divine_theme_night_onTertiary">@color/white</color>
+    <color name="divine_theme_night_tertiaryContainer">@color/green_darkest</color>
+    <color name="divine_theme_night_onTertiaryContainer">@color/white</color>
+    <color name="divine_theme_night_error">#FFB4AB</color>
+    <color name="divine_theme_night_errorContainer">#93000A</color>
+    <color name="divine_theme_night_onError">#690005</color>
+    <color name="divine_theme_night_onErrorContainer">#FFDAD6</color>
+    <color name="divine_theme_night_background">@color/black</color>
+    <color name="divine_theme_night_onBackground">#E3E0DD</color>
+    <color name="divine_theme_night_surface">@color/black</color>
+    <color name="divine_theme_night_onSurface">#F3F2F1</color>
+    <color name="divine_theme_night_surfaceContainerLowest">#2C221E</color>
+    <color name="divine_theme_night_surfaceContainerLow">#221A17</color>
+    <color name="divine_theme_night_surfaceContainer">#1C1613</color>
+    <color name="divine_theme_night_surfaceContainerHigh">#171210</color>
+    <color name="divine_theme_night_surfaceContainerHighest">#130F0E</color>
+    <color name="divine_theme_night_surfaceVariant">#494340</color>
+    <color name="divine_theme_night_onSurfaceVariant">#C9C2BD</color>
+    <color name="divine_theme_night_outline">#938B88</color>
+    <color name="divine_theme_night_inverseOnSurface">#1C1A19</color>
+    <color name="divine_theme_night_inverseSurface">#E3E0DD</color>
+    <color name="divine_theme_night_inversePrimary">#6E3000</color>
+
+    <!-- Reply -->
 
     <color name="reply_orange_light">#FFBA52</color>
     <color name="reply_orange">#F9AA33</color>

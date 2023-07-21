@@ -30,10 +30,7 @@
         <item name="colorOnTertiary">@color/reply_blue_lighter</item>
         <item name="colorSurface">@color/reply_blue_lighter</item>
 
-        <item name="colorControlActivated">@color/reply_blue</item>
         <item name="android:textColorPrimary">@color/reply_blue</item>
-        <item name="android:textColorHintInverse">@color/reply_orange</item>
-        <item name="android:textColorSecondaryInverse">@color/reply_orange</item>
         <item name="android:windowBackground">@color/reply_blue_lighter</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
@@ -76,10 +73,7 @@
         <item name="colorOnTertiary">@color/reply_black</item>
         <item name="colorSurface">@color/reply_black</item>
 
-        <item name="colorControlActivated">@color/reply_blue_light</item>
         <item name="android:textColorPrimary">@color/reply_blue_lighter</item>
-        <item name="android:textColorHintInverse">@color/reply_blue_light</item>
-        <item name="android:textColorSecondaryInverse">@color/reply_blue_light</item>
         <item name="android:windowBackground">@color/reply_black</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
