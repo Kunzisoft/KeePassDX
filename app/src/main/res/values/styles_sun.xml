@@ -21,21 +21,46 @@
     <!-- Light Red Style -->
     <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Red.v21" />
     <style name="KeepassDXStyle.Red.v21" parent="KeepassDXStyle.Light" >
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red_dark</item>
-        <item name="colorOnPrimary">@color/red_white_light</item>
-        <item name="colorSecondary">@color/orange</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorTertiary">@color/red_lightest</item>
-        <item name="colorOnTertiary">@color/red_white_light</item>
-        <item name="colorSurface">@color/red_white_light</item>
+
+        <item name="colorPrimary">@color/sun_theme_light_primary</item>
+        <item name="colorPrimaryDark">@color/sun_theme_light_primaryDark</item>
+        <item name="colorOnPrimary">@color/sun_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/sun_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/sun_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/sun_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/sun_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/sun_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/sun_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/sun_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/sun_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/sun_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/sun_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/sun_theme_light_error</item>
+        <item name="colorErrorContainer">@color/sun_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/sun_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/sun_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/sun_theme_light_background</item>
+        <item name="android:colorBackground">@color/sun_theme_light_background</item>
+        <item name="colorOnBackground">@color/sun_theme_light_onBackground</item>
+        <item name="colorSurface">@color/sun_theme_light_surface</item>
+        <item name="colorOnSurface">@color/sun_theme_light_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/sun_theme_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/sun_theme_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/sun_theme_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/sun_theme_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/sun_theme_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/sun_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/sun_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/sun_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/sun_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/sun_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/sun_theme_light_inversePrimary</item>
 
         <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:windowBackground">@color/red_white_light</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Red</item>
+
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
 
@@ -50,30 +75,56 @@
         <item name="android:background">@color/red_white_light</item>
         <item name="background">@color/red_white_light</item>
     </style>
-    <style name="KeepassDXStyle.Red.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorSecondary">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:windowBackground">@color/white_dark</item>
+    <style name="KeepassDXStyle.Red.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
+        <item name="colorPrimary">@color/sun_theme_light_primary</item>
+        <item name="colorSecondary">@color/sun_theme_light_secondary</item>
+        <item name="android:textColorPrimary">@color/sun_theme_light_onBackground</item>
+        <item name="android:windowBackground">@color/sun_theme_light_background</item>
     </style>
 
     <!-- Night Red Style -->
     <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" />
     <style name="KeepassDXStyle.Red.Night.v21" parent="KeepassDXStyle.Night" >
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red_dark</item>
-        <item name="colorOnPrimary">@color/red_white_light</item>
-        <item name="colorSecondary">@color/orange</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="colorTertiary">@color/red_black</item>
-        <item name="colorOnTertiary">@color/red_black_dark</item>
-        <item name="colorSurface">@color/red_black_dark</item>
+
+        <item name="colorPrimary">@color/sun_theme_night_primary</item>
+        <item name="colorPrimaryDark">@color/sun_theme_night_primaryDark</item>
+        <item name="colorOnPrimary">@color/sun_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/sun_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/sun_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/sun_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/sun_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/sun_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/sun_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/sun_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/sun_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/sun_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/sun_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/sun_theme_night_error</item>
+        <item name="colorErrorContainer">@color/sun_theme_night_errorContainer</item>
+        <item name="colorOnError">@color/sun_theme_night_onError</item>
+        <item name="colorOnErrorContainer">@color/sun_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">@color/sun_theme_night_background</item>
+        <item name="android:colorBackground">@color/sun_theme_night_background</item>
+        <item name="colorOnBackground">@color/sun_theme_night_onBackground</item>
+        <item name="colorSurface">@color/sun_theme_night_surface</item>
+        <item name="colorOnSurface">@color/sun_theme_night_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/sun_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/sun_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/sun_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/sun_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/sun_theme_night_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/sun_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/sun_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/sun_theme_night_outline</item>
+        <item name="colorOnSurfaceInverse">@color/sun_theme_night_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/sun_theme_night_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/sun_theme_night_inversePrimary</item>
 
         <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:windowBackground">@color/red_black_dark</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Red.Night</item>
+
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
 
@@ -88,16 +139,10 @@
         <item name="android:background">@color/red_black_dark</item>
         <item name="background">@color/red_black_dark</item>
     </style>
-    <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorSecondary">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:windowBackground">@color/grey_dark</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Red" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/red_white_lightest</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.Red.Night" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/red_black</item>
+    <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
+        <item name="colorPrimary">@color/sun_theme_night_primary</item>
+        <item name="colorSecondary">@color/sun_theme_night_secondary</item>
+        <item name="android:textColorPrimary">@color/sun_theme_night_onBackground</item>
+        <item name="android:windowBackground">@color/sun_theme_night_background</item>
     </style>
 </resources>

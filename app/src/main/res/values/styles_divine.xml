@@ -77,14 +77,11 @@
         <item name="android:background">@color/white</item>
         <item name="background">@color/white</item>
     </style>
-    <style name="KeepassDXStyle.White.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="KeepassDXStyle.White.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
+        <item name="colorPrimary">@color/orange</item>
         <item name="colorSecondary">@color/orange</item>
         <item name="android:textColorPrimary">@color/orange_darker</item>
-        <item name="android:windowBackground">@color/white</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.White" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/white</item>
+        <item name="android:windowBackground">@color/divine_theme_light_background</item>
     </style>
 
     <!-- Black Style -->
@@ -146,9 +143,10 @@
         <item name="android:background">@color/black_lighter</item>
         <item name="background">@color/black_lighter</item>
     </style>
-    <style name="KeepassDXStyle.Black.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+    <style name="KeepassDXStyle.Black.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
+        <item name="colorPrimary">@color/orange_darker</item>
         <item name="colorSecondary">@color/orange_darker</item>
         <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:windowBackground">@color/black_lighter</item>
+        <item name="android:windowBackground">@color/divine_theme_night_background</item>
     </style>
 </resources>

@@ -35,7 +35,7 @@
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Reply.Light</item>
+
         <item name="educationCircleColor">@color/reply_orange</item>
         <item name="educationTextColor">@color/reply_black</item>
 
@@ -50,14 +50,11 @@
         <item name="android:background">@color/reply_blue_lighter</item>
         <item name="background">@color/reply_blue_lighter</item>
     </style>
-    <style name="KeepassDXStyle.Reply.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="KeepassDXStyle.Reply.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
+        <item name="colorPrimary">@color/reply_blue_dark</item>
         <item name="colorSecondary">@color/reply_blue_dark</item>
         <item name="android:textColorPrimary">@color/reply_blue_dark</item>
         <item name="android:windowBackground">@color/reply_blue_lighter</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Reply.Light" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/reply_blue_lightest</item>
     </style>
 
 
@@ -78,7 +75,7 @@
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Reply.Night</item>
+
         <item name="cardBackgroundTransparentColor">@color/reply_black_transparent</item>
         <item name="educationCircleColor">@color/reply_orange</item>
         <item name="educationTextColor">@color/reply_black</item>
@@ -94,13 +91,10 @@
         <item name="android:background">@color/reply_black</item>
         <item name="background">@color/reply_black</item>
     </style>
-    <style name="KeepassDXStyle.Reply.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
+    <style name="KeepassDXStyle.Reply.Night.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
+        <item name="colorPrimary">@color/reply_blue_dark</item>
         <item name="colorSecondary">@color/reply_blue_dark</item>
         <item name="android:textColorPrimary">@color/reply_orange</item>
         <item name="android:windowBackground">@color/reply_black</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Reply.Night" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/reply_black_dark</item>
     </style>
 </resources>
