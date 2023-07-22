@@ -527,19 +527,74 @@
     <color name="sun_theme_night_inverseSurface">#E3DDDD</color>
     <color name="sun_theme_night_inversePrimary">#6E0000</color>
 
-
     <!-- Reply -->
 
-    <color name="reply_orange_light">#FFBA52</color>
-    <color name="reply_orange">#F9AA33</color>
-    <color name="reply_blue_lightest">#F6F8FA</color>
-    <color name="reply_blue_lighter">#EDF0F2</color>
-    <color name="reply_blue_light">#D1DBE0</color>
-    <color name="reply_blue">#4A6572</color>
-    <color name="reply_blue_dark">#344955</color>
     <color name="reply_black_transparent">#E0232F34</color>
-    <color name="reply_black">#232F34</color>
-    <color name="reply_black_dark">#27343A</color>
-    <color name="reply_grey">#414445</color>
+
+    <color name="reply_theme_light_primary">#F9AA33</color>
+    <color name="reply_theme_light_primaryDark">#D1DADF</color>
+    <color name="reply_theme_light_onPrimary">#232F34</color>
+    <color name="reply_theme_light_primaryContainer">#F9AA33</color>
+    <color name="reply_theme_light_onPrimaryContainer">#232F34</color>
+    <color name="reply_theme_light_secondary">#FF9A00</color>
+    <color name="reply_theme_light_onSecondary">#232F34</color>
+    <color name="reply_theme_light_secondaryContainer">#3E5560</color>
+    <color name="reply_theme_light_onSecondaryContainer">#F6F8FA</color>
+    <color name="reply_theme_light_tertiary">#986100</color>
+    <color name="reply_theme_light_onTertiary">@color/white</color>
+    <color name="reply_theme_light_tertiaryContainer">#986100</color>
+    <color name="reply_theme_light_onTertiaryContainer">@color/white</color>
+    <color name="reply_theme_light_error">#BA1A1A</color>
+    <color name="reply_theme_light_errorContainer">#FFDAD6</color>
+    <color name="reply_theme_light_onError">#FFFFFF</color>
+    <color name="reply_theme_light_onErrorContainer">#410002</color>
+    <color name="reply_theme_light_background">#D4DFE4</color>
+    <color name="reply_theme_light_onBackground">#27343A</color>
+    <color name="reply_theme_light_surface">#D1DADF</color>
+    <color name="reply_theme_light_onSurface">#27343A</color>
+    <color name="reply_theme_light_surfaceContainerLowest">#EFF1F3</color>
+    <color name="reply_theme_light_surfaceContainerLow">#EAEDEF</color>
+    <color name="reply_theme_light_surfaceContainer">#E3E7E9</color>
+    <color name="reply_theme_light_surfaceContainerHigh">#DEE2E4</color>
+    <color name="reply_theme_light_surfaceContainerHighest">#D8DDDF</color>
+    <color name="reply_theme_light_surfaceVariant">#D8DFE5</color>
+    <color name="reply_theme_light_onSurfaceVariant">#494040</color>
+    <color name="reply_theme_light_outline">#6F7479</color>
+    <color name="reply_theme_light_inverseOnSurface">#F0F1EB</color>
+    <color name="reply_theme_light_inverseSurface">#414445</color>
+    <color name="reply_theme_light_inversePrimary">#243442</color>
+
+    <color name="reply_theme_night_primary">#F9AA33</color>
+    <color name="reply_theme_night_primaryDark">#1D272B</color>
+    <color name="reply_theme_night_onPrimary">#232F34</color>
+    <color name="reply_theme_night_primaryContainer">#F9AA33</color>
+    <color name="reply_theme_night_onPrimaryContainer">#232F34</color>
+    <color name="reply_theme_night_secondary">#FF9A00</color>
+    <color name="reply_theme_night_onSecondary">#232F34</color>
+    <color name="reply_theme_night_secondaryContainer">#2D3E45</color>
+    <color name="reply_theme_night_onSecondaryContainer">#F6F8FA</color>
+    <color name="reply_theme_night_tertiary">#27343A</color>
+    <color name="reply_theme_night_onTertiary">#232F34</color>
+    <color name="reply_theme_night_tertiaryContainer">#986100</color>
+    <color name="reply_theme_night_onTertiaryContainer">@color/white</color>
+    <color name="reply_theme_night_error">#FFB4AB</color>
+    <color name="reply_theme_night_errorContainer">#93000A</color>
+    <color name="reply_theme_night_onError">#690005</color>
+    <color name="reply_theme_night_onErrorContainer">#FFDAD6</color>
+    <color name="reply_theme_night_background">#212B30</color>
+    <color name="reply_theme_night_onBackground">#DDE3E3</color>
+    <color name="reply_theme_night_surface">#28373C</color>
+    <color name="reply_theme_night_onSurface">#F1F2F3</color>
+    <color name="reply_theme_night_surfaceContainerLowest">#2A383E</color>
+    <color name="reply_theme_night_surfaceContainerLow">#263339</color>
+    <color name="reply_theme_night_surfaceContainer">#233035</color>
+    <color name="reply_theme_night_surfaceContainerHigh">#1F2B30</color>
+    <color name="reply_theme_night_surfaceContainerHighest">#1C282C</color>
+    <color name="reply_theme_night_surfaceVariant">#404449</color>
+    <color name="reply_theme_night_onSurfaceVariant">#DEE4E6</color>
+    <color name="reply_theme_night_outline">#6F7479</color>
+    <color name="reply_theme_night_inverseOnSurface">#F0F1EB</color>
+    <color name="reply_theme_night_inverseSurface">#414445</color>
+    <color name="reply_theme_night_inversePrimary">#243442</color>
 
 </resources>

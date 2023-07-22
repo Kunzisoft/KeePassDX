@@ -18,17 +18,11 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="KeepassDXStyle.Reply" parent="KeepassDXStyle.Reply.v21" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    <style name="KeepassDXStyle.Reply.v21" parent="KeepassDXStyle.Reply.Base" >
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Reply.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Reply.DateTime.Dialog</item>
     </style>
-    <style name="KeepassDXStyle.Reply.Night" parent="KeepassDXStyle.Reply.Night.v21" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+    <style name="KeepassDXStyle.Reply.Night.v21" parent="KeepassDXStyle.Reply.Night.Base" >
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Reply.Night.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Reply.Night.DateTime.Dialog</item>
     </style>
