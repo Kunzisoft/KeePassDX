@@ -75,12 +75,6 @@
         <item name="android:background">@color/red_white_light</item>
         <item name="background">@color/red_white_light</item>
     </style>
-    <style name="KeepassDXStyle.Red.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
-        <item name="colorPrimary">@color/sun_theme_light_primary</item>
-        <item name="colorSecondary">@color/sun_theme_light_secondary</item>
-        <item name="android:textColorPrimary">@color/sun_theme_light_onBackground</item>
-        <item name="android:windowBackground">@color/sun_theme_light_background</item>
-    </style>
 
     <!-- Night Red Style -->
     <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" />
@@ -138,11 +132,5 @@
         <item name="android:textColorPrimary">@color/orange</item>
         <item name="android:background">@color/red_black_dark</item>
         <item name="background">@color/red_black_dark</item>
-    </style>
-    <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
-        <item name="colorPrimary">@color/sun_theme_night_primary</item>
-        <item name="colorSecondary">@color/sun_theme_night_secondary</item>
-        <item name="android:textColorPrimary">@color/sun_theme_night_onBackground</item>
-        <item name="android:windowBackground">@color/sun_theme_night_background</item>
     </style>
 </resources>

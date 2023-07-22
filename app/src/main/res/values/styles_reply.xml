@@ -76,13 +76,6 @@
         <item name="android:background">@color/reply_theme_light_background</item>
         <item name="background">@color/reply_theme_light_background</item>
     </style>
-    <style name="KeepassDXStyle.Reply.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
-        <item name="colorPrimary">@color/reply_theme_light_primary</item>
-        <item name="colorSecondary">@color/reply_theme_light_secondary</item>
-        <item name="android:textColorPrimary">@color/reply_theme_light_onBackground</item>
-        <item name="android:windowBackground">@color/reply_theme_light_background</item>
-    </style>
-
 
     <!-- Dark Reply Style -->
     <style name="KeepassDXStyle.Reply.Night" parent="KeepassDXStyle.Reply.Night.v21" />
@@ -144,11 +137,5 @@
         <item name="android:textColorPrimary">@color/reply_theme_night_onBackground</item>
         <item name="android:background">@color/reply_theme_night_background</item>
         <item name="background">@color/reply_theme_night_background</item>
-    </style>
-    <style name="KeepassDXStyle.Reply.Night.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
-        <item name="colorPrimary">@color/reply_theme_night_onBackground</item>
-        <item name="colorSecondary">@color/reply_theme_night_secondary</item>
-        <item name="android:textColorPrimary">@color/reply_theme_night_onBackground</item>
-        <item name="android:windowBackground">@color/reply_theme_night_background</item>
     </style>
 </resources>

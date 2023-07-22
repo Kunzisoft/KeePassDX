@@ -75,13 +75,6 @@
         <item name="android:background">@color/blue_white_light</item>
         <item name="background">@color/blue_white_light</item>
     </style>
-    <style name="KeepassDXStyle.Blue.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorSecondary">@color/blue</item>
-        <item name="android:textColorPrimary">@color/blue</item>
-        <item name="android:windowBackground">@color/moon_theme_light_background</item>
-    </style>
-
 
     <!-- Dark Blue Style -->
     <style name="KeepassDXStyle.Blue.Night" parent="KeepassDXStyle.Blue.Night.v21" />
@@ -139,11 +132,5 @@
         <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:background">@color/blue_black_dark</item>
         <item name="background">@color/blue_black_dark</item>
-    </style>
-    <style name="KeepassDXStyle.Blue.Night.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorSecondary">@color/blue</item>
-        <item name="android:textColorPrimary">@color/blue</item>
-        <item name="android:windowBackground">@color/moon_theme_night_background</item>
     </style>
 </resources>

@@ -51,12 +51,6 @@
         <item name="android:background">@color/white_purple</item>
         <item name="background">@color/white_purple</item>
     </style>
-    <style name="KeepassDXStyle.Purple.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorSecondary">@color/red</item>
-        <item name="android:textColorPrimary">@color/purple_light</item>
-        <item name="android:windowBackground">@color/white_purple</item>
-    </style>
 
     <!-- Dark Purple Style -->
     <style name="KeepassDXStyle.Purple.Dark" parent="KeepassDXStyle.Purple.Dark.v21" />
@@ -90,11 +84,5 @@
         <item name="android:textColorPrimary">@color/purple_lighter</item>
         <item name="android:background">@color/black_purple_dark</item>
         <item name="background">@color/black_purple_dark</item>
-    </style>
-    <style name="KeepassDXStyle.Purple.Dark.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorSecondary">@color/red</item>
-        <item name="android:textColorPrimary">@color/purple_lighter</item>
-        <item name="android:windowBackground">@color/black_purple_dark</item>
     </style>
 </resources>

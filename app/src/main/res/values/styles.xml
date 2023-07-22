@@ -320,14 +320,6 @@
     <style name="KeepassDXStyle.Light.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/text_color_light</item>
     </style>
-    <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorSecondary">@color/orange</item>
-        <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:windowBackground">@color/green_white</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Light.Dialog.PositiveButtonStyle</item>
-    </style>
 
     <style name="KeepassDXStyle.Night.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="colorSecondary">@color/orange</item>
@@ -344,14 +336,6 @@
     </style>
     <style name="KeepassDXStyle.Night.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">@color/text_color_night</item>
-    </style>
-    <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="ThemeOverlay.MaterialComponents.Dialog">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorSecondary">@color/orange_darker</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
-        <item name="android:windowBackground">@color/grey_dark</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Night.Dialog.PositiveButtonStyle</item>
     </style>
 
     <!-- CardView -->

@@ -77,12 +77,6 @@
         <item name="android:background">@color/white</item>
         <item name="background">@color/white</item>
     </style>
-    <style name="KeepassDXStyle.White.DateTime.Dialog" parent="KeepassDXStyle.Light.DateTime.Dialog">
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorSecondary">@color/orange</item>
-        <item name="android:textColorPrimary">@color/orange_darker</item>
-        <item name="android:windowBackground">@color/divine_theme_light_background</item>
-    </style>
 
     <!-- Black Style -->
     <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Black.v21" />
@@ -142,11 +136,5 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:background">@color/black_lighter</item>
         <item name="background">@color/black_lighter</item>
-    </style>
-    <style name="KeepassDXStyle.Black.DateTime.Dialog" parent="KeepassDXStyle.Night.DateTime.Dialog">
-        <item name="colorPrimary">@color/orange_darker</item>
-        <item name="colorSecondary">@color/orange_darker</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:windowBackground">@color/divine_theme_night_background</item>
     </style>
 </resources>

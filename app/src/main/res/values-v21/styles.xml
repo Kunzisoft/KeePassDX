@@ -27,15 +27,11 @@
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
     </style>
 
     <!-- Toolbar -->
