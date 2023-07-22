@@ -113,10 +113,7 @@
                         android:stepSize="1"
                         android:value="@integer/passphrase_generator_word_count_default"
                         android:valueFrom="@integer/passphrase_generator_word_count_min"
-                        android:valueTo="@integer/passphrase_generator_word_count_max"
-                        app:thumbColor="?attr/chipFilterBackgroundColor"
-                        app:trackColorActive="?attr/chipFilterBackgroundColor"
-                        app:trackColorInactive="?attr/chipFilterBackgroundColorDisabled" />
+                        android:valueTo="@integer/passphrase_generator_word_count_max" />
 
                     <EditText
                         android:id="@+id/word_count"

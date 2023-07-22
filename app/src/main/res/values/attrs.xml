@@ -21,10 +21,6 @@
     <attr name="toolbarSpecialStyle" format="reference" />
     <attr name="toolbarActionStyle" format="reference" />
 
-    <attr name="chipFilterTextColor" format="color" />
-    <attr name="chipFilterBackgroundColor" format="color" />
-    <attr name="chipFilterBackgroundColorDisabled" format="color" />
-
     <attr name="cardBackgroundTransparentColor" format="reference|color" />
     <attr name="iconPreferenceColor" format="reference|color" />
 

@@ -65,10 +65,6 @@
         <item name="cardBackgroundTransparentColor">@color/white_purple_light_transparent</item>
         <item name="educationCircleColor">@color/purple_dark</item>
         <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white_purple_light</item>
-        <item name="chipFilterBackgroundColor">@color/purple_light</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/purple</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Purple.Dialog" parent="KeepassDXStyle.Light.Dialog">
@@ -125,10 +121,6 @@
         <item name="cardBackgroundTransparentColor">@color/black_purple_transparent</item>
         <item name="educationCircleColor">@color/black_purple</item>
         <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white_purple_light</item>
-        <item name="chipFilterBackgroundColor">@color/purple_dark</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/purple_darker</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Purple.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">

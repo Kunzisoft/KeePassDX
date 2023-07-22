@@ -63,10 +63,6 @@
 
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white</item>
-        <item name="chipFilterBackgroundColor">@color/red_lighter</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/red</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Light.Dialog">
@@ -121,10 +117,6 @@
 
         <item name="educationCircleColor">@color/red_dark</item>
         <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white</item>
-        <item name="chipFilterBackgroundColor">@color/red_lighter</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/red</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">

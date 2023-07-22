@@ -117,11 +117,6 @@
         <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
         <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
 
-        <!-- Chip -->
-        <item name="chipFilterTextColor">@color/white</item>
-        <item name="chipFilterBackgroundColor">@color/green_light</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/green</item>
-
         <!-- Education Hint -->
         <item name="educationCircleColor">@color/green_lighter</item>
         <item name="educationTextColor">@color/white</item>
@@ -221,11 +216,6 @@
         <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
         <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
 
-        <!-- Chip -->
-        <item name="chipFilterTextColor">@color/white</item>
-        <item name="chipFilterBackgroundColor">@color/green_lighter</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/green</item>
-
         <!-- Education Hint -->
         <item name="educationCircleColor">@color/green_light</item>
         <item name="educationTextColor">@color/white</item>
@@ -280,26 +270,17 @@
     </style>
 
     <!-- Chip -->
-    <style name="KeepassDXStyle.Chip.Filter" parent="Widget.MaterialComponents.Chip.Filter">
+    <style name="KeepassDXStyle.Chip.Filter" parent="Widget.Material3.Chip.Filter">
         <item name="chipCornerRadius">8dp</item>
-        <item name="chipBackgroundColor">@color/background_color_chip</item>
-        <item name="android:textColor">?attr/chipFilterTextColor</item>
-        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
-        <item name="checkedIconTint">?attr/chipFilterTextColor</item>
         <item name="chipIconVisible">false</item>
         <item name="closeIconSize">24dp</item>
         <item name="ensureMinTouchTargetSize">false</item>
     </style>
-    <style name="KeepassDXStyle.Chip.Filter.Icon" parent="Widget.MaterialComponents.Chip.Filter">
+    <style name="KeepassDXStyle.Chip.Filter.Icon" parent="Widget.Material3.Chip.Filter">
         <item name="chipCornerRadius">8dp</item>
-        <item name="chipBackgroundColor">@color/background_color_chip</item>
-        <item name="android:textColor">?attr/chipFilterTextColor</item>
-        <item name="checkedIcon">@drawable/ic_check_white_24dp</item>
-        <item name="checkedIconTint">?attr/chipFilterTextColor</item>
         <item name="chipIconVisible">true</item>
         <item name="closeIconVisible">true</item>
         <item name="closeIconSize">24dp</item>
-        <item name="closeIconTint">?attr/chipFilterTextColor</item>
         <item name="ensureMinTouchTargetSize">false</item>
     </style>
 

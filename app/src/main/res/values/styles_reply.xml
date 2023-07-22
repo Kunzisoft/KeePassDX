@@ -64,10 +64,6 @@
 
         <item name="educationCircleColor">@color/reply_theme_light_primaryContainer</item>
         <item name="educationTextColor">@color/reply_theme_light_onPrimaryContainer</item>
-
-        <item name="chipFilterTextColor">@color/reply_theme_light_onPrimaryContainer</item>
-        <item name="chipFilterBackgroundColor">@color/reply_theme_light_primaryContainer</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/reply_theme_light_inverseSurface</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Reply.Dialog" parent="KeepassDXStyle.Light.Dialog">
@@ -125,10 +121,6 @@
         <item name="cardBackgroundTransparentColor">@color/reply_black_transparent</item>
         <item name="educationCircleColor">@color/reply_theme_night_primaryContainer</item>
         <item name="educationTextColor">@color/reply_theme_night_onPrimaryContainer</item>
-
-        <item name="chipFilterTextColor">@color/reply_theme_night_onPrimaryContainer</item>
-        <item name="chipFilterBackgroundColor">@color/reply_theme_night_primaryContainer</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/reply_theme_night_inverseSurface</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Reply.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
