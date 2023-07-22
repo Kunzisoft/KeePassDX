@@ -81,8 +81,6 @@
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
-        <item name="cardBackgroundTransparentColor">#DDFFFFFF</item>
-
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:textColorLink">@color/text_color_light</item>
         <item name="android:editTextColor">@color/grey_light</item>
@@ -116,10 +114,6 @@
         <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
         <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
         <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
-
-        <!-- Education Hint -->
-        <item name="educationCircleColor">@color/green_lighter</item>
-        <item name="educationTextColor">@color/white</item>
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
@@ -182,8 +176,6 @@
         <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
 
-        <item name="cardBackgroundTransparentColor">@color/grey_dark_transparent</item>
-
         <item name="android:textColor">@color/text_color_night</item>
         <item name="android:textColorLink">@color/text_color_night</item>
         <item name="android:editTextColor">@color/white</item>
@@ -215,10 +207,6 @@
         <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
         <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
         <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
-
-        <!-- Education Hint -->
-        <item name="educationCircleColor">@color/green_light</item>
-        <item name="educationTextColor">@color/white</item>
 
         <!-- Edit Text -->
         <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>

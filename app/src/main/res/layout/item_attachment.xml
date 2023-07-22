@@ -43,7 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignBottom="@+id/item_attachment_thumbnail"
-        android:background="?attr/cardBackgroundTransparentColor">
+        android:alpha="0.8"
+        android:background="?attr/colorSurfaceContainer">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"

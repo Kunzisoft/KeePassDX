@@ -56,28 +56,21 @@
         <item name="colorOnSurfaceInverse">@color/divine_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/divine_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/divine_theme_light_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/orange_light</item>
+        <item name="android:textColorPrimary">@color/divine_theme_light_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
-
-        <item name="cardBackgroundTransparentColor">@color/white_transparent</item>
-        <item name="educationCircleColor">@color/orange</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.White.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorSecondary">@color/orange</item>
-        <item name="android:textColorPrimary">@color/grey_light</item>
-        <item name="android:background">@color/white</item>
-        <item name="background">@color/white</item>
+        <item name="colorSecondary">@color/divine_theme_light_secondary</item>
+        <item name="android:textColorPrimary">@color/divine_theme_light_textPrimary</item>
+        <item name="android:background">@color/divine_theme_light_background</item>
+        <item name="background">@color/divine_theme_light_background</item>
     </style>
 
     <!-- Black Style -->
-    <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Black.v21" />
-    <style name="KeepassDXStyle.Black.v21" parent="KeepassDXStyle.Black.Base" />
-    <style name="KeepassDXStyle.Black.Base" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Night" >
 
         <item name="colorPrimary">@color/divine_theme_night_primary</item>
         <item name="colorPrimaryDark">@color/divine_theme_night_primaryDark</item>
@@ -112,21 +105,16 @@
         <item name="colorOnSurfaceInverse">@color/divine_theme_night_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/divine_theme_night_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/divine_theme_night_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/orange_lighter</item>
+        <item name="android:textColorPrimary">@color/divine_theme_night_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-
-        <item name="cardBackgroundTransparentColor">@color/black_light_transparent</item>
-        <item name="educationCircleColor">@color/orange_darker</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorSecondary">@color/orange_darker</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:background">@color/black_lighter</item>
-        <item name="background">@color/black_lighter</item>
+        <item name="colorSecondary">@color/divine_theme_night_secondary</item>
+        <item name="android:textColorPrimary">@color/divine_theme_night_textPrimary</item>
+        <item name="android:background">@color/divine_theme_night_background</item>
+        <item name="background">@color/divine_theme_night_background</item>
     </style>
 </resources>

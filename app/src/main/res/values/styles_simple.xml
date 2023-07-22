@@ -19,9 +19,7 @@
 -->
 <resources>
     <!-- Classic Simple Style -->
-    <style name="KeepassDXStyle.Simple" parent="KeepassDXStyle.Simple.Light.v21" />
-    <style name="KeepassDXStyle.Simple.Light.v21" parent="KeepassDXStyle.Simple.Light.Base" />
-    <style name="KeepassDXStyle.Simple.Light.Base" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Simple" parent="KeepassDXStyle.Light" >
 
         <item name="colorPrimary">@color/simple_theme_light_primary</item>
         <item name="colorPrimaryDark">@color/simple_theme_light_primaryDark</item>
@@ -56,28 +54,21 @@
         <item name="colorOnSurfaceInverse">@color/simple_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/simple_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/simple_theme_light_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/grey</item>
+        <item name="android:textColorPrimary">@color/simple_theme_light_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Simple.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Simple.Dialog</item>
-
-        <item name="cardBackgroundTransparentColor">@color/white_slight_transparent</item>
-        <item name="educationCircleColor">@color/blue_dark</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Simple.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorSecondary">@color/blue_deep</item>
-        <item name="android:textColorPrimary">@color/grey</item>
-        <item name="android:background">@color/white_slight</item>
-        <item name="background">@color/white_slight</item>
+        <item name="colorSecondary">@color/simple_theme_light_secondary</item>
+        <item name="android:textColorPrimary">@color/simple_theme_light_textPrimary</item>
+        <item name="android:background">@color/simple_theme_light_background</item>
+        <item name="background">@color/simple_theme_light_background</item>
     </style>
 
     <!-- Classic Night Style -->
-    <style name="KeepassDXStyle.Simple.Night" parent="KeepassDXStyle.Simple.Night.v21" />
-    <style name="KeepassDXStyle.Simple.Night.v21" parent="KeepassDXStyle.Simple.Night.Base" />
-    <style name="KeepassDXStyle.Simple.Night.Base" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Simple.Night" parent="KeepassDXStyle.Night" >
 
         <item name="colorPrimary">@color/simple_theme_night_primary</item>
         <item name="colorPrimaryDark">@color/simple_theme_night_primaryDark</item>
@@ -112,21 +103,16 @@
         <item name="colorOnSurfaceInverse">@color/simple_theme_night_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/simple_theme_night_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/simple_theme_night_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/simple_theme_night_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Simple.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Simple.Night.Dialog</item>
-
-        <item name="cardBackgroundTransparentColor">@color/grey_slight_transparent</item>
-        <item name="educationCircleColor">@color/blue_slight</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Simple.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorSecondary">@color/blue_slight</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:background">@color/grey_slight</item>
-        <item name="background">@color/grey_slight</item>
+        <item name="colorSecondary">@color/simple_theme_night_secondary</item>
+        <item name="android:textColorPrimary">@color/simple_theme_night_textPrimary</item>
+        <item name="android:background">@color/simple_theme_night_background</item>
+        <item name="background">@color/simple_theme_night_background</item>
     </style>
 </resources>

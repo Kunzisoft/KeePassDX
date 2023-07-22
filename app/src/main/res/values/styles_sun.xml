@@ -19,8 +19,7 @@
 -->
 <resources>
     <!-- Light Red Style -->
-    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Red.v21" />
-    <style name="KeepassDXStyle.Red.v21" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Light" >
 
         <item name="colorPrimary">@color/sun_theme_light_primary</item>
         <item name="colorPrimaryDark">@color/sun_theme_light_primaryDark</item>
@@ -55,26 +54,21 @@
         <item name="colorOnSurfaceInverse">@color/sun_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/sun_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/sun_theme_light_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/red</item>
+        <item name="android:textColorPrimary">@color/sun_theme_light_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
-
-        <item name="educationCircleColor">@color/red_dark</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorSecondary">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:background">@color/red_white_light</item>
-        <item name="background">@color/red_white_light</item>
+        <item name="colorSecondary">@color/sun_theme_light_secondary</item>
+        <item name="android:textColorPrimary">@color/sun_theme_light_textPrimary</item>
+        <item name="android:background">@color/sun_theme_light_background</item>
+        <item name="background">@color/sun_theme_light_background</item>
     </style>
 
     <!-- Night Red Style -->
-    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" />
-    <style name="KeepassDXStyle.Red.Night.v21" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Night" >
 
         <item name="colorPrimary">@color/sun_theme_night_primary</item>
         <item name="colorPrimaryDark">@color/sun_theme_night_primaryDark</item>
@@ -109,20 +103,16 @@
         <item name="colorOnSurfaceInverse">@color/sun_theme_night_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/sun_theme_night_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/sun_theme_night_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/red</item>
+        <item name="android:textColorPrimary">@color/sun_theme_night_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
-
-        <item name="educationCircleColor">@color/red_dark</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorSecondary">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:background">@color/red_black_dark</item>
-        <item name="background">@color/red_black_dark</item>
+        <item name="colorSecondary">@color/sun_theme_night_secondary</item>
+        <item name="android:textColorPrimary">@color/sun_theme_night_textPrimary</item>
+        <item name="android:background">@color/sun_theme_night_background</item>
+        <item name="background">@color/sun_theme_night_background</item>
     </style>
 </resources>

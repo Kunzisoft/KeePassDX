@@ -221,6 +221,7 @@
     <color name="classic_theme_light_inverseOnSurface">#F0F1EB</color>
     <color name="classic_theme_light_inverseSurface">#2D2F31</color>
     <color name="classic_theme_light_inversePrimary">#4FC3F7</color>
+    <color name="classic_theme_light_textPrimary">@color/cyan</color>
 
     <color name="classic_theme_night_primary">#209BC6</color>
     <color name="classic_theme_night_primaryDark">@color/black_light</color>
@@ -254,6 +255,7 @@
     <color name="classic_theme_night_inverseOnSurface">#191B1C</color>
     <color name="classic_theme_night_inverseSurface">#DDE1E3</color>
     <color name="classic_theme_night_inversePrimary">#00486E</color>
+    <color name="classic_theme_night_textPrimary">@color/cyan_lightest</color>
 
     <!-- Divine -->
 
@@ -289,6 +291,7 @@
     <color name="divine_theme_light_inverseOnSurface">#F1EEEB</color>
     <color name="divine_theme_light_inverseSurface">#312F2D</color>
     <color name="divine_theme_light_inversePrimary">#F7924F</color>
+    <color name="divine_theme_light_textPrimary">@color/orange_dark</color>
 
     <color name="divine_theme_night_primary">@color/orange_darkest</color>
     <color name="divine_theme_night_primaryDark">@color/black</color>
@@ -322,6 +325,7 @@
     <color name="divine_theme_night_inverseOnSurface">#1C1A19</color>
     <color name="divine_theme_night_inverseSurface">#E3E0DD</color>
     <color name="divine_theme_night_inversePrimary">#6E3000</color>
+    <color name="divine_theme_night_textPrimary">@color/orange_lighter</color>
 
     <!-- Classic -->
 
@@ -357,6 +361,7 @@
     <color name="simple_theme_light_inverseOnSurface">#F0F1EB</color>
     <color name="simple_theme_light_inverseSurface">#2D2F31</color>
     <color name="simple_theme_light_inversePrimary">@color/blue_deep</color>
+    <color name="simple_theme_light_textPrimary">@color/grey_darker</color>
 
     <color name="simple_theme_night_primary">#1A66CC</color>
     <color name="simple_theme_night_primaryDark">@color/grey_slight</color>
@@ -390,6 +395,7 @@
     <color name="simple_theme_night_inverseOnSurface">#191B1C</color>
     <color name="simple_theme_night_inverseSurface">#DDE1E3</color>
     <color name="simple_theme_night_inversePrimary">#00486E</color>
+    <color name="simple_theme_night_textPrimary">@color/white</color>
 
     <!-- Moon -->
 
@@ -425,6 +431,7 @@
     <color name="moon_theme_light_inverseOnSurface">#F0F1EB</color>
     <color name="moon_theme_light_inverseSurface">#2D2F31</color>
     <color name="moon_theme_light_inversePrimary">@color/blue_deep</color>
+    <color name="moon_theme_light_textPrimary">@color/blue_darker</color>
 
     <color name="moon_theme_night_primary">@color/blue</color>
     <color name="moon_theme_night_primaryDark">@color/blue_dark</color>
@@ -458,6 +465,7 @@
     <color name="moon_theme_night_inverseOnSurface">#191B1C</color>
     <color name="moon_theme_night_inverseSurface">#DDE1E3</color>
     <color name="moon_theme_night_inversePrimary">#00486E</color>
+    <color name="moon_theme_night_textPrimary">@color/blue_lighter</color>
 
     <!-- Sun -->
 
@@ -493,6 +501,7 @@
     <color name="sun_theme_light_inverseOnSurface">#F0F1EB</color>
     <color name="sun_theme_light_inverseSurface">#312D2D</color>
     <color name="sun_theme_light_inversePrimary">@color/red_black</color>
+    <color name="sun_theme_light_textPrimary">@color/red_dark</color>
 
     <color name="sun_theme_night_primary">@color/red</color>
     <color name="sun_theme_night_primaryDark">@color/red_dark</color>
@@ -526,6 +535,7 @@
     <color name="sun_theme_night_inverseOnSurface">#1C1919</color>
     <color name="sun_theme_night_inverseSurface">#E3DDDD</color>
     <color name="sun_theme_night_inversePrimary">#6E0000</color>
+    <color name="sun_theme_night_textPrimary">@color/red_lighter</color>
 
     <!-- Reply -->
 
@@ -563,6 +573,7 @@
     <color name="reply_theme_light_inverseOnSurface">#F0F1EB</color>
     <color name="reply_theme_light_inverseSurface">#414445</color>
     <color name="reply_theme_light_inversePrimary">#243442</color>
+    <color name="reply_theme_light_textPrimary">#27343A</color>
 
     <color name="reply_theme_night_primary">#F9AA33</color>
     <color name="reply_theme_night_primaryDark">#1D272B</color>
@@ -596,6 +607,7 @@
     <color name="reply_theme_night_inverseOnSurface">#F0F1EB</color>
     <color name="reply_theme_night_inverseSurface">#414445</color>
     <color name="reply_theme_night_inversePrimary">#243442</color>
+    <color name="reply_theme_night_textPrimary">#F1F2F3</color>
 
     <!-- Kunzite -->
 
@@ -631,7 +643,7 @@
     <color name="purple_theme_light_inverseOnSurface">#EFEBF1</color>
     <color name="purple_theme_light_inverseSurface">#2F2D31</color>
     <color name="purple_theme_light_inversePrimary">#2F2442</color>
-    <color name="purple_theme_light_textPrimary">@color/purple_light</color>
+    <color name="purple_theme_light_textPrimary">@color/purple_dark</color>
 
     <color name="purple_theme_night_primary">@color/red_dark</color>
     <color name="purple_theme_night_primaryDark">@color/black_purple</color>

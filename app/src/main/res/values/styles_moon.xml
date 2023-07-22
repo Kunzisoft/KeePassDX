@@ -19,8 +19,7 @@
 -->
 <resources>
     <!-- Light Blue Style -->
-    <style name="KeepassDXStyle.Blue" parent="KeepassDXStyle.Blue.v21" />
-    <style name="KeepassDXStyle.Blue.v21" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Blue" parent="KeepassDXStyle.Light" >
 
         <item name="colorPrimary">@color/moon_theme_light_primary</item>
         <item name="colorPrimaryDark">@color/moon_theme_light_primaryDark</item>
@@ -55,26 +54,21 @@
         <item name="colorOnSurfaceInverse">@color/moon_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/moon_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/moon_theme_light_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/blue_light</item>
+        <item name="android:textColorPrimary">@color/moon_theme_light_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Dialog</item>
-
-        <item name="educationCircleColor">@color/blue_dark</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Blue.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorSecondary">@color/blue_white_dark</item>
-        <item name="android:textColorPrimary">@color/blue</item>
-        <item name="android:background">@color/blue_white_light</item>
-        <item name="background">@color/blue_white_light</item>
+        <item name="colorSecondary">@color/moon_theme_light_secondary</item>
+        <item name="android:textColorPrimary">@color/moon_theme_light_textPrimary</item>
+        <item name="android:background">@color/moon_theme_light_background</item>
+        <item name="background">@color/moon_theme_light_background</item>
     </style>
 
     <!-- Dark Blue Style -->
-    <style name="KeepassDXStyle.Blue.Night" parent="KeepassDXStyle.Blue.Night.v21" />
-    <style name="KeepassDXStyle.Blue.Night.v21" parent="KeepassDXStyle.Night" >
+    <style name="KeepassDXStyle.Blue.Night" parent="KeepassDXStyle.Night" >
 
         <item name="colorPrimary">@color/moon_theme_night_primary</item>
         <item name="colorPrimaryDark">@color/moon_theme_night_primaryDark</item>
@@ -109,20 +103,16 @@
         <item name="colorOnSurfaceInverse">@color/moon_theme_night_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/moon_theme_night_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/moon_theme_night_inversePrimary</item>
-
-        <item name="android:textColorPrimary">@color/blue_light</item>
+        <item name="android:textColorPrimary">@color/moon_theme_night_textPrimary</item>
 
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Blue.Night.Dialog</item>
-
-        <item name="educationCircleColor">@color/blue_dark</item>
-        <item name="educationTextColor">@color/white</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Blue.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorSecondary">@color/blue_white_dark</item>
-        <item name="android:textColorPrimary">@color/blue</item>
-        <item name="android:background">@color/blue_black_dark</item>
-        <item name="background">@color/blue_black_dark</item>
+        <item name="colorSecondary">@color/moon_theme_night_secondary</item>
+        <item name="android:textColorPrimary">@color/moon_theme_night_textPrimary</item>
+        <item name="android:background">@color/moon_theme_night_background</item>
+        <item name="background">@color/moon_theme_night_background</item>
     </style>
 </resources>
