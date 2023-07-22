@@ -36,7 +36,7 @@
     <dimen name="lock_button_size">48dp</dimen>
     <dimen name="hidden_lock_button_size">0dp</dimen>
     <dimen name="content_percent">1</dimen>
-    <dimen name="dialog_radius">16dp</dimen>
+    <dimen name="dialog_radius">24dp</dimen>
     <dimen name="card_radius">12dp</dimen>
     <dimen name="small_card_radius">24dp</dimen>
     <dimen name="min_height_breadcrumb">48dp</dimen>

@@ -21,6 +21,7 @@
     <attr name="toolbarSpecialStyle" format="reference" />
     <attr name="toolbarActionStyle" format="reference" />
 
+    <attr name="dialogBackgroundColor" format="reference|color" />
     <attr name="iconPreferenceColor" format="reference|color" />
 
     <declare-styleable name="explanationDialog">

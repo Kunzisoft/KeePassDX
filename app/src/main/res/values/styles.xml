@@ -52,7 +52,7 @@
         <item name="colorErrorContainer">@color/forest_theme_light_errorContainer</item>
         <item name="colorOnError">@color/forest_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/forest_theme_light_onErrorContainer</item>
-        <item name="android:windowBackground">@color/green_white</item>
+        <item name="android:windowBackground">@color/forest_theme_light_background</item>
         <item name="android:colorBackground">@color/forest_theme_light_background</item>
         <item name="colorOnBackground">@color/forest_theme_light_onBackground</item>
         <item name="colorSurface">@color/forest_theme_light_surface</item>
@@ -94,6 +94,7 @@
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
+        <item name="dialogBackgroundColor">@color/forest_theme_light_background</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
@@ -147,7 +148,7 @@
         <item name="colorErrorContainer">@color/forest_theme_night_errorContainer</item>
         <item name="colorOnError">@color/forest_theme_night_onError</item>
         <item name="colorOnErrorContainer">@color/forest_theme_night_onErrorContainer</item>
-        <item name="android:windowBackground">?attr/colorSurfaceContainerHighest</item>
+        <item name="android:windowBackground">@color/forest_theme_night_background</item>
         <item name="android:colorBackground">@color/forest_theme_night_background</item>
         <item name="colorOnBackground">@color/forest_theme_night_onBackground</item>
         <item name="colorSurface">@color/forest_theme_night_surface</item>
@@ -189,6 +190,7 @@
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
+        <item name="dialogBackgroundColor">@color/forest_theme_night_background</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
@@ -274,10 +276,8 @@
 
     <!-- Dialog -->
     <style name="KeepassDXStyle.Light.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="colorSecondary">@color/orange</item>
-        <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:background">@color/green_white</item>
-        <item name="background">@color/green_white</item>
+        <item name="android:background">?attr/dialogBackgroundColor</item>
+        <item name="background">?attr/dialogBackgroundColor</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="dialogCornerRadius">@dimen/dialog_radius</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
@@ -291,10 +291,8 @@
     </style>
 
     <style name="KeepassDXStyle.Night.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="colorSecondary">@color/orange</item>
-        <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:background">@color/green_black_light</item>
-        <item name="background">@color/green_black_light</item>
+        <item name="android:background">?attr/dialogBackgroundColor</item>
+        <item name="background">?attr/dialogBackgroundColor</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="dialogCornerRadius">@dimen/dialog_radius</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>

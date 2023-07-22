@@ -19,10 +19,7 @@
 -->
 <resources>
     <!-- White Style -->
-    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.White.v21" />
-    <style name="KeepassDXStyle.White.v21" parent="KeepassDXStyle.White.Base" />
-    <style name="KeepassDXStyle.White.Base" parent="KeepassDXStyle.Light">
-
+    <style name="KeepassDXStyle.White" parent="KeepassDXStyle.Light">
         <item name="colorPrimary">@color/divine_theme_light_primary</item>
         <item name="colorPrimaryDark">@color/divine_theme_light_primaryDark</item>
         <item name="colorOnPrimary">@color/divine_theme_light_onPrimary</item>
@@ -57,21 +54,11 @@
         <item name="colorSurfaceInverse">@color/divine_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/divine_theme_light_inversePrimary</item>
         <item name="android:textColorPrimary">@color/divine_theme_light_textPrimary</item>
-
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.White.Dialog</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.White.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorSecondary">@color/divine_theme_light_secondary</item>
-        <item name="android:textColorPrimary">@color/divine_theme_light_textPrimary</item>
-        <item name="android:background">@color/divine_theme_light_background</item>
-        <item name="background">@color/divine_theme_light_background</item>
+        <item name="dialogBackgroundColor">@color/divine_theme_light_background</item>
     </style>
 
     <!-- Black Style -->
     <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Night" >
-
         <item name="colorPrimary">@color/divine_theme_night_primary</item>
         <item name="colorPrimaryDark">@color/divine_theme_night_primaryDark</item>
         <item name="colorOnPrimary">@color/divine_theme_night_onPrimary</item>
@@ -106,15 +93,6 @@
         <item name="colorSurfaceInverse">@color/divine_theme_night_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/divine_theme_night_inversePrimary</item>
         <item name="android:textColorPrimary">@color/divine_theme_night_textPrimary</item>
-
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Black.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorSecondary">@color/divine_theme_night_secondary</item>
-        <item name="android:textColorPrimary">@color/divine_theme_night_textPrimary</item>
-        <item name="android:background">@color/divine_theme_night_background</item>
-        <item name="background">@color/divine_theme_night_background</item>
+        <item name="dialogBackgroundColor">@color/divine_theme_night_background</item>
     </style>
 </resources>
