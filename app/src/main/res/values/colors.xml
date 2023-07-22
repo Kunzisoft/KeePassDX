@@ -597,4 +597,74 @@
     <color name="reply_theme_night_inverseSurface">#414445</color>
     <color name="reply_theme_night_inversePrimary">#243442</color>
 
+    <!-- Kunzite -->
+
+    <color name="purple_theme_light_primary">@color/red</color>
+    <color name="purple_theme_light_primaryDark">#F5F3F6</color>
+    <color name="purple_theme_light_onPrimary">@color/white_purple</color>
+    <color name="purple_theme_light_primaryContainer">@color/red</color>
+    <color name="purple_theme_light_onPrimaryContainer">@color/white_darkest</color>
+    <color name="purple_theme_light_secondary">@color/red</color>
+    <color name="purple_theme_light_onSecondary">@color/purple_lighter</color>
+    <color name="purple_theme_light_secondaryContainer">#8449A8</color>
+    <color name="purple_theme_light_onSecondaryContainer">@color/white_purple</color>
+    <color name="purple_theme_light_tertiary">#CD35CA</color>
+    <color name="purple_theme_light_onTertiary">@color/white</color>
+    <color name="purple_theme_light_tertiaryContainer">#CD35CA</color>
+    <color name="purple_theme_light_onTertiaryContainer">@color/white</color>
+    <color name="purple_theme_light_error">#BA1A1A</color>
+    <color name="purple_theme_light_errorContainer">#FFDAD6</color>
+    <color name="purple_theme_light_onError">#FFFFFF</color>
+    <color name="purple_theme_light_onErrorContainer">#410002</color>
+    <color name="purple_theme_light_background">#ECCDF9</color>
+    <color name="purple_theme_light_onBackground">#2A2033</color>
+    <color name="purple_theme_light_surface">#F3D6FF</color>
+    <color name="purple_theme_light_onSurface">@color/red_black_dark</color>
+    <color name="purple_theme_light_surfaceContainerLowest">#F7E9FF</color>
+    <color name="purple_theme_light_surfaceContainerLow">#F2E1FB</color>
+    <color name="purple_theme_light_surfaceContainer">#F4E0FF</color>
+    <color name="purple_theme_light_surfaceContainerHigh">#F2DAFF</color>
+    <color name="purple_theme_light_surfaceContainerHighest">#F0D6FD</color>
+    <color name="purple_theme_light_surfaceVariant">#DFD8E5</color>
+    <color name="purple_theme_light_onSurfaceVariant">#454049</color>
+    <color name="purple_theme_light_outline">#756F79</color>
+    <color name="purple_theme_light_inverseOnSurface">#EFEBF1</color>
+    <color name="purple_theme_light_inverseSurface">#2F2D31</color>
+    <color name="purple_theme_light_inversePrimary">#2F2442</color>
+    <color name="purple_theme_light_textPrimary">@color/purple_light</color>
+
+    <color name="purple_theme_night_primary">@color/red_dark</color>
+    <color name="purple_theme_night_primaryDark">@color/black_purple</color>
+    <color name="purple_theme_night_onPrimary">@color/white_purple_light</color>
+    <color name="purple_theme_night_primaryContainer">@color/red_dark</color>
+    <color name="purple_theme_night_onPrimaryContainer">@color/white</color>
+    <color name="purple_theme_night_secondary">@color/red</color>
+    <color name="purple_theme_night_onSecondary">@color/white_purple_light</color>
+    <color name="purple_theme_night_secondaryContainer">#4C186A</color>
+    <color name="purple_theme_night_onSecondaryContainer">#DED1E8</color>
+    <color name="purple_theme_night_tertiary">#A80D8F</color>
+    <color name="purple_theme_night_onTertiary">@color/white</color>
+    <color name="purple_theme_night_tertiaryContainer">#A80D8F</color>
+    <color name="purple_theme_night_onTertiaryContainer">@color/white</color>
+    <color name="purple_theme_night_error">#FFB4AB</color>
+    <color name="purple_theme_night_errorContainer">#93000A</color>
+    <color name="purple_theme_night_onError">#690005</color>
+    <color name="purple_theme_night_onErrorContainer">#FFDAD6</color>
+    <color name="purple_theme_night_background">#2A1239</color>
+    <color name="purple_theme_night_onBackground">#DDE3E3</color>
+    <color name="purple_theme_night_surface">@color/black_purple_dark</color>
+    <color name="purple_theme_night_onSurface">#F1F2F3</color>
+    <color name="purple_theme_night_surfaceContainerLowest">#3F1B55</color>
+    <color name="purple_theme_night_surfaceContainerLow">#3A184E</color>
+    <color name="purple_theme_night_surfaceContainer">#321243</color>
+    <color name="purple_theme_night_surfaceContainerHigh">#301440</color>
+    <color name="purple_theme_night_surfaceContainerHighest">#2A1239</color>
+    <color name="purple_theme_night_surfaceVariant">#424049</color>
+    <color name="purple_theme_night_onSurfaceVariant">#C2BDC9</color>
+    <color name="purple_theme_night_outline">#8D8893</color>
+    <color name="purple_theme_night_inverseOnSurface">#1A191C</color>
+    <color name="purple_theme_night_inverseSurface">#E0DDE3</color>
+    <color name="purple_theme_night_inversePrimary">#2E006E</color>
+    <color name="purple_theme_night_textPrimary">@color/purple_lighter</color>
+
 </resources>
