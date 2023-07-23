@@ -527,7 +527,8 @@ class NodesAdapter (
                 try {
                     mClipboardHelper.copyToClipboard(
                         TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
-                        token
+                        token,
+                        true
                     )
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to copy the OTP token", e)
