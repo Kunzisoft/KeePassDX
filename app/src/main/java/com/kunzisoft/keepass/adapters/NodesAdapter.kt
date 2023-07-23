@@ -91,6 +91,8 @@ class NodesAdapter (
     private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
+    private val mColorSurfaceContainer: Int
+    @ColorInt
     private val mTextColorPrimary: Int
     @ColorInt
     private val mTextColor: Int
@@ -116,6 +118,9 @@ class NodesAdapter (
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
+        val taColorSurfaceContainer = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
+        this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
+        taColorSurfaceContainer.recycle()
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
@@ -430,16 +435,8 @@ class NodesAdapter (
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            ViewCompat.setBackgroundTintList(
-                holder.container,
-                ColorStateList.valueOf(
-                    if (!holder.container.isSelected) {
-                        (if (mShowEntryColors) entry.backgroundColor else null) ?: Color.TRANSPARENT
-                    } else {
-                        mColorSecondary
-                    }
-                )
-            )
+            assignBackgroundColor(holder.container, entry)
+            assignBackgroundColor(holder.otpContainer, entry)
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
@@ -536,6 +533,22 @@ class NodesAdapter (
                     Log.e(TAG, "Unable to copy the OTP token", e)
                 }
             }
+        }
+    }
+
+    private fun assignBackgroundColor(view: View?, entry: Entry) {
+        view?.let {
+            ViewCompat.setBackgroundTintList(
+                view,
+                ColorStateList.valueOf(
+                    if (!view.isSelected) {
+                        (if (mShowEntryColors) entry.backgroundColor else null)
+                            ?: mColorSurfaceContainer
+                    } else {
+                        mColorSecondary
+                    }
+                )
+            )
         }
     }
 
