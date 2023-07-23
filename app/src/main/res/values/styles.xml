@@ -102,8 +102,6 @@
 
         <!-- Toolbar -->
         <item name="collapsingToolbarLayoutStyle">@style/KeepassDXStyle.CollapsingLayout</item>
-        <item name="collapsedTitleTextColor">@color/white</item>
-        <item name="expandedTitleTextColor">@color/white</item>
         <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar</item>
         <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special</item>
         <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action</item>
@@ -223,7 +221,7 @@
     <style name="KeepassDXStyle.Toolbar" parent="KeepassDXStyle.Toolbar.v21" >
         <item name="elevation">0dp</item>
     </style>
-    <style name="KeepassDXStyle.CollapsingLayout" parent="Widget.Material3.CollapsingToolbar">
+    <style name="KeepassDXStyle.CollapsingLayout" parent="Widget.Design.CollapsingToolbar">
         <item name="android:background">?attr/colorSurface</item>
         <item name="background">?attr/colorSurface</item>
         <item name="contentScrim">?attr/colorSurface</item>
