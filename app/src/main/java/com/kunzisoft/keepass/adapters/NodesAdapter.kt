@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
@@ -29,6 +30,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -428,6 +430,16 @@ class NodesAdapter (
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
+            ViewCompat.setBackgroundTintList(
+                holder.container,
+                ColorStateList.valueOf(
+                    if (!holder.container.isSelected) {
+                        (if (mShowEntryColors) entry.backgroundColor else null) ?: Color.TRANSPARENT
+                    } else {
+                        mColorSecondary
+                    }
+                )
+            )
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {

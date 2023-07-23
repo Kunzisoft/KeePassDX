@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -69,6 +70,8 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.view.changeControlColor
+import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
@@ -110,6 +113,8 @@ class EntryActivity : DatabaseLockActivity() {
 
     private var mIcon: IconImage? = null
     private var mColorSecondary: Int = 0
+    private var mColorSurface: Int = 0
+    private var mColorOnSurface: Int = 0
     private var mColorBackground: Int = 0
     private var mBackgroundColor: Int? = null
     private var mForegroundColor: Int? = null
@@ -142,10 +147,16 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Retrieve the textColor to tint the toolbar
         val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        val taColorSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface))
+        val taColorOnSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
         val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
         mColorSecondary = taColorSecondary.getColor(0, Color.BLACK)
+        mColorSurface = taColorSurface.getColor(0, Color.BLACK)
+        mColorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
         mColorBackground = taColorBackground.getColor(0, Color.BLACK)
         taColorSecondary.recycle()
+        taColorSurface.recycle()
+        taColorOnSurface.recycle()
         taColorBackground.recycle()
 
         // Init Tags adapter
@@ -355,6 +366,8 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private fun applyToolbarColors() {
+        collapsingToolbarLayout?.setBackgroundColor(mBackgroundColor ?: mColorSurface)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorSurface)
         val backgroundDarker = if (mBackgroundColor != null) {
             ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
         } else {
@@ -371,6 +384,8 @@ class EntryActivity : DatabaseLockActivity() {
                 )
             }
         }
+        toolbar?.changeControlColor(mForegroundColor ?: mColorOnSurface)
+        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mColorOnSurface)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
