@@ -27,9 +27,9 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.ImageViewerActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
+import com.kunzisoft.keepass.services.AttachmentFileNotificationService.Companion.FILE_PROGRESSION_MAX
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
 import com.kunzisoft.keepass.view.expand
 import kotlin.math.max
@@ -138,6 +139,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                 visibility = View.GONE
             }
         }
+        holder.binaryFileProgress.max = FILE_PROGRESSION_MAX
         when (entryAttachmentState.streamDirection) {
             StreamDirection.UPLOAD -> {
                 holder.binaryFileProgressIcon.isActivated = true
@@ -182,7 +184,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
                         AttachmentState.START,
                         AttachmentState.IN_PROGRESS -> View.VISIBLE
                     }
-                    progress = entryAttachmentState.downloadProgression
+                    setProgressCompat(entryAttachmentState.downloadProgression, true)
                 }
                 holder.binaryFileInfo.setOnClickListener {
                     onItemClickListener?.invoke(entryAttachmentState)
@@ -201,7 +203,7 @@ class EntryAttachmentsItemsAdapter(context: Context)
         var binaryFileCompression: TextView = itemView.findViewById(R.id.item_attachment_compression)
         var binaryFileProgressContainer: View = itemView.findViewById(R.id.item_attachment_progress_container)
         var binaryFileProgressIcon: ImageView = itemView.findViewById(R.id.item_attachment_icon)
-        var binaryFileProgress: ProgressBar = itemView.findViewById(R.id.item_attachment_progress)
+        var binaryFileProgress: CircularProgressIndicator = itemView.findViewById(R.id.item_attachment_progress)
         var binaryFileDeleteButton: View = itemView.findViewById(R.id.item_attachment_delete_button)
     }
 }

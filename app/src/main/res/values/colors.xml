@@ -39,6 +39,7 @@
     <color name="black_light">#0e0e0e</color>
     <color name="black_light_transparent">#E00E0E0E</color>
 	<color name="black">#000001</color> <!-- #000001 To fix refresh theme -->
+	<color name="black_selection">#0D000000</color>
 	<color name="black_transparent">#E0000000</color>
 
     <color name="blue_white_light">#F1F8FF</color>
