@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.view.TagsListView
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.LinkedList
@@ -195,6 +196,7 @@ class NodesAdapter (
                         && oldItem.foregroundColor == newItem.foregroundColor
                         && oldItem.getOtpElement() == newItem.getOtpElement()
                         && oldItem.containsAttachment() == newItem.containsAttachment()
+                        && oldItem.tags == newItem.tags
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
                         && oldItem.notes == newItem.notes
@@ -447,6 +449,8 @@ class NodesAdapter (
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
                     iconColor = foregroundColor
+                    holder.tagsContainer?.textColor = foregroundColor
+                    holder.tagsContainer?.bgColor = foregroundColor
                 } else {
                     holder.text.setTextColor(mTextColor)
                     holder.subText?.setTextColor(mTextColorSecondary)
@@ -454,6 +458,8 @@ class NodesAdapter (
                     holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
+                    holder.tagsContainer?.textColor = mTextColorSecondary
+                    holder.tagsContainer?.bgColor = mTextColorSecondary
                 }
             } else {
                 holder.text.setTextColor(mColorOnSecondary)
@@ -462,6 +468,12 @@ class NodesAdapter (
                 holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
                 holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
                 holder.meta.setTextColor(mColorOnSecondary)
+                holder.tagsContainer?.textColor = mColorOnSecondary
+                holder.tagsContainer?.bgColor = mColorOnSecondary
+            }
+
+            holder.tagsContainer?.apply {
+                currentTags = subNode.tags.toList()
             }
 
             database.stopManageEntry(entry)
@@ -600,6 +612,7 @@ class NodesAdapter (
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
+        var tagsContainer: TagsListView? = itemView.findViewById(R.id.node_tags_container)
     }
 
     companion object {
