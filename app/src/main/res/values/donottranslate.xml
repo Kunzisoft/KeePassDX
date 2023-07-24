@@ -260,6 +260,7 @@
     <bool name="search_option_templates_default" translatable="false">false</bool>
 
     <!-- Database Settings -->
+    <string name="settings_database_category_key" translatable="false">settings_database_category_key</string>
     <string name="settings_database_key" translatable="false">settings_database_key</string>
     <string name="settings_database_security_key" translatable="false">settings_database_security_key</string>
     <string name="settings_database_credentials_key" translatable="false">settings_database_credentials_key</string>

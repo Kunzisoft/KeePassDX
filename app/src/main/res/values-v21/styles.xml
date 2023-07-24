@@ -24,12 +24,12 @@
         <item name="android:navigationBarColor">@color/grey_dark</item>
     </style>
     <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.Theme</item>
+        <item name="android:statusBarColor">@color/grey_dark</item>
+        <item name="android:navigationBarColor">@color/grey_dark</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.Theme</item>
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
@@ -40,8 +40,8 @@
     </style>
 
     <!-- Preference Theme -->
-    <style name="KeepassDXStyle.Preference.v21" parent="@style/PreferenceThemeOverlay.v14.Material">
-        <item name="android:tint">?attr/iconPreferenceColor</item>
+    <style name="KeepassDXStyle.Preference.Theme" parent="@style/PreferenceThemeOverlay">
+        <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
     <!-- Button Style -->

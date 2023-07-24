@@ -84,8 +84,6 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/green_light</item>
 
-        <item name="iconPreferenceColor">?attr/colorOnSurface</item>
-
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
@@ -103,6 +101,11 @@
 
         <!-- Tab -->
         <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
+
+        <!-- Preference -->
+        <item name="preferenceStyle">@style/KeepassDXStyle.Preference.Style</item>
+        <item name="dialogPreferenceStyle">@style/KeepassDXStyle.Preference.Dialog.Style</item>
+        <item name="preferenceCategoryStyle">@style/KeepassDXStyle.Preference.Category.Style</item>
 
         <!-- Switch -->
         <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
@@ -173,8 +176,6 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/green_light</item>
 
-        <item name="iconPreferenceColor">?attr/colorOnSurface</item>
-
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
@@ -192,6 +193,11 @@
 
         <!-- Tab -->
         <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
+
+        <!-- Preference -->
+        <item name="preferenceStyle">@style/KeepassDXStyle.Preference.Style</item>
+        <item name="dialogPreferenceStyle">@style/KeepassDXStyle.Preference.Dialog.Style</item>
+        <item name="preferenceCategoryStyle">@style/KeepassDXStyle.Preference.Category.Style</item>
 
         <!-- Switch -->
         <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
@@ -242,9 +248,30 @@
     <!-- Tab -->
     <style name="KeepassDXStyle.TabLayout" parent="@style/Widget.Material3.TabLayout" />
 
+    <!-- Preference -->
+    <style name="KeepassDXStyle.Preference.Style" parent="@style/Preference.Material">
+        <item name="android:layout">@layout/preference_material</item>
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="KeepassDXStyle.Preference.Dialog.Style" parent="@style/Preference.DialogPreference.Material">
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
+        <item name="iconSpaceReserved">false</item>
+    </style>
+    <style name="KeepassDXStyle.Preference.Category.Style" parent="@style/Preference.Category.Material">
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
+        <item name="iconSpaceReserved">false</item>
+    </style>
+
     <!-- Switch -->
     <style name="KeepassDXStyle.SwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="widgetLayout">@layout/preference_material_switch</item>
+        <item name="allowDividerAbove">false</item>
+        <item name="allowDividerBelow">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <!-- Chip -->

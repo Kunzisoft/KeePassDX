@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
@@ -60,6 +61,9 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
     private fun checkDatabaseLoaded() {
         findPreference<Preference>(getString(R.string.settings_database_key))
             ?.isEnabled = mDatabaseLoaded
+
+        findPreference<PreferenceCategory>(getString(R.string.settings_database_category_key))
+            ?.isVisible = mDatabaseLoaded
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

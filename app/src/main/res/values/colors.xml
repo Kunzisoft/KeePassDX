@@ -540,8 +540,6 @@
 
     <!-- Reply -->
 
-    <color name="reply_black_transparent">#E0232F34</color>
-
     <color name="reply_theme_light_primary">#F9AA33</color>
     <color name="reply_theme_light_primaryDark">#D1DADF</color>
     <color name="reply_theme_light_onPrimary">#232F34</color>
