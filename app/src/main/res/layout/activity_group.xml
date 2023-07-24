@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     tools:text="Database"
-                    style="@style/KeepassDXStyle.TextAppearance.LargeTitle" />
+                    style="@style/KeepassDXStyle.Title.OnSurface" />
             </FrameLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 

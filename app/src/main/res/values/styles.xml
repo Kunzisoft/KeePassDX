@@ -394,9 +394,11 @@
         <item name="android:textStyle">italic</item>
     </style>
     <style name="KeepassDXStyle.Title.OnSurface" parent="android:style/TextAppearance">
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColor">@color/on_surface_selector</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="KeepassDXStyle.Title.Small.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
+        <item name="android:textSize">18sp</item>
     </style>
     <style name="KeepassDXStyle.Title.Large.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
         <item name="android:textSize">28sp</item>
@@ -441,9 +443,6 @@
     <style name="KeepassDXStyle.TextAppearance.SmallTitle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">14sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.LargeTitle" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">20sp</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Tiny" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>

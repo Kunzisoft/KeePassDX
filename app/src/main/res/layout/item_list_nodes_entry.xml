@@ -119,8 +119,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
             android:gravity="end"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -129,18 +131,13 @@
                 android:id="@+id/node_otp_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
                 style="@style/KeepassDXStyle.Selectable.Item"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:paddingEnd="4dp"
                 android:paddingRight="4dp"
-                android:paddingVertical="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/node_attachment_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingVertical="4dp">
 
                 <TextView
                     android:id="@+id/node_otp_token"
@@ -153,9 +150,7 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp">
+                    android:layout_gravity="center">
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/node_otp_progress"
@@ -173,13 +168,8 @@
                 style="@style/KeepassDXStyle.TextAppearance.Entry.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/ic_attach_file_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/node_otp_container" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_attach_file_white_24dp" />
 
         </LinearLayout>
 
