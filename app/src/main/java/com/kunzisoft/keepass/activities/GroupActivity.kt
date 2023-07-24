@@ -127,7 +127,6 @@ class GroupActivity : DatabaseLockActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
-    private var databaseNameContainer: ViewGroup? = null
     private var databaseModifiedView: ImageView? = null
     private var databaseColorView: ImageView? = null
     private var databaseNameView: TextView? = null
@@ -264,7 +263,6 @@ class GroupActivity : DatabaseLockActivity(),
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
-        databaseNameContainer = findViewById(R.id.database_name_container)
         databaseModifiedView = findViewById(R.id.database_modified)
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)

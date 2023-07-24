@@ -98,6 +98,8 @@
         <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar</item>
         <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special</item>
         <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action</item>
+        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Title.Large.OnSurface</item>
+        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Title.OnSurface</item>
 
         <!-- Tab -->
         <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
@@ -190,6 +192,8 @@
         <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar</item>
         <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special</item>
         <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action</item>
+        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Title.Large.OnSurface</item>
+        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Title.OnSurface</item>
 
         <!-- Tab -->
         <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
@@ -398,7 +402,7 @@
         <item name="android:textColor">@color/on_surface_selector</item>
     </style>
     <style name="KeepassDXStyle.Title.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
     <style name="KeepassDXStyle.Text.Large.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
         <item name="android:textSize">16sp</item>

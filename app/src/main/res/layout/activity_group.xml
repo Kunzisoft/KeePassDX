@@ -43,26 +43,22 @@
             android:layout_height="wrap_content"
             android:title="@string/app_name"
             app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
-            <FrameLayout
-                android:id="@+id/database_name_container"
+            <TextView
+                android:id="@+id/database_name"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/database_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    tools:text="Database"
-                    style="@style/KeepassDXStyle.Title.OnSurface" />
-            </FrameLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:singleLine="true"
+                tools:text="Database"
+                style="@style/KeepassDXStyle.Title.OnSurface" />
         </com.google.android.material.appbar.MaterialToolbar>
 
         <FrameLayout
             android:layout_width="48dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="41dp"
-            android:layout_marginLeft="41dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
             app:layout_constraintBottom_toTopOf="@+id/group_coordinator">
