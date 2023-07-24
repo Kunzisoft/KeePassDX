@@ -262,7 +262,7 @@
     <string name="menu_security_settings">Security settings</string>
     <string name="menu_security_settings_summary">Encryption, key derivation function</string>
     <string name="menu_master_key_settings">Master key settings</string>
-    <string name="master_key_settings_summary">Change main credential, renewal</string>
+    <string name="master_key_settings_summary">Change, renewal</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
