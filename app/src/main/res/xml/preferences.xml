@@ -20,31 +20,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory
-		android:key="@string/settings_database_category_key"
-		android:title="@string/database">
-		<Preference
-			android:key="@string/settings_database_key"
-			android:title="@string/menu_database_settings"
-			android:icon="@drawable/prefs_data_usage_24dp"
-			android:summary="@string/menu_database_settings_summary"
-			android:persistent="false" />
-		<Preference
-			android:key="@string/settings_database_security_key"
-			android:title="@string/security"
-			android:icon="@drawable/prefs_security_24dp"
-			android:dependency="@string/settings_database_key"
-			android:summary="@string/menu_security_settings_summary"
-			android:persistent="false" />
-		<Preference
-			android:key="@string/settings_database_credentials_key"
-			android:title="@string/master_key"
-			android:icon="@drawable/prefs_key_24dp"
-			android:dependency="@string/settings_database_key"
-			android:summary="@string/master_key_settings_summary"
-			android:persistent="false" />
-	</PreferenceCategory>
-
-	<PreferenceCategory
 		android:title="@string/application">
 		<Preference
             android:key="@string/settings_app_key"
@@ -69,6 +44,31 @@
 			android:title="@string/menu_appearance_settings"
 			android:icon="@drawable/prefs_color_lens_24dp"
 			android:summary="@string/menu_appearance_settings_summary"
+			android:persistent="false" />
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		android:key="@string/settings_database_category_key"
+		android:title="@string/database">
+		<Preference
+			android:key="@string/settings_database_key"
+			android:title="@string/menu_database_settings"
+			android:icon="@drawable/prefs_data_usage_24dp"
+			android:summary="@string/menu_database_settings_summary"
+			android:persistent="false" />
+		<Preference
+			android:key="@string/settings_database_security_key"
+			android:title="@string/security"
+			android:icon="@drawable/prefs_security_24dp"
+			android:dependency="@string/settings_database_key"
+			android:summary="@string/menu_security_settings_summary"
+			android:persistent="false" />
+		<Preference
+			android:key="@string/settings_database_credentials_key"
+			android:title="@string/master_key"
+			android:icon="@drawable/prefs_key_24dp"
+			android:dependency="@string/settings_database_key"
+			android:summary="@string/master_key_settings_summary"
 			android:persistent="false" />
 	</PreferenceCategory>
 
