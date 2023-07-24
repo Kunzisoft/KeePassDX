@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
@@ -29,6 +30,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -89,15 +91,17 @@ class NodesAdapter (
     private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
+    private val mColorSurfaceContainer: Int
+    @ColorInt
     private val mTextColorPrimary: Int
     @ColorInt
     private val mTextColor: Int
     @ColorInt
     private val mTextColorSecondary: Int
     @ColorInt
-    private val mColorAccentLight: Int
+    private val mColorSecondary: Int
     @ColorInt
-    private val mColorOnAccentColor: Int
+    private val mColorOnSecondary: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -114,6 +118,9 @@ class NodesAdapter (
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
+        val taColorSurfaceContainer = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
+        this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
+        taColorSurfaceContainer.recycle()
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
@@ -127,13 +134,13 @@ class NodesAdapter (
         this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
         taTextColorSecondary.recycle()
         // To get background color for selection
-        val taColorAccentLight = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
-        this.mColorAccentLight = taColorAccentLight.getColor(0, Color.GRAY)
-        taColorAccentLight.recycle()
+        val taColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
+        taColorSecondary.recycle()
         // To get text color for selection
-        val taColorOnAccentColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
-        this.mColorOnAccentColor = taColorOnAccentColor.getColor(0, Color.WHITE)
-        taColorOnAccentColor.recycle()
+        val taColorOnSecondary = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
+        this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
+        taColorOnSecondary.recycle()
     }
 
     private fun assignPreferences() {
@@ -380,10 +387,10 @@ class NodesAdapter (
 
         // Assign icon colors
         var iconColor = if (holder.container.isSelected)
-            mColorOnAccentColor
+            mColorOnSecondary
         else when (subNode.type) {
-            Type.GROUP -> mTextColorPrimary
-            Type.ENTRY -> mTextColor
+            Type.GROUP -> mTextColor
+            Type.ENTRY -> mColorSecondary
         }
 
         // Specific elements for entry
@@ -428,16 +435,8 @@ class NodesAdapter (
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            val backgroundColor = if (mShowEntryColors) entry.backgroundColor else null
-            if (!holder.container.isSelected) {
-                if (backgroundColor != null) {
-                    holder.container.setBackgroundColor(backgroundColor)
-                } else {
-                    holder.container.setBackgroundColor(Color.TRANSPARENT)
-                }
-            } else {
-                holder.container.setBackgroundColor(mColorAccentLight)
-            }
+            assignBackgroundColor(holder.container, entry)
+            assignBackgroundColor(holder.otpContainer, entry)
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
@@ -457,12 +456,12 @@ class NodesAdapter (
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mColorOnAccentColor)
-                holder.subText?.setTextColor(mColorOnAccentColor)
-                holder.otpToken?.setTextColor(mColorOnAccentColor)
-                holder.otpProgress?.setIndicatorColor(mColorOnAccentColor)
-                holder.attachmentIcon?.setColorFilter(mColorOnAccentColor)
-                holder.meta.setTextColor(mColorOnAccentColor)
+                holder.text.setTextColor(mColorOnSecondary)
+                holder.subText?.setTextColor(mColorOnSecondary)
+                holder.otpToken?.setTextColor(mColorOnSecondary)
+                holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
+                holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
+                holder.meta.setTextColor(mColorOnSecondary)
             }
 
             database.stopManageEntry(entry)
@@ -528,12 +527,29 @@ class NodesAdapter (
                 try {
                     mClipboardHelper.copyToClipboard(
                         TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
-                        token
+                        token,
+                        true
                     )
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to copy the OTP token", e)
                 }
             }
+        }
+    }
+
+    private fun assignBackgroundColor(view: View?, entry: Entry) {
+        view?.let {
+            ViewCompat.setBackgroundTintList(
+                view,
+                ColorStateList.valueOf(
+                    if (!view.isSelected) {
+                        (if (mShowEntryColors) entry.backgroundColor else null)
+                            ?: mColorSurfaceContainer
+                    } else {
+                        mColorSecondary
+                    }
+                )
+            )
         }
     }
 

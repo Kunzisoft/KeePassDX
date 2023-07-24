@@ -70,7 +70,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         get() = textUnitView?.text?.toString() ?: ""
         set(unitText) {
             textUnitView?.apply {
-                if (unitText != null && unitText.isNotEmpty()) {
+                if (!unitText.isNullOrEmpty()) {
                     text = unitText
                     visibility = View.VISIBLE
                 } else {
@@ -88,7 +88,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         get() = textExplanationView?.text?.toString() ?: ""
         set(explanationText) {
             textExplanationView?.apply {
-                if (explanationText != null && explanationText.isNotEmpty()) {
+                if (!explanationText.isNullOrEmpty()) {
                     text = explanationText
                     visibility = View.VISIBLE
                 } else {
@@ -107,7 +107,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
 
     fun setExplanationButton(explanationButtonText: String?, clickListener: View.OnClickListener) {
         explanationButton?.apply {
-            if (explanationButtonText != null && explanationButtonText.isNotEmpty()) {
+            if (!explanationButtonText.isNullOrEmpty()) {
                 text = explanationButtonText
                 visibility = View.VISIBLE
                 setOnClickListener(clickListener)

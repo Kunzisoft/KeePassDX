@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database
 
 import android.Manifest
-import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -38,6 +37,7 @@ import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -107,7 +107,7 @@ class DatabaseTaskProvider(
 
     // To show dialog only if context is an activity
     private var activity: FragmentActivity? = try { context as? FragmentActivity? }
-        catch (_: Exception) { null }
+    catch (_: Exception) { null }
 
     var onDatabaseRetrieved: ((database: ContextualDatabase?) -> Unit)? = null
 
@@ -252,12 +252,10 @@ class DatabaseTaskProvider(
             serviceConnection = object : ServiceConnection {
                 override fun onBindingDied(name: ComponentName?) {
                     stopDialog()
-                    super.onBindingDied(name)
                 }
 
                 override fun onNullBinding(name: ComponentName?) {
                     stopDialog()
-                    super.onNullBinding(name)
                 }
 
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
@@ -323,10 +321,10 @@ class DatabaseTaskProvider(
             }
         }
         context.registerReceiver(databaseTaskBroadcastReceiver,
-                IntentFilter().apply {
-                    addAction(DATABASE_START_TASK_ACTION)
-                    addAction(DATABASE_STOP_TASK_ACTION)
-                }
+            IntentFilter().apply {
+                addAction(DATABASE_START_TASK_ACTION)
+                addAction(DATABASE_STOP_TASK_ACTION)
+            }
         )
 
         // Check if a service is currently running else do nothing
@@ -350,12 +348,12 @@ class DatabaseTaskProvider(
     private val requestPermissionLauncher = activity?.registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { _ ->
-            // Whether or not the user has accepted, the service can be started,
-            // There just won't be any notification if it's not allowed.
-            tempServiceParameters.removeFirstOrNull()?.let {
-                startService(it.first, it.second)
-            }
+        // Whether or not the user has accepted, the service can be started,
+        // There just won't be any notification if it's not allowed.
+        tempServiceParameters.removeFirstOrNull()?.let {
+            startService(it.first, it.second)
         }
+    }
 
     private fun start(bundle: Bundle? = null, actionTask: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -372,7 +370,7 @@ class DatabaseTaskProvider(
                 // it's not the first time, so the user deliberately chooses not to display the notification
                 startService(bundle, actionTask)
             } else {
-                AlertDialog.Builder(activity)
+                AlertDialog.Builder(context)
                     .setMessage(R.string.warning_database_notification_permission)
                     .setNegativeButton(R.string.later) { _, _ ->
                         // Refuses the notification, so start the service
@@ -414,7 +412,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
-                , ACTION_DATABASE_CREATE_TASK)
+            , ACTION_DATABASE_CREATE_TASK)
     }
 
     fun startDatabaseLoad(databaseUri: Uri,
@@ -429,7 +427,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.CIPHER_DATABASE_KEY, cipherEncryptDatabase)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
-                , ACTION_DATABASE_LOAD_TASK)
+            , ACTION_DATABASE_LOAD_TASK)
     }
 
     fun startDatabaseMerge(save: Boolean,
@@ -447,7 +445,7 @@ class DatabaseTaskProvider(
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
-                , ACTION_DATABASE_RELOAD_TASK)
+            , ACTION_DATABASE_RELOAD_TASK)
     }
 
     fun askToStartDatabaseReload(conditionToAsk: Boolean, approved: () -> Unit) {
@@ -471,7 +469,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY, mainCredential)
         }
-                , ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK)
+            , ACTION_DATABASE_ASSIGN_CREDENTIAL_TASK)
     }
 
     /*
@@ -488,7 +486,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parent.nodeId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_CREATE_GROUP_TASK)
+            , ACTION_DATABASE_CREATE_GROUP_TASK)
     }
 
     fun startDatabaseUpdateGroup(oldGroup: Group,
@@ -499,7 +497,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.GROUP_KEY, groupToUpdate)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_GROUP_TASK)
+            , ACTION_DATABASE_UPDATE_GROUP_TASK)
     }
 
     fun startDatabaseCreateEntry(newEntry: Entry,
@@ -510,7 +508,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, parent.nodeId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_CREATE_ENTRY_TASK)
+            , ACTION_DATABASE_CREATE_ENTRY_TASK)
     }
 
     fun startDatabaseUpdateEntry(oldEntry: Entry,
@@ -521,7 +519,7 @@ class DatabaseTaskProvider(
             putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, entryToUpdate)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_ENTRY_TASK)
+            , ACTION_DATABASE_UPDATE_ENTRY_TASK)
     }
 
     private fun startDatabaseActionListNodes(actionTask: String,
@@ -550,7 +548,7 @@ class DatabaseTaskProvider(
                 putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, newParentId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-        , actionTask)
+            , actionTask)
     }
 
     fun startDatabaseCopyNodes(nodesToCopy: List<Node>,
@@ -584,7 +582,7 @@ class DatabaseTaskProvider(
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_RESTORE_ENTRY_HISTORY)
+            , ACTION_DATABASE_RESTORE_ENTRY_HISTORY)
     }
 
     fun startDatabaseDeleteEntryHistory(mainEntryId: NodeId<UUID>,
@@ -595,7 +593,7 @@ class DatabaseTaskProvider(
             putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_DELETE_ENTRY_HISTORY)
+            , ACTION_DATABASE_DELETE_ENTRY_HISTORY)
     }
 
     /*
@@ -612,7 +610,7 @@ class DatabaseTaskProvider(
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newName)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_NAME_TASK)
+            , ACTION_DATABASE_UPDATE_NAME_TASK)
     }
 
     fun startDatabaseSaveDescription(oldDescription: String,
@@ -623,7 +621,7 @@ class DatabaseTaskProvider(
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newDescription)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_DESCRIPTION_TASK)
+            , ACTION_DATABASE_UPDATE_DESCRIPTION_TASK)
     }
 
     fun startDatabaseSaveDefaultUsername(oldDefaultUsername: String,
@@ -634,7 +632,7 @@ class DatabaseTaskProvider(
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newDefaultUsername)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK)
+            , ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK)
     }
 
     fun startDatabaseSaveColor(oldColor: String,
@@ -645,7 +643,7 @@ class DatabaseTaskProvider(
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newColor)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_COLOR_TASK)
+            , ACTION_DATABASE_UPDATE_COLOR_TASK)
     }
 
     fun startDatabaseSaveCompression(oldCompression: CompressionAlgorithm,
@@ -656,14 +654,14 @@ class DatabaseTaskProvider(
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newCompression)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_COMPRESSION_TASK)
+            , ACTION_DATABASE_UPDATE_COMPRESSION_TASK)
     }
 
     fun startDatabaseRemoveUnlinkedData(save: Boolean) {
         start(Bundle().apply {
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK)
+            , ACTION_DATABASE_REMOVE_UNLINKED_DATA_TASK)
     }
 
     fun startDatabaseSaveRecycleBin(oldRecycleBin: Group?,
@@ -696,7 +694,7 @@ class DatabaseTaskProvider(
             putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMaxHistoryItems)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK)
+            , ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK)
     }
 
     fun startDatabaseSaveMaxHistorySize(oldMaxHistorySize: Long,
@@ -707,7 +705,7 @@ class DatabaseTaskProvider(
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMaxHistorySize)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK)
+            , ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK)
     }
 
     /*
@@ -724,7 +722,7 @@ class DatabaseTaskProvider(
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newEncryption)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_ENCRYPTION_TASK)
+            , ACTION_DATABASE_UPDATE_ENCRYPTION_TASK)
     }
 
     fun startDatabaseSaveKeyDerivation(oldKeyDerivation: KdfEngine,
@@ -735,7 +733,7 @@ class DatabaseTaskProvider(
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newKeyDerivation)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK)
+            , ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK)
     }
 
     fun startDatabaseSaveIterations(oldIterations: Long,
@@ -746,7 +744,7 @@ class DatabaseTaskProvider(
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newIterations)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_ITERATIONS_TASK)
+            , ACTION_DATABASE_UPDATE_ITERATIONS_TASK)
     }
 
     fun startDatabaseSaveMemoryUsage(oldMemoryUsage: Long,
@@ -757,7 +755,7 @@ class DatabaseTaskProvider(
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMemoryUsage)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK)
+            , ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK)
     }
 
     fun startDatabaseSaveParallelism(oldParallelism: Long,
@@ -768,7 +766,7 @@ class DatabaseTaskProvider(
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_UPDATE_PARALLELISM_TASK)
+            , ACTION_DATABASE_UPDATE_PARALLELISM_TASK)
     }
 
     /**
@@ -779,14 +777,14 @@ class DatabaseTaskProvider(
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, saveToUri)
         }
-                , ACTION_DATABASE_SAVE)
+            , ACTION_DATABASE_SAVE)
     }
 
     fun startChallengeResponded(response: ByteArray?) {
         start(Bundle().apply {
             putByteArray(DatabaseTaskNotificationService.DATA_BYTES, response)
         }
-                , ACTION_CHALLENGE_RESPONDED)
+            , ACTION_CHALLENGE_RESPONDED)
     }
 
     companion object {

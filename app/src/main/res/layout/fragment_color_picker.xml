@@ -36,14 +36,15 @@
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent" />
-	<androidx.appcompat.widget.SwitchCompat
+	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="20dp"
 		android:text="@string/enable"
-		android:background="@drawable/background_button_small"
-		android:textColor="?attr/colorOnAccentColor"
+		android:background="@drawable/background_switch"
+		android:backgroundTint="?attr/colorSecondary"
+		android:textColor="?attr/colorOnSecondary"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		android:minHeight="48dp"/>

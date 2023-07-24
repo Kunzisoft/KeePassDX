@@ -9,7 +9,7 @@ import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.TypeMode
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.SpecialModeView
+import com.kunzisoft.keepass.view.ToolbarSpecial
 
 
 /**
@@ -20,7 +20,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
     private var mTypeMode: TypeMode = TypeMode.DEFAULT
 
-    private var mSpecialModeView: SpecialModeView? = null
+    private var mToolbarSpecial: ToolbarSpecial? = null
 
     override fun onBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)
@@ -113,8 +113,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
                 ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
 
         // To show the selection mode
-        mSpecialModeView = findViewById(R.id.special_mode_view)
-        mSpecialModeView?.apply {
+        mToolbarSpecial = findViewById(R.id.special_mode_view)
+        mToolbarSpecial?.apply {
             // Populate title
             val selectionModeStringId = when (mSpecialMode) {
                 SpecialMode.DEFAULT, // Not important because hidden

@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:filterTouchesWhenObscured="true"
-    android:minHeight="?attr/actionBarSize"
     android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
-        android:background="?attr/colorPrimary"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:minHeight="64dp"
+        android:background="?attr/colorSurfaceContainer"
         android:visibility="gone">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/search_numbers"
-            style="@style/KeepassDXStyle.TextAppearance.Info"
+            style="@style/KeepassDXStyle.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
@@ -61,13 +61,13 @@
             style="@style/KeepassDXStyle.ImageButton.Simple"
             android:contentDescription="@string/search_filters"
             android:src="@drawable/ic_list_white_24dp"
-            app:tint="?attr/textColorInverse"/>
+            app:tint="?attr/colorOnSurface"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:id="@+id/search_advance_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorSurfaceContainer"
         android:orientation="vertical">
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"

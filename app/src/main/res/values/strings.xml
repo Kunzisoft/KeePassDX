@@ -18,6 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Contact</string>
+    <string name="info">Info</string>
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
     <string name="homepage">Homepage</string>
@@ -252,11 +253,17 @@
     <string name="copy_field">Copy of %1$s</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">App settings</string>
+    <string name="menu_app_settings_summary">Search, lock, history, properties</string>
     <string name="menu_form_filling_settings">Form filling</string>
+    <string name="menu_form_filling_settings_summary">Keyboard, autofill, clipboard</string>
     <string name="menu_advanced_unlock_settings">Advanced unlocking</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometry, device credential</string>
     <string name="menu_database_settings">Database settings</string>
+    <string name="menu_database_settings_summary">Metadata, recycle bin, templates, history</string>
     <string name="menu_security_settings">Security settings</string>
+    <string name="menu_security_settings_summary">Encryption, key derivation function</string>
     <string name="menu_master_key_settings">Master key settings</string>
+    <string name="master_key_settings_summary">Change, renewal</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
@@ -286,8 +293,8 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">Install a web browser to open this URL.</string>
-    <string name="select_database_file">Open existing database</string>
-    <string name="create_keepass_file">Create new database</string>
+    <string name="select_database_file">Open existing vault</string>
+    <string name="create_keepass_file">Create new vault</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="subdomain_search_title">Subdomain search</string>
@@ -381,11 +388,11 @@
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
+    <string name="configure">Configure</string>
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>
     <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Open the advanced unlock prompt to unlock the database</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Open the advanced unlock prompt to store credentials</string>
+    <string name="unlock_and_link_biometric">Unlock and link biometric</string>
     <string name="advanced_unlock_prompt_store_credential_title">Advanced unlock recognition</string>
     <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your main credential if you use advanced unlock recognition.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>
@@ -394,12 +401,13 @@
     <string name="advanced_unlock_invalid_key">Cannot read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="advanced_unlock_not_recognized">Could not recognize advanced unlock print</string>
     <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
-    <string name="no_credentials_stored">This database does not have stored credential yet.</string>
+    <string name="unavailable">Unavailable</string>
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
     <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>
     <string name="database_history">History</string>
     <string name="properties">Properties</string>
     <string name="menu_appearance_settings">Appearance</string>
+    <string name="menu_appearance_settings_summary">Themes, colors, attributes</string>
     <string name="biometric">Biometric</string>
     <string name="device_credential">Device credential</string>
     <string name="general">General</string>
@@ -428,6 +436,7 @@
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="content">Content</string>
+    <string name="unlock">Unlock</string>
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="advanced_unlock_tap_delete">Tap to delete advanced unlocking keys</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>

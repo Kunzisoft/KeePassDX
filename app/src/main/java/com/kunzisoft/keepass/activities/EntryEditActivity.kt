@@ -19,8 +19,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -33,10 +31,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
-import android.widget.DatePicker
 import android.widget.ProgressBar
 import android.widget.Spinner
-import android.widget.TimePicker
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -48,16 +44,16 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.DatePickerFragment
 import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.TimePickerFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -90,8 +86,8 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
@@ -99,14 +95,11 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
-import org.joda.time.DateTime
 import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         SetOTPDialogFragment.CreateOtpListener,
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
         FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
 
@@ -291,14 +284,20 @@ class EntryEditActivity : DatabaseLockActivity(),
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
                 // Launch the time picker
-                val dateTime = DateTime(dateInstant.date)
-                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
-                    .show(supportFragmentManager, "TimePickerFragment")
+                MaterialTimePicker.Builder().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mEntryEditViewModel.selectTime(this.hour, this.minute)
+                    }
+                    show(supportFragmentManager, "TimePickerFragment")
+                }
             } else {
                 // Launch the date picker
-                val dateTime = DateTime(dateInstant.date)
-                DatePickerFragment.getInstance(dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
-                    .show(supportFragmentManager, "DatePickerFragment")
+                MaterialDatePicker.Builder.datePicker().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mEntryEditViewModel.selectDate(it)
+                    }
+                    show(supportFragmentManager, "DatePickerFragment")
+                }
             }
         }
 
@@ -682,18 +681,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        // To fix android 4.4 issue
-        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
-        if (datePicker?.isShown == true) {
-            mEntryEditViewModel.selectDate(year, month, day)
-        }
-    }
-
-    override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        mEntryEditViewModel.selectTime(hours, minutes)
     }
 
     override fun onBackPressed() {

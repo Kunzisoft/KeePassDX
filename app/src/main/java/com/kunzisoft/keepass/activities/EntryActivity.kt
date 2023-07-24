@@ -112,9 +112,9 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private var mIcon: IconImage? = null
-    private var mColorAccent: Int = 0
-    private var mControlColor: Int = 0
-    private var mColorPrimary: Int = 0
+    private var mColorSecondary: Int = 0
+    private var mColorSurface: Int = 0
+    private var mColorOnSurface: Int = 0
     private var mColorBackground: Int = 0
     private var mBackgroundColor: Int? = null
     private var mForegroundColor: Int? = null
@@ -146,17 +146,17 @@ class EntryActivity : DatabaseLockActivity() {
         toolbar?.title = " "
 
         // Retrieve the textColor to tint the toolbar
-        val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        val taControlColor = theme.obtainStyledAttributes(intArrayOf(R.attr.toolbarColorControl))
-        val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
+        val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        val taColorSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface))
+        val taColorOnSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
         val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
-        mColorAccent = taColorAccent.getColor(0, Color.BLACK)
-        mControlColor = taControlColor.getColor(0, Color.BLACK)
-        mColorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        mColorSecondary = taColorSecondary.getColor(0, Color.BLACK)
+        mColorSurface = taColorSurface.getColor(0, Color.BLACK)
+        mColorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
         mColorBackground = taColorBackground.getColor(0, Color.BLACK)
-        taColorAccent.recycle()
-        taControlColor.recycle()
-        taColorPrimary.recycle()
+        taColorSecondary.recycle()
+        taColorSurface.recycle()
+        taColorOnSurface.recycle()
         taColorBackground.recycle()
 
         // Init Tags adapter
@@ -225,10 +225,10 @@ class EntryActivity : DatabaseLockActivity() {
                 this.mEntryIsHistory = entryIsHistory
                 // Assign history dedicated view
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
+                // TODO History badge
+                /*
                 if (entryIsHistory) {
-                    collapsingToolbarLayout?.contentScrim =
-                        ColorDrawable(mColorAccent)
-                }
+                }*/
 
                 val entryInfo = entryInfoHistory.entryInfo
                 // Manage entry copy to start notification if allowed (at the first start)
@@ -366,8 +366,8 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private fun applyToolbarColors() {
-        appBarLayout?.setBackgroundColor(mBackgroundColor ?: mColorPrimary)
-        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorPrimary)
+        collapsingToolbarLayout?.setBackgroundColor(mBackgroundColor ?: mColorSurface)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorSurface)
         val backgroundDarker = if (mBackgroundColor != null) {
             ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
         } else {
@@ -380,12 +380,12 @@ class EntryActivity : DatabaseLockActivity() {
                 mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
                     iconView,
                     icon,
-                    mForegroundColor ?: mColorAccent
+                    mForegroundColor ?: mColorSecondary
                 )
             }
         }
-        toolbar?.changeControlColor(mForegroundColor ?: mControlColor)
-        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mControlColor)
+        toolbar?.changeControlColor(mForegroundColor ?: mColorOnSurface)
+        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mColorOnSurface)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

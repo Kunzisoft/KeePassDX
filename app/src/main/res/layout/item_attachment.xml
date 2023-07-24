@@ -43,7 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignBottom="@+id/item_attachment_thumbnail"
-        android:background="?attr/cardBackgroundTransparentColor">
+        android:alpha="0.8"
+        android:background="?attr/colorSurfaceContainer">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"
@@ -85,7 +86,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_attachment_compression"
-                style="@style/KeepassDXStyle.TextAppearance.Tiny"
+                style="@style/KeepassDXStyle.Text.Tiny"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:firstBaselineToTopHeight="0dp"
@@ -136,14 +137,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ProgressBar
+                <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/item_attachment_progress"
-                    style="@style/KeepassDXStyle.ProgressBar.Circle"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:max="100"
-                    android:progress="60"
+                    android:indeterminate="false"
+                    app:indicatorSize="36dp"
+                    app:trackThickness="2dp"
+                    app:indicatorDirectionCircular="clockwise"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

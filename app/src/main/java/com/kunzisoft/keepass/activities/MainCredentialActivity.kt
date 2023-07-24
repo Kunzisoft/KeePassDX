@@ -1,6 +1,6 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -67,14 +67,15 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
+import com.kunzisoft.keepass.settings.AdvancedUnlockSettingsActivity
+import com.kunzisoft.keepass.settings.AppearanceSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil.getUri
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
-import com.kunzisoft.keepass.utils.UriUtil.getUri
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -88,6 +89,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     // Views
     private var toolbar: Toolbar? = null
     private var filenameView: TextView? = null
+    private var logotypeButton: View? = null
     private var advancedUnlockButton: View? = null
     private var mainCredentialView: MainCredentialView? = null
     private var confirmButtonView: Button? = null
@@ -128,7 +130,8 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         filenameView = findViewById(R.id.filename)
-        advancedUnlockButton = findViewById(R.id.activity_password_advanced_unlock_button)
+        logotypeButton = findViewById(R.id.activity_password_logotype)
+        advancedUnlockButton = findViewById(R.id.fragment_advanced_unlock_container_view)
         mainCredentialView = findViewById(R.id.activity_password_credentials)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         infoContainerView = findViewById(R.id.activity_password_info_container)
@@ -157,10 +160,15 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         // If is a view intent
         getUriFromIntent(intent)
 
+        // Show appearance
+        logotypeButton?.setOnClickListener {
+            startActivity(Intent(this, AppearanceSettingsActivity::class.java))
+        }
+
         // Init Biometric elements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             advancedUnlockButton?.setOnClickListener {
-                startActivity(Intent(this, SettingsAdvancedUnlockActivity::class.java))
+                startActivity(Intent(this, AdvancedUnlockSettingsActivity::class.java))
             }
         }
         advancedUnlockFragment = supportFragmentManager
@@ -647,7 +655,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                 startActivity(
                                     Intent(
                                         this,
-                                        SettingsAdvancedUnlockActivity::class.java
+                                        AdvancedUnlockSettingsActivity::class.java
                                     )
                                 )
                             },

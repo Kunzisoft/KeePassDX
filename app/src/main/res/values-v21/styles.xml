@@ -24,50 +24,33 @@
         <item name="android:navigationBarColor">@color/grey_dark</item>
     </style>
     <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
-    </style>
-    <style name="KeepassDXStyle.Light.WhiteBar.v21" parent="KeepassDXStyle.Light.Base" >
-        <item name="android:statusBarColor">@color/grey_darker</item>
-        <item name="android:navigationBarColor">@color/grey_darker</item>
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.Theme</item>
+        <item name="android:statusBarColor">@color/grey_dark</item>
+        <item name="android:navigationBarColor">@color/grey_dark</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" >
-        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
-        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.Theme</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="KeepassDXStyle.Toolbar.v21" parent="KeepassDXStyle.Toolbar.Base">
+        <item name="android:elevation">0dp</item>
     </style>
 
     <!-- Preference Theme -->
-    <style name="KeepassDXStyle.Preference.v21" parent="@style/PreferenceThemeOverlay.v14.Material">
-        <item name="android:tint">?attr/iconPreferenceColor</item>
+    <style name="KeepassDXStyle.Preference.Theme" parent="@style/PreferenceThemeOverlay">
+        <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.v21.Button" parent="KeepassDXStyle.v23.Button" >
-        <item name="android:gravity">center</item>
-        <item name="android:elevation">4dp</item>
-    </style>
-    <style name="KeepassDXStyle.v21.Button.Primary" parent="KeepassDXStyle.v23.Button.Primary" >
-        <item name="android:gravity">center</item>
-        <item name="android:elevation">4dp</item>
-    </style>
-    <style name="KeepassDXStyle.v21.ImageButton" parent="Widget.AppCompat.ImageButton" >
-        <item name="android:gravity">center</item>
-        <item name="android:elevation">4dp</item>
-    </style>
-
-    <!-- FAB -->
-    <style name="KeepassDXStyle.v21.Fab" parent="Widget.Design.FloatingActionButton">
+    <style name="KeepassDXStyle.v21.ImageButton" parent="KeepassDXStyle.Base.ImageButton" >
         <item name="android:elevation">4dp</item>
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:elevation">4dp</item>
+    <style name="KeepassDXStyle.Fab.MenuText.v21" parent="android:style/TextAppearance">
+        <item name="android:elevation">2dp</item>
     </style>
 </resources>

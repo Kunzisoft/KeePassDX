@@ -174,7 +174,7 @@
     <string name="warning_empty_password">Pokračovat bez ochrany heslem\?</string>
     <string name="warning_no_encryption_key">Pokračovat bez šifrovacího klíče\?</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
-    <string name="no_credentials_stored">Tato databáze zatím nemá uložené heslo.</string>
+    <string name="unavailable">Tato databáze zatím nemá uložené heslo.</string>
     <string name="database_history">Historie</string>
     <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>
@@ -506,8 +506,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Otevřít pomocí rozšířeného odemykání</string>
     <string name="advanced_unlock_prompt_store_credential_message">Pokud použijete rozpoznání rozšířeného odemknutí, musíte si i nadále pamatovat hlavní heslo.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Rozpoznání rozšířeného odemknutí</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Pro uložení důvěrných údajů otevřete pobídku rozšířeného odemknutí</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Databázi otevřete i pomocí nabídky rozšířeného odemykání</string>
     <string name="menu_keystore_remove_key">Smazat klíč rozšířeného odemknutí</string>
     <string name="education_advanced_unlock_title">Rozšířené odemknutí databáze</string>
     <string name="advanced_unlock_timeout">Časový limit rozšířeného odemknutí</string>

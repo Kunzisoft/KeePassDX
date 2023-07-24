@@ -267,7 +267,7 @@
     <string name="special">Posebni znakovi</string>
     <string name="underline">Podcrtaj</string>
     <string name="uppercase">Velika slova</string>
-    <string name="no_credentials_stored">Ova baza podataka još nema spremljene podatke za prijavu.</string>
+    <string name="unavailable">Ova baza podataka još nema spremljene podatke za prijavu.</string>
     <string name="biometric">Biometrija</string>
     <string name="autofill_sign_in_prompt">Prijavi se s KeePassDX</string>
     <string name="autofill_explanation_summary">Aktiviraj automatsko ispunjavanje za brzo ispunjavanje obrazaca u drugim aplikacijama</string>
@@ -492,8 +492,6 @@
     <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor naprednog otključavanja.</string>
     <string name="advanced_unlock_scanning_error">Greška naprednog otključavanja: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka naprednog otključavanja</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Otvori prozor naprednog otključavanja za spremanje podataka za prijavu</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Otvori prozor naprednog otključavanja za otključavanje baze podataka</string>
     <string name="advanced_unlock_not_recognized">Nije moguće prepoznati digitanlni otisak za napredno otključavanje</string>
     <string name="advanced_unlock_invalid_key">Nije moguće pročitati ključ naprednog otključavanja. Izbriši ga i ponovi postupak prepoznavanja otključavanja.</string>
     <string name="enter">Tipka Enter</string>

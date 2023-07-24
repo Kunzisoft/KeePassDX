@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.view.DataDate
 import com.kunzisoft.keepass.view.DataTime
 
 abstract class NodeEditViewModel : ViewModel() {
@@ -24,8 +23,8 @@ abstract class NodeEditViewModel : ViewModel() {
 
     val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
     private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<DataDate> get() = _onDateSelected
-    private val _onDateSelected = SingleLiveEvent<DataDate>()
+    val onDateSelected : LiveData<Long> get() = _onDateSelected
+    private val _onDateSelected = SingleLiveEvent<Long>()
     val onTimeSelected : LiveData<DataTime> get() = _onTimeSelected
     private val _onTimeSelected = SingleLiveEvent<DataTime>()
 
@@ -58,8 +57,8 @@ abstract class NodeEditViewModel : ViewModel() {
         _requestDateTimeSelection.value = dateInstant
     }
 
-    fun selectDate(year: Int, month: Int, day: Int) {
-        _onDateSelected.value = DataDate(year, month, day)
+    fun selectDate(dateMilliseconds: Long) {
+        _onDateSelected.value = dateMilliseconds
     }
 
     fun selectTime(hours: Int, minutes: Int) {

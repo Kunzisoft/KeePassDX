@@ -28,7 +28,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
@@ -253,7 +253,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Recycle bin
         if (database.allowConfigurableRecycleBin) {
-            val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
+            val recycleBinEnablePref: TwoStatePreference? = findPreference(getString(R.string.recycle_bin_enable_key))
             recycleBinEnablePref?.apply {
                 isChecked = database.isRecycleBinEnabled
                 isEnabled = if (!mDatabaseReadOnly) {
@@ -286,7 +286,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         val templatesGroupPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_templates_key))
         templatesGroupPref = findPreference(getString(R.string.templates_group_uuid_key))
         if (database.allowTemplatesGroup) {
-            val templatesEnablePref: SwitchPreference? = findPreference(getString(R.string.templates_group_enable_key))
+            val templatesEnablePref: TwoStatePreference? = findPreference(getString(R.string.templates_group_enable_key))
             templatesEnablePref?.apply {
                 isChecked = database.isTemplatesEnabled
                 isEnabled = if (!mDatabaseReadOnly) {

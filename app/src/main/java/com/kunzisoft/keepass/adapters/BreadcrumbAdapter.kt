@@ -39,10 +39,10 @@ class BreadcrumbAdapter(val context: Context)
         mShowNumberEntries = PreferencesUtil.showNumberEntries(context)
         mShowUUID = PreferencesUtil.showUUID(context)
 
-        // Retrieve the textColor to tint the icon
-        val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        mIconColor = taTextColor.getColor(0, Color.WHITE)
-        taTextColor.recycle()
+        // Retrieve the color to tint the icon
+        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
+        mIconColor = taIconColor.getColor(0, Color.WHITE)
+        taIconColor.recycle()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -71,7 +71,7 @@ class BreadcrumbAdapter(val context: Context)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreadcrumbGroupViewHolder {
         return BreadcrumbGroupViewHolder(inflater.inflate(
             when (viewType) {
-                0 -> R.layout.item_group
+                0 -> R.layout.item_breadcrumb_important
                 else -> R.layout.item_breadcrumb
             }, parent, false)
         )

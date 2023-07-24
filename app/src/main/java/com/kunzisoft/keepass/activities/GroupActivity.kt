@@ -19,9 +19,7 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.app.SearchManager
-import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -38,11 +36,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
@@ -59,13 +55,13 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DatePickerFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.MainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.TimePickerFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -100,12 +96,12 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.NavigationDatabaseView
 import com.kunzisoft.keepass.view.SearchFiltersView
@@ -115,12 +111,9 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
-import org.joda.time.DateTime
 
 
 class GroupActivity : DatabaseLockActivity(),
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
         GroupFragment.NodeClickListener,
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
@@ -140,7 +133,6 @@ class GroupActivity : DatabaseLockActivity(),
     private var databaseNameView: TextView? = null
     private var searchView: SearchView? = null
     private var searchFiltersView: SearchFiltersView? = null
-    private var toolbarBreadcrumb: Toolbar? = null
     private var toolbarAction: ToolbarAction? = null
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
@@ -277,7 +269,6 @@ class GroupActivity : DatabaseLockActivity(),
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
         searchFiltersView = findViewById(R.id.search_filters)
-        toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
@@ -459,18 +450,20 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
                 // Launch the time picker
-                val dateTime = DateTime(dateInstant.date)
-                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
-                    .show(supportFragmentManager, "TimePickerFragment")
+                MaterialTimePicker.Builder().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mGroupEditViewModel.selectTime(this.hour, this.minute)
+                    }
+                    show(supportFragmentManager, "TimePickerFragment")
+                }
             } else {
                 // Launch the date picker
-                val dateTime = DateTime(dateInstant.date)
-                DatePickerFragment.getInstance(
-                    dateTime.year,
-                    dateTime.monthOfYear - 1,
-                    dateTime.dayOfMonth
-                )
-                    .show(supportFragmentManager, "DatePickerFragment")
+                MaterialDatePicker.Builder.datePicker().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mGroupEditViewModel.selectDate(it)
+                    }
+                    show(supportFragmentManager, "DatePickerFragment")
+                }
             }
         }
 
@@ -970,18 +963,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        // To fix android 4.4 issue
-        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
-        if (datePicker?.isShown == true) {
-            mGroupEditViewModel.selectDate(year, month, day)
-        }
-    }
-
-    override fun onTimeSet(view: TimePicker?, hours: Int, minutes: Int) {
-        mGroupEditViewModel.selectTime(hours, minutes)
-    }
-
     private fun finishNodeAction() {
         actionNodeMode?.finish()
     }
@@ -1228,11 +1209,11 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
             if (it.isActionViewExpanded) {
-                toolbarBreadcrumb?.visibility = View.GONE
+                breadcrumbListView?.visibility = View.GONE
                 searchFiltersView?.visibility = View.VISIBLE
             } else {
                 searchFiltersView?.visibility = View.GONE
-                toolbarBreadcrumb?.visibility = View.VISIBLE
+                breadcrumbListView?.visibility = View.VISIBLE
             }
             mLockSearchListeners = false
         }

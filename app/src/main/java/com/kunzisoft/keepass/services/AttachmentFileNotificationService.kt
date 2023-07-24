@@ -240,10 +240,10 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     setOngoing(true)
                 }
                 AttachmentState.IN_PROGRESS -> {
-                    if (attachmentNotification.entryAttachmentState.downloadProgression > 100) {
+                    if (attachmentNotification.entryAttachmentState.downloadProgression > FILE_PROGRESSION_MAX) {
                         setContentText(getString(R.string.download_finalization))
                     } else {
-                        setProgress(100,
+                        setProgress(FILE_PROGRESSION_MAX,
                                 attachmentNotification.entryAttachmentState.downloadProgression,
                                 false)
                         setContentText(getString(R.string.download_progression,
@@ -446,7 +446,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         if (downloadState != AttachmentState.CANCELED
                                 && downloadState != AttachmentState.ERROR) {
                             downloadState = AttachmentState.COMPLETE
-                            downloadProgression = 100
+                            downloadProgression = FILE_PROGRESSION_MAX
                         }
                     }
                     attachmentNotification.attachmentFileAction = null
@@ -495,6 +495,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         const val FILE_URI_KEY = "FILE_URI_KEY"
         const val ATTACHMENT_KEY = "ATTACHMENT_KEY"
+
+        const val FILE_PROGRESSION_MAX = 100
     }
 
 }

@@ -18,24 +18,10 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <attr name="toolbarAppearance" format="reference" />
-    <attr name="toolbarHomeAppearance" format="reference" />
-    <attr name="toolbarSpecialAppearance" format="reference" />
-    <attr name="toolbarActionAppearance" format="reference" />
+    <attr name="toolbarSpecialStyle" format="reference" />
+    <attr name="toolbarActionStyle" format="reference" />
 
-    <attr name="chipFilterTextColor" format="color" />
-    <attr name="chipFilterBackgroundColor" format="color" />
-    <attr name="chipFilterBackgroundColorDisabled" format="color" />
-
-    <attr name="colorAccentLight" format="reference|color" />
-    <attr name="cardBackgroundTransparentColor" format="reference|color" />
-    <attr name="iconPreferenceColor" format="reference|color" />
-    <attr name="textColorInverse" format="reference|color" />
-    <attr name="colorOnAccentColor" format="reference|color" />
-    <attr name="toolbarColorControl" format="reference|color" />
-
-    <attr name="educationCircleColor" format="reference|color" />
-    <attr name="educationTextColor" format="reference|color" />
+    <attr name="dialogBackgroundColor" format="reference|color" />
 
     <declare-styleable name="explanationDialog">
         <attr name="explanations" format="string" />

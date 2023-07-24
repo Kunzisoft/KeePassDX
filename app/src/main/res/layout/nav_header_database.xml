@@ -5,11 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorPrimary"
+    android:background="?attr/colorSurface"
     android:gravity="bottom"
     android:orientation="vertical"
     android:layout_marginBottom="6dp"
-    android:elevation="4dp"
     android:paddingTop="36dp"
     android:paddingLeft="@dimen/default_margin"
     android:paddingRight="@dimen/default_margin"
@@ -26,7 +25,7 @@
         android:paddingLeft="8dp"
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
-        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
+        style="@style/KeepassDXStyle.Text.Info.OnSurface"
         android:textSize="11sp"
         tools:text="version"
         android:textIsSelectable="true" />
@@ -44,7 +43,7 @@
         android:layout_marginBottom="12dp"
         app:srcCompat="@drawable/ic_database_white_36dp"
         style="@style/KeepassDXStyle.Icon"
-        app:tint="?attr/colorAccent" />
+        app:tint="?attr/colorSecondary" />
 
     <ImageView
         android:id="@+id/nav_database_modified"
@@ -52,7 +51,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/save"
         android:src="@drawable/ic_modified_white_12dp"
-        android:tint="?attr/textColorInverse"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/nav_database_icon"
         app:layout_constraintStart_toEndOf="@+id/nav_database_icon"
@@ -70,7 +68,7 @@
 
     <TextView
         android:id="@+id/nav_database_name"
-        style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary"
+        style="@style/KeepassDXStyle.Title.OnSurface"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
@@ -83,7 +81,7 @@
 
     <TextView
         android:id="@+id/nav_database_path"
-        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
+        style="@style/KeepassDXStyle.Text.Info.OnSurface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

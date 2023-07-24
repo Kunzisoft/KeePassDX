@@ -189,6 +189,8 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchParameters.searchInTemplates = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
+
+        searchNumbers.setOnClickListener(null)
     }
 
     fun setNumbers(numbers: Int) {

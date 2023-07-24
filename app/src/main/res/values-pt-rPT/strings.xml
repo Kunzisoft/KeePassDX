@@ -172,7 +172,7 @@
     <string name="warning_no_encryption_key">Continuar sem a chave de encriptação\?</string>
     <string name="build_label">Compilação %1$s</string>
     <string name="encrypted_value_stored">Palavra-passe encriptada armazenada</string>
-    <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
+    <string name="unavailable">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
     <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
@@ -475,8 +475,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Abrir base de dados com reconhecimento de desbloqueio avançado</string>
     <string name="advanced_unlock_prompt_store_credential_message">Ainda terá de se lembrar da sua credencial principal se usar o reconhecimento de desbloqueio avançado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abrir o alerta de desbloqueio avançado para armazenar as credenciais</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Abrir o alerta de desbloqueio avançado para desbloquear a base de dados</string>
     <string name="biometric_security_update_required">É necessária uma atualização de segurança biométrica.</string>
     <string name="configure_biometric">Não está registada nenhuma credencial biométrica ou de dispositivo.</string>
     <string name="warning_database_revoked">Acesso ao ficheiro revogado pelo gestor de ficheiros. Feche a base de dados e reabra-a a partir da sua localização.</string>

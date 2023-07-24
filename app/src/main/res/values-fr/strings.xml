@@ -159,7 +159,7 @@
     <string name="configure_biometric">Aucune information d’identification biométrique ou de périphérique n’est enregistrée.</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>
-    <string name="no_credentials_stored">Cette base de données n’a pas encore stocké d’identifiants.</string>
+    <string name="unavailable">Cette base de données n’a pas encore stocké d’identifiants.</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
@@ -515,8 +515,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance de déverrouillage avancée</string>
     <string name="advanced_unlock_prompt_store_credential_message">Vous devez toujours vous souvenir de votre identifiant principal si vous utilisez le déverrouillage avancé.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconnaissance de déverrouillage avancée</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Ouvrez l\'invite de déverrouillage avancé pour stocker les informations d\'identification</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Ouvrez l\'invite de déverrouillage avancé pour déverrouiller la base de données</string>
     <string name="menu_keystore_remove_key">Supprimer la clé de déverrouillage avancé</string>
     <string name="enter">Entrer</string>
     <string name="backspace">Retour arrière</string>

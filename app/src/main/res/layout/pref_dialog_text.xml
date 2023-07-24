@@ -32,17 +32,17 @@
 		android:id="@+id/explanation_text"
 		android:layout_height="wrap_content"
 		android:layout_width="0dp"
-		android:layout_marginBottom="8dp"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
-	<androidx.appcompat.widget.SwitchCompat
+		style="@style/KeepassDXStyle.SubTitle"/>
+	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/enable"
+		android:layout_marginTop="12dp"
 		app:layout_constraintTop_toBottomOf="@+id/explanation_text"
-		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
 		android:minHeight="48dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

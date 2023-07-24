@@ -22,7 +22,6 @@
     <string name="security">ความปลอดภัย</string>
     <string name="hide_password_summary">ปิดบังรหัสผ่านเป็น (***) โดยค่าเรื่มต้น</string>
     <string name="app_timeout_summary">ระยะเวลาที่ไม่ได้ใช้งานก่อนที่จะทำการล็อกฐานข้อมูล</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">ยืนยันการปลดล็อกขั้นสูงเพื่อปลดล็อกฐานข้อมูล</string>
     <string name="settings">การตั้งค่า</string>
     <string name="hint_pass">รหัสผ่าน</string>
     <string name="hint_generated_password">สร้างรหัสผ่านแล้ว</string>
@@ -91,7 +90,6 @@
     <string name="error_hardware_key_unsupported">ไม่รองรับกุญแจฮาร์ดแวร์</string>
     <string name="create_keepass_file">สร้างฐานข้อมูลใหม่</string>
     <string name="configure_biometric">ไม่ได้กำหนดข้อมูลการยืนยันตัวตนหรือไบโอเมตริก</string>
-    <string name="open_advanced_unlock_prompt_store_credential">ยืนยันการปลดล็อกขั้นสูงเพื่อบันทึกข้อมูลประจำตัว</string>
     <string name="advanced_unlock_prompt_store_credential_message">คุณยังจำเป็นต้องจำข้อมูลประจำตัวหลักอยู่ถ้าใช้การปลดล็อกขั้นสูง</string>
     <string name="hardware_key">กุญแจฮาร์ดแวร์</string>
     <string name="loading_database">กำลังโหลดฐานข้อมูล…</string>
@@ -529,7 +527,7 @@
     <string name="advanced_unlock_prompt_extract_credential_message">แยกข้อมูลประจำตัวออกด้วยข้อมูลการปลดล็อกขั้นสูง</string>
     <string name="advanced_unlock_scanning_error">การปลดล็อกขั้นสูงผิดพลาด: %1$s</string>
     <string name="properties">คุณสมบัติ</string>
-    <string name="no_credentials_stored">ฐานข้อมูลนี้ยังไม่มีข้อมูลการเข้าสูระบบเลย</string>
+    <string name="unavailable">ฐานข้อมูลนี้ยังไม่มีข้อมูลการเข้าสูระบบเลย</string>
     <string name="database_history">ประวัติ</string>
     <string name="import_app_properties_summary">เลือกไฟล์ที่จะนําเข้าคุณสมบัติของแอป</string>
     <string name="success_import_app_properties">นำเข้าคุณสมบัติแอปแล้ว</string>

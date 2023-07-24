@@ -21,18 +21,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/node_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/KeepassDXStyle.Selectable.Item">
+    android:paddingVertical="@dimen/selectable_margin_vertical"
+    android:paddingHorizontal="@dimen/selectable_margin_horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/node_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:background="?android:attr/selectableItemBackground"
-        android:minHeight="48dp"
+        android:minHeight="@dimen/selectable_min_height"
+        style="@style/KeepassDXStyle.Selectable.Item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,7 +77,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Title"
+                style="@style/KeepassDXStyle.Title.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -86,7 +86,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.SubTitle"
+                style="@style/KeepassDXStyle.SubTitle.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-4dp"
@@ -96,7 +96,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Meta"
+                style="@style/KeepassDXStyle.Meta.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
@@ -105,7 +105,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_path"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Meta"
+                style="@style/KeepassDXStyle.Meta.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
@@ -119,8 +119,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
             android:gravity="end"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -129,18 +131,17 @@
                 android:id="@+id/node_otp_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="?android:attr/selectableItemBackground"
+                style="@style/KeepassDXStyle.Selectable.Item"
                 android:orientation="horizontal"
-                android:padding="4dp"
-                app:layout_constraintBottom_toTopOf="@+id/node_attachment_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
+                android:paddingVertical="4dp">
 
                 <TextView
                     android:id="@+id/node_otp_token"
-                    style="@style/KeepassDXStyle.TextAppearance.Entry.Info"
+                    style="@style/KeepassDXStyle.Info.Entry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -149,9 +150,7 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp">
+                    android:layout_gravity="center">
 
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/node_otp_progress"
@@ -166,28 +165,13 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/node_attachment_icon"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Icon"
+                style="@style/KeepassDXStyle.Icon.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/ic_attach_file_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/node_otp_container" />
+                android:layout_gravity="center"
+                android:src="@drawable/ic_attach_file_white_24dp" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="72dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginRight="48dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

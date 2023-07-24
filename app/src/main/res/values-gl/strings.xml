@@ -366,7 +366,6 @@
     <string name="auto_focus_search_title">Procura rápida</string>
     <string name="content">Contido</string>
     <string name="permission">Permiso</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Abrir o aviso de desbloqueo avanzado para acceder á base de datos</string>
     <string name="autofill_preference_title">Configuracións de autocompletado</string>
     <string name="advanced_unlock_prompt_store_credential_title">Recoñecemento de desbloqueo avanzado</string>
     <string name="biometric_security_update_required">É necesaria unha actualización da seguranza biométrica.</string>
@@ -396,9 +395,8 @@
     <string name="build_label">Compilación %1$s</string>
     <string name="configure_biometric">Non hai rexistro de ningún credencial biométrico ou de dispositivo.</string>
     <string name="keystore_not_accessible">O almacén de claves non foi iniciado correctamente.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abrir o aviso de desbloqueo avanzado para gardar as credenciais</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraer a credencial da base de datos cos datos de desbloqueo avanzado</string>
-    <string name="no_credentials_stored">Esta base de datos non ten credenciais almacenadas aínda.</string>
+    <string name="unavailable">Esta base de datos non ten credenciais almacenadas aínda.</string>
     <string name="advanced_unlock_prompt_not_initialized">Non foi posíbel inciar o desbloqueo avanzado.</string>
     <string name="credential_before_click_advanced_unlock_button">Escriba o contrasinal, e logo faga click neste botón.</string>
     <string name="properties">Propiedades</string>

@@ -34,7 +34,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 class ClipboardHelper(context: Context) {
 

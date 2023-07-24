@@ -90,13 +90,11 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
         }
 
-        mGroupEditViewModel.onDateSelected.observe(this) { viewModelDate ->
+        mGroupEditViewModel.onDateSelected.observe(this) { dateMilliseconds ->
             // Save the date
             mGroupInfo.expiryTime = DateInstant(
                 DateTime(mGroupInfo.expiryTime.date)
-                    .withYear(viewModelDate.year)
-                    .withMonthOfYear(viewModelDate.month + 1)
-                    .withDayOfMonth(viewModelDate.day)
+                    .withMillis(dateMilliseconds)
                     .toDate())
             expirationView.dateTime = mGroupInfo.expiryTime
             if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {

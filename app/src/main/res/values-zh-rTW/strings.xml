@@ -448,13 +448,11 @@
     <string name="monospace_font_fields_enable_title">欄位字型</string>
     <string name="name">姓名</string>
     <string name="never">從不</string>
-    <string name="no_credentials_stored">當前資料庫無密碼。</string>
+    <string name="unavailable">當前資料庫無密碼。</string>
     <string name="no_results">沒有搜尋結果</string>
     <string name="no_url_handler">沒有這個連結的處理程式。</string>
     <string name="notification">通知</string>
     <string name="number">卡號</string>
-    <string name="open_advanced_unlock_prompt_store_credential">點擊以開啟高級解鎖提示來存儲憑證</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">點擊以使用高級解鎖</string>
     <string name="other">其他</string>
     <string name="otp_algorithm">演算法</string>
     <string name="otp_counter">計數器</string>

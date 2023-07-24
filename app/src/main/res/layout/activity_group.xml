@@ -24,27 +24,23 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    android:fitsSystemWindows="true">
+    android:filterTouchesWhenObscured="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_group_container_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.kunzisoft.keepass.view.SpecialModeView
+        <com.kunzisoft.keepass.view.ToolbarSpecial
             android:id="@+id/special_mode_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="?attr/toolbarSpecialAppearance"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="?attr/toolbarAppearance"
+            android:layout_height="wrap_content"
             android:title="@string/app_name"
             app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
             <FrameLayout
@@ -58,19 +54,19 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     tools:text="Database"
-                    style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
+                    style="@style/KeepassDXStyle.Title.OnSurface" />
             </FrameLayout>
-        </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.MaterialToolbar>
 
         <FrameLayout
             android:layout_width="48dp"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="41dp"
+            android:layout_marginLeft="41dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
-
-        <ImageView
+            app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
+            app:layout_constraintBottom_toTopOf="@+id/group_coordinator">
+            <ImageView
                 android:id="@+id/database_color"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
@@ -82,12 +78,9 @@
                 android:id="@+id/database_modified"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
                 android:layout_gravity="center_vertical|start"
                 android:visibility="gone"
                 android:src="@drawable/ic_modified_white_12dp"
-                android:tint="?attr/textColorInverse"
                 android:contentDescription="@string/save"/>
         </FrameLayout>
 
@@ -102,7 +95,6 @@
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:targetApi="lollipop"
                 android:fitsSystemWindows="true">
 
                 <FrameLayout
@@ -110,25 +102,18 @@
                     android:layout_height="wrap_content"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
 
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar_breadcrumb"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/breadcrumb_list"
                         android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="?attr/colorPrimary"
-                        android:theme="?attr/toolbarAppearance"
-                        tools:targetApi="lollipop">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/breadcrumb_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            android:orientation="horizontal" />
-                    </androidx.appcompat.widget.Toolbar>
+                        android:layout_height="64dp"
+                        android:paddingHorizontal="12dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal" />
 
                     <com.kunzisoft.keepass.view.SearchFiltersView
                         android:id="@+id/search_filters"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
                 </FrameLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -145,6 +130,7 @@
                     android:id="@+id/nodes_list_fragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingTop="@dimen/selectable_margin_vertical"
                     android:background="?android:attr/windowBackground" />
             </RelativeLayout>
 
@@ -159,9 +145,8 @@
         <com.kunzisoft.keepass.view.ToolbarAction
             android:id="@+id/toolbar_action"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="64dp"
             android:visibility="gone"
-            android:theme="?attr/toolbarActionAppearance"
             app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
         <FrameLayout
@@ -190,8 +175,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemTextColor="?android:attr/textColor"
-        app:subheaderColor="?attr/colorAccent"
+        style="@style/Widget.Material3.NavigationView"
         android:fitsSystemWindows="true" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

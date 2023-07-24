@@ -35,9 +35,9 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
 class GroupDialogFragment : DatabaseDialogFragment() {
@@ -65,7 +65,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
-            mIconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconView, mGroupInfo.icon)
 
@@ -108,7 +108,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             uuidReferenceView = root.findViewById(R.id.group_UUID_reference)
 
             // Retrieve the textColor to tint the icon
-            val ta = activity.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+            val ta = activity.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
             mIconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
 

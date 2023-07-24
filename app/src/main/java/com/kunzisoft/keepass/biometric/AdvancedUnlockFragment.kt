@@ -221,8 +221,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 allowOpenBiometricPrompt = true
                 if (PreferencesUtil.isBiometricUnlockEnable(context)) {
-                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
-
                     // biometric not supported (by API level or hardware) so keep option hidden
                     // or manually disable
                     val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
@@ -241,7 +239,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                         }
                     }
                 } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
-                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
                     if (AdvancedUnlockManager.isDeviceSecure(context)) {
                         selectMode()
                     } else {
@@ -297,12 +294,12 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     private fun initNotAvailable() {
         showViews(false)
 
-        mAdvancedUnlockInfoView?.setIconViewClickListener(false, null)
+        mAdvancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun openBiometricSetting() {
-        mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
+        mAdvancedUnlockInfoView?.setIconViewClickListener {
             try {
                 when {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
@@ -351,11 +348,11 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initWaitData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
+        setAdvancedUnlockedTitleView(R.string.unavailable)
         setAdvancedUnlockedMessageView("")
 
         context?.let { context ->
-            mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
+            mAdvancedUnlockInfoView?.setIconViewClickListener {
                 onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
                         context.getString(R.string.credential_before_click_advanced_unlock_button))
             }
@@ -382,7 +379,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initEncryptData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_store_credential)
+        setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
         setAdvancedUnlockedMessageView("")
 
         advancedUnlockManager?.initEncryptData { cryptoPrompt ->
@@ -396,7 +393,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initDecryptData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_unlock_database)
+        setAdvancedUnlockedTitleView(R.string.unlock)
         setAdvancedUnlockedMessageView("")
 
         advancedUnlockManager?.let { unlockHelper ->
@@ -629,7 +626,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
-            mAdvancedUnlockInfoView?.message = text
+            mAdvancedUnlockInfoView?.setMessage(text)
         }
     }
 
