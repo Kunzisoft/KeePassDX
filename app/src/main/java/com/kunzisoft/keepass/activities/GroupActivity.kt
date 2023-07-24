@@ -133,7 +133,6 @@ class GroupActivity : DatabaseLockActivity(),
     private var databaseNameView: TextView? = null
     private var searchView: SearchView? = null
     private var searchFiltersView: SearchFiltersView? = null
-    private var toolbarBreadcrumb: Toolbar? = null
     private var toolbarAction: ToolbarAction? = null
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
@@ -270,7 +269,6 @@ class GroupActivity : DatabaseLockActivity(),
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
         searchFiltersView = findViewById(R.id.search_filters)
-        toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
@@ -1211,11 +1209,11 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
             if (it.isActionViewExpanded) {
-                toolbarBreadcrumb?.visibility = View.GONE
+                breadcrumbListView?.visibility = View.GONE
                 searchFiltersView?.visibility = View.VISIBLE
             } else {
                 searchFiltersView?.visibility = View.GONE
-                toolbarBreadcrumb?.visibility = View.VISIBLE
+                breadcrumbListView?.visibility = View.VISIBLE
             }
             mLockSearchListeners = false
         }

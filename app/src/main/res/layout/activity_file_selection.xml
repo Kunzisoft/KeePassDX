@@ -132,37 +132,49 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/file_selection_buttons_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
-        android:background="?attr/colorSurface"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:background="?attr/colorSurface">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <Button
+            android:id="@+id/create_database_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_database_plus_white_24dp"
+            app:iconGravity="start"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline_buttons"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:focusable="true"
+            style="@style/KeepassDXStyle.Button.Secondary"
+            android:text="@string/create_keepass_file"/>
 
         <Button
             android:id="@+id/open_database_button"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/select_database_file"
             app:icon="@drawable/ic_folder_white_24dp"
             app:iconGravity="start"
-            android:layout_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/create_database_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:focusable="true"
-            style="@style/KeepassDXStyle.Button.Secondary"/>
-
-        <Button
-            android:id="@+id/create_database_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:icon="@drawable/ic_database_plus_white_24dp"
-            app:iconGravity="start"
-            android:layout_weight="1"
-            android:focusable="true"
-            style="@style/KeepassDXStyle.Button.Primary"
-            android:text="@string/create_keepass_file"/>
-    </LinearLayout>
+            style="@style/KeepassDXStyle.Button.Primary"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include layout="@layout/view_screenshot_mode_banner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

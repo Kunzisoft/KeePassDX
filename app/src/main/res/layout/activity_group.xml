@@ -105,17 +105,13 @@
                     android:layout_height="wrap_content"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
 
-                    <com.google.android.material.appbar.MaterialToolbar
-                        android:id="@+id/toolbar_breadcrumb"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/breadcrumb_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/breadcrumb_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            android:orientation="horizontal" />
-                    </com.google.android.material.appbar.MaterialToolbar>
+                        android:layout_height="64dp"
+                        android:paddingHorizontal="12dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal" />
 
                     <com.kunzisoft.keepass.view.SearchFiltersView
                         android:id="@+id/search_filters"
