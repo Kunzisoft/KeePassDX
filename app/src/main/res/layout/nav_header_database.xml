@@ -51,7 +51,6 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/save"
         android:src="@drawable/ic_modified_white_12dp"
-        app:tint="?attr/colorOnPrimary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/nav_database_icon"
         app:layout_constraintStart_toEndOf="@+id/nav_database_icon"

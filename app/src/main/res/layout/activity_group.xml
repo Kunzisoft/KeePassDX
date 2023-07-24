@@ -67,24 +67,21 @@
             app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
             app:layout_constraintBottom_toTopOf="@+id/group_coordinator">
             <ImageView
-                    android:id="@+id/database_color"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_gravity="center_vertical|start"
-                    android:visibility="gone"
-                    android:src="@drawable/background_rounded_square"
-                    android:contentDescription="@string/content_description_database_color"/>
-                <ImageView
-                    android:id="@+id/database_modified"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_gravity="center_vertical|start"
-                    android:visibility="gone"
-                    android:src="@drawable/ic_modified_white_12dp"
-                    app:tint="?attr/colorOnSurface"
-                    android:contentDescription="@string/save"/>
+                android:id="@+id/database_color"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|start"
+                android:visibility="gone"
+                android:src="@drawable/background_rounded_square"
+                android:contentDescription="@string/content_description_database_color"/>
+            <ImageView
+                android:id="@+id/database_modified"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical|start"
+                android:visibility="gone"
+                android:src="@drawable/ic_modified_white_12dp"
+                android:contentDescription="@string/save"/>
         </FrameLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
