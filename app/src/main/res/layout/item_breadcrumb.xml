@@ -21,9 +21,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/breadcrumb_group"
-    android:layout_margin="4dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/margin_vertical_breadcrumb"
     android:minHeight="@dimen/min_height_breadcrumb"
     android:background="?android:attr/selectableItemBackground"
     style="@style/KeepassDXStyle.Cardview.Surface.Small">
@@ -33,7 +33,6 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="5dp"
         android:baselineAligned="false">
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/group_icon"
@@ -67,8 +66,6 @@
             android:src="@drawable/ic_arrow_right_white_24dp"
             app:tint="?attr/colorOnSurface"
             android:importantForAccessibility="no"
-            android:layout_marginEnd="6dp"
-            android:layout_marginRight="6dp"
             tools:targetApi="jelly_bean" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

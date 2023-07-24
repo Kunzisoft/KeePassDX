@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            style="@style/KeepassDXStyle.Title.OnSurface"
+            style="@style/KeepassDXStyle.Text.Large.OnSurface"
             android:ellipsize="marquee"/>
 
         <TextView
