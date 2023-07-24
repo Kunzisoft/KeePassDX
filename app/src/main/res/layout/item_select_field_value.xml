@@ -31,6 +31,6 @@
         android:paddingLeft="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:paddingRight="@dimen/default_margin"
-        style="@style/KeepassDXStyle.TextAppearance.Large"
+        style="@style/KeepassDXStyle.Title"
         tools:text="Test" />
 </FrameLayout>

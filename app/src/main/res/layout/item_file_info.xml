@@ -60,7 +60,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/default_file_button"
-                    style="@style/KeepassDXStyle.Title.Small.OnSurface"
+                    style="@style/KeepassDXStyle.Text.Large.OnSurface"
                     tools:text="DatabaseAlias" />
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/default_file_button"

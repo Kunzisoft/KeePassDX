@@ -78,8 +78,8 @@
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
-        <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
-        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
+        <item name="android:textAppearance">@style/KeepassDXStyle.Text</item>
+        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/green_light</item>
@@ -170,8 +170,8 @@
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
-        <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
-        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
+        <item name="android:textAppearance">@style/KeepassDXStyle.Text</item>
+        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/green_light</item>
@@ -232,10 +232,10 @@
         <item name="subtitleTextAppearance">@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle</item>
         <item name="android:background">?attr/colorSurfaceContainer</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.Title" parent="KeepassDXStyle.TextAppearance.Small">
+    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.Title" parent="KeepassDXStyle.Text">
         <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle" parent="KeepassDXStyle.TextAppearance.Tiny">
+    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle" parent="KeepassDXStyle.Text.Tiny">
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
     <!-- Action Style -->
@@ -261,6 +261,7 @@
         <item name="iconSpaceReserved">false</item>
     </style>
     <style name="KeepassDXStyle.Preference.Category.Style" parent="@style/Preference.Category.Material">
+        <item name="android:layout">@layout/preference_category_material</item>
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
         <item name="iconSpaceReserved">false</item>
@@ -380,83 +381,41 @@
     </style>
 
     <!-- Text Style -->
-    <style name="KeepassDXStyle.TextAppearance" parent="android:style/TextAppearance">
+    <style name="KeepassDXStyle.Text" parent="android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" parent="android:style/TextAppearance">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="drawableTint">?attr/colorOnPrimary</item>
-        <item name="android:drawablePadding">8dp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Warning.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">italic</item>
-    </style>
-    <style name="KeepassDXStyle.Title.OnSurface" parent="android:style/TextAppearance">
-        <item name="android:textColor">@color/on_surface_selector</item>
+    <style name="KeepassDXStyle.Title" parent="KeepassDXStyle.Text">
         <item name="android:textSize">20sp</item>
     </style>
-    <style name="KeepassDXStyle.Title.Small.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
+    <style name="KeepassDXStyle.SubTitle" parent="KeepassDXStyle.Text">
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="KeepassDXStyle.Text.Tiny" parent="KeepassDXStyle.Text">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="KeepassDXStyle.Text.OnSurface" parent="android:style/TextAppearance">
+        <item name="android:textColor">@color/on_surface_selector</item>
+    </style>
+    <style name="KeepassDXStyle.Title.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
         <item name="android:textSize">18sp</item>
     </style>
-    <style name="KeepassDXStyle.Title.Large.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
-        <item name="android:textSize">28sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-    <style name="KeepassDXStyle.SubTitle.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-    <style name="KeepassDXStyle.SubTitle.Important.OnSurface" parent="KeepassDXStyle.SubTitle.OnSurface">
+    <style name="KeepassDXStyle.Text.Large.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
         <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
-    <style name="KeepassDXStyle.Text.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">normal</item>
+    <style name="KeepassDXStyle.Title.Large.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
+        <item name="android:textSize">28sp</item>
     </style>
-    <style name="KeepassDXStyle.Text.Info.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
+    <style name="KeepassDXStyle.Text.Info.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>
-    <style name="KeepassDXStyle.Text.Meta.OnSurface" parent="KeepassDXStyle.Title.OnSurface">
+    <style name="KeepassDXStyle.Text.Meta.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="KeepassDXStyle.TextAppearance.Default" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">16sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Small" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">14sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Large" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">18sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Secondary" parent="KeepassDXStyle.TextAppearance.Small">
-        <item name="android:textColor">?android:attr/textColorSecondary</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Title" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.SmallTitle" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Tiny" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">12sp</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Tiny.Secondary" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">?attr/colorSecondary</item>
-    </style>
-
-    <style name="KeepassDXStyle.TextAppearance.Warning" parent="KeepassDXStyle.TextAppearance">
-		<item name="android:textColor">?attr/colorSecondary</item>
-	</style>
-
-    <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
+    <!-- Badge -->
+    <style name="KeepassDXStyle.Text.Badge" parent="KeepassDXStyle.Text">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_rounded_square</item>
@@ -464,42 +423,42 @@
     </style>
 
     <!-- Nodes Text Style -->
-    <style name="KeepassDXStyle.TextAppearance.Entry.Title" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textColor">@color/entry_text_primary_color</item>
-        <item name="android:tint">@color/entry_text_primary_color</item>
-        <item name="android:textStyle">bold</item>
+    <style name="KeepassDXStyle.Title.Entry" parent="KeepassDXStyle.Text">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Entry.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
+    <style name="KeepassDXStyle.SubTitle.Entry" parent="KeepassDXStyle.Text">
         <item name="android:textColor">@color/text_secondary_color</item>
         <item name="android:tint">@color/text_secondary_color</item>
+        <item name="android:textSize">13sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Entry.Meta" parent="KeepassDXStyle.TextAppearance.Tiny">
-        <item name="android:textColor">@color/entry_text_primary_color</item>
-        <item name="android:tint">@color/entry_text_primary_color</item>
+    <style name="KeepassDXStyle.Meta.Entry" parent="KeepassDXStyle.Text.Tiny">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">11sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Entry.Info" parent="KeepassDXStyle.TextAppearance.Small">
+    <style name="KeepassDXStyle.Info.Entry" parent="KeepassDXStyle.Text">
         <item name="android:textColor">@color/text_secondary_color</item>
         <item name="android:tint">@color/text_secondary_color</item>
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Entry.Icon" parent="KeepassDXStyle.TextAppearance.Small">
+    <style name="KeepassDXStyle.Icon.Entry" parent="KeepassDXStyle.Text">
         <item name="tint">@color/text_secondary_color</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Group.Title" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textColor">@color/group_text_primary_color</item>
-        <item name="android:tint">@color/group_text_primary_color</item>
-        <item name="android:textStyle">bold</item>
+    <style name="KeepassDXStyle.Title.Group" parent="KeepassDXStyle.Text">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Group.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
+    <style name="KeepassDXStyle.SubTitle.Group" parent="KeepassDXStyle.Text">
         <item name="android:textColor">@color/text_secondary_color</item>
         <item name="android:tint">@color/text_secondary_color</item>
+        <item name="android:textSize">13sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.Group.Meta" parent="KeepassDXStyle.TextAppearance.Tiny">
-        <item name="android:textColor">@color/group_text_primary_color</item>
-        <item name="android:tint">@color/group_text_primary_color</item>
+    <style name="KeepassDXStyle.Meta.Group" parent="KeepassDXStyle.Text.Tiny">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">11sp</item>
     </style>
 
@@ -577,7 +536,7 @@
     </style>
 
     <!-- Form -->
-	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.TextAppearance">
+	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.Text">
         <item name="android:textColor">?attr/colorSecondary</item>
 		<item name="android:textSize">12sp</item>
         <item name="android:paddingLeft">4dp</item>
@@ -585,11 +544,11 @@
         <item name="android:paddingRight">4dp</item>
         <item name="android:paddingEnd">4dp</item>
 	</style>
-    <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.TextAppearance">
+    <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.Text">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.TextNode" parent="KeepassDXStyle.TextAppearance">
+	<style name="KeepassDXStyle.TextAppearance.TextNode" parent="KeepassDXStyle.Text">
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:paddingLeft">8dp</item>

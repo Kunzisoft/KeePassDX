@@ -63,7 +63,6 @@
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/entry_custom_field_protection"
-        style="@style/KeepassDXStyle.TextAppearance.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="48dp"

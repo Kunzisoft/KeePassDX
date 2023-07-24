@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/node_child_numbers"
-            style="@style/KeepassDXStyle.TextAppearance.Info"
+            style="@style/KeepassDXStyle.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/node_icon"
@@ -81,7 +81,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Title"
+                style="@style/KeepassDXStyle.Title.Group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -91,7 +91,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Meta"
+                style="@style/KeepassDXStyle.Meta.Group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"

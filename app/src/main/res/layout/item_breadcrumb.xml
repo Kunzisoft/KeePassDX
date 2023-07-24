@@ -55,7 +55,7 @@
             android:text="@string/root"
             android:maxLines="2"
             android:ellipsize="end"
-            style="@style/KeepassDXStyle.SubTitle.OnSurface"
+            style="@style/KeepassDXStyle.Title.Group"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"

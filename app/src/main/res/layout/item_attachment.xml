@@ -86,7 +86,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_attachment_compression"
-                style="@style/KeepassDXStyle.TextAppearance.Tiny"
+                style="@style/KeepassDXStyle.Text.Tiny"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:firstBaselineToTopHeight="0dp"

@@ -77,7 +77,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Title"
+                style="@style/KeepassDXStyle.Title.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -86,7 +86,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.SubTitle"
+                style="@style/KeepassDXStyle.SubTitle.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-4dp"
@@ -96,7 +96,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Meta"
+                style="@style/KeepassDXStyle.Meta.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
@@ -105,7 +105,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_path"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Meta"
+                style="@style/KeepassDXStyle.Meta.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="2"
@@ -141,7 +141,7 @@
 
                 <TextView
                     android:id="@+id/node_otp_token"
-                    style="@style/KeepassDXStyle.TextAppearance.Entry.Info"
+                    style="@style/KeepassDXStyle.Info.Entry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -165,7 +165,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/node_attachment_icon"
-                style="@style/KeepassDXStyle.TextAppearance.Entry.Icon"
+                style="@style/KeepassDXStyle.Icon.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

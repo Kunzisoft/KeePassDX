@@ -15,7 +15,7 @@
         android:visibility="gone">
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/search_numbers"
-            style="@style/KeepassDXStyle.TextAppearance.Info"
+            style="@style/KeepassDXStyle.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"

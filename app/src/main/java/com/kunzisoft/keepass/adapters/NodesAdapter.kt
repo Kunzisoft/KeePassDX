@@ -389,8 +389,8 @@ class NodesAdapter (
         var iconColor = if (holder.container.isSelected)
             mColorOnSecondary
         else when (subNode.type) {
-            Type.GROUP -> mTextColorPrimary
-            Type.ENTRY -> mTextColor
+            Type.GROUP -> mTextColor
+            Type.ENTRY -> mColorSecondary
         }
 
         // Specific elements for entry
