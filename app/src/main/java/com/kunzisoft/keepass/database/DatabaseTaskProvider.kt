@@ -93,6 +93,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import com.kunzisoft.keepass.utils.putParcelableList
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -542,8 +543,8 @@ class DatabaseTaskProvider(
 
         start(Bundle().apply {
             putAll(getBundleFromListNodes(nodesPaste))
-            putParcelableArrayList(DatabaseTaskNotificationService.GROUPS_ID_KEY, groupsIdToCopy)
-            putParcelableArrayList(DatabaseTaskNotificationService.ENTRIES_ID_KEY, entriesIdToCopy)
+            putParcelableList(DatabaseTaskNotificationService.GROUPS_ID_KEY, groupsIdToCopy)
+            putParcelableList(DatabaseTaskNotificationService.ENTRIES_ID_KEY, entriesIdToCopy)
             if (newParentId != null)
                 putParcelable(DatabaseTaskNotificationService.PARENT_ID_KEY, newParentId)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
