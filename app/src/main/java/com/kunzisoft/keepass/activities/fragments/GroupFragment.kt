@@ -181,9 +181,9 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         mRecycleBinEnable = database?.isRecycleBinEnabled == true
         mRecycleBin = database?.recycleBin
 
-        contextThemed?.let { context ->
+        context?.let { context ->
             database?.let { database ->
-                mAdapter = NodesAdapter(contextThemed ?: context, database).apply {
+                mAdapter = NodesAdapter(context, database).apply {
                     setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                         override fun onNodeClick(database: ContextualDatabase, node: Node) {
                             if (mCurrentGroup?.isVirtual == false
@@ -241,8 +241,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         // To apply theme
-        return inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_nodes, container, false)
+        return inflater.inflate(R.layout.fragment_nodes, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

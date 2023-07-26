@@ -118,27 +118,27 @@ class NodesAdapter (
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        val taColorSurfaceContainer = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
+        val taColorSurfaceContainer = context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
         this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
         taColorSurfaceContainer.recycle()
         // Retrieve the color to tint the icon
-        val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
+        val taTextColorPrimary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
         taTextColorPrimary.recycle()
         // To get text color
-        val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        val taTextColor = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         this.mTextColor = taTextColor.getColor(0, Color.BLACK)
         taTextColor.recycle()
         // To get text color secondary
-        val taTextColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
+        val taTextColorSecondary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
         this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
         taTextColorSecondary.recycle()
         // To get background color for selection
-        val taColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
         this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
         taColorSecondary.recycle()
         // To get text color for selection
-        val taColorOnSecondary = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
+        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
         this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
         taColorOnSecondary.recycle()
     }
