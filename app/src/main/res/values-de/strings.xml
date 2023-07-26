@@ -436,6 +436,7 @@
         <item>Sonne</item>
         <item>Antwort</item>
         <item>Kunzite</item>
+        <item>System verfolgen</item>
     </string-array>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP / TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>

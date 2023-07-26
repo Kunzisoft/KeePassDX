@@ -59,8 +59,7 @@ class EntryFragment: DatabaseFragment() {
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        return inflater.cloneInContext(contextThemed)
-            .inflate(R.layout.fragment_entry, container, false)
+        return inflater.inflate(R.layout.fragment_entry, container, false)
     }
     
     override fun onViewCreated(view: View,

@@ -393,6 +393,8 @@
     <string name="list_style_name_reply_night" translatable="false">KeepassDXStyle_Reply_Night</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string name="list_style_name_purple_dark" translatable="false">KeepassDXStyle_Purple_Dark</string>
+    <string name="list_style_name_dynamic_light" translatable="false">KeepassDXStyle_Dynamic_Light</string>
+    <string name="list_style_name_dynamic_night" translatable="false">KeepassDXStyle_Dynamic_Night</string>
     <string-array name="list_style_values_light">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_white</item>
@@ -402,6 +404,7 @@
         <item translatable="false">@string/list_style_name_red</item>
         <item translatable="false">@string/list_style_name_reply</item>
         <item translatable="false">@string/list_style_name_purple</item>
+        <item translatable="false">@string/list_style_name_dynamic_light</item>
     </string-array>
     <string-array name="list_style_values_night">
         <item translatable="false">@string/list_style_name_night</item>
@@ -412,6 +415,7 @@
         <item translatable="false">@string/list_style_name_red_night</item>
         <item translatable="false">@string/list_style_name_reply_night</item>
         <item translatable="false">@string/list_style_name_purple_dark</item>
+        <item translatable="false">@string/list_style_name_dynamic_night</item>
     </string-array>
     <string name="list_style_brightness_light" translatable="false">KeepassDXStyle_Brightness_Light</string>
     <string name="list_style_brightness_night" translatable="false">KeepassDXStyle_Brightness_Night</string>

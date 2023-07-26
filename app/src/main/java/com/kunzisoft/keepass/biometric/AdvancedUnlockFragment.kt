@@ -33,10 +33,10 @@ import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
+class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
 
     private var mBuilderListener: BuilderListener? = null
 
@@ -162,8 +162,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_advanced_unlock, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_advanced_unlock, container, false)
 
         mAdvancedUnlockInfoView = rootView.findViewById(R.id.advanced_unlock_view)
 

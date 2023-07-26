@@ -16,7 +16,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 
 
 class TemplatesSelectorAdapter(
-    context: Context,
+    private val context: Context,
     private var templates: List<Template>): BaseAdapter() {
 
     var iconDrawableFactory: IconDrawableFactory? = null
@@ -36,7 +36,9 @@ class TemplatesSelectorAdapter(
         var templateView = convertView
         if (templateView == null) {
             holder = TemplateSelectorViewHolder()
-            templateView = inflater.inflate(R.layout.item_template, parent, false)
+            templateView = inflater
+                .cloneInContext(context)
+                .inflate(R.layout.item_template, parent, false)
             holder.background = templateView?.findViewById(R.id.template_background)
             holder.icon = templateView?.findViewById(R.id.template_image)
             holder.name = templateView?.findViewById(R.id.template_name)

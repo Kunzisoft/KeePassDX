@@ -94,7 +94,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         atLeastOneCompound = view.findViewById(R.id.atLeastOne_filter)
         excludeAmbiguousCompound = view.findViewById(R.id.excludeAmbiguous_filter)
 
-        contextThemed?.let { context ->
+        context?.let { context ->
             passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(context)

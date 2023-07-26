@@ -73,7 +73,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         minSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_min)
         maxSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_max)
 
-        contextThemed?.let { context ->
+        context?.let { context ->
             passphraseCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(context)

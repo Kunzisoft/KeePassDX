@@ -33,6 +33,7 @@ import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.google.android.material.color.DynamicColors
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.NestedAppSettingsFragment.Companion.DATABASE_PREFERENCE_CHANGED
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -84,8 +85,13 @@ abstract class StylishActivity : AppCompatActivity() {
 
         customStyle = applyCustomStyle()
         if (customStyle) {
+            // Preconfigured themes
             this.themeId = Stylish.getThemeId(this)
             setTheme(themeId)
+            if (Stylish.isDynamic(this)) {
+                // Material You theme
+                DynamicColors.applyToActivityIfAvailable(this)
+            }
         }
 
         PreferenceManager.getDefaultSharedPreferences(this)

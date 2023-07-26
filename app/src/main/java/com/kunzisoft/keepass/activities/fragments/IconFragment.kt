@@ -59,7 +59,7 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         // Retrieve the textColor to tint the icon
-        val ta = contextThemed?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        val ta = context?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         val tintColor = ta?.getColor(0, Color.BLACK) ?: Color.BLACK
         ta?.recycle()
 

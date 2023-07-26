@@ -46,7 +46,6 @@
             android:value="${googleAndroidBackupAPIKey}" />
         <activity
             android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"
-            android:theme="@style/KeepassDXStyle.SplashScreen"
             android:launchMode="singleTop"
             android:exported="true"
             android:configChanges="keyboardHidden"

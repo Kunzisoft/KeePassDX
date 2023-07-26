@@ -77,12 +77,11 @@ class EntryEditFragment: DatabaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         // Retrieve the textColor to tint the icon
-        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        val taIconColor = context?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         mIconColor = taIconColor?.getColor(0, Color.BLACK) ?: Color.BLACK
         taIconColor?.recycle()
 
-        return inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_entry_edit, container, false)
+        return inflater.inflate(R.layout.fragment_entry_edit, container, false)
     }
 
     override fun onViewCreated(view: View,
