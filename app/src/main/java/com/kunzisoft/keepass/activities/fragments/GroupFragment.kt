@@ -183,7 +183,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         contextThemed?.let { context ->
             database?.let { database ->
-                mAdapter = NodesAdapter(context, database).apply {
+                mAdapter = NodesAdapter(contextThemed ?: context, database).apply {
                     setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                         override fun onNodeClick(database: ContextualDatabase, node: Node) {
                             if (mCurrentGroup?.isVirtual == false

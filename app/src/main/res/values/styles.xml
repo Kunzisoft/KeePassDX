@@ -19,14 +19,6 @@
 -->
 <resources>
 
-    <!-- SplashScreen theme -->
-    <style name="KeepassDXStyle.SplashScreen.v21" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/grey_dark</item>
-        <item name="android:windowBackground">@drawable/background_splash</item>
-    </style>
-    <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21"/>
-
     <!-- Light WhiteBar Style -->
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v27" />
     <style name="KeepassDXStyle.Light.v27" parent="KeepassDXStyle.Light.v23" />
@@ -52,7 +44,6 @@
         <item name="colorErrorContainer">@color/forest_theme_light_errorContainer</item>
         <item name="colorOnError">@color/forest_theme_light_onError</item>
         <item name="colorOnErrorContainer">@color/forest_theme_light_onErrorContainer</item>
-        <item name="android:windowBackground">@color/forest_theme_light_background</item>
         <item name="android:colorBackground">@color/forest_theme_light_background</item>
         <item name="colorOnBackground">@color/forest_theme_light_onBackground</item>
         <item name="colorSurface">@color/forest_theme_light_surface</item>
@@ -82,12 +73,13 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:textColorPrimary">@color/forest_theme_light_primary</item>
+        <item name="android:editTextColor">?attr/colorOnSurface</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
-        <item name="dialogBackgroundColor">@color/forest_theme_light_background</item>
+        <item name="dialogBackgroundColor">?attr/colorSurfaceContainerHigh</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
@@ -146,7 +138,6 @@
         <item name="colorErrorContainer">@color/forest_theme_night_errorContainer</item>
         <item name="colorOnError">@color/forest_theme_night_onError</item>
         <item name="colorOnErrorContainer">@color/forest_theme_night_onErrorContainer</item>
-        <item name="android:windowBackground">@color/forest_theme_night_background</item>
         <item name="android:colorBackground">@color/forest_theme_night_background</item>
         <item name="colorOnBackground">@color/forest_theme_night_onBackground</item>
         <item name="colorSurface">@color/forest_theme_night_surface</item>
@@ -176,12 +167,13 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:textColorPrimary">@color/forest_theme_night_primary</item>
+        <item name="android:editTextColor">?attr/colorOnSurface</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
-        <item name="dialogBackgroundColor">@color/forest_theme_night_background</item>
+        <item name="dialogBackgroundColor">?attr/colorSurfaceContainerHigh</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
@@ -590,5 +582,9 @@
         <item name="verticalCorrection">-10dip</item>
         <item name="popupLayout">@layout/keyboard_popup_fields</item>
     </style>
+
+    <!-- Only to have a specific base to build a dynamic theme properly programmatically -->
+    <style name="KeepassDXStyle.Light.Dynamic" parent="KeepassDXStyle.Light" />
+    <style name="KeepassDXStyle.Night.Dynamic" parent="KeepassDXStyle.Night" />
 
 </resources>

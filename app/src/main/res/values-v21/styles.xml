@@ -19,10 +19,6 @@
 -->
 <resources>
     <!-- To encapsulate elevation & status bar color -->
-    <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21">
-        <item name="android:statusBarColor">@color/grey_dark</item>
-        <item name="android:navigationBarColor">@color/grey_dark</item>
-    </style>
     <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" >
         <item name="preferenceTheme">@style/KeepassDXStyle.Preference.Theme</item>
         <item name="android:statusBarColor">@color/grey_dark</item>

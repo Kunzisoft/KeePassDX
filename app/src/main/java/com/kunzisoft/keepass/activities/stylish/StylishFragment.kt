@@ -27,61 +27,71 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StyleRes
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.color.DynamicColors
 
 abstract class StylishFragment : Fragment() {
 
-    @StyleRes
-    protected var themeId: Int = 0
     protected var contextThemed: Context? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        this.themeId = Stylish.getThemeId(context)
-        contextThemed = ContextThemeWrapper(context, themeId)
+
+        contextThemed = if (Stylish.isDynamic(context)) {
+            DynamicColors.wrapContextIfAvailable(context)
+        } else {
+            ContextThemeWrapper(context, Stylish.getThemeId(context))
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // To fix status bar color
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = requireActivity().window
-            val defaultColor = Color.BLACK
-            val windowInset = WindowInsetsControllerCompat(window, window.decorView)
-            try {
-                val taStatusBarColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.statusBarColor))
-                window.statusBarColor = taStatusBarColor?.getColor(0, defaultColor) ?: defaultColor
-                taStatusBarColor?.recycle()
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to retrieve theme : status bar color", e)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // To fix status bar color, only useful before dynamic Material You
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val window = requireActivity().window
+                val defaultColor = Color.BLACK
+                val windowInset = WindowInsetsControllerCompat(window, window.decorView)
                 try {
-                    val taWindowStatusLight = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowLightStatusBar))
-                    windowInset.isAppearanceLightStatusBars = taWindowStatusLight
-                            ?.getBoolean(0, false) == true
-                    taWindowStatusLight?.recycle()
+                    val taStatusBarColor =
+                        contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.statusBarColor))
+                    window.statusBarColor =
+                        taStatusBarColor?.getColor(0, defaultColor) ?: defaultColor
+                    taStatusBarColor?.recycle()
                 } catch (e: Exception) {
-                    Log.e(TAG, "Unable to retrieve theme : window light status bar", e)
+                    Log.e(TAG, "Unable to retrieve theme : status bar color", e)
                 }
-            }
-            try {
-                val taNavigationBarColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.navigationBarColor))
-                window.navigationBarColor = taNavigationBarColor?.getColor(0, defaultColor) ?: defaultColor
-                taNavigationBarColor?.recycle()
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to retrieve theme : navigation bar color", e)
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    try {
+                        val taWindowStatusLight =
+                            contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowLightStatusBar))
+                        windowInset.isAppearanceLightStatusBars = taWindowStatusLight
+                            ?.getBoolean(0, false) == true
+                        taWindowStatusLight?.recycle()
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve theme : window light status bar", e)
+                    }
+                }
                 try {
-                    val taWindowLightNavigationBar = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowLightNavigationBar))
-                    windowInset.isAppearanceLightNavigationBars = taWindowLightNavigationBar
-                        ?.getBoolean(0, false) == true
-                    taWindowLightNavigationBar?.recycle()
+                    val taNavigationBarColor =
+                        contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.navigationBarColor))
+                    window.navigationBarColor =
+                        taNavigationBarColor?.getColor(0, defaultColor) ?: defaultColor
+                    taNavigationBarColor?.recycle()
                 } catch (e: Exception) {
-                    Log.e(TAG, "Unable to retrieve theme : navigation light navigation bar", e)
+                    Log.e(TAG, "Unable to retrieve theme : navigation bar color", e)
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    try {
+                        val taWindowLightNavigationBar =
+                            contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.windowLightNavigationBar))
+                        windowInset.isAppearanceLightNavigationBars = taWindowLightNavigationBar
+                            ?.getBoolean(0, false) == true
+                        taWindowLightNavigationBar?.recycle()
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to retrieve theme : navigation light navigation bar", e)
+                    }
                 }
             }
         }

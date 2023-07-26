@@ -477,6 +477,7 @@
         <item>Sun</item>
         <item>Reply</item>
         <item>Kunzite</item>
+        <item>システムに従う</item>
     </string-array>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>

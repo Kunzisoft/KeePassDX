@@ -115,7 +115,6 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/file_alias_save"
-                    android:textColor="?android:attr/textColor"
                     tools:text="DatabaseAlias" />
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/file_alias_save"

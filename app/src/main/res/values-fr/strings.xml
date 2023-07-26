@@ -271,6 +271,7 @@
         <item>Soleil</item>
         <item>Réponse</item>
         <item>Kunzite</item>
+        <item>Suivre le système</item>
     </string-array>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>
