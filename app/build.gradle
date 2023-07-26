@@ -49,7 +49,9 @@ android {
                             "\"KeepassDXStyle_Reply\"," +
                             "\"KeepassDXStyle_Reply_Night\"," +
                             "\"KeepassDXStyle_Purple\"," +
-                            "\"KeepassDXStyle_Purple_Dark\"}"
+                            "\"KeepassDXStyle_Purple_Dark\"," +
+                            "\"KeepassDXStyle_Dynamic_Light\"," +
+                            "\"KeepassDXStyle_Dynamic_Night\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
         free {
@@ -67,7 +69,9 @@ android {
                             "\"KeepassDXStyle_Reply\"," +
                             "\"KeepassDXStyle_Reply_Night\"," +
                             "\"KeepassDXStyle_Purple\"," +
-                            "\"KeepassDXStyle_Purple_Dark\"}"
+                            "\"KeepassDXStyle_Purple_Dark\"," +
+                            "\"KeepassDXStyle_Dynamic_Light\"," +
+                            "\"KeepassDXStyle_Dynamic_Night\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
             manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIbRfbV8fHLItXo8OcHwrO0sSNblqhPwkc0DPTqg" ]
         }
