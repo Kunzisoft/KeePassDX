@@ -182,26 +182,40 @@ class EntryInfo : NodeInfo {
                 }
                 modification = true
             }
-        } ?: run {
+        } ?: searchInfo.applicationId?.let { applicationId ->
             // Save application id in custom field
             if (database?.allowEntryCustomFields() == true) {
-                searchInfo.applicationId?.let { applicationId ->
-                    if (!containsDomainOrApplicationId(applicationId)) {
-                        addUniqueField(
-                            Field(
-                                APPLICATION_ID_FIELD_NAME,
-                                ProtectedString(false, applicationId)
-                            )
+                if (!containsDomainOrApplicationId(applicationId)) {
+                    addUniqueField(
+                        Field(
+                            APPLICATION_ID_FIELD_NAME,
+                            ProtectedString(false, applicationId)
                         )
-                        modification = true
-                    }
+                    )
+                    modification = true
                 }
             }
+        }
+        if (title.isEmpty()) {
+            title = searchInfoToTitle(searchInfo)
         }
         return modification
     }
 
+    /**
+     * Capitalize and remove suffix of web domain to create a title
+     */
+    private fun searchInfoToTitle(searchInfo: SearchInfo): String {
+        val webDomain = searchInfo.webDomain
+        return webDomain?.substring(0, webDomain.lastIndexOf('.'))?.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+        } ?: searchInfo.toString()
+    }
+
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
+        registerInfo.searchInfo.let {
+            title = searchInfoToTitle(it)
+        }
         registerInfo.username?.let {
             username = it
         }
