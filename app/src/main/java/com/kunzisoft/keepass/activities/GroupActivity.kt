@@ -35,7 +35,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -49,6 +49,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -157,6 +158,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Manage group
     private var mSearchState: SearchState? = null
+    private var mAutoSearch: Boolean = false // To mainly manage keyboard
     private var mMainGroupState: GroupState? = null // Group state, not a search
     private var mRootGroup: Group? = null // Root group in the tree
     private var mMainGroup: Group? = null // Main group currently in memory
@@ -202,12 +204,6 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
 
             addSearch()
-            //loadGroup()
-
-            // Back to previous keyboard
-            if (PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
-                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
-            }
             return true
         }
 
@@ -219,6 +215,16 @@ class GroupActivity : DatabaseLockActivity(),
             removeSearch()
             loadGroup()
             return true
+        }
+    }
+    private val mOnSearchTextFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        if (!mAutoSearch
+            && hasFocus
+            && PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
+            // Change to the previous keyboard and show it
+            sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            ContextCompat.getSystemService(this, InputMethodManager::class.java)
+                ?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
     }
 
@@ -735,6 +741,7 @@ class GroupActivity : DatabaseLockActivity(),
             transformSearchInfoIntent(intent)
             // Get search query
             if (intent.action == Intent.ACTION_SEARCH) {
+                mAutoSearch = true
                 val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
                 intent.action = Intent.ACTION_DEFAULT
                 intent.removeExtra(SearchManager.QUERY)
@@ -1146,6 +1153,8 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun addSearchQueryInSearchView(searchQuery: String) {
         searchView?.setOnQueryTextListener(null)
+        if (mAutoSearch)
+            searchView?.clearFocus()
         searchView?.setQuery(searchQuery, false)
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
@@ -1192,6 +1201,7 @@ class GroupActivity : DatabaseLockActivity(),
             it.setOnActionExpandListener(mOnSearchActionExpandListener)
             searchView = it.actionView as SearchView?
             searchView?.apply {
+                setOnQueryTextFocusChangeListener(mOnSearchTextFocusChangeListener)
                 val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
                 (searchManager?.getSearchableInfo(
                     ComponentName(this@GroupActivity, GroupActivity::class.java)
@@ -1214,6 +1224,7 @@ class GroupActivity : DatabaseLockActivity(),
                 breadcrumbListView?.visibility = View.VISIBLE
             }
             mLockSearchListeners = false
+            mAutoSearch = false
         }
 
         super.onCreateOptionsMenu(menu)

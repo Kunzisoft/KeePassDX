@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
@@ -101,7 +102,7 @@ abstract class TemplateAbstractView<
             }
             buildTemplateAndPopulateInfo()
             clearFocus()
-            (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager?)
+            ContextCompat.getSystemService(context, InputMethodManager::class.java)
                 ?.hideSoftInputFromWindow(windowToken, 0)
         }
     }

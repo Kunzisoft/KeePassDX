@@ -242,7 +242,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     private fun switchToPreviousKeyboard() {
         var imeManager: InputMethodManager? = null
         try {
-            imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imeManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 switchToPreviousInputMethod()
             } else {
@@ -270,7 +270,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             KEY_BACK_KEYBOARD -> switchToPreviousKeyboard()
 
             KEY_CHANGE_KEYBOARD -> {
-                (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)
+                ContextCompat.getSystemService(this, InputMethodManager::class.java)
                         ?.showInputMethodPicker()
             }
             KEY_ENTRY -> {
