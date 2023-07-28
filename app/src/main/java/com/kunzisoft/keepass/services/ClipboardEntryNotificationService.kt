@@ -230,7 +230,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             == PackageManager.PERMISSION_GRANTED) {
             action.invoke()
         } else {
-            showPermissionError(this)
+            showPermissionErrorIfNeeded(this)
         }
     }
 
@@ -255,8 +255,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         const val EXTRA_CLIPBOARD_FIELDS = "EXTRA_CLIPBOARD_FIELDS"
         const val ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD"
 
-        private fun showPermissionError(context: Context) {
-            Toast.makeText(context, R.string.warning_copy_permission, Toast.LENGTH_LONG).show()
+        private fun showPermissionErrorIfNeeded(context: Context) {
+            if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
+                Toast.makeText(context, R.string.warning_copy_permission, Toast.LENGTH_LONG).show()
+            }
         }
 
         fun checkAndLaunchNotification(
@@ -270,7 +272,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                     ) == PackageManager.PERMISSION_GRANTED) {
                         launchNotificationIfAllowed(activity, entry)
                 } else {
-                    showPermissionError(activity)
+                    showPermissionErrorIfNeeded(activity)
                 }
             } else {
                 launchNotificationIfAllowed(activity, entry)
