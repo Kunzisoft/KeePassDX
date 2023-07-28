@@ -38,9 +38,9 @@ class ToolbarSpecial @JvmOverloads constructor(context: Context,
     init {
         ContextCompat.getDrawable(context, R.drawable.ic_arrow_back_white_24dp)?.let { closeDrawable ->
             val typedValue = TypedValue()
-            context.theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
-            @ColorInt val colorControl = typedValue.data
-            closeDrawable.colorFilter = PorterDuffColorFilter(colorControl, PorterDuff.Mode.SRC_ATOP)
+            context.theme.resolveAttribute(R.attr.colorOnSurface, typedValue, true)
+            @ColorInt val colorOnSurface = typedValue.data
+            closeDrawable.colorFilter = PorterDuffColorFilter(colorOnSurface, PorterDuff.Mode.SRC_ATOP)
             navigationIcon = closeDrawable
         }
         title = resources.getString(R.string.selection_mode)

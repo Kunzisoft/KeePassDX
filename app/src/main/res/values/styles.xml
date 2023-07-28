@@ -224,15 +224,11 @@
     </style>
     <!-- Special Toolbar Style -->
     <style name="KeepassDXStyle.Toolbar.Special" parent="KeepassDXStyle.Toolbar">
-        <item name="titleTextAppearance">@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title</item>
-        <item name="subtitleTextAppearance">@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle</item>
+        <item name="titleTextAppearance">@style/KeepassDXStyle.Text</item>
+        <item name="titleTextColor">?attr/colorOnSurface</item>
+        <item name="subtitleTextAppearance">@style/KeepassDXStyle.Text.Tiny</item>
+        <item name="subtitleTextColor">?attr/colorSecondary</item>
         <item name="android:background">?attr/colorSurfaceContainer</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.Title" parent="KeepassDXStyle.Text">
-        <item name="android:textColor">?attr/colorOnSurface</item>
-    </style>
-    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle" parent="KeepassDXStyle.Text.Tiny">
-        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
     <!-- Action Style -->
     <style name="KeepassDXStyle.Toolbar.Action" parent="KeepassDXStyle.Toolbar" />
