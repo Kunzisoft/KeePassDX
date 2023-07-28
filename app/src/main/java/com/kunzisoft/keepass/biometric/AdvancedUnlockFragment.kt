@@ -67,17 +67,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     // TODO Retrieve credential storage from app database
     var credentialDatabaseStorage: CredentialStorage = CredentialStorage.DEFAULT
 
-    /**
-     * Manage setting to auto open biometric prompt
-     */
-    private var mAutoOpenPrompt: Boolean
-        get() {
-            return mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt && mAutoOpenPromptEnabled
-        }
-        set(value) {
-            mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = value
-        }
-
     // Variable to check if the prompt can be open (if the right activity is currently shown)
     // checkBiometricAvailability() allows open biometric prompt and onDestroy() removes the authorization
     private var allowOpenBiometricPrompt = false
@@ -407,8 +396,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                             }
 
                             // Auto open the biometric prompt
-                            if (mAutoOpenPrompt) {
-                                mAutoOpenPrompt = false
+                            if (mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt
+                                && mAutoOpenPromptEnabled) {
+                                mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
                                 openAdvancedUnlockPrompt(cryptoPrompt)
                             }
                         }
