@@ -299,10 +299,15 @@ class DatabaseTaskProvider(
      * Unbind the service and assign null to the service connection to check if already unbind or not
      */
     private fun unBindService() {
-        serviceConnection?.let {
-            context.unbindService(it)
+        try {
+            serviceConnection?.let {
+                context.unbindService(it)
+            }
+        } catch (e: java.lang.Exception) {
+            Log.e(TAG, "Unable to unbind the database task service", e)
+        } finally {
+            serviceConnection = null
         }
-        serviceConnection = null
     }
 
     fun registerProgressTask() {
