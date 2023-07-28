@@ -215,7 +215,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Lock button
         lockView?.setOnClickListener { lockAndExit() }
         // Save button
-        validateButton?.setOnClickListener { saveEntry() }
+        validateButton?.setOnClickListener { validateEntry() }
 
         mEntryEditViewModel.onTemplateChanged.observe(this) { template ->
             this.mTemplate = template
@@ -564,9 +564,9 @@ class EntryEditActivity : DatabaseLockActivity(),
     }
 
     /**
-     * Saves the new entry or update an existing entry in the database
+     * Validate the new entry or update an existing entry in the database
      */
-    private fun saveEntry() {
+    private fun validateEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
         mEntryEditViewModel.requestEntryInfoUpdate(mDatabase)
     }
@@ -648,14 +648,29 @@ class EntryEditActivity : DatabaseLockActivity(),
                 )
                 if (!addAttachmentEducationPerformed) {
                     val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
-                    setupOtpView != null
+                    val validateEntryEducationPerformed = setupOtpView != null
                             && setupOtpView.isVisible
                             && mEntryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
                             setupOtpView,
                             {
                                 setupOtp()
+                            },
+                            {
+                                performedNextEducation()
                             }
                     )
+                    if (!validateEntryEducationPerformed) {
+                        val entryValidateView = validateButton
+                        mAllowCustomFields
+                                && entryValidateView != null
+                                && entryValidateView.isVisible
+                                && mEntryEditActivityEducation.checkAndPerformedValidateEntryEducation(
+                                entryValidateView,
+                                {
+                                    validateEntry()
+                                }
+                        )
+                    }
                 }
             }
         }

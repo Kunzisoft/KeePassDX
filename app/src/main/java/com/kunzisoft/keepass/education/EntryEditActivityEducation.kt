@@ -61,6 +61,37 @@ class EntryEditActivityEducation(activity: Activity)
 
     /**
      * Check and display learning views
+     * Displays the explanation for the entry validation
+     */
+    fun checkAndPerformedValidateEntryEducation(educationView: View,
+                                                onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                                                onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+        return checkAndPerformedEducation(isEducationValidateEntryPerformed(activity),
+            TapTarget.forView(educationView,
+                activity.getString(R.string.education_validate_entry_title),
+                activity.getString(R.string.education_validate_entry_summary))
+                .outerCircleColorInt(getCircleColor())
+                .outerCircleAlpha(getCircleAlpha())
+                .textColorInt(getTextColor())
+                .tintTarget(false)
+                .cancelable(true),
+            object : TapTargetView.Listener() {
+                override fun onTargetClick(view: TapTargetView) {
+                    super.onTargetClick(view)
+                    onEducationViewClick?.invoke(view)
+                }
+
+                override fun onOuterCircleClick(view: TapTargetView?) {
+                    super.onOuterCircleClick(view)
+                    view?.dismiss(false)
+                    onOuterViewClick?.invoke(view)
+                }
+            },
+            R.string.education_validate_entry_key)
+    }
+
+    /**
+     * Check and display learning views
      * Displays the explanation to create a new field
      */
     fun checkAndPerformedEntryNewFieldEducation(educationView: View,

@@ -325,6 +325,18 @@ open class Education(val activity: Activity) {
         }
 
         /**
+         * Determines whether the explanatory view of the validate entry has already been displayed.
+         *
+         * @param context The context to open the SharedPreferences
+         * @return boolean value of education_validate_entry_key key
+         */
+        fun isEducationValidateEntryPerformed(context: Context): Boolean {
+            val prefs = getEducationSharedPreferences(context)
+            return prefs.getBoolean(context.getString(R.string.education_validate_entry_key),
+                context.resources.getBoolean(R.bool.education_validate_entry_default))
+        }
+
+        /**
          * Determines whether the explanatory view of the new fields button in an entry has already been displayed.
          *
          * @param context The context to open the SharedPreferences

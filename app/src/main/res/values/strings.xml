@@ -596,6 +596,8 @@
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password</string>
     <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
+    <string name="education_validate_entry_title">Validate the entry</string>
+    <string name="education_validate_entry_summary">Remember to validate your entry and save your database.\n\nIf an automatic lock is activated and you forget you were making a modification, you risk losing your data.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
     <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
     <string name="education_add_attachment_title">Add attachment</string>
