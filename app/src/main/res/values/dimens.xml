@@ -27,7 +27,7 @@
     <dimen name="button_margin">8dp</dimen>
     <dimen name="selectable_margin_vertical">4dp</dimen>
     <dimen name="selectable_margin_horizontal">8dp</dimen>
-    <dimen name="selectable_min_height">48dp</dimen>
+    <dimen name="selectable_min_height">36dp</dimen>
     <dimen name="button_small_size">48dp</dimen>
     <dimen name="card_view_margin_horizontal">10dp</dimen>
     <dimen name="card_view_margin_vertical">5dp</dimen>
