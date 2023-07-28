@@ -166,11 +166,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
 
         // Init Biometric elements
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockButton?.setOnClickListener {
-                startActivity(Intent(this, AdvancedUnlockSettingsActivity::class.java))
-            }
-        }
         advancedUnlockFragment = supportFragmentManager
                 .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
         if (advancedUnlockFragment == null) {

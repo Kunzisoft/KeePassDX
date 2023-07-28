@@ -93,7 +93,7 @@ class PasswordActivityEducation(activity: Activity)
                         activity.getString(R.string.education_advanced_unlock_summary))
                         .outerCircleColorInt(getCircleColor())
                         .outerCircleAlpha(getCircleAlpha())
-                        .icon(ContextCompat.getDrawable(activity, R.drawable.ic_fingerprint_24))
+                        .icon(ContextCompat.getDrawable(activity, R.drawable.ic_fingerprint_24dp))
                         .textColorInt(getTextColor())
                         .tintTarget(true)
                         .cancelable(true),
