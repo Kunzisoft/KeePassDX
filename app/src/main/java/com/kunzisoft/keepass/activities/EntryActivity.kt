@@ -67,7 +67,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.changeControlColor
@@ -99,7 +98,6 @@ class EntryActivity : DatabaseLockActivity() {
     private var mMainEntryId: NodeId<UUID>? = null
     private var mHistoryPosition: Int = -1
     private var mEntryIsHistory: Boolean = false
-    private var mUrl: String? = null
     private var mEntryLoaded = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
@@ -247,7 +245,6 @@ class EntryActivity : DatabaseLockActivity() {
                     if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
-                mUrl = entryInfo.url
                 // Assign tags
                 val tags = entryInfo.tags
                 tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
@@ -409,9 +406,6 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (mUrl?.isEmpty() != false) {
-            menu?.findItem(R.id.menu_goto_url)?.isVisible = false
-        }
         if (mEntryIsHistory || mDatabaseReadOnly) {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
@@ -469,12 +463,6 @@ class EntryActivity : DatabaseLockActivity() {
                             mEntryActivityResultLauncher
                         )
                     }
-                }
-                return true
-            }
-            R.id.menu_goto_url -> {
-                mUrl?.let { url ->
-                    this.openUrl(url)
                 }
                 return true
             }
