@@ -145,7 +145,7 @@
     <string name="keyboard_save_search_info_key" translatable="false">keyboard_save_search_info_key</string>
     <bool name="keyboard_save_search_info_default" translatable="false">false</bool>
     <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>
-    <bool name="keyboard_auto_go_action_default" translatable="false">true</bool>
+    <bool name="keyboard_auto_go_action_default" translatable="false">false</bool>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
