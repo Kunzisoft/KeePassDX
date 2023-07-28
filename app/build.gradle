@@ -60,8 +60,6 @@ android {
             buildConfigField "String", "BUILD_VERSION", "\"free\""
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED",
-                            "{\"KeepassDXStyle_Simple\"," +
-                            "\"KeepassDXStyle_Simple_Night\"," +
                             "\"KeepassDXStyle_Blue\"," +
                             "\"KeepassDXStyle_Blue_Night\"," +
                             "\"KeepassDXStyle_Red\"," +
