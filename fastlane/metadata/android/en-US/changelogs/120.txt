@@ -1,1 +1,0 @@
- * Modification of the internal default configuration of the database
