@@ -86,6 +86,7 @@ import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
@@ -224,6 +225,13 @@ class GroupActivity : DatabaseLockActivity(),
             sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
             view.showKeyboard()
         }
+    }
+
+    private val mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
+        entryId?.let {
+            // Simply refresh the list when entry is updated
+            loadGroup()
+        } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
     }
 
     private fun addSearch() {
@@ -499,14 +507,12 @@ class GroupActivity : DatabaseLockActivity(),
                     EntrySelectionHelper.doSpecialAction(intent,
                         {
                             mMainGroup?.nodeId?.let { currentParentGroupId ->
-                                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                                    EntryEditActivity.launchToCreate(
-                                        this@GroupActivity,
-                                        database,
-                                        currentParentGroupId,
-                                        resultLauncher
-                                    )
-                                }
+                                EntryEditActivity.launchToCreate(
+                                    this@GroupActivity,
+                                    database,
+                                    currentParentGroupId,
+                                    mEntryActivityResultLauncher
+                                )
                             }
                         },
                         {
@@ -706,6 +712,12 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                 }
             }
+            ACTION_DATABASE_DELETE_NODES_TASK -> {
+                if (result.isSuccess) {
+                    // To reload search
+                    loadGroup()
+                }
+            }
         }
 
         coordinatorLayout?.showActionErrorIfNeeded(result)
@@ -848,14 +860,12 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                            EntryActivity.launch(
-                                this@GroupActivity,
-                                database,
-                                entryVersioned.nodeId,
-                                resultLauncher
-                            )
-                        }
+                        EntryActivity.launch(
+                            this@GroupActivity,
+                            database,
+                            entryVersioned.nodeId,
+                            mEntryActivityResultLauncher
+                        )
                     },
                     {
                         // Nothing here, a search is simply performed
@@ -1021,14 +1031,12 @@ class GroupActivity : DatabaseLockActivity(),
                 launchDialogForGroupUpdate(node as Group)
             }
             Type.ENTRY -> {
-                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                    EntryEditActivity.launchToUpdate(
-                        this@GroupActivity,
-                        database,
-                        (node as Entry).nodeId,
-                        resultLauncher
-                    )
-                }
+                EntryEditActivity.launchToUpdate(
+                    this@GroupActivity,
+                    database,
+                    (node as Entry).nodeId,
+                    mEntryActivityResultLauncher
+                )
             }
         }
         reloadGroupIfSearch()

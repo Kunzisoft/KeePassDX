@@ -35,7 +35,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.EntryEditActivity
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -47,6 +46,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.LinkedList
 
@@ -78,19 +78,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     private var mRecycleBinEnable: Boolean = false
     private var mRecycleBin: Group? = null
-
-    var mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
-        entryId?.let {
-            // Simply refresh the list
-            rebuildList()
-            // Scroll to the new entry
-            mDatabase?.getEntryById(it)?.let { entry ->
-                mAdapter?.indexOf(entry)?.let { position ->
-                    mNodesRecyclerView?.scrollToPosition(position)
-                }
-            }
-        } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
-    }
 
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -186,8 +173,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 mAdapter = NodesAdapter(context, database).apply {
                     setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
                         override fun onNodeClick(database: ContextualDatabase, node: Node) {
-                            if (mCurrentGroup?.isVirtual == false
-                                && nodeActionSelectionMode) {
+                            if (nodeActionSelectionMode) {
                                 if (listActionNodes.contains(node)) {
                                     // Remove selected item if already selected
                                     listActionNodes.remove(node)
@@ -204,8 +190,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                         }
 
                         override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
-                            if (mCurrentGroup?.isVirtual == false
-                                && nodeActionPasteMode == PasteMode.UNDEFINED) {
+                            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
                                 // Select the first item after a long click
                                 if (!listActionNodes.contains(node))
                                     listActionNodes.add(node)
@@ -214,6 +199,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
                                 setActionNodes(listActionNodes)
                                 notifyNodeChanged(node)
+                                activity?.hideKeyboard()
                             }
                             return true
                         }
