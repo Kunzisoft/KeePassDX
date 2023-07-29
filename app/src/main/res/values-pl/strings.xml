@@ -176,7 +176,7 @@
     <string name="version_label">Wersja %1$s</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Pokaż Grupy na górze listy</string>
-    <string name="no_credentials_stored">Baza danych nie ma jeszcze hasła.</string>
+    <string name="unavailable">Baza danych nie ma jeszcze hasła.</string>
     <string name="database_history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
     <string name="general">Ogólne</string>
@@ -520,8 +520,6 @@
     <string name="autofill_inline_suggestions_summary">Spróbuj wyświetlić sugestie autouzupełniania bezpośrednio z kompatybilnej klawiatury</string>
     <string name="temp_advanced_unlock_enable_title">Zaawansowane odblokowywanie tymczasowe</string>
     <string name="advanced_unlock_prompt_not_initialized">Nie można zainicjować monitu odblokowania zaawansowanego.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Otwórz monit odblokowania zaawansowanego, aby przechowywać poświadczenia</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Otwórz monit odblokowania zaawansowanego, aby odblokować bazę danych</string>
     <string name="warning_database_revoked">Dostęp do pliku odwołany przez menedżera plików, zamknij bazę danych i otwórz ją ponownie z jej lokalizacji.</string>
     <string name="warning_database_info_changed_options">Scal dane, zastąp modyfikacje zewnętrzne poprzez zapisanie bazy danych lub ponownie załaduj ją z najnowszymi zmianami.</string>
     <string name="warning_database_info_changed">Informacje zawarte w pliku bazy danych zostały zmodyfikowane poza aplikacją.</string>
@@ -668,4 +666,5 @@
     <string name="error_XML_malformed">Zniekształcony XML.</string>
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
     <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
+    <string name="merge_success">Scalanie zostało pomyślnie zakończone</string>
 </resources>

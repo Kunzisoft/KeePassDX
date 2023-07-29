@@ -267,7 +267,7 @@
     <string name="biometric_security_update_required">生体認証セキュリティの更新が必要です。</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
-    <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
+    <string name="unavailable">データベースの保存済み認証情報はありません。</string>
     <string name="database_history">履歴</string>
     <string name="menu_appearance_settings">デザイン</string>
     <string name="biometric">生体認証</string>
@@ -477,6 +477,7 @@
         <item>Sun</item>
         <item>Reply</item>
         <item>Kunzite</item>
+        <item>システムに従う</item>
     </string-array>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
@@ -506,8 +507,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">高度なロック解除を使ってデータベースを開く</string>
     <string name="advanced_unlock_prompt_store_credential_message">高度なロック解除を使用する場合も、主たる認証情報は記憶する必要があります。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
-    <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて認証情報を保存する</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いてロックを解除する</string>
     <string name="select_entry">エントリーを選択</string>
     <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
     <string name="education_advanced_unlock_title">データベースの高度なロック解除</string>

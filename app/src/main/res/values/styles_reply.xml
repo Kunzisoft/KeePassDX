@@ -19,154 +19,81 @@
 -->
 <resources>
     <!-- Light Blue Style -->
-    <style name="KeepassDXStyle.Reply" parent="KeepassDXStyle.Reply.v21" />
-    <style name="KeepassDXStyle.Reply.v21" parent="KeepassDXStyle.Light.v21" >
-        <item name="colorPrimary">@color/reply_blue_dark</item>
-        <item name="colorPrimaryDark">@color/reply_blue</item>
-        <item name="colorAccent">@color/reply_orange</item>
-        <item name="colorAccentLight">@color/reply_orange_light</item>
-        <item name="colorControlActivated">@color/reply_blue_light</item>
-        <item name="android:textColorPrimary">@color/reply_blue</item>
-        <item name="android:textColorHintInverse">@color/reply_orange</item>
-        <item name="android:textColorSecondaryInverse">@color/reply_orange</item>
-        <item name="android:windowBackground">@color/reply_blue_lighter</item>
-        <item name="toolbarColorControl">@color/reply_blue_light</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Reply</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Reply</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Reply</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Reply</item>
-        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Reply</item>
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Dialog</item>
-        <item name="educationCircleColor">@color/reply_orange</item>
-        <item name="educationTextColor">@color/reply_black</item>
-        <item name="colorOnAccentColor">@color/reply_black</item>
-
-        <item name="chipFilterTextColor">@color/reply_black</item>
-        <item name="chipFilterBackgroundColor">@color/reply_orange</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/reply_blue_light</item>
+    <style name="KeepassDXStyle.Reply" parent="KeepassDXStyle.Light" >
+        <item name="colorPrimary">@color/reply_theme_light_primary</item>
+        <item name="colorPrimaryDark">@color/reply_theme_light_primaryDark</item>
+        <item name="colorOnPrimary">@color/reply_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/reply_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/reply_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/reply_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/reply_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/reply_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/reply_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/reply_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/reply_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/reply_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/reply_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/reply_theme_light_error</item>
+        <item name="colorErrorContainer">@color/reply_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/reply_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/reply_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/reply_theme_light_background</item>
+        <item name="android:colorBackground">@color/reply_theme_light_background</item>
+        <item name="colorOnBackground">@color/reply_theme_light_onBackground</item>
+        <item name="colorSurface">@color/reply_theme_light_surface</item>
+        <item name="colorOnSurface">@color/reply_theme_light_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/reply_theme_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/reply_theme_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/reply_theme_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/reply_theme_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/reply_theme_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/reply_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/reply_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/reply_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/reply_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/reply_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/reply_theme_light_inversePrimary</item>
+        <item name="android:textColorPrimary">@color/reply_theme_light_textPrimary</item>
+        <item name="dialogBackgroundColor">@color/reply_theme_light_background</item>
     </style>
-    <!-- Toolbar Style Reply -->
-    <style name="KeepassDXStyle.Toolbar.Reply" parent="KeepassDXStyle.Reply">
-        <item name="colorControlActivated">@color/reply_blue_light</item>
-        <item name="colorControlNormal">@color/reply_blue_lighter</item>
-        <item name="android:textColorPrimary">@color/reply_blue_light</item>
-        <item name="android:textColorSecondary">@color/reply_orange_light</item>
-        <item name="android:editTextColor">@color/reply_blue_light</item>
-        <item name="android:textColorHint">@color/reply_orange_light</item>
-        <item name="android:tint">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="android:colorBackground">@color/reply_blue_lighter</item>
-    </style>
-    <!-- Toolbar Home Reply -->
-    <style name="KeepassDXStyle.Toolbar.Home.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <!-- Special Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Special.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Reply</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Reply" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/reply_blue_dark</item>
-    </style>
-    <!-- Action Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Action.Reply" parent="KeepassDXStyle.Toolbar.Reply">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Reply</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Reply" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/reply_blue_dark</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Reply.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/reply_orange</item>
-        <item name="android:textColorPrimary">@color/reply_blue_dark</item>
-        <item name="android:background">@color/reply_blue_lighter</item>
-        <item name="background">@color/reply_blue_lighter</item>
-    </style>
-    <style name="KeepassDXStyle.Reply.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/reply_blue_dark</item>
-        <item name="android:textColorPrimary">@color/reply_blue_dark</item>
-        <item name="android:windowBackground">@color/reply_blue_lighter</item>
-    </style>
-
 
     <!-- Dark Reply Style -->
-    <style name="KeepassDXStyle.Reply.Night" parent="KeepassDXStyle.Reply.Night.v21" />
-    <style name="KeepassDXStyle.Reply.Night.v21" parent="KeepassDXStyle.Night.v21" >
-        <item name="colorPrimary">@color/reply_blue_dark</item>
-        <item name="colorPrimaryDark">@color/reply_black</item>
-        <item name="colorAccent">@color/reply_orange</item>
-        <item name="colorAccentLight">@color/reply_orange_light</item>
-        <item name="colorControlActivated">@color/reply_blue_light</item>
-        <item name="android:textColorPrimary">@color/reply_blue_lighter</item>
-        <item name="android:textColorHintInverse">@color/reply_blue_light</item>
-        <item name="android:textColorSecondaryInverse">@color/reply_blue_light</item>
-        <item name="android:windowBackground">@color/reply_black</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Reply.Night</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Reply.Night</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Reply.Night</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Reply.Night</item>
-        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Reply.Night</item>
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Reply.Night.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Reply.Night</item>
-        <item name="cardBackgroundTransparentColor">@color/reply_black_transparent</item>
-        <item name="educationCircleColor">@color/reply_orange</item>
-        <item name="educationTextColor">@color/reply_black</item>
-        <item name="colorOnAccentColor">@color/reply_black</item>
-
-        <item name="chipFilterTextColor">@color/reply_black</item>
-        <item name="chipFilterBackgroundColor">@color/reply_orange</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Style Reply -->
-    <style name="KeepassDXStyle.Toolbar.Reply.Night" parent="KeepassDXStyle.Reply.Night">
-        <item name="colorControlActivated">@color/reply_blue_light</item>
-        <item name="colorControlNormal">@color/reply_blue_lighter</item>
-        <item name="android:textColorPrimary">@color/reply_blue_light</item>
-        <item name="android:textColorSecondary">@color/reply_orange_light</item>
-        <item name="android:editTextColor">@color/reply_blue_light</item>
-        <item name="android:textColorHint">@color/reply_orange_light</item>
-        <item name="android:tint">@color/reply_blue_light</item>
-    </style>
-    <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="android:colorBackground">@color/reply_black</item>
-    </style>
-    <!-- Toolbar Home Reply -->
-    <style name="KeepassDXStyle.Toolbar.Home.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <!-- Special Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Special.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Reply.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Reply.Night" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/reply_black</item>
-    </style>
-    <!-- Action Toolbar Reply -->
-    <style name="KeepassDXStyle.Toolbar.Action.Reply.Night" parent="KeepassDXStyle.Toolbar.Reply.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Reply.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Reply.Night" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/reply_blue_dark</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Reply.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/reply_blue_lighter</item>
-        <item name="android:textColorPrimary">@color/reply_orange</item>
-        <item name="android:background">@color/reply_black</item>
-        <item name="background">@color/reply_black</item>
-    </style>
-    <style name="KeepassDXStyle.Reply.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/reply_blue_dark</item>
-        <item name="android:textColorPrimary">@color/reply_orange</item>
-        <item name="android:windowBackground">@color/reply_black</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Reply.Night" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/reply_black_dark</item>
+    <style name="KeepassDXStyle.Reply.Night" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/reply_theme_night_primary</item>
+        <item name="colorAccent">@color/reply_theme_night_primary</item>
+        <item name="colorPrimaryDark">@color/reply_theme_night_primaryDark</item>
+        <item name="colorOnPrimary">@color/reply_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/reply_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/reply_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/reply_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/reply_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/reply_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/reply_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/reply_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/reply_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/reply_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/reply_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/reply_theme_night_error</item>
+        <item name="colorErrorContainer">@color/reply_theme_night_errorContainer</item>
+        <item name="colorOnError">@color/reply_theme_night_onError</item>
+        <item name="colorOnErrorContainer">@color/reply_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">@color/reply_theme_night_background</item>
+        <item name="android:colorBackground">@color/reply_theme_night_background</item>
+        <item name="colorOnBackground">@color/reply_theme_night_onBackground</item>
+        <item name="colorSurface">@color/reply_theme_night_surface</item>
+        <item name="colorOnSurface">@color/reply_theme_night_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/reply_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/reply_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/reply_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/reply_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/reply_theme_night_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/reply_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/reply_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/reply_theme_night_outline</item>
+        <item name="colorOnSurfaceInverse">@color/reply_theme_night_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/reply_theme_night_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/reply_theme_night_inversePrimary</item>
+        <item name="android:textColorPrimary">@color/reply_theme_night_textPrimary</item>
+        <item name="dialogBackgroundColor">@color/reply_theme_night_background</item>
     </style>
 </resources>

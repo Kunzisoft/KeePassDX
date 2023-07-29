@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.activities.helpers
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -33,7 +32,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.takeUriPermission
 
 class ExternalFileHelper {
 
@@ -57,10 +56,8 @@ class ExternalFileHelper {
     fun buildOpenDocument(onFileSelected: ((uri: Uri?) -> Unit)?) {
 
         val resultCallback = ActivityResultCallback<Uri?> { result ->
-            result?.let { uri ->
-                UriUtil.takeUriPermission(activity?.contentResolver, uri)
-                onFileSelected?.invoke(uri)
-            }
+            activity?.contentResolver?.takeUriPermission(result)
+            onFileSelected?.invoke(result)
         }
 
         getContentResultLauncher = if (fragment != null) {
@@ -188,23 +185,7 @@ class ExternalFileHelper {
 
 
     companion object {
-
         private const val TAG = "OpenFileHelper"
-
-        @SuppressLint("InlinedApi")
-        fun allowCreateDocumentByStorageAccessFramework(packageManager: PackageManager,
-                                                        typeString: String = "application/octet-stream"): Boolean {
-            return when {
-                // To check if a custom file manager can manage the ACTION_CREATE_DOCUMENT
-                Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT -> {
-                    packageManager.queryIntentActivities(Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                        addCategory(Intent.CATEGORY_OPENABLE)
-                        type = typeString
-                    }, PackageManager.MATCH_DEFAULT_ONLY).isNotEmpty()
-                }
-                else -> true
-            }
-        }
     }
 }
 

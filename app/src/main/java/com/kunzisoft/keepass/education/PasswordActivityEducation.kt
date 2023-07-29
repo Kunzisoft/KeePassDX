@@ -93,8 +93,9 @@ class PasswordActivityEducation(activity: Activity)
                         activity.getString(R.string.education_advanced_unlock_summary))
                         .outerCircleColorInt(getCircleColor())
                         .outerCircleAlpha(getCircleAlpha())
+                        .icon(ContextCompat.getDrawable(activity, R.drawable.ic_fingerprint_24dp))
                         .textColorInt(getTextColor())
-                        .tintTarget(false)
+                        .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
                     override fun onTargetClick(view: TapTargetView) {

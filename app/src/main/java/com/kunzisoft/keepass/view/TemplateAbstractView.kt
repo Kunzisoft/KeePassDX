@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
@@ -26,6 +27,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.readParcelableCompat
 
 
 abstract class TemplateAbstractView<
@@ -100,7 +102,7 @@ abstract class TemplateAbstractView<
             }
             buildTemplateAndPopulateInfo()
             clearFocus()
-            (context.getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager?)
+            ContextCompat.getSystemService(context, InputMethodManager::class.java)
                 ?.hideSoftInputFromWindow(windowToken, 0)
         }
     }
@@ -710,10 +712,8 @@ abstract class TemplateAbstractView<
         constructor(superState: Parcelable?) : super(superState)
 
         private constructor(parcel: Parcel) : super(parcel) {
-            template = parcel.readParcelable(Template::class.java.classLoader)
-                ?: template
-            entryInfo = parcel.readParcelable(EntryInfo::class.java.classLoader)
-                ?: entryInfo
+            template = parcel.readParcelableCompat() ?: template
+            entryInfo = parcel.readParcelableCompat() ?: entryInfo
             val dateTimeViewId = parcel.readInt()
             if (dateTimeViewId != -1)
                 tempDateTimeViewId = dateTimeViewId

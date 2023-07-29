@@ -78,7 +78,7 @@
         android:key="@string/database_category_recycle_bin_key"
         android:title="@string/recycle_bin">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/recycle_bin_enable_key"
             android:persistent="false"
             android:title="@string/recycle_bin_title"
@@ -95,7 +95,7 @@
         android:key="@string/database_category_templates_key"
         android:title="@string/templates">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/templates_group_enable_key"
             android:persistent="false"
             android:title="@string/templates_group_enable_title"

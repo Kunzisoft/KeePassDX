@@ -133,7 +133,7 @@
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="version_label">Версия %1$s</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="no_credentials_stored">Для этой базы главный пароль ещё не сохранён.</string>
+    <string name="unavailable">Для этой базы главный пароль ещё не сохранён.</string>
     <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
 \n
 \nНе забывайте сохранять копию файла базы в безопасном месте после каждого изменения.</string>
@@ -497,8 +497,6 @@
     <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием расширенной разблокировки</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Открыть базу с расширенным распознаванием разблокировки</string>
     <string name="advanced_unlock_prompt_store_credential_message">При использовании расширенной разблокировки вам всё равно необходимо помнить основные учётные данные.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Открыть запрос расширенной разблокировки для сохранения учётных данных</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Открыть запрос расширенной разблокировки для разблокировки базы</string>
     <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки\?</string>
     <string name="advanced_unlock_scanning_error">Ошибка расширенной разблокировки: %1$s</string>
     <string name="advanced_unlock_prompt_store_credential_title">Распознавание расширенной разблокировки</string>
@@ -668,4 +666,5 @@
     <string name="waiting_challenge_response">Ожидание ответа на вызов…</string>
     <string name="html_about_privacy">&lt;strong&gt;Никакие пользовательские данные не собираются&lt;/strong&gt;, это приложение не подключается ни к одному серверу, работает исключительно локально и полностью соблюдает конфиденциальность пользователей.</string>
     <string name="auto_type">Автонабор</string>
+    <string name="merge_success">Объединение выполнено</string>
 </resources>

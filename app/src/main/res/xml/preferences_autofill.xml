@@ -20,17 +20,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/general">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/autofill_close_database_key"
             android:title="@string/autofill_close_database_title"
             android:summary="@string/autofill_close_database_summary"
             android:defaultValue="@bool/autofill_close_database_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/autofill_inline_suggestions_key"
             android:title="@string/autofill_inline_suggestions_title"
             android:summary="@string/autofill_inline_suggestions_summary"
             android:defaultValue="@bool/autofill_inline_suggestions_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/autofill_manual_selection_key"
             android:title="@string/autofill_manual_selection_title"
             android:summary="@string/autofill_manual_selection_summary"
@@ -38,12 +38,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/save">
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/autofill_save_search_info_key"
             android:title="@string/autofill_save_search_info_title"
             android:summary="@string/autofill_save_search_info_summary"
             android:defaultValue="@bool/autofill_save_search_info_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/autofill_ask_to_save_data_key"
             android:title="@string/autofill_ask_to_save_data_title"
             android:summary="@string/autofill_ask_to_save_data_summary"

@@ -4,16 +4,16 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 32
-    buildToolsVersion "32.0.0"
-    ndkVersion "21.4.7075529"
+    namespace 'com.kunzisoft.keepass'
+    compileSdkVersion 33
+    buildToolsVersion "33.0.2"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
-        targetSdkVersion 32
-        versionCode = 119
-        versionName = "3.5.1"
+        targetSdkVersion 33
+        versionCode = 121
+        versionName = "4.0.0_beta01"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -33,7 +33,6 @@ android {
     buildTypes {
         release {
             minifyEnabled = false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -50,7 +49,9 @@ android {
                             "\"KeepassDXStyle_Reply\"," +
                             "\"KeepassDXStyle_Reply_Night\"," +
                             "\"KeepassDXStyle_Purple\"," +
-                            "\"KeepassDXStyle_Purple_Dark\"}"
+                            "\"KeepassDXStyle_Purple_Dark\"," +
+                            "\"KeepassDXStyle_Dynamic_Light\"," +
+                            "\"KeepassDXStyle_Dynamic_Night\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
         free {
@@ -59,16 +60,16 @@ android {
             buildConfigField "String", "BUILD_VERSION", "\"free\""
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED",
-                            "{\"KeepassDXStyle_Simple\"," +
-                            "\"KeepassDXStyle_Simple_Night\"," +
-                            "\"KeepassDXStyle_Blue\"," +
+                            "{\"KeepassDXStyle_Blue\"," +
                             "\"KeepassDXStyle_Blue_Night\"," +
                             "\"KeepassDXStyle_Red\"," +
                             "\"KeepassDXStyle_Red_Night\"," +
                             "\"KeepassDXStyle_Reply\"," +
                             "\"KeepassDXStyle_Reply_Night\"," +
                             "\"KeepassDXStyle_Purple\"," +
-                            "\"KeepassDXStyle_Purple_Dark\"}"
+                            "\"KeepassDXStyle_Purple_Dark\"," +
+                            "\"KeepassDXStyle_Dynamic_Light\"," +
+                            "\"KeepassDXStyle_Dynamic_Night\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
             manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIbRfbV8fHLItXo8OcHwrO0sSNblqhPwkc0DPTqg" ]
         }
@@ -93,7 +94,7 @@ android {
     }
 }
 
-def room_version = "2.4.3"
+def room_version = "2.5.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -102,17 +103,17 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta02'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.1.0'
     implementation 'androidx.media:media:1.6.0'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
-    implementation 'androidx.fragment:fragment-ktx:1.5.2'
+    implementation 'androidx.fragment:fragment-ktx:1.6.0'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
     // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed
-    // implementation "com.splitwise:tokenautocomplete:4.0.0-beta04"
+    implementation "com.splitwise:tokenautocomplete:4.0.0-beta05"
     // Database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
@@ -129,11 +130,10 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
-    // Encrypt lib
-    implementation project(path: ':crypto')
-    // Icon pack
-    implementation project(path: ':icon-pack-classic')
-    implementation project(path: ':icon-pack-material')
+    
+    // Modules import
+    implementation project(path: ':database')
+    implementation project(path: ':icon-pack')
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"

@@ -31,14 +31,14 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.view.SupportMenuInflater
-import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import com.google.android.material.appbar.MaterialToolbar
 import com.kunzisoft.keepass.R
 
 class ToolbarAction @JvmOverloads constructor(context: Context,
                                               attrs: AttributeSet? = null,
-                                              defStyle: Int = androidx.appcompat.R.attr.toolbarStyle)
-    : Toolbar(context, attrs, defStyle) {
+                                              defStyle: Int = R.attr.toolbarActionStyle)
+    : MaterialToolbar(context, attrs, defStyle) {
 
     private var mActionModeCallback: ActionMode.Callback? = null
     private val actionMode = NodeActionMode(this)
@@ -47,7 +47,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
     init {
         ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)?.let { closeDrawable ->
             val typedValue = TypedValue()
-            context.theme.resolveAttribute(R.attr.colorControlNormal, typedValue, true)
+            context.theme.resolveAttribute(R.attr.colorOnSurface, typedValue, true)
             @ColorInt val colorControl = typedValue.data
             closeDrawable.colorFilter = PorterDuffColorFilter(colorControl, PorterDuff.Mode.SRC_ATOP)
             navigationIcon = closeDrawable

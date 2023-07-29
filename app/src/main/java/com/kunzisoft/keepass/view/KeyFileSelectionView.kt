@@ -12,7 +12,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 
 
 class KeyFileSelectionView @JvmOverloads constructor(context: Context,
@@ -66,7 +67,7 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
                 }
             }
             keyFileNameView.text = value?.let {
-                UriUtil.getFileData(context, value)?.name ?: value.path
+                value.getDocumentFile(context)?.name ?: value.path
             } ?: ""
         }
 
@@ -92,7 +93,7 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
         constructor(superState: Parcelable?) : super(superState) {}
 
         private constructor(parcel: Parcel) : super(parcel) {
-            mUri = parcel.readParcelable(Uri::class.java.classLoader)
+            mUri = parcel.readParcelableCompat()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {

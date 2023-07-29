@@ -33,9 +33,10 @@ import androidx.appcompat.widget.Toolbar
 import com.igreenwood.loupe.Loupe
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlin.math.max
 
 class ImageViewerActivity : DatabaseLockActivity() {
@@ -100,12 +101,12 @@ class ImageViewerActivity : DatabaseLockActivity() {
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         try {
             progressView.visibility = View.VISIBLE
-            intent.getParcelableExtra<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
+            intent.getParcelableExtraCompat<Attachment>(IMAGE_ATTACHMENT_TAG)?.let { attachment ->
 
                 supportActionBar?.title = attachment.name
 

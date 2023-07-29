@@ -27,6 +27,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 
 class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHistoryAdapter.EntryHistoryViewHolder>() {
 

@@ -35,11 +35,12 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.hardware.HardwareKeyActivity
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.password.PasswordEntropy
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.PassKeyView
@@ -136,7 +137,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
 
             rootView.findViewById<View>(R.id.credentials_information)?.setOnClickListener {
-                UriUtil.gotoUrl(activity, R.string.credentials_explanation_url)
+                activity.openUrl(R.string.credentials_explanation_url)
             }
 
             passwordCheckBox = rootView.findViewById(R.id.password_checkbox)
@@ -154,7 +155,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             mExternalFileHelper = ExternalFileHelper(this)
             mExternalFileHelper?.buildOpenDocument { uri ->
                 uri?.let { pathUri ->
-                    UriUtil.getFileData(requireContext(), uri)?.length()?.let { lengthFile ->
+                    pathUri.getDocumentFile(requireContext())?.length()?.let { lengthFile ->
                         keyFileSelectionView.error = null
                         keyFileCheckBox.isChecked = true
                         keyFileSelectionView.uri = pathUri

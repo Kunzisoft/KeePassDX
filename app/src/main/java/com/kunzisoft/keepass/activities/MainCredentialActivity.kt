@@ -1,6 +1,6 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -55,8 +55,8 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
@@ -67,12 +67,15 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
+import com.kunzisoft.keepass.settings.AdvancedUnlockSettingsActivity
+import com.kunzisoft.keepass.settings.AppearanceSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.getUri
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -86,6 +89,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     // Views
     private var toolbar: Toolbar? = null
     private var filenameView: TextView? = null
+    private var logotypeButton: View? = null
     private var advancedUnlockButton: View? = null
     private var mainCredentialView: MainCredentialView? = null
     private var confirmButtonView: Button? = null
@@ -126,7 +130,8 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         filenameView = findViewById(R.id.filename)
-        advancedUnlockButton = findViewById(R.id.activity_password_advanced_unlock_button)
+        logotypeButton = findViewById(R.id.activity_password_logotype)
+        advancedUnlockButton = findViewById(R.id.fragment_advanced_unlock_container_view)
         mainCredentialView = findViewById(R.id.activity_password_credentials)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         infoContainerView = findViewById(R.id.activity_password_info_container)
@@ -155,12 +160,12 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         // If is a view intent
         getUriFromIntent(intent)
 
-        // Init Biometric elements
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockButton?.setOnClickListener {
-                startActivity(Intent(this, SettingsAdvancedUnlockActivity::class.java))
-            }
+        // Show appearance
+        logotypeButton?.setOnClickListener {
+            startActivity(Intent(this, AppearanceSettingsActivity::class.java))
         }
+
+        // Init Biometric elements
         advancedUnlockFragment = supportFragmentManager
                 .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
         if (advancedUnlockFragment == null) {
@@ -262,7 +267,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         if (database != null) {
             // Trying to load another database
@@ -279,7 +284,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -305,13 +310,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                 var cipherEncryptDatabase: CipherEncryptDatabase? = null
 
                                 result.data?.let { resultData ->
-                                    databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                    databaseUri = resultData.getParcelableCompat(DATABASE_URI_KEY)
                                     mainCredential =
-                                        resultData.getParcelable(MAIN_CREDENTIAL_KEY)
+                                        resultData.getParcelableCompat(MAIN_CREDENTIAL_KEY)
                                             ?: mainCredential
                                     readOnly = resultData.getBoolean(READ_ONLY_KEY)
                                     cipherEncryptDatabase =
-                                        resultData.getParcelable(CIPHER_DATABASE_KEY)
+                                        resultData.getParcelableCompat(CIPHER_DATABASE_KEY)
                                 }
 
                                 databaseUri?.let { databaseFileUri ->
@@ -344,20 +349,20 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         if (action == VIEW_INTENT) {
             fillCredentials(
                 intent.data,
-                UriUtil.getUriFromIntent(intent, KEY_KEYFILE),
+                intent.getUri(KEY_KEYFILE),
                 HardwareKey.getHardwareKeyFromString(intent.getStringExtra(KEY_HARDWARE_KEY))
             )
         } else {
             fillCredentials(
-                intent?.getParcelableExtra(KEY_FILENAME),
-                intent?.getParcelableExtra(KEY_KEYFILE),
+                intent?.getParcelableExtraCompat(KEY_FILENAME),
+                intent?.getParcelableExtraCompat(KEY_KEYFILE),
                 HardwareKey.getHardwareKeyFromString(intent?.getStringExtra(KEY_HARDWARE_KEY))
             )
         }
         try {
             intent?.removeExtra(KEY_KEYFILE)
             intent?.removeExtra(KEY_HARDWARE_KEY)
-        } catch (e: Exception) {}
+        } catch (_: Exception) {}
         mDatabaseFileUri?.let {
             mDatabaseFileViewModel.checkIfIsDefaultDatabase(it)
         }
@@ -376,7 +381,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         getUriFromIntent(intent)
     }
 
-    private fun launchGroupActivityIfLoaded(database: Database) {
+    private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         // Check if database really loaded
         if (database.loaded) {
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
@@ -645,7 +650,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
                                 startActivity(
                                     Intent(
                                         this,
-                                        SettingsAdvancedUnlockActivity::class.java
+                                        AdvancedUnlockSettingsActivity::class.java
                                     )
                                 )
                             },

@@ -2,18 +2,22 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:padding="0dp"
     android:filterTouchesWhenObscured="true">
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/lock_button"
         style="@style/KeepassDXStyle.Fab.Special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="mini"
-        android:layout_gravity="center"
-        android:layout_margin="9dp"
+        app:useCompatPadding="true"
+        android:layout_marginStart="-6dp"
+        android:layout_marginLeft="-6dp"
+        android:layout_marginBottom="-10dp"
         android:contentDescription="@string/lock"
-        android:visibility="gone"
-        android:src="@drawable/ic_lock_white_padding_24dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        android:src="@drawable/ic_lock_white_padding_24dp" />
 </FrameLayout>

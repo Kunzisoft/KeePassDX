@@ -19,157 +19,80 @@
 -->
 <resources>
     <!-- Light Purple Style -->
-    <style name="KeepassDXStyle.Purple" parent="KeepassDXStyle.Purple.v21" />
-    <style name="KeepassDXStyle.Purple.v21" parent="KeepassDXStyle.Light.v21" >
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorPrimaryDark">@color/purple_dark</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="colorAccentLight">@color/red_light</item>
-        <item name="colorControlActivated">@color/red_light</item>
-        <item name="android:textColorPrimary">@color/purple_light</item>
-        <item name="android:textColorHintInverse">@color/purple_lighter</item>
-        <item name="android:textColorSecondaryInverse">@color/purple_lighter</item>
-        <item name="android:windowBackground">@color/white_purple</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
-        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple</item>
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple</item>
-        <item name="cardBackgroundTransparentColor">@color/white_purple_light_transparent</item>
-        <item name="educationCircleColor">@color/purple_dark</item>
-        <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white_purple_light</item>
-        <item name="chipFilterBackgroundColor">@color/purple_light</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/purple</item>
-    </style>
-    <!-- Toolbar Style Purple -->
-    <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
-        <item name="colorControlActivated">@color/purple_lighter</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/purple_lighter</item>
-        <item name="android:tint">@color/white</item>
-    </style>
-    <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Purple" parent="KeepassDXStyle.Toolbar.Purple">
-        <item name="android:colorBackground">@color/white_purple</item>
-    </style>
-    <!-- Toolbar Home Purple -->
-    <style name="KeepassDXStyle.Toolbar.Home.Purple" parent="KeepassDXStyle.Toolbar.Purple">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <!-- Special Toolbar Purple -->
-    <style name="KeepassDXStyle.Toolbar.Special.Purple" parent="KeepassDXStyle.Toolbar.Purple">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Purple</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Purple" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/purple_dark</item>
-    </style>
-    <!-- Action Toolbar Purple -->
-    <style name="KeepassDXStyle.Toolbar.Action.Purple" parent="KeepassDXStyle.Toolbar.Purple">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Purple</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Purple" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/purple</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Purple.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/purple_light</item>
-        <item name="android:background">@color/white_purple</item>
-        <item name="background">@color/white_purple</item>
-    </style>
-    <style name="KeepassDXStyle.Purple.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/purple_light</item>
-        <item name="android:windowBackground">@color/white_purple</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Purple" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/white_purple_light</item>
+    <style name="KeepassDXStyle.Purple" parent="KeepassDXStyle.Light">
+        <item name="colorPrimary">@color/purple_theme_light_primary</item>
+        <item name="colorPrimaryDark">@color/purple_theme_light_primaryDark</item>
+        <item name="colorOnPrimary">@color/purple_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/purple_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/purple_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/purple_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/purple_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/purple_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/purple_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/purple_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/purple_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/purple_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/purple_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/purple_theme_light_error</item>
+        <item name="colorErrorContainer">@color/purple_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/purple_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/purple_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/purple_theme_light_background</item>
+        <item name="android:colorBackground">@color/purple_theme_light_background</item>
+        <item name="colorOnBackground">@color/purple_theme_light_onBackground</item>
+        <item name="colorSurface">@color/purple_theme_light_surface</item>
+        <item name="colorOnSurface">@color/purple_theme_light_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/purple_theme_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/purple_theme_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/purple_theme_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/purple_theme_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/purple_theme_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/purple_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/purple_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/purple_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/purple_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/purple_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/purple_theme_light_inversePrimary</item>
+        <item name="android:textColorPrimary">@color/purple_theme_light_textPrimary</item>
+        <item name="dialogBackgroundColor">@color/purple_theme_light_background</item>
     </style>
 
     <!-- Dark Purple Style -->
-    <style name="KeepassDXStyle.Purple.Dark" parent="KeepassDXStyle.Purple.Dark.v21" />
-    <style name="KeepassDXStyle.Purple.Dark.v21" parent="KeepassDXStyle.Night.v21" >
-        <item name="colorPrimary">@color/purple_darker</item>
-        <item name="colorPrimaryDark">@color/black_purple</item>
-        <item name="colorAccent">@color/red</item>
-        <item name="colorAccentLight">@color/red_light</item>
-        <item name="colorControlActivated">@color/red_light</item>
-        <item name="android:textColorPrimary">@color/purple_lighter</item>
-        <item name="android:textColorHintInverse">@color/purple_lighter</item>
-        <item name="android:textColorSecondaryInverse">@color/purple_lighter</item>
-        <item name="android:windowBackground">@color/black_purple_dark</item>
-        <item name="toolbarColorControl">@color/white</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple.Dark</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Purple.Dark</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple.Dark</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple.Dark</item>
-        <item name="popupTheme">@style/KeepassDXStyle.Toolbar.Popup.Purple.Dark</item>
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dark.Dialog</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple.Dark</item>
-        <item name="cardBackgroundTransparentColor">@color/black_purple_transparent</item>
-        <item name="educationCircleColor">@color/black_purple</item>
-        <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white_purple_light</item>
-        <item name="chipFilterBackgroundColor">@color/purple_dark</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/purple_darker</item>
-    </style>
-    <!-- Toolbar Style Purple -->
-    <style name="KeepassDXStyle.Toolbar.Purple.Dark" parent="KeepassDXStyle.Purple.Dark">
-        <item name="colorControlActivated">@color/purple_lighter</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/purple_lighter</item>
-        <item name="android:tint">@color/white</item>
-    </style>
-    <!-- Toolbar Popup menu -->
-    <style name="KeepassDXStyle.Toolbar.Popup.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="android:colorBackground">@color/black_purple</item>
-    </style>
-    <!-- Toolbar Home Purple -->
-    <style name="KeepassDXStyle.Toolbar.Home.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <!-- Special Toolbar Purple -->
-    <style name="KeepassDXStyle.Toolbar.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Purple.Dark</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Purple.Dark" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/black_purple</item>
-    </style>
-    <!-- Action Toolbar Purple -->
-    <style name="KeepassDXStyle.Toolbar.Action.Purple.Dark" parent="KeepassDXStyle.Toolbar.Purple.Dark">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Purple.Dark</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Purple.Dark" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/purple_darker</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Purple.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/purple_lighter</item>
-        <item name="android:background">@color/black_purple_dark</item>
-        <item name="background">@color/black_purple_dark</item>
-    </style>
-    <style name="KeepassDXStyle.Purple.Dark.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/purple_lighter</item>
-        <item name="android:windowBackground">@color/black_purple_dark</item>
-    </style>
-    <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview.Purple.Dark" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">@color/black_purple</item>
+    <style name="KeepassDXStyle.Purple.Dark" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/purple_theme_night_primary</item>
+        <item name="colorPrimaryDark">@color/purple_theme_night_primaryDark</item>
+        <item name="colorOnPrimary">@color/purple_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/purple_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/purple_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/purple_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/purple_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/purple_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/purple_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/purple_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/purple_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/purple_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/purple_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/purple_theme_night_error</item>
+        <item name="colorErrorContainer">@color/purple_theme_night_errorContainer</item>
+        <item name="colorOnError">@color/purple_theme_night_onError</item>
+        <item name="colorOnErrorContainer">@color/purple_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">@color/purple_theme_night_background</item>
+        <item name="android:colorBackground">@color/purple_theme_night_background</item>
+        <item name="colorOnBackground">@color/purple_theme_night_onBackground</item>
+        <item name="colorSurface">@color/purple_theme_night_surface</item>
+        <item name="colorOnSurface">@color/purple_theme_night_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/purple_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/purple_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/purple_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/purple_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/purple_theme_night_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/purple_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/purple_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/purple_theme_night_outline</item>
+        <item name="colorOnSurfaceInverse">@color/purple_theme_night_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/purple_theme_night_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/purple_theme_night_inversePrimary</item>
+        <item name="android:textColorPrimary">@color/purple_theme_night_textPrimary</item>
+        <item name="dialogBackgroundColor">@color/purple_theme_night_background</item>
     </style>
 </resources>

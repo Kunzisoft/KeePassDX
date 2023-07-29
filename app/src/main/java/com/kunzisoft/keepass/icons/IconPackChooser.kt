@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.BuildConfig
+import com.kunzisoft.keepass.icon.IconPack
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
 
 /**
  * Utility class to built and select an IconPack dynamically by libraries importation
@@ -36,8 +36,10 @@ object IconPackChooser {
 
     private val iconPackList = ArrayList<IconPack>()
     private var iconPackSelected: IconPack? = null
+    var defaultIconSize: Int = 0
 
     private var isIconPackChooserBuilt: Boolean = false
+
 
     /**
      * Built the icon pack chooser based on imports made in *build.gradle*
@@ -50,7 +52,7 @@ object IconPackChooser {
      * @param context Context to construct each pack with the resources
      * @return An unique instance of [IconPackChooser], recall [.build] provide the same instance
      */
-    fun build(context: Context) {
+    private fun build(context: Context) {
         synchronized(IconPackChooser::class.java) {
             if (!isIconPackChooserBuilt) {
                 isIconPackChooserBuilt = true
@@ -61,6 +63,9 @@ object IconPackChooser {
                 if (iconPackList.isEmpty()) {
                     Log.e(TAG, "Icon packs can't be load, retry with one by default")
                     addDefaultIconPack(context)
+                }
+                if(defaultIconSize == 0) {
+                    defaultIconSize = IconPack.defaultIconSize(context)
                 }
             }
         }
@@ -79,10 +84,14 @@ object IconPackChooser {
      */
     private fun addOrCatchNewIconPack(context: Context, iconPackString: String) {
         try {
-            iconPackList.add(IconPack(context.packageName, context.resources, context.resources.getIdentifier(
+            iconPackList.add(
+                IconPack(context.packageName,
+                context.resources,
+                context.resources.getIdentifier(
                     iconPackString + "_resource_id",
                     "string",
-                    context.packageName)))
+                    context.packageName))
+            )
         } catch (e: Exception) {
             Log.w(TAG, "Icon pack $iconPackString can't be load")
         }

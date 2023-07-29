@@ -27,6 +27,7 @@ import android.text.SpannableStringBuilder
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.utils.getParcelableCompat
 
 /**
  * Custom Dialog to confirm big file to upload
@@ -62,8 +63,8 @@ class ReplaceFileDialogFragment : DatabaseDialogFragment() {
             })
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mActionChooseListener?.onValidateReplaceFile(
-                        arguments?.getParcelable(KEY_FILE_URI),
-                        arguments?.getParcelable(KEY_ENTRY_ATTACHMENT))
+                        arguments?.getParcelableCompat(KEY_FILE_URI),
+                        arguments?.getParcelableCompat(KEY_ENTRY_ATTACHMENT))
             }
             builder.setNegativeButton(android.R.string.cancel) { _, _ ->
                 dismiss()

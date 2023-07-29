@@ -20,21 +20,21 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class UpdateEntryRunnable constructor(
-        context: Context,
-        database: Database,
-        private val mOldEntry: Entry,
-        private val mNewEntry: Entry,
-        save: Boolean,
-        afterActionNodesFinish: AfterActionNodesFinish?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+    context: Context,
+    database: ContextualDatabase,
+    private val mOldEntry: Entry,
+    private val mNewEntry: Entry,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish?,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     override fun nodeAction() {
         if (mOldEntry.nodeId == mNewEntry.nodeId) {

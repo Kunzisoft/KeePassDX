@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 
 class DateTimeFieldView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,

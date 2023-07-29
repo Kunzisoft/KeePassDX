@@ -19,131 +19,80 @@
 -->
 <resources>
     <!-- Light Red Style -->
-    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Red.v21" />
-    <style name="KeepassDXStyle.Red.v21" parent="KeepassDXStyle.Light" >
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
-        <item name="colorControlActivated">@color/orange</item>
-        <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:textColorHintInverse">@color/red_lightest</item>
-        <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
-        <item name="android:windowBackground">@color/white_dark</item>
-        <item name="toolbarColorControl">@color/white</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Red</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red</item>
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Dialog</item>
-        <item name="educationCircleColor">@color/red_dark</item>
-        <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white</item>
-        <item name="chipFilterBackgroundColor">@color/red_lighter</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/red</item>
-    </style>
-    <!-- Toolbar Style Red -->
-    <style name="KeepassDXStyle.Toolbar.Red" parent="KeepassDXStyle.Red">
-        <item name="colorControlActivated">@color/red_lightest</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/red_lightest</item>
-        <item name="android:tint">@color/white</item>
-    </style>
-    <!-- Toolbar Home Red -->
-    <style name="KeepassDXStyle.Toolbar.Home.Red" parent="KeepassDXStyle.Toolbar.Red">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <!-- Special Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Special.Red" parent="KeepassDXStyle.Toolbar.Red">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Red</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Red" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/red_dark</item>
-    </style>
-    <!-- Action Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Action.Red" parent="KeepassDXStyle.Toolbar.Red">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Red</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Red" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/red</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Red.Dialog" parent="KeepassDXStyle.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-    </style>
-    <style name="KeepassDXStyle.Red.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:windowBackground">@color/white_dark</item>
+    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Light" >
+        <item name="colorPrimary">@color/sun_theme_light_primary</item>
+        <item name="colorPrimaryDark">@color/sun_theme_light_primaryDark</item>
+        <item name="colorOnPrimary">@color/sun_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/sun_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/sun_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/sun_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/sun_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/sun_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/sun_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/sun_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/sun_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/sun_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/sun_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/sun_theme_light_error</item>
+        <item name="colorErrorContainer">@color/sun_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/sun_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/sun_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/sun_theme_light_background</item>
+        <item name="android:colorBackground">@color/sun_theme_light_background</item>
+        <item name="colorOnBackground">@color/sun_theme_light_onBackground</item>
+        <item name="colorSurface">@color/sun_theme_light_surface</item>
+        <item name="colorOnSurface">@color/sun_theme_light_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/sun_theme_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/sun_theme_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/sun_theme_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/sun_theme_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/sun_theme_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/sun_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/sun_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/sun_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/sun_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/sun_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/sun_theme_light_inversePrimary</item>
+        <item name="android:textColorPrimary">@color/sun_theme_light_textPrimary</item>
+        <item name="dialogBackgroundColor">@color/sun_theme_light_background</item>
     </style>
 
     <!-- Night Red Style -->
-    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Red.Night.v21" />
-    <style name="KeepassDXStyle.Red.Night.v21" parent="KeepassDXStyle.Night" >
-        <item name="colorPrimary">@color/red</item>
-        <item name="colorPrimaryDark">@color/red_dark</item>
-        <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentLight">@color/orange_lighter</item>
-        <item name="colorControlActivated">@color/orange</item>
-        <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:textColorHintInverse">@color/red_lightest</item>
-        <item name="android:textColorSecondaryInverse">@color/red_lightest</item>
-        <item name="android:windowBackground">@color/grey_dark</item>
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Red.Night</item>
-        <item name="toolbarHomeAppearance">@style/KeepassDXStyle.Toolbar.Home.Red.Night</item>
-        <item name="toolbarSpecialAppearance">@style/KeepassDXStyle.Toolbar.Special.Red.Night</item>
-        <item name="toolbarActionAppearance">@style/KeepassDXStyle.Toolbar.Action.Red.Night</item>
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Red.Night.Dialog</item>
-        <item name="educationCircleColor">@color/red_dark</item>
-        <item name="educationTextColor">@color/white</item>
-
-        <item name="chipFilterTextColor">@color/white</item>
-        <item name="chipFilterBackgroundColor">@color/red_lighter</item>
-        <item name="chipFilterBackgroundColorDisabled">@color/red</item>
-    </style>
-    <!-- Toolbar Style Red -->
-    <style name="KeepassDXStyle.Toolbar.Red.Night" parent="KeepassDXStyle.Red.Night">
-        <item name="colorControlActivated">@color/red_lightest</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:editTextColor">@color/white</item>
-        <item name="android:textColorHint">@color/red_lightest</item>
-        <item name="android:tint">@color/white</item>
-    </style>
-    <!-- Toolbar Home Red -->
-    <style name="KeepassDXStyle.Toolbar.Home.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
-        <item name="toolbarNavigationButtonStyle">@style/KeepassDXStyle.Toolbar.Navigation.Tinted</item>
-    </style>
-    <!-- Special Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Special.Red.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Special.Red.Night" parent="KeepassDXStyle.Toolbar.Widget.Special">
-        <item name="android:background">@color/red_dark</item>
-    </style>
-    <!-- Action Toolbar Red -->
-    <style name="KeepassDXStyle.Toolbar.Action.Red.Night" parent="KeepassDXStyle.Toolbar.Red.Night">
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar.Widget.Action.Red.Night</item>
-    </style>
-    <style name="KeepassDXStyle.Toolbar.Widget.Action.Red.Night" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">@color/red</item>
-    </style>
-    <!-- Dialog -->
-    <style name="KeepassDXStyle.Red.Night.Dialog" parent="KeepassDXStyle.Night.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-    </style>
-    <style name="KeepassDXStyle.Red.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="colorAccent">@color/red</item>
-        <item name="android:textColorPrimary">@color/orange</item>
-        <item name="android:windowBackground">@color/grey_dark</item>
+    <style name="KeepassDXStyle.Red.Night" parent="KeepassDXStyle.Night" >
+        <item name="colorPrimary">@color/sun_theme_night_primary</item>
+        <item name="colorPrimaryDark">@color/sun_theme_night_primaryDark</item>
+        <item name="colorOnPrimary">@color/sun_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/sun_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/sun_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/sun_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/sun_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/sun_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/sun_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/sun_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/sun_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/sun_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/sun_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/sun_theme_night_error</item>
+        <item name="colorErrorContainer">@color/sun_theme_night_errorContainer</item>
+        <item name="colorOnError">@color/sun_theme_night_onError</item>
+        <item name="colorOnErrorContainer">@color/sun_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">@color/sun_theme_night_background</item>
+        <item name="android:colorBackground">@color/sun_theme_night_background</item>
+        <item name="colorOnBackground">@color/sun_theme_night_onBackground</item>
+        <item name="colorSurface">@color/sun_theme_night_surface</item>
+        <item name="colorOnSurface">@color/sun_theme_night_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/sun_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/sun_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/sun_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/sun_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/sun_theme_night_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/sun_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/sun_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/sun_theme_night_outline</item>
+        <item name="colorOnSurfaceInverse">@color/sun_theme_night_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/sun_theme_night_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/sun_theme_night_inversePrimary</item>
+        <item name="android:textColorPrimary">@color/sun_theme_night_textPrimary</item>
+        <item name="dialogBackgroundColor">@color/sun_theme_night_background</item>
     </style>
 </resources>

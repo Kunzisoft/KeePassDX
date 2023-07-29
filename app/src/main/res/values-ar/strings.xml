@@ -163,7 +163,7 @@
     <string name="unsupported_db_version">قاعدة بيانات غير مدعومة.</string>
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>
-    <string name="no_credentials_stored">قاعدة البيانات لا تمتلك بيانات اعتماد.</string>
+    <string name="unavailable">قاعدة البيانات لا تمتلك بيانات اعتماد.</string>
     <string name="menu_appearance_settings">المظهر</string>
     <string name="general">عام</string>
     <string name="autofill">ملأ تلقائي</string>
@@ -467,8 +467,6 @@
     <string name="error_export_app_properties">خطأ أثناء تصدير خصائص التطبيق</string>
     <string name="warning_database_info_changed">غُيِّرت معلومات قاعدة البيانات من خارج هذا التطبيق.</string>
     <string name="warning_database_info_changed_options">ادمج البيانات أو استبدل التعديلات الخارجية بحفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">افتح محث فك القفل المتقدم لتخزين بيانات الاعتماد</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">افتح محث فك القفل المتقدم لفتح قاعدة البيانات</string>
     <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
     <string name="device_credential">بيانات الاعتماد للجهاز</string>
     <string name="advanced_unlock_tap_delete">انفر لحذف مفاتيح فك القفل المتقدم</string>
@@ -522,4 +520,6 @@
     <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فك القفل المتقدم</string>
     <string name="hide_expired_entries_title">إخفاء الإدخالات منتهية الصلاحية</string>
     <string name="content_description_hardware_key_checkbox">خانة إختيار مفتاح الجهاز</string>
+    <string name="content_description_passphrase_word_count">عدد عبارات المرور</string>
+    <string name="content_description_entry_background_color">لون خلفية المدخل</string>
 </resources>

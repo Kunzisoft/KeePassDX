@@ -31,11 +31,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.TagsAdapter
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
 class GroupDialogFragment : DatabaseDialogFragment() {
@@ -60,7 +62,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var uuidContainerView: ViewGroup
     private lateinit var uuidReferenceView: TextView
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
@@ -106,17 +108,17 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             uuidReferenceView = root.findViewById(R.id.group_UUID_reference)
 
             // Retrieve the textColor to tint the icon
-            val ta = activity.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+            val ta = activity.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
             mIconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_GROUP_INFO)) {
-                mGroupInfo = savedInstanceState.getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
+                mGroupInfo = savedInstanceState.getParcelableCompat(KEY_GROUP_INFO) ?: mGroupInfo
             } else {
                 arguments?.apply {
                     if (containsKey(KEY_GROUP_INFO)) {
-                        mGroupInfo = getParcelable(KEY_GROUP_INFO) ?: mGroupInfo
+                        mGroupInfo = getParcelableCompat(KEY_GROUP_INFO) ?: mGroupInfo
                     }
                 }
             }

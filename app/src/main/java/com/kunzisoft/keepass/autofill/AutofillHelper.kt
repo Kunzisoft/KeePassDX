@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo
@@ -56,6 +56,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -65,10 +66,10 @@ object AutofillHelper {
     private const val EXTRA_INLINE_SUGGESTIONS_REQUEST = "com.kunzisoft.keepass.autofill.INLINE_SUGGESTIONS_REQUEST"
 
     fun retrieveAutofillComponent(intent: Intent?): AutofillComponent? {
-        intent?.getParcelableExtra<AssistStructure?>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
+        intent?.getParcelableExtraCompat<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 AutofillComponent(assistStructure,
-                        intent.getParcelableExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+                        intent.getParcelableExtraCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST))
             } else {
                 AutofillComponent(assistStructure, null)
             }
@@ -89,7 +90,7 @@ object AutofillHelper {
     }
 
     private fun newRemoteViews(context: Context,
-                               database: Database,
+                               database: ContextualDatabase,
                                remoteViewsText: String,
                                remoteViewsIcon: IconImage? = null): RemoteViews {
         val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
@@ -108,7 +109,7 @@ object AutofillHelper {
     }
 
     private fun buildDataset(context: Context,
-                             database: Database,
+                             database: ContextualDatabase,
                              entryInfo: EntryInfo,
                              struct: StructureParser.Result,
                              additionalBuild: ((build: Dataset.Builder) -> Unit)? = null): Dataset? {
@@ -214,7 +215,7 @@ object AutofillHelper {
      * Method to assign a drawable to a new icon from a database icon
      */
     private fun buildIconFromEntry(context: Context,
-                                   database: Database,
+                                   database: ContextualDatabase,
                                    entryInfo: EntryInfo): Icon? {
         try {
             database.iconDrawableFactory.getBitmapFromIcon(context,
@@ -230,7 +231,7 @@ object AutofillHelper {
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
     private fun buildInlinePresentationForEntry(context: Context,
-                                                database: Database,
+                                                database: ContextualDatabase,
                                                 compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest,
                                                 positionItem: Int,
                                                 entryInfo: EntryInfo): InlinePresentation? {
@@ -302,7 +303,7 @@ object AutofillHelper {
     }
 
     fun buildResponse(context: Context,
-                      database: Database,
+                      database: ContextualDatabase,
                       entriesInfo: List<EntryInfo>,
                       parseResult: StructureParser.Result,
                       compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest?): FillResponse? {
@@ -395,7 +396,7 @@ object AutofillHelper {
      * Build the Autofill response for one entry
      */
     fun buildResponseAndSetResult(activity: Activity,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entryInfo: EntryInfo) {
         buildResponseAndSetResult(activity, database, ArrayList<EntryInfo>().apply { add(entryInfo) })
     }
@@ -404,17 +405,17 @@ object AutofillHelper {
      * Build the Autofill response for many entry
      */
     fun buildResponseAndSetResult(activity: Activity,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entriesInfo: List<EntryInfo>) {
         if (entriesInfo.isEmpty()) {
             activity.setResult(Activity.RESULT_CANCELED)
         } else {
             var setResultOk = false
-            activity.intent?.getParcelableExtra<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
+            activity.intent?.getParcelableExtraCompat<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
                 StructureParser(structure).parse()?.let { result ->
                     // New Response
                     val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtra<CompatInlineSuggestionsRequest?>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtraCompat<CompatInlineSuggestionsRequest>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
                         if (compatInlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }

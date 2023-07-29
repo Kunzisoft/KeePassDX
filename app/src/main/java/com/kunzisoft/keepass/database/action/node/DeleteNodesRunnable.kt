@@ -20,20 +20,22 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
 
-class DeleteNodesRunnable(context: Context,
-                          database: Database,
-                          private val mNodesToDelete: List<Node>,
-                          save: Boolean,
-                          afterActionNodesFinish: AfterActionNodesFinish,
-                          challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+class DeleteNodesRunnable(
+    context: Context,
+    database: ContextualDatabase,
+    private val mNodesToDelete: List<Node>,
+    private val recyclerBinTitle: String,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     private var mOldParent: Group? = null
     private var mCanRecycle: Boolean = false
@@ -54,7 +56,7 @@ class DeleteNodesRunnable(context: Context,
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(groupToDelete)
                     if (mCanRecycle) {
-                        database.recycle(groupToDelete, context.resources)
+                        database.recycle(groupToDelete, recyclerBinTitle)
                         groupToDelete.setPreviousParentGroup(mOldParent)
                         groupToDelete.touch(modified = true, touchParents = true)
                     } else {
@@ -68,7 +70,7 @@ class DeleteNodesRunnable(context: Context,
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(entryToDelete)
                     if (mCanRecycle) {
-                        database.recycle(entryToDelete, context.resources)
+                        database.recycle(entryToDelete, recyclerBinTitle)
                         entryToDelete.setPreviousParentGroup(mOldParent)
                         entryToDelete.touch(modified = true, touchParents = true)
                     } else {

@@ -173,7 +173,7 @@
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>
     <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
     <string name="encrypted_value_stored">Senha cifrada armazenada</string>
-    <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
+    <string name="unavailable">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
     <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
@@ -519,8 +519,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
     <string name="advanced_unlock_prompt_store_credential_message">Você ainda precisa lembrar sua credencial principal se usar o reconhecimento de desbloqueio avançado.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Abra o prompt de desbloqueio avançado para armazenar as credenciais</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Abra o prompt de desbloqueio avançado para desbloquear o banco de dados</string>
     <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
     <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
@@ -668,4 +666,5 @@
     <string name="corrupted_file">Arquivo corrompido.</string>
     <string name="auto_type">Preenchimento automático</string>
     <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
+    <string name="merge_success">Merge concluído com sucesso</string>
 </resources>

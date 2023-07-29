@@ -298,7 +298,7 @@
     <string name="content_description_entry_background_color">এন্ট্রি পটভূমির রঙ</string>
     <string name="content_description_keyboard_close_fields">ক্ষেত্রগুলি বন্ধ করুন</string>
     <string name="expired">মেয়াদোত্তীর্ণ</string>
-    <string name="select_to_copy">ক্লিপবোর্ডে অনুলিপি করতে নির্বাচন করুন</string>
+    <string name="select_to_copy">ক্লিপবোর্ডে %1$s অনুলিপি করতে নির্বাচন করুন</string>
     <string name="entry_setup_otp">এককালীন পাসওয়ার্ড সেট আপ করুন</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft হল &lt;strong&gt;ওপেন সোর্স&lt;/strong&gt; এবং &lt;strong&gt;বিজ্ঞাপন ছাড়াই&lt;/strong&gt;।
 \nএটি &lt;strong&gt;GPLv3&lt;/strong&gt; লাইসেন্সের অধীনে, কোনো ওয়ারেন্টি ছাড়াই প্রদান করা হয়।</string>
@@ -365,4 +365,5 @@
     <string name="error_save_database">ডাটাবেস সংরক্ষণ করা যায়নি.</string>
     <string name="parallelism_explanation">কী ডেরিভেশন ফাংশন দ্বারা ব্যবহৃত সমান্তরালতার ডিগ্রি (যেমন থ্রেডের সংখ্যা)।</string>
     <string name="saving_database">ডাটাবেস সংরক্ষণ করা হচ্ছে…</string>
+    <string name="consider_chars_filter">Aintzat hartu karaktereak</string>
 </resources>

@@ -20,20 +20,20 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.hardware.HardwareKey
 
 class UpdateGroupRunnable constructor(
-        context: Context,
-        database: Database,
-        private val mOldGroup: Group,
-        private val mNewGroup: Group,
-        save: Boolean,
-        afterActionNodesFinish: AfterActionNodesFinish?,
-        challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
+    context: Context,
+    database: ContextualDatabase,
+    private val mOldGroup: Group,
+    private val mNewGroup: Group,
+    save: Boolean,
+    afterActionNodesFinish: AfterActionNodesFinish?,
+    challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save, challengeResponseRetriever) {
 
     override fun nodeAction() {
         if (mOldGroup.nodeId == mNewGroup.nodeId) {

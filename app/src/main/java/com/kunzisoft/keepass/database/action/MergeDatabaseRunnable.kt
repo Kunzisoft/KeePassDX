@@ -21,26 +21,31 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.exception.DatabaseException
+import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.getUriInputStream
 
 class MergeDatabaseRunnable(
     context: Context,
     private val mDatabaseToMergeUri: Uri?,
     private val mDatabaseToMergeMainCredential: MainCredential?,
     private val mDatabaseToMergeChallengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
-    database: Database,
+    database: ContextualDatabase,
     saveDatabase: Boolean,
     challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray,
     private val progressTaskUpdater: ProgressTaskUpdater?,
-    private val mLoadDatabaseResult: ((Result) -> Unit)?)
-    : SaveDatabaseRunnable(context, database, saveDatabase, null, challengeResponseRetriever) {
-
+) : SaveDatabaseRunnable(
+    context,
+    database,
+    saveDatabase,
+    null,
+    challengeResponseRetriever
+) {
     override fun onStartRun() {
         database.wasReloaded = true
         super.onStartRun()
@@ -48,10 +53,12 @@ class MergeDatabaseRunnable(
 
     override fun onActionRun() {
         try {
+            val contentResolver = context.contentResolver
             database.mergeData(
-                context.contentResolver,
-                mDatabaseToMergeUri,
-                mDatabaseToMergeMainCredential,
+                context.contentResolver.getUriInputStream(
+                    mDatabaseToMergeUri ?: database.fileUri
+                ) ?: throw UnknownDatabaseLocationException(),
+                mDatabaseToMergeMainCredential?.toMasterCredential(contentResolver),
                 mDatabaseToMergeChallengeResponseRetriever,
                 { memoryWanted ->
                     BinaryData.canMemoryBeAllocatedInRAM(context, memoryWanted)
@@ -62,15 +69,6 @@ class MergeDatabaseRunnable(
             setError(e)
         }
 
-        if (result.isSuccess) {
-            // Register the current time to init the lock timer
-            PreferencesUtil.saveCurrentTime(context)
-        }
         super.onActionRun()
-    }
-
-    override fun onFinishRun() {
-        super.onFinishRun()
-        mLoadDatabaseResult?.invoke(result)
     }
 }

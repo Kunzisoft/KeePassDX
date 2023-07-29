@@ -2,7 +2,7 @@
 <resources>
     <string name="menu_appearance_settings">ظاهر</string>
     <string name="database_history">تاریخچه</string>
-    <string name="no_credentials_stored">در این پایگاه داده هنوز اعتبار نامه ذخیره نشده است.</string>
+    <string name="unavailable">در این پایگاه داده هنوز اعتبار نامه ذخیره نشده است.</string>
     <string name="encrypted_value_stored">رمز رمزگذاری شده ذخیره شده است</string>
     <string name="keystore_not_accessible">فروشگاه اصلی به درستی تنظیم نشده است.</string>
     <string name="build_label">%1$s را بسازید</string>
@@ -244,8 +244,6 @@
     <string name="allow_no_password_summary">در صورت عدم انتخاب اعتبار نامه ، ضربه زدن روی دکمه \"باز کردن\" امکان پذیر است</string>
     <string name="keyboard_previous_database_credentials_summary">به طور خودکار به صفحه کلید قبلی در صفحه اعتبار نامه پایگاه داده برگردید</string>
     <string name="keyboard_previous_database_credentials_title">صفحه اعتبار نامه پایگاه داده</string>
-    <string name="open_advanced_unlock_prompt_store_credential">برای ذخیره اعتبار نامه ، قفل پیشرفته را باز کنید</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">برای باز کردن قفل پایگاه داده قفل پیشرفته را باز کنید</string>
     <string name="biometric_security_update_required">به روز رسانی امنیتی بیومتریک مورد نیاز است.</string>
     <string name="configure_biometric">هیچ بیومتریک یا اعتبار دستگاه ثبت نشده است.</string>
     <string name="advanced_unlock_tap_delete">برای حذف کلیدهای پیشرفته باز کردن قفل ضربه بزنید</string>

@@ -23,7 +23,6 @@ import android.content.Context
 import androidx.preference.ListPreference
 import android.util.AttributeSet
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.icons.IconPackChooser
 import java.util.*
 
@@ -37,9 +36,9 @@ class IconPackListPreference @JvmOverloads constructor(context: Context,
         val entries = ArrayList<String>()
         val values = ArrayList<String>()
         for (iconPack in IconPackChooser.getIconPackList(context)) {
-            if (iconPack.id != null) {
+            iconPack.id?.let { iconPackId ->
                 entries.add(iconPack.name)
-                values.add(iconPack.id!!)
+                values.add(iconPackId)
             }
         }
 

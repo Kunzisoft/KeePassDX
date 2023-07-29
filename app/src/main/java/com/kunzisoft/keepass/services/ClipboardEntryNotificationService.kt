@@ -19,11 +19,16 @@
  */
 package com.kunzisoft.keepass.services
 
+import android.Manifest
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -31,6 +36,9 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.putParcelableList
 
 class ClipboardEntryNotificationService : LockNotificationService() {
 
@@ -65,7 +73,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         super.onStartCommand(intent, flags, startId)
 
         // Get entry info from intent
-        mEntryInfo = intent?.getParcelableExtra(EXTRA_ENTRY_INFO)
+        mEntryInfo = intent?.getParcelableExtraCompat(EXTRA_ENTRY_INFO)
 
         when {
             intent == null -> Log.w(TAG, "null intent")
@@ -79,7 +87,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             }
             else -> for (actionKey in ClipboardEntryNotificationField.allActionKeys) {
                 if (actionKey == intent.action) {
-                    intent.getParcelableExtra<ClipboardEntryNotificationField>(
+                    intent.getParcelableExtraCompat<ClipboardEntryNotificationField>(
                             ClipboardEntryNotificationField.getExtraKeyLinkToActionKey(actionKey))?.let {
                         fieldToCopy ->
                         val nextFields = constructListOfField(intent)
@@ -93,10 +101,10 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         return START_NOT_STICKY
     }
 
-    private fun constructListOfField(intent: Intent?): ArrayList<ClipboardEntryNotificationField> {
-        val fieldList = ArrayList<ClipboardEntryNotificationField>()
+    private fun constructListOfField(intent: Intent?): MutableList<ClipboardEntryNotificationField> {
+        val fieldList = mutableListOf<ClipboardEntryNotificationField>()
         if (intent?.extras?.containsKey(EXTRA_CLIPBOARD_FIELDS) == true) {
-            intent.getParcelableArrayListExtra<ClipboardEntryNotificationField>(EXTRA_CLIPBOARD_FIELDS)?.let { retrieveFields ->
+            intent.getParcelableList<ClipboardEntryNotificationField>(EXTRA_CLIPBOARD_FIELDS)?.let { retrieveFields ->
                 fieldList.clear()
                 fieldList.addAll(retrieveFields)
             }
@@ -104,12 +112,12 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         return fieldList
     }
 
-    private fun getCopyPendingIntent(fieldToCopy: ClipboardEntryNotificationField, fieldsToAdd: ArrayList<ClipboardEntryNotificationField>): PendingIntent {
+    private fun getCopyPendingIntent(fieldToCopy: ClipboardEntryNotificationField, fieldsToAdd: MutableList<ClipboardEntryNotificationField>): PendingIntent {
         val copyIntent = Intent(this, ClipboardEntryNotificationService::class.java).apply {
             action = fieldToCopy.actionKey
             putExtra(EXTRA_ENTRY_INFO, mEntryInfo)
             putExtra(fieldToCopy.extraKey, fieldToCopy)
-            putParcelableArrayListExtra(EXTRA_CLIPBOARD_FIELDS, fieldsToAdd)
+            putParcelableList(EXTRA_CLIPBOARD_FIELDS, fieldsToAdd)
         }
         return PendingIntent.getService(
             this, 0, copyIntent,
@@ -121,7 +129,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         )
     }
 
-    private fun newNotification(title: String?, fieldsToAdd: ArrayList<ClipboardEntryNotificationField>) {
+    private fun newNotification(title: String?, fieldsToAdd: MutableList<ClipboardEntryNotificationField>) {
         mTimerJob?.cancel()
 
         val builder = buildNewNotification()
@@ -136,7 +144,8 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             builder.setContentIntent(getCopyPendingIntent(field, fieldsToAdd))
 
             // Add extra actions without 1st field
-            val fieldsWithoutFirstField = ArrayList(fieldsToAdd)
+            val fieldsWithoutFirstField = mutableListOf<ClipboardEntryNotificationField>()
+            fieldsWithoutFirstField.addAll(fieldsToAdd)
             fieldsWithoutFirstField.remove(field)
             // Add extra actions
             for (fieldToAdd in fieldsWithoutFirstField) {
@@ -144,10 +153,13 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                         getCopyPendingIntent(fieldToAdd, fieldsToAdd))
             }
         }
-        notificationManager?.notify(notificationId, builder.build())
+
+        checkNotificationsPermission {
+            notificationManager?.notify(notificationId, builder.build())
+        }
     }
 
-    private fun copyField(fieldToCopy: ClipboardEntryNotificationField, nextFields: ArrayList<ClipboardEntryNotificationField>) {
+    private fun copyField(fieldToCopy: ClipboardEntryNotificationField, nextFields: MutableList<ClipboardEntryNotificationField>) {
         mTimerJob?.cancel()
 
         try {
@@ -203,11 +215,22 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                 }
             } else {
                 // No timer
-                notificationManager?.notify(notificationId, builder.build())
+                checkNotificationsPermission {
+                    notificationManager?.notify(notificationId, builder.build())
+                }
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Clipboard can't be populate", e)
+        }
+    }
+
+    private fun checkNotificationsPermission(action: () -> Unit) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED) {
+            action.invoke()
+        } else {
+            showPermissionErrorIfNeeded(this)
         }
     }
 
@@ -232,7 +255,31 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         const val EXTRA_CLIPBOARD_FIELDS = "EXTRA_CLIPBOARD_FIELDS"
         const val ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD"
 
-        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+        private fun showPermissionErrorIfNeeded(context: Context) {
+            if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
+                Toast.makeText(context, R.string.warning_copy_permission, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        fun checkAndLaunchNotification(
+            activity: Activity,
+            entry: EntryInfo
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        activity,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED) {
+                        launchNotificationIfAllowed(activity, entry)
+                } else {
+                    showPermissionErrorIfNeeded(activity)
+                }
+            } else {
+                launchNotificationIfAllowed(activity, entry)
+            }
+        }
+
+        private fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
 
             val containsUsernameToCopy = entry.username.isNotEmpty()
             val containsPasswordToCopy = entry.password.isNotEmpty()
@@ -259,7 +306,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                     intent.action = ACTION_NEW_NOTIFICATION
                     intent.putExtra(EXTRA_ENTRY_INFO, entry)
                     // Construct notification fields
-                    val notificationFields = ArrayList<ClipboardEntryNotificationField>()
+                    val notificationFields = mutableListOf<ClipboardEntryNotificationField>()
                     // Add username if exists to notifications
                     if (containsUsernameToCopy)
                         notificationFields.add(
@@ -304,7 +351,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                     }
                     // Add notifications
                     startService = true
-                    intent.putParcelableArrayListExtra(EXTRA_CLIPBOARD_FIELDS, notificationFields)
+                    intent.putParcelableList(EXTRA_CLIPBOARD_FIELDS, notificationFields)
                     context.startService(intent)
                 }
             }

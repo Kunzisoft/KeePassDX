@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true">
-        <shape>
-            <solid android:color="?attr/colorAccentLight"/>
-        </shape>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="?android:attr/colorControlHighlight"
+    tools:targetApi="lollipop">
+    <item>
+        <selector>
+            <item android:state_selected="true">
+                <shape>
+                    <corners android:radius="25dp" />
+                    <solid android:color="?attr/colorSecondaryContainer"/>
+                </shape>
+            </item>
+            <item android:state_selected="false">
+                <shape>
+                    <corners android:radius="25dp" />
+                    <solid android:color="?attr/colorSurfaceContainer"/>
+                </shape>
+            </item>
+        </selector>
     </item>
-    <item android:state_selected="false">
-        <shape>
-            <solid android:color="@color/transparent"/>
-        </shape>
-    </item>
-</selector>
+</ripple>

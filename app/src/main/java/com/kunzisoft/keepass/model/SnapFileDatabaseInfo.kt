@@ -24,9 +24,10 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.format.Formatter
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
 import java.text.DateFormat
-import java.util.*
+import java.util.Date
 
 /**
  * Utility data class to get FileDatabaseInfo at a `t` time
@@ -37,7 +38,7 @@ data class SnapFileDatabaseInfo(var fileUri: Uri?,
                                 var size: Long?): Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readParcelable(Uri::class.java.classLoader),
+            parcel.readParcelableCompat(),
             parcel.readByte() != 0.toByte(),
             parcel.readValue(Long::class.java.classLoader) as? Long,
             parcel.readValue(Long::class.java.classLoader) as? Long) {
@@ -92,10 +93,10 @@ data class SnapFileDatabaseInfo(var fileUri: Uri?,
 
         fun fromFileDatabaseInfo(fileDatabaseInfo: FileDatabaseInfo): SnapFileDatabaseInfo {
             return SnapFileDatabaseInfo(
-                    fileDatabaseInfo.fileUri,
-                    fileDatabaseInfo.exists,
-                    fileDatabaseInfo.getLastModification(),
-                    fileDatabaseInfo.getSize())
+                fileDatabaseInfo.fileUri,
+                fileDatabaseInfo.exists,
+                fileDatabaseInfo.getLastModification(),
+                fileDatabaseInfo.getSize())
         }
     }
 }

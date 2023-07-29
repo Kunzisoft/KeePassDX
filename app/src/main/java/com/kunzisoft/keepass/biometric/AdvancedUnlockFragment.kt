@@ -32,10 +32,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
@@ -49,7 +50,7 @@ import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
+class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
 
     private var mBuilderListener: BuilderListener? = null
 
@@ -65,17 +66,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
 
     // TODO Retrieve credential storage from app database
     var credentialDatabaseStorage: CredentialStorage = CredentialStorage.DEFAULT
-
-    /**
-     * Manage setting to auto open biometric prompt
-     */
-    private var mAutoOpenPrompt: Boolean
-        get() {
-            return mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt && mAutoOpenPromptEnabled
-        }
-        set(value) {
-            mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = value
-        }
 
     // Variable to check if the prompt can be open (if the right activity is currently shown)
     // checkBiometricAvailability() allows open biometric prompt and onDestroy() removes the authorization
@@ -94,13 +84,35 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     // Only keep connection when we request a device credential activity
     private var keepConnection = false
 
-    private var mDeviceCredentialResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private var mDeviceCredentialResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
         // To wait resume
         if (keepConnection) {
-            mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded = result.resultCode == Activity.RESULT_OK
+            mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded =
+                result.resultCode == Activity.RESULT_OK
         }
         keepConnection = false
+    }
+
+    private val menuProvider: MenuProvider = object: MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // biometric menu
+                if (mAllowAdvancedUnlockMenu)
+                    menuInflater.inflate(R.menu.advanced_unlock, menu)
+            }
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    deleteEncryptedDatabaseKey()
+                }
+            }
+            return false
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -121,8 +133,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setHasOptionsMenu(true)
-
         cipherDatabaseAction = CipherDatabaseAction.getInstance(requireContext().applicationContext)
 
         mAdvancedUnlockViewModel.onInitAdvancedUnlockModeRequested.observe(this) {
@@ -141,12 +151,17 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_advanced_unlock, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_advanced_unlock, container, false)
 
         mAdvancedUnlockInfoView = rootView.findViewById(R.id.advanced_unlock_view)
 
         return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
     }
 
     override fun onResume() {
@@ -156,26 +171,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(it)
         }
         keepConnection = false
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // biometric menu
-            if (mAllowAdvancedUnlockMenu)
-                inflater.inflate(R.menu.advanced_unlock, menu)
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deleteEncryptedDatabaseKey()
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun onDatabaseLoaded(databaseUri: Uri?) {
@@ -214,8 +209,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 allowOpenBiometricPrompt = true
                 if (PreferencesUtil.isBiometricUnlockEnable(context)) {
-                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.fingerprint)
-
                     // biometric not supported (by API level or hardware) so keep option hidden
                     // or manually disable
                     val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
@@ -234,7 +227,6 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                         }
                     }
                 } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
-                    mAdvancedUnlockInfoView?.setIconResource(R.drawable.bolt)
                     if (AdvancedUnlockManager.isDeviceSecure(context)) {
                         selectMode()
                     } else {
@@ -290,14 +282,29 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     private fun initNotAvailable() {
         showViews(false)
 
-        mAdvancedUnlockInfoView?.setIconViewClickListener(false, null)
+        mAdvancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun openBiometricSetting() {
-        mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
-            // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
-            context?.startActivity(Intent(Settings.ACTION_SETTINGS))
+        mAdvancedUnlockInfoView?.setIconViewClickListener {
+            try {
+                when {
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
+                        context?.startActivity(Intent(Settings.ACTION_BIOMETRIC_ENROLL))
+                    }
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                        @Suppress("DEPRECATION") context
+                            ?.startActivity(Intent(Settings.ACTION_FINGERPRINT_ENROLL))
+                    }
+                    else -> {
+                        context?.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
+                    }
+                }
+            } catch (e: Exception) {
+                // ACTION_SECURITY_SETTINGS does not contain fingerprint enrollment on some devices...
+                context?.startActivity(Intent(Settings.ACTION_SETTINGS))
+            }
         }
     }
 
@@ -329,11 +336,11 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initWaitData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
+        setAdvancedUnlockedTitleView(R.string.unavailable)
         setAdvancedUnlockedMessageView("")
 
         context?.let { context ->
-            mAdvancedUnlockInfoView?.setIconViewClickListener(false) {
+            mAdvancedUnlockInfoView?.setIconViewClickListener {
                 onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
                         context.getString(R.string.credential_before_click_advanced_unlock_button))
             }
@@ -360,7 +367,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initEncryptData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_store_credential)
+        setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
         setAdvancedUnlockedMessageView("")
 
         advancedUnlockManager?.initEncryptData { cryptoPrompt ->
@@ -374,7 +381,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun initDecryptData() {
         showViews(true)
-        setAdvancedUnlockedTitleView(R.string.open_advanced_unlock_prompt_unlock_database)
+        setAdvancedUnlockedTitleView(R.string.unlock)
         setAdvancedUnlockedMessageView("")
 
         advancedUnlockManager?.let { unlockHelper ->
@@ -389,8 +396,9 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
                             }
 
                             // Auto open the biometric prompt
-                            if (mAutoOpenPrompt) {
-                                mAutoOpenPrompt = false
+                            if (mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt
+                                && mAutoOpenPromptEnabled) {
+                                mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
                                 openAdvancedUnlockPrompt(cryptoPrompt)
                             }
                         }
@@ -607,7 +615,7 @@ class AdvancedUnlockFragment: StylishFragment(), AdvancedUnlockManager.AdvancedU
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
-            mAdvancedUnlockInfoView?.message = text
+            mAdvancedUnlockInfoView?.setMessage(text)
         }
     }
 

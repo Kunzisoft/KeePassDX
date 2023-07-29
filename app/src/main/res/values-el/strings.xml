@@ -326,7 +326,7 @@
     <string name="content_description_keyboard_close_fields">Κλείσιμο πεδίων</string>
     <string name="error_create_database_file">Δεν είναι δυνατή η δημιουργία βάσης δεδομένων με αυτόν τον κωδικό πρόσβασης και το αρχείο κλειδί.</string>
     <string name="menu_advanced_unlock_settings">Προηγμένο ξεκλείδωμα</string>
-    <string name="no_credentials_stored">Αυτή η βάση δεδομένων δεν έχει αποθηκευμένα διαπιστευτήρια ακόμα.</string>
+    <string name="unavailable">Αυτή η βάση δεδομένων δεν έχει αποθηκευμένα διαπιστευτήρια ακόμα.</string>
     <string name="menu_appearance_settings">Εμφάνιση</string>
     <string name="biometric">Βιομετρία</string>
     <string name="advanced_unlock">Προηγμένο ξεκλείδωμα</string>
@@ -490,8 +490,6 @@
     <string name="advanced_unlock_prompt_store_credential_title">Προηγμένο ξεκλείδωμα αναγνώρισης</string>
     <string name="advanced_unlock_prompt_store_credential_message">Πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήριά σας εάν χρησιμοποιείτε σύνθετη αναγνώριση ξεκλειδώματος.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Ανοίξτε τη βάση δεδομένων με προηγμένο ξεκλείδωμα αναγνώρισης</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για αποθήκευση διαπιστευτηρίων</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Ανοίξτε τη προηγμένη προτροπή ξεκλειδώματος για να ξεκλειδώσετε τη βάση δεδομένων</string>
     <string name="menu_keystore_remove_key">Διαγραφή προηγμένου κλειδιού ξεκλειδώματος</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
@@ -668,4 +666,5 @@
     <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
     <string name="auto_type">Αυτόματη-Πληκτρολόγηση</string>
+    <string name="merge_success">Η συγχώνευση ολοκληρώθηκε με επιτυχία</string>
 </resources>

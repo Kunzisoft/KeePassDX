@@ -132,7 +132,7 @@
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket az adatbázis-fájlban (a nem felismert karakterek mert ugyanarra a betűre lesznek alakítva).</string>
     <string name="version_label">Verzió: %1$s</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
-    <string name="no_credentials_stored">Az adatbázisnak még nincs jelszava.</string>
+    <string name="unavailable">Az adatbázisnak még nincs jelszava.</string>
     <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
 \n
 \nKészítsen biztonsági mentést az adatbázisról minden egyes módosítás után.</string>
@@ -521,7 +521,6 @@
     <string name="hint_icon_name">Ikon neve</string>
     <string name="autofill_select_entry">Válasszon bejegyzést…</string>
     <string name="warning_database_info_changed_options">Adatok egyesítése, majd a külső módosítások felülírása az adatbázis mentésével, vagy az adatbázis újratöltése a legfrissebb változtatásokkal.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Nyissa meg a speciális feloldási képernyőt az adatbázis feloldásához</string>
     <string name="advanced_unlock_prompt_store_credential_title">Speciális feloldásfelismerés</string>
     <string name="advanced_unlock_prompt_store_credential_message">Figyelmeztetés: Továbbra is meg kell jegyeznie a mesterjelszót, ha a speciális feloldásfelismerést használja.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Adatbázis hitelesítő adatainak kinyerése a speciális adatfeloldással</string>
@@ -534,7 +533,6 @@
     <string name="temp_advanced_unlock_timeout_title">Speciális feloldás lejárati ideje</string>
     <string name="warning_database_revoked">A fájl elérését visszavonta a fájlkezelő, zárja be az adatbázist és nyissa meg újra a helyéről.</string>
     <string name="warning_exact_alarm">Nem engedélyezte az alkalmazásnak, hogy pontos riasztást használjon. Ezért az időzítőt használó funkciók nem a pontos időt fogják használni.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Nyissa meg a speciális feloldási képernyőt a hitelesítő adatok tárolásához</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Adatbázis megnyitása a speciális feloldásfelismeréssel</string>
     <string name="credential_before_click_advanced_unlock_button">Írja be a jelszót, majd kattintson erre a gombra.</string>
     <string name="temp_advanced_unlock_enable_title">Ideiglenes speciális feloldás</string>

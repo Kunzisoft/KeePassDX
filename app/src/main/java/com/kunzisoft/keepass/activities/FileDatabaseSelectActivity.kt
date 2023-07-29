@@ -53,9 +53,9 @@ import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -65,7 +65,14 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.DexUtil
+import com.kunzisoft.keepass.utils.MagikeyboardUtil
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.parseUri
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.allowCreateDocumentByStorageAccessFramework
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
@@ -179,7 +186,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                         && savedInstanceState.getBoolean(EXTRA_STAY, false))) {
             val databasePath = PreferencesUtil.getDefaultDatabasePath(this)
 
-            UriUtil.parse(databasePath)?.let { databaseFileUri ->
+            databasePath?.parseUri()?.let { databaseFileUri ->
                 launchPasswordActivityWithPath(databaseFileUri)
             } ?: run {
                 Log.i(TAG, "No default database to prepare")
@@ -189,7 +196,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         // Retrieve the database URI provided by file manager after an orientation change
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
-            mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
+            mDatabaseFileUri = savedInstanceState.getParcelableCompat(EXTRA_DATABASE_URI)
         }
 
         // Observe list of databases
@@ -228,7 +235,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         if (database != null) {
             launchGroupActivityIfLoaded(database)
@@ -236,7 +243,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -247,9 +254,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             when (actionTask) {
                 ACTION_DATABASE_CREATE_TASK,
                 ACTION_DATABASE_LOAD_TASK -> {
-                    result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
+                    result.data?.getParcelableCompat<Uri>(DATABASE_URI_KEY)?.let { databaseUri ->
                         val mainCredential =
-                            result.data?.getParcelable(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
+                            result.data?.getParcelableCompat(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
                                 ?: MainCredential()
                         databaseFilesViewModel.addDatabaseFile(
                             databaseUri,
@@ -304,7 +311,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 mAutofillActivityResultLauncher)
     }
 
-    private fun launchGroupActivityIfLoaded(database: Database) {
+    private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         if (database.loaded) {
             GroupActivity.launch(this,
                 database,
@@ -326,12 +333,12 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         super.onResume()
 
         // Define special title
-        specialTitle?.isVisible = UriUtil.contributingUser(this)
+        specialTitle?.isVisible = this.isContributingUser()
 
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
-                if (ExternalFileHelper.allowCreateDocumentByStorageAccessFramework(packageManager)) {
+                if (packageManager.allowCreateDocumentByStorageAccessFramework()) {
                     // There is an activity which can handle this intent.
                     createDatabaseButtonView?.visibility = View.VISIBLE
                 } else{
@@ -426,7 +433,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
+            android.R.id.home -> this.openUrl(R.string.file_manager_explanation_url)
         }
         MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         return super.onOptionsItemSelected(item)

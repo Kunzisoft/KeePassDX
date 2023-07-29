@@ -18,6 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Contact</string>
+    <string name="info">Info</string>
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
     <string name="homepage">Homepage</string>
@@ -252,11 +253,17 @@
     <string name="copy_field">Copy of %1$s</string>
     <string name="settings">Settings</string>
     <string name="menu_app_settings">App settings</string>
+    <string name="menu_app_settings_summary">Search, lock, history, properties</string>
     <string name="menu_form_filling_settings">Form filling</string>
-    <string name="menu_advanced_unlock_settings">Advanced unlocking</string>
+    <string name="menu_form_filling_settings_summary">Keyboard, autofill, clipboard</string>
+    <string name="menu_advanced_unlock_settings">Device unlocking</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometry, device credential</string>
     <string name="menu_database_settings">Database settings</string>
+    <string name="menu_database_settings_summary">Metadata, recycle bin, templates, history</string>
     <string name="menu_security_settings">Security settings</string>
+    <string name="menu_security_settings_summary">Encryption, key derivation function</string>
     <string name="menu_master_key_settings">Master key settings</string>
+    <string name="master_key_settings_summary">Change, renewal</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
@@ -274,7 +281,7 @@
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
-    <string name="menu_keystore_remove_key">Delete advanced unlock key</string>
+    <string name="menu_keystore_remove_key">Delete device unlock key</string>
     <string name="menu_url">Go to URL</string>
     <string name="menu_file_selection_read_only">Write-protected</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
@@ -286,8 +293,8 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">Install a web browser to open this URL.</string>
-    <string name="select_database_file">Open existing database</string>
-    <string name="create_keepass_file">Create new database</string>
+    <string name="select_database_file">Open existing vault</string>
+    <string name="create_keepass_file">Create new vault</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="subdomain_search_title">Subdomain search</string>
@@ -373,29 +380,34 @@
     <string name="warning_database_revoked">Access to the file revoked by the file manager, close the database and reopen it from its location.</string>
     <string name="warning_exact_alarm">You have not allowed the app to use an exact alarm. As a result, the features requiring a timer will not be done with an exact time.</string>
     <string name="warning_keyfile_integrity">The hash of the file is not guaranteed because Android can change its data on the fly. Change the file extension to .bin for correct integrity.</string>
+    <string name="warning_database_notification_permission">The notification permission allows you to display the status of the database and lock it with an easily accessible button.\n\nIf you do not activate this permission, the database open in the background will not be visible if another application is in the foreground.</string>
+    <string name="warning_copy_permission">The notification permission is needed to use the clipboard notification feature.</string>
+    <string name="later">Later</string>
+    <string name="ask">Ask</string>
     <string name="merge_success">Merge successfully completed</string>
     <string name="permission">Permission</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
+    <string name="configure">Configure</string>
     <string name="configure_biometric">No biometric or device credential is enrolled.</string>
     <string name="biometric_security_update_required">Biometric security update required.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Open the advanced unlock prompt to unlock the database</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Open the advanced unlock prompt to store credentials</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Advanced unlock recognition</string>
-    <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your main credential if you use advanced unlock recognition.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Open database with advanced unlock recognition</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extract database credential with advanced unlock data</string>
+    <string name="unlock_and_link_biometric">Device unlock link</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Link to device unlocking</string>
+    <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your vault main credential if you use device unlock recognition.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Device unlock recognition</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extract database credential with device unlock data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="advanced_unlock_invalid_key">Cannot read the advanced unlock key. Please delete it and repeat the unlock recognition procedure.</string>
-    <string name="advanced_unlock_not_recognized">Could not recognize advanced unlock print</string>
-    <string name="advanced_unlock_scanning_error">Advanced unlock error: %1$s</string>
-    <string name="no_credentials_stored">This database does not have stored credential yet.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Unable to initialize advanced unlock prompt.</string>
+    <string name="advanced_unlock_invalid_key">Cannot read the device unlock key. Please delete it and repeat the unlock recognition procedure.</string>
+    <string name="advanced_unlock_not_recognized">Could not recognize device unlock print</string>
+    <string name="advanced_unlock_scanning_error">Device unlock error: %1$s</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="advanced_unlock_prompt_not_initialized">Unable to initialize device unlock prompt.</string>
     <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>
     <string name="database_history">History</string>
     <string name="properties">Properties</string>
     <string name="menu_appearance_settings">Appearance</string>
+    <string name="menu_appearance_settings_summary">Themes, colors, attributes</string>
     <string name="biometric">Biometric</string>
     <string name="device_credential">Device credential</string>
     <string name="general">General</string>
@@ -424,23 +436,24 @@
     <string name="lock_database_show_button_title">Show lock button</string>
     <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="content">Content</string>
-    <string name="advanced_unlock">Advanced unlock</string>
-    <string name="advanced_unlock_tap_delete">Tap to delete advanced unlocking keys</string>
-    <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
+    <string name="unlock">Unlock</string>
+    <string name="advanced_unlock">Device unlock</string>
+    <string name="advanced_unlock_tap_delete">Tap to delete device unlocking keys</string>
+    <string name="advanced_unlock_explanation_summary">Use device unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
     <string name="device_credential_unlock_enable_title">Device credential unlocking</string>
     <string name="device_credential_unlock_enable_summary">Lets you use your device credential to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto-open prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Automatically request advanced unlock if the database is set up to use it</string>
-    <string name="temp_advanced_unlock_enable_title">Temp advanced unlocking</string>
-    <string name="temp_advanced_unlock_enable_summary">Do not store any encrypted content to use advanced unlocking</string>
-    <string name="temp_advanced_unlock_timeout_title">Advanced unlocking expiration</string>
-    <string name="temp_advanced_unlock_timeout_summary">Duration of advanced unlocking usage before deleting its content</string>
-    <string name="advanced_unlock_timeout">Advanced unlocking timeout</string>
+    <string name="biometric_auto_open_prompt_summary">Automatically request device unlock if the database is set up to use it</string>
+    <string name="temp_advanced_unlock_enable_title">Temp device unlocking</string>
+    <string name="temp_advanced_unlock_enable_summary">Do not store any encrypted content to use device unlocking</string>
+    <string name="temp_advanced_unlock_timeout_title">Device unlocking expiration</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duration of device unlocking usage before deleting its content</string>
+    <string name="advanced_unlock_timeout">Device unlocking timeout</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
-    <string name="biometric_delete_all_key_summary">Delete all encryption keys related to advanced unlock recognition</string>
-    <string name="advanced_unlock_delete_all_key_warning">Delete all encryption keys related to advanced unlock recognition?</string>
+    <string name="biometric_delete_all_key_summary">Delete all encryption keys related to device unlock recognition</string>
+    <string name="advanced_unlock_delete_all_key_warning">Delete all encryption keys related to device unlock recognition?</string>
     <string name="advanced_unlock_keystore_warning">This feature will store encrypted credential data in the secure KeyStore of your device.\n\nDepending on the native API implementation of the operating system, it may not be fully functional.\nCheck the compatibility and security of the KeyStore with the manufacturer of your device and the creator of the ROM you are using.</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
@@ -525,7 +538,7 @@
     <string name="keyboard_previous_database_credentials_summary">Automatically switch back to the previous keyboard on the database credentials screen</string>
     <string name="keyboard_previous_search_title">Search screen</string>
     <string name="keyboard_previous_search_summary">Automatically switch back to the previous keyboard on the search screen</string>
-    <string name="keyboard_previous_fill_in_title">Auto key action</string>
+    <string name="keyboard_previous_fill_in_title">Switch back</string>
     <string name="keyboard_previous_fill_in_summary">Automatically switch back to the previous keyboard after executing \"Auto key action\"</string>
     <string name="keyboard_previous_lock_title">Lock database</string>
     <string name="keyboard_previous_lock_summary">Automatically switch back to the previous keyboard after locking the database</string>
@@ -561,7 +574,7 @@
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
     <string name="enable_keep_screen_on_title">Keep screen on</string>
-    <string name="enable_keep_screen_on_summary">Keep the screen on when watching the entry</string>
+    <string name="enable_keep_screen_on_summary">Keep the screen on when watching or editing an entry</string>
     <string name="enable_screenshot_mode_title">Screenshot mode</string>
     <string name="enable_screenshot_mode_summary">Allow third party apps to record or take screenshots of the app</string>
     <string name="enable_education_screens_title">Educational hints</string>
@@ -577,12 +590,14 @@
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
     <string name="education_search_summary">Enter title, username or content of other fields to retrieve your passwords.</string>
-    <string name="education_advanced_unlock_title">Advanced database unlocking</string>
+    <string name="education_advanced_unlock_title">Device database unlocking</string>
     <string name="education_advanced_unlock_summary">Link your password to your scanned biometric or device credential to quickly unlock your database.</string>
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
     <string name="education_generate_password_title">Create a strong password</string>
     <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
+    <string name="education_validate_entry_title">Validate the entry</string>
+    <string name="education_validate_entry_summary">Remember to validate your entry and save your database.\n\nIf an automatic lock is activated and you forget you were making a modification, you risk losing your data.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
     <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
     <string name="education_add_attachment_title">Add attachment</string>
@@ -687,6 +702,7 @@
         <item>Sun</item>
         <item>Reply</item>
         <item>Kunzite</item>
+        <item>Follow the system</item>
     </string-array>
     <string name="style_brightness_title">Theme brightness</string>
     <string name="style_brightness_summary">Select light or dark themes</string>

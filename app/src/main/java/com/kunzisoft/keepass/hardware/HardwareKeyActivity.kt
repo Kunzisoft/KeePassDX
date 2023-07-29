@@ -11,11 +11,10 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
 /**
  * Special activity to deal with hardware key drivers,
@@ -49,7 +48,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         return false
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         val hardwareKey = HardwareKey.getHardwareKeyFromString(
@@ -158,8 +157,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     context.getString(R.string.error_driver_required, hardwareKey.toString())
                 )
                 .setPositiveButton(R.string.download) { _, _ ->
-                    UriUtil.openExternalApp(
-                        context,
+                    context.openExternalApp(
                         context.getString(R.string.key_driver_app_id),
                         context.getString(R.string.key_driver_url)
                     )

@@ -35,14 +35,20 @@ import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.TagsProposalAdapter
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.putParcelableList
+import com.kunzisoft.keepass.view.TagsCompletionView
+import com.kunzisoft.keepass.view.TemplateEditView
+import com.kunzisoft.keepass.view.collapse
+import com.kunzisoft.keepass.view.expand
+import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
 
@@ -71,12 +77,11 @@ class EntryEditFragment: DatabaseFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
 
         // Retrieve the textColor to tint the icon
-        val taIconColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        val taIconColor = context?.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         mIconColor = taIconColor?.getColor(0, Color.BLACK) ?: Color.BLACK
         taIconColor?.recycle()
 
-        return inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.fragment_entry_edit, container, false)
+        return inflater.inflate(R.layout.fragment_entry_edit, container, false)
     }
 
     override fun onViewCreated(view: View,
@@ -124,7 +129,7 @@ class EntryEditFragment: DatabaseFragment() {
 
         if (savedInstanceState != null) {
             val attachments: List<Attachment> =
-                savedInstanceState.getParcelableArrayList(ATTACHMENTS_TAG) ?: listOf()
+                savedInstanceState.getParcelableList(ATTACHMENTS_TAG) ?: listOf()
             setAttachments(attachments)
         }
 
@@ -268,7 +273,7 @@ class EntryEditFragment: DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
 
         templateView.populateIconMethod = { imageView, icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
@@ -379,7 +384,7 @@ class EntryEditFragment: DatabaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(ATTACHMENTS_TAG, ArrayList(getAttachments()))
+        outState.putParcelableList(ATTACHMENTS_TAG, getAttachments())
     }
 
     /* -------------

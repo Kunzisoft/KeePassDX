@@ -29,21 +29,21 @@ import android.os.CancellationSignal
 import android.service.autofill.*
 import android.util.Log
 import android.view.autofill.AutofillId
-import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.WebDomain
 import org.joda.time.DateTime
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -52,7 +52,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class KeeAutofillService : AutofillService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private var applicationIdBlocklist: Set<String>? = null
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
@@ -105,7 +105,7 @@ class KeeAutofillService : AutofillService() {
                         webDomain = parseResult.webDomain
                         webScheme = parseResult.webScheme
                     }
-                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
                         searchInfo.webDomain = webDomainWithoutSubDomain
                         val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                                 && autofillInlineSuggestionsEnabled) {
@@ -124,7 +124,7 @@ class KeeAutofillService : AutofillService() {
         }
     }
 
-    private fun launchSelection(database: Database?,
+    private fun launchSelection(database: ContextualDatabase?,
                                 searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
@@ -153,7 +153,7 @@ class KeeAutofillService : AutofillService() {
 
     @SuppressLint("RestrictedApi")
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
-                                        database: Database?,
+                                        database: ContextualDatabase?,
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                         callback: FillCallback) {

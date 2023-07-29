@@ -28,13 +28,15 @@ import android.view.MenuItem
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.settings.SettingsActivity
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
 
 object MenuUtil {
 
     fun defaultMenuInflater(context: Context, inflater: MenuInflater, menu: Menu) {
         inflater.inflate(R.menu.settings, menu)
         inflater.inflate(R.menu.about, menu)
-        if (!UriUtil.contributingUser(context))
+        if (!context.isContributingUser())
             menu.findItem(R.id.menu_contribute)?.isVisible = false
     }
 
@@ -46,7 +48,7 @@ object MenuUtil {
                                          timeoutEnable: Boolean = false) {
         when (item.itemId) {
             R.id.menu_contribute -> {
-                UriUtil.gotoUrl(activity, R.string.contribution_url)
+                activity.openUrl(R.string.contribution_url)
             }
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity

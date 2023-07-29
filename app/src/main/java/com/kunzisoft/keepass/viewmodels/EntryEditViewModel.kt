@@ -3,15 +3,24 @@ package com.kunzisoft.keepass.viewmodels
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.kunzisoft.keepass.app.database.IOActionTask
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachmentState
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.RegisterInfo
+import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
-import java.util.*
+import com.kunzisoft.keepass.utils.IOActionTask
+import java.util.UUID
 
 
 class EntryEditViewModel: NodeEditViewModel() {
@@ -64,11 +73,11 @@ class EntryEditViewModel: NodeEditViewModel() {
     val onBinaryPreviewLoaded : LiveData<AttachmentPosition> get() = _onBinaryPreviewLoaded
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
-    fun loadDatabase(database: Database?) {
+    fun loadDatabase(database: ContextualDatabase?) {
         loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo, mSearchInfo)
     }
 
-    fun loadTemplateEntry(database: Database?,
+    fun loadTemplateEntry(database: ContextualDatabase?,
                           entryId: NodeId<UUID>?,
                           parentId: NodeId<*>?,
                           registerInfo: RegisterInfo?,
@@ -150,7 +159,7 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    private fun decodeTemplateEntry(database: Database,
+    private fun decodeTemplateEntry(database: ContextualDatabase,
                                     entry: Entry?,
                                     isTemplate: Boolean,
                                     registerInfo: RegisterInfo?,
@@ -184,11 +193,11 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    fun requestEntryInfoUpdate(database: Database?) {
+    fun requestEntryInfoUpdate(database: ContextualDatabase?) {
         _requestEntryInfoUpdate.value = EntryUpdate(database, mEntry, mParent)
     }
 
-    fun saveEntryInfo(database: Database?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
+    fun saveEntryInfo(database: ContextualDatabase?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
         IOActionTask(
             {
                 removeTempAttachmentsNotCompleted(entryInfo)
@@ -316,7 +325,7 @@ class EntryEditViewModel: NodeEditViewModel() {
                               val templates: List<Template>,
                               val defaultTemplate: Template,
                               val entryInfo: EntryInfo?)
-    data class EntryUpdate(val database: Database?, val entry: Entry?, val parent: Group?)
+    data class EntryUpdate(val database: ContextualDatabase?, val entry: Entry?, val parent: Group?)
     data class EntrySave(val oldEntry: Entry, val newEntry: Entry, val parent: Group?)
     data class FieldEdition(val oldField: Field?, val newField: Field?)
     data class AttachmentBuild(val attachmentToUploadUri: Uri, val fileName: String)

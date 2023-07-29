@@ -33,16 +33,17 @@
 		android:layout_width="0dp"
 		android:gravity="center"
 		android:layout_marginBottom="8dp"
-		style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+		style="@style/KeepassDXStyle.SubTitle"/>
 
-	<androidx.appcompat.widget.SwitchCompat
+	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_margin="24dp"
 		android:text="@string/enable"
-		android:background="@drawable/background_button_small"
-		android:textColor="?attr/textColorInverse"
+		android:background="@drawable/background_switch"
+		android:backgroundTint="?attr/colorSecondary"
+		android:textColor="?attr/colorOnSecondary"
 		android:minHeight="48dp"/>
 
 	<androidx.constraintlayout.widget.ConstraintLayout

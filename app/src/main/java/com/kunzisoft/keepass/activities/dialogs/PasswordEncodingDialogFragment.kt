@@ -26,7 +26,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.utils.getParcelableCompat
 
 class PasswordEncodingDialogFragment : DialogFragment() {
 
@@ -49,8 +50,8 @@ class PasswordEncodingDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val databaseUri: Uri? = savedInstanceState?.getParcelable(DATABASE_URI_KEY)
-        val mainCredential: MainCredential = savedInstanceState?.getParcelable(MAIN_CREDENTIAL) ?: MainCredential()
+        val databaseUri: Uri? = savedInstanceState?.getParcelableCompat(DATABASE_URI_KEY)
+        val mainCredential: MainCredential = savedInstanceState?.getParcelableCompat(MAIN_CREDENTIAL) ?: MainCredential()
 
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
@@ -78,8 +79,10 @@ class PasswordEncodingDialogFragment : DialogFragment() {
         private const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         private const val MAIN_CREDENTIAL = "MAIN_CREDENTIAL"
 
-        fun getInstance(databaseUri: Uri,
-                        mainCredential: MainCredential): SortDialogFragment {
+        fun getInstance(
+            databaseUri: Uri,
+            mainCredential: MainCredential
+        ): SortDialogFragment {
             val fragment = SortDialogFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(DATABASE_URI_KEY, databaseUri)

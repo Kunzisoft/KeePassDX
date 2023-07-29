@@ -36,11 +36,14 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.CompatInlineSuggestionsRequest
 import com.kunzisoft.keepass.autofill.KeeAutofillService
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.WebDomain
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
@@ -58,7 +61,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         // Retrieve selection mode
@@ -69,11 +72,11 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         // To pass extra inline request
                         var compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            compatInlineSuggestionsRequest = bundle.getParcelable(KEY_INLINE_SUGGESTION)
+                            compatInlineSuggestionsRequest = bundle.getParcelableCompat(KEY_INLINE_SUGGESTION)
                         }
                         // Build search param
-                        bundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
-                            SearchInfo.getConcreteWebDomain(
+                        bundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
+                            WebDomain.getConcreteWebDomain(
                                 this,
                                 searchInfo.webDomain
                             ) { concreteWebDomain ->
@@ -99,9 +102,9 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 }
                 SpecialMode.REGISTRATION -> {
                     // To register info
-                    val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
+                    val registerInfo = intent.getParcelableExtraCompat<RegisterInfo>(KEY_REGISTER_INFO)
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
                         launchRegistration(database, searchInfo, registerInfo)
                     }
@@ -115,7 +118,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         }
     }
 
-    private fun launchSelection(database: Database?,
+    private fun launchSelection(database: ContextualDatabase?,
                                 autofillComponent: AutofillComponent?,
                                 searchInfo: SearchInfo) {
         if (autofillComponent == null) {
@@ -158,7 +161,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         }
     }
 
-    private fun launchRegistration(database: Database?,
+    private fun launchRegistration(database: ContextualDatabase?,
                                    searchInfo: SearchInfo,
                                    registerInfo: RegisterInfo?) {
         if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,

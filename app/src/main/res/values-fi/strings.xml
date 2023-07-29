@@ -192,7 +192,7 @@
     <string name="menu_appearance_settings">Ulkonäkö</string>
     <string name="database_history">Historia</string>
     <string name="biometric">Biometrinen</string>
-    <string name="no_credentials_stored">Tässä salasanatietokannassa ei ole vielä pääsytietoja.</string>
+    <string name="unavailable">Tässä salasanatietokannassa ei ole vielä pääsytietoja.</string>
     <string name="keystore_not_accessible">Avainsäilöä ei ole kunnolla alustettu.</string>
     <string name="build_label">Koontiversio %1$s</string>
     <string name="warning_database_link_revoked">Tiedostoon pääsy evätty</string>

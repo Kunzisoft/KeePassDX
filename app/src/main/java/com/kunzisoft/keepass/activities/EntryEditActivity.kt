@@ -19,8 +19,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -32,7 +30,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ProgressBar
+import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -44,10 +44,16 @@ import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
+import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -55,7 +61,11 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
@@ -76,18 +86,20 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
-import org.joda.time.DateTime
-import java.util.*
+import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
         EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         SetOTPDialogFragment.CreateOtpListener,
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
         FileTooBigDialogFragment.ActionChooseListener,
         ReplaceFileDialogFragment.ActionChooseListener {
 
@@ -161,14 +173,14 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // Entry is retrieve, it's an entry to update
         var entryId: NodeId<UUID>? = null
-        intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
+        intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY)?.let { entryToUpdate ->
             intent.removeExtra(KEY_ENTRY)
             entryId = entryToUpdate
         }
 
         // Parent is retrieve, it's a new entry to create
         var parentId: NodeId<*>? = null
-        intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let { parent ->
+        intent.getParcelableExtraCompat<NodeId<*>>(KEY_PARENT)?.let { parent ->
             intent.removeExtra(KEY_PARENT)
             parentId = parent
         }
@@ -185,7 +197,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             uri?.let { attachmentToUploadUri ->
-                UriUtil.getFileData(this, attachmentToUploadUri)?.also { documentFile ->
+                attachmentToUploadUri.getDocumentFile(this)?.also { documentFile ->
                     documentFile.name?.let { fileName ->
                         if (documentFile.length() > MAX_WARNING_BINARY_FILE) {
                             FileTooBigDialogFragment.build(attachmentToUploadUri, fileName)
@@ -203,7 +215,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         // Lock button
         lockView?.setOnClickListener { lockAndExit() }
         // Save button
-        validateButton?.setOnClickListener { saveEntry() }
+        validateButton?.setOnClickListener { validateEntry() }
 
         mEntryEditViewModel.onTemplateChanged.observe(this) { template ->
             this.mTemplate = template
@@ -221,7 +233,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 this@EntryEditActivity,
                                 templates
                             ).apply {
-                                iconDrawableFactory = mIconDrawableFactory
+                                iconDrawableFactory = mDatabase?.iconDrawableFactory
                             }
                             adapter = mTemplatesSelectorAdapter
                             val selectedTemplate = if (mTemplate != null)
@@ -272,14 +284,20 @@ class EntryEditActivity : DatabaseLockActivity(),
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
                 // Launch the time picker
-                val dateTime = DateTime(dateInstant.date)
-                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
-                    .show(supportFragmentManager, "TimePickerFragment")
+                MaterialTimePicker.Builder().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mEntryEditViewModel.selectTime(this.hour, this.minute)
+                    }
+                    show(supportFragmentManager, "TimePickerFragment")
+                }
             } else {
                 // Launch the date picker
-                val dateTime = DateTime(dateInstant.date)
-                DatePickerFragment.getInstance(dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
-                    .show(supportFragmentManager, "DatePickerFragment")
+                MaterialDatePicker.Builder.datePicker().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mEntryEditViewModel.selectDate(it)
+                    }
+                    show(supportFragmentManager, "DatePickerFragment")
+                }
             }
         }
 
@@ -368,19 +386,19 @@ class EntryEditActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
         mEntryEditViewModel.loadDatabase(database)
         mTemplatesSelectorAdapter?.apply {
-            iconDrawableFactory = mIconDrawableFactory
+            iconDrawableFactory = mDatabase?.iconDrawableFactory
             notifyDataSetChanged()
         }
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -433,7 +451,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForKeyboardSelection(database: Database, entry: Entry) {
+    private fun entryValidatedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
@@ -444,7 +462,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForAutofillSelection(database: Database, entry: Entry) {
+    private fun entryValidatedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
@@ -546,9 +564,9 @@ class EntryEditActivity : DatabaseLockActivity(),
     }
 
     /**
-     * Saves the new entry or update an existing entry in the database
+     * Validate the new entry or update an existing entry in the database
      */
-    private fun saveEntry() {
+    private fun validateEntry() {
         mAttachmentFileBinderManager?.stopUploadAllAttachments()
         mEntryEditViewModel.requestEntryInfoUpdate(mDatabase)
     }
@@ -630,14 +648,29 @@ class EntryEditActivity : DatabaseLockActivity(),
                 )
                 if (!addAttachmentEducationPerformed) {
                     val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
-                    setupOtpView != null
+                    val validateEntryEducationPerformed = setupOtpView != null
                             && setupOtpView.isVisible
                             && mEntryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
                             setupOtpView,
                             {
                                 setupOtp()
+                            },
+                            {
+                                performedNextEducation()
                             }
                     )
+                    if (!validateEntryEducationPerformed) {
+                        val entryValidateView = validateButton
+                        mAllowCustomFields
+                                && entryValidateView != null
+                                && entryValidateView.isVisible
+                                && mEntryEditActivityEducation.checkAndPerformedValidateEntryEducation(
+                                entryValidateView,
+                                {
+                                    validateEntry()
+                                }
+                        )
+                    }
                 }
             }
         }
@@ -663,18 +696,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        // To fix android 4.4 issue
-        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
-        if (datePicker?.isShown == true) {
-            mEntryEditViewModel.selectDate(year, month, day)
-        }
-    }
-
-    override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
-        mEntryEditViewModel.selectTime(hours, minutes)
     }
 
     override fun onBackPressed() {
@@ -734,7 +755,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             return fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
-                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                        result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
                     )
                 } else {
                     entryAddedOrUpdatedListener.invoke(null)
@@ -747,7 +768,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
-                        result.data?.getParcelableExtra(ADD_OR_UPDATE_ENTRY_KEY)
+                        result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
                     )
                 } else {
                     entryAddedOrUpdatedListener.invoke(null)
@@ -759,7 +780,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to update an existing entry by his [entryId]
          */
         fun launchToUpdate(activity: Activity,
-                           database: Database,
+                           database: ContextualDatabase,
                            entryId: NodeId<UUID>,
                            activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
@@ -775,7 +796,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in an existent group
          */
         fun launchToCreate(activity: Activity,
-                           database: Database,
+                           database: ContextualDatabase,
                            groupId: NodeId<*>,
                            activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded && !database.isReadOnly) {
@@ -788,7 +809,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         fun launchToUpdateForSave(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   entryId: NodeId<UUID>,
                                   searchInfo: SearchInfo) {
             if (database.loaded && !database.isReadOnly) {
@@ -805,7 +826,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         fun launchToCreateForSave(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   groupId: NodeId<*>,
                                   searchInfo: SearchInfo) {
             if (database.loaded && !database.isReadOnly) {
@@ -825,7 +846,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to add a new entry in keyboard selection
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              groupId: NodeId<*>,
                                              searchInfo: SearchInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
@@ -846,7 +867,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: AppCompatActivity,
-                                    database: Database,
+                                    database: ContextualDatabase,
                                     activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     groupId: NodeId<*>,
@@ -870,7 +891,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
         fun launchToUpdateForRegistration(context: Context,
-                                          database: Database,
+                                          database: ContextualDatabase,
                                           entryId: NodeId<UUID>,
                                           registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
@@ -890,7 +911,7 @@ class EntryEditActivity : DatabaseLockActivity(),
          * Launch EntryEditActivity to register a new entry (from autofill)
          */
         fun launchToCreateForRegistration(context: Context,
-                                          database: Database,
+                                          database: ContextualDatabase,
                                           groupId: NodeId<*>,
                                           registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {

@@ -172,16 +172,16 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
     private val onScaleGestureListener: ScaleGestureDetector.OnScaleGestureListener =
         object : ScaleGestureDetector.OnScaleGestureListener {
 
-            override fun onScale(detector: ScaleGestureDetector?): Boolean {
+            override fun onScale(detector: ScaleGestureDetector): Boolean {
                 if (isDragging() || isBitmapTranslateAnimationRunning || isBitmapScaleAnimationRunninng) {
                     return false
                 }
 
-                val scaleFactor = detector?.scaleFactor ?: 1.0f
-                val focalX = detector?.focusX ?: bitmapBounds.centerX()
-                val focalY = detector?.focusY ?: bitmapBounds.centerY()
+                val scaleFactor = detector.scaleFactor
+                val focalX = detector.focusX
+                val focalY = detector.focusY
 
-                if (detector?.scaleFactor == 1.0f) {
+                if (detector.scaleFactor == 1.0f) {
                     // scale is not changing
                     return true
                 }
@@ -191,22 +191,23 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                 return true
             }
 
-            override fun onScaleBegin(p0: ScaleGestureDetector?): Boolean = true
+            override fun onScaleBegin(p0: ScaleGestureDetector): Boolean = true
 
-            override fun onScaleEnd(p0: ScaleGestureDetector?) {}
+            override fun onScaleEnd(p0: ScaleGestureDetector) {}
+
         }
 
     private val onGestureListener: GestureDetector.OnGestureListener =
         object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDown(e: MotionEvent?): Boolean = true
+            override fun onDown(e: MotionEvent): Boolean = true
 
             override fun onScroll(
-                    e1: MotionEvent?,
-                    e2: MotionEvent?,
-                    distanceX: Float,
-                    distanceY: Float
+                e1: MotionEvent,
+                e2: MotionEvent,
+                distanceX: Float,
+                distanceY: Float
             ): Boolean {
-                if (e2?.pointerCount != 1) {
+                if (e2.pointerCount != 1) {
                     return true
                 }
 
@@ -219,13 +220,11 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
             }
 
             override fun onFling(
-                    e1: MotionEvent?,
-                    e2: MotionEvent?,
-                    velocityX: Float,
-                    velocityY: Float
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
             ): Boolean {
-                e1 ?: return true
-
                 if (scale > minScale) {
                     processFlingBitmap(velocityX, velocityY)
                 } else {
@@ -234,9 +233,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                 return true
             }
 
-            override fun onDoubleTap(e: MotionEvent?): Boolean {
-                e ?: return false
-
+            override fun onDoubleTap(e: MotionEvent): Boolean {
                 if (isBitmapScaleAnimationRunninng) {
                     return true
                 }
@@ -376,21 +373,21 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                             onViewTranslateListener?.onViewTranslate(imageView, amount)
                         }
                         .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(p0: Animator?) {
+                            override fun onAnimationStart(p0: Animator) {
 
                             }
 
-                            override fun onAnimationEnd(p0: Animator?) {
+                            override fun onAnimationEnd(p0: Animator) {
                                 isViewTranslateAnimationRunning = false
                                 onViewTranslateListener?.onDismiss(imageView)
                                 cleanup()
                             }
 
-                            override fun onAnimationCancel(p0: Animator?) {
+                            override fun onAnimationCancel(p0: Animator) {
                                 isViewTranslateAnimationRunning = false
                             }
 
-                            override fun onAnimationRepeat(p0: Animator?) {
+                            override fun onAnimationRepeat(p0: Animator) {
                                 // no op
                             }
                         })
@@ -409,21 +406,21 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                     onViewTranslateListener?.onViewTranslate(imageView, amount)
                 }
                 addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator?) {
+                    override fun onAnimationStart(p0: Animator) {
                         // no op
                     }
 
-                    override fun onAnimationEnd(p0: Animator?) {
+                    override fun onAnimationEnd(p0: Animator) {
                         isViewTranslateAnimationRunning = false
                         onViewTranslateListener?.onDismiss(imageView)
                         cleanup()
                     }
 
-                    override fun onAnimationCancel(p0: Animator?) {
+                    override fun onAnimationCancel(p0: Animator) {
                         isViewTranslateAnimationRunning = false
                     }
 
-                    override fun onAnimationRepeat(p0: Animator?) {
+                    override fun onAnimationRepeat(p0: Animator) {
                         // no op
                     }
                 })
@@ -480,20 +477,20 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                 setTransform()
             }
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {
+                override fun onAnimationStart(p0: Animator) {
                     isBitmapTranslateAnimationRunning = true
                 }
 
-                override fun onAnimationEnd(p0: Animator?) {
+                override fun onAnimationEnd(p0: Animator) {
                     isBitmapTranslateAnimationRunning = false
                     constrainBitmapBounds()
                 }
 
-                override fun onAnimationCancel(p0: Animator?) {
+                override fun onAnimationCancel(p0: Animator) {
                     isBitmapTranslateAnimationRunning = false
                 }
 
-                override fun onAnimationRepeat(p0: Animator?) {
+                override fun onAnimationRepeat(p0: Animator) {
                     // no op
                 }
             })
@@ -531,11 +528,11 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                 setTransform()
             }
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {
+                override fun onAnimationStart(p0: Animator) {
                     isBitmapScaleAnimationRunninng = true
                 }
 
-                override fun onAnimationEnd(p0: Animator?) {
+                override fun onAnimationEnd(p0: Animator) {
                     isBitmapScaleAnimationRunninng = false
                     if (endScale == minScale) {
                         zoomToTargetScale(minScale, focalX, focalY)
@@ -543,11 +540,11 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                     }
                 }
 
-                override fun onAnimationCancel(p0: Animator?) {
+                override fun onAnimationCancel(p0: Animator) {
                     isBitmapScaleAnimationRunninng = false
                 }
 
-                override fun onAnimationRepeat(p0: Animator?) {
+                override fun onAnimationRepeat(p0: Animator) {
                     // no op
                 }
             })
@@ -585,11 +582,11 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                 setTransform()
             }
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {
+                override fun onAnimationStart(p0: Animator) {
                     isBitmapScaleAnimationRunninng = true
                 }
 
-                override fun onAnimationEnd(p0: Animator?) {
+                override fun onAnimationEnd(p0: Animator) {
                     isBitmapScaleAnimationRunninng = false
                     if (endScale == minScale) {
                         scale = minScale
@@ -599,11 +596,11 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                     }
                 }
 
-                override fun onAnimationCancel(p0: Animator?) {
+                override fun onAnimationCancel(p0: Animator) {
                     isBitmapScaleAnimationRunninng = false
                 }
 
-                override fun onAnimationRepeat(p0: Animator?) {
+                override fun onAnimationRepeat(p0: Animator) {
                     // no op
                 }
             })
@@ -669,19 +666,19 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                             onViewTranslateListener?.onViewTranslate(this, amount)
                         }
                         .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(p0: Animator?) {
+                            override fun onAnimationStart(p0: Animator) {
                                 // no op
                             }
 
-                            override fun onAnimationEnd(p0: Animator?) {
+                            override fun onAnimationEnd(p0: Animator) {
                                 onViewTranslateListener?.onRestore(imageView)
                             }
 
-                            override fun onAnimationCancel(p0: Animator?) {
+                            override fun onAnimationCancel(p0: Animator) {
                                 // no op
                             }
 
-                            override fun onAnimationRepeat(p0: Animator?) {
+                            override fun onAnimationRepeat(p0: Animator) {
                                 // no op
                             }
                         })
@@ -696,19 +693,19 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                     onViewTranslateListener?.onViewTranslate(imageView, amount)
                 }
                 addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator?) {
+                    override fun onAnimationStart(p0: Animator) {
                         // no op
                     }
 
-                    override fun onAnimationEnd(p0: Animator?) {
+                    override fun onAnimationEnd(p0: Animator) {
                         onViewTranslateListener?.onRestore(imageView)
                     }
 
-                    override fun onAnimationCancel(p0: Animator?) {
+                    override fun onAnimationCancel(p0: Animator) {
                         // no op
                     }
 
-                    override fun onAnimationRepeat(p0: Animator?) {
+                    override fun onAnimationRepeat(p0: Animator) {
                         // no op
                     }
                 })
@@ -737,27 +734,27 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                             onViewTranslateListener?.onViewTranslate(this, amount)
                         }
                         .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(p0: Animator?) {
+                            override fun onAnimationStart(p0: Animator) {
                                 isViewTranslateAnimationRunning = true
                             }
 
-                            override fun onAnimationEnd(p0: Animator?) {
+                            override fun onAnimationEnd(p0: Animator) {
                                 isViewTranslateAnimationRunning = false
                                 onViewTranslateListener?.onDismiss(imageView)
                                 cleanup()
                             }
 
-                            override fun onAnimationCancel(p0: Animator?) {
+                            override fun onAnimationCancel(p0: Animator) {
                                 isViewTranslateAnimationRunning = false
                             }
 
-                            override fun onAnimationRepeat(p0: Animator?) {
+                            override fun onAnimationRepeat(p0: Animator) {
                                 // no op
                             }
                         })
             }
         } else {
-            ObjectAnimator.ofFloat(imageView, View.TRANSLATION_Y, imageView.translationY.toFloat()).apply {
+            ObjectAnimator.ofFloat(imageView, View.TRANSLATION_Y, imageView.translationY).apply {
                 duration = dismissAnimationDuration
                 interpolator = AccelerateDecelerateInterpolator()
                 addUpdateListener {
@@ -766,21 +763,21 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                     onViewTranslateListener?.onViewTranslate(imageView, amount)
                 }
                 addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator?) {
+                    override fun onAnimationStart(p0: Animator) {
                         isViewTranslateAnimationRunning = true
                     }
 
-                    override fun onAnimationEnd(p0: Animator?) {
+                    override fun onAnimationEnd(p0: Animator) {
                         isViewTranslateAnimationRunning = false
                         onViewTranslateListener?.onDismiss(imageView)
                         cleanup()
                     }
 
-                    override fun onAnimationCancel(p0: Animator?) {
+                    override fun onAnimationCancel(p0: Animator) {
                         isViewTranslateAnimationRunning = false
                     }
 
-                    override fun onAnimationRepeat(p0: Animator?) {
+                    override fun onAnimationRepeat(p0: Animator) {
                         // no op
                     }
                 })

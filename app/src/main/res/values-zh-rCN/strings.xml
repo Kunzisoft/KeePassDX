@@ -208,7 +208,7 @@
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">构建 %1$s</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
-    <string name="no_credentials_stored">当前数据库无密码。</string>
+    <string name="unavailable">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认的填充服务</string>
     <string name="autofill_explanation_summary">启用自动填充功能，以快速填写其他应用中的表单</string>
     <string name="password_size_title">密码生成长度</string>
@@ -500,8 +500,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">用高级解锁识别打开数据库</string>
     <string name="advanced_unlock_prompt_store_credential_message">即使您使用高级解锁识别，您仍然需要记住您的主凭据。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高级解锁识别</string>
-    <string name="open_advanced_unlock_prompt_store_credential">点击以打开高级解锁提示来存储凭证</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">点击以使用高级识别解锁</string>
     <string name="menu_keystore_remove_key">删除高级解锁密钥</string>
     <string name="enter">输入</string>
     <string name="backspace">退格键</string>
@@ -668,4 +666,5 @@
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>
     <string name="html_about_privacy">&lt;strong&gt;不获取用户数据&lt;/strong&gt;，此应用不连接任何服务器，仅在本地运行，并充分尊重用户的隐私。</string>
+    <string name="merge_success">合并成功完成</string>
 </resources>

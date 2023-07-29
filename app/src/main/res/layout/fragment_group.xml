@@ -32,7 +32,7 @@
 		<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:background="?attr/colorPrimary">
+			android:background="?attr/colorSurface">
 			<LinearLayout
 				android:id="@+id/title_block"
 				android:layout_width="match_parent"
@@ -40,8 +40,7 @@
 				android:orientation="vertical"
 				android:padding="@dimen/default_margin"
 				android:background="@drawable/background_repeat"
-				android:gravity="center"
-				style="@style/KeepassDXStyle.TextAppearance.Default">
+				android:gravity="center">
 
 				<!-- Icon -->
 				<androidx.appcompat.widget.AppCompatImageView
@@ -59,7 +58,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:gravity="center"
-					style="@style/KeepassDXStyle.Expanded.Title" />
+					style="@style/KeepassDXStyle.Title.Large.OnSurface" />
 			</LinearLayout>
 		</FrameLayout>
 

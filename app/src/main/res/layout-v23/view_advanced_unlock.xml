@@ -17,56 +17,11 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fingerprint_container"
-    android:layout_width="match_parent"
+    android:id="@+id/biometric_button"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:filterTouchesWhenObscured="true">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/biometric_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"
-        android:elevation="8dp"
-        android:src="@drawable/fingerprint"
-        android:background="@drawable/background_image"
-        android:backgroundTint="?attr/colorAccent" />
-
-    <TextView
-        android:id="@+id/biometric_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/biometric_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/biometric_message"
-        tools:text="@string/advanced_unlock_prompt_store_credential_title"
-        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/biometric_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:orientation="vertical"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/biometric_title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="Sample error"
-        style="@style/KeepassDXStyle.TextAppearance.Warning.TextOnPrimary"
-        android:gravity="center" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    style="@style/KeepassDXStyle.Button.Secondary"
+    app:icon="@drawable/ic_fingerprint_24dp"
+    android:text="@string/configure" />

@@ -30,7 +30,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -73,7 +73,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         minSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_min)
         maxSliderWordCount = resources.getInteger(R.integer.passphrase_generator_word_count_max)
 
-        contextThemed?.let { context ->
+        context?.let { context ->
             passphraseCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(context)
@@ -244,7 +244,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         // Nothing here
     }
 

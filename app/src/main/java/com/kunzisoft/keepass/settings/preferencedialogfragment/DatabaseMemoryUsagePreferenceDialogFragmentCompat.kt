@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.utils.DataByte
 
 class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -34,7 +34,7 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
         setExplanationText(R.string.memory_usage_explanation)
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         database?.let {
             val memoryBytes = database.memoryUsage
@@ -45,7 +45,7 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
         }
     }
 
-    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+    override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         if (positiveResult) {
             database?.let {
                 var newMemoryUsage: Long = try {

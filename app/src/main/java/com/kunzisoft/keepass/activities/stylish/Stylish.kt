@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import androidx.annotation.StyleRes
+import com.google.android.material.color.DynamicColors
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
@@ -38,7 +39,7 @@ object Stylish {
      * @param context Context to retrieve the theme preference
      */
     fun load(context: Context) {
-        Log.d(Stylish::class.java.name, "Attatching to " + context.packageName)
+        Log.d(Stylish::class.java.name, "Attaching to " + context.packageName)
         try {
             themeString = PreferencesUtil.getStyle(context)
         } catch (e: Exception) {
@@ -46,7 +47,7 @@ object Stylish {
         }
     }
 
-    fun retrieveEquivalentSystemStyle(context: Context, styleString: String): String {
+    fun retrieveEquivalentSystemStyle(context: Context, styleString: String?): String {
         val systemNightMode = when (PreferencesUtil.getStyleBrightness(context)) {
             context.getString(R.string.list_style_brightness_light) -> false
             context.getString(R.string.list_style_brightness_night) -> true
@@ -58,14 +59,21 @@ object Stylish {
             }
         }
         return if (systemNightMode) {
-            retrieveEquivalentNightStyle(context, styleString)
+            retrieveEquivalentNightStyle(
+                context,
+                styleString ?: context.getString(R.string.list_style_name_night)
+            )
         } else {
-            retrieveEquivalentLightStyle(context, styleString)
+            retrieveEquivalentLightStyle(
+                context,
+                styleString ?: context.getString(R.string.list_style_name_light)
+            )
         }
     }
 
     fun retrieveEquivalentLightStyle(context: Context, styleString: String): String {
         return when (styleString) {
+            context.getString(R.string.list_style_name_dynamic_night) -> context.getString(R.string.list_style_name_dynamic_light)
             context.getString(R.string.list_style_name_night) -> context.getString(R.string.list_style_name_light)
             context.getString(R.string.list_style_name_black) -> context.getString(R.string.list_style_name_white)
             context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_clear)
@@ -80,6 +88,7 @@ object Stylish {
 
     private fun retrieveEquivalentNightStyle(context: Context, styleString: String): String {
         return when (styleString) {
+            context.getString(R.string.list_style_name_dynamic_light) -> context.getString(R.string.list_style_name_dynamic_night)
             context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_night)
             context.getString(R.string.list_style_name_white) -> context.getString(R.string.list_style_name_black)
             context.getString(R.string.list_style_name_clear) -> context.getString(R.string.list_style_name_dark)
@@ -104,6 +113,13 @@ object Stylish {
         PreferencesUtil.setStyle(context, styleString)
     }
 
+    fun isDynamic(context: Context): Boolean {
+        return DynamicColors.isDynamicColorAvailable() && (
+                themeString == context.getString(R.string.list_style_name_dynamic_night)
+                        || themeString == context.getString(R.string.list_style_name_dynamic_light)
+                )
+    }
+
     /**
      * Function that returns the current id of the style selected in the preference
      * @param context Context to retrieve the id
@@ -111,7 +127,7 @@ object Stylish {
      */
     @StyleRes
     fun getThemeId(context: Context): Int {
-        return when (retrieveEquivalentSystemStyle(context, themeString ?: context.getString(R.string.list_style_name_light))) {
+        return when (retrieveEquivalentSystemStyle(context, themeString)) {
             context.getString(R.string.list_style_name_night) -> R.style.KeepassDXStyle_Night
             context.getString(R.string.list_style_name_white) -> R.style.KeepassDXStyle_White
             context.getString(R.string.list_style_name_black) -> R.style.KeepassDXStyle_Black
@@ -127,6 +143,8 @@ object Stylish {
             context.getString(R.string.list_style_name_reply_night) -> R.style.KeepassDXStyle_Reply_Night
             context.getString(R.string.list_style_name_purple) -> R.style.KeepassDXStyle_Purple
             context.getString(R.string.list_style_name_purple_dark) -> R.style.KeepassDXStyle_Purple_Dark
+            context.getString(R.string.list_style_name_dynamic_light) -> R.style.KeepassDXStyle_Light_Dynamic
+            context.getString(R.string.list_style_name_dynamic_night) -> R.style.KeepassDXStyle_Night_Dynamic
             else -> R.style.KeepassDXStyle_Light
         }
     }

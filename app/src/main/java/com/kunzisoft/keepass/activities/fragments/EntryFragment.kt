@@ -14,14 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.hideByFading
@@ -57,8 +59,7 @@ class EntryFragment: DatabaseFragment() {
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        return inflater.cloneInContext(contextThemed)
-            .inflate(R.layout.fragment_entry, container, false)
+        return inflater.inflate(R.layout.fragment_entry, container, false)
     }
     
     override fun onViewCreated(view: View,
@@ -132,7 +133,7 @@ class EntryFragment: DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         context?.let { context ->
             attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
             attachmentsAdapter?.database = database

@@ -34,7 +34,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
@@ -47,7 +47,9 @@ import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
 
 class NestedAppSettingsFragment : NestedSettingsFragment() {
@@ -81,7 +83,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.remember_database_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
                     FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll {
-                        UriUtil.releaseAllUnnecessaryPermissionUris(activity.applicationContext)
+                        activity.releaseAllUnnecessaryPermissionUris()
                     }
                 }
                 true
@@ -90,7 +92,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.remember_keyfile_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
                     FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles {
-                        UriUtil.releaseAllUnnecessaryPermissionUris(activity.applicationContext)
+                        activity.releaseAllUnnecessaryPermissionUris()
                     }
                 }
                 true
@@ -117,14 +119,14 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
+                val autoFillEnablePreference: TwoStatePreference? = findPreference(getString(R.string.settings_autofill_enable_key))
                 val autofillManager = activity.getSystemService(AutofillManager::class.java)
                 if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
                     autoFillEnablePreference?.isChecked = autofillManager.hasEnabledAutofillServices()
                 autoFillEnablePreference?.onPreferenceClickListener = object : Preference.OnPreferenceClickListener {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     override fun onPreferenceClick(preference: Preference): Boolean {
-                        if ((preference as SwitchPreference).isChecked) {
+                        if ((preference as TwoStatePreference).isChecked) {
                             try {
                                 enableService()
                             } catch (e: ActivityNotFoundException) {
@@ -168,7 +170,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.magic_keyboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.magic_keyboard_explanation_url)
+            context?.openUrl(R.string.magic_keyboard_explanation_url)
             false
         }
 
@@ -185,7 +187,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.autofill_explanation_url)
+            context?.openUrl(R.string.autofill_explanation_url)
             false
         }
 
@@ -202,18 +204,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.clipboard_explanation_url)
+            context?.openUrl(R.string.clipboard_explanation_url)
             false
         }
 
-        val copyPasswordPreference: SwitchPreference? = findPreference(getString(R.string.allow_copy_password_key))
+        val copyPasswordPreference: TwoStatePreference? = findPreference(getString(R.string.allow_copy_password_key))
         copyPasswordPreference?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue as Boolean && context != null) {
                 val message = getString(R.string.allow_copy_password_warning) +
                         "\n\n" +
                         getString(R.string.clipboard_warning)
-                AlertDialog
-                        .Builder(requireContext())
+                AlertDialog.Builder(requireContext())
                         .setMessage(message)
                         .create()
                         .apply {
@@ -238,10 +239,10 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
 
-            val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
-            val deviceCredentialUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.device_credential_unlock_enable_key))
-            val autoOpenPromptPreference: SwitchPreference? = findPreference(getString(R.string.biometric_auto_open_prompt_key))
-            val tempAdvancedUnlockPreference: SwitchPreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
+            val biometricUnlockEnablePreference: TwoStatePreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
+            val deviceCredentialUnlockEnablePreference: TwoStatePreference? = findPreference(getString(R.string.device_credential_unlock_enable_key))
+            val autoOpenPromptPreference: TwoStatePreference? = findPreference(getString(R.string.biometric_auto_open_prompt_key))
+            val tempAdvancedUnlockPreference: TwoStatePreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
 
             val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 AdvancedUnlockManager.biometricUnlockSupported(activity)
@@ -251,7 +252,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 if (!biometricUnlockSupported) {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
-                        (preference as SwitchPreference).isChecked = false
+                        (preference as TwoStatePreference).isChecked = false
                         UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                 .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
@@ -298,7 +299,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 if (!deviceCredentialUnlockSupported) {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
-                        (preference as SwitchPreference).isChecked = false
+                        (preference as TwoStatePreference).isChecked = false
                         UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
                                 .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
@@ -360,7 +361,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.advanced_unlock_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(requireContext(), R.string.advanced_unlock_explanation_url)
+            context?.openUrl(R.string.advanced_unlock_explanation_url)
             false
         }
     }
@@ -404,7 +405,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
                 val styleIdString = newValue as String
-                if (!UriUtil.contributingUser(activity)) {
+                if (!activity.isContributingUser()) {
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
@@ -435,7 +436,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (!UriUtil.contributingUser(activity)) {
+                if (!activity.isContributingUser()) {
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false
@@ -521,7 +522,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         super.onResume()
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                findPreference<SwitchPreference?>(getString(R.string.settings_autofill_enable_key))?.let { autoFillEnablePreference ->
+                findPreference<TwoStatePreference?>(getString(R.string.settings_autofill_enable_key))?.let { autoFillEnablePreference ->
                     val autofillManager = activity.getSystemService(AutofillManager::class.java)
                     autoFillEnablePreference.isChecked = autofillManager != null
                             && autofillManager.hasEnabledAutofillServices()

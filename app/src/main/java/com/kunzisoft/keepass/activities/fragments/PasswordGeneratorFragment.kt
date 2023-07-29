@@ -32,7 +32,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.slider.Slider
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -94,7 +94,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         atLeastOneCompound = view.findViewById(R.id.atLeastOne_filter)
         excludeAmbiguousCompound = view.findViewById(R.id.excludeAmbiguous_filter)
 
-        contextThemed?.let { context ->
+        context?.let { context ->
             passwordCopyView?.visibility = if(PreferencesUtil.allowCopyProtectedFields(context))
                 View.VISIBLE else View.GONE
             val clipboardHelper = ClipboardHelper(context)
@@ -318,7 +318,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         super.onDestroy()
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         // Nothing here
     }
 

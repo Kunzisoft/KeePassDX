@@ -30,9 +30,9 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
         android:gravity="center"
-		android:layout_marginBottom="8dp"
+		android:layout_marginBottom="12dp"
 		android:visibility="gone"
-        style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+        style="@style/KeepassDXStyle.SubTitle"/>
 	<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pref_dialog_list"
 	  	android:layout_height="wrap_content"

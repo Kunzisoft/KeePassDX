@@ -20,20 +20,20 @@
 package com.kunzisoft.keepass.database.action.history
 
 import android.content.Context
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class RestoreEntryHistoryDatabaseRunnable (
-        private val context: Context,
-        private val database: Database,
-        private val mainEntry: Entry,
-        private val entryHistoryPosition: Int,
-        private val saveDatabase: Boolean,
-        private val challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray)
-    : ActionRunnable() {
+    private val context: Context,
+    private val database: ContextualDatabase,
+    private val mainEntry: Entry,
+    private val entryHistoryPosition: Int,
+    private val saveDatabase: Boolean,
+    private val challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
+) : ActionRunnable() {
 
     private var updateEntryRunnable: UpdateEntryRunnable? = null
 
