@@ -35,7 +35,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -49,7 +48,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -97,6 +95,7 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
@@ -223,8 +222,7 @@ class GroupActivity : DatabaseLockActivity(),
             && PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
             // Change to the previous keyboard and show it
             sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
-            ContextCompat.getSystemService(this, InputMethodManager::class.java)
-                ?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            view.showKeyboard()
         }
     }
 
