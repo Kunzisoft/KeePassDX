@@ -58,7 +58,7 @@
     <string name="entry_created">Erstellt</string>
     <string name="entry_expires">Gültig bis</string>
     <string name="entry_keyfile">Schlüsseldatei</string>
-    <string name="entry_modified">Bearbeitet</string>
+    <string name="entry_modified">Geändert</string>
     <string name="entry_not_found">Zugriffsdaten wurden nicht gefunden.</string>
     <string name="entry_password">Passwort</string>
     <string name="save">Speichern</string>
