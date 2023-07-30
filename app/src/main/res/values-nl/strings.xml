@@ -172,9 +172,9 @@
     <string name="sort_recycle_bin_bottom">Prullenbak onderaan</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Gebruikersnaam</string>
-    <string name="sort_creation_time">Gecreëerd op</string>
-    <string name="sort_last_modify_time">Aangepast om</string>
-    <string name="sort_last_access_time">Geopend om</string>
+    <string name="sort_creation_time">Aanmaakdatum</string>
+    <string name="sort_last_modify_time">Aangepast op</string>
+    <string name="sort_last_access_time">Geopend op</string>
     <string name="warning">Waarschuwing</string>
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
@@ -409,7 +409,7 @@
     <string name="autofill_preference_title">Instellingen voor automatisch aanvullen</string>
     <string name="keystore_not_accessible">De sleutelopslag is niet correct geïnitialiseerd.</string>
     <string name="warning_permanently_delete_nodes">Geselecteerde knooppunten definitief verwijderen\?</string>
-    <string name="warning_database_link_revoked">Toegang tot het bestand ingetrokken door bestandsbeheer</string>
+    <string name="warning_database_link_revoked">Bestandsbeheer heeft de toegang tot het bestand ingetrokken</string>
     <string name="warning_database_read_only">Bestandstoegang verlenen om databasewijzigingen op te slaan</string>
     <string name="command_execution">Opdracht uitvoeren…</string>
     <string name="hide_broken_locations_summary">Verbroken koppelingen in de lijst met recente databases verbergen</string>
@@ -458,7 +458,7 @@
     <string name="warning_file_too_big">Een KeePass database is bedoeld om alleen kleine gebruiksbestanden te bevatten (zoals PGP sleutelbestanden).
 \n
 \nMet deze upload kan de database erg groot worden en kunnen de prestaties verminderen.</string>
-    <string name="warning_replace_file">Uploaden van dit bestand zal het bestaande bestand vervangen.</string>
+    <string name="warning_replace_file">De upload van dit bestand zal het bestaande bestand vervangen.</string>
     <string name="content_description_credentials_information">Inloggegevens</string>
     <string name="warning_remove_unlinked_attachment">Het verwijderen van niet-gekoppelde gegevens kan de omvang van uw database verkleinen, maar kan ook gegevens verwijderen die voor KeePass-plug-ins worden gebruikt.</string>
     <string name="warning_sure_remove_data">Deze gegevens toch verwijderen\?</string>
