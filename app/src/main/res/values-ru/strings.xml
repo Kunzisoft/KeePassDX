@@ -412,10 +412,10 @@
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Базы паролей</string>
-    <string name="remember_database_locations_summary">Помнить расположение баз паролей</string>
-    <string name="remember_keyfile_locations_title">Ключи</string>
-    <string name="remember_keyfile_locations_summary">Помнить расположение ключей баз паролей</string>
+    <string name="remember_database_locations_title">Помнить расположение баз паролей</string>
+    <string name="remember_database_locations_summary">Помнить расположение файлов баз паролей</string>
+    <string name="remember_keyfile_locations_title">Помнить расположение ключей</string>
+    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз паролей</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
@@ -659,7 +659,7 @@
     <string name="remember_hardware_key_title">Помнить аппаратные ключи</string>
     <string name="remember_hardware_key_summary">Помнить используемые аппаратные ключи</string>
     <string name="screenshot_mode_banner_text">Режим снимка экрана</string>
-    <string name="enable_screenshot_mode_title">Режим снимка экрана</string>
+    <string name="enable_screenshot_mode_title">Разрешать снимки экрана</string>
     <string name="hardware_key">Аппаратный ключ</string>
     <string name="enable_screenshot_mode_summary">Разрешать сторонним приложениям делать снимки или запись экрана приложения</string>
     <string name="waiting_challenge_request">Ожидание запроса на вызов…</string>
