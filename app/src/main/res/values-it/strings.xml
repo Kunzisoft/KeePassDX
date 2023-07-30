@@ -26,7 +26,7 @@
     <string name="add_entry">Aggiungi elemento</string>
     <string name="add_group">Aggiungi gruppo</string>
     <string name="encryption_algorithm">Algoritmo di cifratura</string>
-    <string name="app_timeout">Timeout</string>
+    <string name="app_timeout">Scadenza</string>
     <string name="app_timeout_summary">Tempo di inattività prima del blocco del database</string>
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
@@ -47,7 +47,7 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open-source&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;.
 \nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
-    <string name="select_database_file">Apri un database esistente</string>
+    <string name="select_database_file">Apri una cassaforte esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
     <string name="entry_cancel">Annulla</string>
     <string name="entry_confpassword">Conferma password</string>
@@ -134,7 +134,7 @@
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file del database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
     <string name="version_label">Versione %1$s</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
-    <string name="unavailable">Questo database non contiene alcuna credenziale.</string>
+    <string name="unavailable">Non disponibile</string>
     <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
 \n
 \nEseguire il backup del file del database in un luogo sicuro dopo ogni modifica.</string>
@@ -192,18 +192,18 @@
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
     <string name="lock_database_screen_off_summary">Blocca il database dopo alcuni secondi quando lo schermo è spento</string>
-    <string name="advanced_unlock">Impronta digitale</string>
+    <string name="advanced_unlock">Sblocco con dispositivo</string>
     <string name="biometric_unlock_enable_title">Scansione biometrica</string>
     <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
-    <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di cifratura relative allo sblocco avanzato</string>
+    <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di crittografia relative allo sblocco con dispositivo</string>
     <string name="unavailable_feature_text">Impossibile avviare questa funzione.</string>
     <string name="unavailable_feature_version">Il dispositivo usa Android %1$s, ma richiede %2$s o versioni successive.</string>
     <string name="unavailable_feature_hardware">L\'hardware relativo non è stato trovato.</string>
     <string name="file_name">Nome del file</string>
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
-    <string name="create_keepass_file">Crea un nuovo database</string>
+    <string name="create_keepass_file">Crea una nuova cassaforte</string>
     <string name="recycle_bin_title">Utilizzo del Cestino</string>
     <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo «Cestino» prima di eliminarli</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
@@ -285,7 +285,7 @@
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Versione %1$s</string>
     <string name="keyboard_name">Magitastiera</string>
     <string name="keyboard_label">Magitastiera (KeePassDX)</string>
     <string name="keyboard_setting_label">Impostazioni Magitastiera</string>
@@ -339,7 +339,7 @@
     <string name="content_description_background">Sfondo</string>
     <string name="entry_UUID">Identificativo univoco universale</string>
     <string name="error_create_database_file">Impossibile creare un database con questa password e file chiave.</string>
-    <string name="menu_advanced_unlock_settings">Sblocco avanzato</string>
+    <string name="menu_advanced_unlock_settings">Sblocco con dispositivo</string>
     <string name="entry_history">Cronologia</string>
     <string name="entry_setup_otp">Imposta password usa e getta</string>
     <string name="otp_type">Tipo di OTP</string>
@@ -398,8 +398,8 @@
     <string name="recycle_bin_group_title">Gruppo cestino</string>
     <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database</string>
     <string name="database_data_compression_title">Compressione dati</string>
-    <string name="biometric_auto_open_prompt_summary">Richiedi automaticamente lo sblocco avanzato se il database è impostato per usarlo</string>
-    <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco avanzato per aprire il database più facilmente</string>
+    <string name="biometric_auto_open_prompt_summary">Richiedi automaticamente lo sblocco con dispositivo se il database è impostato per usarlo</string>
+    <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco con dispositivo per aprire un database più facilmente</string>
     <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
     <string name="database_opened">Database aperto</string>
     <string name="biometric">Biometrico</string>
@@ -448,7 +448,7 @@
     <string name="subdomain_search_title">Ricerca per sotto-dominio</string>
     <string name="content_description_add_item">Aggiungi elemento</string>
     <string name="keyboard_previous_fill_in_summary">Torna automaticamente alla tastiera precedente quando si esegue l\'azione del tasto automatico</string>
-    <string name="keyboard_previous_fill_in_title">Azione tasto automatico</string>
+    <string name="keyboard_previous_fill_in_title">Torna indietro</string>
     <string name="keyboard_previous_database_credentials_summary">Torna automaticamente alla tastiera precedente nella schermata credenziali del database</string>
     <string name="keyboard_previous_database_credentials_title">Schermata credenziali del database</string>
     <string name="keyboard_change">Cambia tastiera</string>
@@ -478,7 +478,7 @@
     <string name="autofill_close_database_summary">Chiudi il database dopo aver usato l\'autocompletamento</string>
     <string name="autofill_close_database_title">Chiudi database</string>
     <string name="keyboard_previous_lock_summary">Torna automaticamente alla tastiera precedente dopo aver bloccato il database</string>
-    <string name="keyboard_previous_lock_title">Blocca il database</string>
+    <string name="keyboard_previous_lock_title">Blocca database</string>
     <string name="keyboard_save_search_info_summary">Provare a salvare l\'informazione condivisa quando viene selezionato manualmente un elemento, per poterne facilitare gli utilizzi futuri</string>
     <string name="keyboard_save_search_info_title">Salva le informazioni condivise</string>
     <string name="notification">Notifica</string>
@@ -491,33 +491,33 @@
     <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura</string>
     <string name="configure_biometric">Nessuna credenziale biometrica o del dispositivo è registrata.</string>
     <string name="education_advanced_unlock_summary">Collega la password alla tua autenticazione biometrica (o del dispositivo) per sbloccare velocemente il database.</string>
-    <string name="education_advanced_unlock_title">Sblocco avanzato del database</string>
+    <string name="education_advanced_unlock_title">Sblocco del database con dispositivo</string>
     <string name="enter">Invio</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Seleziona voce</string>
     <string name="back_to_previous_keyboard">Torna alla tasitera precedente</string>
     <string name="custom_fields">Campi personalizzati</string>
-    <string name="advanced_unlock_delete_all_key_warning">Vuoi eliminare le chiavi di cifratura relative allo sblocco avanzato\?</string>
-    <string name="advanced_unlock_timeout">Durata dello sblocco avanzato</string>
-    <string name="temp_advanced_unlock_enable_summary">Non salvare alcun contenuto criptato per usare lo sblocco avanzato</string>
-    <string name="temp_advanced_unlock_timeout_summary">Validità dello sblocco avanzato prima di eliminarne il contenuto</string>
-    <string name="temp_advanced_unlock_timeout_title">Scadenza dello sblocco avanzato</string>
-    <string name="temp_advanced_unlock_enable_title">Sblocco avanzato temporaneo</string>
+    <string name="advanced_unlock_delete_all_key_warning">Vuoi eliminare tutte le chiavi di crittografia relative allo sblocco con dispositivo\?</string>
+    <string name="advanced_unlock_timeout">Scadenza dello sblocco con dispositivo</string>
+    <string name="temp_advanced_unlock_enable_summary">Non salvare alcun contenuto cifrato per usare lo sblocco con dispositivo</string>
+    <string name="temp_advanced_unlock_timeout_summary">Validità dell\'uso dello sblocco con dispositivo prima di eliminarne il contenuto</string>
+    <string name="temp_advanced_unlock_timeout_title">Scadenza dello sblocco con dispositivo</string>
+    <string name="temp_advanced_unlock_enable_title">Sblocco con dispositivo temporaneo</string>
     <string name="device_credential_unlock_enable_summary">Permette di usare le credenziali del dispositivo per sbloccare il database</string>
     <string name="device_credential_unlock_enable_title">Sblocco con le credenziali del dispositivo</string>
-    <string name="advanced_unlock_tap_delete">Tocca per eliminare le chiavi di sblocco avanzato</string>
+    <string name="advanced_unlock_tap_delete">Tocca per eliminare le chiavi di sblocco con dispositivo</string>
     <string name="content">Contenuto</string>
-    <string name="advanced_unlock_prompt_not_initialized">Non è possibile inizializzare lo sblocco avanzato.</string>
-    <string name="advanced_unlock_not_recognized">Non è possibile riconoscere lo sblocco avanzato</string>
-    <string name="advanced_unlock_invalid_key">Non è possibile leggere la chiave di sblocco avanzato. Eliminala e ripeti la procedura di riconoscimento dello sblocco.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Estrai le credenziali del database con i dati dallo sblocco avanzato</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Attenzione: dovrai comunque ricordare la password principale anche se usi lo sblocco avanzato.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Riconoscimento con sblocco avanzato</string>
+    <string name="advanced_unlock_prompt_not_initialized">Impossibile inizializzare la richiesta di sblocco con dispositivo.</string>
+    <string name="advanced_unlock_not_recognized">Non è stato possibile riconoscere l\'impronta di sblocco del dispositivo</string>
+    <string name="advanced_unlock_invalid_key">Non è possibile leggere la chiave di sblocco del dispositivo. Eliminala e ripeti la procedura di riconoscimento dello sblocco.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Estrai le credenziali del database con i dati dello sblocco con dispositivo</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Dovrai comunque ricordare la password principale della cassaforte anche se usi lo sblocco con dispositivo.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Collegamento allo sblocco con dispositivo</string>
     <string name="device_credential">Credenziali del dispositivo</string>
     <string name="credential_before_click_advanced_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
-    <string name="advanced_unlock_scanning_error">Errore sblocco avanzato: %1$s</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Apri il database con lo sblocco avanzato</string>
-    <string name="menu_keystore_remove_key">Elimina chiave di sblocco avanzato</string>
+    <string name="advanced_unlock_scanning_error">Errore sblocco con dispositivo: %1$s</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Riconoscimento sblocco con dispositivo</string>
+    <string name="menu_keystore_remove_key">Elimina chiave di sblocco del dispositivo</string>
     <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>
     <string name="error_database_uri_null">Non è stato recuperato l\'indirizzo del database.</string>
     <string name="autofill_inline_suggestions_keyboard">Suggerimento di riempimento aggiunto.</string>
@@ -606,7 +606,7 @@
     <string name="warning_database_info_reloaded">Ricaricare il database eliminerà i dati modificati in locale.</string>
     <string name="warning_keyfile_integrity">L\'hash del file non è garantito perché Android può cambiare i suoi dati al volo. Cambia l\'estensione del file in .bin per una corretta integrità.</string>
     <string name="enable_keep_screen_on_title">Tieni lo schermo acceso</string>
-    <string name="enable_keep_screen_on_summary">Tieni lo schermo acceso mentre si vede la voce</string>
+    <string name="enable_keep_screen_on_summary">Mantieni lo schermo acceso mentre guardi o modifichi un elemento</string>
     <string name="show_entry_colors_title">Colori della voce</string>
     <string name="show_entry_colors_summary">Mostra colori in evidenza e in secondo piano per una voce</string>
     <string name="custom_data">Dati personalizzati</string>
@@ -626,7 +626,7 @@
     <string name="passphrase">Frase di accesso</string>
     <string name="colorize_password_title">Colora le password</string>
     <string name="colorize_password_summary">Colora i tipi di carattere della password</string>
-    <string name="warning_database_already_opened">Un database è già aperto, chiuderlo prima di aprirne un altro</string>
+    <string name="warning_database_already_opened">Un database è già aperto, chiudilo prima di aprirne un altro</string>
     <string name="auto_type_sequence">Sequenza di autodigitazione</string>
     <string name="advanced_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
 \n
@@ -670,4 +670,25 @@
     <string name="html_about_privacy">&lt;strong&gt;Nessun dato dell\'utente viene prelevato&lt;/strong&gt;, questa applicazione non si connette ad alcun server, funziona solo in locale e rispetta pienamente la privacy degli utenti.</string>
     <string name="auto_type">Auto-digita</string>
     <string name="merge_success">Unione completata correttamente</string>
+    <string name="info">Info</string>
+    <string name="menu_app_settings_summary">Ricerca, blocco, cronologia, proprietà</string>
+    <string name="menu_form_filling_settings_summary">Tastiera, riempimento automatico, appunti</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometria, credenziali del dispositivo</string>
+    <string name="menu_database_settings_summary">Metadati, cestino, modelli, cronologia</string>
+    <string name="menu_security_settings_summary">Crittografia, funzione di derivazione della chiave</string>
+    <string name="master_key_settings_summary">Cambio, rinnovo</string>
+    <string name="warning_copy_permission">L\'autorizzazione per le notifiche è necessaria per usare la funzione di notifica degli appunti.</string>
+    <string name="later">Dopo</string>
+    <string name="ask">Chiedi</string>
+    <string name="configure">Configura</string>
+    <string name="unlock_and_link_biometric">Collegamento sblocco con dispositivo</string>
+    <string name="menu_appearance_settings_summary">Temi, colori, attributi</string>
+    <string name="unlock">Sblocca</string>
+    <string name="education_validate_entry_title">Conferma la voce</string>
+    <string name="education_validate_entry_summary">Ricordati di confermare la voce e salvare il tuo database.
+\n
+\nSe un blocco automatico è attivo e ti dimentichi che stavi apportando una modifica, rischi di perdere i tuoi dati.</string>
+    <string name="warning_database_notification_permission">L\'autorizzazione per le notifiche ti permette di mostrare lo stato del database e bloccarlo con un pulsante facilmente accessibile.
+\n
+\nSe non attivi questa autorizzazione, il database aperto in secondo piano non sarà visibile se un\'altra applicazione è aperta in primo piano.</string>
 </resources>
