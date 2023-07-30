@@ -412,10 +412,10 @@
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Помнить расположение баз</string>
-    <string name="remember_database_locations_summary">Помнить расположение файлов баз</string>
-    <string name="remember_keyfile_locations_title">Помнить расположение файлов ключей</string>
-    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз</string>
+    <string name="remember_database_locations_title">Базы паролей</string>
+    <string name="remember_database_locations_summary">Помнить расположение баз паролей</string>
+    <string name="remember_keyfile_locations_title">Ключи</string>
+    <string name="remember_keyfile_locations_summary">Помнить расположение ключей баз паролей</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
@@ -669,7 +669,7 @@
     <string name="merge_success">Объединение выполнено</string>
     <string name="later">Позже</string>
     <string name="ask">Запрос</string>
-    <string name="unlock">Разблокировка</string>
+    <string name="unlock">Открыть</string>
     <string name="menu_app_settings_summary">Поиск, блокировка, история, настройки</string>
     <string name="menu_form_filling_settings_summary">Клавиатура, автозаполнение, буфер обмена</string>
     <string name="menu_advanced_unlock_settings_summary">Биометрия, учётные данные устройства</string>
