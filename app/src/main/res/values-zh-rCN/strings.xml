@@ -41,7 +41,7 @@
     <string name="digits">数字</string>
     <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。
 \n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
-    <string name="select_database_file">打开现有数据库</string>
+    <string name="select_database_file">打开现有密码库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
     <string name="entry_notes">备注</string>
@@ -182,7 +182,7 @@
     <string name="advanced_unlock">设备解锁</string>
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
-    <string name="create_keepass_file">新建数据库</string>
+    <string name="create_keepass_file">新建密码库</string>
     <string name="database_name_title">数据库名称</string>
     <string name="database_description_title">数据库描述</string>
     <string name="database_version_title">数据库版本</string>
