@@ -493,7 +493,7 @@
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrische Sicherheitsaktualisierung erforderlich.</string>
-    <string name="configure_biometric">Keine biometrischen oder Geräteanmeldedaten registriert.</string>
+    <string name="configure_biometric">Es sind weder Biometrie- noch Geräteanmeldedaten registriert.</string>
     <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
