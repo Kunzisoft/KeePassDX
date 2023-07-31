@@ -86,9 +86,7 @@ import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -650,9 +648,13 @@ class GroupActivity : DatabaseLockActivity(),
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
 
-        var newNodes: List<Node> = ArrayList()
-        result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
-            newNodes = getListNodesFromBundle(database, newNodesBundle)
+        var entry: Entry? = null
+        try {
+            result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
+                entry = getListNodesFromBundle(database, newNodesBundle)[0] as Entry
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to retrieve entry action for selection", e)
         }
 
         when (actionTask) {
@@ -669,27 +671,15 @@ class GroupActivity : DatabaseLockActivity(),
                             // Save not used
                         },
                         {
-                            try {
-                                val entry = newNodes[0] as Entry
-                                entrySelectedForKeyboardSelection(database, entry)
-                            } catch (e: Exception) {
-                                Log.e(
-                                    TAG,
-                                    "Unable to perform action for keyboard selection after entry update",
-                                    e
-                                )
+                            // Keyboard selection
+                            entry?.let {
+                                entrySelectedForKeyboardSelection(database, it)
                             }
                         },
                         { _, _ ->
-                            try {
-                                val entry = newNodes[0] as Entry
-                                entrySelectedForAutofillSelection(database, entry)
-                            } catch (e: Exception) {
-                                Log.e(
-                                    TAG,
-                                    "Unable to perform action for autofill selection after entry update",
-                                    e
-                                )
+                            // Autofill selection
+                            entry?.let {
+                                entrySelectedForAutofillSelection(database, it)
                             }
                         },
                         {
@@ -698,32 +688,12 @@ class GroupActivity : DatabaseLockActivity(),
                     )
                 }
             }
-            ACTION_DATABASE_UPDATE_GROUP_TASK -> {
-                if (result.isSuccess) {
-                    try {
-                        if (mMainGroup == newNodes[0] as Group)
-                            reloadCurrentGroup()
-                    } catch (e: Exception) {
-                        Log.e(
-                            TAG,
-                            "Unable to perform action after group update",
-                            e
-                        )
-                    }
-                }
-            }
-            ACTION_DATABASE_DELETE_NODES_TASK -> {
-                if (result.isSuccess) {
-                    // To reload search
-                    loadGroup()
-                }
-            }
         }
 
         coordinatorLayout?.showActionErrorIfNeeded(result)
-        if (!result.isSuccess) {
-            reloadCurrentGroup()
-        }
+
+        // Reload the group
+        loadGroup()
         finishNodeAction()
     }
 
@@ -851,7 +821,6 @@ class GroupActivity : DatabaseLockActivity(),
                 }
                 // Open child group
                 loadMainGroup(GroupState(group.nodeId, 0))
-
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
@@ -866,14 +835,16 @@ class GroupActivity : DatabaseLockActivity(),
                             entryVersioned.nodeId,
                             mEntryActivityResultLauncher
                         )
+                        // Do not reload group here
                     },
                     {
                         // Nothing here, a search is simply performed
                     },
                     { searchInfo ->
-                        if (!database.isReadOnly)
+                        if (!database.isReadOnly) {
                             entrySelectedForSave(database, entryVersioned, searchInfo)
-                        else
+                            loadGroup()
+                        } else
                             finish()
                     },
                     { searchInfo ->
@@ -884,6 +855,7 @@ class GroupActivity : DatabaseLockActivity(),
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }
                         entrySelectedForKeyboardSelection(database, entryVersioned)
+                        loadGroup()
                     },
                     { searchInfo, _ ->
                         if (!database.isReadOnly
@@ -893,23 +865,23 @@ class GroupActivity : DatabaseLockActivity(),
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }
                         entrySelectedForAutofillSelection(database, entryVersioned)
+                        loadGroup()
                     },
                     { registerInfo ->
-                        if (!database.isReadOnly)
+                        if (!database.isReadOnly) {
                             entrySelectedForRegistration(database, entryVersioned, registerInfo)
-                        else
+                            loadGroup()
+                        } else
                             finish()
                     })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
-
-        reloadGroupIfSearch()
     }
 
     private fun entrySelectedForSave(database: ContextualDatabase, entry: Entry, searchInfo: SearchInfo) {
-        reloadCurrentGroup()
+        removeSearch()
         // Save to update the entry
         EntryEditActivity.launchToUpdateForSave(
             this@GroupActivity,
@@ -921,7 +893,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
-        reloadCurrentGroup()
+        removeSearch()
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
@@ -931,6 +903,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun entrySelectedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
+        removeSearch()
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(
@@ -947,7 +920,7 @@ class GroupActivity : DatabaseLockActivity(),
         entry: Entry,
         registerInfo: RegisterInfo?
     ) {
-        reloadCurrentGroup()
+        removeSearch()
         // Registration to update the entry
         EntryEditActivity.launchToUpdateForRegistration(
             this@GroupActivity,
@@ -978,12 +951,6 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun finishNodeAction() {
         actionNodeMode?.finish()
-    }
-
-    private fun reloadGroupIfSearch() {
-        if (Intent.ACTION_SEARCH == intent.action) {
-            reloadCurrentGroup()
-        }
     }
 
     override fun onNodeSelected(
@@ -1039,7 +1006,6 @@ class GroupActivity : DatabaseLockActivity(),
                 )
             }
         }
-        reloadGroupIfSearch()
         return true
     }
 
@@ -1118,7 +1084,6 @@ class GroupActivity : DatabaseLockActivity(),
     ): Boolean {
         deleteNodes(nodes)
         finishNodeAction()
-        reloadGroupIfSearch()
         return true
     }
 
@@ -1147,6 +1112,8 @@ class GroupActivity : DatabaseLockActivity(),
         }
         // Padding if lock button visible
         toolbarAction?.updateLockPaddingLeft()
+
+        loadGroup()
     }
 
     override fun onPause() {
@@ -1349,6 +1316,12 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
+    override fun onCancelSpecialMode() {
+        super.onCancelSpecialMode()
+        removeSearch()
+        loadGroup()
+    }
+
     override fun startActivity(intent: Intent) {
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -1365,11 +1338,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun reloadCurrentGroup() {
-        removeSearch()
-        loadGroup()
-    }
-
     override fun onBackPressed() {
         if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
@@ -1378,8 +1346,8 @@ class GroupActivity : DatabaseLockActivity(),
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
                 when {
                     Intent.ACTION_SEARCH == intent.action -> {
-                        // Remove the search
-                        reloadCurrentGroup()
+                        removeSearch()
+                        loadGroup()
                     }
                     mPreviousGroupsIds.isEmpty() -> {
                         super.onRegularBackPressed()
