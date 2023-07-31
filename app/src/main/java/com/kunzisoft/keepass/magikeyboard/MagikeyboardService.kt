@@ -25,16 +25,17 @@ import android.content.Context
 import android.content.Intent
 import android.inputmethodservice.InputMethodService
 import android.media.AudioManager
-import android.os.Build
-import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.HapticFeedbackConstants
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,8 +54,14 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.*
-import java.util.*
+import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboardPicker
+import com.kunzisoft.keepass.utils.KeyboardUtil.switchToPreviousKeyboard
+import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.LockReceiver
+import com.kunzisoft.keepass.utils.REMOVE_ENTRY_MAGIKEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.registerLockReceiver
+import com.kunzisoft.keepass.utils.unregisterLockReceiver
+import java.util.UUID
 
 class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
@@ -239,24 +246,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         }
     }
 
-    private fun switchToPreviousKeyboard() {
-        var imeManager: InputMethodManager? = null
-        try {
-            imeManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                switchToPreviousInputMethod()
-            } else {
-                @Suppress("DEPRECATION")
-                window.window?.let { window ->
-                    imeManager?.switchToLastInputMethod(window.attributes.token)
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to switch to the previous IME", e)
-            imeManager?.showInputMethodPicker()
-        }
-    }
-
     override fun onKey(primaryCode: Int, keyCodes: IntArray) {
         val inputConnection = currentInputConnection
 
@@ -267,11 +256,11 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             playClick(primaryCode)
 
         when (primaryCode) {
-            KEY_BACK_KEYBOARD -> switchToPreviousKeyboard()
-
+            KEY_BACK_KEYBOARD -> {
+                switchToPreviousKeyboard()
+            }
             KEY_CHANGE_KEYBOARD -> {
-                ContextCompat.getSystemService(this, InputMethodManager::class.java)
-                        ?.showInputMethodPicker()
+                showKeyboardPicker()
             }
             KEY_ENTRY -> {
                 var searchInfo: SearchInfo? = null
@@ -469,14 +458,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             entryUUID = entry.id
             // Launch notification if allowed
             KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
-        }
-
-        fun activatedInSettings(context: Context): Boolean {
-            return ContextCompat.getSystemService(context, InputMethodManager::class.java)
-                ?.enabledInputMethodList
-                ?.any {
-                    it.packageName == context.packageName
-                } ?: false
         }
 
         fun performSelection(items: List<EntryInfo>,

@@ -29,19 +29,17 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 
 class MainCredentialView @JvmOverloads constructor(context: Context,
                                                    attrs: AttributeSet? = null,
@@ -231,8 +229,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     fun focusPasswordFieldAndOpenKeyboard() {
         passwordTextView.postDelayed({
             passwordTextView.requestFocusFromTouch()
-            ContextCompat.getSystemService(context, InputMethodManager::class.java)
-                ?.showSoftInput(passwordTextView, InputMethodManager.SHOW_IMPLICIT)
+            passwordTextView.showKeyboard()
         }, 100)
     }
 

@@ -31,6 +31,7 @@ import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.WebDomain
 
@@ -116,7 +117,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                        searchInfo: SearchInfo) {
 
         // Setting to integrate Magikeyboard
-        val searchShareForMagikeyboard = MagikeyboardService.activatedInSettings(this)
+        val searchShareForMagikeyboard = isKeyboardActivatedInSettings()
 
         // If database is open
         val readOnly = database?.isReadOnly != false
