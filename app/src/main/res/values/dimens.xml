@@ -25,7 +25,7 @@
     <dimen name="image_list_margin_vertical_back">15dp</dimen>
     <dimen name="image_preview_height">144dp</dimen>
     <dimen name="button_margin">8dp</dimen>
-    <dimen name="selectable_margin_vertical">4dp</dimen>
+    <dimen name="selectable_margin_top">8dp</dimen>
     <dimen name="selectable_margin_horizontal">8dp</dimen>
     <dimen name="selectable_min_height">36dp</dimen>
     <dimen name="button_small_size">48dp</dimen>

@@ -114,27 +114,20 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <RelativeLayout
-                android:id="@+id/node_list_container"
+            <FrameLayout
+                android:id="@+id/nodes_list_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_below="@+id/toolbar">
-
-                <FrameLayout
-                    android:id="@+id/nodes_list_fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="@dimen/selectable_margin_vertical"
-                    android:background="?android:attr/windowBackground" />
-            </RelativeLayout>
+                android:background="?android:attr/windowBackground"
+                android:layout_below="@+id/toolbar" />
 
             <com.kunzisoft.keepass.view.AddNodeButtonView
                 android:id="@+id/add_node_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_anchor="@+id/node_list_container"
+                app:layout_anchor="@+id/nodes_list_fragment_container"
                 app:layout_anchorGravity="end|bottom" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
