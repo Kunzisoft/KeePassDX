@@ -3,6 +3,7 @@ KeePassDX(4.0.0)
  * Material You theme (follow system colors) #1469
  * Refactoring inner code #1371
  * Migration to API 33
+ # Remove from search #1308
  * Fix behaviors #1351
  * Fix bugs #1589 #1584 #1545 #1563 #1371
 
