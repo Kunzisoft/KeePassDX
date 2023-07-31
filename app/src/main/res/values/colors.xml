@@ -139,15 +139,15 @@
     <color name="forest_theme_light_errorContainer">#FFDAD6</color>
     <color name="forest_theme_light_onError">#FFFFFF</color>
     <color name="forest_theme_light_onErrorContainer">#410002</color>
-    <color name="forest_theme_light_background">#E2F8DF</color>
+    <color name="forest_theme_light_background">#F8FFF8</color>
     <color name="forest_theme_light_onBackground">#1A1C19</color>
-    <color name="forest_theme_light_surface">#D4EDD0</color>
+    <color name="forest_theme_light_surface">#E5F6E4</color>
     <color name="forest_theme_light_onSurface">#3C423A</color>
-    <color name="forest_theme_light_surfaceContainerLowest">#D9EFD6</color>
-    <color name="forest_theme_light_surfaceContainerLow">#D3EDD0</color>
-    <color name="forest_theme_light_surfaceContainer">#CDEACA</color>
-    <color name="forest_theme_light_surfaceContainerHigh">#C8E8C5</color>
-    <color name="forest_theme_light_surfaceContainerHighest">#C2E4BF</color>
+    <color name="forest_theme_light_surfaceContainerLowest">#E3F3E2</color>
+    <color name="forest_theme_light_surfaceContainerLow">#E2F4E1</color>
+    <color name="forest_theme_light_surfaceContainer">#DCF1DB</color>
+    <color name="forest_theme_light_surfaceContainerHigh">#D7EFD6</color>
+    <color name="forest_theme_light_surfaceContainerHighest">#D2ECD1</color>
     <color name="forest_theme_light_surfaceVariant">#DEE5D8</color>
     <color name="forest_theme_light_onSurfaceVariant">#424940</color>
     <color name="forest_theme_light_outline">#72796F</color>
@@ -328,7 +328,7 @@
     <color name="divine_theme_night_inversePrimary">#6E3000</color>
     <color name="divine_theme_night_textPrimary">@color/orange_lighter</color>
 
-    <!-- Classic -->
+    <!-- Simple -->
 
     <color name="simple_theme_light_primary">@color/blue_deep</color>
     <color name="simple_theme_light_primaryDark">@color/white_slight</color>
@@ -347,9 +347,9 @@
     <color name="simple_theme_light_errorContainer">#FFDAD6</color>
     <color name="simple_theme_light_onError">#FFFFFF</color>
     <color name="simple_theme_light_onErrorContainer">#410002</color>
-    <color name="simple_theme_light_background">@color/white_slight</color>
+    <color name="simple_theme_light_background">#F7FBFF</color>
     <color name="simple_theme_light_onBackground">@color/cyan_dark</color>
-    <color name="simple_theme_light_surface">@color/white_slight</color>
+    <color name="simple_theme_light_surface">#F7FBFF</color>
     <color name="simple_theme_light_onSurface">@color/cyan_dark</color>
     <color name="simple_theme_light_surfaceContainerLowest">#FCFEFF</color>
     <color name="simple_theme_light_surfaceContainerLow">#F8FCFF</color>
@@ -487,15 +487,15 @@
     <color name="sun_theme_light_errorContainer">#FFDAD6</color>
     <color name="sun_theme_light_onError">#FFFFFF</color>
     <color name="sun_theme_light_onErrorContainer">#410002</color>
-    <color name="sun_theme_light_background">@color/red_white_light</color>
+    <color name="sun_theme_light_background">#FFF8F8</color>
     <color name="sun_theme_light_onBackground">@color/red_black_dark</color>
     <color name="sun_theme_light_surface">#FFEDEF</color>
     <color name="sun_theme_light_onSurface">@color/red_black_dark</color>
-    <color name="sun_theme_light_surfaceContainerLowest">#FBEBEB</color>
-    <color name="sun_theme_light_surfaceContainerLow">#FAE2E2</color>
-    <color name="sun_theme_light_surfaceContainer">#FADDDE</color>
-    <color name="sun_theme_light_surfaceContainerHigh">#FBD9DA</color>
-    <color name="sun_theme_light_surfaceContainerHighest">#FBD6D7</color>
+    <color name="sun_theme_light_surfaceContainerLowest">#FDEAEB</color>
+    <color name="sun_theme_light_surfaceContainerLow">#FFE7E8</color>
+    <color name="sun_theme_light_surfaceContainer">#FFE4E5</color>
+    <color name="sun_theme_light_surfaceContainerHigh">#FBDEDF</color>
+    <color name="sun_theme_light_surfaceContainerHighest">#FADBDC</color>
     <color name="sun_theme_light_surfaceVariant">#DEE5D8</color>
     <color name="sun_theme_light_onSurfaceVariant">#494040</color>
     <color name="sun_theme_light_outline">#796F6F</color>
@@ -521,7 +521,7 @@
     <color name="sun_theme_night_errorContainer">#93000A</color>
     <color name="sun_theme_night_onError">#690005</color>
     <color name="sun_theme_night_onErrorContainer">#FFDAD6</color>
-    <color name="sun_theme_night_background">@color/red_black_dark</color>
+    <color name="sun_theme_night_background">#27171A</color>
     <color name="sun_theme_night_onBackground">#DDE3E3</color>
     <color name="sun_theme_night_surface">#2E1D20</color>
     <color name="sun_theme_night_onSurface">#F1F2F3</color>
