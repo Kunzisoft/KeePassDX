@@ -445,7 +445,7 @@
     <string name="entry_add_attachment">Anhang hinzufügen</string>
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
-    <string name="validate">Validieren</string>
+    <string name="validate">Überprüfen</string>
     <string name="autofill_manual_selection_title">Manuelle Auswahl</string>
     <string name="autofill_manual_selection_summary">Option zur manuellen Auswahl des Datenbankeintrags anzeigen</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
@@ -698,7 +698,7 @@
     <string name="warning_copy_permission">Die Benachrichtigungsberechtigung ist erforderlich, um die Benachrichtigungsfunktion der Zwischenablage zu nutzen.</string>
     <string name="unlock">Entsperren</string>
     <string name="education_validate_entry_title">Eintrag überprüfen</string>
-    <string name="education_validate_entry_summary">Denke daran, deine Eingabe zu bestätigen und deine Datenbank zu speichern.
+    <string name="education_validate_entry_summary">Denke daran, deine Eingabe zu überprüfen und deine Datenbank zu speichern.
 \n
 \nWenn ein automatisches Sperren aktiviert ist und du vergisst, dass du eine Änderung vorgenommen hast, riskierst du den Verlust deiner Daten.</string>
     <string name="info">Info</string>
