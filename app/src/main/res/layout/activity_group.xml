@@ -96,7 +96,8 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|snap">
+                    android:background="?attr/colorSurface"
+                    app:layout_scrollFlags="scroll|snap|enterAlways">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/breadcrumb_list"
