@@ -680,7 +680,7 @@
     <string name="menu_appearance_settings_summary">Temas, cores, atributos</string>
     <string name="unlock">Desbloquear</string>
     <string name="education_validate_entry_title">Validar a entrada</string>
-    <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propiedades</string>
+    <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propriedades</string>
     <string name="warning_database_notification_permission">A permissão de notificação permite exibir o status do banco de dados e bloqueá-lo com um botão de fácil acesso.
 \n
 \nSe você não ativar essa permissão, o banco de dados aberto em segundo plano não ficará visível se outro aplicativo estiver em primeiro plano.</string>
