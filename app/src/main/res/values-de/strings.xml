@@ -140,9 +140,9 @@
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Passwortzeichen in der Datenbank vermeiden, die kein Textkodierungsformat besitzen (nicht erkannte Zeichen werden in denselben Buchstaben umgewandelt).</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Gib das Passwort bzw. die Schlüsseldatei ein, um die Datenbank zu öffnen.
+    <string name="education_unlock_summary">Das Passwort bzw. die Schlüsseldatei eingeben, um die Datenbank zu öffnen.
 \n
-\nErstelle nach jeder Änderung ein Backup deiner Datenbankdatei.</string>
+\nNach jeder Änderung eine Sicherung der eigene Datenbankdatei an einem sicheren Ort erstellen.</string>
     <string-array name="list_size_options">
         <item>Klein</item>
         <item>Mittel</item>
@@ -224,9 +224,9 @@
     <string name="reset_education_screens_summary">Alle Hilfsinfos nochmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfe-Anzeige zurückgesetzt</string>
     <string name="education_create_database_title">Die Datenbankdatei erstellen</string>
-    <string name="education_create_database_summary">Erstelle deine erste Passwortverwaltungsdatei.</string>
+    <string name="education_create_database_summary">Die erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
-    <string name="education_select_database_summary">Öffne deine bestehende Datenbankdatei mit dem Dateimanager, um sie weiter zu verwenden.</string>
+    <string name="education_select_database_summary">Eine frühere Datenbankdatei mit dem Dateimanager öffnen, um sie weiter zu verwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen dabei digitale Konten zu verwalten.
 \n
@@ -234,22 +234,22 @@
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Nutzernamen oder Inhalte anderer Felder eingeben, um Passwörter zu finden.</string>
     <string name="education_entry_edit_title">Den Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Füge dem Eintrag eigene Felder hinzu. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
-    <string name="education_generate_password_title">Erstelle ein starkes Passwort</string>
-    <string name="education_generate_password_summary">Generiere ein starkes Passwort, um es mit dem Eintrag zu verknüpfen, gib Passwortanforderungen ein und vergiss die Passwortsicherheit nicht.</string>
+    <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
+    <string name="education_generate_password_summary">Ein starkes Passwort generieren, um es mit dem Eintrag zu verknüpfen; es den Anforderungen des Formulars anpassen und die Passwortsicherheit nicht vergessen.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Füge ein weiteres Feld und einen Wert hinzu und schütze es (optional).</string>
-    <string name="education_unlock_title">Entsperre die Datenbank</string>
+    <string name="education_unlock_title">Eigene Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
-    <string name="education_field_copy_summary">Kopierte Felder können überall eingefügt werden.
-\n
-\nVerwende deine bevorzugte Methode zur Formular-Ausfüllung.</string>
+    <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden. 
+\n 
+\nAus den verschiedenen Methoden zum Ausfüllen von Formularen einfach die bevorzugte auswählen.</string>
     <string name="education_lock_title">Die Datenbank sperren</string>
     <string name="education_lock_summary">Die Datenbank schnell sperren. Die App lässt sich so einstellen, dass sie nach einer gewissen Zeit und beim Ausschalten des Bildschirms gesperrt wird.</string>
     <string name="education_sort_title">Sortierung der Einträge</string>
-    <string name="education_sort_summary">Wähle, wie Einträge und Gruppen sortiert werden.</string>
+    <string name="education_sort_summary">Wählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
-    <string name="education_donation_summary">Mithelfen, Stabilität und Sicherheit zu verbessern sowie weitere Funktionen zu ermöglichen.</string>
+    <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern sowie weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version du verwendest.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhältst du Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; ist dank deiner Großzügigkeit verfügbar.</string>
@@ -280,10 +280,10 @@
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Datenbank-Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Den Öffnungsmodus diesesmal ändern.
+    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern.
 \n
 \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen.
-\nMit „Änderbar“ kannst du jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
+\nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
@@ -439,7 +439,7 @@
         <item>System verfolgen</item>
     </string-array>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
-    <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP / TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
+    <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
     <string name="education_setup_OTP_title">OTP einrichten</string>
     <string name="error_create_database">Die Datenbankdatei kann nicht erstellt werden.</string>
     <string name="entry_add_attachment">Anhang hinzufügen</string>
@@ -510,7 +510,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Du musst dich weiterhin an deinen Hauptschlüssel erinnern, wenn du die Geräteentsperrung verwendest.</string>
     <string name="menu_keystore_remove_key">Schlüssel für Geräteentsperrung löschen</string>
     <string name="advanced_unlock_prompt_store_credential_title">Verknüpfung mit Geräteentsperrung</string>
-    <string name="education_advanced_unlock_summary">Verknüpfe dein Passwort mit Biometrie- oder Geräteanmeldedaten, um die Datenbank schnell zu entsperren.</string>
+    <string name="education_advanced_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
     <string name="education_advanced_unlock_title">Geräteentsperrung der Datenbank</string>
     <string name="advanced_unlock_timeout">Zeitlimit für Geräteentsperrung</string>
     <string name="temp_advanced_unlock_timeout_summary">Dauer der Geräteentsperrung bis sie zurückgesetzt wird</string>
@@ -533,7 +533,7 @@
     <string name="advanced_unlock_prompt_not_initialized">Geräteentsperrungsabfrage konnte nicht gestartet werden.</string>
     <string name="advanced_unlock_scanning_error">Fehler bei Geräteentsperrung: %1$s</string>
     <string name="advanced_unlock_not_recognized">Fingerabdruck für Geräteentsperrung wurde nicht erkannt</string>
-    <string name="advanced_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte lösche ihn und wiederhole den Vorgang zur Entsperr-Erkennung.</string>
+    <string name="advanced_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte diesen löschen und den Vorgang zur Entsperr-Erkennung wiederholen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus Geräteentsperrdaten gewinnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
@@ -618,7 +618,7 @@
     <string name="show_entry_colors_title">Eintragsfarben</string>
     <string name="enable_keep_screen_on_title">Bildschirm eingeschaltet lassen</string>
     <string name="warning_keyfile_integrity">Der Hash der Datei kann nicht garantiert werden, da Android seine Daten ändern kann. Änder die Dateiendung zu .bin, um die Integrität zu gewährleisten.</string>
-    <string name="enable_keep_screen_on_summary">Bildschirm beim Ansehen oder Bearbeiten des Eintrags eingeschaltet lassen</string>
+    <string name="enable_keep_screen_on_summary">Bildschirm beim Anzeigen oder Bearbeiten des Eintrags eingeschaltet lassen</string>
     <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe für einen Eintrag anzeigen</string>
     <string name="auto_type_sequence">Automatische Eingabefolge</string>
     <string name="regex">Regulärer Ausdruck</string>
@@ -692,12 +692,12 @@
     <string name="later">Später</string>
     <string name="unlock_and_link_biometric">Geräteentsperrverknüpfung</string>
     <string name="menu_appearance_settings_summary">Design, Farben, Attribute</string>
-    <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es dir, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
+    <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
 \n
-\nWenn du diese Berechtigung nicht aktivierst, wird bei einer geöffneten Anwendung im Vordergrund die im Hintergrund geöffnete Datenbank nicht sichtbar sein.</string>
+\nWird diese Berechtigung nicht aktiviert, ist die im Hintergrund geöffnete Datenbank nicht sichtbar, wenn eine Anwendung im Vordergrund läuft.</string>
     <string name="warning_copy_permission">Die Benachrichtigungsberechtigung ist erforderlich, um die Benachrichtigungsfunktion der Zwischenablage zu nutzen.</string>
     <string name="unlock">Entsperren</string>
-    <string name="education_validate_entry_title">Den Eintrag validieren</string>
+    <string name="education_validate_entry_title">Eintrag überprüfen</string>
     <string name="education_validate_entry_summary">Denke daran, deine Eingabe zu bestätigen und deine Datenbank zu speichern.
 \n
 \nWenn ein automatisches Sperren aktiviert ist und du vergisst, dass du eine Änderung vorgenommen hast, riskierst du den Verlust deiner Daten.</string>
