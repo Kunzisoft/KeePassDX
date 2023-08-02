@@ -233,7 +233,7 @@
 \nGruppen/Ordner gliedern Einträge in der Datenbank.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Nutzernamen oder Inhalte anderer Felder eingeben, um Passwörter zu finden.</string>
-    <string name="education_entry_edit_title">Den Eintrag bearbeiten</string>
+    <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Ein starkes Passwort generieren, um es mit dem Eintrag zu verknüpfen; es den Anforderungen des Formulars anpassen und die Passwortsicherheit nicht vergessen.</string>
