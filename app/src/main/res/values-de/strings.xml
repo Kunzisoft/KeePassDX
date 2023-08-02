@@ -223,7 +223,7 @@
     <string name="reset_education_screens_title">Hilfeanzeige wiederholen</string>
     <string name="reset_education_screens_summary">Alle Hilfsinfos nochmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfeanzeige zurückgesetzt</string>
-    <string name="education_create_database_title">Die Datenbankdatei erstellen</string>
+    <string name="education_create_database_title">Datenbankdatei erstellen</string>
     <string name="education_create_database_summary">Die erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Eine frühere Datenbankdatei mit dem Dateimanager öffnen, um sie weiter zu verwenden.</string>
@@ -244,7 +244,7 @@
     <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden. 
 \n 
 \nAus den verschiedenen Methoden zum Ausfüllen von Formularen einfach die bevorzugte auswählen.</string>
-    <string name="education_lock_title">Die Datenbank sperren</string>
+    <string name="education_lock_title">Datenbank sperren</string>
     <string name="education_lock_summary">Die Datenbank schnell sperren. Die App lässt sich so einstellen, dass sie nach einer gewissen Zeit und beim Ausschalten des Bildschirms gesperrt wird.</string>
     <string name="education_sort_title">Einträge sortieren</string>
     <string name="education_sort_summary">Wählen, wie Einträge und Gruppen sortiert werden.</string>
