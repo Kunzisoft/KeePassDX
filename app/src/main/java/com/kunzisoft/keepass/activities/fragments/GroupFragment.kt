@@ -346,14 +346,12 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     }
 
                     // Move
-                    if (database.isReadOnly
-                            || isASearchResult) {
+                    if (database.isReadOnly) {
                         menu?.removeItem(R.id.menu_move)
                     }
 
                     // Copy (not allowed for group)
                     if (database.isReadOnly
-                            || isASearchResult
                             || nodes.any { it.type == Type.GROUP }) {
                         menu?.removeItem(R.id.menu_copy)
                     }

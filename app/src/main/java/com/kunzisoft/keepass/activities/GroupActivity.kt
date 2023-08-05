@@ -242,7 +242,6 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun removeSearch() {
-        finishNodeAction()
         mSearchState = null
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -1040,8 +1039,8 @@ class GroupActivity : DatabaseLockActivity(),
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
-
-        // Nothing here fragment calls onPasteMenuClick internally
+        removeSearch()
+        loadGroup()
         return true
     }
 
@@ -1050,8 +1049,8 @@ class GroupActivity : DatabaseLockActivity(),
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
-
-        // Nothing here fragment calls onPasteMenuClick internally
+        removeSearch()
+        loadGroup()
         return true
     }
 
