@@ -2,6 +2,6 @@
  * Thème Material You (follow system colors) #1469
  * Refactorisation du code interne #1371
  * Migration vers API 33
- * Couper, copier et supprimer depuis la recherche #1308 #1263
+ * Couper, copier et supprimer depuis la recherche #891 #1308 #1263
  * Corrections de comportements #1351
  * Corrections de bugs #1589 #1584 #1545 #1563 #1371
