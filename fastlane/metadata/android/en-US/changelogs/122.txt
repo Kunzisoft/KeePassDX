@@ -2,6 +2,6 @@
  * Material You theme (follow system colors) #1469
  * Refactoring inner code #1371
  * Migration to API 33
- # Cut, copy and delete from search #1308 #1263
+ # Cut, copy and delete from search #891 #1308 #1263
  * Fix behaviors #1351
  * Fix bugs #1589 #1584 #1545 #1563 #1371
