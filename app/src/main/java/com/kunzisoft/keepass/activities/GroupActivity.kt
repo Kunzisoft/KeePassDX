@@ -124,6 +124,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var drawerLayout: DrawerLayout? = null
     private var databaseNavView: NavigationDatabaseView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var databaseModifiedView: ImageView? = null
@@ -270,6 +271,7 @@ class GroupActivity : DatabaseLockActivity(),
         drawerLayout = findViewById(R.id.drawer_layout)
         databaseNavView = findViewById(R.id.database_nav_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
+        coordinatorError = findViewById(R.id.error_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
@@ -690,7 +692,7 @@ class GroupActivity : DatabaseLockActivity(),
             }
         }
 
-        coordinatorLayout?.showActionErrorIfNeeded(result)
+        coordinatorError?.showActionErrorIfNeeded(result)
 
         // Reload the group
         loadGroup()
