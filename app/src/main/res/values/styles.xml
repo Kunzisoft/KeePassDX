@@ -307,10 +307,10 @@
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Night.Dialog.PositiveButtonStyle</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog.NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <!-- CardView -->
