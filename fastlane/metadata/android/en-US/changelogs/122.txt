@@ -1,4 +1,4 @@
- * New UX/UI with Material 3 #1183 #1529 #1428 #1441
+ * New UX/UI with Material 3 #1183 #1529 #1428 #1441 #1607
  * Material You theme (follow system colors) #1469
  * Refactoring inner code #1371
  * Migration to API 33
