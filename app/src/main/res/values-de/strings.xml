@@ -58,7 +58,7 @@
     <string name="entry_created">Erstellt</string>
     <string name="entry_expires">Gültig bis</string>
     <string name="entry_keyfile">Schlüsseldatei</string>
-    <string name="entry_modified">Bearbeitet</string>
+    <string name="entry_modified">Geändert</string>
     <string name="entry_not_found">Zugriffsdaten wurden nicht gefunden.</string>
     <string name="entry_password">Passwort</string>
     <string name="save">Speichern</string>
@@ -125,7 +125,7 @@
     <string name="protection">Schutz</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">Abhängig von deinem Dateienmanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
-    <string name="content_description_remove_from_list">Löschen</string>
+    <string name="content_description_remove_from_list">Entfernen</string>
     <string name="root">Start</string>
     <string name="rounds">Verschlüsselungsrunden</string>
     <string name="rounds_explanation">Zusätzliche Verschlüsselungsrunden bieten besseren Schutz gegen Brute-Force-Angriffe. Allerdings dauert das Laden und Speichern der Datenbank entsprechend länger.</string>
@@ -140,9 +140,9 @@
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Passwortzeichen in der Datenbank vermeiden, die kein Textkodierungsformat besitzen (nicht erkannte Zeichen werden in denselben Buchstaben umgewandelt).</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Gib das Passwort bzw. die Schlüsseldatei ein, um die Datenbank zu öffnen.
+    <string name="education_unlock_summary">Das Passwort bzw. die Schlüsseldatei eingeben, um die Datenbank zu öffnen.
 \n
-\nErstelle nach jeder Änderung ein Backup deiner Datenbankdatei.</string>
+\nNach jeder Änderung eine Sicherung der eigene Datenbankdatei an einem sicheren Ort erstellen.</string>
     <string-array name="list_size_options">
         <item>Klein</item>
         <item>Mittel</item>
@@ -163,7 +163,7 @@
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Diese Funktion konnte nicht gestartet werden.</string>
     <string name="biometric_unlock_enable_summary">Ermöglicht das Scannen biometrischer Merkmale, um die Datenbank zu öffnen</string>
-    <string name="advanced_unlock">Schnelles Entsperren</string>
+    <string name="advanced_unlock">Gerät entsperren</string>
     <string name="biometric_unlock_enable_title">Biometrisches Entsperren</string>
     <string name="lock">Sperren</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
@@ -171,7 +171,7 @@
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="unavailable">Diese Datenbank enthält noch keine Anmeldedaten.</string>
+    <string name="unavailable">Nicht vorhanden</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweiterte ASCII</string>
@@ -202,7 +202,7 @@
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
-    <string name="biometric_delete_all_key_summary">Alle mit der biometrischen Erkennung verknüpften Verschlüsselungsschlüssel löschen</string>
+    <string name="biometric_delete_all_key_summary">Alle mit der Geräteentsperrung verknüpften Verschlüsselungsschlüssel löschen</string>
     <string name="unavailable_feature_version">Das Gerät läuft mit Android %1$s, benötigt aber %2$s oder höher.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware gefunden.</string>
     <string name="recycle_bin_title">Papierkorb-Nutzung</string>
@@ -220,13 +220,13 @@
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Tastatur zum Ausfüllen aller Passwort- und Identitätsfelder aktivieren</string>
-    <string name="reset_education_screens_title">Hilfe-Anzeige wiederholen</string>
+    <string name="reset_education_screens_title">Hilfeanzeige wiederholen</string>
     <string name="reset_education_screens_summary">Alle Hilfsinfos nochmal anzeigen</string>
-    <string name="reset_education_screens_text">Hilfe-Anzeige zurückgesetzt</string>
-    <string name="education_create_database_title">Die Datenbankdatei erstellen</string>
-    <string name="education_create_database_summary">Erstelle deine erste Passwortverwaltungsdatei.</string>
+    <string name="reset_education_screens_text">Hilfeanzeige zurückgesetzt</string>
+    <string name="education_create_database_title">Datenbankdatei erstellen</string>
+    <string name="education_create_database_summary">Die erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
-    <string name="education_select_database_summary">Öffne deine bestehende Datenbankdatei mit dem Dateimanager, um sie weiter zu verwenden.</string>
+    <string name="education_select_database_summary">Eine frühere Datenbankdatei mit dem Dateimanager öffnen, um sie weiter zu verwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen dabei digitale Konten zu verwalten.
 \n
@@ -234,22 +234,22 @@
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Nutzernamen oder Inhalte anderer Felder eingeben, um Passwörter zu finden.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Füge dem Eintrag eigene Felder hinzu. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
-    <string name="education_generate_password_title">Erstelle ein starkes Passwort</string>
-    <string name="education_generate_password_summary">Generiere ein starkes Passwort, um es mit dem Eintrag zu verknüpfen, gib Passwortanforderungen ein und vergiss die Passwortsicherheit nicht.</string>
+    <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
+    <string name="education_generate_password_summary">Ein starkes Passwort generieren, um es mit dem Eintrag zu verknüpfen; es den Anforderungen des Formulars anpassen und die Passwortsicherheit nicht vergessen.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Füge ein weiteres Feld und einen Wert hinzu und schütze es (optional).</string>
-    <string name="education_unlock_title">Entsperre die Datenbank</string>
+    <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
+    <string name="education_unlock_title">Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
-    <string name="education_field_copy_summary">Kopierte Felder können überall eingefügt werden.
-\n
-\nVerwende deine bevorzugte Methode zur Formular-Ausfüllung.</string>
+    <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden. 
+\n 
+\nAus den verschiedenen Methoden zum Ausfüllen von Formularen einfach die bevorzugte auswählen.</string>
     <string name="education_lock_title">Datenbank sperren</string>
     <string name="education_lock_summary">Die Datenbank schnell sperren. Die App lässt sich so einstellen, dass sie nach einer gewissen Zeit und beim Ausschalten des Bildschirms gesperrt wird.</string>
-    <string name="education_sort_title">Sortierung der Einträge</string>
-    <string name="education_sort_summary">Wähle, wie Einträge und Gruppen sortiert werden.</string>
+    <string name="education_sort_title">Einträge sortieren</string>
+    <string name="education_sort_summary">Wählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
-    <string name="education_donation_summary">Mithelfen, Stabilität und Sicherheit zu verbessern sowie weitere Funktionen zu ermöglichen.</string>
+    <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern sowie weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version du verwendest.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhältst du Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; ist dank deiner Großzügigkeit verfügbar.</string>
@@ -273,17 +273,17 @@
     <string name="allow_copy_password_warning">Warnung: Alle Apps teilen sich die Zwischenablage. Andere Software kann auf kopierte Daten zugreifen.</string>
     <string name="allow_no_password_title">Entsperren ohne Hauptschlüssel</string>
     <string name="allow_no_password_summary">Erlaubt das Antippen von „Öffnen“ ohne Anmeldedaten einzugeben</string>
-    <string name="enable_education_screens_title">Hilfe-Anzeige</string>
+    <string name="enable_education_screens_title">Hilfeanzeige</string>
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der App zu lernen</string>
     <string name="menu_open_file_read_and_write">Änderbar</string>
     <string name="menu_file_selection_read_only">Schreibgeschützt</string>
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Datenbank-Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Den Öffnungsmodus diesesmal ändern.
+    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern.
 \n
 \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen.
-\nMit „Änderbar“ kannst du jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
+\nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
@@ -296,7 +296,7 @@
     <string name="keyboard_entry_category">Eintrag</string>
     <string name="keyboard_entry_timeout_title">Inaktivitätszeit</string>
     <string name="keyboard_entry_timeout_summary">Zeit bis zum Löschen der Tastatureingabe</string>
-    <string name="keyboard_notification_entry_title">Benachrichtigung</string>
+    <string name="keyboard_notification_entry_title">Benachrichtigungsinfo</string>
     <string name="keyboard_notification_entry_summary">Benachrichtigung anzeigen, wenn ein Eintrag abrufbar ist</string>
     <string name="keyboard_notification_entry_content_title_text">Eintrag</string>
     <string name="keyboard_notification_entry_content_title">%1$s über Magikeyboard abrufbar</string>
@@ -350,12 +350,12 @@
     <string name="content_description_update_from_list">Aktualisieren</string>
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Die Datenbank kann mit diesem Passwort und dieser Schlüsseldatei nicht erstellt werden.</string>
-    <string name="menu_advanced_unlock_settings">Schnelles Entsperren</string>
+    <string name="menu_advanced_unlock_settings">Geräteentsperrung</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
     <string name="biometric_auto_open_prompt_title">Abfrage automatisch öffnen</string>
-    <string name="biometric_auto_open_prompt_summary">Automatisch Schnellentsperrung abfragen, falls die Datenbank dafür eingerichtet ist</string>
+    <string name="biometric_auto_open_prompt_summary">Die Geräteentsperrung automatisch abfragen, falls die Datenbank dafür eingerichtet ist</string>
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
@@ -385,7 +385,7 @@
     <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden um fortzufahren\?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mit der Zwischenablage des Geräts kopieren</string>
-    <string name="advanced_unlock_explanation_summary">Schnelles Entsperren verwenden, um eine Datenbank einfacher zu öffnen</string>
+    <string name="advanced_unlock_explanation_summary">Geräteentsperrung verwenden, um eine Datenbank einfacher zu öffnen</string>
     <string name="database_data_compression_title">Datenkomprimierung</string>
     <string name="database_data_compression_summary">Datenkomprimierung reduziert die Datenbankgröße</string>
     <string name="max_history_items_title">Maximale Anzahl</string>
@@ -439,13 +439,13 @@
         <item>System verfolgen</item>
     </string-array>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
-    <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP / TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
+    <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
     <string name="education_setup_OTP_title">OTP einrichten</string>
     <string name="error_create_database">Die Datenbankdatei kann nicht erstellt werden.</string>
     <string name="entry_add_attachment">Anhang hinzufügen</string>
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
-    <string name="validate">Validieren</string>
+    <string name="validate">Überprüfen</string>
     <string name="autofill_manual_selection_title">Manuelle Auswahl</string>
     <string name="autofill_manual_selection_summary">Option zur manuellen Auswahl des Datenbankeintrags anzeigen</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
@@ -453,7 +453,7 @@
     <string name="autofill_preference_title">Autofüll-Einstellungen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
-    <string name="autofill_block_restart">App, die das Formular enthält, neu starten, um die Sperrung zu aktivieren.</string>
+    <string name="autofill_block_restart">Die das Formular enthaltende App neu starten, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Ausfüllen sperren</string>
     <string name="autofill_web_domain_blocklist_summary">Domain-Liste, für die automatisches Ausfüllen verhindert wird</string>
     <string name="autofill_web_domain_blocklist_title">Webdomain-Sperrliste</string>
@@ -465,11 +465,11 @@
     <string name="content_description_add_item">Element hinzufügen</string>
     <string name="filter">Filter</string>
     <string name="keyboard_change">Tastatur wechseln</string>
-    <string name="keyboard_previous_fill_in_title">Automatische Tastenaktion</string>
+    <string name="keyboard_previous_fill_in_title">Zurück wechseln</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
     <string name="keyboard_previous_fill_in_summary">Nach dem Ausführen der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_database_credentials_summary">Auf dem Datenbank-Anmeldebildschirm automatisch zur vorherigen Tastatur wechseln</string>
-    <string name="education_add_attachment_summary">Füge dem Eintrag einen Anhang bei, um wichtige externe Daten zu speichern.</string>
+    <string name="education_add_attachment_summary">Dem Eintrag einen Anhang hinzufügen, um wichtige externe Daten zu speichern.</string>
     <string name="content_description_credentials_information">Anmeldeinformationen</string>
     <string name="data">Daten</string>
     <string name="database_data_remove_unlinked_attachments_title">Unverknüpfte Daten entfernen</string>
@@ -493,7 +493,7 @@
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrische Sicherheitsaktualisierung erforderlich.</string>
-    <string name="configure_biometric">Keine biometrischen oder Geräteanmeldedaten registriert.</string>
+    <string name="configure_biometric">Es sind weder Biometrie- noch Geräteanmeldedaten registriert.</string>
     <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
@@ -507,34 +507,34 @@
     <string name="keyboard_save_search_info_title">Geteilte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten unwiderruflich aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Du musst dich weiterhin an dein Passwort erinnern, wenn du schnelle Entsperrmethoden verwendest.</string>
-    <string name="menu_keystore_remove_key">Schlüssel für Schnellentsperrung löschen</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Schnelle Entsperrmethoden</string>
-    <string name="education_advanced_unlock_summary">Verknüpfe dein Passwort mit Biometrie- oder Geräteanmeldedaten, um die Datenbank schnell zu entsperren.</string>
-    <string name="education_advanced_unlock_title">Schnelles Datenbank-Entsperren</string>
-    <string name="advanced_unlock_timeout">Zeitlimit für schnelles Entsperren</string>
-    <string name="temp_advanced_unlock_timeout_summary">Dauer der Schnellentsperrnutzung bis sie zurückgesetzt wird</string>
-    <string name="temp_advanced_unlock_timeout_title">Ablauf der schnellen Entsperrung</string>
-    <string name="temp_advanced_unlock_enable_summary">Für Nutzung des schnellen Entsperren keine verschlüsselten Inhalte speichern</string>
-    <string name="temp_advanced_unlock_enable_title">Zeitlimit für schnelles Entsperren</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Du musst dich weiterhin an deinen Hauptschlüssel erinnern, wenn du die Geräteentsperrung verwendest.</string>
+    <string name="menu_keystore_remove_key">Schlüssel für Geräteentsperrung löschen</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Verknüpfung mit Geräteentsperrung</string>
+    <string name="education_advanced_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
+    <string name="education_advanced_unlock_title">Geräteentsperrung der Datenbank</string>
+    <string name="advanced_unlock_timeout">Zeitlimit für Geräteentsperrung</string>
+    <string name="temp_advanced_unlock_timeout_summary">Dauer der Geräteentsperrung bis sie zurückgesetzt wird</string>
+    <string name="temp_advanced_unlock_timeout_title">Ablauf der Geräteentsperrung</string>
+    <string name="temp_advanced_unlock_enable_summary">Bei Nutzung der Geräteentsperrung keine verschlüsselten Inhalte speichern</string>
+    <string name="temp_advanced_unlock_enable_title">Zeitlich begrenzte Geräteentsperrung</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit deinen Geräteanmeldedaten</string>
-    <string name="advanced_unlock_tap_delete">Drücken, um alle Schnellentsperrschlüssel zu löschen</string>
+    <string name="advanced_unlock_tap_delete">Drücken, um alle Geräteentsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit schnellen Entsperrmethoden öffnen</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit Geräteentsperrdaten öffnen</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
     <string name="custom_fields">Benutzerdefinierte Felder</string>
-    <string name="advanced_unlock_delete_all_key_warning">Alle zum schnellen Entsperren zugehörigen Verschlüsselungsschlüssel löschen\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Alle zur Geräteentsperrung zugehörigen Verschlüsselungsschlüssel löschen\?</string>
     <string name="device_credential_unlock_enable_title">Entsperrung mit Geräteanmeldedaten</string>
     <string name="device_credential">Geräteanmeldedaten</string>
     <string name="credential_before_click_advanced_unlock_button">Passwort eingeben und dann diese Taste drücken.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Schnellentsperrungsabfrage konnte nicht gestartet werden.</string>
-    <string name="advanced_unlock_scanning_error">Fehler bei schneller Entsperrung: %1$s</string>
-    <string name="advanced_unlock_not_recognized">Abdruck für schnelles Entsperren nicht erkannt</string>
-    <string name="advanced_unlock_invalid_key">Schneller Entsperrschlüssel nicht lesbar. Bitte lösche ihn und wiederhole den Vorgang zur Entsperr-Erkennung.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus schnellen Entsperrdaten gewinnen</string>
+    <string name="advanced_unlock_prompt_not_initialized">Geräteentsperrungsabfrage konnte nicht gestartet werden.</string>
+    <string name="advanced_unlock_scanning_error">Fehler bei Geräteentsperrung: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Fingerabdruck für Geräteentsperrung wurde nicht erkannt</string>
+    <string name="advanced_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte diesen löschen und den Vorgang zur Entsperr-Erkennung wiederholen.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus Geräteentsperrdaten gewinnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Daten neu laden</string>
@@ -618,7 +618,7 @@
     <string name="show_entry_colors_title">Eintragsfarben</string>
     <string name="enable_keep_screen_on_title">Bildschirm eingeschaltet lassen</string>
     <string name="warning_keyfile_integrity">Der Hash der Datei kann nicht garantiert werden, da Android seine Daten ändern kann. Änder die Dateiendung zu .bin, um die Integrität zu gewährleisten.</string>
-    <string name="enable_keep_screen_on_summary">Bildschirm beim Ansehen des Eintrags eingeschaltet lassen</string>
+    <string name="enable_keep_screen_on_summary">Bildschirm beim Anzeigen oder Bearbeiten des Eintrags eingeschaltet lassen</string>
     <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe für einen Eintrag anzeigen</string>
     <string name="auto_type_sequence">Automatische Eingabefolge</string>
     <string name="regex">Regulärer Ausdruck</string>
@@ -681,4 +681,25 @@
     <string name="auto_type">Automatische Eingabe</string>
     <string name="html_about_privacy">&lt;strong&gt;Es werden keine Benutzerdaten ausgelesen&lt;/strong&gt;, diese Anwendung stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert vollständig die Privatsphäre der Benutzer.</string>
     <string name="merge_success">Zusammenführung erfolgreich abgeschlossen</string>
+    <string name="menu_form_filling_settings_summary">Tastatur, Automatisches Ausfüllen, Zwischenablage</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometrie, Geräteanmeldedaten</string>
+    <string name="menu_database_settings_summary">Metadaten, Papierkorb, Vorlagen, Verlauf</string>
+    <string name="menu_app_settings_summary">Suche, Sperre, Verlauf, Eigenschaften</string>
+    <string name="menu_security_settings_summary">Verschlüsselung, Schlüsselableitungsfunktion</string>
+    <string name="master_key_settings_summary">Passwortänderung</string>
+    <string name="configure">Konfigurieren</string>
+    <string name="ask">Fragen</string>
+    <string name="later">Später</string>
+    <string name="unlock_and_link_biometric">Geräteentsperrverknüpfung</string>
+    <string name="menu_appearance_settings_summary">Design, Farben, Attribute</string>
+    <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
+\n
+\nWird diese Berechtigung nicht aktiviert, ist die im Hintergrund geöffnete Datenbank nicht sichtbar, wenn eine Anwendung im Vordergrund läuft.</string>
+    <string name="warning_copy_permission">Die Benachrichtigungsberechtigung ist erforderlich, um die Benachrichtigungsfunktion der Zwischenablage zu nutzen.</string>
+    <string name="unlock">Entsperren</string>
+    <string name="education_validate_entry_title">Eintrag überprüfen</string>
+    <string name="education_validate_entry_summary">Bitte daran denken, den Eintrag zu überprüfen und die Datenbank zu speichern.
+\n
+\nWenn ein automatisches Sperren aktiviert ist und vergessen wird, dass Änderungen vorgenommen wurden, besteht die Gefahr von Datenverlust.</string>
+    <string name="info">Info</string>
 </resources>
