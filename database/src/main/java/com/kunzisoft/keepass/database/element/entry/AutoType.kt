@@ -22,6 +22,8 @@ package com.kunzisoft.keepass.database.element.entry
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 class AutoType : Parcelable {
 
@@ -41,7 +43,7 @@ class AutoType : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        this.enabled = parcel.readByte().toInt() != 0
+        this.enabled = parcel.readBooleanCompat()
         this.obfuscationOptions = UnsignedInt(parcel.readInt())
         this.defaultSequence = parcel.readString() ?: defaultSequence
         parcel.readTypedList(this.windowSeqPairs, AutoTypeItem.CREATOR)
@@ -52,7 +54,7 @@ class AutoType : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (enabled) 1 else 0).toByte())
+        dest.writeBooleanCompat(enabled)
         dest.writeInt(obfuscationOptions.toKotlinInt())
         dest.writeString(defaultSequence)
         dest.writeTypedList(windowSeqPairs)

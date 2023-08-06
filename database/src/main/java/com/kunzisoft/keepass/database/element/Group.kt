@@ -29,7 +29,9 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.*
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
+import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -78,7 +80,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     constructor(parcel: Parcel) {
         groupKDB = parcel.readParcelableCompat()
         groupKDBX = parcel.readParcelableCompat()
-        isVirtual = parcel.readByte().toInt() != 0
+        isVirtual = parcel.readBooleanCompat()
     }
 
     enum class ChildFilter {
@@ -112,7 +114,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(groupKDB, flags)
         dest.writeParcelable(groupKDBX, flags)
-        dest.writeByte((if (isVirtual) 1 else 0).toByte())
+        dest.writeBooleanCompat(isVirtual)
     }
 
     override val nodeId: NodeId<*>

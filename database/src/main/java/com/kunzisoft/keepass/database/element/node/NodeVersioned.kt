@@ -26,7 +26,9 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 /**
  * Abstract class who manage Groups and Entries
@@ -51,7 +53,7 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         this.lastModificationTime = parcel.readParcelableCompat() ?: lastModificationTime
         this.lastAccessTime = parcel.readParcelableCompat() ?: lastAccessTime
         this.expiryTime = parcel.readParcelableCompat() ?: expiryTime
-        this.expires = parcel.readByte().toInt() != 0
+        this.expires = parcel.readBooleanCompat()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -62,7 +64,7 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
         dest.writeParcelable(lastModificationTime, flags)
         dest.writeParcelable(lastAccessTime, flags)
         dest.writeParcelable(expiryTime, flags)
-        dest.writeByte((if (expires) 1 else 0).toByte())
+        dest.writeBooleanCompat(expires)
     }
 
     override fun describeContents(): Int {

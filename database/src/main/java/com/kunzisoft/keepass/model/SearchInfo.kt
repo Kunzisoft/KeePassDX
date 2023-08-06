@@ -6,6 +6,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.ObjectNameResource
+import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 class SearchInfo : ObjectNameResource, Parcelable {
     var manualSelection: Boolean = false
@@ -44,7 +46,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     private constructor(parcel: Parcel) {
-        manualSelection = parcel.readByte().toInt() != 0
+        manualSelection = parcel.readBooleanCompat()
         val readAppId = parcel.readString()
         applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
@@ -60,7 +62,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeByte((if (manualSelection) 1 else 0).toByte())
+        parcel.writeBooleanCompat(manualSelection)
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")

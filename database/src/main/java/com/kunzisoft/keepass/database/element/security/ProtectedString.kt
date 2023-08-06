@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.database.element.security
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 class ProtectedString : Parcelable {
 
@@ -39,7 +41,7 @@ class ProtectedString : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        isProtected = parcel.readByte().toInt() != 0
+        isProtected = parcel.readBooleanCompat()
         stringValue = parcel.readString() ?: stringValue
     }
 
@@ -48,7 +50,7 @@ class ProtectedString : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (isProtected) 1 else 0).toByte())
+        dest.writeBooleanCompat(isProtected)
         dest.writeString(stringValue)
     }
 

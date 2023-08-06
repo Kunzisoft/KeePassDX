@@ -5,7 +5,9 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 open class NodeInfo() : Parcelable {
 
@@ -22,7 +24,7 @@ open class NodeInfo() : Parcelable {
         icon = parcel.readParcelableCompat() ?: icon
         creationTime = parcel.readParcelableCompat() ?: creationTime
         lastModificationTime = parcel.readParcelableCompat() ?: lastModificationTime
-        expires = parcel.readInt() != 0
+        expires = parcel.readBooleanCompat()
         expiryTime = parcel.readParcelableCompat() ?: expiryTime
         customData = parcel.readParcelableCompat() ?: customData
     }
@@ -32,7 +34,7 @@ open class NodeInfo() : Parcelable {
         parcel.writeParcelable(icon, flags)
         parcel.writeParcelable(creationTime, flags)
         parcel.writeParcelable(lastModificationTime, flags)
-        parcel.writeInt(if (expires) 1 else 0)
+        parcel.writeBooleanCompat(expires)
         parcel.writeParcelable(expiryTime, flags)
         parcel.writeParcelable(customData, flags)
     }
