@@ -426,7 +426,7 @@
     <string name="error_create_database">Databasebestand is niet aangemaakt.</string>
     <string name="error_label_exists">Dit label bestaat al.</string>
     <string name="entry_attachments">Bijlagen</string>
-    <string name="html_about_contribution">Om <strong>onze vrijheid te behouden</strong>, <strong>fouten te verhelpen</strong>, <strong>functies toe te voegen</strong> en <strong>altijd actief te blijven</strong>, rekenen wij op jouw <strong>bijdrage</strong>.</string>
+    <string name="html_about_contribution">Om &lt;strong&gt;onze vrijheid te behouden&lt;/strong&gt;, &lt;strong&gt;fouten te verhelpen&lt;/strong&gt;, &lt;strong&gt;functies toe te voegen&lt;/strong&gt; en &lt;strong&gt;altijd actief te blijven&lt;/strong&gt;, rekenen wij op jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bijlage toevoegen</string>
     <string name="discard">Weggooien</string>
     <string name="discard_changes">Wijzigingen weggooien\?</string>
@@ -662,7 +662,7 @@
     <string name="error_unable_merge_database_kdb">Samenvoegen vanuit database V1 niet mogelijk.</string>
     <string name="error_no_hardware_key">Kies een fysieke sleutel.</string>
     <string name="remember_hardware_key_summary">Houdt de gebruikte fysieke sleutels bij</string>
-    <string name="html_about_privacy"><strong>Er worden geen gebruikersgegevens opgehaald</strong>, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Er worden geen gebruikersgegevens opgehaald&lt;/strong&gt;, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>
     <string name="error_location_unknown">Locatie van database is onbekend, actie kan niet worden uitgevoerd.</string>
     <string name="content_description_hardware_key_checkbox">Fysieke sleutel-selectievak</string>
     <string name="waiting_challenge_request">In afwachting van de reactietest-vraag…</string>

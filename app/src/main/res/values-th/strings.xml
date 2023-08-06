@@ -639,7 +639,7 @@
     <string name="education_setup_OTP_summary">ตั่้งค่ารหัสผ่านแบบใช้ครั้งเดียว (HOTP/TOTP) เพิ่อสร้างโทเค็นสำหรับการยืนยันสองขั้นตอน (2FA)</string>
     <string name="education_field_copy_title">คัดลอกเขตข้อมูล</string>
     <string name="education_donation_summary">ช่วยเพื่มความสเถียร ความปลอดภัย และใส่ฟีเจอร์เข้าไปเพื่มเติม</string>
-    <string name="html_text_ad_free">ไม่เหมือนแอปจัดการรหัสผ่านอื่นๆ แอปนี้<strong>เป็นซอฟท์แวร์แบบเสรี</strong>, <strong>ปลอดโฆษณา</strong> และไม่เก็บข้อมูลผู้ใช้ไว้บนเซิฟเวอร์ ไม่ว่าจะใช้เวอร์ชั่นอะไรก็ตาม</string>
+    <string name="html_text_ad_free">ไม่เหมือนแอปจัดการรหัสผ่านอื่นๆ แอปนี้&lt;strong&gt;เป็นซอฟท์แวร์แบบเสรี&lt;/strong&gt;, &lt;strong&gt;ปลอดโฆษณา&lt;/strong&gt; และไม่เก็บข้อมูลผู้ใช้ไว้บนเซิฟเวอร์ ไม่ว่าจะใช้เวอร์ชั่นอะไรก็ตาม</string>
     <string name="html_text_buy_pro">โดยการซื้อเวอร์ชั่นโปร คุณจะได้เข้าถึง &lt;strong&gt;สไตล์ของแอปที่มากขึ้น&lt;/strong&gt; และยังมีส่วนช่วย &lt;strong&gt;พัฒนาโครงการโดยชุมชนนี้ต่อไป&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">&lt;strong&gt;สไตล์ของแอป&lt;/strong&gt; นี้ใช้งานได้ ขอขอบคุณการสนับสนุนของคุณ</string>
     <string name="html_text_dev_feature">ฟีเจอร์นี้ &lt;strong&gt;อยู่ในระหว่างการพัฒนา&lt;/strong&gt; และต้องการ &lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;ของคุณ และเปิดให้ใช้งานเร็วๆนี้</string>
