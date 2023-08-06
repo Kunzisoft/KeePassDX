@@ -333,7 +333,7 @@
     <string name="content_description_update_from_list">Aktualizovat</string>
     <string name="content_description_keyboard_close_fields">Zavřít kolonky</string>
     <string name="error_create_database_file">Nepodařilo se vytvořit databázi s tímto heslem a souborem klíče.</string>
-    <string name="menu_advanced_unlock_settings">Rozšířené odemknutí</string>
+    <string name="menu_advanced_unlock_settings">Odemknutí zařízení</string>
     <string name="biometric">Biometrika</string>
     <string name="biometric_auto_open_prompt_title">Automaticky otevřít pobídku</string>
     <string name="biometric_auto_open_prompt_summary">Automaticky žádat rozšířené odemknutí, je-li databáze nastavena k jejímu použití</string>
@@ -668,4 +668,7 @@
     <string name="remember_hardware_key_title">Pamatovat si hardwarové klíče</string>
     <string name="remember_hardware_key_summary">Udržuje znalost o použitých hardwarových klíčích</string>
     <string name="merge_success">Sloučení bylo úspěšně dokončeno</string>
+    <string name="info">Informace</string>
+    <string name="menu_app_settings_summary">Vyhledávání, uzamčení, historie, vlastnosti</string>
+    <string name="menu_form_filling_settings_summary">Klávesnice, automatické vyplnění, schránka</string>
 </resources>

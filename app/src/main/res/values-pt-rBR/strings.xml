@@ -41,7 +41,7 @@
     <string name="digits">Dígitos</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;.
 \nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
-    <string name="select_database_file">Abrir banco de dados existente</string>
+    <string name="select_database_file">Abrir cofre existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_notes">Notas</string>
@@ -137,7 +137,7 @@
     <string name="error_autofill_enable_service">Não foi possível habilitar o serviço de preenchimento automático.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Não foi possível encontrar o arquivo. Tente reabri-lo de seu explorador de arquivos.</string>
+    <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu explorador de arquivos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -173,7 +173,7 @@
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio por senha\?</string>
     <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
     <string name="encrypted_value_stored">Senha cifrada armazenada</string>
-    <string name="unavailable">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
+    <string name="unavailable">Indisponível</string>
     <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
@@ -192,18 +192,18 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados após alguns segundos quando a tela for desligada</string>
-    <string name="advanced_unlock">Desbloqueio avançado</string>
+    <string name="advanced_unlock">Desbloqueio do dispositivo</string>
     <string name="biometric_unlock_enable_title">Desbloqueio biométrico</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
     <string name="biometric_delete_all_key_title">Apague chaves de criptografia</string>
-    <string name="biometric_delete_all_key_summary">Apagar todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio avançado</string>
+    <string name="biometric_delete_all_key_summary">Excluir todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio do dispositivo</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">O dispositivo está utilizando Android %1$s, mas precisa %2$s ou posterior.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
     <string name="file_name">Nome do arquivo</string>
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave-mestra</string>
-    <string name="create_keepass_file">Criar novo banco</string>
+    <string name="create_keepass_file">Criar novo cofre</string>
     <string name="recycle_bin_title">Usar lixeira</string>
     <string name="recycle_bin_summary">Mover grupos e entradas para o grupo \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Tipo de letra nos campos</string>
@@ -261,7 +261,7 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenados.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;livre de direitos autorais&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>livre de direitos autorais</strong> e não coleta dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
     <string name="html_text_buy_pro">Ao comprar a versão Pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
     <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;</string>
@@ -337,10 +337,10 @@
     <string name="content_description_update_from_list">Atualizar</string>
     <string name="content_description_keyboard_close_fields">Campos fechados</string>
     <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
-    <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
+    <string name="menu_advanced_unlock_settings">Desbloqueio do dispositivo</string>
     <string name="biometric">Biometria</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Solicitar desbloqueio avançado automaticamente se o banco de dados estiver configurado para usá-lo</string>
+    <string name="biometric_auto_open_prompt_summary">Solicitar automaticamente o desbloqueio do dispositivo se o banco de dados estiver configurado para usá-lo</string>
     <string name="enable">Habilitado</string>
     <string name="disable">Desabilitado</string>
     <string name="master_key">Chave-mestra</string>
@@ -369,7 +369,7 @@
     <string name="contains_duplicate_uuid_procedure">Consertar o problema gerando nova UUIDs para duplicatas para continuar\?</string>
     <string name="database_opened">Banco de dados aberto</string>
     <string name="clipboard_explanation_summary">Copie campos de entrada usando a área de transferência do seu dispositivo</string>
-    <string name="advanced_unlock_explanation_summary">Use o desbloqueio avançado para abrir o banco de dados mais facilmente</string>
+    <string name="advanced_unlock_explanation_summary">Use o desbloqueio do dispositivo para abrir um banco de dados com mais facilidade</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
     <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados</string>
     <string name="max_history_items_title">Número máximo</string>
@@ -435,7 +435,7 @@
     <string name="contribution">Contribuição</string>
     <string name="upload_attachment">Upload %1$s</string>
     <string name="keyboard_previous_fill_in_summary">Retornar automaticamente para o teclado anterior após executar a \"ação de tecla automática\"</string>
-    <string name="keyboard_previous_fill_in_title">Ação automática de tecla</string>
+    <string name="keyboard_previous_fill_in_title">Mudar de volta</string>
     <string name="warning_remove_unlinked_attachment">A remoção de dados não vinculados pode diminuir o tamanho do seu banco de dados, mas também pode excluir os dados usados para plug-ins KeePass.</string>
     <string name="warning_replace_file">O upload deste arquivo substituirá o existente.</string>
     <string name="education_add_attachment_summary">Carregar um anexo em sua entrada para salvar dados externos importantes.</string>
@@ -465,7 +465,7 @@
     <string name="content_description_credentials_information">Informações de credenciais</string>
     <string name="content_description_add_item">Adicionar item</string>
     <string name="autofill_block_restart">Reinicie o aplicativo que contém o formulário para ativar o bloqueio.</string>
-    <string name="menu_keystore_remove_key">Excluir chave de desbloqueio avançado</string>
+    <string name="menu_keystore_remove_key">Excluir chave de desbloqueio do dispositivo</string>
     <string name="menu_reload_database">Recarregar dados</string>
     <string name="error_start_database_action">Ocorreu um erro ao executar uma ação no banco de dados.</string>
     <string name="error_remove_file">Ocorreu um erro ao remover os dados do arquivo.</string>
@@ -511,14 +511,14 @@
     <string name="device_credential">Credencial do dispositivo</string>
     <string name="properties">Propriedades</string>
     <string name="credential_before_click_advanced_unlock_button">Digite a senha e clique neste botão.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Incapaz de inicializar o prompt de desbloqueio avançado.</string>
-    <string name="advanced_unlock_scanning_error">Erro de desbloqueio avançado: %1$s</string>
-    <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio avançado</string>
-    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio avançada. Por favor, apague-a e repita o procedimento de reconhecimento de desbloqueio.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extraia credencial de banco de dados com dados de desbloqueio avançado</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Banco de dados aberto com reconhecimento avançado de desbloqueio</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Você ainda precisa lembrar sua credencial principal se usar o reconhecimento de desbloqueio avançado.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Reconhecimento de desbloqueio avançado</string>
+    <string name="advanced_unlock_prompt_not_initialized">Não foi possível inicializar o prompt de desbloqueio do dispositivo.</string>
+    <string name="advanced_unlock_scanning_error">Erro de desbloqueio do dispositivo: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio</string>
+    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio do dispositivo. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Extraia a credencial do banco de dados com os dados de desbloqueio do dispositivo</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Reconhecimento de desbloqueio do dispositivo</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Você ainda precisa se lembrar da credencial principal do cofre se usar o reconhecimento de desbloqueio do dispositivo.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Link para desbloqueio do dispositivo</string>
     <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
     <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
@@ -552,7 +552,7 @@
     <string name="unit_byte">B</string>
     <string name="download_canceled">Cancelado!</string>
     <string name="education_advanced_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
-    <string name="education_advanced_unlock_title">Desbloqueio avançado de banco de dados</string>
+    <string name="education_advanced_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
     <string name="autofill_read_only_save">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
@@ -579,15 +579,15 @@
     <string name="templates_group_uuid_title">Grupo de modelos</string>
     <string name="templates_group_enable_summary">Use modelos dinâmicos para preencher os campos de uma entrada</string>
     <string name="templates_group_enable_title">Uso de modelos</string>
-    <string name="advanced_unlock_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio avançado\?</string>
-    <string name="advanced_unlock_timeout">Tempo limite de desbloqueio avançado</string>
-    <string name="temp_advanced_unlock_timeout_summary">Duração do uso de desbloqueio avançado antes de excluir seu conteúdo</string>
-    <string name="temp_advanced_unlock_timeout_title">Expiração de desbloqueio avançado</string>
-    <string name="temp_advanced_unlock_enable_summary">Não armazene nenhum conteúdo cifrado para usar desbloqueio avançado</string>
-    <string name="temp_advanced_unlock_enable_title">Desbloqueio avançado temporário</string>
+    <string name="advanced_unlock_delete_all_key_warning">Excluir todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio do dispositivo\?</string>
+    <string name="advanced_unlock_timeout">Tempo limite de desbloqueio do dispositivo</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duração do uso do desbloqueio do dispositivo antes de excluir seu conteúdo</string>
+    <string name="temp_advanced_unlock_timeout_title">Expiração do desbloqueio do dispositivo</string>
+    <string name="temp_advanced_unlock_enable_summary">Não armazene nenhum conteúdo criptografado para usar desbloqueio dispositivo</string>
+    <string name="temp_advanced_unlock_enable_title">Desbloqueio temporário do dispositivo</string>
     <string name="device_credential_unlock_enable_summary">Permite que você use a credencial do seu dispositivo para abrir o banco de dados</string>
     <string name="device_credential_unlock_enable_title">Desbloqueio de credencial de dispositivo</string>
-    <string name="advanced_unlock_tap_delete">Toque para excluir as chaves de desbloqueio avançado</string>
+    <string name="advanced_unlock_tap_delete">Toque para excluir as chaves de desbloqueio do dispositivo</string>
     <string name="content">Conteúdo</string>
     <string name="autofill_select_entry">Selecione a entrada…</string>
     <string name="hint_icon_name">Nome do ícone</string>
@@ -600,7 +600,7 @@
     <string name="menu_merge_database">Mesclar dados</string>
     <string name="tags">Etiquetas</string>
     <string name="enable_keep_screen_on_title">Mantenha a tela ligada</string>
-    <string name="enable_keep_screen_on_summary">Mantenha a tela ligada enquanto estiver vendo a entrada</string>
+    <string name="enable_keep_screen_on_summary">Mantenha a tela ligada enquanto ver ou editar uma entrada</string>
     <string name="show_entry_colors_title">Cores de entrada</string>
     <string name="show_entry_colors_summary">Exibe as cores de primeiro plano e de fundo de uma entrada</string>
     <string name="error_move_group_here">Você não pode mover um grupo pra cá.</string>
@@ -667,4 +667,25 @@
     <string name="auto_type">Preenchimento automático</string>
     <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
     <string name="merge_success">Merge concluído com sucesso</string>
+    <string name="info">Info</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometria, credencial do dispositivo</string>
+    <string name="menu_database_settings_summary">Metadados, lixeira, modelos, histórico</string>
+    <string name="menu_security_settings_summary">Criptografia, função de derivação chave</string>
+    <string name="master_key_settings_summary">Mudança, renovação</string>
+    <string name="warning_copy_permission">A permissão de notificação é necessária para usar o recurso de notificação da área de transferência.</string>
+    <string name="later">Mais tarde</string>
+    <string name="ask">Perguntar</string>
+    <string name="configure">Configurar</string>
+    <string name="unlock_and_link_biometric">Link de desbloqueio do dispositivo</string>
+    <string name="menu_appearance_settings_summary">Temas, cores, atributos</string>
+    <string name="unlock">Desbloquear</string>
+    <string name="education_validate_entry_title">Validar a entrada</string>
+    <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propriedades</string>
+    <string name="warning_database_notification_permission">A permissão de notificação permite exibir o status do banco de dados e bloqueá-lo com um botão de fácil acesso.
+\n
+\nSe você não ativar essa permissão, o banco de dados aberto em segundo plano não ficará visível se outro aplicativo estiver em primeiro plano.</string>
+    <string name="education_validate_entry_summary">Lembre-se de validar sua entrada e salvar seu banco de dados.
+\n
+\nSe um bloqueio automático for ativado e você esquecer que estava fazendo uma modificação, você corre o risco de perder seus dados.</string>
+    <string name="menu_form_filling_settings_summary">Teclado, preenchimento automático, área de transferência</string>
 </resources>

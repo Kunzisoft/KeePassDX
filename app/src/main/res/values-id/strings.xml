@@ -26,7 +26,7 @@
     <string name="menu_security_settings">Pengaturan Keamanan</string>
     <string name="menu_app_settings">Pengaturan Aplikasi</string>
     <string name="menu_database_settings">Pengaturan Basisdata</string>
-    <string name="menu_advanced_unlock_settings">Buka Kunci Lanjutan</string>
+    <string name="menu_advanced_unlock_settings">Membuka kunci perangkat</string>
     <string name="menu_form_filling_settings">Pengisian Formulir</string>
     <string name="settings">Pengaturan</string>
     <string name="copy_field">Salinan dari %1$s</string>
@@ -177,8 +177,8 @@
     <string name="contact">Kontak</string>
     <string name="auto_focus_search_summary">Minta pencarian saat membuka database</string>
     <string name="auto_focus_search_title">Pencarian cepat</string>
-    <string name="create_keepass_file">Buat basis data baru</string>
-    <string name="select_database_file">Buka basis data yang sudah ada</string>
+    <string name="create_keepass_file">Membuat brankas baru</string>
+    <string name="select_database_file">Buka brankas yang ada</string>
     <string name="no_url_handler">Pasang browser web untuk membuka URL ini.</string>
     <string name="memory_usage">Penggunaan memori</string>
     <string name="rounds">Putaran transformasi</string>
@@ -237,7 +237,7 @@
     <string name="compression">Kompresi</string>
     <string name="other">Lainnya</string>
     <string name="application_appearance">Tampilan</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Pengenalan pembuka kunci tingkat lanjut</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Tautan ke pembukaan kunci perangkat</string>
     <string name="keystore_not_accessible">Keystore tidak diinisialisasi dengan benar.</string>
     <string name="biometric_security_update_required">Pembaruan keamanan biometrik diperlukan.</string>
     <string name="configure_biometric">Tidak ada kredensial biometrik atau perangkat yang terdaftar.</string>
@@ -309,7 +309,7 @@
     <string name="registration_mode">Mode pendaftaran</string>
     <string name="save_mode">Mode simpan</string>
     <string name="search_mode">Mode pencarian</string>
-    <string name="menu_keystore_remove_key">Hapus pembuka kunci lanjutan</string>
+    <string name="menu_keystore_remove_key">Menghapus kunci buka kunci perangkat</string>
     <string name="menu_reload_database">Muat ulang data</string>
     <string name="error_database_uri_null">URI database tidak dapat diambil.</string>
     <string name="error_field_name_already_exists">Nama bidang sudah ada.</string>
@@ -645,4 +645,19 @@
     <string name="content_description_nav_header">Tajuk navigasi</string>
     <string name="auto_type">Ketik Otomatis</string>
     <string name="merge_success">Penggabungan berhasil dilakukan</string>
+    <string name="info">Info</string>
+    <string name="menu_app_settings_summary">Cari, kunci, riwayat, properti</string>
+    <string name="menu_form_filling_settings_summary">Papan ketik, isi otomatis, papan klip</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometri, kredensial perangkat</string>
+    <string name="menu_database_settings_summary">Metadata, tempat sampah, templat, riwayat</string>
+    <string name="menu_security_settings_summary">Enkripsi, fungsi derivasi kunci</string>
+    <string name="master_key_settings_summary">Perubahan, pembaruan</string>
+    <string name="warning_database_notification_permission">Izin notifikasi memungkinkan Anda untuk menampilkan status database dan menguncinya dengan tombol yang mudah diakses.
+\n
+\nJika Anda tidak mengaktifkan, basis data yang terbuka di latar belakang tidak akan terlihat jika ada aplikasi lain di latar depan.</string>
+    <string name="warning_copy_permission">Izin pemberitahuan diperlukan untuk menggunakan fitur pemberitahuan papan klip.</string>
+    <string name="ask">Tanya</string>
+    <string name="configure">Atur</string>
+    <string name="later">Nanti</string>
+    <string name="unlock_and_link_biometric">Tautan buka kunci perangkat</string>
 </resources>
