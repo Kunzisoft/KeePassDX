@@ -471,8 +471,8 @@
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:colorForeground">?attr/colorSecondary</item>
-        <item name="tint">?attr/colorSecondary</item>
+        <item name="android:colorForeground">@color/secondary_selector</item>
+        <item name="tint">@color/secondary_selector</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="backgroundTint">@null</item>
         <item name="android:padding">12dp</item>
