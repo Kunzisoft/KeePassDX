@@ -29,8 +29,10 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 import java.util.*
 
 class EntryInfo : NodeInfo {
@@ -66,7 +68,7 @@ class EntryInfo : NodeInfo {
         parcel.readListCompat(attachments)
         autoType = parcel.readParcelableCompat() ?: autoType
         otpModel = parcel.readParcelableCompat() ?: otpModel
-        isTemplate = parcel.readByte().toInt() != 0
+        isTemplate = parcel.readBooleanCompat()
     }
 
     override fun describeContents(): Int {
@@ -87,7 +89,7 @@ class EntryInfo : NodeInfo {
         parcel.writeList(attachments)
         parcel.writeParcelable(autoType, flags)
         parcel.writeParcelable(otpModel, flags)
-        parcel.writeByte((if (isTemplate) 1 else 0).toByte())
+        parcel.writeBooleanCompat(isTemplate)
     }
 
     fun containsCustomFieldsProtected(): Boolean {

@@ -34,6 +34,8 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readSerializableCompat
 import com.kunzisoft.keepass.utils.UnsignedLong
+import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 import java.util.*
 
 class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -70,7 +72,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         locationChanged = parcel.readParcelableCompat() ?: locationChanged
         customData = parcel.readParcelableCompat() ?: CustomData()
         notes = parcel.readString() ?: notes
-        isExpanded = parcel.readByte().toInt() != 0
+        isExpanded = parcel.readBooleanCompat()
         val isSearchingEnabled = parcel.readInt()
         enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         val isAutoTypeEnabled = parcel.readInt()
@@ -95,7 +97,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         dest.writeParcelable(locationChanged, flags)
         dest.writeParcelable(customData, flags)
         dest.writeString(notes)
-        dest.writeByte((if (isExpanded) 1 else 0).toByte())
+        dest.writeBooleanCompat(isExpanded)
         dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
         dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
         dest.writeString(defaultAutoTypeSequence)

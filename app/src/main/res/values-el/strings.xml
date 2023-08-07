@@ -44,7 +44,7 @@
     <string name="digits">Ψηφία</string>
     <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft είναι &lt;strong&gt;ανοιχτού κώδικα&lt;/strong&gt; και &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;.
 \nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
-    <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
+    <string name="select_database_file">Ανοίξτε την υπάρχον κρύπτη</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Άκυρο</string>
     <string name="entry_notes">Σημειώσεις</string>
@@ -185,7 +185,7 @@
     <string name="file_name">Όνομα αρχείου</string>
     <string name="path">Διαδρομή</string>
     <string name="assign_master_key">Ορίστε ένα κύριο κλειδί</string>
-    <string name="create_keepass_file">Δημιουργία νέας βάσης δεδομένων</string>
+    <string name="create_keepass_file">Δημιουργία νέας κρύπτης</string>
     <string name="recycle_bin_title">Χρήση Κάδου ανακύκλωσης</string>
     <string name="recycle_bin_summary">Μετακίνηση ομάδων και καταχωρίσεων στην ομάδα \"Κάδο ανακύκλωσης\" πριν την διαγραφή</string>
     <string name="monospace_font_fields_enable_title">Γραμματοσειρά πεδίου</string>
@@ -325,17 +325,17 @@
     <string name="content_description_update_from_list">Ενημέρωση</string>
     <string name="content_description_keyboard_close_fields">Κλείσιμο πεδίων</string>
     <string name="error_create_database_file">Δεν είναι δυνατή η δημιουργία βάσης δεδομένων με αυτόν τον κωδικό πρόσβασης και το αρχείο κλειδί.</string>
-    <string name="menu_advanced_unlock_settings">Προηγμένο ξεκλείδωμα</string>
+    <string name="menu_advanced_unlock_settings">Ξεκλείδωμα συσκευής</string>
     <string name="unavailable">Αυτή η βάση δεδομένων δεν έχει αποθηκευμένα διαπιστευτήρια ακόμα.</string>
     <string name="menu_appearance_settings">Εμφάνιση</string>
     <string name="biometric">Βιομετρία</string>
-    <string name="advanced_unlock">Προηγμένο ξεκλείδωμα</string>
+    <string name="advanced_unlock">Ξεκλείδωμα συσκευής</string>
     <string name="biometric_unlock_enable_title">Βιομετρικό ξεκλείδωμα</string>
     <string name="biometric_unlock_enable_summary">Σας επιτρέπει να σαρώσετε το βιομετρικό σας για να ανοίξετε τη βάση δεδομένων</string>
     <string name="biometric_auto_open_prompt_title">Αυτόματο άνοιγμα προτροπής</string>
-    <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματα προηγμένο ξεκλείδωμα εάν η βάση δεδομένων έχει ρυθμιστεί για να το χρησιμοποιήσει</string>
+    <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματο ξεκλείδωμα συσκευής εάν η βάση δεδομένων έχει ρυθμιστεί για να το χρησιμοποιεί</string>
     <string name="biometric_delete_all_key_title">Διαγράψτε τα κλειδιά κρυπτογράφησης</string>
-    <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με το προηγμένο ξεκλείδωμα</string>
+    <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με την αναγνώριση ξεκλειδώματος συσκευής</string>
     <string name="enable">Ενεργοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
     <string name="master_key">Κύριο κλειδί</string>
@@ -366,7 +366,7 @@
     <string name="autofill_explanation_summary">Ενεργοποιήστε την αυτόματη συμπλήρωση για να συμπληρώσετε γρήγορα φόρμες σε άλλες εφαρμογές</string>
     <string name="database_opened">Η Βάση Δεδομένων άνοιξε</string>
     <string name="clipboard_explanation_summary">Αντιγράψτε τα πεδία εισαγωγής χρησιμοποιώντας το πρόχειρο της συσκευής σας</string>
-    <string name="advanced_unlock_explanation_summary">Χρησιμοποιήστε το προηγμένο ξεκλείδωμα για να ανοίξετε μια βάση δεδομένων πιο εύκολα</string>
+    <string name="advanced_unlock_explanation_summary">Χρησιμοποιήστε το ξεκλείδωμα συσκευής για να ανοίξετε μια βάση δεδομένων πιο εύκολα</string>
     <string name="database_data_compression_title">Συμπίεση Δεδομένων</string>
     <string name="database_data_compression_summary">Η συμπίεση δεδομένων μειώνει το μέγεθος της βάσης δεδομένων</string>
     <string name="max_history_items_title">Μέγιστος αριθμός</string>
@@ -442,7 +442,7 @@
     <string name="autofill_web_domain_blocklist_title">Λίστα αποκλεισμού τομέα Ιστού</string>
     <string name="autofill_application_id_blocklist_title">Λίστα αποκλεισμού Εφαρμογών</string>
     <string name="autofill_application_id_blocklist_summary">Λίστα αποκλεισμού που αποτρέπει την αυτόματη συμπλήρωση εφαρμογών</string>
-    <string name="keyboard_previous_fill_in_title">Αυτόματη ενέργεια πλήκτρου</string>
+    <string name="keyboard_previous_fill_in_title">Γυρίστε πίσω</string>
     <string name="keyboard_previous_fill_in_summary">Επιστρέψτε αυτόματα στο προηγούμενο πληκτρολόγιο μετά την εκτέλεση της ενέργειας του \"Αυτόματου πλήκτρου\"</string>
     <string name="keyboard_previous_database_credentials_summary">Επιστρέψτε αυτόματα στο προηγούμενο πληκτρολόγιο στην οθόνη διαπιστευτηρίων βάσης δεδομένων</string>
     <string name="keyboard_previous_database_credentials_title">Οθόνη διαπιστευτηρίων βάσης δεδομένων</string>
@@ -487,33 +487,33 @@
     <string name="search_mode">Λειτουργία αναζήτησης</string>
     <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
     <string name="error_field_name_already_exists">Το όνομα πεδίου υπάρχει ήδη.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Προηγμένο ξεκλείδωμα αναγνώρισης</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήριά σας εάν χρησιμοποιείτε σύνθετη αναγνώριση ξεκλειδώματος.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Ανοίξτε τη βάση δεδομένων με προηγμένο ξεκλείδωμα αναγνώρισης</string>
-    <string name="menu_keystore_remove_key">Διαγραφή προηγμένου κλειδιού ξεκλειδώματος</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Σύνδεσμος για ξεκλείδωμα συσκευής</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Θα πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήρια της κρύπτης εάν χρησιμοποιείτε την αναγνώριση ξεκλειδώματος συσκευής.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Αναγνώριση ξεκλειδώματος συσκευής</string>
+    <string name="menu_keystore_remove_key">Διαγραφή κλειδιού ξεκλειδώματος συσκευής</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Επιλέξτε καταχώριση</string>
     <string name="back_to_previous_keyboard">Επιστροφή στο προηγούμενο πληκτρολόγιο</string>
     <string name="custom_fields">Προσαρμοσμένα πεδία</string>
-    <string name="advanced_unlock_delete_all_key_warning">Διαγραφή όλων των κλειδιών κρυπτογράφησης που σχετίζονται με το προηγμένο ξεκλείδωμα αναγνώρισης;</string>
+    <string name="advanced_unlock_delete_all_key_warning">Διαγραφή όλων των κλειδιών κρυπτογράφησης που σχετίζονται με την αναγνώριση ξεκλειδώματος συσκευής;</string>
     <string name="device_credential_unlock_enable_summary">Σας επιτρέπει να χρησιμοποιήσετε τα διαπιστευτήρια της συσκευής σας για να ανοίξετε τη βάση δεδομένων</string>
     <string name="device_credential_unlock_enable_title">Ξεκλείδωμα διαπιστευτηρίων συσκευής</string>
     <string name="device_credential">Διαπιστευτήρια συσκευής</string>
     <string name="credential_before_click_advanced_unlock_button">Πληκτρολογήστε τον κωδικό πρόσβασης, και στη συνέχεια κάντε κλικ αυτό το κουμπί.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία προτροπής προηγμένου ξεκλειδώματος.</string>
-    <string name="advanced_unlock_not_recognized">Δεν ήταν δυνατή η αναγνώριση αποτυπώματος προηγμένου ξεκλειδώματος</string>
-    <string name="advanced_unlock_scanning_error">Προηγμένο ξεκλείδωμα σφάλμα: %1$s</string>
-    <string name="advanced_unlock_invalid_key">Δεν είναι δυνατή η ανάγνωση του προηγμένου κλειδιού ξεκλειδώματος. Διαγράψτε το και επαναλάβετε τη διαδικασία αναγνώρισης ξεκλειδώματος.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Εξαγωγή διαπιστευτηρίων βάσης δεδομένων με προηγμένο ξεκλείδωμα δεδομένων</string>
+    <string name="advanced_unlock_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία της προτροπής ξεκλειδώματος συσκευής.</string>
+    <string name="advanced_unlock_not_recognized">Δεν ήταν δυνατή η αναγνώριση αποτυπώματος ξεκλειδώματος συσκευής</string>
+    <string name="advanced_unlock_scanning_error">Σφάλμα ξεκλειδώματος συσκευής: %1$s</string>
+    <string name="advanced_unlock_invalid_key">Δεν είναι δυνατή η ανάγνωση του κλειδιού ξεκλειδώματος της συσκευής. Διαγράψτε το και επαναλάβετε τη διαδικασία αναγνώρισης ξεκλειδώματος.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Εξαγωγή διαπιστευτηρίων βάσης δεδομένων με δεδομένα ξεκλειδώματος συσκευής</string>
     <string name="education_advanced_unlock_summary">Συνδέστε τον κωδικό πρόσβασής σας με το σαρωμένο βιομετρικό ή τα διαπιστευτήρια της συσκευής σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>
-    <string name="education_advanced_unlock_title">Προηγμένο ξεκλείδωμα βάσης δεδομένων</string>
-    <string name="advanced_unlock_timeout">Χρονικό όριο προηγμένου ξεκλειδώματος</string>
-    <string name="temp_advanced_unlock_enable_title">Προσωρινό προηγμένο ξεκλείδωμα</string>
-    <string name="temp_advanced_unlock_enable_summary">Μην αποθηκεύετε κανένα κρυπτογραφημένο περιεχόμενο για να χρησιμοποιήσετε προηγμένο ξεκλείδωμα</string>
-    <string name="temp_advanced_unlock_timeout_summary">Διάρκεια της χρήσης προηγμένου ξεκλειδώματος πριν την διαγραφή του περιεχομένου</string>
-    <string name="temp_advanced_unlock_timeout_title">Λήξη προηγμένου ξεκλειδώματος</string>
-    <string name="advanced_unlock_tap_delete">Πατήστε για διαγραφή προηγμένων κλειδιών ξεκλειδώματος</string>
+    <string name="education_advanced_unlock_title">Ξεκλείδωμα βάσης δεδομένων συσκευής</string>
+    <string name="advanced_unlock_timeout">Χρονικό όριο ξεκλειδώματος συσκευής</string>
+    <string name="temp_advanced_unlock_enable_title">Προσωρινό ξεκλείδωμα συσκευής</string>
+    <string name="temp_advanced_unlock_enable_summary">Μην αποθηκεύετε κρυπτογραφημένο περιεχόμενο για να χρησιμοποιήσετε το ξεκλείδωμα της συσκευής</string>
+    <string name="temp_advanced_unlock_timeout_summary">Διάρκεια χρήσης ξεκλειδώματος συσκευής πριν από τη διαγραφή του περιεχομένου της</string>
+    <string name="temp_advanced_unlock_timeout_title">Λήξη ξεκλειδώματος συσκευής</string>
+    <string name="advanced_unlock_tap_delete">Πατήστε για να διαγράψετε τα κλειδιά ξεκλειδώματος της συσκευής</string>
     <string name="content">Περιεχόμενα</string>
     <string name="error_rebuild_list">Δεν είναι δυνατή η σωστή αναδημιουργία της λίστας.</string>
     <string name="error_database_uri_null">Δεν είναι δυνατή η ανάκτηση του URI βάσης δεδομένων.</string>
@@ -602,7 +602,7 @@
     <string name="menu_merge_database">Συγχώνευση δεδομένων</string>
     <string name="tags">Ετικέτες</string>
     <string name="warning_keyfile_integrity">Ο κατακερματισμός του αρχείου δεν είναι εγγυημένος επειδή το Android μπορεί να αλλάξει τα δεδομένα του αμέσως. Αλλάξτε την επέκταση αρχείου σε .bin για σωστή ακεραιότητα.</string>
-    <string name="enable_keep_screen_on_summary">Κρατήστε την οθόνη ενεργή όταν παρακολουθείτε την καταχώρηση</string>
+    <string name="enable_keep_screen_on_summary">Διατηρήστε την οθόνη ενεργοποιημένη όταν παρακολουθείτε ή επεξεργάζεστε μια καταχώρηση</string>
     <string name="enable_keep_screen_on_title">Διατηρήστε την οθόνη ενεργή</string>
     <string name="show_entry_colors_title">Χρώματα καταχώρησης</string>
     <string name="show_entry_colors_summary">Εμφανίζει τα χρώματα του προσκηνίου και του φόντου για μια καταχώρηση</string>
@@ -667,4 +667,25 @@
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
     <string name="auto_type">Αυτόματη-Πληκτρολόγηση</string>
     <string name="merge_success">Η συγχώνευση ολοκληρώθηκε με επιτυχία</string>
+    <string name="info">Πληροφορίες</string>
+    <string name="menu_app_settings_summary">Αναζήτηση, κλείδωμα, ιστορικό, ιδιότητες</string>
+    <string name="menu_form_filling_settings_summary">Πληκτρολόγιο, αυτόματη συμπλήρωση, πρόχειρο</string>
+    <string name="menu_advanced_unlock_settings_summary">Βιομετρία, διαπιστευτήριο συσκευής</string>
+    <string name="menu_database_settings_summary">Μεταδεδομένα, κάδος ανακύκλωσης, πρότυπα, ιστορικό</string>
+    <string name="menu_security_settings_summary">Κρυπτογράφηση, λειτουργία παραγωγής κλειδιού</string>
+    <string name="master_key_settings_summary">Αλλαγή, ανανέωση</string>
+    <string name="warning_copy_permission">Η άδεια ειδοποίησης απαιτείται για τη χρήση της δυνατότητας ειδοποίησης του προχείρου.</string>
+    <string name="unlock_and_link_biometric">Σύνδεσμος ξεκλειδώματος συσκευής</string>
+    <string name="menu_appearance_settings_summary">Θέματα, χρώματα, ιδιότητες</string>
+    <string name="ask">Ερώτηση</string>
+    <string name="unlock">Ξεκλείδωμα</string>
+    <string name="education_validate_entry_title">Επικυρώστε την καταχώρηση</string>
+    <string name="warning_database_notification_permission">Η άδεια ειδοποίησης σάς επιτρέπει να εμφανίζετε την κατάσταση της βάσης δεδομένων και να την κλειδώνετε με ένα εύκολα προσβάσιμο κουμπί.
+\n
+\nΕάν δεν ενεργοποιήσετε αυτήν την άδεια, η ανοιχτή βάση δεδομένων στο παρασκήνιο δεν θα είναι ορατή εάν μια άλλη εφαρμογή βρίσκεται στο προσκήνιο.</string>
+    <string name="later">Αργότερα</string>
+    <string name="configure">Διαμορφώστε</string>
+    <string name="education_validate_entry_summary">Θυμηθείτε να επικυρώσετε την καταχώρησή σας και να αποθηκεύσετε τη βάση δεδομένων σας.
+\n
+\nΕάν ενεργοποιηθεί ένα αυτόματο κλείδωμα και ξεχάσετε ότι κάνετε μια τροποποίηση, κινδυνεύετε να χάσετε τα δεδομένα σας.</string>
 </resources>

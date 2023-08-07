@@ -53,7 +53,7 @@
     <string name="add_entry">เพื่มรายการ</string>
     <string name="edit_entry">แก้ไขรายการ</string>
     <string name="key_derivation_function">อนุพันธ์ของฟังก์ชันหลัก</string>
-    <string name="app_timeout">หมดเวลา</string>
+    <string name="app_timeout">ระยะหมดเวลา</string>
     <string name="extended_ASCII">อักขระ ASCII เพื่มเติม</string>
     <string name="clipboard_error">บางอุปกรณ์ไม่อนุญาตให้แอปใช้คลิปบอร์ด</string>
     <string name="clipboard_error_clear">ไม่สามารถล้างคลิปบอร์ดได้</string>
@@ -90,7 +90,7 @@
     <string name="error_hardware_key_unsupported">ไม่รองรับกุญแจฮาร์ดแวร์</string>
     <string name="create_keepass_file">สร้างฐานข้อมูลใหม่</string>
     <string name="configure_biometric">ไม่ได้กำหนดข้อมูลการยืนยันตัวตนหรือไบโอเมตริก</string>
-    <string name="advanced_unlock_prompt_store_credential_message">คุณยังจำเป็นต้องจำข้อมูลประจำตัวหลักอยู่ถ้าใช้การปลดล็อกขั้นสูง</string>
+    <string name="advanced_unlock_prompt_store_credential_message">คุณยังต้องจำข้อมูลรหัสผ่านหลักไว้อยู่ถ้าใช้การปลดล็อกขั้นสูง</string>
     <string name="hardware_key">กุญแจฮาร์ดแวร์</string>
     <string name="loading_database">กำลังโหลดฐานข้อมูล…</string>
     <string name="advanced_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกขั้นสูง</string>
@@ -179,10 +179,10 @@
     <string name="select_entry">เลือกรายการ</string>
     <string name="autofill_close_database_title">ปิดฐานข้อมูล</string>
     <string name="autofill_manual_selection_summary">แสดงตัวเลือกเพื่อให้ผู้ใช้เลือกรายการฐานข้อมูล</string>
-    <string name="delete_entered_password_title">Delete password</string>
+    <string name="delete_entered_password_title">ลบรหัสผ่าน</string>
     <string name="enable_auto_save_database_title">บันทึกฐานข้อมูลอัตโนมัติ</string>
     <string name="enable_keep_screen_on_title">เปิดหน้าจอไว้</string>
-    <string name="enable_screenshot_mode_title">Screenshot mode</string>
+    <string name="enable_screenshot_mode_title">โหมดจับภาพหน้าจอ</string>
     <string name="education_select_database_summary">เปิดไฟล์ฐานข้อมูลก่อนหน้านี้จากตัวจัดการไฟล์เพื่อใช้งานมันต้อ</string>
     <string name="education_new_node_title">เพื่มรายการใหม่ในฐานข้อมูล</string>
     <string name="education_new_node_summary">รายการช่วยจัดการตัวตนดิจิทัลของคุณ
@@ -418,7 +418,7 @@
     <string name="autofill_block">บล็อกการกรอกอัตโนมัติ</string>
     <string name="enable_read_only_title">ป้องกันการเขียน</string>
     <string name="reset_education_screens_title">รีเซ็ทคำแนะนำการใช้งาน</string>
-    <string name="reset_education_screens_summary">แสดงคำแนะนำการใช้งานอีกคั้ง</string>
+    <string name="reset_education_screens_summary">แสดงคำแนะนำการใช้งานอีกครั้ง</string>
     <string name="html_text_dev_feature_contibute">โดยการ&lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;</string>
     <string name="education_setup_OTP_title">ตั้งค่า OTP</string>
     <string name="show_entry_colors_title">สีของรายการ</string>
@@ -520,7 +520,7 @@
     <string name="warning_keyfile_integrity">ค่าแฮชของไฟล์จะไม่แน่นอนเนี่องจาก Android สามารถเปลี่ยนแปลงข้อมูลในขณะที่ใช้อยู่ได้ เปลี่ยนส่วนขยายไฟล์เป็น .bin เพื่อคงความสมบูรณ์ไว้</string>
     <string name="biometric_security_update_required">จำเป็นต้องอัปเดทการรักษาความปลอดภัยของไบโอเมตริก</string>
     <string name="keystore_not_accessible">Keystore เรื่มทำงานได้ไม่ถูกต้อง</string>
-    <string name="advanced_unlock_prompt_store_credential_title">บันทึกการปลดล็อกขั้นสูง</string>
+    <string name="advanced_unlock_prompt_store_credential_title">เชื่อมโยงการปลดล็อกขั้นสูง</string>
     <string name="encrypted_value_stored">เก็บค่ารหัสผ่านที่เข้ารหัสไว้</string>
     <string name="advanced_unlock_invalid_key">อ่านกุญแจการปลดล็อกขั้นสูงไม่ได้ โปรดลบข้อมูลออกและเพื่มข้อมูลการปลดล็อกขั้นสูงอีกครั้ง</string>
     <string name="advanced_unlock_not_recognized">ไม่รู้จักลายนิ้วมือ</string>
@@ -539,7 +539,7 @@
     <string name="general">ทั่วไป</string>
     <string name="autofill">การกรอกอัตโนมัติ</string>
     <string name="autofill_service_name">การกรอกข้อมูลอัตโนมัติของ KeePassDX</string>
-    <string name="autofill_explanation_summary">เปิดการกรอกข้อมูลอัตโนมัติเพื่อกรอกข้อมูลในแอปอืนได้อย่างรวดเร็ว</string>
+    <string name="autofill_explanation_summary">เปิดการกรอกข้อมูลอัตโนมัติเพื่อกรอกข้อมูลในแอปอื่นได้อย่างรวดเร็ว</string>
     <string name="password_size_summary">ตั้งขนาดรหัสผ่านที่สร้างเรื่มต้น</string>
     <string name="lock_database_screen_off_title">หน้าจอล็อก</string>
     <string name="unavailable_feature_version">อุปกรณ์นี้เป็น Android %1$s, แต่ต้องการ %2$s ขึ้นไป</string>
@@ -555,7 +555,7 @@
     <string name="advanced_unlock_timeout">ระยะหมดเวลาของการปลดล็อกขั้นสูง</string>
     <string name="advanced_unlock_delete_all_key_warning">ลบกุญแจเข้ารหัสทั้งหมดที่เกี่ยวข้องกับการปลดล็อกขั้นสูง\?</string>
     <string name="unavailable_feature_hardware">ไม่พบอุปกรณ์ที่เกี่ยวข้อง</string>
-    <string name="biometric_unlock_enable_summary">ให้คุณสแกนไบโอเมตริกเพื่อปลดล็อกฐานข้อมูล</string>
+    <string name="biometric_unlock_enable_summary">ให้คุณใช้ไบโอเมตริกเพื่อปลดล็อกฐานข้อมูล</string>
     <string name="device_credential_unlock_enable_title">การปลดล็อกด้วยข้อมูลประจำตัว</string>
     <string name="temp_advanced_unlock_timeout_summary">ระยะเวลาของการใช้การปลดล็อกขั้นสูงก่อนที่จะลบข้อมูลดังกล่าวออก</string>
     <string name="biometric_delete_all_key_title">ลบกุญแจเข้ารหัส</string>
@@ -586,7 +586,7 @@
     <string name="clear_clipboard_notification_summary">ล็อกฐานข้อมูลเมื่อระยะเวลาในคลิปบอร์ดสิ้นสุดหรือปิดหลังจากคุณเรื่มใช้มันแล้ว</string>
     <string name="database_name_title">ชื่อฐานข้อมุ,</string>
     <string name="magic_keyboard_explanation_summary">เปิดใช้งานแป้นพิมพ์แบบพิเศษที่จะสำรวจช่องกรอกรหัสผ่านและข้อมูลอื่นๆ</string>
-    <string name="allow_copy_password_summary">อนุญาตให้คัดลอกรหัสผ่านและเขตข้อมูลที่ป้องกันไว้ไปยังคลิปบอร์ด</string>
+    <string name="allow_copy_password_summary">อนุญาตให้คัดลอกรหัสผ่านและเขตข้อมูลที่ป้องกันไว้เก็บในคลิปบอร์ด</string>
     <string name="allow_copy_password_warning">คำเตือน:คลิปบอร์ดถูกใช้ร่วมกันในทุกแอป หากข้อมูลละเอียดอ่อนถูกคัดลอกไป ซอฟท์แวร์อื่นอาจกู้มันกลับมาได้</string>
     <string name="database_default_username_title">ชื่อผู้ใช้เรื่มต้น</string>
     <string name="database_custom_color_title">สีของฐานข้อมูลที่กำหนดเอง</string>
@@ -639,10 +639,17 @@
     <string name="education_setup_OTP_summary">ตั่้งค่ารหัสผ่านแบบใช้ครั้งเดียว (HOTP/TOTP) เพิ่อสร้างโทเค็นสำหรับการยืนยันสองขั้นตอน (2FA)</string>
     <string name="education_field_copy_title">คัดลอกเขตข้อมูล</string>
     <string name="education_donation_summary">ช่วยเพื่มความสเถียร ความปลอดภัย และใส่ฟีเจอร์เข้าไปเพื่มเติม</string>
-    <string name="html_text_ad_free">ไม่เหมือนแอปจัดการรหัสผ่านอื่นๆ แอปนี้&lt;strong&gt;ปลอดโซษณา&lt;/strong&gt;, &lt;strong&gt;เป็นซอฟท์แวร์แบบเสรี&lt;/strong&gt; และไม่เก็บข้อมูลผู้ใช้ไว้บนเซิฟเวอร์ ไม่ว่าจะใช้เวอร์ชั่นอะไรก็ตาม</string>
+    <string name="html_text_ad_free">ไม่เหมือนแอปจัดการรหัสผ่านอื่นๆ แอปนี้&lt;strong&gt;เป็นซอฟท์แวร์แบบเสรี&lt;/strong&gt;, &lt;strong&gt;ปลอดโฆษณา&lt;/strong&gt; และไม่เก็บข้อมูลผู้ใช้ไว้บนเซิฟเวอร์ ไม่ว่าจะใช้เวอร์ชั่นอะไรก็ตาม</string>
     <string name="html_text_buy_pro">โดยการซื้อเวอร์ชั่นโปร คุณจะได้เข้าถึง &lt;strong&gt;สไตล์ของแอปที่มากขึ้น&lt;/strong&gt; และยังมีส่วนช่วย &lt;strong&gt;พัฒนาโครงการโดยชุมชนนี้ต่อไป&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">&lt;strong&gt;สไตล์ของแอป&lt;/strong&gt; นี้ใช้งานได้ ขอขอบคุณการสนับสนุนของคุณ</string>
     <string name="html_text_dev_feature">ฟีเจอร์นี้ &lt;strong&gt;อยู่ในระหว่างการพัฒนา&lt;/strong&gt; และต้องการ &lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;ของคุณ และเปิดให้ใช้งานเร็วๆนี้</string>
     <string name="html_text_dev_feature_buy_pro">โดยการซื้อเวอร์ขั่น&lt;strong&gt;โปร&lt;/strong&gt;</string>
     <string name="merge_success">การควบรวมเสร็จสมบูรณ์</string>
+    <string name="warning_database_notification_permission">การอนุญาตสิทธิ์แจ้งเตือนจะทำให้คุณเห็นสถานะของฐานข้อมูลและล็อกมันด้วยปุ่มที่เข้าถืงง่าย
+\n
+\nหากคุณไม่อนุญาตสิทธิ์นี้ ฐานข้อมูลที่เปิดในพื้นหลังจะไม่สามารถมองเห็นได้หากมีอีกแอปพลิเคชั่นอยู่ในพื้นหน้า</string>
+    <string name="unlock_and_link_biometric">เชื่อมโยงการปลดล็อกของอุปกรณ์</string>
+    <string name="ask">ถาม</string>
+    <string name="warning_copy_permission">ต้องการสิทธิ์การแจ้งเตือนสำหรับคุณสมบัติการแจ้งเตือนของคลิปบอร์ด</string>
+    <string name="later">ภายหลัง</string>
 </resources>

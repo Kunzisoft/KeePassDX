@@ -118,7 +118,7 @@
     <string name="settings">Postavke</string>
     <string name="menu_app_settings">Postavke aplikacije</string>
     <string name="menu_form_filling_settings">Ispunjavanje obrasca</string>
-    <string name="menu_advanced_unlock_settings">Napredno otključavanje</string>
+    <string name="menu_advanced_unlock_settings">Otključavanje uređaja</string>
     <string name="menu_database_settings">Postavke baze podataka</string>
     <string name="menu_security_settings">Postavke sigurnosti</string>
     <string name="menu_master_key_settings">Postavke glavnog ključa</string>
@@ -142,8 +142,8 @@
     <string name="never">Nikada</string>
     <string name="no_results">Nema rezultata pretraživanja</string>
     <string name="no_url_handler">Instalirajte web preglednik da bi ste otvorili ovaj URL.</string>
-    <string name="select_database_file">Otvori postojeću bazu podataka</string>
-    <string name="create_keepass_file">Stvori novu bazu podataka</string>
+    <string name="select_database_file">Otvori postojeći trezor</string>
+    <string name="create_keepass_file">Stvori novi trezor</string>
     <string name="progress_create">Stvaranje nove baze podataka …</string>
     <string name="protection">Zaštita</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplicirane UUID-ove.</string>
@@ -177,7 +177,7 @@
     <string name="menu_appearance_settings">Izgled</string>
     <string name="general">Opće</string>
     <string name="autofill">Automatsko ispunjavanje</string>
-    <string name="autofill_service_name">Automatsko ispunjavanje obrazaca KeePassDX</string>
+    <string name="autofill_service_name">Automatsko ispunjavanje KeePassDX obrasca</string>
     <string name="set_autofill_service_title">Postavi standardnu uslugu automatskog ispunjavanja</string>
     <string name="list_password_generator_options_title">Znakovi lozinke</string>
     <string name="list_password_generator_options_summary">Postavi dozvoljene znakove za generiranje lozinke</string>
@@ -187,12 +187,12 @@
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbriši njegovu povijest ručno.</string>
     <string name="lock_database_screen_off_summary">Zaključaj bazu podataka nakon par sekundi kad se ekran ugasi</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
-    <string name="advanced_unlock">Napredno otključavanje</string>
-    <string name="advanced_unlock_explanation_summary">Koristi napredno otključavanje za jednostavnije otvaranje baze podataka</string>
+    <string name="advanced_unlock">Otključavanje uređaja</string>
+    <string name="advanced_unlock_explanation_summary">Koristi otključavanje uređaja za jednostavnije otvaranje baze podataka</string>
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
-    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja</string>
+    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s prepoznavanjem otključavanja uređaja</string>
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="file_name">Ime datoteke</string>
     <string name="path">Putanja</string>
@@ -267,7 +267,7 @@
     <string name="special">Posebni znakovi</string>
     <string name="underline">Podcrtaj</string>
     <string name="uppercase">Velika slova</string>
-    <string name="unavailable">Ova baza podataka još nema spremljene podatke za prijavu.</string>
+    <string name="unavailable">Nedostupno</string>
     <string name="biometric">Biometrija</string>
     <string name="autofill_sign_in_prompt">Prijavi se s KeePassDX</string>
     <string name="autofill_explanation_summary">Aktiviraj automatsko ispunjavanje za brzo ispunjavanje obrazaca u drugim aplikacijama</string>
@@ -395,7 +395,7 @@
     <string name="hide_expired_entries_summary">Istekli unosi se ne pokazuju</string>
     <string name="education_lock_title">Zaključaj bazu podataka</string>
     <string name="education_unlock_title">Otključaj bazu podataka</string>
-    <string name="biometric_auto_open_prompt_summary">Automatski zatraži napredno otključavanje ako je baza podataka tako postavljena</string>
+    <string name="biometric_auto_open_prompt_summary">Automatski zatraži otključavanje uređaja ako je baza podataka postavljena da ga koristi</string>
     <string name="unavailable_feature_text">Nije moguće pokrenuti ovu funkciju.</string>
     <string name="biometric_auto_open_prompt_title">Automatski otvori prozor za prijavu</string>
     <string name="clipboard_timeout">Istek vremena međuspremnika</string>
@@ -441,8 +441,8 @@
     <string name="download_progression">U tijeku: %1$d%%</string>
     <string name="download_complete">Gotovo!</string>
     <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja „Automatska radnje tipke”</string>
-    <string name="keyboard_previous_fill_in_title">Automatska radnja tipke</string>
-    <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu na bazu podataka</string>
+    <string name="keyboard_previous_fill_in_title">Vrati se na prethodnu tipkovnicu</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatski se vrati na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu na bazu podataka</string>
     <string name="keyboard_previous_database_credentials_title">Ekran za unos podataka za prijavu na bazu podataka</string>
     <string name="keyboard_change">Promijeni tipkovnicu</string>
     <string name="warning_file_too_big">Baza podataka za KeePass trebala bi sadržavati samo male datoteke uslužnih programa (poput PGP datoteke ključeva).
@@ -472,7 +472,7 @@
     <string name="autofill_save_search_info_title">Spremi podatke pretrage</string>
     <string name="autofill_close_database_summary">Zatvori bazu podataka nakon odabira automatskog ispunjavanja</string>
     <string name="autofill_close_database_title">Zatvori bazu podataka</string>
-    <string name="keyboard_previous_lock_summary">Automatski prebaci na prethodnu tipkovnicu nakon zaključavanja baze podataka</string>
+    <string name="keyboard_previous_lock_summary">Automatski se vrati na prethodnu tipkovnicu nakon zaključavanja baze podataka</string>
     <string name="keyboard_previous_lock_title">Zaključaj bazu podataka</string>
     <string name="keyboard_save_search_info_summary">Pokušaj spremiti dijeljene podatke prilikom ručnog odabira unosa za jednostavniju buduću upotrebu</string>
     <string name="keyboard_save_search_info_title">Spremi dijeljene informacije</string>
@@ -483,17 +483,17 @@
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s naprednim prepoznavanjem otključavanja\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s prepoznavanjem otključavanja uređaja\?</string>
     <string name="credential_before_click_advanced_unlock_button">Upiši lozinku, zatim pritisni ovaj gumb.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Otvori bazu podataka pomoću naprednog prepoznavanja otključavanja</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje naprednog otključavanja morat ćeš i dalje znati glavnu lozinku.</string>
-    <string name="menu_keystore_remove_key">Izbriši ključ naprednog otključavanja</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Napredno prepoznavanje otključavanja</string>
-    <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor naprednog otključavanja.</string>
-    <string name="advanced_unlock_scanning_error">Greška naprednog otključavanja: %1$s</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka naprednog otključavanja</string>
-    <string name="advanced_unlock_not_recognized">Nije moguće prepoznati digitanlni otisak za napredno otključavanje</string>
-    <string name="advanced_unlock_invalid_key">Nije moguće pročitati ključ naprednog otključavanja. Izbriši ga i ponovi postupak prepoznavanja otključavanja.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Prepoznavanje otključavanja uređaja</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje otključavanja uređaja morat ćeš i dalje znati tvoj glavni podatak za prijavu za trezor.</string>
+    <string name="menu_keystore_remove_key">Izbriši ključ za otključavanje uređaja</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Poveznica za otključavanje uređaja</string>
+    <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor za otključavanje uređaja.</string>
+    <string name="advanced_unlock_scanning_error">Greška otključavanja uređaja: %1$s</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka za otključavanje uređaja</string>
+    <string name="advanced_unlock_not_recognized">Nije bilo moguće prepoznati ispis za otključavanje uređaja</string>
+    <string name="advanced_unlock_invalid_key">Nije moguće pročitati ključ za otključavanje uređaja. Izbriši ga i ponovi postupak prepoznavanja otključavanja.</string>
     <string name="enter">Tipka Enter</string>
     <string name="backspace">Tipka Backspace</string>
     <string name="select_entry">Odaberi unos</string>
@@ -502,19 +502,19 @@
     <string name="device_credential_unlock_enable_summary">Omogućuje otvaranje baze podataka pomoću podataka za prijavu</string>
     <string name="device_credential_unlock_enable_title">Otključavanje s podacima za prijavu uređaja</string>
     <string name="device_credential">Podaci za prijavu uređaja</string>
-    <string name="advanced_unlock_tap_delete">Dodirni za brisanje ključeva naprednog otključavanja</string>
-    <string name="education_advanced_unlock_title">Napredno otključavanje baze podataka</string>
-    <string name="advanced_unlock_timeout">Vremensko ograničenje neprednog otključavanja</string>
-    <string name="temp_advanced_unlock_timeout_summary">Trajanje korištenja naprednog otključavanja prije brisanja sadržaja</string>
-    <string name="temp_advanced_unlock_timeout_title">Istek naprednog otključavanja</string>
-    <string name="temp_advanced_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za napredno otključavanje</string>
+    <string name="advanced_unlock_tap_delete">Dodirni za brisanje ključeva za otključavanje uređaja</string>
+    <string name="education_advanced_unlock_title">Otključavanje uređaja baze podataka</string>
+    <string name="advanced_unlock_timeout">Vremensko ograničenje otključavanja uređaja</string>
+    <string name="temp_advanced_unlock_timeout_summary">Trajanje korištenja otključavanja uređaja prije brisanja njegovog sadržaja</string>
+    <string name="temp_advanced_unlock_timeout_title">Istek otključavanja uređaja</string>
+    <string name="temp_advanced_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za otključavanje uređaja</string>
     <string name="content">Sadržaj</string>
-    <string name="temp_advanced_unlock_enable_title">Privremeno napredno otključavanje</string>
+    <string name="temp_advanced_unlock_enable_title">Privremeno otključavanje uređaja</string>
     <string name="error_rebuild_list">Nije moguće ispravno obnoviti popis.</string>
     <string name="error_database_uri_null">URI baze podataka nije moguće dobiti.</string>
     <string name="autofill_inline_suggestions_title">Umetnuti prijedlozi</string>
-    <string name="autofill_inline_suggestions_keyboard">Prijedlozi za automatsko popunjavanje su dodani.</string>
-    <string name="autofill_inline_suggestions_summary">Pokušaj prikazivanja prijedloga za automatsko popunjavanje izravno s kompatibilne tipkovnice</string>
+    <string name="autofill_inline_suggestions_keyboard">Prijedlozi za automatsko ispunjavanje su dodani.</string>
+    <string name="autofill_inline_suggestions_summary">Pokušaj prikazivanja prijedloga za automatsko ispunjavanje izravno s kompatibilne tipkovnice</string>
     <string name="warning_database_revoked">Pristup datoteci opozvan od upravljača datoteka. Zatvori bazu podataka i ponovo je otvori s njezinog mjesta.</string>
     <string name="warning_database_info_changed_options">Sjedini podatke, prepiši vanjske promjene spremanjem baze podataka ili je ponovo učitaj s najnovijim promjenama.</string>
     <string name="warning_database_info_changed">Podaci u datoteci tvoje baze podataka izmijenjeni su izvan aplikacije.</string>
@@ -595,7 +595,7 @@
     <string name="warning_database_info_reloaded">Ponovnim učitavanjem baze podataka izbrisat će se lokalno izmijenjeni podaci.</string>
     <string name="warning_keyfile_integrity">Hash-šifra datoteke nije zajamčena jer Android svoje podatke može promijeniti za vrijeme rada. Promijeni datotečni nastavak u .bin radi ispravnog integriteta.</string>
     <string name="enable_keep_screen_on_title">Ostavi ekran uključen</string>
-    <string name="enable_keep_screen_on_summary">Ostavi ekran uključen tijekom gledanja unosa</string>
+    <string name="enable_keep_screen_on_summary">Ostavi ekran uključen tijekom gledanja ili uređivanja unosa</string>
     <string name="show_entry_colors_title">Boje unosa</string>
     <string name="show_entry_colors_summary">Prikazuje prednje boje i boje pozadine za unos</string>
     <string name="content_description_entry_foreground_color">Prednja boja unosa</string>
@@ -662,4 +662,25 @@
     <string name="error_challenge_already_requested">Izazov je već zatražen</string>
     <string name="error_response_already_provided">Odgovor je već dat.</string>
     <string name="merge_success">Sjedinjavanje uspješno završeno</string>
+    <string name="menu_app_settings_summary">Pretraga, zaključavanje, povijest, svojstva</string>
+    <string name="menu_form_filling_settings_summary">Tipkovnica, automatsko ispunjavanje, međuspremnik</string>
+    <string name="menu_database_settings_summary">Metapodaci, koš za smeće, predlošci, povijest</string>
+    <string name="menu_security_settings_summary">Šifriranje, funkcija derivacije ključa</string>
+    <string name="warning_copy_permission">Dozvola za obavijesti je potrebna za korištenje funkcije obavijesti međuspremnika.</string>
+    <string name="later">Kasnije</string>
+    <string name="ask">Pitaj</string>
+    <string name="warning_database_notification_permission">Dozvola za obavijesti omogućuje prikaz stanja baze podataka i zaključavanje pomoću lako dostupnog gumba.
+\n
+\nAko ovu dozvolu ne aktiviraš, u pozadini otvorena baza podataka neće biti vidljiva ako je jedna druga aplikacija u prvom planu.</string>
+    <string name="configure">Konfiguriraj</string>
+    <string name="unlock_and_link_biometric">Poveznica za otključavanje uređaja</string>
+    <string name="menu_appearance_settings_summary">Teme, boje, atributi</string>
+    <string name="unlock">Otključaj</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometrija, podatak za prijavu uređaja</string>
+    <string name="info">Informacije</string>
+    <string name="master_key_settings_summary">Promjena, obnova</string>
+    <string name="education_validate_entry_title">Potvrdi unos</string>
+    <string name="education_validate_entry_summary">Nemoj zaboraviti potvrditi svoj unos i spremiti svoju bazu podataka.
+\n
+\nAko se automatsko zaključavanje aktivira i ako zaboraviš da si izvršio/la promjene, riskiraš gubitak podataka.</string>
 </resources>

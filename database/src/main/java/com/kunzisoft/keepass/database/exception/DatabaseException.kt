@@ -27,7 +27,7 @@ import java.io.PrintWriter
 abstract class DatabaseException : Exception {
 
     var innerMessage: String? = null
-    var parameters: (Array<out String>)? = null
+    var parameters = mutableListOf<String>()
     var mThrowable: Throwable? = null
 
     constructor() : super()
@@ -94,7 +94,10 @@ class NoMemoryDatabaseException(exception: Throwable) : DatabaseInputException(e
 
 class DuplicateUuidDatabaseException(type: Type, uuid: NodeId<*>) : DatabaseInputException() {
     init {
-        parameters = arrayOf(type.name, uuid.toString())
+        parameters.apply {
+            add(type.name)
+            add(uuid.toString())
+        }
     }
 }
 

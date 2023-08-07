@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="info">အချက်အလက်</string>
+    <string name="feedback">တုံ့ပြန်ချက်</string>
+    <string name="homepage">ပင်မစာမျက်နှာ</string>
+    <string name="accept">လက်ခံသည်</string>
+    <string name="add_entry">စကားဝှက်ထည့်မည်</string>
+    <string name="add_group">ဂရုထဲထည့်မည်</string>
+    <string name="master_key">မာစတာ ကီး</string>
+    <string name="security">လုံခြုံရေး</string>
+    <string name="encryption">ကုဒ်ဝှက်ခြင်း</string>
+    <string name="key_derivation_function">မာစတာကီးအား ကုဒ်ဝှက်ခြင်းလုပ်ဆောင်ချက်</string>
+    <string name="app_timeout">အချိန်ပြည့်</string>
+    <string name="application">အက်ပ်</string>
+    <string name="extended_ASCII">ထပ်တိုးထားသော အေအက်စ်စီအိုင်အိုင်</string>
+    <string name="allow">ခွင့်ပြုသည်</string>
+    <string name="clipboard_cleared">ကလစ်ဘုတ် ရှင်းလင်းပြီး</string>
+    <string name="clipboard_error_title">ကလစ်ဘုတ် အယ်ရာ</string>
+    <string name="clipboard_error">တချို့ဖုန်းတွေမှာ အက်ပ်တွေကို ကလစ်ဘုတ်အသုံးပြုခွင့်မပေးတာမျိုးရိှနိုင်ပါတယ်။</string>
+    <string name="content_description_open_file">ဖိုင်ဖွင့်မည်</string>
+    <string name="content_description_add_entry">ထည့်မည်</string>
+    <string name="contact">ဆက်သွယ်ရန်</string>
+    <string name="contribution">ပါဝင်အားဖြည့်မှု</string>
+    <string name="about_description">Android အတွက် KeePass စကားဝှက်မန်နေဂျာ</string>
+    <string name="encryption_algorithm">ကုဒ်ဝှက်ခြင်း အယ်ဂိုရီသမ်</string>
+    <string name="edit_entry">ပြုပြင်မည်</string>
+    <string name="app_timeout_summary">ဒေတာဘေ့စ်အား ဖွင့်ထားရန်ကြာချိန်</string>
+    <string name="file_manager_install_description">ဒေတာဘေ့ ဖန်တီးရန်၊ဖွင့်ရန်နှင့်သိမ်းဆည်းရန်အတွက် ACTION_CREATE_DOCUMENT နှင့် ACTION_OPEN_DOCUMENT လုပ်ဆောင်ချက်များပါဝင် သောဖိုင်မန်နေဂျာလိုအပ်ပါသည်။</string>
+    <string name="clipboard_error_clear">ကလစ်ဘုတ်ကို မရှင်းလင်းနိုင်ပါ</string>
+    <string name="clipboard_timeout">ကလစ်ဘုတ် သတ်မှတ်ချိန်ကုန်သွားသည်</string>
+    <string name="clipboard_timeout_summary">ကလစ်ဘုတ်ရှိ သိုလှောင်မှုကြာချိန် (သင့်ဖုန်းမှပံ့ပိုးပေးလျှင်)</string>
+    <string name="content_description_background">နောက်ခံ</string>
+</resources>

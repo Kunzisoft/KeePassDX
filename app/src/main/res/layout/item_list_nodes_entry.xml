@@ -23,7 +23,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingVertical="@dimen/selectable_margin_vertical"
+    android:paddingTop="@dimen/selectable_margin_top"
     android:paddingHorizontal="@dimen/selectable_margin_horizontal">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,9 +66,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginRight="12dp"
             android:orientation="vertical"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/node_path"
             app:layout_constraintEnd_toStartOf="@+id/node_options"
             app:layout_constraintLeft_toRightOf="@+id/node_icon"
             app:layout_constraintRight_toLeftOf="@+id/node_options"
@@ -102,15 +100,6 @@
                 android:lines="1"
                 android:singleLine="true"
                 tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/node_path"
-                style="@style/KeepassDXStyle.Meta.Entry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="2"
-                android:visibility="gone"
-                tools:text="Database / Group A / Group B" />
         </LinearLayout>
 
         <LinearLayout
@@ -123,9 +112,9 @@
             android:layout_marginRight="12dp"
             android:gravity="end"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@+id/node_container_info"
+            app:layout_constraintBottom_toTopOf="@+id/node_path"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <LinearLayout
                 android:id="@+id/node_otp_container"
@@ -172,6 +161,22 @@
                 android:src="@drawable/ic_attach_file_white_24dp" />
 
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/node_path"
+            style="@style/KeepassDXStyle.Meta.Entry.Important"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="2dp"
+            android:maxLines="2"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/node_container_info"
+            app:layout_constraintTop_toBottomOf="@+id/node_container_info"
+            tools:text="Database / Group A / Group B" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

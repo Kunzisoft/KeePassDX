@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.exception.*
 
-fun DatabaseException.getLocalizedMessage(resources: Resources): String = parameters?.let {
+fun DatabaseException.getLocalizedMessage(resources: Resources): String? =
     when (this) {
         is FileNotFoundDatabaseException -> resources.getString(R.string.file_not_found_content)
         is CorruptedDatabaseException -> resources.getString(R.string.corrupted_file)
@@ -39,7 +39,7 @@ fun DatabaseException.getLocalizedMessage(resources: Resources): String = parame
         is InvalidCredentialsDatabaseException -> resources.getString(R.string.invalid_credentials)
         is KDFMemoryDatabaseException -> resources.getString(R.string.error_load_database_KDF_memory)
         is NoMemoryDatabaseException -> resources.getString(R.string.error_out_of_memory)
-        is DuplicateUuidDatabaseException -> resources.getString(R.string.invalid_db_same_uuid)
+        is DuplicateUuidDatabaseException -> resources.getString(R.string.invalid_db_same_uuid, parameters[0], parameters[1])
         is XMLMalformedDatabaseException -> resources.getString(R.string.error_XML_malformed)
         is MergeDatabaseKDBException -> resources.getString(R.string.error_unable_merge_database_kdb)
         is MoveEntryDatabaseException -> resources.getString(R.string.error_move_entry_here)
@@ -48,9 +48,8 @@ fun DatabaseException.getLocalizedMessage(resources: Resources): String = parame
         is CopyGroupDatabaseException -> resources.getString(R.string.error_copy_group_here)
         is DatabaseInputException -> resources.getString(R.string.error_load_database)
         is DatabaseOutputException -> resources.getString(R.string.error_save_database)
-        else -> (mThrowable as? DatabaseException)?.getLocalizedMessage(resources)
+        else -> localizedMessage
     }
-} ?: resources.getString(R.string.error_load_database)
 
 fun CompressionAlgorithm.getLocalizedName(resources: Resources): String {
     return when (this) {

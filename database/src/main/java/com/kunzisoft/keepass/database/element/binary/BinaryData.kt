@@ -24,6 +24,8 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Base64
+import com.kunzisoft.keepass.utils.readBooleanCompat
+import com.kunzisoft.keepass.utils.writeBooleanCompat
 import org.apache.commons.io.output.CountingOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -51,17 +53,17 @@ abstract class BinaryData : Parcelable {
     }
 
     protected constructor(parcel: Parcel) {
-        isCompressed = parcel.readByte().toInt() != 0
-        isProtected = parcel.readByte().toInt() != 0
-        isCorrupted = parcel.readByte().toInt() != 0
+        isCompressed = parcel.readBooleanCompat()
+        isProtected = parcel.readBooleanCompat()
+        isCorrupted = parcel.readBooleanCompat()
         mLength = parcel.readLong()
         mBinaryHash = parcel.readInt()
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeByte((if (isCompressed) 1 else 0).toByte())
-        dest.writeByte((if (isProtected) 1 else 0).toByte())
-        dest.writeByte((if (isCorrupted) 1 else 0).toByte())
+        dest.writeBooleanCompat(isCompressed)
+        dest.writeBooleanCompat(isProtected)
+        dest.writeBooleanCompat(isCorrupted)
         dest.writeLong(mLength)
         dest.writeInt(mBinaryHash)
     }

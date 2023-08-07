@@ -235,3 +235,7 @@ inline fun <reified T : Enum<T>> Parcel.readEnum() =
 
 fun <T : Enum<T>> Parcel.writeEnum(value: T?) =
     writeString(value?.name)
+
+fun Parcel.readBooleanCompat(): Boolean = readByte().toInt() != 0
+
+fun Parcel.writeBooleanCompat(value: Boolean) = writeByte((if (value) 1 else 0).toByte())

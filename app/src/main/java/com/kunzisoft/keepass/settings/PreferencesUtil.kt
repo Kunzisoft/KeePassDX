@@ -33,11 +33,11 @@ import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
-import java.util.*
+import java.util.Properties
 
 object PreferencesUtil {
 
@@ -631,7 +631,7 @@ object PreferencesUtil {
     }
 
     fun isKeyboardSaveSearchInfoEnable(context: Context): Boolean {
-        if (!MagikeyboardService.activatedInSettings(context))
+        if (!context.isKeyboardActivatedInSettings())
             return false
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_save_search_info_key),

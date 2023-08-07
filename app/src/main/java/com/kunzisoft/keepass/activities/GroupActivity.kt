@@ -35,7 +35,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -49,7 +48,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -89,7 +87,6 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -97,6 +94,7 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
@@ -126,6 +124,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var drawerLayout: DrawerLayout? = null
     private var databaseNavView: NavigationDatabaseView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var databaseModifiedView: ImageView? = null
@@ -223,9 +222,15 @@ class GroupActivity : DatabaseLockActivity(),
             && PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
             // Change to the previous keyboard and show it
             sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
-            ContextCompat.getSystemService(this, InputMethodManager::class.java)
-                ?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            view.showKeyboard()
         }
+    }
+
+    private val mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
+        entryId?.let {
+            // Simply refresh the list when entry is updated
+            loadGroup()
+        } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
     }
 
     private fun addSearch() {
@@ -237,7 +242,6 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun removeSearch() {
-        finishNodeAction()
         mSearchState = null
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -266,6 +270,7 @@ class GroupActivity : DatabaseLockActivity(),
         drawerLayout = findViewById(R.id.drawer_layout)
         databaseNavView = findViewById(R.id.database_nav_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
+        coordinatorError = findViewById(R.id.error_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
@@ -501,14 +506,12 @@ class GroupActivity : DatabaseLockActivity(),
                     EntrySelectionHelper.doSpecialAction(intent,
                         {
                             mMainGroup?.nodeId?.let { currentParentGroupId ->
-                                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                                    EntryEditActivity.launchToCreate(
-                                        this@GroupActivity,
-                                        database,
-                                        currentParentGroupId,
-                                        resultLauncher
-                                    )
-                                }
+                                EntryEditActivity.launchToCreate(
+                                    this@GroupActivity,
+                                    database,
+                                    currentParentGroupId,
+                                    mEntryActivityResultLauncher
+                                )
                             }
                         },
                         {
@@ -646,9 +649,13 @@ class GroupActivity : DatabaseLockActivity(),
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
 
-        var newNodes: List<Node> = ArrayList()
-        result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
-            newNodes = getListNodesFromBundle(database, newNodesBundle)
+        var entry: Entry? = null
+        try {
+            result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
+                entry = getListNodesFromBundle(database, newNodesBundle)[0] as Entry
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to retrieve entry action for selection", e)
         }
 
         when (actionTask) {
@@ -665,27 +672,15 @@ class GroupActivity : DatabaseLockActivity(),
                             // Save not used
                         },
                         {
-                            try {
-                                val entry = newNodes[0] as Entry
-                                entrySelectedForKeyboardSelection(database, entry)
-                            } catch (e: Exception) {
-                                Log.e(
-                                    TAG,
-                                    "Unable to perform action for keyboard selection after entry update",
-                                    e
-                                )
+                            // Keyboard selection
+                            entry?.let {
+                                entrySelectedForKeyboardSelection(database, it)
                             }
                         },
                         { _, _ ->
-                            try {
-                                val entry = newNodes[0] as Entry
-                                entrySelectedForAutofillSelection(database, entry)
-                            } catch (e: Exception) {
-                                Log.e(
-                                    TAG,
-                                    "Unable to perform action for autofill selection after entry update",
-                                    e
-                                )
+                            // Autofill selection
+                            entry?.let {
+                                entrySelectedForAutofillSelection(database, it)
                             }
                         },
                         {
@@ -694,26 +689,12 @@ class GroupActivity : DatabaseLockActivity(),
                     )
                 }
             }
-            ACTION_DATABASE_UPDATE_GROUP_TASK -> {
-                if (result.isSuccess) {
-                    try {
-                        if (mMainGroup == newNodes[0] as Group)
-                            reloadCurrentGroup()
-                    } catch (e: Exception) {
-                        Log.e(
-                            TAG,
-                            "Unable to perform action after group update",
-                            e
-                        )
-                    }
-                }
-            }
         }
 
-        coordinatorLayout?.showActionErrorIfNeeded(result)
-        if (!result.isSuccess) {
-            reloadCurrentGroup()
-        }
+        coordinatorError?.showActionErrorIfNeeded(result)
+
+        // Reload the group
+        loadGroup()
         finishNodeAction()
     }
 
@@ -841,7 +822,6 @@ class GroupActivity : DatabaseLockActivity(),
                 }
                 // Open child group
                 loadMainGroup(GroupState(group.nodeId, 0))
-
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
@@ -850,22 +830,22 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                            EntryActivity.launch(
-                                this@GroupActivity,
-                                database,
-                                entryVersioned.nodeId,
-                                resultLauncher
-                            )
-                        }
+                        EntryActivity.launch(
+                            this@GroupActivity,
+                            database,
+                            entryVersioned.nodeId,
+                            mEntryActivityResultLauncher
+                        )
+                        // Do not reload group here
                     },
                     {
                         // Nothing here, a search is simply performed
                     },
                     { searchInfo ->
-                        if (!database.isReadOnly)
+                        if (!database.isReadOnly) {
                             entrySelectedForSave(database, entryVersioned, searchInfo)
-                        else
+                            loadGroup()
+                        } else
                             finish()
                     },
                     { searchInfo ->
@@ -876,6 +856,7 @@ class GroupActivity : DatabaseLockActivity(),
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }
                         entrySelectedForKeyboardSelection(database, entryVersioned)
+                        loadGroup()
                     },
                     { searchInfo, _ ->
                         if (!database.isReadOnly
@@ -885,23 +866,23 @@ class GroupActivity : DatabaseLockActivity(),
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }
                         entrySelectedForAutofillSelection(database, entryVersioned)
+                        loadGroup()
                     },
                     { registerInfo ->
-                        if (!database.isReadOnly)
+                        if (!database.isReadOnly) {
                             entrySelectedForRegistration(database, entryVersioned, registerInfo)
-                        else
+                            loadGroup()
+                        } else
                             finish()
                     })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
-
-        reloadGroupIfSearch()
     }
 
     private fun entrySelectedForSave(database: ContextualDatabase, entry: Entry, searchInfo: SearchInfo) {
-        reloadCurrentGroup()
+        removeSearch()
         // Save to update the entry
         EntryEditActivity.launchToUpdateForSave(
             this@GroupActivity,
@@ -913,7 +894,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
-        reloadCurrentGroup()
+        removeSearch()
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
@@ -923,6 +904,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun entrySelectedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
+        removeSearch()
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(
@@ -939,7 +921,7 @@ class GroupActivity : DatabaseLockActivity(),
         entry: Entry,
         registerInfo: RegisterInfo?
     ) {
-        reloadCurrentGroup()
+        removeSearch()
         // Registration to update the entry
         EntryEditActivity.launchToUpdateForRegistration(
             this@GroupActivity,
@@ -970,12 +952,6 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun finishNodeAction() {
         actionNodeMode?.finish()
-    }
-
-    private fun reloadGroupIfSearch() {
-        if (Intent.ACTION_SEARCH == intent.action) {
-            reloadCurrentGroup()
-        }
     }
 
     override fun onNodeSelected(
@@ -1023,17 +999,14 @@ class GroupActivity : DatabaseLockActivity(),
                 launchDialogForGroupUpdate(node as Group)
             }
             Type.ENTRY -> {
-                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                    EntryEditActivity.launchToUpdate(
-                        this@GroupActivity,
-                        database,
-                        (node as Entry).nodeId,
-                        resultLauncher
-                    )
-                }
+                EntryEditActivity.launchToUpdate(
+                    this@GroupActivity,
+                    database,
+                    (node as Entry).nodeId,
+                    mEntryActivityResultLauncher
+                )
             }
         }
-        reloadGroupIfSearch()
         return true
     }
 
@@ -1066,8 +1039,8 @@ class GroupActivity : DatabaseLockActivity(),
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
-
-        // Nothing here fragment calls onPasteMenuClick internally
+        removeSearch()
+        loadGroup()
         return true
     }
 
@@ -1076,8 +1049,8 @@ class GroupActivity : DatabaseLockActivity(),
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
-
-        // Nothing here fragment calls onPasteMenuClick internally
+        removeSearch()
+        loadGroup()
         return true
     }
 
@@ -1112,7 +1085,6 @@ class GroupActivity : DatabaseLockActivity(),
     ): Boolean {
         deleteNodes(nodes)
         finishNodeAction()
-        reloadGroupIfSearch()
         return true
     }
 
@@ -1141,6 +1113,8 @@ class GroupActivity : DatabaseLockActivity(),
         }
         // Padding if lock button visible
         toolbarAction?.updateLockPaddingLeft()
+
+        loadGroup()
     }
 
     override fun onPause() {
@@ -1343,6 +1317,12 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
+    override fun onCancelSpecialMode() {
+        super.onCancelSpecialMode()
+        removeSearch()
+        loadGroup()
+    }
+
     override fun startActivity(intent: Intent) {
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -1359,11 +1339,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun reloadCurrentGroup() {
-        removeSearch()
-        loadGroup()
-    }
-
     override fun onBackPressed() {
         if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
@@ -1372,8 +1347,8 @@ class GroupActivity : DatabaseLockActivity(),
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
                 when {
                     Intent.ACTION_SEARCH == intent.action -> {
-                        // Remove the search
-                        reloadCurrentGroup()
+                        removeSearch()
+                        loadGroup()
                     }
                     mPreviousGroupsIds.isEmpty() -> {
                         super.onRegularBackPressed()

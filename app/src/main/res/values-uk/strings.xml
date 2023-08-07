@@ -41,7 +41,7 @@
     <string name="digits">Цифри</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є застосунком з &lt;strong&gt;відкритим програмним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
 \nЗастосунок постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
-    <string name="select_database_file">Відкрити наявну базу даних</string>
+    <string name="select_database_file">Відкрити наявне сховище</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Скасувати</string>
     <string name="entry_notes">Примітки</string>
@@ -90,7 +90,7 @@
     <string name="settings">Налаштування</string>
     <string name="menu_database_settings">Налаштування бази даних</string>
     <string name="menu_delete">Видалити</string>
-    <string name="menu_donate">Допомогти</string>
+    <string name="menu_donate">Підтримати</string>
     <string name="menu_edit">Змінити</string>
     <string name="menu_hide_password">Приховати пароль</string>
     <string name="menu_lock">Заблокувати базу даних</string>
@@ -176,7 +176,7 @@
     <string name="protection">Захист</string>
     <string name="auto_focus_search_summary">Відкривати пошук під час відкриття бази даних</string>
     <string name="auto_focus_search_title">Швидкий пошук</string>
-    <string name="create_keepass_file">Створити нову базу даних</string>
+    <string name="create_keepass_file">Створити нове сховище</string>
     <string name="menu_delete_entry_history">Видалити історію</string>
     <string name="menu_restore_entry_history">Відновити історію</string>
     <string name="menu_empty_recycle_bin">Спорожнити кошик</string>
@@ -190,7 +190,7 @@
     <string name="content_description_keyfile_checkbox">Поле файла ключа</string>
     <string name="menu_master_key_settings">Налаштування головного ключа</string>
     <string name="menu_security_settings">Налаштування безпеки</string>
-    <string name="menu_advanced_unlock_settings">Розширене розблокування</string>
+    <string name="menu_advanced_unlock_settings">Розблокування пристрою</string>
     <string name="menu_form_filling_settings">Заповнення форм</string>
     <string name="copy_field">Скопійовано %1$s</string>
     <string name="creating_database">Створення бази даних…</string>
@@ -370,14 +370,14 @@
     <string name="file_name">Назва файлу</string>
     <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
-    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов’язані з розпізнаванням розширеного розблокування</string>
+    <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов’язані з розпізнаванням розблокування пристрою</string>
     <string name="biometric_delete_all_key_title">Видалити ключі шифрування</string>
-    <string name="biometric_auto_open_prompt_summary">Автоматично запитувати розширене розблокування, якщо базу даних налаштовано для роботи з ним</string>
+    <string name="biometric_auto_open_prompt_summary">Автозапит розблокування пристрою, якщо базу даних налаштовано для роботи з ним</string>
     <string name="biometric_auto_open_prompt_title">Автозапит ключа</string>
     <string name="biometric_unlock_enable_summary">Дозволяє сканувати біометричні дані, щоб відкрити базу даних</string>
     <string name="biometric_unlock_enable_title">Розблокування біометричним ключем</string>
-    <string name="advanced_unlock_explanation_summary">Увімкніть розширені параметри розблокування та спростіть відкриття бази даних</string>
-    <string name="advanced_unlock">Розширені параметри розблокування</string>
+    <string name="advanced_unlock_explanation_summary">Використовуйте розблокування пристрою, щоб спростити відкриття бази даних</string>
+    <string name="advanced_unlock">Розблокування пристрою</string>
     <string name="lock_database_show_button_summary">Показувати кнопку блокування в інтерфейсі користувача</string>
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
     <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натисне кнопку назад на головному екрані</string>
@@ -405,7 +405,7 @@
     <string name="biometric">Біометричний ключ</string>
     <string name="menu_appearance_settings">Зовнішній вигляд</string>
     <string name="database_history">Історія</string>
-    <string name="unavailable">У цій базі даних ще немає збережених облікових даних.</string>
+    <string name="unavailable">Недоступно</string>
     <string name="encrypted_value_stored">Зашифрований пароль збережено</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>
@@ -446,7 +446,7 @@
     <string name="content_description_add_item">Додати елемент</string>
     <string name="keyboard_change">Перемикання клавіатури</string>
     <string name="keyboard_previous_fill_in_summary">Автоматично перемикатися до попередньої клавіатури після виконання дії «Автоматична дія кнопки»</string>
-    <string name="keyboard_previous_fill_in_title">Автоматична дія кнопки</string>
+    <string name="keyboard_previous_fill_in_title">Перемкнутися назад</string>
     <string name="keyboard_previous_database_credentials_summary">Автоматичне перемикання до попередньої клавіатури, на екрані входу до бази даних</string>
     <string name="keyboard_previous_database_credentials_title">Екран входу до бази даних</string>
     <string name="warning_file_too_big">База даних KeePass має містити лише невеликі файли утиліт (наприклад, файли ключів PGP).
@@ -487,33 +487,33 @@
     <string name="search_mode">Режим пошуку</string>
     <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
     <string name="error_field_name_already_exists">Назва поля вже існує.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розширеним розпізнаванням розблокування\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розпізнаванням розблокування пристрою\?</string>
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
     <string name="device_credential_unlock_enable_title">Розблокування облікових даних пристрою</string>
     <string name="device_credential">Облікові дані пристрою</string>
     <string name="credential_before_click_advanced_unlock_button">Введіть пароль, а потім натисніть цю кнопку.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Не вдалося ініціалізувати запит на розширене розблокування.</string>
-    <string name="advanced_unlock_scanning_error">Помилка розширеного розблокування: %1$s</string>
-    <string name="advanced_unlock_not_recognized">Не вдалося розпізнати розширене розблокування</string>
-    <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розширеного розблокування. Видаліть його та повторіть процедуру створення ключа.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розширеного розблокування</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Відкрити базу даних розширеним розпізнаванням розблокування</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Навіть якщо ви користуєтеся розширеним розблокуванням, вам однаково необхідно пам\'ятати основні облікові дані.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Розпізнавання розширеного розблокування</string>
-    <string name="menu_keystore_remove_key">Видалити ключ розширеного розблокування</string>
+    <string name="advanced_unlock_prompt_not_initialized">Не вдалося ініціалізувати запит на розблокування пристрою.</string>
+    <string name="advanced_unlock_scanning_error">Помилка розблокування пристрою: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Не вдалося розпізнати розблокування пристрою</string>
+    <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розблокування пристрою. Видаліть його й повторіть процедуру створення ключа.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розблокування пристрою</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Розпізнавання розблокуванням пристрою</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Якщо ви використовуєте розпізнавання розблокуванням пристрою, вам усе одно потрібно пам\'ятати свої основні облікові дані сховища.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Посилання на розблокування пристрою</string>
+    <string name="menu_keystore_remove_key">Видалити ключ розблокування пристрою</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Вибрати запис</string>
     <string name="back_to_previous_keyboard">Повернутися до попередньої клавіатури</string>
     <string name="custom_fields">Власні поля</string>
-    <string name="advanced_unlock_timeout">Час дії розширеного розблокування</string>
-    <string name="temp_advanced_unlock_timeout_title">Час дії розширеного розблокування</string>
+    <string name="advanced_unlock_timeout">Час дії розблокування пристрою</string>
+    <string name="temp_advanced_unlock_timeout_title">Час дії розблокування пристрою</string>
     <string name="education_advanced_unlock_summary">Пов’яжіть свій пароль зі сканованими біометричними даними або даними пристрою, щоб швидко розблокувати базу даних.</string>
-    <string name="education_advanced_unlock_title">Розширене розблокування бази даних</string>
-    <string name="temp_advanced_unlock_timeout_summary">Тривалість використання розширеного розблокування перед видаленням його вмісту</string>
-    <string name="temp_advanced_unlock_enable_summary">Не зберігати зашифрований вміст для використання розширеного розблокування</string>
-    <string name="temp_advanced_unlock_enable_title">Тимчасове розширене розблокування</string>
-    <string name="advanced_unlock_tap_delete">Торкнутися, щоб видалити клавіші розширеного розблокування</string>
+    <string name="education_advanced_unlock_title">Розблокування бази даних пристроєм</string>
+    <string name="temp_advanced_unlock_timeout_summary">Тривалість використання розблокування пристрою перед видаленням його вмісту</string>
+    <string name="temp_advanced_unlock_enable_summary">Не зберігати зашифрований вміст для використання розблокування пристрою</string>
+    <string name="temp_advanced_unlock_enable_title">Тимчасове розблокування пристрою</string>
+    <string name="advanced_unlock_tap_delete">Торкніться, щоб видалити ключі розблокування пристрою</string>
     <string name="content">Вміст</string>
     <string name="error_rebuild_list">Не вдалося належним чином відновити список.</string>
     <string name="error_database_uri_null">Неможливо отримати URI бази даних.</string>
@@ -601,7 +601,7 @@
     <string name="menu_merge_database">Об\'єднати дані</string>
     <string name="warning_database_info_reloaded">Перезавантаження бази даних видалить локально змінені дані.</string>
     <string name="enable_keep_screen_on_title">Не вимикати екран</string>
-    <string name="enable_keep_screen_on_summary">Не вимикати екран під час перегляду запису</string>
+    <string name="enable_keep_screen_on_summary">Не вимикати екран під час перегляду або редагування запису</string>
     <string name="show_entry_colors_title">Кольори записів</string>
     <string name="show_entry_colors_summary">Показує кольори шрифту й тла запису</string>
     <string name="tags">Мітки</string>
@@ -667,4 +667,25 @@
     <string name="html_about_privacy">&lt;strong&gt;Жодні користувацькі дані не збираються&lt;/strong&gt;, цей застосунок не з\'єднується з жодним сервером, він працює лише локально та повністю поважає приватність користувачів.</string>
     <string name="auto_type">Автовведення</string>
     <string name="merge_success">Успішно об\'єднано</string>
+    <string name="menu_app_settings_summary">Пошук, блокування, історія, властивості</string>
+    <string name="menu_form_filling_settings_summary">Клавіатура, автозаповнення, буфер обміну</string>
+    <string name="menu_advanced_unlock_settings_summary">Біометрія, облікові дані пристрою</string>
+    <string name="menu_database_settings_summary">Метадані, кошик, шаблони, історія</string>
+    <string name="menu_security_settings_summary">Шифрування, функція генерування ключів</string>
+    <string name="master_key_settings_summary">Зміни, оновлення</string>
+    <string name="warning_copy_permission">Щоб використовувати функцію сповіщень буфера обміну, потрібен дозвіл на сповіщення.</string>
+    <string name="later">Пізніше</string>
+    <string name="ask">Запитувати</string>
+    <string name="configure">Сконфігурувати</string>
+    <string name="unlock_and_link_biometric">Посилання для розблокування пристрою</string>
+    <string name="menu_appearance_settings_summary">Теми, кольори, атрибути</string>
+    <string name="unlock">Розблокувати</string>
+    <string name="education_validate_entry_title">Перевірте запис</string>
+    <string name="education_validate_entry_summary">Не забувайте перевірити свій запис і зберегти базу даних.
+\n
+\nЯкщо активовано автоблокування і ви забудете, що вносили зміни, ви ризикуєте втратити свої дані.</string>
+    <string name="info">Відомості</string>
+    <string name="warning_database_notification_permission">Дозвіл на сповіщення дозволяє показувати стан бази даних і блокувати її за допомогою легкодоступної кнопки.
+\n
+\nЯкщо ви не активуєте цей дозвіл відкриту у фоновому режимі базу даних не буде видно, якщо на передньому плані інший застосунок.</string>
 </resources>

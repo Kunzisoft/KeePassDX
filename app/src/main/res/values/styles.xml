@@ -307,10 +307,10 @@
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Night.Dialog.PositiveButtonStyle</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog.NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <!-- CardView -->
@@ -430,6 +430,9 @@
         <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">11sp</item>
     </style>
+    <style name="KeepassDXStyle.Meta.Entry.Important" parent="KeepassDXStyle.Meta.Entry">
+        <item name="android:textStyle">italic|bold</item>
+    </style>
     <style name="KeepassDXStyle.Info.Entry" parent="KeepassDXStyle.Text">
         <item name="android:textColor">@color/text_secondary_color</item>
         <item name="android:tint">@color/text_secondary_color</item>
@@ -471,8 +474,8 @@
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
-        <item name="android:colorForeground">?attr/colorSecondary</item>
-        <item name="tint">?attr/colorSecondary</item>
+        <item name="android:colorForeground">@color/secondary_selector</item>
+        <item name="tint">@color/secondary_selector</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="backgroundTint">@null</item>
         <item name="android:padding">12dp</item>
