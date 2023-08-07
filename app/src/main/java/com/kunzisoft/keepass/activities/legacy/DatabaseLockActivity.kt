@@ -209,6 +209,15 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
+    override fun finish() {
+        // To fix weird crash
+        try {
+            super.finish()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to finish the activity", e)
+        }
+    }
+
     abstract fun viewToInvalidateTimeout(): View?
 
     override fun onDatabaseActionFinished(

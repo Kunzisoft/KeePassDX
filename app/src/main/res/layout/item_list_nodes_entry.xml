@@ -112,9 +112,9 @@
             android:layout_marginRight="12dp"
             android:gravity="end"
             android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@+id/node_container_info"
             app:layout_constraintBottom_toTopOf="@+id/node_path"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <LinearLayout
                 android:id="@+id/node_otp_container"
@@ -171,7 +171,7 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="2dp"
             android:maxLines="2"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/node_container_info"
