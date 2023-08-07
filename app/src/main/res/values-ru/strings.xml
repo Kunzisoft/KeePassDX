@@ -412,7 +412,7 @@
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Помнить расположение баз паролей</string>
+    <string name="remember_database_locations_title">Помнить расположение баз</string>
     <string name="remember_database_locations_summary">Помнить расположение файлов баз паролей</string>
     <string name="remember_keyfile_locations_title">Помнить расположение ключей</string>
     <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз паролей</string>
