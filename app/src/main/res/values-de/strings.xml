@@ -224,7 +224,7 @@
     <string name="reset_education_screens_summary">Alle Hilfsinfos nochmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfeanzeige zurückgesetzt</string>
     <string name="education_create_database_title">Datenbankdatei erstellen</string>
-    <string name="education_create_database_summary">Erstellt eine erste Datei zur Passwortverwaltung.</string>
+    <string name="education_create_database_summary">Erstellt eine erste Datei zur Passwortverwaltung</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiter zu verwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
