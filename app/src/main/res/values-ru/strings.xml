@@ -230,7 +230,7 @@
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Обучающие подсказки</string>
     <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
-    <string name="reset_education_screens_title">Сбросить обучающие подсказки</string>
+    <string name="reset_education_screens_title">Вернуть обучающие подсказки</string>
     <string name="reset_education_screens_summary">Снова показывать все обучающие подсказки</string>
     <string name="reset_education_screens_text">Обучающие подсказки сброшены</string>
     <string name="education_create_database_title">Создайте файл базы</string>
@@ -328,7 +328,7 @@
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Вы не можете переместить запись сюда.</string>
     <string name="error_copy_entry_here">Вы не можете скопировать запись сюда.</string>
-    <string name="list_groups_show_number_entries_title">Показывать количество записей</string>
+    <string name="list_groups_show_number_entries_title">Кол-во записей</string>
     <string name="list_groups_show_number_entries_summary">Показывать количество записей в группе</string>
     <string name="content_description_background">Фон</string>
     <string name="content_description_update_from_list">Обновить</string>
@@ -412,11 +412,11 @@
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Помнить расположение баз</string>
-    <string name="remember_database_locations_summary">Помнить расположение файлов баз паролей</string>
-    <string name="remember_keyfile_locations_title">Помнить расположение ключей</string>
-    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз паролей</string>
-    <string name="show_recent_files_title">Показывать последние базы</string>
+    <string name="remember_database_locations_title">Базы паролей</string>
+    <string name="remember_database_locations_summary">Запоминать расположение баз паролей</string>
+    <string name="remember_keyfile_locations_title">Ключи</string>
+    <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей к базам паролей</string>
+    <string name="show_recent_files_title">Последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
     <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
@@ -656,8 +656,8 @@
     <string name="error_empty_key">Ключ не может быть пустым.</string>
     <string name="corrupted_file">Файл повреждён.</string>
     <string name="error_location_unknown">Расположение базы неизвестно, действие с базой не может быть выполнено.</string>
-    <string name="remember_hardware_key_title">Помнить аппаратные ключи</string>
-    <string name="remember_hardware_key_summary">Помнить используемые аппаратные ключи</string>
+    <string name="remember_hardware_key_title">Аппаратные ключи</string>
+    <string name="remember_hardware_key_summary">Запоминать используемые аппаратные ключи</string>
     <string name="screenshot_mode_banner_text">Режим снимка экрана</string>
     <string name="enable_screenshot_mode_title">Разрешать снимки экрана</string>
     <string name="hardware_key">Аппаратный ключ</string>
