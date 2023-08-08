@@ -5,10 +5,10 @@
     <string name="encryption">Шифроване</string>
     <string name="security">Сигурност</string>
     <string name="master_key">Главен ключ</string>
-    <string name="add_group">Добави група</string>
+    <string name="add_group">Нова група</string>
     <string name="edit_entry">Редактиране на запис</string>
     <string name="add_entry">Добавяне на запис</string>
-    <string name="accept">Приемам</string>
+    <string name="accept">Приемане</string>
     <string name="biometric_delete_all_key_title">Изтриване на шифроващите ключове</string>
     <string name="digits">Цифри</string>
     <string name="contact">За контакт</string>
@@ -18,4 +18,5 @@
     <string name="about">Относно</string>
     <string name="info">Информация</string>
     <string name="clipboard_cleared">Клипбордът е изчистен</string>
+    <string name="content_description_add_group">Нова група</string>
 </resources>
