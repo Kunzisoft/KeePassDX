@@ -159,7 +159,7 @@
     <string name="configure_biometric">Aucune information d’identification biométrique ou de périphérique n’est enregistrée.</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>
-    <string name="unavailable">Cette base de données n’a pas encore stocké d’identifiants.</string>
+    <string name="unavailable">Indisponible</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
@@ -403,7 +403,7 @@
     <string name="settings_database_force_changing_master_key_next_time_title">Forcer le renouvellement la prochaine fois</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Nécessite de changer la clé principale la prochaine fois (une seule fois)</string>
     <string name="database_default_username_title">Nom d’utilisateur par défaut</string>
-    <string name="database_custom_color_title">Couleur de la base de données</string>
+    <string name="database_custom_color_title">Couleur customisée de la base de données</string>
     <string name="compression">Compression</string>
     <string name="compression_none">Aucune</string>
     <string name="compression_gzip">Gzip</string>
@@ -509,7 +509,7 @@
     <string name="device_credential">Identifiant de l\'appareil</string>
     <string name="credential_before_click_advanced_unlock_button">Tapez le mot de passe, puis cliquez sur ce bouton.</string>
     <string name="advanced_unlock_prompt_not_initialized">Impossible d\'initialiser l\'invite de déverrouillage avancé.</string>
-    <string name="advanced_unlock_scanning_error">Erreur de déverrouillage avancé: %1$s</string>
+    <string name="advanced_unlock_scanning_error">Erreur de déverrouillage avancé : %1$s</string>
     <string name="advanced_unlock_not_recognized">Impossible de reconnaître l\'empreinte de déverrouillage de l\'appareil</string>
     <string name="advanced_unlock_invalid_key">Impossible de lire la clé de déverrouillage de l\'appareil. Veuillez la supprimer et répéter la procédure de reconnaissance de déverrouillage.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraire les identifiants de la base de données avec des données de déverrouillage de l\'appareil</string>
