@@ -8,7 +8,7 @@
             <item android:state_selected="true">
                 <shape>
                     <corners android:radius="25dp" />
-                    <solid android:color="?attr/colorSecondaryContainer"/>
+                    <solid android:color="?attr/colorSecondary"/>
                 </shape>
             </item>
             <item android:state_selected="false">

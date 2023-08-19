@@ -22,6 +22,8 @@ package com.kunzisoft.keepass.settings
 import android.app.Activity
 import android.app.backup.BackupManager
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -62,6 +64,12 @@ open class SettingsActivity
 
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
+        lockView = findViewById(R.id.lock_button)
+
+        // To apply navigation bar with background color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            this.window.navigationBarColor = Color.TRANSPARENT
+        }
 
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { selectedFileUri ->
@@ -107,7 +115,6 @@ open class SettingsActivity
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
             lockAndExit()
         }
