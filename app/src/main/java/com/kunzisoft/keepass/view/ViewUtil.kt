@@ -44,7 +44,10 @@ import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -286,4 +289,41 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
     setCollapsedTitleTextColor(color)
     setExpandedTitleColor(color)
     invalidate()
+}
+
+/**
+ * Apply a margin to a view to fix the window inset
+ */
+fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.BOTTOM) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        when (position) {
+            WindowInsetPosition.TOP -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = insets.top
+                    }
+                }
+            }
+            WindowInsetPosition.LEGIT_TOP -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = 0
+                    }
+                }
+            }
+            WindowInsetPosition.BOTTOM -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = insets.bottom
+                    }
+                }
+            }
+        }
+        WindowInsetsCompat.CONSUMED
+    }
+}
+
+enum class WindowInsetPosition {
+    TOP, BOTTOM, LEGIT_TOP
 }

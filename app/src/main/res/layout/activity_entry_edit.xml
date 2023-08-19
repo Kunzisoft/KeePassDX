@@ -94,6 +94,7 @@
         app:fabCustomSize="@dimen/button_small_size"
         app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
         app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
+        android:layout_marginBottom="6dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

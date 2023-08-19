@@ -144,8 +144,8 @@
             android:layout_height="wrap_content"
             android:minWidth="180dp"
             android:background="@drawable/background_item_selection"
-            android:backgroundTint="?attr/colorSurfaceContainerLow"
-            android:layout_marginBottom="@dimen/button_margin"
+            android:backgroundTint="@color/surface_selector"
+            android:layout_marginBottom="12dp"
             android:layout_gravity="bottom|center_horizontal"
             app:tabMode="fixed"
             tools:targetApi="lollipop">
