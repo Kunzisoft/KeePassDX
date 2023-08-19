@@ -23,6 +23,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,6 +31,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.result.ActivityResultLauncher
@@ -39,6 +41,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -69,6 +72,8 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.view.WindowInsetPosition
+import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
@@ -78,6 +83,7 @@ import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
+    private var footer: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var appBarLayout: AppBarLayout? = null
@@ -128,6 +134,7 @@ class EntryActivity : DatabaseLockActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // Get views
+        footer = findViewById(R.id.activity_entry_footer)
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         appBarLayout = findViewById(R.id.app_bar)
@@ -138,6 +145,14 @@ class EntryActivity : DatabaseLockActivity() {
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
+
+        // To apply fit window with transparency
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+            this.window.navigationBarColor = Color.TRANSPARENT
+            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }
 
         // Empty title
         collapsingToolbarLayout?.title = " "

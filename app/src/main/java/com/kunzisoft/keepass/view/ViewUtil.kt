@@ -301,7 +301,12 @@ fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.B
             WindowInsetPosition.TOP -> {
                 if (view.layoutParams is ViewGroup.MarginLayoutParams) {
                     view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        topMargin = insets.top
+                        setPadding(
+                            paddingLeft,
+                            insets.top,
+                            paddingRight,
+                            paddingBottom,
+                        )
                     }
                 }
             }
@@ -315,7 +320,12 @@ fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.B
             WindowInsetPosition.BOTTOM -> {
                 if (view.layoutParams is ViewGroup.MarginLayoutParams) {
                     view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = insets.bottom
+                        setPadding(
+                            paddingLeft,
+                            paddingTop,
+                            paddingRight,
+                            insets.bottom,
+                        )
                     }
                 }
             }
