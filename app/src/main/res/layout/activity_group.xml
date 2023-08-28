@@ -55,7 +55,7 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginLeft="12dp"
                     android:maxLines="2"
-                    android:ellipsize="marquee"
+                    android:ellipsize="end"
                     tools:text="Database"
                     style="@style/KeepassDXStyle.Title.OnSurface" />
             </com.google.android.material.appbar.MaterialToolbar>
