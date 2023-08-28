@@ -42,6 +42,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -96,6 +97,7 @@ import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
@@ -179,10 +181,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // To apply fit window with transparency
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            this.window.navigationBarColor = Color.TRANSPARENT
-            this.window.statusBarColor = Color.TRANSPARENT
+        setTransparentNavigationBar(applyToStatusBar = true) {
             container?.applyWindowInsets(WindowInsetPosition.TOP)
             footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
         }

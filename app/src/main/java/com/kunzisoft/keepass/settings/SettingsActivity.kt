@@ -28,6 +28,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -41,6 +43,9 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.view.WindowInsetPosition
+import com.kunzisoft.keepass.view.applyWindowInsets
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import org.joda.time.DateTime
 import java.util.Properties
@@ -56,6 +61,7 @@ open class SettingsActivity
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var lockView: FloatingActionButton? = null
+    private var footer: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +71,14 @@ open class SettingsActivity
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
         lockView = findViewById(R.id.lock_button)
+        footer = findViewById(R.id.screenshot_mode_banner)
 
         // To apply navigation bar with background color
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            this.window.navigationBarColor = Color.TRANSPARENT
-        }
+        /* TODO Settings nav bar
+        setTransparentNavigationBar {
+            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }*/
 
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { selectedFileUri ->

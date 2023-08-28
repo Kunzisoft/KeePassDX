@@ -142,8 +142,8 @@
         android:id="@+id/activity_entry_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="bottom">
+        app:layout_constraintBottom_toBottomOf="parent">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/entry_content_tab"
             android:layout_width="wrap_content"
@@ -178,8 +178,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
-            android:layout_gravity="start|bottom" />
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
         <include layout="@layout/view_screenshot_mode_banner" />
     </androidx.constraintlayout.widget.ConstraintLayout>

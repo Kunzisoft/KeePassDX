@@ -50,6 +50,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -111,6 +112,7 @@ import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
@@ -293,9 +295,7 @@ class GroupActivity : DatabaseLockActivity(),
         loadingView = findViewById(R.id.loading)
 
         // To apply fit window with transparency
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            this.window.navigationBarColor = Color.TRANSPARENT
+        setTransparentNavigationBar {
             header?.applyWindowInsets(WindowInsetPosition.TOP)
             coordinatorLayout?.applyWindowInsets(WindowInsetPosition.LEGIT_TOP)
             footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)

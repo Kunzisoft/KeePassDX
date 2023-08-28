@@ -38,9 +38,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -77,6 +80,7 @@ import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 import java.util.UUID
@@ -147,9 +151,9 @@ class EntryActivity : DatabaseLockActivity() {
         loadingView = findViewById(R.id.loading)
 
         // To apply fit window with transparency
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            WindowCompat.setDecorFitsSystemWindows(window, false)
-            this.window.navigationBarColor = Color.TRANSPARENT
+        setTransparentNavigationBar {
+            // To fix margin with API 27
+            ViewCompat.setOnApplyWindowInsetsListener(collapsingToolbarLayout!!, null)
             coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
             footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
         }
