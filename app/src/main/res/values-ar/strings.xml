@@ -497,7 +497,7 @@
     <string name="custom_data">بيانات مخصصة</string>
     <string name="case_sensitive">حساسة لحالة الأحرف</string>
     <string name="regex">تعابير نمطية</string>
-    <string name="enable_keep_screen_on_title">أبق الشاشة شغّالة</string>
+    <string name="enable_keep_screen_on_title">أبقِ الشاشة شغّالة</string>
     <string name="enable_education_screens_summary">أبرز العناصر لتعلم طريقة عمل التطبيق</string>
     <string name="autofill_read_only_save">غير مسموح حفظ البيانات في قاعدة بيانات مفتوحة للقراءة فقط.</string>
     <string name="autofill_inline_suggestions_keyboard">أُضيف اقتراح ملء تلقائي.</string>
