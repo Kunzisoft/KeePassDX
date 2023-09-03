@@ -279,9 +279,24 @@ class KeeAutofillService : AutofillService() {
                             }
                         }
                     }
+
                     // Build response
-                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        responseBuilder.setAuthentication(
+                            autofillIds,
+                            intentSender,
+                            Presentations.Builder().apply {
+                                inlinePresentation?.let {
+                                    setInlinePresentation(it)
+                                }
+                            }.setDialogPresentation(remoteViewsUnlock).build()
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                    }
                 } else {
+                    @Suppress("DEPRECATION")
                     responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 }
                 callback.onSuccess(responseBuilder.build())
