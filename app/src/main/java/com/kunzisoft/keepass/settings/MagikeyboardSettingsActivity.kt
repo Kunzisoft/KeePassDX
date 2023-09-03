@@ -46,7 +46,7 @@ class MagikeyboardSettingsActivity : DatabaseModeActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onDatabaseBackPressed()
         }
 
         return super.onOptionsItemSelected(item)

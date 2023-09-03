@@ -1357,7 +1357,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {

@@ -22,13 +22,10 @@ package com.kunzisoft.keepass.settings
 import android.app.Activity
 import android.app.backup.BackupManager
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -43,9 +40,6 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.view.WindowInsetPosition
-import com.kunzisoft.keepass.view.applyWindowInsets
-import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import org.joda.time.DateTime
 import java.util.Properties
@@ -182,7 +176,7 @@ open class SettingsActivity
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onDatabaseBackPressed()
         }
 
         return super.onOptionsItemSelected(item)
@@ -216,10 +210,10 @@ open class SettingsActivity
         }
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         // this if statement is necessary to navigate through nested and main fragments
         if (supportFragmentManager.backStackEntryCount == 0) {
-            super.onBackPressed()
+            super.onDatabaseBackPressed()
         } else {
             supportFragmentManager.popBackStack()
         }

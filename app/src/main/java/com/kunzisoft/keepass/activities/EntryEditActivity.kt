@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -42,8 +41,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -709,16 +706,16 @@ class EntryEditActivity : DatabaseLockActivity(),
                 return true
             }
             android.R.id.home -> {
-                onBackPressed()
+                onDatabaseBackPressed()
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         onApprovedBackPressed {
-            super@EntryEditActivity.onBackPressed()
+            super@EntryEditActivity.onDatabaseBackPressed()
         }
     }
 
