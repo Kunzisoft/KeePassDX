@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.WebDomain
 import org.joda.time.DateTime
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -57,7 +56,6 @@ class KeeAutofillService : AutofillService() {
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
     private var autofillInlineSuggestionsEnabled: Boolean = false
-    private var mLock = AtomicBoolean()
 
     override fun onCreate() {
         super.onCreate()
@@ -96,35 +94,31 @@ class KeeAutofillService : AutofillService() {
             Log.d(TAG, "Autofill requested in native mode")
         }
 
-        // Lock
-        if (!mLock.get()) {
-            mLock.set(true)
-            // Check user's settings for authenticating Responses and Datasets.
-            val latestStructure = request.fillContexts.last().structure
-            StructureParser(latestStructure).parse()?.let { parseResult ->
+        // Check user's settings for authenticating Responses and Datasets.
+        val latestStructure = request.fillContexts.last().structure
+        StructureParser(latestStructure).parse()?.let { parseResult ->
 
-                // Build search info only if applicationId or webDomain are not blocked
-                if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                        && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
-                    val searchInfo = SearchInfo().apply {
-                        applicationId = parseResult.applicationId
-                        webDomain = parseResult.webDomain
-                        webScheme = parseResult.webScheme
+            // Build search info only if applicationId or webDomain are not blocked
+            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.webDomain
+                    webScheme = parseResult.webScheme
+                }
+                WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                    searchInfo.webDomain = webDomainWithoutSubDomain
+                    val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                            && autofillInlineSuggestionsEnabled) {
+                        CompatInlineSuggestionsRequest(request)
+                    } else {
+                        null
                     }
-                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
-                        searchInfo.webDomain = webDomainWithoutSubDomain
-                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                                && autofillInlineSuggestionsEnabled) {
-                            CompatInlineSuggestionsRequest(request)
-                        } else {
-                            null
-                        }
-                        launchSelection(mDatabase,
-                                searchInfo,
-                                parseResult,
-                                inlineSuggestionsRequest,
-                                callback)
-                    }
+                    launchSelection(mDatabase,
+                            searchInfo,
+                            parseResult,
+                            inlineSuggestionsRequest,
+                            callback)
                 }
             }
         }
@@ -376,7 +370,6 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onDisconnected() {
-        mLock.set(false)
         Log.d(TAG, "onDisconnected")
     }
 
