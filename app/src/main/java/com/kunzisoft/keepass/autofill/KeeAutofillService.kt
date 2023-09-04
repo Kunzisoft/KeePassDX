@@ -90,6 +90,12 @@ class KeeAutofillService : AutofillService() {
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
+        if (request.flags and FillRequest.FLAG_COMPATIBILITY_MODE_REQUEST != 0) {
+            Log.d(TAG, "Autofill requested in compatibility mode")
+        } else {
+            Log.d(TAG, "Autofill requested in native mode")
+        }
+
         // Lock
         if (!mLock.get()) {
             mLock.set(true)
@@ -157,6 +163,7 @@ class KeeAutofillService : AutofillService() {
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                         callback: FillCallback) {
+        var success = false
         parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
@@ -299,12 +306,16 @@ class KeeAutofillService : AutofillService() {
                     @Suppress("DEPRECATION")
                     responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 }
+                success = true
                 callback.onSuccess(responseBuilder.build())
             }
         }
+        if (!success)
+            callback.onFailure("Unable to get Autofill ids for UI selection")
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
+        var success = false
         if (askToSaveData) {
             val latestStructure = request.fillContexts.last().structure
             StructureParser(latestStructure).parse(true)?.let { parseResult ->
@@ -347,14 +358,16 @@ class KeeAutofillService : AutofillService() {
                     //    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
                     //            registerInfo))
                     //} else {
-                        AutofillLauncherActivity.launchForRegistration(this, registerInfo)
-                        callback.onSuccess()
+                    AutofillLauncherActivity.launchForRegistration(this, registerInfo)
+                    success = true
+                    callback.onSuccess()
                     //}
-                    return
                 }
             }
         }
-        callback.onFailure("Saving form values is not allowed")
+        if (!success) {
+            callback.onFailure("Saving form values is not allowed")
+        }
     }
 
     override fun onConnected() {
