@@ -117,7 +117,7 @@ class BreadcrumbAdapter(val context: Context)
                                 PreferencesUtil.showExpiredEntries(context)
                             )
                         )
-                        text = group.numberOfChildEntries.toString()
+                        text = group.recursiveNumberOfChildEntries.toString()
                         visibility = View.VISIBLE
                     } else {
                         visibility = View.GONE
