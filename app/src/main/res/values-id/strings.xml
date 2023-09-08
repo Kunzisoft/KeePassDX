@@ -12,8 +12,8 @@
     <string name="menu_showpass">Tampilkan Kata Sandi</string>
     <string name="menu_search">Cari</string>
     <string name="menu_open">Buka</string>
-    <string name="menu_save_database">Simpan Database</string>
-    <string name="menu_lock">Basisdata Terkunci</string>
+    <string name="menu_save_database">Simpan data</string>
+    <string name="menu_lock">Basis Data Terkunci</string>
     <string name="menu_hide_password">Sembunyikan Kata Sandi</string>
     <string name="menu_cancel">Batal</string>
     <string name="menu_delete">Hapus</string>
@@ -25,7 +25,7 @@
     <string name="menu_master_key_settings">Pengaturan Kunci Utama</string>
     <string name="menu_security_settings">Pengaturan Keamanan</string>
     <string name="menu_app_settings">Pengaturan Aplikasi</string>
-    <string name="menu_database_settings">Pengaturan Basisdata</string>
+    <string name="menu_database_settings">Pengaturan Basis Data</string>
     <string name="menu_advanced_unlock_settings">Membuka kunci perangkat</string>
     <string name="menu_form_filling_settings">Pengisian Formulir</string>
     <string name="settings">Pengaturan</string>
@@ -68,7 +68,7 @@
     <string name="error_otp_secret_key">Kunci rahasia harus dalam format Base32.</string>
     <string name="error_save_database">Tidak dapat menyimpan basis data.</string>
     <string name="error_create_database_file">Tidak bisa membuat basis data dengan kata sandi dan file kunci ini.</string>
-    <string name="error_create_database">Tidak bisa membuat berkas database.</string>
+    <string name="error_create_database">Tidak bisa membuat berkas basis data.</string>
     <string name="error_copy_group_here">Anda tidak bisa menyalin grup di sini.</string>
     <string name="error_copy_entry_here">Anda tidak dapat menyalin entri di sini.</string>
     <string name="error_move_entry_here">Anda tidak dapat memindahkan sebuah entri ke sini.</string>
@@ -93,7 +93,7 @@
     <string name="entry_add_attachment">Tambahkan Lampiran</string>
     <string name="digits">Dijit</string>
     <string name="app_timeout_summary">Waktu idle sebelum mengunci basis data</string>
-    <string name="file_manager_install_description">Manajer file yang menerima ACTION_CREATE_DOCUMENT ACTION_OPEN_DOCUMENT izin diperlukan untuk membuat, membuka, dan menyimpan file database.</string>
+    <string name="file_manager_install_description">Manajer file yang menerima ACTION_CREATE_DOCUMENT ACTION_OPEN_DOCUMENT izin diperlukan untuk membuat, membuka, dan menyimpan file basis data.</string>
     <string name="otp_type">Jenis OTP</string>
     <string name="entry_setup_otp">Penyiapan Sandi Sekali Pakai (OTP)</string>
     <string name="error_can_not_handle_uri">Tidak bisa menangani URI ini di KeePassDX.</string>
@@ -131,7 +131,7 @@
 \nTersedia apa adanya, di bawah lisensi &lt;strong&gt;GPLv3&lt;/strong&gt;, tanpa jaminan apa pun.</string>
     <string name="default_checkbox">Gunakan sebagai basis data standar</string>
     <string name="decrypting_db">Mendekripsi konten basis data…</string>
-    <string name="database">BasisData</string>
+    <string name="database">Basis Data</string>
     <string name="select_to_copy">Pilih untuk menyalin %1$s ke papan klip</string>
     <string name="content_description_keyboard_close_fields">Tutup Bidang</string>
     <string name="content_description_remove_from_list">Buang</string>
@@ -175,7 +175,7 @@
     <string name="feedback">Umpan Balik</string>
     <string name="contribution">Kontribusi</string>
     <string name="contact">Kontak</string>
-    <string name="auto_focus_search_summary">Minta pencarian saat membuka database</string>
+    <string name="auto_focus_search_summary">Minta pencarian saat membuka basis data</string>
     <string name="auto_focus_search_title">Pencarian cepat</string>
     <string name="create_keepass_file">Membuat brankas baru</string>
     <string name="select_database_file">Buka brankas yang ada</string>
@@ -190,11 +190,11 @@
     <string name="show_recent_files_title">Tampilkan file sebelumnya</string>
     <string name="remember_keyfile_locations_summary">Melacak di mana file kunci disimpan</string>
     <string name="remember_keyfile_locations_title">Ingat lokasi file kunci</string>
-    <string name="remember_database_locations_summary">Melacak di mana database disimpan</string>
+    <string name="remember_database_locations_summary">Melacak di mana basis data disimpan</string>
     <string name="remember_database_locations_title">Ingat lokasi basis data</string>
     <string name="selection_mode">Mode seleksi</string>
     <string name="contains_duplicate_uuid_procedure">Selesaikan masalah dengan menghasilkan UUID baru, lanjutkan\?</string>
-    <string name="contains_duplicate_uuid">Basisdata berisi UUIDs duplikat.</string>
+    <string name="contains_duplicate_uuid">Basis data berisi UUID yang terduplikat.</string>
     <string name="read_only_warning">Tergantung pada manajer file Anda, KeePassDX mungkin tidak diizinkan untuk menulis di penyimpanan Anda.</string>
     <string name="read_only">Terlindung dari penulisan</string>
     <string name="protection">Perlindungan</string>
@@ -219,7 +219,7 @@
     <string name="warning_empty_keyfile">Tidak disarankan menambah keyfile kosong.</string>
     <string name="warning_sure_remove_data">Hapus data ini\?</string>
     <string name="warning">Peringatan</string>
-    <string name="unsupported_db_version">Versi database tidak di dukung.</string>
+    <string name="unsupported_db_version">Versi basis data tidak didukung.</string>
     <string name="search">Cari</string>
     <string name="sort_last_access_time">Akses</string>
     <string name="sort_last_modify_time">Modifikasi</string>
@@ -241,19 +241,19 @@
     <string name="keystore_not_accessible">Keystore tidak diinisialisasi dengan benar.</string>
     <string name="biometric_security_update_required">Pembaruan keamanan biometrik diperlukan.</string>
     <string name="configure_biometric">Tidak ada kredensial biometrik atau perangkat yang terdaftar.</string>
-    <string name="warning_remove_unlinked_attachment">Menghapus data yang tidak tertaut dapat mengurangi ukuran database Anda, tetapi juga dapat menghapus data yang digunakan untuk plugin KeePass.</string>
+    <string name="warning_remove_unlinked_attachment">Menghapus data yang tidak tertaut dapat mengurangi ukuran basis data Anda, tetapi juga dapat menghapus data yang digunakan untuk plugin KeePass.</string>
     <string name="warning_sure_add_file">Tetap tambahkan berkas\?</string>
     <string name="warning_replace_file">Mengunggah berkas ini akan menggantikan berkas yang ada.</string>
-    <string name="warning_file_too_big">Database KeePass seharusnya hanya berisi file utilitas kecil (seperti file kunci PGP).
+    <string name="warning_file_too_big">Basis data KeePass seharusnya hanya berisi file utilitas kecil (seperti file kunci PGP).
 \n
-\nDatabase Anda mungkin menjadi sangat besar dan mengurangi kinerja dengan unggahan ini.</string>
+\nBasis data Anda mungkin menjadi sangat besar dan mengurangi kinerja dengan unggahan ini.</string>
     <string name="warning_empty_recycle_bin">Hapus permanen semua node dari keranjang sampah\?</string>
-    <string name="advanced_unlock_tap_delete">Ketuk untuk menghapus tombol pembuka kunci lanjutan</string>
-    <string name="advanced_unlock">Buka kunci lanjutan</string>
+    <string name="advanced_unlock_tap_delete">Ketuk untuk menghapus tombol pembuka kunci perangkat</string>
+    <string name="advanced_unlock">Buka kunci perangkat</string>
     <string name="content">Konten</string>
     <string name="lock_database_show_button_summary">Tampilkan tombol kunci di antarmuka pengguna</string>
     <string name="lock_database_show_button_title">Tampilkan tombol kunci</string>
-    <string name="lock_database_back_root_summary">Kunci database saat pengguna mengklik tombol kembali di layar root</string>
+    <string name="lock_database_back_root_summary">Kunci basis data saat pengguna mengklik tombol kembali di layar root</string>
     <string name="lock_database_back_root_title">Tekan \'Kembali\' untuk mengunci</string>
     <string name="lock_database_screen_off_summary">Kunci basis data setelah beberapa detik ketika layar mati</string>
     <string name="lock_database_screen_off_title">Kunci layar</string>
@@ -263,14 +263,14 @@
     <string name="clipboard_notifications_title">Pemberitahuan papan klip</string>
     <string name="clipboard_explanation_summary">Salin kolom entri menggunakan papan klip perangkat Anda</string>
     <string name="clipboard">Papan klip</string>
-    <string name="database_opened">Database dibuka</string>
+    <string name="database_opened">Basis data dibuka</string>
     <string name="list_password_generator_options_summary">Atur karakter pembuat kata sandi yang diperbolehkan</string>
     <string name="list_password_generator_options_title">Karakter kata sandi</string>
     <string name="password_size_summary">Setel ukuran default kata sandi yang dihasilkan</string>
     <string name="password_size_title">Ukuran kata sandi yang dihasilkan</string>
-    <string name="database_data_remove_unlinked_attachments_summary">Menghapus lampiran yang terdapat dalam database tetapi tidak ditautkan ke entri</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Menghapus lampiran yang terdapat dalam basis data tetapi tidak ditautkan ke entri</string>
     <string name="database_data_remove_unlinked_attachments_title">Hapus data yang tidak tertaut</string>
-    <string name="database_data_compression_summary">Kompresi data mengurangi ukuran database</string>
+    <string name="database_data_compression_summary">Kompresi data mengurangi ukuran basis data</string>
     <string name="database_data_compression_title">Kompresi data</string>
     <string name="data">Data</string>
     <string name="assign_master_key">Tetapkan kunci master</string>
@@ -296,7 +296,7 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="show_uuid_summary">Tampilkan UUID yang ditautkan ke entri atau grup</string>
-    <string name="warning_password_encoding">Hindari karakter kata sandi di luar format pengkodean teks dalam file database (karakter yang tidak dikenal dikonversi ke huruf yang sama).</string>
+    <string name="warning_password_encoding">Hindari karakter kata sandi di luar format pengkodean teks dalam file basis data (karakter yang tidak dikenal dikonversi ke huruf yang sama).</string>
     <string name="uppercase">Huruf besar</string>
     <string name="sort_creation_time">Penciptaan</string>
     <string name="sort_ascending">Terendah pertama ↓</string>
@@ -311,9 +311,9 @@
     <string name="search_mode">Mode pencarian</string>
     <string name="menu_keystore_remove_key">Menghapus kunci buka kunci perangkat</string>
     <string name="menu_reload_database">Muat ulang data</string>
-    <string name="error_database_uri_null">URI database tidak dapat diambil.</string>
+    <string name="error_database_uri_null">URI basis data tidak dapat diambil.</string>
     <string name="error_field_name_already_exists">Nama bidang sudah ada.</string>
-    <string name="error_registration_read_only">Menyimpan item baru tidak diperbolehkan dalam database read-only</string>
+    <string name="error_registration_read_only">Menyimpan item baru tidak diperbolehkan dalam basis data hanya-baca</string>
     <string name="error_otp_type">Tipe OTP yang ada tidak dikenali oleh formulir ini, validasinya mungkin tidak lagi menghasilkan token dengan benar.</string>
     <string name="content_description_credentials_information">Info kredensial</string>
     <string name="autofill_inline_suggestions_keyboard">Saran pengisian otomatis ditambahkan.</string>
@@ -328,17 +328,17 @@
     <string name="autofill_save_search_info_summary">Cobalah untuk menyimpan informasi pencarian saat membuat pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
     <string name="autofill_save_search_info_title">Simpan info pencarian</string>
     <string name="autofill_inline_suggestions_title">Saran sebaris</string>
-    <string name="autofill_close_database_summary">Menutup database setelah pilihan isi-auto</string>
-    <string name="autofill_close_database_title">Tutup database</string>
+    <string name="autofill_close_database_summary">Tutup basis data setelah pengisian otomatis pada pilihan</string>
+    <string name="autofill_close_database_title">Tutup basis data</string>
     <string name="enter">Enter</string>
     <string name="backspace">Hapus</string>
     <string name="select_entry">Pilih entri</string>
     <string name="back_to_previous_keyboard">Kembali ke papan tik sebelumnya</string>
     <string name="custom_fields">Bidang kustom</string>
-    <string name="keyboard_previous_lock_title">Kunci database</string>
+    <string name="keyboard_previous_lock_title">Kunci basis data</string>
     <string name="keyboard_auto_go_action_title">Aksi tombol otomatis</string>
     <string name="keyboard_keys_category">Tombol</string>
-    <string name="keyboard_previous_database_credentials_title">Layar kredensial database</string>
+    <string name="keyboard_previous_database_credentials_title">Layar kredensial basis data</string>
     <string name="keyboard_change">Ganti papan tik</string>
     <string name="keyboard_key_sound_title">Tombol terdengar</string>
     <string name="keyboard_key_vibrate_title">Getar saat menekan tombol</string>
@@ -350,7 +350,7 @@
     <string name="keyboard_notification_entry_content_title_text">Entri</string>
     <string name="keyboard_entry_timeout_summary">Waktu habis untuk menghapus entri papan tik</string>
     <string name="keyboard_entry_timeout_title">Waktu habis</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Tutup database saat menutup notifikasi</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Tutup basis data saat menutup notifikasi</string>
     <string name="keyboard_notification_entry_clear_close_title">Bersihkan saat menutup</string>
     <string name="keyboard_notification_entry_summary">Tampilkan notifikasi ketika entri tersedia</string>
     <string name="keyboard_notification_entry_title">Info notifikasi</string>
@@ -390,10 +390,10 @@
     <string name="education_field_copy_title">Salin bidang</string>
     <string name="education_setup_OTP_title">Atur OTP</string>
     <string name="education_donation_title">Partisipasi</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Buka basis data dengan pengenalan pembuka kunci tingkat lanjut</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Anda tetap harus mengingat kata sandi utama Anda jika Anda menggunakan pengenalan pembukaan kunci tingkat lanjut.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Pengenalan pembuka kunci perangkat</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Anda masih perlu mengingat kredensial utama vault Anda jika Anda menggunakan pengenalan kunci perangkat.</string>
     <string name="warning_database_revoked">Akses ke berkas dicabut oleh pengelola berkas, tutup basis data dan buka kembali dari lokasi tempatnya.</string>
-    <string name="warning_database_info_changed_options">Gabungkan data, timpa perubahan dengan cara menyimpan database atau muat ulang dengan perubahan terbaru.</string>
+    <string name="warning_database_info_changed_options">Gabungkan data, timpa perubahan dengan cara menyimpan basis data atau muat ulang dengan perubahan terbaru.</string>
     <string name="warning_database_info_changed">Informasi yang tersimpan di berkas basis data Anda sudah diubah di luar aplikasi.</string>
     <string name="warning_no_encryption_key">Lanjut tanpa kunci enkripsi\?</string>
     <string name="warning_empty_password">Lanjut tanpa proteksi buka kunci dengan kata sandi\?</string>
@@ -414,11 +414,11 @@
     <string name="device_credential_unlock_enable_title">Membuka kredensial perangkat</string>
     <string name="biometric_unlock_enable_summary">Memperbolehkan Anda memindai biometrik Anda untuk membuka basis data</string>
     <string name="biometric_unlock_enable_title">Membuka kunci biometrik</string>
-    <string name="advanced_unlock_explanation_summary">Gunakan buka kunci lanjutan untuk membuka database dengan lebih mudah</string>
-    <string name="unavailable">Basis data ini belum menyimpan kredensial.</string>
-    <string name="advanced_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci lanjutan</string>
-    <string name="advanced_unlock_invalid_key">Tidak dapat membaca kunci pembuka lanjutan. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data lanjutan</string>
+    <string name="advanced_unlock_explanation_summary">Gunakan buka kunci perangkat untuk membuka basis data dengan lebih mudah</string>
+    <string name="unavailable">Tidak tersedia</string>
+    <string name="advanced_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci perangkat</string>
+    <string name="advanced_unlock_invalid_key">Tidak dapat membaca kunci pembuka perangkat. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data perangkat</string>
     <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan.</string>
     <string name="credential_before_click_advanced_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
     <string name="autofill_service_name">Isi formulir KeePassDX otomatis</string>
@@ -461,14 +461,14 @@
     <string name="menu_external_icon">Ikon eksternal</string>
     <string name="holder">Penyangga</string>
     <string name="autofill_select_entry">Pilih entri…</string>
-    <string name="biometric_auto_open_prompt_summary">Secara otomatis meminta buka kunci lanjutan jika basis data diatur menggunakan itu</string>
-    <string name="temp_advanced_unlock_enable_title">Buka kunci lanjutan sementara</string>
-    <string name="temp_advanced_unlock_enable_summary">Jangan simpan konten terenkripsi apa pun untuk menggunakan buka kunci lanjutan</string>
-    <string name="temp_advanced_unlock_timeout_summary">Durasi penggunaan buka kunci lanjutan sebelum menghapus konten tersebut</string>
-    <string name="advanced_unlock_timeout">Batas waktu membuka kunci lanjutan</string>
-    <string name="advanced_unlock_delete_all_key_warning">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci lanjutan\?</string>
+    <string name="biometric_auto_open_prompt_summary">Secara otomatis meminta buka kunci perangkat jika basis data diatur menggunakan itu</string>
+    <string name="temp_advanced_unlock_enable_title">Buka kunci perangkat sementara</string>
+    <string name="temp_advanced_unlock_enable_summary">Jangan simpan konten terenkripsi apa pun untuk menggunakan buka kunci perangkat</string>
+    <string name="temp_advanced_unlock_timeout_summary">Durasi penggunaan buka kunci perangkat sebelum menghapus konten tersebut</string>
+    <string name="advanced_unlock_timeout">Batas waktu membuka kunci perangkat</string>
+    <string name="advanced_unlock_delete_all_key_warning">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci perangkat\?</string>
     <string name="templates_group_enable_title">Penggunaan templat</string>
-    <string name="biometric_delete_all_key_summary">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci lanjutan</string>
+    <string name="biometric_delete_all_key_summary">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci perangkat</string>
     <string name="max_history_items_summary">Batasi jumlah item riwayat per entri</string>
     <string name="template_group_name">Templat</string>
     <string name="date_of_issue">Tanggal diterbitkan</string>
@@ -480,7 +480,7 @@
     <string name="max_history_size_summary">Batasi ukuran riwayat per entri</string>
     <string name="max_history_size_title">Ukuran maksimum</string>
     <string name="biometric_delete_all_key_title">Hapus kunci enkripsi</string>
-    <string name="temp_advanced_unlock_timeout_title">Kedaluwarsa pembuka kunci lanjutan</string>
+    <string name="temp_advanced_unlock_timeout_title">Kedaluwarsa pembuka kunci perangkat</string>
     <string name="templates_group_enable_summary">Gunakan templat dinamis untuk mengisi bidang entri</string>
     <string name="education_read_only_summary">Ubah mode pembuka untuk sesi.
 \n
@@ -526,7 +526,7 @@
     <string name="html_text_dev_feature_buy_pro">Dengan membeli versi &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="content_description_database_color">Warna basis data</string>
     <string name="menu_merge_database">Gabung data</string>
-    <string name="warning_database_info_reloaded">Memuat ulang database akan menghapus data yang diubah secara lokal.</string>
+    <string name="warning_database_info_reloaded">Memuat ulang basis data akan menghapus data yang diubah secara lokal.</string>
     <string name="warning_keyfile_integrity">Hash file tidak dijamin karena Android dapat mengubah datanya dengan cepat. Ubah ekstensi file menjadi .bin untuk integritas yang benar.</string>
     <string name="content_description_entry_foreground_color">Warna latar depan entri</string>
     <string name="content_description_entry_background_color">Warna latar belakang entri</string>
@@ -562,7 +562,7 @@
 \n
 \nGrup (~folder) mengatur entri dalam basis data Anda.</string>
     <string name="education_search_summary">Masukkan judul, nama pengguna atau konten bidang lain untuk mengambil kata sandi Anda.</string>
-    <string name="education_advanced_unlock_title">Pembukaan kunci basis data tingkat lanjut</string>
+    <string name="education_advanced_unlock_title">Pembukaan kunci basis data perangkat</string>
     <string name="education_advanced_unlock_summary">Tautkan kata sandi Anda ke kredensial biometrik atau perangkat yang dipindai untuk membuka kunci basis data Anda dengan cepat.</string>
     <string name="education_entry_new_field_title">Tambahkan bidang kustom</string>
     <string name="education_entry_new_field_summary">Daftarkan bidang tambahan, tambahkan nilai, dan lindungi secara opsional.</string>
@@ -582,11 +582,11 @@
     <string name="upper_case">HURUF BESAR</string>
     <string name="title_case">Huruf Judul</string>
     <string name="character_count">Jumlah karakter: %1$d</string>
-    <string name="advanced_unlock_scanning_error">Terjadi kesalahan buka kunci lanjutan: %1$s</string>
-    <string name="advanced_unlock_prompt_not_initialized">Tidak dapat menginisialisasi prompt buka kunci tingkat lanjut.</string>
+    <string name="advanced_unlock_scanning_error">Terjadi kesalahan buka kunci perangkat: %1$s</string>
+    <string name="advanced_unlock_prompt_not_initialized">Tidak dapat menginisialisasi perintah buka kunci perangkat.</string>
     <string name="monospace_font_fields_enable_title">Bidang tipe huruf</string>
     <string name="keyboard_save_search_info_title">Simpan info terbagi</string>
-    <string name="keyboard_previous_fill_in_title">Tindakan tombol otomatis</string>
+    <string name="keyboard_previous_fill_in_title">Ganti kembali</string>
     <string name="keyboard_previous_lock_summary">Secara otomatis beralih kembali ke keyboard sebelumnya setelah mengunci basis data</string>
     <string name="autofill_inline_suggestions_summary">Coba tampilkan saran pengisian otomatis langsung dari keyboard yang kompatibel</string>
     <string name="enable_education_screens_title">Petunjuk pendidikan</string>
@@ -616,10 +616,10 @@
 \n
 \nBergantung pada implementasi API asli dari sistem operasi, mungkin tidak berfungsi penuh.
 \nPeriksa kompatibilitas dan keamanan KeyStore dengan produsen perangkat Anda dan pembuat ROM yang Anda gunakan.</string>
-    <string name="education_read_only_title">Lindungi database Anda dari penulisan</string>
+    <string name="education_read_only_title">Lindungi basis data Anda dari penulisan</string>
     <string name="keyboard_save_search_info_summary">Coba simpan informasi terbagi ketika membuat sebuah pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
     <string name="enable_read_only_title">Terlindungi-tulis</string>
-    <string name="enable_keep_screen_on_summary">Jaga layar tetap menyala saat melihat entri</string>
+    <string name="enable_keep_screen_on_summary">Jaga layar tetap menyala saat melihat atau menyunting sebuah entri</string>
     <string name="content_description_hardware_key_checkbox">Kotak centang kunci perangkat keras</string>
     <string name="waiting_challenge_request">Menunggu untuk permintaan tantangan…</string>
     <string name="waiting_challenge_response">Menunggu untuk tanggapan tantangan…</string>
@@ -652,7 +652,7 @@
     <string name="menu_database_settings_summary">Metadata, tempat sampah, templat, riwayat</string>
     <string name="menu_security_settings_summary">Enkripsi, fungsi derivasi kunci</string>
     <string name="master_key_settings_summary">Perubahan, pembaruan</string>
-    <string name="warning_database_notification_permission">Izin notifikasi memungkinkan Anda untuk menampilkan status database dan menguncinya dengan tombol yang mudah diakses.
+    <string name="warning_database_notification_permission">Izin notifikasi memungkinkan Anda untuk menampilkan status basis data dan menguncinya dengan tombol yang mudah diakses.
 \n
 \nJika Anda tidak mengaktifkan, basis data yang terbuka di latar belakang tidak akan terlihat jika ada aplikasi lain di latar depan.</string>
     <string name="warning_copy_permission">Izin pemberitahuan diperlukan untuk menggunakan fitur pemberitahuan papan klip.</string>
@@ -660,4 +660,10 @@
     <string name="configure">Atur</string>
     <string name="later">Nanti</string>
     <string name="unlock_and_link_biometric">Tautan buka kunci perangkat</string>
+    <string name="education_validate_entry_summary">Ingat untuk memvalidasi entri Anda dan simpan basis data Anda.
+\n
+\nJika penguncian otomatis diaktifkan dan Anda lupa bahwa Anda sedang membuat perubahan, Anda berisiko kehilangan data Anda.</string>
+    <string name="menu_appearance_settings_summary">Tema, warna, atribut</string>
+    <string name="unlock">Buka kunci</string>
+    <string name="education_validate_entry_title">Validasi entri</string>
 </resources>
