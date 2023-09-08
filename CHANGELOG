@@ -3,9 +3,9 @@ KeePassDX(4.0.0)
  * Material You theme (follow system colors) #1469
  * Refactoring inner code #1371
  * Migration to API 33
- # Cut, copy and delete from search #891 #1308 #1263
- * Fix behaviors #1351
- * Fix bugs #1589 #1584 #1545 #1563 #1371
+ * Cut, copy and delete from search #891 #1308 #1263
+ * Fix behaviors #1351 #874 #1327
+ * Fix bugs #1589 #1584 #1545 #1563 #1371 #1609
 
 KeePassDX(3.5.1)
  * Fix action dialog with YubiKey challenge-response #1506
