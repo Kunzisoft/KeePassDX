@@ -76,7 +76,7 @@ open class SettingsActivity
 
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { selectedFileUri ->
-            // Import app properties result
+            // Import app settings result
             try {
                 selectedFileUri?.let { uri ->
                     val appProperties = Properties()
@@ -91,11 +91,11 @@ open class SettingsActivity
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
-                Log.e(TAG, "Unable to import app properties", e)
+                Log.e(TAG, "Unable to import app settings", e)
             }
         }
         mExternalFileHelper?.buildCreateDocument { createdFileUri ->
-            // Export app properties result
+            // Export app settings result
             try {
                 createdFileUri?.let { uri ->
                     contentResolver?.openOutputStream(uri)?.use { outputStream ->
@@ -107,7 +107,7 @@ open class SettingsActivity
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
-                Log.e(DatabaseLockActivity.TAG, "Unable to export app properties", e)
+                Log.e(DatabaseLockActivity.TAG, "Unable to export app settings", e)
             }
         }
 
