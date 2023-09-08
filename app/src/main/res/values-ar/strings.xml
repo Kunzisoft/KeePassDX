@@ -564,8 +564,8 @@
     <string name="autofill_block_restart">أعد تشغيل التطبيق الذي يحتوي على النموذج لتنشيط الحظر.</string>
     <string name="education_donation_title">مشاركة</string>
     <string name="education_donation_summary">ساعد في زيادة الاستقرار والأمان وفي إضافة المزيد من الميزات.</string>
-    <string name="html_text_dev_feature">هذه الميزة <strong> قيد التطوير</strong> وتتطلب <strong> مساهمتك</strong> لتكون متاحة قريبًا.</string>
-    <string name="html_text_dev_feature_contibute">من خلال <strong> المساهمة</strong> ،</string>
+    <string name="html_text_dev_feature">هذه الميزة &lt;strong&gt; قيد التطوير&lt;/strong&gt; وتتطلب &lt;strong&gt; مساهمتك&lt;/strong&gt; لتكون متاحة قريبًا.</string>
+    <string name="html_text_dev_feature_contibute">من خلال &lt;strong&gt; المساهمة&lt;/strong&gt; ،</string>
     <string name="download_finalization">جارِ الانتهاء…</string>
     <string name="download_complete">مكتمل!</string>
     <string name="unit_byte">B</string>
@@ -573,7 +573,7 @@
     <string name="content_description_entry_foreground_color">لون مقدمة الدخول</string>
     <string name="keyboard_previous_fill_in_summary">العودة تلقائيًا إلى لوحة المفاتيح السابقة بعد تنفيذ \"إجراء المفتاح التلقائي\"</string>
     <string name="download_attachment">تثبيت %1$s</string>
-    <string name="html_about_privacy"><strong> لا يتم استرداد أي بيانات مستخدم</strong>، هذا التطبيق لا يتصل بأي خادم، ويعمل محليًا فقط ويحترم خصوصية المستخدمين تمامًا.</string>
+    <string name="html_about_privacy">&lt;strong&gt; لا يتم استرداد أي بيانات مستخدم&lt;/strong&gt;، هذا التطبيق لا يتصل بأي خادم، ويعمل محليًا فقط ويحترم خصوصية المستخدمين تمامًا.</string>
     <string name="error_cancel_by_user">ألغى المستخدم.</string>
     <string name="show_otp_token_title">إظهار رمز \"الاقتران لمرة واحدة\" OTP</string>
     <string name="show_otp_token_summary">إظهار رموز\"الاقتران لمرة واحدة\" في قائمة المدخلات</string>
@@ -595,14 +595,14 @@
     <string name="inherited">موروث</string>
     <string name="auto_type_sequence">تسلسل الكتابة تلقائيًا</string>
     <string name="kdf_explanation">لإنشاء مفتاح خوارزمية التشفير، يتحول المفتاح الرئيسي باستخدام وظيفة اشتقاق مفتاح مملح عشوائيًا.</string>
-    <string name="html_text_dev_feature_buy_pro">بشراء الإصدار <strong> pro </strong>،</string>
+    <string name="html_text_dev_feature_buy_pro">بشراء الإصدار &lt;strong&gt; pro &lt;/strong&gt;،</string>
     <string name="auto_type">كتابة تلقائيًا</string>
     <string name="hardware_key">مفتاح الجهاز</string>
     <string name="advanced_unlock_prompt_store_credential_title">رابط لفتح الجهاز</string>
     <string name="backspace">فراغ للخلف</string>
     <string name="enter">دخول</string>
     <string name="education_sort_summary">اختر كيفية فرز الإدخالات والمجموعات.</string>
-    <string name="html_text_feature_generosity">هذا <strong> النمط المرئي</strong> متاح بفضل كرمك.</string>
+    <string name="html_text_feature_generosity">هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; متاح بفضل كرمك.</string>
     <string name="info">المعلومات</string>
     <string name="waiting_challenge_response">في انتظار استجابة التحدي…</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
@@ -677,10 +677,10 @@
     <string name="at_least_one_char">على الأقل حرف واحد من كل منهما</string>
     <string name="html_text_dev_feature_upgrade">تذكر أن تحافظ على تحديث تطبيقك عن طريق تثبيت إصدارات جديدة.</string>
     <string name="download">تثبيت</string>
-    <string name="html_text_ad_free">على عكس العديد من تطبيقات إدارة كلمات المرور ، فإن هذا التطبيق <strong>بدون إعلانات</strong>، و <strong>برنامج حر متروك الحقوق</strong> ولا يجمع البيانات الشخصية على خوادمه، بغض النظر عن الإصدار الذي تستخدمه.</string>
+    <string name="html_text_ad_free">على عكس العديد من تطبيقات إدارة كلمات المرور ، فإن هذا التطبيق &lt;strong&gt;بدون إعلانات&lt;/strong&gt;، و &lt;strong&gt;برنامج حر متروك الحقوق&lt;/strong&gt; ولا يجمع البيانات الشخصية على خوادمه، بغض النظر عن الإصدار الذي تستخدمه.</string>
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
-    <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا <strong> النمط المرئي</strong> وستساعد بشكل خاص في <strong> تنفيذ مشروعات المجتمع. </strong></string>
-    <string name="html_text_donation">من أجل الحفاظ على حريتنا ولكي نكون نشيطين دائمًا، فإننا نعتمد على <strong> مساهمتك.</strong></string>
-    <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء <strong> ميزات جديدة</strong> و <strong> إصلاح الخلل</strong> وفقًا لملاحظاتك.</string>
+    <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
+    <string name="html_text_donation">من أجل الحفاظ على حريتنا ولكي نكون نشيطين دائمًا، فإننا نعتمد على &lt;strong&gt; مساهمتك.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
 </resources>

@@ -178,9 +178,9 @@
     <string name="minus">Minus</string>
     <string name="never">Niciodata</string>
     <string name="no_results">Nu există Rezultate</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este <strong>open-source (sursă deschisă)</strong> și <strong>fără reclame</strong>.
-\nEste prevăzut așa cum este, sub licența <strong>GPLv3</strong>, fără nici un fel de garanție.</string>
-    <string name="html_about_contribution">În ordine să <strong>pastrăm libertatea noastră</strong>, <strong>fixăm bug-uri</strong>, <strong>adăugăm funcții</strong> și<strong>să fie întotdeauna activ</strong>, ne bazam pe <strong>contribuția</strong> ta.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open-source (sursă deschisă)&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;.
+\nEste prevăzut așa cum este, sub licența &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nici un fel de garanție.</string>
+    <string name="html_about_contribution">În ordine să &lt;strong&gt;pastrăm libertatea noastră&lt;/strong&gt;, &lt;strong&gt;fixăm bug-uri&lt;/strong&gt;, &lt;strong&gt;adăugăm funcții&lt;/strong&gt; și&lt;strong&gt;să fie întotdeauna activ&lt;/strong&gt;, ne bazam pe &lt;strong&gt;contribuția&lt;/strong&gt; ta.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>
@@ -469,7 +469,7 @@
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de siguranță</string>
-    <string name="html_about_privacy"><strong>Nu este colectat datele utilizatorilor </strong>, această aplicație nu se conectează la niciun server, funcționează doar la local și respectă pe deplin confidențialitatea utilizatorilor.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nu este colectat datele utilizatorilor &lt;/strong&gt;, această aplicație nu se conectează la niciun server, funcționează doar la local și respectă pe deplin confidențialitatea utilizatorilor.</string>
     <string name="current_group">Grup curent</string>
     <string name="search_filters">Filtre de căutare</string>
     <string name="navigation_drawer_close">Sertar de navigare închis</string>
