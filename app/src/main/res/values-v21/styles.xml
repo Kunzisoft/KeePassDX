@@ -35,6 +35,11 @@
         <item name="android:elevation">0dp</item>
     </style>
 
+    <!-- Action Style -->
+    <style name="KeepassDXStyle.Toolbar.Action" parent="KeepassDXStyle.Toolbar">
+        <item name="android:backgroundTint">@color/surface_selector</item>
+    </style>
+
     <!-- Preference Theme -->
     <style name="KeepassDXStyle.Preference.Theme" parent="@style/PreferenceThemeOverlay">
         <item name="android:tint">?attr/colorOnSurface</item>

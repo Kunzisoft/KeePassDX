@@ -15,7 +15,7 @@
         app:useCompatPadding="true"
         android:layout_marginStart="-6dp"
         android:layout_marginLeft="-6dp"
-        android:layout_marginBottom="-10dp"
+        android:layout_marginBottom="-7dp"
         android:contentDescription="@string/lock"
         android:layout_gravity="bottom"
         android:visibility="visible"

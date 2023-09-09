@@ -197,6 +197,7 @@ class NodesAdapter (
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
+                        && oldItem.recursiveNumberOfChildEntries == newItem.recursiveNumberOfChildEntries
                         && oldItem.notes == newItem.notes
             }
             return typeContentTheSame
@@ -472,7 +473,7 @@ class NodesAdapter (
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .numberOfChildEntries
+                            .recursiveNumberOfChildEntries
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE

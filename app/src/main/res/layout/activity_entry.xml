@@ -22,15 +22,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    android:fitsSystemWindows="true">
+    android:filterTouchesWhenObscured="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/toolbar_coordinator"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -96,7 +93,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingBottom="48dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/history_container"
@@ -138,14 +136,26 @@
 
         </androidx.core.widget.NestedScrollView>
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_entry_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/entry_content_tab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minWidth="180dp"
             android:background="@drawable/background_item_selection"
-            android:backgroundTint="?attr/colorSurfaceContainerLow"
+            android:backgroundTint="@color/surface_selector"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_gravity="bottom|center_horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
             app:tabMode="fixed"
             tools:targetApi="lollipop">
 
@@ -163,24 +173,25 @@
 
         </com.google.android.material.tabs.TabLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ProgressBar
-                android:id="@+id/loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true" />
-        </FrameLayout>
-
         <include
             layout="@layout/view_button_lock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|bottom" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <include layout="@layout/view_screenshot_mode_banner" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <include layout="@layout/view_screenshot_mode_banner" />
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

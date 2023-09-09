@@ -230,7 +230,7 @@
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Обучающие подсказки</string>
     <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
-    <string name="reset_education_screens_title">Сбросить обучающие подсказки</string>
+    <string name="reset_education_screens_title">Вернуть обучающие подсказки</string>
     <string name="reset_education_screens_summary">Снова показывать все обучающие подсказки</string>
     <string name="reset_education_screens_text">Обучающие подсказки сброшены</string>
     <string name="education_create_database_title">Создайте файл базы</string>
@@ -412,10 +412,10 @@
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Помнить расположение баз паролей</string>
-    <string name="remember_database_locations_summary">Помнить расположение файлов баз паролей</string>
+    <string name="remember_database_locations_title">Помнить расположение баз</string>
+    <string name="remember_database_locations_summary">Запоминать расположение баз паролей</string>
     <string name="remember_keyfile_locations_title">Помнить расположение ключей</string>
-    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз паролей</string>
+    <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей к базам паролей</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
@@ -545,10 +545,10 @@
     <string name="error_import_app_properties">Ошибка при импорте настроек приложения</string>
     <string name="success_import_app_properties">Настройки приложения импортированы</string>
     <string name="description_app_properties">Управление настройками приложения KeePassDX</string>
-    <string name="export_app_properties_summary">Создать файл настроек приложения</string>
+    <string name="export_app_properties_summary">Создать резервную копию настроек</string>
     <string name="export_app_properties_title">Экспорт настроек</string>
-    <string name="import_app_properties_summary">Импортировать настройки приложения из файла</string>
-    <string name="import_app_properties_title">Импорт настроек</string>
+    <string name="import_app_properties_summary">Выберите резервную копию настроек</string>
+    <string name="import_app_properties_title">Восстановить настройки</string>
     <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой.</string>
     <string name="error_move_group_here">Сюда группу переместить невозможно.</string>
     <string name="error_word_reserved">Это слово зарезервировано и не может быть использовано.</string>
@@ -657,7 +657,7 @@
     <string name="corrupted_file">Файл повреждён.</string>
     <string name="error_location_unknown">Расположение базы неизвестно, действие с базой не может быть выполнено.</string>
     <string name="remember_hardware_key_title">Помнить аппаратные ключи</string>
-    <string name="remember_hardware_key_summary">Помнить используемые аппаратные ключи</string>
+    <string name="remember_hardware_key_summary">Запоминать используемые аппаратные ключи</string>
     <string name="screenshot_mode_banner_text">Режим снимка экрана</string>
     <string name="enable_screenshot_mode_title">Разрешать снимки экрана</string>
     <string name="hardware_key">Аппаратный ключ</string>

@@ -30,6 +30,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ProgressBar
 import android.widget.Spinner
@@ -89,8 +90,11 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.WindowInsetPosition
+import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
@@ -104,6 +108,8 @@ class EntryEditActivity : DatabaseLockActivity(),
         ReplaceFileDialogFragment.ActionChooseListener {
 
     // Views
+    private var footer: ViewGroup? = null
+    private var container: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var templateSelectorSpinner: Spinner? = null
@@ -156,10 +162,8 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // Bottom Bar
         entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
-        setSupportActionBar(entryEditAddToolBar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        footer = findViewById(R.id.activity_entry_edit_footer)
+        container = findViewById(R.id.activity_entry_edit_container)
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
@@ -167,6 +171,17 @@ class EntryEditActivity : DatabaseLockActivity(),
         lockView = findViewById(R.id.lock_button)
         validateButton = findViewById(R.id.entry_edit_validate)
         loadingView = findViewById(R.id.loading)
+
+        setSupportActionBar(entryEditAddToolBar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+        // To apply fit window with transparency
+        setTransparentNavigationBar(applyToStatusBar = true) {
+            container?.applyWindowInsets(WindowInsetPosition.TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -691,16 +706,16 @@ class EntryEditActivity : DatabaseLockActivity(),
                 return true
             }
             android.R.id.home -> {
-                onBackPressed()
+                onDatabaseBackPressed()
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         onApprovedBackPressed {
-            super@EntryEditActivity.onBackPressed()
+            super@EntryEditActivity.onDatabaseBackPressed()
         }
     }
 

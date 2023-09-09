@@ -23,6 +23,7 @@ import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
 import android.os.Build
@@ -35,6 +36,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -48,7 +50,9 @@ import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
@@ -105,7 +109,10 @@ import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.NavigationDatabaseView
 import com.kunzisoft.keepass.view.SearchFiltersView
 import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.WindowInsetPosition
+import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
@@ -121,6 +128,8 @@ class GroupActivity : DatabaseLockActivity(),
         MainCredentialDialogFragment.AskMainCredentialDialogListener {
 
     // Views
+    private var header: ViewGroup? = null
+    private var footer: ViewGroup? = null
     private var drawerLayout: DrawerLayout? = null
     private var databaseNavView: NavigationDatabaseView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
@@ -267,6 +276,8 @@ class GroupActivity : DatabaseLockActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        header = findViewById(R.id.activity_group_header)
+        footer = findViewById(R.id.activity_group_footer)
         drawerLayout = findViewById(R.id.drawer_layout)
         databaseNavView = findViewById(R.id.database_nav_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
@@ -282,6 +293,13 @@ class GroupActivity : DatabaseLockActivity(),
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
+
+        // To apply fit window with transparency
+        setTransparentNavigationBar {
+            header?.applyWindowInsets(WindowInsetPosition.TOP)
+            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.LEGIT_TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }
 
         lockView?.setOnClickListener {
             lockAndExit()
@@ -1339,7 +1357,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {

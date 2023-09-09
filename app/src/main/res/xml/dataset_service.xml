@@ -30,6 +30,9 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="alook.browser"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
+        android:name="alook.browser.google"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
         android:name="app.vanadium.browser"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
@@ -90,10 +93,22 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="com.google.android.apps.chrome_dev"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
+        android:name="com.google.android.captiveportallogin"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.iode.firefox"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
         android:name="com.jamal2367.styx"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="com.kiwibrowser.browser"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.kiwibrowser.browser.dev"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.lemurbrowser.exts"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="com.microsoft.emmx"
@@ -120,10 +135,16 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="com.naver.whale"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
+        android:name="com.neeva.app"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
         android:name="com.opera.browser"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="com.opera.browser.beta"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.opera.gx"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="com.opera.mini.native"
@@ -135,7 +156,13 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="com.opera.touch"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
+        android:name="com.qflair.browserq"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
         android:name="com.qwant.liberty"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.rainsee.create"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="com.sec.android.app.sbrowser"
@@ -162,6 +189,15 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="com.yandex.browser"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
+        android:name="com.yjllq.internet"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.yjllq.kito"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="com.yujian.ResideMenuDemo"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
         android:name="com.z28j.feel"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
@@ -181,6 +217,9 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="mark.via.gp"
+        android:maxLongVersionCode="10000000000"/>
+    <compatibility-package
+        android:name="net.dezor.browser"
         android:maxLongVersionCode="10000000000"/>
     <compatibility-package
         android:name="net.slions.fulguris.full.download"

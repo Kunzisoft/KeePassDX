@@ -335,7 +335,7 @@
     <color name="simple_theme_light_onPrimary">@color/white</color>
     <color name="simple_theme_light_primaryContainer">@color/blue_deep</color>
     <color name="simple_theme_light_onPrimaryContainer">@color/white_darkest</color>
-    <color name="simple_theme_light_secondary">@color/blue_deep</color>
+    <color name="simple_theme_light_secondary">#4F91FF</color>
     <color name="simple_theme_light_onSecondary">@color/white</color>
     <color name="simple_theme_light_secondaryContainer">#B9DFFF</color>
     <color name="simple_theme_light_onSecondaryContainer">#151B2C</color>
@@ -545,7 +545,7 @@
     <color name="reply_theme_light_onPrimary">#232F34</color>
     <color name="reply_theme_light_primaryContainer">#F9AA33</color>
     <color name="reply_theme_light_onPrimaryContainer">#232F34</color>
-    <color name="reply_theme_light_secondary">#FF9A00</color>
+    <color name="reply_theme_light_secondary">#E6900A</color>
     <color name="reply_theme_light_onSecondary">#232F34</color>
     <color name="reply_theme_light_secondaryContainer">#3E5560</color>
     <color name="reply_theme_light_onSecondaryContainer">#F6F8FA</color>
@@ -579,7 +579,7 @@
     <color name="reply_theme_night_onPrimary">#232F34</color>
     <color name="reply_theme_night_primaryContainer">#F9AA33</color>
     <color name="reply_theme_night_onPrimaryContainer">#232F34</color>
-    <color name="reply_theme_night_secondary">#FF9A00</color>
+    <color name="reply_theme_night_secondary">#DC8400</color>
     <color name="reply_theme_night_onSecondary">#232F34</color>
     <color name="reply_theme_night_secondaryContainer">#2D3E45</color>
     <color name="reply_theme_night_onSecondaryContainer">#F6F8FA</color>
@@ -615,7 +615,7 @@
     <color name="purple_theme_light_onPrimary">@color/white</color>
     <color name="purple_theme_light_primaryContainer">@color/red</color>
     <color name="purple_theme_light_onPrimaryContainer">@color/white</color>
-    <color name="purple_theme_light_secondary">@color/red</color>
+    <color name="purple_theme_light_secondary">#A34296</color>
     <color name="purple_theme_light_onSecondary">@color/white</color>
     <color name="purple_theme_light_secondaryContainer">#8449A8</color>
     <color name="purple_theme_light_onSecondaryContainer">@color/white</color>
@@ -649,7 +649,7 @@
     <color name="purple_theme_night_onPrimary">@color/white_purple_light</color>
     <color name="purple_theme_night_primaryContainer">@color/red_dark</color>
     <color name="purple_theme_night_onPrimaryContainer">@color/white</color>
-    <color name="purple_theme_night_secondary">@color/red</color>
+    <color name="purple_theme_night_secondary">#8A3C80</color>
     <color name="purple_theme_night_onSecondary">@color/white_purple_light</color>
     <color name="purple_theme_night_secondaryContainer">#4C186A</color>
     <color name="purple_theme_night_onSecondaryContainer">#DED1E8</color>

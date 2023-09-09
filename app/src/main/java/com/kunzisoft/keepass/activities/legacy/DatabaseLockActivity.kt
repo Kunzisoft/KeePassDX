@@ -463,14 +463,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabase?.loaded ?: false)
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         if (mTimeoutEnable) {
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this,
                 mDatabase?.loaded == true) {
-                super.onBackPressed()
+                super.onDatabaseBackPressed()
             }
         } else {
-            super.onBackPressed()
+            super.onDatabaseBackPressed()
         }
     }
 

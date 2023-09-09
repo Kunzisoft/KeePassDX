@@ -22,9 +22,16 @@ package com.kunzisoft.keepass.view
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
-import android.graphics.*
+import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
@@ -43,8 +50,14 @@ import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -286,4 +299,69 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
     setCollapsedTitleTextColor(color)
     setExpandedTitleColor(color)
     invalidate()
+}
+
+fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, applyWindowInsets: () -> Unit) {
+    // Only in portrait
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
+        && resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        this.window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
+        if (applyToStatusBar) {
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.surface_selector)
+        }
+        applyWindowInsets.invoke()
+    }
+}
+
+/**
+ * Apply a margin to a view to fix the window inset
+ */
+fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.BOTTOM) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        var consumed = false
+
+        // To fix listener in API 27
+        if (view is ViewGroup) {
+            view.forEach { child ->
+                // Dispatch the insets to the child
+                val childResult = ViewCompat.dispatchApplyWindowInsets(child, windowInsets)
+                // If the child consumed the insets, record it
+                if (childResult.isConsumed) {
+                    consumed = true
+                }
+            }
+        }
+
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        when (position) {
+            WindowInsetPosition.TOP -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = insets.top
+                    }
+                }
+            }
+            WindowInsetPosition.LEGIT_TOP -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = 0
+                    }
+                }
+            }
+            WindowInsetPosition.BOTTOM -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = insets.bottom
+                    }
+                }
+            }
+        }
+        // If any of the children consumed the insets, return an appropriate value
+        if (consumed) WindowInsetsCompat.CONSUMED else windowInsets
+    }
+}
+
+enum class WindowInsetPosition {
+    TOP, BOTTOM, LEGIT_TOP
 }

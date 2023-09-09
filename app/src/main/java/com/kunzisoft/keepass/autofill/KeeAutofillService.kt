@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.WebDomain
 import org.joda.time.DateTime
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -57,7 +56,6 @@ class KeeAutofillService : AutofillService() {
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
     private var autofillInlineSuggestionsEnabled: Boolean = false
-    private var mLock = AtomicBoolean()
 
     override fun onCreate() {
         super.onCreate()
@@ -90,35 +88,37 @@ class KeeAutofillService : AutofillService() {
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
-        // Lock
-        if (!mLock.get()) {
-            mLock.set(true)
-            // Check user's settings for authenticating Responses and Datasets.
-            val latestStructure = request.fillContexts.last().structure
-            StructureParser(latestStructure).parse()?.let { parseResult ->
+        if (request.flags and FillRequest.FLAG_COMPATIBILITY_MODE_REQUEST != 0) {
+            Log.d(TAG, "Autofill requested in compatibility mode")
+        } else {
+            Log.d(TAG, "Autofill requested in native mode")
+        }
 
-                // Build search info only if applicationId or webDomain are not blocked
-                if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                        && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
-                    val searchInfo = SearchInfo().apply {
-                        applicationId = parseResult.applicationId
-                        webDomain = parseResult.webDomain
-                        webScheme = parseResult.webScheme
+        // Check user's settings for authenticating Responses and Datasets.
+        val latestStructure = request.fillContexts.last().structure
+        StructureParser(latestStructure).parse()?.let { parseResult ->
+
+            // Build search info only if applicationId or webDomain are not blocked
+            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.webDomain
+                    webScheme = parseResult.webScheme
+                }
+                WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                    searchInfo.webDomain = webDomainWithoutSubDomain
+                    val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                            && autofillInlineSuggestionsEnabled) {
+                        CompatInlineSuggestionsRequest(request)
+                    } else {
+                        null
                     }
-                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
-                        searchInfo.webDomain = webDomainWithoutSubDomain
-                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                                && autofillInlineSuggestionsEnabled) {
-                            CompatInlineSuggestionsRequest(request)
-                        } else {
-                            null
-                        }
-                        launchSelection(mDatabase,
-                                searchInfo,
-                                parseResult,
-                                inlineSuggestionsRequest,
-                                callback)
-                    }
+                    launchSelection(mDatabase,
+                            searchInfo,
+                            parseResult,
+                            inlineSuggestionsRequest,
+                            callback)
                 }
             }
         }
@@ -157,6 +157,7 @@ class KeeAutofillService : AutofillService() {
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                         callback: FillCallback) {
+        var success = false
         parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
@@ -279,17 +280,36 @@ class KeeAutofillService : AutofillService() {
                             }
                         }
                     }
+
                     // Build response
-                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        responseBuilder.setAuthentication(
+                            autofillIds,
+                            intentSender,
+                            Presentations.Builder().apply {
+                                inlinePresentation?.let {
+                                    setInlinePresentation(it)
+                                }
+                            }.setDialogPresentation(remoteViewsUnlock).build()
+                        )
+                    } else {
+                        @Suppress("DEPRECATION")
+                        responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                    }
                 } else {
+                    @Suppress("DEPRECATION")
                     responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
                 }
+                success = true
                 callback.onSuccess(responseBuilder.build())
             }
         }
+        if (!success)
+            callback.onFailure("Unable to get Autofill ids for UI selection")
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
+        var success = false
         if (askToSaveData) {
             val latestStructure = request.fillContexts.last().structure
             StructureParser(latestStructure).parse(true)?.let { parseResult ->
@@ -332,14 +352,16 @@ class KeeAutofillService : AutofillService() {
                     //    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
                     //            registerInfo))
                     //} else {
-                        AutofillLauncherActivity.launchForRegistration(this, registerInfo)
-                        callback.onSuccess()
+                    AutofillLauncherActivity.launchForRegistration(this, registerInfo)
+                    success = true
+                    callback.onSuccess()
                     //}
-                    return
                 }
             }
         }
-        callback.onFailure("Saving form values is not allowed")
+        if (!success) {
+            callback.onFailure("Saving form values is not allowed")
+        }
     }
 
     override fun onConnected() {
@@ -348,7 +370,6 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onDisconnected() {
-        mLock.set(false)
         Log.d(TAG, "onDisconnected")
     }
 

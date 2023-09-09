@@ -22,18 +22,18 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
     private var mToolbarSpecial: ToolbarSpecial? = null
 
-    override fun onBackPressed() {
+    open fun onDatabaseBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)
             onCancelSpecialMode()
         else
-            super.onBackPressed()
+            onRegularBackPressed()
     }
 
     /**
      * To call the regular onBackPressed() method in special mode
      */
     protected fun onRegularBackPressed() {
-        super.onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
     }
 
     /**
@@ -72,7 +72,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     open fun onCancelSpecialMode() {
         if (isIntentSender()) {
             // To get the app caller, only for IntentSender
-            super.onBackPressed()
+            onRegularBackPressed()
         } else {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
@@ -85,7 +85,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     protected fun backToTheAppCaller() {
         if (isIntentSender()) {
             // To get the app caller, only for IntentSender
-            super.onBackPressed()
+            onRegularBackPressed()
         } else {
             backToTheMainAppAndFinish()
         }

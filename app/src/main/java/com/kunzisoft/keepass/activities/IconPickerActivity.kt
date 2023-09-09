@@ -239,7 +239,7 @@ class IconPickerActivity : DatabaseLockActivity() {
                 if (mCustomIconsSelectionMode) {
                     iconPickerViewModel.deselectAllCustomIcons()
                 } else {
-                    onBackPressed()
+                    onDatabaseBackPressed()
                 }
             }
             R.id.menu_edit -> {
@@ -329,9 +329,9 @@ class IconPickerActivity : DatabaseLockActivity() {
         })
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         setResult()
-        super.onBackPressed()
+        super.onDatabaseBackPressed()
     }
 
     companion object {

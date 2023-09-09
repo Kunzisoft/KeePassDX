@@ -46,6 +46,7 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     var isVirtual = false
 
     var numberOfChildEntries: Int = 0
+    var recursiveNumberOfChildEntries: Int = 0
 
     /**
      * Use this constructor to copy a Group
@@ -332,6 +333,18 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
     fun refreshNumberOfChildEntries(filters: Array<ChildFilter> = emptyArray()) {
         this.numberOfChildEntries = getFilteredChildEntries(filters).size
+        this.recursiveNumberOfChildEntries = getFilteredChildEntriesInGroups(filters)
+    }
+
+    /**
+     * @return the cumulative number of entries in the current group and its children
+     */
+    private fun getFilteredChildEntriesInGroups(filters: Array<ChildFilter>): Int {
+        var counter = 0
+        getChildGroups().forEach { childGroup ->
+            counter += childGroup.getFilteredChildEntriesInGroups(filters)
+        }
+        return getFilteredChildEntries(filters).size + counter
     }
 
     /**
