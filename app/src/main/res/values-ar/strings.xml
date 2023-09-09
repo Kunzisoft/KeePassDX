@@ -446,8 +446,8 @@
     <string name="back_to_previous_keyboard">عُد للوحة المفاتيح السابقة</string>
     <string name="select_entry">اختر مدخلًا</string>
     <string name="autofill_close_database_title">أغلق قاعدة البيانات</string>
-    <string name="success_import_app_properties">أّستوردت خصائص التطبيق</string>
-    <string name="success_export_app_properties">صُدرت خصائص التطبيق</string>
+    <string name="success_import_app_properties">أّستوردت إعدادات التطبيق</string>
+    <string name="success_export_app_properties">صُدرت إعدادات التطبيق</string>
     <string name="warning_database_revoked">أُجهض الوصول إلى الملف بواسطة مدير الملفات ، أغلق قاعدة البيانات ثم أعد فتحها.</string>
     <string name="properties">الخصائص</string>
     <string name="token">الرمز</string>
@@ -460,11 +460,11 @@
     <string name="menu_external_icon">أيقونة خارجية</string>
     <string name="registration_mode">وضع التسجيل</string>
     <string name="import_app_properties_title">استورد خصائص التطبيق</string>
-    <string name="import_app_properties_summary">اختر ملفًا لاستيراد خصائص التطبيق</string>
-    <string name="export_app_properties_title">صدّر خصائص التطبيق</string>
-    <string name="export_app_properties_summary">أنشئ ملفًا لتصدير خصائص التطبيق</string>
-    <string name="error_import_app_properties">خطأ أثناء استيراد خصائص التطبيق</string>
-    <string name="error_export_app_properties">خطأ أثناء تصدير خصائص التطبيق</string>
+    <string name="import_app_properties_summary">اختر ملفًا لاستيراد إعدادات التطبيق</string>
+    <string name="export_app_properties_title">صدّر إعدادات التطبيق</string>
+    <string name="export_app_properties_summary">أنشئ ملفًا لتصدير إعدادات التطبيق</string>
+    <string name="error_import_app_properties">خطأ أثناء استيراد إعدادات التطبيق</string>
+    <string name="error_export_app_properties">خطأ أثناء تصدير إعدادات التطبيق</string>
     <string name="warning_database_info_changed">غُيِّرت معلومات قاعدة البيانات من خارج هذا التطبيق.</string>
     <string name="warning_database_info_changed_options">ادمج البيانات أو استبدل التعديلات الخارجية بحفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
     <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
