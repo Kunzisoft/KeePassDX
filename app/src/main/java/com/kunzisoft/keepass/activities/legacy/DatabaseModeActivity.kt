@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.activities.legacy
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
@@ -33,7 +34,9 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
      * To call the regular onBackPressed() method in special mode
      */
     protected fun onRegularBackPressed() {
-        onBackPressedDispatcher.onBackPressed()
+        // Do not call onBackPressedDispatcher.onBackPressed() to avoid loop
+        // Calling onBackPressed() is now deprecated, directly finish the activity
+        finish()
     }
 
     /**
@@ -99,6 +102,12 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onDatabaseBackPressed()
+            }
+        })
 
         mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
         mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
