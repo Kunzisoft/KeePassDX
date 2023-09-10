@@ -1,3 +1,6 @@
+KeePassDX(4.0.1)
+ * Fix back lock #1635 #1629
+
 KeePassDX(4.0.0)
  * New UX/UI with Material 3 #1183 #1529 #1428 #1441 #1607
  * Material You theme (follow system colors) #1469
