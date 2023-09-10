@@ -1,1 +1,2 @@
  * Fix back lock #1635 #1629 #1634
+ * Fix lock button in settings #1630

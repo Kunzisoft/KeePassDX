@@ -1,1 +1,2 @@
  * Correction du verrouillage de retour #1635 #1629 #1634
+ * Correction du bouton de verrouillage dans les paramètres #1630

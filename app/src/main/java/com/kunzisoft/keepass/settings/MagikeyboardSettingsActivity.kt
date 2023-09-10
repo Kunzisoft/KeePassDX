@@ -19,37 +19,17 @@
  */
 package com.kunzisoft.keepass.settings
 
-import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import android.view.MenuItem
-
+import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 
-class MagikeyboardSettingsActivity : DatabaseModeActivity() {
+class MagikeyboardSettingsActivity : ExternalSettingsActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_toolbar)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setTitle(R.string.keyboard_setting_label)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, MagikeyboardSettingsFragment())
-                    .commit()
-        }
+    override fun retrieveTitle(): Int {
+        return R.string.keyboard_setting_label
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> onDatabaseBackPressed()
-        }
-
-        return super.onOptionsItemSelected(item)
+    override fun retrievePreferenceFragment(): PreferenceFragmentCompat {
+        return MagikeyboardSettingsFragment()
     }
 
 }
