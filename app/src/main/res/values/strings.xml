@@ -693,23 +693,34 @@
     </string-array>
     <string name="style_choose_title">App theme</string>
     <string name="style_choose_summary">Theme used in the app</string>
+    <string name="style_name_forest">Forest</string>
+    <string name="style_name_divine">Divine</string>
+    <string name="style_name_classic">Classic</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Moon</string>
+    <string name="style_name_sun">Sun</string>
+    <string name="style_name_reply">Reply</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Follow the system</string>
     <string-array name="list_style_names">
-        <item>Forest</item>
-        <item>Divine</item>
-        <item>Classic</item>
-        <item>Simple</item>
-        <item>Moon</item>
-        <item>Sun</item>
-        <item>Reply</item>
-        <item>Kunzite</item>
-        <item>Follow the system</item>
+        <item>@string/style_name_forest</item>
+        <item>@string/style_name_divine</item>
+        <item>@string/style_name_classic</item>
+        <item>@string/style_name_simple</item>
+        <item>@string/style_name_moon</item>
+        <item>@string/style_name_sun</item>
+        <item>@string/style_name_reply</item>
+        <item>@string/style_name_kunzite</item>
+        <item>@string/style_name_follow_system</item>
     </string-array>
     <string name="style_brightness_title">Theme brightness</string>
     <string name="style_brightness_summary">Select light or dark themes</string>
+    <string name="style_name_light">Light</string>
+    <string name="style_name_dark">Dark</string>
     <string-array name="list_style_brightness_names">
-        <item>Light</item>
-        <item>Dark</item>
-        <item>Follow the system</item>
+        <item>@string/style_name_light</item>
+        <item>@string/style_name_dark</item>
+        <item>@string/style_name_follow_system</item>
     </string-array>
     <string name="icon_section_standard">Standard</string>
     <string name="icon_section_custom">Custom</string>

@@ -427,17 +427,15 @@
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden nicht angezeigt</string>
     <string name="style_choose_title">App-Design</string>
     <string name="style_choose_summary">In der App verwendetes Design</string>
-    <string-array name="list_style_names">
-        <item>Wald</item>
-        <item>Göttlich</item>
-        <item>Klassisch</item>
-        <item>Einfach</item>
-        <item>Mond</item>
-        <item>Sonne</item>
-        <item>Antwort</item>
-        <item>Kunzite</item>
-        <item>System verfolgen</item>
-    </string-array>
+    <string name="style_name_forest">Wald</string>
+    <string name="style_name_divine">Göttlich</string>
+    <string name="style_name_classic">Klassisch</string>
+    <string name="style_name_simple">Einfach</string>
+    <string name="style_name_moon">Mond</string>
+    <string name="style_name_sun">Sonne</string>
+    <string name="style_name_reply">Antwort</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">System verfolgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
     <string name="education_setup_OTP_title">OTP einrichten</string>

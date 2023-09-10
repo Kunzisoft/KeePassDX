@@ -262,17 +262,17 @@
     </string-array>
     <string name="style_choose_title">Thème de l’application</string>
     <string name="style_choose_summary">Thème utilisé dans l’application</string>
-    <string-array name="list_style_names">
-        <item>Forêt</item>
-        <item>Divin</item>
-        <item>Classique</item>
-        <item>Simple</item>
-        <item>Lune</item>
-        <item>Soleil</item>
-        <item>Réponse</item>
-        <item>Kunzite</item>
-        <item>Suivre le système</item>
-    </string-array>
+    <string name="style_name_forest">Forêt</string>
+    <string name="style_name_divine">Divin</string>
+    <string name="style_name_classic">Classique</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Lune</string>
+    <string name="style_name_sun">Soleil</string>
+    <string name="style_name_reply">Réponse</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Suivre le système</string>
+    <string name="style_name_light">Lumière</string>
+    <string name="style_name_dark">Ombre</string>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>
     <string name="menu_copy">Copier</string>
