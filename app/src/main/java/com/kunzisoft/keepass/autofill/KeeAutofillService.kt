@@ -284,6 +284,7 @@ class KeeAutofillService : AutofillService() {
                     // Build response
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         try {
+                            // Buggy method on some API 33 devices
                             responseBuilder.setAuthentication(
                                 autofillIds,
                                 intentSender,
