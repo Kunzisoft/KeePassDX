@@ -1,3 +1,6 @@
+KeePassDX(4.0.2)
+ * Fix Autofill with API 33
+
 KeePassDX(4.0.1)
  * Fix back lock #1635 #1629 #1634
  * Fix lock button in settings #1630
