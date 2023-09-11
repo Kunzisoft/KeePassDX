@@ -283,15 +283,23 @@ class KeeAutofillService : AutofillService() {
 
                     // Build response
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        responseBuilder.setAuthentication(
-                            autofillIds,
-                            intentSender,
-                            Presentations.Builder().apply {
-                                inlinePresentation?.let {
-                                    setInlinePresentation(it)
-                                }
-                            }.setDialogPresentation(remoteViewsUnlock).build()
-                        )
+                        try {
+                            // Buggy method on some API 33 devices
+                            responseBuilder.setAuthentication(
+                                autofillIds,
+                                intentSender,
+                                Presentations.Builder().apply {
+                                    inlinePresentation?.let {
+                                        setInlinePresentation(it)
+                                    }
+                                    setDialogPresentation(remoteViewsUnlock)
+                                }.build()
+                            )
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Unable to use the new setAuthentication method.", e)
+                            @Suppress("DEPRECATION")
+                            responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
+                        }
                     } else {
                         @Suppress("DEPRECATION")
                         responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
