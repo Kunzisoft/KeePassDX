@@ -470,4 +470,5 @@
     <string name="error_no_hardware_key">Välj hårdvarunyckel.</string>
     <string name="content_description_add_item">Lägg till ny</string>
     <string name="content_description_credentials_information">Inloggningsuppgifter</string>
+    <string name="info">Information</string>
 </resources>
