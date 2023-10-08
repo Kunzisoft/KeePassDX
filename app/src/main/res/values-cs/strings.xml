@@ -60,7 +60,7 @@
     <string name="error_arc4">Arcfour proudová šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePassDX nemůže zpracovat toto URI.</string>
     <string name="error_file_not_create">Soubor se nepodařilo vytvořit</string>
-    <string name="error_invalid_db">Databázi se nepodařilo načíst.</string>
+    <string name="error_invalid_db">Databázi se nepodařilo přečíst.</string>
     <string name="error_invalid_path">Ujistěte se, že je popis umístění správný.</string>
     <string name="error_no_name">Zadejte název.</string>
     <string name="error_nokeyfile">Vyberte soubor s klíčem.</string>
