@@ -25,7 +25,7 @@
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
     <string name="encryption_algorithm">Krypterings algoritm</string>
-    <string name="app_timeout">Tidsgräns för app</string>
+    <string name="app_timeout">Tidsgräns</string>
     <string name="app_timeout_summary">Inaktivitet innan databasen låses</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-inställningar</string>
@@ -471,4 +471,8 @@
     <string name="content_description_add_item">Lägg till ny</string>
     <string name="content_description_credentials_information">Inloggningsuppgifter</string>
     <string name="info">Information</string>
+    <string name="type">Typ</string>
+    <string name="content_description_passphrase_word_count">Antal ord i Lösenordsfras</string>
+    <string name="public_key">Offentlig nyckel</string>
+    <string name="private_key">Privat nyckel</string>
 </resources>
