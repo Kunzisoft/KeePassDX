@@ -688,7 +688,7 @@
     <string name="master_key_settings_summary">Changement, renouvellement</string>
     <string name="menu_advanced_unlock_settings_summary">Biométrie, identifiant de l\'appareil</string>
     <string name="unlock_and_link_biometric">Liaison avec déverouillage de l\'appareil</string>
-    <string name="unlock">Déverouiller</string>
+    <string name="unlock">Déverrouiller</string>
     <string name="configure">Configurer</string>
     <string name="menu_database_settings_summary">Métadonnées, corbeille, gabarits, historique</string>
     <string name="menu_security_settings_summary">Chiffrement, fonction de dérivation de clé</string>
