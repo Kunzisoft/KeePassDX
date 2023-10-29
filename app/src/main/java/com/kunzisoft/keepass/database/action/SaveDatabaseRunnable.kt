@@ -44,7 +44,8 @@ open class SaveDatabaseRunnable(
 
     override fun onActionRun() {
         database.checkVersion()
-        if (saveDatabase && result.isSuccess) {
+        // Save database in all cases if it's a copy
+        if ((databaseCopyUri != null || saveDatabase) && result.isSuccess) {
             try {
                 val contentResolver = context.contentResolver
                 // Build temp database file to avoid file corruption if error
