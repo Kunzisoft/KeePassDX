@@ -225,4 +225,11 @@
     <string name="upper_case">CHỮ HOA</string>
     <string name="error_no_hardware_key">Chọn một khóa phần cứng.</string>
     <string name="icon_pack_choose_title">Bộ biểu tượng</string>
+    <string name="keyboard_notification_entry_title">Thông tin thông báo</string>
+    <string name="keyboard_setting_label">Cài đặt Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">Khi xem một mục trong KeePassDX, hãy điền Magikeyboard với mục đó</string>
+    <string name="download_finalization">Đang hoàn thiện…</string>
+    <string name="keyboard_notification_entry_summary">Hiển thị thông báo khi mục nhập có sẵn</string>
+    <string name="keyboard_entry_category">Mục</string>
+    <string name="keyboard_save_search_info_title">Lưu thông tin được chia sẻ</string>
 </resources>
