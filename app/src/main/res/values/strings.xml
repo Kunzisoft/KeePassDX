@@ -454,7 +454,7 @@
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to device unlock recognition</string>
     <string name="advanced_unlock_delete_all_key_warning">Delete all encryption keys related to device unlock recognition?</string>
-    <string name="advanced_unlock_keystore_warning">This feature will store encrypted credential data in the secure KeyStore of your device.\n\nDepending on the native API implementation of the operating system, it may not be fully functional.\nCheck the compatibility and security of the KeyStore with the manufacturer of your device and the creator of the ROM you are using.</string>
+    <string name="advanced_unlock_keystore_warning">This feature will store encrypted credential data in the secure KeyStore of your device.\n\nDepending on the native API implementation of the operating system, it may not be fully functional.\n\nCheck the compatibility and security of the KeyStore with the manufacturer of your device and the creator of the ROM you are using.</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
