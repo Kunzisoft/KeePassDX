@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.viewmodels
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -19,9 +20,8 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
         mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(application.applicationContext)
     }
 
-    val isDefaultDatabase: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
-    }
+    private val mIsDefaultDatabase = MutableLiveData<Boolean>()
+    val isDefaultDatabase: LiveData<Boolean> = mIsDefaultDatabase
 
     fun checkIfIsDefaultDatabase(databaseUri: Uri) {
         IOActionTask(
@@ -30,7 +30,7 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
                         ?.parseUri() == databaseUri)
                 },
                 {
-                    isDefaultDatabase.value = it
+                    mIsDefaultDatabase.value = it
                 }
         ).execute()
     }
@@ -46,13 +46,12 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
         ).execute()
     }
 
-    val databaseFileLoaded: MutableLiveData<DatabaseFile> by lazy {
-        MutableLiveData<DatabaseFile>()
-    }
+    private val mDatabaseFileLoaded = MutableLiveData<DatabaseFile>()
+    val databaseFileLoaded: LiveData<DatabaseFile> = mDatabaseFileLoaded
 
     fun loadDatabaseFile(databaseUri: Uri) {
         mFileDatabaseHistoryAction?.getDatabaseFile(databaseUri) { databaseFileRetrieved ->
-            databaseFileLoaded.value = databaseFileRetrieved
+            mDatabaseFileLoaded.value = databaseFileRetrieved
         }
     }
 }
