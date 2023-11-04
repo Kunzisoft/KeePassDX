@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
+import android.text.Spannable
 import android.text.SpannableString
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -17,6 +18,7 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
@@ -33,6 +35,9 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
     private var actionImageButtonId = ViewCompat.generateViewId()
+
+    private var textModified = false
+    private var isColorizedPasswordActivated = PreferencesUtil.colorizePassword(context)
 
     private val labelView = TextInputLayout(context).apply {
         layoutParams = LayoutParams(
@@ -78,6 +83,20 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     init {
         // Manually write view to avoid view id bugs
         buildViews()
+        // To change the password color dynamically
+        valueView.doAfterTextChanged { editable ->
+            editable?.let { text ->
+                if (textModified) {
+                    textModified = false
+                } else {
+                    textModified = true
+                    val selectionStart = valueView.selectionStart
+                    val selectionEnd = valueView.selectionEnd
+                    value = spannableValue(text.toString()).toString()
+                    valueView.setSelection(selectionStart, selectionEnd)
+                }
+            }
+        }
         labelView.addView(valueView)
         addView(labelView)
         addView(actionImageButton)
@@ -110,6 +129,15 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         return actionImageButton
     }
 
+    private fun spannableValue(value: String?): Spannable? {
+        if (value == null)
+            return null
+        return if (isColorizedPasswordActivated && TemplateField.isStandardPasswordName(context, label))
+                PasswordGenerator.getColorizedPassword(value)
+            else
+                SpannableString(value)
+    }
+
     override var label: String
         get() {
             return labelView.hint?.toString() ?: ""
@@ -128,13 +156,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             return valueView.text?.toString() ?: ""
         }
         set(value) {
-            val spannableString =
-                if (PreferencesUtil.colorizePassword(context)
-                    && TemplateField.isStandardPasswordName(context, label))
-                    PasswordGenerator.getColorizedPassword(value)
-                else
-                    SpannableString(value)
-            valueView.setText(spannableString)
+            valueView.setText(spannableValue(value))
         }
 
     override var default: String = ""
@@ -145,6 +167,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 valueView.filters += InputFilter.LengthFilter(MAX_CHARS_LIMIT)
             }
             else -> {
+                @Suppress("KotlinConstantConditions")
                 val chars = if (numberChars > MAX_CHARS_LIMIT) MAX_CHARS_LIMIT else numberChars
                 valueView.filters += InputFilter.LengthFilter(chars)
             }
@@ -164,6 +187,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 valueView.maxLines = MAX_LINES_LIMIT
             }
             else -> {
+                @Suppress("KotlinConstantConditions")
                 val lines = if (numberLines > MAX_LINES_LIMIT) MAX_LINES_LIMIT else numberLines
                 valueView.inputType = valueView.inputType or
                         InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
