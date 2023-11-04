@@ -48,11 +48,11 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 
 ## Download
 
-*[F-Droid](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/) is the recommended way of installing, a libre software project that verifies that all the libraries and app code is libre software.*
+*[F-Droid](https://f-droid.org/packages/com.kunzisoft.keepass.libre/) is the recommended way of installing, a libre software project that verifies that all the libraries and app code is libre software.*
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
-      height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
+      height="80">](https://f-droid.org/packages/com.kunzisoft.keepass.libre/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Get it on Google Play"
 	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
