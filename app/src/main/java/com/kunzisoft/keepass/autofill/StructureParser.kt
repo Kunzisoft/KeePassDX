@@ -105,7 +105,7 @@ class StructureParser(private val structure: AssistStructure) {
             if (node.autofillId != null) {
                 // Parse methods
                 val hints = node.autofillHints
-                if (hints != null && hints.isNotEmpty()) {
+                if (!hints.isNullOrEmpty()) {
                     if (parseNodeByAutofillHint(node))
                         returnValue = true
                 } else if (parseNodeByHtmlAttributes(node))
@@ -135,9 +135,12 @@ class StructureParser(private val structure: AssistStructure) {
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
                         || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
-                    result?.usernameId = autofillId
-                    result?.usernameValue = node.autofillValue
-                    Log.d(TAG, "Autofill username hint")
+                    // Priority to username or add if null
+                    if (result?.usernameId == null || it.contains(View.AUTOFILL_HINT_USERNAME, true)) {
+                        result?.usernameId = autofillId
+                        result?.usernameValue = node.autofillValue
+                        Log.d(TAG, "Autofill username hint")
+                    }
                 }
                 it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
                     result?.passwordId = autofillId
@@ -284,9 +287,12 @@ class StructureParser(private val structure: AssistStructure) {
                                     Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
                                 "text" -> {
-                                    usernameIdCandidate = autofillId
-                                    usernameValueCandidate = node.autofillValue
-                                    Log.d(TAG, "Autofill username candidate web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    // Assume username is before password
+                                    if (result?.passwordId == null) {
+                                        usernameIdCandidate = autofillId
+                                        usernameValueCandidate = node.autofillValue
+                                        Log.d(TAG, "Autofill username candidate web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    }
                                 }
                                 "password" -> {
                                     result?.passwordId = autofillId
@@ -332,14 +338,18 @@ class StructureParser(private val structure: AssistStructure) {
                             InputType.TYPE_TEXT_VARIATION_NORMAL,
                             InputType.TYPE_TEXT_VARIATION_PERSON_NAME,
                             InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) -> {
-                        usernameIdCandidate = autofillId
-                        usernameValueCandidate = node.autofillValue
+                        // Assume the username field is before the password field
+                        if (result?.passwordId == null) {
+                            usernameIdCandidate = autofillId
+                            usernameValueCandidate = node.autofillValue
+                        }
                         Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {
                         // Some forms used visible password as username
-                        if (usernameIdCandidate == null && usernameValueCandidate == null) {
+                        if (result?.passwordId == null &&
+                            usernameIdCandidate == null && usernameValueCandidate == null) {
                             usernameIdCandidate = autofillId
                             usernameValueCandidate = node.autofillValue
                             Log.d(TAG, "Autofill visible password android text type (as username): ${showHexInputType(inputType)}")
