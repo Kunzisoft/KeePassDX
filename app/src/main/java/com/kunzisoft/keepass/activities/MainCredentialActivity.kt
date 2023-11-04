@@ -165,18 +165,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             startActivity(Intent(this, AppearanceSettingsActivity::class.java))
         }
 
-        // Init Biometric elements
-        advancedUnlockFragment = supportFragmentManager
-                .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
-        if (advancedUnlockFragment == null) {
-            advancedUnlockFragment = AdvancedUnlockFragment()
-            supportFragmentManager.commit {
-                replace(R.id.fragment_advanced_unlock_container_view,
-                        advancedUnlockFragment!!,
-                        UNLOCK_FRAGMENT_TAG)
-            }
-        }
-
         // Listen password checkbox to init advanced unlock and confirmation button
         mainCredentialView?.onPasswordChecked =
             CompoundButton.OnCheckedChangeListener { _, _ ->
@@ -244,6 +232,23 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
     override fun onResume() {
         super.onResume()
+
+        // Init Biometric elements only if allowed
+        if (PreferencesUtil.isBiometricUnlockEnable(this)) {
+            advancedUnlockFragment = supportFragmentManager
+                .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
+            if (advancedUnlockFragment == null) {
+                advancedUnlockFragment = AdvancedUnlockFragment().also {
+                    supportFragmentManager.commit {
+                        replace(
+                            R.id.fragment_advanced_unlock_container_view,
+                            it,
+                            UNLOCK_FRAGMENT_TAG
+                        )
+                    }
+                }
+            }
+        }
 
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this@MainCredentialActivity)
         mRememberHardwareKey = PreferencesUtil.rememberHardwareKey(this@MainCredentialActivity)
