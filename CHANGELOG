@@ -1,6 +1,7 @@
 KeePassDX(4.0.4)
  * Fix form filled recognition #1572 #1677
  * Fix device unlock #1682
+ * Fix password color #1490
 
 KeePassDX(4.0.3)
  * Fix "Save as" in Read Only mode #1666
