@@ -131,15 +131,19 @@ class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
-                it.contains(View.AUTOFILL_HINT_USERNAME, true)
-                        || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
+                it.contains(View.AUTOFILL_HINT_USERNAME, true) -> {
+                    result?.usernameId = autofillId
+                    result?.usernameValue = node.autofillValue
+                    Log.d(TAG, "Autofill username hint")
+                }
+                it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
                         || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
                     // Priority to username or add if null
-                    if (result?.usernameId == null || it.contains(View.AUTOFILL_HINT_USERNAME, true)) {
+                    if (result?.usernameId == null && result?.passwordId == null) {
                         result?.usernameId = autofillId
                         result?.usernameValue = node.autofillValue
-                        Log.d(TAG, "Autofill username hint")
+                        Log.d(TAG, "Autofill email hint")
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
@@ -282,9 +286,11 @@ class StructureParser(private val structure: AssistStructure) {
                         "type" -> {
                             when (pairAttribute.second.lowercase(Locale.ENGLISH)) {
                                 "tel", "email" -> {
-                                    result?.usernameId = autofillId
-                                    result?.usernameValue = node.autofillValue
-                                    Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    if (result?.passwordId == null) {
+                                        result?.usernameId = autofillId
+                                        result?.usernameValue = node.autofillValue
+                                        Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    }
                                 }
                                 "text" -> {
                                     // Assume username is before password
@@ -330,9 +336,11 @@ class StructureParser(private val structure: AssistStructure) {
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
                             InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) -> {
-                        result?.usernameId = autofillId
-                        result?.usernameValue = node.autofillValue
-                        Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
+                        if (result?.passwordId == null) {
+                            result?.usernameId = autofillId
+                            result?.usernameValue = node.autofillValue
+                            Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
+                        }
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_NORMAL,
