@@ -136,13 +136,14 @@ class StructureParser(private val structure: AssistStructure) {
                     result?.usernameValue = node.autofillValue
                     Log.d(TAG, "Autofill username hint")
                 }
-                it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
+                it.contains(View.AUTOFILL_HINT_USERNAME, true)
+                        || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
                         || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
                     // Priority to username or add if null
-                    if (result?.usernameId == null && result?.passwordId == null) {
-                        result?.usernameId = autofillId
-                        result?.usernameValue = node.autofillValue
+                    if (result?.passwordId == null) {
+                        usernameIdCandidate = autofillId
+                        usernameValueCandidate = node.autofillValue
                         Log.d(TAG, "Autofill email hint")
                     }
                 }
