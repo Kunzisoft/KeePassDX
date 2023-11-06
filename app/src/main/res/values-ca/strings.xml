@@ -40,8 +40,8 @@
     <string name="decrypting_db">Desxifrant la base de dades…</string>
     <string name="default_checkbox">Utilitza com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft és <strong> programari lliure </strong> i <strong>sense anuncis</strong>.
-\nEs proporciona tal com està, sota una llicència <strong>GPLv3</strong>, sense cap garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft és &lt;strong&gt; programari lliure &lt;/strong&gt; i &lt;strong&gt;sense anuncis&lt;/strong&gt;.
+\nEs proporciona tal com està, sota una llicència &lt;strong&gt;GPLv3&lt;/strong&gt;, sense cap garantia.</string>
     <string name="select_database_file">Obri una base de dades existent</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
@@ -359,7 +359,7 @@
     <string name="navigation_drawer_close">Tancar calaix de navegació</string>
     <string name="properties">Propietats</string>
     <string name="clear_clipboard_notification_summary">Bloca la base de dades quan la duració del porta-retalls caduca o la notificació es tanca un cop s\'ha començat a utilitzar</string>
-    <string name="html_about_privacy"><strong>No s\'agafa cap dada d\'usuari</strong>, aquesta aplicació no connecta a cap servidor, només treballa localment i respecta la privacitat dels usuaris en la seva totalitat.</string>
+    <string name="html_about_privacy">&lt;strong&gt;No s\'agafa cap dada d\'usuari&lt;/strong&gt;, aquesta aplicació no connecta a cap servidor, només treballa localment i respecta la privacitat dels usuaris en la seva totalitat.</string>
     <string name="notification">Notificació</string>
     <string name="content_description_entry_foreground_color">Color de primer pla d\'entrada</string>
     <string name="advanced_unlock">Desbloqueja dispositiu</string>

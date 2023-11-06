@@ -192,7 +192,7 @@
     <string name="html_text_dev_feature_thanks">Cảm ơn rất nhiều vì sự đóng góp của bạn.</string>
     <string name="style_choose_summary">Chủ đề được sử dụng trong ứng dụng</string>
     <string name="style_brightness_title">Độ sáng chủ đề</string>
-    <string name="html_about_privacy"><strong>Không có dữ liệu người dùng nào được truy xuất</strong>, ứng dụng này không kết nối với bất kỳ máy chủ nào, chỉ hoạt động cục bộ và hoàn toàn tôn trọng quyền riêng tư của người dùng.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Không có dữ liệu người dùng nào được truy xuất&lt;/strong&gt;, ứng dụng này không kết nối với bất kỳ máy chủ nào, chỉ hoạt động cục bộ và hoàn toàn tôn trọng quyền riêng tư của người dùng.</string>
     <string name="content_description_entry_foreground_color">Màu nền trước mục nhập</string>
     <string name="content_description_hardware_key_checkbox">Hộp kiểm khóa phần cứng</string>
     <string name="at_least_one_char">Ít nhất một ký tự từ mỗi ký tự</string>

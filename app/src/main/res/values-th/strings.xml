@@ -504,7 +504,7 @@
     <string name="error_otp_period">ระยะเวลาต้องอยู่ระหว่าง %1$d และ %2$d วินาที</string>
     <string name="sort_title">หัวข้อ</string>
     <string name="warning_empty_keyfile">ไม่แนะนำให้เพิ่มไฟล์ keyfile เปล่าๆ</string>
-    <string name="html_about_contribution">เพื่อที่จะ <strong>คงความเป็นอิสระ</strong>, <strong>แก้ไขบั้ก</strong>, <strong>เพื่มฟีเจอร์</strong> และ <strong>ทำให้ยังพัฒนาอยู่เสมอ</strong>, เรารอคุณมา<strong>ร่วมแก้ไข</strong>อยู่</string>
+    <string name="html_about_contribution">เพื่อที่จะ &lt;strong&gt;คงความเป็นอิสระ&lt;/strong&gt;, &lt;strong&gt;แก้ไขบั้ก&lt;/strong&gt;, &lt;strong&gt;เพื่มฟีเจอร์&lt;/strong&gt; และ &lt;strong&gt;ทำให้ยังพัฒนาอยู่เสมอ&lt;/strong&gt;, เรารอคุณมา&lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;อยู่</string>
     <string name="field_value">ค่าเขตข้อมูล</string>
     <string name="warning_database_info_changed">ข้อมูลที่อยู่ในไฟล์ฐานข้อมูลของคุณถูกแก้ไขจากภายนอกแอป</string>
     <string name="description_app_properties">คุณสมบัติของ KeePassDX เพื่อจัดการการตั้งค่าแอป</string>

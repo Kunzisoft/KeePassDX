@@ -628,7 +628,7 @@
     <string name="configure">Beállítás</string>
     <string name="content_description_nav_header">Navigációs fejléc</string>
     <string name="navigation_drawer_close">A navigációs tálca bezárása</string>
-    <string name="html_about_privacy"><strong>Nincsenek felhasználói adatok lekérve</strong>, az alkalmazás nem kapcsolódik semmilyen külső kiszolgálóhoz, csak helyben működik, és teljes mértékben tiszteletben tartja a felhasználók adatvédelmét.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nincsenek felhasználói adatok lekérve&lt;/strong&gt;, az alkalmazás nem kapcsolódik semmilyen külső kiszolgálóhoz, csak helyben működik, és teljes mértékben tiszteletben tartja a felhasználók adatvédelmét.</string>
     <string name="enable_keep_screen_on_summary">Képernyő bekapcsolva tartása egy bejegyzés megtekintésekor vagy szerkesztésekor</string>
     <string name="title_case">Nagy Kezdőbetűs</string>
     <string name="navigation_drawer_open">A navigációs tálca kinyitása</string>
