@@ -1,1 +1,2 @@
  * Fix form filled recognition #1572
+ * Fix device unlock #1682
