@@ -234,7 +234,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         super.onResume()
 
         // Init Biometric elements only if allowed
-        if (PreferencesUtil.isBiometricUnlockEnable(this)) {
+        if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
             advancedUnlockFragment = supportFragmentManager
                 .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
             if (advancedUnlockFragment == null) {
