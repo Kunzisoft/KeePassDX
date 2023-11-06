@@ -452,46 +452,52 @@ object AutofillHelper {
                 manualSelection = true
             }
             val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_select_entry)
-            val pendingIntent = AutofillLauncherActivity.getPendingIntentForSelection(context,
-                    searchInfo, compatInlineSuggestionsRequest)
+            AutofillLauncherActivity.getPendingIntentForSelection(context,
+                    searchInfo, compatInlineSuggestionsRequest)?.let { pendingIntent ->
 
-            var inlinePresentation: InlinePresentation? = null
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
-                    val inlinePresentationSpec = inlineSuggestionsRequest.inlinePresentationSpecs[0]
-                    inlinePresentation = buildInlinePresentationForManualSelection(context, inlinePresentationSpec, pendingIntent)
+                var inlinePresentation: InlinePresentation? = null
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
+                        val inlinePresentationSpec =
+                            inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                        inlinePresentation = buildInlinePresentationForManualSelection(
+                            context,
+                            inlinePresentationSpec,
+                            pendingIntent
+                        )
+                    }
                 }
-            }
 
-            val datasetBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                Dataset.Builder(Presentations.Builder()
-                    .apply {
+                val datasetBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    Dataset.Builder(Presentations.Builder()
+                        .apply {
+                            inlinePresentation?.let {
+                                setInlinePresentation(it)
+                            }
+                        }
+                        .setDialogPresentation(manualSelectionView)
+                        .setMenuPresentation(manualSelectionView)
+                        .build())
+                } else {
+                    @Suppress("DEPRECATION")
+                    Dataset.Builder(manualSelectionView).apply {
                         inlinePresentation?.let {
-                            setInlinePresentation(it)
-                        }
-                    }
-                    .setDialogPresentation(manualSelectionView)
-                    .setMenuPresentation(manualSelectionView)
-                    .build())
-            } else {
-                @Suppress("DEPRECATION")
-                Dataset.Builder(manualSelectionView).apply {
-                    inlinePresentation?.let {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            setInlinePresentation(it)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                setInlinePresentation(it)
+                            }
                         }
                     }
                 }
-            }
 
-            parseResult.allAutofillIds().let { autofillIds ->
-                autofillIds.forEach { id ->
-                    datasetBuilder.addValueToDatasetBuilder(id, null)
-                    datasetBuilder.setAuthentication(pendingIntent.intentSender)
+                parseResult.allAutofillIds().let { autofillIds ->
+                    autofillIds.forEach { id ->
+                        datasetBuilder.addValueToDatasetBuilder(id, null)
+                        datasetBuilder.setAuthentication(pendingIntent.intentSender)
+                    }
+                    val dataset = datasetBuilder.build()
+                    Log.d(TAG, "Autofill Dataset for manual selection $dataset created")
+                    responseBuilder.addDataset(dataset)
                 }
-                val dataset = datasetBuilder.build()
-                Log.d(TAG, "Autofill Dataset for manual selection $dataset created")
-                responseBuilder.addDataset(dataset)
             }
         }
 
