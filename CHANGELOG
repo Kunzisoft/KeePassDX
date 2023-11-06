@@ -3,7 +3,7 @@ KeePassDX(4.0.3)
  * Fix username autofill #1665 #530 #1572 #1426 #1523 #1556 #1653 #1658 #1508 #1667
  * Fix regex OTP recognition #1596
  * Change password color dynamically #1490
- * Small fixes #1641 #1656 #1649 #1400
+ * Small fixes #1641 #1656 #1649 #1400 #1674
 
 KeePassDX(4.0.2)
  * Fix Autofill with API 33
