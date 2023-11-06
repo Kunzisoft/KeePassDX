@@ -131,15 +131,20 @@ class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
+                it.contains(View.AUTOFILL_HINT_USERNAME, true) -> {
+                    result?.usernameId = autofillId
+                    result?.usernameValue = node.autofillValue
+                    Log.d(TAG, "Autofill username hint")
+                }
                 it.contains(View.AUTOFILL_HINT_USERNAME, true)
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
                         || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
                     // Priority to username or add if null
-                    if (result?.usernameId == null || it.contains(View.AUTOFILL_HINT_USERNAME, true)) {
-                        result?.usernameId = autofillId
-                        result?.usernameValue = node.autofillValue
-                        Log.d(TAG, "Autofill username hint")
+                    if (result?.passwordId == null) {
+                        usernameIdCandidate = autofillId
+                        usernameValueCandidate = node.autofillValue
+                        Log.d(TAG, "Autofill email hint")
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
@@ -282,9 +287,11 @@ class StructureParser(private val structure: AssistStructure) {
                         "type" -> {
                             when (pairAttribute.second.lowercase(Locale.ENGLISH)) {
                                 "tel", "email" -> {
-                                    result?.usernameId = autofillId
-                                    result?.usernameValue = node.autofillValue
-                                    Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    if (result?.passwordId == null) {
+                                        result?.usernameId = autofillId
+                                        result?.usernameValue = node.autofillValue
+                                        Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    }
                                 }
                                 "text" -> {
                                     // Assume username is before password
@@ -330,9 +337,11 @@ class StructureParser(private val structure: AssistStructure) {
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
                             InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) -> {
-                        result?.usernameId = autofillId
-                        result?.usernameValue = node.autofillValue
-                        Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
+                        if (result?.passwordId == null) {
+                            result?.usernameId = autofillId
+                            result?.usernameValue = node.autofillValue
+                            Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
+                        }
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_NORMAL,
@@ -432,58 +441,22 @@ class StructureParser(private val structure: AssistStructure) {
         var creditCardExpirationDayOptions: Array<CharSequence>? = null
 
         var usernameId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var passwordId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardHolderId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardNumberId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationDateId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationYearId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationMonthId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationDayId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var cardVerificationValueId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         fun allAutofillIds(): Array<AutofillId> {
             val all = ArrayList<AutofillId>()
@@ -510,13 +483,13 @@ class StructureParser(private val structure: AssistStructure) {
 
         var usernameValue: AutofillValue? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
 
         var passwordValue: AutofillValue? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
 

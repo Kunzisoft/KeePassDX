@@ -22,10 +22,12 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
+import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -43,7 +45,8 @@ class PassKeyView @JvmOverloads constructor(context: Context,
     private var mPasswordEntropyCalculator: PasswordEntropy? = null
 
     private val passwordInputLayout: TextInputLayout
-    private val passwordText: TextView
+    private val passwordText: EditText
+    private var textModified = false
     private val passwordStrengthProgress: LinearProgressIndicator
     private val passwordEntropy: TextView
 
@@ -51,27 +54,8 @@ class PassKeyView @JvmOverloads constructor(context: Context,
     private var mMaxLines: Int = 3
     private var mShowPassword: Boolean = false
 
-    private var mPasswordTextWatcher: MutableList<TextWatcher> = mutableListOf()
-    private val passwordTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-            mPasswordTextWatcher.forEach {
-                it.beforeTextChanged(charSequence, i, i1, i2)
-            }
-        }
-
-        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-            mPasswordTextWatcher.forEach {
-                it.onTextChanged(charSequence, i, i1, i2)
-            }
-        }
-
-        override fun afterTextChanged(editable: Editable) {
-            mPasswordTextWatcher.forEach {
-                it.afterTextChanged(editable)
-            }
-            getEntropyStrength(editable.toString())
-        }
-    }
+    private var mPasswordTextWatchers: MutableList<TextWatcher> = mutableListOf()
+    private var mPasswordTextWatcher: TextWatcher? = null
 
     init {
         context.theme.obtainStyledAttributes(
@@ -101,7 +85,6 @@ class PassKeyView @JvmOverloads constructor(context: Context,
         }
         passwordText?.maxLines = mMaxLines
         passwordText?.applyFontVisibility()
-        passwordText.addTextChangedListener(passwordTextWatcher)
         passwordStrengthProgress = findViewById(R.id.password_strength_progress)
         passwordStrengthProgress?.apply {
             setIndicatorColor(PasswordEntropy.Strength.RISKY.color)
@@ -115,6 +98,37 @@ class PassKeyView @JvmOverloads constructor(context: Context,
                 getEntropyStrength(firstPassword)
             }
         }
+
+        mPasswordTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                mPasswordTextWatchers.forEach {
+                    it.beforeTextChanged(charSequence, i, i1, i2)
+                }
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                mPasswordTextWatchers.forEach {
+                    it.onTextChanged(charSequence, i, i1, i2)
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                if (textModified) {
+                    textModified = false
+                } else {
+                    textModified = true
+                    val selectionStart = passwordText.selectionStart
+                    val selectionEnd = passwordText.selectionEnd
+                    passwordString = editable.toString()
+                    passwordText.setSelection(selectionStart, selectionEnd)
+                }
+                mPasswordTextWatchers.forEach {
+                    it.afterTextChanged(editable)
+                }
+                getEntropyStrength(editable.toString())
+            }
+        }
+        passwordText?.addTextChangedListener(mPasswordTextWatcher)
     }
 
     private fun getEntropyStrength(passwordText: String) {
@@ -134,11 +148,18 @@ class PassKeyView @JvmOverloads constructor(context: Context,
     }
 
     fun addTextChangedListener(textWatcher: TextWatcher) {
-        mPasswordTextWatcher.add(textWatcher)
+        mPasswordTextWatchers.add(textWatcher)
     }
 
     fun removeTextChangedListener(textWatcher: TextWatcher) {
-        mPasswordTextWatcher.remove(textWatcher)
+        mPasswordTextWatchers.remove(textWatcher)
+    }
+
+    private fun spannableValue(value: String): Spannable {
+        return if (PreferencesUtil.colorizePassword(context))
+            PasswordGenerator.getColorizedPassword(value)
+        else
+            SpannableString(value)
     }
 
     var passwordString: String
@@ -146,11 +167,6 @@ class PassKeyView @JvmOverloads constructor(context: Context,
             return passwordText.text.toString()
         }
         set(value) {
-            val spannableString =
-                if (PreferencesUtil.colorizePassword(context))
-                    PasswordGenerator.getColorizedPassword(value)
-                else
-                    SpannableString(value)
-            passwordText.text = spannableString
+            passwordText.setText(spannableValue(value))
         }
 }
