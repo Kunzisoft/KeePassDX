@@ -1,2 +1,2 @@
- * Correction de la reconnaissance de formulaire #1572
+ * Correction de la reconnaissance de formulaire #1572 #1677
  * Correction du déblocage de l'appareil #1682
