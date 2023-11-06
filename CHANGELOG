@@ -1,3 +1,6 @@
+KeePassDX(4.0.4)
+ * Fix form filled recognition #1572
+
 KeePassDX(4.0.3)
  * Fix "Save as" in Read Only mode #1666
  * Fix username autofill #1665 #530 #1572 #1426 #1523 #1556 #1653 #1658 #1508 #1667
