@@ -432,58 +432,22 @@ class StructureParser(private val structure: AssistStructure) {
         var creditCardExpirationDayOptions: Array<CharSequence>? = null
 
         var usernameId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var passwordId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardHolderId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardNumberId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationDateId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationYearId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationMonthId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var creditCardExpirationDayId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         var cardVerificationValueId: AutofillId? = null
-            set(value) {
-                if (field == null)
-                    field = value
-            }
 
         fun allAutofillIds(): Array<AutofillId> {
             val all = ArrayList<AutofillId>()
@@ -510,13 +474,13 @@ class StructureParser(private val structure: AssistStructure) {
 
         var usernameValue: AutofillValue? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
 
         var passwordValue: AutofillValue? = null
             set(value) {
-                if (allowSaveValues && field == null)
+                if (allowSaveValues)
                     field = value
             }
 
