@@ -43,7 +43,7 @@
     <string name="digits">Dígitos</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft es de &lt;strong&gt;código abierto&lt;/strong&gt; y &lt;strong&gt;sin publicidad&lt;/strong&gt;.
 \nSe proporciona tal cual, bajo licencia &lt;strong&gt;GPLv3&lt;/strong&gt;, sin ninguna garantía.</string>
-    <string name="select_database_file">Abrir la cámara acorazada existente</string>
+    <string name="select_database_file">Abrir la caja fuerte existente</string>
     <string name="entry_accessed">Accedido</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_notes">Notas</string>
@@ -197,7 +197,7 @@
     <string name="file_name">Nombre del archivo</string>
     <string name="path">Ruta</string>
     <string name="assign_master_key">Asignar una clave maestra</string>
-    <string name="create_keepass_file">Crear una nueva cámara acorazada</string>
+    <string name="create_keepass_file">Crear una nueva caja fuerte</string>
     <string name="recycle_bin_title">Uso de la papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueve los grupos y las entradas al grupo \"Papelera de reciclaje\" antes de eliminarlos</string>
     <string name="monospace_font_fields_enable_title">Tipografía del campo</string>
@@ -461,7 +461,7 @@
     <string name="advanced_unlock_invalid_key">No se puede leer la clave de desbloqueo del dispositivo. Por favor, bórrala y repite el procedimiento de reconocimiento del desbloqueo.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraer la credencial de la base de datos con los datos de desbloqueo del dispositivo</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Reconocimiento de desbloqueo de los dispositivos</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Aún debes recordar la credencial principal de tu cámara acorazada si usas el reconocimiento para el desbloqueo del dispositivo.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Aún debes recordar la credencial principal de tu caja fuerte si usas el reconocimiento para el desbloqueo del dispositivo.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Enlace para el desbloqueo del dispositivo</string>
     <string name="keystore_not_accessible">El almacén de claves no está debidamente inicializado.</string>
     <string name="biometric_security_update_required">Se requiere una actualización de la seguridad biométrica.</string>
@@ -541,14 +541,14 @@
     <string name="style_brightness_summary">Seleccionar temas oscuros o claros</string>
     <string name="style_brightness_title">Brillo del tema</string>
     <string name="properties">Propiedades</string>
-    <string name="error_import_app_properties">Error al importar las propiedades de la aplicación</string>
-    <string name="error_export_app_properties">Error al exportar las propiedades de la aplicación</string>
-    <string name="success_export_app_properties">Propiedades de la aplicación exportadas</string>
-    <string name="success_import_app_properties">Propiedades de la aplicación importadas</string>
-    <string name="export_app_properties_summary">Cree un archivo para exportar las propiedades de la aplicación</string>
-    <string name="export_app_properties_title">Exportar propiedades de la aplicación</string>
-    <string name="import_app_properties_summary">Seleccione un archivo para importar las propiedades de la aplicación</string>
-    <string name="import_app_properties_title">Importar propiedades de la aplicación</string>
+    <string name="error_import_app_properties">Error al importar la configuración de la aplicación</string>
+    <string name="error_export_app_properties">Error al exportar la configuración de la aplicación</string>
+    <string name="success_export_app_properties">Exportada la configuración de la aplicación</string>
+    <string name="success_import_app_properties">Importada la configuración de la aplicación</string>
+    <string name="export_app_properties_summary">Crear un archivo para exportar la configuración de la aplicación</string>
+    <string name="export_app_properties_title">Exportar la configuración de la aplicación</string>
+    <string name="import_app_properties_summary">Selecciona un archivo para importar la configuración de la aplicación</string>
+    <string name="import_app_properties_title">Importar la configuración de la aplicación</string>
     <string name="error_start_database_action">Se ha producido un error al realizar una acción en la base de datos.</string>
     <string name="error_remove_file">Se ha producido un error al eliminar los datos del archivo.</string>
     <string name="error_file_to_big">El archivo que está intentando cargar es demasiado grande.</string>

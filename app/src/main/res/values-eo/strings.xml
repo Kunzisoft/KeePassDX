@@ -145,4 +145,12 @@
     <string name="homepage">Hejmpaĝo</string>
     <string name="contribution">Kontribuo</string>
     <string name="contact">Kontakto</string>
+    <string name="clipboard_error">Iu aparatoj ne permesas al apoj uzi tondujon.</string>
+    <string name="about_description">Varianto de pasvort-manipulilo KeePass por Android</string>
+    <string name="key_derivation_function">Funkcio por derivado de ŝlosilo</string>
+    <string name="info">Informo</string>
+    <string name="feedback">Erar-raportoj kaj sugestoj</string>
+    <string name="file_manager_install_description">Por krei, malfermi kaj konservi datumbazaj dosieroj necesiĝas dosier-manipulilo, kiu akceptas intenco-agojn ACTION_CREATE_DOCUMENT kaj ACTION_OPEN_DOCUMENT.</string>
+    <string name="app_timeout_summary">Periodo de malaktiveco antaŭ ŝlosado de datumbazo</string>
+    <string name="extended_ASCII">Etendita ASCII</string>
 </resources>
