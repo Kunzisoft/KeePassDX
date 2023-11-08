@@ -131,23 +131,28 @@ class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
-                it.contains(View.AUTOFILL_HINT_USERNAME, true) -> {
-                    result?.usernameId = autofillId
-                    result?.usernameValue = node.autofillValue
-                    Log.d(TAG, "Autofill username hint")
-                }
                 it.contains(View.AUTOFILL_HINT_USERNAME, true)
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
                         || it.contains("email", true)
                         || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
-                    // Priority to username or add if null
+                    // Replace username until we have a password
                     if (result?.passwordId == null) {
+                        result?.usernameId = autofillId
+                        result?.usernameValue = node.autofillValue
+                        Log.d(TAG, "Autofill username hint if no password")
+                    } else {
                         usernameIdCandidate = autofillId
                         usernameValueCandidate = node.autofillValue
-                        Log.d(TAG, "Autofill email hint")
+                        Log.d(TAG, "Autofill username hint if password")
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
+                    // Password Id changed if it's the second times we are here,
+                    // So the last username candidate is most appropriate
+                    if (result?.passwordId != null) {
+                        result?.usernameId = usernameIdCandidate
+                        result?.usernameValue = usernameValueCandidate
+                    }
                     result?.passwordId = autofillId
                     result?.passwordValue = node.autofillValue
                     Log.d(TAG, "Autofill password hint")
