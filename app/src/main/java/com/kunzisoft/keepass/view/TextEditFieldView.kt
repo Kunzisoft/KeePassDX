@@ -84,6 +84,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         // Manually write view to avoid view id bugs
         buildViews()
         // To change the password color dynamically
+        /* Fixme 1686
         valueView.doAfterTextChanged { editable ->
             editable?.let { text ->
                 if (textModified) {
@@ -92,11 +93,11 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                     textModified = true
                     val selectionStart = valueView.selectionStart
                     val selectionEnd = valueView.selectionEnd
-                    value = spannableValue(text.toString()).toString()
+                    value = text.toString()
                     valueView.setSelection(selectionStart, selectionEnd)
                 }
             }
-        }
+        }*/
         labelView.addView(valueView)
         addView(labelView)
         addView(actionImageButton)

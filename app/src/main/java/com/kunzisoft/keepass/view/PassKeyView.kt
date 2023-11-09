@@ -113,6 +113,7 @@ class PassKeyView @JvmOverloads constructor(context: Context,
             }
 
             override fun afterTextChanged(editable: Editable) {
+                /* Fixme 1686
                 if (textModified) {
                     textModified = false
                 } else {
@@ -121,7 +122,7 @@ class PassKeyView @JvmOverloads constructor(context: Context,
                     val selectionEnd = passwordText.selectionEnd
                     passwordString = editable.toString()
                     passwordText.setSelection(selectionStart, selectionEnd)
-                }
+                }*/
                 mPasswordTextWatchers.forEach {
                     it.afterTextChanged(editable)
                 }
