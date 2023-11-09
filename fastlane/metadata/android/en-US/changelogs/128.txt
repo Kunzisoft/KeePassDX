@@ -1,0 +1,2 @@
+ * Fix form filled recognition #1572 #1508
+ * Rollback password color #1686 #1490
