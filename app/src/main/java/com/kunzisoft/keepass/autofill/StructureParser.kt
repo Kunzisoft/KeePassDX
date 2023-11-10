@@ -133,8 +133,7 @@ class StructureParser(private val structure: AssistStructure) {
             when {
                 it.contains(View.AUTOFILL_HINT_USERNAME, true)
                         || it.contains(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
-                        || it.contains("email", true)
-                        || it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
+                        || it.contains("email", true) -> {
                     // Replace username until we have a password
                     if (result?.passwordId == null) {
                         result?.usernameId = autofillId
@@ -144,6 +143,13 @@ class StructureParser(private val structure: AssistStructure) {
                         usernameIdCandidate = autofillId
                         usernameValueCandidate = node.autofillValue
                         Log.d(TAG, "Autofill username hint if password")
+                    }
+                }
+                it.contains(View.AUTOFILL_HINT_PHONE, true) -> {
+                    if (usernameIdCandidate == null) {
+                        usernameIdCandidate = autofillId
+                        usernameValueCandidate = node.autofillValue
+                        Log.d(TAG, "Autofill phone")
                     }
                 }
                 it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
