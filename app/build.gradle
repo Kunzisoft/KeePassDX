@@ -12,8 +12,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
         targetSdkVersion 33
-        versionCode = 128
-        versionName = "4.0.5"
+        versionCode = 129
+        versionName = "4.1.0"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
