@@ -435,7 +435,7 @@
     <string name="style_name_sun">Sonne</string>
     <string name="style_name_reply">Antwort</string>
     <string name="style_name_kunzite">Kunzite</string>
-    <string name="style_name_follow_system">System verfolgen</string>
+    <string name="style_name_follow_system">System folgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
     <string name="education_setup_OTP_title">OTP einrichten</string>
