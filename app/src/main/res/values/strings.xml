@@ -696,13 +696,11 @@
     <string name="style_name_forest">Forest</string>
     <string name="style_name_divine">Divine</string>
     <string name="style_name_classic">Classic</string>
-    <string name="style_name_kunzite">Kunzite</string>
     <string name="style_name_follow_system">Follow the system</string>
     <string-array name="list_style_names">
         <item>@string/style_name_forest</item>
         <item>@string/style_name_divine</item>
         <item>@string/style_name_classic</item>
-        <item>@string/style_name_kunzite</item>
         <item>@string/style_name_follow_system</item>
     </string-array>
     <string name="style_brightness_title">Theme brightness</string>
