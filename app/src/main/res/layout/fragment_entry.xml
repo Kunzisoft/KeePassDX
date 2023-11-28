@@ -40,6 +40,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			style="?attr/cardViewStyle">
+
 			<LinearLayout
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
@@ -131,10 +132,12 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			style="?attr/cardViewStyle">
+
 			<LinearLayout
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
-				android:layout_margin="@dimen/card_view_padding"
+				android:layout_marginHorizontal="@dimen/card_view_padding"
+				android:layout_marginVertical="@dimen/card_view_padding"
 				android:orientation="vertical">
 
 				<!-- Created -->
@@ -143,11 +146,14 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:text="@string/entry_created"
+					android:layout_marginTop="8dp"
 					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/entry_created"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
 					style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 
 				<!-- Modified -->
@@ -156,10 +162,13 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:text="@string/entry_modified"
+					android:layout_marginTop="8dp"
 					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/entry_modified"
 					android:layout_width="match_parent"
+					android:layout_marginBottom="8dp"
 					android:layout_height="wrap_content"
 					style="@style/KeepassDXStyle.TextAppearance.TextNode" />
 

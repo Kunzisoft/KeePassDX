@@ -101,6 +101,13 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         labelView.addView(valueView)
         addView(labelView)
         addView(actionImageButton)
+
+        setPadding(
+            0,
+            (5f * resources.displayMetrics.density).toInt(),
+            0,
+            (5f * resources.displayMetrics.density).toInt()
+        )
     }
 
     private fun buildViews() {

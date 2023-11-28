@@ -65,13 +65,13 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         ).also {
             it.leftMargin = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
-                4f,
+                8f,
                 resources.displayMetrics
             ).toInt()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 it.marginStart = TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
-                    4f,
+                    8f,
                     resources.displayMetrics
                 ).toInt()
             }
@@ -205,6 +205,15 @@ class TextFieldView @JvmOverloads constructor(context: Context,
                     SpannableString(value)
             valueView.text = spannableString
             changeProtectedValueParameters()
+
+            if (value.isNotEmpty()) {
+                setPadding(
+                    0,
+                    (5f * resources.displayMetrics.density).toInt(),
+                    0,
+                    (5f * resources.displayMetrics.density).toInt()
+                )
+            }
         }
 
     fun setValue(@StringRes valueId: Int) {

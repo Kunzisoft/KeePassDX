@@ -534,10 +534,10 @@
 	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.Text">
         <item name="android:textColor">?attr/colorSecondary</item>
 		<item name="android:textSize">12sp</item>
-        <item name="android:paddingLeft">4dp</item>
-        <item name="android:paddingStart">4dp</item>
-        <item name="android:paddingRight">4dp</item>
-        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
 	</style>
     <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.Text">
         <item name="android:textSize">12sp</item>
