@@ -275,8 +275,6 @@
     <string name="html_text_dev_feature_upgrade">Ricorda di tenere aggiornata l\'app installando le nuove versioni.</string>
     <string name="download">Scarica</string>
     <string name="contribute">Contribuisci</string>
-    <string name="style_choose_title">Tema dell\'app</string>
-    <string name="style_choose_summary">Tema usato nell\'app</string>
     <string name="icon_pack_choose_title">Pacchetto di icone</string>
     <string name="icon_pack_choose_summary">Pacchetto di icone usato nell\'app</string>
     <string name="edit_entry">Modifica elemento</string>

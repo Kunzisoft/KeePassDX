@@ -275,8 +275,6 @@
     <string name="html_text_dev_feature_upgrade">Husk at holde din app opdateret ved at installere den nyeste version.</string>
     <string name="download">Hent</string>
     <string name="contribute">Bidrag</string>
-    <string name="style_choose_title">App-tema</string>
-    <string name="style_choose_summary">Tema, der bruges i appen</string>
     <string name="icon_pack_choose_title">Ikonpakke</string>
     <string name="icon_pack_choose_summary">Ikonpakke, der anvendes i appen</string>
     <string name="keyboard_name">Magikeyboard</string>

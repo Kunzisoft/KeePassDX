@@ -551,12 +551,10 @@
     <string name="exclude_ambiguous_chars">استبعاد الأحرف الغامضة</string>
     <string name="consider_chars_filter">ضع في اعتبارك الأحرف</string>
     <string name="ignore_chars_filter">تجاهل الأحرف</string>
-    <string name="style_choose_title">سمة التطبيق</string>
     <string name="lower_case">أحرف صغيرة</string>
     <string name="upper_case">الأحرف الكبيرة</string>
     <string name="title_case">حالة العنوان</string>
     <string name="character_count">عدد الأحرف: %1$d</string>
-    <string name="style_choose_summary">السمة المستخدمة في التطبيق</string>
     <string name="show_entry_colors_summary">يعرض ألوان المقدمة والخلفية لإدخال</string>
     <string name="icon_pack_choose_summary">حزمة الأيقونات المستخدمة في التطبيق</string>
     <string name="show_entry_colors_title">ألوان الدخول</string>

@@ -297,8 +297,6 @@
     <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>
     <string name="download">Letöltés</string>
     <string name="contribute">Közreműködés</string>
-    <string name="style_choose_title">Alkalmazástéma</string>
-    <string name="style_choose_summary">Az alkalmazásban használt téma</string>
     <string name="icon_pack_choose_title">Ikoncsomag</string>
     <string name="icon_pack_choose_summary">Az alkalmazásban használt ikoncsomag</string>
     <string name="content_description_password_checkbox">Jelszó jelölőnégyzet</string>

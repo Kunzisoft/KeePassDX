@@ -278,8 +278,6 @@
     <string name="html_text_dev_feature_upgrade">Pamiętaj, aby aktualizować swoją aplikację, instalując nowe wersje.</string>
     <string name="download">Pobieranie</string>
     <string name="contribute">Wspomóż projekt</string>
-    <string name="style_choose_title">Motyw aplikacji</string>
-    <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
     <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
     <string name="build_label">Kompilacja %1$s</string>

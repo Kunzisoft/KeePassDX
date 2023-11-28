@@ -425,9 +425,6 @@
     <string name="download_complete">Vollständig!</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden nicht angezeigt</string>
-    <string name="style_choose_title">App-Design</string>
-    <string name="style_choose_summary">In der App verwendetes Design</string>
-    <string name="style_name_classic">Klassisch</string>
     <string name="style_name_follow_system">System verfolgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>

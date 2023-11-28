@@ -260,9 +260,6 @@
         <item>Moyen</item>
         <item>Grand</item>
     </string-array>
-    <string name="style_choose_title">Thème de l’application</string>
-    <string name="style_choose_summary">Thème utilisé dans l’application</string>
-    <string name="style_name_classic">Classique</string>
     <string name="style_name_follow_system">Suivre le système</string>
     <string name="style_name_light">Lumière</string>
     <string name="style_name_dark">Ombre</string>

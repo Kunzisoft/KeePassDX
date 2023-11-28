@@ -129,7 +129,6 @@
     <string name="clipboard_error_title">剪切板错误</string>
     <string name="clipboard_error">某些设备不让应用使用剪贴板。</string>
     <string name="clipboard_error_clear">无法清空剪切板</string>
-    <string name="style_choose_title">主题</string>
     <string name="icon_pack_choose_title">图标包</string>
     <string name="icon_pack_choose_summary">应用中使用的图标包</string>
     <string name="edit_entry">编辑条目</string>
@@ -195,7 +194,6 @@
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
     <string name="contribute">贡献</string>
-    <string name="style_choose_summary">应用中使用的主题</string>
     <string name="error_string_key">每个字符串必须有字段名。</string>
     <string name="field_name">字段名</string>
     <string name="field_value">字段值</string>

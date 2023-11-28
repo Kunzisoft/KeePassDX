@@ -399,8 +399,6 @@
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizare …</string>
     <string name="download_complete">Complet!</string>
-    <string name="style_choose_title">Tema aplicației</string>
-    <string name="style_choose_summary">Tema folosită în aplicație</string>
     <string name="icon_pack_choose_title">Pachet de pictograme</string>
     <string name="icon_pack_choose_summary">Pachet de pictograme folosit în aplicație</string>
     <string name="hide_expired_entries_title">Ascundeți intrările expirate</string>

@@ -335,8 +335,6 @@
     <string name="lower_case">të vogla</string>
     <string name="upper_case">TË MËDHA</string>
     <string name="character_count">Numër shenjash: %1$d</string>
-    <string name="style_choose_title">Temë aplikacioni</string>
-    <string name="style_choose_summary">Temë e përdorur te aplikacioni</string>
     <string name="style_brightness_title">Ndriçim teme</string>
     <string name="icon_section_standard">Standarde</string>
     <string name="icon_section_custom">Vetjake</string>

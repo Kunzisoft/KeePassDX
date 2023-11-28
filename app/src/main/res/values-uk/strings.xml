@@ -252,8 +252,6 @@
     <string name="hide_expired_entries_title">Приховувати застарілі записи</string>
     <string name="icon_pack_choose_summary">Набір піктограм застосунку</string>
     <string name="icon_pack_choose_title">Набір піктограм</string>
-    <string name="style_choose_summary">Тема застосунку</string>
-    <string name="style_choose_title">Тема застосунку</string>
     <string name="download_complete">Готово!</string>
     <string name="download_finalization">Завершення…</string>
     <string name="download_progression">Виконується: %1$d%%</string>

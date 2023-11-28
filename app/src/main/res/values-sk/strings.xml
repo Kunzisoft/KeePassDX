@@ -334,7 +334,6 @@
     <string name="education_unlock_title">Odomknite svoju databázu</string>
     <string name="html_text_dev_feature">Táto funkcia je &lt;strong&gt;vo vývoji&lt;/strong&gt; a vyžaduje, váš &lt;strong&gt;príspevok&lt;/strong&gt; aby bola čoskoro k dispozícii.</string>
     <string name="character_count">Počet znakov: %1$d</string>
-    <string name="style_choose_summary">Téma použitá v aplikácii</string>
     <string name="style_brightness_title">Jas témy</string>
     <string name="style_brightness_summary">Vyberte svetlé alebo tmavé motívy</string>
     <string name="icon_section_standard">Štandardná</string>
@@ -476,7 +475,6 @@
     <string name="html_text_dev_feature_upgrade">Nezabudnite udržiavať svoju aplikáciu aktualizovanú inštaláciou nových verzií.</string>
     <string name="title_case">Titulové Písanie</string>
     <string name="screenshot_mode_banner_text">Režim snímky obrazovky</string>
-    <string name="style_choose_title">Téma aplikácie</string>
     <string name="protection">Ochrana</string>
     <string name="configure_biometric">Nie sú zaregistrované žiadne biometrické údaje ani poverenia zariadenia.</string>
     <string name="advanced_unlock_scanning_error">Chyba rozšíreného odomykania: %1$s</string>

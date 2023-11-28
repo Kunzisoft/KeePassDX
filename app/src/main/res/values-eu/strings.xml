@@ -519,9 +519,7 @@
     <string name="warning_database_info_reloaded">Datu-basea berriz kargatzeak lokalean aldatutako datuak ezabatuko ditu.</string>
     <string name="merge_success">Fusioa arrakastaz bukatu da</string>
     <string name="keystore_not_accessible">Gako-biltegia ez da behar bezala hasieratu.</string>
-    <string name="style_choose_title">Aplikazio diseinua</string>
     <string name="education_search_summary">Bilatu sarrerak titulu, erabiltzaile izen edo beste eremu batzuk erabiliz pasahitzak errez berreskuratzeko.</string>
-    <string name="style_choose_summary">Aplikazioan erabilitako diseinua</string>
     <string name="style_brightness_title">Diseinuaren argitasuna</string>
     <string name="style_brightness_summary">Hautatu diseinu argiak edo ilunak</string>
     <string name="icon_section_standard">Estandarra</string>

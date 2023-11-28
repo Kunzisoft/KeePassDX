@@ -278,8 +278,6 @@
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
     <string name="contribute">Помочь проекту</string>
-    <string name="style_choose_title">Тема приложения</string>
-    <string name="style_choose_summary">Тема, используемая в приложении</string>
     <string name="icon_pack_choose_title">Набор значков</string>
     <string name="icon_pack_choose_summary">Набор значков, используемый в приложении</string>
     <string name="keyboard_name">Magikeyboard</string>

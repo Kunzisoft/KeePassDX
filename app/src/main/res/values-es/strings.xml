@@ -256,8 +256,6 @@
     <string name="html_text_dev_feature_upgrade">Recuerde mantener su aplicación actualizada instalando nuevas versiones.</string>
     <string name="download">Descargar</string>
     <string name="contribute">Contribuir</string>
-    <string name="style_choose_title">Tema de la aplicación</string>
-    <string name="style_choose_summary">Tema utilizado en la aplicación</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
     <string name="icon_pack_choose_summary">Cambiar el paquete de iconos en la aplicación</string>
     <string name="edit_entry">Editar entrada</string>

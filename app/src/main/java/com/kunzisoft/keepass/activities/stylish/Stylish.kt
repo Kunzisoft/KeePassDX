@@ -41,7 +41,7 @@ object Stylish {
     fun load(context: Context) {
         Log.d(Stylish::class.java.name, "Attaching to " + context.packageName)
         try {
-            themeString = PreferencesUtil.getStyle(context)
+            themeString = defaultStyle(context)
         } catch (e: Exception) {
             Log.e("Stylish", "Unable to get preference style", e)
         }
@@ -73,7 +73,6 @@ object Stylish {
 
     fun retrieveEquivalentLightStyle(context: Context, styleString: String): String {
         return when (styleString) {
-            context.getString(R.string.list_style_name_dynamic_night) -> context.getString(R.string.list_style_name_dynamic_light)
             context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_light)
             else -> styleString
         }
@@ -81,7 +80,6 @@ object Stylish {
 
     private fun retrieveEquivalentNightStyle(context: Context, styleString: String): String {
         return when (styleString) {
-            context.getString(R.string.list_style_name_dynamic_light) -> context.getString(R.string.list_style_name_dynamic_night)
             context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_dark)
             else -> styleString
         }
@@ -89,21 +87,6 @@ object Stylish {
 
     fun defaultStyle(context: Context): String {
         return context.getString(R.string.list_style_name_light)
-    }
-
-    /**
-     * Assign the style to the class attribute
-     * @param styleString Style id String
-     */
-    fun assignStyle(context: Context, styleString: String) {
-        PreferencesUtil.setStyle(context, styleString)
-    }
-
-    fun isDynamic(context: Context): Boolean {
-        return DynamicColors.isDynamicColorAvailable() && (
-                themeString == context.getString(R.string.list_style_name_dynamic_night)
-                        || themeString == context.getString(R.string.list_style_name_dynamic_light)
-                )
     }
 
     /**
@@ -116,8 +99,6 @@ object Stylish {
         return when (retrieveEquivalentSystemStyle(context, themeString)) {
             context.getString(R.string.list_style_name_light) -> R.style.KeepassDXStyle_Light
             context.getString(R.string.list_style_name_dark) -> R.style.KeepassDXStyle_Night
-            context.getString(R.string.list_style_name_dynamic_light) -> R.style.KeepassDXStyle_Light_Dynamic
-            context.getString(R.string.list_style_name_dynamic_night) -> R.style.KeepassDXStyle_Night_Dynamic
             else -> R.style.KeepassDXStyle_Light
         }
     }

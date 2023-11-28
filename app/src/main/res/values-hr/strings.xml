@@ -341,7 +341,6 @@
     <string name="education_generate_password_title">Stvori sigurnu lozinku</string>
     <string name="education_entry_new_field_summary">Registriraj dodatno polje, dodaj vrijednost i po želji ga zaštiti.</string>
     <string name="lock_database_show_button_title">Prikaži gumb za zaključavanje</string>
-    <string name="style_choose_summary">U aplikaciji korištena tema</string>
     <string name="autofill_application_id_blocklist_title">Popis blokiranja aplikacija</string>
     <string name="validate">Provjeri valjanost</string>
     <string name="education_entry_edit_title">Uredi unos</string>
@@ -353,7 +352,6 @@
     <string name="feedback">Povratne informacije</string>
     <string name="autofill_preference_title">Postavke automatskog ispunjavanja</string>
     <string name="education_generate_password_summary">Stvori snažnu lozinku za tvoj unosu, jednostavno je definiraj prema kriterijima obrasca i ne zaboravi sigurnu lozinku.</string>
-    <string name="style_choose_title">Tema aplikacije</string>
     <string name="error_can_not_handle_uri">Nije moguće baratati ovim URI-jem u KeePassDX-u.</string>
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="education_read_only_title">Zaštiti bazu podataka od pisanja</string>

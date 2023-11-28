@@ -259,8 +259,6 @@
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter a sua aplicação atualizada, instalando novas versões.</string>
     <string name="download">Descarregar</string>
     <string name="contribute">Contribuir</string>
-    <string name="style_choose_title">Tema da aplicação</string>
-    <string name="style_choose_summary">Tema usado na aplicação</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado na aplicação</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe o histórico desta manualmente.</string>

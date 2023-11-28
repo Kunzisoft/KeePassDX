@@ -466,8 +466,6 @@
         <item>中</item>
         <item>大</item>
     </string-array>
-    <string name="style_choose_title">アプリのテーマ</string>
-    <string name="style_choose_summary">アプリで使用するテーマ</string>
     <string name="style_name_follow_system">システムに従う</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>

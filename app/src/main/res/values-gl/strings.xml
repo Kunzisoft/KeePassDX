@@ -619,7 +619,6 @@
     <string name="unit_byte">B</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_gibibyte">GiB</string>
-    <string name="style_choose_summary">Tema usado na aplicación</string>
     <string name="style_brightness_title">Brillo do tema</string>
     <string name="hide_expired_entries_summary">Entradas expiradas non son mostradas</string>
     <string name="education_donation_title">Participe</string>
@@ -647,7 +646,6 @@
     <string name="exclude_ambiguous_chars">Excluír caracteres ambiguos</string>
     <string name="screenshot_mode_banner_text">Modo captura de pantalla</string>
     <string name="hide_expired_entries_title">Ocultar entradas expiradas</string>
-    <string name="style_choose_title">Tema da aplicación</string>
     <string name="download_finalization">A finalizar…</string>
     <string name="icon_section_standard">Estándar</string>
     <string name="autofill_web_domain_blocklist_summary">Lista de dominios web bloqueados sen permiso de autocompletado</string>

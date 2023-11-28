@@ -408,16 +408,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
         activity?.let { activity ->
-            findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
-                val styleIdString = newValue as String
-                    Stylish.assignStyle(activity, styleIdString)
-                    // Relaunch the current activity to redraw theme
-                    (activity as? SettingsActivity?)?.apply {
-                        reloadActivity()
-                    }
-                true
-            }
-
             findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->
                 (activity as? SettingsActivity?)?.apply {
                     reloadActivity()
@@ -465,7 +455,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         // To reload group when appearance settings are modified
         when (preference.key) {
-            getString(R.string.setting_style_key),
             getString(R.string.setting_style_brightness_key),
             getString(R.string.setting_icon_pack_choose_key),
             getString(R.string.show_entry_colors_key),

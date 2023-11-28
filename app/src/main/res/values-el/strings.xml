@@ -243,8 +243,6 @@
     <string name="html_text_dev_feature_upgrade">Θυμηθείτε να ενημερώνετε την εφαρμογή σας, εγκαθιστώντας νέες εκδόσεις.</string>
     <string name="download">Λήψη</string>
     <string name="contribute">Συνεισφορά</string>
-    <string name="style_choose_title">Θέμα Εφαρμογής</string>
-    <string name="style_choose_summary">Θέμα που χρησιμοποιείται στην εφαρμογή</string>
     <string name="icon_pack_choose_title">Πακέτο Εικονιδίων</string>
     <string name="icon_pack_choose_summary">Πακέτο εικονιδίων που χρησιμοποιείται στην εφαρμογή</string>
     <string name="menu_copy">Αντιγραφή</string>

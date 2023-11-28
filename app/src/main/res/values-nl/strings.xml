@@ -282,8 +282,6 @@
     <string name="html_text_dev_feature_upgrade">Vergeet niet je app up-to-date te houden door nieuwe versies te installeren.</string>
     <string name="download">Downloaden</string>
     <string name="contribute">Bijdragen</string>
-    <string name="style_choose_title">App-thema</string>
-    <string name="style_choose_summary">Thema gebruikt in de app</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
     <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
     <string name="build_label">Editie %1$s</string>

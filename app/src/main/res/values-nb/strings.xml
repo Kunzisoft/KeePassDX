@@ -275,8 +275,6 @@
     <string name="html_text_dev_feature_upgrade">Ikke glem å holde programmet ditt oppgradert.</string>
     <string name="download">Last ned</string>
     <string name="contribute">Bidra</string>
-    <string name="style_choose_title">Velg en drakt</string>
-    <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
     <string name="icon_pack_choose_summary">Endre programmets ikonpakke</string>
     <string name="build_label">Bygg %1$s</string>

@@ -262,8 +262,6 @@
     <string name="html_text_dev_feature_upgrade">Glöm inte att hålla appen uppdaterad genom att installera nya versioner.</string>
     <string name="download">Ladda ner</string>
     <string name="contribute">Bidra</string>
-    <string name="style_choose_title">Apptema</string>
-    <string name="style_choose_summary">Tema som används i appen</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>
     <string name="icon_pack_choose_summary">Ikonpaket som används i appen</string>
     <string name="menu_copy">Kopia</string>

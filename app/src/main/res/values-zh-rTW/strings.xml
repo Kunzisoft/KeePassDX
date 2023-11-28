@@ -534,8 +534,6 @@
     <string name="standard">標準</string>
     <string name="style_brightness_summary">選擇淺色或深色主題</string>
     <string name="style_brightness_title">主題亮度</string>
-    <string name="style_choose_summary">應用程式使用的主題</string>
-    <string name="style_choose_title">應用主題</string>
     <string name="subdomain_search_summary">搜尋帶有子網域限制的網域</string>
     <string name="subdomain_search_title">子網域搜尋</string>
     <string name="success_export_app_properties">已導出應用配置</string>

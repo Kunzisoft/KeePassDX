@@ -161,26 +161,6 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.hide_expired_entries_default))
     }
 
-    fun getStyle(context: Context): String {
-        val defaultStyleString = Stylish.defaultStyle(context)
-        val styleString = PreferenceManager.getDefaultSharedPreferences(context)
-            .getString(context.getString(R.string.setting_style_key), defaultStyleString)
-            ?: defaultStyleString
-        // Return the system style
-        return Stylish.retrieveEquivalentSystemStyle(context, styleString)
-    }
-
-    fun setStyle(context: Context, styleString: String) {
-        var tempThemeString = styleString
-        // Store light style to show selection in array list
-        tempThemeString = Stylish.retrieveEquivalentLightStyle(context, tempThemeString)
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putString(context.getString(R.string.setting_style_key), tempThemeString)
-            .apply()
-        Stylish.load(context)
-    }
-
     fun getStyleBrightness(context: Context): String? {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getString(context.getString(R.string.setting_style_brightness_key),
@@ -831,7 +811,6 @@ object PreferencesUtil {
                 context.getString(R.string.autofill_application_id_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
                 context.getString(R.string.autofill_web_domain_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
 
-                context.getString(R.string.setting_style_key) -> setStyle(context, value)
                 context.getString(R.string.setting_style_brightness_key) -> editor.putString(name, value)
                 context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
                 context.getString(R.string.show_entry_colors_key) -> editor.putBoolean(name, value.toBoolean())
