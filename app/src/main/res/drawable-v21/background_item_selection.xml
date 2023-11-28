@@ -7,14 +7,12 @@
         <selector>
             <item android:state_selected="true">
                 <shape>
-                    <corners android:radius="8dp" />
                     <solid android:color="?attr/colorSecondary"/>
                 </shape>
             </item>
             <item android:state_selected="false">
                 <shape>
-                    <corners android:radius="8dp" />
-                    <solid android:color="?attr/colorSurfaceContainer"/>
+                    <solid android:color="?attr/backgroundColor"/>
                 </shape>
             </item>
         </selector>

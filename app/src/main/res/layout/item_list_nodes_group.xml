@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDX.
@@ -17,27 +16,26 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/selectable_margin_top"
-    android:paddingHorizontal="@dimen/selectable_margin_horizontal">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/node_container"
+        style="@style/KeepassDXStyle.Selectable.Item"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:minHeight="@dimen/selectable_min_height"
-        style="@style/KeepassDXStyle.Selectable.Item"
-        app:layout_constraintWidth_percent="@dimen/content_percent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="@dimen/selectable_margin_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="@dimen/content_percent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
@@ -70,14 +68,14 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/node_image_identifier"
             android:layout_toLeftOf="@+id/node_image_identifier"
             android:layout_toEndOf="@+id/node_icon"
             android:layout_toRightOf="@+id/node_icon"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
