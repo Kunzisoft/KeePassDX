@@ -61,7 +61,7 @@ object Stylish {
         return if (systemNightMode) {
             retrieveEquivalentNightStyle(
                 context,
-                styleString ?: context.getString(R.string.list_style_name_night)
+                styleString ?: context.getString(R.string.list_style_name_dark)
             )
         } else {
             retrieveEquivalentLightStyle(
@@ -74,8 +74,7 @@ object Stylish {
     fun retrieveEquivalentLightStyle(context: Context, styleString: String): String {
         return when (styleString) {
             context.getString(R.string.list_style_name_dynamic_night) -> context.getString(R.string.list_style_name_dynamic_light)
-            context.getString(R.string.list_style_name_night) -> context.getString(R.string.list_style_name_light)
-            context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_clear)
+            context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_light)
             else -> styleString
         }
     }
@@ -83,8 +82,7 @@ object Stylish {
     private fun retrieveEquivalentNightStyle(context: Context, styleString: String): String {
         return when (styleString) {
             context.getString(R.string.list_style_name_dynamic_light) -> context.getString(R.string.list_style_name_dynamic_night)
-            context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_night)
-            context.getString(R.string.list_style_name_clear) -> context.getString(R.string.list_style_name_dark)
+            context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_dark)
             else -> styleString
         }
     }
@@ -116,9 +114,8 @@ object Stylish {
     @StyleRes
     fun getThemeId(context: Context): Int {
         return when (retrieveEquivalentSystemStyle(context, themeString)) {
-            context.getString(R.string.list_style_name_night) -> R.style.KeepassDXStyle_Night
-            context.getString(R.string.list_style_name_clear) -> R.style.KeepassDXStyle_Clear
-            context.getString(R.string.list_style_name_dark) -> R.style.KeepassDXStyle_Dark
+            context.getString(R.string.list_style_name_light) -> R.style.KeepassDXStyle_Light
+            context.getString(R.string.list_style_name_dark) -> R.style.KeepassDXStyle_Night
             context.getString(R.string.list_style_name_dynamic_light) -> R.style.KeepassDXStyle_Light_Dynamic
             context.getString(R.string.list_style_name_dynamic_night) -> R.style.KeepassDXStyle_Night_Dynamic
             else -> R.style.KeepassDXStyle_Light

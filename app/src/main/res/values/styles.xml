@@ -26,39 +26,39 @@
     <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" />
     <style name="KeepassDXStyle.Light.v14" parent="KeepassDXStyle.Light.Base" />
     <style name="KeepassDXStyle.Light.Base" parent="Theme.Material3.Light">
-
-        <item name="colorPrimary">@color/forest_theme_light_primary</item>
-        <item name="colorPrimaryDark">@color/forest_theme_light_primaryDark</item>
-        <item name="colorOnPrimary">@color/forest_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/forest_theme_light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/forest_theme_light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/forest_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/forest_theme_light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/forest_theme_light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/forest_theme_light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/forest_theme_light_tertiary</item>
-        <item name="colorOnTertiary">@color/forest_theme_light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/forest_theme_light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/forest_theme_light_onTertiaryContainer</item>
-        <item name="colorError">@color/forest_theme_light_error</item>
-        <item name="colorErrorContainer">@color/forest_theme_light_errorContainer</item>
-        <item name="colorOnError">@color/forest_theme_light_onError</item>
-        <item name="colorOnErrorContainer">@color/forest_theme_light_onErrorContainer</item>
-        <item name="android:colorBackground">@color/forest_theme_light_background</item>
-        <item name="colorOnBackground">@color/forest_theme_light_onBackground</item>
-        <item name="colorSurface">@color/forest_theme_light_surface</item>
-        <item name="colorOnSurface">@color/forest_theme_light_onSurface</item>
-        <item name="colorSurfaceContainerLowest">@color/forest_theme_light_surfaceContainerLowest</item>
-        <item name="colorSurfaceContainerLow">@color/forest_theme_light_surfaceContainerLow</item>
-        <item name="colorSurfaceContainer">@color/forest_theme_light_surfaceContainer</item>
-        <item name="colorSurfaceContainerHigh">@color/forest_theme_light_surfaceContainerHigh</item>
-        <item name="colorSurfaceContainerHighest">@color/forest_theme_light_surfaceContainerHighest</item>
-        <item name="colorSurfaceVariant">@color/forest_theme_light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/forest_theme_light_onSurfaceVariant</item>
-        <item name="colorOutline">@color/forest_theme_light_outline</item>
-        <item name="colorOnSurfaceInverse">@color/forest_theme_light_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/forest_theme_light_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/forest_theme_light_inversePrimary</item>
+        <item name="colorPrimary">@color/classic_theme_light_primary</item>
+        <item name="colorPrimaryDark">@color/classic_theme_light_primaryDark</item>
+        <item name="colorOnPrimary">@color/classic_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/classic_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/classic_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/classic_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/classic_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/classic_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/classic_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/classic_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/classic_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/classic_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/classic_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/classic_theme_light_error</item>
+        <item name="colorErrorContainer">@color/classic_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/classic_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/classic_theme_light_onErrorContainer</item>
+        <item name="android:windowBackground">@color/classic_theme_light_background</item>
+        <item name="android:colorBackground">@color/classic_theme_light_background</item>
+        <item name="colorOnBackground">@color/classic_theme_light_onBackground</item>
+        <item name="colorSurface">@color/classic_theme_light_surface</item>
+        <item name="colorOnSurface">@color/classic_theme_light_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/classic_theme_light_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/classic_theme_light_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/classic_theme_light_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/classic_theme_light_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/classic_theme_light_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/classic_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/classic_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/classic_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/classic_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/classic_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/classic_theme_light_inversePrimary</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -73,13 +73,13 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorPrimary">@color/forest_theme_light_primary</item>
+        <item name="android:textColorPrimary">@color/classic_theme_light_textPrimary</item>
         <item name="android:editTextColor">?attr/colorOnSurface</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
-        <item name="dialogBackgroundColor">?attr/colorSurfaceContainerHigh</item>
+        <item name="dialogBackgroundColor">@color/classic_theme_light_background</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
@@ -120,39 +120,39 @@
     <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" />
     <style name="KeepassDXStyle.Night.v14" parent="KeepassDXStyle.Night.Base" />
     <style name="KeepassDXStyle.Night.Base" parent="Theme.Material3.Dark">
-
-        <item name="colorPrimary">@color/forest_theme_night_primary</item>
-        <item name="colorPrimaryDark">@color/forest_theme_night_primaryDark</item>
-        <item name="colorOnPrimary">@color/forest_theme_night_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/forest_theme_night_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/forest_theme_night_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/forest_theme_night_secondary</item>
-        <item name="colorOnSecondary">@color/forest_theme_night_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/forest_theme_night_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/forest_theme_night_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/forest_theme_night_tertiary</item>
-        <item name="colorOnTertiary">@color/forest_theme_night_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/forest_theme_night_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/forest_theme_night_onTertiaryContainer</item>
-        <item name="colorError">@color/forest_theme_night_error</item>
-        <item name="colorErrorContainer">@color/forest_theme_night_errorContainer</item>
-        <item name="colorOnError">@color/forest_theme_night_onError</item>
-        <item name="colorOnErrorContainer">@color/forest_theme_night_onErrorContainer</item>
-        <item name="android:colorBackground">@color/forest_theme_night_background</item>
-        <item name="colorOnBackground">@color/forest_theme_night_onBackground</item>
-        <item name="colorSurface">@color/forest_theme_night_surface</item>
-        <item name="colorOnSurface">@color/forest_theme_night_onSurface</item>
-        <item name="colorSurfaceContainerLowest">@color/forest_theme_night_surfaceContainerLowest</item>
-        <item name="colorSurfaceContainerLow">@color/forest_theme_night_surfaceContainerLow</item>
-        <item name="colorSurfaceContainer">@color/forest_theme_night_surfaceContainer</item>
-        <item name="colorSurfaceContainerHigh">@color/forest_theme_night_surfaceContainerHigh</item>
-        <item name="colorSurfaceContainerHighest">@color/forest_theme_night_surfaceContainerHighest</item>
-        <item name="colorSurfaceVariant">@color/forest_theme_night_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/forest_theme_night_onSurfaceVariant</item>
-        <item name="colorOutline">@color/forest_theme_night_outline</item>
-        <item name="colorOnSurfaceInverse">@color/forest_theme_night_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/forest_theme_night_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/forest_theme_night_inversePrimary</item>
+        <item name="colorPrimary">@color/classic_theme_night_primary</item>
+        <item name="colorPrimaryDark">@color/classic_theme_night_primaryDark</item>
+        <item name="colorOnPrimary">@color/classic_theme_night_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/classic_theme_night_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/classic_theme_night_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/classic_theme_night_secondary</item>
+        <item name="colorOnSecondary">@color/classic_theme_night_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/classic_theme_night_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/classic_theme_night_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/classic_theme_night_tertiary</item>
+        <item name="colorOnTertiary">@color/classic_theme_night_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/classic_theme_night_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/classic_theme_night_onTertiaryContainer</item>
+        <item name="colorError">@color/classic_theme_night_error</item>
+        <item name="colorErrorContainer">@color/classic_theme_night_errorContainer</item>
+        <item name="colorOnError">@color/classic_theme_night_onError</item>
+        <item name="colorOnErrorContainer">@color/classic_theme_night_onErrorContainer</item>
+        <item name="android:windowBackground">@color/classic_theme_night_background</item>
+        <item name="android:colorBackground">@color/classic_theme_night_background</item>
+        <item name="colorOnBackground">@color/classic_theme_night_onBackground</item>
+        <item name="colorSurface">@color/classic_theme_night_surface</item>
+        <item name="colorOnSurface">@color/classic_theme_night_onSurface</item>
+        <item name="colorSurfaceContainerLowest">@color/classic_theme_night_surfaceContainerLowest</item>
+        <item name="colorSurfaceContainerLow">@color/classic_theme_night_surfaceContainerLow</item>
+        <item name="colorSurfaceContainer">@color/classic_theme_night_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/classic_theme_night_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/classic_theme_night_surfaceContainerHighest</item>
+        <item name="colorSurfaceVariant">@color/classic_theme_night_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/classic_theme_night_onSurfaceVariant</item>
+        <item name="colorOutline">@color/classic_theme_night_outline</item>
+        <item name="colorOnSurfaceInverse">@color/classic_theme_night_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/classic_theme_night_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/classic_theme_night_inversePrimary</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -167,13 +167,13 @@
         <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorPrimary">@color/forest_theme_night_primary</item>
+        <item name="android:textColorPrimary">@color/classic_theme_night_textPrimary</item>
         <item name="android:editTextColor">?attr/colorOnSurface</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
-        <item name="dialogBackgroundColor">?attr/colorSurfaceContainerHigh</item>
+        <item name="dialogBackgroundColor">@color/classic_theme_night_background</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
