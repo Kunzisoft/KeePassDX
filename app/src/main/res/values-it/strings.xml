@@ -133,9 +133,6 @@
     <string name="version_label">Versione %1$s</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
     <string name="unavailable">Non disponibile</string>
-    <string name="education_unlock_summary">Inserisci la password e/o il file chiave per sbloccare il database.
-\n
-\nEseguire il backup del file del database in un luogo sicuro dopo ogni modifica.</string>
     <string-array name="list_size_options">
         <item>Piccolo</item>
         <item>Medio</item>
@@ -222,41 +219,12 @@
     <string name="allow_no_password_summary">Permetti di toccare il pulsante \"Apri\" se non sono selezionate credenziali</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
     <string name="enable_read_only_summary">Apri il database in sola lettura in modo predefinito</string>
-    <string name="enable_education_screens_title">Suggerimenti educativi</string>
-    <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
-    <string name="reset_education_screens_title">Ripristina i suggerimenti educativi</string>
-    <string name="reset_education_screens_summary">Mostra di nuovo tutte le informazioni educative</string>
     <string name="reset_education_screens_text">Suggerimenti educativi ripristinati</string>
-    <string name="education_create_database_title">Crea il tuo file database</string>
-    <string name="education_create_database_summary">Crea il tuo primo file di gestione password.</string>
-    <string name="education_select_database_title">Apri un database esitente</string>
-    <string name="education_select_database_summary">Apri il tuo file database usato in precedenza con il file manager per continuare ad usarlo.</string>
-    <string name="education_new_node_title">Aggiungi elementi al tuo database</string>
-    <string name="education_new_node_summary">Gli elementi aiutano a gestire le tue identità digitali.
-\n
-\nI gruppi (come cartelle) organizzano gli elementi nel database.</string>
-    <string name="education_search_title">Cerca tra gli elementi</string>
-    <string name="education_search_summary">Inserisci il titolo, il nome utente o il contenuto di altri campi per recuperare le tue password.</string>
-    <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
-    <string name="education_generate_password_title">Crea una password robusta</string>
-    <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticare di tenerla al sicuro.</string>
-    <string name="education_entry_new_field_title">Aggiungi campi personalizzati</string>
-    <string name="education_entry_new_field_summary">Registra un campo aggiuntivo, aggiungi un valore e facoltativamente proteggilo.</string>
-    <string name="education_unlock_title">Sblocca il tuo database</string>
-    <string name="education_read_only_title">Proteggi da scrittura il tuo database</string>
-    <string name="education_read_only_summary">Cambia la modalità di apertura per la sessione.
-\n
-\n«Sola lettura» impedisce modifiche accidentali al database.
-\n«Modificabile» permette di aggiungere, eliminare o modificare tutti gli elementi.</string>
     <string name="education_field_copy_title">Copia un campo</string>
     <string name="education_field_copy_summary">I campi copiati possono essere incollati ovunque. 
 \n 
 \nUsa il metodo di inserimento che preferisci.</string>
-    <string name="education_lock_title">Blocca il database</string>
-    <string name="education_lock_summary">Blocca velocemente il database, puoi impostare l\'applicazione per bloccarsi dopo un certo periodo e quando lo schermo si spegne.</string>
-    <string name="education_sort_title">Ordine elementi</string>
-    <string name="education_sort_summary">Scegli l\'ordine di elementi e gruppi.</string>
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
@@ -401,13 +369,11 @@
     <string name="settings_database_recommend_changing_master_key_title">Rinnovo raccomandato</string>
     <string name="hide_expired_entries_summary">Le voci scadute non sono mostrate</string>
     <string name="hide_expired_entries_title">Nascondi le voci scadute</string>
-    <string name="education_setup_OTP_summary">Imposta la gestione della password usa e getta (HOTP/TOTP) per generare un token richiesto per l\'autenticazione a due fattori.</string>
     <string name="download_complete">Completato!</string>
     <string name="download_finalization">Finalizzazione…</string>
     <string name="download_progression">Avanzamento %1$d%%</string>
     <string name="download_initialization">Inizializzazione…</string>
     <string name="download_attachment">Scaricamento %1$s</string>
-    <string name="education_setup_OTP_title">Imposta password usa e getta (OTP)</string>
     <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità «Modificabile»)</string>
     <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
     <string name="keyboard_auto_go_action_summary">Azione del tasto \"Vai\" dopo aver premuto un tasto \"Campo\"</string>
@@ -446,8 +412,6 @@
     <string name="keyboard_previous_database_credentials_title">Schermata credenziali del database</string>
     <string name="keyboard_change">Cambia tastiera</string>
     <string name="upload_attachment">Carica %1$s</string>
-    <string name="education_add_attachment_summary">Carica un allegato alla voce per salvare dati esterni importanti.</string>
-    <string name="education_add_attachment_title">Aggiungi allegato</string>
     <string name="database_data_remove_unlinked_attachments_summary">Rimuovi gli allegati contenuti nel database ma non riferiti ad alcuna voce</string>
     <string name="database_data_remove_unlinked_attachments_title">Rimuovi i dati scollegati</string>
     <string name="data">Dati</string>
@@ -483,8 +447,6 @@
     <string name="error_field_name_already_exists">Il nome del campo esiste già.</string>
     <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura</string>
     <string name="configure_biometric">Nessuna credenziale biometrica o del dispositivo è registrata.</string>
-    <string name="education_advanced_unlock_summary">Collega la password alla tua autenticazione biometrica (o del dispositivo) per sbloccare velocemente il database.</string>
-    <string name="education_advanced_unlock_title">Sblocco del database con dispositivo</string>
     <string name="enter">Invio</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Seleziona voce</string>
@@ -676,10 +638,6 @@
     <string name="unlock_and_link_biometric">Collegamento sblocco con dispositivo</string>
     <string name="menu_appearance_settings_summary">Temi, colori, attributi</string>
     <string name="unlock">Sblocca</string>
-    <string name="education_validate_entry_title">Conferma la voce</string>
-    <string name="education_validate_entry_summary">Ricordati di confermare la voce e salvare il tuo database.
-\n
-\nSe un blocco automatico è attivo e ti dimentichi che stavi apportando una modifica, rischi di perdere i tuoi dati.</string>
     <string name="warning_database_notification_permission">L\'autorizzazione per le notifiche ti permette di mostrare lo stato del database e bloccarlo con un pulsante facilmente accessibile.
 \n
 \nSe non attivi questa autorizzazione, il database aperto in secondo piano non sarà visibile se un\'altra applicazione è aperta in primo piano.</string>

@@ -572,46 +572,10 @@
     <string name="enable_keep_screen_on_summary">Keep the screen on when watching or editing an entry</string>
     <string name="enable_screenshot_mode_title">Screenshot mode</string>
     <string name="enable_screenshot_mode_summary">Allow third party apps to record or take screenshots of the app</string>
-    <string name="enable_education_screens_title">Educational hints</string>
-    <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
-    <string name="reset_education_screens_title">Reset educational hints</string>
-    <string name="reset_education_screens_summary">Show all educational info again</string>
     <string name="reset_education_screens_text">Educational hints reset</string>
-    <string name="education_create_database_title">Create your database file</string>
-    <string name="education_create_database_summary">Create your first password management file.</string>
-    <string name="education_select_database_title">Open an existing database</string>
-    <string name="education_select_database_summary">Open your earlier database file from your file browser to continue using it.</string>
-    <string name="education_new_node_title">Add items to your database</string>
-    <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
-    <string name="education_search_title">Search through entries</string>
-    <string name="education_search_summary">Enter title, username or content of other fields to retrieve your passwords.</string>
-    <string name="education_advanced_unlock_title">Device database unlocking</string>
-    <string name="education_advanced_unlock_summary">Link your password to your scanned biometric or device credential to quickly unlock your database.</string>
-    <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
-    <string name="education_generate_password_title">Create a strong password</string>
-    <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
-    <string name="education_validate_entry_title">Validate the entry</string>
-    <string name="education_validate_entry_summary">Remember to validate your entry and save your database.\n\nIf an automatic lock is activated and you forget you were making a modification, you risk losing your data.</string>
-    <string name="education_entry_new_field_title">Add custom fields</string>
-    <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
-    <string name="education_add_attachment_title">Add attachment</string>
-    <string name="education_add_attachment_summary">Upload an attachment to your entry to save important external data.</string>
-    <string name="education_setup_OTP_title">Set up OTP</string>
-    <string name="education_setup_OTP_summary">Set up one-time password management (HOTP / TOTP) to generate a token requested for two-factor authentication (2FA).</string>
-    <string name="education_unlock_title">Unlock your database</string>
-    <string name="education_unlock_summary">Enter the password and/or keyfile to unlock your database.\n\nBackup your database file in a safe place after each change.</string>
-    <string name="education_read_only_title">Write protect your database</string>
-    <string name="education_read_only_summary">Change opening mode for the session.
-\n
-\n\"Write-protected\" prevents unintended changes to the database.
-\n\"Modifiable\" lets you add, delete, or modify all the elements as you wish.</string>
     <string name="education_field_copy_title">Copy a field</string>
     <string name="education_field_copy_summary">Copied fields can be pasted anywhere.\n\nUse the form filling method you prefer.</string>
-    <string name="education_lock_title">Lock the database</string>
-    <string name="education_lock_summary">Lock your database quickly, you can set up the app to lock it after a while, and when the screen turns off.</string>
-    <string name="education_sort_title">Item sorting</string>
-    <string name="education_sort_summary">Choose how entries and groups are sorted.</string>
     <string name="education_donation_title">Participate</string>
     <string name="education_donation_summary">Help increase the stability, security and in adding more features.</string>
     <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>

@@ -59,7 +59,6 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
-import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -99,8 +98,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
     private val mDatabaseFileViewModel: DatabaseFileViewModel by viewModels()
     private val mAdvancedUnlockViewModel: AdvancedUnlockViewModel by viewModels()
-
-    private val mPasswordActivityEducation = PasswordActivityEducation(this)
 
     private var mDefaultDatabase: Boolean = false
     private var mDatabaseFileUri: Uri? = null
@@ -598,74 +595,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
         super.onCreateOptionsMenu(menu)
 
-        launchEducation(menu)
-
         return true
-    }
-
-    // To fix multiple view education
-    private var performedEductionInProgress = false
-    private fun launchEducation(menu: Menu) {
-        if (!performedEductionInProgress) {
-            performedEductionInProgress = true
-            // Show education views
-            Handler(Looper.getMainLooper()).post {
-                performedNextEducation(menu)
-            }
-        }
-    }
-
-    private fun performedNextEducation(menu: Menu) {
-        val educationToolbar = toolbar
-        val unlockEducationPerformed = educationToolbar != null
-                && mPasswordActivityEducation.checkAndPerformedUnlockEducation(
-                educationToolbar,
-                        {
-                            performedNextEducation(menu)
-                        },
-                        {
-                            performedNextEducation(menu)
-                        })
-        if (!unlockEducationPerformed) {
-            val readOnlyEducationPerformed =
-                    educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
-                    && mPasswordActivityEducation.checkAndPerformedReadOnlyEducation(
-                    educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
-                    {
-                        try {
-                            menu.findItem(R.id.menu_open_file_read_mode_key)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Unable to find read mode menu")
-                        }
-                        performedNextEducation(menu)
-                    },
-                    {
-                        performedNextEducation(menu)
-                    })
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && !readOnlyEducationPerformed) {
-                    val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(this)
-                    if ((biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                            && advancedUnlockButton != null) {
-                        mPasswordActivityEducation.checkAndPerformedBiometricEducation(
-                            advancedUnlockButton!!,
-                            {
-                                startActivity(
-                                    Intent(
-                                        this,
-                                        AdvancedUnlockSettingsActivity::class.java
-                                    )
-                                )
-                            },
-                            {
-
-                            })
-                    }
-                }
-            } catch (ignored: Exception) {}
-        }
     }
 
     private fun changeOpenFileReadIcon(togglePassword: MenuItem) {

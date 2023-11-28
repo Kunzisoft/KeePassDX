@@ -198,11 +198,9 @@
     <string name="show_entry_colors_title">Màu mục nhập</string>
     <string name="download_canceled">Đã hủy!</string>
     <string name="icon_section_standard">Tiêu chuẩn</string>
-    <string name="education_entry_edit_title">Chỉnh sửa mục nhập</string>
     <string name="expired">Hết hạn</string>
     <string name="waiting_challenge_request">Đang chờ yêu cầu thử thách…</string>
     <string name="search_filters">Bộ lọc tìm kiếm</string>
-    <string name="education_advanced_unlock_title">Đang mở khóa cơ sở dữ liệu thiết bị</string>
     <string name="current_group">Nhóm hiện tại</string>
     <string name="auto_type_sequence">Trình tự nhập tự động</string>
     <string name="word_separator">Dấu phân cách</string>

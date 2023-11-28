@@ -236,44 +236,12 @@
     <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesine dokunmaya izin verir</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
     <string name="enable_read_only_summary">Veri tabanını öntanımlı olarak salt okunur aç</string>
-    <string name="enable_education_screens_title">Eğitim ipuçları</string>
-    <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için ögeleri vurgulayın</string>
-    <string name="reset_education_screens_title">Eğitici ipuçlarını sıfırla</string>
-    <string name="reset_education_screens_summary">Tüm eğitim bilgilerini tekrar göster</string>
     <string name="reset_education_screens_text">Eğitici ipuçlarını sıfırla</string>
-    <string name="education_create_database_title">Veri tabanı dosyanızı oluşturun</string>
-    <string name="education_create_database_summary">İlk parola yönetim dosyanızı oluşturun.</string>
-    <string name="education_select_database_title">Mevcut bir veri tabanını açın</string>
-    <string name="education_select_database_summary">Kullanmaya devam etmek için önceki veri tabanı dosyanızı dosya tarayıcınızdan açın.</string>
-    <string name="education_new_node_title">Veri tabanınıza öge ekleyin</string>
-    <string name="education_new_node_summary">Girdiler dijital kimliğinizi yönetmenize yardımcı olur.
-\n
-\nGruplar (~klasörler) veri tabanınızdaki girdileri düzenler.</string>
-    <string name="education_search_title">Girdilerde arayın</string>
-    <string name="education_search_summary">Parolanızı kurtarmak için başlık, kullanıcı adı veya diğer alanların içeriğini girin.</string>
-    <string name="education_entry_edit_title">Girdiyi düzenleyin</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı girdi alanları arasında referans alınabilir.</string>
-    <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
-    <string name="education_generate_password_summary">Girdinizle ilişkilendirmek için güçlü bir parola oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli parolayı unutmayın.</string>
-    <string name="education_entry_new_field_title">Özel alanlar ekleyin</string>
-    <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isteğe bağlı olarak koruyun.</string>
-    <string name="education_unlock_title">Veri tabanınızın kilidini açın</string>
-    <string name="education_unlock_summary">Veri tabanınızın kilidini açmak için parola ve/veya anahtar dosyası girin.
-\n
-\nHer değişiklikten sonra veri tabanı dosyanızı güvenli bir yerde yedekleyin.</string>
-    <string name="education_read_only_title">Veri tabanınızı yazmaya karşı koruyun</string>
-    <string name="education_read_only_summary">Oturum için açılış modunu değiştir.
-\n
-\n\"Yazma korumalı\", veri tabanında istenmeyen değişiklikleri önler.
-\n\"Değiştirilebilir\", tüm ögeleri istediğiniz gibi eklemenize, silmenize veya değiştirmenize izin verir.</string>
     <string name="education_field_copy_title">Bir alanı kopyalayın</string>
     <string name="education_field_copy_summary">Kopyalanan alanlar herhangi bir yere yapıştırılabilir.
 \n
 \nTercih ettiğiniz form doldurma yöntemini kullanın.</string>
-    <string name="education_lock_title">Veri tabanını kilitleyin</string>
-    <string name="education_lock_summary">Veri tabanınızı hızlıca kilitleyin, belirli bir süre sonra ve ekran kapandığında kilitlenmesi için uygulamayı ayarlayabilirsiniz.</string>
-    <string name="education_sort_title">Ögeleri sıralayın</string>
-    <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
     <string name="education_donation_title">Katılın</string>
     <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
     <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt; copyleft lisanslı özgür yazılımdır&lt;/strong&gt; ve hangi sürümü kullanırsanız kullanın, sunucularında kişisel veri toplamaz.</string>
@@ -407,8 +375,6 @@
     <string name="remember_database_locations_title">Veri tabanları konumlarını hatırla</string>
     <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
     <string name="auto_focus_search_title">Hızlı arama</string>
-    <string name="education_setup_OTP_summary">İki ögeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için bir kerelik parola yönetimini (HOTP / TOTP) ayarlayın.</string>
-    <string name="education_setup_OTP_title">Bir kerelik parola (OTP) ayarlayın</string>
     <string name="error_create_database">Veri tabanı dosyası oluşturulamıyor.</string>
     <string name="html_about_contribution">&lt;strong&gt;Özgürlüğümüzü korumak&lt;/strong&gt;, &lt;strong&gt;hataları düzeltmek&lt;/strong&gt;, &lt;strong&gt;özellikler eklemek&lt;/strong&gt; ve &lt;strong&gt;her zaman etkin olmak&lt;/strong&gt; için, &lt;strong&gt;desteğinize&lt;/strong&gt; güveniyoruz.</string>
     <string name="entry_add_attachment">Ek ekle</string>
@@ -437,8 +403,6 @@
     <string name="keyboard_previous_database_credentials_title">Veri tabanı kimlik bilgileri ekranı</string>
     <string name="keyboard_change">Klavye değiştir</string>
     <string name="upload_attachment">%1$s yükle</string>
-    <string name="education_add_attachment_summary">Önemli harici verileri kaydetmek için girdinize bir ek yükleyin.</string>
-    <string name="education_add_attachment_title">Ek ekleyin</string>
     <string name="warning_sure_add_file">Dosya yine de eklensin mi\?</string>
     <string name="warning_replace_file">Bu dosyanın yüklenmesi mevcut dosyanın yerini alacaktır.</string>
     <string name="warning_file_too_big">Bir KeePass veri tabanının sadece küçük yardımcı dosyaları (PGP anahtar dosyaları gibi) içermesi beklenmektedir.
@@ -494,8 +458,6 @@
     <string name="select_entry">Girdi seç</string>
     <string name="back_to_previous_keyboard">Önceki klavyeye geri dön</string>
     <string name="custom_fields">Özel alanlar</string>
-    <string name="education_advanced_unlock_summary">Veri tabanınızın kilidini hızlı bir şekilde açmak için parolanızı taranmış biyometrik veya aygıt kimlik bilgilerinize bağlayın.</string>
-    <string name="education_advanced_unlock_title">Cihaz veritabanı kilidini açma</string>
     <string name="advanced_unlock_timeout">Cihaz kilidini açma zaman aşımı</string>
     <string name="temp_advanced_unlock_timeout_summary">İçeriğini silmeden önce cihazın kilit açma kullanım süresi</string>
     <string name="temp_advanced_unlock_timeout_title">Cihaz kilidini açma süresi doldu</string>
@@ -657,16 +619,12 @@
     <string name="merge_success">Birleştirme başarıyla tamamlandı</string>
     <string name="unlock">Kilidi aç</string>
     <string name="master_key_settings_summary">Değişim, yenilenme</string>
-    <string name="education_validate_entry_title">Girişi doğrula</string>
     <string name="ask">Sor</string>
     <string name="menu_form_filling_settings_summary">Klavye, otomatik doldur, pano</string>
     <string name="configure">Yapılandır</string>
     <string name="menu_appearance_settings_summary">Temalar, renkler, öznitellikler</string>
     <string name="menu_security_settings_summary">Şifreleme, anahtar türetme işlevi</string>
     <string name="menu_advanced_unlock_settings_summary">Biyometri, cihaz kimlik bilgisi</string>
-    <string name="education_validate_entry_summary">Girişinizi doğrulamayı ve veritabanınızı kaydetmeyi unutmayın.
-\n
-\nOtomatik kilitleme etkinleştirilirse ve değişiklik yaptığınızı unutursanız verilerinizi kaybetme riskiyle karşı karşıya kalırsınız.</string>
     <string name="warning_database_notification_permission">Bildirim izni, veritabanının durumunu görüntülemenize ve kolayca erişilebilen bir düğmeyle kilitlemenize olanak tanır.
 \n
 \nBu izni aktifleştirmezseniz arka planda açık olan veritabanı, ön planda başka bir uygulama varken görünmeyecektir.</string>

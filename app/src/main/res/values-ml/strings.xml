@@ -147,7 +147,6 @@
     <string name="key_derivation_function">കീ ഡെറിവേഷൻ ഫംഗ്ഷൻ</string>
     <string name="about_description">KeePass പാസ്‍വേഡ് മാനേജറിന്റെ Android നടപ്പിലാക്കൽ</string>
     <string name="download_complete">പൂർത്തിയാക്കി!</string>
-    <string name="education_create_database_title">നിങ്ങളുടെ ഡാറ്റാബേസ് ഫയൽ സൃഷ്ടിക്കുക</string>
     <string name="keyboard_change">കീബോർഡ് മാറ്റുക</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="compression_gzip">Gzip</string>
@@ -183,12 +182,6 @@
     <string name="icon_pack_choose_summary">ആപ്പിൽ ഉപയോഗിച്ചിരിക്കുന്ന ഐക്കൺ പാക്ക്</string>
     <string name="download_finalization">അന്തിമമാക്കുന്നു. . .</string>
     <string name="html_text_dev_feature_thanks">നിങ്ങളുടെ സംഭാവനയ്ക്ക് ഒരുപാട് നന്ദി.</string>
-    <string name="education_unlock_title">ഡാറ്റാബേസ് തുറക്കുക</string>
-    <string name="education_setup_OTP_title">OTP സജ്ജമാക്കുക</string>
-    <string name="education_entry_new_field_title">ഇഷ്‌ടാനുസൃത ഫീൽഡുകൾ ചേർക്കുക</string>
-    <string name="education_generate_password_title">ശക്തമായ പാസ്‌വേഡ് സൃഷ്ടിക്കുക</string>
-    <string name="education_create_database_summary">നിങ്ങളുടെ ആദ്യ പാസ്‌വേഡ് മാനേജുമെന്റ് ഫയൽ സൃഷ്ടിക്കുക.</string>
-    <string name="enable_education_screens_title">വിദ്യാഭ്യാസ സൂചനകൾ</string>
     <string name="delete_entered_password_title">പാസ്സ്‌വേഡ് ഇല്ലാതാക്കുക</string>
     <string name="autofill_block">ഓട്ടോഫിൽ തടയുക</string>
     <string name="keyboard_theme_title">കീബോർഡ് തീം</string>
@@ -241,19 +234,15 @@
     <string name="warning_no_encryption_key">എൻക്രിപ്ഷൻ കീ ഇല്ലാതെ തുടരണോ\?</string>
     <string name="menu_url">URLലേക്ക് പോകുക</string>
     <string name="download_attachment">ഡൗൺലോഡ് %1$s</string>
-    <string name="education_new_node_title">നിങ്ങളുടെ ഡാറ്റാബേസിലേക്ക് വസ്തുക്കൾ ചേർക്കുക</string>
     <string name="lock_database_screen_off_title">സ്ക്രീൻ ലോക്ക്</string>
-    <string name="education_entry_edit_title">എൻ‌ട്രി തിരുത്തുക</string>
     <string name="file_name">ഫയലിന്റെ പേര്</string>
     <string name="content_description_add_entry">എൻ‌ട്രി ചേർക്കുക</string>
     <string name="lock_database_back_root_title">ലോക്കുചെയ്യുന്നതിന് \'തിരികെ\' അമർത്തുക</string>
     <string name="clipboard_error_title">ക്ലിപ്പ്ബോർഡ് തകരാർ</string>
-    <string name="education_lock_title">ഡാറ്റാബേസ് ലോക്ക് ചെയ്യുക</string>
     <string name="menu_form_filling_settings">ഫോം പൂരിപ്പിക്കൽ</string>
     <string name="entry_UUID">UUID</string>
     <string name="password_size_title">സൃഷ്‌ടിച്ച പാസ്‌വേഡിന്റെ വലുപ്പം</string>
     <string name="recycle_bin">റീസൈക്കിൾ ബിൻ</string>
-    <string name="education_select_database_title">നിലവിലുള്ള ഡാറ്റാബേസ് തുറക്കുക</string>
     <string name="menu_paste">പേസ്റ്റ്</string>
     <string name="keyboard_key_sound_title">കേൾക്കാവുന്ന കീപ്രസ്സ്</string>
     <string name="download_initialization">സമാരംഭിക്കുന്നു. . .</string>
@@ -314,9 +303,6 @@
     <string name="hide_expired_entries_title">കാലഹരണപ്പെട്ട എൻ‌ട്രികൾ‌ മറയ്‌ക്കുക</string>
     <string name="html_text_dev_feature_upgrade">പുതിയ പതിപ്പ് ഇൻസ്റ്റാളുചെയ്യുന്നതിലൂടെ നിങ്ങളുടെ അപ്ലിക്കേഷൻ നിലനിർത്താൻ മറക്കരുത്.</string>
     <string name="html_text_dev_feature_work_hard">ഈ സവിശേഷത വേഗത്തിൽ പുറത്തിറക്കാൻ ഞങ്ങൾ കഠിനമായി പരിശ്രമിക്കുന്നു.</string>
-    <string name="education_add_attachment_title">അറ്റാച്ചുമെന്റ് ചേർക്കുക</string>
-    <string name="education_search_title">എൻ‌ട്രികളിലൂടെ തിരയുക</string>
-    <string name="reset_education_screens_title">വിദ്യാഭ്യാസ സൂചനകൾ പുനഃസജ്ജമാക്കുക</string>
     <string name="keyboard_appearance_category">രൂപം</string>
     <string name="keyboard_notification_entry_content_title_text">എൻട്രി</string>
     <string name="keyboard_notification_entry_clear_close_summary">അറിയിപ്പ് അടയ്‌ക്കുമ്പോൾ ഡാറ്റാബേസ് അടയ്‌ക്കുക</string>
@@ -348,8 +334,6 @@
     <string name="recycle_bin_group_title">റീസൈക്കിൾ ബിനിന്റെ ഗ്രൂപ്പ്</string>
     <string name="allow_copy_password_title">ക്ലിപ്ബോര്ഡിന്റെ വിശ്വസ്തത</string>
     <string name="keyboard_notification_entry_title">അറിയിപ്പ് വിവരം</string>
-    <string name="education_sort_summary">എൻ‌ട്രികളും ഗ്രൂപ്പുകളും എങ്ങനെ അടുക്കുന്നുവെന്ന് തിരഞ്ഞെടുക്കുക.</string>
-    <string name="education_sort_title">ഇനം തരംതിരിക്കൽ</string>
     <string name="keyboard_entry_timeout_title">ടൈം ഔട്ട്</string>
     <string name="monospace_font_fields_enable_title">ഫീൽഡിന്റെ ഫോണ്ട്</string>
     <string name="data">ഡാറ്റ</string>
@@ -359,7 +343,6 @@
     <string name="content_description_credentials_information">ക്രെഡൻഷ്യലുകളുടെ വിവരം</string>
     <string name="configure_biometric">ബയോമെട്രിക് അല്ലെങ്കിൽ ഉപകരണ ക്രെഡൻഷ്യലുകളൊന്നും എൻറോൾ ചെയ്തിട്ടില്ല.</string>
     <string name="show_uuid_title">UUID കാണിക്കുക</string>
-    <string name="reset_education_screens_summary">എല്ലാ വിദ്യാഭ്യാസ വിവരങ്ങളും വീണ്ടും കാണിക്കുക</string>
     <string name="autofill_ask_to_save_data_title">ഡാറ്റ സംരക്ഷിക്കാൻ ആവശ്യപ്പെടുക</string>
     <string name="autofill_save_search_info_title">തിരയൽ വിവരങ്ങൾ സംരക്ഷിക്കുക</string>
     <string name="autofill_close_database_title">ഡാറ്റാബേസ് അടയ്ക്കുക</string>
@@ -370,7 +353,6 @@
     <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
     <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല</string>
-    <string name="education_advanced_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>
     <string name="select_entry">എൻ‌ട്രി തിരഞ്ഞെടുക്കുക</string>
     <string name="custom_fields">ഇഷ്‌ടാനുസൃത ഫീൽഡുകൾ</string>
     <string name="keyboard_keys_category">കീകൾ</string>

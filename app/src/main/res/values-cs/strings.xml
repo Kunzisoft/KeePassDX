@@ -125,9 +125,6 @@
     <string name="unsupported_db_version">Nepodporovaná verze databáze.</string>
     <string name="uppercase">Velká písmena</string>
     <string name="version_label">Verze %1$s</string>
-    <string name="education_unlock_summary">Databázi odemknete zadáním hesla a/nebo souboru s klíčem.
-\n
-\nNezapomeňte po každé úpravě zálohovat kopii svého .kdbx souboru na bezpečné místo.</string>
     <string-array name="list_size_options">
         <item>Malý</item>
         <item>Střední</item>
@@ -225,41 +222,12 @@
     <string name="allow_no_password_summary">Povolit klepnutí na \"Otevřít\", i když není vybráno žádné heslo</string>
     <string name="enable_read_only_title">Chráněno před zápisem</string>
     <string name="enable_read_only_summary">Ve výchozím stavu otevřít databázi pouze pro čtení</string>
-    <string name="enable_education_screens_title">Vzdělávací nápovědy</string>
-    <string name="enable_education_screens_summary">Zvýraznit prvky k pochopení práce s aplikací</string>
-    <string name="reset_education_screens_title">Nastavit vzdělávací nápovědy do výchozího stavu</string>
-    <string name="reset_education_screens_summary">Opět zobrazit všechny vzdělávací informace</string>
     <string name="reset_education_screens_text">Znovu zobrazit výukové nápovědy</string>
-    <string name="education_create_database_title">Vytvořit databázový soubor</string>
-    <string name="education_create_database_summary">Vytvořte svůj první soubor pro správu hesel.</string>
-    <string name="education_select_database_title">Otevřít existující databázi</string>
-    <string name="education_select_database_summary">Otevřete svou dříve používanou databázi ze správce souborů a pokračujte v jejím používání.</string>
-    <string name="education_new_node_title">Přidejte záznamy do databáze</string>
-    <string name="education_new_node_summary">Záznamy pomáhají se správou Vašich digitálních identit.
-\n
-\nSkupiny (ekvivalent složek) organizují záznamy v databázi.</string>
-    <string name="education_search_title">Hledat v záznamech</string>
-    <string name="education_search_summary">Zadejte název, uživatelské jméno nebo jiné kolonky k nalezení svých hesel.</string>
-    <string name="education_entry_edit_title">Upravit záznam</string>
     <string name="education_entry_edit_summary">Přidejte ke svému záznamu vlastní kolonky. Společná data mohou být sdílena mezi různými kolonkami záznamu odkazem.</string>
-    <string name="education_generate_password_title">Vytvořit silné heslo</string>
-    <string name="education_generate_password_summary">Nechte si vytvořit odolné heslo pro svůj záznam, definujte je podle kritérií formuláře, a nezapomeňte na bezpečné heslo.</string>
-    <string name="education_entry_new_field_title">Přidat vlastní pole</string>
-    <string name="education_entry_new_field_summary">Registrovat další kolonku, zadat hodnotu a volitelně ji ochránit.</string>
-    <string name="education_unlock_title">Odemknout databázi</string>
-    <string name="education_read_only_title">Ochraňte svou databázi před zápisem</string>
-    <string name="education_read_only_summary">Změnit režim otevírání pro dané sezení.
-\n
-\nV režimu \"pouze pro čtení\" zabráníte nechtěným změnám v databázi.
-\nV režimu \"zápisu\" je možné přidávat, mazat nebo měnit všechny prvky podle libosti.</string>
     <string name="education_field_copy_title">Zkopírovat kolonku</string>
     <string name="education_field_copy_summary">Zkopírované kolonky lze vkládat podle libosti.
 \n
 \nK vyplňování formulářů použijte svou oblíbenou metodu.</string>
-    <string name="education_lock_title">Uzamknout databázi</string>
-    <string name="education_lock_summary">Rychle uzamknout databázi. Je možné nastavit, aby se databáze zamkla po určitém čase a také po zhasnutí obrazovky.</string>
-    <string name="education_sort_title">Řazení položek</string>
-    <string name="education_sort_summary">Vyberte řazení položek a skupin.</string>
     <string name="education_donation_title">Zapojit se</string>
     <string name="education_donation_summary">Zapojte se a pomozte zvýšit stabilitu, zabezpečení a doplnění dalších funkcí.</string>
     <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato &lt;strong&gt;bez reklam&lt;/strong&gt;, je &lt;strong&gt;svobodný software pod copyleft licencí&lt;/strong&gt; a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
@@ -420,8 +388,6 @@
     <string name="discard">Zahodit</string>
     <string name="discard_changes">Zahodit změny\?</string>
     <string name="validate">Zkontrolovat</string>
-    <string name="education_setup_OTP_summary">Nastavit správu One-Time hesla (HOTP / TOTP) pro založení tokenu požadovaného pro dvoufázové ověření (2FA).</string>
-    <string name="education_setup_OTP_title">Nastavit OTP</string>
     <string name="lock_database_show_button_summary">Zobrazí tlačítko zámku v uživatelském rozhraní</string>
     <string name="lock_database_show_button_title">Zobrazit tlačítko zámku</string>
     <string name="autofill_preference_title">Nastavení samovyplnění</string>
@@ -457,8 +423,6 @@
     <string name="data">Data</string>
     <string name="database_data_remove_unlinked_attachments_title">Odstranit data bez propojení</string>
     <string name="database_data_remove_unlinked_attachments_summary">Odstraní přílohy obsažené v databázi, ale nikoli přílohy propojené se záznamem</string>
-    <string name="education_add_attachment_title">Přidat přílohu</string>
-    <string name="education_add_attachment_summary">Nahrát přílohu k záznamu pro uložení důležitých externích dat.</string>
     <string name="show_uuid_summary">Ukáže UUID propojené se záznamem nebo skupinou</string>
     <string name="show_uuid_title">Ukázat UUID</string>
     <string name="autofill_read_only_save">Uložení dat není povoleno, je-li databáze v režimu pouze pro čtení.</string>
@@ -500,13 +464,11 @@
     <string name="advanced_unlock_prompt_store_credential_message">Pokud použijete rozpoznání odemykání zařízení, musíte si i nadále pamatovat hlavní heslo trezoru.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Propojit s odemykáním zařízení</string>
     <string name="menu_keystore_remove_key">Smazat klíč odemknutí zařízení</string>
-    <string name="education_advanced_unlock_title">Odemykání databáze zařízením</string>
     <string name="advanced_unlock_timeout">Časový limit odemykání zařízení</string>
     <string name="temp_advanced_unlock_timeout_summary">Trvání použití odemykání zařízení, než bude obsah smazán</string>
     <string name="temp_advanced_unlock_enable_summary">Za účelem odemykání zařízení neukládat žádný šifrovaný obsah</string>
     <string name="temp_advanced_unlock_enable_title">Dočasné odemykání zařízení</string>
     <string name="advanced_unlock_tap_delete">Klepněte pro odstranění klíčů odemykání zařízení</string>
-    <string name="education_advanced_unlock_summary">Abyste rychle odemknuli databázi, propojte své heslo s naskenovanou biometrikou nebo údaji zámku zařízení.</string>
     <string name="temp_advanced_unlock_timeout_title">Vypršení odemykání zařízení</string>
     <string name="content">Obsah</string>
     <string name="error_rebuild_list">Seznam nelze řádně sestavit.</string>
@@ -677,8 +639,4 @@
     <string name="unlock_and_link_biometric">Propojení s odemykáním zařízení</string>
     <string name="menu_appearance_settings_summary">Motivy, barvy, atributy</string>
     <string name="unlock">Odemknout</string>
-    <string name="education_validate_entry_title">Ověřit vstup</string>
-    <string name="education_validate_entry_summary">Nezapomeňte ověřit svůj vstup a uložit databázi.
-\n
-\nPokud je aktivované automatické uzamčení a zapomenete, že jste něco upravili, riskujete ztrátu dat.</string>
 </resources>

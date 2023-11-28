@@ -16,9 +16,6 @@
     <string name="show_entry_colors_title">Entry colours</string>
     <string name="content_description_database_color">Database colour</string>
     <string name="show_entry_colors_summary">Displays foreground and background colours in an entry</string>
-    <string name="education_new_node_summary">Entries help manage your digital identities.
-\n
-\nGroups (~folders) organise entries in your database.</string>
     <string name="error_otp_type">The existing OTP type is not recognised by this form, its validation may no longer correctly generate the token.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual style&lt;/strong&gt; and you will especially help &lt;strong&gt;the realisation of community projects.&lt;/strong&gt;</string>
     <string name="key_derivation_function">Key derivation function</string>

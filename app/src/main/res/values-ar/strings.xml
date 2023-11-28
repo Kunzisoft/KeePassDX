@@ -99,10 +99,7 @@
     <string name="warning_empty_password">هل تريد المتابعة دون حماية قاعدة البيانات بكلمة سر ؟</string>
     <string name="warning_no_encryption_key">أمتأكد أنك لا تريد استخدام أي مفتاح لتشفير ؟</string>
     <string name="version_label">الإصدار %1$s</string>
-    <string name="education_new_node_title">أضف عناصر إلى قاعدة البيانات</string>
-    <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
-    <string name="education_lock_title">تأمين قاعدة البيانات</string>
     <string name="about_description">\"KeePassDX\" هو تطبيق أندرويد لمدير كلمات المرور كي باس \"KeePass\"</string>
     <string name="add_entry">أضف مدخل</string>
     <string name="edit_entry">تحرير مدخل</string>
@@ -214,12 +211,7 @@
     <string name="allow_no_password_title">إسمح بدون المفتاح الرئيسي</string>
     <string name="enable_read_only_title">محمي من التعديل</string>
     <string name="enable_read_only_summary">افتح قاعدة البيانات في وضع القراءة افتراضيا</string>
-    <string name="enable_education_screens_title">تلميحات تعليمية</string>
-    <string name="reset_education_screens_summary">أعد عرض كل المعلومات التعليمية</string>
     <string name="reset_education_screens_text">إعادة تعيين الشاشات التلميحات</string>
-    <string name="education_create_database_title">أنشئ قاعدة بيانات</string>
-    <string name="education_create_database_summary">أنشئ ملف إدارة كلمات السر.</string>
-    <string name="education_select_database_title">إفتح قاعدة بيانات</string>
     <string name="sort_recycle_bin_bottom">سلة المحذوفات في الأسفل</string>
     <string name="sort_db">ترتيب طبيعي</string>
     <string name="sort_last_access_time">الوصول</string>
@@ -231,8 +223,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_notification_entry_content_title">%1$s متوفر على Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-    <string name="reset_education_screens_title">إعادة تعيين التلميحات التعليمية</string>
-    <string name="education_search_title">البحث من خلال الإدخالات</string>
     <string name="content_description_open_file">افتح الملف</string>
     <string name="content_description_add_entry">إضافة مدخلة</string>
     <string name="content_description_add_group">إضافة مجموعة</string>
@@ -339,13 +329,6 @@
     <string name="clipboard_explanation_summary">انسخ حقول الإدخال باستخدام الحافظة</string>
     <string name="database_opened">قاعدة البيانات مفتوحة</string>
     <string name="autofill_preference_title">إعدادات الملء التلقائي</string>
-    <string name="education_entry_edit_title">حرر المدخلة</string>
-    <string name="education_advanced_unlock_summary">لفتح قاعدة البيانات بسرعة اربط كلمة المرور بالبصمة.</string>
-    <string name="education_search_summary">لإيجاد كلمة المرور، أدخل العنوان أو اسم المستخدم أو محتوى أحد الحقول.</string>
-    <string name="education_new_node_summary">المدخلات لإدارة معرفاتك الرقمية.
-\n
-\nالمجموعات (المجلدات) لتنظيم المدخلات في قاعدة البيانات.</string>
-    <string name="education_select_database_summary">لمتابعة استخدام قاعدة البيانات السابقة، افتحها من مدير الملفات.</string>
     <string name="enable_auto_save_database_summary">حفظ قاعدة البيانات بعد كل إجراء (في وضع \"التعديل\")</string>
     <string name="enable_auto_save_database_title">الحفظ التلقائي لقاعدة البيانات</string>
     <string name="delete_entered_password_title">احذف كلمة السر</string>
@@ -355,14 +338,6 @@
     <string name="autofill_application_id_blocklist_title">قائمة التطبيقات المحظورة</string>
     <string name="content_description_repeat_toggle_password_visibility">بدِّل ظهور كلمة السر</string>
     <string name="hide_expired_entries_summary">لن تعرض المدخلات منتهية الصلاحية</string>
-    <string name="education_read_only_summary">تغيير وضع الافتتاح للجلسة.
-\n
-\nيمنع \"محمي ضد الكتابة\" التغييرات غير المقصودة في قاعدة البيانات.
-\n\"قابل للتعديل\" يتيح لك إضافة أو حذف أو تعديل جميع العناصر كما تريد.</string>
-    <string name="education_read_only_title">احمي قاعدة البيانات من التعديل</string>
-    <string name="education_unlock_title">افتح قاعدة البيانات</string>
-    <string name="education_add_attachment_summary">أضف مرفقا للمدخلة لحفظ بيانات اضافية.</string>
-    <string name="education_add_attachment_title">أضف مرفقا</string>
     <string name="autofill_block">احظر الملء التلقائي</string>
     <string name="keyboard_previous_database_credentials_title">شاشة بيانات اعتماد قاعدة البيانات</string>
     <string name="keyboard_change">غيِّر لوحة المفاتيح</string>
@@ -395,7 +370,6 @@
     <string name="max_history_size_summary">حجم التأريخ لكل مدخل</string>
     <string name="max_history_size_title">الحجم الأقصى</string>
     <string name="max_history_items_summary">عدد عناصر التأريخ لكل مدخل</string>
-    <string name="education_generate_password_title">أنشئ كلمة سر قوية</string>
     <string name="save_mode">وضع الحفظ</string>
     <string name="search_mode">وضع البحث</string>
     <string name="version">النسخة</string>
@@ -469,7 +443,6 @@
     <string name="keyboard_auto_go_action_title">إجراء اللمس التلقائي</string>
     <string name="keyboard_previous_fill_in_title">العودة إلى الوراء</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>
-    <string name="education_advanced_unlock_title">فتح قاعدة بيانات الجهاز</string>
     <string name="hint_icon_name">اسم الأيقونة</string>
     <string name="autofill_manual_selection_title">اختيار يدوي</string>
     <string name="description_app_properties">خصائص KeePassDX لإدارة إعدادات التطبيقات</string>
@@ -494,7 +467,6 @@
     <string name="case_sensitive">حساسة لحالة الأحرف</string>
     <string name="regex">تعابير نمطية</string>
     <string name="enable_keep_screen_on_title">أبقِ الشاشة شغّالة</string>
-    <string name="enable_education_screens_summary">أبرز العناصر لتعلم طريقة عمل التطبيق</string>
     <string name="autofill_read_only_save">غير مسموح حفظ البيانات في قاعدة بيانات مفتوحة للقراءة فقط.</string>
     <string name="autofill_inline_suggestions_keyboard">أُضيف اقتراح ملء تلقائي.</string>
     <string name="keyboard_previous_database_credentials_summary">الرجوع للوحة المفاتيح السابقة تلقائيًا في شاشة بيانات اعتماد قاعدة البيانات</string>
@@ -526,15 +498,12 @@
     <string name="advanced_unlock_not_recognized">تعذر التعرف على طباعة فتح الجهاز</string>
     <string name="temp_advanced_unlock_enable_title">فتح جهاز مؤقت</string>
     <string name="autofill_inline_suggestions_title">اقتراحات مضمنة</string>
-    <string name="education_setup_OTP_summary">قم بإعداد إدارة كلمات المرور لمرة واحدة (HOTP / TOTP) لإنشاء رمز مميز مطلوب للمصادقة الثنائية (2FA).</string>
     <string name="education_field_copy_summary">يمكن لصق الحقول المنسوخة في أي مكان.
 \n
 \nاستخدم طريقة ملء النموذج التي تفضلها.</string>
     <string name="html_text_dev_feature_work_hard">نحن نعمل بجد لإصدار هذه الميزة بسرعة.</string>
     <string name="autofill_inline_suggestions_summary">حاول عرض اقتراحات الملء التلقائي مباشرة من لوحة مفاتيح متوافقة</string>
     <string name="delete_entered_password_summary">يحذف كلمة المرور التي تم إدخالها بعد محاولة الاتصال بقاعدة البيانات</string>
-    <string name="education_lock_summary">اقفل قاعدةبياناتك بسرعة، يمكنك إعداد التطبيق لقفلها بعد فترة، وعند إيقاف تشغيل الشاشة.</string>
-    <string name="education_sort_title">فرز العنصر</string>
     <string name="upload_attachment">رفع %1$s</string>
     <string name="download_canceled">ألغيت!</string>
     <string name="unit_kibibyte">كيلو بايت</string>
@@ -575,8 +544,6 @@
     <string name="templates_group_enable_summary">استخدم القوالب الديناميكية لملء حقول الإدخال</string>
     <string name="keyboard_auto_go_action_summary">إجراء مفتاح \"Go\" بعد الضغط على مفتاح \"Field\"</string>
     <string name="allow_no_password_summary">يسمح بالنقر فوق الزر \"فتح\" إذا لم يتم تحديد بيانات اعتماد</string>
-    <string name="education_generate_password_summary">أنشئ كلمة مرور قوية لربطها بإدخالك، وحددها بسهولة وفقًا لمعايير النموذج ولا تنس كلمة المرور الآمنة.</string>
-    <string name="education_setup_OTP_title">قم بإعداد OTP</string>
     <string name="style_brightness_title">سطوع السمة</string>
     <string name="word_separator">الفاصل</string>
     <string name="screenshot_mode_banner_text">وضع لقطة الشاشة</string>
@@ -594,7 +561,6 @@
     <string name="advanced_unlock_prompt_store_credential_title">رابط لفتح الجهاز</string>
     <string name="backspace">فراغ للخلف</string>
     <string name="enter">دخول</string>
-    <string name="education_sort_summary">اختر كيفية فرز الإدخالات والمجموعات.</string>
     <string name="html_text_feature_generosity">هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; متاح بفضل كرمك.</string>
     <string name="waiting_challenge_response">في انتظار استجابة التحدي…</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
@@ -657,14 +623,6 @@
     <string name="enable_screenshot_mode_summary">اسمح لتطبيقات الطرف الثالث بتسجيل أو التقاط لقطات شاشة للتطبيق</string>
     <string name="keyboard_save_search_info_summary">حاول حفظ المعلومات المشتركة عند إجراء اختيار إدخال يدوي لاستخدامات مستقبلية أسهل</string>
     <string name="education_entry_edit_summary">تحرير الإدخال الخاص بك مع الحقول المخصصة. يمكن الرجوع إلى بيانات التجمع بين حقول الإدخال المختلفة.</string>
-    <string name="education_validate_entry_title">تحقق من صحة الإدخال</string>
-    <string name="education_validate_entry_summary">تذكر التحقق من صحة الإدخال الخاص بك وحفظ قاعدة البيانات الخاصة بك.
-\n
-\nإذا تم تنشيط القفل التلقائي ونسيت أنك تجري تعديلاً، فإنك تخاطر بفقدان بياناتك.</string>
-    <string name="education_entry_new_field_summary">قم بتسجيل حقل إضافي، أضف قيمة وقم بحمايته بشكل اختياري.</string>
-    <string name="education_unlock_summary">أدخل كلمة المرور و/أو ملف المفتاح لفتح قاعدة بياناتك.
-\n
-\nقم بعمل نسخة احتياطية من ملف قاعدة البيانات في مكان آمن بعد كل تغيير.</string>
     <string name="html_text_dev_feature_thanks">شكرا جزيلا لمساهمتك.</string>
     <string name="at_least_one_char">على الأقل حرف واحد من كل منهما</string>
     <string name="html_text_dev_feature_upgrade">تذكر أن تحافظ على تحديث تطبيقك عن طريق تثبيت إصدارات جديدة.</string>

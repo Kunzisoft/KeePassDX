@@ -355,7 +355,6 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="device_keyboard_setting_title">Pengaturan papan tik perangkat</string>
-    <string name="education_add_attachment_title">Tambah lampiran</string>
     <string name="html_text_dev_feature_work_hard">Kami bekerja keras untuk merilis fitur ini segera.</string>
     <string name="icon_section_custom">Kustom</string>
     <string name="icon_section_standard">Standar</string>
@@ -369,19 +368,11 @@
     <string name="error_upload_file">Timbul galat saat mengunggah data berkas.</string>
     <string name="error_file_to_big">File yang Anda unggah terlalu besar.</string>
     <string name="content_description_otp_information">Info sandi satu kali</string>
-    <string name="education_select_database_title">Buka basis data yang sudah ada</string>
     <string name="enable_auto_save_database_title">Simpan otomatis basis data</string>
-    <string name="education_new_node_title">Tambah item ke basis data Anda</string>
-    <string name="education_entry_edit_title">Sunting entri</string>
-    <string name="education_create_database_title">Buat berkas basis data Anda</string>
     <string name="delete_entered_password_title">Hapus kata sandi</string>
-    <string name="education_sort_title">Pengurutan item</string>
     <string name="html_text_dev_feature_thanks">Terima kasih banyak atas kontribusinya.</string>
     <string name="html_text_dev_feature_contibute">Dengan &lt;strong&gt;berkontribusi&lt;/strong&gt;,</string>
-    <string name="education_lock_title">Kunci basis data</string>
-    <string name="education_unlock_title">Buka basis data Anda</string>
     <string name="education_field_copy_title">Salin bidang</string>
-    <string name="education_setup_OTP_title">Atur OTP</string>
     <string name="education_donation_title">Partisipasi</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Pengenalan pembuka kunci perangkat</string>
     <string name="advanced_unlock_prompt_store_credential_message">Anda masih perlu mengingat kredensial utama vault Anda jika Anda menggunakan pengenalan kunci perangkat.</string>
@@ -475,16 +466,10 @@
     <string name="biometric_delete_all_key_title">Hapus kunci enkripsi</string>
     <string name="temp_advanced_unlock_timeout_title">Kedaluwarsa pembuka kunci perangkat</string>
     <string name="templates_group_enable_summary">Gunakan templat dinamis untuk mengisi bidang entri</string>
-    <string name="education_read_only_summary">Ubah mode pembuka untuk sesi.
-\n
-\n\"Terlindungi-tulis\" mencegah perubahan tak diinginkan ke basis data.
-\n\"Bisa dimodifikasi\" memungkinkan Anda untuk menambah, menghapus, atau menyunting semua elemen yang Anda inginkan.</string>
     <string name="show_otp_token_summary">Tampilkan token OTP dalam daftar entri</string>
     <string name="html_text_buy_pro">Dengan membeli versi pro, Anda akan mendapatkan akses ke &lt;strong&gt;gaya visual &lt;/strong&gt; ini dan Anda akan terutama membantu &lt;strong&gt;realisasi proyek komunitas.&lt;/strong&gt;</string>
     <string name="clear_clipboard_notification_summary">Kunci basis data ketika durasi papan klip kedaluwarsa atau notifikasi ditutup setelah Anda mulai menggunakannya</string>
     <string name="allow_copy_password_warning">Peringatan: Papan klip dipakai oleh semua aplikasi. Jika data sensitif disalin, perangkat lunak lain mungkin dapat mendapatkannya.</string>
-    <string name="education_lock_summary">Kunci basis data Anda dengan cepat, Anda bisa mengatur aplikasi untuk mengunci sendiri setelah beberapa saat dan ketika layar berubah mati.</string>
-    <string name="education_sort_summary">Pilih bagaimana entri dan grup diurut.</string>
     <string name="warning_exact_alarm">Anda belum mengizinkan aplikasi untuk menggunakan alarm. Sebagai hasilnya, fitur yang membutuhkan timer tidak bisa dilakukan tepat waktu.</string>
     <string name="permission">Izin</string>
     <string name="settings_database_recommend_changing_master_key_title">Rekomendasi pembaruan</string>
@@ -529,7 +514,6 @@
     <string name="magic_keyboard_explanation_summary">Aktifkan keyboard kustom yang mengisi kata sandi Anda dan semua bidang identitas</string>
     <string name="autofill_manual_selection_title">Pemilihan manual</string>
     <string name="expired">Kadaluwarsa</string>
-    <string name="education_add_attachment_summary">Unggah lampiran ke entri Anda untuk menyimpan data eksternal penting.</string>
     <string name="content_description_passphrase_word_count">Jumlah kata frasa sandi</string>
     <string name="searchable">Dapat dicari</string>
     <string name="search_filters">Saringan pencarian</string>
@@ -549,20 +533,6 @@
     <string name="delete_entered_password_summary">Menghapus kata sandi yang dimasukkan setelah upaya koneksi ke basis data</string>
     <string name="enable_read_only_summary">Buka basis data baca-saja secara baku</string>
     <string name="enable_keep_screen_on_title">Biarkan layar nyala</string>
-    <string name="enable_education_screens_summary">Sorot elemen untuk mempelajari cara kerja aplikasi</string>
-    <string name="education_create_database_summary">Buat file pengelola kata sandi pertama Anda.</string>
-    <string name="education_new_node_summary">Entri membantu mengelola identitas digital Anda.
-\n
-\nGrup (~folder) mengatur entri dalam basis data Anda.</string>
-    <string name="education_search_summary">Masukkan judul, nama pengguna atau konten bidang lain untuk mengambil kata sandi Anda.</string>
-    <string name="education_advanced_unlock_title">Pembukaan kunci basis data perangkat</string>
-    <string name="education_advanced_unlock_summary">Tautkan kata sandi Anda ke kredensial biometrik atau perangkat yang dipindai untuk membuka kunci basis data Anda dengan cepat.</string>
-    <string name="education_entry_new_field_title">Tambahkan bidang kustom</string>
-    <string name="education_entry_new_field_summary">Daftarkan bidang tambahan, tambahkan nilai, dan lindungi secara opsional.</string>
-    <string name="education_setup_OTP_summary">Siapkan pengelola kata sandi satu kali (HOTP / TOTP) untuk menghasilkan token yang diminta untuk otentikasi dua faktor (2FA).</string>
-    <string name="education_unlock_summary">Masukkan kata sandi dan/atau berkas kunci untuk membuka basis data Anda.
-\n
-\nCadangkan file basis data Anda di tempat yang aman setelah setiap perubahan.</string>
     <string name="entropy">Entropi: %1$s bit</string>
     <string name="entropy_high">Entropi: Tinggi</string>
     <string name="entropy_calculate">Entropi: Hitung…</string>
@@ -582,12 +552,8 @@
     <string name="keyboard_previous_fill_in_title">Ganti kembali</string>
     <string name="keyboard_previous_lock_summary">Secara otomatis beralih kembali ke keyboard sebelumnya setelah mengunci basis data</string>
     <string name="autofill_inline_suggestions_summary">Coba tampilkan saran pengisian otomatis langsung dari keyboard yang kompatibel</string>
-    <string name="enable_education_screens_title">Petunjuk pendidikan</string>
-    <string name="education_select_database_summary">Buka file basis data Anda sebelumnya dari peramban file Anda untuk terus menggunakannya.</string>
     <string name="show_entry_colors_title">Warna entri</string>
     <string name="show_entry_colors_summary">Menampilkan warna latar depan dan latar belakang untuk sebuah entri</string>
-    <string name="reset_education_screens_title">Atur ulang petunjuk pendidikan</string>
-    <string name="reset_education_screens_summary">Tampilkan semua info pendidikan lagi</string>
     <string name="education_entry_edit_summary">Edit entri Anda dengan bidang kustom. Kumpulan data dapat dirujuk antara bidang entri yang berbeda.</string>
     <string name="navigation_drawer_open">Laci navigasi terbuka</string>
     <string name="navigation_drawer_close">Laci navigasi tertutup</string>
@@ -598,9 +564,6 @@
     <string name="menu_merge_from">Gabung dari …</string>
     <string name="menu_save_copy_to">Simpan sebuah salinan ke …</string>
     <string name="reset_education_screens_text">Atur ulang petunjuk pendidikan</string>
-    <string name="education_search_title">Cari melalui entri</string>
-    <string name="education_generate_password_title">Buat kata sandi yang kuat</string>
-    <string name="education_generate_password_summary">Buat kata sandi yang kuat untuk dikaitkan dengan entri Anda, tentukan dengan mudah sesuai dengan kriteria formulir dan jangan lupa kata sandi yang aman.</string>
     <string name="current_group">Grup saat ini</string>
     <string name="enable_auto_save_database_summary">Simpan basis data setelah setiap tindakan penting (dalam mode \"Bisa dimodifikasi\")</string>
     <string name="custom_data">Data kustom</string>
@@ -609,7 +572,6 @@
 \n
 \nBergantung pada implementasi API asli dari sistem operasi, mungkin tidak berfungsi penuh.
 \nPeriksa kompatibilitas dan keamanan KeyStore dengan produsen perangkat Anda dan pembuat ROM yang Anda gunakan.</string>
-    <string name="education_read_only_title">Lindungi basis data Anda dari penulisan</string>
     <string name="keyboard_save_search_info_summary">Coba simpan informasi terbagi ketika membuat sebuah pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
     <string name="enable_read_only_title">Terlindungi-tulis</string>
     <string name="enable_keep_screen_on_summary">Jaga layar tetap menyala saat melihat atau menyunting sebuah entri</string>
@@ -652,10 +614,6 @@
     <string name="configure">Atur</string>
     <string name="later">Nanti</string>
     <string name="unlock_and_link_biometric">Tautan buka kunci perangkat</string>
-    <string name="education_validate_entry_summary">Ingat untuk memvalidasi entri Anda dan simpan basis data Anda.
-\n
-\nJika penguncian otomatis diaktifkan dan Anda lupa bahwa Anda sedang membuat perubahan, Anda berisiko kehilangan data Anda.</string>
     <string name="menu_appearance_settings_summary">Tema, warna, atribut</string>
     <string name="unlock">Buka kunci</string>
-    <string name="education_validate_entry_title">Validasi entri</string>
 </resources>

@@ -101,9 +101,6 @@
     <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Pasirūpininkite, kad kelias būtų teisingas.</string>
-    <string name="education_unlock_summary">Įveskite slaptažodį ir/ar rakto failą, kad atrakintumėte savo duomenų bazę.
-\n
-\nSukurkite atsarginę duomenų bazės failo kopiją saugioje vietoje po kiekvieno pakeitimo.</string>
     <string name="clipboard_error">Kai kurie įrenginiai neleidžia programėlėms naudoti iškarpinės.</string>
     <string name="allow">Leisti</string>
     <string name="extended_ASCII">Išplėstas ASCII</string>
@@ -154,7 +151,6 @@
     <string name="error_create_database_file">Nepavyko sukurti duomenų bazes su šiuo slaptažodžiu ir rakto failu.</string>
     <string name="error_out_of_memory">Nėra atminties kad užkrauti visą jūsų duomenų bazę.</string>
     <string name="lock">Užrakinti</string>
-    <string name="education_unlock_title">Atrakinkite savo duomenų bazę</string>
     <string name="menu_lock">Užrakinti duomenų bazę</string>
     <string name="expired">Nebegalioja</string>
     <string name="select_to_copy">Pasirinkite kad kopijuoti %1$s į iškarpinę</string>

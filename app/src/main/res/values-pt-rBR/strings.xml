@@ -115,9 +115,6 @@
     <string name="unsupported_db_version">Versão de banco de dados não suportada.</string>
     <string name="uppercase">Letras maiúsculas</string>
     <string name="version_label">Versão %1$s</string>
-    <string name="education_unlock_summary">Entre com a senha e/ou com o caminho para o arquivo-chave do banco de dados.
-\n
-\nFaça um backup do banco em um lugar mais seguro depois de cada alteração.</string>
     <string-array name="list_size_options">
         <item>Pequeno</item>
         <item>Médio</item>
@@ -222,41 +219,12 @@
     <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" mesmo se nenhuma credencial for selecionada</string>
     <string name="enable_read_only_title">Somente leitura</string>
     <string name="enable_read_only_summary">Abre o banco de dados no modo somente leitura por padrão</string>
-    <string name="enable_education_screens_title">Dicas educacionais</string>
-    <string name="enable_education_screens_summary">Destaque os elementos para aprender como o aplicativo funciona</string>
-    <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
-    <string name="reset_education_screens_summary">Mostrar todas as informações educacionais novamente</string>
     <string name="reset_education_screens_text">Dicas educacionais redefinidas</string>
-    <string name="education_create_database_title">Crie um arquivo de banco de dados</string>
-    <string name="education_create_database_summary">Crie seu primeiro arquivo de gerenciamento de senhas.</string>
-    <string name="education_select_database_title">Abra um banco de dados existente</string>
-    <string name="education_select_database_summary">Abra seu arquivo de banco de dados existente a partir do navegador de arquivos.</string>
-    <string name="education_new_node_title">Adicione itens ao seu banco</string>
-    <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais.
-\n
-\nGrupos (~pastas) organizam suas entradas e seu banco de dados.</string>
-    <string name="education_search_title">Pesquise suas entradas</string>
-    <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas senhas.</string>
-    <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
-    <string name="education_generate_password_title">Criar uma senha forte</string>
-    <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e lembre-se de torná-la segura.</string>
-    <string name="education_entry_new_field_title">Adicione campos customizados</string>
-    <string name="education_entry_new_field_summary">Registre um campo adicional, adicione um valor e, opcionalmente, proteja-o.</string>
-    <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
-    <string name="education_read_only_title">Proteja seu banco de modificações</string>
-    <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
-\n
-\n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados.
-\n\"Modificável\" permite você adicionar, excluir ou modificar todos os elementos que desejar.</string>
     <string name="education_field_copy_title">Copiar um campo</string>
     <string name="education_field_copy_summary">Campos copiados podem ser colados em qualquer lugar. 
 \n 
 \nUse a forma de preenchimento de formulário que preferir.</string>
-    <string name="education_lock_title">Bloqueie o banco de dados</string>
-    <string name="education_lock_summary">Bloqueie seu banco de dados rapidamente, você pode parametrizar o aplicativo para bloqueá-lo depois de um tempo, e quando a tela se apaga.</string>
-    <string name="education_sort_title">Ordenação de itens</string>
-    <string name="education_sort_summary">Escolha como entradas e grupos são ordenados.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
     <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;livre de direitos autorais&lt;/strong&gt; e não coleta dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
@@ -403,8 +371,6 @@
     <string name="download_progression">Em progresso: %1$d%%</string>
     <string name="download_initialization">Inicializando…</string>
     <string name="download_attachment">Baixar %1$s</string>
-    <string name="education_setup_OTP_summary">Configure o gerenciamento de senha descartável (HOTP / TOTP) para gerar um token solicitado para autenticação de dois fatores (2FA).</string>
-    <string name="education_setup_OTP_title">Configurar OTP</string>
     <string name="keyboard_auto_go_action_summary">Ação da tecla \"Ir\" após pressionar a tecla \"Campo\"</string>
     <string name="keyboard_auto_go_action_title">Ação de tecla automática</string>
     <string name="lock_database_show_button_summary">Mostrar o botão de bloqueio na interface do usuário</string>
@@ -431,8 +397,6 @@
     <string name="keyboard_previous_fill_in_title">Mudar de volta</string>
     <string name="warning_remove_unlinked_attachment">A remoção de dados não vinculados pode diminuir o tamanho do seu banco de dados, mas também pode excluir os dados usados para plug-ins KeePass.</string>
     <string name="warning_replace_file">O upload deste arquivo substituirá o existente.</string>
-    <string name="education_add_attachment_summary">Carregar um anexo em sua entrada para salvar dados externos importantes.</string>
-    <string name="education_add_attachment_title">Adicionar anexo</string>
     <string name="autofill_block">Bloquear preenchimento automático</string>
     <string name="autofill_web_domain_blocklist_summary">Lista de bloqueio para impedir o preenchimento automático em domínios da web</string>
     <string name="autofill_web_domain_blocklist_title">Lista de bloqueio de domínio da web</string>
@@ -544,8 +508,6 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Cancelado!</string>
-    <string name="education_advanced_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
-    <string name="education_advanced_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
     <string name="autofill_read_only_save">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
@@ -671,13 +633,9 @@
     <string name="unlock_and_link_biometric">Link de desbloqueio do dispositivo</string>
     <string name="menu_appearance_settings_summary">Temas, cores, atributos</string>
     <string name="unlock">Desbloquear</string>
-    <string name="education_validate_entry_title">Validar a entrada</string>
     <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propriedades</string>
     <string name="warning_database_notification_permission">A permissão de notificação permite exibir o status do banco de dados e bloqueá-lo com um botão de fácil acesso.
 \n
 \nSe você não ativar essa permissão, o banco de dados aberto em segundo plano não ficará visível se outro aplicativo estiver em primeiro plano.</string>
-    <string name="education_validate_entry_summary">Lembre-se de validar sua entrada e salvar seu banco de dados.
-\n
-\nSe um bloqueio automático for ativado e você esquecer que estava fazendo uma modificação, você corre o risco de perder seus dados.</string>
     <string name="menu_form_filling_settings_summary">Teclado, preenchimento automático, área de transferência</string>
 </resources>

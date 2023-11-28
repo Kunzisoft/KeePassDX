@@ -55,7 +55,6 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
-import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -88,8 +87,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private var openDatabaseButtonView: View? = null
 
     private val databaseFilesViewModel: DatabaseFilesViewModel by viewModels()
-
-    private val mFileDatabaseSelectActivityEducation = FileDatabaseSelectActivityEducation(this)
 
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
@@ -394,41 +391,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             MenuUtil.defaultMenuInflater(this, menuInflater, menu)
         }
 
-        Handler(Looper.getMainLooper()).post {
-            performedNextEducation()
-        }
-
         return true
-    }
-
-    private fun performedNextEducation() {
-        // If no recent files
-        val createDatabaseEducationPerformed =
-                createDatabaseButtonView != null
-                && createDatabaseButtonView!!.visibility == View.VISIBLE
-                && mFileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
-                        createDatabaseButtonView!!,
-                {
-                    createNewFile()
-                },
-                {
-                    // But if the user cancel, it can also select a database
-                    performedNextEducation()
-                })
-        if (!createDatabaseEducationPerformed) {
-            // selectDatabaseEducationPerformed
-            openDatabaseButtonView != null
-            && mFileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                openDatabaseButtonView!!,
-            { tapTargetView ->
-                tapTargetView?.let {
-                    mExternalFileHelper?.openDocument()
-                }
-            },
-            {
-
-            })
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

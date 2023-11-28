@@ -116,9 +116,6 @@
     <string name="unsupported_db_version">Versió de la base de dades no suportada.</string>
     <string name="uppercase">Majúscules</string>
     <string name="version_label">Versió %1$s</string>
-    <string name="education_unlock_summary">Introduïu una contrasenya i/o un fitxer de clau per a desblocar la base de dades.
-\n
-\nFeu una còpia de seguretat del fitxer de base de dades en un lloc segur després de cada modificació.</string>
     <string-array name="list_size_options">
         <item>Petita</item>
         <item>Mitjana</item>
@@ -294,7 +291,6 @@
     <string name="error_load_database_KDF_memory">No s’ha pogut carregar la clau. Proveu de reduir l’«Ús de memòria» del KDF.</string>
     <string name="error_word_reserved">Aquesta paraula està reservada i no es pot usar.</string>
     <string name="error_invalid_OTP">El secret OTP no és vàlid.</string>
-    <string name="education_read_only_title">Protecció contra escriptura de la base de dades</string>
     <string name="education_donation_summary">Ajudeu a augmentar l’estabilitat i la seguretat i a crear més funcionalitats.</string>
     <string name="education_donation_title">Participació</string>
     <string name="html_text_dev_feature_buy_pro">En comprar la versió &lt;strong&gt;professional&lt;/strong&gt;,</string>
@@ -304,7 +300,6 @@
     <string name="content_description_otp_information">Informació de contrasenya d\'únic ús</string>
     <string name="content_description_credentials_information">Informació de credencials</string>
     <string name="content_description_add_item">Afegeix un element</string>
-    <string name="education_lock_title">Bloca la base de dades</string>
     <string name="html_text_feature_generosity">Aquest &lt;strong&gt;estil visual&lt;/strong&gt; és disponible gràcies a la vostra generositat.</string>
     <string name="html_text_dev_feature_upgrade">No us oblideu de mantenir l’aplicació actualitzada instal·lant les versions noves.</string>
     <string name="icon_section_standard">Estàndard</string>

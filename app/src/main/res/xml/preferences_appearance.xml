@@ -103,16 +103,6 @@
             android:title="@string/hide_expired_entries_title"
             android:summary="@string/hide_expired_entries_summary"
             android:defaultValue="@bool/hide_expired_entries_default"/>
-        <SwitchPreferenceCompat
-            android:key="@string/enable_education_screens_key"
-            android:title="@string/enable_education_screens_title"
-            android:summary="@string/enable_education_screens_summary"
-            android:defaultValue="@bool/enable_education_screens_default"/>
-        <Preference
-            android:key="@string/reset_education_screens_key"
-            android:title="@string/reset_education_screens_title"
-            android:summary="@string/reset_education_screens_summary"/>
-
     </PreferenceCategory>
 
 </PreferenceScreen>

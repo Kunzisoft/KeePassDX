@@ -115,9 +115,6 @@
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Великі літери</string>
     <string name="version_label">Версія %1$s</string>
-    <string name="education_unlock_summary">Введіть пароль та/або файл ключа, щоб відкрити базу даних. 
-\n 
-\nСтворюйте резервну копію файлу бази даних після кожної внесеної зміни та зберігайте її у безпечному місці.</string>
     <string-array name="list_size_options">
         <item>Малий</item>
         <item>Середній</item>
@@ -267,45 +264,14 @@
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
     <string name="education_donation_summary">Допоможіть покращити стабільність, безпеку та додати нові функції.</string>
     <string name="education_donation_title">Долучайтеся</string>
-    <string name="education_sort_summary">Виберіть спосіб впорядкування записів і груп.</string>
-    <string name="education_sort_title">Впорядкуйте елементи</string>
-    <string name="education_lock_summary">Швидко блокуйте вашу базу даних, ви можете налаштувати блокування програми через деякий час або коли вимикається екран.</string>
-    <string name="education_lock_title">Заблокуйте базу даних</string>
     <string name="education_field_copy_summary">Скопійовані поля можна вставити будь-куди.
 \n
 \nКористуйтеся вибраним вами способом заповнення форм.</string>
     <string name="education_field_copy_title">Копіюйте поля</string>
-    <string name="education_read_only_summary">Змініть режим сеансу.
-\n
-\n«Захист від запису» запобігає внесенню випадкових змін до бази даних.
-\n«Дозволити зміни» дозволяє додавати, видаляти чи змінювати будь-які елементи.</string>
     <string name="enable_auto_save_database_summary">Зберігати базу даних після кожної важливої дії (у режимі «Дозволити зміни»)</string>
-    <string name="education_read_only_title">Захистіть вашу базу даних від запису</string>
-    <string name="education_unlock_title">Розблокуйте вашу базу даних</string>
-    <string name="education_setup_OTP_summary">Налаштуйте керування одноразовими паролями (HOTP / TOTP) для генерування токенів, необхідних для двофакторної автентифікації (2FA).</string>
-    <string name="education_setup_OTP_title">Встановіть OTP</string>
-    <string name="education_entry_new_field_summary">Створюйте додаткові поля вводу, додавайте до них вміст та, за потреби, захистіть їх.</string>
-    <string name="education_entry_new_field_title">Додавайте власні поля вводу</string>
-    <string name="education_generate_password_summary">Створіть надійний пароль для вашого запису, легко налаштовуйте критерії його створення та не забувайте про захист головним паролем.</string>
-    <string name="education_generate_password_title">Створіть надійний пароль</string>
     <string name="education_entry_edit_summary">Додавайте власні поля до записів. Дані полів різних записів можна повʼязувати між собою.</string>
-    <string name="education_entry_edit_title">Змінюйте записи</string>
-    <string name="education_search_summary">Введіть назву, ім\'я користувача або вміст інших полів для пошуку паролів.</string>
-    <string name="education_search_title">Шукайте поміж записів</string>
-    <string name="education_new_node_summary">Створюйте записи для керування вашими обліковими записами.
-\n
-\nСтворюйте групи (~теки) для впорядкування записів у вашій базі даних.</string>
     <string name="device_keyboard_setting_title">Налаштування клавіатури пристрою</string>
-    <string name="education_new_node_title">Додавайте елементи до вашої бази даних</string>
-    <string name="education_select_database_title">Відкрийте наявну базу даних</string>
-    <string name="education_select_database_summary">Відкрийте файл раніше створеної бази даних з файлового менеджера, щоб продовжити користуватися ним.</string>
-    <string name="education_create_database_summary">Створіть ваш перший файл керування паролями.</string>
-    <string name="education_create_database_title">Створити файл бази даних</string>
     <string name="reset_education_screens_text">Скинути навчальні підказки</string>
-    <string name="reset_education_screens_summary">Показати всі навчальні підказки знову</string>
-    <string name="reset_education_screens_title">Скидання навчальних підказок</string>
-    <string name="enable_education_screens_summary">Виділяти елементи, щоб дізнатися, як працює застосунок</string>
-    <string name="enable_education_screens_title">Навчальні підказки</string>
     <string name="enable_auto_save_database_title">Автозбереження бази даних</string>
     <string name="enable_read_only_summary">Типово відкривати базу даних лише для читання</string>
     <string name="enable_read_only_title">Захист від запису</string>
@@ -445,9 +411,7 @@
     <string name="warning_file_too_big">База даних KeePass має містити лише невеликі файли утиліт (наприклад, файли ключів PGP).
 \n
 \nЧерез це завантаження, база даних може стати завеликою, що уповільнить роботу.</string>
-    <string name="education_add_attachment_summary">Завантажте вкладення до запису, щоб зберегти важливі зовнішні дані.</string>
     <string name="upload_attachment">Завантажити %1$s</string>
-    <string name="education_add_attachment_title">Додати вкладення</string>
     <string name="warning_sure_add_file">Все одно додати файл\?</string>
     <string name="warning_replace_file">Завантаження цього файлу замінить наявний.</string>
     <string name="content_description_credentials_information">Відомості про облікові дані</string>
@@ -501,8 +465,6 @@
     <string name="custom_fields">Власні поля</string>
     <string name="advanced_unlock_timeout">Час дії розблокування пристрою</string>
     <string name="temp_advanced_unlock_timeout_title">Час дії розблокування пристрою</string>
-    <string name="education_advanced_unlock_summary">Пов’яжіть свій пароль зі сканованими біометричними даними або даними пристрою, щоб швидко розблокувати базу даних.</string>
-    <string name="education_advanced_unlock_title">Розблокування бази даних пристроєм</string>
     <string name="temp_advanced_unlock_timeout_summary">Тривалість використання розблокування пристрою перед видаленням його вмісту</string>
     <string name="temp_advanced_unlock_enable_summary">Не зберігати зашифрований вміст для використання розблокування пристрою</string>
     <string name="temp_advanced_unlock_enable_title">Тимчасове розблокування пристрою</string>
@@ -673,10 +635,6 @@
     <string name="unlock_and_link_biometric">Посилання для розблокування пристрою</string>
     <string name="menu_appearance_settings_summary">Теми, кольори, атрибути</string>
     <string name="unlock">Розблокувати</string>
-    <string name="education_validate_entry_title">Перевірте запис</string>
-    <string name="education_validate_entry_summary">Не забувайте перевірити свій запис і зберегти базу даних.
-\n
-\nЯкщо активовано автоблокування і ви забудете, що вносили зміни, ви ризикуєте втратити свої дані.</string>
     <string name="warning_database_notification_permission">Дозвіл на сповіщення дозволяє показувати стан бази даних і блокувати її за допомогою легкодоступної кнопки.
 \n
 \nЯкщо ви не активуєте цей дозвіл відкриту у фоновому режимі базу даних не буде видно, якщо на передньому плані інший застосунок.</string>

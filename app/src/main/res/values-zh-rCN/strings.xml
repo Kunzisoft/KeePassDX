@@ -113,9 +113,6 @@
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
-    <string name="education_unlock_summary">输入密码和/或密钥文件来解锁你的数据库。
-\n 
-\n记得在每次做出更改后，将数据库文件备份至安全的地方。</string>
     <string-array name="list_size_options">
         <item>小</item>
         <item>中</item>
@@ -250,41 +247,12 @@
     <string name="keyboard_key_sound_title">按键声音</string>
     <string name="allow_no_password_title">允许主密钥为空</string>
     <string name="allow_no_password_summary">如果没有凭证被选中，允许轻按“打开”按钮</string>
-    <string name="enable_education_screens_title">新手引导</string>
-    <string name="enable_education_screens_summary">高亮界面元素来学习本应用工作方式</string>
-    <string name="reset_education_screens_title">重置新手引导</string>
-    <string name="reset_education_screens_summary">再次显示全部新手引导信息</string>
     <string name="reset_education_screens_text">新手引导重置</string>
-    <string name="education_create_database_title">新建数据库</string>
-    <string name="education_create_database_summary">新建第一个密码管理数据库。</string>
-    <string name="education_select_database_title">打开已有数据库</string>
-    <string name="education_select_database_summary">打开已有数据库并使用其中的密码。</string>
-    <string name="education_new_node_title">向数据库添加项目</string>
-    <string name="education_new_node_summary">这些条目帮助管理数字化身份。
-\n
-\n还可以使用群组来管理数据库中的条目。</string>
-    <string name="education_search_title">搜索条目</string>
-    <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
-    <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
-    <string name="education_generate_password_title">新建一个强密码</string>
-    <string name="education_generate_password_summary">依据表单中的标准进行简单的定义，随机为该条目生成一个强密码，不在担心忘记安全密码。</string>
-    <string name="education_entry_new_field_title">添加自定义字段</string>
-    <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
-    <string name="education_unlock_title">解锁数据库</string>
-    <string name="education_read_only_title">数据库启用写入保护（只读）</string>
-    <string name="education_read_only_summary">更改此会话的打开模式。
-\n
-\n“写入保护（只读）”可防止对数据库的意外更改。
-\n“可编辑”允许您随心所欲地添加、删除或者修改所有元素。</string>
     <string name="education_field_copy_title">复制字段</string>
     <string name="education_field_copy_summary">已复制的字段可以粘贴到任何地方。
 \n
 \n选择需要的填写方式。</string>
-    <string name="education_lock_title">锁定数据库</string>
-    <string name="education_lock_summary">可以设置在无操作和屏幕关闭的时候，锁定数据库。</string>
-    <string name="education_sort_title">条目排序</string>
-    <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
     <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
@@ -414,8 +382,6 @@
     <string name="hide_broken_locations_title">隐藏已损坏的数据库路径</string>
     <string name="hide_broken_locations_summary">在最近的数据库列表中隐藏已损坏的数据库的链接</string>
     <string name="warning_database_read_only">授予软件文件读写访问权限以保存数据库更改</string>
-    <string name="education_setup_OTP_summary">设置一次性密码管理（HOTP / TOTP）以生成请求的用于双因素身份验证（2FA）的令牌。</string>
-    <string name="education_setup_OTP_title">设置一次性密码</string>
     <string name="discard">丢弃</string>
     <string name="error_create_database">无法创建数据库文件。</string>
     <string name="entry_add_attachment">添加附件</string>
@@ -443,8 +409,6 @@
     <string name="keyboard_previous_database_credentials_summary">如果显示数据库凭据屏幕，则自动返回到上一个键盘</string>
     <string name="keyboard_change">切换键盘</string>
     <string name="upload_attachment">上传 %1$s</string>
-    <string name="education_add_attachment_summary">将附件上传到您的条目以保存重要的外部数据。</string>
-    <string name="education_add_attachment_title">添加附件</string>
     <string name="warning_sure_add_file">不论如何都要添加这个文件吗？</string>
     <string name="warning_replace_file">上载此文件将替换现有文件。</string>
     <string name="warning_file_too_big">KeePass数据库应该只包含小的实用程序文件(例如PGP密钥文件)。
@@ -499,8 +463,6 @@
     <string name="select_entry">选择条目</string>
     <string name="back_to_previous_keyboard">回到先前的键盘</string>
     <string name="custom_fields">自定义字段</string>
-    <string name="education_advanced_unlock_summary">将您的密码连接到您扫描的生物特征或设备凭据，以快速解锁您的数据库。</string>
-    <string name="education_advanced_unlock_title">设备数据库解锁</string>
     <string name="advanced_unlock_timeout">设备解锁超时</string>
     <string name="temp_advanced_unlock_timeout_summary">设备解锁使用持续多久后删除其内容</string>
     <string name="temp_advanced_unlock_timeout_title">设备解锁过期</string>
@@ -671,13 +633,9 @@
     <string name="unlock_and_link_biometric">设备解锁链接</string>
     <string name="menu_appearance_settings_summary">主题、颜色、属性</string>
     <string name="unlock">解锁</string>
-    <string name="education_validate_entry_title">验证条目</string>
     <string name="warning_database_notification_permission">通知权限允许展示数据库状态并通过可以轻松访问的按钮锁定它。
 \n
 \n如未授予此权限，那么在前台存在另一个程序情况下，后台打开的数据库将不可见。</string>
     <string name="warning_copy_permission">必须授予通知权限才能使用剪贴板通知功能。</string>
     <string name="ask">询问</string>
-    <string name="education_validate_entry_summary">记得验证你的条目并保存你的数据库。
-\n
-\n如果激活了自动锁定，且你忘了你正在进行更改，你可能失去你的数据。</string>
 </resources>

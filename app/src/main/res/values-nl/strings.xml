@@ -117,9 +117,6 @@
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>
     <string name="uppercase">Hoofdletters</string>
     <string name="version_label">Versie %1$s</string>
-    <string name="education_unlock_summary">Voer het wachtwoord en/of sleutelbestand in om je database te ontgrendelen. 
-\n 
-\nMaak na elke aanpassing een kopie van je .kdbx-bestand op een veilige locatie.</string>
     <string-array name="list_size_options">
         <item>Klein</item>
         <item>Medium</item>
@@ -230,41 +227,12 @@
     <string name="allow_no_password_summary">Schakel de knop \"Openen\" in als er geen referenties zijn geselecteerd</string>
     <string name="enable_read_only_title">Alleen-lezen</string>
     <string name="enable_read_only_summary">Open de database standaard alleen-lezen</string>
-    <string name="enable_education_screens_title">Informatieve tips</string>
-    <string name="enable_education_screens_summary">Markeer elementen om te leren hoe de app werkt</string>
-    <string name="reset_education_screens_title">Informatieve tips opnieuw instellen</string>
-    <string name="reset_education_screens_summary">Informatieve tips opnieuw tonen</string>
     <string name="reset_education_screens_text">Informatieve tips opnieuw ingesteld</string>
-    <string name="education_create_database_title">Maak je databasebestand aan</string>
-    <string name="education_create_database_summary">Maak je eerste wachtwoordbeheerbestand aan.</string>
-    <string name="education_select_database_title">Open een bestaande database</string>
-    <string name="education_select_database_summary">Open vanuit je bestandsverkenner een bestaande database om dit verder te gebruiken.</string>
-    <string name="education_new_node_title">Voeg items toe aan de database</string>
-    <string name="education_new_node_summary">Items helpen om je digitale identiteiten te beheren. 
-\n 
-\nGroepen (~mappen) organiseren de items in je database.</string>
-    <string name="education_search_title">Doorzoek al je items</string>
-    <string name="education_search_summary">Doorzoek items op titel, gebruikersnaam of andere velden om wachtwoorden te vinden.</string>
-    <string name="education_entry_edit_title">Item bewerken</string>
     <string name="education_entry_edit_summary">Bewerk het item met aangepaste velden. Referenties kunnen worden toegevoegd tussen velden van verschillende items.</string>
-    <string name="education_generate_password_title">Genereer een sterk wachtwoord</string>
-    <string name="education_generate_password_summary">Genereer een sterk wachtwoord om aan het item te koppelen, definieer het eenvoudig volgens de criteria van het formulier en vergeet het veilige wachtwoord niet.</string>
-    <string name="education_entry_new_field_title">Aangepaste velden toevoegen</string>
-    <string name="education_entry_new_field_summary">Registreer een extra veld, voeg een waarde toe en bescherm dit desgewenst.</string>
-    <string name="education_unlock_title">Ontgrendel je database</string>
-    <string name="education_read_only_title">Database alleen-lezen</string>
-    <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie.
-\n
-\nIn alleen-lezenmodus kunnen geen onbedoelde wijzigingen worden gemaakt.
-\nIn schrijfmodus kun je naar wens elementen toevoegen, verwijderen of aanpassen.</string>
     <string name="education_field_copy_title">Veld kopiëren toestaan</string>
     <string name="education_field_copy_summary">Kopieer een veld en plak de inhoud waar je maar wilt.
 \n
 \nJe kunt verschillende formulier-invulmethodes gebruiken; kies je voorkeursmethode.</string>
-    <string name="education_lock_title">Database vergrendelen</string>
-    <string name="education_lock_summary">Database snel vergrendelen. Je kunt de app zo instellen dat deze na een tijdje wordt vergrendeld en wanneer het scherm wordt uitgeschakeld.</string>
-    <string name="education_sort_title">Items sorteren</string>
-    <string name="education_sort_summary">Kies hoe items en groepen worden gesorteerd.</string>
     <string name="education_donation_title">Bijdragen</string>
     <string name="education_donation_summary">Draag bij om de stabiliteit en veiligheid te vergroten en door meer functies toe te voegen.</string>
     <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht de versie die je gebruikt.</string>
@@ -386,7 +354,6 @@
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Toetsenbordinstellingen</string>
     <string name="enable_auto_save_database_summary">Sla de database op na elke belangrijke actie (in \"Schrijf\" modus)</string>
-    <string name="education_setup_OTP_title">OTP instellen</string>
     <string name="remember_keyfile_locations_title">Locatie van sleutelbestanden opslaan</string>
     <string name="remember_database_locations_title">Databaselocaties opslaan</string>
     <string name="hide_expired_entries_summary">Verlopen items worden niet getoond</string>
@@ -396,7 +363,6 @@
     <string name="download_progression">Voortgang: %1$d%%</string>
     <string name="download_initialization">Initialiseren…</string>
     <string name="download_attachment">Download %1$s</string>
-    <string name="education_setup_OTP_summary">Stel eenmalig wachtwoordbeheer (HOTP / TOTP) in om een token te genereren voor tweefactorauthenticatie (2FA).</string>
     <string name="enable_auto_save_database_title">Automatisch opslaan</string>
     <string name="recycle_bin_group_title">Prullenbak-groep</string>
     <string name="lock_database_show_button_summary">Toont de vergrendelknop in de gebruikersinterface</string>
@@ -445,8 +411,6 @@
     <string name="keyboard_previous_database_credentials_title">Scherm Databasereferenties</string>
     <string name="keyboard_change">Toetsenbord wisselen</string>
     <string name="upload_attachment">Upload %1$s</string>
-    <string name="education_add_attachment_summary">Voeg een bijlage toe aan dit item om belangrijke externe gegevens op te slaan.</string>
-    <string name="education_add_attachment_title">Bijlage toevoegen</string>
     <string name="warning_sure_add_file">Het bestand toch toevoegen\?</string>
     <string name="warning_file_too_big">Een KeePass database is bedoeld om alleen kleine gebruiksbestanden te bevatten (zoals PGP sleutelbestanden).
 \n
@@ -481,8 +445,6 @@
     <string name="save_mode">Veilige modus</string>
     <string name="search_mode">Zoekmodus</string>
     <string name="error_registration_read_only">Het opslaan van een nieuw item is niet toegestaan in een alleen-lezen database</string>
-    <string name="education_advanced_unlock_summary">Koppel je wachtwoord aan je gescande biometrische gegevens of apparaatreferentie om je database snel te ontgrendelen.</string>
-    <string name="education_advanced_unlock_title">Apparaat-ontgrendeling database</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Item selecteren</string>
@@ -677,9 +639,5 @@
 \n
 \nAls u deze toestemming niet verleent, is de database die op de achtergrond is geopend niet zichtbaar als er een andere applicatie op de voorgrond staat.</string>
     <string name="unlock_and_link_biometric">Apparaat-ontgrendelingslink</string>
-    <string name="education_validate_entry_summary">Vergeet niet om de invoer te valideren en de database op te slaan.
-\n
-\nWanneer automatische vergrendeling is geactiveerd en u vergeet dat u een wijziging aan het aanbrengen was, dan loopt u het risico gegevens te verliezen.</string>
     <string name="unlock">Ontgrendelen</string>
-    <string name="education_validate_entry_title">Invoer valideren</string>
 </resources>

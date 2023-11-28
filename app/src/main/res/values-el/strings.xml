@@ -126,9 +126,6 @@
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>
     <string name="version_label">Έκδοση %1$s</string>
-    <string name="education_unlock_summary">Καταχωρίστε τον κωδικό πρόσβασης και /ή το αρχείο-κλειδί για να ξεκλειδώσετε τη βάση δεδομένων σας.
-\n
-\nΔημιουργήστε αντίγραφα ασφαλείας του αρχείου βάσης δεδομένων σας, σε ασφαλές μέρος μετά από κάθε αλλαγή.</string>
     <string-array name="list_size_options">
         <item>Μικρά</item>
         <item>Μεσαία</item>
@@ -198,34 +195,12 @@
     <string name="other">Άλλα</string>
     <string name="keyboard">Πληκτρολόγιο</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="reset_education_screens_title">Επαναφορά εκπαιδευτικών υποδείξεων</string>
-    <string name="reset_education_screens_summary">Εμφάνιση όλων των εκπαιδευτικών πληροφοριών ξανά</string>
     <string name="reset_education_screens_text">Επαναφορά εκπαιδευτικών υποδείξεων</string>
-    <string name="education_create_database_title">Δημιουργήστε το αρχείο της βάσης δεδομένων σας</string>
-    <string name="education_create_database_summary">Δημιουργήστε το πρώτο αρχείο διαχείρισης κωδικού πρόσβασης.</string>
-    <string name="education_select_database_title">Ανοίξτε μια υπάρχουσα βάση δεδομένων</string>
-    <string name="education_select_database_summary">Ανοίξτε το πρόσφατο αρχείο βάσης δεδομένων από το πρόγραμμα περιήγησης αρχείων για να συνεχίσετε να το χρησιμοποιείτε.</string>
-    <string name="education_new_node_title">Προσθέστε στοιχεία στη βάση δεδομένων σας</string>
-    <string name="education_new_node_summary">Οι καταχωρίσεις σας βοηθούν να διαχειριστείτε τις ψηφιακές σας ταυτότητες. 
-\n 
-\nΟι ομάδες (~φάκελοι) οργανώνουν καταχωρήσεις στη βάση δεδομένων σας.</string>
-    <string name="education_search_title">Αναζήτηση μέσα στις καταχωρήσεις</string>
-    <string name="education_search_summary">Εισαγάγετε τον τίτλο, το όνομα χρήστη ή το περιεχόμενο άλλων πεδίων για να ανακτήσετε τους κωδικούς πρόσβασής σας.</string>
-    <string name="education_entry_edit_title">Επεξεργαστείτε την καταχώρηση</string>
     <string name="education_entry_edit_summary">Επεξεργαστείτε την καταχώρηση σας με προσαρμοσμένα πεδία. Τα Pool data μπορούν να αναφέρονται μεταξύ διαφορετικών πεδίων εισαγωγής.</string>
-    <string name="education_generate_password_title">Δημιουργήστε έναν ισχυρό κωδικό πρόσβασης</string>
-    <string name="education_generate_password_summary">Δημιουργήστε έναν ισχυρό κωδικό πρόσβασης για να συσχετιστεί με την καταχώρισή σας, ορίστε τον εύκολα σύμφωνα με τα κριτήρια της φόρμας και μην ξεχνάτε τον ασφαλή κωδικό πρόσβασης.</string>
-    <string name="education_entry_new_field_title">Προσθέστε προσαρμοσμένα πεδία</string>
-    <string name="education_entry_new_field_summary">Καταχωρήστε ένα επιπλέον πεδίο, προσθέστε μια τιμή και προαιρετικά προστατεύστε το.</string>
-    <string name="education_unlock_title">Ξεκλειδώστε τη βάση δεδομένων σας</string>
     <string name="education_field_copy_title">Αντιγράψτε ένα πεδίο</string>
     <string name="education_field_copy_summary">Τα πεδία αντιγραφής μπορούν να επικολληθούν οπουδήποτε.
 \n
 \nΧρησιμοποιήστε τη μέθοδο συμπλήρωσης φόρμας που προτιμάτε.</string>
-    <string name="education_lock_title">Κλειδώστε τη βάση δεδομένων</string>
-    <string name="education_lock_summary">Κλείδώστε γρήγορα τη βάση δεδομένων σας, μπορείτε να ρυθμίσετε την εφαρμογή να την κλειδώνει μετά από λίγο και όταν η οθόνη σβήσει.</string>
-    <string name="education_sort_title">Ταξινόμηση Στοιχείων</string>
-    <string name="education_sort_summary">Επιλέξτε τον τρόπο ταξινόμησης καταχωρήσεων και ομάδων.</string>
     <string name="education_donation_title">Συμμετοχή</string>
     <string name="education_donation_summary">Βοηθήστε να αυξήσετε τη σταθερότητα, την ασφάλεια και την προσθήκη περισσότερων λειτουργιών.</string>
     <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτή είναι &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;, &lt;strong&gt;copylefted libre λογισμικό&lt;/strong&gt; και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές της, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
@@ -250,17 +225,10 @@
     <string name="allow_copy_password_warning">Προειδοποίηση: Το πρόχειρο μοιράζεται από όλες τις εφαρμογές. Αν αντιγράφονται ευαίσθητα δεδομένα, άλλο λογισμικό μπορεί να το ανακτήσει.</string>
     <string name="allow_no_password_title">Να μην επιτρέπεται κανένα κύριο κλειδί</string>
     <string name="allow_no_password_summary">Επιτρέπει το πάτημα του κουμπιού \"Άνοιγμα\" εάν δεν έχουν επιλεγεί διαπιστευτήρια</string>
-    <string name="enable_education_screens_title">Εκπαιδευτικές συμβουλές</string>
-    <string name="enable_education_screens_summary">Επισήμανση στοιχείων για να μάθετε πώς λειτουργεί η εφαρμογή</string>
     <string name="menu_file_selection_read_only">Προστασία εγγραφής</string>
     <string name="menu_open_file_read_and_write">Τροποποιήσιμο</string>
     <string name="enable_read_only_title">Προστασία Εγγραφής</string>
     <string name="enable_read_only_summary">Ανοίξτε τη βάση δεδομένων μόνο για ανάγνωση από προεπιλογή</string>
-    <string name="education_read_only_title">Προστασία Εγγραφής της βάσης δεδομένων σας</string>
-    <string name="education_read_only_summary">Αλλάξτε τη λειτουργία ανοίγματος για το session.
-\n
-\nΤο \"Προστατευμένο από εγγραφή\" αποτρέπει τυχόν μη επιθυμητές αλλαγές στη βάση δεδομένων.
-\nΤο \"Τροποποιητικό\" σάς επιτρέπει να προσθέσετε, να διαγράψετε ή να τροποποιήσετε όλα τα στοιχεία όπως επιθυμείτε.</string>
     <string name="edit_entry">Επεξεργασία καταχώρησης</string>
     <string name="error_load_database">Δεν ήταν δυνατή η φόρτωση της βάσης δεδομένων.</string>
     <string name="error_load_database_KDF_memory">Δεν ήταν δυνατή η φόρτωση του κλειδιού. Προσπαθήστε να μειώσετε την KDF \"Χρήση μνήμης\".</string>
@@ -405,8 +373,6 @@
     <string name="show_recent_files_title">Εμφάνιση πρόσφατων αρχείων</string>
     <string name="auto_focus_search_title">Γρήγορη αναζήτηση</string>
     <string name="entry_add_attachment">Προσθήκη συνημμένου</string>
-    <string name="education_setup_OTP_summary">Ρύθμιση διαχείρισης μίας-χρήσης κωδικού πρόσβασης (HOTP / TOTP) για δημιουργία token που ζητήθηκε για έλεγχο ταυτότητας δύο παραγόντων (2FA).</string>
-    <string name="education_setup_OTP_title">Ρύθμιση OTP</string>
     <string name="lock_database_show_button_summary">Εμφανίζει το κουμπί κλειδώματος στη διεπαφή χρήστη</string>
     <string name="lock_database_show_button_title">Εμφάνιση κουμπιού κλειδώματος</string>
     <string name="autofill_preference_title">Ρυθμίσεις Αυτόματης Συμπλήρωσης</string>
@@ -427,8 +393,6 @@
     <string name="discard_changes">Απόρριψη αλλαγών;</string>
     <string name="validate">Επικυρώστε</string>
     <string name="upload_attachment">Μεταφόρτωση %1$s</string>
-    <string name="education_add_attachment_summary">Ανεβάστε ένα συνημμένο στην καταχώρισή σας για να αποθηκεύσετε σημαντικά εξωτερικά δεδομένα.</string>
-    <string name="education_add_attachment_title">Προσθήκη συνημμένου</string>
     <string name="autofill_block_restart">Επανεκκινήστε την εφαρμογή που περιέχει τη φόρμα για να ενεργοποιήσετε τον αποκλεισμό.</string>
     <string name="autofill_block">Αποκλεισμός αυτόματης συμπλήρωσης</string>
     <string name="autofill_web_domain_blocklist_summary">Λίστα αποκλεισμού που αποτρέπει την αυτόματη συμπλήρωση τομέων ιστού</string>
@@ -499,8 +463,6 @@
     <string name="advanced_unlock_scanning_error">Σφάλμα ξεκλειδώματος συσκευής: %1$s</string>
     <string name="advanced_unlock_invalid_key">Δεν είναι δυνατή η ανάγνωση του κλειδιού ξεκλειδώματος της συσκευής. Διαγράψτε το και επαναλάβετε τη διαδικασία αναγνώρισης ξεκλειδώματος.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Εξαγωγή διαπιστευτηρίων βάσης δεδομένων με δεδομένα ξεκλειδώματος συσκευής</string>
-    <string name="education_advanced_unlock_summary">Συνδέστε τον κωδικό πρόσβασής σας με το σαρωμένο βιομετρικό ή τα διαπιστευτήρια της συσκευής σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>
-    <string name="education_advanced_unlock_title">Ξεκλείδωμα βάσης δεδομένων συσκευής</string>
     <string name="advanced_unlock_timeout">Χρονικό όριο ξεκλειδώματος συσκευής</string>
     <string name="temp_advanced_unlock_enable_title">Προσωρινό ξεκλείδωμα συσκευής</string>
     <string name="temp_advanced_unlock_enable_summary">Μην αποθηκεύετε κρυπτογραφημένο περιεχόμενο για να χρησιμοποιήσετε το ξεκλείδωμα της συσκευής</string>
@@ -671,13 +633,9 @@
     <string name="menu_appearance_settings_summary">Θέματα, χρώματα, ιδιότητες</string>
     <string name="ask">Ερώτηση</string>
     <string name="unlock">Ξεκλείδωμα</string>
-    <string name="education_validate_entry_title">Επικυρώστε την καταχώρηση</string>
     <string name="warning_database_notification_permission">Η άδεια ειδοποίησης σάς επιτρέπει να εμφανίζετε την κατάσταση της βάσης δεδομένων και να την κλειδώνετε με ένα εύκολα προσβάσιμο κουμπί.
 \n
 \nΕάν δεν ενεργοποιήσετε αυτήν την άδεια, η ανοιχτή βάση δεδομένων στο παρασκήνιο δεν θα είναι ορατή εάν μια άλλη εφαρμογή βρίσκεται στο προσκήνιο.</string>
     <string name="later">Αργότερα</string>
     <string name="configure">Διαμορφώστε</string>
-    <string name="education_validate_entry_summary">Θυμηθείτε να επικυρώσετε την καταχώρησή σας και να αποθηκεύσετε τη βάση δεδομένων σας.
-\n
-\nΕάν ενεργοποιηθεί ένα αυτόματο κλείδωμα και ξεχάσετε ότι κάνετε μια τροποποίηση, κινδυνεύετε να χάσετε τα δεδομένα σας.</string>
 </resources>

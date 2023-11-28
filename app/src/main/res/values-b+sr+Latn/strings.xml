@@ -195,9 +195,6 @@
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="advanced_unlock_explanation_summary">Koristite napredno otključavanje kako bi ste lakše otvorili bazu podataka</string>
     <string name="advanced_unlock">Napredno otključavanje</string>
-    <string name="education_unlock_summary">Unesite lozinku i/ili datoteku ključa da bi ste otključali bazu podataka.
-\n
-\nNapravite rezervnu kopiju datoteke baze podataka na bezbednom mestu nakon svake promene.</string>
     <string name="warning_empty_keyfile_explanation">Sadržaj datoteke ključa nikada ne bi trebalo menjati, a u najboljem slučaju bi trebao da sadrži nasumično generisane podatke.</string>
     <string name="warning_empty_keyfile">Nije preporučljivo dodavanje prazne datoteke ključa.</string>
     <string name="remember_keyfile_locations_summary">Prati gde su datoteke ključeva uskladištene</string>

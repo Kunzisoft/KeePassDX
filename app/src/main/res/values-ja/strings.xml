@@ -400,42 +400,10 @@
     <string name="enable_read_only_summary">デフォルトではデータベースを読み取り専用で開きます</string>
     <string name="enable_auto_save_database_title">データベースの自動保存</string>
     <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（ [変更可能] モードのとき）</string>
-    <string name="enable_education_screens_title">教育的なヒント</string>
-    <string name="enable_education_screens_summary">要素をハイライトしてアプリの動作を学びます</string>
-    <string name="reset_education_screens_title">教育的なヒントをリセット</string>
-    <string name="reset_education_screens_summary">すべての教育的な情報をもう一度表示します</string>
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
-    <string name="education_create_database_title">データベース ファイルを作成</string>
-    <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
-    <string name="education_select_database_title">既存のデータベースを開く</string>
-    <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
-    <string name="education_new_node_title">データベースに項目を追加</string>
-    <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
-    <string name="education_search_title">エントリーを検索</string>
-    <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
-    <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_entry_edit_summary">エントリーをカスタム フィールドとともに編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
-    <string name="education_generate_password_title">強力なパスワードを作成</string>
-    <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
-    <string name="education_entry_new_field_title">カスタム フィールドを追加</string>
-    <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
-    <string name="education_add_attachment_title">添付ファイルを追加</string>
-    <string name="education_add_attachment_summary">エントリーに添付ファイルをアップロードして、重要な外部データを保存します。</string>
-    <string name="education_setup_OTP_title">OTP を設定</string>
-    <string name="education_setup_OTP_summary">ワンタイム パスワードの管理（HOTP / TOTP）を設定して、2 要素認証（2FA）で要求されるトークンを生成します。</string>
-    <string name="education_unlock_title">データベースのロックを解除</string>
-    <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、またはその両方を入力します。\n\nデータベース ファイルは変更するたびに安全な場所へバックアップしてください。</string>
-    <string name="education_read_only_title">データベースの書き込みを禁止</string>
-    <string name="education_read_only_summary">セッションのロック解除モードを変更します。
-\n
-\n[書き込み禁止] では、データベースに対する意図しない変更を防ぐことができます。
-\n[変更可能] では、すべての要素を必要に応じて追加、削除、変更できます。</string>
     <string name="education_field_copy_title">フィールドをコピー</string>
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。\n\nお好みのフォーム入力方法を使用してください。</string>
-    <string name="education_lock_title">データベースをロック</string>
-    <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったときにロックするよう、アプリを設定することもできます。</string>
-    <string name="education_sort_title">項目の並べ替え</string>
-    <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
     <string name="education_donation_title">参加</string>
     <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加することを支援します。</string>
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
@@ -491,8 +459,6 @@
     <string name="advanced_unlock_prompt_store_credential_message">高度なロック解除を使用する場合も、主たる認証情報は記憶する必要があります。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
     <string name="select_entry">エントリーを選択</string>
-    <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
-    <string name="education_advanced_unlock_title">データベースの高度なロック解除</string>
     <string name="advanced_unlock_timeout">高度なロック解除のタイムアウト</string>
     <string name="temp_advanced_unlock_timeout_summary">コンテンツを削除して高度なロック解除を終了するまでの期間</string>
     <string name="temp_advanced_unlock_timeout_title">高度なロック解除の有効期限</string>

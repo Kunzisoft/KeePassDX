@@ -199,9 +199,6 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
     <bool name="hide_expired_entries_default" translatable="false">false</bool>
-    <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
-    <bool name="enable_education_screens_default" translatable="false">true</bool>
-    <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
 
     <!-- Password Generator Settings -->
     <string name="password_generator_length_key" translatable="false">password_generator_length_key</string>
@@ -315,43 +312,6 @@
 
     <string name="allow_copy_password_first_time_key" translatable="false">allow_copy_password_first_time_key</string>
     <bool name="allow_copy_password_first_time_default" translatable="false">true</bool>
-
-    <!-- Education -->
-    <string name="education_create_db_key" translatable="false">education_create_db_key</string>
-    <bool name="education_create_db_default" translatable="false">false</bool>
-    <string name="education_select_db_key" translatable="false">education_select_db_key</string>
-    <bool name="education_select_db_default" translatable="false">false</bool>
-    <string name="education_unlock_key" translatable="false">education_unlock_key</string>
-    <bool name="education_unlock_default" translatable="false">false</bool>
-    <string name="education_read_only_key" translatable="false">education_read_only_key</string>
-    <bool name="education_read_only_default" translatable="false">false</bool>
-    <string name="education_biometric_key" translatable="false">education_biometric_key</string>
-    <bool name="education_biometric_default" translatable="false">false</bool>
-    <string name="education_search_key" translatable="false">education_search_key</string>
-    <bool name="education_search_default" translatable="false">false</bool>
-    <string name="education_new_node_key" translatable="false">education_new_node_key</string>
-    <bool name="education_new_node_default" translatable="false">false</bool>
-    <string name="education_sort_key" translatable="false">education_sort_key</string>
-    <bool name="education_sort_default" translatable="false">false</bool>
-    <string name="education_lock_key" translatable="false">education_lock_key</string>
-    <bool name="education_lock_default" translatable="false">false</bool>
-    <string name="education_copy_username_key" translatable="false">education_copy_username_key</string>
-    <bool name="education_copy_username_key" translatable="false">false</bool>
-    <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
-    <bool name="education_entry_edit_default" translatable="false">false</bool>
-    <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
-    <bool name="education_password_generator_default" translatable="false">false</bool>
-    <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
-    <bool name="education_entry_new_field_default" translatable="false">false</bool>
-    <string name="education_add_attachment_key" translatable="false">education_add_attachment_key</string>
-    <bool name="education_add_attachment_default" translatable="false">false</bool>
-    <string name="education_setup_OTP_key" translatable="false">education_setup_OTP_key</string>
-    <bool name="education_setup_OTP_default" translatable="false">false</bool>
-    <string name="education_validate_entry_key" translatable="false">education_validate_entry_key</string>
-    <bool name="education_validate_entry_default" translatable="false">false</bool>
-    <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
-    <bool name="education_screen_reclicked_default" translatable="false">false</bool>
-
 
     <!-- TimeOut -->
     <string name="timeout_backup_key" translatable="false">timeout_backup_key</string>

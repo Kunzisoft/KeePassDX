@@ -124,9 +124,6 @@
     <string name="unsupported_db_version">Database-version ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Angiv en adgangskode og/eller en nøglefil til at låse databasen op.
-\n
-\nHusk at gemme en kopi af din databasefil et sikkert sted efter hver ændring.</string>
     <string-array name="list_size_options">
         <item>Lille</item>
         <item>Mellem</item>
@@ -224,41 +221,12 @@
     <string name="allow_no_password_summary">Tillader at trykke på knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åbn som standard databasen skrivebeskyttet</string>
-    <string name="enable_education_screens_title">Praktiske tips</string>
-    <string name="enable_education_screens_summary">Fremhæv elementer for at lære, hvordan appen fungerer</string>
-    <string name="reset_education_screens_title">Nulstil praktiske tips</string>
-    <string name="reset_education_screens_summary">Vis al vejledning igen</string>
     <string name="reset_education_screens_text">Nulstilling af praktiske tips</string>
-    <string name="education_create_database_title">Opret din databasefil</string>
-    <string name="education_create_database_summary">Opret din første adgangskodeadministrationsfil.</string>
-    <string name="education_select_database_title">Åbn en eksisterende database</string>
-    <string name="education_select_database_summary">Åbn den tidligere databasefil fra din filhåndtering for at fortsætte med at bruge den.</string>
-    <string name="education_new_node_title">Tilføj elementer til databasen</string>
-    <string name="education_new_node_summary">Poster hjælper med at administrere digitale identiteter.
-\n
-\nGrupper (~mapper) organiserer poster i databasen.</string>
-    <string name="education_search_title">Søg i poster</string>
-    <string name="education_search_summary">Indtast titel, brugernavn eller indhold af andre felter for at hente adgangskoder.</string>
-    <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter. Pool-data kan refereres mellem forskellige indtastningsfelter.</string>
-    <string name="education_generate_password_title">Opret en stærk adgangskode</string>
-    <string name="education_generate_password_summary">Generer en stærk adgangskode til din post, og definer den nemt i henhold til kriterierne i formularen, og glem ikke en sikker adgangskode.</string>
-    <string name="education_entry_new_field_title">Tilføj brugerdefinerede felter</string>
-    <string name="education_entry_new_field_summary">Registrer et ekstra felt, tilføj en værdi og beskyt det eventuelt.</string>
-    <string name="education_unlock_title">Lås databasen op</string>
-    <string name="education_read_only_title">Skrivebeskyt databasen</string>
-    <string name="education_read_only_summary">Skift åbningstilstanden for sessionen.
-\n 
-\nI \"Skrivebeskyttet\" tilstand forhindres utilsigtede ændringer i databasen.
-\nI \"Kan ændres\" kan du tilføje, slette eller redigere alle elementerne, som det ønskes.</string>
     <string name="education_field_copy_title">Kopier et felt</string>
     <string name="education_field_copy_summary">Kopierede felter kan indsættes hvor som helst.
 \n
 \nBrug den metode til udfyldelse af formularer, du foretrækker.</string>
-    <string name="education_lock_title">Lås databasen</string>
-    <string name="education_lock_summary">Lås hurtigt databasen, indstil til at låse efter et stykke tid, og når skærmen slukkes.</string>
-    <string name="education_sort_title">Sortering af elementer</string>
-    <string name="education_sort_summary">Vælg hvordan poster og grupper er sorteret.</string>
     <string name="education_donation_title">Deltag</string>
     <string name="education_donation_summary">Hjælp med at øge stabiliteten og sikkerheden og med at tilføje flere funktioner.</string>
     <string name="html_text_ad_free">I modsætning til andre apps til adgangskodeadministration er denne &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleft fri software&lt;/strong&gt;, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
@@ -415,8 +383,6 @@
     <string name="hide_broken_locations_title">Skjul brudte databaselinks</string>
     <string name="hide_broken_locations_summary">Skjul brudte links på listen over seneste databaser</string>
     <string name="warning_database_read_only">Giv fil skriveadgang for at gemme databasændringer</string>
-    <string name="education_setup_OTP_summary">Indstil engangs-adgangskode-styring (HOTP / TOTP) for at generere et token anmodet om til tofaktor-autentisering (2FA).</string>
-    <string name="education_setup_OTP_title">Opsætning af OTP</string>
     <string name="error_create_database">Databasefilen kunne ikke oprettes.</string>
     <string name="entry_add_attachment">Tilføj vedhæftning</string>
     <string name="discard">Kassér</string>
@@ -446,7 +412,6 @@
     <string name="show_uuid_summary">Viser UUID\'en, der er knyttet til en post eller en gruppe</string>
     <string name="show_uuid_title">Vis UUID</string>
     <string name="upload_attachment">Overfør %1$s</string>
-    <string name="education_add_attachment_title">Vedhæft fil</string>
     <string name="autofill_read_only_save">Det er ikke tilladt at gemme data i en database, der er åbnet som skrivebeskyttet.</string>
     <string name="autofill_ask_to_save_data_summary">Spørg om du vil gemme data, når en formular er udfyldt</string>
     <string name="autofill_ask_to_save_data_title">Spørg om du vil gemme data</string>
@@ -477,7 +442,6 @@
     <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database</string>
     <string name="content_description_credentials_information">Legitimationsoplysninger</string>
     <string name="configure_biometric">Der er ikke tilmeldt biometriske legitimationsoplysninger eller enhedsoplysninger.</string>
-    <string name="education_add_attachment_summary">Overfør en vedhæftet fil til posten for at gemme vigtige eksterne data.</string>
     <string name="autofill_save_search_info_summary">Forsøger at gemme delte oplysninger, når der foretages et manuelt indtastningsvalg, så det bliver lettere at bruge dem senere</string>
     <string name="keyboard_save_search_info_summary">Forsøg at gemme delte oplysninger, når der foretages et manuelt indtastningsvalg, så det bliver lettere at bruge dem senere</string>
     <string name="error_field_name_already_exists">Feltnavnet findes allerede.</string>
@@ -490,7 +454,6 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Annulleret!</string>
-    <string name="education_advanced_unlock_title">Avanceret database-oplåsning</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyld tilføjet.</string>
     <string name="select_entry">Vælg post</string>
     <string name="back_to_previous_keyboard">Tilbage til forrige tastatur</string>
@@ -521,7 +484,6 @@
     <string name="error_start_database_action">Der opstod en fejl under udførelsen af en handling på databasen.</string>
     <string name="error_remove_file">Der opstod en fejl under fjernelsen af fildata.</string>
     <string name="error_otp_type">Den existerende OTP-type kunne ikke genkendes. Det kan være, at dens validering ikke længere genererer token korrekt.</string>
-    <string name="education_advanced_unlock_summary">Sammenkæd din adgangskode med din scannede biometriske data eller enhedens legitimationsoplysninger for hurtigt at låse din database op.</string>
     <string name="enter">Enter</string>
     <string name="temp_advanced_unlock_timeout_summary">Varigheden af avanceret oplåsning, før indholdet slettes</string>
     <string name="device_credential_unlock_enable_summary">Giver dig mulighed for at bruge dine enhedsoplysninger til at åbne databasen</string>

@@ -115,9 +115,6 @@
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>
     <string name="uppercase">Veľké písmená</string>
     <string name="version_label">Verzia %1$s</string>
-    <string name="education_unlock_summary">Zadajte heslo a/alebo súbor keyfile na odomknutie databázy.
-\n
-\nPo každej zmene zálohujte súbor databázy na bezpečnom mieste.</string>
     <string-array name="list_size_options">
         <item>Malé</item>
         <item>Stredné</item>
@@ -149,17 +146,13 @@
     <string name="allow_copy_password_warning">Upozornenie: Schránku zdieľajú všetky aplikácie. Ak sa skopírujú citlivé údaje, iný softvér ich môže obnoviť.</string>
     <string name="keyboard_auto_go_action_summary">Akcia klávesy „Choď“ po stlačení klávesy „Pole“</string>
     <string name="autofill_web_domain_blocklist_title">Zoznam blokovaných webových domén</string>
-    <string name="enable_education_screens_summary">Zvýraznite prvky a zistite, ako aplikácia funguje</string>
-    <string name="education_search_summary">Zadajte názov, používateľské meno alebo obsah iných polí na získanie hesiel.</string>
     <string name="html_about_contribution">Pre &lt;strong&gt;udržanie našej slobody&lt;/strong&gt;, &lt;strong&gt;opravu chýb&lt;/strong&gt;, &lt;strong&gt;pridávanie nových funkcií&lt;/strong&gt; a &lt;strong&gt;boli stále aktívny&lt;/strong&gt;, sa spoliehame na vaše &lt;strong&gt;príspevky&lt;/strong&gt;.</string>
-    <string name="education_add_attachment_summary">Nahrajte prílohu k svojmu záznamu, aby ste uložili dôležité externé údaje.</string>
     <string name="personal_identification_number">PIN</string>
     <string name="id_card">ID karty</string>
     <string name="name">Meno</string>
     <string name="error_create_database">Nie je možné vytvoriť databázový súbor.</string>
     <string name="error_otp_type">Existujúci typ OTP tento formulár nerozpoznáva, jeho validácia už nemusí správne generovať token.</string>
     <string name="invalid_db_same_uuid">%1$s s rovnakým UUID %2$s už existuje.</string>
-    <string name="education_setup_OTP_title">Nastaviť OTP</string>
     <string name="create_keepass_file">Vytvorte novú databázu</string>
     <string name="auto_focus_search_summary">Pri otváraní databázy požiadajte o vyhľadávanie</string>
     <string name="import_app_properties_summary">Vyberte súbor na import nastavení aplikácie</string>
@@ -170,10 +163,6 @@
     <string name="warning_no_encryption_key">Pokračovať bez šifrovacieho kľúča\?</string>
     <string name="warning_replace_file">Nahraním tohto súboru nahradíte existujúci súbor.</string>
     <string name="html_text_buy_pro">Kúpou pro verzie získate prístup k tomuto &lt;strong&gt;vizuálnemu štýlu&lt;/strong&gt; a pomôžete najmä &lt;strong&gt;realizácii komunitných projektov.&lt;/strong&gt;</string>
-    <string name="education_read_only_summary">Zmeňte režim otvárania relácie.
-\n
-\n\"Chránené proti zápisu\" zabraňuje neúmyselným zmenám v databáze.
-\n„Modifikovateľné“ vám umožňuje pridať, odstrániť alebo upraviť všetky prvky podľa vášho želania.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Pokročilé rozpoznávanie odomknutia</string>
     <string name="education_donation_summary">Pomôžte zvýšiť stabilitu, bezpečnosť a pridať ďalšie funkcie.</string>
     <string name="database_opened">Databáza otvorená</string>
@@ -257,7 +246,6 @@
     <string name="keyboard_previous_search_title">Panel vyhľadávania</string>
     <string name="autofill_manual_selection_summary">Zobraziť možnosť, ktorá umožní používateľovi vybrať položku databázy</string>
     <string name="enable_auto_save_database_summary">Uložte databázu po každej dôležitej akcii (v režime „Upraviteľné“)</string>
-    <string name="education_select_database_title">Otvorte existujúcu databázu</string>
     <string name="show_entry_colors_summary">Zobrazuje farby popredia a pozadia pre položku</string>
     <string name="tags">Tagy</string>
     <string name="public_key">Verejný kľúč</string>
@@ -304,8 +292,6 @@
     <string name="autofill_ask_to_save_data_summary">Po vyplnení formulára požiadajte o uloženie údajov</string>
     <string name="autofill_read_only_save">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
     <string name="autofill_inline_suggestions_keyboard">Boli pridané návrhy automatického dopĺňania.</string>
-    <string name="education_new_node_title">Pridajte položky do databázy</string>
-    <string name="education_advanced_unlock_title">Pokročilé odblokovanie databázy</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuálny štýl&lt;/strong&gt; je dostupný vďaka vašej štedrosti.</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostupných v Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
@@ -314,20 +300,7 @@
     <string name="keyboard_previous_fill_in_summary">Automaticky prepnúť späť na predchádzajúcu klávesnicu po vykonaní \"Akcia automatického klávesu\"</string>
     <string name="keyboard_previous_lock_summary">Po uzamknutí databázy sa automaticky prepne späť na predchádzajúcu klávesnicu</string>
     <string name="select_entry">Vybrať záznam</string>
-    <string name="education_create_database_title">Vytvorte si databázový súbor</string>
-    <string name="education_create_database_summary">Vytvorte svoj prvý súbor na správu hesiel.</string>
-    <string name="education_new_node_summary">Záznamy pomáhajú spravovať vaše digitálne identity.
-\n
-\nSkupiny (~priečinky) organizujú záznamy vo vašej databáze.</string>
-    <string name="education_select_database_summary">Ak chcete pokračovať v používaní, otvorte svoj predchádzajúci databázový súbor z prehliadača súborov.</string>
-    <string name="education_entry_edit_title">Upravte záznam</string>
     <string name="education_entry_edit_summary">Upravte svoj záznam pomocou vlastných polí. Dáta môžu byť odkazované medzi rôznymi vstupnými poľami.</string>
-    <string name="education_generate_password_title">Vytvorte si silné heslo</string>
-    <string name="education_generate_password_summary">Vygenerujte si silné heslo na priradenie k vášmu záznamu, jednoducho ho definujte podľa kritérií formulára a nezabudnite na bezpečné heslo.</string>
-    <string name="education_entry_new_field_title">Pridajte vlastné polia</string>
-    <string name="education_add_attachment_title">Pridať prílohu</string>
-    <string name="education_setup_OTP_summary">Nastavte správu jednorazových hesiel (HOTP / TOTP) na generovanie tokenu požadovaného pre dvojfaktorovú autentifikáciu (2FA).</string>
-    <string name="education_unlock_title">Odomknite svoju databázu</string>
     <string name="html_text_dev_feature">Táto funkcia je &lt;strong&gt;vo vývoji&lt;/strong&gt; a vyžaduje, váš &lt;strong&gt;príspevok&lt;/strong&gt; aby bola čoskoro k dispozícii.</string>
     <string name="character_count">Počet znakov: %1$d</string>
     <string name="style_brightness_title">Jas témy</string>
@@ -374,7 +347,6 @@
     <string name="autofill_close_database_title">Zatvoriť databázu</string>
     <string name="autofill_manual_selection_title">Manuálny výber</string>
     <string name="enable_auto_save_database_title">Automatické ukladanie databázy</string>
-    <string name="education_read_only_title">Chráňte svoju databázu proti zápisu</string>
     <string name="download_progression">Prebieha: %1$d%%</string>
     <string name="hide_expired_entries_summary">Záznamy s uplynutou platnosťou sa nezobrazujú</string>
     <string name="show_otp_token_title">Ukázať OTP Token</string>
@@ -466,7 +438,6 @@
     <string name="keyboard_previous_fill_in_title">Automatická akcia tlačidla</string>
     <string name="autofill_application_id_blocklist_summary">Blocklist, ktorý zabraňuje automatickému vypĺňaniu aplikácií</string>
     <string name="autofill_web_domain_blocklist_summary">Blocklist, ktorý zabraňuje automatickému vypĺňaniu webových domén</string>
-    <string name="education_lock_title">Uzamknúť databázu</string>
     <string name="html_text_dev_feature_work_hard">Usilovne pracujeme na rýchlom uvoľnení tejto funkcie.</string>
     <string name="html_text_dev_feature_upgrade">Nezabudnite udržiavať svoju aplikáciu aktualizovanú inštaláciou nových verzií.</string>
     <string name="title_case">Titulové Písanie</string>
@@ -476,7 +447,6 @@
     <string name="advanced_unlock_scanning_error">Chyba rozšíreného odomykania: %1$s</string>
     <string name="lock">Zamknúť</string>
     <string name="custom_fields">Vlastné polia</string>
-    <string name="education_sort_summary">Vyberte spôsob triedenia záznamov a skupín.</string>
     <string name="icon_pack_choose_title">Balík ikon</string>
     <string name="template_group_name">Šablóny</string>
     <string name="menu_advanced_unlock_settings">Pokročilé odblokovanie</string>
@@ -624,19 +594,11 @@
     <string name="enable_keep_screen_on_summary">Pri sledovaní záznamu majte zapnutú obrazovku</string>
     <string name="enable_screenshot_mode_title">Režim snímky obrazovky</string>
     <string name="enable_screenshot_mode_summary">Povoliť aplikáciám tretích strán zaznamenávať alebo vytvárať snímky obrazovky aplikácie</string>
-    <string name="enable_education_screens_title">Vzdelávacie nápovedy</string>
-    <string name="reset_education_screens_title">Obnoviť vzdelávacie nápovedy</string>
-    <string name="reset_education_screens_summary">Znova zobraziť všetky vzdelávacie informácie</string>
     <string name="reset_education_screens_text">Vzdelávacie nápovedy boli resetované</string>
-    <string name="education_search_title">Vyhľadávajte v záznamoch</string>
-    <string name="education_advanced_unlock_summary">Prepojte svoje heslo s naskenovanými biometrickými údajmi alebo povereniami zariadenia a rýchlo odomknite svoju databázu.</string>
-    <string name="education_entry_new_field_summary">Zaregistrujte ďalšie pole, pridajte hodnotu a voliteľne ho chráňte.</string>
     <string name="education_field_copy_title">Skopírujte pole</string>
     <string name="education_field_copy_summary">Skopírované polia je možné prilepiť kdekoľvek.
 \n
 \nPoužite spôsob vyplnenia formulára, ktorý preferujete.</string>
-    <string name="education_lock_summary">Rýchlo uzamknite svoju databázu, aplikáciu môžete nastaviť tak, aby sa po chvíli uzamkla a tiež, keď sa obrazovka vypne.</string>
-    <string name="education_sort_title">Radenie položiek</string>
     <string name="education_donation_title">Zapojiť sa</string>
     <string name="html_text_donation">Aby sme si zachovali slobodu a boli vždy aktívni, počítame s vaším &lt;strong&gt;príspevkom.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_buy_pro">Zakúpením verzie &lt;strong&gt;pro&lt;/strong&gt;</string>

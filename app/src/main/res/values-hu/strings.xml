@@ -131,9 +131,6 @@
     <string name="version_label">Verzió: %1$s</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
     <string name="unavailable">Nem érhető el</string>
-    <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
-\n
-\nKészítsen biztonsági mentést az adatbázisról minden egyes módosítás után.</string>
     <string-array name="list_size_options">
         <item>Kicsi</item>
         <item>Közepes</item>
@@ -245,40 +242,11 @@
     <string name="allow_no_password_summary">A „Megnyitás” gomb engedélyezése, ha nincsenek hitelesítő adatok kiválasztva</string>
     <string name="enable_read_only_title">Írásvédett</string>
     <string name="enable_read_only_summary">Az adatbázis megnyitása alapértelmezetten írásvédett módban</string>
-    <string name="enable_education_screens_title">Oktatóképernyők</string>
-    <string name="enable_education_screens_summary">Elemek kiemelése, hogy megtudja hogyan működik az alkalmazás</string>
-    <string name="reset_education_screens_title">Oktatóképernyők visszaállítása</string>
-    <string name="reset_education_screens_summary">Az összes oktatóinformáció újbóli megjelenítése</string>
     <string name="reset_education_screens_text">Oktatóképernyők visszaállítva</string>
-    <string name="education_create_database_title">Saját adatbázisfájl létrehozása</string>
-    <string name="education_create_database_summary">Hozza létre az első jelszókezelő-fájlját.</string>
-    <string name="education_select_database_title">Létező adatbázis megnyitása</string>
-    <string name="education_select_database_summary">Nyisson meg egy korábbi adatbázisfájlt a fájlböngészőből, hogy folytassa a használatát.</string>
-    <string name="education_new_node_title">Elemek hozzáadása az adatbázishoz</string>
-    <string name="education_new_node_summary">A bejegyzések segítenek a digitális személyazonosságai kezelésében.
-\n
-\nA csoportok (~mappák) rendszerezik a bejegyzéseket az adatbázisban.</string>
-    <string name="education_search_title">Keresés a bejegyzések között</string>
-    <string name="education_search_summary">Adja meg a címet, felhasználónevet vagy más mezők tartalmát, hogy lekérje a jelszavát.</string>
-    <string name="education_entry_edit_title">Bejegyzés szerkesztése</string>
-    <string name="education_generate_password_title">Erős jelszó létrehozása</string>
-    <string name="education_generate_password_summary">Állítson elő egy erős jelszót, és rendelje hozzá a bejegyzéshez, adja meg egyszerűen az űrlap feltételeinek megfelelően, és ne felejtse el biztonságosan tárolni.</string>
-    <string name="education_entry_new_field_title">Egyéni mezők hozzáadása</string>
-    <string name="education_entry_new_field_summary">Regisztráljon egy további mezőt, adjon neki értéket és védje meg, ha szeretné.</string>
-    <string name="education_unlock_title">Az adatbázis feloldása</string>
-    <string name="education_read_only_title">Az adatbázis írásvédelme</string>
-    <string name="education_read_only_summary">Módosítsa a megnyitás módját a munkamenetben.
-\n
-\nAz „Írásvédett” mód megakadályozza az adatbázis nem szándékos módosítását.
-\n„Módosítható” módban új elemeket adhat hozzá, törölhet, és módosíthatja az összes elemet.</string>
     <string name="education_field_copy_title">Mező másolása</string>
     <string name="education_field_copy_summary">A másolt mezők bárhová beilleszthetőek.
 \n
 \nHasználja a kedvenc mezőkitöltési módját.</string>
-    <string name="education_lock_title">Az adatbázis zárolása</string>
-    <string name="education_lock_summary">Zárolja gyorsan az adatbázist, beállíthatja hogy az alkalmazás lezárja egy idő után, valamint ha a képernyőt kikapcsolja.</string>
-    <string name="education_sort_title">Elemek rendezése</string>
-    <string name="education_sort_summary">Válasszon, hogy az elemek és csoportok hogyan legyenek rendezve.</string>
     <string name="education_donation_title">Közreműködés</string>
     <string name="education_entry_edit_summary">Szerkessze a bejegyzése egyéni mezőit. Az adatok hivatkozhatóak a különböző mezők között.</string>
     <string name="education_donation_summary">Segítsen a stabilitás és a biztonság növelésében, és az új funkciók hozzáadásában.</string>
@@ -307,8 +275,6 @@
     <string name="master_key">Mesterkulcs</string>
     <string name="content_description_keyfile_checkbox">Kulcsfájl jelölőnégyzet</string>
     <string name="error_create_database_file">Ezzel a jelszó és kulcsfájl kombinációval nem hozható létre adatbázis.</string>
-    <string name="education_setup_OTP_summary">Állítson be egyszer használatos jelszókezelést (HOTP/TOTP), hogy tokent állítson elő a kétfaktoros hitelesítéshez (2FA).</string>
-    <string name="education_setup_OTP_title">OTP beállítása</string>
     <string name="clear_clipboard_notification_summary">Az adatbázis zárolása, ha a vágólap ideje lejár, vagy ha a használata után bezárja az értesítést</string>
     <string name="clear_clipboard_notification_title">Zárolás bezáráskor</string>
     <string name="lock_database_show_button_summary">Megjeleníti a zárolás gombot a felhasználói felületen</string>
@@ -563,7 +529,6 @@
     <string name="autofill_block_restart">Indítsa újra az űrlapot tartalmazó alkalmazást a tiltás aktiválásához.</string>
     <string name="autofill_read_only_save">Az adatmentés nem engedélyezett, mert az adatbázis írásvédettként van megnyitva.</string>
     <string name="autofill_inline_suggestions_keyboard">Automatikus kitöltési javaslatok hozzáadva.</string>
-    <string name="education_add_attachment_summary">Töltsön fel egy mellékletet a bejegyzéséhez, hogy mentse a fontos külső adatokat.</string>
     <string name="download_canceled">Megszakítva!</string>
     <string name="unit_byte">B</string>
     <string name="style_brightness_summary">Válasszon a világos vagy sötét témák közül</string>
@@ -584,10 +549,7 @@
     <string name="autofill_application_id_blocklist_summary">Tiltólista, amely megakadályozza az alkalmazások automatikus kitöltését</string>
     <string name="autofill_web_domain_blocklist_title">Letiltott webes domainek</string>
     <string name="autofill_ask_to_save_data_title">Adatok mentésének kérése</string>
-    <string name="education_advanced_unlock_title">Eszközadatbázis feloldása</string>
-    <string name="education_advanced_unlock_summary">A jelszó összekötése a leolvasott biometrikus adatokkal vagy eszköz-hitelesítőadatokkal, hogy gyorsan feloldhassa az adatbázist.</string>
     <string name="show_otp_token_summary">Megjeleníti az OTP tokeneket a bejegyzések között</string>
-    <string name="education_add_attachment_title">Melléklet hozzáadása</string>
     <string name="keyboard_previous_database_credentials_summary">Automatikus visszaváltás az előző billentyűzetre az adatbázis-hitelesítőadatok képernyőn</string>
     <string name="warning_database_info_reloaded">Az adatbázis újratöltése törli a helyileg módosított adatokat.</string>
     <string name="templates">Sablonok</string>
@@ -612,7 +574,6 @@
     <string name="tags">Címkék</string>
     <string name="hardware_key">Hardverkulcs</string>
     <string name="keyboard_previous_search_summary">Automatikus visszaváltás az előző billentyűzetre a keresési képernyőn</string>
-    <string name="education_validate_entry_title">Bejegyzés ellenőrzése</string>
     <string name="ignore_chars_filter">Karakterek mellőzése</string>
     <string name="ask">Kérdés</string>
     <string name="searchable">Kereshető</string>
@@ -653,9 +614,6 @@
     <string name="error_XML_malformed">Hibásan formázott XML.</string>
     <string name="remember_hardware_key_summary">Követi a használt hardverkulcsokat</string>
     <string name="warning_database_already_opened">Egy adatbázis már nyitva van, előbb zárja be, hogy újat nyisson meg</string>
-    <string name="education_validate_entry_summary">Ne felejtse el ellenőrizni a bejegyzést és menteni az adatbázist.
-\n
-\nHa az automatikus zárolás aktiválva van, és elfelejti, hogy módosítást végzett, akkor az adatvesztést kockáztatja.</string>
     <string name="warning_database_notification_permission">Az értesítési engedély lehetővé teszi az adatbázis állapotának megjelenítését, és az egyszerű ikonnal történő zárolást.
 \n
 \nHa nem aktiválja az engedélyt, akkor a háttérben nyitott adatbázis nem lesz látható, ha egy másik alkalmazás van előtérben.</string>

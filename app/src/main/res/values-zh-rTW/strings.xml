@@ -168,54 +168,18 @@
     <string name="download_initialization">初始化中…</string>
     <string name="download_progression">進行中：%1$d%%</string>
     <string name="edit_entry">編輯條目</string>
-    <string name="education_add_attachment_summary">將附件上傳到你的條目以保存重要的外部資料。</string>
-    <string name="education_add_attachment_title">添加附件</string>
-    <string name="education_advanced_unlock_summary">將你的密碼連接到你掃瞄的生物特徵或設備憑證，以快速解鎖你的資料庫。</string>
-    <string name="education_advanced_unlock_title">高級資料庫解鎖</string>
-    <string name="education_create_database_summary">新建第一個密碼管理資料庫。</string>
-    <string name="education_create_database_title">建立你的資料庫檔案</string>
     <string name="education_donation_summary">幫助增加穩定性、安全性並添加更多的功能。</string>
     <string name="education_donation_title">參與開發</string>
     <string name="education_entry_edit_summary">使用自定義欄位編輯條。自定義欄位可以在不同的條目間引用。</string>
-    <string name="education_entry_edit_title">編輯此條目</string>
-    <string name="education_entry_new_field_summary">添加一個新的欄位並添加為其添加一個值，此時可以選擇是否保護該欄位及其值。</string>
-    <string name="education_entry_new_field_title">添加自定義欄位</string>
     <string name="education_field_copy_summary">已複製的欄位可以貼到任何地方。
 \n
 \n選擇需要的表格填寫方式。</string>
     <string name="education_field_copy_title">複製欄位</string>
-    <string name="education_generate_password_summary">依據表單中的標準進行簡單的定義，隨機為該條目生成一個強密碼，不在擔心忘記安全密碼。</string>
-    <string name="education_generate_password_title">建立一個強密碼</string>
-    <string name="education_lock_summary">可以設置在無操作和螢幕關閉的時候，鎖定資料庫。</string>
-    <string name="education_lock_title">鎖定資料庫</string>
-    <string name="education_new_node_summary">這些條目幫助管理數位化身份。
-\n
-\n還可以使用群組來管理資料庫中的條目。</string>
-    <string name="education_new_node_title">向資料庫添加項目</string>
-    <string name="education_read_only_summary">更改此會話的開啟模式。
-\n
-\n「寫入保護」（「唯讀」）可防止對資料庫的意外更改。
-\n「可編輯」將你允許隨心所欲地添加、刪除或者修改所有元素。</string>
-    <string name="education_read_only_title">資料庫啟用寫入保護（唯讀）</string>
-    <string name="education_search_summary">輸入標題、用戶名或其他欄位的內容來搜尋密碼。</string>
-    <string name="education_search_title">搜尋條目</string>
-    <string name="education_select_database_summary">開啟已有資料庫並使用其中的密碼。</string>
-    <string name="education_select_database_title">開啟現有資料庫</string>
-    <string name="education_setup_OTP_summary">設置一次性密碼管理（HOTP / TOTP）以生成請求的用於雙因素身份驗證（2FA）的令牌。</string>
-    <string name="education_setup_OTP_title">設置一次性密碼</string>
-    <string name="education_sort_summary">選擇條目和群組的排序方式。</string>
-    <string name="education_sort_title">條目排序</string>
-    <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫。
-\n
-\n每次更改后，將資料庫檔備份到安全的地方。</string>
-    <string name="education_unlock_title">解鎖資料庫</string>
     <string name="email">電子郵件</string>
     <string name="email_address">電子郵件地址</string>
     <string name="enable">啟動</string>
     <string name="enable_auto_save_database_summary">在每次執行重要操作後保存資料庫（僅在編輯模式下有效）</string>
     <string name="enable_auto_save_database_title">自動儲存資料庫</string>
-    <string name="enable_education_screens_summary">高亮界面元素來學習本應用工作方式</string>
-    <string name="enable_education_screens_title">教學提示</string>
     <string name="enable_read_only_summary">預設以唯讀方式開啟資料庫</string>
     <string name="enable_read_only_title">寫入保護（唯讀模式）</string>
     <string name="encrypted_value_stored">已儲存加密密碼</string>
@@ -480,9 +444,7 @@
     <string name="remember_database_locations_title">記住所有資料庫的位置</string>
     <string name="remember_keyfile_locations_summary">追蹤密鑰檔案位置</string>
     <string name="remember_keyfile_locations_title">記住密鑰檔案位置</string>
-    <string name="reset_education_screens_summary">再次顯示全部新手引導信息</string>
     <string name="reset_education_screens_text">教學提示重設</string>
-    <string name="reset_education_screens_title">重設教學提示</string>
     <string name="retrieving_db_key">取回資料庫密鑰…</string>
     <string name="root">Root</string>
     <string name="rounds">加密次數</string>

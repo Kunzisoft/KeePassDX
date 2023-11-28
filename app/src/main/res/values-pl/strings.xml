@@ -112,9 +112,6 @@
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
-    <string name="education_unlock_summary">Wprowadź hasło i/lub plik klucza, aby odblokować bazę danych.
-\n
-\nUtwórz kopię zapasową pliku bazy danych w bezpiecznym miejscu po każdej zmianie.</string>
     <string-array name="list_size_options">
         <item>Mała</item>
         <item>Średnia</item>
@@ -226,41 +223,12 @@
     <string name="allow_no_password_summary">Umożliwia naciśnięcie przycisku \"Otwórz\", jeśli nie wybrano żadnych poświadczeń</string>
     <string name="enable_read_only_title">Ochrona przed zapisem</string>
     <string name="enable_read_only_summary">Domyślnie otwarte bazy danych są tylko do odczytu</string>
-    <string name="enable_education_screens_title">Wskazówki edukacyjne</string>
-    <string name="enable_education_screens_summary">Podświetl elementy, aby dowiedzieć się, jak działa aplikacja</string>
-    <string name="reset_education_screens_title">Zresetuj wskazówki edukacyjne</string>
-    <string name="reset_education_screens_summary">Pokaż ponownie wszystkie informacje edukacyjne</string>
     <string name="reset_education_screens_text">Reset wskazówek edukacyjnych</string>
-    <string name="education_create_database_title">Utwórz plik bazy danych</string>
-    <string name="education_create_database_summary">Utwórz swój pierwszy plik zarządzania hasłami.</string>
-    <string name="education_select_database_title">Otwórz istniejącą bazę danych</string>
-    <string name="education_select_database_summary">Otwórz starszy plik bazy danych w przeglądarce plików, aby nadal z niego korzystać.</string>
-    <string name="education_new_node_title">Dodaj elementy do swojej bazy danych</string>
-    <string name="education_new_node_summary">Wpisy pomagają zarządzać twoimi tożsamościami cyfrowymi.
-\n
-\nGrupy (~ foldery) organizują wpisy w bazie danych.</string>
-    <string name="education_search_title">Przeszukuj wpisy</string>
-    <string name="education_search_summary">Wprowadź tytuł, nazwę użytkownika lub zawartość innych pól, aby odzyskać swoje hasła.</string>
-    <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
-    <string name="education_generate_password_title">Utwórz silne hasło</string>
-    <string name="education_generate_password_summary">Wygeneruj silne hasło, które będzie kojarzyć się z Twoim wpisem, łatwo zdefiniuj je zgodnie z kryteriami formularza i nie zapomnij o bezpiecznym haśle.</string>
-    <string name="education_entry_new_field_title">Dodaj niestandardowe pola</string>
-    <string name="education_entry_new_field_summary">Zarejestruj dodatkowe pole, dodaj wartość i opcjonalnie chroń je.</string>
-    <string name="education_unlock_title">Odblokuj swoją bazę danych</string>
-    <string name="education_read_only_title">Zapisz ochronę swojej bazy danych</string>
-    <string name="education_read_only_summary">Zmień tryb otwierania sesji.
-\n
-\n\"Ochrona przed zapisem\" zapobiega niezamierzonych zmian w bazie danych.
-\n\"Modyfikowalne\" pozwala dodawać, usuwać lub modyfikować wszystkie elementy, jak chcesz.</string>
     <string name="education_field_copy_title">Skopiuj pole</string>
     <string name="education_field_copy_summary">Skopiowane pola można wkleić w dowolnym miejscu.
 \n
 \nUżyj preferowanej metody wypełniania formularzy.</string>
-    <string name="education_lock_title">Zablokuj bazę danych</string>
-    <string name="education_lock_summary">Szybko zablokuj bazę danych, możesz skonfigurować aplikację tak, aby blokowała ją po pewnym czasie i po wyłączeniu ekranu.</string>
-    <string name="education_sort_title">Sortowanie elementów</string>
-    <string name="education_sort_summary">Wybierz sposób sortowania wpisów i grup.</string>
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem objętym klauzulą copyleft&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
@@ -414,8 +382,6 @@
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
     <string name="hide_broken_locations_summary">Ukryj uszkodzone łącza na liście najnowszych baz danych</string>
     <string name="warning_database_read_only">Przyznaj dostęp do zapisu pliku, aby zapisać zmiany w bazie danych</string>
-    <string name="education_setup_OTP_summary">Skonfiguruj zarządzanie hasłem jednorazowym (HOTP / TOTP), aby wygenerować token wymagany do uwierzytelniania dwuskładnikowego (2FA).</string>
-    <string name="education_setup_OTP_title">Konfiguracja OTP</string>
     <string name="error_create_database">Nie można utworzyć pliku bazy danych.</string>
     <string name="entry_add_attachment">Dodaj załącznik</string>
     <string name="discard">Odrzuć</string>
@@ -443,8 +409,6 @@
     <string name="keyboard_previous_database_credentials_title">Ekran poświadczeń bazy danych</string>
     <string name="keyboard_change">Przełącz klawiaturę</string>
     <string name="upload_attachment">Prześlij %1$s</string>
-    <string name="education_add_attachment_summary">Prześlij załącznik do wpisu, aby zapisać ważne dane zewnętrzne.</string>
-    <string name="education_add_attachment_title">Dodaj załącznik</string>
     <string name="warning_sure_add_file">Czy mimo to dodać plik\?</string>
     <string name="warning_replace_file">Przesłanie tego pliku spowoduje zastąpienie istniejącego.</string>
     <string name="warning_file_too_big">Baza danych KeePass powinna zawierać tylko małe pliki narzędziowe (takie jak pliki kluczy PGP).
@@ -496,8 +460,6 @@
     <string name="advanced_unlock_prompt_store_credential_message">Nadal musisz pamiętać główne poświadczenie sejfu, jeśli używasz rozpoznawania odblokowania urządzenia.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Łącze do odblokowywania urządzenia</string>
     <string name="menu_keystore_remove_key">Usuń klucz odblokowujący urządzenie</string>
-    <string name="education_advanced_unlock_summary">Połącz swoje hasło z zeskanowanymi danymi biometrycznymi lub poświadczeniami urządzenia, aby szybko odblokować bazę danych.</string>
-    <string name="education_advanced_unlock_title">Odblokowywanie bazy danych urządzenia</string>
     <string name="advanced_unlock_timeout">Limit czasu odblokowywania urządzenia</string>
     <string name="temp_advanced_unlock_timeout_summary">Czas odblokowywania urządzenia przed usunięciem jego zawartości</string>
     <string name="temp_advanced_unlock_timeout_title">Wygaśnięcie odblokowywania urządzenia</string>
@@ -672,12 +634,8 @@
     <string name="unlock_and_link_biometric">Łącze do odblokowania urządzenia</string>
     <string name="menu_appearance_settings_summary">Motywy, kolory, atrybuty</string>
     <string name="unlock">Odblokuj</string>
-    <string name="education_validate_entry_title">Sprawdź poprawność wpisu</string>
     <string name="menu_advanced_unlock_settings_summary">Biometria, poświadczenie urządzenia</string>
     <string name="warning_database_notification_permission">Uprawnienie do powiadomień umożliwia wyświetlanie stanu bazy danych i blokowanie jej za pomocą łatwo dostępnego przycisku.
 \n
 \nJeśli nie aktywujesz tego uprawnienia, baza danych otwarta w tle nie będzie widoczna, jeśli inna aplikacja jest na pierwszym planie.</string>
-    <string name="education_validate_entry_summary">Pamiętaj, aby sprawdzić poprawność wpisu i zapisać bazę danych.
-\n
-\nJeśli aktywowane jest automatyczne blokowanie i zapomnisz, że dokonano modyfikacji, ryzykujesz utratę danych.</string>
 </resources>

@@ -28,11 +28,9 @@ import android.util.Log
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.search.SearchParameters
-import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
@@ -731,9 +729,6 @@ object PreferencesUtil {
         for ((name, value) in PreferenceManager.getDefaultSharedPreferences(context).all) {
             properties[name] = value.toString()
         }
-        for ((name, value) in Education.getEducationSharedPreferences(context).all) {
-            properties[name] = value.toString()
-        }
         return properties
     }
 
@@ -823,7 +818,6 @@ object PreferencesUtil {
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 
                 context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())
                 context.getString(R.string.password_generator_options_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
@@ -839,11 +833,6 @@ object PreferencesUtil {
                 context.getString(R.string.sort_recycle_bin_bottom_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.allow_copy_password_first_time_key) -> editor.putBoolean(name, value.toBoolean())
             }
-        }
-
-        putPropertiesInPreferences(properties,
-            Education.getEducationSharedPreferences(context)) { editor, name, value ->
-            Education.putPropertiesInEducationPreferences(context, editor, name, value)
         }
     }
 }

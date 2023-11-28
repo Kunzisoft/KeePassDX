@@ -218,44 +218,11 @@
     <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg</string>
-    <string name="enable_education_screens_title">Hjelpeskjermer</string>
-    <string name="enable_education_screens_summary">Framhev elementer for opplæring i programmet</string>
-    <string name="reset_education_screens_title">Tilbakestill opplæringsskjermer</string>
-    <string name="reset_education_screens_summary">Tilbakestill visning av opplæringselementer</string>
     <string name="reset_education_screens_text">Tilbakestilling av opplæringsskjermer</string>
-    <string name="education_create_database_title">Opprett din databasefil</string>
-    <string name="education_create_database_summary">Du kjenner ikke KeePassDX enda, opprett din første passordsaministrasjonsfil.</string>
-    <string name="education_select_database_title">Åpne en eksisterende database</string>
-    <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
-    <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
-    <string name="education_new_node_summary">Legg til oppføringer for å behandle dine digitale identiteter.
-\n
-\nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
-    <string name="education_search_title">Søk i dine oppføringer</string>
-    <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
-    <string name="education_generate_password_title">Opprett et sterkt passord</string>
-    <string name="education_generate_password_summary">Generer et sterkt passord å tilknytte oppføringen din, definer det i henhold til kriteriene i skjemaet, og ikke glem å gjøre passordet sikkert.</string>
-    <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
-    <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
-    <string name="education_unlock_title">Lås opp databasen din</string>
-    <string name="education_unlock_summary">Oppgi passord og/eller nøkkelfil for å låse opp databasen din.
-\n
-\nHusk å lagre en kopi av din .kdbx-fil på et trygt sted etter hver endring.</string>
-    <string name="education_read_only_title">Skrivebeskytt databasen din</string>
-    <string name="education_read_only_summary">Endre åpningsmodus for økten.
-\n
-\nI skrivebeskyttet modus, kan du forhindre utilsiktede endringer i databasen.
-\n
-\nI skrivemodus, kan du legge til, slette eller endre alle elementene du ønsker.</string>
     <string name="education_field_copy_title">Kopier et felt</string>
     <string name="education_field_copy_summary">Kopier et felt for å lime det inn der du ønsker.
 \nBruk den skjemautfyllingsmetoden du foretrekker.</string>
-    <string name="education_lock_title">Lås databasen</string>
-    <string name="education_lock_summary">Lås din database raskt. Du kan sette opp programmet slik at det låser den etter en stund, og når skjermen slår seg av.</string>
-    <string name="education_sort_title">Sorter elementer</string>
-    <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
     <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleftbasert fri programvare&lt;/strong&gt; og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
@@ -408,7 +375,6 @@
     <string name="search_mode">Søkemodus</string>
     <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
     <string name="content_description_add_item">Legg til element</string>
-    <string name="education_advanced_unlock_title">Avansert databaseopplåsing</string>
     <string name="unit_byte">B</string>
     <string name="show_uuid_summary">Viser UUID-en tilhørende en oppføring</string>
     <string name="show_uuid_title">Vis UUID</string>
@@ -416,7 +382,6 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="upload_attachment">Last opp %1$s</string>
-    <string name="education_add_attachment_title">Legg til vedlegg</string>
     <string name="autofill_save_search_info_title">Lagre søkeinfo</string>
     <string name="autofill_close_database_title">Lukk database</string>
     <string name="select_entry">Velg oppføring</string>
@@ -433,8 +398,6 @@
     <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
     <string name="autofill_read_only_save">Datalagring er ikke tillatt for en database som er skrivebeskyttet.</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyll er lagt til.</string>
-    <string name="education_advanced_unlock_summary">Koble passordet ditt til den skannede biometriske eller enhetslegitimasjonen for å raskt låse opp databasen din.</string>
-    <string name="education_setup_OTP_title">Sett opp OTP</string>
     <string name="download_canceled">Avbrutt!</string>
     <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
     <string name="html_about_contribution">For å &lt;strong&gt; beholde vår frihet &lt;/strong&gt;, &lt;strong&gt; fikse feil &lt;/strong&gt;, &lt;strong&gt; legge til funksjoner &lt;/strong&gt; og &lt;strong&gt; være alltid aktiv &lt;/strong&gt;, stoler vi på ditt &lt;strong&gt; bidrag &lt;/strong&gt;.</string>
@@ -556,8 +519,6 @@
     <string name="autofill_web_domain_blocklist_title">Svarteliste for vev-domene</string>
     <string name="autofill_web_domain_blocklist_summary">Svarteliste som forhindrer automatisk innfylling av vev-domener</string>
     <string name="autofill_ask_to_save_data_summary">Spør om å lagre data når et skjema bekreftes</string>
-    <string name="education_add_attachment_summary">Last opp et vedlegg til din oppføring for å lagre viktig ekstern data.</string>
-    <string name="education_setup_OTP_summary">Sett opp engangspassordhåndtering (HOTP/TOTP) for å generere et symbol forespurt for to-faktoridentitetsbekreftelse (2FA).</string>
     <string name="show_otp_token_title">Vis OTP-symbol</string>
     <string name="keyboard_auto_go_action_summary">«Start»-nøkkelhandling etter at en «Felt»-nøkkel trykkes</string>
     <string name="keyboard_auto_go_action_title">Automatisk nøkkelhandling</string>

@@ -132,9 +132,6 @@
     <string name="version_label">Версия %1$s</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
     <string name="unavailable">Недоступно</string>
-    <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
-\n
-\nНе забывайте сохранять копию файла базы в безопасном месте после каждого изменения.</string>
     <string-array name="list_size_options">
         <item>Мелкий</item>
         <item>Обычный</item>
@@ -226,41 +223,12 @@
     <string name="allow_no_password_summary">Разрешить нажимать кнопку \"Открыть\", если главный пароль не указан</string>
     <string name="enable_read_only_title">Только чтение</string>
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
-    <string name="enable_education_screens_title">Обучающие подсказки</string>
-    <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
-    <string name="reset_education_screens_title">Вернуть обучающие подсказки</string>
-    <string name="reset_education_screens_summary">Снова показывать все обучающие подсказки</string>
     <string name="reset_education_screens_text">Обучающие подсказки сброшены</string>
-    <string name="education_create_database_title">Создайте файл базы</string>
-    <string name="education_create_database_summary">Создайте свой первый файл управления паролями.</string>
-    <string name="education_select_database_title">Откройте существующую базу</string>
-    <string name="education_select_database_summary">Откройте ранее созданный файл базы из файлового менеджера, чтобы продолжить его использование.</string>
-    <string name="education_new_node_title">Добавляйте новые элементы в базу</string>
-    <string name="education_new_node_summary">Добавляйте записи для управления цифровыми идентификаторами.
-\n
-\nДобавляйте группы (аналог папок) для организации записей и баз.</string>
-    <string name="education_search_title">Легко находите ваши записи</string>
-    <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
-    <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с пользовательскими полями. Возможны перекрёстные ссылки между полями разных записей.</string>
-    <string name="education_generate_password_title">Создайте надёжный пароль</string>
-    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
-    <string name="education_entry_new_field_title">Добавляйте пользовательские поля</string>
-    <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
-    <string name="education_unlock_title">Разблокируйте базу</string>
-    <string name="education_read_only_title">База только для чтения</string>
-    <string name="education_read_only_summary">Изменяйте режим открытия в сессии.
-\n
-\nВ \"режиме только для чтения\" можно предотвратить непреднамеренные изменения в базе.
-\nВ \"режиме записи\" можно добавлять, удалять или изменять любые элементы.</string>
     <string name="education_field_copy_title">Копируйте поля</string>
     <string name="education_field_copy_summary">Скопированные поля можно вставить в любом месте.
 \n
 \nИспользуйте метод заполнения формы, который вам наиболее удобен.</string>
-    <string name="education_lock_title">Заблокируйте базу</string>
-    <string name="education_lock_summary">Быстро блокируйте вашу базу. Вы можете настроить приложение так, чтобы заблокировать её через некоторое время и при выключении экрана.</string>
-    <string name="education_sort_title">Сортировка записей</string>
-    <string name="education_sort_summary">Выберите критерий сортировки записей и групп.</string>
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих других приложений управления паролями, здесь &lt;strong&gt;нет рекламы&lt;/strong&gt;, и оно &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Приложение не собирает ваши личные данные на своих серверах независимо от версии, которую вы используете.</string>
@@ -419,8 +387,6 @@
     <string name="discard">Не сохранять</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
-    <string name="education_setup_OTP_title">Настройка OTP</string>
-    <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
     <string name="lock_database_show_button_summary">Использовать кнопку блокировки в интерфейсе</string>
     <string name="lock_database_show_button_title">Показывать кнопку блокировки</string>
     <string name="error_label_exists">Такая метка уже существует.</string>
@@ -443,8 +409,6 @@
     <string name="keyboard_previous_database_credentials_summary">Автоматически переключаться на предыдущую клавиатуру на экране входа в базу</string>
     <string name="keyboard_change">Переключение клавиатуры</string>
     <string name="upload_attachment">Добавить %1$s</string>
-    <string name="education_add_attachment_summary">В запись можно добавить файл как вложение, чтобы сохранить важные внешние данные.</string>
-    <string name="education_add_attachment_title">Добавление вложения</string>
     <string name="warning_file_too_big">Предполагается, что база KeePass содержит только небольшие служебные файлы (например, файлы ключей PGP).
 \n
 \nЕсли добавить этот файл, база станет очень большой и снизится производительность.</string>
@@ -499,9 +463,7 @@
     <string name="custom_fields">Пользовательские поля</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Выберите запись</string>
-    <string name="education_advanced_unlock_title">Разблокировка базы устройством</string>
     <string name="advanced_unlock_timeout">Срок действия разблокировки устройства</string>
-    <string name="education_advanced_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
     <string name="temp_advanced_unlock_timeout_summary">Продолжительность использования содержимого разблокировки устройства до его удаления</string>
     <string name="temp_advanced_unlock_timeout_title">Время действия</string>
     <string name="temp_advanced_unlock_enable_title">Временная разблокировка устройства</string>
@@ -668,14 +630,10 @@
     <string name="menu_advanced_unlock_settings_summary">Биометрия, учётные данные устройства</string>
     <string name="menu_database_settings_summary">Метаданные, корзина, шаблоны, история</string>
     <string name="menu_security_settings_summary">Шифрование, функция формирования ключа</string>
-    <string name="education_validate_entry_summary">Не забывайте проверять введённые данные и сохранять базу.
-\n
-\nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
     <string name="master_key_settings_summary">Изменение, обновление</string>
     <string name="warning_copy_permission">Разрешение необходимо для использования функции уведомления буфера обмена.</string>
     <string name="menu_appearance_settings_summary">Темы, цвета, атрибуты</string>
     <string name="configure">Настройка</string>
-    <string name="education_validate_entry_title">Проверка записи</string>
     <string name="unlock_and_link_biometric">Настройка разблокировки устройства</string>
     <string name="warning_database_notification_permission">Разрешение на отображение уведомлений позволяет показывать состояние базы и блокировать её с помощью легкодоступной кнопки.
 \n

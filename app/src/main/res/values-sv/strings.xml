@@ -124,9 +124,6 @@
     <string name="unsupported_db_version">Databasversionen stöds ej.</string>
     <string name="uppercase">Versaler</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.
-\n
-\nBacka upp databasfilen på ett säkert ställe efter varje ändring.</string>
     <string-array name="list_size_options">
         <item>Liten</item>
         <item>Medium</item>
@@ -217,34 +214,12 @@
     <string name="other">Annan</string>
     <string name="keyboard">Tangentbord</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="reset_education_screens_title">Återställ hjälpskärmar</string>
-    <string name="reset_education_screens_summary">Visa alla hjälpskärmar igen</string>
     <string name="reset_education_screens_text">Återställ hjälpskärmar</string>
-    <string name="education_create_database_title">Skapa din databasfil</string>
-    <string name="education_create_database_summary">Skapa din första lösenordshanteringsfil.</string>
-    <string name="education_select_database_title">Öppna en befintlig databas</string>
-    <string name="education_select_database_summary">Öppna din tidigare databasfil från din filhanterare för att fortsätta använda den.</string>
-    <string name="education_new_node_title">Lägg till objekt i din databas</string>
-    <string name="education_new_node_summary">Poster hjälper dig att hålla reda på dina digitala identiteter.
-\n
-\nGrupper (~ folders) organiserar poster i din databas.</string>
-    <string name="education_search_title">Sök igenom poster</string>
-    <string name="education_search_summary">Skriv in titel, användarnamn eller innehåll från andra fält för att hämta dina lösenord.</string>
-    <string name="education_entry_edit_title">Redigera posten</string>
     <string name="education_entry_edit_summary">Redigera posten med anpassade fält. Pooldata kan refereras mellan olika inmatningsfält.</string>
-    <string name="education_generate_password_title">Skapa ett starkt lösenord</string>
-    <string name="education_generate_password_summary">Generera ett starkt lösenord för att associera med din post, definiera det enkelt enligt kriterierna för formuläret och glöm inte ett säkert lösenord.</string>
-    <string name="education_entry_new_field_title">Lägg till anpassade fält</string>
-    <string name="education_entry_new_field_summary">Regstrera et extra fält, fyll i ett värde och eventuellt skydda det.</string>
-    <string name="education_unlock_title">Lås upp din databas</string>
     <string name="education_field_copy_title">Kopiera ett fält</string>
     <string name="education_field_copy_summary">Kopierade fält kan klistras in vart som helst.
 \n
 \nAnvänd den formulärfyllningsmetoden som du föredrar.</string>
-    <string name="education_lock_title">Lås databasen</string>
-    <string name="education_lock_summary">Lås databasen snabbt, du kan ställa in att appen låser den efter en stund och när skärmen släcks.</string>
-    <string name="education_sort_title">Objektsortering</string>
-    <string name="education_sort_summary">Välj hur poster och grupper sorteras.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Hjälp till att öka stabilitet, säkerhet och med att lägga till fler funktioner.</string>
     <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
@@ -269,17 +244,10 @@
     <string name="allow_copy_password_warning">VARNING: Urklipp delas mellan alla appar. Om känslig data kopieras kan annan mjukvara återskapa den.</string>
     <string name="allow_no_password_title">Tillåt ingen huvudnyckel</string>
     <string name="allow_no_password_summary">Aktivera \"öppna\"-knappen om inga användaruppgifter har valts</string>
-    <string name="enable_education_screens_title">Hjälpskärmar</string>
-    <string name="enable_education_screens_summary">Markerar element för att lära dig hur appen fungerar</string>
     <string name="menu_file_selection_read_only">Skrivskyddad</string>
     <string name="menu_open_file_read_and_write">Modifierbar</string>
     <string name="enable_read_only_title">Skrivskyddad</string>
     <string name="enable_read_only_summary">Öppna databasen i skrivskyddat läge som standard</string>
-    <string name="education_read_only_title">Skrivskydda din databas</string>
-    <string name="education_read_only_summary">Ändra öppningsläge för sessionen.
-\n
-\n\"Skrivskyddad\" förhindrar oavsiktliga ändringar till databasen.
-\n\"Ändringsbar\" låter dig lägga till, radera eller ändra alla element.</string>
     <string name="error_load_database">Kunde inte ladda in databasen.</string>
     <string name="error_load_database_KDF_memory">Kunde inte ladda in nyckeln. Prova att sänka KDF \"Minnesanvändning\".</string>
     <string name="list_entries_show_username_title">Visa användarnamn</string>
@@ -407,8 +375,6 @@
     <string name="download_progression">Händelse %1$d%%</string>
     <string name="download_initialization">Initiering…</string>
     <string name="download_attachment">Ladda ner %1$s</string>
-    <string name="education_setup_OTP_summary">Inställning av OTP (One-Time Password (Engångslösenord))-hantering av (HOTP/TOTP) för att skapa tecken begärda av Tvåstegs autentisering (2FA).</string>
-    <string name="education_setup_OTP_title">Ställ in OTP</string>
     <string name="keyboard_auto_go_action_summary">\"Goknappens\" åtgärd när en \"Fältknapp\" trycks ner</string>
     <string name="keyboard_auto_go_action_title">Automatisk knappåtgärd</string>
     <string name="lock_database_show_button_summary">Visa låsknappen i gränssnittet</string>

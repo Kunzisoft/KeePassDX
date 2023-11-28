@@ -122,7 +122,6 @@
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
     <string name="uppercase">רישית</string>
     <string name="version_label">גרסה %1$s</string>
-    <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים.</string>
     <string-array name="list_size_options">
         <item>קטן</item>
         <item>בינוני</item>

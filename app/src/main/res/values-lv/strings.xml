@@ -122,7 +122,6 @@
     <string name="unsupported_db_version">Neatbalstīta datu bāzes versija.</string>
     <string name="uppercase">Lielie burti</string>
     <string name="version_label">Versija %1$s</string>
-    <string name="education_unlock_summary">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi.</string>
     <string-array name="list_size_options">
         <item>Mazs</item>
         <item>Vidējs</item>

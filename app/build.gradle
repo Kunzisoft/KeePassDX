@@ -103,8 +103,6 @@ dependencies {
     implementation 'joda-time:joda-time:2.10.13'
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.6'
-    // Education
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
     // Apache Commons
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'

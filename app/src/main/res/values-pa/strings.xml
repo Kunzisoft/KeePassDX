@@ -10,8 +10,6 @@
     <string name="download_initialization">…ਸ਼ੁਰੂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="download_attachment">%1$s ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="download">ਡਾਊਨਲੋਡ ਕਰੋ</string>
-    <string name="education_setup_OTP_title">OTP ਸੈਟਅੱਪ ਕਰੋ</string>
-    <string name="education_create_database_title">ਆਪਣੀ ਡਾਟਾਬੇਸ ਫ਼ਾਇਲ ਬਣਾਓ</string>
     <string name="delete_entered_password_title">ਪਾਸਵਰਡ ਹਟਾਓ</string>
     <string name="keyboard_appearance_category">ਦਿੱਖ</string>
     <string name="keyboard_notification_entry_title">ਨੋਟੀਫਿਕੇਸ਼ਨ ਜਾਣਕਾਰੀ</string>
@@ -276,11 +274,7 @@
     <string name="autofill_application_id_blocklist_title">ਐਪਲੀਕੇਸ਼ਨ ਪਾਬੰਦੀ-ਸੂਚੀ</string>
     <string name="autofill_ask_to_save_data_summary">ਜਦੋਂ ਖੇਤਰ ਦੀ ਜਾਂਚ ਹੋ ਜਾਵੇ ਤਾਂ ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਪੁੱਛੋ</string>
     <string name="autofill_ask_to_save_data_title">ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਪੁੱਛੋ</string>
-    <string name="education_generate_password_title">ਮਜ਼ਬੂਤ ਪਾਸਵਰਡ ਬਣਾਓ</string>
-    <string name="education_unlock_title">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਅਣ-ਲਾਕ ਕਰੋ</string>
     <string name="education_field_copy_title">ਖੇਤਰ ਨੂੰ ਕਾਪੀ ਕਰੋ</string>
-    <string name="education_lock_summary">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਫ਼ੌਰੀ ਤੌਰ ਉੱਤੇ ਲਾਕ ਕਰੋ, ਤੁਸੀਂ ਕੁਝ ਦੇਰ ਬਾਅਦ ਅਤੇ ਜਦੋਂ ਸਕਰੀਨ ਬੰਦ ਹੋਵੇ ਤਾਂ ਇਸ ਨੂੰ ਲਾਕ ਕਰਨ ਲਈ ਐਪ ਨੂੰ ਸੈਟਅੱਪ ਕਰ ਸਕਦੇ ਹੋ।</string>
-    <string name="education_lock_title">ਡਾਟਾਬੇਸ ਲਾਕ ਕਰੋ</string>
     <string name="upload_attachment">%1$s ਅੱਪਲੋਡ ਕਰੋ</string>
     <string name="show_uuid_summary">ਐਂਟਰੀ ਨਾਲ ਸੰਬੰਧਿਤ UUID ਦਿਖਾਉਂਦਾ ਹੈ</string>
     <string name="encryption_explanation">ਸਾਰੇ ਡਾਟੇ ਲਈ ਡਾਟਾਬੇਸ ਇੰਕ੍ਰਿਪਸ਼ਨ ਐਲਗੋਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ।</string>
@@ -325,15 +319,6 @@
     <string name="keyboard_entry_category">ਐਂਟਰੀ</string>
     <string name="autofill_close_database_title">ਡਾਟਾਬੇਸ ਬੰਦ ਕਰੋ</string>
     <string name="enable_read_only_title">ਲਿਖਣ ਤੋਂ ਸੁਰੱਖਿਅਤ</string>
-    <string name="education_search_title">ਐਂਟਰੀਆਂ ਵਿੱਚੋਂ ਲੱਭੋ</string>
-    <string name="education_entry_edit_title">ਐਂਟਰੀ ਨੂੰ ਸੋਧੋ</string>
-    <string name="education_add_attachment_title">ਅਟੈਚਮੈਂਟ ਜੋੜੋ</string>
-    <string name="education_add_attachment_summary">ਖ਼ਾਸ ਬਾਹਰੀ ਡਾਟਾ ਸੰਭਾਲਣ ਲਈ ਤੁਹਾਡੀ ਐਂਟਰੀ ਲਈ ਅਟੈਚਮੈਂਟ ਅੱਪਲੋਡ ਕਰੋ।</string>
-    <string name="education_unlock_summary">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਅਣ--ਲਾਕ ਕਰਨ ਲਈ ਆਪਣਾ ਪਾਸਵਰਡ ਅਤੇ/ਜਾਂ ਕੁੰਜੀ-ਫ਼ਾਇਲ ਦਿਓ।
-\n
-\nਹਰ ਵਾਰ ਬਦਲਾਅ ਕਰਨ ਦੇ ਆਪਣੀ ਡਾਟਾਬੇਸ ਫ਼ਾਇਲ ਨੂੰ ਸੁਰੱਖਿਅਤ ਥਾਂ ਉੱਤੇ ਬੈਕਅਪ ਲਵੋ।</string>
-    <string name="education_read_only_title">ਆਪਣੇ ਡਾਟਾਬੇਸ ਨੂੰ ਲਿਖਣ ਤੋਂ ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
-    <string name="education_sort_title">ਚੀਜ਼ਾਂ ਲੜੀਬੱਧ ਕਰੋ</string>
     <string name="education_donation_title">ਹਿੱਸਾ ਪਾਓ</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;ਪ੍ਰੋ&lt;/strong&gt; ਵਰਜ਼ਨ ਖਰੀਦ ਕੇ,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;ਹਿੱਸਾ ਪਾ ਕੇ&lt;/strong&gt;,</string>

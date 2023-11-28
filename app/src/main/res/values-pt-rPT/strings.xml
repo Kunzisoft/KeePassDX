@@ -130,9 +130,6 @@
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do ficheiro da base de dados (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="version_label">Versão %1$s</string>
-    <string name="education_unlock_summary">Introduza a palavra-passe e/ou com o caminho para o ficheiro-chave da base de dados.
-\n
-\nGuarde uma cópia de segurança do ficheiro da sua base de dados num lugar seguro depois de cada alteração.</string>
     <string-array name="list_size_options">
         <item>Pequena</item>
         <item>Média</item>
@@ -214,34 +211,12 @@
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Ative um teclado personalizado para as suas palavras-passe e todos os campos de identidade</string>
-    <string name="reset_education_screens_title">Reiniciar as dicas</string>
-    <string name="reset_education_screens_summary">Mostrar todas as dicas novamente</string>
     <string name="reset_education_screens_text">Dicas repostas</string>
-    <string name="education_create_database_title">Criar um ficheiro da base de dados</string>
-    <string name="education_create_database_summary">Crie o seu primeiro ficheiro de gestão de palavras-passe.</string>
-    <string name="education_select_database_title">Abrir uma base de dados existente</string>
-    <string name="education_select_database_summary">Abra a sua base de dados anterior no navegador de ficheiros para continuar a usá-la.</string>
-    <string name="education_new_node_title">Adicionar itens à base de dados</string>
-    <string name="education_new_node_summary">As entradas ajudam a gerir as suas identidades digitais.
-\n
-\nOs grupos (~pastas) organizam as suas entradas na base de dados.</string>
-    <string name="education_search_title">Pesquisar nas entradas</string>
-    <string name="education_search_summary">Digite o título, nome de utilizador ou outros campos para recuperar facilmente as suas palavras-passe.</string>
-    <string name="education_entry_edit_title">Editar a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
-    <string name="education_generate_password_title">Criar uma palavra-passe forte</string>
-    <string name="education_generate_password_summary">Crie uma palavra-passe forte para associar à sua entrada, defina-a facilmente de acordo com os critérios do formulário e não se esqueça de torná-la segura.</string>
-    <string name="education_entry_new_field_title">Adicionar campos personalizados</string>
-    <string name="education_entry_new_field_summary">Registe um campo adicional, adicione um valor e proteja-o opcionalmente.</string>
-    <string name="education_unlock_title">Desbloquear a base de dados</string>
     <string name="education_field_copy_title">Copiar um campo</string>
     <string name="education_field_copy_summary">Os campos copiados podem ser colados em qualquer lugar.
 \n
 \nUse o método de preenchimento de formulário que preferir.</string>
-    <string name="education_lock_title">Bloquear a base de dados</string>
-    <string name="education_lock_summary">Bloqueie a sua base de dados rapidamente. Pode configurar a aplicação para bloqueá-la após um tempo e quando o ecrã se desliga.</string>
-    <string name="education_sort_title">Ordenação de itens</string>
-    <string name="education_sort_summary">Escolha como são ordenadas as entradas e os grupos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e novas funcionalidades.</string>
     <string name="html_text_ad_free">Ao contrário de muitas aplicações de gestão de palavras-passe, esta aplicação &lt;strong&gt;não tem anúncios&lt;/strong&gt;, é &lt;strong&gt;um programa de código-fonte livre&lt;/strong&gt; e não recolhe dados pessoais para os servidores dela, seja qual for a versão que utiliza.</string>
@@ -262,15 +237,8 @@
     <string name="allow_copy_password_warning">Aviso: a área de transferência é partilhada por todas as aplicações. Se forem copiados dados sensíveis, os outros programas podem ler esses dados.</string>
     <string name="allow_no_password_title">Não permitir chave mestra</string>
     <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" se não estiverem selecionadas nenhumas credenciais</string>
-    <string name="enable_education_screens_title">Dicas educacionais</string>
-    <string name="enable_education_screens_summary">Destacar elementos para saber como a aplicação funciona</string>
     <string name="enable_read_only_title">Apenas leitura</string>
     <string name="enable_read_only_summary">Abrir a base de dados com permissão de apenas leitura por predefinição</string>
-    <string name="education_read_only_title">Proteger a base de dados contra alterações</string>
-    <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
-\n
-\n\"Apenas leitura\" evita que faça alterações não intencionais na base de dados.
-\n\"Alterável\" permite adicionar, eliminar ou alterar todos os elementos.</string>
     <string name="list_entries_show_username_summary">Mostra nomes de utilizador nas listas de entradas</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
@@ -358,7 +326,6 @@
     <string name="keyboard_auto_go_action_summary">Ação da tecla \"Ir\" após pressionar a tecla \"Campo\"</string>
     <string name="otp_type">Tipo do OTP</string>
     <string name="entry_add_attachment">Adicionar anexo</string>
-    <string name="education_setup_OTP_title">Configurar o OTP</string>
     <string name="compression">Compressão</string>
     <string name="validate">Validar</string>
     <string name="remember_keyfile_locations_summary">Mantém um registo dos locais onde os ficheiros-chave são armazenados</string>
@@ -436,15 +403,12 @@
     <string name="contains_duplicate_uuid_procedure">Resolver o problema gerando novas UUIDs para os duplicados para continuar\?</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Forçar renovação na próxima vez</string>
     <string name="menu_advanced_unlock_settings">Desbloqueio de dispositivos</string>
-    <string name="education_setup_OTP_summary">Configure a gestão de palavra-passe única (HOTP / TOTP) para gerar um token solicitado para autenticação de dois fatores (2FA).</string>
     <string name="remember_keyfile_locations_title">Lembrar locais dos ficheiros-chave</string>
     <string name="download_progression">Em progresso: %1$d%%</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o leitor</string>
     <string name="advanced_unlock">Desbloqueio do dispositivo</string>
     <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
     <string name="upload_attachment">Enviar %1$s</string>
-    <string name="education_add_attachment_summary">Envie um anexo para a sua entrada para guardar dados externos importantes.</string>
-    <string name="education_add_attachment_title">Adicionar um anexo</string>
     <string name="database_data_remove_unlinked_attachments_summary">Remove anexos contidos na base de dados, mas não ligados a uma entrada</string>
     <string name="database_data_remove_unlinked_attachments_title">Remover dados não ligados</string>
     <string name="data">Dados</string>
@@ -497,8 +461,6 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Cancelado!</string>
-    <string name="education_advanced_unlock_summary">Ligue a sua palavra-passe às suas credenciais biométricas ou do dispositivo para desbloquear rapidamente a sua base de dados.</string>
-    <string name="education_advanced_unlock_title">Desbloqueio da base de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Adicionadas sugestões de preenchimento automático.</string>
     <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando terminar de preencher um formulário</string>
@@ -668,10 +630,6 @@
 \n
 \nSe não ativar esta permissão, a base de dados aberta em segundo plano não será visível se outra aplicação estiver em primeiro plano.</string>
     <string name="unlock">Desbloquear</string>
-    <string name="education_validate_entry_title">Validar a entrada</string>
-    <string name="education_validate_entry_summary">Não se esqueça de validar a sua entrada e de guardar a sua base de dados.
-\n
-\nSe um bloqueio automático estiver ativado e se esquecer que está a fazer uma modificação, corre o risco de perder os seus dados.</string>
     <string name="menu_advanced_unlock_settings_summary">Biometria, credencial do dispositivo</string>
     <string name="menu_database_settings_summary">Metadados, reciclagem, modelos, histórico</string>
     <string name="warning_copy_permission">A permissão de notificação é necessária para utilizar a funcionalidade de notificação da área de transferência.</string>

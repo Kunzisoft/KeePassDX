@@ -31,7 +31,6 @@ import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.education.Education
 import java.io.File
 
 
@@ -219,7 +218,6 @@ object UriUtil {
                 packageName,
                 PackageManager.GET_ACTIVITIES
             )
-            Education.setEducationScreenReclickedPerformed(this)
             return true
         } catch (e: Exception) {
             if (showError)

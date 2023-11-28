@@ -34,13 +34,6 @@
     <string name="select_database_file">เปิดคลังรหัสผ่านที่มีอยู่แล้ว</string>
     <string name="warning_database_link_revoked">การเข้าถึงไฟล์ถูกเพิกถอนโดยตัวจัดการไฟล์</string>
     <string name="warning_database_revoked">การเข้าถึงไฟล์ถูกเพิกถอนโดยตัวจัดการไฟล์ ปิดฐานข้อมูลและเปิดใหม่จากตำแหน่งดังกล่าวอีกครั้ง</string>
-    <string name="education_select_database_title">เปิดฐานข้อมูลที่มีอยู่แล้ว</string>
-    <string name="education_create_database_title">สร้างไฟล์ฐานข้อมูล</string>
-    <string name="education_create_database_summary">สร้างไฟล์รายชื่อของแอปจัดการรหัสผ่านแรกของคุณ</string>
-    <string name="education_unlock_summary">กรอกรหัสผ่าน และ/หรือ Keyfile เพื่อปลดล็อกฐานข้อมูล
-\n
-\nสำรองฐานข้อมูลไว้ในที่ปลอดภัยหลังจากการเปลี่ยนแปลงแต่ละครั้ง</string>
-    <string name="education_unlock_title">ปลดล็อกฐานข้อมูล</string>
     <string name="content_description_keyfile_checkbox">ช่องทำเครื่องหมาย Keyfile</string>
     <string name="content_description_repeat_toggle_password_visibility">สลับการมองเห็นรหัสผ่าน</string>
     <string name="content_description_passphrase_word_count">จำนวนคำวลีรหัสผ่าน</string>
@@ -179,27 +172,9 @@
     <string name="enable_auto_save_database_title">บันทึกฐานข้อมูลอัตโนมัติ</string>
     <string name="enable_keep_screen_on_title">เปิดหน้าจอไว้</string>
     <string name="enable_screenshot_mode_title">โหมดจับภาพหน้าจอ</string>
-    <string name="education_select_database_summary">เปิดไฟล์ฐานข้อมูลก่อนหน้านี้จากตัวจัดการไฟล์เพื่อใช้งานมันต้อ</string>
-    <string name="education_new_node_title">เพื่มรายการใหม่ในฐานข้อมูล</string>
-    <string name="education_new_node_summary">รายการช่วยจัดการตัวตนดิจิทัลของคุณ
-\n
-\nกลุ่ม(หรือโฟล์เดอร์)เอาไว้จัดระเบียบรายการในฐานข้อมูลของคุณ</string>
-    <string name="education_search_title">ค้นหาในรายการ</string>
-    <string name="education_search_summary">กรอกหัวเรื่อง, ชื่อผู้ใช้ หรือเนื้อหาจากช่องเขตข้อมูลอื่นๆเพื่อเรียกรหัสผ่าน</string>
-    <string name="education_generate_password_title">สร้างรหัสผ่านที่แข็งแรง</string>
-    <string name="education_entry_new_field_title">เพื่มช่องเขตข้อมูลที่กำหนดเอง</string>
-    <string name="education_add_attachment_title">เพื่มเอกสารแนบ</string>
-    <string name="education_read_only_summary">เปลี่ยนโหมดที่จะเปิดในเซสชั่น
-\n
-\n\"ป้องกันการเขียน\" ป้องกันการเปลี่ยนแปลงที่ไม่ได้ตั้งใจถูกบันทึกลงในฐานข้อมูล
-\n\"แก้ไขได้\" ให้คุณเพื่ม, ลบ, หรือเปลี่ยนแปลงทุกๆองค์ประกอบได้ตามต้องการ</string>
     <string name="education_field_copy_summary">เขตข้อมูลที่คัดลอกแล้วสามารถวางได้ที่ใหนก็ได้
 \n
 \nใช้การวิธีการกรอกข้อมูลตามต้องการ</string>
-    <string name="education_lock_title">ล็อกฐานข้อมูล</string>
-    <string name="education_lock_summary">ล็อกฐานข้อมูลอย่างรวดเร็ว คุณสามารถตั้งค่าการล็อกมันหลังจากผ่านไปสักพัก และเมื่อปิดหน้าจอ</string>
-    <string name="education_sort_title">จัดเรียงรายการ</string>
-    <string name="education_sort_summary">เลือกรายการและกลุ่มที่จะถูกจัดเรียง</string>
     <string name="html_text_donation">เพื่อเป็นการรักษาความอิสระและพัฒนาอยู่เสมอ เรารอคอยการ&lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;ของคุณ</string>
     <string name="html_text_dev_feature_encourage">you are encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
     <string name="html_text_dev_feature_thanks">ขอขอบคุณสำหรับการร่วมแก้ไขของคุณเป็นอย่างมาก</string>
@@ -412,14 +387,10 @@
     <string name="autofill_ask_to_save_data_title">ถามเพื่อบันทึกข้อมูล</string>
     <string name="autofill_block">บล็อกการกรอกอัตโนมัติ</string>
     <string name="enable_read_only_title">ป้องกันการเขียน</string>
-    <string name="reset_education_screens_title">รีเซ็ทคำแนะนำการใช้งาน</string>
-    <string name="reset_education_screens_summary">แสดงคำแนะนำการใช้งานอีกครั้ง</string>
     <string name="html_text_dev_feature_contibute">โดยการ&lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;</string>
-    <string name="education_setup_OTP_title">ตั้งค่า OTP</string>
     <string name="show_entry_colors_title">สีของรายการ</string>
     <string name="icon_pack_choose_summary">ชุดไอคอนที่ใช้ในแอป</string>
     <string name="style_brightness_summary">เลือกธีมมืดหรือสว่าง</string>
-    <string name="education_read_only_title">ปกป้องฐานข้อมูลของคุณ</string>
     <string name="education_donation_title">มีส่วมร่วม</string>
     <string name="warning_database_info_reloaded">การโหลดฐานข้อมูลซ้ำจะลบข้อมูลที่ถูกแก้ไขภายในเครื่อง</string>
     <string name="default_checkbox">ใช้เป็นฐานข้อมูลเรื่มต้น</string>
@@ -620,16 +591,7 @@
     <string name="enable_auto_save_database_summary">บันทึกฐานข้อมูลหลังจากการกระทำที่สำคัญ(ในโหมด\"แก้ไขได้\")</string>
     <string name="enable_keep_screen_on_summary">เปิดหน้าจอไว้ขณะดูหรือแก้ไขรายการ</string>
     <string name="enable_screenshot_mode_summary">อนุญาตแอปอื่นๆบันทึกหรือถ่ายภาพหน้าจอแอปนี้</string>
-    <string name="enable_education_screens_summary">ไฮไลท์องค์ประกอบเพื่อเรียนรู้ว่าแอปใช้ยังไง</string>
-    <string name="enable_education_screens_title">คำแนะนำการใช้งาน</string>
-    <string name="education_advanced_unlock_title">การปลดล็อกฐานข้อมูลด้วยอุปกรณ์</string>
-    <string name="education_advanced_unlock_summary">เชื่อมโยงรหัสผ่านกับข้อมูลไบโอเมตริกหรือข้อมูลการเข้าสู่ระบบเพื่อปลดล็อกฐานข้อมูลได้เร็วขึ้น</string>
-    <string name="education_entry_edit_title">แก้ไขรายการ</string>
     <string name="education_entry_edit_summary">แก้ไขรายการด้วยเขตข้อมูลที่กำหนดเอง ข้อมูลสามารถอ้างอิงได้ระหว่างรายการเขตข้อมูลต่างๆ</string>
-    <string name="education_entry_new_field_summary">กำหนดช่องเขตข้อมูลเพื่มเติม, เพื่มค่าหรือจะเพื่มการป้องกันให้มันด้วยก็ได้</string>
-    <string name="education_generate_password_summary">สร้างรหัสผ่านที่แข็งแรงเพื่อใช้กับรายการของคุณ ความง่ายในการระบุขึ้นอยู่กับลักษณะแบบฟอร์มนั้น และจงอย่าลืมรหัสผ่านที่ปลอดภัย</string>
-    <string name="education_add_attachment_summary">อัปโหลดเอกสารแนบไปยังรายการของคุณเพื่อบันทึกข้อมูลภายนอกเพิ่มเติม</string>
-    <string name="education_setup_OTP_summary">ตั่้งค่ารหัสผ่านแบบใช้ครั้งเดียว (HOTP/TOTP) เพิ่อสร้างโทเค็นสำหรับการยืนยันสองขั้นตอน (2FA)</string>
     <string name="education_field_copy_title">คัดลอกเขตข้อมูล</string>
     <string name="education_donation_summary">ช่วยเพื่มความสเถียร ความปลอดภัย และใส่ฟีเจอร์เข้าไปเพื่มเติม</string>
     <string name="html_text_ad_free">ไม่เหมือนแอปจัดการรหัสผ่านอื่นๆ แอปนี้&lt;strong&gt;เป็นซอฟท์แวร์แบบเสรี&lt;/strong&gt;, &lt;strong&gt;ปลอดโฆษณา&lt;/strong&gt; และไม่เก็บข้อมูลผู้ใช้ไว้บนเซิฟเวอร์ ไม่ว่าจะใช้เวอร์ชั่นอะไรก็ตาม</string>
@@ -647,7 +609,6 @@
     <string name="later">ภายหลัง</string>
     <string name="unlock">ปลดล็อก</string>
     <string name="master_key_settings_summary">เปลี่ยน, รอบการเปลี่ยน</string>
-    <string name="education_validate_entry_title">ตรวจสอบรายการ</string>
     <string name="menu_form_filling_settings_summary">คีย์บอร์ด, การกรอกข้อมูลอัตโนมัติ, คลิปบอร์ด</string>
     <string name="configure">การกำหนดค่า</string>
     <string name="menu_appearance_settings_summary">ธีม, สี, คุณสมบัติ</string>

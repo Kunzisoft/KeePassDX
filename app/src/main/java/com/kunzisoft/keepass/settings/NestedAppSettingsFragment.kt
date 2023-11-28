@@ -39,10 +39,8 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
-import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
-import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
@@ -435,20 +433,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 iconPackEnabled
             }
 
-            findPreference<Preference>(getString(R.string.reset_education_screens_key))?.setOnPreferenceClickListener {
-                // To allow only one toast
-                if (mCount == 0) {
-                    val sharedPreferences = Education.getEducationSharedPreferences(activity)
-                    val editor = sharedPreferences.edit()
-                    for (resourceId in Education.educationResourcesKeys) {
-                        editor.putBoolean(getString(resourceId), false)
-                    }
-                    editor.apply()
-                    Toast.makeText(context, R.string.reset_education_screens_text, Toast.LENGTH_SHORT).show()
-                }
-                mCount++
-                false
-            }
         }
     }
 
@@ -464,9 +448,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.show_uuid_key),
             getString(R.string.list_size_key),
             getString(R.string.monospace_font_fields_enable_key),
-            getString(R.string.hide_expired_entries_key),
-            getString(R.string.enable_education_screens_key),
-            getString(R.string.reset_education_screens_key) -> {
+            getString(R.string.hide_expired_entries_key) -> {
                 DATABASE_PREFERENCE_CHANGED = true
             }
         }
@@ -515,16 +497,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onPause() {
         warningAlertDialog?.dismiss()
         super.onPause()
-    }
-
-    private var mCount = 0
-    override fun onStop() {
-        super.onStop()
-        activity?.let { activity ->
-            if (mCount == 10 && !BuildConfig.CLOSED_STORE) {
-                Education.setEducationScreenReclickedPerformed(activity)
-            }
-        }
     }
 
     companion object {

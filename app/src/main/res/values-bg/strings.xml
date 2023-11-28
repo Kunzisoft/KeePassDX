@@ -71,7 +71,6 @@
     <string name="content_description_hardware_key_checkbox">Хардуерен ключ отметка</string>
     <string name="hide_password_title">Скриване на пароли</string>
     <string name="hint_pass">Парола</string>
-    <string name="education_select_database_title">Отвори съществуваща база данни</string>
     <string name="content_description_keyfile_checkbox">Файл с ключ отметка</string>
     <string name="error_hardware_key_unsupported">Хардуерният ключ не се поддържа.</string>
     <string name="remember_hardware_key_summary">Пази запис на използваните хардуерни ключове</string>

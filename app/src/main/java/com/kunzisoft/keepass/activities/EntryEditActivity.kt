@@ -70,7 +70,6 @@ import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
-import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -132,8 +131,6 @@ class EntryEditActivity : DatabaseLockActivity(),
     // To manage attachments
     private var mExternalFileHelper: ExternalFileHelper? = null
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    // Education
-    private var mEntryEditActivityEducation = EntryEditActivityEducation(this)
 
     private var mIconSelectionActivityResultLauncher = IconPickerActivity.registerIconSelectionForResult(this) { icon ->
         mEntryEditViewModel.selectIcon(icon)
@@ -148,9 +145,6 @@ class EntryEditActivity : DatabaseLockActivity(),
             }
         }
         mPasswordField = null
-        Handler(Looper.getMainLooper()).post {
-            performedNextEducation()
-        }
     }
 
     // To ask data lost only one time
@@ -590,9 +584,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         super.onCreateOptionsMenu(menu)
         if (mEntryLoaded) {
             menuInflater.inflate(R.menu.entry_edit, menu)
-            Handler(Looper.getMainLooper()).post {
-                performedNextEducation()
-            }
         }
         return true
     }
@@ -616,79 +607,6 @@ class EntryEditActivity : DatabaseLockActivity(),
             isVisible = isEnabled
         }
         return super.onPrepareOptionsMenu(menu)
-    }
-
-    private fun performedNextEducation() {
-
-        val entryEditFragment = supportFragmentManager.findFragmentById(R.id.entry_edit_content)
-                as? EntryEditFragment?
-        val generatePasswordView = entryEditFragment?.getActionImageView()
-        val generatePasswordEductionPerformed = generatePasswordView != null
-                && mEntryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-            generatePasswordView,
-            {
-                entryEditFragment.launchGeneratePasswordEductionAction()
-            },
-            {
-                performedNextEducation()
-            }
-        )
-
-        if (!generatePasswordEductionPerformed) {
-            val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
-            val addNewFieldEducationPerformed = mAllowCustomFields
-                    && addNewFieldView != null
-                    && addNewFieldView.isVisible
-                    && mEntryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
-                    addNewFieldView,
-                    {
-                        addNewCustomField()
-                    },
-                    {
-                        performedNextEducation()
-                    }
-            )
-            if (!addNewFieldEducationPerformed) {
-                val attachmentView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_attachment)
-                val addAttachmentEducationPerformed = attachmentView != null
-                        && attachmentView.isVisible
-                        && mEntryEditActivityEducation.checkAndPerformedAttachmentEducation(
-                        attachmentView,
-                        {
-                            addNewAttachment()
-                        },
-                        {
-                            performedNextEducation()
-                        }
-                )
-                if (!addAttachmentEducationPerformed) {
-                    val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
-                    val validateEntryEducationPerformed = setupOtpView != null
-                            && setupOtpView.isVisible
-                            && mEntryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
-                            setupOtpView,
-                            {
-                                setupOtp()
-                            },
-                            {
-                                performedNextEducation()
-                            }
-                    )
-                    if (!validateEntryEducationPerformed) {
-                        val entryValidateView = validateButton
-                        mAllowCustomFields
-                                && entryValidateView != null
-                                && entryValidateView.isVisible
-                                && mEntryEditActivityEducation.checkAndPerformedValidateEntryEducation(
-                                entryValidateView,
-                                {
-                                    validateEntry()
-                                }
-                        )
-                    }
-                }
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

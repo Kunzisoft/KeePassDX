@@ -205,39 +205,12 @@
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magiclavier</string>
     <string name="magic_keyboard_explanation_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
-    <string name="enable_education_screens_title">Conseils pédagogiques</string>
-    <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
-    <string name="reset_education_screens_title">Réinitialiser les conseils pédagogiques</string>
-    <string name="reset_education_screens_summary">Affiche à nouveau toutes les informations pédagogiques</string>
     <string name="reset_education_screens_text">Conseils pédagogiques réinitialisés</string>
-    <string name="education_create_database_title">Créer votre fichier de base de données</string>
-    <string name="education_create_database_summary">Crée votre premier fichier de gestion de mots de passe.</string>
-    <string name="education_select_database_title">Ouvrir une base de données existante</string>
-    <string name="education_select_database_summary">Ouvre votre précédent fichier de base de données depuis votre gestionnaire de fichiers pour continuer à l’utiliser.</string>
-    <string name="education_new_node_title">Ajouter des éléments à votre base de données</string>
-    <string name="education_new_node_summary">Les entrées aident à gérer vos identités numériques. 
-\n 
-\nLes groupes (≈dossiers) organisent les entrées dans votre base de données.</string>
-    <string name="education_search_title">Rechercher dans les entrées</string>
-    <string name="education_search_summary">Saisir le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
-    <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifie votre entrée avec des champs personnalisés. La collection des données peut être référencée entre différents champs de l’entrée.</string>
-    <string name="education_generate_password_title">Créer un mot de passe fort</string>
-    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez-le facilement en fonction des critères du formulaire et n’oubliez pas de sécuriser votre mot de passe.</string>
-    <string name="education_entry_new_field_title">Ajoutez des champs personnalisés</string>
-    <string name="education_entry_new_field_summary">Enregistrez un champ additionnel, ajoutez une valeur et facultativement le protéger.</string>
-    <string name="education_unlock_title">Déverrouillez votre base de données</string>
-    <string name="education_unlock_summary">Saisissez le mot de passe ou le fichier clé pour déverrouiller votre base de données.
-\n
-\nSauvegardez votre fichier de base de données en lieu sûr après chaque modification.</string>
     <string name="education_field_copy_title">Copiez un champ</string>
     <string name="education_field_copy_summary">Les champs copiés peuvent être collés n’importe où.
 \n
 \nUtilisez la méthode de remplissage automatique de formulaire que vous préférez.</string>
-    <string name="education_lock_title">Verrouillez la base de données</string>
-    <string name="education_lock_summary">Verrouillez votre base de données rapidement. Vous pouvez configurer l’application pour qu’elle la verrouille après un délai et lorsque l’écran s’éteint.</string>
-    <string name="education_sort_title">Tri des éléments</string>
-    <string name="education_sort_summary">Choisissez comment les entrées et les groupes sont triés.</string>
     <string name="education_donation_title">Participez</string>
     <string name="education_donation_summary">Aidez à améliorer la stabilité, la sécurité et à ajouter des fonctionnalités.</string>
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;libre sous licence copyleft&lt;/strong&gt; et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
@@ -272,11 +245,6 @@
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protéger en écriture</string>
     <string name="enable_read_only_summary">Ouvre la base de données en lecture seule par défaut</string>
-    <string name="education_read_only_title">Protégez en écriture votre base de données</string>
-    <string name="education_read_only_summary">Changez le mode d’ouverture pour la session.
-\n
-\n\"Protéger en écriture\" empêche les modifications involontaires de la base de données.
-\n\"Modifiable\" vous permet d’ajouter, de supprimer ou de modifier tous les éléments comme vous le souhaitez.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger la base de données.</string>
     <string name="error_load_database_KDF_memory">Impossible de charger la clé. Essayez de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
@@ -428,8 +396,6 @@
     <string name="hide_broken_locations_title">Masquer les liens rompus de base de données</string>
     <string name="hide_broken_locations_summary">Masque les liens rompus dans la liste des bases de données récentes</string>
     <string name="warning_database_read_only">Accorder un accès en écriture au fichier pour enregistrer les modifications de la base de données</string>
-    <string name="education_setup_OTP_summary">Définit le mot de passe à usage unique (temporel ou évènementiel) pour générer un jeton demandé par l’authentification à deux facteurs (A2F).</string>
-    <string name="education_setup_OTP_title">Définir l’OTP</string>
     <string name="error_create_database">Impossible de créer le fichier de base de données.</string>
     <string name="entry_add_attachment">Ajouter une pièce jointe</string>
     <string name="discard">Abandonner</string>
@@ -452,8 +418,6 @@
     <string name="error_string_type">Ce texte ne correspond pas à l’élément demandé.</string>
     <string name="content_description_add_item">Ajouter un élément</string>
     <string name="upload_attachment">Téléverser %1$s</string>
-    <string name="education_add_attachment_summary">Téléverse une pièce-jointe à votre entrée pour enregistrer d’importantes données externes.</string>
-    <string name="education_add_attachment_title">Ajouter une pièce-jointe</string>
     <string name="warning_sure_add_file">Ajouter quand même le fichier \?</string>
     <string name="warning_replace_file">Téléverser ce fichier va remplacer celui en place.</string>
     <string name="warning_file_too_big">Une base de données KeePass est seulement censée contenir de petits fichiers utilitaires (tels que les fichiers clé PGP).
@@ -507,8 +471,6 @@
     <string name="select_entry">Sélection d\'une entrée</string>
     <string name="back_to_previous_keyboard">Retour au clavier précédent</string>
     <string name="custom_fields">Champs customisés</string>
-    <string name="education_advanced_unlock_summary">Lier votre mot de passe à vos informations d\'identification biométriques ou de périphérique scannées pour déverrouiller rapidement votre base de données.</string>
-    <string name="education_advanced_unlock_title">Déverrouillage avancé de la base de données</string>
     <string name="advanced_unlock_timeout">Délai du déverrouillage de l\'appareil</string>
     <string name="temp_advanced_unlock_timeout_summary">Durée d\'utilisation du déverrouillage de l\'appareil avant de supprimer son contenu</string>
     <string name="temp_advanced_unlock_timeout_title">Expiration du déverrouillage de l\'appareil</string>
@@ -677,8 +639,4 @@
     <string name="menu_database_settings_summary">Métadonnées, corbeille, gabarits, historique</string>
     <string name="menu_security_settings_summary">Chiffrement, fonction de dérivation de clé</string>
     <string name="menu_appearance_settings_summary">Thèmes, couleurs, attributs</string>
-    <string name="education_validate_entry_title">Valider l\'entrée</string>
-    <string name="education_validate_entry_summary">N\'oubliez pas de valider votre saisie et de sauvegarder votre base de données
-\n
-\nSi un verrouillage automatique est activé et que vous oubliez que vous étiez en train d\'effectuer une modification, vous risquez de perdre vos données.</string>
 </resources>
