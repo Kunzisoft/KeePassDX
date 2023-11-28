@@ -19,8 +19,6 @@
     Italian translation by Diego Pierotto
     Italian translation by anthologist
 --><resources>
-    <string name="feedback">Commenti</string>
-    <string name="homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass</string>
     <string name="accept">Accetto</string>
     <string name="add_entry">Aggiungi elemento</string>
@@ -274,7 +272,6 @@
     <string name="html_text_dev_feature_work_hard">Stiamo lavorando sodo per rilasciare questa funzione a breve.</string>
     <string name="html_text_dev_feature_upgrade">Ricorda di tenere aggiornata l\'app installando le nuove versioni.</string>
     <string name="download">Scarica</string>
-    <string name="contribute">Contribuisci</string>
     <string name="icon_pack_choose_title">Pacchetto di icone</string>
     <string name="icon_pack_choose_summary">Pacchetto di icone usato nell\'app</string>
     <string name="edit_entry">Modifica elemento</string>
@@ -369,11 +366,9 @@
     <string name="menu_delete_entry_history">Cancella cronologia</string>
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
     <string name="html_about_contribution">Per poter &lt;strong&gt;mantenere la nostra libertà&lt;/strong&gt;, &lt;strong&gt;correggere errori&lt;/strong&gt;, &lt;strong&gt;aggiungere funzionalità&lt;/strong&gt; ed &lt;strong&gt;essere sempre attivi&lt;/strong&gt;, facciamo affidamento sul tuo &lt;strong&gt;contributo&lt;/strong&gt;.</string>
-    <string name="contact">Contatto</string>
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
     <string name="master_key">Chiave principale</string>
-    <string name="contribution">Contributi</string>
     <string name="warning_database_read_only">Concedi il permesso di scrittura per salvare i cambiamenti del database</string>
     <string name="hide_broken_locations_summary">Nascondi collegamenti corrotti nella lista dei database recenti</string>
     <string name="hide_broken_locations_title">Nascondi link a database corrotti</string>
@@ -668,7 +663,6 @@
     <string name="html_about_privacy">&lt;strong&gt;Nessun dato dell\'utente viene prelevato&lt;/strong&gt;, questa applicazione non si connette ad alcun server, funziona solo in locale e rispetta pienamente la privacy degli utenti.</string>
     <string name="auto_type">Auto-digita</string>
     <string name="merge_success">Unione completata correttamente</string>
-    <string name="info">Info</string>
     <string name="menu_app_settings_summary">Ricerca, blocco, cronologia, proprietà</string>
     <string name="menu_form_filling_settings_summary">Tastiera, riempimento automatico, appunti</string>
     <string name="menu_advanced_unlock_settings_summary">Biometria, credenziali del dispositivo</string>

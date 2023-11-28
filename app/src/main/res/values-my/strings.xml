@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="info">အချက်အလက်</string>
-    <string name="feedback">တုံ့ပြန်ချက်</string>
-    <string name="homepage">ပင်မစာမျက်နှာ</string>
     <string name="accept">လက်ခံသည်</string>
     <string name="add_entry">စကားဝှက်ထည့်မည်</string>
     <string name="add_group">ဂရုထဲထည့်မည်</string>
@@ -19,8 +16,6 @@
     <string name="clipboard_error">တချို့ဖုန်းတွေမှာ အက်ပ်တွေကို ကလစ်ဘုတ်အသုံးပြုခွင့်မပေးတာမျိုးရိှနိုင်ပါတယ်။</string>
     <string name="content_description_open_file">ဖိုင်ဖွင့်မည်</string>
     <string name="content_description_add_entry">ထည့်မည်</string>
-    <string name="contact">ဆက်သွယ်ရန်</string>
-    <string name="contribution">ပါဝင်အားဖြည့်မှု</string>
     <string name="about_description">Android အတွက် KeePass စကားဝှက်မန်နေဂျာ</string>
     <string name="encryption_algorithm">ကုဒ်ဝှက်ခြင်း အယ်ဂိုရီသမ်</string>
     <string name="edit_entry">ပြုပြင်မည်</string>

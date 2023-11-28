@@ -17,7 +17,6 @@
     <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado na aplicação</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
-    <string name="contribute">Contribuir</string>
     <string name="download">Descarregar</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter a sua aplicação atualizada, instalando novas versões.</string>
     <string name="html_text_dev_feature_work_hard">Estamos a trabalhar para lançar esta funcionalidade o mais rápido possível.</string>
@@ -250,10 +249,6 @@
     <string name="hide_password_summary">Mascarar palavras-passe (***) por predefinição</string>
     <string name="hide_password_title">Ocultar palavras-passe</string>
     <string name="html_about_contribution">Para &lt;strong&gt;manter a liberdade&lt;/strong&gt;, &lt;strong&gt;corrigir erros&lt;/strong&gt;, &lt;strong&gt;adicionar funcionalidades&lt;/strong&gt; e &lt;strong&gt;para sermos sempre ativos&lt;/strong&gt;, contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
-    <string name="homepage">Página inicial</string>
-    <string name="feedback">Comentários</string>
-    <string name="contribution">Contribuição</string>
-    <string name="contact">Contacto</string>
     <string name="hide_expired_entries_title">Ocultar entradas expiradas</string>
     <string name="download_finalization">A finalizar…</string>
     <string name="download_progression">Em progresso: %1$d%%</string>
@@ -643,7 +638,6 @@
     <string name="html_about_privacy">&lt;strong&gt;Nenhum dado de utilizador é recuperado&lt;/strong&gt;, esta aplicação não se liga a nenhum servidor, funciona apenas localmente e respeita plenamente a privacidade dos utilizadores.</string>
     <string name="auto_type">Preenchimento automático</string>
     <string name="merge_success">Fusão concluída com sucesso</string>
-    <string name="info">Informação</string>
     <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propriedades</string>
     <string name="menu_form_filling_settings_summary">Teclado, preenchimento automático, área de transferência</string>
     <string name="menu_advanced_unlock_settings_summary">Biometria, credencial do dispositivo</string>

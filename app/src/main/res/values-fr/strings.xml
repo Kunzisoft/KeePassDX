@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="feedback">Commentaires</string>
-    <string name="homepage">Page d’accueil</string>
     <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
@@ -254,7 +252,6 @@
     <string name="html_text_dev_feature_work_hard">Nous travaillons dur pour livrer cette fonctionnalité rapidement.</string>
     <string name="html_text_dev_feature_upgrade">N’oubliez pas de garder votre application à jour en installant les nouvelles versions.</string>
     <string name="download">Télécharger</string>
-    <string name="contribute">Contribuer</string>
     <string-array name="list_size_options">
         <item>Petit</item>
         <item>Moyen</item>
@@ -419,8 +416,6 @@
     <string name="download_complete">Terminé !</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
     <string name="hide_expired_entries_summary">Les entrées expirées ne sont pas affichées</string>
-    <string name="contact">Contact</string>
-    <string name="contribution">Contribution</string>
     <string name="html_about_contribution">Afin de &lt;strong&gt;garder notre liberté&lt;/strong&gt;, &lt;strong&gt;corriger les bugs&lt;/strong&gt;, &lt;strong&gt;ajouter des fonctionnalités&lt;/strong&gt; et &lt;strong&gt;être toujours actif&lt;/strong&gt;, nous comptons sur votre &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Recherche rapide</string>
     <string name="auto_focus_search_summary">Demande une recherche lors de l’ouverture d’une base de données</string>
@@ -672,7 +667,6 @@
     <string name="error_driver_required">Le pilote pour %1$s est nécessaire.</string>
     <string name="error_unable_merge_database_kdb">Impossible de fusionner à partir d\'une base de données V1.</string>
     <string name="merge_success">Fusion terminée avec succès</string>
-    <string name="info">Info</string>
     <string name="menu_app_settings_summary">Recherche, verrouillage, historique, propriétés</string>
     <string name="menu_form_filling_settings_summary">Clavier, remplissage automatique, presse-papiers</string>
     <string name="master_key_settings_summary">Changement, renouvellement</string>

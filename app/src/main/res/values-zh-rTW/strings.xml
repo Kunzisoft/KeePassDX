@@ -103,7 +103,6 @@
     <string name="compression_gzip">Gzip</string>
     <string name="compression_none">無</string>
     <string name="configure_biometric">未登記任何生物辨識或設備憑證。</string>
-    <string name="contact">聯繫方式</string>
     <string name="contains_duplicate_uuid">資料庫包含重複的 UUID。</string>
     <string name="contains_duplicate_uuid_procedure">通過為重複的數據生成新的 UUID (識別碼)來解決問題。是否繼續？</string>
     <string name="content">內容</string>
@@ -126,8 +125,6 @@
     <string name="content_description_remove_from_list">移除</string>
     <string name="content_description_repeat_toggle_password_visibility">重複切換密碼可見性</string>
     <string name="content_description_update_from_list">更新</string>
-    <string name="contribute">貢獻</string>
-    <string name="contribution">貢獻</string>
     <string name="copy_field">複製%1$s</string>
     <string name="create_keepass_file">創建新資料庫</string>
     <string name="creating_database">正在創建資料庫…</string>
@@ -294,7 +291,6 @@
     <string name="export_app_properties_summary">建立一個檔案以匯出配置</string>
     <string name="export_app_properties_title">導出配置</string>
     <string name="extended_ASCII">增強的 ASCII</string>
-    <string name="feedback">回饋</string>
     <string name="field_name">欄位名</string>
     <string name="field_value">欄位值</string>
     <string name="file_browser">檔案管理器</string>
@@ -317,7 +313,6 @@
     <string name="hint_length">長度</string>
     <string name="hint_pass">密碼</string>
     <string name="holder">持卡人</string>
-    <string name="homepage">首頁</string>
     <string name="html_about_contribution">為程式能夠&lt;strong&gt;保持自主&lt;/strong&gt;、&lt;strong&gt;修復漏洞&lt;/strong&gt;、&lt;strong&gt;新增功能&lt;/strong&gt;和&lt;strong&gt;保持持續開發&lt;/strong&gt;，有賴你的&lt;strong&gt;貢獻&lt;/strong&gt;。</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；這是&lt;strong&gt;無推廣&lt;/strong&gt;的&lt;strong&gt;開源&lt;/strong&gt;軟體。
 \n你可在遵循&lt;strong&gt;GPL 3&lt;/strong&gt;或者更高版本的情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>

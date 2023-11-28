@@ -21,10 +21,6 @@
     Translations from Matthias Dill
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="contact">Kontakt</string>
-    <string name="contribution">Beiträge</string>
-    <string name="feedback">Rückmeldung</string>
-    <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
@@ -262,7 +258,6 @@
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
     <string name="html_text_dev_feature_upgrade">Denke daran, die App durch die Installation neuer Versionen auf dem aktuellsten Stand zu halten.</string>
     <string name="download">Download</string>
-    <string name="contribute">Unterstützen</string>
     <string name="icon_pack_choose_title">Symbolpaket</string>
     <string name="icon_pack_choose_summary">In der App verwendete Symbole</string>
     <string name="menu_copy">Kopieren</string>
@@ -689,5 +684,4 @@
     <string name="education_validate_entry_summary">Bitte daran denken, den Eintrag zu überprüfen und die Datenbank zu speichern.
 \n
 \nWenn ein automatisches Sperren aktiviert ist und vergessen wird, dass Änderungen vorgenommen wurden, besteht die Gefahr von Datenverlust.</string>
-    <string name="info">Info</string>
 </resources>

@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">प्रतिक्रिया</string>
-    <string name="homepage">होमपेज</string>
     <string name="about_description">एंड्रॉयड पर आधारित KeePass पासवर्ड मैनेजर</string>
     <string name="accept">स्वीकार करें</string>
     <string name="add_entry">रिकॉर्ड जोड़ें</string>
@@ -118,7 +116,6 @@
     <string name="wireless">वाई-फाई</string>
     <string name="hide_expired_entries_title">समाप्त हो चुकी प्रविष्टियो को छुपाएं</string>
     <string name="icon_pack_choose_title">आइकन पैक</string>
-    <string name="contribution">योगदान</string>
     <string name="error_copy_entry_here">आप यहां प्रविष्टि की प्रतिलिपि नहीं बना सकते।</string>
     <string name="error_copy_group_here">आप यहाँ समूह की प्रतिलिपि नहीं कर सकते हैं।</string>
     <string name="error_create_database_file">इस पासवर्ड और कीफ़ाइल के साथ डेटाबेस बनाने में असमर्थ।</string>
@@ -143,7 +140,6 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="icon_pack_choose_summary">ऐप में इस्तेमाल किया गया आइकन पैक</string>
     <string name="content_description_credentials_information">क्रेडेंशियल्स कि जानकारी</string>
-    <string name="contact">संपर्क करें</string>
     <string name="validate">सत्यापित करें</string>
     <string name="discard">निरस्त करें</string>
     <string name="entry_add_attachment">अटेचमेंट लगाये</string>

@@ -35,10 +35,7 @@
     <string name="keepro_app_id" translatable="false">com.kunzisoft.keepass.pro</string>
     <string name="key_driver_app_id" translatable="false">com.kunzisoft.hardware.key</string>
     <string name="key_driver_url" translatable="false">https://gitlab.com/kunzisoft/android-hardware-key-driver/-/releases/</string>
-    <string name="contribution_url" translatable="false">https://www.keepassdx.com/#donation</string>
-    <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
     <string name="external_icon_url" translatable="false">https://www.keepassdx.com/#icons</string>
-    <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="credentials_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Credentials</string>
     <string name="otp_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/OTP</string>
     <string name="advanced_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Advanced-Unlocking</string>

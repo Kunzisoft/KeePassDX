@@ -20,8 +20,6 @@
     <string name="about_description">KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="clipboard_cleared">Iškarpinė išvalyta</string>
     <string name="invalid_credentials">Nepavyko perskaityti prisijungimo duomenų.</string>
-    <string name="feedback">Atsiliepimai</string>
-    <string name="homepage">Pagrindinis puslapis</string>
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
@@ -112,8 +110,6 @@
     <string name="encryption">Šifravimas</string>
     <string name="security">Saugumas</string>
     <string name="master_key">Pagrindinis raktas</string>
-    <string name="contribution">Įnašai</string>
-    <string name="contact">Kontaktai</string>
     <string name="edit_entry">Redaguoti įrašą</string>
     <string name="entry_add_attachment">Pridėti priedą (failą)</string>
     <string name="encryption_explanation">Duomenų bazės šifravimo algoritmas naudojamas visiems duomenims</string>

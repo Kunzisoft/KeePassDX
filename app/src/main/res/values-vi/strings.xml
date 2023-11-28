@@ -86,10 +86,6 @@
     <string name="add_entry">Thêm mục nhập</string>
     <string name="accept">Đồng ý</string>
     <string name="about_description">Phiên bản Android của phần mềm quản lý mật khẩu KeePass</string>
-    <string name="homepage">Trang chủ</string>
-    <string name="feedback">Phản hồi</string>
-    <string name="contribution">Đóng góp</string>
-    <string name="contact">Liên hệ</string>
     <string name="error_create_database_file">Không thể tạo cơ sở dữ liệu bằng mật khẩu và keyfile này.</string>
     <string name="personal_identification_number">PIN</string>
     <string name="debit_credit_card">Thẻ ghi nợ / thẻ tín dụng</string>
@@ -178,7 +174,6 @@
     <string name="consider_chars_filter">Xem xét các ký tự</string>
     <string name="exclude_ambiguous_chars">Loại trừ các ký tự không rõ ràng</string>
     <string name="unit_gibibyte">GiB</string>
-    <string name="info">Thông tin</string>
     <string name="content_description_entry_background_color">Màu nền mục nhập</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="custom_data">Dữ liệu tùy chỉnh</string>

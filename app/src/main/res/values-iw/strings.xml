@@ -18,8 +18,6 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     translated by Arthur Zamarin<arthurzam@gmail.com>
 --><resources>
-    <string name="feedback">משוב</string>
-    <string name="homepage">דף הבית</string>
     <string name="about_description">מימוש אנדרואיד של מנהל הסיסמאות KeePass</string>
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
@@ -225,8 +223,6 @@
     <string name="content_description_open_file">פתח קובץ</string>
     <string name="content_description_node_children">ילדי החוליה</string>
     <string name="content_description_background">רקע</string>
-    <string name="contact">איש קשר</string>
-    <string name="contribution">תרומה</string>
     <string name="master_key">מפתח ראשי</string>
     <string name="key_derivation_function">פונקציית גזירת מפתח</string>
     <string name="content_description_nav_header">כותרת ניווט</string>

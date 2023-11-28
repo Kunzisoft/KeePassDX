@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Zgłoś błąd lub sugestię</string>
-    <string name="homepage">Strona główna</string>
     <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
@@ -277,7 +275,6 @@
     <string name="html_text_dev_feature_work_hard">Ciężko pracujemy, aby szybko udostępnić tę funkcję.</string>
     <string name="html_text_dev_feature_upgrade">Pamiętaj, aby aktualizować swoją aplikację, instalując nowe wersje.</string>
     <string name="download">Pobieranie</string>
-    <string name="contribute">Wspomóż projekt</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
     <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
     <string name="build_label">Kompilacja %1$s</string>
@@ -405,7 +402,6 @@
     <string name="download_complete">Ukończono!</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
-    <string name="contact">Kontakt</string>
     <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;naprawiać błędy&lt;/strong&gt;, &lt;strong&gt;dodawać funkcje&lt;/strong&gt; i &lt;strong&gt; być zawsze aktywnym&lt;/strong&gt;, liczymy na Twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
@@ -418,7 +414,6 @@
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
     <string name="hide_broken_locations_summary">Ukryj uszkodzone łącza na liście najnowszych baz danych</string>
     <string name="warning_database_read_only">Przyznaj dostęp do zapisu pliku, aby zapisać zmiany w bazie danych</string>
-    <string name="contribution">Wsparcie finansowe</string>
     <string name="education_setup_OTP_summary">Skonfiguruj zarządzanie hasłem jednorazowym (HOTP / TOTP), aby wygenerować token wymagany do uwierzytelniania dwuskładnikowego (2FA).</string>
     <string name="education_setup_OTP_title">Konfiguracja OTP</string>
     <string name="error_create_database">Nie można utworzyć pliku bazy danych.</string>
@@ -665,7 +660,6 @@
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
     <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
     <string name="merge_success">Scalanie zostało pomyślnie zakończone</string>
-    <string name="info">Informacje</string>
     <string name="menu_app_settings_summary">Wyszukiwanie, blokada, historia, właściwości</string>
     <string name="menu_form_filling_settings_summary">Klawiatura, autouzupełnianie, schowek</string>
     <string name="menu_database_settings_summary">Metadane, kosz, szablony, historia</string>

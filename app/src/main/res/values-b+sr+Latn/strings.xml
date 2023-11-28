@@ -10,9 +10,6 @@
     <string name="encryption">Šifrovanje</string>
     <string name="security">Sigurnost</string>
     <string name="master_key">Glavni ključ</string>
-    <string name="homepage">Početna strana</string>
-    <string name="feedback">Povratne informacije</string>
-    <string name="contribution">Doprinos</string>
     <string name="add_group">Dodaj grupu</string>
     <string name="accept">Prihvati</string>
     <string name="about_description">Android implementacija KeePass menadžera lozinki</string>
@@ -261,5 +258,4 @@
     <string name="allow">Dozvoli</string>
     <string name="edit_entry">Izmeni stavku</string>
     <string name="add_entry">Dodaj stavku</string>
-    <string name="contact">Kontakt</string>
 </resources>

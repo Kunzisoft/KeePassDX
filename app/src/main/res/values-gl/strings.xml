@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Comentarios</string>
-    <string name="homepage">Páxina inicial</string>
     <string name="about_description">KeePassDX é unha implementación para Android do xestor de contrasinais KeePass</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Engadir entrada</string>
@@ -105,8 +103,6 @@
     <string name="content_description_file_information">Información sobre o ficheiro</string>
     <string name="content_description_open_file">Abrir ficheiro</string>
     <string name="clipboard_error">Algúns dispositivos non permiten que as aplicacións usen o portapapeis.</string>
-    <string name="contribution">Contribución</string>
-    <string name="contact">Contacto</string>
     <string name="validate">Validar</string>
     <string name="discard">Descartar</string>
     <string name="discard_changes">Descartar cambios\?</string>
@@ -640,7 +636,6 @@
     <string name="html_text_dev_feature">Esta funcionalidade está &lt;strong&gt;en desenvolvemento&lt;/strong&gt; e precisa da súa &lt;strong&gt;contribución&lt;/strong&gt; para a súa futura dispoñibilidade.</string>
     <string name="html_text_dev_feature_thanks">Moitas grazas pola súa contribución.</string>
     <string name="html_text_dev_feature_upgrade">Lembre manter a súa aplicación actualizada, instalando as novas versións.</string>
-    <string name="contribute">Contribuír</string>
     <string name="entropy_high">Entropía: Alta</string>
     <string name="at_least_one_char">Polo menos un carácter de cada un</string>
     <string name="exclude_ambiguous_chars">Excluír caracteres ambiguos</string>

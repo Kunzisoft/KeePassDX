@@ -53,9 +53,6 @@ class ProFeatureDialogFragment : DialogFragment() {
             } else {
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_feature_generosity), FROM_HTML_MODE_LEGACY)).append("\n\n")
                 stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_donation), FROM_HTML_MODE_LEGACY))
-                builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    activity.openUrl(R.string.contribution_url)
-                }
             }
             builder.setMessage(stringBuilder)
             builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }

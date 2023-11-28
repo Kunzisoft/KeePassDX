@@ -18,8 +18,6 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Catalan translation by Oriol Garrote
 --><resources>
-    <string name="feedback">Comentaris</string>
-    <string name="homepage">Lloc web</string>
     <string name="about_description">Implementació per a l’Android del gestor de contrasenyes KeePass</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
@@ -130,8 +128,6 @@
     <string name="security">Seguretat</string>
     <string name="master_key">Clau mestra</string>
     <string name="edit_entry">Edita l\'entrada</string>
-    <string name="contribution">Contribució</string>
-    <string name="contact">Contacte</string>
     <string name="extended_ASCII">ASCII estès</string>
     <string name="sort_username">Nom d’usuari</string>
     <string name="sort_title">Títol</string>
@@ -315,7 +311,6 @@
     <string name="show_uuid_title">Mostra l’UUID</string>
     <string name="hide_expired_entries_summary">No es mostren les entrades expirades</string>
     <string name="hide_expired_entries_title">Amaga les entrades expirades</string>
-    <string name="contribute">Contribuïu-hi</string>
     <string name="download">Baixa</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
@@ -337,7 +332,6 @@
     <string name="unlock">Desbloqueja</string>
     <string name="bank">Banc</string>
     <string name="compression_none">Cap</string>
-    <string name="info">Info</string>
     <string name="content_description_entry_background_color">Color de fons d\'entrada</string>
     <string name="error_empty_key">La clau no pot ser buida.</string>
     <string name="custom_data">Dades personalitzades</string>

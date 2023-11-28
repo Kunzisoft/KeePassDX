@@ -19,8 +19,6 @@
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
 --><resources>
-    <string name="feedback">Comentarios</string>
-    <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Añadir entrada</string>
@@ -255,7 +253,6 @@
     <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
     <string name="html_text_dev_feature_upgrade">Recuerde mantener su aplicación actualizada instalando nuevas versiones.</string>
     <string name="download">Descargar</string>
-    <string name="contribute">Contribuir</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
     <string name="icon_pack_choose_summary">Cambiar el paquete de iconos en la aplicación</string>
     <string name="edit_entry">Editar entrada</string>
@@ -401,8 +398,6 @@
     <string name="discard">Descartar</string>
     <string name="discard_changes">¿Descartar cambios\?</string>
     <string name="validate">Validar</string>
-    <string name="contribution">Contribución</string>
-    <string name="contact">Contacto</string>
     <string name="error_otp_period">El período debe estar entre %1$d y %2$d segundos.</string>
     <string name="error_copy_group_here">No puede copiar un grupo aquí.</string>
     <string name="database_data_compression_summary">La compresión de datos reduce el tamaño de la base de datos</string>
@@ -667,7 +662,6 @@
     <string name="waiting_challenge_request">Esperando solicitud de desafío…</string>
     <string name="waiting_challenge_response">Esperando respuesta al desafío…</string>
     <string name="merge_success">Fusión finalizada con éxito</string>
-    <string name="info">Información</string>
     <string name="menu_app_settings_summary">Buscar, bloquear, historial, propiedades</string>
     <string name="menu_form_filling_settings_summary">Teclado, autocompletar, portapapeles</string>
     <string name="menu_database_settings_summary">Metadatos, papelera de reciclaje, plantillas, historial</string>

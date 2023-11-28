@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Отзыв</string>
-    <string name="homepage">Сайт</string>
     <string name="about_description">Android–версия менеджера паролей KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
@@ -277,7 +275,6 @@
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Помочь проекту</string>
     <string name="icon_pack_choose_title">Набор значков</string>
     <string name="icon_pack_choose_summary">Набор значков, используемый в приложении</string>
     <string name="keyboard_name">Magikeyboard</string>
@@ -405,8 +402,6 @@
     <string name="download_complete">Готово!</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
     <string name="hide_expired_entries_summary">Не показывать записи с истёкшим сроком действия</string>
-    <string name="contact">Контактная информация</string>
-    <string name="contribution">Помощь проекту</string>
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
@@ -676,7 +671,6 @@
     <string name="education_validate_entry_summary">Не забывайте проверять введённые данные и сохранять базу.
 \n
 \nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
-    <string name="info">Информация</string>
     <string name="master_key_settings_summary">Изменение, обновление</string>
     <string name="warning_copy_permission">Разрешение необходимо для использования функции уведомления буфера обмена.</string>
     <string name="menu_appearance_settings_summary">Темы, цвета, атрибуты</string>

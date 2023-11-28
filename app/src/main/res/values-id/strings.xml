@@ -171,10 +171,6 @@
     <string name="add_entry">Tambahkan Entri</string>
     <string name="accept">Terima</string>
     <string name="about_description">Implementasi Android dari pengelola kata sandi KeePass</string>
-    <string name="homepage">Beranda</string>
-    <string name="feedback">Umpan Balik</string>
-    <string name="contribution">Kontribusi</string>
-    <string name="contact">Kontak</string>
     <string name="auto_focus_search_summary">Minta pencarian saat membuka basis data</string>
     <string name="auto_focus_search_title">Pencarian cepat</string>
     <string name="create_keepass_file">Membuat brankas baru</string>
@@ -366,7 +362,6 @@
     <string name="style_brightness_summary">Pilih tema terang atau gelap</string>
     <string name="style_brightness_title">Kecerahan tema</string>
     <string name="download_attachment">Unduh %1$s</string>
-    <string name="contribute">Kontribusi</string>
     <string name="download">Unduh</string>
     <string name="html_text_dev_feature_upgrade">Ingatlah untuk selalu memperbarui aplikasi Anda.</string>
     <string name="error_remove_file">Timbul galat saat menghapus data berkas.</string>
@@ -643,7 +638,6 @@
     <string name="content_description_nav_header">Tajuk navigasi</string>
     <string name="auto_type">Ketik Otomatis</string>
     <string name="merge_success">Penggabungan berhasil dilakukan</string>
-    <string name="info">Info</string>
     <string name="menu_app_settings_summary">Cari, kunci, riwayat, properti</string>
     <string name="menu_form_filling_settings_summary">Papan ketik, isi otomatis, papan klip</string>
     <string name="menu_advanced_unlock_settings_summary">Biometri, kredensial perangkat</string>

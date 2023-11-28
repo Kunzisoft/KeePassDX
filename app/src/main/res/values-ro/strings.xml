@@ -62,10 +62,6 @@
     <string name="retrieving_db_key">Se recuperează cheia bazei de date…</string>
     <string name="database">Bază de date</string>
     <string name="decrypting_db">Se decriptează conținutul bazei de date.…</string>
-    <string name="contact">Contact</string>
-    <string name="contribution">Contribuție</string>
-    <string name="feedback">Opinii</string>
-    <string name="homepage">Pagina principală</string>
     <string name="default_checkbox">Folosiți ca bază de date implicită</string>
     <string name="digits">Cifre</string>
     <string name="entry_accessed">Accesat</string>
@@ -393,7 +389,6 @@
     <string name="html_text_dev_feature_work_hard">Muncim din greu pentru a lansa rapid această caracteristică.</string>
     <string name="html_text_dev_feature_upgrade">Nu uitați să mențineți aplicația la zi instalând noi versiuni.</string>
     <string name="download">Descărcați</string>
-    <string name="contribute">Contribuie</string>
     <string name="download_attachment">Descărcați %1$s</string>
     <string name="download_initialization">Inițializare …</string>
     <string name="download_progression">In progress: %1$d%%</string>
@@ -483,7 +478,6 @@
     <string name="auto_type_sequence">Secvență Auto-Type</string>
     <string name="error_database_uri_null">URI-ul bazei de date nu poate fi recuperat.</string>
     <string name="error_no_hardware_key">Selectează o cheie hardware.</string>
-    <string name="info">Info</string>
     <string name="menu_merge_database">Fuzionați datele</string>
     <string name="menu_reload_database">Reîncărcați datele</string>
     <string name="save_mode">Mod de salvare</string>

@@ -99,22 +99,8 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/activity_about_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/about_description"/>
-
-                <TextView
-                    android:id="@+id/activity_about_about_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/info"
-                    style="@style/KeepassDXStyle.Title"/>
-                <TextView
                     android:id="@+id/activity_about_licence_text"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
@@ -127,57 +113,6 @@
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:id="@+id/activity_about_contact_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/contact"
-                    style="@style/KeepassDXStyle.Title"/>
-
-                <TextView
-                    android:id="@+id/activity_about_homepage_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/homepage"
-                    style="@style/KeepassDXStyle.SubTitle"/>
-                <TextView
-                    android:id="@+id/activity_about_homepage_link"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:autoLink="web"
-                    android:text="@string/homepage_url"/>
-
-                <TextView
-                    android:id="@+id/activity_about_feedback_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/feedback"
-                    style="@style/KeepassDXStyle.SubTitle"/>
-                <TextView
-                    android:id="@+id/activity_about_feedback_link"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/issues_url"
-                    android:autoLink="web"/>
-
-                <TextView
-                    android:id="@+id/activity_about_contribution_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/contribution"
-                    style="@style/KeepassDXStyle.SubTitle"/>
-                <TextView
-                    android:id="@+id/activity_about_contribution_link"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/contribution_url"
-                    android:autoLink="web"/>
-
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

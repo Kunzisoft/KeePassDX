@@ -18,8 +18,6 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Basque translation by David García-Abad
 --><resources>
-    <string name="feedback">Atzeraelikadura</string>
-    <string name="homepage">Hasiera orria</string>
     <string name="about_description">KeePass pasahitz kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
@@ -137,8 +135,6 @@
         <item>Handia</item>
     </string-array>
     <string name="security">Segurtasuna</string>
-    <string name="contact">Harremanetarako</string>
-    <string name="contribution">Ekarpen</string>
     <string name="master_key">Gako nagusia</string>
     <string name="edit_entry">Sarrera editatu</string>
     <string name="key_derivation_function">Gakoaren eratorpen funtzioa</string>
@@ -652,7 +648,6 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="entropy_calculate">Entropia: kalkulatu…</string>
     <string name="html_text_dev_feature_encourage">Zure iruzkinekin garatzaileak &lt;strong&gt;funtzio berriak&lt;/strong&gt; garatu eta &lt;strong&gt;bugak konpontzera&lt;/strong&gt; animatzen dituzu.</string>
-    <string name="contribute">Egin ekarpena</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="entropy">Entropia:%1$s bit</string>
     <string name="entropy_high">Entropia: Altua</string>

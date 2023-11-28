@@ -18,8 +18,6 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Swedish translation by Niclas Burgren (burgren@gmail.com)
 --><resources>
-    <string name="feedback">Synpunkter</string>
-    <string name="homepage">Hemsida</string>
     <string name="about_description">Android-implementation av KeePass password manager</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
@@ -261,7 +259,6 @@
     <string name="html_text_dev_feature_work_hard">Vi jobbar hårt med att introducera den här funktionen snart.</string>
     <string name="html_text_dev_feature_upgrade">Glöm inte att hålla appen uppdaterad genom att installera nya versioner.</string>
     <string name="download">Ladda ner</string>
-    <string name="contribute">Bidra</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>
     <string name="icon_pack_choose_summary">Ikonpaket som används i appen</string>
     <string name="menu_copy">Kopia</string>
@@ -403,7 +400,6 @@
     <string name="menu_restore_entry_history">Återställ historik</string>
     <string name="error_create_database">Det gick inte att skapa databasfilen.</string>
     <string name="discard">Förkasta</string>
-    <string name="contact">Kontakt</string>
     <string name="hide_expired_entries_summary">Utgångna poster visas ej</string>
     <string name="hide_expired_entries_title">Dölj utgångna poster</string>
     <string name="download_complete">Färdigt!</string>
@@ -430,7 +426,6 @@
     <string name="entry_add_attachment">Bifoga fil</string>
     <string name="discard_changes">Ignorera ändringar\?</string>
     <string name="validate">Bekräfta</string>
-    <string name="contribution">Bidrag</string>
     <string name="expired">Utgånget</string>
     <string name="date_of_issue">Utgivningsdatum</string>
     <string name="debit_credit_card">Debit / Kreditkort</string>
@@ -468,7 +463,6 @@
     <string name="error_no_hardware_key">Välj hårdvarunyckel.</string>
     <string name="content_description_add_item">Lägg till ny</string>
     <string name="content_description_credentials_information">Inloggningsuppgifter</string>
-    <string name="info">Information</string>
     <string name="type">Typ</string>
     <string name="content_description_passphrase_word_count">Antal ord i Lösenordsfras</string>
     <string name="public_key">Offentlig nyckel</string>

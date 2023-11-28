@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="contact">যোগাযোগ</string>
-    <string name="contribution">অবদান</string>
-    <string name="feedback">প্রতিক্রিয়া</string>
-    <string name="homepage">মূলপাতা</string>
     <string name="about_description">কিপাস পাসওয়ার্ড ম্যানেজারের অ্যান্ড্রয়েড বাস্তবায়ন</string>
     <string name="accept">গ্রহণ</string>
     <string name="add_entry">এন্টরি যোগ করুন</string>

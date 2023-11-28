@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Відгук</string>
-    <string name="homepage">Домівка</string>
     <string name="about_description">KeePassDX є Android-версією менеджера паролів KeePass</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
@@ -125,8 +123,6 @@
         <item>Середній</item>
         <item>Великий</item>
     </string-array>
-    <string name="contribution">Допомогти проєкту</string>
-    <string name="contact">Контакти</string>
     <string name="content_description_password_length">Довжина пароля</string>
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
@@ -257,7 +253,6 @@
     <string name="download_progression">Виконується: %1$d%%</string>
     <string name="download_initialization">Ініціалізація…</string>
     <string name="download_attachment">Завантаження %1$s</string>
-    <string name="contribute">Допомогти</string>
     <string name="download">Завантажити</string>
     <string name="html_text_dev_feature_upgrade">Не забувайте оновлювати застосунок, встановлюючи нові версії.</string>
     <string name="html_text_dev_feature_work_hard">Ми докладаємо всіх зусиль для якнайшвидшого випуску цієї функції.</string>
@@ -682,7 +677,6 @@
     <string name="education_validate_entry_summary">Не забувайте перевірити свій запис і зберегти базу даних.
 \n
 \nЯкщо активовано автоблокування і ви забудете, що вносили зміни, ви ризикуєте втратити свої дані.</string>
-    <string name="info">Відомості</string>
     <string name="warning_database_notification_permission">Дозвіл на сповіщення дозволяє показувати стан бази даних і блокувати її за допомогою легкодоступної кнопки.
 \n
 \nЯкщо ви не активуєте цей дозвіл відкриту у фоновому режимі базу даних не буде видно, якщо на передньому плані інший застосунок.</string>

@@ -207,9 +207,10 @@ object UriUtil {
     }
 
     fun Context.isContributingUser(): Boolean {
-        return (Education.isEducationScreenReclickedPerformed(this)
-                || isExternalAppInstalled(this.getString(R.string.keepro_app_id), false)
-        )
+//        return (Education.isEducationScreenReclickedPerformed(this)
+//                || isExternalAppInstalled(this.getString(R.string.keepro_app_id), false)
+//        )
+        return true
     }
 
     fun Context.isExternalAppInstalled(packageName: String, showError: Boolean = true): Boolean {

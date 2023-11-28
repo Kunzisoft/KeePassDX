@@ -37,8 +37,6 @@
     <string name="case_sensitive">Ndjeshmëri ndaj shkrimi me të mëdha/të vogla</string>
     <string name="general">Të përgjithshme</string>
     <string name="security">Siguri</string>
-    <string name="contribution">Kontribut</string>
-    <string name="feedback">Përshtypje</string>
     <string name="allow">Lejoje</string>
     <string name="content_description_add_node">Shtoni nyjë</string>
     <string name="entry_add_field">Shtoni fushë</string>
@@ -64,11 +62,8 @@
     <string name="autofill_manual_selection_title">Përzgjedhje dorazi</string>
     <string name="html_text_dev_feature_thanks">Shumë faleminderit për kontributin tuaj.</string>
     <string name="html_text_dev_feature_work_hard">Po punojmë fort për ta hedhur sa më shpejt në qarkullim këtë veçori.</string>
-    <string name="contribute">Kontribuoni</string>
     <string name="upload_attachment">Ngarko %1$s</string>
     <string name="download_initialization">Po gatitet…</string>
-    <string name="contact">Kontakt</string>
-    <string name="homepage">Faqe hyrëse</string>
     <string name="add_entry">Shtoni zë</string>
     <string name="add_group">Shto grup</string>
     <string name="master_key">Kyç i përgjithshëm</string>

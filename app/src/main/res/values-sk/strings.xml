@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Spätná väzba</string>
-    <string name="homepage">Domovská stránka</string>
     <string name="about_description">Správca hesiel KeePass pre Android</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
@@ -134,14 +132,12 @@
     <string name="clipboard_error">Niektoré zariadenia nedovolia aplikáciám používať schránku.</string>
     <string name="clipboard_error_clear">Nepodarilo sa vymazať schránku</string>
     <string name="entry_not_found">Nepodarilo sa nájsť vstupné údaje.</string>
-    <string name="contact">Kontakt</string>
     <string name="content_description_open_file">Otvoriť súbor</string>
     <string name="content_description_file_information">Informácie o súbore</string>
     <string name="entry_password_generator">Generátor hesla</string>
     <string name="content_description_password_length">Dĺžka hesla</string>
     <string name="content_description_background">Pozadie</string>
     <string name="security">Bezpečnosť</string>
-    <string name="contribution">Príspevok</string>
     <string name="unit_byte">B</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="content_description_add_entry">Pridať záznam</string>
@@ -647,7 +643,6 @@
     <string name="html_text_dev_feature_contibute">Ak &lt;strong&gt;prispejete&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_thanks">Ďakujem pekne za prispevok.</string>
     <string name="download">Stiahnuť</string>
-    <string name="contribute">Podporiť vývoj</string>
     <string name="download_attachment">Stiahnuť %1$s</string>
     <string name="upload_attachment">Nahrať %1$s</string>
     <string name="download_finalization">Dokončuje sa…</string>

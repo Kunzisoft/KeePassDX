@@ -346,9 +346,6 @@ class GroupActivity : DatabaseLockActivity(),
                     R.id.menu_lock_all -> {
                         lockAndExit()
                     }
-                    R.id.menu_contribute -> {
-                        this@GroupActivity.openUrl(R.string.contribution_url)
-                    }
                     R.id.menu_about -> {
                         startActivity(Intent(this@GroupActivity, AboutActivity::class.java))
                     }
@@ -1157,7 +1154,6 @@ class GroupActivity : DatabaseLockActivity(),
             menu.findItem(R.id.menu_merge_from)?.isVisible = mMergeDataAllowed && modeCondition
             menu.findItem(R.id.menu_save_copy_to)?.isVisible = modeCondition
             menu.findItem(R.id.menu_about)?.isVisible = modeCondition
-            menu.findItem(R.id.menu_contribute)?.isVisible = modeCondition
         }
     }
 

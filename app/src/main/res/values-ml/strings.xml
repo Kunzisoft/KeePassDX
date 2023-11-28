@@ -94,7 +94,6 @@
     <string name="add_group">ഗ്രൂപ്പ് ചേർക്കുക</string>
     <string name="edit_entry">എൻ‌ട്രി തിരുത്തുക</string>
     <string name="add_entry">എൻ‌ട്രി ചേർക്കുക</string>
-    <string name="contact">ബന്ധപെടുക</string>
     <string name="otp_secret">രഹസ്യം</string>
     <string name="entry_title">ശീർഷകം</string>
     <string name="save">സംരക്ഷിക്കുക</string>
@@ -117,9 +116,6 @@
     <string name="application">ആപ്</string>
     <string name="security">സുരക്ഷ</string>
     <string name="master_key">മാസ്റ്റർ കീ</string>
-    <string name="homepage">ഹോം പേജ്</string>
-    <string name="feedback">അഭിപ്രായം</string>
-    <string name="contribution">സംഭാവന</string>
     <string name="accept">അംഗീകരിക്കുക</string>
     <string name="error_wrong_length">\"ദൈർഘ്യം\" ഫീൽഡിൽ ഒരു പോസിറ്റീവ് നമ്പർ നൽകുക.</string>
     <string name="error_pass_gen_type">ഒരു പാസ്‌വേഡ് ജനറേഷൻ തരമെങ്കിലും തിരഞ്ഞെടുക്കണം.</string>
@@ -316,7 +312,6 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;സംഭാവന ചെയ്യുന്നതിലൂടെ&lt;/strong&gt;,</string>
     <string name="upload_attachment">%1$s അപ്‌ലോഡുചെയ്യുക</string>
     <string name="hide_expired_entries_title">കാലഹരണപ്പെട്ട എൻ‌ട്രികൾ‌ മറയ്‌ക്കുക</string>
-    <string name="contribute">സംഭാവന ചെയ്യുക</string>
     <string name="html_text_dev_feature_upgrade">പുതിയ പതിപ്പ് ഇൻസ്റ്റാളുചെയ്യുന്നതിലൂടെ നിങ്ങളുടെ അപ്ലിക്കേഷൻ നിലനിർത്താൻ മറക്കരുത്.</string>
     <string name="html_text_dev_feature_work_hard">ഈ സവിശേഷത വേഗത്തിൽ പുറത്തിറക്കാൻ ഞങ്ങൾ കഠിനമായി പരിശ്രമിക്കുന്നു.</string>
     <string name="education_add_attachment_title">അറ്റാച്ചുമെന്റ് ചേർക്കുക</string>

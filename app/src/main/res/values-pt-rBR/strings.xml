@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Comentários</string>
-    <string name="homepage">Página inicial</string>
     <string name="about_description">Implementação para Android do gerenciador de senhas KeePass</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
@@ -273,7 +271,6 @@
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Não se esqueça de instalar as novas versões para manter seu aplicativo atualizado.</string>
     <string name="download">Baixar</string>
-    <string name="contribute">Contribuir</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
@@ -396,7 +393,6 @@
     <string name="enable_auto_save_database_title">Salvar automaticamente o banco de dados</string>
     <string name="enable_auto_save_database_summary">Salva automaticamente o banco de dados após cada ação importante (somente no modo \"Modificável\")</string>
     <string name="discard">Descartar</string>
-    <string name="contact">Contato</string>
     <string name="auto_focus_search_title">Busca rápida</string>
     <string name="menu_delete_entry_history">Apagar histórico</string>
     <string name="menu_restore_entry_history">Restaurar histórico</string>
@@ -430,7 +426,6 @@
     <string name="entry_add_attachment">Adicionar anexo</string>
     <string name="discard_changes">Descartar mudanças\?</string>
     <string name="validate">Validar</string>
-    <string name="contribution">Contribuição</string>
     <string name="upload_attachment">Upload %1$s</string>
     <string name="keyboard_previous_fill_in_summary">Retornar automaticamente para o teclado anterior após executar a \"ação de tecla automática\"</string>
     <string name="keyboard_previous_fill_in_title">Mudar de volta</string>
@@ -665,7 +660,6 @@
     <string name="auto_type">Digitação automática</string>
     <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
     <string name="merge_success">Merge concluído com sucesso</string>
-    <string name="info">Info</string>
     <string name="menu_advanced_unlock_settings_summary">Biometria, credencial do dispositivo</string>
     <string name="menu_database_settings_summary">Metadados, lixeira, modelos, histórico</string>
     <string name="menu_security_settings_summary">Criptografia, função de derivação chave</string>

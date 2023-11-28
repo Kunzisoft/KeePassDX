@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="homepage">মূলপাতা</string>
-    <string name="feedback">প্রতিক্রিয়া</string>
-    <string name="contribution">অবদান</string>
-    <string name="contact">যোগাযোগ</string>
     <string name="extended_ASCII">বর্ধিত ASCII</string>
     <string name="brackets">ব্র্যাকেট</string>
     <string name="application">অ্যাপ</string>

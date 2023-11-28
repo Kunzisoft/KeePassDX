@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="feedback">Comentários</string>
-    <string name="homepage">Página inicial</string>
     <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
@@ -258,7 +256,6 @@
     <string name="html_text_dev_feature_work_hard">Estamos a trabalhar para lançar esta funcionalidade o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter a sua aplicação atualizada, instalando novas versões.</string>
     <string name="download">Descarregar</string>
-    <string name="contribute">Contribuir</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado na aplicação</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe o histórico desta manualmente.</string>
@@ -391,7 +388,6 @@
     <string name="max_history_items_summary">Limitar a quantidade de itens no histórico por entrada</string>
     <string name="download_complete">Completo!</string>
     <string name="content_description_update_from_list">Atualizar</string>
-    <string name="contribution">Contribuição</string>
     <string name="hide_broken_locations_summary">Ocultar ligações quebradas na lista de bases de dados recentes</string>
     <string name="download_attachment">Descarregar %1$s</string>
     <string name="warning_database_read_only">Conceda o acesso de gravação de ficheiros para guardar as alterações na base de dados</string>
@@ -420,7 +416,6 @@
     <string name="biometric_auto_open_prompt_summary">Solicitar automaticamente o desbloqueio do dispositivo se a base de dados estiver configurada para o utilizar</string>
     <string name="warning_database_link_revoked">O acesso ao ficheiro foi revogado pelo gestor de ficheiros</string>
     <string name="error_invalid_OTP">Segredo OTP inválido.</string>
-    <string name="contact">Contacto</string>
     <string name="otp_counter">Contador</string>
     <string name="menu_restore_entry_history">Restaurar histórico</string>
     <string name="entry_otp">OTP</string>
@@ -665,7 +660,6 @@
     <string name="menu_merge_from">Unir de…</string>
     <string name="menu_save_copy_to">Guardar uma cópia em…</string>
     <string name="merge_success">Fusão concluída com sucesso</string>
-    <string name="info">Informação</string>
     <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propriedades</string>
     <string name="menu_form_filling_settings_summary">Teclado, preenchimento automático, área de transferência</string>
     <string name="menu_security_settings_summary">Encriptação, função de derivação de chaves</string>

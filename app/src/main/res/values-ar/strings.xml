@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="homepage">الصفحة الرئيسة</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
     <string name="encryption">التشفير</string>
@@ -104,7 +103,6 @@
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
-    <string name="feedback">أرسل انطباعاتك</string>
     <string name="about_description">\"KeePassDX\" هو تطبيق أندرويد لمدير كلمات المرور كي باس \"KeePass\"</string>
     <string name="add_entry">أضف مدخل</string>
     <string name="edit_entry">تحرير مدخل</string>
@@ -311,8 +309,6 @@
     <string name="entry_otp">كلمة مرور لمرة واحدة</string>
     <string name="otp_type">نوع كلمة المرور لمرة واحدة</string>
     <string name="error_disallow_no_credentials">عين اعتماد واحد على الأقل.</string>
-    <string name="contribution">ساهم</string>
-    <string name="contact">الإتصال بنا</string>
     <string name="biometric">البصمة</string>
     <string name="warning_empty_keyfile_explanation">يجب ألا تغير محتوى ملف المفتاح، في أحسن الحالات يجب أن يحتوي بيانات مولدة عشوائيا.</string>
     <string name="warning_empty_keyfile">من غير المستحسن اضافة ملف مفتاح فارغ.</string>
@@ -539,7 +535,6 @@
     <string name="delete_entered_password_summary">يحذف كلمة المرور التي تم إدخالها بعد محاولة الاتصال بقاعدة البيانات</string>
     <string name="education_lock_summary">اقفل قاعدةبياناتك بسرعة، يمكنك إعداد التطبيق لقفلها بعد فترة، وعند إيقاف تشغيل الشاشة.</string>
     <string name="education_sort_title">فرز العنصر</string>
-    <string name="contribute">ساهِم</string>
     <string name="upload_attachment">رفع %1$s</string>
     <string name="download_canceled">ألغيت!</string>
     <string name="unit_kibibyte">كيلو بايت</string>
@@ -601,7 +596,6 @@
     <string name="enter">دخول</string>
     <string name="education_sort_summary">اختر كيفية فرز الإدخالات والمجموعات.</string>
     <string name="html_text_feature_generosity">هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; متاح بفضل كرمك.</string>
-    <string name="info">المعلومات</string>
     <string name="waiting_challenge_response">في انتظار استجابة التحدي…</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
     <string name="international_bank_account_number">IBAN</string>

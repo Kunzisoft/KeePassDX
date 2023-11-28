@@ -332,8 +332,6 @@
     <string name="entry_add_attachment">Dodaj privitak</string>
     <string name="discard">Odbaci</string>
     <string name="discard_changes">Odbaciti promjene\?</string>
-    <string name="contact">Kontakt</string>
-    <string name="homepage">Početna stranica</string>
     <string name="remember_keyfile_locations_title">Zapamti mjesto datoteke ključa</string>
     <string name="unavailable_feature_version">Uređaj koristi Android verziju %1$s, ali potrebna je verzija %2$s ili novija.</string>
     <string name="hide_broken_locations_summary">Sakrij pokvarene poveznice u popisu nedavnih baza podataka</string>
@@ -349,14 +347,12 @@
     <string name="keyboard_auto_go_action_summary">Radnja tipke „Idi” nakon pritiskanja tipke „Polje”</string>
     <string name="html_about_contribution">Kako bismo &lt;strong&gt;zadržali našu slobodu&lt;/strong&gt;, &lt;strong&gt;ispravljali greške&lt;/strong&gt;, &lt;strong&gt;dodavali funkcije&lt;/strong&gt; i &lt;strong&gt;uvijek bili aktivni&lt;/strong&gt;, računamo na tvoj &lt;strong&gt;doprinos&lt;/strong&gt;.</string>
     <string name="autofill_web_domain_blocklist_summary">Popis blokiranja koja sprečavaju automatsko ispunjavanje web domena</string>
-    <string name="feedback">Povratne informacije</string>
     <string name="autofill_preference_title">Postavke automatskog ispunjavanja</string>
     <string name="education_generate_password_summary">Stvori snažnu lozinku za tvoj unosu, jednostavno je definiraj prema kriterijima obrasca i ne zaboravi sigurnu lozinku.</string>
     <string name="error_can_not_handle_uri">Nije moguće baratati ovim URI-jem u KeePassDX-u.</string>
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="education_read_only_title">Zaštiti bazu podataka od pisanja</string>
     <string name="autofill_web_domain_blocklist_title">Popis blokiranja web domena</string>
-    <string name="contribution">Doprinos</string>
     <string name="error_label_exists">Ova oznaka već postoji.</string>
     <string name="warning_database_read_only">Za spremanje promjena u bazi podataka, datoteci dozvoli pisanje</string>
     <string name="app_timeout">Istek vremena</string>
@@ -400,7 +396,6 @@
     <string name="education_search_title">Pretraži unose</string>
     <string name="education_field_copy_title">Kopiraj jedno polje</string>
     <string name="icon_pack_choose_title">Paket ikona</string>
-    <string name="contribute">Doprinesi</string>
     <string name="html_text_dev_feature_thanks">Zahvaljujemo na doprinosu.</string>
     <string name="education_setup_OTP_title">Postavi jednokratnu lozinku</string>
     <string name="content_description_add_item">Dodaj element</string>
@@ -675,7 +670,6 @@
     <string name="menu_appearance_settings_summary">Teme, boje, atributi</string>
     <string name="unlock">Otključaj</string>
     <string name="menu_advanced_unlock_settings_summary">Biometrija, podatak za prijavu uređaja</string>
-    <string name="info">Informacije</string>
     <string name="master_key_settings_summary">Promjena, obnova</string>
     <string name="education_validate_entry_title">Potvrdi unos</string>
     <string name="education_validate_entry_summary">Nemoj zaboraviti potvrditi svoj unos i spremiti svoju bazu podataka.

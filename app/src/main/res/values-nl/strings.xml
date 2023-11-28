@@ -19,8 +19,6 @@
 
     Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 --><resources>
-    <string name="feedback">Opmerkingen</string>
-    <string name="homepage">Startpagina</string>
     <string name="about_description">Android-implementatie van KeePass-wachtwoordbeheer</string>
     <string name="accept">Accepteren</string>
     <string name="add_entry">Item toevoegen</string>
@@ -281,7 +279,6 @@
     <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
     <string name="html_text_dev_feature_upgrade">Vergeet niet je app up-to-date te houden door nieuwe versies te installeren.</string>
     <string name="download">Downloaden</string>
-    <string name="contribute">Bijdragen</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
     <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
     <string name="build_label">Editie %1$s</string>
@@ -429,8 +426,6 @@
     <string name="discard">Weggooien</string>
     <string name="discard_changes">Wijzigingen weggooien\?</string>
     <string name="validate">Valideren</string>
-    <string name="contribution">Donatie</string>
-    <string name="contact">Contact</string>
     <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
     <string name="autofill_block">Blokkering van automatisch invullen</string>
     <string name="autofill_web_domain_blocklist_summary">Lijst die het automatisch invullen bij webdomeinen voorkomt</string>
@@ -677,7 +672,6 @@
     <string name="menu_appearance_settings_summary">Thema\'s, kleuren, attributen</string>
     <string name="menu_app_settings_summary">Zoeken, vergrendelen, geschiedenis, eigenschappen</string>
     <string name="menu_form_filling_settings_summary">Toetsenbord, automatisch aanvullen, klembord</string>
-    <string name="info">Informatie</string>
     <string name="menu_security_settings_summary">Versleuteling, sleutelafleidingsfunctie</string>
     <string name="warning_database_notification_permission">Met de meldingstoestemming kunt u de status van de database weergeven en vergrendelen met een gemakkelijk toegankelijke knop.
 \n

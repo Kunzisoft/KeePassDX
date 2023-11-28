@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Visszajelzés</string>
-    <string name="homepage">Honlap</string>
     <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
@@ -296,7 +294,6 @@
     <string name="html_text_dev_feature_work_hard">Keményen dolgozunk, hogy gyorsan kiadjuk ezt a funkciót.</string>
     <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>
     <string name="download">Letöltés</string>
-    <string name="contribute">Közreműködés</string>
     <string name="icon_pack_choose_title">Ikoncsomag</string>
     <string name="icon_pack_choose_summary">Az alkalmazásban használt ikoncsomag</string>
     <string name="content_description_password_checkbox">Jelszó jelölőnégyzet</string>
@@ -339,8 +336,6 @@
     <string name="discard_changes">Elveti a változásokat\?</string>
     <string name="validate">Érvényesítés</string>
     <string name="auto_focus_search_title">Gyors keresés</string>
-    <string name="contribution">Közreműködés</string>
-    <string name="contact">Kapcsolat</string>
     <string name="hide_expired_entries_summary">A lejárt bejegyzések nem jelennek meg</string>
     <string name="hide_expired_entries_title">Lejárt bejegyzések elrejtése</string>
     <string name="download_complete">Kész!</string>
@@ -612,7 +607,6 @@
     <string name="exclude_ambiguous_chars">Összekeverhető karakterek kihagyása</string>
     <string name="unlock">Feloldás</string>
     <string name="master_key_settings_summary">Módosítás, megújítás</string>
-    <string name="info">Információ</string>
     <string name="error_empty_key">A kulcs nem lehet üres.</string>
     <string name="custom_data">Egyéni adatok</string>
     <string name="tags">Címkék</string>

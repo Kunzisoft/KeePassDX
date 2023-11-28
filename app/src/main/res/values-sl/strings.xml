@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="contribution">Prispevek</string>
-    <string name="feedback">Povratne informacije</string>
-    <string name="homepage">Domača stran</string>
     <string name="accept">Sprejmi</string>
     <string name="add_entry">Dodaj vnos</string>
     <string name="edit_entry">Uredi vnos</string>
@@ -47,7 +44,6 @@
     <string name="settings_database_force_changing_master_key_next_time_title">Naslednjič vsili obnovitev</string>
     <string name="monospace_font_fields_enable_summary">Spremenite pisavo v poljih za boljšo vidnost znakov</string>
     <string name="allow_copy_password_summary">Dovoli kopiranje vstopnega gesla in zaščitenih polj v odložišče</string>
-    <string name="contact">Kontakt</string>
     <string name="about_description">Implementacija upravitelja gesel KeePass v sistemu Android</string>
     <string name="app_timeout_summary">Čas pred zaklepanjem baze podatkov</string>
     <string name="clipboard_error_clear">Odložišča ni bilo mogoče počistiti</string>

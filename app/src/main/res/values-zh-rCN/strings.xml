@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">反馈</string>
-    <string name="homepage">主页</string>
     <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
@@ -193,7 +191,6 @@
     <string name="enable_read_only_title">写入保护（只读模式）</string>
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
-    <string name="contribute">贡献</string>
     <string name="error_string_key">每个字符串必须有字段名。</string>
     <string name="field_name">字段名</string>
     <string name="field_value">字段值</string>
@@ -407,8 +404,6 @@
     <string name="download_complete">完成！</string>
     <string name="hide_expired_entries_title">隐藏过期条目</string>
     <string name="hide_expired_entries_summary">过期条目将被隐藏</string>
-    <string name="contact">联系我们</string>
-    <string name="contribution">贡献</string>
     <string name="html_about_contribution">为了&lt;strong&gt;维持我们的自由&lt;/strong&gt;、&lt;strong&gt;修复 bugs&lt;/strong&gt;、&lt;strong&gt;添加更多功能&lt;/strong&gt;以及&lt;strong&gt;始终保持项目活跃&lt;/strong&gt;，我们期待您的&lt;strong&gt;贡献&lt;/strong&gt;。</string>
     <string name="auto_focus_search_title">快速搜索</string>
     <string name="auto_focus_search_summary">打开数据库时询问是否进行搜索</string>
@@ -677,7 +672,6 @@
     <string name="menu_appearance_settings_summary">主题、颜色、属性</string>
     <string name="unlock">解锁</string>
     <string name="education_validate_entry_title">验证条目</string>
-    <string name="info">信息</string>
     <string name="warning_database_notification_permission">通知权限允许展示数据库状态并通过可以轻松访问的按钮锁定它。
 \n
 \n如未授予此权限，那么在前台存在另一个程序情况下，后台打开的数据库将不可见。</string>

@@ -18,7 +18,6 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
 --><resources>
-    <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android-implementering af KeePass-adgangskodeadministrator</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
@@ -274,7 +273,6 @@
     <string name="html_text_dev_feature_work_hard">Vi arbejder hårdt på hurtigt at frigive denne funktion.</string>
     <string name="html_text_dev_feature_upgrade">Husk at holde din app opdateret ved at installere den nyeste version.</string>
     <string name="download">Hent</string>
-    <string name="contribute">Bidrag</string>
     <string name="icon_pack_choose_title">Ikonpakke</string>
     <string name="icon_pack_choose_summary">Ikonpakke, der anvendes i appen</string>
     <string name="keyboard_name">Magikeyboard</string>
@@ -403,9 +401,6 @@
     <string name="download_complete">Færdig!</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
     <string name="hide_expired_entries_summary">Udløbne poster vises ikke</string>
-    <string name="contact">Kontakt</string>
-    <string name="contribution">Bidrag</string>
-    <string name="feedback">Tilbagemelding</string>
     <string name="html_about_licence">KeePassDX ©%1$d Kunzisoft er &lt;strong&gt;open source&lt;/strong&gt; og &lt;strong&gt;uden reklamer&lt;/strong&gt;.
 \nDen leveres som den er, under &lt;strong&gt;GPLv3&lt;/strong&gt; licens, uden nogen form for garanti.</string>
     <string name="html_about_contribution">For at &lt;strong&gt;vi kan bevare vores frihed&lt;/strong&gt;, &lt;strong&gt;rette fejl&lt;/strong&gt;, &lt;strong&gt;tilføje funktioner&lt;/strong&gt; og &lt;strong&gt;altid være aktive&lt;/strong&gt;, er vi afhængige af &lt;strong&gt;bidrag&lt;/strong&gt;.</string>

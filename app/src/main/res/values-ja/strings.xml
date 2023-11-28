@@ -17,10 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="contact">連絡先</string>
-    <string name="contribution">貢献</string>
-    <string name="feedback">フィードバック</string>
-    <string name="homepage">ホームページ</string>
     <string name="about_description">KeePass パスワード マネージャーの Android 実装</string>
     <string name="accept">承認</string>
     <string name="add_entry">エントリーを追加</string>
@@ -454,7 +450,6 @@
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
     <string name="html_text_dev_feature_upgrade">新しいバージョンをインストールして、アプリを最新の状態に保つことを忘れないでください。</string>
     <string name="download">ダウンロード</string>
-    <string name="contribute">貢献</string>
     <string name="download_attachment">%1$s をダウンロード</string>
     <string name="upload_attachment">%1$s をアップロード</string>
     <string name="download_initialization">初期化しています…</string>

@@ -9,7 +9,6 @@
     <string name="download_progression">ਜਾਰੀ ਹੈ: %1$d%%</string>
     <string name="download_initialization">…ਸ਼ੁਰੂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="download_attachment">%1$s ਡਾਊਨਲੋਡ ਕਰੋ</string>
-    <string name="contribute">ਯੋਗਦਾਨ</string>
     <string name="download">ਡਾਊਨਲੋਡ ਕਰੋ</string>
     <string name="education_setup_OTP_title">OTP ਸੈਟਅੱਪ ਕਰੋ</string>
     <string name="education_create_database_title">ਆਪਣੀ ਡਾਟਾਬੇਸ ਫ਼ਾਇਲ ਬਣਾਓ</string>
@@ -231,10 +230,6 @@
     <string name="add_entry">ਐਂਟਰੀ ਜੋੜੋ</string>
     <string name="accept">ਮਨਜ਼ੂਰ</string>
     <string name="about_description">ਐਂਡਰਾਇਡ ਲਈ ਬਣਾਇਆ KeePass ਪਾਸਵਰਡ ਮੈਨੇਜਰ</string>
-    <string name="homepage">ਮੁੱਖ-ਸਫ਼ਾ</string>
-    <string name="feedback">ਸੁਝਾਅ</string>
-    <string name="contribution">ਯੋਗਦਾਨ</string>
-    <string name="contact">ਸੰਪਰਕ</string>
     <string name="keyfile_is_empty">ਕੁੰਜੀ ਫਾਇਲ ਖਾਲੀ ਹੈ।</string>
     <string name="error_create_database">ਡਾਟਾਬੇਸ ਫਾਈਲ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ।</string>
     <string name="error_copy_group_here">ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>

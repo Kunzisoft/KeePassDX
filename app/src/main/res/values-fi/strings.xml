@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Palaute</string>
-    <string name="homepage">Kotisivu</string>
     <string name="about_description">KeePass-salasanahallintaohjelman Android-toteutus</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
@@ -137,8 +135,6 @@
     <string name="extended_ASCII">Laajennettu ASCII</string>
     <string name="key_derivation_function">Avaimen derivointifunktio</string>
     <string name="master_key">Pääavain</string>
-    <string name="contribution">Avustus</string>
-    <string name="contact">Ota yhteyttä</string>
     <string name="content_description_open_file">Avaa tiedosto</string>
     <string name="encryption">Salaus</string>
     <string name="security">Turvallisuus</string>
@@ -306,5 +302,4 @@
     <string name="error_move_entry_here">Et voi siirtää tietuetta tänne.</string>
     <string name="error_autofill_enable_service">Automaattista täyttöä ei voitu ottaa käyttöön.</string>
     <string name="content_description_node_children">Solmun lapset</string>
-    <string name="info">Tietoja</string>
 </resources>

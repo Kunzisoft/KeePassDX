@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Geri bildirim</string>
-    <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
     <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi ekle</string>
@@ -290,7 +288,6 @@
     <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
     <string name="html_text_dev_feature_upgrade">Yeni sürümleri yükleyerek uygulamanızı güncel tutmayı unutmayın.</string>
     <string name="download">İndir</string>
-    <string name="contribute">Katkıda bulun</string>
     <string name="icon_pack_choose_title">Simge paketi</string>
     <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
     <string name="selection_mode">Seçim modu</string>
@@ -410,8 +407,6 @@
     <string name="remember_database_locations_title">Veri tabanları konumlarını hatırla</string>
     <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
     <string name="auto_focus_search_title">Hızlı arama</string>
-    <string name="contribution">Katkı</string>
-    <string name="contact">İletişim</string>
     <string name="education_setup_OTP_summary">İki ögeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için bir kerelik parola yönetimini (HOTP / TOTP) ayarlayın.</string>
     <string name="education_setup_OTP_title">Bir kerelik parola (OTP) ayarlayın</string>
     <string name="error_create_database">Veri tabanı dosyası oluşturulamıyor.</string>
@@ -662,7 +657,6 @@
     <string name="merge_success">Birleştirme başarıyla tamamlandı</string>
     <string name="unlock">Kilidi aç</string>
     <string name="master_key_settings_summary">Değişim, yenilenme</string>
-    <string name="info">Bilgi</string>
     <string name="education_validate_entry_title">Girişi doğrula</string>
     <string name="ask">Sor</string>
     <string name="menu_form_filling_settings_summary">Klavye, otomatik doldur, pano</string>

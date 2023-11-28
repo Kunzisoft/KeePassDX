@@ -236,10 +236,6 @@
     <string name="add_entry">افزودن ورودی</string>
     <string name="accept">قبول</string>
     <string name="about_description">پیاده سازی آندروید از مدیر رمز عبور KeePass</string>
-    <string name="homepage">صفحه اصلی</string>
-    <string name="feedback">بازخورد</string>
-    <string name="contribution">سهم</string>
-    <string name="contact">مخاطب</string>
     <string name="filter">فیلتر</string>
     <string name="allow_no_password_summary">در صورت عدم انتخاب اعتبار نامه ، ضربه زدن روی دکمه \"باز کردن\" امکان پذیر است</string>
     <string name="keyboard_previous_database_credentials_summary">به طور خودکار به صفحه کلید قبلی در صفحه اعتبار نامه پایگاه داده برگردید</string>

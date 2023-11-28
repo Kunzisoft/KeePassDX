@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Σχόλια</string>
-    <string name="homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePassDX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
     <string name="accept">Αποδοχή</string>
     <string name="add_entry">Προσθήκη καταχώρησης</string>
@@ -242,7 +240,6 @@
     <string name="html_text_dev_feature_work_hard">Εργαζόμαστε σκληρά για να διαθέσουμε αυτό το χαρακτηριστικό γρήγορα.</string>
     <string name="html_text_dev_feature_upgrade">Θυμηθείτε να ενημερώνετε την εφαρμογή σας, εγκαθιστώντας νέες εκδόσεις.</string>
     <string name="download">Λήψη</string>
-    <string name="contribute">Συνεισφορά</string>
     <string name="icon_pack_choose_title">Πακέτο Εικονιδίων</string>
     <string name="icon_pack_choose_summary">Πακέτο εικονιδίων που χρησιμοποιείται στην εφαρμογή</string>
     <string name="menu_copy">Αντιγραφή</string>
@@ -408,7 +405,6 @@
     <string name="show_recent_files_title">Εμφάνιση πρόσφατων αρχείων</string>
     <string name="auto_focus_search_title">Γρήγορη αναζήτηση</string>
     <string name="entry_add_attachment">Προσθήκη συνημμένου</string>
-    <string name="contribution">Συνεισφορά</string>
     <string name="education_setup_OTP_summary">Ρύθμιση διαχείρισης μίας-χρήσης κωδικού πρόσβασης (HOTP / TOTP) για δημιουργία token που ζητήθηκε για έλεγχο ταυτότητας δύο παραγόντων (2FA).</string>
     <string name="education_setup_OTP_title">Ρύθμιση OTP</string>
     <string name="lock_database_show_button_summary">Εμφανίζει το κουμπί κλειδώματος στη διεπαφή χρήστη</string>
@@ -430,7 +426,6 @@
     <string name="discard">Απόρριψη</string>
     <string name="discard_changes">Απόρριψη αλλαγών;</string>
     <string name="validate">Επικυρώστε</string>
-    <string name="contact">Επικοινωνία</string>
     <string name="upload_attachment">Μεταφόρτωση %1$s</string>
     <string name="education_add_attachment_summary">Ανεβάστε ένα συνημμένο στην καταχώρισή σας για να αποθηκεύσετε σημαντικά εξωτερικά δεδομένα.</string>
     <string name="education_add_attachment_title">Προσθήκη συνημμένου</string>
@@ -665,7 +660,6 @@
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
     <string name="auto_type">Αυτόματη-Πληκτρολόγηση</string>
     <string name="merge_success">Η συγχώνευση ολοκληρώθηκε με επιτυχία</string>
-    <string name="info">Πληροφορίες</string>
     <string name="menu_app_settings_summary">Αναζήτηση, κλείδωμα, ιστορικό, ιδιότητες</string>
     <string name="menu_form_filling_settings_summary">Πληκτρολόγιο, αυτόματη συμπλήρωση, πρόχειρο</string>
     <string name="menu_advanced_unlock_settings_summary">Βιομετρία, διαπιστευτήριο συσκευής</string>
