@@ -32,6 +32,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:minHeight="@dimen/selectable_min_height"
+        android:paddingVertical="8dp"
         style="@style/KeepassDXStyle.Selectable.Item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
