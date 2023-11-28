@@ -409,27 +409,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
-                var styleEnabled = true
                 val styleIdString = newValue as String
-                if (!activity.isContributingUser()) {
-                    for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
-                        if (themeIdDisabled == styleIdString) {
-                            styleEnabled = false
-                            ProFeatureDialogFragment().show(
-                                parentFragmentManager,
-                                "pro_feature_dialog"
-                            )
-                        }
-                    }
-                }
-                if (styleEnabled) {
                     Stylish.assignStyle(activity, styleIdString)
                     // Relaunch the current activity to redraw theme
                     (activity as? SettingsActivity?)?.apply {
                         reloadActivity()
                     }
-                }
-                styleEnabled
+                true
             }
 
             findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->

@@ -36,7 +36,6 @@ import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import java.util.Properties
 
 object PreferencesUtil {
@@ -173,11 +172,6 @@ object PreferencesUtil {
 
     fun setStyle(context: Context, styleString: String) {
         var tempThemeString = styleString
-        if (!context.isContributingUser()) {
-            if (tempThemeString in BuildConfig.STYLES_DISABLED) {
-                tempThemeString = Stylish.defaultStyle(context)
-            }
-        }
         // Store light style to show selection in array list
         tempThemeString = Stylish.retrieveEquivalentLightStyle(context, tempThemeString)
         PreferenceManager.getDefaultSharedPreferences(context)
