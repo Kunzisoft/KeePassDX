@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 object MenuUtil {
 
     fun defaultMenuInflater(context: Context, inflater: MenuInflater, menu: Menu) {
-        inflater.inflate(R.menu.settings, menu)
         inflater.inflate(R.menu.about, menu)
     }
 

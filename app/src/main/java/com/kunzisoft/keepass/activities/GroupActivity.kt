@@ -321,7 +321,6 @@ class GroupActivity : DatabaseLockActivity(),
 
         // Menu in drawer
         databaseNavView?.apply {
-            inflateMenu(R.menu.settings)
             inflateMenu(R.menu.database_extra)
             inflateMenu(R.menu.about)
             setNavigationItemSelectedListener { menuItem ->
