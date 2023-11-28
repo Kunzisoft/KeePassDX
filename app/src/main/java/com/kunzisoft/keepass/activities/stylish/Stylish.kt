@@ -75,7 +75,6 @@ object Stylish {
         return when (styleString) {
             context.getString(R.string.list_style_name_dynamic_night) -> context.getString(R.string.list_style_name_dynamic_light)
             context.getString(R.string.list_style_name_night) -> context.getString(R.string.list_style_name_light)
-            context.getString(R.string.list_style_name_black) -> context.getString(R.string.list_style_name_white)
             context.getString(R.string.list_style_name_dark) -> context.getString(R.string.list_style_name_clear)
             else -> styleString
         }
@@ -85,7 +84,6 @@ object Stylish {
         return when (styleString) {
             context.getString(R.string.list_style_name_dynamic_light) -> context.getString(R.string.list_style_name_dynamic_night)
             context.getString(R.string.list_style_name_light) -> context.getString(R.string.list_style_name_night)
-            context.getString(R.string.list_style_name_white) -> context.getString(R.string.list_style_name_black)
             context.getString(R.string.list_style_name_clear) -> context.getString(R.string.list_style_name_dark)
             else -> styleString
         }
@@ -119,8 +117,6 @@ object Stylish {
     fun getThemeId(context: Context): Int {
         return when (retrieveEquivalentSystemStyle(context, themeString)) {
             context.getString(R.string.list_style_name_night) -> R.style.KeepassDXStyle_Night
-            context.getString(R.string.list_style_name_white) -> R.style.KeepassDXStyle_White
-            context.getString(R.string.list_style_name_black) -> R.style.KeepassDXStyle_Black
             context.getString(R.string.list_style_name_clear) -> R.style.KeepassDXStyle_Clear
             context.getString(R.string.list_style_name_dark) -> R.style.KeepassDXStyle_Dark
             context.getString(R.string.list_style_name_dynamic_light) -> R.style.KeepassDXStyle_Light_Dynamic

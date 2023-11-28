@@ -428,7 +428,6 @@
     <string name="style_choose_title">App-Design</string>
     <string name="style_choose_summary">In der App verwendetes Design</string>
     <string name="style_name_forest">Wald</string>
-    <string name="style_name_divine">Göttlich</string>
     <string name="style_name_classic">Klassisch</string>
     <string name="style_name_follow_system">System verfolgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
