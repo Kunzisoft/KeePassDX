@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SortBottomSheetFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodesAdapter
@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.LinkedList
 
-class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListener {
+class GroupFragment : DatabaseFragment(), SortBottomSheetFragment.SortSelectionListener {
 
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
@@ -101,16 +101,16 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
             return when (menuItem.itemId) {
                 R.id.menu_sort -> {
                     context?.let { context ->
-                        val sortDialogFragment: SortDialogFragment =
+                        val sortDialogFragment: SortBottomSheetFragment =
                             if (mRecycleBinEnable) {
-                                SortDialogFragment.getInstance(
+                                SortBottomSheetFragment.getInstance(
                                     PreferencesUtil.getListSort(context),
                                     PreferencesUtil.getAscendingSort(context),
                                     PreferencesUtil.getGroupsBeforeSort(context),
                                     PreferencesUtil.getRecycleBinBottomSort(context)
                                 )
                             } else {
-                                SortDialogFragment.getInstance(
+                                SortBottomSheetFragment.getInstance(
                                     PreferencesUtil.getListSort(context),
                                     PreferencesUtil.getAscendingSort(context),
                                     PreferencesUtil.getGroupsBeforeSort(context)

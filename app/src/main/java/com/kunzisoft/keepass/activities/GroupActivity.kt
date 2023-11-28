@@ -61,7 +61,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.MainCredentialDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SortBottomSheetFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -121,7 +121,7 @@ class GroupActivity : DatabaseLockActivity(),
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
         GroupFragment.GroupRefreshedListener,
-        SortDialogFragment.SortSelectionListener,
+    SortBottomSheetFragment.SortSelectionListener,
         MainCredentialDialogFragment.AskMainCredentialDialogListener {
 
     // Views
@@ -1330,6 +1330,7 @@ class GroupActivity : DatabaseLockActivity(),
         sortNodeParameters: SortNodeEnum.SortNodeParameters
     ) {
         mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
+        Toast.makeText(this, "Sorted", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCancelSpecialMode() {

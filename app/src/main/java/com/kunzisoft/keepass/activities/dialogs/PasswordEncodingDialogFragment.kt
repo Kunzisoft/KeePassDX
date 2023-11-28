@@ -82,8 +82,8 @@ class PasswordEncodingDialogFragment : DialogFragment() {
         fun getInstance(
             databaseUri: Uri,
             mainCredential: MainCredential
-        ): SortDialogFragment {
-            val fragment = SortDialogFragment()
+        ): SortBottomSheetFragment {
+            val fragment = SortBottomSheetFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(DATABASE_URI_KEY, databaseUri)
                 putParcelable(MAIN_CREDENTIAL, mainCredential)
