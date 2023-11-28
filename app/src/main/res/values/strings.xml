@@ -696,7 +696,6 @@
     <string name="style_name_forest">Forest</string>
     <string name="style_name_divine">Divine</string>
     <string name="style_name_classic">Classic</string>
-    <string name="style_name_moon">Moon</string>
     <string name="style_name_sun">Sun</string>
     <string name="style_name_reply">Reply</string>
     <string name="style_name_kunzite">Kunzite</string>
@@ -705,7 +704,6 @@
         <item>@string/style_name_forest</item>
         <item>@string/style_name_divine</item>
         <item>@string/style_name_classic</item>
-        <item>@string/style_name_moon</item>
         <item>@string/style_name_sun</item>
         <item>@string/style_name_reply</item>
         <item>@string/style_name_kunzite</item>
