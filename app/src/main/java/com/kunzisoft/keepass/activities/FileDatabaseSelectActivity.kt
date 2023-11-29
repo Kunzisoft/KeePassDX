@@ -82,7 +82,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     // Views
     private lateinit var coordinatorLayout: CoordinatorLayout
-    private var specialTitle: View? = null
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -117,11 +116,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         coordinatorLayout = findViewById(R.id.activity_file_selection_coordinator_layout)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.title = ""
         setSupportActionBar(toolbar)
-
-        // Special title
-        specialTitle = findViewById(R.id.file_selection_title_part_3)
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
@@ -151,10 +146,13 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
         fileDatabaseHistoryRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val nonEmptyDatabaseHistoryView = findViewById<View>(R.id.recycler_view_container)
+        val emptyDatabaseHistoryView = findViewById<View>(R.id.empty_database_history_view)
+
         // Removes blinks
         (fileDatabaseHistoryRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         // Construct adapter with listeners
-        mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this)
+        mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this, nonEmptyDatabaseHistoryView, emptyDatabaseHistoryView)
         mAdapterDatabaseHistory?.setOnDefaultDatabaseListener { databaseFile ->
             databaseFilesViewModel.setDefaultDatabase(databaseFile)
         }
@@ -328,9 +326,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     override fun onResume() {
         super.onResume()
-
-        // Define special title
-        specialTitle?.isVisible = this.isContributingUser()
 
         // Show open and create button or special mode
         when (mSpecialMode) {

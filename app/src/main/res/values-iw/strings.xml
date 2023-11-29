@@ -41,7 +41,6 @@
     <string name="decrypting_db">מפענח תוכן מסד נתונים…</string>
     <string name="default_checkbox">השתמש כמסד נתונים ברירת מחדל</string>
     <string name="digits">ספרות</string>
-    <string name="select_database_file">פתח מסד נתונים קיים</string>
     <string name="entry_accessed">ניגש לאחרונה</string>
     <string name="entry_cancel">בטל</string>
     <string name="entry_notes">הערות</string>
@@ -305,7 +304,6 @@
     <string name="menu_paste">הדבק</string>
     <string name="menu_cancel">בטל</string>
     <string name="menu_copy">העתק</string>
-    <string name="create_keepass_file">צור מסד נתונים חדש</string>
     <string name="subdomain_search_title">חיפוש תת-דומיין</string>
     <string name="menu_keystore_remove_key">מחק מפתח ביטול נעילה מתקדם</string>
     <string name="invalid_db_same_uuid">%1$s עם אותו UUID %2$s כבר קיים.</string>

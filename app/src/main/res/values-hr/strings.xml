@@ -142,8 +142,6 @@
     <string name="never">Nikada</string>
     <string name="no_results">Nema rezultata pretraživanja</string>
     <string name="no_url_handler">Instalirajte web preglednik da bi ste otvorili ovaj URL.</string>
-    <string name="select_database_file">Otvori postojeći trezor</string>
-    <string name="create_keepass_file">Stvori novi trezor</string>
     <string name="progress_create">Stvaranje nove baze podataka …</string>
     <string name="protection">Zaštita</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplicirane UUID-ove.</string>

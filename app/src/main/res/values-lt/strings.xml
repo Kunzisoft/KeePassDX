@@ -68,7 +68,6 @@
     <string name="protection">Apsauga</string>
     <string name="version_label">Versija %1$s</string>
     <string name="warning">Įspėjimas</string>
-    <string name="select_database_file">Atidaryti esamą duomenų bazę</string>
     <string name="error_wrong_length">Įveskite teigiamą sveikąjį skaičių „Ilgio“ lauke.</string>
     <string name="content_description_remove_from_list">Pašalinti</string>
     <string name="root">Šaknis</string>
@@ -137,7 +136,6 @@
     <string name="error_nokeyfile">Pasirinkti rakto failą.</string>
     <string name="error_load_database">Nepavyko užkrauti duomenų bazės.</string>
     <string name="error_pass_gen_type">Turi būti pasirinktas bent vienas slaptažodžio generavimo tipas.</string>
-    <string name="create_keepass_file">Sukurti naują duomenų bazę</string>
     <string name="content_description_database_color">Duomenų bazės spalva</string>
     <string name="error_file_not_create">Nepavyko sukurti failo</string>
     <string name="error_load_database_KDF_memory">Nepavyko įkelti rakto. Pabandykite sumažinti KDF \"Atminties naudojimas\".</string>

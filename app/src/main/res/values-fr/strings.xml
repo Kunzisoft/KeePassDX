@@ -116,7 +116,6 @@
     <string name="never">Jamais</string>
     <string name="no_results">Aucun résultat</string>
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
-    <string name="select_database_file">Ouvrir un coffre-fort existant</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>
@@ -188,7 +187,6 @@
     <string name="file_name">Nom de fichier</string>
     <string name="path">Chemin d’accès</string>
     <string name="assign_master_key">Affecter une clé principale</string>
-    <string name="create_keepass_file">Créer un nouveau coffre-fort</string>
     <string name="recycle_bin_title">Utilisation de la corbeille</string>
     <string name="recycle_bin_summary">Déplace les groupes et les entrées dans le groupe  \"Corbeille\" avant leur suppression</string>
     <string name="monospace_font_fields_enable_title">Fonte de caractères des champs</string>

@@ -39,7 +39,6 @@
     <string name="digits">Цифри</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є застосунком з &lt;strong&gt;відкритим програмним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
 \nЗастосунок постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
-    <string name="select_database_file">Відкрити наявне сховище</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Скасувати</string>
     <string name="entry_notes">Примітки</string>
@@ -169,7 +168,6 @@
     <string name="protection">Захист</string>
     <string name="auto_focus_search_summary">Відкривати пошук під час відкриття бази даних</string>
     <string name="auto_focus_search_title">Швидкий пошук</string>
-    <string name="create_keepass_file">Створити нове сховище</string>
     <string name="menu_delete_entry_history">Видалити історію</string>
     <string name="menu_restore_entry_history">Відновити історію</string>
     <string name="menu_empty_recycle_bin">Спорожнити кошик</string>

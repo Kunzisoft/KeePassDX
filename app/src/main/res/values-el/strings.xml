@@ -42,7 +42,6 @@
     <string name="digits">Ψηφία</string>
     <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft είναι &lt;strong&gt;ανοιχτού κώδικα&lt;/strong&gt; και &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;.
 \nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
-    <string name="select_database_file">Ανοίξτε την υπάρχον κρύπτη</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Άκυρο</string>
     <string name="entry_notes">Σημειώσεις</string>
@@ -180,7 +179,6 @@
     <string name="file_name">Όνομα αρχείου</string>
     <string name="path">Διαδρομή</string>
     <string name="assign_master_key">Ορίστε ένα κύριο κλειδί</string>
-    <string name="create_keepass_file">Δημιουργία νέας κρύπτης</string>
     <string name="recycle_bin_title">Χρήση Κάδου ανακύκλωσης</string>
     <string name="recycle_bin_summary">Μετακίνηση ομάδων και καταχωρίσεων στην ομάδα \"Κάδο ανακύκλωσης\" πριν την διαγραφή</string>
     <string name="monospace_font_fields_enable_title">Γραμματοσειρά πεδίου</string>

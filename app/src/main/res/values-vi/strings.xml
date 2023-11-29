@@ -154,7 +154,6 @@
     <string name="invalid_algorithm">Sai thuật toán.</string>
     <string name="invalid_db_sig">Không đọc được định dạng cơ sở dữ liệu.</string>
     <string name="no_url_handler">Hãy cài đặt trình duyệt web để mở đường dẫn này.</string>
-    <string name="select_database_file">Mở két sắt có sẵn</string>
     <string name="lowercase">Chữ thường</string>
     <string name="hide_password_title">Ẩn mật khẩu</string>
     <string name="error_upload_file">Có lỗi xảy ra khi tải dữ liệu từ tệp lên.</string>

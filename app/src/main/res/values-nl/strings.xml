@@ -41,7 +41,6 @@
     <string name="digits">Cijfers</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; en &lt;strong&gt;zonder reclame&lt;/strong&gt;.
 \nHet wordt geleverd zoals het is, onder &lt;strong&gt;GPLv3&lt;/strong&gt; -licentie, zonder enige garantie.</string>
-    <string name="select_database_file">Bestaande kluis openen</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
     <string name="entry_notes">Notities</string>
@@ -206,7 +205,6 @@
     <string name="file_name">Bestandsnaam</string>
     <string name="path">Pad</string>
     <string name="assign_master_key">Hoofdsleutel toewijzen</string>
-    <string name="create_keepass_file">Nieuwe kluis aanmaken</string>
     <string name="recycle_bin_title">Prullenbak gebruiken</string>
     <string name="recycle_bin_summary">Verplaatst groepen en items naar \"Prullenbak\" voordat ze worden verwijderd</string>
     <string name="monospace_font_fields_enable_title">Veldlettertype</string>

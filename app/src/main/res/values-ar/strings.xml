@@ -150,8 +150,6 @@
     <string name="menu_url">الانتقال الى الرابط</string>
     <string name="menu_file_selection_read_only">محمي من التعديل</string>
     <string name="menu_open_file_read_and_write">قابل للتعديل</string>
-    <string name="select_database_file">فتح مخزن موجود</string>
-    <string name="create_keepass_file">انشاء مخزن جديد</string>
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePassDX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات</string>

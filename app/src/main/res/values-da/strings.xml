@@ -41,7 +41,6 @@
     <string name="decrypting_db">Dekrypterer databaseindhold…</string>
     <string name="default_checkbox">Brug som standarddatabase</string>
     <string name="digits">Cifre</string>
-    <string name="select_database_file">Åbn en eksisterende database</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
     <string name="entry_confpassword">Bekræft adgangskode</string>
@@ -200,7 +199,6 @@
     <string name="file_name">Filnavn</string>
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøgle</string>
-    <string name="create_keepass_file">Opret en ny database</string>
     <string name="recycle_bin_title">Brug af papirkurven</string>
     <string name="recycle_bin_summary">Flyt grupper og poster til \"Papirkurv\" før sletning</string>
     <string name="monospace_font_fields_enable_title">Feltskrifttype</string>

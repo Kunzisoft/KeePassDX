@@ -43,7 +43,6 @@
     <string name="digits">Digituak</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;kode irekiko&lt;/strong&gt; eta &lt;strong&gt;iragarki gabekoa da&lt;/strong&gt;.
 \n&lt;strong&gt;GPLv3&lt;/strong&gt; lizentziapean banatu da, hori dela eta ez dakar inolako bermerik.</string>
-    <string name="select_database_file">Ireki aurrez sortutako datu-basea</string>
     <string name="entry_accessed">Atzituta</string>
     <string name="entry_cancel">Utzi</string>
     <string name="entry_notes">Iruzkinak</string>
@@ -403,7 +402,6 @@
     <string name="read_only">Idazketaren aurka babestua</string>
     <string name="subdomain_search_title">Azpi-domeinu bilaketa</string>
     <string name="auto_focus_search_title">Bilaketa azkarra</string>
-    <string name="create_keepass_file">Sortu datu-base berria</string>
     <string name="menu_empty_recycle_bin">Hustu zakarrontzia</string>
     <string name="menu_open_file_read_and_write">Editagarri</string>
     <string name="menu_copy">Kopiatu</string>

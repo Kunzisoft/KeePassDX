@@ -42,7 +42,6 @@
     <string name="digits">Цифры</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это программное обеспечение &lt;strong&gt;с открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
 \nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
-    <string name="select_database_file">Открыть базу паролей</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Назад</string>
     <string name="entry_notes">Заметки</string>
@@ -202,7 +201,6 @@
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
     <string name="assign_master_key">Установить главный пароль</string>
-    <string name="create_keepass_file">Создать базу паролей</string>
     <string name="recycle_bin_title">Использовать \"корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
     <string name="monospace_font_fields_enable_title">Особый шрифт полей</string>

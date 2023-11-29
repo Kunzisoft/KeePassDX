@@ -42,7 +42,6 @@
     <string name="digits">Numerot</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avointa lähdekoodia&lt;/strong&gt; ja &lt;strong&gt;mainokseton&lt;/strong&gt;.
 \nSe tarjotaan sellaisenaan &lt;strong&gt;GPLv3&lt;/strong&gt; lisenssillä ja ilman takuuta.</string>
-    <string name="select_database_file">Avaa olemassaoleva salasanatietokanta</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
     <string name="entry_notes">Kommentit</string>
@@ -266,7 +265,6 @@
     <string name="subdomain_search_title">Alidomainhaku</string>
     <string name="auto_focus_search_summary">Pyydä haku, salasanatietokantaa avattaessa</string>
     <string name="auto_focus_search_title">Pikahaku</string>
-    <string name="create_keepass_file">Luo uusi salasanatietokanta</string>
     <string name="menu_delete_entry_history">Poista historia</string>
     <string name="menu_restore_entry_history">Palauta historia</string>
     <string name="menu_empty_recycle_bin">Tyhjennä roskakori</string>

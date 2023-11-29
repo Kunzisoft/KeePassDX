@@ -37,7 +37,6 @@
     <string name="decrypting_db">Odszyfrowywanie zawartości bazy danych…</string>
     <string name="default_checkbox">Ustaw jako domyślną bazę danych</string>
     <string name="digits">Cyfry</string>
-    <string name="select_database_file">Otwórz istniejący sejf</string>
     <string name="entry_accessed">Dostęp do pliku</string>
     <string name="entry_cancel">Anuluj</string>
     <string name="entry_notes">Notatki</string>
@@ -202,7 +201,6 @@
     <string name="file_name">Nazwa pliku</string>
     <string name="path">Ścieżka</string>
     <string name="assign_master_key">Przypisz klucz główny</string>
-    <string name="create_keepass_file">Utwórz nowy sejf</string>
     <string name="recycle_bin_title">Wykorzystaj kosz</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Czcionka pola</string>

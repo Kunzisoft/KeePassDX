@@ -126,7 +126,6 @@
     <string name="content_description_repeat_toggle_password_visibility">重複切換密碼可見性</string>
     <string name="content_description_update_from_list">更新</string>
     <string name="copy_field">複製%1$s</string>
-    <string name="create_keepass_file">創建新資料庫</string>
     <string name="creating_database">正在創建資料庫…</string>
     <string name="credential_before_click_advanced_unlock_button">輸入密碼，然後點擊這個按鈕。</string>
     <string name="cryptocurrency">加密貨幣錢包</string>
@@ -457,7 +456,6 @@
     <string name="secure_note">安全註記</string>
     <string name="security">安全</string>
     <string name="seed">種子</string>
-    <string name="select_database_file">選擇一個已存在之資料庫</string>
     <string name="select_entry">選擇條目</string>
     <string name="select_to_copy">複製%1$s到剪貼簿</string>
     <string name="selection_mode">選擇模式</string>

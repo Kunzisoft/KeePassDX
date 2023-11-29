@@ -16,7 +16,6 @@
     <string name="rounds">പരിവർത്തന റൗണ്ടുകൾ</string>
     <string name="selection_mode">തിരഞ്ഞെടുക്കൽ മോഡ്</string>
     <string name="progress_create">പുതിയ ഡാറ്റാബേസ് സൃഷ്ടിക്കുന്നു…</string>
-    <string name="select_database_file">നിലവിലുള്ള ഡാറ്റാബേസ് തുറക്കുക</string>
     <string name="no_results">തിരയൽ ഫലങ്ങളൊന്നുമില്ല</string>
     <string name="menu_search">തിരയുക</string>
     <string name="menu_security_settings">സുരക്ഷാ ക്രമീകരണങ്ങൾ</string>
@@ -47,7 +46,6 @@
     <string name="show_recent_files_title">സമീപകാല ഫയലുകൾ കാണിക്കുക</string>
     <string name="protection">സംരക്ഷണം</string>
     <string name="progress_title">പ്രവർത്തിക്കുന്നു…</string>
-    <string name="create_keepass_file">പുതിയ ഡാറ്റാബേസ് സൃഷ്ടിക്കുക</string>
     <string name="menu_showpass">പാസ്‌വേഡ് കാണിക്കുക</string>
     <string name="menu_open">തുറക്കുക</string>
     <string name="menu_save_database">ഡാറ്റാബേസ് സംരക്ഷിക്കുക</string>

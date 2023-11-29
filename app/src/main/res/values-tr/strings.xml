@@ -126,8 +126,6 @@
     <string name="never">Asla</string>
     <string name="no_results">Arama sonucu bulunamadı</string>
     <string name="no_url_handler">Bu URL\'u açmak için bir web tarayıcısı yükleyin.</string>
-    <string name="select_database_file">Mevcut kasayı aç</string>
-    <string name="create_keepass_file">Yeni kasa oluştur</string>
     <string name="progress_create">Yeni veri tabanı oluşturuluyor…</string>
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>

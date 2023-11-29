@@ -49,7 +49,6 @@
     <string name="monospace_font_fields_enable_title">Tipo de letra nos campos</string>
     <string name="recycle_bin_summary">Move grupos e entradas para o \"Caixote da reciclagem\" antes de eliminar</string>
     <string name="recycle_bin_title">Utilização do caixote da reciclagem</string>
-    <string name="create_keepass_file">Criar novo Cofre</string>
     <string name="assign_master_key">Atribuir uma chave mestra</string>
     <string name="path">Caminho</string>
     <string name="file_name">Nome do ficheiro</string>
@@ -105,7 +104,6 @@
     <string name="protection">Proteção</string>
     <string name="progress_title">Em funcionamento…</string>
     <string name="progress_create">A criar nova base de dados…</string>
-    <string name="select_database_file">Abrir o cofre existente</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="never">Nunca</string>

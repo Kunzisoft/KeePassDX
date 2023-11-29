@@ -31,7 +31,6 @@
     <string name="password">รหัสผ่าน</string>
     <string name="hide_password_title">ซ่อนรหัสผ่าน</string>
     <string name="hint_conf_pass">ยืนยันรหัสผ่าน</string>
-    <string name="select_database_file">เปิดคลังรหัสผ่านที่มีอยู่แล้ว</string>
     <string name="warning_database_link_revoked">การเข้าถึงไฟล์ถูกเพิกถอนโดยตัวจัดการไฟล์</string>
     <string name="warning_database_revoked">การเข้าถึงไฟล์ถูกเพิกถอนโดยตัวจัดการไฟล์ ปิดฐานข้อมูลและเปิดใหม่จากตำแหน่งดังกล่าวอีกครั้ง</string>
     <string name="content_description_keyfile_checkbox">ช่องทำเครื่องหมาย Keyfile</string>
@@ -77,7 +76,6 @@
     <string name="retrieving_db_key">กําลังเรียกกุญแจของฐานข้อมูล…</string>
     <string name="error_no_hardware_key">เลือกกุญเจฮาร์ดแวร์</string>
     <string name="error_hardware_key_unsupported">ไม่รองรับกุญแจฮาร์ดแวร์</string>
-    <string name="create_keepass_file">สร้างคลังรหัสผ่านใหม่</string>
     <string name="configure_biometric">ไม่ได้กำหนดข้อมูลการยืนยันตัวตนหรือไบโอเมตริก</string>
     <string name="advanced_unlock_prompt_store_credential_message">คุณยังต้องจำข้อมูลรหัสผ่านหลักไว้อยู่ถ้าใช้การปลดล็อกขั้นสูง</string>
     <string name="hardware_key">กุญแจฮาร์ดแวร์</string>

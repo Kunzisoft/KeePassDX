@@ -40,7 +40,6 @@
     <string name="digits">Dígits</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft és &lt;strong&gt; programari lliure &lt;/strong&gt; i &lt;strong&gt;sense anuncis&lt;/strong&gt;.
 \nEs proporciona tal com està, sota una llicència &lt;strong&gt;GPLv3&lt;/strong&gt;, sense cap garantia.</string>
-    <string name="select_database_file">Obri una base de dades existent</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
     <string name="entry_notes">Comentaris</string>
@@ -202,7 +201,6 @@
     <string name="protection">Protecció</string>
     <string name="auto_focus_search_summary">Sol·licita una cerca quan s\'obre una base de dades</string>
     <string name="auto_focus_search_title">Cerca ràpida</string>
-    <string name="create_keepass_file">Crea una nova base de dades</string>
     <string name="menu_delete_entry_history">Suprimeix la història</string>
     <string name="menu_restore_entry_history">Restaura la història</string>
     <string name="menu_empty_recycle_bin">Buida la paperera</string>

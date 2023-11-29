@@ -42,7 +42,6 @@
     <string name="digits">Számok</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. A program &lt;strong&gt;nyílt forráskódú&lt;/strong&gt; és &lt;strong&gt;reklámmentes&lt;/strong&gt;.
 \nA program jelen állapotában kerül közreadásra, &lt;strong&gt;GPLv3&lt;/strong&gt; licenc alatt, bármilyen garancia nélkül.</string>
-    <string name="select_database_file">Létező széf megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégse</string>
     <string name="entry_notes">Megjegyzések</string>
@@ -155,7 +154,6 @@
     <string name="menu_cancel">Mégse</string>
     <string name="menu_file_selection_read_only">Írásvédett</string>
     <string name="menu_open_file_read_and_write">Módosítható</string>
-    <string name="create_keepass_file">Új széf létrehozása</string>
     <string name="encryption_explanation">Az összes adathoz használt adatbázis-titkosítási algoritmus</string>
     <string name="kdf_explanation">A kulcs előállításához a titkosítási algoritmushoz, a mesterkulcs átalakításra került egy véletlenszerűen sózott kulcselőállítási függvénnyel.</string>
     <string name="memory_usage">Memóriahasználat</string>

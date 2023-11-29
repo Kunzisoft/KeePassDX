@@ -288,8 +288,12 @@
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">Install a web browser to open this URL.</string>
-    <string name="select_database_file">Open existing vault</string>
-    <string name="create_keepass_file">Create new vault</string>
+    <string name="database_file_history_title">Recent Files</string>
+    <string name="database_file_history_bookmark_msg">Mark the file as a favorite to set it as the default.</string>
+    <string name="database_file_selection_welcome_msg1">Welcome to KeePass!</string>
+    <string name="database_file_selection_welcome_msg2">Begin your secure journey by either importing an existing vault or creating a new one to safeguard your passwords.</string>
+    <string name="select_database_file">Open an existing vault</string>
+    <string name="create_keepass_file">Create a new vault</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="subdomain_search_title">Subdomain search</string>

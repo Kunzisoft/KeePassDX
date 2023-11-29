@@ -41,7 +41,6 @@
     <string name="digits">Dígitos</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft es de &lt;strong&gt;código abierto&lt;/strong&gt; y &lt;strong&gt;sin publicidad&lt;/strong&gt;.
 \nSe proporciona tal cual, bajo licencia &lt;strong&gt;GPLv3&lt;/strong&gt;, sin ninguna garantía.</string>
-    <string name="select_database_file">Abrir la caja fuerte existente</string>
     <string name="entry_accessed">Accedido</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_notes">Notas</string>
@@ -192,7 +191,6 @@
     <string name="file_name">Nombre del archivo</string>
     <string name="path">Ruta</string>
     <string name="assign_master_key">Asignar una clave maestra</string>
-    <string name="create_keepass_file">Crear una nueva caja fuerte</string>
     <string name="recycle_bin_title">Uso de la papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueve los grupos y las entradas al grupo \"Papelera de reciclaje\" antes de eliminarlos</string>
     <string name="monospace_font_fields_enable_title">Tipografía del campo</string>

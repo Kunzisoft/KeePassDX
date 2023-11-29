@@ -123,10 +123,11 @@ fun Snackbar.asError(): Snackbar {
 }
 
 fun View.collapse(animate: Boolean = true,
+                  duration: Long = 1000L,
                   onCollapseFinished: (() -> Unit)? = null) {
     val recordViewHeight = layoutParams.height
     val slideAnimator = ValueAnimator.ofInt(height, 0)
-    slideAnimator.duration = if (animate) 300L else 0L
+    slideAnimator.duration = if (animate) duration else 0L
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
         requestLayout()
@@ -150,12 +151,13 @@ fun View.collapse(animate: Boolean = true,
 
 fun View.expand(animate: Boolean = true,
                 defaultHeight: Int? = null,
+                duration: Long = 1000L,
                 onExpandFinished: (() -> Unit)? = null)  {
     val viewHeight = defaultHeight ?: layoutParams.height
     layoutParams.height = 0
     val slideAnimator = ValueAnimator
             .ofInt(0, viewHeight)
-    slideAnimator.duration = if (animate) 300L else 0L
+    slideAnimator.duration = if (animate) duration else 0L
     var alreadyVisible = false
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int

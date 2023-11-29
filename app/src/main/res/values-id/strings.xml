@@ -173,8 +173,6 @@
     <string name="about_description">Implementasi Android dari pengelola kata sandi KeePass</string>
     <string name="auto_focus_search_summary">Minta pencarian saat membuka basis data</string>
     <string name="auto_focus_search_title">Pencarian cepat</string>
-    <string name="create_keepass_file">Membuat brankas baru</string>
-    <string name="select_database_file">Buka brankas yang ada</string>
     <string name="no_url_handler">Pasang browser web untuk membuka URL ini.</string>
     <string name="memory_usage">Penggunaan memori</string>
     <string name="rounds">Putaran transformasi</string>

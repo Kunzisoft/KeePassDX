@@ -46,7 +46,6 @@
     <string name="digits">Stellen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
     <string name="html_about_contribution">Damit wir &lt;strong&gt;unsere Unabhängigkeit erhalten&lt;/strong&gt;, &lt;strong&gt;Fehler beheben&lt;/strong&gt;, &lt;strong&gt;Funktionen hinzufügen&lt;/strong&gt; und &lt;strong&gt;weiterhin aktiv bleiben&lt;/strong&gt; können, zählen wir auf deinen &lt;strong&gt;Beitrag&lt;/strong&gt;.</string>
-    <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
     <string name="entry_notes">Notizen</string>
@@ -150,7 +149,6 @@
     <string name="clipboard_notifications_summary">Benachrichtigung anzeigen, um beim Betrachten eines Eintrags Felder kopieren zu können</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank wenige Sekunden nach Bildschirmabschaltung sperren</string>
-    <string name="create_keepass_file">Neue Datenbank erstellen</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>

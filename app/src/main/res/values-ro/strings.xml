@@ -181,8 +181,6 @@
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>
     <string name="no_url_handler">Instalați un browser web pentru a deschide această adresă URL.</string>
-    <string name="select_database_file">Deschideți seiful existentă</string>
-    <string name="create_keepass_file">Creați un nou seif</string>
     <string name="progress_create">Crearea noii baze de date …</string>
     <string name="progress_title">Lucrând …</string>
     <string name="protection">Protecție</string>

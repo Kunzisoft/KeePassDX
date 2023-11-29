@@ -39,7 +39,6 @@
     <string name="digits">Dígitos</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem propagandas&lt;/strong&gt;.
 \nÉ fornecido no estado em que se encontra, sob licença &lt;strong&gt;GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
-    <string name="select_database_file">Abrir cofre existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_notes">Notas</string>
@@ -198,7 +197,6 @@
     <string name="file_name">Nome do arquivo</string>
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave-mestra</string>
-    <string name="create_keepass_file">Criar novo cofre</string>
     <string name="recycle_bin_title">Usar lixeira</string>
     <string name="recycle_bin_summary">Mover grupos e entradas para o grupo \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Tipo de letra nos campos</string>

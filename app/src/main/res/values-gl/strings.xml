@@ -281,7 +281,6 @@
     <string name="menu_app_settings">Configuracións da aplicación</string>
     <string name="menu_edit">Editar</string>
     <string name="auto_type">Autocompletar</string>
-    <string name="select_database_file">Abrir base de datos existente</string>
     <string name="auto_focus_search_summary">Solicitar unha procura cando abrir a base de datos</string>
     <string name="success_import_app_properties">Propiedades da aplicación importadas</string>
     <string name="hide_broken_locations_title">Ocultar ligazóns rotas das bases de datos</string>
@@ -315,7 +314,6 @@
 \n
 \nA súa base de datos pode acabar sendo moi grande e reducir o rendemento.</string>
     <string name="encryption_explanation">Algoritmo de cifrado da base de datos usado para todos os datos</string>
-    <string name="create_keepass_file">Crear base de datos</string>
     <string name="read_only_warning">Dependendo do xestor de ficheiros, KeePassDX pode non ter permiso para escribir no almacenamento.</string>
     <string name="contains_duplicate_uuid">A base de datos contén UUIDs duplicados.</string>
     <string name="contains_duplicate_uuid_procedure">Resolver o problema xerando novas UUIDs para que os duplicados continúen\?</string>

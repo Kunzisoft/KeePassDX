@@ -41,7 +41,6 @@
     <string name="decrypting_db">Dešifruji obsah databáze…</string>
     <string name="default_checkbox">Použít jako výchozí databázi</string>
     <string name="digits">Číslice</string>
-    <string name="select_database_file">Otevřít existující trezor</string>
     <string name="entry_accessed">Poslední přístup</string>
     <string name="entry_cancel">Zrušit</string>
     <string name="entry_notes">Poznámky</string>
@@ -201,7 +200,6 @@
     <string name="file_name">Název souboru</string>
     <string name="path">Cesta</string>
     <string name="assign_master_key">Přiřadit hlavní klíč</string>
-    <string name="create_keepass_file">Vytvořit nový trezor</string>
     <string name="recycle_bin_title">Využití koše</string>
     <string name="recycle_bin_summary">Před smazáním přesune vybrané položky do skupiny s názvem \"Koš\"</string>
     <string name="monospace_font_fields_enable_title">Písmo kolonek</string>

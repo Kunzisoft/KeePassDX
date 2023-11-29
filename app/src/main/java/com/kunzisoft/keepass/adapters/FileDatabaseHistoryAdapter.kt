@@ -39,22 +39,27 @@ import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.view.collapse
 import com.kunzisoft.keepass.view.expand
 
-class FileDatabaseHistoryAdapter(context: Context)
-    : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
+class FileDatabaseHistoryAdapter(
+    context: Context,
+    private val nonEmptyDatabaseHistoryView: View,
+    private val emptyDatabaseHistoryView: View
+) :
+    RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var defaultDatabaseListener: ((DatabaseFile?) -> Unit)? = null
-    private var fileItemOpenListener: ((DatabaseFile)->Unit)? = null
-    private var fileSelectClearListener: ((DatabaseFile)->Boolean)? = null
-    private var saveAliasListener: ((DatabaseFile)->Unit)? = null
+    private var fileItemOpenListener: ((DatabaseFile) -> Unit)? = null
+    private var fileSelectClearListener: ((DatabaseFile) -> Boolean)? = null
+    private var saveAliasListener: ((DatabaseFile) -> Unit)? = null
 
     private var mDefaultDatabase: DatabaseFile? = null
     private var mExpandedDatabaseFile: SuperDatabaseFile? = null
     private var mPreviousExpandedDatabaseFile: SuperDatabaseFile? = null
 
     private val mListPosition = mutableListOf<SuperDatabaseFile>()
-    private val mSortedListDatabaseFiles = SortedList(SuperDatabaseFile::class.java,
-        object: SortedListAdapterCallback<SuperDatabaseFile>(this) {
+    private val mSortedListDatabaseFiles = SortedList(
+        SuperDatabaseFile::class.java,
+        object : SortedListAdapterCallback<SuperDatabaseFile>(this) {
             override fun compare(item1: SuperDatabaseFile, item2: SuperDatabaseFile): Int {
                 val indexItem1 = mListPosition.indexOf(item1)
                 val indexItem2 = mListPosition.indexOf(item2)
@@ -144,10 +149,14 @@ class FileDatabaseHistoryAdapter(context: Context)
             if (isExpanded) {
                 if (visibility != View.VISIBLE) {
                     visibility = View.VISIBLE
-                    expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height))
+                    expand(
+                        true,
+                        resources.getDimensionPixelSize(R.dimen.item_file_info_height),
+                        200L
+                    )
                 }
             } else {
-                collapse(true)
+                collapse(true, 200L)
             }
         }
 
@@ -177,7 +186,7 @@ class FileDatabaseHistoryAdapter(context: Context)
             mPreviousExpandedDatabaseFile = superDatabaseFile
         }
         holder.fileInformationButton.apply {
-            animate().rotation(if (isExpanded) 180F else 0F).start()
+            animate().rotation(if (isExpanded) 180F else 0F).setDuration(200L).start()
             setOnClickListener {
                 mExpandedDatabaseFile = if (isExpanded) null else superDatabaseFile
                 // Notify change
@@ -190,7 +199,8 @@ class FileDatabaseHistoryAdapter(context: Context)
 
         // Refresh View / Close alias modification if not contains fileAlias
         if (holder.fileMainSwitcher.currentView.findViewById<View>(R.id.file_alias)
-                != holder.fileAlias)
+            != holder.fileAlias
+        )
             holder.fileMainSwitcher.showPrevious()
     }
 
@@ -198,15 +208,22 @@ class FileDatabaseHistoryAdapter(context: Context)
         return mSortedListDatabaseFiles.size()
     }
 
+    private fun setRecyclerViewVisibility(visible: Boolean) {
+        nonEmptyDatabaseHistoryView.visibility = if (visible) View.VISIBLE else View.GONE
+        emptyDatabaseHistoryView.visibility = if (visible) View.GONE else View.VISIBLE
+    }
+
     fun clearDatabaseFileHistoryList() {
         mListPosition.clear()
         mSortedListDatabaseFiles.clear()
+        setRecyclerViewVisibility(false)
     }
 
     fun addDatabaseFileHistory(fileDatabaseHistoryToAdd: DatabaseFile) {
         val superToAdd = SuperDatabaseFile(fileDatabaseHistoryToAdd)
         mListPosition.add(0, superToAdd)
         mSortedListDatabaseFiles.add(superToAdd)
+        setRecyclerViewVisibility(mSortedListDatabaseFiles.size() > 0)
     }
 
     fun updateDatabaseFileHistory(fileDatabaseHistoryToUpdate: DatabaseFile) {
@@ -216,6 +233,7 @@ class FileDatabaseHistoryAdapter(context: Context)
             mListPosition.add(index, superToUpdate)
         }
         mSortedListDatabaseFiles.updateItemAt(index, superToUpdate)
+        setRecyclerViewVisibility(mSortedListDatabaseFiles.size() > 0)
     }
 
     fun deleteDatabaseFileHistory(fileDatabaseHistoryToDelete: DatabaseFile) {
@@ -223,6 +241,8 @@ class FileDatabaseHistoryAdapter(context: Context)
         val index = mListPosition.indexOf(superToDelete)
         mListPosition.remove(superToDelete)
         mSortedListDatabaseFiles.removeItemAt(index)
+        mExpandedDatabaseFile = null
+        setRecyclerViewVisibility(mSortedListDatabaseFiles.size() > 0)
     }
 
     fun replaceAllDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<DatabaseFile>) {
@@ -232,6 +252,7 @@ class FileDatabaseHistoryAdapter(context: Context)
         mListPosition.clear()
         mListPosition.addAll(superMapToReplace)
         mSortedListDatabaseFiles.replaceAll(superMapToReplace)
+        setRecyclerViewVisibility(mSortedListDatabaseFiles.size() > 0)
     }
 
     fun setDefaultDatabase(databaseUri: Uri?) {
@@ -311,10 +332,11 @@ class FileDatabaseHistoryAdapter(context: Context)
         var fileAliasCloseButton: ImageView = itemView.findViewById(R.id.file_alias_save)
 
         var fileExpandContainer: ViewGroup = itemView.findViewById(R.id.file_expand_container)
-        var fileModifyButton: ImageView = itemView.findViewById(R.id.file_modify_button)
-        var fileDeleteButton: ImageView = itemView.findViewById(R.id.file_delete_button)
+        var fileModifyButton: TextView = itemView.findViewById(R.id.file_modify_button)
+        var fileDeleteButton: TextView = itemView.findViewById(R.id.file_delete_button)
         var filePath: TextView = itemView.findViewById(R.id.file_path)
-        var fileModificationContainer: ViewGroup = itemView.findViewById(R.id.file_modification_container)
+        var fileModificationContainer: ViewGroup =
+            itemView.findViewById(R.id.file_modification_container)
         var fileModification: TextView = itemView.findViewById(R.id.file_modification)
         var fileSize: TextView = itemView.findViewById(R.id.file_size)
     }

@@ -45,7 +45,6 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open-source&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;.
 \nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
-    <string name="select_database_file">Apri una cassaforte esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
     <string name="entry_cancel">Annulla</string>
     <string name="entry_confpassword">Conferma password</string>
@@ -198,7 +197,6 @@
     <string name="file_name">Nome del file</string>
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
-    <string name="create_keepass_file">Crea una nuova cassaforte</string>
     <string name="recycle_bin_title">Utilizzo del Cestino</string>
     <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo «Cestino» prima di eliminarli</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>

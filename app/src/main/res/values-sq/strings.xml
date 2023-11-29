@@ -221,8 +221,6 @@
     <string name="never">Kurrë</string>
     <string name="no_results">S’ka përfundime kërkimi</string>
     <string name="no_url_handler">Që të hapni këtë URL, instaloni një shfletues.</string>
-    <string name="select_database_file">Hap bazë ekzistuese të dhënash</string>
-    <string name="create_keepass_file">Krijoni bazë të re të dhënash</string>
     <string name="auto_focus_search_title">Kërkim i shpejtë</string>
     <string name="progress_create">Po krijohet bazë e re të dhënash…</string>
     <string name="progress_title">Po punohet…</string>
