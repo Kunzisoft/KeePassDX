@@ -63,7 +63,6 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
-import com.kunzisoft.keepass.settings.AppearanceSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
@@ -84,7 +83,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
     // Views
     private var toolbar: Toolbar? = null
     private var filenameView: TextView? = null
-    private var logotypeButton: View? = null
     private var advancedUnlockButton: View? = null
     private var mainCredentialView: MainCredentialView? = null
     private var confirmButtonView: Button? = null
@@ -132,7 +130,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         filenameView = findViewById(R.id.filename)
-        logotypeButton = findViewById(R.id.activity_password_logotype)
         advancedUnlockButton = findViewById(R.id.fragment_advanced_unlock_container_view)
         mainCredentialView = findViewById(R.id.activity_password_credentials)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
@@ -168,11 +165,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
 
         // If is a view intent
         getUriFromIntent(intent)
-
-        // Show appearance
-        logotypeButton?.setOnClickListener {
-            startActivity(Intent(this, AppearanceSettingsActivity::class.java))
-        }
 
         // Listen password checkbox to init advanced unlock and confirmation button
         mainCredentialView?.onPasswordChecked =
