@@ -28,11 +28,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.*
+import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,7 +50,11 @@ import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
+class AdvancedUnlockFragment(
+    private val deleteDeviceUnlockKeyView: View?
+) : Fragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
+
+    constructor() : this(null) {}
 
     private var mBuilderListener: BuilderListener? = null
 
@@ -71,7 +75,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     // checkBiometricAvailability() allows open biometric prompt and onDestroy() removes the authorization
     private var allowOpenBiometricPrompt = false
 
-    private lateinit var cipherDatabaseAction : CipherDatabaseAction
+    private lateinit var cipherDatabaseAction: CipherDatabaseAction
 
     private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null
 
@@ -96,25 +100,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         keepConnection = false
     }
 
-    private val menuProvider: MenuProvider = object: MenuProvider {
-        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // biometric menu
-                if (mAllowAdvancedUnlockMenu)
-                    menuInflater.inflate(R.menu.advanced_unlock, menu)
-            }
-        }
-
-        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-            when (menuItem.itemId) {
-                R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    deleteEncryptedDatabaseKey()
-                }
-            }
-            return false
-        }
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
@@ -125,8 +110,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                 mBuilderListener = context as BuilderListener
             }
         } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString()
-                    + " must implement " + BuilderListener::class.java.name)
+            throw ClassCastException(
+                context.toString()
+                        + " must implement " + BuilderListener::class.java.name
+            )
         }
     }
 
@@ -146,22 +133,24 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         mAdvancedUnlockViewModel.onDatabaseFileLoaded.observe(this) {
             onDatabaseLoaded(it)
         }
+
+        deleteDeviceUnlockKeyView?.findViewById<Button>(R.id.delete_device_unlock_key_button)
+            ?.setOnClickListener {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    deleteEncryptedDatabaseKey()
+                }
+            }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         val rootView = inflater.inflate(R.layout.fragment_advanced_unlock, container, false)
-
         mAdvancedUnlockInfoView = rootView.findViewById(R.id.advanced_unlock_view)
-
         return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
     }
 
     override fun onResume() {
@@ -177,8 +166,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // To get device credential unlock result, only if same database uri
             if (databaseUri != null
-                    && mAdvancedUnlockEnabled) {
-                val deviceCredentialAuthSucceeded = mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
+                && mAdvancedUnlockEnabled
+            ) {
+                val deviceCredentialAuthSucceeded =
+                    mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
                 deviceCredentialAuthSucceeded?.let {
                     if (databaseUri == databaseFileUri) {
                         if (deviceCredentialAuthSucceeded == true) {
@@ -213,8 +204,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                     // or manually disable
                     val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
                     if (!PreferencesUtil.isAdvancedUnlockEnable(context)
-                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE
+                    ) {
                         toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
                     } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
                         toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
@@ -257,13 +249,15 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                 databaseFileUri?.let { databaseUri ->
                     cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
                         // biometric available but no stored password found yet for this DB so show info don't listen
-                        toggleMode(if (containsCipher) {
-                            // listen for decryption
-                            Mode.EXTRACT_CREDENTIAL
-                        } else {
-                            // wait for typing
-                            Mode.WAIT_CREDENTIAL
-                        })
+                        toggleMode(
+                            if (containsCipher) {
+                                // listen for decryption
+                                Mode.EXTRACT_CREDENTIAL
+                            } else {
+                                // wait for typing
+                                Mode.WAIT_CREDENTIAL
+                            }
+                        )
                     }
                 }
             }
@@ -293,10 +287,12 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
                         context?.startActivity(Intent(Settings.ACTION_BIOMETRIC_ENROLL))
                     }
+
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
                         @Suppress("DEPRECATION") context
                             ?.startActivity(Intent(Settings.ACTION_FINGERPRINT_ENROLL))
                     }
+
                     else -> {
                         context?.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
                     }
@@ -341,8 +337,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
 
         context?.let { context ->
             mAdvancedUnlockInfoView?.setIconViewClickListener {
-                onAuthenticationError(BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
-                        context.getString(R.string.credential_before_click_advanced_unlock_button))
+                onAuthenticationError(
+                    BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
+                    context.getString(R.string.credential_before_click_advanced_unlock_button)
+                )
             }
         }
     }
@@ -354,8 +352,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                 if (cryptoPrompt.isDeviceCredentialOperation)
                     keepConnection = true
                 try {
-                    advancedUnlockManager?.openAdvancedUnlockPrompt(cryptoPrompt,
-                        mDeviceCredentialResultLauncher)
+                    advancedUnlockManager?.openAdvancedUnlockPrompt(
+                        cryptoPrompt,
+                        mDeviceCredentialResultLauncher
+                    )
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to open advanced unlock prompt", e)
                     setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
@@ -397,7 +397,8 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
 
                             // Auto open the biometric prompt
                             if (mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt
-                                && mAutoOpenPromptEnabled) {
+                                && mAutoOpenPromptEnabled
+                            ) {
                                 mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
                                 openAdvancedUnlockPrompt(cryptoPrompt)
                             }
@@ -439,6 +440,8 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                             && biometricMode != Mode.KEY_MANAGER_UNAVAILABLE)
                     mAddBiometricMenuInProgress = false
                     activity?.invalidateOptionsMenu()
+                    deleteDeviceUnlockKeyView?.visibility =
+                        if (mAllowAdvancedUnlockMenu) View.VISIBLE else View.GONE
                 }
             }
         }
@@ -448,7 +451,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     fun connect(databaseUri: Uri) {
         showViews(true)
         this.databaseFileUri = databaseUri
-        cipherDatabaseListener = object: CipherDatabaseAction.CipherDatabaseListener {
+        cipherDatabaseListener = object : CipherDatabaseAction.CipherDatabaseListener {
             override fun onCipherDatabaseCleared() {
                 advancedUnlockManager?.closeBiometricPrompt()
                 checkUnlockAvailability()
@@ -464,8 +467,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun disconnect(hideViews: Boolean = true,
-                   closePrompt: Boolean = true) {
+    fun disconnect(
+        hideViews: Boolean = true,
+        closePrompt: Boolean = true
+    ) {
         this.databaseFileUri = null
         // Close the biometric prompt
         allowOpenBiometricPrompt = false
@@ -513,20 +518,26 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
             when (biometricMode) {
                 Mode.BIOMETRIC_UNAVAILABLE -> {
                 }
+
                 Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> {
                 }
+
                 Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> {
                 }
+
                 Mode.KEY_MANAGER_UNAVAILABLE -> {
                 }
+
                 Mode.WAIT_CREDENTIAL -> {
                 }
+
                 Mode.STORE_CREDENTIAL -> {
                     // newly store the entered password in encrypted way
                     mBuilderListener?.retrieveCredentialForEncryption()?.let { credential ->
                         advancedUnlockManager?.encryptData(credential)
                     }
                 }
+
                 Mode.EXTRACT_CREDENTIAL -> {
                     // retrieve the encrypted value from preferences
                     databaseFileUri?.let { databaseUri ->
@@ -590,8 +601,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
             if (show) {
                 if (mAdvancedUnlockInfoView?.visibility != View.VISIBLE)
                     mAdvancedUnlockInfoView?.showByFading()
-            }
-            else {
+            } else {
                 if (mAdvancedUnlockInfoView?.visibility == View.VISIBLE)
                     mAdvancedUnlockInfoView?.hideByFading()
             }

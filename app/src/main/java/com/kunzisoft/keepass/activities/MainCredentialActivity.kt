@@ -77,7 +77,6 @@ import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import java.io.FileNotFoundException
 
-
 class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
 
     // Views
@@ -108,7 +107,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             field = value
 
             readOnlySwitch.isEnabled = !mForceReadOnly
-            if(mForceReadOnly) {
+            if (mForceReadOnly) {
                 readOnlySwitch.isChecked = true
             }
         }
@@ -241,7 +240,9 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             advancedUnlockFragment = supportFragmentManager
                 .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
             if (advancedUnlockFragment == null) {
-                advancedUnlockFragment = AdvancedUnlockFragment().also {
+                val deleteDeviceUnlockKeyView =
+                    findViewById<View>(R.id.delete_device_unlock_key_layout)
+                advancedUnlockFragment = AdvancedUnlockFragment(deleteDeviceUnlockKeyView).also {
                     supportFragmentManager.commit {
                         replace(
                             R.id.fragment_advanced_unlock_container_view,
