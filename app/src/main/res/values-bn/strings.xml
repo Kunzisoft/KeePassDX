@@ -283,7 +283,6 @@
     <string name="warning_exact_alarm">আপনি অ্যাপটিকে সঠিক অ্যালার্ম ব্যবহার করার অনুমতি দেননি৷ ফলস্বরূপ, টাইমারের প্রয়োজনীয় বৈশিষ্ট্যগুলি সঠিক সময়ের সাথে করা হবে না।</string>
     <string name="permission">অনুমতি</string>
     <string name="version_label">সংস্করণ %1$s</string>
-    <string name="build_label">%1$s তৈরি করুন</string>
     <string name="biometric_security_update_required">বায়োমেট্রিক নিরাপত্তা আপডেট প্রয়োজন.</string>
     <string name="otp_type">OTP প্রকার</string>
     <string name="content_description_entry_icon">এন্ট্রি আইকন</string>

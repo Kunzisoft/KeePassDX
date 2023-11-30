@@ -28,7 +28,6 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import java.io.File
@@ -238,23 +237,7 @@ object UriUtil {
                 this.startActivity(
                     Intent(Intent.ACTION_VIEW)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setData(
-                            Uri.parse(
-                                if (sourcesURL != null
-                                    && !BuildConfig.CLOSED_STORE
-                                ) {
-                                    sourcesURL
-                                } else {
-                                    this.getString(
-                                        if (BuildConfig.CLOSED_STORE)
-                                            R.string.play_store_url
-                                        else
-                                            R.string.f_droid_url,
-                                        packageName
-                                    )
-                                }
-                            )
-                        )
+                        .setData(Uri.parse(this.getString(R.string.play_store_url, packageName)))
                 )
             } else {
                 this.startActivity(launchIntent)

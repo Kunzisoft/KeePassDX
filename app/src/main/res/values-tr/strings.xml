@@ -164,7 +164,6 @@
     <string name="warning_empty_password">Şifre koruması olmadan devam edilsin mi\?</string>
     <string name="warning_no_encryption_key">Şifreleme anahtarı olmadan devam edilsin mi\?</string>
     <string name="version_label">Sürüm %1$s</string>
-    <string name="build_label">Yapı %1$s</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
     <string name="database_history">Geçmiş</string>
     <string name="menu_appearance_settings">Görünüm</string>

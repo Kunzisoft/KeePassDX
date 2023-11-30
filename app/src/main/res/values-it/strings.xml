@@ -246,7 +246,6 @@
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
-    <string name="build_label">Versione %1$s</string>
     <string name="keyboard_name">Magitastiera</string>
     <string name="keyboard_label">Magitastiera (KeePassDX)</string>
     <string name="keyboard_setting_label">Impostazioni Magitastiera</string>

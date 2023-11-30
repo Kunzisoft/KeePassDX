@@ -36,25 +36,6 @@ android {
         }
     }
 
-    flavorDimensions "version"
-    productFlavors {
-        libre {
-            dimension "version"
-            applicationIdSuffix = ".libre"
-            buildConfigField "String", "BUILD_VERSION", "\"libre\""
-            buildConfigField "boolean", "CLOSED_STORE", "false"
-            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
-        }
-        free {
-            dimension "version"
-            applicationIdSuffix = ".free"
-            buildConfigField "String", "BUILD_VERSION", "\"free\""
-            buildConfigField "boolean", "CLOSED_STORE", "true"
-            buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
-            manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIbRfbV8fHLItXo8OcHwrO0sSNblqhPwkc0DPTqg" ]
-        }
-    }
-
     testOptions {
         unitTests.includeAndroidResources = true
     }

@@ -233,7 +233,6 @@
     <string name="list_entries_show_username_title">Εμφάνιση ονομάτων χρηστών</string>
     <string name="list_entries_show_username_summary">Εμφάνιση ονομάτων χρηστών σε λίστες καταχώρησης</string>
     <string name="clipboard">Πρόχειρο</string>
-    <string name="build_label">Κατασκευή %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Ρυθμίσεις Magikeyboard</string>

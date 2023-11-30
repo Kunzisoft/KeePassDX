@@ -478,7 +478,6 @@
     <string name="education_entry_edit_summary">Editatu zure sarrera eremu pertsonalizatuekin. Taldeko datuak sarrera eremu ezberdinen artean erreferentzia daitezke.</string>
     <string name="hide_expired_entries_title">Ezkutatu iraungitako sarrerak</string>
     <string name="permission">Baimena</string>
-    <string name="build_label">Konpilazio bertsioa%1$s</string>
     <string name="database_history">Historiala</string>
     <string name="advanced_unlock_tap_delete">Ukitu desblokeatze aurreratuko gakoak ezabatzeko</string>
     <string name="file_name">Fitxategiaren izena</string>

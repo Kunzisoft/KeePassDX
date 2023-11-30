@@ -142,7 +142,6 @@
     <string name="warning">คำเตือน</string>
     <string name="warning_sure_remove_data">ลบข้อมูลนี้ต่อไปหรือไม่\?</string>
     <string name="version_label">เวอร์ชัน: %1$s</string>
-    <string name="build_label">รุ่น %1$s</string>
     <string name="autofill_sign_in_prompt">เข้าสู่ระบบด้วย KeePassDX</string>
     <string name="list_password_generator_options_summary">ตั้งชนิดอักขระรหัสผ่านที่ยอมรับ</string>
     <string name="database_opened">เปิดฐานข้อมูลแล้ว</string>

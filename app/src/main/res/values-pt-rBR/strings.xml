@@ -245,7 +245,6 @@
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
     <string name="list_entries_show_username_summary">Exibe nomes de usuário em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
-    <string name="build_label">Compilação %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Configurações do Magikeyboard</string>

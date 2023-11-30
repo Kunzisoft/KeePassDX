@@ -256,7 +256,6 @@
     <string name="warning_empty_keyfile">空のキーファイルを追加することは推奨されません。</string>
     <string name="warning_empty_keyfile_explanation">キーファイルの内容は決して変更してはいけません。また万全を期すにはランダムに生成されたデータを含んでいるべきです。</string>
     <string name="version_label">バージョン %1$s</string>
-    <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">生体情報またはデバイス認証情報が未登録です。</string>
     <string name="biometric_security_update_required">生体認証セキュリティの更新が必要です。</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>

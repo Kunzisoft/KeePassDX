@@ -239,7 +239,6 @@
     <string name="menu_cancel">Cancelar</string>
     <string name="menu_file_selection_read_only">Protegido contra escritura</string>
     <string name="menu_open_file_read_and_write">Modificable</string>
-    <string name="build_label">Compilación %1$s</string>
     <string name="clipboard_warning">Si la eliminación del cortapapeles falla, elimine su historial manualmente.</string>
     <string name="allow_copy_password_warning">Advertencia: El portapapeles es compartido por todas las aplicaciones. Si se copian datos sensibles, otros programas pueden recuperarlos.</string>
     <string name="allow_no_password_title">No permitir claves maestras</string>

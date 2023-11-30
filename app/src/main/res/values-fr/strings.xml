@@ -248,7 +248,6 @@
     <string name="error_load_database_KDF_memory">Impossible de charger la clé. Essayez de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
     <string name="list_entries_show_username_title">Afficher les noms d’utilisateur</string>
     <string name="list_entries_show_username_summary">Affiche les noms d’utilisateur dans les listes d’entrées</string>
-    <string name="build_label">Compilation %1$s</string>
     <string name="keyboard_name">Magiclavier</string>
     <string name="keyboard_label">Magiclavier (KeePassDX)</string>
     <string name="keyboard_setting_label">Paramètres Magiclavier</string>

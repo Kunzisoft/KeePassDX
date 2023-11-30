@@ -258,7 +258,6 @@
     <string name="keyboard_keys_category">Taster</string>
     <string name="keyboard_key_vibrate_title">Vibrerende tastetryk</string>
     <string name="keyboard_key_sound_title">Hørbare tastetryk</string>
-    <string name="build_label">Byg %1$s</string>
     <string name="keyboard_entry_timeout_summary">Tidsudløb for at rydde indtastning</string>
     <string name="entry_notes">Noter</string>
     <string name="selection_mode">Valgstilstand</string>

@@ -235,7 +235,6 @@
     <string name="password_size_title">ਤਿਆਰ ਕੀਤੇ ਪਾਸਵਰਡ ਦਾ ਆਕਾਰ</string>
     <string name="autofill_preference_title">ਆਪੇ-ਭਰਨ ਲਈ ਸੈਟਿੰਗਾਂ</string>
     <string name="encrypted_value_stored">ਇੰਕ੍ਰਿਪਟ ਕੀਤੇ ਪਾਸਵਰਡ ਸੰਭਾਲਿਆ</string>
-    <string name="build_label">ਬਿਲਡ %1$s</string>
     <string name="version_label">ਵਰਜ਼ਨ %1$s</string>
     <string name="warning_permanently_delete_nodes">ਚੁਣੀਆਂ ਨੋਡਾਂ ਨੂੰ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="warning_no_encryption_key">ਇੰਕ੍ਰਿਪਸ਼ਨ ਕੁੰਜੀ ਬਿਨਾਂ ਜਾਰੀ ਰੱਖਣਾ ਹੈ\?</string>

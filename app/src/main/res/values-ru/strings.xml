@@ -246,7 +246,6 @@
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Настройки Magikeyboard</string>
-    <string name="build_label">Сборка %1$s</string>
     <string name="keyboard_entry_category">Запись</string>
     <string name="keyboard_entry_timeout_title">Задержка</string>
     <string name="keyboard_entry_timeout_summary">Время до очистки вводимой записи</string>

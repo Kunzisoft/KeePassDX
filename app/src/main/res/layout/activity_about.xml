@@ -72,6 +72,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/activity_about_icon"
                         android:layout_toRightOf="@+id/activity_about_icon"
                         android:orientation="vertical">
@@ -86,12 +87,6 @@
 
                         <TextView
                             android:id="@+id/activity_about_version"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@android:style/TextAppearance.Small" />
-
-                        <TextView
-                            android:id="@+id/activity_about_build"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="@android:style/TextAppearance.Small" />

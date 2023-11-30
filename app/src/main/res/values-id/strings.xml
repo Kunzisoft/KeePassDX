@@ -207,7 +207,6 @@
     <string name="sort_db">Pengurutan alami</string>
     <string name="sort_recycle_bin_bottom">Tong Sampah di bawah</string>
     <string name="sort_groups_before">Grup sebelumnya</string>
-    <string name="build_label">Bangun %1$s</string>
     <string name="version_label">Versi %1$s</string>
     <string name="warning_empty_keyfile_explanation">Isi dari keyfile sebaiknya tidak di ubah, dan yang terbaik harus berupa data acak.</string>
     <string name="warning_empty_keyfile">Tidak disarankan menambah keyfile kosong.</string>

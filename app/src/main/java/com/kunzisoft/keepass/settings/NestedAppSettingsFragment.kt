@@ -35,9 +35,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
@@ -45,7 +43,6 @@ import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
@@ -414,23 +411,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             }
 
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
-                var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (!activity.isContributingUser()) {
-                    for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
-                        if (iconPackIdDisabled == iconPackId) {
-                            iconPackEnabled = false
-                            ProFeatureDialogFragment().show(
-                                parentFragmentManager,
-                                "pro_feature_dialog"
-                            )
-                        }
-                    }
-                }
-                if (iconPackEnabled) {
-                    IconPackChooser.setSelectedIconPack(iconPackId)
-                }
-                iconPackEnabled
+                IconPackChooser.setSelectedIconPack(iconPackId)
+                true
             }
 
         }

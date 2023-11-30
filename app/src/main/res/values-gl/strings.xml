@@ -386,7 +386,6 @@
     <string name="warning_exact_alarm">Non permitiu o uso dunha alarma exacta pola aplicación. Como resultado, as características que requeren un temporizador non empregaran o tempo exacto.</string>
     <string name="warning_keyfile_integrity">O hash do ficheiro non é garantido porque o Android pode cambiar os datos sobre a marcha. Cambie a extensión a .bin para garatir a integridade.</string>
     <string name="version_label">Versión %1$s</string>
-    <string name="build_label">Compilación %1$s</string>
     <string name="configure_biometric">Non hai rexistro de ningún credencial biométrico ou de dispositivo.</string>
     <string name="keystore_not_accessible">O almacén de claves non foi iniciado correctamente.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraer a credencial da base de datos cos datos de desbloqueo avanzado</string>

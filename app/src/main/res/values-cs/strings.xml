@@ -242,7 +242,6 @@
     <string name="download">Stáhnout</string>
     <string name="icon_pack_choose_title">Sada ikon</string>
     <string name="icon_pack_choose_summary">Sada ikon používaných v aplikaci</string>
-    <string name="build_label">Sestavení %1$s</string>
     <string name="keyboard_name">Klávesnice Magikeyboard</string>
     <string name="keyboard_label">Klávesnice Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard nastavení</string>

@@ -5,7 +5,6 @@
     <string name="unavailable">در این پایگاه داده هنوز اعتبار نامه ذخیره نشده است.</string>
     <string name="encrypted_value_stored">رمز رمزگذاری شده ذخیره شده است</string>
     <string name="keystore_not_accessible">فروشگاه اصلی به درستی تنظیم نشده است.</string>
-    <string name="build_label">%1$s را بسازید</string>
     <string name="version_label">نسخه %1$s</string>
     <string name="warning_permanently_delete_nodes">گره های انتخاب شده برای همیشه حذف شوند؟</string>
     <string name="warning_no_encryption_key">بدون کلید رمزگذاری ادامه می دهید؟</string>

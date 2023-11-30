@@ -83,7 +83,6 @@
     <string name="biometric_unlock_enable_summary">通過生物辨識解鎖資料庫</string>
     <string name="biometric_unlock_enable_title">生物特徵解鎖</string>
     <string name="brackets">括弧</string>
-    <string name="build_label">版本號 %1$s</string>
     <string name="card_verification_value">安全碼</string>
     <string name="clear_clipboard_notification_summary">剪貼簿過期或通知被關閉時，鎖定資料庫</string>
     <string name="clear_clipboard_notification_title">關閉時清除</string>

@@ -169,7 +169,6 @@
     <string name="warning_no_encryption_key">Nastaviti bez ključa šifriranja\?</string>
     <string name="warning_permanently_delete_nodes">Trajno izbrisati odabrane čvorove\?</string>
     <string name="version_label">Verzija %1$s</string>
-    <string name="build_label">Izgradnja %1$s</string>
     <string name="encrypted_value_stored">Šifrirana lozinka spremljena</string>
     <string name="database_history">Povijest</string>
     <string name="menu_appearance_settings">Izgled</string>

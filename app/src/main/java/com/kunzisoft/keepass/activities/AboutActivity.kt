@@ -27,10 +27,8 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.getPackageInfoCompat
 import org.joda.time.DateTime
 
@@ -47,30 +45,20 @@ class AboutActivity : StylishActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val appName = if (this.isContributingUser())
-            getString(R.string.app_name) + " " + getString(R.string.app_name_part3)
-         else
-            getString(R.string.app_name)
+        val appName = getString(R.string.app_name)
         findViewById<TextView>(R.id.activity_about_app_name).text = appName
 
         var version: String
-        var build: String
         try {
             version = packageManager.getPackageInfoCompat(packageName).versionName
-            build = BuildConfig.BUILD_VERSION
         } catch (e: NameNotFoundException) {
             Log.w(javaClass.simpleName, "Unable to get the app or the build version", e)
             version = "Unable to get the app version"
-            build = "Unable to get the build version"
         }
 
         version = getString(R.string.version_label, version)
         val versionTextView = findViewById<TextView>(R.id.activity_about_version)
         versionTextView.text = version
-
-        build = getString(R.string.build_label, build)
-        val buildTextView = findViewById<TextView>(R.id.activity_about_build)
-        buildTextView.text = build
 
         findViewById<TextView>(R.id.activity_about_licence_text).apply {
             movementMethod = LinkMovementMethod.getInstance()

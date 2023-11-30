@@ -243,7 +243,6 @@
     <string name="download">Pobieranie</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
     <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
-    <string name="build_label">Kompilacja %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Ustawienia Magikeyboard</string>

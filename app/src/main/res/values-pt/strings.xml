@@ -348,7 +348,6 @@
     <string name="keyboard_setting_label">Configurações do Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="build_label">Compilação %1$s</string>
     <string name="retrieving_db_key">A criar a chave da base de dados…</string>
     <string name="clipboard">Área de transferência</string>
     <string name="list_entries_show_username_summary">Mostra nomes de utilizador nas listas de entradas</string>

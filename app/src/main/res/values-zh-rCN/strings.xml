@@ -196,7 +196,6 @@
     <string name="sort_recycle_bin_bottom">回收站在末尾</string>
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
-    <string name="build_label">构建 %1$s</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="unavailable">不可用</string>
     <string name="set_autofill_service_title">设为默认的填充服务</string>

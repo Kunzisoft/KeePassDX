@@ -250,7 +250,6 @@
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
     <string name="list_entries_show_username_title">Nutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Nutzernamen in Liste anzeigen</string>
-    <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard-Einstellungen</string>

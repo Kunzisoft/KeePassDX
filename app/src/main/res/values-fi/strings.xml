@@ -188,7 +188,6 @@
     <string name="biometric">Biometrinen</string>
     <string name="unavailable">Tässä salasanatietokannassa ei ole vielä pääsytietoja.</string>
     <string name="keystore_not_accessible">Avainsäilöä ei ole kunnolla alustettu.</string>
-    <string name="build_label">Koontiversio %1$s</string>
     <string name="warning_database_link_revoked">Tiedostoon pääsy evätty</string>
     <string name="warning_database_read_only">Myönnä tiedostokirjoitusoikeus tallentaaksesi muutokset</string>
     <string name="do_not_kill_app">Älä sammuta sovellusta…</string>

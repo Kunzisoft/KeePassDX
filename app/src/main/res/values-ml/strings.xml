@@ -154,7 +154,6 @@
     <string name="biometric_delete_all_key_title">എൻക്രിപ്ഷൻ കീ ഇല്ലാതാക്കുക</string>
     <string name="autofill">സ്വയം പൂരിപ്പിക്കൽ</string>
     <string name="encrypted_value_stored">എൻക്രിപ്റ്റഡ് പാസ്സ്‌വേഡ്‌ സംരക്ഷിച്ചു</string>
-    <string name="build_label">ബിൽഡ് %1$s</string>
     <string name="warning_permanently_delete_nodes">തിരഞ്ഞെടുത്ത നോഡുകൾ ശാശ്വതമായി ഇല്ലാതാക്കുക\?</string>
     <string name="no_url_handler">URL തുറക്കാൻ ഒരു വെബ് ബ്രൌസർ ഇൻസ്റ്റാൾ ചെയ്യുക.</string>
     <string name="menu_delete_entry_history">നാൾവഴി ഇല്ലാതാക്കുക</string>

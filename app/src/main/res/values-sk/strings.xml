@@ -193,7 +193,6 @@
     <string name="warning_database_revoked">Prístup k súboru odvolaný správcom súborov, zatvorte databázu a znova ju otvorte z jej umiestnenia.</string>
     <string name="warning_exact_alarm">Aplikácii ste nepovolili používať presný alarm. V dôsledku toho sa funkcie vyžadujúce časovač nebudú vykonávať s presným časom.</string>
     <string name="permission">Povolenie</string>
-    <string name="build_label">Zostava %1$s</string>
     <string name="advanced_unlock_prompt_store_credential_message">Ak používate pokročilé rozpoznávanie odomknutia, stále si musíte pamätať svoje hlavné poverenia.</string>
     <string name="advanced_unlock_invalid_key">Nedá sa prečítať kľúč na rozšírené odomknutie. Odstráňte ho a zopakujte postup rozpoznávania odomknutia.</string>
     <string name="advanced_unlock_not_recognized">Odtlačok pre rozšírené odomknutie nebol rozpoznaný</string>

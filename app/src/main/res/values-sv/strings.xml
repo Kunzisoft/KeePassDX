@@ -251,7 +251,6 @@
     <string name="list_entries_show_username_title">Visa användarnamn</string>
     <string name="list_entries_show_username_summary">Visa användarnamn i post-listor</string>
     <string name="clipboard">Urklipp</string>
-    <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Inställningar för Magikeyboard</string>

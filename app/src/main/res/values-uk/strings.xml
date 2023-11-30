@@ -365,7 +365,6 @@
     <string name="unavailable">Недоступно</string>
     <string name="encrypted_value_stored">Зашифрований пароль збережено</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
-    <string name="build_label">Збірка %1$s</string>
     <string name="warning_permanently_delete_nodes">Видалити вибрані вузли остаточно\?</string>
     <string name="warning_no_encryption_key">Продовжити без ключа шифрування\?</string>
     <string name="warning_empty_password">Продовжувати без захисту розблокування паролем\?</string>
