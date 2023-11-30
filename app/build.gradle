@@ -55,11 +55,6 @@ android {
         }
     }
 
-    sourceSets {
-        libre.res.srcDir 'src/libre/res'
-        free.res.srcDir 'src/free/res'
-    }
-
     testOptions {
         unitTests.includeAndroidResources = true
     }
