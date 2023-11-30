@@ -22,36 +22,24 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.IdRes
-import androidx.cardview.widget.CardView
-import androidx.core.view.setPadding
 import com.kunzisoft.keepass.R
 
-class SectionView @JvmOverloads constructor(context: Context,
-                                            attrs: AttributeSet? = null,
-                                            defStyle: Int = R.attr.cardViewStyle)
-    : CardView(context, attrs, defStyle) {
+class SectionView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+) : FrameLayout(context, attrs) {
 
-    private var containerSectionView = LinearLayout(context).apply {
-        val padding = resources.getDimensionPixelSize(R.dimen.card_view_padding)
-        layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT)
-        setPadding(padding)
-        orientation = LinearLayout.VERTICAL
-    }
+    private val containerSectionView: LinearLayout
+    private val sectionTitleView: TextView
 
     init {
-        val marginHorizontal = resources.getDimensionPixelSize(R.dimen.card_view_margin_horizontal)
-        val marginVertical = resources.getDimensionPixelSize(R.dimen.card_view_margin_vertical)
-        layoutParams = LayoutParams(
-                LayoutParams.MATCH_PARENT,
-                LayoutParams.WRAP_CONTENT).also {
-            it.setMargins(marginHorizontal, marginVertical, marginHorizontal, marginVertical)
-        }
-        visibility = View.GONE
-        super.addView(containerSectionView)
+        inflate(context, R.layout.layout_section_view, this)
+        containerSectionView = findViewById(R.id.container_view)
+        sectionTitleView = findViewById(R.id.section_title_view)
     }
 
     override fun addView(child: View?) {
@@ -59,7 +47,16 @@ class SectionView @JvmOverloads constructor(context: Context,
         containerSectionView.addView(child)
     }
 
-    fun removeViewById(@IdRes viewId: Int, onFinish: ((View) ->Unit)? = null) {
+    fun setSectionTitle(title: String?) {
+        if (title == null || title?.isEmpty() == true) {
+            sectionTitleView.visibility = View.GONE
+        } else {
+            sectionTitleView.visibility = View.VISIBLE
+            sectionTitleView.text = title
+        }
+    }
+
+    fun removeViewById(@IdRes viewId: Int, onFinish: ((View) -> Unit)? = null) {
         containerSectionView.findViewById<View?>(viewId)?.let { viewToRemove ->
             viewToRemove.collapse(true) {
                 containerSectionView.removeView(viewToRemove)

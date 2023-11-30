@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:filterTouchesWhenObscured="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingVertical="6dp">
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/date_time_label"
+        style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/entry_expires"
-        style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+        android:text="@string/entry_expires" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
+
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/expires_image"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_warning_white_24dp"
             android:contentDescription="@string/content_description_file_information"
-            app:tint="?android:attr/textColor"/>
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:src="@drawable/ic_warning_white_24dp"
+            app:tint="@color/warning"
+            tools:ignore="RtlSymmetry" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/date_time_value"
+            style="@style/KeepassDXStyle.TextAppearance.TextNode"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

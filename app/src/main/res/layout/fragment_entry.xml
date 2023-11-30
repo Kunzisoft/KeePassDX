@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDX.
@@ -18,176 +17,188 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:paddingTop="@dimen/card_view_margin_vertical"
-	android:paddingBottom="48dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/card_view_margin_vertical"
+    android:paddingBottom="48dp">
 
-	<LinearLayout
-		android:id="@+id/entry_section_main"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/entry_section_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-		<com.kunzisoft.keepass.view.TemplateView
-			android:id="@+id/entry_template"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
+        <com.kunzisoft.keepass.view.TemplateView
+            android:id="@+id/entry_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-		<androidx.cardview.widget.CardView
-			android:id="@+id/entry_attachments_container"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			style="?attr/cardViewStyle">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/entry_attachments_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/card_view_margin_horizontal"
+            android:layout_marginVertical="5dp"
+            app:cardCornerRadius="12dp">
 
-			<LinearLayout
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:layout_margin="@dimen/card_view_padding"
-				android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_view_padding"
+                android:orientation="vertical">
 
-				<!-- Binary files -->
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_attachments_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_attachments"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+                <TextView
+                    android:id="@+id/entry_attachments_label"
+                    style="@style/TextAppearance.Material3.ActionBar.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="15dp"
+                    android:paddingHorizontal="9dp"
+                    android:text="@string/entry_attachments"
+                    android:textColor="?colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-				<androidx.recyclerview.widget.RecyclerView
-					android:id="@+id/entry_attachments_list"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/entry_attachments_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-			</LinearLayout>
-		</androidx.cardview.widget.CardView>
-	</LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
-	<LinearLayout
-		android:id="@+id/entry_section_advanced"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:visibility="gone"
-		android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/entry_section_advanced"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-		<androidx.cardview.widget.CardView
-			android:id="@+id/entry_UUID_container"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			style="?attr/cardViewStyle">
-			<LinearLayout
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:layout_margin="@dimen/card_view_padding"
-				android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/entry_UUID_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/card_view_margin_horizontal"
+            android:layout_marginVertical="5dp">
 
-				<!-- UUID -->
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_UUID_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_UUID"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<HorizontalScrollView
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-					<androidx.appcompat.widget.AppCompatTextView
-						android:id="@+id/entry_UUID_reference"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textIsSelectable="true"
-						style="@style/KeepassDXStyle.TextAppearance.TextNode" />
-				</HorizontalScrollView>
-			</LinearLayout>
-		</androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_view_padding"
+                android:orientation="vertical">
 
-		<!-- TODO Custom data
-		<androidx.cardview.widget.CardView
-			android:id="@+id/entry_custom_data_container"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			style="?attr/cardViewStyle">
-			<LinearLayout
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:layout_margin="@dimen/card_view_padding"
-				android:orientation="vertical">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_custom_data_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/custom_data"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_custom_data"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					style="@style/KeepassDXStyle.TextAppearance.TextNode" />
-			</LinearLayout>
-		</androidx.cardview.widget.CardView>
-		-->
+                <!-- UUID -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_UUID_label"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/entry_UUID" />
 
-		<androidx.cardview.widget.CardView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			style="?attr/cardViewStyle">
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-			<LinearLayout
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:layout_marginHorizontal="@dimen/card_view_padding"
-				android:layout_marginVertical="@dimen/card_view_padding"
-				android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/entry_UUID_reference"
+                        style="@style/KeepassDXStyle.TextAppearance.TextNode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textIsSelectable="true" />
+                </HorizontalScrollView>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-				<!-- Created -->
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_created_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_created"
-					android:layout_marginTop="8dp"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+        <!-- TODO Custom data
+        <androidx.cardview.widget.CardView
+            android:id="@+id/entry_custom_data_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/cardViewStyle">
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_margin="@dimen/card_view_padding"
+                android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_custom_data_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom_data"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_custom_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        -->
 
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_created"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="8dp"
-					style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/card_view_margin_horizontal"
+            android:layout_marginVertical="5dp">
 
-				<!-- Modified -->
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_modified_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_modified"
-					android:layout_marginTop="8dp"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/card_view_padding"
+                android:layout_marginVertical="@dimen/card_view_padding"
+                android:orientation="vertical">
 
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_modified"
-					android:layout_width="match_parent"
-					android:layout_marginBottom="8dp"
-					android:layout_height="wrap_content"
-					style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+                <!-- Created -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_created_label"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/entry_created" />
 
-				<!-- Accessed -->
-				<androidx.appcompat.widget.AppCompatTextView
-					android:visibility="gone"
-					android:id="@+id/entry_accessed_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_accessed"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			</LinearLayout>
-		</androidx.cardview.widget.CardView>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_created"
+                    style="@style/KeepassDXStyle.TextAppearance.TextNode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
 
-		<androidx.fragment.app.FragmentContainerView
-			android:id="@+id/entry_history"
-			android:name="com.kunzisoft.keepass.activities.fragments.EntryHistoryFragment"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
-	</LinearLayout>
+                <!-- Modified -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_modified_label"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/entry_modified" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_modified"
+                    style="@style/KeepassDXStyle.TextAppearance.TextNode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Accessed -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_accessed_label"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/entry_accessed"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/entry_history"
+            android:name="com.kunzisoft.keepass.activities.fragments.EntryHistoryFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </FrameLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -18,100 +17,102 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	tools:targetApi="o"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:filterTouchesWhenObscured="true"
-	android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:filterTouchesWhenObscured="true"
+    android:orientation="vertical"
+    tools:targetApi="o">
 
-	<androidx.cardview.widget.CardView
-		android:id="@+id/template_header_container"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/template_header_container"
+        style="?attr/cardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-		<FrameLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-			<View
-				android:id="@+id/template_background_color"
-				android:layout_width="36dp"
-				android:layout_height="36dp"
-				android:layout_margin="9dp"
-				android:layout_gravity="top|end"
-				android:background="@drawable/background_rounded_square" />
-			<View
-				android:id="@+id/template_foreground_color"
-				android:layout_width="36dp"
-				android:layout_height="36dp"
-				android:layout_margin="32dp"
-				android:layout_gravity="top|end"
-				android:background="@drawable/background_rounded_square" />
+            <View
+                android:id="@+id/template_background_color"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="9dp"
+                android:background="@drawable/background_rounded_square" />
 
-			<ImageView
-				android:id="@+id/template_background_color_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="top|end"
-				android:layout_margin="3dp"
-				android:src="@drawable/ic_color_background_white_24dp"
-				android:contentDescription="@string/content_description_entry_background_color"
-				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
-			<ImageView
-				android:id="@+id/template_foreground_color_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_gravity="top|end"
-				android:layout_margin="25dp"
-				android:src="@drawable/ic_color_foreground_white_24dp"
-				android:contentDescription="@string/content_description_entry_background_color"
-				style="@style/KeepassDXStyle.ImageButton.Simple.Mini" />
+            <View
+                android:id="@+id/template_foreground_color"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="32dp"
+                android:background="@drawable/background_rounded_square" />
 
-			<LinearLayout
-				android:orientation="vertical"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:layout_margin="@dimen/card_view_padding">
+            <ImageView
+                android:id="@+id/template_background_color_button"
+                style="@style/KeepassDXStyle.ImageButton.Simple.Mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="3dp"
+                android:contentDescription="@string/content_description_entry_background_color"
+                android:src="@drawable/ic_color_background_white_24dp" />
 
-				<!-- Icon -->
-				<androidx.appcompat.widget.AppCompatImageButton
-					android:id="@+id/template_icon_button"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:elevation="8dp"
-					android:layout_gravity="center_horizontal"
-					android:src="@drawable/ic_blank_32dp"
-					android:contentDescription="@string/content_description_entry_icon"/>
+            <ImageView
+                android:id="@+id/template_foreground_color_button"
+                style="@style/KeepassDXStyle.ImageButton.Simple.Mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="25dp"
+                android:contentDescription="@string/content_description_entry_background_color"
+                android:src="@drawable/ic_color_foreground_white_24dp" />
 
-				<!-- Title -->
-				<FrameLayout
-					android:id="@+id/template_title_container"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content" />
-			</LinearLayout>
-		</FrameLayout>
-	</androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/card_view_padding"
+                android:orientation="vertical">
 
-	<LinearLayout
-		android:id="@+id/template_fields_container"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical" />
+                <!-- Icon -->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/template_icon_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/content_description_entry_icon"
+                    android:elevation="8dp"
+                    android:src="@drawable/ic_blank_32dp" />
 
-	<com.kunzisoft.keepass.view.SectionView
-		android:id="@+id/not_referenced_fields_container"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle"
-		android:layout_marginBottom="@dimen/card_view_margin_vertical"/>
+                <!-- Title -->
+                <FrameLayout
+                    android:id="@+id/template_title_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
 
-	<com.kunzisoft.keepass.view.SectionView
-		android:id="@+id/custom_fields_container"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		style="?attr/cardViewStyle"/>
+    <LinearLayout
+        android:id="@+id/template_fields_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/card_view_margin_horizontal" />
+
+    <com.kunzisoft.keepass.view.SectionView
+        android:id="@+id/not_referenced_fields_container"
+        style="?attr/cardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.kunzisoft.keepass.view.SectionView
+        android:id="@+id/custom_fields_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/card_view_margin_horizontal" />
 
 </LinearLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -17,34 +16,31 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:targetApi="p"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_attachment_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:focusable="false"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    tools:targetApi="p">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/item_attachment_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_preview_height"
-        android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
+        android:layout_marginTop="12dp"
         android:background="?android:attr/windowBackground"
-        android:scaleType="fitStart" />
+        android:scaleType="fitStart"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/item_attachment_info"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignBottom="@+id/item_attachment_thumbnail"
-        android:alpha="0.8"
-        android:background="?attr/colorSurfaceContainer">
+        android:layout_alignBottom="@+id/item_attachment_thumbnail">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/item_attachment_broken"
@@ -71,10 +67,10 @@
             android:id="@+id/item_attachment_size_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical|end"
-            android:orientation="vertical"
+            android:layout_toStartOf="@+id/item_attachment_action_container"
             android:layout_toLeftOf="@+id/item_attachment_action_container"
-            android:layout_toStartOf="@+id/item_attachment_action_container">
+            android:gravity="center_vertical|end"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_attachment_size"
@@ -92,8 +88,8 @@
                 android:firstBaselineToTopHeight="0dp"
                 android:includeFontPadding="false"
                 android:paddingStart="8dp"
-                android:paddingEnd="8dp"
                 android:paddingLeft="8dp"
+                android:paddingEnd="8dp"
                 android:paddingRight="8dp"
                 tools:text="GZip" />
         </LinearLayout>
@@ -115,7 +111,8 @@
                 android:focusable="true"
                 android:src="@drawable/ic_content_delete_white_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?colorError" />
 
             <FrameLayout
                 android:id="@+id/item_attachment_progress_container"
@@ -143,12 +140,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:indeterminate="false"
-                    app:indicatorSize="36dp"
-                    app:trackThickness="2dp"
                     app:indicatorDirectionCircular="clockwise"
+                    app:indicatorSize="36dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackThickness="2dp" />
             </FrameLayout>
         </FrameLayout>
     </RelativeLayout>

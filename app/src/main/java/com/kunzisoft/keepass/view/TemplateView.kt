@@ -83,6 +83,11 @@ class TemplateView @JvmOverloads constructor(context: Context,
                             ?.invoke(Field(label, ProtectedString(false, value)))
                     }
                 }
+
+                val label = templateAttribute.label.lowercase()
+                if (!arrayOf("username", "password", "totp").contains(label)) {
+                    setCopyButtonState(TextFieldView.ButtonState.GONE)
+                }
             }
         }
     }

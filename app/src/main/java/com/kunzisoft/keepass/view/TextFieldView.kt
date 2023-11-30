@@ -1,6 +1,6 @@
 /*
  * Copyright 2021 Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -25,15 +25,12 @@ import android.text.InputFilter
 import android.text.SpannableString
 import android.text.util.Linkify
 import android.util.AttributeSet
-import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.ImageButton
 import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
@@ -45,134 +42,25 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
+class TextFieldView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+) : RelativeLayout(context, attrs), GenericTextFieldView {
 
-class TextFieldView @JvmOverloads constructor(context: Context,
-                                              attrs: AttributeSet? = null,
-                                              defStyle: Int = 0)
-    : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
+    private val labelView: TextView
+    private val valueView: TextView
 
-    private var labelViewId = ViewCompat.generateViewId()
-    private var valueViewId = ViewCompat.generateViewId()
-    private var showButtonId = ViewCompat.generateViewId()
-    private var copyButtonId = ViewCompat.generateViewId()
-
-    private val labelView = AppCompatTextView(context).apply {
-        setTextAppearance(context,
-            R.style.KeepassDXStyle_TextAppearance_LabelTextStyle)
-        layoutParams = LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT
-        ).also {
-            it.leftMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                8f,
-                resources.displayMetrics
-            ).toInt()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.marginStart = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    8f,
-                    resources.displayMetrics
-                ).toInt()
-            }
-        }
-    }
-    private val valueView = AppCompatTextView(context).apply {
-        setTextAppearance(context,
-            R.style.KeepassDXStyle_TextAppearance_TextNode)
-        layoutParams = LayoutParams(
-            LayoutParams.MATCH_PARENT,
-            LayoutParams.WRAP_CONTENT).also {
-            it.topMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                4f,
-                resources.displayMetrics
-            ).toInt()
-            it.leftMargin = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                8f,
-                resources.displayMetrics
-            ).toInt()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.marginStart = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    8f,
-                    resources.displayMetrics
-                ).toInt()
-            }
-        }
-        setTextIsSelectable(true)
-    }
-    private var showButton = AppCompatImageButton(
-        ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
-        layoutParams = LayoutParams(
-            LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT)
-        setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_visibility_state))
-        contentDescription = context.getString(R.string.menu_showpass)
-    }
-    private var copyButton = AppCompatImageButton(
-        ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
-        layoutParams = LayoutParams(
-            LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT)
-        setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_content_copy_white_24dp))
-        contentDescription = context.getString(R.string.menu_copy)
-    }
+    private var showButton: ImageButton
+    private var copyButton: ImageButton
 
     init {
-        buildViews()
-        addView(copyButton)
-        addView(showButton)
-        addView(labelView)
-        addView(valueView)
-    }
+        inflate(context, R.layout.layout_text_field_view, this)
 
-    private fun buildViews() {
-        copyButton.apply {
-            id = copyButtonId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(ALIGN_PARENT_RIGHT)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(ALIGN_PARENT_END)
-                }
-            }
-        }
-        showButton.apply {
-            id = showButtonId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                if (copyButton.isVisible) {
-                    it?.addRule(LEFT_OF, copyButtonId)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        it?.addRule(START_OF, copyButtonId)
-                    }
-                } else {
-                    it?.addRule(ALIGN_PARENT_RIGHT)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        it?.addRule(ALIGN_PARENT_END)
-                    }
-                }
-            }
-        }
-        labelView.apply {
-            id = labelViewId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, showButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, showButtonId)
-                }
-            }
-        }
-        valueView.apply {
-            id = valueViewId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, showButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, showButtonId)
-                }
-                it?.addRule(BELOW, labelViewId)
-            }
-        }
+        labelView = findViewById(R.id.label_view)
+        valueView = findViewById(R.id.value_view)
+
+        showButton = findViewById(R.id.show_btn)
+        copyButton = findViewById(R.id.copy_btn)
     }
 
     override fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -199,21 +87,13 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         set(value) {
             val spannableString =
                 if (PreferencesUtil.colorizePassword(context)
-                    && TemplateField.isStandardPasswordName(context, label))
+                    && TemplateField.isStandardPasswordName(context, label)
+                )
                     PasswordGenerator.getColorizedPassword(value)
                 else
                     SpannableString(value)
             valueView.text = spannableString
             changeProtectedValueParameters()
-
-            if (value.isNotEmpty()) {
-                setPadding(
-                    0,
-                    (5f * resources.displayMetrics.density).toInt(),
-                    0,
-                    (5f * resources.displayMetrics.density).toInt()
-                )
-            }
         }
 
     fun setValue(@StringRes valueId: Int) {
@@ -228,6 +108,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             numberChars <= 0 -> {
                 valueView.filters += InputFilter.LengthFilter(MAX_CHARS_LIMIT)
             }
+
             else -> {
                 val chars = if (numberChars > MAX_CHARS_LIMIT) MAX_CHARS_LIMIT else numberChars
                 valueView.filters += InputFilter.LengthFilter(chars)
@@ -261,11 +142,12 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             labelView.text.contains(APPLICATION_ID_FIELD_NAME) -> {
                 val packageName = valueView.text.toString()
                 // TODO #996 if (UriUtil.isExternalAppInstalled(context, packageName)) {
-                    valueView.customLink {
-                        context.openExternalApp(packageName)
-                    }
+                valueView.customLink {
+                    context.openExternalApp(packageName)
+                }
                 //}
             }
+
             else -> {
                 LinkifyCompat.addLinks(valueView, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
             }
@@ -291,6 +173,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
                     setTextIsSelectable(true)
                 }
             }
+
             ButtonState.DEACTIVATE -> {
                 copyButton.apply {
                     visibility = VISIBLE
@@ -302,6 +185,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
                     setTextIsSelectable(false)
                 }
             }
+
             ButtonState.GONE -> {
                 copyButton.apply {
                     visibility = GONE
@@ -340,11 +224,6 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         set(value) {
             isVisible = value
         }
-
-    override fun invalidate() {
-        super.invalidate()
-        buildViews()
-    }
 
     enum class ButtonState {
         ACTIVATE, DEACTIVATE, GONE
