@@ -613,6 +613,7 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         if (mSpecialMode == SpecialMode.DEFAULT) {
             MenuUtil.defaultMenuInflater(this, inflater, menu)
         }
+        menu.removeItem(R.id.menu_about)
 
         super.onCreateOptionsMenu(menu)
         return true
