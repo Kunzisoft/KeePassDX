@@ -97,8 +97,8 @@
     <string name="error_save_database">Không thể lưu cơ sở dữ liệu.</string>
     <string name="email">Thư điện tử</string>
     <string name="standard">Chuẩn</string>
-    <string name="error_word_reserved">Từ này được dành riêng và không thể được sử dụng.</string>
-    <string name="error_copy_entry_here">Bạn không thể di chuyển một mục nhập vào đây.</string>
+    <string name="error_word_reserved">Từ này được bảo lưu và không thể được sử dụng.</string>
+    <string name="error_copy_entry_here">Bạn không thể sao chép một mục vào đây.</string>
     <string name="error_rounds_too_large">\"Vòng biến đổi\" quá cao. Đang đặt thành 2147483648.</string>
     <string name="error_otp_type">Loại OTP hiện có không được biểu mẫu này nhận dạng, việc xác thực nó có thể không tạo mã thông báo một cách chính xác nữa.</string>
     <string name="app_timeout">Hết giờ</string>
@@ -232,4 +232,26 @@
     <string name="keyboard_notification_entry_summary">Hiển thị thông báo khi mục nhập có sẵn</string>
     <string name="keyboard_entry_category">Mục</string>
     <string name="keyboard_save_search_info_title">Lưu thông tin được chia sẻ</string>
+    <string name="error_no_response_from_challenge">Không thể nhận được phản hồi từ thử thách.</string>
+    <string name="error_unable_merge_database_kdb">Không thể hợp nhất từ cơ sở dữ liệu V1.</string>
+    <string name="error_move_group_here">Bạn không thể di chuyển một nhóm vào đây.</string>
+    <string name="file_browser">Quản lý tập tin</string>
+    <string name="field_value">Giá trị trường</string>
+    <string name="hint_icon_name">Tên biểu tượng</string>
+    <string name="error_challenge_already_requested">Thử thách đã được yêu cầu rồi</string>
+    <string name="error_cancel_by_user">Đã bị người dùng hủy bỏ.</string>
+    <string name="error_empty_key">Chìa khóa không được để trống.</string>
+    <string name="error_start_database_action">Đã xảy ra lỗi khi thực hiện một hành động trên cơ sở dữ liệu.</string>
+    <string name="content_description_nav_header">Tiêu đề điều hướng</string>
+    <string name="navigation_drawer_close">Ngăn điều hướng đã đóng</string>
+    <string name="navigation_drawer_open">Ngăn điều hướng đang mở</string>
+    <string name="error_rebuild_list">Không thể xây dựng lại danh sách đúng cách.</string>
+    <string name="error_location_unknown">Vị trí cơ sở dữ liệu không xác định, hành động cơ sở dữ liệu không thể được thực hiện.</string>
+    <string name="error_response_already_provided">Phản hồi đã được cung cấp.</string>
+    <string name="field_name">Tên trường</string>
+    <string name="error_remove_file">Đã xảy ra lỗi khi xóa dữ liệu tệp.</string>
+    <string name="error_hardware_key_unsupported">Khóa phần cứng không được hỗ trợ.</string>
+    <string name="error_XML_malformed">XML không đúng định dạng.</string>
+    <string name="error_driver_required">Cần có trình điều khiển cho %1$s.</string>
+    <string name="corrupted_file">Tập tin bị hỏng.</string>
 </resources>
