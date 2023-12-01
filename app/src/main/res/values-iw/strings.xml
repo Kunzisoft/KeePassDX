@@ -18,8 +18,6 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     translated by Arthur Zamarin<arthurzam@gmail.com>
 --><resources>
-    <string name="about_description">מימוש אנדרואיד של מנהל הסיסמאות KeePass</string>
-    <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
     <string name="add_group">הוסף קבוצה</string>
     <string name="encryption_algorithm">אלגוריתם הצפנה</string>
@@ -27,12 +25,9 @@
     <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל</string>
     <string name="application">יישום</string>
     <string name="menu_app_settings">הגדרות יישום</string>
-    <string name="brackets">סוגריים</string>
     <string name="file_manager_install_description">נדרש סייר קבצים המקבל intent actions של ACTION_CREATE_DOCUMENT ו ACTION_OPEN_DOCUMENT בכדי ליצור, לפתוח, ולשמור קבצי מסד נתונים.</string>
-    <string name="clipboard_cleared">לוח ההעתקה נוקה</string>
     <string name="clipboard_error_title">שגיאת לוח העתקה</string>
     <string name="clipboard_error">מכשירים מסויימים לא יאפשרו ליישומים להשתמש בלוח ההעתקה.</string>
-    <string name="clipboard_error_clear">לא ניתן לנקות את לוח ההעתקה</string>
     <string name="clipboard_timeout">זמן עד לניקוי לוח ההעתקה</string>
     <string name="clipboard_timeout_summary">זמן אחסון בלוח ההעתקה (אם נתמך על ידי מכשירך)</string>
     <string name="select_to_copy">בחר בכדי להעתיק %1$s ללוח ההעתקה</string>
@@ -44,21 +39,15 @@
     <string name="entry_accessed">ניגש לאחרונה</string>
     <string name="entry_cancel">בטל</string>
     <string name="entry_notes">הערות</string>
-    <string name="entry_confpassword">אשר סיסמה</string>
     <string name="entry_created">תאריך יצירה</string>
     <string name="entry_expires">פג תוקף</string>
     <string name="entry_keyfile">קובץ מפתח</string>
     <string name="entry_modified">נערך לאחרונה</string>
-    <string name="entry_not_found">לא ניתן למצוא נתוני ערך.</string>
     <string name="entry_password">סיסמה</string>
     <string name="save">שמור</string>
     <string name="entry_title">שם</string>
     <string name="entry_user_name">שם משתמש</string>
-    <string name="error_arc4">צופן זרם Arcfour אינו נתמך.</string>
-    <string name="error_can_not_handle_uri">KeePassDX לא יכול לטפל ב-URI הזה.</string>
     <string name="error_file_not_create">לא הצליח ליצור קובץ</string>
-    <string name="error_invalid_db">לא ניתן לקרוא את מסד הנתונים.</string>
-    <string name="error_invalid_path">ודא שהנתיב נכון.</string>
     <string name="error_no_name">הכנס שם.</string>
     <string name="error_nokeyfile">בחר קובץ מפתח.</string>
     <string name="error_out_of_memory">אין זיכרון לטעינת כל מסד הנתונים שלך.</string>
@@ -68,25 +57,18 @@
     <string name="error_string_key">לכל מחרוזת צריך להיות שם שדה.</string>
     <string name="error_wrong_length">הזן מספר שלם חיובי בשדה \"אורך\".</string>
     <string name="field_name">שם השדה</string>
-    <string name="field_value">ערך השדה</string>
     <string name="file_browser">סייר קבצים</string>
     <string name="generate_password">צור סיסמה</string>
     <string name="hint_conf_pass">אשר סיסמה</string>
-    <string name="hint_generated_password">סיסמה שנוצרה</string>
     <string name="hint_group_name">שם קבוצה</string>
-    <string name="hint_keyfile">קובץ מפתח</string>
-    <string name="hint_length">אורך</string>
     <string name="hint_pass">סיסמה</string>
     <string name="password">סיסמה</string>
     <string name="invalid_credentials">לא ניתן לקרוא אישורים.</string>
     <string name="invalid_algorithm">אלגוריתם שגוי.</string>
     <string name="invalid_db_sig">לא ניתן לזהות את פורמט מסד הנתונים.</string>
-    <string name="keyfile_is_empty">קובץ המפתח ריק.</string>
-    <string name="length">אורך</string>
     <string name="list_size_title">גודל רשימה קבוצות</string>
     <string name="list_size_summary">גודל הטקסט ברשימת הקבוצות</string>
     <string name="loading_database">טוען מסד נתונים…</string>
-    <string name="lowercase">אות קטנה</string>
     <string name="hide_password_title">מסיכת הסיסמה</string>
     <string name="hide_password_summary">הסתר סיסמאות כברירת מחדל</string>
     <string name="about">אודות</string>
@@ -94,45 +76,30 @@
     <string name="settings">העדפות</string>
     <string name="menu_database_settings">הגדרות מסד נתונים</string>
     <string name="menu_delete">מחק</string>
-    <string name="menu_donate">תרום</string>
     <string name="menu_edit">ערוך</string>
-    <string name="menu_hide_password">הסתר סיסמה</string>
-    <string name="menu_lock">נעל מסד נתונים</string>
     <string name="menu_open">פתח</string>
     <string name="menu_search">חפש</string>
     <string name="menu_showpass">הצג סיסמה</string>
-    <string name="menu_url">לך ל-URL</string>
-    <string name="minus">מינוס</string>
     <string name="never">אף פעם</string>
     <string name="no_results">אין תוצאות חיפוש</string>
     <string name="no_url_handler">התקן דפדפן אינטרנט כדי לפתוח כתובת אתר זו.</string>
-    <string name="progress_create">צור מסד נתונים חדש…</string>
-    <string name="progress_title">עובד…</string>
     <string name="protection">הגנה</string>
-    <string name="read_only_warning">ל-KeePassDX אין הרשאות כתיבה למסד הנתונים הזה, ולכן הוא יפתח לקריאה בלבד.</string>
-    <string name="content_description_remove_from_list">הסר</string>
     <string name="rounds">סיבובי הצפנה</string>
     <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
     <string name="saving_database">שומר מסד נתונים…</string>
     <string name="space">גודל</string>
     <string name="sort_db">סדר מיון מסד נתונים</string>
-    <string name="special">מיוחד</string>
-    <string name="underline">קו תחתון</string>
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
-    <string name="uppercase">רישית</string>
     <string name="version_label">גרסה %1$s</string>
     <string-array name="list_size_options">
         <item>קטן</item>
         <item>בינוני</item>
         <item>גדול</item>
     </string-array>
-    <string name="edit_entry">ערוך ערך</string>
     <string name="encryption">הצפנה</string>
-    <string name="allow">אפשר</string>
     <string name="entry_url">כתובת URL</string>
     <string name="error_load_database">לא ניתן לטעון את מסד הנתונים.</string>
     <string name="expired">פג תוקף</string>
-    <string name="content_description_passphrase_word_count">מספר מילים של ביטוי סיסמה</string>
     <string name="content_description_keyboard_close_fields">סגור שדות</string>
     <string name="auto_type">הקלדה אוטומטית</string>
     <string name="wireless">Wi-Fi‮</string>
@@ -154,7 +121,6 @@
     <string name="membership">חברות</string>
     <string name="error_otp_digits">ה-Token חייב להכיל %1$d עד %2$d ספרות.</string>
     <string name="content_description_database_color">צבע מסד הנתונים</string>
-    <string name="content_description_entry_foreground_color">צבע קדמה של הערך</string>
     <string name="entry_UUID">מזהה אוניברסלי ייחודי</string>
     <string name="entry_history">היסטוריה</string>
     <string name="entry_attachments">קבצים מצורפים</string>
@@ -163,7 +129,6 @@
     <string name="email">דוא\"ל</string>
     <string name="email_address">כתובת דואר אלקטרוני</string>
     <string name="error_word_reserved">מילה זו שמורה ולא ניתן להשתמש בה.</string>
-    <string name="error_label_exists">תווית זו כבר קיימת.</string>
     <string name="error_remove_file">אירעה שגיאה בעת הסרת נתוני הקובץ.</string>
     <string name="error_file_to_big">הקובץ שהינך מנסה להעלות גדול מידי.</string>
     <string name="content_description_otp_information">פרטי סיסמה חד-פעמית</string>
@@ -171,7 +136,6 @@
     <string name="hint_icon_name">שם הסמל</string>
     <string name="html_about_privacy">&lt;strong&gt;אין אחזור של נתוני משתמש&lt;/strong&gt;, יישום זה אינו מתחבר לשום שרת, פועל באופן מקומי בלבד ומכבד באופן מלא את פרטיות המשתמשים.</string>
     <string name="hardware_key">מפתח פיזי</string>
-    <string name="custom_data">נתונים מותאמים אישית</string>
     <string name="otp_type">סוג סיסמה חד-פעמית</string>
     <string name="otp_secret">סוד הסיסמה החד-פעמית</string>
     <string name="ssid">SSID</string>
@@ -190,10 +154,8 @@
     <string name="error_string_type">טקסט זה אינו תואם את הפריט המבוקש.</string>
     <string name="error_field_name_already_exists">שם השדה כבר קיים.</string>
     <string name="error_database_uri_null">לא ניתן לאחזר URI של מסד הנתונים.</string>
-    <string name="error_rebuild_list">לא ניתן לבנות מחדש את הרשימה כראוי.</string>
     <string name="error_upload_file">אירעה שגיאה בעת העלאת נתוני הקובץ.</string>
     <string name="error_start_database_action">אירעה שגיאה בעת ביצוע פעולה על מסד הנתונים.</string>
-    <string name="error_challenge_already_requested">האתגר כבר התבקש</string>
     <string name="error_response_already_provided">תגובה כבר ניתנה.</string>
     <string name="error_no_response_from_challenge">לא ניתן לקבל את התגובה מהאתגר.</string>
     <string name="error_cancel_by_user">בוטל על ידי המשתמש.</string>
@@ -215,12 +177,8 @@
     <string name="content_description_credentials_information">פרטי האישורים</string>
     <string name="content_description_file_information">פרטי הקובץ</string>
     <string name="content_description_add_item">הוסף פריט</string>
-    <string name="content_description_add_group">הוסף קבוצה</string>
-    <string name="content_description_add_entry">הוסף ערך</string>
     <string name="content_description_add_node">הוסף חוליה</string>
-    <string name="content_description_open_file">פתח קובץ</string>
     <string name="content_description_node_children">ילדי החוליה</string>
-    <string name="content_description_background">רקע</string>
     <string name="master_key">מפתח ראשי</string>
     <string name="key_derivation_function">פונקציית גזירת מפתח</string>
     <string name="content_description_nav_header">כותרת ניווט</string>
@@ -242,7 +200,6 @@
     <string name="current_group">קבוצה נוכחית</string>
     <string name="name">שם</string>
     <string name="bank">בנק</string>
-    <string name="bank_name">שם הבנק</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
     <string name="error_save_database">לא ניתן לשמור את מסד הנתונים.</string>
     <string name="error_otp_secret_key">המפתח הסודי חייב להיות בפורמט Base32.</string>
@@ -255,7 +212,6 @@
     <string name="validate">אימות</string>
     <string name="entry_add_attachment">צרף קובץ</string>
     <string name="content_description_remove_field">הסר שדה</string>
-    <string name="content_description_update_from_list">עדכן</string>
     <string name="waiting_challenge_request">ממתין לבקשת האתגר…</string>
     <string name="waiting_challenge_response">ממתין לתגובת האתגר…</string>
     <string name="error_no_hardware_key">בחר מפתח פיזי.</string>
@@ -263,8 +219,6 @@
     <string name="error_invalid_OTP">סוד הסיסמה החד-פעמית לא חוקי.</string>
     <string name="discard_changes">לבטל שינויים\?</string>
     <string name="security">אבטחה</string>
-    <string name="extended_ASCII">ASCII מורחב</string>
-    <string name="entry_password_generator">מחולל סיסמאות</string>
     <string name="content_description_password_length">אורך סיסמה</string>
     <string name="content_description_hardware_key_checkbox">תיבת סימון מפתח אבטחה</string>
     <string name="content_description_repeat_toggle_password_visibility">החלפת נראות הסיסמה</string>
@@ -290,19 +244,15 @@
     <string name="copy_field">עותק של %1$s</string>
     <string name="menu_save_copy_to">שמור עותק ב …</string>
     <string name="menu_merge_from">מזג מ …</string>
-    <string name="menu_file_selection_read_only">מוגן כתיבה</string>
-    <string name="menu_open_file_read_and_write">ניתן לשינוי</string>
     <string name="menu_empty_recycle_bin">רוקן את סל המחזור</string>
     <string name="menu_restore_entry_history">שחזר היסטוריה</string>
     <string name="menu_delete_entry_history">מחק היסטוריה</string>
     <string name="subdomain_search_summary">חפש דומיינים של אינטרנט עם הגבלות תת-דומיינים</string>
-    <string name="read_only">מוגן כתיבה</string>
     <string name="menu_master_key_settings">הגדרות מפתח ראשי</string>
     <string name="list_entries_show_username_title">הצג שמות משתמש</string>
     <string name="menu_security_settings">הגדרות אבטחה</string>
     <string name="menu_move">העבר</string>
     <string name="menu_paste">הדבק</string>
-    <string name="menu_cancel">בטל</string>
     <string name="menu_copy">העתק</string>
     <string name="subdomain_search_title">חיפוש תת-דומיין</string>
     <string name="menu_keystore_remove_key">מחק מפתח ביטול נעילה מתקדם</string>

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="accept">स्वीकार करा</string>
-    <string name="about_description">किपास सांकेतांक व्यवस्थापनाचे अँड्रॉइड अंतर्भूतीकरण</string>
     <string name="master_key">राणी चावी</string>
     <string name="add_group">गट जोडा</string>
     <string name="security">सुरक्षा</string>

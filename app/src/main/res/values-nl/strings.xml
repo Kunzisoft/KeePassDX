@@ -19,8 +19,6 @@
 
     Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 --><resources>
-    <string name="about_description">Android-implementatie van KeePass-wachtwoordbeheer</string>
-    <string name="accept">Accepteren</string>
     <string name="add_entry">Item toevoegen</string>
     <string name="add_group">Groep toevoegen</string>
     <string name="encryption_algorithm">Versleutelingsalgoritme</string>
@@ -28,9 +26,7 @@
     <string name="app_timeout_summary">Inactieve tijd waarna de database vergrendeld wordt</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-instellingen</string>
-    <string name="brackets">Haakjes</string>
     <string name="file_manager_install_description">Een bestandsbeheerder die de actie ACTION_CREATE_DOCUMENT en ACTION_OPEN_DOCUMENT accepteert, is vereist om databasebestanden te maken, openen en opslaan.</string>
-    <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Time-out van het klembord</string>
     <string name="clipboard_timeout_summary">Duur van opslag op het klembord (indien ondersteund op dit apparaat)</string>
     <string name="select_to_copy">Selecteer om %1$s naar klembord te kopiëren</string>
@@ -44,7 +40,6 @@
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
     <string name="entry_notes">Notities</string>
-    <string name="entry_confpassword">Wachtwoord bevestigen</string>
     <string name="entry_created">Aangemaakt</string>
     <string name="entry_expires">Verloopt</string>
     <string name="entry_keyfile">Sleutelbestand</string>
@@ -54,11 +49,7 @@
     <string name="entry_title">Naam</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Gebruikersnaam</string>
-    <string name="error_arc4">De Arcfour stream-versleuteling wordt niet ondersteund.</string>
-    <string name="error_can_not_handle_uri">KeePassDX kan deze URI niet verwerken.</string>
     <string name="error_file_not_create">Bestand is niet aangemaakt</string>
-    <string name="error_invalid_db">Kan de database niet uitlezen.</string>
-    <string name="error_invalid_path">Zorg ervoor dat het pad correct is.</string>
     <string name="error_no_name">Voer een naam in.</string>
     <string name="error_nokeyfile">Kies een sleutelbestand.</string>
     <string name="error_out_of_memory">Onvoldoende vrij geheugen om de gehele database te laden.</string>
@@ -69,19 +60,14 @@
     <string name="file_browser">Bestandsbeheer</string>
     <string name="generate_password">Wachtwoord genereren</string>
     <string name="hint_conf_pass">Wachtwoord bevestigen</string>
-    <string name="hint_generated_password">Gegenereerd wachtwoord</string>
     <string name="hint_group_name">Groepsnaam</string>
-    <string name="hint_keyfile">Sleutelbestand</string>
-    <string name="hint_length">Lengte</string>
     <string name="password">Wachtwoord</string>
     <string name="hint_pass">Wachtwoord</string>
     <string name="invalid_credentials">Kan referenties niet lezen.</string>
     <string name="invalid_db_sig">Databaseformaat werd niet herkend.</string>
-    <string name="length">Lengte</string>
     <string name="list_size_title">Grootte van lijstitems</string>
     <string name="list_size_summary">Tekstgrootte in de itemslijst</string>
     <string name="loading_database">Database laden…</string>
-    <string name="lowercase">Kleine letters</string>
     <string name="hide_password_title">Wachtwoorden verbergen</string>
     <string name="hide_password_summary">Wachtwoorden maskeren (***)</string>
     <string name="about">Over</string>
@@ -89,56 +75,38 @@
     <string name="settings">Instellingen</string>
     <string name="menu_database_settings">Database-instellingen</string>
     <string name="menu_delete">Verwijderen</string>
-    <string name="menu_donate">Doneren</string>
     <string name="menu_edit">Bewerken</string>
-    <string name="menu_hide_password">Wachtwoord verbergen</string>
-    <string name="menu_lock">Database vergrendelen</string>
     <string name="menu_open">Openen</string>
     <string name="menu_search">Zoeken</string>
     <string name="menu_showpass">Wachtwoord tonen</string>
-    <string name="menu_url">URL openen</string>
-    <string name="minus">Minus</string>
     <string name="never">Nooit</string>
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Installeer een webbrowser om deze URL te openen.</string>
-    <string name="progress_create">Nieuwe database aanmaken…</string>
-    <string name="progress_title">Bezig met verwerken…</string>
-    <string name="content_description_remove_from_list">Verwijderen</string>
     <string name="root">Hoofdmap</string>
     <string name="rounds">Versleutelingscycli</string>
     <string name="rounds_explanation">Een hoger aantal versleutelingscycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
     <string name="saving_database">Database opslaan…</string>
     <string name="space">Spatie</string>
     <string name="sort_db">Natuurlijke volgorde</string>
-    <string name="special">Speciaal</string>
     <string name="search">Zoeken</string>
-    <string name="underline">Onderstrepen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>
-    <string name="uppercase">Hoofdletters</string>
     <string name="version_label">Versie %1$s</string>
     <string-array name="list_size_options">
         <item>Klein</item>
         <item>Medium</item>
         <item>Groot</item>
     </string-array>
-    <string name="edit_entry">Item bewerken</string>
     <string name="encryption">Versleuteling</string>
     <string name="key_derivation_function">Sleutelafleidingsfunctie</string>
-    <string name="extended_ASCII">Uitgebreide ASCII</string>
-    <string name="allow">Toestaan</string>
     <string name="clipboard_error_title">Fout met klembord</string>
     <string name="clipboard_error">Sommige apparaten staan niet toe dat apps het klembord gebruiken.</string>
-    <string name="clipboard_error_clear">Klembord is niet gewist</string>
-    <string name="entry_not_found">Geen itemgegevens gevonden.</string>
     <string name="error_load_database">De database is niet geladen.</string>
     <string name="error_load_database_KDF_memory">De sleutel kan niet worden geladen. Probeer om het \"geheugengebruik\" van KDF te verminderen.</string>
     <string name="error_string_key">Elke zin moet een veldnaam bevatten.</string>
     <string name="error_autofill_enable_service">De dienst automatisch aanvullen kan niet worden ingeschakeld.</string>
     <string name="field_name">Veldnaam</string>
-    <string name="field_value">Veldwaarde</string>
     <string name="file_not_found_content">Bestand niet gevonden. Probeer het opnieuw te openen via bestandsbeheer.</string>
     <string name="invalid_algorithm">Ongeldig algoritme.</string>
-    <string name="keyfile_is_empty">Het sleutelbestand is leeg.</string>
     <string name="list_entries_show_username_title">Gebruikersnamen tonen</string>
     <string name="list_entries_show_username_summary">Toont gebruikersnamen in itemlijsten</string>
     <string name="copy_field">Kopie van %1$s</string>
@@ -146,12 +114,7 @@
     <string name="menu_copy">Kopiëren</string>
     <string name="menu_move">Verplaatsen</string>
     <string name="menu_paste">Plakken</string>
-    <string name="menu_cancel">Annuleren</string>
-    <string name="menu_file_selection_read_only">Alleen-lezen</string>
-    <string name="menu_open_file_read_and_write">Lezen en schrijven</string>
     <string name="protection">Beveiliging</string>
-    <string name="read_only">Alleen-lezen</string>
-    <string name="read_only_warning">KeePassDX moet worden gemachtigd om je databank te kunnen aanpassen.</string>
     <string name="show_recent_files_title">Bestandsgeschiedenis</string>
     <string name="show_recent_files_summary">Locaties van recente databases tonen</string>
     <string name="encryption_explanation">Database-versleutelingsalgoritme voor alle gegevens</string>
@@ -173,7 +136,6 @@
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
     <string name="warning_no_encryption_key">Doorgaan zonder coderingssleutel\?</string>
-    <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
     <string name="unavailable">Niet beschikbaar</string>
     <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
@@ -183,10 +145,6 @@
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
     <string name="set_autofill_service_title">Dienst automatisch aanvullen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>
-    <string name="password_size_title">Gegenereerde wachtwoordlengte</string>
-    <string name="password_size_summary">Stel de standaardlengte van gegenereerde wachtwoorden in</string>
-    <string name="list_password_generator_options_title">Wachtwoordtekens</string>
-    <string name="list_password_generator_options_summary">Toegestane wachtwoordtekens instellen</string>
     <string name="clipboard">Klembord</string>
     <string name="clipboard_notifications_title">Klembordmeldingen</string>
     <string name="clipboard_notifications_summary">Schakel klembordmeldingen in om velden te kopiëren bij het bekijken van een item</string>
@@ -202,7 +160,6 @@
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Dit apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
-    <string name="file_name">Bestandsnaam</string>
     <string name="path">Pad</string>
     <string name="assign_master_key">Hoofdsleutel toewijzen</string>
     <string name="recycle_bin_title">Prullenbak gebruiken</string>
@@ -225,29 +182,14 @@
     <string name="allow_no_password_summary">Schakel de knop \"Openen\" in als er geen referenties zijn geselecteerd</string>
     <string name="enable_read_only_title">Alleen-lezen</string>
     <string name="enable_read_only_summary">Open de database standaard alleen-lezen</string>
-    <string name="reset_education_screens_text">Informatieve tips opnieuw ingesteld</string>
-    <string name="education_entry_edit_summary">Bewerk het item met aangepaste velden. Referenties kunnen worden toegevoegd tussen velden van verschillende items.</string>
-    <string name="education_field_copy_title">Veld kopiëren toestaan</string>
-    <string name="education_field_copy_summary">Kopieer een veld en plak de inhoud waar je maar wilt.
-\n
-\nJe kunt verschillende formulier-invulmethodes gebruiken; kies je voorkeursmethode.</string>
-    <string name="education_donation_title">Bijdragen</string>
-    <string name="education_donation_summary">Draag bij om de stabiliteit en veiligheid te vergroten en door meer functies toe te voegen.</string>
     <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht de versie die je gebruikt.</string>
     <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit &lt;strong&gt;visuele thema&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Dit &lt;strong&gt;visuele thema&lt;/strong&gt; is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, rekenen we op jouw &lt;strong&gt;bijdrage.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
-    <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;problemen op te lossen&lt;/strong&gt;.</string>
-    <string name="html_text_dev_feature_thanks">Hartelijk bedankt voor je bijdrage.</string>
-    <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergeet niet je app up-to-date te houden door nieuwe versies te installeren.</string>
     <string name="download">Downloaden</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
     <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
-    <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Instellingen Magikeyboard</string>
     <string name="keyboard_entry_category">Item</string>
@@ -260,8 +202,6 @@
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Wissen bij het sluiten</string>
     <string name="keyboard_notification_entry_clear_close_summary">Sluit de database tegelijk met de melding</string>
-    <string name="keyboard_appearance_category">Uiterlijk</string>
-    <string name="keyboard_theme_title">Toetsenbordthema</string>
     <string name="keyboard_keys_category">Toetsen</string>
     <string name="keyboard_key_vibrate_title">Trillen bij toetsaanslag</string>
     <string name="keyboard_key_sound_title">Geluid bij toetsaanslag</string>
@@ -276,17 +216,13 @@
     <string name="keyboard_selection_entry_summary">Vul, bij het bekijken van een item in KeePassDX, Magikeyboard met dat item</string>
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
     <string name="delete_entered_password_summary">Wis het ingevoerde wachtwoord na een verbindingspoging met een database</string>
-    <string name="content_description_open_file">Bestand openen</string>
     <string name="content_description_node_children">Onderliggende items</string>
     <string name="content_description_add_node">Knooppunt toevoegen</string>
-    <string name="content_description_add_entry">Item toevoegen</string>
-    <string name="content_description_add_group">Groep toevoegen</string>
     <string name="content_description_file_information">Bestandsinformatie</string>
     <string name="content_description_password_checkbox">Wachtwoord-selectievak</string>
     <string name="content_description_keyfile_checkbox">Sleutelbestand-selectievak</string>
     <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
     <string name="content_description_entry_icon">Item-pictogram</string>
-    <string name="entry_password_generator">Wachtwoordgenerator</string>
     <string name="content_description_password_length">Wachtwoordlengte</string>
     <string name="entry_add_field">Veld toevoegen</string>
     <string name="content_description_remove_field">Veld verwijderen</string>
@@ -295,12 +231,9 @@
     <string name="error_copy_entry_here">Je kunt hier geen item kopiëren.</string>
     <string name="list_groups_show_number_entries_title">Aantal items tonen</string>
     <string name="list_groups_show_number_entries_summary">Toont het aantal items in een groep</string>
-    <string name="content_description_background">Achtergrond</string>
-    <string name="content_description_update_from_list">Bijwerken</string>
     <string name="content_description_keyboard_close_fields">Velden sluiten</string>
     <string name="error_create_database_file">Kan geen database aanmaken met dit wachtwoord en sleutelbestand.</string>
     <string name="menu_advanced_unlock_settings">Apparaatontgrendeling</string>
-    <string name="biometric">Biometrie</string>
     <string name="biometric_auto_open_prompt_title">Auto-open suggestie</string>
     <string name="biometric_auto_open_prompt_summary">Automatisch om apparaat-ontgrendeling vragen als een database hiervoor is ingesteld</string>
     <string name="enable">Inschakelen</string>
@@ -339,14 +272,10 @@
     <string name="max_history_size_title">Maximum</string>
     <string name="max_history_size_summary">Geschiedenis per item beperken</string>
     <string name="settings_database_recommend_changing_master_key_title">Vernieuwing aanbevelen</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Aanbeveling de hoofdsleutel te wijzigen (dagen)</string>
     <string name="settings_database_force_changing_master_key_title">Vernieuwing afdwingen</string>
-    <string name="settings_database_force_changing_master_key_summary">De hoofdsleutel verplicht wijzigen (dagen)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Volgende keer verplicht vernieuwen</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Het hoofdwachtwoord de volgende keer (eenmalig) vernieuwen</string>
     <string name="database_default_username_title">Standaard gebruikersnaam</string>
     <string name="database_custom_color_title">Aangepaste databasekleur</string>
-    <string name="compression">Compressie</string>
     <string name="compression_none">Geen</string>
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Toetsenbordinstellingen</string>
@@ -368,7 +297,6 @@
     <string name="keystore_not_accessible">De sleutelopslag is niet correct geïnitialiseerd.</string>
     <string name="warning_permanently_delete_nodes">Geselecteerde knooppunten definitief verwijderen\?</string>
     <string name="warning_database_link_revoked">Bestandsbeheer heeft de toegang tot het bestand ingetrokken</string>
-    <string name="warning_database_read_only">Bestandstoegang verlenen om databasewijzigingen op te slaan</string>
     <string name="command_execution">Opdracht uitvoeren…</string>
     <string name="hide_broken_locations_summary">Verbroken koppelingen in de lijst met recente databases verbergen</string>
     <string name="hide_broken_locations_title">Verbroken databasekoppelingen verbergen</string>
@@ -382,7 +310,6 @@
     <string name="menu_save_database">Gegevens opslaan</string>
     <string name="error_save_database">De database is niet opgeslagen.</string>
     <string name="error_create_database">Databasebestand is niet aangemaakt.</string>
-    <string name="error_label_exists">Dit label bestaat al.</string>
     <string name="entry_attachments">Bijlagen</string>
     <string name="html_about_contribution">Om &lt;strong&gt;onze vrijheid te behouden&lt;/strong&gt;, &lt;strong&gt;fouten te verhelpen&lt;/strong&gt;, &lt;strong&gt;functies toe te voegen&lt;/strong&gt; en &lt;strong&gt;altijd actief te blijven&lt;/strong&gt;, rekenen wij op jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bijlage toevoegen</string>
@@ -457,19 +384,16 @@
     <string name="device_credential_unlock_enable_title">Ontgrendeling met apparaatreferenties</string>
     <string name="advanced_unlock_tap_delete">Tik om apparaat-ontgrendelingssleutels te verwijderen</string>
     <string name="content">Inhoud</string>
-    <string name="device_credential">Apparaatreferentie</string>
     <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op deze knop.</string>
     <string name="advanced_unlock_prompt_not_initialized">Kan apparaat-ontgrendelingsprompt niet initialiseren.</string>
     <string name="advanced_unlock_scanning_error">Apparaat-ontgrendelingsfout: %1$s</string>
     <string name="advanced_unlock_not_recognized">Kan apparaat-ontgrendelingsafdruk niet herkennen</string>
     <string name="advanced_unlock_invalid_key">Kan de apparaat-ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met apparaat-ontgrendelingsgegevens</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Apparaat-ontgrendelingsherkenning</string>
     <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je apparaat-ontgrendelingsherkenning gebruikt.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Koppeling naar Apparaat-ontgrendeling</string>
     <string name="menu_keystore_remove_key">Apparaat-ontgrendelingssleutel verwijderen</string>
     <string name="error_field_name_already_exists">De veldnaam bestaat al.</string>
-    <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
@@ -481,7 +405,6 @@
     <string name="warning_database_info_changed_options">De gegevens samenvoegen, de externe wijzigingen overschrijven door de database op te slaan of deze opnieuw te laden met de jongste wijzigingen.</string>
     <string name="warning_database_info_changed">De informatie in het databasebestand is buiten de app gewijzigd.</string>
     <string name="menu_reload_database">Gegevens opnieuw laden</string>
-    <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
     <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
     <string name="icon_section_custom">Aangepast</string>
@@ -526,7 +449,6 @@
     <string name="secure_note">Veilige notitie</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="bank_identifier_code">SWIFT/BIC</string>
-    <string name="bank_name">Banknaam</string>
     <string name="bank">Bank</string>
     <string name="account">Rekening</string>
     <string name="seed">Seed</string>
@@ -550,7 +472,6 @@
     <string name="permission">Toestemming</string>
     <string name="content_description_database_color">Kleur van de database</string>
     <string name="warning_database_info_reloaded">Door de database opnieuw te laden, worden de lokaal gewijzigde gegevens gewist.</string>
-    <string name="content_description_entry_foreground_color">Voorgrondkleur item</string>
     <string name="menu_merge_database">Gegevens samenvoegen</string>
     <string name="content_description_entry_background_color">Achtergrondkleur van item</string>
     <string name="tags">Labels</string>
@@ -565,7 +486,6 @@
     <string name="menu_save_copy_to">Kopie opslaan naar…</string>
     <string name="searchable">Doorzoekbaar</string>
     <string name="inherited">Overerving</string>
-    <string name="custom_data">Aangepaste gegevens</string>
     <string name="case_sensitive">Hoofdlettergevoelig</string>
     <string name="regex">Reguliere expressie</string>
     <string name="search_filters">Zoekfilters</string>
@@ -578,7 +498,6 @@
 \nAfhankelijk van de specifieke API-implementatie van het besturingssysteem, is dit mogelijk niet volledig functioneel.
 \nControleer de compatibiliteit en beveiliging van de KeyStore met de fabrikant van uw apparaat en de maker van de ROM die u gebruikt.</string>
     <string name="warning_database_already_opened">Er is al een database geopend, sluit deze eerst alvorens een nieuwe te openen</string>
-    <string name="content_description_passphrase_word_count">Lengte wachtwoordzin</string>
     <string name="passphrase">Wachtwoordzin</string>
     <string name="colorize_password_title">Wachtwoorden kleuren</string>
     <string name="colorize_password_summary">Wachtwoordtekens per type kleuren</string>
@@ -599,7 +518,6 @@
     <string name="content_description_nav_header">Navigatie-kop</string>
     <string name="hardware_key">Fysieke sleutel</string>
     <string name="error_XML_malformed">Misvormde XML.</string>
-    <string name="error_challenge_already_requested">Reactietest-vraag is al uitgegeven</string>
     <string name="error_response_already_provided">Reactietest-antwoord is al geleverd.</string>
     <string name="error_no_response_from_challenge">Geen antwoord gekregen op de reactietest.</string>
     <string name="error_cancel_by_user">Geannuleerd door gebruiker.</string>

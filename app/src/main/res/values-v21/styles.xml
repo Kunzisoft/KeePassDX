@@ -51,7 +51,4 @@
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.Fab.MenuText.v21" parent="android:style/TextAppearance">
-        <item name="android:elevation">2dp</item>
-    </style>
 </resources>

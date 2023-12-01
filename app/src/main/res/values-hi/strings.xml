@@ -17,10 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">एंड्रॉयड पर आधारित KeePass पासवर्ड मैनेजर</string>
-    <string name="accept">स्वीकार करें</string>
     <string name="add_entry">रिकॉर्ड जोड़ें</string>
-    <string name="edit_entry">रिकॉर्ड संपादित करें</string>
     <string name="add_group">समूह जोड़ें</string>
     <string name="encryption">एन्क्रिप्शन</string>
     <string name="encryption_algorithm">एन्क्रिप्शन एल्गोरिथम</string>
@@ -28,13 +25,8 @@
     <string name="app_timeout">समय समाप्त</string>
     <string name="app_timeout_summary">डाटाबेस के बन्द होने से पहले तक का समय</string>
     <string name="application">ऐप</string>
-    <string name="brackets">कोष्ठक</string>
-    <string name="extended_ASCII">विस्तारित ASCII</string>
-    <string name="allow">अनुमति दें</string>
-    <string name="clipboard_cleared">क्लिपबोर्ड साफ़ किया गया</string>
     <string name="clipboard_error_title">क्लिपबोर्ड एरर</string>
     <string name="clipboard_error">कुछ डिवाइस ऐप्स को क्लिपबोर्ड का प्रयोग करने की अनुमति नहीं देंगे।</string>
-    <string name="clipboard_error_clear">क्लिपबोर्ड को साफ़ नहीं किया जा सका</string>
     <string name="clipboard_timeout">क्लिपबोर्ड टाइमआउट</string>
     <string name="clipboard_timeout_summary">क्लिपबोर्ड में भंडारण की अवधि (यदि आपके डिवाइस द्वारा समर्थित है)</string>
     <string name="select_to_copy">क्लिपबोर्ड पर %1$s को कॉपी करने के लिए चयन करें</string>
@@ -48,21 +40,16 @@
     <string name="entry_accessed">एक्सेस किया गया</string>
     <string name="entry_cancel">रद्द करें</string>
     <string name="entry_notes">टिप्पणियाँ</string>
-    <string name="entry_confpassword">पासवर्ड की पुष्टि करें</string>
     <string name="entry_created">बनाया</string>
     <string name="entry_expires">समयसीमा समाप्त</string>
     <string name="entry_keyfile">कीफाइल</string>
     <string name="entry_modified">संशोधित</string>
-    <string name="entry_not_found">प्रवेश का डाटा नहीं मिल सका।</string>
     <string name="entry_password">पासवर्ड</string>
     <string name="save">सहेजें</string>
     <string name="entry_title">शीर्षक</string>
     <string name="entry_url">यू.आर.एल</string>
     <string name="entry_user_name">उपयोगकर्ता का नाम</string>
-    <string name="error_can_not_handle_uri">KeePassDX में इस URI को संभाल नहीं सका।</string>
     <string name="error_file_not_create">फाइल नहीं बना सका</string>
-    <string name="error_invalid_db">डेटाबेस को पढ़ा नहीं जा सका।</string>
-    <string name="error_invalid_path">सुनिश्चित करें कि रास्ता सही है।</string>
     <string name="error_no_name">एक नाम दर्ज करें।</string>
     <string name="error_nokeyfile">कीफ़ाइल का चयन करें।</string>
     <string name="error_out_of_memory">आपके पूरे डेटाबेस को लोड करने के लिए मेमोरी नहीं है।</string>
@@ -72,25 +59,18 @@
     <string name="error_pass_match">पासवर्ड मेल नहीं खाते हैं।</string>
     <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। 2147483648 पर सेट हो रहा है।</string>
     <string name="error_string_key">प्रत्येक स्ट्रिंग में फ़ील्ड नाम होना चाहिए।</string>
-    <string name="content_description_open_file">फ़ाइल खोलें</string>
     <string name="content_description_node_children">नोड के बच्चे</string>
     <string name="content_description_add_node">नोड जोड़ें</string>
-    <string name="content_description_add_entry">रिकॉर्ड जोड़ें</string>
-    <string name="content_description_add_group">समूह जोड़ें</string>
     <string name="content_description_file_information">फ़ाइल की जानकारी</string>
     <string name="content_description_password_checkbox">पासवर्ड चेकबॉक्स</string>
     <string name="content_description_keyfile_checkbox">कीफाइल चेकबॉक्स</string>
     <string name="content_description_repeat_toggle_password_visibility">पासवर्ड दृश्यता टॉगल दोहराएं</string>
     <string name="content_description_entry_icon">प्रवेश आइकन</string>
-    <string name="entry_password_generator">पासवर्ड जनरेटर</string>
     <string name="content_description_password_length">पासवर्ड की लम्बाई</string>
     <string name="entry_add_field">फ़ील्ड जोड़ें</string>
     <string name="content_description_remove_field">फ़ील्ड हटाये</string>
     <string name="entry_UUID">UUID</string>
     <string name="file_manager_install_description">डेटाबेस फाइल को बनाने, खोलने और सेव करने के लिए आपके फोन में फाइल मैनेजर ऐप होना चाहिए जो ACTION_CREATE_DOCUMENT और ACTION_OPEN_DOCUMENT कार्यों को करने मे सक्षम हो।</string>
-    <string name="content_description_background">पृष्ठभूमि</string>
-    <string name="content_description_update_from_list">अपडेट करें</string>
-    <string name="content_description_remove_from_list">हटाएँ</string>
     <string name="content_description_keyboard_close_fields">फ़ील्ड बंद करें</string>
     <string name="master_key">मास्टर कुंजी</string>
     <string name="security">सुरक्षा</string>
@@ -134,7 +114,6 @@
     <string name="error_move_entry_here">आप यहा किसी प्रविष्टि को स्थानांतरित नहीं कर सकते है।</string>
     <string name="error_save_database">डेटाबेस को सेव नहीं किया जा सका।</string>
     <string name="error_otp_counter">काउंटर %1$d और %2$d के बीच में होना चाहिए।</string>
-    <string name="unit_gibibyte">GiB</string>
     <string name="hide_expired_entries_summary">समाप्त हो चुकी प्रविष्टियों को नहीं दिखाया गया है</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
@@ -146,14 +125,12 @@
     <string name="debit_credit_card">डेबिट / क्रेडिट कार्ड</string>
     <string name="holder">धारक</string>
     <string name="bank">बैंक</string>
-    <string name="bank_name">बैंक का नाम</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="about">के बारे मे</string>
     <string name="download_canceled">रद्द!</string>
     <string name="unit_byte">B</string>
     <string name="show_entry_colors_title">प्रविष्टि के रंग</string>
-    <string name="error_rebuild_list">सूची का ठीक से पुनर्निर्माण करने में असमर्थ।</string>
     <string name="error_file_to_big">आप जिस फ़ाइल को अपलोड करने का प्रयास कर रहे हैं वह बहुत बड़ी है।</string>
     <string name="error_remove_file">फ़ाइल डेटा को हटाते समय त्रुटि हुई।</string>
     <string name="error_field_name_already_exists">फ़ील्ड का नाम पहले से मौजूद है।</string>

@@ -325,46 +325,14 @@
         <item name="android:padding">@dimen/card_view_padding</item>
         <item name="cardCornerRadius">@dimen/card_radius</item>
     </style>
-    <style name="KeepassDXStyle.Cardview.Surface" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">?attr/colorSurface</item>
-    </style>
+
     <style name="KeepassDXStyle.Cardview.Surface.Small" parent="Widget.Material3.CardView.Filled">
         <item name="cardCornerRadius">@dimen/small_card_radius</item>
         <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
-    <style name="KeepassDXStyle.Cardview.SurfaceContainer.Small" parent="Widget.Material3.CardView.Filled">
-        <item name="cardCornerRadius">@dimen/small_card_radius</item>
-        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
-    </style>
+
     <style name="KeepassDXStyle.Cardview.SurfaceContainer" parent="KeepassDXStyle.Cardview">
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.SurfaceContainer.High" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">?attr/colorSurfaceContainerHigh</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.Primary" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">?attr/colorPrimary</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.Primary.Small" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">?attr/colorPrimary</item>
-        <item name="cardCornerRadius">@dimen/small_card_radius</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.PrimaryContainer" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">?attr/colorPrimaryContainer</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.Secondary" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">?attr/colorSecondary</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.Secondary.Small" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">?attr/colorSecondary</item>
-        <item name="cardCornerRadius">@dimen/small_card_radius</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.SecondaryContainer" parent="KeepassDXStyle.Cardview">
-        <item name="cardBackgroundColor">?attr/colorSecondaryContainer</item>
-    </style>
-    <style name="KeepassDXStyle.Cardview.SecondaryContainer.Small" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">?attr/colorSecondaryContainer</item>
-        <item name="cardCornerRadius">@dimen/small_card_radius</item>
     </style>
 
     <!-- CheckBox -->
@@ -446,11 +414,7 @@
         <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="KeepassDXStyle.SubTitle.Group" parent="KeepassDXStyle.Text">
-        <item name="android:textColor">@color/text_secondary_color</item>
-        <item name="android:tint">@color/text_secondary_color</item>
-        <item name="android:textSize">13sp</item>
-    </style>
+
     <style name="KeepassDXStyle.Meta.Group" parent="KeepassDXStyle.Text.Tiny">
         <item name="android:textColor">@color/text_primary_color</item>
         <item name="android:tint">@color/text_primary_color</item>
@@ -486,18 +450,7 @@
         <item name="android:colorForeground">?attr/colorOnSurface</item>
         <item name="tint">?attr/colorOnSurface</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton.OnPrimary" parent="KeepassDXStyle.ImageButton.Simple">
-        <item name="android:colorForeground">?attr/colorOnPrimary</item>
-        <item name="tint">?attr/colorOnPrimary</item>
-    </style>
-    <style name="KeepassDXStyle.ImageButton.OnPrimaryContainer" parent="KeepassDXStyle.ImageButton.Simple">
-        <item name="android:colorForeground">?attr/colorOnPrimaryContainer</item>
-        <item name="tint">?attr/colorOnPrimaryContainer</item>
-    </style>
-    <style name="KeepassDXStyle.ImageButton.OnSecondary" parent="KeepassDXStyle.ImageButton.Simple">
-        <item name="android:colorForeground">?attr/colorOnSecondary</item>
-        <item name="tint">?attr/colorOnSecondary</item>
-    </style>
+
     <style name="KeepassDXStyle.ImageButton.Simple.Mini" parent="KeepassDXStyle.ImageButton.Simple">
         <item name="android:padding">12dp</item>
         <item name="android:layout_width">36dp</item>
@@ -583,7 +536,5 @@
     </style>
 
     <!-- Only to have a specific base to build a dynamic theme properly programmatically -->
-    <style name="KeepassDXStyle.Light.Dynamic" parent="KeepassDXStyle.Light" />
-    <style name="KeepassDXStyle.Night.Dynamic" parent="KeepassDXStyle.Night" />
 
 </resources>

@@ -26,12 +26,8 @@
     -->
 
     <string name="app_name" translatable="false">KeePassDX</string>
-    <string name="app_name_part1" translatable="false">KeePass</string>
-    <string name="app_name_part2" translatable="false">DX</string>
-    <string name="app_name_part3" translatable="false">Pro</string>
 
     <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
-    <string name="f_droid_url" translatable="false">https://f-droid.org/en/packages/%1$s</string>
     <string name="keepro_app_id" translatable="false">com.kunzisoft.keepass.pro</string>
     <string name="key_driver_app_id" translatable="false">com.kunzisoft.hardware.key</string>
     <string name="key_driver_url" translatable="false">https://gitlab.com/kunzisoft/android-hardware-key-driver/-/releases/</string>
@@ -43,7 +39,6 @@
     <string name="clipboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Clipboard</string>
     <string name="autofill_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Autofill</string>
     <string name="file_manager_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/File-Manager-and-Sync</string>
-    <string name="html_rose">--,--`--,{@</string>
 
     <!-- File Path -->
     <string name="database_file_name_default" translatable="false">keepass</string>
@@ -117,7 +112,6 @@
 
     <string name="magic_keyboard_explanation_key" translatable="false">magic_keyboard_explanation_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
-    <bool name="magic_keyboard_default" translatable="false">false</bool>
     <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>
     <string name="clipboard_explanation_key" translatable="false">clipboard_explanation_key</string>
     <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
@@ -298,7 +292,6 @@
     *******************
     -->
 
-    <string name="show_beta_warning" translatable="false">show_beta_warning</string>
     <string name="default_database_path_key" translatable="false">default_database_path_key</string>
 
     <!-- Sort -->
@@ -364,7 +357,6 @@
     <string name="visual_digits" translatable="false">0-9</string>
     <string name="visual_minus" translatable="false">-</string>
     <string name="visual_underline" translatable="false">_</string>
-    <string name="visual_space" translatable="false"> </string>
     <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!*`;+</string>
     <string name="visual_brackets" translatable="false">[](){}&lt;&gt;</string>
     <string name="visual_extended" translatable="false">ñæËÌÂÝÜ...</string>
@@ -373,28 +365,6 @@
         <item translatable="false">@string/value_password_lowercase</item>
         <item translatable="false">@string/value_password_digits</item>
         <item translatable="false">@string/value_password_special</item>
-    </string-array>
-    <string-array name="list_password_generator_options_values">
-        <item translatable="false">@string/value_password_uppercase</item>
-        <item translatable="false">@string/value_password_lowercase</item>
-        <item translatable="false">@string/value_password_digits</item>
-        <item translatable="false">@string/value_password_minus</item>
-        <item translatable="false">@string/value_password_underline</item>
-        <item translatable="false">@string/value_password_space</item>
-        <item translatable="false">@string/value_password_special</item>
-        <item translatable="false">@string/value_password_brackets</item>
-        <item translatable="false">@string/value_password_extended</item>
-    </string-array>
-    <string-array name="list_password_generator_options_entries">
-        <item translatable="false">@string/uppercase</item>
-        <item translatable="false">@string/lowercase</item>
-        <item translatable="false">@string/digits</item>
-        <item translatable="false">@string/minus</item>
-        <item translatable="false">@string/underline</item>
-        <item translatable="false">@string/space</item>
-        <item translatable="false">@string/special</item>
-        <item translatable="false">@string/brackets</item>
-        <item translatable="false">@string/extended_ASCII</item>
     </string-array>
 
 </resources>

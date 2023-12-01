@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">KeePassDX є Android-версією менеджера паролів KeePass</string>
-    <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
@@ -26,9 +24,7 @@
     <string name="app_timeout_summary">Час бездіяльності до блокування бази даних</string>
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Налаштування застосунку</string>
-    <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймує дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
-    <string name="clipboard_cleared">Буфер обміну очищено</string>
     <string name="clipboard_timeout">Час до очищення буфера обміну</string>
     <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну (якщо підтримується пристроєм)</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>
@@ -42,7 +38,6 @@
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Скасувати</string>
     <string name="entry_notes">Примітки</string>
-    <string name="entry_confpassword">Підтвердження пароля</string>
     <string name="entry_created">Створено</string>
     <string name="entry_expires">Закінчується</string>
     <string name="entry_keyfile">Файл ключа</string>
@@ -52,11 +47,7 @@
     <string name="entry_title">Назва</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Ім\'я користувача</string>
-    <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
-    <string name="error_can_not_handle_uri">Не вдалось обробити цей URI в KeePassDX.</string>
     <string name="error_file_not_create">Не вдалося створити нотатку</string>
-    <string name="error_invalid_db">Неможливо прочитати базу даних.</string>
-    <string name="error_invalid_path">Переконайтеся у правильності шляху.</string>
     <string name="error_no_name">Введіть назву.</string>
     <string name="error_nokeyfile">Виберіть файл ключа.</string>
     <string name="error_out_of_memory">Бракує пам\'яті для завантаження всієї вашої бази даних.</string>
@@ -67,19 +58,14 @@
     <string name="file_browser">Файловий менеджер</string>
     <string name="generate_password">Згенерувати пароль</string>
     <string name="hint_conf_pass">Підтвердити пароль</string>
-    <string name="hint_generated_password">Згенерований пароль</string>
     <string name="hint_group_name">Назва групи</string>
-    <string name="hint_keyfile">Файл ключа</string>
-    <string name="hint_length">Довжина</string>
     <string name="password">Пароль</string>
     <string name="hint_pass">Пароль</string>
     <string name="invalid_credentials">Не вдалося прочитати облікові дані.</string>
     <string name="invalid_db_sig">Не вдалося визначити формат бази даних.</string>
-    <string name="length">Довжина</string>
     <string name="list_size_title">Розмір переліку груп</string>
     <string name="list_size_summary">Розмір тексту у переліку груп</string>
     <string name="loading_database">Завантаження бази даних…</string>
-    <string name="lowercase">Малі літери</string>
     <string name="hide_password_title">Приховувати паролі</string>
     <string name="hide_password_summary">Типово приховувати паролі за (***)</string>
     <string name="about">Про KeePassDX</string>
@@ -87,32 +73,21 @@
     <string name="settings">Налаштування</string>
     <string name="menu_database_settings">Налаштування бази даних</string>
     <string name="menu_delete">Видалити</string>
-    <string name="menu_donate">Підтримати</string>
     <string name="menu_edit">Змінити</string>
-    <string name="menu_hide_password">Приховати пароль</string>
-    <string name="menu_lock">Заблокувати базу даних</string>
     <string name="menu_open">Відкрити</string>
     <string name="menu_search">Пошук</string>
     <string name="menu_showpass">Показати пароль</string>
-    <string name="menu_url">Перейти за посиланням</string>
-    <string name="minus">Мінус</string>
     <string name="never">Ніколи</string>
     <string name="no_results">Нічого не знайдено</string>
     <string name="no_url_handler">Щоб відкрити цю URL-адресу, встановіть переглядач Інтернету.</string>
-    <string name="progress_create">Створення нової бази даних…</string>
-    <string name="progress_title">Працює…</string>
-    <string name="content_description_remove_from_list">Вилучити</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
     <string name="rounds_explanation">Додаткова кількість циклів шифрування забезпечує кращий захист від грубих атак, але може дещо уповільнити завантаження та збереження.</string>
     <string name="saving_database">Збереження бази даних…</string>
     <string name="space">Пробіл</string>
     <string name="sort_db">Звичайний порядок</string>
-    <string name="special">Спеціальний</string>
     <string name="search">Введіть заголовок/опис</string>
-    <string name="underline">Підкреслення</string>
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
-    <string name="uppercase">Великі літери</string>
     <string name="version_label">Версія %1$s</string>
     <string-array name="list_size_options">
         <item>Малий</item>
@@ -120,15 +95,9 @@
         <item>Великий</item>
     </string-array>
     <string name="content_description_password_length">Довжина пароля</string>
-    <string name="content_description_open_file">Відкрити файл</string>
-    <string name="extended_ASCII">Розширений ASCII</string>
-    <string name="edit_entry">Змінити запис</string>
     <string name="clear_clipboard_notification_summary">Блокувати базу даних після закриття сповіщення після використання або якщо вичерпано час очікування</string>
-    <string name="content_description_add_group">Додати групу</string>
-    <string name="content_description_update_from_list">Оновити</string>
     <string name="keyboard">Клавіатура</string>
     <string name="compression_gzip">Gzip</string>
-    <string name="compression">Стиснення</string>
     <string name="other">Інше</string>
     <string name="application_appearance">Інтерфейс</string>
     <string name="text_appearance">Текст</string>
@@ -142,12 +111,8 @@
     <string name="clear_clipboard_notification_title">Очищати під час закриття</string>
     <string name="allow_copy_password_summary">Дозволити копіювання пароля та захищених полів до буфера обміну</string>
     <string name="content_description_file_information">Відомості про файл</string>
-    <string name="content_description_add_entry">Додати запис</string>
-    <string name="content_description_background">Тло</string>
-    <string name="clipboard_error_clear">Не вдалося очистити буфер обміну</string>
     <string name="clipboard_error">Деякі пристрої не дозволяють застосункам користуватися буфером обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
-    <string name="allow">Дозволити</string>
     <string name="key_derivation_function">Функція генерування ключа</string>
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
@@ -163,18 +128,13 @@
     <string name="selection_mode">Режим вибору</string>
     <string name="contains_duplicate_uuid">База даних містить дублікати UUID.</string>
     <string name="contains_duplicate_uuid_procedure">Розв\'язати проблему, створивши нові UUID для дублікатів щоб продовжити\?</string>
-    <string name="read_only_warning">Щоб вносити зміни, KeePassDX потребує дозволу на запис до вашого сховища.</string>
-    <string name="read_only">Захищено від запису</string>
     <string name="protection">Захист</string>
     <string name="auto_focus_search_summary">Відкривати пошук під час відкриття бази даних</string>
     <string name="auto_focus_search_title">Швидкий пошук</string>
     <string name="menu_delete_entry_history">Видалити історію</string>
     <string name="menu_restore_entry_history">Відновити історію</string>
     <string name="menu_empty_recycle_bin">Спорожнити кошик</string>
-    <string name="menu_open_file_read_and_write">Дозволити зміни</string>
-    <string name="menu_file_selection_read_only">Захищено від запису</string>
     <string name="menu_save_database">Зберегти дані</string>
-    <string name="menu_cancel">Скасувати</string>
     <string name="menu_paste">Вставити</string>
     <string name="menu_move">Перемістити</string>
     <string name="menu_copy">Скопіювати</string>
@@ -189,11 +149,9 @@
     <string name="list_groups_show_number_entries_title">Показувати кількість записів</string>
     <string name="list_entries_show_username_summary">Показувати імена користувачів у списках записів</string>
     <string name="list_entries_show_username_title">Показувати імена користувачів</string>
-    <string name="keyfile_is_empty">Файл ключа порожній.</string>
     <string name="invalid_db_same_uuid">%1$s з таким самим UUID %2$s вже існує.</string>
     <string name="invalid_algorithm">Неправильний алгоритм.</string>
     <string name="file_not_found_content">Не вдалося знайти файл. Спробуйте знову відкрити його у вашому файловому менеджері.</string>
-    <string name="field_value">Значення поля</string>
     <string name="field_name">Назва поля</string>
     <string name="error_otp_digits">Токен повинен містити від %1$d до %2$d цифр.</string>
     <string name="error_otp_period">Тривалість повинна становити від %1$d до %2$d секунд.</string>
@@ -206,7 +164,6 @@
     <string name="error_copy_entry_here">Ви не можете копіювати запис сюди.</string>
     <string name="error_move_entry_here">Ви не можете перемістити запис сюди.</string>
     <string name="error_autofill_enable_service">Не вдалось ввімкнути службу автозаповнення.</string>
-    <string name="error_label_exists">Ця мітка вже існує.</string>
     <string name="error_string_key">Кожен рядок повинен мати назву поля.</string>
     <string name="error_disallow_no_credentials">Необхідно встановити принаймні одні облікові дані.</string>
     <string name="error_load_database_KDF_memory">Не вдалося завантажити ключ. Спробуйте зменшити використання пам\'яті, яку споживає KDF.</string>
@@ -220,7 +177,6 @@
     <string name="otp_secret">Таємна фраза</string>
     <string name="otp_type">Тип OTP</string>
     <string name="entry_setup_otp">Встановити одноразовий пароль</string>
-    <string name="entry_not_found">Не вдалося знайти дані запису.</string>
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>
@@ -229,7 +185,6 @@
     <string name="content_description_remove_field">Вилучити поле</string>
     <string name="entry_add_attachment">Додати вкладення</string>
     <string name="entry_add_field">Додати поле</string>
-    <string name="entry_password_generator">Генератор паролів</string>
     <string name="discard">Відхилити</string>
     <string name="discard_changes">Відхилити зміни\?</string>
     <string name="validate">Перевірити</string>
@@ -249,27 +204,13 @@
     <string name="download_initialization">Ініціалізація…</string>
     <string name="download_attachment">Завантаження %1$s</string>
     <string name="download">Завантажити</string>
-    <string name="html_text_dev_feature_upgrade">Не забувайте оновлювати застосунок, встановлюючи нові версії.</string>
-    <string name="html_text_dev_feature_work_hard">Ми докладаємо всіх зусиль для якнайшвидшого випуску цієї функції.</string>
-    <string name="html_text_dev_feature_thanks">Щиро вдячні за вашу допомогу.</string>
     <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
-    <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоб бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">Щоб залишатися вільними та бути завжди активними, ми розраховуємо на вашу &lt;strong&gt;допомогу.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
-    <string name="education_donation_summary">Допоможіть покращити стабільність, безпеку та додати нові функції.</string>
-    <string name="education_donation_title">Долучайтеся</string>
-    <string name="education_field_copy_summary">Скопійовані поля можна вставити будь-куди.
-\n
-\nКористуйтеся вибраним вами способом заповнення форм.</string>
-    <string name="education_field_copy_title">Копіюйте поля</string>
     <string name="enable_auto_save_database_summary">Зберігати базу даних після кожної важливої дії (у режимі «Дозволити зміни»)</string>
-    <string name="education_entry_edit_summary">Додавайте власні поля до записів. Дані полів різних записів можна повʼязувати між собою.</string>
     <string name="device_keyboard_setting_title">Налаштування клавіатури пристрою</string>
-    <string name="reset_education_screens_text">Скинути навчальні підказки</string>
     <string name="enable_auto_save_database_title">Автозбереження бази даних</string>
     <string name="enable_read_only_summary">Типово відкривати базу даних лише для читання</string>
     <string name="enable_read_only_title">Захист від запису</string>
@@ -282,8 +223,6 @@
     <string name="keyboard_auto_go_action_summary">Дія переходу після натискання кнопки заповнення поля</string>
     <string name="keyboard_auto_go_action_title">Автоматична дія кнопки</string>
     <string name="keyboard_keys_category">Кнопки</string>
-    <string name="keyboard_theme_title">Тема клавіатури</string>
-    <string name="keyboard_appearance_category">Зовнішній вигляд</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title">%1$s доступне на Magikeyboard</string>
     <string name="keyboard_notification_entry_content_title_text">Запис</string>
@@ -298,7 +237,6 @@
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_setting_label">Налаштування Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="keyboard_name">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Увімкнути власну клавіатуру для заповнення ваших паролів та інших полів ідентифікації</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="recycle_bin">Кошик</string>
@@ -307,11 +245,8 @@
     <string name="allow_copy_password_title">Довіряти буферу обміну</string>
     <string name="monospace_font_fields_enable_summary">Змінити шрифт полів для кращої видимості символів</string>
     <string name="monospace_font_fields_enable_title">Шрифт поля</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Вимагати змінити головний ключ наступного разу (одноразово)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Примусова зміна наступного разу</string>
-    <string name="settings_database_force_changing_master_key_summary">Вимагати змінити головний ключ (днів)</string>
     <string name="settings_database_force_changing_master_key_title">Примусова зміна</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Радити змінити головний ключ (днів)</string>
     <string name="settings_database_recommend_changing_master_key_title">Радити змінити</string>
     <string name="max_history_size_summary">Обмежити обсяг історії кожного запису</string>
     <string name="max_history_size_title">Максимальний обсяг</string>
@@ -324,7 +259,6 @@
     <string name="database_data_compression_title">Стиснення даних</string>
     <string name="assign_master_key">Призначити головний ключ</string>
     <string name="path">Шлях</string>
-    <string name="file_name">Назва файлу</string>
     <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
     <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов’язані з розпізнаванням розблокування пристрою</string>
@@ -348,10 +282,6 @@
     <string name="clipboard_explanation_summary">Копіювати облікові дані за допомогою буфера обміну пристрою</string>
     <string name="clipboard">Буфер обміну</string>
     <string name="database_opened">Базу даних відкрито</string>
-    <string name="list_password_generator_options_summary">Встановіть дозволені символи для створення пароля</string>
-    <string name="list_password_generator_options_title">Символи пароля</string>
-    <string name="password_size_summary">Встановити типову довжину створюваних паролів</string>
-    <string name="password_size_title">Довжина створюваного пароля</string>
     <string name="autofill_preference_title">Налаштування автозаповнення</string>
     <string name="set_autofill_service_title">Встановити типовою службою автозаповнення</string>
     <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидкого заповнення форм в інших застосунках</string>
@@ -359,17 +289,14 @@
     <string name="autofill_service_name">Автозаповнення форм KeePassDX</string>
     <string name="autofill">Автозаповнення</string>
     <string name="general">Загальні</string>
-    <string name="biometric">Біометричний ключ</string>
     <string name="menu_appearance_settings">Зовнішній вигляд</string>
     <string name="database_history">Історія</string>
     <string name="unavailable">Недоступно</string>
-    <string name="encrypted_value_stored">Зашифрований пароль збережено</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="warning_permanently_delete_nodes">Видалити вибрані вузли остаточно\?</string>
     <string name="warning_no_encryption_key">Продовжити без ключа шифрування\?</string>
     <string name="warning_empty_password">Продовжувати без захисту розблокування паролем\?</string>
     <string name="warning_database_link_revoked">Доступ до файлу скасовано менеджером файлів</string>
-    <string name="warning_database_read_only">Надайте дозвіл змінювати файл для збереження змін у базі даних</string>
     <string name="warning_password_encoding">У паролі, уникайте символів поза форматом кодування тексту у файлі бази даних (нерозпізнані символи будуть перетворені на ту ж літеру).</string>
     <string name="warning">Попередження</string>
     <string name="sort_last_access_time">Доступ</string>
@@ -444,13 +371,11 @@
     <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розпізнаванням розблокування пристрою\?</string>
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
     <string name="device_credential_unlock_enable_title">Розблокування облікових даних пристрою</string>
-    <string name="device_credential">Облікові дані пристрою</string>
     <string name="credential_before_click_advanced_unlock_button">Введіть пароль, а потім натисніть цю кнопку.</string>
     <string name="advanced_unlock_prompt_not_initialized">Не вдалося ініціалізувати запит на розблокування пристрою.</string>
     <string name="advanced_unlock_scanning_error">Помилка розблокування пристрою: %1$s</string>
     <string name="advanced_unlock_not_recognized">Не вдалося розпізнати розблокування пристрою</string>
     <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розблокування пристрою. Видаліть його й повторіть процедуру створення ключа.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розблокування пристрою</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Розпізнавання розблокуванням пристрою</string>
     <string name="advanced_unlock_prompt_store_credential_message">Якщо ви використовуєте розпізнавання розблокуванням пристрою, вам усе одно потрібно пам\'ятати свої основні облікові дані сховища.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Посилання на розблокування пристрою</string>
@@ -467,7 +392,6 @@
     <string name="temp_advanced_unlock_enable_title">Тимчасове розблокування пристрою</string>
     <string name="advanced_unlock_tap_delete">Торкніться, щоб видалити ключі розблокування пристрою</string>
     <string name="content">Вміст</string>
-    <string name="error_rebuild_list">Не вдалося належним чином відновити список.</string>
     <string name="error_database_uri_null">Неможливо отримати URI бази даних.</string>
     <string name="autofill_inline_suggestions_keyboard">Додано пропозиції автозаповнення.</string>
     <string name="autofill_inline_suggestions_summary">Спробувати показ пропозицій автозаповнення безпосередньо з сумісної клавіатури</string>
@@ -476,7 +400,6 @@
     <string name="warning_database_info_changed_options">Об\'єднати дані, перезаписати зовнішні зміни, зберігши базу даних або перезавантажити її з найновішими змінами.</string>
     <string name="warning_database_info_changed">Відомості, що містяться у файлі бази даних, змінено за межами застосунку.</string>
     <string name="menu_reload_database">Перезавантажити дані</string>
-    <string name="unit_gibibyte">ГіБ</string>
     <string name="unit_mebibyte">МіБ</string>
     <string name="unit_kibibyte">КіБ</string>
     <string name="unit_byte">Б</string>
@@ -515,7 +438,6 @@
     <string name="secure_note">Захищена примітка</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
-    <string name="bank_name">Назва банку</string>
     <string name="bank">Банк</string>
     <string name="account">Рахунок</string>
     <string name="seed">Фраза відновлення</string>
@@ -549,7 +471,6 @@
     <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
     <string name="content_description_database_color">Колір бази даних</string>
     <string name="content_description_entry_background_color">Колір тла запису</string>
-    <string name="content_description_entry_foreground_color">Колір тексту запису</string>
     <string name="menu_merge_database">Об\'єднати дані</string>
     <string name="warning_database_info_reloaded">Перезавантаження бази даних видалить локально змінені дані.</string>
     <string name="enable_keep_screen_on_title">Не вимикати екран</string>
@@ -567,7 +488,6 @@
     <string name="case_sensitive">З урахуванням регістру</string>
     <string name="regex">Регулярний вираз</string>
     <string name="menu_merge_from">Об\'єднати з …</string>
-    <string name="custom_data">Користувацькі дані</string>
     <string name="search_filters">Фільтри пошуку</string>
     <string name="auto_type_sequence">Послідовність автовведення</string>
     <string name="menu_save_copy_to">Зберегти копію в …</string>
@@ -588,7 +508,6 @@
     <string name="keyboard_previous_search_title">Екран пошуку</string>
     <string name="entropy_calculate">Ентропія: Обчислення…</string>
     <string name="exclude_ambiguous_chars">Виключити неоднозначні символи</string>
-    <string name="content_description_passphrase_word_count">Кількість слів парольної фрази</string>
     <string name="character_count">Кількість символів: %1$d</string>
     <string name="entropy_high">Ентропія: висока</string>
     <string name="consider_chars_filter">Включити символи</string>
@@ -610,7 +529,6 @@
     <string name="error_hardware_key_unsupported">Апаратний ключ не підтримується.</string>
     <string name="waiting_challenge_response">Очікування відповіді на виклик…</string>
     <string name="error_no_hardware_key">Виберіть апаратний ключ.</string>
-    <string name="error_challenge_already_requested">Виклик уже запитаний</string>
     <string name="error_no_response_from_challenge">Не вдалося отримати відповідь на виклик.</string>
     <string name="error_cancel_by_user">Скасовано користувачем.</string>
     <string name="error_location_unknown">Розташування бази даних невідоме, дія бази даних не може бути виконана.</string>

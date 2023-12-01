@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">Správca hesiel KeePass pre Android</string>
-    <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>
     <string name="encryption_algorithm">Šifrovací algoritmus</string>
@@ -26,9 +24,7 @@
     <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna</string>
     <string name="application">Aplikácia</string>
     <string name="menu_app_settings">Nastavenia aplikácie</string>
-    <string name="brackets">Konzoly</string>
     <string name="file_manager_install_description">Prezeranie súborov vyžaduje otvorenie Správcu súborov, kliknite nižšie pre inštalovanie. Kôli chybám v správcovi súborov, prehľadávanie nemusí pracovať správne, ak prehľadávate prvý krát.</string>
-    <string name="clipboard_cleared">Schránka vyčistená</string>
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Trvanie uloženia v schránke (ak to vaše zariadenie podporuje)</string>
     <string name="select_to_copy">%1$s skopírované do schránky</string>
@@ -42,7 +38,6 @@
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
     <string name="entry_notes">Poznámky</string>
-    <string name="entry_confpassword">Potvrdiť heslo</string>
     <string name="entry_created">Vytvorené</string>
     <string name="entry_expires">Expirácia</string>
     <string name="entry_keyfile">Súbor s kľúčom</string>
@@ -52,11 +47,7 @@
     <string name="entry_title">Názov</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Meno používateľa</string>
-    <string name="error_arc4">Arcfour stream šifra nie je podporovaná.</string>
-    <string name="error_can_not_handle_uri">KeePassDX nevie použiť túto URI.</string>
     <string name="error_file_not_create">Nepodarilo sa vytvoriť súbor</string>
-    <string name="error_invalid_db">Nepodarilo sa načítať databázu.</string>
-    <string name="error_invalid_path">Uistite sa, že cesta je správna.</string>
     <string name="error_no_name">Vložte meno.</string>
     <string name="error_nokeyfile">Vyberte keyfile.</string>
     <string name="error_out_of_memory">Žiadna pamäť na načítanie celej databázy.</string>
@@ -67,19 +58,14 @@
     <string name="file_browser">Správca súborov</string>
     <string name="generate_password">Generovať heslo</string>
     <string name="hint_conf_pass">Potvrdiť heslo</string>
-    <string name="hint_generated_password">Generované heslo</string>
     <string name="hint_group_name">Názov skupiny</string>
-    <string name="hint_keyfile">Súbor keyfile</string>
-    <string name="hint_length">Dĺžka</string>
     <string name="password">Heslo</string>
     <string name="hint_pass">Heslo</string>
     <string name="invalid_credentials">Nepodarilo sa prečítať poverenia.</string>
     <string name="invalid_db_sig">Nepodarilo sa rozpoznať formát databázy.</string>
-    <string name="length">Dĺžka</string>
     <string name="list_size_title">Veľkosť položiek zoznamu</string>
     <string name="list_size_summary">Veľkosť textu v zozname prvkov</string>
     <string name="loading_database">Načítava sa databáza…</string>
-    <string name="lowercase">Malé písmená</string>
     <string name="hide_password_title">Skryť heslá</string>
     <string name="hide_password_summary">Predvolene maskovať heslá (***)</string>
     <string name="about">O Programe</string>
@@ -87,56 +73,36 @@
     <string name="settings">Nastavenia</string>
     <string name="menu_database_settings">Nastavenia databázy</string>
     <string name="menu_delete">Zmazať</string>
-    <string name="menu_donate">Darovať</string>
     <string name="menu_edit">Upraviť</string>
-    <string name="menu_hide_password">Skryť heslo</string>
-    <string name="menu_lock">Zamknúť databázu</string>
     <string name="menu_open">Otvoriť</string>
     <string name="menu_search">Hľadať</string>
     <string name="menu_showpass">Zobraziť heslo</string>
-    <string name="menu_url">Ísť na URL</string>
-    <string name="minus">Mínus</string>
     <string name="never">Nikdy</string>
     <string name="no_results">Žiadne výsledky hľadania</string>
     <string name="no_url_handler">Ak chcete otvoriť túto URL adresu, nainštalujte si webový prehliadač.</string>
-    <string name="progress_create">Vytváram novú databázu…</string>
-    <string name="progress_title">Pracuje sa…</string>
-    <string name="content_description_remove_from_list">Odstrániť</string>
     <string name="root">Root</string>
     <string name="rounds">Transformačné cykly</string>
     <string name="rounds_explanation">Dodatočné opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
     <string name="saving_database">Ukladanie databázy…</string>
     <string name="space">Miesto</string>
     <string name="sort_db">Prirodzené radenie</string>
-    <string name="special">Špeciálne</string>
     <string name="search">Hľadať</string>
-    <string name="underline">Podčiarknuté</string>
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>
-    <string name="uppercase">Veľké písmená</string>
     <string name="version_label">Verzia %1$s</string>
     <string-array name="list_size_options">
         <item>Malé</item>
         <item>Stredné</item>
         <item>Veľké</item>
     </string-array>
-    <string name="edit_entry">Upraviť záznam</string>
     <string name="encryption">Šifrovanie</string>
     <string name="key_derivation_function">Funkcia pre tvorbu kľúča</string>
-    <string name="extended_ASCII">Rozšírené ASCII</string>
-    <string name="allow">Povoliť</string>
     <string name="clipboard_error_title">Chyba schránky</string>
     <string name="clipboard_error">Niektoré zariadenia nedovolia aplikáciám používať schránku.</string>
-    <string name="clipboard_error_clear">Nepodarilo sa vymazať schránku</string>
-    <string name="entry_not_found">Nepodarilo sa nájsť vstupné údaje.</string>
-    <string name="content_description_open_file">Otvoriť súbor</string>
     <string name="content_description_file_information">Informácie o súbore</string>
-    <string name="entry_password_generator">Generátor hesla</string>
     <string name="content_description_password_length">Dĺžka hesla</string>
-    <string name="content_description_background">Pozadie</string>
     <string name="security">Bezpečnosť</string>
     <string name="unit_byte">B</string>
     <string name="unit_mebibyte">MiB</string>
-    <string name="content_description_add_entry">Pridať záznam</string>
     <string name="master_key">Hlavný kľúč</string>
     <string name="content_description_node_children">Podradené uzly</string>
     <string name="content_description_repeat_toggle_password_visibility">Opakovanie prepínania viditeľnosti hesla</string>
@@ -162,23 +128,18 @@
     <string name="warning_replace_file">Nahraním tohto súboru nahradíte existujúci súbor.</string>
     <string name="html_text_buy_pro">Kúpou pro verzie získate prístup k tomuto &lt;strong&gt;vizuálnemu štýlu&lt;/strong&gt; a pomôžete najmä &lt;strong&gt;realizácii komunitných projektov.&lt;/strong&gt;</string>
     <string name="advanced_unlock_prompt_store_credential_title">Pokročilé rozpoznávanie odomknutia</string>
-    <string name="education_donation_summary">Pomôžte zvýšiť stabilitu, bezpečnosť a pridať ďalšie funkcie.</string>
     <string name="database_opened">Databáza otvorená</string>
     <string name="clipboard_notifications_summary">Zobrazovať upozornenia schránky na kopírovanie polí pri prezeraní záznamu</string>
     <string name="device_credential_unlock_enable_summary">Umožňuje vám použiť heslo vášho zariadenia na otvorenie databázy</string>
     <string name="biometric_auto_open_prompt_summary">Automaticky požiadať o rozšírené odomknutie, ak je databáza nastavená na jej používanie</string>
     <string name="html_text_ad_free">Na rozdiel od mnohých aplikácií na správu hesiel je táto &lt;strong&gt;bez reklám&lt;/strong&gt;, &lt;strong&gt;kopírovatelný bezplatný softvér&lt;/strong&gt; a nezhromažďuje osobné údaje na svojich serveroch bez ohľadu na to, akú verziu používate.</string>
     <string name="html_text_dev_feature_encourage">nabádate vývojárov, aby vytvorili &lt;strong&gt;nové funkcie&lt;/strong&gt; a &lt;strong&gt;opravili chyby&lt;/strong&gt; podľa vašich poznámok.</string>
-    <string name="unit_gibibyte">GiB</string>
-    <string name="field_value">Hodnota poľa</string>
-    <string name="content_description_passphrase_word_count">Počet slov prístupovej frázy</string>
     <string name="place_of_issue">Miesto vydania</string>
     <string name="date_of_issue">Dátum vydania</string>
     <string name="email">Email</string>
     <string name="error_autofill_enable_service">Nepodarilo sa povoliť službu automatického dopĺňania.</string>
     <string name="error_otp_digits">Token musí obsahovať %1$d až %2$d čistič.</string>
     <string name="error_string_type">Tento text nezodpovedá požadovanej položke.</string>
-    <string name="keyfile_is_empty">Súbor keyfile je prázdny.</string>
     <string name="passphrase">Prístupová fráza</string>
     <string name="colorize_password_title">Zafarbiť heslá</string>
     <string name="colorize_password_summary">Vyfarbit znaky hesla podľa typu</string>
@@ -196,7 +157,6 @@
     <string name="advanced_unlock_prompt_store_credential_message">Ak používate pokročilé rozpoznávanie odomknutia, stále si musíte pamätať svoje hlavné poverenia.</string>
     <string name="advanced_unlock_invalid_key">Nedá sa prečítať kľúč na rozšírené odomknutie. Odstráňte ho a zopakujte postup rozpoznávania odomknutia.</string>
     <string name="advanced_unlock_not_recognized">Odtlačok pre rozšírené odomknutie nebol rozpoznaný</string>
-    <string name="device_credential">Poverenie zariadenia</string>
     <string name="general">Obecné</string>
     <string name="clipboard">Schránka</string>
     <string name="clipboard_explanation_summary">Skopírujte vstupné polia pomocou schránky vášho zariadenia</string>
@@ -210,7 +170,6 @@
     <string name="temp_advanced_unlock_enable_summary">Ak chcete použiť pokročilé odomykanie, neukladajte žiadny zašifrovaný obsah</string>
     <string name="temp_advanced_unlock_timeout_title">Vypršanie platnosti odomknutia</string>
     <string name="temp_advanced_unlock_timeout_summary">Trvanie používania pokročilého odomykania pred odstránením jeho obsahu</string>
-    <string name="file_name">Názov súboru</string>
     <string name="advanced_unlock_keystore_warning">Táto funkcia uloží zašifrované údaje v zabezpečenom úložisku kľúčov vášho zariadenia.
 \n
 \nV závislosti od implementácie natívneho API operačného systému nemusí byť plne funkčný.
@@ -218,7 +177,6 @@
     <string name="templates_group_enable_title">Použitie šablón</string>
     <string name="templates_group_enable_summary">Na vyplnenie polí záznamu použite dynamické šablóny</string>
     <string name="templates_group_uuid_title">Skupina šablón</string>
-    <string name="settings_database_force_changing_master_key_summary">Vyžadovať zmenu hlavného kľúča (dni)</string>
     <string name="enable">Zapnúť</string>
     <string name="monospace_font_fields_enable_title">Polia s Typeface</string>
     <string name="monospace_font_fields_enable_summary">Zmeňte písmo používané v poliach pre lepšiu viditeľnosť znakov</string>
@@ -228,17 +186,14 @@
     <string name="clear_clipboard_notification_title">Pri zatváraní vymazať</string>
     <string name="database_description_title">Popis databázy</string>
     <string name="text_appearance">Text</string>
-    <string name="compression">Kompresia</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Kôš</string>
     <string name="templates">Šablóny</string>
     <string name="device_keyboard_setting_title">Nastavenia klávesnice zariadenia</string>
-    <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_selection_entry_title">Výber záznamu</string>
     <string name="keyboard_selection_entry_summary">Pri prezeraní záznamu v KeePassDX naplňte Magikeyboard týmto záznamom</string>
     <string name="keyboard_notification_entry_title">Informácie o upozornení</string>
-    <string name="keyboard_appearance_category">Vzhľad</string>
     <string name="keyboard_key_sound_title">Vydať zvuk pri stlačení tlačidla</string>
     <string name="keyboard_previous_search_title">Panel vyhľadávania</string>
     <string name="autofill_manual_selection_summary">Zobraziť možnosť, ktorá umožní používateľovi vybrať položku databázy</string>
@@ -259,10 +214,7 @@
     <string name="menu_move">Presunúť</string>
     <string name="menu_paste">Vložiť</string>
     <string name="menu_keystore_remove_key">Odstrániť rozšírený odomykací kľúč</string>
-    <string name="menu_file_selection_read_only">Ochrana proti zápisu</string>
-    <string name="menu_open_file_read_and_write">Upraviteľné</string>
     <string name="auto_focus_search_title">Rýchle hľadanie</string>
-    <string name="read_only_warning">V závislosti od vášho správcu súborov nemusí KeePassDX povoliť zapisovanie do vášho úložiska.</string>
     <string name="contains_duplicate_uuid">Databáza obsahuje duplicitné UUID.</string>
     <string name="memory_usage">Využitie pamäte</string>
     <string name="sort_groups_before">Skupiny prvé</string>
@@ -272,15 +224,11 @@
     <string name="biometric_security_update_required">Vyžaduje sa biometrická aktualizácia zabezpečenia.</string>
     <string name="keystore_not_accessible">Úložisko kľúčov nie je správne inicializované.</string>
     <string name="autofill_preference_title">Nastavenia automatického dopĺňania</string>
-    <string name="password_size_title">Veľkosť vygenerovaného hesla</string>
-    <string name="password_size_summary">Nastaví predvolenú veľkosť generovaných hesiel</string>
-    <string name="list_password_generator_options_title">Znaky hesla</string>
     <string name="advanced_unlock_timeout">Časový limit pokročilého odomknutia</string>
     <string name="biometric_delete_all_key_title">Odstráňte šifrovacie kľúče</string>
     <string name="advanced_unlock_delete_all_key_warning">Odstrániť všetky šifrovacie kľúče súvisiace s pokročilým rozpoznávaním odomknutia\?</string>
     <string name="unavailable_feature_text">Túto funkciu sa nepodarilo spustiť.</string>
     <string name="unavailable_feature_version">Zariadenie používa Android %1$s, ale potrebuje %2$s alebo novší.</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Vyžadovať zmenu hlavného kľúča nabudúce (raz)</string>
     <string name="keyboard_setting_label">Nastavenia Magikeyboard</string>
     <string name="keyboard_entry_category">Záznam</string>
     <string name="enter">Enter</string>
@@ -289,22 +237,18 @@
     <string name="autofill_ask_to_save_data_summary">Po vyplnení formulára požiadajte o uloženie údajov</string>
     <string name="autofill_read_only_save">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
     <string name="autofill_inline_suggestions_keyboard">Boli pridané návrhy automatického dopĺňania.</string>
-    <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuálny štýl&lt;/strong&gt; je dostupný vďaka vašej štedrosti.</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostupných v Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-    <string name="keyboard_theme_title">Vzhľad klávesnice</string>
     <string name="keyboard_previous_database_credentials_title">Obrazovka overovacích údajov databázy</string>
     <string name="keyboard_previous_fill_in_summary">Automaticky prepnúť späť na predchádzajúcu klávesnicu po vykonaní \"Akcia automatického klávesu\"</string>
     <string name="keyboard_previous_lock_summary">Po uzamknutí databázy sa automaticky prepne späť na predchádzajúcu klávesnicu</string>
     <string name="select_entry">Vybrať záznam</string>
-    <string name="education_entry_edit_summary">Upravte svoj záznam pomocou vlastných polí. Dáta môžu byť odkazované medzi rôznymi vstupnými poľami.</string>
     <string name="html_text_dev_feature">Táto funkcia je &lt;strong&gt;vo vývoji&lt;/strong&gt; a vyžaduje, váš &lt;strong&gt;príspevok&lt;/strong&gt; aby bola čoskoro k dispozícii.</string>
     <string name="character_count">Počet znakov: %1$d</string>
     <string name="style_brightness_title">Jas témy</string>
     <string name="style_brightness_summary">Vyberte svetlé alebo tmavé motívy</string>
     <string name="icon_section_standard">Štandardná</string>
     <string name="content_description_database_color">Farba databázy</string>
-    <string name="content_description_entry_foreground_color">Zadajte farbu popredia</string>
     <string name="content_description_entry_background_color">Zadajte farbu pozadia</string>
     <string name="otp_digits">Čísla</string>
     <string name="token">Token</string>
@@ -319,7 +263,6 @@
     <string name="field_name">Názov poľa</string>
     <string name="subdomain_search_title">Vyhľadávanie subdomény</string>
     <string name="subdomain_search_summary">Vyhľadávajte webové domény s obmedzeniami subdomén</string>
-    <string name="read_only">Ochrana proti zápisu</string>
     <string name="sort_ascending">Najnižšie prvé ↓</string>
     <string name="sort_last_modify_time">Zmenené</string>
     <string name="warning">Upozornenie</string>
@@ -332,7 +275,6 @@
     <string name="database_data_remove_unlinked_attachments_title">Odstráňte neprepojené údaje</string>
     <string name="recycle_bin_title">Použitie koša</string>
     <string name="settings_database_recommend_changing_master_key_title">Odporučiť obnovenie</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Odporučiť zmeniť hlavný kľúč (dni)</string>
     <string name="settings_database_force_changing_master_key_title">Vynútiť zmenu</string>
     <string name="clear_clipboard_notification_summary">Uzamknite databázu, keď uplynie doba trvania schránky alebo keď sa po použití zatvorí upozornenie</string>
     <string name="application_appearance">Rozhranie</string>
@@ -354,7 +296,6 @@
     <string name="content_description_password_checkbox">Zaškrtávacie políčko hesla</string>
     <string name="validate">Skontrolovať</string>
     <string name="content_description_remove_field">Vymazať pole</string>
-    <string name="content_description_update_from_list">Aktualizovať</string>
     <string name="menu_restore_entry_history">Obnoviť históriu</string>
     <string name="sort_menu">Triediť</string>
     <string name="list_entries_show_username_title">Zobraziť používateľské mená</string>
@@ -365,7 +306,6 @@
     <string name="hint_icon_name">Názov ikony</string>
     <string name="kdf_explanation">Na vygenerovanie kľúča pre šifrovací algoritmus sa hlavný kľúč transformuje pomocou funkcie odvodenia s náhodne pridanou zložkou.</string>
     <string name="database_history">História</string>
-    <string name="biometric">Biometrika</string>
     <string name="lock_database_back_root_summary">Uzamknite databázu kliknutím na tlačidlo späť na hlavnej obrazovke</string>
     <string name="lock_database_show_button_summary">Zobrazí tlačidlo uzamknutia v používateľskom rozhraní</string>
     <string name="html_about_privacy">&lt;strong&gt;Nie sú zhromažďované žiadne užívateľské údaje&lt;/strong&gt;, táto aplikácia sa nepripája na žiadny server, pracuje iba lokálne a plne rešpektuje súkromie užívateľov.</string>
@@ -385,7 +325,6 @@
     <string name="error_word_reserved">Toto slovo je rezervované a nemôže byť použité.</string>
     <string name="error_disallow_no_credentials">Musí byť nastavené aspoň jedno poverenie.</string>
     <string name="error_string_key">Každý reťazec musí mať názov poľa.</string>
-    <string name="error_label_exists">Tento štítok už existuje.</string>
     <string name="error_move_entry_here">Tu nemôžete presunúť položku.</string>
     <string name="error_copy_entry_here">Tu nemôžete kopírovať položku.</string>
     <string name="error_copy_group_here">Tu nemôžete skopírovať skupinu.</string>
@@ -393,7 +332,6 @@
     <string name="error_save_database">Databázu sa nepodarilo uložiť.</string>
     <string name="error_otp_secret_key">Tajný kľúč musí byť vo formáte Base32.</string>
     <string name="error_start_database_action">Pri vykonávaní akcie s databázou sa vyskytla chyba.</string>
-    <string name="error_challenge_already_requested">Výzva už bola vyžiadaná</string>
     <string name="file_not_found_content">Nepodarilo sa nájsť súbor. Skúste ho znova otvoriť z prehliadača súborov.</string>
     <string name="list_entries_show_username_summary">Zobrazuje používateľské mená v zoznamoch záznamov</string>
     <string name="list_groups_show_number_entries_title">Zobraziť počet záznamov</string>
@@ -412,11 +350,9 @@
     <string name="parallelism_explanation">Stupeň súbežného spracovania (počet vlákien) použitý funkciou pre odvodenie kľúča.</string>
     <string name="command_execution">Vykonávanie príkazu…</string>
     <string name="warning_remove_unlinked_attachment">Odstránenie neprepojených údajov môže znížiť veľkosť vašej databázy, ale môže tiež vymazať údaje používané pre doplnky KeePass.</string>
-    <string name="encrypted_value_stored">Zašifrované heslo je uložené</string>
     <string name="warning_database_info_changed_options">Zlúčte údaje, prepíšte externé úpravy uložením databázy alebo ju znova načítajte s najnovšími zmenami.</string>
     <string name="warning_database_info_reloaded">Opätovné načítanie databázy vymaže lokálne upravené údaje.</string>
     <string name="warning_keyfile_integrity">Hash súboru nie je zaručený, pretože Android môže svoje údaje meniť za chodu. Pre správnu integritu zmeňte príponu súboru na .bin.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extrahujte poverenia databázy pomocou pokročilých údajov o odomknutí</string>
     <string name="lock_database_screen_off_title">Zámok obrazovky</string>
     <string name="lock_database_back_root_title">Stlačte \'Späť\' pre uzamknutie</string>
     <string name="device_credential_unlock_enable_title">Odblokovanie zariadenia heslom</string>
@@ -435,8 +371,6 @@
     <string name="keyboard_previous_fill_in_title">Automatická akcia tlačidla</string>
     <string name="autofill_application_id_blocklist_summary">Blocklist, ktorý zabraňuje automatickému vypĺňaniu aplikácií</string>
     <string name="autofill_web_domain_blocklist_summary">Blocklist, ktorý zabraňuje automatickému vypĺňaniu webových domén</string>
-    <string name="html_text_dev_feature_work_hard">Usilovne pracujeme na rýchlom uvoľnení tejto funkcie.</string>
-    <string name="html_text_dev_feature_upgrade">Nezabudnite udržiavať svoju aplikáciu aktualizovanú inštaláciou nových verzií.</string>
     <string name="title_case">Titulové Písanie</string>
     <string name="screenshot_mode_banner_text">Režim snímky obrazovky</string>
     <string name="protection">Ochrana</string>
@@ -452,7 +386,6 @@
     <string name="content_description_keyfile_checkbox">Začiarkavacie políčko Keyfile</string>
     <string name="content_description_credentials_information">Informácie o údajoch</string>
     <string name="content_description_add_item">Pridať položku</string>
-    <string name="content_description_add_group">Pridať skupinu</string>
     <string name="content_description_add_node">Pridať uzol</string>
     <string name="navigation_drawer_close">Zatvorenie navigačného panelu</string>
     <string name="entry_add_attachment">Pridať prílohu</string>
@@ -461,7 +394,6 @@
     <string name="otp_type">OTP typ</string>
     <string name="otp_period">Čas (sekundy)</string>
     <string name="otp_counter">Počítadlo</string>
-    <string name="custom_data">Užívateľské údaje</string>
     <string name="otp_secret">Tajné</string>
     <string name="debit_credit_card">Debet / Kreditná karta</string>
     <string name="case_sensitive">Rozlišovať malé a veľké písmená</string>
@@ -474,17 +406,14 @@
     <string name="error_registration_read_only">Ukladanie novej položky nie je povolené v databáze iba na čítanie</string>
     <string name="error_field_name_already_exists">Názov poľa už existuje.</string>
     <string name="error_database_uri_null">Identifikátor URI databázy nie je možné získať.</string>
-    <string name="error_rebuild_list">Zoznam nie je možné správne vytvoriť.</string>
     <string name="show_otp_token_summary">Zobrazí tokeny OTP v zozname záznamov</string>
     <string name="copy_field">Kópia %1$s</string>
     <string name="menu_security_settings">Bezpečnostné nastavenia</string>
-    <string name="menu_cancel">Zrušiť</string>
     <string name="registration_mode">Režim registrácie</string>
     <string name="show_recent_files_summary">Zobraziť umiestnenie nedávnych databáz</string>
     <string name="show_recent_files_title">Zobraziť posledné súbory</string>
     <string name="encryption_explanation">Algoritmus šifrovania databázy používaný pre všetky údaje</string>
     <string name="warning_password_encoding">Vyhnite sa znakom hesla mimo formát kódovania textu v databázovom súbore (nerozpoznané znaky sa skonvertujú na rovnaké písmeno).</string>
-    <string name="warning_database_read_only">Udeľte prístup k súboru na zápis na uloženie zmien databázy</string>
     <string name="warning_empty_password">Pokračovať bez ochrany heslom\?</string>
     <string name="warning_empty_keyfile">Neodporúča sa pridávať prázdny súbor keyfile.</string>
     <string name="autofill">Automatické doplnenie</string>
@@ -513,7 +442,6 @@
     <string name="hardware_key">Hardvérový kľúč</string>
     <string name="content_description_keyboard_close_fields">Zavrieť polia</string>
     <string name="waiting_challenge_request">Čaká sa na žiadosť o výzvu…</string>
-    <string name="bank_name">Názov banky</string>
     <string name="membership">Členstvo</string>
     <string name="standard">Štandardné</string>
     <string name="error_no_hardware_key">Vyberte hardvérový kľúč.</string>
@@ -561,7 +489,6 @@
     <string name="menu_appearance_settings">Vzhľad</string>
     <string name="autofill_explanation_summary">Povoľte automatické dopĺňanie na rýchle vyplnenie formulárov v iných aplikáciách</string>
     <string name="set_autofill_service_title">Nastavte predvolenú službu automatického dopĺňania</string>
-    <string name="list_password_generator_options_summary">Nastavte povolené znaky generátora hesiel</string>
     <string name="biometric_unlock_enable_summary">Umožňuje vám skenovať biometrické údaje a otvoriť databázu</string>
     <string name="max_history_items_title">Maximálny počet</string>
     <string name="max_history_items_summary">Obmedzte počet položiek histórie na jeden záznam</string>
@@ -591,16 +518,7 @@
     <string name="enable_keep_screen_on_summary">Pri sledovaní záznamu majte zapnutú obrazovku</string>
     <string name="enable_screenshot_mode_title">Režim snímky obrazovky</string>
     <string name="enable_screenshot_mode_summary">Povoliť aplikáciám tretích strán zaznamenávať alebo vytvárať snímky obrazovky aplikácie</string>
-    <string name="reset_education_screens_text">Vzdelávacie nápovedy boli resetované</string>
-    <string name="education_field_copy_title">Skopírujte pole</string>
-    <string name="education_field_copy_summary">Skopírované polia je možné prilepiť kdekoľvek.
-\n
-\nPoužite spôsob vyplnenia formulára, ktorý preferujete.</string>
-    <string name="education_donation_title">Zapojiť sa</string>
-    <string name="html_text_donation">Aby sme si zachovali slobodu a boli vždy aktívni, počítame s vaším &lt;strong&gt;príspevkom.&lt;/strong&gt;</string>
-    <string name="html_text_dev_feature_buy_pro">Zakúpením verzie &lt;strong&gt;pro&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_contibute">Ak &lt;strong&gt;prispejete&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_thanks">Ďakujem pekne za prispevok.</string>
     <string name="download">Stiahnuť</string>
     <string name="download_attachment">Stiahnuť %1$s</string>
     <string name="upload_attachment">Nahrať %1$s</string>

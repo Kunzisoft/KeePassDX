@@ -17,8 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
-    <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
     <string name="add_group">Csoport hozzáadása</string>
     <string name="encryption_algorithm">Titkosítási algoritmus</string>
@@ -26,12 +24,9 @@
     <string name="app_timeout_summary">Tétlenség az adatbázis feloldása előtt</string>
     <string name="application">Alkalmazás</string>
     <string name="menu_app_settings">Alkalmazásbeállítások</string>
-    <string name="brackets">Zárójelek</string>
     <string name="file_manager_install_description">Az adatbázisfájlok létrehozásához, megnyitásához és mentéséhez szükség van egy fájlkezelőre, amely képes fogadni az ACTION_CREATE_DOCUMENT és ACTION_OPEN_DOCUMENT Intenteket.</string>
-    <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólap hiba</string>
     <string name="clipboard_error">Egyes eszközök nem engedik, hogy az alkalmazások használják a vágólapot.</string>
-    <string name="clipboard_error_clear">A vágólap törlése sikertelen</string>
     <string name="clipboard_timeout">Vágólap időkorlátja</string>
     <string name="clipboard_timeout_summary">A vágólapon tárolás időtartama (ha támogatja az eszköz)</string>
     <string name="select_to_copy">%1$s másolása a vágólapra</string>
@@ -45,7 +40,6 @@
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégse</string>
     <string name="entry_notes">Megjegyzések</string>
-    <string name="entry_confpassword">Jelszó megerősítése</string>
     <string name="entry_created">Létrehozva</string>
     <string name="entry_expires">Lejárat</string>
     <string name="entry_keyfile">Kulcsfájl</string>
@@ -55,11 +49,7 @@
     <string name="entry_title">Titulus</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Felhasználónév</string>
-    <string name="error_arc4">Az Arcfour adatfolyam-titkosítás nem támogatott.</string>
-    <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePassDX-ben.</string>
     <string name="error_file_not_create">Nem sikerült létrehozni a fájlt</string>
-    <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
-    <string name="error_invalid_path">Győződjön meg róla, hogy az útvonal helyes.</string>
     <string name="error_no_name">Adjon meg egy nevet.</string>
     <string name="error_nokeyfile">Válasszon egy kulcsfájlt.</string>
     <string name="error_out_of_memory">Nincs elég memória a teljes adatbázis betöltéséhez.</string>
@@ -69,26 +59,19 @@
     <string name="error_string_key">Minden karakterlánchoz szükséges egy mezőnév.</string>
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a „Hossz” mezőbe.</string>
     <string name="field_name">Mezőnév</string>
-    <string name="field_value">Mezőérték</string>
     <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni a fájlkezelőben.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó előállítása</string>
     <string name="hint_conf_pass">Jelszó megerősítése</string>
-    <string name="hint_generated_password">Előállított jelszó</string>
     <string name="hint_group_name">Csoportnév</string>
-    <string name="hint_keyfile">Kulcsfájl</string>
-    <string name="hint_length">Hossz</string>
     <string name="hint_pass">Jelszó</string>
     <string name="password">Jelszó</string>
     <string name="invalid_credentials">A hitelesítő adatok nem olvashatók.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
-    <string name="keyfile_is_empty">A kulcsfájl üres.</string>
-    <string name="length">Hossz</string>
     <string name="list_size_title">Listaelemek mérete</string>
     <string name="list_size_summary">Szövegméret az elemlistában</string>
     <string name="loading_database">Adatbázis betöltése…</string>
-    <string name="lowercase">Kisbetűk</string>
     <string name="hide_password_title">Jelszavak elrejtése</string>
     <string name="hide_password_summary">Jelszavak alapértelmezett elrejtése (***)</string>
     <string name="about">Névjegy</string>
@@ -96,51 +79,33 @@
     <string name="settings">Beállítások</string>
     <string name="menu_database_settings">Adatbázis-beállítások</string>
     <string name="menu_delete">Törlés</string>
-    <string name="menu_donate">Támogatás</string>
     <string name="menu_edit">Szerkesztés</string>
-    <string name="menu_hide_password">Jelszó elrejtése</string>
-    <string name="menu_lock">Adatbázis zárolása</string>
     <string name="menu_open">Megnyitás</string>
     <string name="menu_search">Keresés</string>
     <string name="menu_showpass">Jelszó megjelenítése</string>
-    <string name="menu_url">Ugrás az URL-re</string>
-    <string name="minus">Mínusz</string>
     <string name="never">Soha</string>
     <string name="no_results">Nincs találat</string>
     <string name="no_url_handler">Telepítsen egy webböngészőt az URL megnyitásához.</string>
-    <string name="progress_create">Új adatbázis létrehozása…</string>
-    <string name="progress_title">Feldolgozás…</string>
     <string name="protection">Védelem</string>
-    <string name="read_only">Írásvédett</string>
-    <string name="read_only_warning">A KeePassDX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
-    <string name="content_description_remove_from_list">Eltávolítás</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Transzformációs körök</string>
     <string name="rounds_explanation">A további titkosítási körök magasabb védelmet biztosítanak a nyers erőt használó támadások ellen, ugyanakkor jelentősen lassíthatják az adatbázis betöltését vagy mentését.</string>
     <string name="saving_database">Adatbázis mentése…</string>
     <string name="space">Szóköz</string>
     <string name="sort_db">Természetes rendezés</string>
-    <string name="special">Speciális</string>
     <string name="search">Keresés</string>
-    <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis-verzió.</string>
-    <string name="uppercase">Nagybetűs</string>
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket az adatbázis-fájlban (a nem felismert karakterek mert ugyanarra a betűre lesznek alakítva).</string>
     <string name="version_label">Verzió: %1$s</string>
-    <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
     <string name="unavailable">Nem érhető el</string>
     <string-array name="list_size_options">
         <item>Kicsi</item>
         <item>Közepes</item>
         <item>Nagy</item>
     </string-array>
-    <string name="edit_entry">Bejegyzés szerkesztése</string>
     <string name="encryption">Titkosítás</string>
     <string name="key_derivation_function">Kulcsváltozási függvény</string>
-    <string name="extended_ASCII">Bővített ASCII</string>
-    <string name="allow">Engedélyezés</string>
-    <string name="entry_not_found">A bejegyzésadatok nem találhatóak.</string>
     <string name="error_load_database">Nem sikerült az adatbázis betöltése.</string>
     <string name="error_load_database_KDF_memory">A kulcs nem tölthető be. Próbálja meg csökkenteni a KDF „Memóriahasználatot”.</string>
     <string name="error_autofill_enable_service">Az automatikus kitöltési szolgáltatás nem engedélyezhető.</string>
@@ -151,9 +116,6 @@
     <string name="menu_copy">Másolás</string>
     <string name="menu_move">Áthelyezés</string>
     <string name="menu_paste">Beillesztés</string>
-    <string name="menu_cancel">Mégse</string>
-    <string name="menu_file_selection_read_only">Írásvédett</string>
-    <string name="menu_open_file_read_and_write">Módosítható</string>
     <string name="encryption_explanation">Az összes adathoz használt adatbázis-titkosítási algoritmus</string>
     <string name="kdf_explanation">A kulcs előállításához a titkosítási algoritmushoz, a mesterkulcs átalakításra került egy véletlenszerűen sózott kulcselőállítási függvénnyel.</string>
     <string name="memory_usage">Memóriahasználat</string>
@@ -179,10 +141,6 @@
     <string name="autofill_sign_in_prompt">Bejelentkezés a KeePassDX-szel</string>
     <string name="set_autofill_service_title">Alapértelmezett automatikus kitöltési szolgáltatás beállítása</string>
     <string name="autofill_explanation_summary">Automatikus kitöltés engedélyezése az űrlapok gyors kitöltéséhez más alkalmazásokban</string>
-    <string name="password_size_title">Előállított jelszó mérete</string>
-    <string name="password_size_summary">Beállítja az előállított jelszavak alapértelmezett méretét</string>
-    <string name="list_password_generator_options_title">Jelszó karakterek</string>
-    <string name="list_password_generator_options_summary">Beállítja a jelszó-előállító számára megengedett karaktereket</string>
     <string name="clipboard">Vágólap</string>
     <string name="clipboard_notifications_title">Vágólap-értesítések</string>
     <string name="clipboard_notifications_summary">Vágólap-értesítések megjelenítése a bejegyzésmezők másolásakor</string>
@@ -198,7 +156,6 @@
     <string name="unavailable_feature_text">A funkciót nem sikerült elindítani.</string>
     <string name="unavailable_feature_version">Az eszköz Android %1$s rendszert futtat, de %2$s vagy újabb szükséges.</string>
     <string name="unavailable_feature_hardware">Nem található a megfelelő hardver.</string>
-    <string name="file_name">Fájlnév</string>
     <string name="path">Útvonal</string>
     <string name="assign_master_key">Mesterkulcs hozzárendelése</string>
     <string name="recycle_bin_title">Kuka használata</string>
@@ -217,7 +174,6 @@
     <string name="keyboard">Billentyűzet</string>
     <string name="magic_keyboard_title">Mágikus billentyűzet</string>
     <string name="magic_keyboard_explanation_summary">Egyéni billentyűzet aktiválása, amely kitölti a jelszavakat és az összes azonosító mezőt</string>
-    <string name="keyboard_name">Mágikus billentyűzet</string>
     <string name="keyboard_label">Mágikus billentyűzet (KeePassDX)</string>
     <string name="keyboard_setting_label">Mágikus billentyűzet beállításai</string>
     <string name="keyboard_entry_category">Bejegyzés</string>
@@ -230,8 +186,6 @@
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Törlés bezáráskor</string>
     <string name="keyboard_notification_entry_clear_close_summary">Az adatbázis bezárása az értesítés bezárásakor</string>
-    <string name="keyboard_appearance_category">Megjelenés</string>
-    <string name="keyboard_theme_title">Billentyűzet téma</string>
     <string name="keyboard_keys_category">Kulcsok</string>
     <string name="keyboard_key_vibrate_title">Rezgés gombnyomáskor</string>
     <string name="keyboard_key_sound_title">Hang gombnyomáskor</string>
@@ -239,35 +193,17 @@
     <string name="allow_no_password_summary">A „Megnyitás” gomb engedélyezése, ha nincsenek hitelesítő adatok kiválasztva</string>
     <string name="enable_read_only_title">Írásvédett</string>
     <string name="enable_read_only_summary">Az adatbázis megnyitása alapértelmezetten írásvédett módban</string>
-    <string name="reset_education_screens_text">Oktatóképernyők visszaállítva</string>
-    <string name="education_field_copy_title">Mező másolása</string>
-    <string name="education_field_copy_summary">A másolt mezők bárhová beilleszthetőek.
-\n
-\nHasználja a kedvenc mezőkitöltési módját.</string>
-    <string name="education_donation_title">Közreműködés</string>
-    <string name="education_entry_edit_summary">Szerkessze a bejegyzése egyéni mezőit. Az adatok hivatkozhatóak a különböző mezők között.</string>
-    <string name="education_donation_summary">Segítsen a stabilitás és a biztonság növelésében, és az új funkciók hozzáadásában.</string>
     <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
     <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális stílushoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális stílus&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
-    <string name="html_text_donation">Ahhoz, hogy megtartsuk a szabadságunkat, és hogy mindig aktívak lehessünk, számítunk az Ön &lt;strong&gt;támogatására.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;támogatására&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
-    <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
     <string name="html_text_dev_feature_contibute">A &lt;strong&gt;támogatással&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy &lt;strong&gt;új funkciókat&lt;/strong&gt; készítsenek, és &lt;strong&gt;hibákat javítsanak&lt;/strong&gt; az észrevételei alapján.</string>
-    <string name="html_text_dev_feature_thanks">Köszönjük a támogatását.</string>
-    <string name="html_text_dev_feature_work_hard">Keményen dolgozunk, hogy gyorsan kiadjuk ezt a funkciót.</string>
-    <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>
     <string name="download">Letöltés</string>
     <string name="icon_pack_choose_title">Ikoncsomag</string>
     <string name="icon_pack_choose_summary">Az alkalmazásban használt ikoncsomag</string>
     <string name="content_description_password_checkbox">Jelszó jelölőnégyzet</string>
     <string name="content_description_file_information">Fájlinformációk</string>
-    <string name="content_description_add_group">Csoport hozzáadása</string>
-    <string name="content_description_add_entry">Bejegyzés hozzáadása</string>
     <string name="content_description_add_node">Csomópont hozzáadása</string>
-    <string name="content_description_open_file">Fájl megnyitása</string>
-    <string name="content_description_background">Háttér</string>
     <string name="security">Biztonság</string>
     <string name="master_key">Mesterkulcs</string>
     <string name="content_description_keyfile_checkbox">Kulcsfájl jelölőnégyzet</string>
@@ -279,7 +215,6 @@
     <string name="lock_database_back_root_summary">Az adatbázis zárolása, ha a felhasználó a vissza gombra kattint az indítóképernyőn</string>
     <string name="autofill_preference_title">Automatikus kitöltés beállításai</string>
     <string name="warning_database_link_revoked">A fájlhoz történő hozzáférést visszavonta a fájlkezelő</string>
-    <string name="warning_database_read_only">Fájlírási-hozzáférés megadása az adatbázis-változások mentéséhez</string>
     <string name="hide_broken_locations_summary">A törött adatbázis-hivatkozások elrejtése a nemrég használt adatbázisok listájában</string>
     <string name="hide_broken_locations_title">Törött adatbázis-hivatkozások elrejtése</string>
     <string name="show_recent_files_summary">A nemrég használt adatbázisok helyének megjelenítése</string>
@@ -290,11 +225,9 @@
     <string name="remember_database_locations_title">Adatbázisok helyének megjegyzése</string>
     <string name="auto_focus_search_summary">Keresés kérése az adatbázis megnyitásakor</string>
     <string name="error_create_database">Az adatbázisfájl létrehozása sikertelen.</string>
-    <string name="error_label_exists">Ez a címke már létezik.</string>
     <string name="html_about_contribution">A &lt;strong&gt;szabadságunk megtartása&lt;/strong&gt;, a &lt;strong&gt;hibák javítása&lt;/strong&gt;, a &lt;strong&gt;funkciók hozzáadása&lt;/strong&gt; és az &lt;strong&gt;állandó aktivitás&lt;/strong&gt; érdekében számítunk a &lt;strong&gt;támogatására&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Melléklet hozzáadása</string>
     <string name="entry_add_field">Mező hozzáadása</string>
-    <string name="entry_password_generator">Jelszógenerátor</string>
     <string name="discard">Elvetés</string>
     <string name="discard_changes">Elveti a változásokat\?</string>
     <string name="validate">Érvényesítés</string>
@@ -323,14 +256,10 @@
     <string name="device_keyboard_setting_title">Eszköz billentyűzetének beállításai</string>
     <string name="compression_gzip">Gzip</string>
     <string name="compression_none">Nincs</string>
-    <string name="compression">Tömörítés</string>
     <string name="database_custom_color_title">Egyéni adatbázisszín</string>
     <string name="database_default_username_title">Alapértelmezett felhasználónév</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">A mesterkulcs módosításának megkövetelése legközelebb (egyszer)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Legközelebbi kényszerített megújítás</string>
-    <string name="settings_database_force_changing_master_key_summary">A mesterkulcs módosításnak megkövetelése (napban)</string>
     <string name="settings_database_force_changing_master_key_title">Megújítás kényszerítése</string>
-    <string name="settings_database_recommend_changing_master_key_summary">A mesterkulcs módosításának javaslata (napban)</string>
     <string name="settings_database_recommend_changing_master_key_title">Javasolt megújítás</string>
     <string name="max_history_size_summary">Korlátozza az előzmények méretét bejegyzésenként</string>
     <string name="max_history_size_title">Maximális méret</string>
@@ -367,10 +296,8 @@
     <string name="enable">Engedélyezés</string>
     <string name="biometric_auto_open_prompt_summary">Az eszközfeloldás automatikus kérése, ha az adatbázis úgy van beállítva, hogy használja</string>
     <string name="biometric_auto_open_prompt_title">Automatikus megnyitási képernyő</string>
-    <string name="biometric">Ujjlenyomat</string>
     <string name="menu_advanced_unlock_settings">Eszközfeloldás</string>
     <string name="content_description_keyboard_close_fields">Mezők bezárása</string>
-    <string name="content_description_update_from_list">Frissítés</string>
     <string name="list_groups_show_number_entries_summary">A csoportban szereplő bejegyzések számának megjelenítése</string>
     <string name="list_groups_show_number_entries_title">Bejegyzések számának megjelenítése</string>
     <string name="error_copy_entry_here">Nem másolhat ide bejegyzést.</string>
@@ -430,7 +357,6 @@
     <string name="error_duplicate_file">A fájladatok már léteznek.</string>
     <string name="error_file_to_big">A feltöltendő fájl túl nagy.</string>
     <string name="error_upload_file">Hiba történt a fájladatok feltöltése során.</string>
-    <string name="error_rebuild_list">A lista újbóli összeállítása sikertelen.</string>
     <string name="error_database_uri_null">Az adatbázis URI nem kérhető le.</string>
     <string name="error_field_name_already_exists">A mezőnév már létezik.</string>
     <string name="error_otp_type">A meglévő OTP típus nem ismert ebben a formában, a kiértékelése nem biztos, hogy helyes tokent fog előállítani.</string>
@@ -444,7 +370,6 @@
     <string name="seed">Kezdőérték</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
-    <string name="bank_name">Bank neve</string>
     <string name="bank">Bank</string>
     <string name="account">Fiók</string>
     <string name="private_key">Privát kulcs</string>
@@ -466,7 +391,6 @@
     <string name="template_group_name">Sablonok</string>
     <string name="content_description_otp_information">Egyszer használatos jelszó információ</string>
     <string name="content_description_entry_background_color">Bejegyzés háttérszíne</string>
-    <string name="content_description_entry_foreground_color">Bejegyzés előtérszíne</string>
     <string name="success_import_app_properties">Alkalmazásbeállítások importálva</string>
     <string name="error_export_app_properties">Hiba történt az alkalmazásbeállítások exportálása során</string>
     <string name="warning_database_info_changed">Az adatbázisfájlban lévő információkat az alkalmazáson kívülről megváltoztatták.</string>
@@ -479,12 +403,10 @@
     <string name="warning_database_info_changed_options">Adatok egyesítése, majd a külső módosítások felülírása az adatbázis mentésével, vagy újratöltés a legfrissebb változtatásokkal.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Hivatkozás az eszköz feloldásához</string>
     <string name="advanced_unlock_prompt_store_credential_message">Továbbra is meg kell jegyeznie a széf fő jelszavát, ha az eszköz feloldásfelismerését használja.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Adatbázis hitelesítő adatainak kinyerése az eszköz adatfeloldásával</string>
     <string name="advanced_unlock_invalid_key">Az eszközfeloldási kulcs nem olvasható. Törölje, és ismételje meg a feloldásfelismerési folyamatot.</string>
     <string name="advanced_unlock_not_recognized">Az eszközfeloldási ujjlenyomat nem ismerhető fel</string>
     <string name="advanced_unlock_prompt_not_initialized">Az eszközfeloldási képernyő előkészítése sikertelen.</string>
     <string name="properties">Tulajdonságok</string>
-    <string name="device_credential">Eszköz hitelesítő adatai</string>
     <string name="temp_advanced_unlock_enable_summary">Ne tároljon semmilyen titkosított tartalmat az eszközfeloldás használatához</string>
     <string name="temp_advanced_unlock_timeout_title">Eszközfeloldás lejárati ideje</string>
     <string name="warning_database_revoked">A fájl elérését visszavonta a fájlkezelő, zárja be az adatbázist és nyissa meg újra a helyéről.</string>
@@ -542,7 +464,6 @@
     <string name="upload_attachment">%1$s feltöltése</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
-    <string name="unit_gibibyte">GiB</string>
     <string name="autofill_application_id_blocklist_summary">Tiltólista, amely megakadályozza az alkalmazások automatikus kitöltését</string>
     <string name="autofill_web_domain_blocklist_title">Letiltott webes domainek</string>
     <string name="autofill_ask_to_save_data_title">Adatok mentésének kérése</string>
@@ -557,7 +478,6 @@
     <string name="error_move_group_here">Nem helyezhet át ide csoportot.</string>
     <string name="auto_type">Automatikus bevitel</string>
     <string name="warning_keyfile_integrity">A fájl ujjlenyomata nem garantált, mert az Android menet közben is módosíthatja az adatokat. A helyes integritás-ellenőrzéshez módosítsa a fájlt .bin kiterjesztésűre.</string>
-    <string name="error_challenge_already_requested">A kihívás már kérve volt</string>
     <string name="inherited">Öröklés</string>
     <string name="remember_hardware_key_title">Hardverkulcs megjegyzése</string>
     <string name="consider_chars_filter">Karakterek figyelembe vétele</string>
@@ -567,7 +487,6 @@
     <string name="unlock">Feloldás</string>
     <string name="master_key_settings_summary">Módosítás, megújítás</string>
     <string name="error_empty_key">A kulcs nem lehet üres.</string>
-    <string name="custom_data">Egyéni adatok</string>
     <string name="tags">Címkék</string>
     <string name="hardware_key">Hardverkulcs</string>
     <string name="keyboard_previous_search_summary">Automatikus visszaváltás az előző billentyűzetre a keresési képernyőn</string>
@@ -588,7 +507,6 @@
     <string name="screenshot_mode_banner_text">Képernyőképmodul</string>
     <string name="case_sensitive">Kis- és nagybetű eltérő</string>
     <string name="error_location_unknown">Az adatbázis helye ismeretlen, az adatbázis-művelet nem hajtható végre.</string>
-    <string name="content_description_passphrase_word_count">A jelmondat szószáma</string>
     <string name="regex">Reguláris kifejezés</string>
     <string name="show_entry_colors_title">Bejegyzésszínek</string>
     <string name="passphrase">Jelmondat</string>

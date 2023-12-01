@@ -17,10 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_description">Android implementation of the KeePass password manager</string>
-    <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
-    <string name="edit_entry">Edit entry</string>
     <string name="add_group">Add group</string>
     <string name="master_key">Master key</string>
     <string name="security">Security</string>
@@ -30,22 +27,13 @@
     <string name="app_timeout">Timeout</string>
     <string name="app_timeout_summary">Idle time before locking the database</string>
     <string name="application">App</string>
-    <string name="brackets">Brackets</string>
-    <string name="extended_ASCII">Extended ASCII</string>
     <string name="file_manager_install_description">A file manager that accepts the ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT intent action is required to create, open, and save database files.</string>
-    <string name="allow">Allow</string>
-    <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
     <string name="clipboard_error">Some devices won\'t let apps use the clipboard.</string>
-    <string name="clipboard_error_clear">Could not clear clipboard</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard (if supported by your device)</string>
-    <string name="content_description_background">Background</string>
-    <string name="content_description_open_file">Open file</string>
     <string name="content_description_node_children">Node children</string>
     <string name="content_description_add_node">Add node</string>
-    <string name="content_description_add_entry">Add entry</string>
-    <string name="content_description_add_group">Add group</string>
     <string name="content_description_add_item">Add item</string>
     <string name="content_description_file_information">File info</string>
     <string name="content_description_credentials_information">Credentials info</string>
@@ -56,7 +44,6 @@
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
     <string name="content_description_entry_icon">Entry icon</string>
     <string name="content_description_database_color">Database color</string>
-    <string name="content_description_entry_foreground_color">Entry foreground color</string>
     <string name="content_description_entry_background_color">Entry background color</string>
     <string name="content_description_nav_header">Navigation header</string>
     <string name="navigation_drawer_open">Navigation drawer open</string>
@@ -64,14 +51,10 @@
     <string name="validate">Validate</string>
     <string name="discard_changes">Discard changes?</string>
     <string name="discard">Discard</string>
-    <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
-    <string name="content_description_passphrase_word_count">Passphrase word count</string>
     <string name="entry_add_field">Add field</string>
     <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
-    <string name="content_description_update_from_list">Update</string>
-    <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
@@ -89,7 +72,6 @@
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
-    <string name="entry_confpassword">Confirm password</string>
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
     <string name="expired">Expired</string>
@@ -103,10 +85,8 @@
     <string name="inherited">Inherit</string>
     <string name="auto_type">Auto-Type</string>
     <string name="auto_type_sequence">Auto-Type sequence</string>
-    <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
     <string name="tags">Tags</string>
-    <string name="custom_data">Custom data</string>
     <string name="save">Save</string>
     <string name="entry_title">Title</string>
     <string name="entry_setup_otp">Set up one-time password</string>
@@ -141,7 +121,6 @@
     <string name="seed">Seed</string>
     <string name="account">Account</string>
     <string name="bank">Bank</string>
-    <string name="bank_name">Bank name</string>
     <string name="bank_identifier_code">SWIFT / BIC</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="secure_note">Secure Note</string>
@@ -152,11 +131,7 @@
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
-    <string name="error_arc4">The Arcfour stream cipher is not supported.</string>
-    <string name="error_can_not_handle_uri">Could not handle this URI in KeePassDX.</string>
     <string name="error_file_not_create">Could not create file</string>
-    <string name="error_invalid_db">Could not read the database.</string>
-    <string name="error_invalid_path">Make sure the path is correct.</string>
     <string name="error_invalid_OTP">Invalid OTP secret.</string>
     <string name="error_no_name">Enter a name.</string>
     <string name="error_word_reserved">This word is reserved and cannot be used.</string>
@@ -171,7 +146,6 @@
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
-    <string name="error_label_exists">This label already exists.</string>
     <string name="error_wrong_length">Enter a positive integer number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
     <string name="error_move_group_here">You cannot move a group here.</string>
@@ -190,13 +164,11 @@
     <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
     <string name="error_field_name_already_exists">The field name already exists.</string>
     <string name="error_database_uri_null">Database URI cannot be retrieved.</string>
-    <string name="error_rebuild_list">Unable to properly rebuild the list.</string>
     <string name="error_file_to_big">The file you are trying to upload is too big.</string>
     <string name="error_upload_file">An error occurred while uploading the file data.</string>
     <string name="error_duplicate_file">The file data already exists.</string>
     <string name="error_remove_file">An error occurred while removing the file data.</string>
     <string name="error_start_database_action">An error occurred while performing an action on the database.</string>
-    <string name="error_challenge_already_requested">"Challenge already requested"</string>
     <string name="error_response_already_provided">Response already provided.</string>
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
@@ -206,17 +178,13 @@
     <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
     <string name="error_empty_key">"Key cannot be empty."</string>
     <string name="field_name">Field name</string>
-    <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
     <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
     <string name="hint_conf_pass">Confirm password</string>
-    <string name="hint_generated_password">Generated password</string>
     <string name="hint_group_name">Group name</string>
     <string name="hint_icon_name">Icon name</string>
-    <string name="hint_keyfile">Keyfile</string>
-    <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
     <string name="passphrase">Passphrase</string>
@@ -224,8 +192,6 @@
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
-    <string name="keyfile_is_empty">The keyfile is empty.</string>
-    <string name="length">Length</string>
     <string name="hide_password_title">Hide passwords</string>
     <string name="hide_password_summary">Mask passwords (***) by default</string>
     <string name="colorize_password_title">Colorize passwords</string>
@@ -242,7 +208,6 @@
     <string name="list_size_summary">Text size in the element list</string>
     <string name="creating_database">Creating database…</string>
     <string name="loading_database">Loading database…</string>
-    <string name="lowercase">Lower-case</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
@@ -259,15 +224,11 @@
     <string name="menu_security_settings_summary">Encryption, key derivation function</string>
     <string name="menu_master_key_settings">Master key settings</string>
     <string name="master_key_settings_summary">Change, renewal</string>
-    <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
     <string name="menu_move">Move</string>
     <string name="menu_paste">Paste</string>
     <string name="menu_delete">Delete</string>
-    <string name="menu_cancel">Cancel</string>
-    <string name="menu_hide_password">Hide password</string>
-    <string name="menu_lock">Lock database</string>
     <string name="menu_save_database">Save data</string>
     <string name="menu_merge_database">Merge data</string>
     <string name="menu_reload_database">Reload data</string>
@@ -277,14 +238,10 @@
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
     <string name="menu_keystore_remove_key">Delete device unlock key</string>
-    <string name="menu_url">Go to URL</string>
-    <string name="menu_file_selection_read_only">Write-protected</string>
-    <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="menu_empty_recycle_bin">Empty the recycle bin</string>
     <string name="menu_restore_entry_history">Restore history</string>
     <string name="menu_delete_entry_history">Delete history</string>
     <string name="menu_external_icon">External icon</string>
-    <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
     <string name="no_url_handler">Install a web browser to open this URL.</string>
@@ -298,11 +255,7 @@
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="subdomain_search_title">Subdomain search</string>
     <string name="subdomain_search_summary">Search web domains with subdomains constraints</string>
-    <string name="progress_create">Creating new database…</string>
-    <string name="progress_title">Working…</string>
     <string name="protection">Protection</string>
-    <string name="read_only">Write-protected</string>
-    <string name="read_only_warning">Depending on your file manager, KeePassDX may not allowed to write in your storage.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
     <string name="search_mode">Search mode</string>
@@ -352,14 +305,10 @@
     <string name="sort_creation_time">Creation</string>
     <string name="sort_last_modify_time">Modification</string>
     <string name="sort_last_access_time">Access</string>
-    <string name="special">Special</string>
     <string name="search">Search</string>
-    <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
-    <string name="uppercase">Upper-case</string>
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
-    <string name="warning_database_read_only">Grant file write access to save database changes</string>
     <string name="warning_database_link_revoked">Access to the file revoked by the file manager</string>
     <string name="warning_database_already_opened">A database is already open, close it first to open the new one</string>
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
@@ -394,8 +343,6 @@
     <string name="advanced_unlock_prompt_store_credential_title">Link to device unlocking</string>
     <string name="advanced_unlock_prompt_store_credential_message">You still need to remember your vault main credential if you use device unlock recognition.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Device unlock recognition</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extract database credential with device unlock data</string>
-    <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="advanced_unlock_invalid_key">Cannot read the device unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="advanced_unlock_not_recognized">Could not recognize device unlock print</string>
     <string name="advanced_unlock_scanning_error">Device unlock error: %1$s</string>
@@ -406,8 +353,6 @@
     <string name="properties">Properties</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="menu_appearance_settings_summary">Themes, colors, attributes</string>
-    <string name="biometric">Biometric</string>
-    <string name="device_credential">Device credential</string>
     <string name="general">General</string>
     <string name="autofill">Autofill</string>
     <string name="autofill_service_name">KeePassDX form autofilling</string>
@@ -416,10 +361,6 @@
     <string name="autofill_select_entry">Select entry…</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
     <string name="autofill_preference_title">Autofill settings</string>
-    <string name="password_size_title">Generated password size</string>
-    <string name="password_size_summary">Sets default size of the generated passwords</string>
-    <string name="list_password_generator_options_title">Password characters</string>
-    <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
     <string name="database_opened">Database opened</string>
     <string name="clipboard">Clipboard</string>
     <string name="clipboard_explanation_summary">Copy entry fields using the clipboard of your device</string>
@@ -456,7 +397,6 @@
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
-    <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
     <string name="data">Data</string>
@@ -475,11 +415,8 @@
     <string name="max_history_size_title">Maximum size</string>
     <string name="max_history_size_summary">Limit the history size per entry</string>
     <string name="settings_database_recommend_changing_master_key_title">Recommend renewal</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Recommend changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_title">Force renewal</string>
-    <string name="settings_database_force_changing_master_key_summary">Require changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Force renewal next time</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Require changing the master key the next time (once)</string>
     <string name="monospace_font_fields_enable_title">Field typeface</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="allow_copy_password_title">Clipboard trust</string>
@@ -498,7 +435,6 @@
     <string name="text_appearance">Text</string>
     <string name="application_appearance">Interface</string>
     <string name="other">Other</string>
-    <string name="compression">Compression</string>
     <string name="compression_none">None</string>
     <string name="compression_gzip">Gzip</string>
     <string name="recycle_bin">Recycle bin</string>
@@ -507,7 +443,6 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
     <string name="device_keyboard_setting_title">Device keyboard settings</string>
-    <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>
     <string name="keyboard_entry_category">Entry</string>
@@ -524,8 +459,6 @@
     <string name="keyboard_notification_entry_content_title_text">Entry</string>
     <string name="keyboard_notification_entry_content_title">%1$s available on Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-    <string name="keyboard_appearance_category">Appearance</string>
-    <string name="keyboard_theme_title">Keyboard theme</string>
     <string name="keyboard_keys_category">Keys</string>
     <string name="keyboard_auto_go_action_title">Auto key action</string>
     <string name="keyboard_auto_go_action_summary">\"Go\" key action after pressing a \"Field\" key</string>
@@ -575,23 +508,11 @@
     <string name="enable_keep_screen_on_summary">Keep the screen on when watching or editing an entry</string>
     <string name="enable_screenshot_mode_title">Screenshot mode</string>
     <string name="enable_screenshot_mode_summary">Allow third party apps to record or take screenshots of the app</string>
-    <string name="reset_education_screens_text">Educational hints reset</string>
-    <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
-    <string name="education_field_copy_title">Copy a field</string>
-    <string name="education_field_copy_summary">Copied fields can be pasted anywhere.\n\nUse the form filling method you prefer.</string>
-    <string name="education_donation_title">Participate</string>
-    <string name="education_donation_summary">Help increase the stability, security and in adding more features.</string>
     <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual style&lt;/strong&gt; and you will especially help &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">This &lt;strong&gt;visual style&lt;/strong&gt; is available thanks to your generosity.</string>
-    <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">This feature is &lt;strong&gt;under development&lt;/strong&gt; and requires your &lt;strong&gt;contribution&lt;/strong&gt; to be available soon.</string>
-    <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
     <string name="html_text_dev_feature_contibute">By &lt;strong&gt;contributing&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">you are encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
-    <string name="html_text_dev_feature_thanks">Thanks a lot for your contribution.</string>
-    <string name="html_text_dev_feature_work_hard">We are working hard to release this feature quickly.</string>
-    <string name="html_text_dev_feature_upgrade">Remember to keep your app up to date by installing new versions.</string>
     <string name="download">Download</string>
     <string name="download_attachment">Download %1$s</string>
     <string name="upload_attachment">Upload %1$s</string>
@@ -603,7 +524,6 @@
     <string name="unit_byte">B</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
-    <string name="unit_gibibyte">GiB</string>
     <string name="entropy">Entropy: %1$s bit</string>
     <string name="entropy_high">Entropy: High</string>
     <string name="entropy_calculate">Entropy: Calculate…</string>
@@ -621,31 +541,6 @@
         <item>@string/lower_case</item>
         <item>@string/upper_case</item>
         <item>@string/title_case</item>
-    </string-array>
-    <string-array name="timeout_options">
-        <item>5 seconds</item>
-        <item>10 seconds</item>
-        <item>20 seconds</item>
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="large_timeout_options">
-        <item>5 minutes</item>
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>2 hours</item>
-        <item>5 hours</item>
-        <item>10 hours</item>
-        <item>24 hours</item>
-        <item>48 hours</item>
-        <item>1 week</item>
-        <item>1 month</item>
-        <item>Never</item>
     </string-array>
     <string-array name="list_size_options">
         <item>Small</item>
