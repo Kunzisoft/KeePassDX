@@ -202,7 +202,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
             override fun onDown(e: MotionEvent): Boolean = true
 
             override fun onScroll(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 distanceX: Float,
                 distanceY: Float
@@ -220,7 +220,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
             }
 
             override fun onFling(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 velocityX: Float,
                 velocityY: Float

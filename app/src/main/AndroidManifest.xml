@@ -2,21 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="auto">
+
     <supports-screens
-      android:smallScreens="true"
-      android:normalScreens="true"
-      android:largeScreens="true"
-      android:anyDensity="true" />
-    <uses-permission
-        android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission
-        android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission
-        android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission
-        android:name="android.permission.USE_BIOMETRIC" />
-    <uses-permission
-        android:name="android.permission.VIBRATE"/>
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- Open apps from links -->
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -29,27 +27,28 @@
     </queries>
 
     <application
-        android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:name="com.kunzisoft.keepass.app.App"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/old_backup_rules"
-        android:dataExtractionRules="@xml/backup_rules"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
+        android:dataExtractionRules="@xml/backup_rules"
+        android:fullBackupContent="@xml/old_backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:largeHeap="true"
         android:resizeableActivity="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/KeepassDXStyle.Night"
         tools:targetApi="s">
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="${googleAndroidBackupAPIKey}" />
+
         <activity
             android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"
-            android:launchMode="singleTop"
-            android:exported="true"
             android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" >
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -57,13 +56,15 @@
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.MainCredentialActivity"
-            android:exported="true"
             android:configChanges="keyboardHidden"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="file" />
                 <data android:scheme="content" />
                 <data android:mimeType="*/*" />
@@ -90,9 +91,11 @@
                 <data android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.kdbx" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="file" />
                 <data android:scheme="content" />
                 <data android:mimeType="application/octet-stream" />
@@ -116,13 +119,13 @@
         <!-- Main Activity -->
         <activity
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
-            android:exported="false"
             android:configChanges="keyboardHidden"
+            android:exported="false"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.default_searchable"
-                android:value="com.kunzisoft.keepass.search.SearchResults"
-                android:exported="false"/>
+                android:exported="false"
+                android:value="com.kunzisoft.keepass.search.SearchResults" />
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -149,29 +152,25 @@
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
-            android:launchMode="singleTask"
-            android:label="@string/about" />
-        <activity
-            android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
+            android:label="@string/about"
+            android:launchMode="singleTask" />
+        <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.activities.AutofillLauncherActivity"
-            android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden"
-            android:excludeFromRecents="true"/>
-        <activity
-            android:name="com.kunzisoft.keepass.settings.AdvancedUnlockSettingsActivity" />
-        <activity
-            android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
-        <activity
-            android:name="com.kunzisoft.keepass.settings.AppearanceSettingsActivity" />
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name="com.kunzisoft.keepass.settings.AdvancedUnlockSettingsActivity" />
+        <activity android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
+        <activity android:name="com.kunzisoft.keepass.settings.AppearanceSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity"
             android:theme="@style/Theme.Transparent" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
-            android:theme="@style/Theme.Transparent"
+            android:exported="true"
             android:launchMode="singleInstance"
-            android:exported="true">
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -179,43 +178,50 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="otpauth"/>
-                <data android:host="totp"/>
-                <data android:host="hotp"/>
+
+                <data android:scheme="otpauth" />
+                <data android:host="totp" />
+                <data android:host="hotp" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.settings.MagikeyboardSettingsActivity"
-            android:label="@string/keyboard_setting_label"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/keyboard_setting_label">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
         <service
             android:name="com.kunzisoft.keepass.services.AttachmentFileNotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
         <service
             android:name="com.kunzisoft.keepass.services.ClipboardEntryNotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
         <service
             android:name="com.kunzisoft.keepass.services.AdvancedUnlockNotificationService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse" />
         <!-- Receiver for Autofill -->
         <service
             android:name="com.kunzisoft.keepass.autofill.KeeAutofillService"
-            android:label="@string/autofill_service_name"
             android:exported="true"
+            android:foregroundServiceType="specialUse"
+            android:label="@string/autofill_service_name"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE">
             <meta-data
                 android:name="android.autofill"
@@ -226,11 +232,13 @@
         </service>
         <service
             android:name="com.kunzisoft.keepass.magikeyboard.MagikeyboardService"
-            android:label="@string/keyboard_label"
             android:exported="true"
-            android:permission="android.permission.BIND_INPUT_METHOD" >
-            <meta-data android:name="android.view.im"
-                android:resource="@xml/keyboard_method"/>
+            android:foregroundServiceType="specialUse"
+            android:label="@string/keyboard_label"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/keyboard_method" />
             <intent-filter>
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
@@ -239,6 +247,7 @@
             android:name="com.kunzisoft.keepass.services.KeyboardEntryNotificationService"
             android:enabled="true"
             android:exported="false" />
+
         <receiver
             android:name="com.kunzisoft.keepass.receivers.DexModeReceiver"
             android:exported="true">
@@ -248,6 +257,8 @@
             </intent-filter>
         </receiver>
 
-        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true" />
+        <meta-data
+            android:name="com.sec.android.support.multiwindow"
+            android:value="true" />
     </application>
 </manifest> 
