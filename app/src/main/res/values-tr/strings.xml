@@ -193,6 +193,8 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Katkıda&lt;/strong&gt; bulunarak,</string>
     <string name="html_text_dev_feature_encourage">geliştiricilerin &lt;strong&gt;yeni özellikler&lt;/strong&gt; oluşturmasını ve söz konusu hatalara göre &lt;strong&gt;hataları düzeltmesini&lt;/strong&gt; teşvik ediyorsunuz.</string>
     <string name="download">İndir</string>
+    <string name="style_choose_title">Uygulama teması</string>
+    <string name="style_choose_summary">Uygulamada kullanılan tema</string>
     <string name="icon_pack_choose_title">Simge paketi</string>
     <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
     <string name="selection_mode">Seçim modu</string>

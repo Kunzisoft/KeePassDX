@@ -160,6 +160,8 @@
     <string name="html_text_dev_feature_contibute">Με την &lt;strong&gt;συνεισφορά&lt;/strong&gt; σας,</string>
     <string name="html_text_dev_feature_encourage">ενθαρρύνετε τους προγραμματιστές να δημιουργούν &lt;strong&gt;νέες λειτουργίες&lt;/strong&gt; και να &lt;strong&gt;διορθώνουν σφάλματα&lt;/strong&gt; σύμφωνα με τις παρατηρήσεις σας.</string>
     <string name="download">Λήψη</string>
+    <string name="style_choose_title">Θέμα Εφαρμογής</string>
+    <string name="style_choose_summary">Θέμα που χρησιμοποιείται στην εφαρμογή</string>
     <string name="icon_pack_choose_title">Πακέτο Εικονιδίων</string>
     <string name="icon_pack_choose_summary">Πακέτο εικονιδίων που χρησιμοποιείται στην εφαρμογή</string>
     <string name="menu_copy">Αντιγραφή</string>

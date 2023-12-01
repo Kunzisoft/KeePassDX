@@ -141,6 +141,7 @@
     <string name="download_progression">പുരോഗതിയിൽ: %1$d%%</string>
     <string name="database_description_title">ഡാറ്റാബേസിനെ കുറിച്ചുള്ള വിവരണം</string>
     <string name="icon_pack_choose_summary">ആപ്പിൽ ഉപയോഗിച്ചിരിക്കുന്ന ഐക്കൺ പാക്ക്</string>
+    <string name="style_choose_title">അപ്പ്ലിക്കേഷന്റെ തീം</string>
     <string name="download_finalization">അന്തിമമാക്കുന്നു. . .</string>
     <string name="delete_entered_password_title">പാസ്സ്‌വേഡ് ഇല്ലാതാക്കുക</string>
     <string name="autofill_block">ഓട്ടോഫിൽ തടയുക</string>
@@ -179,6 +180,7 @@
     <string name="text_appearance">വാചകം</string>
     <string name="advanced_unlock">വിപുലമായ അൺലോക്ക്</string>
     <string name="compression_none">ഒന്നുമില്ല</string>
+    <string name="style_choose_summary">അപ്ലിക്കേഷനിൽ ഉപയോഗിക്കുന്ന തീം</string>
     <string name="disable">പ്രവർത്തനരഹിതമാക്കുക</string>
     <string name="download">ഡൗൺലോഡ്</string>
     <string name="clipboard">ക്ലിപ്പ്ബോർഡ്</string>

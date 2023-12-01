@@ -269,6 +269,7 @@
     <string name="hide_broken_locations_summary">Sakrij pokvarene poveznice u popisu nedavnih baza podataka</string>
     <string name="html_text_dev_feature">Ova se funkcija nalazi &lt;strong&gt;u razvoju&lt;/strong&gt; i treba tvoj &lt;strong&gt;doprinos&lt;/strong&gt; kako bi uskoro bila dostupna.</string>
     <string name="lock_database_show_button_title">Prikaži gumb za zaključavanje</string>
+    <string name="style_choose_summary">U aplikaciji korištena tema</string>
     <string name="autofill_application_id_blocklist_title">Popis blokiranja aplikacija</string>
     <string name="validate">Provjeri valjanost</string>
     <string name="html_text_dev_feature_encourage">potičeš programere da stvore &lt;strong&gt;nove funkcije&lt;/strong&gt; i &lt;strong&gt;isprave greške&lt;/strong&gt; na osnovi tvojih napomena.</string>
@@ -276,6 +277,7 @@
     <string name="html_about_contribution">Kako bismo &lt;strong&gt;zadržali našu slobodu&lt;/strong&gt;, &lt;strong&gt;ispravljali greške&lt;/strong&gt;, &lt;strong&gt;dodavali funkcije&lt;/strong&gt; i &lt;strong&gt;uvijek bili aktivni&lt;/strong&gt;, računamo na tvoj &lt;strong&gt;doprinos&lt;/strong&gt;.</string>
     <string name="autofill_web_domain_blocklist_summary">Popis blokiranja koja sprečavaju automatsko ispunjavanje web domena</string>
     <string name="autofill_preference_title">Postavke automatskog ispunjavanja</string>
+    <string name="style_choose_title">Tema aplikacije</string>
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="autofill_web_domain_blocklist_title">Popis blokiranja web domena</string>
     <string name="app_timeout">Istek vremena</string>

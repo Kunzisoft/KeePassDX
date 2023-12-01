@@ -182,6 +182,8 @@
     <string name="html_text_dev_feature_contibute">Ved at &lt;strong&gt;bidrage&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">tilskyndes udviklerne til at lave &lt;strong&gt;nye funktioner&lt;/strong&gt; og &lt;strong&gt;rette fejl&lt;/strong&gt; i henhold dine bemærkninger.</string>
     <string name="download">Hent</string>
+    <string name="style_choose_title">App-tema</string>
+    <string name="style_choose_summary">Tema, der bruges i appen</string>
     <string name="icon_pack_choose_title">Ikonpakke</string>
     <string name="icon_pack_choose_summary">Ikonpakke, der anvendes i appen</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

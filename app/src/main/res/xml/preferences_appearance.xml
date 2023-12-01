@@ -21,6 +21,14 @@
 
     <PreferenceCategory
         android:title="@string/application_appearance">
+
+        <ListPreference
+            android:key="@string/setting_style_key"
+            android:title="@string/style_choose_title"
+            android:summary="@string/style_choose_summary"
+            android:defaultValue="@string/list_style_name_light"
+            android:entries="@array/list_style_names"
+            android:entryValues="@array/list_style_values_light" />
         <ListPreference
             android:key="@string/setting_style_brightness_key"
             android:title="@string/style_brightness_title"

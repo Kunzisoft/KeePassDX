@@ -184,6 +184,8 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять &lt;strong&gt;новые возможности&lt;/strong&gt; и &lt;strong&gt;исправлять ошибки&lt;/strong&gt; в соответствии с вашими замечаниями.</string>
     <string name="download">Скачать</string>
+    <string name="style_choose_title">Тема приложения</string>
+    <string name="style_choose_summary">Тема, используемая в приложении</string>
     <string name="icon_pack_choose_title">Набор значков</string>
     <string name="icon_pack_choose_summary">Набор значков, используемый в приложении</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

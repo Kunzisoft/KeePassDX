@@ -188,6 +188,8 @@
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;problemen op te lossen&lt;/strong&gt;.</string>
     <string name="download">Downloaden</string>
+    <string name="style_choose_title">App-thema</string>
+    <string name="style_choose_summary">Thema gebruikt in de app</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
     <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

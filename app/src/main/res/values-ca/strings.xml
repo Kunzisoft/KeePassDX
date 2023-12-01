@@ -250,6 +250,8 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="style_brightness_title">Brillantor del tema</string>
+    <string name="style_choose_summary">El tema que s’utilitza a l’aplicació</string>
+    <string name="style_choose_title">Tema de l’aplicació</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="icon_pack_choose_summary">El paquet d’icones que s’utilitza a l’aplicació</string>
     <string name="icon_pack_choose_title">Paquet d’icones</string>

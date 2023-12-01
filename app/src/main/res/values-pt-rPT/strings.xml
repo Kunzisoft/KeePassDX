@@ -171,6 +171,8 @@
     <string name="html_text_dev_feature_contibute">Ao &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">está a incentivar os programadores a adicionar &lt;strong&gt;novas funcionalidades&lt;/strong&gt; e a &lt;strong&gt;corrigir erros&lt;/strong&gt; reportados pelos utilizadores.</string>
     <string name="download">Descarregar</string>
+    <string name="style_choose_title">Tema da aplicação</string>
+    <string name="style_choose_summary">Tema usado na aplicação</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado na aplicação</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe o histórico desta manualmente.</string>

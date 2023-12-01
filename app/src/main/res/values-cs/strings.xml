@@ -183,6 +183,8 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Podpořením vývoje&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">povzbudíte vývojáře k doplnění &lt;strong&gt;nových funkcí&lt;/strong&gt; a &lt;strong&gt;opravám chyb&lt;/strong&gt; dle vašich připomínek.</string>
     <string name="download">Stáhnout</string>
+    <string name="style_choose_title">Vzhled aplikace</string>
+    <string name="style_choose_summary">Motiv vzhledu aplikace</string>
     <string name="icon_pack_choose_title">Sada ikon</string>
     <string name="icon_pack_choose_summary">Sada ikon používaných v aplikaci</string>
     <string name="keyboard_label">Klávesnice Magikeyboard (KeePassDX)</string>

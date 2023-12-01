@@ -89,6 +89,7 @@
     <string name="email_address">ईमेल पता</string>
     <string name="ssid">SSID</string>
     <string name="error_otp_digits">टोकन में %1$d से %2$d अंक होने चाहिए।</string>
+    <string name="style_choose_summary">ऐप में इस्तेमाल की गई थीम</string>
     <string name="style_brightness_summary">हल्की या गहरी थीम चुनें</string>
     <string name="error_move_group_here">आप यहा किसी समूह को स्थानांतरित नहीं कर सकते है।</string>
     <string name="content_description_database_color">डाटाबेस का रंग</string>
@@ -117,6 +118,7 @@
     <string name="hide_expired_entries_summary">समाप्त हो चुकी प्रविष्टियों को नहीं दिखाया गया है</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
+    <string name="style_choose_title">ऐप थीम</string>
     <string name="icon_pack_choose_summary">ऐप में इस्तेमाल किया गया आइकन पैक</string>
     <string name="content_description_credentials_information">क्रेडेंशियल्स कि जानकारी</string>
     <string name="validate">सत्यापित करें</string>

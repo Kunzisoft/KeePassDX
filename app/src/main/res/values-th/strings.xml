@@ -326,6 +326,8 @@
     <string name="show_entry_colors_title">สีของรายการ</string>
     <string name="icon_pack_choose_summary">ชุดไอคอนที่ใช้ในแอป</string>
     <string name="style_brightness_summary">เลือกธีมมืดหรือสว่าง</string>
+    <string name="style_choose_summary">ธีมที่ใข้ในแอป</string>
+    <string name="style_choose_title">ธีมของแอป</string>
     <string name="warning_database_info_reloaded">การโหลดฐานข้อมูลซ้ำจะลบข้อมูลที่ถูกแก้ไขภายในเครื่อง</string>
     <string name="default_checkbox">ใช้เป็นฐานข้อมูลเรื่มต้น</string>
     <string name="html_about_privacy">&lt;strong&gt;ไม่มีการรวบรวมข้อมูลผู้ใช้งาน&lt;/strong&gt;, แอปพลีเคชั่นนี้ไม่ได้ติดต่อกับเซิฟเวอร์ใดๆ ทำงานเฉพาะในอุปกรณ์เท่านั้น และเคารพความเป็นส่วนตัวของผู้ใช้งานอย่างเต็มที่</string>

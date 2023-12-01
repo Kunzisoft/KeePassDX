@@ -536,5 +536,6 @@
     </style>
 
     <!-- Only to have a specific base to build a dynamic theme properly programmatically -->
-
+    <style name="KeepassDXStyle.Light.Dynamic" parent="KeepassDXStyle.Light" />
+    <style name="KeepassDXStyle.Night.Dynamic" parent="KeepassDXStyle.Night" />
 </resources>

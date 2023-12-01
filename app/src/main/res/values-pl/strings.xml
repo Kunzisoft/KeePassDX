@@ -184,6 +184,8 @@
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">zachęcasz programistów do tworzenia &lt;strong&gt;nowych funkcji&lt;/strong&gt; i &lt;strong&gt;naprawy błędów&lt;/strong&gt; zgodnie z Twoimi uwagami.</string>
     <string name="download">Pobieranie</string>
+    <string name="style_choose_title">Motyw aplikacji</string>
+    <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
     <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

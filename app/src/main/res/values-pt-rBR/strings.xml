@@ -181,6 +181,8 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com suas observações.</string>
     <string name="download">Baixar</string>
+    <string name="style_choose_title">Tema do aplicativo</string>
+    <string name="style_choose_summary">Tema usado no aplicativo</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="error_load_database">Não foi possível carregar o banco de dados.</string>
