@@ -39,10 +39,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/KeepassDXStyle.Night"
         tools:targetApi="s">
-        <meta-data
-            android:name="com.google.android.backup.api_key"
-            android:value="${googleAndroidBackupAPIKey}" />
-
         <activity
             android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"
             android:configChanges="keyboardHidden"
