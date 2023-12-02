@@ -21,11 +21,6 @@
 
     <PreferenceCategory android:title="@string/application_appearance">
 
-        <SwitchPreferenceCompat
-            android:defaultValue="false"
-            android:key="@string/setting_dynamic_theme_key"
-            android:summary="@string/dynamic_theming_summary"
-            android:title="@string/dynamic_theming_title" />
         <com.kunzisoft.keepass.settings.preference.IconPackListPreference
             android:key="@string/setting_icon_pack_choose_key"
             android:title="@string/icon_pack_choose_title"

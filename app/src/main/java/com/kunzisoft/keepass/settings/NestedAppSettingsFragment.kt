@@ -405,32 +405,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
         activity?.let { activity ->
-            val dynamicThemePreference =
-                findPreference<SwitchPreferenceCompat>(getString(R.string.setting_dynamic_theme_key))
-
-            dynamicThemePreference?.let {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                    it.isEnabled = false
-                    it.isChecked = false
-                    it.setSummary(R.string.dynamic_theming_not_available_below_s_summary)
-                    return
-                }
-
-                if(!DynamicColors.isDynamicColorAvailable()){
-                    it.isEnabled = false
-                    it.isChecked = false
-                    it.setSummary(R.string.dynamic_theming_not_available_summary)
-                }
-
-                it.setOnPreferenceChangeListener { _, _ ->
-                    (activity as? SettingsActivity?)?.apply {
-                        reloadActivity()
-
-                    }
-                    true
-                }
-            }
-
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 val iconPackId = newValue as String
                 IconPackChooser.setSelectedIconPack(iconPackId)
@@ -443,7 +417,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         // To reload group when appearance settings are modified
         when (preference.key) {
-            getString(R.string.setting_dynamic_theme_key),
             getString(R.string.setting_icon_pack_choose_key),
             getString(R.string.show_entry_colors_key),
             getString(R.string.list_entries_show_username_key),

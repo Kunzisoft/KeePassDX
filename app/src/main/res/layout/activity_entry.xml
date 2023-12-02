@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/background_item_selection"
+            android:background="@drawable/background_tab_layout_mini"
             android:backgroundTint="@color/surface_selector"
             android:minWidth="180dp"
             app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
@@ -176,6 +176,7 @@
             layout="@layout/view_button_lock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -175,9 +175,6 @@
         <item>Moyen</item>
         <item>Grand</item>
     </string-array>
-    <string name="style_name_follow_system">Suivre le système</string>
-    <string name="style_name_light">Lumière</string>
-    <string name="style_name_dark">Ombre</string>
     <string name="icon_pack_choose_title">Collection d’icônes</string>
     <string name="menu_copy">Copier</string>
     <string name="menu_move">Déplacer</string>

@@ -39,7 +39,6 @@
         android:paddingLeft="8dp"
         android:paddingEnd="8dp"
         android:paddingRight="8dp"
-        android:textColor="?attr/colorSecondary"
         android:textSize="12sp"
         app:drawableLeftCompat="@drawable/ic_bookmark_white_12dp"
         app:drawableStartCompat="@drawable/ic_bookmark_white_12dp"

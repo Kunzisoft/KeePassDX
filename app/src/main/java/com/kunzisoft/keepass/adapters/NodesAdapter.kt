@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
@@ -49,6 +50,7 @@ import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.utils.ColorUtils.getColorFromAttr
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.LinkedList
@@ -94,7 +96,7 @@ class NodesAdapter(
     private val mColorBackground: Int
 
     @ColorInt
-    private val mTextColorPrimary: Int
+    private val mColorSecondary: Int
 
     @ColorInt
     private val mTextColor: Int
@@ -103,10 +105,10 @@ class NodesAdapter(
     private val mTextColorSecondary: Int
 
     @ColorInt
-    private val mColorSecondary: Int
+    private val mColorSurfaceBright: Int
 
     @ColorInt
-    private val mColorOnSecondary: Int
+    private val mColorOnSurface: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -123,32 +125,20 @@ class NodesAdapter(
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        val taColorBackground =
-            context.obtainStyledAttributes(intArrayOf(android.R.attr.colorBackground))
-        this.mColorBackground = taColorBackground.getColor(0, Color.BLACK)
-        taColorBackground.recycle()
-        // Retrieve the color to tint the icon
-        val taTextColorPrimary =
-            context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
-        taTextColorPrimary.recycle()
-        // To get text color
-        val taTextColor = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
-        this.mTextColor = taTextColor.getColor(0, Color.BLACK)
-        taTextColor.recycle()
-        // To get text color secondary
-        val taTextColorSecondary =
-            context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
-        this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
-        taTextColorSecondary.recycle()
-        // To get background color for selection
-        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
-        this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
-        taColorSecondary.recycle()
-        // To get text color for selection
-        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
-        this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
-        taColorOnSecondary.recycle()
+        val nightMode =
+            context.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+
+        mColorBackground = getColorFromAttr(context, R.attr.colorSurface, Color.BLACK)
+        mColorSecondary = getColorFromAttr(context, R.attr.colorSecondary, Color.WHITE)
+        mTextColor = getColorFromAttr(context, android.R.attr.textColor, Color.WHITE)
+        mTextColorSecondary =
+            getColorFromAttr(context, android.R.attr.textColorSecondary, Color.WHITE)
+
+        //For selection
+        mColorSurfaceBright =
+            if (nightMode) getColorFromAttr(context, R.attr.colorSurfaceBright, Color.GRAY)
+            else getColorFromAttr(context, R.attr.colorSurfaceDim, Color.GRAY)
+        mColorOnSurface = getColorFromAttr(context, R.attr.colorOnSurface, Color.WHITE)
     }
 
     private fun assignPreferences() {
@@ -401,7 +391,7 @@ class NodesAdapter(
 
         // Assign icon colors
         var iconColor = if (holder.container.isSelected)
-            mColorOnSecondary
+            mColorOnSurface
         else when (subNode.type) {
             Type.GROUP -> mTextColor
             Type.ENTRY -> mColorSecondary
@@ -471,12 +461,12 @@ class NodesAdapter(
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mColorOnSecondary)
-                holder.subText?.setTextColor(mColorOnSecondary)
-                holder.otpToken?.setTextColor(mColorOnSecondary)
-                holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
-                holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
-                holder.meta.setTextColor(mColorOnSecondary)
+                holder.text.setTextColor(mColorOnSurface)
+                holder.subText?.setTextColor(mColorOnSurface)
+                holder.otpToken?.setTextColor(mColorOnSurface)
+                holder.otpProgress?.setIndicatorColor(mColorOnSurface)
+                holder.attachmentIcon?.setColorFilter(mColorOnSurface)
+                holder.meta.setTextColor(mColorOnSurface)
             }
 
             database.stopManageEntry(entry)
@@ -484,6 +474,7 @@ class NodesAdapter(
 
         // Add number of entries in groups
         if (subNode.type == Type.GROUP) {
+            assignBackgroundColor(holder.container, null)
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
@@ -498,6 +489,14 @@ class NodesAdapter(
                 }
             } else {
                 holder.numberChildren?.visibility = View.GONE
+            }
+
+            if (!holder.container.isSelected) {
+                holder.text.setTextColor(mTextColor)
+                holder.meta.setTextColor(mTextColor)
+            } else {
+                holder.text.setTextColor(mColorOnSurface)
+                holder.meta.setTextColor(mColorOnSurface)
             }
         }
 
@@ -558,16 +557,16 @@ class NodesAdapter(
         }
     }
 
-    private fun assignBackgroundColor(view: View?, entry: Entry) {
+    private fun assignBackgroundColor(view: View?, entry: Entry?) {
         view?.let {
             ViewCompat.setBackgroundTintList(
                 view,
                 ColorStateList.valueOf(
                     if (!view.isSelected) {
-                        (if (mShowEntryColors) entry.backgroundColor else null)
+                        (if (entry != null && mShowEntryColors) entry.backgroundColor else null)
                             ?: mColorBackground
                     } else {
-                        mColorSecondary
+                        mColorSurfaceBright
                     }
                 )
             )

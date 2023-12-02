@@ -11,7 +11,7 @@
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurfaceContainer"
+        android:background="?attr/colorSurfaceVariant"
         android:minHeight="64dp"
         android:visibility="gone">
 
@@ -73,7 +73,7 @@
         android:id="@+id/search_advance_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurfaceContainer"
+        android:background="?attr/colorSurfaceVariant"
         android:orientation="vertical">
 
         <com.google.android.material.chip.ChipGroup

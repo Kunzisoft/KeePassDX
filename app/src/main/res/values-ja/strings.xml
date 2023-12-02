@@ -355,7 +355,6 @@
         <item>中</item>
         <item>大</item>
     </string-array>
-    <string name="style_name_follow_system">システムに従う</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="hide_expired_entries_title">有効期限切れのエントリーを非表示にする</string>
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>

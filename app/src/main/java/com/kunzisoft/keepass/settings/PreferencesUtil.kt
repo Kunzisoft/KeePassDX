@@ -163,19 +163,6 @@ object PreferencesUtil {
         )
     }
 
-    fun getIsDynamicThemingEnabled(context: Context): Boolean {
-        val default = false
-        return PreferenceManager.getDefaultSharedPreferences(context)
-            .getBoolean(context.getString(R.string.setting_dynamic_theme_key), default)
-    }
-
-    fun setDynamicThemingEnabled(context: Context, enabled: Boolean) {
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putBoolean(context.getString(R.string.setting_dynamic_theme_key), enabled)
-            .apply()
-    }
-
     /**
      * Retrieve the text size in % (1 for 100%)
      */
@@ -817,7 +804,6 @@ object PreferencesUtil {
                 context.getString(R.string.autofill_application_id_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
                 context.getString(R.string.autofill_web_domain_blocklist_key) -> editor.putStringSet(name, getStringSetFromProperties(value))
 
-                context.getString(R.string.setting_dynamic_theme_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
                 context.getString(R.string.show_entry_colors_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())

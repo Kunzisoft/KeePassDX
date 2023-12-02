@@ -313,7 +313,6 @@
     <string name="download_complete">Vollständig!</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden nicht angezeigt</string>
-    <string name="style_name_follow_system">System verfolgen</string>
     <string name="error_create_database">Die Datenbankdatei kann nicht erstellt werden.</string>
     <string name="entry_add_attachment">Anhang hinzufügen</string>
     <string name="discard">Verwerfen</string>

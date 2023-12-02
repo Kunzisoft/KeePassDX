@@ -19,7 +19,7 @@
 -->
 <resources>
     <style name="Theme.Keepass.v23" parent="Theme.Keepass.v21" >
-        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:statusBarColor">?colorSurface</item>
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 </resources>

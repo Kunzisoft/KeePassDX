@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.settings
 import android.app.Activity
 import android.app.backup.BackupManager
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem

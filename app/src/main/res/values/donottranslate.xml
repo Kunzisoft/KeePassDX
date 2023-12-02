@@ -171,7 +171,6 @@
 
     <!-- Appearance Settings -->
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
-    <string name="setting_dynamic_theme_key" translatable="false">settings_dynamic_theme_key</string>
     <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
     <string name="show_entry_colors_key" translatable="false">show_entry_colors_key</string>
     <bool name="show_entry_colors_default" translatable="false">true</bool>

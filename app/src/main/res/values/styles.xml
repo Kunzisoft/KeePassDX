@@ -18,6 +18,18 @@
 -->
 <resources>
 
+    <style name="GroupActivityTheme" parent="Theme.Keepass">
+        <item name="android:statusBarColor">?colorSurfaceVariant</item>
+    </style>
+
+    <style name="FileDatabaseSelectActivityTheme" parent="Theme.Keepass">
+        <item name="android:navigationBarColor">?colorSurfaceVariant2</item>
+    </style>
+
+    <style name="MainCredentialActivityTheme" parent="Theme.Keepass">
+        <item name="android:navigationBarColor">?colorSurfaceVariant2</item>
+    </style>
+
     <style name="Theme.Keepass" parent="Theme.Keepass.v27" />
 
     <style name="Theme.Keepass.v27" parent="Theme.Keepass.v23" />
@@ -27,39 +39,11 @@
     <style name="Theme.Keepass.v21" parent="Theme.Keepass.Base" />
 
     <style name="Theme.Keepass.Base" parent="Theme.Material3.DynamicColors.DayNight">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorOnPrimary">@color/color_on_primary</item>
-        <item name="colorPrimaryContainer">@color/color_primary_container</item>
-        <item name="colorOnPrimaryContainer">@color/color_on_primary_container</item>
-        <item name="colorSecondary">@color/color_secondary</item>
-        <item name="colorOnSecondary">@color/color_on_secondary</item>
-        <item name="colorSecondaryContainer">@color/color_secondary_container</item>
-        <item name="colorOnSecondaryContainer">@color/color_on_secondary_container</item>
-        <item name="colorTertiary">@color/color_tertiary</item>
-        <item name="colorOnTertiary">@color/color_on_tertiary</item>
-        <item name="colorTertiaryContainer">@color/color_tertiary_container</item>
-        <item name="colorOnTertiaryContainer">@color/color_on_tertiary_container</item>
-        <item name="colorError">@color/color_error</item>
-        <item name="colorErrorContainer">@color/color_error_container</item>
-        <item name="colorOnError">@color/color_on_error</item>
-        <item name="colorOnErrorContainer">@color/color_on_error_container</item>
-        <item name="android:windowBackground">@color/color_background</item>
-        <item name="android:colorBackground">@color/color_background</item>
-        <item name="colorOnBackground">@color/color_on_background</item>
-        <item name="colorSurface">@color/color_surface</item>
-        <item name="colorOnSurface">@color/color_on_surface</item>
-        <item name="colorSurfaceContainerLowest">@color/color_surface_container_lowest</item>
-        <item name="colorSurfaceContainerLow">@color/color_surface_container_low</item>
-        <item name="colorSurfaceContainer">@color/color_surface_container</item>
-        <item name="colorSurfaceContainerHigh">@color/color_surface_container_high</item>
-        <item name="colorSurfaceContainerHighest">@color/color_surface_container_highest</item>
-        <item name="colorSurfaceVariant">@color/color_surface_variant</item>
-        <item name="colorOnSurfaceVariant">@color/color_on_surface_variant</item>
-        <item name="colorOutline">@color/color_outline</item>
-        <item name="colorOnSurfaceInverse">@color/color_on_surface_inverse</item>
-        <item name="colorSurfaceInverse">@color/color_surface_inverse</item>
-        <item name="colorPrimaryInverse">@color/color_primary_inverse</item>
+        <item name="android:windowBackground">@color/surface_color</item>
+        <item name="android:colorBackground">@color/surface_color</item>
+        <item name="colorSurface">@color/surface_color</item>
+        <item name="colorSurfaceVariant">@color/surface_color_variant</item>
+        <item name="colorSurfaceVariant2">@color/surface_color_variant2</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -74,13 +58,13 @@
         <item name="android:textAppearanceMedium">@style/Theme.Keepass.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorPrimary">@color/classic_theme_light_textPrimary</item>
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
         <item name="android:editTextColor">?attr/colorOnSurface</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/Theme.Keepass.Dialog</item>
         <item name="alertDialogTheme">@style/Theme.Keepass.Dialog</item>
-        <item name="dialogBackgroundColor">@color/color_surface_variant</item>
+        <item name="dialogBackgroundColor">?colorSurfaceVariant</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/Theme.Keepass.Cardview</item>
@@ -115,12 +99,14 @@
     </style>
 
     <!-- Toolbar Style -->
-    <style name="Theme.Keepass.Toolbar.Base" parent="Widget.Material3.Toolbar.Surface" />
+    <style name="Theme.Keepass.Toolbar.Base" parent="Widget.Material3.Toolbar" />
 
     <style name="Theme.Keepass.Toolbar.v21" parent="Theme.Keepass.Toolbar.Base" />
 
     <style name="Theme.Keepass.Toolbar" parent="Theme.Keepass.Toolbar.v21">
         <item name="elevation">0dp</item>
+        <item name="background">@color/surface_color</item>
+        <item name="android:background">@color/surface_color</item>
     </style>
 
     <style name="Theme.Keepass.CollapsingLayout" parent="Widget.Design.CollapsingToolbar">
@@ -225,18 +211,19 @@
         <item name="android:layout_marginEnd">@dimen/card_view_margin_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/card_view_margin_horizontal</item>
         <item name="android:layout_marginRight">@dimen/card_view_margin_horizontal</item>
-        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
+        <item name="cardBackgroundColor">?colorSurfaceVariant</item>
         <item name="android:padding">@dimen/card_view_padding</item>
         <item name="cardCornerRadius">@dimen/card_radius</item>
+        <item name="cardElevation">0dp</item>
     </style>
 
     <style name="Theme.Keepass.Cardview.Surface.Small" parent="Widget.Material3.CardView.Filled">
         <item name="cardCornerRadius">@dimen/small_card_radius</item>
-        <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="cardBackgroundColor">?colorSurfaceVariant</item>
     </style>
 
-    <style name="Theme.Keepass.Cardview.SurfaceContainer" parent="Theme.Keepass.Cardview">
-        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
+    <style name="Theme.Keepass.Cardview.Variant" parent="Theme.Keepass.Cardview">
+        <item name="cardBackgroundColor">?attr/colorSurfaceVariant2</item>
     </style>
 
     <!-- CheckBox -->
@@ -291,7 +278,6 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_rounded_square</item>
-        <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
 
     <!-- Nodes Text Style -->

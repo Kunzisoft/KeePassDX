@@ -20,6 +20,7 @@
 <resources>
     <attr name="toolbarSpecialStyle" format="reference" />
     <attr name="toolbarActionStyle" format="reference" />
+    <attr name="colorSurfaceVariant2" format="color" />
 
     <attr name="dialogBackgroundColor" format="color" />
 

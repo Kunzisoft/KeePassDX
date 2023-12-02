@@ -23,8 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="4dp"
-    tools:targetApi="lollipop">
+    android:paddingBottom="4dp">
 
     <ViewSwitcher
         android:id="@+id/file_main_switcher"
@@ -41,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-t a
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/file_container_basic_info"
                     android:layout_width="match_parent"
@@ -101,7 +100,7 @@ t a
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="?colorSurfaceContainerLow">
+                        app:cardBackgroundColor="?colorSurfaceVariant2">
 
                         <LinearLayout
                             android:layout_width="match_parent"

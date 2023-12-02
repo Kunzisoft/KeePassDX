@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.util.AttributeSet
@@ -34,6 +35,7 @@ import androidx.appcompat.view.SupportMenuInflater
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.MaterialToolbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.utils.ColorUtils
 
 class ToolbarAction @JvmOverloads constructor(context: Context,
                                               attrs: AttributeSet? = null,
@@ -52,6 +54,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
             closeDrawable.colorFilter = PorterDuffColorFilter(colorControl, PorterDuff.Mode.SRC_ATOP)
             navigationIcon = closeDrawable
         }
+        setTitleTextColor(ColorUtils.getColorFromAttr(context, R.attr.colorOnSurface, Color.WHITE))
     }
 
     fun startSupportActionMode(actionModeCallback: ActionMode.Callback): ActionMode {

@@ -31,7 +31,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager.LayoutParams.FLAG_SECURE
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.android.material.color.DynamicColors
@@ -48,8 +47,6 @@ abstract class StylishActivity : AppCompatActivity() {
     /* (non-Javadoc) Workaround for HTC Linkify issues
      * @see android.app.Activity#startActivity(android.content.Intent)
      */
-
-    private var isDynamicThemeEnabled = true
 
     override fun startActivity(intent: Intent) {
         try {
@@ -79,15 +76,6 @@ abstract class StylishActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        isDynamicThemeEnabled = PreferencesUtil.getIsDynamicThemingEnabled(this)
-
-        //Material you theme
-        if (DynamicColors.isDynamicColorAvailable() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (isDynamicThemeEnabled) {
-                DynamicColors.applyToActivityIfAvailable(this)
-            }
-        }
-
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(onScreenshotModePrefListener)
     }
@@ -112,11 +100,8 @@ abstract class StylishActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (DATABASE_PREFERENCE_CHANGED
-            || isDynamicThemeEnabled != PreferencesUtil.getIsDynamicThemingEnabled(this)
-        ) {
+        if (DATABASE_PREFERENCE_CHANGED) {
             DATABASE_PREFERENCE_CHANGED = false
-            isDynamicThemeEnabled = PreferencesUtil.getIsDynamicThemingEnabled(this)
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
             recreateActivity()
         }

@@ -8,7 +8,7 @@
                 android:right="4dp"
                 android:top="1dp"
                 android:bottom="1dp"/>
-            <solid android:color="@color/orange"/>
+            <solid android:color="?colorSecondary"/>
         </shape>
     </item>
 </layer-list>

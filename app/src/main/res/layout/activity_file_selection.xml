@@ -21,8 +21,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_repeat"
-    android:backgroundTint="?android:textColor"
     android:filterTouchesWhenObscured="true"
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
@@ -43,18 +41,19 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:layout_collapseMode="pin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationContentDescription="@string/about"
                 app:navigationIcon="@drawable/ic_info_white_24dp"
                 app:title="KeePass"
-                app:titleCentered="true" />
+                app:titleCentered="true"
+                app:titleTextColor="?colorPrimary" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
@@ -104,6 +103,8 @@
                 android:id="@+id/empty_database_history_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/background_repeat"
+                android:backgroundTint="?colorPrimary"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingHorizontal="25dp"

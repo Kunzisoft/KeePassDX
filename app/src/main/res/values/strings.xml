@@ -547,10 +547,6 @@
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-    <string name="dynamic_theming_title">Dynamic Theming</string>
-    <string name="dynamic_theming_summary">Style based on your system theme</string>
-    <string name="dynamic_theming_not_available_summary">This feature is not available at this moment</string>
-    <string name="dynamic_theming_not_available_below_s_summary">This feature is available only on devices running Android 12 or above</string>
     <string name="icon_section_standard">Standard</string>
     <string name="icon_section_custom">Custom</string>
     <string name="icon_pack_choose_title">Icon pack</string>

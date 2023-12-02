@@ -44,6 +44,7 @@
             android:configChanges="keyboardHidden"
             android:exported="true"
             android:launchMode="singleTop"
+            android:theme="@style/FileDatabaseSelectActivityTheme"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,6 +55,7 @@
             android:name="com.kunzisoft.keepass.activities.MainCredentialActivity"
             android:configChanges="keyboardHidden"
             android:exported="true"
+            android:theme="@style/MainCredentialActivityTheme"
             android:windowSoftInputMode="adjustResize|stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -117,6 +119,7 @@
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
             android:configChanges="keyboardHidden"
             android:exported="false"
+            android:theme="@style/GroupActivityTheme"
             android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.default_searchable"
