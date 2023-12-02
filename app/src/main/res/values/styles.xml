@@ -64,7 +64,7 @@
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/Theme.Keepass.Dialog</item>
         <item name="alertDialogTheme">@style/Theme.Keepass.Dialog</item>
-        <item name="dialogBackgroundColor">?colorSurfaceVariant</item>
+        <item name="dialogBackgroundColor">?colorSurfaceVariant2</item>
 
         <!-- CardView -->
         <item name="materialCardViewStyle">@style/Theme.Keepass.Cardview</item>
