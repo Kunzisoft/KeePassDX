@@ -441,14 +441,11 @@
     <string name="exclude_ambiguous_chars">استبعاد الأحرف الغامضة</string>
     <string name="consider_chars_filter">ضع في اعتبارك الأحرف</string>
     <string name="ignore_chars_filter">تجاهل الأحرف</string>
-    <string name="style_choose_title">سمة التطبيق</string>
     <string name="lower_case">أحرف صغيرة</string>
     <string name="upper_case">الأحرف الكبيرة</string>
     <string name="title_case">حالة العنوان</string>
     <string name="character_count">عدد الأحرف: %1$d</string>
-    <string name="style_choose_summary">السمة المستخدمة في التطبيق</string>
     <string name="show_entry_colors_summary">يعرض ألوان المقدمة والخلفية لإدخال</string>
-    <string name="icon_pack_choose_summary">حزمة الأيقونات المستخدمة في التطبيق</string>
     <string name="show_entry_colors_title">ألوان الدخول</string>
     <string name="device_credential_unlock_enable_title">فتح بيانات اعتماد الجهاز</string>
     <string name="autofill_block_restart">أعد تشغيل التطبيق الذي يحتوي على النموذج لتنشيط الحظر.</string>
@@ -469,10 +466,8 @@
     <string name="templates_group_enable_summary">استخدم القوالب الديناميكية لملء حقول الإدخال</string>
     <string name="keyboard_auto_go_action_summary">إجراء مفتاح \"Go\" بعد الضغط على مفتاح \"Field\"</string>
     <string name="allow_no_password_summary">يسمح بالنقر فوق الزر \"فتح\" إذا لم يتم تحديد بيانات اعتماد</string>
-    <string name="style_brightness_title">سطوع السمة</string>
     <string name="word_separator">الفاصل</string>
     <string name="screenshot_mode_banner_text">وضع لقطة الشاشة</string>
-    <string name="style_brightness_summary">اختيار سمة فاتحة او داكنة</string>
     <string name="icon_section_standard">قياسي</string>
     <string name="wireless">واي فاي Wi-Fi</string>
     <string name="icon_pack_choose_title">حزمة أيقونات</string>

@@ -17,14 +17,14 @@
 
         <TextView
             android:id="@+id/label_view"
-            style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+            style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Label" />
 
         <TextView
             android:id="@+id/value_view"
-            style="@style/KeepassDXStyle.TextAppearance.TextNode"
+            style="@style/Theme.Keepass.TextAppearance.TextNode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -40,7 +40,7 @@
 
         <ImageButton
             android:id="@+id/show_btn"
-            style="@style/KeepassDXStyle.ImageButton.Simple"
+            style="@style/Theme.Keepass.ImageButton.Simple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/menu_showpass"
@@ -49,7 +49,7 @@
 
         <ImageButton
             android:id="@+id/copy_btn"
-            style="@style/KeepassDXStyle.ImageButton.Simple"
+            style="@style/Theme.Keepass.ImageButton.Simple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/menu_copy"

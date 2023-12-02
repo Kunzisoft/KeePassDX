@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -20,8 +19,8 @@
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/biometric_button"
+    style="@style/Theme.Keepass.Button.Secondary"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    style="@style/KeepassDXStyle.Button.Secondary"
-    app:icon="@drawable/ic_fingerprint_24dp"
-    android:text="@string/configure" />
+    android:text="@string/configure"
+    app:icon="@drawable/ic_fingerprint_24dp" />

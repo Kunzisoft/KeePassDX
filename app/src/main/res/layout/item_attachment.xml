@@ -51,13 +51,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_attachment_title"
-            style="@style/KeepassDXStyle.TextAppearance.TextNode"
+            style="@style/Theme.Keepass.TextAppearance.TextNode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toStartOf="@+id/item_attachment_size_container"
-            android:layout_toLeftOf="@+id/item_attachment_size_container"
             android:layout_toEndOf="@+id/item_attachment_broken"
-            android:layout_toRightOf="@+id/item_attachment_broken"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="2"
@@ -68,7 +66,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toStartOf="@+id/item_attachment_action_container"
-            android:layout_toLeftOf="@+id/item_attachment_action_container"
             android:gravity="center_vertical|end"
             android:orientation="vertical">
 
@@ -82,7 +79,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_attachment_compression"
-                style="@style/KeepassDXStyle.Text.Tiny"
+                style="@style/Theme.Keepass.Text.Tiny"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:firstBaselineToTopHeight="0dp"
@@ -98,12 +95,11 @@
             android:id="@+id/item_attachment_action_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentEnd="true">
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/item_attachment_delete_button"
-                style="@style/KeepassDXStyle.ImageButton.Simple"
+                style="@style/Theme.Keepass.ImageButton.Simple"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -123,7 +119,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/item_attachment_icon"
-                    style="@style/KeepassDXStyle.ImageButton.Simple"
+                    style="@style/Theme.Keepass.ImageButton.Simple"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -37,7 +37,7 @@
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/KeepassDXStyle.Night"
+        android:theme="@style/Theme.Keepass"
         tools:targetApi="s">
         <activity
             android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"

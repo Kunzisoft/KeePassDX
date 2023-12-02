@@ -10,7 +10,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/date_time_label"
-        style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+        style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/entry_expires" />
@@ -28,14 +28,13 @@
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/content_description_file_information"
             android:paddingStart="8dp"
-            android:paddingLeft="8dp"
             android:src="@drawable/ic_warning_white_24dp"
             app:tint="@color/warning"
             tools:ignore="RtlSymmetry" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/date_time_value"
-            style="@style/KeepassDXStyle.TextAppearance.TextNode"
+            style="@style/Theme.Keepass.TextAppearance.TextNode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

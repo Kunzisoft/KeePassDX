@@ -34,10 +34,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.TwoStatePreference
+import com.google.android.material.color.DynamicColors
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
-import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
 import com.kunzisoft.keepass.icons.IconPackChooser
@@ -46,7 +48,6 @@ import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
-
 
 class NestedAppSettingsFragment : NestedSettingsFragment() {
 
@@ -404,21 +405,30 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
         activity?.let { activity ->
-            findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
-                val styleIdString = newValue as String
-                    Stylish.assignStyle(activity, styleIdString)
-                    // Relaunch the current activity to redraw theme
+            val dynamicThemePreference =
+                findPreference<SwitchPreferenceCompat>(getString(R.string.setting_dynamic_theme_key))
+
+            dynamicThemePreference?.let {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                    it.isEnabled = false
+                    it.isChecked = false
+                    it.setSummary(R.string.dynamic_theming_not_available_below_s_summary)
+                    return
+                }
+
+                if(!DynamicColors.isDynamicColorAvailable()){
+                    it.isEnabled = false
+                    it.isChecked = false
+                    it.setSummary(R.string.dynamic_theming_not_available_summary)
+                }
+
+                it.setOnPreferenceChangeListener { _, _ ->
                     (activity as? SettingsActivity?)?.apply {
                         reloadActivity()
-                    }
-                true
-            }
 
-            findPreference<ListPreference>(getString(R.string.setting_style_brightness_key))?.setOnPreferenceChangeListener { _, _ ->
-                (activity as? SettingsActivity?)?.apply {
-                    reloadActivity()
+                    }
+                    true
                 }
-                true
             }
 
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
@@ -433,8 +443,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         // To reload group when appearance settings are modified
         when (preference.key) {
-            getString(R.string.setting_style_key),
-            getString(R.string.setting_style_brightness_key),
+            getString(R.string.setting_dynamic_theme_key),
             getString(R.string.setting_icon_pack_choose_key),
             getString(R.string.show_entry_colors_key),
             getString(R.string.list_entries_show_username_key),

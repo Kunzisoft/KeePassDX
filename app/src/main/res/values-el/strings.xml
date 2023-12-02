@@ -160,10 +160,7 @@
     <string name="html_text_dev_feature_contibute">Με την &lt;strong&gt;συνεισφορά&lt;/strong&gt; σας,</string>
     <string name="html_text_dev_feature_encourage">ενθαρρύνετε τους προγραμματιστές να δημιουργούν &lt;strong&gt;νέες λειτουργίες&lt;/strong&gt; και να &lt;strong&gt;διορθώνουν σφάλματα&lt;/strong&gt; σύμφωνα με τις παρατηρήσεις σας.</string>
     <string name="download">Λήψη</string>
-    <string name="style_choose_title">Θέμα Εφαρμογής</string>
-    <string name="style_choose_summary">Θέμα που χρησιμοποιείται στην εφαρμογή</string>
     <string name="icon_pack_choose_title">Πακέτο Εικονιδίων</string>
-    <string name="icon_pack_choose_summary">Πακέτο εικονιδίων που χρησιμοποιείται στην εφαρμογή</string>
     <string name="menu_copy">Αντιγραφή</string>
     <string name="menu_move">Μετακίνηση</string>
     <string name="menu_paste">Επικόλληση</string>
@@ -409,8 +406,6 @@
     <string name="download_canceled">Ακυρώθηκε!</string>
     <string name="icon_section_custom">Προσαρμοσμένο</string>
     <string name="icon_section_standard">Κανονικό</string>
-    <string name="style_brightness_summary">Επιλέξτε φωτεινά ή σκοτεινά θέματα</string>
-    <string name="style_brightness_title">Φωτεινότητα θέματος</string>
     <string name="error_upload_file">Παρουσιάστηκε σφάλμα κατά τη μεταφόρτωση των δεδομένων αρχείου.</string>
     <string name="error_file_to_big">Το αρχείο που προσπαθείτε να ανεβάσετε είναι πολύ μεγάλο.</string>
     <string name="content_description_otp_information">Πληροφορίες One-time κωδικού πρόσβασης</string>

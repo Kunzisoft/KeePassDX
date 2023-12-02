@@ -93,7 +93,7 @@
                 <!-- UUID -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/entry_UUID_label"
-                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/entry_UUID" />
@@ -104,7 +104,7 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/entry_UUID_reference"
-                        style="@style/KeepassDXStyle.TextAppearance.TextNode"
+                        style="@style/Theme.Keepass.TextAppearance.TextNode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textIsSelectable="true" />
@@ -154,7 +154,7 @@
                 <!-- Created -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/entry_created_label"
-                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -162,7 +162,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/entry_created"
-                    style="@style/KeepassDXStyle.TextAppearance.TextNode"
+                    style="@style/Theme.Keepass.TextAppearance.TextNode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp" />
@@ -170,7 +170,7 @@
                 <!-- Modified -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/entry_modified_label"
-                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -178,7 +178,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/entry_modified"
-                    style="@style/KeepassDXStyle.TextAppearance.TextNode"
+                    style="@style/Theme.Keepass.TextAppearance.TextNode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp" />
@@ -186,7 +186,7 @@
                 <!-- Accessed -->
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/entry_accessed_label"
-                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/entry_accessed"

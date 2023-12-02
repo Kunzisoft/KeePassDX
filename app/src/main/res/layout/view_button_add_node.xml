@@ -43,7 +43,7 @@
             android:layout_marginEnd="@dimen/image_button_margin"
             app:icon="@drawable/ic_key_white_24dp"
             android:contentDescription="@string/add_entry"
-            style="@style/KeepassDXStyle.Fab.Menu"
+            style="@style/Theme.Keepass.Fab.Menu"
             android:text="@string/add_entry" />
     </LinearLayout>
 
@@ -66,13 +66,13 @@
             android:layout_marginEnd="@dimen/image_button_margin"
             app:icon="@drawable/ic_folder_white_24dp"
             android:contentDescription="@string/add_group"
-            style="@style/KeepassDXStyle.Fab.Menu"
+            style="@style/Theme.Keepass.Fab.Menu"
             android:text="@string/add_group"/>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
-        style="@style/KeepassDXStyle.Fab"
+        style="@style/Theme.Keepass.Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

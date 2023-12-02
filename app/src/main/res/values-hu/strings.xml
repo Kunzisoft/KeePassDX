@@ -199,10 +199,7 @@
     <string name="html_text_dev_feature_contibute">A &lt;strong&gt;támogatással&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy &lt;strong&gt;új funkciókat&lt;/strong&gt; készítsenek, és &lt;strong&gt;hibákat javítsanak&lt;/strong&gt; az észrevételei alapján.</string>
     <string name="download">Letöltés</string>
-    <string name="style_choose_title">Alkalmazástéma</string>
-    <string name="style_choose_summary">Az alkalmazásban használt téma</string>
     <string name="icon_pack_choose_title">Ikoncsomag</string>
-    <string name="icon_pack_choose_summary">Az alkalmazásban használt ikoncsomag</string>
     <string name="content_description_password_checkbox">Jelszó jelölőnégyzet</string>
     <string name="content_description_file_information">Fájlinformációk</string>
     <string name="content_description_add_node">Csomópont hozzáadása</string>
@@ -452,11 +449,9 @@
     <string name="autofill_inline_suggestions_keyboard">Automatikus kitöltési javaslatok hozzáadva.</string>
     <string name="download_canceled">Megszakítva!</string>
     <string name="unit_byte">B</string>
-    <string name="style_brightness_summary">Válasszon a világos vagy sötét témák közül</string>
     <string name="icon_section_standard">Szokásos</string>
     <string name="icon_section_custom">Egyéni</string>
     <string name="show_uuid_title">UUID megjelenítése</string>
-    <string name="style_brightness_title">Téma fényereje</string>
     <string name="show_uuid_summary">Megjeleníti a bejegyzéshez vagy csoporthoz tartozó UUID-t</string>
     <string name="show_otp_token_title">OTP token megjelenítése</string>
     <string name="advanced_unlock_delete_all_key_warning">Törli az összes, az eszközfeloldás-felismeréshez tartozó titkosítási kulcsot\?</string>

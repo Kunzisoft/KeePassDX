@@ -184,10 +184,7 @@
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">zachęcasz programistów do tworzenia &lt;strong&gt;nowych funkcji&lt;/strong&gt; i &lt;strong&gt;naprawy błędów&lt;/strong&gt; zgodnie z Twoimi uwagami.</string>
     <string name="download">Pobieranie</string>
-    <string name="style_choose_title">Motyw aplikacji</string>
-    <string name="style_choose_summary">Motyw używany w aplikacji</string>
     <string name="icon_pack_choose_title">Pakiet ikon</string>
-    <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Ustawienia Magikeyboard</string>
     <string name="keyboard_entry_category">Wpis</string>
@@ -409,8 +406,6 @@
     <string name="download_canceled">Anulowano!</string>
     <string name="icon_section_custom">Niestandardowy</string>
     <string name="icon_section_standard">Standardowy</string>
-    <string name="style_brightness_summary">Wybierz jasny lub ciemny motyw</string>
-    <string name="style_brightness_title">Jasność motywu</string>
     <string name="error_upload_file">Wystąpił błąd podczas przesyłania danych pliku.</string>
     <string name="error_file_to_big">Plik, który próbujesz przesłać, jest za duży.</string>
     <string name="content_description_otp_information">Informacje o hasłach jednorazowych</string>

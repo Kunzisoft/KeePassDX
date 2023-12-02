@@ -22,47 +22,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground">
+
     <androidx.cardview.widget.CardView
+        style="?attr/cardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?android:attr/selectableItemBackground"
-        style="?attr/cardViewStyle">
+        android:foreground="?android:attr/selectableItemBackground">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/template_background"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/template_image"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="12dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_apps_white_24dp"
                 android:contentDescription="@string/content_description_entry_icon"
-                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_apps_white_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:tint="?android:attr/textColor" />
+
             <TextView
                 android:id="@+id/template_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:layout_gravity="center_vertical"
+                android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingStart="12dp"
                 android:paddingLeft="12dp"
                 android:paddingEnd="12dp"
                 android:paddingRight="12dp"
-                tools:text="Template"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/template_image" />
+                app:layout_constraintStart_toEndOf="@+id/template_image"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Template" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

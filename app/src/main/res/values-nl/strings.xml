@@ -188,10 +188,7 @@
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;problemen op te lossen&lt;/strong&gt;.</string>
     <string name="download">Downloaden</string>
-    <string name="style_choose_title">App-thema</string>
-    <string name="style_choose_summary">Thema gebruikt in de app</string>
     <string name="icon_pack_choose_title">Pictogrammenpakket</string>
-    <string name="icon_pack_choose_summary">Gebruikt pictogrammenpakket</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Instellingen Magikeyboard</string>
     <string name="keyboard_entry_category">Item</string>
@@ -411,8 +408,6 @@
     <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
     <string name="icon_section_custom">Aangepast</string>
     <string name="icon_section_standard">Standaard</string>
-    <string name="style_brightness_summary">Selecteer lichte of donkere thema\'s</string>
-    <string name="style_brightness_title">Helderheid van het thema</string>
     <string name="error_remove_file">Er is een fout opgetreden bij het verwijderen van de bestandsgegevens.</string>
     <string name="error_duplicate_file">De bestandsgegevens bestaan al.</string>
     <string name="error_upload_file">Er is een fout opgetreden bij het uploaden van de bestandsgegevens.</string>

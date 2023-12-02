@@ -14,34 +14,35 @@
  * limitations under the License.
 -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="5dp"
     android:layout_marginLeft="5dp"
+    android:layout_marginTop="1dp"
     android:layout_marginEnd="5dp"
     android:layout_marginRight="5dp"
-    android:layout_marginTop="1dp"
     android:layout_marginBottom="2dp"
-    android:paddingBottom="0dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="0dp">
+
     <TextView
         android:id="@+id/tag_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="32dp"
-        android:gravity="center_vertical"
         android:layout_gravity="center"
+        android:drawablePadding="2dp"
+        android:gravity="center_vertical"
+        android:minHeight="32dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:paddingEnd="8dp"
+        android:paddingRight="8dp"
+        android:textColor="?attr/colorSecondary"
+        android:textSize="12sp"
         app:drawableLeftCompat="@drawable/ic_bookmark_white_12dp"
         app:drawableStartCompat="@drawable/ic_bookmark_white_12dp"
         app:drawableTint="?attr/colorSecondary"
-        android:drawablePadding="2dp"
-        tools:text="text"
-        android:textColor="?attr/colorSecondary"
-        android:textSize="12sp"
-        android:paddingLeft="8dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingRight="8dp" />
+        tools:text="text" />
 </androidx.cardview.widget.CardView>

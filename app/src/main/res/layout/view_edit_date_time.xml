@@ -1,40 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:filterTouchesWhenObscured="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:filterTouchesWhenObscured="true">
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/expiration_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/entry_expires"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginRight="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/expiration_checkbox">
+        android:hint="@string/entry_expires"
+        app:layout_constraintEnd_toStartOf="@+id/expiration_checkbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/expiration_text"
+            style="@style/Theme.Keepass.TextAppearance.TextNode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:cursorVisible="false"
+            android:focusable="false"
             android:focusableInTouchMode="false"
-            android:paddingLeft="16dp"
             android:paddingStart="16dp"
+            android:paddingLeft="16dp"
             android:paddingEnd="16dp"
             android:paddingRight="16dp"
-            style="@style/KeepassDXStyle.TextAppearance.TextNode"
             tools:text="2020-03-04 05:00" />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/expiration_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/expiration_label"
         app:layout_constraintBottom_toBottomOf="@+id/expiration_label"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/expiration_label" />
 </androidx.constraintlayout.widget.ConstraintLayout>

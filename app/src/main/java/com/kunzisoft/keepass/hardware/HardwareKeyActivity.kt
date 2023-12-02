@@ -40,10 +40,6 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         resultCallback
     )
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
-
     override fun showDatabaseDialog(): Boolean {
         return false
     }

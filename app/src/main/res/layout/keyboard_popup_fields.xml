@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -18,28 +17,26 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/grey_blue_deep"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/grey_blue_deep">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/keyboard_popup_fields_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_toStartOf="@+id/keyboard_popup_close"
-        android:layout_toLeftOf="@+id/keyboard_popup_close" />
+        android:orientation="vertical" />
 
     <ImageButton
         android:id="@+id/keyboard_popup_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_margin="4dp"
-        android:padding="8dp"
         android:background="@drawable/key_background"
         android:contentDescription="@string/content_description_keyboard_close_fields"
+        android:padding="8dp"
         android:src="@drawable/ic_close_white_24dp" />
 </RelativeLayout>

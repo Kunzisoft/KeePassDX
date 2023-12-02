@@ -24,13 +24,13 @@
 
     <RelativeLayout
         android:id="@+id/node_container"
-        style="@style/KeepassDXStyle.Selectable.Item"
+        style="@style/Theme.Keepass.Selectable.Item"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:minHeight="@dimen/selectable_min_height"
-        android:paddingVertical="10dp"
         android:paddingHorizontal="@dimen/selectable_margin_horizontal"
+        android:paddingVertical="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,6 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/image_list_margin_vertical"
             android:layout_marginLeft="@dimen/image_list_margin_vertical"
@@ -55,14 +54,12 @@
 
         <TextView
             android:id="@+id/node_child_numbers"
-            style="@style/KeepassDXStyle.Text.Badge"
+            style="@style/Theme.Keepass.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/node_icon"
             android:layout_marginEnd="-32dp"
-            android:layout_marginRight="-32dp"
             android:layout_toStartOf="@+id/node_icon"
-            android:layout_toLeftOf="@+id/node_icon"
             tools:text="3" />
 
         <LinearLayout
@@ -70,16 +67,14 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/node_image_identifier"
-            android:layout_toLeftOf="@+id/node_image_identifier"
             android:layout_toEndOf="@+id/node_icon"
-            android:layout_toRightOf="@+id/node_icon"
             android:orientation="vertical"
             android:paddingTop="4dp"
             android:paddingBottom="4dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.Title.Group"
+                style="@style/Theme.Keepass.Title.Group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -89,7 +84,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.Meta.Group"
+                style="@style/Theme.Keepass.Meta.Group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
@@ -102,12 +97,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/image_list_margin_vertical"
-            android:layout_marginLeft="@dimen/image_list_margin_vertical"
             android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
             android:src="@drawable/ic_arrow_right_white_24dp" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

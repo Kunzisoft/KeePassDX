@@ -179,7 +179,6 @@
     <string name="html_text_dev_feature_encourage">ermutigst du die Entwickler, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß deinen Anmerkungen &lt;strong&gt;Fehler zu beheben&lt;/strong&gt;.</string>
     <string name="download">Download</string>
     <string name="icon_pack_choose_title">Symbolpaket</string>
-    <string name="icon_pack_choose_summary">In der App verwendete Symbole</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
     <string name="menu_paste">Einfügen</string>
@@ -314,9 +313,6 @@
     <string name="download_complete">Vollständig!</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden nicht angezeigt</string>
-    <string name="style_choose_title">App-Design</string>
-    <string name="style_choose_summary">In der App verwendetes Design</string>
-    <string name="style_name_classic">Klassisch</string>
     <string name="style_name_follow_system">System verfolgen</string>
     <string name="error_create_database">Die Datenbankdatei kann nicht erstellt werden.</string>
     <string name="entry_add_attachment">Anhang hinzufügen</string>
@@ -430,8 +426,6 @@
     <string name="error_word_reserved">Dieses Wort ist reserviert und kann nicht verwendet werden.</string>
     <string name="icon_section_custom">Benutzerdefiniert</string>
     <string name="icon_section_standard">Standard</string>
-    <string name="style_brightness_summary">Helles oder dunkles Design wählen</string>
-    <string name="style_brightness_title">Designhelligkeit</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>

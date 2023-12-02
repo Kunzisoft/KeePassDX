@@ -52,7 +52,7 @@
 
             <ImageView
                 android:id="@+id/template_background_color_button"
-                style="@style/KeepassDXStyle.ImageButton.Simple.Mini"
+                style="@style/Theme.Keepass.ImageButton.Simple.Mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
@@ -62,7 +62,7 @@
 
             <ImageView
                 android:id="@+id/template_foreground_color_button"
-                style="@style/KeepassDXStyle.ImageButton.Simple.Mini"
+                style="@style/Theme.Keepass.ImageButton.Simple.Mini"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"

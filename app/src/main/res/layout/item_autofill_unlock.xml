@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal">
+
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
         android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
         android:contentDescription="@string/app_name"
-        android:src="@mipmap/ic_launcher"/>
+        android:src="@mipmap/ic_launcher" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="@string/autofill_sign_in_prompt"
         android:layout_gravity="center"
-        android:paddingRight="12dp"
-        android:paddingEnd="12dp"
-        android:paddingLeft="12dp"
+        android:gravity="center_vertical"
         android:paddingStart="12dp"
+        android:paddingLeft="12dp"
+        android:paddingEnd="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/autofill_sign_in_prompt"
         android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 </LinearLayout>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -17,100 +16,88 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory
-        android:title="@string/application_appearance">
+    <PreferenceCategory android:title="@string/application_appearance">
 
-        <ListPreference
-            android:key="@string/setting_style_key"
-            android:title="@string/style_choose_title"
-            android:summary="@string/style_choose_summary"
-            android:defaultValue="@string/list_style_name_light"
-            android:entries="@array/list_style_names"
-            android:entryValues="@array/list_style_values_light" />
-        <ListPreference
-            android:key="@string/setting_style_brightness_key"
-            android:title="@string/style_brightness_title"
-            android:summary="@string/style_brightness_summary"
-            android:defaultValue="@string/list_style_brightness_follow_system"
-            android:entries="@array/list_style_brightness_names"
-            android:entryValues="@array/list_style_brightness_values" />
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/setting_dynamic_theme_key"
+            android:summary="@string/dynamic_theming_summary"
+            android:title="@string/dynamic_theming_title" />
         <com.kunzisoft.keepass.settings.preference.IconPackListPreference
             android:key="@string/setting_icon_pack_choose_key"
             android:title="@string/icon_pack_choose_title"
-            android:summary="@string/icon_pack_choose_summary" />
+            app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/show_entry_colors_default"
             android:key="@string/show_entry_colors_key"
-            android:title="@string/show_entry_colors_title"
             android:summary="@string/show_entry_colors_summary"
-            android:defaultValue="@bool/show_entry_colors_default"/>
+            android:title="@string/show_entry_colors_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/password">
+    <PreferenceCategory android:title="@string/password">
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/hide_password_default"
             android:key="@string/hide_password_key"
-            android:title="@string/hide_password_title"
             android:summary="@string/hide_password_summary"
-            android:defaultValue="@bool/hide_password_default"/>
+            android:title="@string/hide_password_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/colorize_password_default"
             android:key="@string/colorize_password_key"
-            android:title="@string/colorize_password_title"
             android:summary="@string/colorize_password_summary"
-            android:defaultValue="@bool/colorize_password_default"/>
+            android:title="@string/colorize_password_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/text_appearance">
+    <PreferenceCategory android:title="@string/text_appearance">
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/list_entries_show_username_default"
             android:key="@string/list_entries_show_username_key"
-            android:title="@string/list_entries_show_username_title"
             android:summary="@string/list_entries_show_username_summary"
-            android:defaultValue="@bool/list_entries_show_username_default"/>
+            android:title="@string/list_entries_show_username_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/list_groups_show_number_entries_default"
             android:key="@string/list_groups_show_number_entries_key"
-            android:title="@string/list_groups_show_number_entries_title"
             android:summary="@string/list_groups_show_number_entries_summary"
-            android:defaultValue="@bool/list_groups_show_number_entries_default"/>
+            android:title="@string/list_groups_show_number_entries_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/show_otp_token_default"
             android:key="@string/show_otp_token_key"
-            android:title="@string/show_otp_token_title"
             android:summary="@string/show_otp_token_summary"
-            android:defaultValue="@bool/show_otp_token_default"/>
+            android:title="@string/show_otp_token_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/show_uuid_default"
             android:key="@string/show_uuid_key"
-            android:title="@string/show_uuid_title"
             android:summary="@string/show_uuid_summary"
-            android:defaultValue="@bool/show_uuid_default"/>
+            android:title="@string/show_uuid_title" />
         <ListPreference
-            android:key="@string/list_size_key"
-            android:title="@string/list_size_title"
-            android:summary="@string/list_size_summary"
+            android:defaultValue="@string/list_size_string_medium"
+            android:dialogTitle="@string/list_size_summary"
             android:entries="@array/list_size_options"
             android:entryValues="@array/list_size_string_values"
-            android:dialogTitle="@string/list_size_summary"
-            android:defaultValue="@string/list_size_string_medium"/>
+            android:key="@string/list_size_key"
+            android:summary="@string/list_size_summary"
+            android:title="@string/list_size_title" />
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/monospace_font_fields_enable_default"
             android:key="@string/monospace_font_fields_enable_key"
-            android:title="@string/monospace_font_fields_enable_title"
             android:summary="@string/monospace_font_fields_enable_summary"
-            android:defaultValue="@bool/monospace_font_fields_enable_default"/>
+            android:title="@string/monospace_font_fields_enable_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/other">
+    <PreferenceCategory android:title="@string/other">
 
         <SwitchPreferenceCompat
+            android:defaultValue="@bool/hide_expired_entries_default"
             android:key="@string/hide_expired_entries_key"
-            android:title="@string/hide_expired_entries_title"
             android:summary="@string/hide_expired_entries_summary"
-            android:defaultValue="@bool/hide_expired_entries_default"/>
+            android:title="@string/hide_expired_entries_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

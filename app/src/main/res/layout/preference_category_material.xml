@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +17,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:gravity="center_vertical"
-    android:paddingHorizontal="32dp"
     android:background="?android:attr/selectableItemBackground"
+    android:baselineAligned="false"
     android:clipToPadding="false"
-    android:baselineAligned="false">
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:paddingHorizontal="32dp">
 
     <include
+        layout="@layout/image_frame"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/image_frame"/>
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_width="0dp"
@@ -39,25 +38,24 @@
 
         <TextView
             android:id="@android:id/title"
+            style="@style/Theme.Keepass.SubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
             android:singleLine="true"
-            style="@style/KeepassDXStyle.SubTitle"
-            android:textColor="?attr/colorSecondary"
-            android:ellipsize="marquee"/>
+            android:textColor="?attr/colorSecondary" />
 
         <TextView
             android:id="@android:id/summary"
+            style="@style/PreferenceSummaryTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@android:id/title"
-            android:layout_alignLeft="@android:id/title"
             android:layout_alignStart="@android:id/title"
             android:layout_gravity="start"
-            android:textAlignment="viewStart"
-            android:textColor="?android:attr/textColorSecondary"
             android:maxLines="10"
-            style="@style/PreferenceSummaryTextStyle"/>
+            android:textAlignment="viewStart"
+            android:textColor="?android:attr/textColorSecondary" />
 
     </RelativeLayout>
 
@@ -67,10 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="end|center_vertical"
-        android:paddingLeft="16dp"
+        android:orientation="vertical"
         android:paddingStart="16dp"
-        android:paddingRight="0dp"
-        android:paddingEnd="0dp"
-        android:orientation="vertical"/>
+        android:paddingEnd="0dp" />
 
 </LinearLayout>

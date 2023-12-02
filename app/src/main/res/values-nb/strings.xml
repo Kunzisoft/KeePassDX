@@ -180,10 +180,7 @@
     <string name="html_text_dev_feature_contibute">Ved å &lt;strong&gt;bidra&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape &lt;strong&gt;nye funksjoner&lt;/strong&gt; og til å &lt;strong&gt;fikse feil&lt;/strong&gt; i henhold til dine kommentarer.</string>
     <string name="download">Last ned</string>
-    <string name="style_choose_title">Velg en drakt</string>
-    <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
-    <string name="icon_pack_choose_summary">Endre programmets ikonpakke</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard-innstillinger</string>
     <string name="keyboard_entry_category">Oppføring</string>
@@ -332,8 +329,6 @@
     <string name="content_description_repeat_toggle_password_visibility">Gjenta for å skifte passordsynlighet</string>
     <string name="icon_section_custom">Egendefinert</string>
     <string name="icon_section_standard">Forvalg</string>
-    <string name="style_brightness_summary">Velg lys eller mørk drakt</string>
-    <string name="style_brightness_title">Draktlysstyrke</string>
     <string name="backspace">Rettetast</string>
     <string name="keyboard_save_search_info_title">Lagre delt info</string>
     <string name="device_keyboard_setting_title">Innstillinger for enhetens tastatur</string>

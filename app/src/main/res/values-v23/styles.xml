@@ -18,12 +18,8 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <style name="KeepassDXStyle.Light.v23" parent="KeepassDXStyle.Light.v21" >
+    <style name="Theme.Keepass.v23" parent="Theme.Keepass.v21" >
         <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowLightStatusBar">true</item>
-    </style>
-    <style name="KeepassDXStyle.Night.v23" parent="KeepassDXStyle.Night.v21" >
-        <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 </resources>

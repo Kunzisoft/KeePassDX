@@ -355,11 +355,8 @@
         <item>中</item>
         <item>大</item>
     </string-array>
-    <string name="style_choose_title">アプリのテーマ</string>
-    <string name="style_choose_summary">アプリで使用するテーマ</string>
     <string name="style_name_follow_system">システムに従う</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
-    <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
     <string name="hide_expired_entries_title">有効期限切れのエントリーを非表示にする</string>
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>
     <string name="show_uuid_title">UUID を表示</string>
@@ -407,8 +404,6 @@
     <string name="error_otp_type">既存の OTP の種類がこのフォームでは認識されていないため、フォームの検証によってトークンが正しく生成されなくなる可能性があります。</string>
     <string name="icon_section_custom">カスタム</string>
     <string name="icon_section_standard">標準</string>
-    <string name="style_brightness_summary">ライト / ダークテーマを選択します</string>
-    <string name="style_brightness_title">テーマの明るさ</string>
     <string name="error_remove_file">ファイルデータの削除中にエラーが発生しました。</string>
     <string name="error_duplicate_file">ファイルデータはすでに存在します。</string>
     <string name="error_upload_file">ファイルデータのアップロード中にエラーが発生しました。</string>

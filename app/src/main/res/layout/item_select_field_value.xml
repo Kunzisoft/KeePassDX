@@ -17,11 +17,13 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="48dp">
+
     <TextView
         android:id="@+id/value_string"
+        style="@style/Theme.Keepass.Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:ellipsize="end"
@@ -31,6 +33,5 @@
         android:paddingLeft="@dimen/default_margin"
         android:paddingEnd="@dimen/default_margin"
         android:paddingRight="@dimen/default_margin"
-        style="@style/KeepassDXStyle.Title"
         tools:text="Test" />
 </FrameLayout>

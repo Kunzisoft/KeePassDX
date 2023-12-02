@@ -182,10 +182,7 @@
     <string name="html_text_dev_feature_contibute">Ved at &lt;strong&gt;bidrage&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">tilskyndes udviklerne til at lave &lt;strong&gt;nye funktioner&lt;/strong&gt; og &lt;strong&gt;rette fejl&lt;/strong&gt; i henhold dine bemærkninger.</string>
     <string name="download">Hent</string>
-    <string name="style_choose_title">App-tema</string>
-    <string name="style_choose_summary">Tema, der bruges i appen</string>
     <string name="icon_pack_choose_title">Ikonpakke</string>
-    <string name="icon_pack_choose_summary">Ikonpakke, der anvendes i appen</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard indstillinger</string>
     <string name="keyboard_entry_category">Post</string>
@@ -373,8 +370,6 @@
     <string name="error_field_name_already_exists">Feltnavnet findes allerede.</string>
     <string name="icon_section_custom">Brugerdefineret</string>
     <string name="icon_section_standard">Standard</string>
-    <string name="style_brightness_summary">Vælg lyst eller mørkt tema</string>
-    <string name="style_brightness_title">Temalysstyrke</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>

@@ -117,4 +117,38 @@
     <color name="classic_theme_night_inversePrimary">#00486E</color>
     <color name="classic_theme_night_textPrimary">@color/cyan_lightest</color>
 
+
+    <color name="color_primary">@color/classic_theme_light_primary</color>
+    <color name="color_primary_dark">@color/classic_theme_light_primaryDark</color>
+    <color name="color_on_primary">@color/classic_theme_light_onPrimary</color>
+    <color name="color_primary_container">@color/classic_theme_light_primaryContainer</color>
+    <color name="color_on_primary_container">@color/classic_theme_light_onPrimaryContainer</color>
+    <color name="color_secondary">@color/classic_theme_light_secondary</color>
+    <color name="color_on_secondary">@color/classic_theme_light_onSecondary</color>
+    <color name="color_secondary_container">@color/classic_theme_light_secondaryContainer</color>
+    <color name="color_on_secondary_container">@color/classic_theme_light_onSecondaryContainer</color>
+    <color name="color_tertiary">@color/classic_theme_light_tertiary</color>
+    <color name="color_on_tertiary">@color/classic_theme_light_onTertiary</color>
+    <color name="color_tertiary_container">@color/classic_theme_light_tertiaryContainer</color>
+    <color name="color_on_tertiary_container">@color/classic_theme_light_onTertiaryContainer</color>
+    <color name="color_error">@color/classic_theme_light_error</color>
+    <color name="color_error_container">@color/classic_theme_light_errorContainer</color>
+    <color name="color_on_error">@color/classic_theme_light_onError</color>
+    <color name="color_on_error_container">@color/classic_theme_light_onErrorContainer</color>
+    <color name="color_background">@color/classic_theme_light_background</color>
+    <color name="color_on_background">@color/classic_theme_light_onBackground</color>
+    <color name="color_surface">@color/classic_theme_light_surface</color>
+    <color name="color_on_surface">@color/classic_theme_light_onSurface</color>
+    <color name="color_surface_container_lowest">@color/classic_theme_light_surfaceContainerLowest</color>
+    <color name="color_surface_container_low">@color/classic_theme_light_surfaceContainerLow</color>
+    <color name="color_surface_container">@color/classic_theme_light_surfaceContainer</color>
+    <color name="color_surface_container_high">@color/classic_theme_light_surfaceContainerHigh</color>
+    <color name="color_surface_container_highest">@color/classic_theme_light_surfaceContainerHighest</color>
+    <color name="color_surface_variant">@color/classic_theme_light_surfaceVariant</color>
+    <color name="color_on_surface_variant">@color/classic_theme_light_onSurfaceVariant</color>
+    <color name="color_outline">@color/classic_theme_light_outline</color>
+    <color name="color_on_surface_inverse">@color/classic_theme_light_inverseOnSurface</color>
+    <color name="color_surface_inverse">@color/classic_theme_light_inverseSurface</color>
+    <color name="color_primary_inverse">@color/classic_theme_light_inversePrimary</color>
+
 </resources>

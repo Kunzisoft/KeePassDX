@@ -182,10 +182,7 @@
         &lt;strong&gt;Contribuendo&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">stai incoraggiando gli sviluppatori a creare &lt;strong&gt;nuove funzionalità&lt;/strong&gt; e a &lt;strong&gt;correggere errori&lt;/strong&gt; in base alle tue osservazioni.</string>
     <string name="download">Scarica</string>
-    <string name="style_choose_title">Tema dell\'app</string>
-    <string name="style_choose_summary">Tema usato nell\'app</string>
     <string name="icon_pack_choose_title">Pacchetto di icone</string>
-    <string name="icon_pack_choose_summary">Pacchetto di icone usato nell\'app</string>
     <string name="error_load_database">Caricamento del database fallito.</string>
     <string name="error_load_database_KDF_memory">Caricamento della chiave fallito. Prova a diminuire l\'«Utilizzo memoria» del KDF.</string>
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
@@ -413,8 +410,6 @@
     <string name="content_description_otp_information">Info password usa e getta</string>
     <string name="icon_section_custom">Personalizzato</string>
     <string name="icon_section_standard">Standard</string>
-    <string name="style_brightness_summary">Scegli un tema scuro o chiaro</string>
-    <string name="style_brightness_title">Luminosità del tema</string>
     <string name="error_remove_file">Si è verificato un errore durante la rimozione del file.</string>
     <string name="error_duplicate_file">Il file esiste già.</string>
     <string name="error_upload_file">Si è verificato un errore durante il caricamento del file.</string>

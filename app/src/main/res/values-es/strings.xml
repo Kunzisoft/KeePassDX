@@ -173,10 +173,7 @@
     <string name="html_text_dev_feature_contibute">Al &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">anima a los desarrolladores a crear &lt;strong&gt;nuevas funciones&lt;/strong&gt; y a &lt;strong&gt;corregir errores&lt;/strong&gt; de acuerdo con sus comentarios.</string>
     <string name="download">Descargar</string>
-    <string name="style_choose_title">Tema de la aplicación</string>
-    <string name="style_choose_summary">Tema utilizado en la aplicación</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
-    <string name="icon_pack_choose_summary">Cambiar el paquete de iconos en la aplicación</string>
     <string name="error_load_database">No se pudo cargar la base de datos.</string>
     <string name="error_load_database_KDF_memory">No se ha podido cargar la clave. Intente disminuir el uso de memoria de KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nombres de usuario</string>
@@ -415,8 +412,6 @@
     <string name="content_description_otp_information">Información de contraseña de un solo uso</string>
     <string name="icon_section_custom">Personalizado</string>
     <string name="icon_section_standard">Estándar</string>
-    <string name="style_brightness_summary">Seleccionar temas oscuros o claros</string>
-    <string name="style_brightness_title">Brillo del tema</string>
     <string name="properties">Propiedades</string>
     <string name="error_import_app_properties">Error al importar la configuración de la aplicación</string>
     <string name="error_export_app_properties">Error al exportar la configuración de la aplicación</string>

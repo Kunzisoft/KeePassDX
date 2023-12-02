@@ -17,11 +17,12 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.stylish
+package com.kunzisoft.keepass.activities
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,7 +31,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager.LayoutParams.FLAG_SECURE
-import androidx.annotation.StyleRes
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.android.material.color.DynamicColors
@@ -44,13 +45,12 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
  */
 abstract class StylishActivity : AppCompatActivity() {
 
-    @StyleRes
-    private var themeId: Int = 0
-    private var customStyle = true
-
     /* (non-Javadoc) Workaround for HTC Linkify issues
      * @see android.app.Activity#startActivity(android.content.Intent)
      */
+
+    private var isDynamicThemeEnabled = true
+
     override fun startActivity(intent: Intent) {
         try {
             intent.component?.let {
@@ -62,10 +62,6 @@ abstract class StylishActivity : AppCompatActivity() {
             /* Catch the bad HTC implementation case */
             super.startActivity(Intent.createChooser(intent, null))
         }
-    }
-
-    open fun applyCustomStyle(): Boolean {
-        return true
     }
 
     open fun finishActivityIfReloadRequested(): Boolean {
@@ -83,13 +79,11 @@ abstract class StylishActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        customStyle = applyCustomStyle()
-        if (customStyle) {
-            // Preconfigured themes
-            this.themeId = Stylish.getThemeId(this)
-            setTheme(themeId)
-            if (Stylish.isDynamic(this)) {
-                // Material You theme
+        isDynamicThemeEnabled = PreferencesUtil.getIsDynamicThemingEnabled(this)
+
+        //Material you theme
+        if (DynamicColors.isDynamicColorAvailable() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (isDynamicThemeEnabled) {
                 DynamicColors.applyToActivityIfAvailable(this)
             }
         }
@@ -97,6 +91,7 @@ abstract class StylishActivity : AppCompatActivity() {
         PreferenceManager.getDefaultSharedPreferences(this)
             .registerOnSharedPreferenceChangeListener(onScreenshotModePrefListener)
     }
+
     private val onScreenshotModePrefListener = OnSharedPreferenceChangeListener { _, key ->
         if (key != getString(R.string.enable_screenshot_mode_key)) return@OnSharedPreferenceChangeListener
 
@@ -104,7 +99,8 @@ abstract class StylishActivity : AppCompatActivity() {
     }
 
     private fun setScreenshotMode(isEnabled: Boolean) {
-        findViewById<View>(R.id.screenshot_mode_banner)?.visibility = if (isEnabled) VISIBLE else GONE
+        findViewById<View>(R.id.screenshot_mode_banner)?.visibility =
+            if (isEnabled) VISIBLE else GONE
 
         // Several gingerbread devices have problems with FLAG_SECURE
         if (isEnabled) {
@@ -116,10 +112,11 @@ abstract class StylishActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        if ((customStyle && Stylish.getThemeId(this) != this.themeId)
-            || DATABASE_PREFERENCE_CHANGED) {
+        if (DATABASE_PREFERENCE_CHANGED
+            || isDynamicThemeEnabled != PreferencesUtil.getIsDynamicThemingEnabled(this)
+        ) {
             DATABASE_PREFERENCE_CHANGED = false
+            isDynamicThemeEnabled = PreferencesUtil.getIsDynamicThemingEnabled(this)
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
             recreateActivity()
         }

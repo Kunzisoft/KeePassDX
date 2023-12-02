@@ -46,7 +46,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     }
     private val valueView = TextInputEditText(
         ContextThemeWrapper(getContext(),
-        R.style.KeepassDXStyle_TextInputLayout)
+        R.style.Theme_Keepass_TextInputLayout)
     ).apply {
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
@@ -62,7 +62,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         maxLines = 1
     }
     private var actionImageButton = AppCompatImageButton(
-            ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
+            ContextThemeWrapper(context, R.style.Theme_Keepass_ImageButton_Simple), null, 0).apply {
         layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT).also {

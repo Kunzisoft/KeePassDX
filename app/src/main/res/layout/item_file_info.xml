@@ -51,7 +51,7 @@ t a
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/file_alias"
-                        style="@style/KeepassDXStyle.Text.Large.OnSurface"
+                        style="@style/Theme.Keepass.Text.Large.OnSurface"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -81,7 +81,7 @@ t a
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/file_information_button"
-                        style="@style/KeepassDXStyle.ImageButton.OnSurface"
+                        style="@style/Theme.Keepass.ImageButton.OnSurface"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -238,7 +238,7 @@ t a
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/file_alias_save"
-                    style="@style/KeepassDXStyle.ImageButton.OnSurface"
+                    style="@style/Theme.Keepass.ImageButton.OnSurface"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_centerVertical="true"

@@ -547,27 +547,13 @@
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-    <string name="style_choose_title">App theme</string>
-    <string name="style_choose_summary">Theme used in the app</string>
-    <string name="style_name_classic">Classic</string>
-    <string name="style_name_follow_system">Follow the system</string>
-    <string-array name="list_style_names">
-        <item>@string/style_name_classic</item>
-        <item>@string/style_name_follow_system</item>
-    </string-array>
-    <string name="style_brightness_title">Theme brightness</string>
-    <string name="style_brightness_summary">Select light or dark themes</string>
-    <string name="style_name_light">Light</string>
-    <string name="style_name_dark">Dark</string>
-    <string-array name="list_style_brightness_names">
-        <item>@string/style_name_light</item>
-        <item>@string/style_name_dark</item>
-        <item>@string/style_name_follow_system</item>
-    </string-array>
+    <string name="dynamic_theming_title">Dynamic Theming</string>
+    <string name="dynamic_theming_summary">Style based on your system theme</string>
+    <string name="dynamic_theming_not_available_summary">This feature is not available at this moment</string>
+    <string name="dynamic_theming_not_available_below_s_summary">This feature is available only on devices running Android 12 or above</string>
     <string name="icon_section_standard">Standard</string>
     <string name="icon_section_custom">Custom</string>
     <string name="icon_pack_choose_title">Icon pack</string>
-    <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="show_entry_colors_title">Entry colors</string>
     <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -17,43 +16,42 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="3"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:weightSum="3">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_last_modified"
-        tools:text = "Last Modified"
-        style="@style/KeepassDXStyle.TextAppearance.TextNode"
-        android:gravity="center"
+        style="@style/Theme.Keepass.TextAppearance.TextNode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="center"
+        tools:text="Last Modified" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_title"
-        tools:text = "Title"
-        style="@style/KeepassDXStyle.TextAppearance.TextNode"
-        android:maxLines="6"
-        android:ellipsize="end"
-        android:gravity="center"
+        style="@style/Theme.Keepass.TextAppearance.TextNode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="6"
+        tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_username"
-        tools:text = "Username"
-        style="@style/KeepassDXStyle.TextAppearance.TextNode"
-        android:maxLines="6"
-        android:ellipsize="end"
-        android:gravity="center"
+        style="@style/Theme.Keepass.TextAppearance.TextNode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="6"
+        tools:text="Username" />
 </LinearLayout>

@@ -41,10 +41,6 @@ import com.kunzisoft.keepass.utils.WebDomain
  */
 class EntrySelectionLauncherActivity : DatabaseModeActivity() {
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
-
     override fun finishActivityIfReloadRequested(): Boolean {
         return false
     }

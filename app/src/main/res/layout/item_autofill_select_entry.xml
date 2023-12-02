@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/windowBackground"
     android:minHeight="48dp"
     android:orientation="horizontal">
+
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
         android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
         android:contentDescription="@string/autofill_select_entry"
-        android:src="@drawable/ic_arrow_right_green_24dp"/>
+        android:src="@drawable/ic_arrow_right_green_24dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:text="@string/autofill_select_entry"
         android:layout_gravity="center"
-        android:paddingRight="12dp"
-        android:paddingEnd="12dp"
-        android:paddingLeft="12dp"
+        android:gravity="center_vertical"
         android:paddingStart="12dp"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"/>
+        android:paddingLeft="12dp"
+        android:paddingEnd="12dp"
+        android:paddingRight="12dp"
+        android:text="@string/autofill_select_entry"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 </LinearLayout>

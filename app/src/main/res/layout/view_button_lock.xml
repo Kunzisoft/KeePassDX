@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
-    android:padding="0dp"
-    android:filterTouchesWhenObscured="true">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:filterTouchesWhenObscured="true"
+    android:padding="0dp">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/lock_button"
-        style="@style/KeepassDXStyle.Fab.Special"
+        style="@style/Theme.Keepass.Fab.Special"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:useCompatPadding="true"
+        android:layout_gravity="bottom"
         android:layout_marginStart="-6dp"
-        android:layout_marginLeft="-6dp"
         android:layout_marginBottom="-7dp"
         android:contentDescription="@string/lock"
-        android:layout_gravity="bottom"
+        android:src="@drawable/ic_lock_white_padding_24dp"
         android:visibility="visible"
-        android:src="@drawable/ic_lock_white_padding_24dp" />
+        app:useCompatPadding="true" />
 </FrameLayout>

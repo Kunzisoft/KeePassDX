@@ -230,10 +230,7 @@
     <string name="show_uuid_title">Tampilkan UUID</string>
     <string name="hide_expired_entries_summary">Entri yang kadaluarsa tidak ditampilkan</string>
     <string name="hide_expired_entries_title">Sembunyikan entri yang kedaluwarsa</string>
-    <string name="icon_pack_choose_summary">Paket ikon yang digunakan aplikasi</string>
     <string name="icon_pack_choose_title">Paket ikon</string>
-    <string name="style_choose_summary">Tema yang digunakan</string>
-    <string name="style_choose_title">Tema aplikasi</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
@@ -301,8 +298,6 @@
     <string name="device_keyboard_setting_title">Pengaturan papan tik perangkat</string>
     <string name="icon_section_custom">Kustom</string>
     <string name="icon_section_standard">Standar</string>
-    <string name="style_brightness_summary">Pilih tema terang atau gelap</string>
-    <string name="style_brightness_title">Kecerahan tema</string>
     <string name="download_attachment">Unduh %1$s</string>
     <string name="download">Unduh</string>
     <string name="error_remove_file">Timbul galat saat menghapus data berkas.</string>

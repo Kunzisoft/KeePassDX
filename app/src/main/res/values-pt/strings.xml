@@ -8,10 +8,7 @@
     <string name="menu_paste">Colar</string>
     <string name="menu_move">Mover</string>
     <string name="menu_copy">Copiar</string>
-    <string name="icon_pack_choose_summary">Pacote de ícones usado na aplicação</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
-    <string name="style_choose_summary">Tema usado na aplicação</string>
-    <string name="style_choose_title">Tema da aplicação</string>
     <string name="download">Descarregar</string>
     <string name="html_text_dev_feature_encourage">está a incentivar os programadores a adicionar &lt;strong&gt;novas funcionalidades&lt;/strong&gt; e a &lt;strong&gt;corrigir erros&lt;/strong&gt; reportados pelos utilizadores.</string>
     <string name="html_text_dev_feature_contibute">Ao &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
@@ -361,8 +358,6 @@
     <string name="show_uuid_title">Mostrar UUID</string>
     <string name="icon_section_custom">Personalizado</string>
     <string name="icon_section_standard">Predefinido</string>
-    <string name="style_brightness_summary">Escolha temas claros ou escuros</string>
-    <string name="style_brightness_title">Brilho do tema</string>
     <string name="download_canceled">Cancelado!</string>
     <string name="autofill_inline_suggestions_keyboard">Adicionadas sugestões de preenchimento automático.</string>
     <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>

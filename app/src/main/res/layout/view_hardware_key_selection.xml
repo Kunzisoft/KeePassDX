@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container_hardware_key"
-    android:layout_marginBottom="@dimen/default_margin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:importantForAutofill="noExcludeDescendants"
+    android:layout_marginBottom="@dimen/default_margin"
     android:importantForAccessibility="no"
+    android:importantForAutofill="noExcludeDescendants"
     tools:ignore="UnusedAttribute">
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
         android:id="@+id/input_entry_hardware_key_layout"
+        style="@style/Theme.Keepass.TextInputLayout.ExposedMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hardware_key">
+
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/input_entry_hardware_key_completion"
             android:layout_width="match_parent"

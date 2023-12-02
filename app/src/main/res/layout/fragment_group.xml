@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDX.
@@ -18,168 +17,177 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:importantForAutofill="noExcludeDescendants">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="noExcludeDescendants"
+        android:orientation="vertical">
 
-		<FrameLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:background="?attr/colorSurface">
-			<LinearLayout
-				android:id="@+id/title_block"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:orientation="vertical"
-				android:padding="@dimen/default_margin"
-				android:background="@drawable/background_repeat"
-				android:gravity="center">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorSurface">
 
-				<!-- Icon -->
-				<androidx.appcompat.widget.AppCompatImageView
-					android:id="@+id/group_icon"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center"
-					android:layout_margin="@dimen/default_margin"
-					android:src="@drawable/ic_blank_32dp"
-					style="@style/KeepassDXStyle.Icon"/>
+            <LinearLayout
+                android:id="@+id/title_block"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_repeat"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/default_margin">
 
-				<!-- Name -->
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/group_name"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:gravity="center"
-					style="@style/KeepassDXStyle.Title.Large.OnSurface" />
-			</LinearLayout>
-		</FrameLayout>
+                <!-- Icon -->
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/group_icon"
+                    style="@style/Theme.Keepass.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/default_margin"
+                    android:src="@drawable/ic_blank_32dp" />
 
-		<LinearLayout
-			android:orientation="vertical"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:padding="@dimen/default_margin"
-			tools:targetApi="o">
+                <!-- Name -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/group_name"
+                    style="@style/Theme.Keepass.Title.Large.OnSurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+            </LinearLayout>
+        </FrameLayout>
 
-			<!-- Tags -->
-			<androidx.recyclerview.widget.RecyclerView
-				android:id="@+id/group_tags_list_view"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:paddingStart="5dp"
-				android:paddingLeft="5dp"
-				android:paddingEnd="5dp"
-				android:paddingRight="5dp"
-				android:paddingBottom="@dimen/default_margin"
-				android:layout_gravity="center"
-				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-				android:orientation="horizontal"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/default_margin"
+            tools:targetApi="o">
 
-			<!-- Note -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_note_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_notes"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_note"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textMultiLine"
-				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            <!-- Tags -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/group_tags_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="5dp"
+                android:paddingLeft="5dp"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="@dimen/default_margin"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-			<!-- Expiration -->
-			<com.kunzisoft.keepass.view.DateTimeFieldView
-				android:id="@+id/group_expiration"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
+            <!-- Note -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_note_label"
+                style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/entry_notes" />
 
-			<!-- Created -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_created_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_created"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_created"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_note"
+                style="@style/Theme.Keepass.TextAppearance.TextNode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine" />
 
-			<!-- Modified -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_modified_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_modified"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_modified"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            <!-- Expiration -->
+            <com.kunzisoft.keepass.view.DateTimeFieldView
+                android:id="@+id/group_expiration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-			<!-- Search -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_searchable_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/searchable"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_searchable"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            <!-- Created -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_created_label"
+                style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/entry_created" />
 
-			<!-- TODO Auto-type -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_auto_type_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/auto_type"
-				android:visibility="gone"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/group_auto_type"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:visibility="gone"
-				style="@style/KeepassDXStyle.TextAppearance.TextNode" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_created"
+                style="@style/Theme.Keepass.TextAppearance.TextNode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-			<!-- UUID -->
-			<LinearLayout
-				android:id="@+id/group_UUID_container"
-				android:layout_height="wrap_content"
-				android:layout_width="match_parent"
-				android:orientation="vertical">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/group_UUID_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_UUID"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<HorizontalScrollView
-					android:layout_width="match_parent"
-					android:layout_height="match_parent">
-					<androidx.appcompat.widget.AppCompatTextView
-						android:id="@+id/group_UUID_reference"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textIsSelectable="true"
-						style="@style/KeepassDXStyle.TextAppearance.TextNode" />
-				</HorizontalScrollView>
-			</LinearLayout>
-		</LinearLayout>
-	</LinearLayout>
+            <!-- Modified -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_modified_label"
+                style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/entry_modified" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_modified"
+                style="@style/Theme.Keepass.TextAppearance.TextNode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- Search -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_searchable_label"
+                style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/searchable" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_searchable"
+                style="@style/Theme.Keepass.TextAppearance.TextNode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- TODO Auto-type -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_auto_type_label"
+                style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/auto_type"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_auto_type"
+                style="@style/Theme.Keepass.TextAppearance.TextNode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <!-- UUID -->
+            <LinearLayout
+                android:id="@+id/group_UUID_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/group_UUID_label"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/entry_UUID" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/group_UUID_reference"
+                        style="@style/Theme.Keepass.TextAppearance.TextNode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textIsSelectable="true" />
+                </HorizontalScrollView>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

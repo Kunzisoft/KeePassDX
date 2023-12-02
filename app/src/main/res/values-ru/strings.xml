@@ -184,10 +184,7 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять &lt;strong&gt;новые возможности&lt;/strong&gt; и &lt;strong&gt;исправлять ошибки&lt;/strong&gt; в соответствии с вашими замечаниями.</string>
     <string name="download">Скачать</string>
-    <string name="style_choose_title">Тема приложения</string>
-    <string name="style_choose_summary">Тема, используемая в приложении</string>
     <string name="icon_pack_choose_title">Набор значков</string>
-    <string name="icon_pack_choose_summary">Набор значков, используемый в приложении</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Настройки Magikeyboard</string>
     <string name="keyboard_entry_category">Запись</string>
@@ -409,8 +406,6 @@
     <string name="download_canceled">Отменено!</string>
     <string name="icon_section_custom">Пользовательские</string>
     <string name="icon_section_standard">Стандартные</string>
-    <string name="style_brightness_summary">Выбор светлых или тёмных тем</string>
-    <string name="style_brightness_title">Яркость темы</string>
     <string name="error_upload_file">Ошибка при загрузке данных файла.</string>
     <string name="error_file_to_big">Файл слишком большой для загрузки.</string>
     <string name="content_description_otp_information">Информация об одноразовом пароле</string>

@@ -181,10 +181,7 @@
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com suas observações.</string>
     <string name="download">Baixar</string>
-    <string name="style_choose_title">Tema do aplicativo</string>
-    <string name="style_choose_summary">Tema usado no aplicativo</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
-    <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="error_load_database">Não foi possível carregar o banco de dados.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>
@@ -423,8 +420,6 @@
     <string name="show_uuid_title">Mostrar UUID</string>
     <string name="icon_section_custom">Personalizado</string>
     <string name="icon_section_standard">Padrão</string>
-    <string name="style_brightness_summary">Selecione temas claros ou escuros</string>
-    <string name="style_brightness_title">Brilho do tema</string>
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>

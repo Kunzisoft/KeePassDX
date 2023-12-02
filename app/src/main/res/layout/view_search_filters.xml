@@ -6,28 +6,31 @@
     android:layout_height="wrap_content"
     android:filterTouchesWhenObscured="true"
     android:orientation="vertical">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="64dp"
         android:background="?attr/colorSurfaceContainer"
+        android:minHeight="64dp"
         android:visibility="gone">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/search_numbers"
-            style="@style/KeepassDXStyle.Text.Badge"
+            style="@style/Theme.Keepass.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
-            android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="3" />
+
         <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,177 +38,197 @@
             app:layout_constraintEnd_toStartOf="@+id/search_expand"
             app:layout_constraintStart_toEndOf="@+id/search_numbers"
             app:layout_constraintTop_toTopOf="parent">
+
             <com.google.android.material.chip.ChipGroup
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
-                android:layout_marginLeft="@dimen/default_margin"
                 app:singleLine="true">
+
                 <com.google.android.material.chip.Chip
                     android:id="@+id/search_chip_current_group"
+                    style="@style/Theme.Keepass.Chip.Filter.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    style="@style/KeepassDXStyle.Chip.Filter.Icon"
                     android:text="@string/current_group"
                     app:closeIcon="@drawable/ic_current_folder_white_24dp" />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
+
         <ImageButton
             android:id="@+id/search_expand"
+            style="@style/Theme.Keepass.ImageButton.Simple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            style="@style/KeepassDXStyle.ImageButton.Simple"
             android:contentDescription="@string/search_filters"
             android:src="@drawable/ic_list_white_24dp"
-            app:tint="?attr/colorOnSurface"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorOnSurface" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:id="@+id/search_advance_filters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurfaceContainer"
         android:orientation="vertical">
+
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:chipSpacingVertical="16dp"
-            android:paddingTop="12dp"
             android:paddingStart="@dimen/default_margin"
             android:paddingLeft="@dimen/default_margin"
+            android:paddingTop="12dp"
             android:paddingEnd="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
-            android:paddingBottom="@dimen/default_margin">
+            android:paddingBottom="@dimen/default_margin"
+            app:chipSpacingVertical="16dp">
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_title"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/entry_title"/>
+                android:text="@string/entry_title" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_username"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/entry_user_name"/>
+                android:text="@string/entry_user_name" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_password"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/entry_password"/>
+                android:text="@string/entry_password" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_url"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/entry_url"/>
+                android:text="@string/entry_url" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_expires"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
                 android:text="@string/expired" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_note"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/entry_notes"/>
+                android:text="@string/entry_notes" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_other"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/other"/>
+                android:text="@string/other" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_uuid"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/entry_UUID"/>
+                android:text="@string/entry_UUID" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_tag"
+                style="@style/Theme.Keepass.Chip.Filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:enabled="false"
-                style="@style/KeepassDXStyle.Chip.Filter"
-                android:text="@string/tags"/>
+                android:text="@string/tags" />
         </com.google.android.material.chip.ChipGroup>
+
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:chipSpacingVertical="16dp"
-            android:paddingTop="12dp"
             android:paddingStart="@dimen/default_margin"
             android:paddingLeft="@dimen/default_margin"
+            android:paddingTop="12dp"
             android:paddingEnd="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
-            android:paddingBottom="@dimen/default_margin">
+            android:paddingBottom="@dimen/default_margin"
+            app:chipSpacingVertical="16dp">
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_group_searchable"
+                style="@style/Theme.Keepass.Chip.Filter.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.Chip.Filter.Icon"
-                app:closeIcon="@drawable/ic_folder_white_24dp"
                 android:checked="true"
-                android:text="@string/searchable"/>
+                android:text="@string/searchable"
+                app:closeIcon="@drawable/ic_folder_white_24dp" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_recycle_bin"
+                style="@style/Theme.Keepass.Chip.Filter.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.Chip.Filter.Icon"
-                app:closeIcon="@drawable/ic_content_delete_white_24dp"
                 android:checked="false"
-                android:text="@string/recycle_bin"/>
+                android:text="@string/recycle_bin"
+                app:closeIcon="@drawable/ic_content_delete_white_24dp" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_template"
+                style="@style/Theme.Keepass.Chip.Filter.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.Chip.Filter.Icon"
-                app:closeIcon="@drawable/ic_templates_white_24dp"
                 android:checked="false"
                 android:enabled="false"
-                android:text="@string/template"/>
+                android:text="@string/template"
+                app:closeIcon="@drawable/ic_templates_white_24dp" />
         </com.google.android.material.chip.ChipGroup>
+
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:chipSpacingVertical="16dp"
-            android:paddingTop="18dp"
             android:paddingStart="@dimen/default_margin"
             android:paddingLeft="@dimen/default_margin"
+            android:paddingTop="18dp"
             android:paddingEnd="@dimen/default_margin"
             android:paddingRight="@dimen/default_margin"
-            android:paddingBottom="@dimen/default_margin">
+            android:paddingBottom="@dimen/default_margin"
+            app:chipSpacingVertical="16dp">
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_case_sensitive"
+                style="@style/Theme.Keepass.Chip.Filter.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter.Icon"
                 android:text="@string/case_sensitive"
                 app:closeIcon="@drawable/ic_case_sensitive_white_24dp" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/search_chip_regex"
+                style="@style/Theme.Keepass.Chip.Filter.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                style="@style/KeepassDXStyle.Chip.Filter.Icon"
                 android:text="@string/regex"
                 app:closeIcon="@drawable/ic_regex_white_24dp" />
         </com.google.android.material.chip.ChipGroup>

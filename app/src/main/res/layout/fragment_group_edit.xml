@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDX.
@@ -17,109 +16,123 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.core.widget.NestedScrollView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-	<LinearLayout
-		android:orientation="vertical"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:padding="@dimen/default_margin"
-		android:importantForAutofill="noExcludeDescendants"
-		tools:targetApi="o">
-		<androidx.appcompat.widget.AppCompatImageButton
-			android:id="@+id/group_edit_icon_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:layout_margin="@dimen/default_margin"
-			android:src="@drawable/ic_blank_32dp"/>
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/group_edit_name_container"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-			<com.google.android.material.textfield.TextInputEditText
-				android:id="@+id/group_edit_name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="text"
-				android:maxLines="1"
-				android:singleLine="true"
-				android:hint="@string/hint_group_name"/>
-		</com.google.android.material.textfield.TextInputLayout>
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/group_edit_note_container"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-			<com.google.android.material.textfield.TextInputEditText
-				android:id="@+id/group_edit_note"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textMultiLine"
-				android:maxLines="3"
-				android:hint="@string/entry_notes"/>
-		</com.google.android.material.textfield.TextInputLayout>
-		<com.kunzisoft.keepass.view.DateTimeEditFieldView
-			android:id="@+id/group_edit_expiration"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" />
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/group_edit_searchable_container"
-			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
-			android:hint="@string/searchable"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-			<com.kunzisoft.keepass.view.InheritedCompletionView
-				android:id="@+id/group_edit_searchable"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="none" />
-		</com.google.android.material.textfield.TextInputLayout>
-		<!-- TODO Auto-type -->
-		<LinearLayout
-			android:id="@+id/group_edit_auto_type_container"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/group_edit_auto_type_inherited_container"
-				style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu"
-				android:visibility="gone"
-				android:hint="@string/auto_type"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-				<com.kunzisoft.keepass.view.InheritedCompletionView
-					android:id="@+id/group_edit_auto_type_inherited"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="none" />
-			</com.google.android.material.textfield.TextInputLayout>
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/group_edit_auto_type_sequence_container"
-				android:visibility="gone"
-				android:hint="@string/auto_type_sequence"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-				<com.google.android.material.textfield.TextInputEditText
-					android:id="@+id/group_edit_auto_type_sequence"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="text"
-					android:maxLines="1"/>
-			</com.google.android.material.textfield.TextInputLayout>
-		</LinearLayout>
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/group_tags_label"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:hint="@string/tags"
-			style="@style/KeepassDXStyle.TextInputLayout.ExposedMenu">
-			<com.kunzisoft.keepass.view.TagsCompletionView
-				android:id="@+id/group_tags_completion_view"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content" />
-		</com.google.android.material.textfield.TextInputLayout>
-	</LinearLayout>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:importantForAutofill="noExcludeDescendants"
+        android:orientation="vertical"
+        android:padding="@dimen/default_margin"
+        tools:targetApi="o">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/group_edit_icon_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/default_margin"
+            android:src="@drawable/ic_blank_32dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/group_edit_name_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/group_edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_group_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/group_edit_note_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/group_edit_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/entry_notes"
+                android:inputType="textMultiLine"
+                android:maxLines="3" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.kunzisoft.keepass.view.DateTimeEditFieldView
+            android:id="@+id/group_edit_expiration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/group_edit_searchable_container"
+            style="@style/Theme.Keepass.TextInputLayout.ExposedMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/searchable">
+
+            <com.kunzisoft.keepass.view.InheritedCompletionView
+                android:id="@+id/group_edit_searchable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- TODO Auto-type -->
+        <LinearLayout
+            android:id="@+id/group_edit_auto_type_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/group_edit_auto_type_inherited_container"
+                style="@style/Theme.Keepass.TextInputLayout.ExposedMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/auto_type"
+                android:visibility="gone">
+
+                <com.kunzisoft.keepass.view.InheritedCompletionView
+                    android:id="@+id/group_edit_auto_type_inherited"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/group_edit_auto_type_sequence_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/auto_type_sequence"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/group_edit_auto_type_sequence"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/group_tags_label"
+            style="@style/Theme.Keepass.TextInputLayout.ExposedMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tags">
+
+            <com.kunzisoft.keepass.view.TagsCompletionView
+                android:id="@+id/group_tags_completion_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
 </androidx.core.widget.NestedScrollView>

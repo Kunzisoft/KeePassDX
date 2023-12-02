@@ -41,7 +41,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
     }
     private val valueView = TextInputEditText(
         ContextThemeWrapper(context,
-            R.style.KeepassDXStyle_TextInputLayout)
+            R.style.Theme_Keepass_TextInputLayout)
     ).apply {
         layoutParams = LinearLayout.LayoutParams(
             LayoutParams.MATCH_PARENT,
@@ -84,7 +84,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
         )
     }
     private var actionImageButton = AppCompatImageButton(
-            ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
+            ContextThemeWrapper(context, R.style.Theme_Keepass_ImageButton_Simple), null, 0).apply {
         layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT).also {
@@ -94,9 +94,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.addRule(ALIGN_PARENT_END)
-            }
+            it.addRule(ALIGN_PARENT_END)
         }
         visibility = View.GONE
         contentDescription = context.getString(R.string.menu_edit)

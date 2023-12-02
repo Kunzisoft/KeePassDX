@@ -55,10 +55,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             AutofillHelper.buildActivityResultLauncher(this, true)
         else null
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
-
     override fun finishActivityIfReloadRequested(): Boolean {
         return true
     }

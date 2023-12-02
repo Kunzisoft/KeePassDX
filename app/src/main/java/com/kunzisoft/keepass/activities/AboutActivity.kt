@@ -28,7 +28,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.text.HtmlCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.StylishActivity
 import com.kunzisoft.keepass.utils.getPackageInfoCompat
 import org.joda.time.DateTime
 

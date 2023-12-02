@@ -20,14 +20,12 @@
 package com.kunzisoft.keepass.app
 
 import androidx.multidex.MultiDexApplication
-import com.kunzisoft.keepass.activities.stylish.Stylish
 
 class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
 
-        Stylish.load(this)
         PRNGFixes.apply()
     }
 }

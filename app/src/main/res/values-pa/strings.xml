@@ -2,10 +2,7 @@
 <resources>
     <string name="hide_expired_entries_summary">ਮਿਆਦ ਪੁੱਗੀਆਂ ਐਂਟਰੀਆਂ ਦਿਖਾਈਆਂ ਨਹੀਂ ਹਨ</string>
     <string name="hide_expired_entries_title">ਮਿਆਦ ਪੁੱਗੀਆਂ ਐਂਟਰੀਆਂ ਲੁਕਾਓ</string>
-    <string name="icon_pack_choose_summary">ਐਪ ਵਿੱਚ ਵਰਤਿਆ ਆਈਕਾਨ ਪੈਕ</string>
     <string name="icon_pack_choose_title">ਆਈਕਾਨ ਪੈਕ</string>
-    <string name="style_choose_summary">ਐਪ ਵਿੱਚ ਵਰਤਿਆ ਥੀਮ</string>
-    <string name="style_choose_title">ਐਪ ਦਾ ਥੀਮ</string>
     <string name="download_complete">ਪੂਰਾ ਹੋਇਆ!</string>
     <string name="download_finalization">…ਪੂਰਾ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="download_progression">ਜਾਰੀ ਹੈ: %1$d%%</string>

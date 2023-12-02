@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.activities.legacy
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.StylishActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.DatabaseTaskProvider

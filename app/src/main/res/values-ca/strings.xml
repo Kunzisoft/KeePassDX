@@ -249,11 +249,7 @@
     <string name="download">Baixa</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
-    <string name="style_brightness_title">Brillantor del tema</string>
-    <string name="style_choose_summary">El tema que s’utilitza a l’aplicació</string>
-    <string name="style_choose_title">Tema de l’aplicació</string>
     <string name="unit_mebibyte">MiB</string>
-    <string name="icon_pack_choose_summary">El paquet d’icones que s’utilitza a l’aplicació</string>
     <string name="icon_pack_choose_title">Paquet d’icones</string>
     <string name="icon_section_custom">Personalitzat</string>
     <string name="template_group_name">Plantilles</string>
@@ -272,7 +268,6 @@
     <string name="error_empty_key">La clau no pot ser buida.</string>
     <string name="tags">Etiquetes</string>
     <string name="place_of_issue">Lloc d\'expedició</string>
-    <string name="style_brightness_summary">Escull tema clar o fosc</string>
     <string name="hardware_key">Clau física</string>
     <string name="registration_mode">Mode de registre</string>
     <string name="ignore_chars_filter">Ignora caràcters</string>

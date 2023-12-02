@@ -172,10 +172,7 @@
     <string name="html_text_dev_feature_contibute">Genom att &lt;strong&gt;bidra&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">så uppmuntrar du utvecklare att skapa &lt;strong&gt;nya funktioner&lt;/strong&gt; och att &lt;strong&gt;fixa buggar&lt;/strong&gt; efter dina anmärkningar.</string>
     <string name="download">Ladda ner</string>
-    <string name="style_choose_title">Apptema</string>
-    <string name="style_choose_summary">Tema som används i appen</string>
     <string name="icon_pack_choose_title">Ikonpaket</string>
-    <string name="icon_pack_choose_summary">Ikonpaket som används i appen</string>
     <string name="menu_copy">Kopia</string>
     <string name="menu_move">Flytta</string>
     <string name="menu_paste">Klistra in</string>

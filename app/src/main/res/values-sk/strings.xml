@@ -245,9 +245,6 @@
     <string name="select_entry">Vybrať záznam</string>
     <string name="html_text_dev_feature">Táto funkcia je &lt;strong&gt;vo vývoji&lt;/strong&gt; a vyžaduje, váš &lt;strong&gt;príspevok&lt;/strong&gt; aby bola čoskoro k dispozícii.</string>
     <string name="character_count">Počet znakov: %1$d</string>
-    <string name="style_choose_summary">Téma použitá v aplikácii</string>
-    <string name="style_brightness_title">Jas témy</string>
-    <string name="style_brightness_summary">Vyberte svetlé alebo tmavé motívy</string>
     <string name="icon_section_standard">Štandardná</string>
     <string name="content_description_database_color">Farba databázy</string>
     <string name="content_description_entry_background_color">Zadajte farbu pozadia</string>
@@ -374,7 +371,6 @@
     <string name="autofill_web_domain_blocklist_summary">Blocklist, ktorý zabraňuje automatickému vypĺňaniu webových domén</string>
     <string name="title_case">Titulové Písanie</string>
     <string name="screenshot_mode_banner_text">Režim snímky obrazovky</string>
-    <string name="style_choose_title">Téma aplikácie</string>
     <string name="protection">Ochrana</string>
     <string name="configure_biometric">Nie sú zaregistrované žiadne biometrické údaje ani poverenia zariadenia.</string>
     <string name="advanced_unlock_scanning_error">Chyba rozšíreného odomykania: %1$s</string>
@@ -537,6 +533,5 @@
     <string name="word_separator">Oddelovač</string>
     <string name="upper_case">VEĽKÉ PÍSMENÁ</string>
     <string name="icon_section_custom">Vlastná</string>
-    <string name="icon_pack_choose_summary">Balík ikon používaný v aplikácii</string>
     <string name="show_entry_colors_title">Vstupné farby</string>
 </resources>

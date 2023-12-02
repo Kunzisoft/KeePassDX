@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <include
-        layout="@layout/item_autofill_app_id"/>
-    <include
-        layout="@layout/item_autofill_unlock"/>
+
+    <include layout="@layout/item_autofill_app_id" />
+
+    <include layout="@layout/item_autofill_unlock" />
 </LinearLayout>

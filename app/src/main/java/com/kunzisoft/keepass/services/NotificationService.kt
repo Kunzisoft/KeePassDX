@@ -10,9 +10,7 @@ import android.util.TypedValue
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.Stylish
 import kotlinx.coroutines.*
-
 
 abstract class NotificationService : Service() {
 
@@ -54,7 +52,6 @@ abstract class NotificationService : Service() {
         }
 
         // Get the color
-        setTheme(Stylish.getThemeId(this))
         val typedValue = TypedValue()
         val theme = theme
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2017 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -19,240 +18,155 @@
 -->
 <resources>
 
-    <!-- Light WhiteBar Style -->
-    <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v27" />
-    <style name="KeepassDXStyle.Light.v27" parent="KeepassDXStyle.Light.v23" />
-    <style name="KeepassDXStyle.Light.v23" parent="KeepassDXStyle.Light.v21" />
-    <style name="KeepassDXStyle.Light.v21" parent="KeepassDXStyle.Light.v14" />
-    <style name="KeepassDXStyle.Light.v14" parent="KeepassDXStyle.Light.Base" />
-    <style name="KeepassDXStyle.Light.Base" parent="Theme.Material3.Light">
-        <item name="colorPrimary">@color/classic_theme_light_primary</item>
-        <item name="colorPrimaryDark">@color/classic_theme_light_primaryDark</item>
-        <item name="colorOnPrimary">@color/classic_theme_light_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/classic_theme_light_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/classic_theme_light_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/classic_theme_light_secondary</item>
-        <item name="colorOnSecondary">@color/classic_theme_light_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/classic_theme_light_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/classic_theme_light_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/classic_theme_light_tertiary</item>
-        <item name="colorOnTertiary">@color/classic_theme_light_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/classic_theme_light_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/classic_theme_light_onTertiaryContainer</item>
-        <item name="colorError">@color/classic_theme_light_error</item>
-        <item name="colorErrorContainer">@color/classic_theme_light_errorContainer</item>
-        <item name="colorOnError">@color/classic_theme_light_onError</item>
-        <item name="colorOnErrorContainer">@color/classic_theme_light_onErrorContainer</item>
-        <item name="android:windowBackground">@color/classic_theme_light_background</item>
-        <item name="android:colorBackground">@color/classic_theme_light_background</item>
-        <item name="colorOnBackground">@color/classic_theme_light_onBackground</item>
-        <item name="colorSurface">@color/classic_theme_light_surface</item>
-        <item name="colorOnSurface">@color/classic_theme_light_onSurface</item>
-        <item name="colorSurfaceContainerLowest">@color/classic_theme_light_surfaceContainerLowest</item>
-        <item name="colorSurfaceContainerLow">@color/classic_theme_light_surfaceContainerLow</item>
-        <item name="colorSurfaceContainer">@color/classic_theme_light_surfaceContainer</item>
-        <item name="colorSurfaceContainerHigh">@color/classic_theme_light_surfaceContainerHigh</item>
-        <item name="colorSurfaceContainerHighest">@color/classic_theme_light_surfaceContainerHighest</item>
-        <item name="colorSurfaceVariant">@color/classic_theme_light_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/classic_theme_light_onSurfaceVariant</item>
-        <item name="colorOutline">@color/classic_theme_light_outline</item>
-        <item name="colorOnSurfaceInverse">@color/classic_theme_light_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/classic_theme_light_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/classic_theme_light_inversePrimary</item>
+    <style name="Theme.Keepass" parent="Theme.Keepass.v27" />
+
+    <style name="Theme.Keepass.v27" parent="Theme.Keepass.v23" />
+
+    <style name="Theme.Keepass.v23" parent="Theme.Keepass.v21" />
+
+    <style name="Theme.Keepass.v21" parent="Theme.Keepass.Base" />
+
+    <style name="Theme.Keepass.Base" parent="Theme.Material3.DynamicColors.DayNight">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/color_on_primary</item>
+        <item name="colorPrimaryContainer">@color/color_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/color_on_primary_container</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorOnSecondary">@color/color_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/color_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/color_on_secondary_container</item>
+        <item name="colorTertiary">@color/color_tertiary</item>
+        <item name="colorOnTertiary">@color/color_on_tertiary</item>
+        <item name="colorTertiaryContainer">@color/color_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/color_on_tertiary_container</item>
+        <item name="colorError">@color/color_error</item>
+        <item name="colorErrorContainer">@color/color_error_container</item>
+        <item name="colorOnError">@color/color_on_error</item>
+        <item name="colorOnErrorContainer">@color/color_on_error_container</item>
+        <item name="android:windowBackground">@color/color_background</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="colorOnBackground">@color/color_on_background</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_on_surface</item>
+        <item name="colorSurfaceContainerLowest">@color/color_surface_container_lowest</item>
+        <item name="colorSurfaceContainerLow">@color/color_surface_container_low</item>
+        <item name="colorSurfaceContainer">@color/color_surface_container</item>
+        <item name="colorSurfaceContainerHigh">@color/color_surface_container_high</item>
+        <item name="colorSurfaceContainerHighest">@color/color_surface_container_highest</item>
+        <item name="colorSurfaceVariant">@color/color_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/color_on_surface_variant</item>
+        <item name="colorOutline">@color/color_outline</item>
+        <item name="colorOnSurfaceInverse">@color/color_on_surface_inverse</item>
+        <item name="colorSurfaceInverse">@color/color_surface_inverse</item>
+        <item name="colorPrimaryInverse">@color/color_primary_inverse</item>
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:fitsSystemWindows">false</item>
 
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
+        <item name="android:imageButtonStyle">@style/Theme.Keepass.ImageButton</item>
+        <item name="imageButtonStyle">@style/Theme.Keepass.ImageButton</item>
 
-        <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
+        <item name="android:checkboxStyle">@style/Theme.Keepass.CheckBox</item>
 
-        <item name="android:textAppearance">@style/KeepassDXStyle.Text</item>
-        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
+        <item name="android:textAppearance">@style/Theme.Keepass.Text</item>
+        <item name="android:textAppearanceMedium">@style/Theme.Keepass.Text</item>
 
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/classic_theme_light_textPrimary</item>
         <item name="android:editTextColor">?attr/colorOnSurface</item>
 
         <!-- Dialog -->
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
-        <item name="dialogBackgroundColor">@color/classic_theme_light_background</item>
+        <item name="android:alertDialogTheme">@style/Theme.Keepass.Dialog</item>
+        <item name="alertDialogTheme">@style/Theme.Keepass.Dialog</item>
+        <item name="dialogBackgroundColor">@color/color_surface_variant</item>
 
         <!-- CardView -->
-        <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview</item>
+        <item name="materialCardViewStyle">@style/Theme.Keepass.Cardview</item>
+        <item name="cardViewStyle">@style/Theme.Keepass.Cardview</item>
 
         <!-- Toolbar -->
-        <item name="collapsingToolbarLayoutStyle">@style/KeepassDXStyle.CollapsingLayout</item>
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar</item>
-        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special</item>
-        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action</item>
-        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Title.Large.OnSurface</item>
-        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Title.OnSurface</item>
+        <item name="collapsingToolbarLayoutStyle">@style/Theme.Keepass.CollapsingLayout</item>
+        <item name="toolbarStyle">@style/Theme.Keepass.Toolbar</item>
+        <item name="toolbarSpecialStyle">@style/Theme.Keepass.Toolbar.Special</item>
+        <item name="toolbarActionStyle">@style/Theme.Keepass.Toolbar.Action</item>
+        <item name="expandedTitleTextAppearance">@style/Theme.Keepass.Title.Large.OnSurface</item>
+        <item name="collapsedTitleTextAppearance">@style/Theme.Keepass.Title.OnSurface</item>
 
         <!-- Tab -->
-        <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
+        <item name="tabStyle">@style/Theme.Keepass.TabLayout</item>
 
         <!-- Preference -->
-        <item name="preferenceStyle">@style/KeepassDXStyle.Preference.Style</item>
-        <item name="dialogPreferenceStyle">@style/KeepassDXStyle.Preference.Dialog.Style</item>
-        <item name="preferenceCategoryStyle">@style/KeepassDXStyle.Preference.Category.Style</item>
+        <item name="preferenceStyle">@style/Theme.Keepass.Preference.Style</item>
+        <item name="dialogPreferenceStyle">@style/Theme.Keepass.Preference.Dialog.Style</item>
+        <item name="preferenceCategoryStyle">@style/Theme.Keepass.Preference.Category.Style</item>
 
         <!-- Switch -->
-        <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
-        <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
-        <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
+        <item name="android:switchPreferenceStyle">@style/Theme.Keepass.SwitchPreference</item>
+        <item name="switchPreferenceStyle">@style/Theme.Keepass.SwitchPreference</item>
+        <item name="switchPreferenceCompatStyle">@style/Theme.Keepass.SwitchPreference</item>
 
         <!-- Edit Text -->
-        <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
+        <item name="textInputStyle">@style/Theme.Keepass.TextInputLayout</item>
 
         <!-- Snackbar -->
-        <item name="snackbarStyle">@style/KeepassDXStyle.SnackBar</item>
-    </style>
-
-    <!-- Night application theme -->
-    <style name="KeepassDXStyle.Night" parent="KeepassDXStyle.Night.v27" />
-    <style name="KeepassDXStyle.Night.v27" parent="KeepassDXStyle.Night.v23" />
-    <style name="KeepassDXStyle.Night.v23" parent="KeepassDXStyle.Night.v21" />
-    <style name="KeepassDXStyle.Night.v21" parent="KeepassDXStyle.Night.v14" />
-    <style name="KeepassDXStyle.Night.v14" parent="KeepassDXStyle.Night.Base" />
-    <style name="KeepassDXStyle.Night.Base" parent="Theme.Material3.Dark">
-        <item name="colorPrimary">@color/classic_theme_night_primary</item>
-        <item name="colorPrimaryDark">@color/classic_theme_night_primaryDark</item>
-        <item name="colorOnPrimary">@color/classic_theme_night_onPrimary</item>
-        <item name="colorPrimaryContainer">@color/classic_theme_night_primaryContainer</item>
-        <item name="colorOnPrimaryContainer">@color/classic_theme_night_onPrimaryContainer</item>
-        <item name="colorSecondary">@color/classic_theme_night_secondary</item>
-        <item name="colorOnSecondary">@color/classic_theme_night_onSecondary</item>
-        <item name="colorSecondaryContainer">@color/classic_theme_night_secondaryContainer</item>
-        <item name="colorOnSecondaryContainer">@color/classic_theme_night_onSecondaryContainer</item>
-        <item name="colorTertiary">@color/classic_theme_night_tertiary</item>
-        <item name="colorOnTertiary">@color/classic_theme_night_onTertiary</item>
-        <item name="colorTertiaryContainer">@color/classic_theme_night_tertiaryContainer</item>
-        <item name="colorOnTertiaryContainer">@color/classic_theme_night_onTertiaryContainer</item>
-        <item name="colorError">@color/classic_theme_night_error</item>
-        <item name="colorErrorContainer">@color/classic_theme_night_errorContainer</item>
-        <item name="colorOnError">@color/classic_theme_night_onError</item>
-        <item name="colorOnErrorContainer">@color/classic_theme_night_onErrorContainer</item>
-        <item name="android:windowBackground">@color/classic_theme_night_background</item>
-        <item name="android:colorBackground">@color/classic_theme_night_background</item>
-        <item name="colorOnBackground">@color/classic_theme_night_onBackground</item>
-        <item name="colorSurface">@color/classic_theme_night_surface</item>
-        <item name="colorOnSurface">@color/classic_theme_night_onSurface</item>
-        <item name="colorSurfaceContainerLowest">@color/classic_theme_night_surfaceContainerLowest</item>
-        <item name="colorSurfaceContainerLow">@color/classic_theme_night_surfaceContainerLow</item>
-        <item name="colorSurfaceContainer">@color/classic_theme_night_surfaceContainer</item>
-        <item name="colorSurfaceContainerHigh">@color/classic_theme_night_surfaceContainerHigh</item>
-        <item name="colorSurfaceContainerHighest">@color/classic_theme_night_surfaceContainerHighest</item>
-        <item name="colorSurfaceVariant">@color/classic_theme_night_surfaceVariant</item>
-        <item name="colorOnSurfaceVariant">@color/classic_theme_night_onSurfaceVariant</item>
-        <item name="colorOutline">@color/classic_theme_night_outline</item>
-        <item name="colorOnSurfaceInverse">@color/classic_theme_night_inverseOnSurface</item>
-        <item name="colorSurfaceInverse">@color/classic_theme_night_inverseSurface</item>
-        <item name="colorPrimaryInverse">@color/classic_theme_night_inversePrimary</item>
-
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-        <item name="android:fitsSystemWindows">false</item>
-
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-
-        <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
-
-        <item name="android:textAppearance">@style/KeepassDXStyle.Text</item>
-        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.Text</item>
-
-        <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textColorPrimary">@color/classic_theme_night_textPrimary</item>
-        <item name="android:editTextColor">?attr/colorOnSurface</item>
-
-        <!-- Dialog -->
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
-        <item name="dialogBackgroundColor">@color/classic_theme_night_background</item>
-
-        <!-- CardView -->
-        <item name="materialCardViewStyle">@style/KeepassDXStyle.Cardview</item>
-        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview</item>
-
-        <!-- Toolbar -->
-        <item name="collapsingToolbarLayoutStyle">@style/KeepassDXStyle.CollapsingLayout</item>
-        <item name="toolbarStyle">@style/KeepassDXStyle.Toolbar</item>
-        <item name="toolbarSpecialStyle">@style/KeepassDXStyle.Toolbar.Special</item>
-        <item name="toolbarActionStyle">@style/KeepassDXStyle.Toolbar.Action</item>
-        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Title.Large.OnSurface</item>
-        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Title.OnSurface</item>
-
-        <!-- Tab -->
-        <item name="tabStyle">@style/KeepassDXStyle.TabLayout</item>
-
-        <!-- Preference -->
-        <item name="preferenceStyle">@style/KeepassDXStyle.Preference.Style</item>
-        <item name="dialogPreferenceStyle">@style/KeepassDXStyle.Preference.Dialog.Style</item>
-        <item name="preferenceCategoryStyle">@style/KeepassDXStyle.Preference.Category.Style</item>
-
-        <!-- Switch -->
-        <item name="android:switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
-        <item name="switchPreferenceStyle">@style/KeepassDXStyle.SwitchPreference</item>
-        <item name="switchPreferenceCompatStyle">@style/KeepassDXStyle.SwitchPreference</item>
-
-        <!-- Edit Text -->
-        <item name="textInputStyle">@style/KeepassDXStyle.TextInputLayout</item>
-
-        <!-- Snackbar -->
-        <item name="snackbarStyle">@style/KeepassDXStyle.SnackBar</item>
+        <item name="snackbarStyle">@style/Theme.Keepass.SnackBar</item>
     </style>
 
     <!-- Toolbar Style -->
-    <style name="KeepassDXStyle.Toolbar.Base" parent="Widget.Material3.Toolbar.Surface" />
-    <style name="KeepassDXStyle.Toolbar.v21" parent="KeepassDXStyle.Toolbar.Base" />
-    <style name="KeepassDXStyle.Toolbar" parent="KeepassDXStyle.Toolbar.v21" >
+    <style name="Theme.Keepass.Toolbar.Base" parent="Widget.Material3.Toolbar.Surface" />
+
+    <style name="Theme.Keepass.Toolbar.v21" parent="Theme.Keepass.Toolbar.Base" />
+
+    <style name="Theme.Keepass.Toolbar" parent="Theme.Keepass.Toolbar.v21">
         <item name="elevation">0dp</item>
     </style>
-    <style name="KeepassDXStyle.CollapsingLayout" parent="Widget.Design.CollapsingToolbar">
+
+    <style name="Theme.Keepass.CollapsingLayout" parent="Widget.Design.CollapsingToolbar">
         <item name="android:background">?attr/colorSurface</item>
         <item name="background">?attr/colorSurface</item>
         <item name="contentScrim">?attr/colorSurface</item>
     </style>
-    <style name="KeepassDXStyle.Toolbar.Transparent" parent="Widget.Material3.Toolbar">
+
+    <style name="Theme.Keepass.Toolbar.Transparent" parent="Widget.Material3.Toolbar">
         <item name="android:background">@color/transparent</item>
         <item name="background">@color/transparent</item>
     </style>
     <!-- Special Toolbar Style -->
-    <style name="KeepassDXStyle.Toolbar.Special" parent="KeepassDXStyle.Toolbar">
-        <item name="titleTextAppearance">@style/KeepassDXStyle.Text</item>
+    <style name="Theme.Keepass.Toolbar.Special" parent="Theme.Keepass.Toolbar">
+        <item name="titleTextAppearance">@style/Theme.Keepass.Text</item>
         <item name="titleTextColor">?attr/colorOnSurface</item>
-        <item name="subtitleTextAppearance">@style/KeepassDXStyle.Text.Tiny</item>
+        <item name="subtitleTextAppearance">@style/Theme.Keepass.Text.Tiny</item>
         <item name="subtitleTextColor">?attr/colorSecondary</item>
         <item name="android:background">?attr/colorSurfaceContainer</item>
     </style>
     <!-- Action Style -->
-    <style name="KeepassDXStyle.Toolbar.Action" parent="KeepassDXStyle.Toolbar" />
+    <style name="Theme.Keepass.Toolbar.Action" parent="Theme.Keepass.Toolbar" />
 
     <!-- Edit Text -->
-    <style name="KeepassDXStyle.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox"/>
-    <style name="KeepassDXStyle.TextInputLayout.ExposedMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"/>
+    <style name="Theme.Keepass.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox" />
+
+    <style name="Theme.Keepass.TextInputLayout.ExposedMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" />
 
     <!-- Tab -->
-    <style name="KeepassDXStyle.TabLayout" parent="@style/Widget.Material3.TabLayout" />
+    <style name="Theme.Keepass.TabLayout" parent="@style/Widget.Material3.TabLayout" />
 
     <!-- Preference -->
-    <style name="KeepassDXStyle.Preference.Style" parent="@style/Preference.Material">
+    <style name="Theme.Keepass.Preference.Style" parent="@style/Preference.Material">
         <item name="android:layout">@layout/preference_material</item>
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
         <item name="iconSpaceReserved">false</item>
     </style>
-    <style name="KeepassDXStyle.Preference.Dialog.Style" parent="@style/Preference.DialogPreference.Material">
+
+    <style name="Theme.Keepass.Preference.Dialog.Style" parent="@style/Preference.DialogPreference.Material">
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
         <item name="iconSpaceReserved">false</item>
     </style>
-    <style name="KeepassDXStyle.Preference.Category.Style" parent="@style/Preference.Category.Material">
+
+    <style name="Theme.Keepass.Preference.Category.Style" parent="@style/Preference.Category.Material">
         <item name="android:layout">@layout/preference_category_material</item>
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
@@ -260,7 +174,7 @@
     </style>
 
     <!-- Switch -->
-    <style name="KeepassDXStyle.SwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+    <style name="Theme.Keepass.SwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="widgetLayout">@layout/preference_material_switch</item>
         <item name="allowDividerAbove">false</item>
         <item name="allowDividerBelow">false</item>
@@ -268,13 +182,14 @@
     </style>
 
     <!-- Chip -->
-    <style name="KeepassDXStyle.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+    <style name="Theme.Keepass.Chip.Filter" parent="Widget.Material3.Chip.Filter">
         <item name="chipCornerRadius">8dp</item>
         <item name="chipIconVisible">false</item>
         <item name="closeIconSize">24dp</item>
         <item name="ensureMinTouchTargetSize">false</item>
     </style>
-    <style name="KeepassDXStyle.Chip.Filter.Icon" parent="Widget.Material3.Chip.Filter">
+
+    <style name="Theme.Keepass.Chip.Filter.Icon" parent="Widget.Material3.Chip.Filter">
         <item name="chipCornerRadius">8dp</item>
         <item name="chipIconVisible">true</item>
         <item name="closeIconVisible">true</item>
@@ -283,38 +198,27 @@
     </style>
 
     <!-- Dialog -->
-    <style name="KeepassDXStyle.Light.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
+    <style name="Theme.Keepass.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
         <item name="android:background">?attr/dialogBackgroundColor</item>
         <item name="background">?attr/dialogBackgroundColor</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="dialogCornerRadius">@dimen/dialog_radius</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Light.Dialog.NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Light.Dialog.PositiveButtonStyle</item>
-    </style>
-    <style name="KeepassDXStyle.Light.Dialog.NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
-    </style>
-    <style name="KeepassDXStyle.Light.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
-        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Theme.Keepass.Dialog.NegativeButtonStyle
+        </item>
+        <item name="buttonBarPositiveButtonStyle">@style/Theme.Keepass.Dialog.PositiveButtonStyle
+        </item>
     </style>
 
-    <style name="KeepassDXStyle.Night.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="android:background">?attr/dialogBackgroundColor</item>
-        <item name="background">?attr/dialogBackgroundColor</item>
-        <item name="android:windowSoftInputMode">adjustResize</item>
-        <item name="dialogCornerRadius">@dimen/dialog_radius</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Night.Dialog.NegativeButtonStyle</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Night.Dialog.PositiveButtonStyle</item>
-    </style>
-    <style name="KeepassDXStyle.Night.Dialog.NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+    <style name="Theme.Keepass.Dialog.NegativeButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
-    <style name="KeepassDXStyle.Night.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+
+    <style name="Theme.Keepass.Dialog.PositiveButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
         <item name="android:textColor">?attr/colorPrimary</item>
     </style>
 
     <!-- CardView -->
-    <style name="KeepassDXStyle.Cardview" parent="Widget.Material3.CardView.Filled">
+    <style name="Theme.Keepass.Cardview" parent="Widget.Material3.CardView.Filled">
         <item name="android:layout_marginTop">@dimen/card_view_margin_vertical</item>
         <item name="android:layout_marginBottom">@dimen/card_view_margin_vertical</item>
         <item name="android:layout_marginStart">@dimen/card_view_margin_horizontal</item>
@@ -326,56 +230,64 @@
         <item name="cardCornerRadius">@dimen/card_radius</item>
     </style>
 
-    <style name="KeepassDXStyle.Cardview.Surface.Small" parent="Widget.Material3.CardView.Filled">
+    <style name="Theme.Keepass.Cardview.Surface.Small" parent="Widget.Material3.CardView.Filled">
         <item name="cardCornerRadius">@dimen/small_card_radius</item>
         <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
 
-    <style name="KeepassDXStyle.Cardview.SurfaceContainer" parent="KeepassDXStyle.Cardview">
+    <style name="Theme.Keepass.Cardview.SurfaceContainer" parent="Theme.Keepass.Cardview">
         <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
     </style>
 
     <!-- CheckBox -->
-    <style name="KeepassDXStyle.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+    <style name="Theme.Keepass.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
 
     <!-- Text Style -->
-    <style name="KeepassDXStyle.Text" parent="android:style/TextAppearance">
+    <style name="Theme.Keepass.Text" parent="android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
-    <style name="KeepassDXStyle.Title" parent="KeepassDXStyle.Text">
+
+    <style name="Theme.Keepass.Title" parent="Theme.Keepass.Text">
         <item name="android:textSize">20sp</item>
     </style>
-    <style name="KeepassDXStyle.SubTitle" parent="KeepassDXStyle.Text">
+
+    <style name="Theme.Keepass.SubTitle" parent="Theme.Keepass.Text">
         <item name="android:textSize">14sp</item>
     </style>
-    <style name="KeepassDXStyle.Text.Tiny" parent="KeepassDXStyle.Text">
+
+    <style name="Theme.Keepass.Text.Tiny" parent="Theme.Keepass.Text">
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="KeepassDXStyle.Text.OnSurface" parent="android:style/TextAppearance">
+    <style name="Theme.Keepass.Text.OnSurface" parent="android:style/TextAppearance">
         <item name="android:textColor">@color/on_surface_selector</item>
     </style>
-    <style name="KeepassDXStyle.Title.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
+
+    <style name="Theme.Keepass.Title.OnSurface" parent="Theme.Keepass.Text.OnSurface">
         <item name="android:textSize">20sp</item>
     </style>
-    <style name="KeepassDXStyle.Text.Large.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
+
+    <style name="Theme.Keepass.Text.Large.OnSurface" parent="Theme.Keepass.Text.OnSurface">
         <item name="android:textSize">16sp</item>
     </style>
-    <style name="KeepassDXStyle.Title.Large.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
+
+    <style name="Theme.Keepass.Title.Large.OnSurface" parent="Theme.Keepass.Text.OnSurface">
         <item name="android:textSize">28sp</item>
     </style>
-    <style name="KeepassDXStyle.Text.Info.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
+
+    <style name="Theme.Keepass.Text.Info.OnSurface" parent="Theme.Keepass.Text.OnSurface">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>
-    <style name="KeepassDXStyle.Text.Meta.OnSurface" parent="KeepassDXStyle.Text.OnSurface">
+
+    <style name="Theme.Keepass.Text.Meta.OnSurface" parent="Theme.Keepass.Text.OnSurface">
         <item name="android:textSize">11sp</item>
     </style>
 
     <!-- Badge -->
-    <style name="KeepassDXStyle.Text.Badge" parent="KeepassDXStyle.Text">
+    <style name="Theme.Keepass.Text.Badge" parent="Theme.Keepass.Text">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_rounded_square</item>
@@ -383,61 +295,72 @@
     </style>
 
     <!-- Nodes Text Style -->
-    <style name="KeepassDXStyle.Title.Entry" parent="KeepassDXStyle.Text">
-        <item name="android:textColor">@color/text_primary_color</item>
-        <item name="android:tint">@color/text_primary_color</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-    <style name="KeepassDXStyle.SubTitle.Entry" parent="KeepassDXStyle.Text">
-        <item name="android:textColor">@color/text_secondary_color</item>
-        <item name="android:tint">@color/text_secondary_color</item>
-        <item name="android:textSize">13sp</item>
-    </style>
-    <style name="KeepassDXStyle.Meta.Entry" parent="KeepassDXStyle.Text.Tiny">
-        <item name="android:textColor">@color/text_primary_color</item>
-        <item name="android:tint">@color/text_primary_color</item>
-        <item name="android:textSize">11sp</item>
-    </style>
-    <style name="KeepassDXStyle.Meta.Entry.Important" parent="KeepassDXStyle.Meta.Entry">
-        <item name="android:textStyle">italic|bold</item>
-    </style>
-    <style name="KeepassDXStyle.Info.Entry" parent="KeepassDXStyle.Text">
-        <item name="android:textColor">@color/text_secondary_color</item>
-        <item name="android:tint">@color/text_secondary_color</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-    <style name="KeepassDXStyle.Icon.Entry" parent="KeepassDXStyle.Text">
-        <item name="tint">@color/text_secondary_color</item>
-    </style>
-    <style name="KeepassDXStyle.Title.Group" parent="KeepassDXStyle.Text">
+    <style name="Theme.Keepass.Title.Entry" parent="Theme.Keepass.Text">
         <item name="android:textColor">@color/text_primary_color</item>
         <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="KeepassDXStyle.Meta.Group" parent="KeepassDXStyle.Text.Tiny">
+    <style name="Theme.Keepass.SubTitle.Entry" parent="Theme.Keepass.Text">
+        <item name="android:textColor">@color/text_secondary_color</item>
+        <item name="android:tint">@color/text_secondary_color</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="Theme.Keepass.Meta.Entry" parent="Theme.Keepass.Text.Tiny">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:tint">@color/text_primary_color</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="Theme.Keepass.Meta.Entry.Important" parent="Theme.Keepass.Meta.Entry">
+        <item name="android:textStyle">italic|bold</item>
+    </style>
+
+    <style name="Theme.Keepass.Info.Entry" parent="Theme.Keepass.Text">
+        <item name="android:textColor">@color/text_secondary_color</item>
+        <item name="android:tint">@color/text_secondary_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.Keepass.Icon.Entry" parent="Theme.Keepass.Text">
+        <item name="tint">@color/text_secondary_color</item>
+    </style>
+
+    <style name="Theme.Keepass.Title.Group" parent="Theme.Keepass.Text">
+        <item name="android:textColor">@color/text_primary_color</item>
+        <item name="android:tint">@color/text_primary_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Theme.Keepass.Meta.Group" parent="Theme.Keepass.Text.Tiny">
         <item name="android:textColor">@color/text_primary_color</item>
         <item name="android:tint">@color/text_primary_color</item>
         <item name="android:textSize">11sp</item>
     </style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.Button.Primary" parent="Widget.Material3.Button">
+    <style name="Theme.Keepass.Button.Primary" parent="Widget.Material3.Button">
         <item name="android:layout_margin">8dp</item>
     </style>
-    <style name="KeepassDXStyle.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+
+    <style name="Theme.Keepass.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:layout_margin">8dp</item>
     </style>
-    <style name="KeepassDXStyle.Base.ImageButton" parent="Widget.AppCompat.ImageButton" />
-    <style name="KeepassDXStyle.v21.ImageButton" parent="KeepassDXStyle.Base.ImageButton">
+
+    <style name="Theme.Keepass.Base.ImageButton" parent="Widget.AppCompat.ImageButton" />
+
+    <style name="Theme.Keepass.v21.ImageButton" parent="Theme.Keepass.Base.ImageButton">
         <item name="android:gravity">center</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.ImageButton">
+
+    <style name="Theme.Keepass.ImageButton" parent="Theme.Keepass.v21.ImageButton">
         <item name="android:colorForeground">?attr/colorOnSecondary</item>
         <item name="android:background">@drawable/background_image_button</item>
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.ImageButton">
+
+    <style name="Theme.Keepass.ImageButton.Simple" parent="Theme.Keepass.v21.ImageButton">
         <item name="android:colorForeground">@color/secondary_selector</item>
         <item name="tint">@color/secondary_selector</item>
         <item name="android:background">?android:attr/actionBarItemBackground</item>
@@ -446,12 +369,13 @@
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton.OnSurface" parent="KeepassDXStyle.ImageButton.Simple">
+
+    <style name="Theme.Keepass.ImageButton.OnSurface" parent="Theme.Keepass.ImageButton.Simple">
         <item name="android:colorForeground">?attr/colorOnSurface</item>
         <item name="tint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="KeepassDXStyle.ImageButton.Simple.Mini" parent="KeepassDXStyle.ImageButton.Simple">
+    <style name="Theme.Keepass.ImageButton.Simple.Mini" parent="Theme.Keepass.ImageButton.Simple">
         <item name="android:padding">12dp</item>
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">36dp</item>
@@ -460,43 +384,46 @@
     </style>
 
     <!-- Item Style -->
-    <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
+    <style name="Theme.Keepass.Selectable.Item" parent="Theme.Keepass">
         <item name="android:background">@drawable/background_item_selection</item>
         <item name="background">@drawable/background_item_selection</item>
     </style>
 
     <!-- Icon Style -->
-    <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.ImageButton">
+    <style name="Theme.Keepass.Icon" parent="Theme.Keepass.v21.ImageButton">
         <item name="android:background">@drawable/background_icon</item>
         <item name="backgroundTint">?android:attr/windowBackground</item>
     </style>
 
     <!-- FAB -->
-    <style name="KeepassDXStyle.Fab" parent="Widget.Material3.FloatingActionButton.Primary" />
-    <style name="KeepassDXStyle.Fab.Special" parent="Widget.Material3.FloatingActionButton.Secondary" >
+    <style name="Theme.Keepass.Fab" parent="Widget.Material3.FloatingActionButton.Primary" />
+
+    <style name="Theme.Keepass.Fab.Special" parent="Widget.Material3.FloatingActionButton.Secondary">
         <item name="fabCustomSize">@dimen/button_small_size</item>
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.Fab.Menu" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary" >
+    <style name="Theme.Keepass.Fab.Menu" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <!-- Form -->
-	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.Text">
+    <style name="Theme.Keepass.TextAppearance.LabelTextStyle" parent="Theme.Keepass.Text">
         <item name="android:textColor">?attr/colorSecondary</item>
-		<item name="android:textSize">12sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingStart">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingEnd">8dp</item>
-	</style>
-    <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.Text">
+    </style>
+
+    <style name="Theme.Keepass.TextAppearance.LabelTableTextStyle" parent="Theme.Keepass.Text">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
-	<style name="KeepassDXStyle.TextAppearance.TextNode" parent="KeepassDXStyle.Text">
+
+    <style name="Theme.Keepass.TextAppearance.TextNode" parent="Theme.Keepass.Text">
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">4dp</item>
         <item name="android:paddingLeft">8dp</item>
@@ -504,10 +431,10 @@
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingEnd">8dp</item>
         <item name="android:textSize">16sp</item>
-	</style>
+    </style>
 
     <!-- Snackbar -->
-    <style name="KeepassDXStyle.SnackBar" parent="Widget.Material3.Snackbar">
+    <style name="Theme.Keepass.SnackBar" parent="Widget.Material3.Snackbar">
         <item name="backgroundTint">@color/red</item>
     </style>
 
@@ -524,7 +451,7 @@
     </style>
 
     <!-- Keyboard -->
-    <style name="KeepassDXStyle.Keyboard" parent="Theme.AppCompat">
+    <style name="Theme.Keepass.Keyboard" parent="Theme.AppCompat">
         <item name="android:paddingTop">4dp</item>
         <item name="background">@color/grey_blue_deep</item>
         <item name="keyBackground">@drawable/key_background</item>
@@ -534,8 +461,4 @@
         <item name="verticalCorrection">-10dip</item>
         <item name="popupLayout">@layout/keyboard_popup_fields</item>
     </style>
-
-    <!-- Only to have a specific base to build a dynamic theme properly programmatically -->
-    <style name="KeepassDXStyle.Light.Dynamic" parent="KeepassDXStyle.Light" />
-    <style name="KeepassDXStyle.Night.Dynamic" parent="KeepassDXStyle.Night" />
 </resources>

@@ -269,7 +269,6 @@
     <string name="hide_broken_locations_summary">Sakrij pokvarene poveznice u popisu nedavnih baza podataka</string>
     <string name="html_text_dev_feature">Ova se funkcija nalazi &lt;strong&gt;u razvoju&lt;/strong&gt; i treba tvoj &lt;strong&gt;doprinos&lt;/strong&gt; kako bi uskoro bila dostupna.</string>
     <string name="lock_database_show_button_title">Prikaži gumb za zaključavanje</string>
-    <string name="style_choose_summary">U aplikaciji korištena tema</string>
     <string name="autofill_application_id_blocklist_title">Popis blokiranja aplikacija</string>
     <string name="validate">Provjeri valjanost</string>
     <string name="html_text_dev_feature_encourage">potičeš programere da stvore &lt;strong&gt;nove funkcije&lt;/strong&gt; i &lt;strong&gt;isprave greške&lt;/strong&gt; na osnovi tvojih napomena.</string>
@@ -277,7 +276,6 @@
     <string name="html_about_contribution">Kako bismo &lt;strong&gt;zadržali našu slobodu&lt;/strong&gt;, &lt;strong&gt;ispravljali greške&lt;/strong&gt;, &lt;strong&gt;dodavali funkcije&lt;/strong&gt; i &lt;strong&gt;uvijek bili aktivni&lt;/strong&gt;, računamo na tvoj &lt;strong&gt;doprinos&lt;/strong&gt;.</string>
     <string name="autofill_web_domain_blocklist_summary">Popis blokiranja koja sprečavaju automatsko ispunjavanje web domena</string>
     <string name="autofill_preference_title">Postavke automatskog ispunjavanja</string>
-    <string name="style_choose_title">Tema aplikacije</string>
     <string name="keyboard_entry_timeout_summary">Istek vremena za brisanje unosa tipkovnicom</string>
     <string name="autofill_web_domain_blocklist_title">Popis blokiranja web domena</string>
     <string name="app_timeout">Istek vremena</string>
@@ -300,7 +298,6 @@
     <string name="hide_broken_locations_title">Sakrij pokvarene poveznice baze podataka</string>
     <string name="autofill_block">Blokiranje automatskog ispunjavanja</string>
     <string name="keystore_not_accessible">Baza ključeva nije ispravno inicijalizirana.</string>
-    <string name="icon_pack_choose_summary">Paket ikona, koji se koristi u aplikaciji</string>
     <string name="hide_expired_entries_summary">Istekli unosi se ne pokazuju</string>
     <string name="biometric_auto_open_prompt_summary">Automatski zatraži otključavanje uređaja ako je baza podataka postavljena da ga koristi</string>
     <string name="unavailable_feature_text">Nije moguće pokrenuti ovu funkciju.</string>
@@ -404,8 +401,6 @@
     <string name="download_canceled">Prekinuto!</string>
     <string name="icon_section_custom">Prilagođeno</string>
     <string name="icon_section_standard">Standardno</string>
-    <string name="style_brightness_summary">Odaberi svijetle ili tamne teme</string>
-    <string name="style_brightness_title">Svjetlina teme</string>
     <string name="error_upload_file">Tijekom prijenosa podataka datoteke došlo je do greške.</string>
     <string name="error_file_to_big">Datoteka koju pokušavaš prenijeti je prevelika.</string>
     <string name="content_description_otp_information">Podaci jednokratne lozinke</string>

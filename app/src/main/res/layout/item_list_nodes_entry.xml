@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDX.
@@ -25,13 +24,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/node_container"
+        style="@style/Theme.Keepass.Selectable.Item"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:minHeight="@dimen/selectable_min_height"
-        android:paddingVertical="8dp"
         android:paddingHorizontal="@dimen/selectable_margin_horizontal"
-        style="@style/KeepassDXStyle.Selectable.Item"
+        android:paddingVertical="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,9 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/image_list_margin_vertical"
-            android:layout_marginLeft="@dimen/image_list_margin_vertical"
             android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/node_path"
             app:layout_constraintEnd_toStartOf="@+id/node_options"
@@ -74,7 +71,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.Title.Entry"
+                style="@style/Theme.Keepass.Title.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -83,7 +80,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_subtext"
-                style="@style/KeepassDXStyle.SubTitle.Entry"
+                style="@style/Theme.Keepass.SubTitle.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-4dp"
@@ -93,7 +90,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.Meta.Entry"
+                style="@style/Theme.Keepass.Meta.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
@@ -111,25 +108,23 @@
             android:layout_marginRight="12dp"
             android:gravity="end"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="@+id/node_container_info"
             app:layout_constraintBottom_toTopOf="@+id/node_path"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/node_container_info">
 
             <LinearLayout
                 android:id="@+id/node_otp_container"
+                style="@style/Theme.Keepass.Selectable.Item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/KeepassDXStyle.Selectable.Item"
                 android:orientation="horizontal"
+                android:paddingVertical="4dp"
                 android:paddingStart="8dp"
-                android:paddingLeft="8dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
-                android:paddingVertical="4dp">
+                android:paddingEnd="4dp">
 
                 <TextView
                     android:id="@+id/node_otp_token"
-                    style="@style/KeepassDXStyle.Info.Entry"
+                    style="@style/Theme.Keepass.Info.Entry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -144,16 +139,16 @@
                         android:id="@+id/node_otp_progress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:indicatorSize="16dp"
-                        app:trackThickness="2dp"
+                        android:layout_gravity="center"
                         app:indicatorDirectionCircular="counterclockwise"
-                        android:layout_gravity="center" />
+                        app:indicatorSize="16dp"
+                        app:trackThickness="2dp" />
                 </FrameLayout>
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/node_attachment_icon"
-                style="@style/KeepassDXStyle.Icon.Entry"
+                style="@style/Theme.Keepass.Icon.Entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -163,10 +158,9 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/node_path"
-            style="@style/KeepassDXStyle.Meta.Entry.Important"
+            style="@style/Theme.Keepass.Meta.Entry.Important"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="2dp"
             android:maxLines="2"

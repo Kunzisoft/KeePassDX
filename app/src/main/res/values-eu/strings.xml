@@ -422,7 +422,6 @@
     <string name="advanced_unlock_tap_delete">Ukitu desblokeatze aurreratuko gakoak ezabatzeko</string>
     <string name="recycle_bin_group_title">Zakarrontziaren taldea</string>
     <string name="assign_master_key">Esleitu gako nagusia</string>
-    <string name="icon_pack_choose_summary">Aplikazioak erabilitako ikono paketea</string>
     <string name="advanced_unlock_invalid_key">Ezin da irakurri desblokeatze aurreratuko gakoa. Mesedez ezabatu ezatu eta errepikatu desblokeatze prozedura.</string>
     <string name="device_credential_unlock_enable_title">Gailuaren kredentzialen desblokeoa</string>
     <string name="advanced_unlock_keystore_warning">Ezaugarri honek zifratutako kredentzialen informazioa zure gailuaren KeyStorean gordeko ditu.
@@ -432,10 +431,6 @@
     <string name="warning_database_info_reloaded">Datu-basea berriz kargatzeak lokalean aldatutako datuak ezabatuko ditu.</string>
     <string name="merge_success">Fusioa arrakastaz bukatu da</string>
     <string name="keystore_not_accessible">Gako-biltegia ez da behar bezala hasieratu.</string>
-    <string name="style_choose_title">Aplikazio diseinua</string>
-    <string name="style_choose_summary">Aplikazioan erabilitako diseinua</string>
-    <string name="style_brightness_title">Diseinuaren argitasuna</string>
-    <string name="style_brightness_summary">Hautatu diseinu argiak edo ilunak</string>
     <string name="icon_section_standard">Estandarra</string>
     <string name="icon_section_custom">Pertsonalizatua</string>
     <string name="icon_pack_choose_title">Ikono paketea</string>

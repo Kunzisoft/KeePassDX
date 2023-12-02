@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -18,19 +17,21 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    style="?alertDialogTheme"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="20dp"
-    android:paddingLeft="20dp"
+    android:orientation="horizontal"
     android:paddingStart="20dp"
-    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
     android:paddingEnd="20dp"
-    android:paddingBottom="0dp"
-    style="?alertDialogTheme">
-    <TextView android:id="@+id/unavailable_feature_message"
+    android:paddingRight="20dp"
+    android:paddingBottom="0dp">
+
+    <TextView
+        android:id="@+id/unavailable_feature_message"
+        style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/textColorPrimary"/>
+        android:textColor="?android:attr/textColorPrimary" />
 </LinearLayout>

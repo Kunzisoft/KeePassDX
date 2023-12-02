@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePassDX.
@@ -21,30 +20,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:importantForAutofill="noExcludeDescendants"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/card_view_margin_vertical"
     tools:targetApi="o">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:background="?attr/colorSurface" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginStart="@dimen/card_view_margin_horizontal"
-            android:layout_marginEnd="@dimen/card_view_margin_horizontal"
             android:layout_marginLeft="@dimen/card_view_margin_horizontal"
-            android:layout_marginRight="@dimen/card_view_margin_horizontal"
             android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginBottom="@dimen/card_view_margin_vertical"
-            android:layout_gravity="bottom">
+            android:layout_marginEnd="@dimen/card_view_margin_horizontal"
+            android:layout_marginRight="@dimen/card_view_margin_horizontal"
+            android:layout_marginBottom="@dimen/card_view_margin_vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,19 +57,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/passphrase_copy_button"
-                    android:layout_toLeftOf="@+id/passphrase_copy_button"
                     app:passKeyHint="@string/passphrase"
-                    app:passKeyMaxLines="7"/>
+                    app:passKeyMaxLines="7" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/passphrase_copy_button"
-                    style="@style/KeepassDXStyle.ImageButton.Simple"
+                    style="@style/Theme.Keepass.ImageButton.Simple"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/passphrase_view"
                     android:layout_alignBottom="@+id/passphrase_view"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:contentDescription="@string/menu_copy"
                     android:src="@drawable/ic_content_copy_white_24dp" />
             </RelativeLayout>
@@ -84,12 +84,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/card_view_margin_horizontal"
-            android:layout_marginEnd="@dimen/card_view_margin_horizontal"
             android:layout_marginLeft="@dimen/card_view_margin_horizontal"
-            android:layout_marginRight="@dimen/card_view_margin_horizontal"
             android:layout_marginTop="@dimen/card_view_margin_vertical"
+            android:layout_marginEnd="@dimen/card_view_margin_horizontal"
+            android:layout_marginRight="@dimen/card_view_margin_horizontal"
             android:layout_marginBottom="@dimen/card_view_margin_vertical"
             app:cardCornerRadius="4dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,9 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/word_count"
                         android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
                         android:layout_toStartOf="@+id/word_count"
-                        android:layout_toLeftOf="@+id/word_count"
                         android:contentDescription="@string/content_description_password_length"
                         android:stepSize="1"
                         android:value="@integer/passphrase_generator_word_count_default"
@@ -120,12 +119,12 @@
                         android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:inputType="number"
                         android:maxLength="2"
                         android:maxLines="1" />
 
                 </RelativeLayout>
+
                 <TextView
                     android:id="@+id/character_count"
                     android:layout_width="wrap_content"
@@ -140,14 +139,13 @@
                         android:id="@+id/word_case"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:layout_marginTop="12dp"/>
+                        android:layout_marginTop="12dp" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/word_separator_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@+id/word_case"
-                        android:layout_toRightOf="@+id/word_case">
+                        android:layout_toEndOf="@+id/word_case">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/word_separator"

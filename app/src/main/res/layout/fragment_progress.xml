@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
@@ -19,42 +18,42 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/progress_dialog_title"
+        style="@style/Theme.Keepass.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="32dp"
-        style="@style/KeepassDXStyle.Title"/>
+        android:layout_marginRight="32dp" />
 
     <TextView
         android:id="@+id/progress_dialog_message"
+        style="@style/Theme.Keepass.SubTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="32dp"
-        style="@style/KeepassDXStyle.SubTitle"/>
+        android:layout_marginRight="32dp" />
 
     <TextView
         android:id="@+id/progress_dialog_warning"
+        style="@style/Theme.Keepass.Text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="18dp"
         android:layout_marginEnd="32dp"
-        style="@style/KeepassDXStyle.Text"/>
+        android:layout_marginRight="32dp" />
 
     <Button
         android:id="@+id/progress_dialog_cancel"
@@ -62,18 +61,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="18dp"
-        android:layout_marginRight="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/entry_cancel" />
 
     <ProgressBar
         android:id="@+id/progress_dialog_bar"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        app:indicatorColor="?attr/colorSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:indeterminate="true"
-        android:max="100"/>
+        android:max="100"
+        app:indicatorColor="?attr/colorSecondary" />
 
 </LinearLayout>
