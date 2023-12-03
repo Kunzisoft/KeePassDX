@@ -235,7 +235,6 @@
     <string name="master_key">Hlavní klíč</string>
     <string name="security">Zabezpečení</string>
     <string name="entry_history">Historie</string>
-    <string name="entry_setup_otp">Nastavit heslo na jedno použití (OTP)</string>
     <string name="otp_type">Typ OTP</string>
     <string name="otp_secret">Tajnost</string>
     <string name="otp_period">Interval (sekundy)</string>

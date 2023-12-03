@@ -240,7 +240,6 @@
     <string name="master_key">Hoofdsleutel</string>
     <string name="security">Beveiliging</string>
     <string name="entry_history">Geschiedenis</string>
-    <string name="entry_setup_otp">Eenmalig wachtwoord (OTP) instellen</string>
     <string name="otp_type">OTP-type</string>
     <string name="otp_secret">Geheim</string>
     <string name="otp_period">Duur (seconden)</string>

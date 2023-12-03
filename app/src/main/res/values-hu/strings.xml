@@ -289,7 +289,6 @@
     <string name="otp_period">Időtartam (másodperc)</string>
     <string name="otp_secret">Titok</string>
     <string name="otp_type">OTP típusa</string>
-    <string name="entry_setup_otp">Egyszer használatos jelszó beállítása</string>
     <string name="entry_history">Előzmények</string>
     <string name="disable">Letiltás</string>
     <string name="enable">Engedélyezés</string>

@@ -321,7 +321,6 @@
     <string name="hide_expired_entries_title">Ocultar entradas expiradas</string>
     <string name="hide_expired_entries_summary">As entradas expiradas não são mostradas</string>
     <string name="menu_master_key_settings">Configurações da chave mestra</string>
-    <string name="entry_setup_otp">Configurar palavra-passe de uso único</string>
     <string name="menu_empty_recycle_bin">Esvaziar caixote da reciclagem</string>
     <string name="contains_duplicate_uuid_procedure">Resolver o problema gerando novas UUIDs para os duplicados para continuar\?</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Forçar renovação na próxima vez</string>

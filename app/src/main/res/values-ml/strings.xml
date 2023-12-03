@@ -34,7 +34,6 @@
     <string name="error_load_database">നിങ്ങളുടെ ഡാറ്റാബേസ് ലോഡുചെയ്യാനായില്ല.</string>
     <string name="otp_digits">അക്കങ്ങൾ</string>
     <string name="otp_period">കാലയളവ് (സെക്കൻഡ്)</string>
-    <string name="entry_setup_otp">ഒറ്റത്തവണ പാസ്‌വേഡ് സജ്ജമാക്കുക</string>
     <string name="encryption_algorithm">എൻക്രിപ്ഷൻ അൽഗോരിതം</string>
     <string name="space">ഇടം</string>
     <string name="memory_usage">മെമ്മറി ഉപയോഗം</string>

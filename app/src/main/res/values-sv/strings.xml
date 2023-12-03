@@ -233,7 +233,6 @@
     <string name="enable">Aktivera</string>
     <string name="disable">Avaktivera</string>
     <string name="entry_history">Historik</string>
-    <string name="entry_setup_otp">Konfigurera engångslösenord</string>
     <string name="otp_type">OTP-typ</string>
     <string name="otp_secret">Hemlighet</string>
     <string name="otp_period">Period (sekunder)</string>

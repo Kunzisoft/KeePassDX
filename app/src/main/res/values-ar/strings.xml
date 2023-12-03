@@ -210,7 +210,6 @@
     <string name="otp_algorithm">الخوارزمية</string>
     <string name="otp_digits">أرقام</string>
     <string name="otp_counter">العداد</string>
-    <string name="entry_setup_otp">عيّن كلمة مرور لمرة واحدة</string>
     <string name="entry_UUID">UUID</string>
     <string name="html_about_contribution">من أجل &lt;strong&gt;حماية خصوصيتا&lt;/strong&gt;٫&lt;strong&gt; إصلاح العلل&lt;/strong&gt;٫ &lt;strong&gt;إضافة مميزات&lt;/strong&gt; &lt;strong&gt;وجعلنا نشطاء دائما&lt;/strong&gt;٫ نحن نعتمد على &lt;strong&gt;مساهمتك&lt;/strong&gt;.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>

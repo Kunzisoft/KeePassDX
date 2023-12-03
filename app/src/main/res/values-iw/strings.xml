@@ -167,7 +167,6 @@
     <string name="file_not_found_content">לא ניתן למצוא את הקובץ. נסה לפתוח אותו מחדש מסייר הקבצים שלך.</string>
     <string name="corrupted_file">קובץ פגום.</string>
     <string name="template_group_name">תבניות</string>
-    <string name="entry_setup_otp">הגדר סיסמה חד-פעמית</string>
     <string name="error_disallow_no_credentials">יש להגדיר לפחות אישור אחד.</string>
     <string name="error_move_entry_here">אינך יכול להעביר ערך כאן.</string>
     <string name="discard">בטל</string>

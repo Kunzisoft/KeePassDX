@@ -115,7 +115,6 @@
     <string name="otp_period">Ajanjakso (sekunteina)</string>
     <string name="otp_secret">Salaisuus</string>
     <string name="otp_type">OTP tyyppi</string>
-    <string name="entry_setup_otp">Luo kertakäyttöinen salasana</string>
     <string name="entry_attachments">Liitetiedostot</string>
     <string name="entry_history">Historia</string>
     <string name="entry_UUID">UUID</string>

@@ -388,7 +388,6 @@
     <string name="navigation_drawer_close">Zatvorenie navigačného panelu</string>
     <string name="entry_add_attachment">Pridať prílohu</string>
     <string name="entry_attachments">Prílohy</string>
-    <string name="entry_setup_otp">Nastaviť jednorazové heslo</string>
     <string name="otp_type">OTP typ</string>
     <string name="otp_period">Čas (sekundy)</string>
     <string name="otp_counter">Počítadlo</string>

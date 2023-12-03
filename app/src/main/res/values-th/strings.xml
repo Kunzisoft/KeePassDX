@@ -7,7 +7,6 @@
     <string name="application">แอป</string>
     <string name="clipboard_error_title">มีข้อผิดพลาดในคลิปบอร์ด</string>
     <string name="entry_password">รหัสผ่าน</string>
-    <string name="entry_setup_otp">ตั้งค่ารหัสแบบใช้ครั้งเดียว</string>
     <string name="error_pass_match">รหัสผ่านไม่ตรงกัน</string>
     <string name="menu_app_settings">การตั้งค่าแอป</string>
     <string name="security">ความปลอดภัย</string>

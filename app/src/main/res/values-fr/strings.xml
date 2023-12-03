@@ -243,7 +243,6 @@
     <string name="master_key">Clé principale</string>
     <string name="security">Sécurité</string>
     <string name="entry_history">Historique</string>
-    <string name="entry_setup_otp">Configuration d’un mot de passe à usage unique</string>
     <string name="otp_type">Type MDP à usage unique</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Période (secondes)</string>

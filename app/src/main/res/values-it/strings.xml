@@ -234,7 +234,6 @@
     <string name="error_create_database_file">Impossibile creare un database con questa password e file chiave.</string>
     <string name="menu_advanced_unlock_settings">Sblocco con dispositivo</string>
     <string name="entry_history">Cronologia</string>
-    <string name="entry_setup_otp">Imposta password usa e getta</string>
     <string name="otp_type">Tipo di OTP</string>
     <string name="otp_secret">Segreto</string>
     <string name="otp_period">Periodo (secondi)</string>

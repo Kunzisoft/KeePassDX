@@ -101,7 +101,6 @@
     <string name="searchable">Procurábel</string>
     <string name="inherited">Herdar</string>
     <string name="tags">Etiquetas</string>
-    <string name="entry_setup_otp">Estabelecer contrasinal de uso único</string>
     <string name="current_group">Grupo actual</string>
     <string name="case_sensitive">Sensíbel a maiúsculas e minúsculas</string>
     <string name="regex">Expresión regular</string>

@@ -236,7 +236,6 @@
     <string name="master_key">Главный пароль</string>
     <string name="security">Безопасность</string>
     <string name="entry_history">История</string>
-    <string name="entry_setup_otp">Настройка одноразового пароля</string>
     <string name="otp_type">Тип OTP</string>
     <string name="otp_secret">Секретный ключ</string>
     <string name="otp_period">Время (в секундах)</string>

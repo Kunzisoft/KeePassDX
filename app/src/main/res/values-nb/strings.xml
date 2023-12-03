@@ -226,7 +226,6 @@
     <string name="master_key">Hovednøkkel</string>
     <string name="security">Sikkerhet</string>
     <string name="entry_history">Historikk</string>
-    <string name="entry_setup_otp">Sett opp engangspassord</string>
     <string name="otp_type">OTP-type</string>
     <string name="otp_secret">Hemmelig</string>
     <string name="otp_period">Periode (sekunder)</string>

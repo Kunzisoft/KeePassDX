@@ -39,7 +39,7 @@
                 style="@style/Theme.Keepass.Title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/entry_setup_otp"
+                android:text="@string/entry_add_otp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/otp_information"
                 app:layout_constraintStart_toStartOf="parent"

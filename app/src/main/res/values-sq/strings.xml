@@ -90,7 +90,6 @@
     <string name="entry_password">Fjalëkalim</string>
     <string name="tags">Etiketa</string>
     <string name="entry_title">Titull</string>
-    <string name="entry_setup_otp">Ujdisni fjalëkalimin për një herë</string>
     <string name="otp_type">Lloj OTP-je</string>
     <string name="otp_secret">E fshehtë</string>
     <string name="otp_period">Periudhë (sekonda)</string>

@@ -57,7 +57,6 @@
     <string name="entry_password">Lozinka</string>
     <string name="save">Spremi</string>
     <string name="entry_title">Naslov</string>
-    <string name="entry_setup_otp">Postavi jednokratnu lozinku</string>
     <string name="otp_type">Vrsta jednokratne lozinke</string>
     <string name="otp_secret">Tajna</string>
     <string name="otp_period">Razdoblje (u sekundama)</string>

@@ -77,7 +77,6 @@
     <string name="app_timeout_summary">Waktu idle sebelum mengunci basis data</string>
     <string name="file_manager_install_description">Manajer file yang menerima ACTION_CREATE_DOCUMENT ACTION_OPEN_DOCUMENT izin diperlukan untuk membuat, membuka, dan menyimpan file basis data.</string>
     <string name="otp_type">Jenis OTP</string>
-    <string name="entry_setup_otp">Penyiapan Sandi Sekali Pakai (OTP)</string>
     <string name="entry_user_name">Nama Pengguna</string>
     <string name="entry_url">Tautan</string>
     <string name="entry_otp">OTP (One Time Password)</string>

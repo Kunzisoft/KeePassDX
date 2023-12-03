@@ -238,7 +238,6 @@
     <string name="master_key">Chave-mestra</string>
     <string name="security">Segurança</string>
     <string name="entry_history">Histórico</string>
-    <string name="entry_setup_otp">Configure uma senha de uso único</string>
     <string name="otp_type">Tipo OTP</string>
     <string name="otp_secret">Segredo</string>
     <string name="otp_period">Período (segundos)</string>

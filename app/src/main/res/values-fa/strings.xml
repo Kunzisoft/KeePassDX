@@ -133,7 +133,6 @@
     <string name="otp_period">دوره (ثانیه)</string>
     <string name="otp_secret">مخفی</string>
     <string name="otp_type">نوع OTP</string>
-    <string name="entry_setup_otp">گذرواژه یکبار مصرف تنظیم کنید</string>
     <string name="entry_title">عنوان</string>
     <string name="save">ذخیره</string>
     <string name="entry_password">رمز عبور</string>

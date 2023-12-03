@@ -52,8 +52,9 @@
     <string name="discard_changes">Discard changes?</string>
     <string name="discard">Discard</string>
     <string name="content_description_password_length">Password length</string>
-    <string name="entry_add_field">Add field</string>
+    <string name="entry_add_field">Add Custom field</string>
     <string name="entry_add_attachment">Add attachment</string>
+    <string name="entry_add_otp">Setup OTP</string>
     <string name="content_description_remove_field">Remove field</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
@@ -89,7 +90,6 @@
     <string name="tags">Tags</string>
     <string name="save">Save</string>
     <string name="entry_title">Title</string>
-    <string name="entry_setup_otp">Set up one-time password</string>
     <string name="otp_type">OTP type</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Period (seconds)</string>

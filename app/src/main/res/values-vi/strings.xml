@@ -16,7 +16,6 @@
     <string name="otp_period">Thời gian (giây)</string>
     <string name="otp_secret">Bí mật</string>
     <string name="otp_type">Loại mật khẩu dùng một lần</string>
-    <string name="entry_setup_otp">Thiết lập mật khẩu dùng một lần</string>
     <string name="entry_title">Tiêu đề</string>
     <string name="save">Lưu</string>
     <string name="entry_password">Mật khẩu</string>

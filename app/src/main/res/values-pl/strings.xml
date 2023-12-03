@@ -236,7 +236,6 @@
     <string name="master_key">Klucz główny</string>
     <string name="security">Zabezpieczenia</string>
     <string name="entry_history">Historia</string>
-    <string name="entry_setup_otp">Skonfiguruj hasło jednorazowe</string>
     <string name="otp_type">Typ OTP</string>
     <string name="otp_secret">Tajne</string>
     <string name="otp_period">Okres (w sekundach)</string>

@@ -62,7 +62,6 @@
     <string name="entry_password">Parolă</string>
     <string name="save">Salvează</string>
     <string name="entry_title">Titlu</string>
-    <string name="entry_setup_otp">Setați o parolă unică</string>
     <string name="otp_type">Tip OTP</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Perioadă (secunde)</string>

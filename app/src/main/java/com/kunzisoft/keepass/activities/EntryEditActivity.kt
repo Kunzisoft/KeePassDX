@@ -24,8 +24,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -55,7 +53,6 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
-import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
@@ -116,6 +113,9 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var validateButton: View? = null
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
+    private var addCustomFieldView: View? = null
+    private var addOtpView: View? = null
+    private var addAttachmentView: View? = null
 
     private val mEntryEditViewModel: EntryEditViewModel by viewModels()
     private var mTemplate: Template? = null
@@ -165,6 +165,13 @@ class EntryEditActivity : DatabaseLockActivity(),
         lockView = findViewById(R.id.lock_button)
         validateButton = findViewById(R.id.entry_edit_validate)
         loadingView = findViewById(R.id.loading)
+        addCustomFieldView = findViewById(R.id.add_custom_field)
+        addOtpView = findViewById(R.id.add_totp_field)
+        addAttachmentView = findViewById(R.id.add_attachment_field)
+
+        addCustomFieldView?.setOnClickListener { addNewCustomField() }
+        addOtpView?.setOnClickListener { setupOtp() }
+        addAttachmentView?.setOnClickListener { addNewAttachment() }
 
         setSupportActionBar(entryEditAddToolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -580,30 +587,17 @@ class EntryEditActivity : DatabaseLockActivity(),
         mEntryEditViewModel.requestEntryInfoUpdate(mDatabase)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        if (mEntryLoaded) {
-            menuInflater.inflate(R.menu.entry_edit, menu)
-        }
-        return true
-    }
-
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_add_field)?.apply {
+        addCustomFieldView?.apply {
             isEnabled = mAllowCustomFields
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_add_attachment)?.apply {
-            // Attachment not compatible below KitKat
+        addAttachmentView?.apply {
             isEnabled = !mIsTemplate
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
-        menu?.findItem(R.id.menu_add_otp)?.apply {
-            // OTP not compatible below KitKat
-            isEnabled = mAllowOTP
-                    && !mIsTemplate
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+        addOtpView?.apply {
+            isEnabled = mAllowOTP && !mIsTemplate
             isVisible = isEnabled
         }
         return super.onPrepareOptionsMenu(menu)
@@ -611,18 +605,6 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_add_field -> {
-                addNewCustomField()
-                return true
-            }
-            R.id.menu_add_attachment -> {
-                addNewAttachment()
-                return true
-            }
-            R.id.menu_add_otp -> {
-                setupOtp()
-                return true
-            }
             android.R.id.home -> {
                 onDatabaseBackPressed()
             }

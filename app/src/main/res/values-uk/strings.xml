@@ -176,7 +176,6 @@
     <string name="otp_period">Тривалість (секунд)</string>
     <string name="otp_secret">Таємна фраза</string>
     <string name="otp_type">Тип OTP</string>
-    <string name="entry_setup_otp">Встановити одноразовий пароль</string>
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>

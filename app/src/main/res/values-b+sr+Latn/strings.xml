@@ -87,7 +87,6 @@
     <string name="otp_period">Period (u sekundama)</string>
     <string name="otp_secret">Tajna</string>
     <string name="otp_type">OTP tip</string>
-    <string name="entry_setup_otp">Podesi jednokratnu lozinku</string>
     <string name="entry_title">Naslov</string>
     <string name="save">Sačuvaj</string>
     <string name="entry_password">Lozinka</string>

@@ -147,7 +147,6 @@
     <string name="content_description_add_item">아이템 추가</string>
     <string name="validate">검증</string>
     <string name="html_about_contribution">&lt;strong&gt;우리의 자유를 지키고&lt;/strong&gt;, &lt;strong&gt;버그를 고치고&lt;/strong&gt;, &lt;strong&gt;기능을 추가&lt;/strong&gt;하고, &lt;strong&gt;언제나 활성화&lt;/strong&gt;되기 위해 우리는 당신의 &lt;strong&gt;기여&lt;/strong&gt;를 믿습니다.</string>
-    <string name="entry_setup_otp">일회용 비밀번호 설정</string>
     <string name="otp_type">OTP 유형</string>
     <string name="otp_period">주기 (초)</string>
     <string name="search_filters">검색 필터</string>

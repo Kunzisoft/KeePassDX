@@ -230,7 +230,6 @@
     <string name="master_key">Ana anahtar</string>
     <string name="security">Güvenlik</string>
     <string name="entry_history">Geçmiş</string>
-    <string name="entry_setup_otp">Tek seferlik parola ayarla</string>
     <string name="otp_type">OTP türü</string>
     <string name="otp_secret">Sır</string>
     <string name="otp_period">Dönem (saniye)</string>

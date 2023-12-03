@@ -72,6 +72,68 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector"
                         app:layout_constraintWidth_percent="@dimen/content_percent" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginVertical="5dp"
+                        app:layout_constraintTop_toBottomOf="@id/entry_edit_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/add_custom_field"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:drawablePadding="15dp"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="15dp"
+                                android:text="@string/entry_add_field"
+                                android:textStyle="bold"
+                                app:drawableStartCompat="@drawable/ic_new_field_white_24dp"
+                                app:drawableTint="?colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/add_totp_field"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:drawablePadding="15dp"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="15dp"
+                                android:text="@string/entry_add_otp"
+                                android:textStyle="bold"
+                                app:drawableStartCompat="@drawable/ic_otp_white_24dp"
+                                app:drawableTint="?colorPrimary" />
+
+                            <TextView
+                                android:id="@+id/add_attachment_field"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?selectableItemBackground"
+                                android:clickable="true"
+                                android:drawablePadding="15dp"
+                                android:focusable="true"
+                                android:gravity="center_vertical"
+                                android:paddingHorizontal="15dp"
+                                android:paddingVertical="15dp"
+                                android:text="@string/entry_add_attachment"
+                                android:textStyle="bold"
+                                app:drawableStartCompat="@drawable/ic_attach_file_white_24dp"
+                                app:drawableTint="?colorPrimary" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
 

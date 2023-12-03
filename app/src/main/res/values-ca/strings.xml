@@ -200,7 +200,6 @@
     <string name="otp_period">Període (segons)</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_type">Tipus d\'OTP</string>
-    <string name="entry_setup_otp">Estableix una contrasenya d\'un sol ús</string>
     <string name="entry_attachments">Adjunts</string>
     <string name="entry_history">Història</string>
     <string name="entry_UUID">UUID</string>

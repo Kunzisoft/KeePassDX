@@ -124,7 +124,6 @@
     <string name="list_entries_show_username_summary">Rodo vartotojų vardus įrašų sąrašuose</string>
     <string name="warning_database_revoked">Failų tvarkyklė panaikino prieigą prie failo, uždarykite duomenų bazę ir vėl ją atidarykite iš jos vietos.</string>
     <string name="discard">Atmesti</string>
-    <string name="entry_setup_otp">Nustatyti vienkartinį slaptažodį</string>
     <string name="otp_counter">Skaitiklis</string>
     <string name="otp_digits">Skaičiai</string>
     <string name="otp_algorithm">Algoritmas</string>

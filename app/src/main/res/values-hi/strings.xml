@@ -75,7 +75,6 @@
     <string name="master_key">मास्टर कुंजी</string>
     <string name="security">सुरक्षा</string>
     <string name="entry_history">इतिहास</string>
-    <string name="entry_setup_otp">सेटअप वन-टाइम पासवर्ड</string>
     <string name="otp_type">ओटीपी प्रकार</string>
     <string name="otp_secret">गुप्त</string>
     <string name="otp_period">अवधि (सेकंड)</string>

@@ -238,7 +238,6 @@
     <string name="master_key">Clave maestra</string>
     <string name="security">Seguridad</string>
     <string name="entry_history">Historial</string>
-    <string name="entry_setup_otp">Establecer contraseña de un solo uso</string>
     <string name="otp_type">Tipo de contraseña de un solo uso</string>
     <string name="otp_secret">Secreto</string>
     <string name="otp_period">Período (segundos)</string>

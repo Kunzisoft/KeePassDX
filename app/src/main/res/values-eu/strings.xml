@@ -134,7 +134,6 @@
     <string name="name">Izena</string>
     <string name="number">Zenbaki</string>
     <string name="template_group_name">Txantiloiak</string>
-    <string name="entry_setup_otp">Ezarri erabilera bakarreko pasahitza (OTP)</string>
     <string name="content_description_remove_field">Eremua ezabatu</string>
     <string name="waiting_challenge_request">Erronka eskaeraren zain…</string>
     <string name="waiting_challenge_response">Erronkaren erantzunaren zain…</string>

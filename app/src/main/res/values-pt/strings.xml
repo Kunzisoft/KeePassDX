@@ -226,7 +226,6 @@
     <string name="otp_period">Período (segundos)</string>
     <string name="otp_secret">Segredo</string>
     <string name="otp_type">Tipo do OTP</string>
-    <string name="entry_setup_otp">Configurar palavra-passe de uso único</string>
     <string name="entry_history">Histórico</string>
     <string name="security">Segurança</string>
     <string name="master_key">Chave mestra</string>

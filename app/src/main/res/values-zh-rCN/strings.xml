@@ -238,7 +238,6 @@
     <string name="master_key">主密钥</string>
     <string name="security">安全</string>
     <string name="entry_history">修改历史</string>
-    <string name="entry_setup_otp">设置 OTP</string>
     <string name="otp_type">OTP 类型</string>
     <string name="otp_secret">OTP密钥</string>
     <string name="otp_period">时长（秒）</string>

@@ -70,7 +70,6 @@
     <string name="entry_password">パスワード</string>
     <string name="save">保存</string>
     <string name="entry_title">タイトル</string>
-    <string name="entry_setup_otp">ワンタイム パスワードを設定</string>
     <string name="otp_type">OTP の種類</string>
     <string name="otp_secret">シークレット</string>
     <string name="otp_period">周期（秒）</string>

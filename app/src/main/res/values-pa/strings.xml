@@ -126,7 +126,6 @@
     <string name="otp_period">ਅੰਤਰਾਲ (ਸਕਿੰਟ)</string>
     <string name="otp_secret">ਗੁਪਤ</string>
     <string name="otp_type">OTP ਦੀ ਕਿਸਮ</string>
-    <string name="entry_setup_otp">ਇਕੇਹਰਾ ਪਾਸਵਰਡ ਸੈਟਅੱਪ ਕਰੋ</string>
     <string name="entry_title">ਨਾਂ</string>
     <string name="save">ਸੰਭਾਲੋ</string>
     <string name="entry_password">ਪਾਸਵਰਡ</string>

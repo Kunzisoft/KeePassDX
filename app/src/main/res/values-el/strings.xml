@@ -233,7 +233,6 @@
     <string name="master_key">Κύριο κλειδί</string>
     <string name="security">Ασφάλεια</string>
     <string name="entry_history">Ιστορικό</string>
-    <string name="entry_setup_otp">Ρυθμίστε τον κωδικό μιάς χρήσης</string>
     <string name="otp_type">Τύπος OTP</string>
     <string name="otp_secret">Μυστικό</string>
     <string name="otp_period">Περίοδος (δευτερολέπτα)</string>
