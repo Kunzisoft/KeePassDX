@@ -41,6 +41,25 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:layout_constraintTop_toBottomOf="@id/special_mode_view"
+                app:navigationIcon="@drawable/ic_close_white_24dp"
+                app:navigationIconTint="@color/text_primary_color"
+                app:titleTextColor="@color/text_primary_color">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/entry_edit_validate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/save"
+                    app:cornerRadius="@dimen/card_radius" />
+            </com.google.android.material.appbar.MaterialToolbar>
+
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/entry_edit_scroll"
                 android:layout_width="match_parent"
@@ -49,7 +68,7 @@
                 android:scrollbars="none"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -146,27 +165,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <com.kunzisoft.keepass.view.ToolbarAction
-            android:id="@+id/entry_edit_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/entry_edit_validate"
-            style="@style/Theme.Keepass.Fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:contentDescription="@string/validate"
-            android:src="@drawable/ic_check_white_24dp"
-            app:fabCustomSize="@dimen/button_small_size"
-            app:layout_constraintBottom_toBottomOf="@+id/entry_edit_bottom_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar" />
 
         <include
             layout="@layout/view_button_lock"

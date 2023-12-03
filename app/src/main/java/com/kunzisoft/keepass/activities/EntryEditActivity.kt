@@ -38,6 +38,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
@@ -85,14 +86,9 @@ import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
-import com.kunzisoft.keepass.view.ToolbarAction
-import com.kunzisoft.keepass.view.WindowInsetPosition
-import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
-import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import java.util.UUID
@@ -109,7 +105,7 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var templateSelectorSpinner: Spinner? = null
-    private var entryEditAddToolBar: ToolbarAction? = null
+    private var entryEditToolbar: Toolbar? = null
     private var validateButton: View? = null
     private var lockView: View? = null
     private var loadingView: ProgressBar? = null
@@ -155,7 +151,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         setContentView(R.layout.activity_entry_edit)
 
         // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        entryEditToolbar = findViewById(R.id.toolbar)
         footer = findViewById(R.id.activity_entry_edit_footer)
         container = findViewById(R.id.activity_entry_edit_container)
         coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
@@ -173,16 +169,9 @@ class EntryEditActivity : DatabaseLockActivity(),
         addOtpView?.setOnClickListener { setupOtp() }
         addAttachmentView?.setOnClickListener { addNewAttachment() }
 
-        setSupportActionBar(entryEditAddToolBar)
+        setSupportActionBar(entryEditToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        // To apply fit window with transparency
-        setTransparentNavigationBar(applyToStatusBar = true) {
-            container?.applyWindowInsets(WindowInsetPosition.TOP)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
-        }
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -199,6 +188,12 @@ class EntryEditActivity : DatabaseLockActivity(),
         intent.getParcelableExtraCompat<NodeId<*>>(KEY_PARENT)?.let { parent ->
             intent.removeExtra(KEY_PARENT)
             parentId = parent
+        }
+
+        supportActionBar?.title = when {
+            entryId != null -> "Edit entry"
+            parentId != null -> "Create entry"
+            else -> ""
         }
 
         mEntryEditViewModel.loadTemplateEntry(
@@ -501,9 +496,6 @@ class EntryEditActivity : DatabaseLockActivity(),
         } else {
             View.GONE
         }
-
-        // Padding if lock button visible
-        entryEditAddToolBar?.updateLockPaddingLeft()
 
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
