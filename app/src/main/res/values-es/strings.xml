@@ -468,7 +468,6 @@
     <string name="warning_exact_alarm">No ha permitido que la app use una alarma exacta. Como resultado, las funciones que requieren un temporizador no se harán con una hora exacta.</string>
     <string name="permission">Permiso</string>
     <string name="content_description_database_color">Color de la base de datos</string>
-    <string name="content_description_entry_background_color">Color de fondo de la entrada</string>
     <string name="tags">Etiquetas</string>
     <string name="warning_database_info_reloaded">La recarga de la base de datos borrará los datos modificados localmente.</string>
     <string name="warning_keyfile_integrity">El hash del archivo no está garantizado porque Android puede cambiar sus datos sobre la marcha. Cambia la extensión del archivo a .bin para una correcta integridad.</string>

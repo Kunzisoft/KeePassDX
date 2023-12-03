@@ -242,7 +242,6 @@
     <string name="otp_type">OTP প্রকার</string>
     <string name="content_description_entry_icon">এন্ট্রি আইকন</string>
     <string name="content_description_database_color">ডাটাবেসের রঙ</string>
-    <string name="content_description_entry_background_color">এন্ট্রি পটভূমির রঙ</string>
     <string name="content_description_keyboard_close_fields">ক্ষেত্রগুলি বন্ধ করুন</string>
     <string name="expired">মেয়াদোত্তীর্ণ</string>
     <string name="select_to_copy">ক্লিপবোর্ডে %1$s অনুলিপি করতে নির্বাচন করুন</string>

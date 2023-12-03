@@ -18,7 +18,6 @@
     <string name="content_description_keyfile_checkbox">Potrditveno polje »datoteke ključa«</string>
     <string name="content_description_entry_icon">Ikona vnosa</string>
     <string name="content_description_database_color">Barva baze podatkov</string>
-    <string name="content_description_entry_background_color">Barva ozadja vnosa</string>
     <string name="validate">Potrdite</string>
     <string name="discard">Zavrzi</string>
     <string name="entry_add_field">Dodaj polje</string>

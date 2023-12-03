@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="5dp"
     android:visibility="visible"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="@dimen/card_radius"
     tools:visibility="visible">
 
     <LinearLayout

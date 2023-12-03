@@ -465,7 +465,6 @@
     <string name="content_description_database_color">Couleur de la base de données</string>
     <string name="permission">Permission</string>
     <string name="warning_exact_alarm">Vous n\'avez pas autorisé l\'application à utiliser une alarme exacte. Par conséquent, les fonctions nécessitant une minuterie ne seront pas effectuées avec une heure exacte.</string>
-    <string name="content_description_entry_background_color">Couleur d\'arrière plan de l\'entrée</string>
     <string name="tags">Étiquettes</string>
     <string name="menu_merge_database">Fusionner les données</string>
     <string name="enable_keep_screen_on_summary">Maintiens l\'écran allumé lorsque l\'entrée est visionnée ou éditée</string>

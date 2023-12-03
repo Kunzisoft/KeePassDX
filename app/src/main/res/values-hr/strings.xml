@@ -469,7 +469,6 @@
     <string name="show_entry_colors_title">Boje unosa</string>
     <string name="show_entry_colors_summary">Prikazuje prednje boje i boje pozadine za unos</string>
     <string name="content_description_database_color">Boja baze podataka</string>
-    <string name="content_description_entry_background_color">Pozadinska boja unosa</string>
     <string name="expired">Isteklo</string>
     <string name="search_filters">Filtri pretrage</string>
     <string name="current_group">Trenutačna grupa</string>

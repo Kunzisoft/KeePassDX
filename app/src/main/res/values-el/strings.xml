@@ -466,7 +466,6 @@
     <string name="warning_exact_alarm">Δεν έχετε επιτρέψει στην εφαρμογή να χρησιμοποιεί ακριβή συναγερμό. Ως αποτέλεσμα, οι λειτουργίες που απαιτούν χρονόμετρο δεν θα γίνονται με ακριβή χρόνο.</string>
     <string name="permission">Άδεια</string>
     <string name="content_description_database_color">Χρώμα βάσης δεδομένων</string>
-    <string name="content_description_entry_background_color">Χρώμα φόντου καταχώρησης</string>
     <string name="warning_database_info_reloaded">Η επαναφόρτωση της βάσης δεδομένων θα διαγράψει τα τοπικά τροποποιημένα δεδομένα.</string>
     <string name="menu_merge_database">Συγχώνευση δεδομένων</string>
     <string name="tags">Ετικέτες</string>

@@ -308,7 +308,6 @@
     <string name="validate">Validează</string>
     <string name="content_description_add_item">Adăugați un element</string>
     <string name="content_description_database_color">Culoarea bazei de date</string>
-    <string name="content_description_entry_background_color">Culoarea de fundal</string>
     <string name="debit_credit_card">Card de debit / credit</string>
     <string name="holder">Titular</string>
     <string name="number">Număr</string>

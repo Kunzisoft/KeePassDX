@@ -247,7 +247,6 @@
     <string name="character_count">Počet znakov: %1$d</string>
     <string name="icon_section_standard">Štandardná</string>
     <string name="content_description_database_color">Farba databázy</string>
-    <string name="content_description_entry_background_color">Zadajte farbu pozadia</string>
     <string name="otp_digits">Čísla</string>
     <string name="token">Token</string>
     <string name="type">Typ</string>

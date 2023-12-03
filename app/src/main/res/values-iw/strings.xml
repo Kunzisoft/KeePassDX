@@ -207,7 +207,6 @@
     <string name="error_create_database">לא ניתן ליצור קובץ מסד נתונים.</string>
     <string name="error_create_database_file">לא ניתן ליצור מסד נתונים עם סיסמה וקובץ מפתח אלה.</string>
     <string name="error_duplicate_file">נתוני הקובץ כבר קיימים.</string>
-    <string name="content_description_entry_background_color">צבע רקע של הערך</string>
     <string name="validate">אימות</string>
     <string name="entry_add_attachment">צרף קובץ</string>
     <string name="content_description_remove_field">הסר שדה</string>

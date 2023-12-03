@@ -506,7 +506,6 @@
     <string name="exclude_ambiguous_chars">Excluir caracteres ambíguos</string>
     <string name="character_count">Número de caracteres: %1$d</string>
     <string name="content_description_database_color">Cor da base de dados</string>
-    <string name="content_description_entry_background_color">Cor do fundo da página inicial</string>
     <string name="warning_exact_alarm">Não permitiu que a aplicação usasse um alarme exato. Como resultado, as funcionalidades que requerem um temporizador não serão feitas com um tempo exato.</string>
     <string name="permission">Permissão</string>
     <string name="colorize_password_summary">Colorir caracteres da palavra-passe por tipo</string>

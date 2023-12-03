@@ -464,7 +464,6 @@
     <string name="warning_database_info_reloaded">重新加載資料庫會刪除所有在本地修改的數據。</string>
     <string name="warning_keyfile_integrity">因為Android系統可以動態更改檔案數據，所以不能保證檔案的哈希值。將檔案擴展名更改為 .bin 以確保正確的完整性。</string>
     <string name="permission">許可</string>
-    <string name="content_description_entry_background_color">條目背景顏色</string>
     <string name="content_description_database_color">資料庫顔色</string>
     <string name="hint_icon_name">圖標名稱</string>
     <string name="navigation_drawer_open">打開導航抽屜</string>

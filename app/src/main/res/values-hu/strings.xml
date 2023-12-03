@@ -388,7 +388,6 @@
     <string name="holder">Tulajdonos</string>
     <string name="template_group_name">Sablonok</string>
     <string name="content_description_otp_information">Egyszer használatos jelszó információ</string>
-    <string name="content_description_entry_background_color">Bejegyzés háttérszíne</string>
     <string name="success_import_app_properties">Alkalmazásbeállítások importálva</string>
     <string name="error_export_app_properties">Hiba történt az alkalmazásbeállítások exportálása során</string>
     <string name="warning_database_info_changed">Az adatbázisfájlban lévő információkat az alkalmazáson kívülről megváltoztatták.</string>

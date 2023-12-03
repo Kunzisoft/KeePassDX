@@ -1,12 +1,13 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.IdRes
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -21,11 +22,12 @@ import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
 
-class TemplateEditView @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
-    : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
-        (context, attrs, defStyle) {
+class TemplateEditView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) : TemplateAbstractView<TextEditFieldView, TextSelectFieldView, DateTimeEditFieldView>
+    (context, attrs, defStyle) {
 
     // Current date time selection
     @IdRes
@@ -59,58 +61,36 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         refreshIcon()
     }
 
-    fun setOnBackgroundColorClickListener(onClickListener: OnClickListener) {
-        backgroundColorButton.setOnClickListener(onClickListener)
+    fun setOnColorClickListener(onClickListener: OnClickListener) {
+        colorButton.setOnClickListener(onClickListener)
     }
 
-    fun getBackgroundColor(): Int? {
-        return mEntryInfo?.backgroundColor
+    fun getColors(): Array<Int?> {
+        return arrayOf(mEntryInfo?.backgroundColor, mEntryInfo?.foregroundColor)
     }
 
-    fun setBackgroundColor(color: Int?) {
-        applyBackgroundColor(color)
-        mEntryInfo?.backgroundColor = color
-    }
-
-    private fun applyBackgroundColor(color: Int?) {
-        if (color != null) {
-            backgroundColorView.background.colorFilter = BlendModeColorFilterCompat
-                .createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
-            backgroundColorView.visibility = View.VISIBLE
-        } else {
-            backgroundColorView.visibility = View.GONE
+    private fun applyPaletteColor(bgColor: Int?, fgColor: Int?) {
+        if (bgColor != null) {
+            colorButton.backgroundTintList = ColorStateList.valueOf(bgColor)
+        }
+        if (fgColor != null) {
+            colorButton.imageTintList = ColorStateList.valueOf(fgColor)
         }
     }
 
-    fun setOnForegroundColorClickListener(onClickListener: OnClickListener) {
-        foregroundColorButton.setOnClickListener(onClickListener)
-    }
-
-    fun getForegroundColor(): Int? {
-        return mEntryInfo?.foregroundColor
-    }
-
-    fun setForegroundColor(color: Int?) {
-        applyForegroundColor(color)
-        mEntryInfo?.foregroundColor = color
-    }
-
-    private fun applyForegroundColor(color: Int?) {
-        if (color != null) {
-            foregroundColorView.background.colorFilter = BlendModeColorFilterCompat
-            .createBlendModeColorFilterCompat(color, BlendModeCompat.SRC_ATOP)
-            foregroundColorView.visibility = View.VISIBLE
-        } else {
-            foregroundColorView.visibility = View.GONE
-        }
+    fun setColors(colors: Array<Int?>) {
+        mEntryInfo?.backgroundColor = colors[0]
+        mEntryInfo?.foregroundColor = colors[1]
     }
 
     override fun preProcessTemplate() {
         headerContainerView.isVisible = true
     }
 
-    override fun buildLinearTextView(templateAttribute: TemplateAttribute,
-                                     field: Field): TextEditFieldView? {
+    override fun buildLinearTextView(
+        templateAttribute: TemplateAttribute,
+        field: Field
+    ): TextEditFieldView? {
         return context?.let {
             TextEditFieldView(it).apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
@@ -126,8 +106,10 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun buildListItemsView(templateAttribute: TemplateAttribute,
-                                    field: Field): TextSelectFieldView? {
+    override fun buildListItemsView(
+        templateAttribute: TemplateAttribute,
+        field: Field
+    ): TextSelectFieldView? {
         return context?.let {
             TextSelectFieldView(it).apply {
                 setItems(templateAttribute.options.getListItems())
@@ -140,9 +122,11 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    private fun setActionClick(templateAttribute: TemplateAttribute,
-                               field: Field,
-                               view: GenericTextFieldView) {
+    private fun setActionClick(
+        templateAttribute: TemplateAttribute,
+        field: Field,
+        view: GenericTextFieldView
+    ) {
         view.apply {
             applyFontVisibility(mFontInVisibility)
             label = templateAttribute.alias
@@ -154,6 +138,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 TemplateAttributeAction.NONE -> {
                     setOnActionClickListener(null)
                 }
+
                 TemplateAttributeAction.CUSTOM_EDITION -> {
                     setOnActionClickListener({
                         mOnCustomEditionActionClickListener?.invoke(field)
@@ -168,8 +153,10 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    override fun buildDataTimeView(templateAttribute: TemplateAttribute,
-                                  field: Field): DateTimeEditFieldView? {
+    override fun buildDataTimeView(
+        templateAttribute: TemplateAttribute,
+        field: Field
+    ): DateTimeEditFieldView? {
         return context?.let {
             DateTimeEditFieldView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
@@ -197,12 +184,13 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     fun setPasswordField(passwordField: Field) {
         val passwordView = getFieldViewById(passwordField.name.hashCode())
         if (passwordView is TextEditFieldView?) {
-                passwordView?.value = passwordField.protectedValue.stringValue
+            passwordView?.value = passwordField.protectedValue.stringValue
         }
     }
 
     fun getPasswordField(): Field {
-        val passwordView: TextEditFieldView? = templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
+        val passwordView: TextEditFieldView? =
+            templateContainerView.findViewWithTag(FIELD_PASSWORD_TAG)
         return Field(TemplateField.LABEL_PASSWORD, ProtectedString(true, passwordView?.value ?: ""))
     }
 
@@ -212,7 +200,8 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             if (dateTimeView is DateTimeEditFieldView) {
                 dateTimeView.dateTime = DateInstant(
                     action.invoke(dateTimeView.dateTime).date,
-                    dateTimeView.dateTime.type)
+                    dateTimeView.dateTime.type
+                )
             }
         }
     }
@@ -223,7 +212,8 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             val newDateInstant = DateInstant(
                 DateTime(instant.date)
                     .withMillis(dateMilliseconds)
-                .toDate(), instant.type)
+                    .toDate(), instant.type
+            )
             if (instant.type == DateInstant.Type.DATE_TIME) {
                 val instantTime = DateInstant(instant.date, DateInstant.Type.TIME)
                 // Trick to recall selection with time
@@ -237,21 +227,23 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         setCurrentDateTimeSelection { instant ->
             DateInstant(
                 DateTime(instant.date)
-                .withHourOfDay(time.hours)
-                .withMinuteOfHour(time.minutes)
-                .toDate(), instant.type)
+                    .withHourOfDay(time.hours)
+                    .withMinuteOfHour(time.minutes)
+                    .toDate(), instant.type
+            )
         }
     }
 
     override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField> {
         refreshIcon()
-        applyBackgroundColor(mEntryInfo?.backgroundColor)
-        applyForegroundColor(mEntryInfo?.foregroundColor)
+        applyPaletteColor(mEntryInfo?.backgroundColor, mEntryInfo?.foregroundColor)
         return super.populateViewsWithEntryInfo(showEmptyFields)
     }
 
-    override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
-                                            retrieveDefaultValues: Boolean) {
+    override fun populateEntryInfoWithViews(
+        templateFieldNotEmpty: Boolean,
+        retrieveDefaultValues: Boolean
+    ) {
         super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()

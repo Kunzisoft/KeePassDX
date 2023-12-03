@@ -423,7 +423,6 @@
     <string name="menu_merge_database">Gabung data</string>
     <string name="warning_database_info_reloaded">Memuat ulang basis data akan menghapus data yang diubah secara lokal.</string>
     <string name="warning_keyfile_integrity">Hash file tidak dijamin karena Android dapat mengubah datanya dengan cepat. Ubah ekstensi file menjadi .bin untuk integritas yang benar.</string>
-    <string name="content_description_entry_background_color">Warna latar belakang entri</string>
     <string name="wireless">Wi-Fi</string>
     <string name="tags">Label</string>
     <string name="warning_permanently_delete_nodes">Hapus permanen node yang dipilih\?</string>

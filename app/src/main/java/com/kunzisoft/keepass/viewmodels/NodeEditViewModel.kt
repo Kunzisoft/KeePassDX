@@ -8,24 +8,21 @@ import com.kunzisoft.keepass.view.DataTime
 
 abstract class NodeEditViewModel : ViewModel() {
 
-    val requestIconSelection : LiveData<IconImage> get() = _requestIconSelection
+    val requestIconSelection: LiveData<IconImage> get() = _requestIconSelection
     private val _requestIconSelection = SingleLiveEvent<IconImage>()
-    val onIconSelected : LiveData<IconImage> get() = _onIconSelected
+    val onIconSelected: LiveData<IconImage> get() = _onIconSelected
     private val _onIconSelected = SingleLiveEvent<IconImage>()
 
-    private var mColorRequest: ColorRequest = ColorRequest.BACKGROUND
-    val requestColorSelection : LiveData<Int?> get() = _requestColorSelection
-    private val _requestColorSelection = SingleLiveEvent<Int?>()
-    val onBackgroundColorSelected : LiveData<Int?> get() = _onBackgroundColorSelected
-    private val _onBackgroundColorSelected = SingleLiveEvent<Int?>()
-    val onForegroundColorSelected : LiveData<Int?> get() = _onForegroundColorSelected
-    private val _onForegroundColorSelected = SingleLiveEvent<Int?>()
+    val requestColorSelection: LiveData<Array<Int?>> get() = _requestColorSelection
+    private val _requestColorSelection = SingleLiveEvent<Array<Int?>>()
+    val onColorSelected: LiveData<Array<Int?>> get() = _onColorSelected
+    private val _onColorSelected = SingleLiveEvent<Array<Int?>>()
 
-    val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
+    val requestDateTimeSelection: LiveData<DateInstant> get() = _requestDateTimeSelection
     private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<Long> get() = _onDateSelected
+    val onDateSelected: LiveData<Long> get() = _onDateSelected
     private val _onDateSelected = SingleLiveEvent<Long>()
-    val onTimeSelected : LiveData<DataTime> get() = _onTimeSelected
+    val onTimeSelected: LiveData<DataTime> get() = _onTimeSelected
     private val _onTimeSelected = SingleLiveEvent<DataTime>()
 
     fun requestIconSelection(oldIconImage: IconImage) {
@@ -36,21 +33,12 @@ abstract class NodeEditViewModel : ViewModel() {
         _onIconSelected.value = iconImage
     }
 
-    fun requestBackgroundColorSelection(initialColor: Int?) {
-        mColorRequest = ColorRequest.BACKGROUND
-        _requestColorSelection.value = initialColor
+    fun requestColorSelection(colors: Array<Int?>) {
+        _requestColorSelection.value = colors
     }
 
-    fun requestForegroundColorSelection(initialColor: Int?) {
-        mColorRequest = ColorRequest.FOREGROUND
-        _requestColorSelection.value = initialColor
-    }
-
-    fun selectColor(color: Int?) {
-        when (mColorRequest) {
-            ColorRequest.BACKGROUND -> _onBackgroundColorSelected.value = color
-            ColorRequest.FOREGROUND -> _onForegroundColorSelected.value = color
-        }
+    fun selectColors(colors: Array<Int?>) {
+        _onColorSelected.value = colors
     }
 
     fun requestDateTimeSelection(dateInstant: DateInstant) {
@@ -63,9 +51,5 @@ abstract class NodeEditViewModel : ViewModel() {
 
     fun selectTime(hours: Int, minutes: Int) {
         _onTimeSelected.value = DataTime(hours, minutes)
-    }
-
-    private enum class ColorRequest {
-        BACKGROUND, FOREGROUND
     }
 }

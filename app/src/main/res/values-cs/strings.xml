@@ -478,7 +478,6 @@
     <string name="menu_merge_from">Sloučit z …</string>
     <string name="search_filters">Vyhledat filtry</string>
     <string name="menu_save_copy_to">Uložit kopii do …</string>
-    <string name="content_description_entry_background_color">Zadejte barvu pozadí</string>
     <string name="expired">Platnost skončila</string>
     <string name="show_entry_colors_summary">Zobrazí barvy popředí a pozadí záznamu</string>
     <string name="show_entry_colors_title">Barvy záznamu</string>

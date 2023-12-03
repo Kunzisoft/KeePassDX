@@ -120,7 +120,6 @@
     <string name="content_description_nav_header">Nabigazio goiburua</string>
     <string name="navigation_drawer_open">Nabigazio kutxa ireki</string>
     <string name="navigation_drawer_close">Nabigazio kutxa itxi</string>
-    <string name="content_description_entry_background_color">Atzeko planoaren sarrera kolorea</string>
     <string name="validate">Baliozkotu</string>
     <string name="discard_changes">Ezeztatu aldaketak\?</string>
     <string name="discard">Ezeztatu</string>

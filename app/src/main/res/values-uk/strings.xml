@@ -466,7 +466,6 @@
     <string name="permission">Дозвіл</string>
     <string name="warning_exact_alarm">Ви не дозволили застосунку використовувати точний час. У результаті функції, для яких потрібен таймер, не виконуватимуться точно за часом.</string>
     <string name="content_description_database_color">Колір бази даних</string>
-    <string name="content_description_entry_background_color">Колір тла запису</string>
     <string name="menu_merge_database">Об\'єднати дані</string>
     <string name="warning_database_info_reloaded">Перезавантаження бази даних видалить локально змінені дані.</string>
     <string name="enable_keep_screen_on_title">Не вимикати екран</string>

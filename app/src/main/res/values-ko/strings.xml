@@ -134,7 +134,6 @@
     <string name="error_otp_secret_key">비밀키는 Base32 포맷이어야 합니다.</string>
     <string name="error_create_database_file">이 비밀번호와 키파일로 데이터베이스를 생성할 수 없습니다.</string>
     <string name="content_description_database_color">데이터베이스 색상</string>
-    <string name="content_description_entry_background_color">항목 배경 색상</string>
     <string name="discard_changes">변경사항을 취소하시겠습니까\?</string>
     <string name="debit_credit_card">직불 / 신용 카드</string>
     <string name="otp_algorithm">알고리즘</string>

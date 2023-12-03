@@ -469,7 +469,6 @@
     <string name="permission">Berechtigung</string>
     <string name="warning_exact_alarm">Der App wurde nicht erlaubt, einen genauen Alarm zu verwenden. Deshalb werden die von einem Timer abhängigen Funktionen nicht zur genauen Zeit ausgeführt.</string>
     <string name="content_description_database_color">Datenbankfarbe</string>
-    <string name="content_description_entry_background_color">Hintergrundfarbe des Eintrags</string>
     <string name="menu_merge_database">Daten zusammenführen</string>
     <string name="warning_database_info_reloaded">Das Neuladen der Datenbank wird lokal geänderte Daten löschen.</string>
     <string name="tags">Tags</string>

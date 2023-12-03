@@ -110,11 +110,8 @@ class EntryEditFragment: DatabaseFragment() {
             setOnIconClickListener {
                 mEntryEditViewModel.requestIconSelection(templateView.getIcon())
             }
-            setOnBackgroundColorClickListener {
-                mEntryEditViewModel.requestBackgroundColorSelection(templateView.getBackgroundColor())
-            }
-            setOnForegroundColorClickListener {
-                mEntryEditViewModel.requestForegroundColorSelection(templateView.getForegroundColor())
+            setOnColorClickListener {
+                mEntryEditViewModel.requestColorSelection(templateView.getColors())
             }
             setOnCustomEditionActionClickListener { field ->
                 mEntryEditViewModel.requestCustomFieldEdition(field)
@@ -165,12 +162,8 @@ class EntryEditFragment: DatabaseFragment() {
             templateView.setIcon(iconImage)
         }
 
-        mEntryEditViewModel.onBackgroundColorSelected.observe(viewLifecycleOwner) { color ->
-            templateView.setBackgroundColor(color)
-        }
-
-        mEntryEditViewModel.onForegroundColorSelected.observe(viewLifecycleOwner) { color ->
-            templateView.setForegroundColor(color)
+        mEntryEditViewModel.onColorSelected.observe(viewLifecycleOwner) { colors ->
+            templateView.setColors(colors)
         }
 
         mEntryEditViewModel.onPasswordSelected.observe(viewLifecycleOwner) { passwordField ->

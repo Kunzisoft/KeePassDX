@@ -17,6 +17,7 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,77 +25,54 @@
     android:orientation="vertical"
     tools:targetApi="o">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:id="@+id/template_header_container"
-        style="?attr/cardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="10dp">
 
-            <View
-                android:id="@+id/template_background_color"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="9dp"
-                android:background="@drawable/background_rounded_square" />
-
-            <View
-                android:id="@+id/template_foreground_color"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="top|end"
-                android:layout_margin="32dp"
-                android:background="@drawable/background_rounded_square" />
-
-            <ImageView
-                android:id="@+id/template_background_color_button"
-                style="@style/Theme.Keepass.ImageButton.Simple.Mini"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/tint_container"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:layout_margin="3dp"
-                android:contentDescription="@string/content_description_entry_background_color"
-                android:src="@drawable/ic_color_background_white_24dp" />
-
-            <ImageView
-                android:id="@+id/template_foreground_color_button"
-                style="@style/Theme.Keepass.ImageButton.Simple.Mini"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:layout_margin="25dp"
-                android:contentDescription="@string/content_description_entry_background_color"
-                android:src="@drawable/ic_color_foreground_white_24dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/card_view_padding"
-                android:orientation="vertical">
+                app:cardBackgroundColor="#0000"
+                app:cardCornerRadius="40dp">
 
-                <!-- Icon -->
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/template_icon_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/content_description_entry_icon"
-                    android:elevation="8dp"
-                    android:src="@drawable/ic_blank_32dp" />
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:contentDescription="@string/content_description_entry_icon" />
+            </com.google.android.material.card.MaterialCardView>
 
-                <!-- Title -->
-                <FrameLayout
-                    android:id="@+id/template_title_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/template_color_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="3dp"
+                android:background="@drawable/background_palette_icon"
+                android:padding="5dp"
+                android:src="@drawable/ic_palette_white_24dp"
+                app:tint="?android:textColorSecondary" />
         </FrameLayout>
-    </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/template_title_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:paddingBottom="10dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/template_fields_container"
@@ -105,9 +83,9 @@
 
     <com.kunzisoft.keepass.view.SectionView
         android:id="@+id/not_referenced_fields_container"
-        style="?attr/cardViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/card_view_margin_horizontal" />
 
     <com.kunzisoft.keepass.view.SectionView
         android:id="@+id/custom_fields_container"

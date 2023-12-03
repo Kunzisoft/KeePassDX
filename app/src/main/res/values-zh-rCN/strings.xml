@@ -466,7 +466,6 @@
     <string name="warning_exact_alarm">你尚未允许该应用使用精确闹钟。 因此，需要计时器的功能不会在精确的时间完成。</string>
     <string name="permission">权限</string>
     <string name="content_description_database_color">数据库颜色</string>
-    <string name="content_description_entry_background_color">条目背景色</string>
     <string name="menu_merge_database">合并数据</string>
     <string name="warning_database_info_reloaded">重新加载数据库将删除本地修改的数据。</string>
     <string name="warning_keyfile_integrity">文件的哈希值不能保证，因为 Android 可以在运行中更改数据。将文件扩展名更改为 .bin 以确保完整性。</string>

@@ -467,7 +467,6 @@
     <string name="entropy_high">Entropi: Høj</string>
     <string name="entropy_calculate">Entropi: Beregn…</string>
     <string name="at_least_one_char">Mindst et tegn fra hver</string>
-    <string name="content_description_entry_background_color">Baggrundsfarve for post</string>
     <string name="holder">Holder</string>
     <string name="error_no_hardware_key">Vælg en hardwarenøgle.</string>
     <string name="error_XML_malformed">XML forkert udformet.</string>

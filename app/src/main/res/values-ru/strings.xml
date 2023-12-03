@@ -465,7 +465,6 @@
     <string name="hint_icon_name">Название значка</string>
     <string name="permission">Разрешение</string>
     <string name="warning_exact_alarm">Вы не разрешили приложению использовать точный сигнал будильника. В результате требующие этого функции не будут выполняться с точным временем.</string>
-    <string name="content_description_entry_background_color">Цвет фона записи</string>
     <string name="content_description_database_color">Цвет базы</string>
     <string name="menu_merge_database">Объединить данные</string>
     <string name="warning_database_info_reloaded">Перезагрузка базы удалит локально изменённые данные.</string>

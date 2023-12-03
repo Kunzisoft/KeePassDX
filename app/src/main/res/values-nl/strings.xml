@@ -469,7 +469,6 @@
     <string name="content_description_database_color">Kleur van de database</string>
     <string name="warning_database_info_reloaded">Door de database opnieuw te laden, worden de lokaal gewijzigde gegevens gewist.</string>
     <string name="menu_merge_database">Gegevens samenvoegen</string>
-    <string name="content_description_entry_background_color">Achtergrondkleur van item</string>
     <string name="tags">Labels</string>
     <string name="warning_keyfile_integrity">Het controlegetal van het bestand is niet gegarandeerd omdat Android zijn gegevens direct kan wijzigen. Wijzig de bestandsextensie in .bin voor de juiste integriteit.</string>
     <string name="enable_keep_screen_on_title">Houd het scherm aan</string>

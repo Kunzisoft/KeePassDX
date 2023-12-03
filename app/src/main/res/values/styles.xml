@@ -361,14 +361,6 @@
         <item name="tint">?attr/colorOnSurface</item>
     </style>
 
-    <style name="Theme.Keepass.ImageButton.Simple.Mini" parent="Theme.Keepass.ImageButton.Simple">
-        <item name="android:padding">12dp</item>
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:colorForeground">?attr/colorOnPrimary</item>
-        <item name="tint">?android:attr/textColor</item>
-    </style>
-
     <!-- Item Style -->
     <style name="Theme.Keepass.Selectable.Item" parent="Theme.Keepass">
         <item name="android:background">@drawable/background_item_selection</item>

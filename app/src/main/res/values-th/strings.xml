@@ -28,7 +28,6 @@
     <string name="content_description_keyfile_checkbox">ช่องทำเครื่องหมาย Keyfile</string>
     <string name="content_description_repeat_toggle_password_visibility">สลับการมองเห็นรหัสผ่าน</string>
     <string name="content_description_add_node">เพื่มโหนด</string>
-    <string name="content_description_entry_background_color">สีพื้นหลังของรายการ</string>
     <string name="add_entry">เพื่มรายการ</string>
     <string name="key_derivation_function">อนุพันธ์ของฟังก์ชันหลัก</string>
     <string name="app_timeout">ระยะหมดเวลา</string>

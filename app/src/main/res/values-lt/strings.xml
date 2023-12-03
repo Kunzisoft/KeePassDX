@@ -182,7 +182,6 @@
     <string name="place_of_issue">Išdavimo vieta</string>
     <string name="error_registration_read_only">Įrašyti naują elementą neleidžiama tik skaitymui skirtoje duomenų bazėje</string>
     <string name="error_upload_file">Įkeliant failo duomenis įvyko klaida.</string>
-    <string name="content_description_entry_background_color">Įrašo fono spalva</string>
     <string name="error_string_type">Šis tekstas neatitinka prašomo elemento.</string>
     <string name="content_description_otp_information">Vienkartinio slaptažodžio info</string>
     <string name="error_file_to_big">Failas, kurį bandote įkelti, yra per didelis.</string>

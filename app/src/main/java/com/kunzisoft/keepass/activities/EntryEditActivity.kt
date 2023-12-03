@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -30,6 +32,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
@@ -48,7 +51,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.ColorPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.ColorPicker2DialogFragment
 import com.kunzisoft.keepass.activities.dialogs.EntryCustomFieldDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Companion.MAX_WARNING_BINARY_FILE
@@ -84,12 +87,13 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.ColorUtils
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
+import com.kunzisoft.keepass.viewmodels.ColorPicker2ViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import java.util.UUID
 
@@ -119,7 +123,7 @@ class EntryEditActivity : DatabaseLockActivity(),
     private var mEntryLoaded: Boolean = false
     private var mTemplatesSelectorAdapter: TemplatesSelectorAdapter? = null
 
-    private val mColorPickerViewModel: ColorPickerViewModel by viewModels()
+    private val mColorPickerViewModel: ColorPicker2ViewModel by viewModels()
 
     private var mAllowCustomFields = false
     private var mAllowOTP = false
@@ -280,16 +284,21 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // View model listeners
         mEntryEditViewModel.requestIconSelection.observe(this) { iconImage ->
-            IconPickerActivity.launch(this@EntryEditActivity, iconImage, mIconSelectionActivityResultLauncher)
+            IconPickerActivity.launch(
+                this@EntryEditActivity,
+                iconImage,
+                mIconSelectionActivityResultLauncher
+            )
         }
 
-        mEntryEditViewModel.requestColorSelection.observe(this) { color ->
-            ColorPickerDialogFragment.newInstance(color)
+        mEntryEditViewModel.requestColorSelection.observe(this) { colors ->
+            ColorPicker2DialogFragment.newInstance(colors[0], colors[1])
                 .show(supportFragmentManager, "ColorPickerFragment")
         }
 
-        mColorPickerViewModel.colorPicked.observe(this) { color ->
-            mEntryEditViewModel.selectColor(color)
+        mColorPickerViewModel.colorPicked.observe(this) { colors ->
+            mEntryEditViewModel.selectColors(colors)
+            updatePaletteIcon(colors)
         }
 
         mEntryEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
@@ -386,6 +395,19 @@ class EntryEditActivity : DatabaseLockActivity(),
                     }
                 )
             }
+        }
+    }
+
+    private fun updatePaletteIcon(colors: Array<Int?>) {
+        findViewById<ImageView>(R.id.template_color_button)?.apply {
+            backgroundTintList = ColorStateList.valueOf(colors[0] ?: Color.TRANSPARENT)
+            imageTintList = ColorStateList.valueOf(
+                colors[1] ?: ColorUtils.getColorFromAttr(
+                    this@EntryEditActivity,
+                    android.R.attr.textColorSecondary,
+                    Color.WHITE
+                )
+            )
         }
     }
 

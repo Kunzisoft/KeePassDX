@@ -419,7 +419,6 @@
     <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فتح الحهاز</string>
     <string name="hide_expired_entries_title">إخفاء الإدخالات منتهية الصلاحية</string>
     <string name="content_description_hardware_key_checkbox">خانة إختيار مفتاح الجهاز</string>
-    <string name="content_description_entry_background_color">لون خلفية المدخل</string>
     <string name="passphrase">عبارة المرور</string>
     <string name="colorize_password_title">تلوين كلمات المرور</string>
     <string name="permission">الإذن</string>

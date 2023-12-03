@@ -263,7 +263,6 @@
     <string name="unlock">Desbloqueja</string>
     <string name="bank">Banc</string>
     <string name="compression_none">Cap</string>
-    <string name="content_description_entry_background_color">Color de fons d\'entrada</string>
     <string name="error_empty_key">La clau no pot ser buida.</string>
     <string name="tags">Etiquetes</string>
     <string name="place_of_issue">Lloc d\'expedició</string>

@@ -121,7 +121,6 @@
     <string name="content_description_node_children">Nó fillo</string>
     <string name="version">Versión</string>
     <string name="content_description_add_node">Engadir nó</string>
-    <string name="content_description_entry_background_color">Cor do fondo da páxina inicial</string>
     <string name="otp_type">Tipo do OTP</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="standard">Estándar</string>
