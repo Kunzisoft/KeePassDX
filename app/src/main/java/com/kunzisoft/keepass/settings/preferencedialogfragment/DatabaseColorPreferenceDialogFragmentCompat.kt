@@ -29,51 +29,56 @@ import android.view.Window
 import android.widget.CompoundButton
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import com.kunzisoft.androidclearchroma.view.ChromaColorView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.colorpicker.ColorPicker
 import com.kunzisoft.keepass.database.ContextualDatabase
 
 class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     private lateinit var rootView: View
+    private lateinit var colorPreview: View
     private lateinit var enableSwitchView: CompoundButton
-    private lateinit var chromaColorView: ChromaColorView
+    private lateinit var colorPickerView: ColorPicker
 
     var onColorSelectedListener: ((color: Int?) -> Unit)? = null
 
-    private var mDefaultColor = Color.WHITE
-    private var mActivated = false
+    private var currentColor = Color.WHITE
+    private var isActivated = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val alertDialogBuilder = AlertDialog.Builder(requireActivity())
 
         rootView = requireActivity().layoutInflater.inflate(R.layout.fragment_color_picker, null)
+        colorPreview = rootView.findViewById(R.id.color_preview)
         enableSwitchView = rootView.findViewById(R.id.switch_element)
-        chromaColorView = rootView.findViewById(R.id.chroma_color_view)
+        colorPickerView = rootView.findViewById(R.id.color_picker)
 
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(ARG_INITIAL_COLOR)) {
-                mDefaultColor = savedInstanceState.getInt(ARG_INITIAL_COLOR)
+                currentColor = savedInstanceState.getInt(ARG_INITIAL_COLOR)
             }
             if (savedInstanceState.containsKey(ARG_ACTIVATED)) {
-                mActivated = savedInstanceState.getBoolean(ARG_ACTIVATED)
+                isActivated = savedInstanceState.getBoolean(ARG_ACTIVATED)
             }
         } else {
             arguments?.apply {
                 if (containsKey(ARG_INITIAL_COLOR)) {
-                    mDefaultColor = getInt(ARG_INITIAL_COLOR)
+                    currentColor = getInt(ARG_INITIAL_COLOR)
                 }
                 if (containsKey(ARG_ACTIVATED)) {
-                    mActivated = getBoolean(ARG_ACTIVATED)
+                    isActivated = getBoolean(ARG_ACTIVATED)
                 }
             }
         }
-        enableSwitchView.isChecked = mActivated
-        chromaColorView.currentColor = mDefaultColor
+        enableSwitchView.isChecked = isActivated
+        colorPickerView.setColor(currentColor)
+        colorPreview.setBackgroundColor(currentColor)
 
-        chromaColorView.setOnColorChangedListener {
+        colorPickerView.setOnColorChangedListener {
             if (!enableSwitchView.isChecked)
                 enableSwitchView.isChecked = true
+            colorPreview.setBackgroundColor(it)
+            currentColor = it
         }
 
         alertDialogBuilder.setPositiveButton(android.R.string.ok) { _, _ ->
@@ -106,7 +111,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                 enableSwitchView.isChecked = false
                 initColor = DEFAULT_COLOR
             }
-            chromaColorView.currentColor = initColor
+            currentColor = initColor
             arguments?.putInt(ARG_INITIAL_COLOR, initColor)
         }
     }
@@ -114,10 +119,9 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
-            val newColor: Int? = if (enableSwitchView.isChecked)
-                chromaColorView.currentColor
-            else
-                null
+            val newColor: Int? =
+                if (enableSwitchView.isChecked) currentColor
+                else null
             onColorSelectedListener?.invoke(newColor)
             database?.let {
                 val oldColor = database.customColor
@@ -134,8 +138,8 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(ARG_INITIAL_COLOR, chromaColorView.currentColor)
-        outState.putBoolean(ARG_ACTIVATED, mActivated)
+        outState.putInt(ARG_INITIAL_COLOR, currentColor)
+        outState.putBoolean(ARG_ACTIVATED, isActivated)
     }
 
     companion object {
