@@ -31,6 +31,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.result.ActivityResultLauncher
@@ -124,6 +125,8 @@ class EntryActivity : DatabaseLockActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_entry)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -265,6 +268,9 @@ class EntryActivity : DatabaseLockActivity() {
                 val showEntryColors = PreferencesUtil.showEntryColors(this)
                 mBackgroundColor = if (showEntryColors) entryInfo.backgroundColor else null
                 mForegroundColor = if (showEntryColors) entryInfo.foregroundColor else null
+                if(showEntryColors && mBackgroundColor != null) {
+                    window.statusBarColor = mBackgroundColor!!
+                }
 
                 loadingView?.hideByFading()
                 mEntryLoaded = true

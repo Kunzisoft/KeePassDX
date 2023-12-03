@@ -22,6 +22,10 @@
         <item name="android:statusBarColor">?colorSurfaceVariant</item>
     </style>
 
+    <style name="SettingsActivityTheme" parent="Theme.Keepass">
+        <item name="android:statusBarColor">?colorSurfaceVariant</item>
+    </style>
+
     <style name="FileDatabaseSelectActivityTheme" parent="Theme.Keepass">
         <item name="android:navigationBarColor">?colorSurfaceVariant2</item>
     </style>

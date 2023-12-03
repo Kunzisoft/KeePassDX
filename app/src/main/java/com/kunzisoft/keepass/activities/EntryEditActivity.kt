@@ -18,6 +18,8 @@
  */
 package com.kunzisoft.keepass.activities
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -31,6 +33,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -98,10 +102,10 @@ import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
-        EntryCustomFieldDialogFragment.EntryCustomFieldListener,
-        SetOTPDialogFragment.CreateOtpListener,
-        FileTooBigDialogFragment.ActionChooseListener,
-        ReplaceFileDialogFragment.ActionChooseListener {
+    EntryCustomFieldDialogFragment.EntryCustomFieldListener,
+    SetOTPDialogFragment.CreateOtpListener,
+    FileTooBigDialogFragment.ActionChooseListener,
+    ReplaceFileDialogFragment.ActionChooseListener {
 
     // Views
     private var footer: ViewGroup? = null
@@ -199,6 +203,27 @@ class EntryEditActivity : DatabaseLockActivity(),
             parentId != null -> "Create entry"
             else -> ""
         }
+
+        var isNewToolbarColor = false
+        val defaultToolbarColor =
+            ColorUtils.getColorFromAttr(this, R.attr.colorSurface, Color.BLACK)
+        val newToolbarColor =
+            ColorUtils.getColorFromAttr(this, R.attr.colorSurfaceVariant2, Color.BLACK)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        scrollView?.viewTreeObserver
+            ?.addOnScrollChangedListener {
+                val scrollY = scrollView?.scrollY ?: return@addOnScrollChangedListener
+
+                if (scrollY > 0 && !isNewToolbarColor) {
+                    isNewToolbarColor = true
+                    animateToolbarColorChange(defaultToolbarColor, newToolbarColor)
+                }
+
+                if (scrollY == 0) {
+                    isNewToolbarColor = false
+                    animateToolbarColorChange(newToolbarColor, defaultToolbarColor)
+                }
+            }
 
         mEntryEditViewModel.loadTemplateEntry(
             mDatabase,
@@ -395,6 +420,19 @@ class EntryEditActivity : DatabaseLockActivity(),
                     }
                 )
             }
+        }
+    }
+
+    private fun animateToolbarColorChange(fromColor: Int, toColor: Int) {
+        ValueAnimator.ofObject(ArgbEvaluator(), fromColor, toColor).apply {
+            duration = 200L
+            interpolator = AccelerateDecelerateInterpolator()
+            addUpdateListener { animator ->
+                val animatedColor = animator.animatedValue as Int
+                window.statusBarColor = animatedColor
+                entryEditToolbar?.backgroundTintList = ColorStateList.valueOf(animatedColor)
+            }
+            start()
         }
     }
 
