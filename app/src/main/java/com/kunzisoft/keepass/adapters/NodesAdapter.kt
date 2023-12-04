@@ -32,6 +32,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -361,6 +362,7 @@ class NodesAdapter(
         holder.container.apply {
             isSelected = mActionNodesList.contains(subNode)
         }
+        holder.iconSelected.isVisible = holder.container.isSelected
 
         // Assign text
         holder.text.apply {
@@ -610,6 +612,7 @@ class NodesAdapter(
         var container: View = itemView.findViewById(R.id.node_container)
         var imageIdentifier: ImageView? = itemView.findViewById(R.id.node_image_identifier)
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
+        var iconSelected: ImageView = itemView.findViewById(R.id.node_selected_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView? = itemView.findViewById(R.id.node_subtext)
         var meta: TextView = itemView.findViewById(R.id.node_meta)

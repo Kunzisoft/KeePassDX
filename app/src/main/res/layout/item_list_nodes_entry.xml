@@ -51,6 +51,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/node_selected_icon"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_alignBottom="@id/node_icon"
+            android:layout_marginStart="36dp"
+            android:background="@drawable/background_entry_selected_icon"
+            android:backgroundTint="?colorPrimary"
+            android:padding="3dp"
+            android:src="@drawable/ic_check_white_24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/node_icon"
+            app:layout_constraintEnd_toEndOf="@id/node_icon"
+            app:tint="?colorOnSecondary"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:id="@+id/node_container_info"
             android:layout_width="0dp"

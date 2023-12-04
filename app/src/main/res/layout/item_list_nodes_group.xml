@@ -20,6 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -39,10 +40,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/image_list_margin_vertical"
-            android:layout_marginLeft="@dimen/image_list_margin_vertical"
             android:layout_marginTop="@dimen/image_list_margin_horizontal"
             android:layout_marginEnd="@dimen/image_list_margin_vertical"
-            android:layout_marginRight="@dimen/image_list_margin_vertical"
             android:layout_marginBottom="@dimen/image_list_margin_horizontal"
             android:scaleType="fitXY"
             android:src="@drawable/ic_blank_32dp" />
@@ -56,6 +55,20 @@
             android:layout_marginEnd="-32dp"
             android:layout_toStartOf="@+id/node_icon"
             tools:text="3" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/node_selected_icon"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_alignBottom="@id/node_icon"
+            android:layout_marginStart="36dp"
+            android:background="@drawable/background_entry_selected_icon"
+            android:backgroundTint="?colorPrimary"
+            android:padding="3dp"
+            android:src="@drawable/ic_check_white_24dp"
+            android:visibility="gone"
+            app:tint="?colorOnSecondary"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
