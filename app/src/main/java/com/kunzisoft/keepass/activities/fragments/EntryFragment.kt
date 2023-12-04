@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
@@ -30,11 +32,11 @@ import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
 
+
 class EntryFragment: DatabaseFragment() {
 
     private lateinit var rootView: View
     private lateinit var mainSection: View
-    private lateinit var advancedSection: View
 
     private lateinit var templateView: TemplateView
 
@@ -44,8 +46,6 @@ class EntryFragment: DatabaseFragment() {
     private lateinit var attachmentsContainerView: View
     private lateinit var attachmentsListView: RecyclerView
     private var attachmentsAdapter: EntryAttachmentsItemsAdapter? = null
-
-    private lateinit var customDataView: TextView
 
     private lateinit var uuidContainerView: View
     private lateinit var uuidReferenceView: TextView
@@ -77,7 +77,6 @@ class EntryFragment: DatabaseFragment() {
         }
 
         mainSection = view.findViewById(R.id.entry_section_main)
-        advancedSection = view.findViewById(R.id.entry_section_advanced)
 
         templateView = view.findViewById(R.id.entry_template)
         loadTemplateSettings()
@@ -91,9 +90,6 @@ class EntryFragment: DatabaseFragment() {
 
         creationDateView = view.findViewById(R.id.entry_created)
         modificationDateView = view.findViewById(R.id.entry_modified)
-
-        // TODO Custom data
-        // customDataView = view.findViewById(R.id.entry_custom_data)
 
         uuidContainerView = view.findViewById(R.id.entry_UUID_container)
         uuidContainerView.apply {
@@ -115,19 +111,6 @@ class EntryFragment: DatabaseFragment() {
             entryAttachmentState?.let {
                 if (it.streamDirection != StreamDirection.UPLOAD) {
                     putAttachment(it)
-                }
-            }
-        }
-
-        mEntryViewModel.sectionSelected.observe(viewLifecycleOwner) { entrySection ->
-            when (entrySection ?: EntryViewModel.EntrySection.MAIN) {
-                EntryViewModel.EntrySection.MAIN -> {
-                    mainSection.showByFading()
-                    advancedSection.hideByFading()
-                }
-                EntryViewModel.EntrySection.ADVANCED -> {
-                    mainSection.hideByFading()
-                    advancedSection.showByFading()
                 }
             }
         }

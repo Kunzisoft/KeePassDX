@@ -16,67 +16,102 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/entry_history_container"
-    style="?attr/cardViewStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/card_view_margin_horizontal"
+    android:layout_marginVertical="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_view_padding"
         android:orientation="vertical">
 
-        <!-- History -->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/entry_history_label"
-            style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/entry_history" />
-
         <LinearLayout
+            android:id="@+id/entry_show_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:paddingHorizontal="10dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/entry_history_last_modified"
-                style="@style/Theme.Keepass.TextAppearance.LabelTableTextStyle"
+            <TextView
+                android:id="@+id/view_history_label"
+                style="@style/Theme.Keepass.TextAppearance.TextNode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/entry_modified" />
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="15dp"
+                android:text="@string/entry_show_history" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/entry_history_title"
-                style="@style/Theme.Keepass.TextAppearance.LabelTableTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/entry_title" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/entry_history_username"
-                style="@style/Theme.Keepass.TextAppearance.LabelTableTextStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/entry_user_name" />
-
+            <ImageView
+                android:id="@+id/view_history_arrow"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_arrow_right_white_24dp"
+                app:tint="?android:textColorSecondary" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/entry_history_list"
+        <LinearLayout
+            android:id="@+id/history_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/card_view_padding"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_history_last_modified"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/entry_modified" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_history_title"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/entry_title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/entry_history_username"
+                    style="@style/Theme.Keepass.TextAppearance.LabelTextStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/entry_user_name" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/entry_history_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

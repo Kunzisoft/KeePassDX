@@ -90,7 +90,6 @@ class EntryActivity : DatabaseLockActivity() {
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var tagsListView: RecyclerView? = null
-    private var entryContentTab: TabLayout? = null
     private var tagsAdapter: TagsAdapter? = null
     private var entryProgress: LinearProgressIndicator? = null
     private var lockView: View? = null
@@ -141,7 +140,6 @@ class EntryActivity : DatabaseLockActivity() {
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
         tagsListView = findViewById(R.id.entry_tags_list_view)
-        entryContentTab = findViewById(R.id.entry_content_tab)
         entryProgress = findViewById(R.id.entry_progress)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
@@ -179,19 +177,6 @@ class EntryActivity : DatabaseLockActivity() {
             adapter = tagsAdapter
         }
 
-        // Init content tab
-        entryContentTab?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                mEntryViewModel.selectSection(EntryViewModel.EntrySection.
-                    getEntrySectionByPosition(tab?.position ?: 0)
-                )
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-
         // Get Entry from UUID
         try {
             intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY)?.let { mainEntryId ->
@@ -221,10 +206,6 @@ class EntryActivity : DatabaseLockActivity() {
 
         lockView?.setOnClickListener {
             lockAndExit()
-        }
-
-        mEntryViewModel.sectionSelected.observe(this) { entrySection ->
-            entryContentTab?.getTabAt(entrySection.position)?.select()
         }
 
         mEntryViewModel.entryInfoHistory.observe(this) { entryInfoHistory ->

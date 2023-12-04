@@ -20,8 +20,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center"
+    android:background="?selectableItemBackground"
     android:orientation="horizontal"
+    android:minHeight="48dp"
     android:weightSum="3">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -31,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
+        android:textSize="13sp"
         tools:text="Last Modified" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -42,6 +45,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="6"
+        android:textSize="15sp"
         tools:text="Title" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -53,5 +57,6 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="6"
+        android:textSize="15sp"
         tools:text="Username" />
 </LinearLayout>

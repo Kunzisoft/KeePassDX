@@ -77,6 +77,8 @@
     <string name="expired">Expired</string>
     <string name="entry_UUID">UUID</string>
     <string name="entry_history">History</string>
+    <string name="entry_show_history">Show history</string>
+    <string name="entry_hide_history">Hide history</string>
     <string name="entry_attachments">Attachments</string>
     <string name="entry_keyfile">Keyfile</string>
     <string name="hardware_key">Hardware key</string>
