@@ -16,7 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="GroupActivityTheme" parent="Theme.Keepass">
         <item name="android:statusBarColor">?colorSurfaceVariant</item>
@@ -27,6 +27,9 @@
     </style>
 
     <style name="FileDatabaseSelectActivityTheme" parent="Theme.Keepass">
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">
+            @drawable/ic_blank_32dp
+        </item>
         <item name="android:navigationBarColor">?colorSurfaceVariant2</item>
     </style>
 

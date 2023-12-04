@@ -62,6 +62,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.1.0'
     implementation 'androidx.media:media:1.6.0'
+    implementation "androidx.core:core-splashscreen:1.0.1"
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
     implementation 'androidx.fragment:fragment-ktx:1.6.0'
