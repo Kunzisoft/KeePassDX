@@ -47,6 +47,7 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
             if (oldSnapFileDatabaseInfo != null && newSnapFileDatabaseInfo != null) {
                 // Use the Builder class for convenient dialog construction
                 val builder = AlertDialog.Builder(activity)
+                builder.setView(R.layout.alert_dialog_layout)
 
                 val stringBuilder = SpannableStringBuilder()
                 if (newSnapFileDatabaseInfo.exists) {

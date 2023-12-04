@@ -130,6 +130,7 @@ class HardwareKeyResponseHelper {
             activity.lifecycleScope.launch {
                 val builder = AlertDialog.Builder(activity)
                 builder
+                    .setView(R.layout.alert_dialog_layout)
                     .setMessage(
                         activity.getString(R.string.error_driver_required, hardwareKey.toString())
                     )

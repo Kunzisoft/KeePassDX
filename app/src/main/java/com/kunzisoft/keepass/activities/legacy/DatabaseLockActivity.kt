@@ -448,6 +448,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         // Ask confirmation if modification not saved
         if (mDatabase?.dataModifiedSinceLastLoading == true) {
             AlertDialog.Builder(this)
+                .setView(R.layout.alert_dialog_layout)
                 .setMessage(R.string.discard_changes)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.lock) { _, _ ->

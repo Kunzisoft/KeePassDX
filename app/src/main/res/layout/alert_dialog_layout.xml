@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/parentPanel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="start|top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@id/topPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@id/title_template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:orientation="horizontal"
+            android:paddingStart="?attr/dialogPreferredPadding"
+            android:paddingTop="18dp"
+            android:paddingEnd="?attr/dialogPreferredPadding">
+
+            <ImageView
+                android:id="@android:id/icon"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_marginEnd="8dip"
+                android:scaleType="fitCenter"
+                android:src="@null" />
+
+            <TextView
+                android:id="@id/alertTitle"
+                style="?android:windowTitleStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textAlignment="viewStart"
+                tools:text="Sample title" />
+        </LinearLayout>
+
+        <Space
+            android:id="@id/titleDividerNoCustom"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <FrameLayout
+        android:id="@id/contentPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Space
+                    android:id="@id/textSpacerNoTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@android:id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="?attr/dialogPreferredPadding"
+                    android:paddingEnd="?attr/dialogPreferredPadding"
+                    android:textColor="?android:textColorSecondary"
+                    android:textSize="16sp"
+                    tools:text="This is a sample dialog message" />
+
+                <Space
+                    android:id="@id/textSpacerNoButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="18dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@id/customPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@id/custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/buttonPanel"
+        style="?attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layoutDirection="locale"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="4dp">
+
+            <Button
+                android:id="@android:id/button3"
+                style="?attr/buttonBarNeutralButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Neutral" />
+
+            <Space
+                android:id="@id/spacer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@android:id/button2"
+                style="?attr/buttonBarNegativeButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Negative" />
+
+            <Button
+                android:id="@android:id/button1"
+                style="?attr/buttonBarPositiveButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Positive" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

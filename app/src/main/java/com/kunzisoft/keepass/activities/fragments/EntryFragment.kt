@@ -173,6 +173,7 @@ class EntryFragment: DatabaseFragment() {
     private fun showClipboardDialog() {
         context?.let {
             AlertDialog.Builder(it)
+                .setView(R.layout.alert_dialog_layout)
                 .setMessage(
                     getString(R.string.allow_copy_password_warning) +
                             "\n\n" +

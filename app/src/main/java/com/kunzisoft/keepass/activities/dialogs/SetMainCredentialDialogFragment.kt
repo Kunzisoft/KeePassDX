@@ -314,7 +314,9 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private fun showEmptyPasswordConfirmationDialog() {
         activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setMessage(R.string.warning_empty_password)
+            builder
+                .setView(R.layout.alert_dialog_layout)
+                .setMessage(R.string.warning_empty_password)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
                         this@SetMainCredentialDialogFragment.dismiss()
@@ -329,6 +331,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(R.string.warning_no_encryption_key)
+                    .setView(R.layout.alert_dialog_layout)
                     .setPositiveButton(android.R.string.ok) { _, _ ->
                         mListener?.onAssignKeyDialogPositiveClick(retrieveMainCredential())
                         this@SetMainCredentialDialogFragment.dismiss()
@@ -342,7 +345,9 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private fun showEmptyKeyFileConfirmationDialog() {
         activity?.let {
             val builder = AlertDialog.Builder(it)
-            builder.setMessage(SpannableStringBuilder().apply {
+            builder
+                .setView(R.layout.alert_dialog_layout)
+                .setMessage(SpannableStringBuilder().apply {
                 append(getString(R.string.warning_empty_keyfile))
                 append("\n\n")
                 append(getString(R.string.warning_empty_keyfile_explanation))

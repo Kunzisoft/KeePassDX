@@ -384,6 +384,7 @@ class DatabaseTaskProvider(
                 startService(bundle, actionTask)
             } else {
                 AlertDialog.Builder(context)
+                    .setView(R.layout.alert_dialog_layout)
                     .setMessage(R.string.warning_database_notification_permission)
                     .setNegativeButton(R.string.later) { _, _ ->
                         // Refuses the notification, so start the service
@@ -464,6 +465,7 @@ class DatabaseTaskProvider(
     fun askToStartDatabaseReload(conditionToAsk: Boolean, approved: () -> Unit) {
         if (conditionToAsk) {
             AlertDialog.Builder(context)
+                .setView(R.layout.alert_dialog_layout)
                 .setMessage(R.string.warning_database_info_reloaded)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok) { _, _ ->

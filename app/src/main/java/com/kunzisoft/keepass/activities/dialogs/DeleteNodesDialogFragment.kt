@@ -45,6 +45,7 @@ class DeleteNodesDialogFragment : DatabaseDialogFragment() {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
+            builder.setView(R.layout.alert_dialog_layout)
 
             builder.setMessage(if (recycleBin)
                 getString(R.string.warning_empty_recycle_bin)

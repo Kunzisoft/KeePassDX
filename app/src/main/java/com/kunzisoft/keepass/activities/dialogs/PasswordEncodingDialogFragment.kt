@@ -55,6 +55,7 @@ class PasswordEncodingDialogFragment : DialogFragment() {
 
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
+            builder.setView(R.layout.alert_dialog_layout)
             builder.setMessage(activity.getString(R.string.warning_password_encoding)).setTitle(R.string.warning)
             builder.setPositiveButton(android.R.string.ok) { _, _ ->
                 mListener?.onPasswordEncodingValidateListener(

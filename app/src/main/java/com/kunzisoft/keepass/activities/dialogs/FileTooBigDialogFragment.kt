@@ -56,6 +56,7 @@ class FileTooBigDialogFragment : DialogFragment() {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
+            builder.setView(R.layout.alert_dialog_layout)
             builder.setMessage(SpannableStringBuilder().apply {
                 append(getString(R.string.warning_file_too_big))
                 append("\n\n")

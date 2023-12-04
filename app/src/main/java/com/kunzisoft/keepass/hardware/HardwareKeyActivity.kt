@@ -149,6 +149,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         ) {
             val builder = AlertDialog.Builder(context)
             builder
+                .setView(R.layout.alert_dialog_layout)
                 .setMessage(
                     context.getString(R.string.error_driver_required, hardwareKey.toString())
                 )

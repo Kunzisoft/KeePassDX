@@ -219,6 +219,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         getString(R.string.clipboard_warning)
                 AlertDialog.Builder(requireContext())
                         .setMessage(message)
+                        .setView(R.layout.alert_dialog_layout)
                         .create()
                         .apply {
                             setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable))
@@ -385,8 +386,10 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             message += resources.getString(R.string.advanced_unlock_delete_all_key_warning)
         }
         warningAlertDialog = AlertDialog.Builder(activity)
+            .setView(R.layout.alert_dialog_layout)
             .setMessage(message)
-            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle(R.string.warning)
+            .setIcon(R.drawable.ic_warning_white_24dp)
             .setPositiveButton(resources.getString(android.R.string.ok)
             ) { _, _ ->
                 validate?.invoke()

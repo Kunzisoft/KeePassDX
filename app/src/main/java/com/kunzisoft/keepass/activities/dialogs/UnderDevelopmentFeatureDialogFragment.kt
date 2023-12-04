@@ -37,6 +37,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
             val builder = AlertDialog.Builder(activity)
+            builder.setView(R.layout.alert_dialog_layout)
 
             val stringBuilder = SpannableStringBuilder()
             /*

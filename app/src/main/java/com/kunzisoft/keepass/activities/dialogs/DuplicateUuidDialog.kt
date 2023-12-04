@@ -36,6 +36,7 @@ class DuplicateUuidDialog : DialogFragment() {
                 val message = getString(R.string.contains_duplicate_uuid) +
                         "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
                 setMessage(message)
+                setView(R.layout.alert_dialog_layout)
                 setPositiveButton(getString(android.R.string.ok)) { _, _ ->
                     positiveAction?.invoke()
                     dismiss()
