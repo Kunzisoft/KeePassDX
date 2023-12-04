@@ -25,7 +25,7 @@
     *******************
     -->
 
-    <string name="app_name" translatable="false">KeePassDX</string>
+    <string name="app_name" translatable="false">KeePass</string>
 
     <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
     <string name="keepro_app_id" translatable="false">com.kunzisoft.keepass.pro</string>
@@ -44,8 +44,8 @@
     <string name="database_file_name_default" translatable="false">keepass</string>
     <string name="database_file_name_copy" translatable="false">_copy</string>
     <string name="database_file_extension_default" translatable="false">.kdbx</string>
-    <string name="database_default_name" translatable="false">KeePassDX Database</string>
-    <string name="app_properties_file_name" translatable="false">keepassdx_%1$s.properties</string>
+    <string name="database_default_name" translatable="false">KeePass Database</string>
+    <string name="app_properties_file_name" translatable="false">keepass_%1$s.properties</string>
 
     <!--
     *******************
