@@ -9,7 +9,7 @@ android {
     buildToolsVersion = '34.0.0'
 
     defaultConfig {
-        applicationId "com.kunzisoft.keepass"
+        applicationId "com.ps.keepass"
         minSdk 21
         targetSdk 34
         versionCode = 128
