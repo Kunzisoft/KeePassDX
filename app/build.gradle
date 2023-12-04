@@ -33,6 +33,15 @@ android {
         release {
             minifyEnabled = false
         }
+        debug {
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            testCoverageEnabled = true
+
+            tasks.withType(JavaCompile) {
+                options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+            }
+        }
     }
 
     testOptions {
