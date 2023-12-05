@@ -20,7 +20,7 @@
     <string name="about_description">Implementarea Android a managerului de parole KeePass</string>
     <string name="accept">Acceptați</string>
     <string name="add_entry">Introduceți intrarea</string>
-    <string name="edit_entry">Editați intrarea</string>
+    <string name="edit_entry">Editează intrarea</string>
     <string name="add_group">Adăugați un grup</string>
     <string name="master_key">Cheia generală</string>
     <string name="security">Securitate</string>
@@ -470,7 +470,7 @@
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de siguranță</string>
     <string name="html_about_privacy"><strong>Nu este colectat datele utilizatorilor </strong>, această aplicație nu se conectează la niciun server, funcționează doar la local și respectă pe deplin confidențialitatea utilizatorilor.</string>
-    <string name="current_group">Grup curent</string>
+    <string name="current_group">Grupul curent</string>
     <string name="search_filters">Filtre de căutare</string>
     <string name="navigation_drawer_close">Sertar de navigare închis</string>
     <string name="content_description_nav_header">Antet de navigare</string>
@@ -535,4 +535,31 @@
     <string name="remember_hardware_key_summary">Ține evidența cheilor hardware utilizate</string>
     <string name="import_app_properties_summary">Selectați un fișier pentru a importa proprietățile aplicației</string>
     <string name="export_app_properties_title">Exportați proprietățile aplicației</string>
+    <string name="warning_database_info_changed">Informația conținută în fișierul tău de bază de date a fost modificată în afara aplicației.</string>
+    <string name="credential_before_click_advanced_unlock_button">Scrie parola, apoi apasă pe acest buton.</string>
+    <string name="filter">Filtru</string>
+    <string name="unlock">Deblocare</string>
+    <string name="warning_file_too_big">O bază de date KeePass ar trebui să conțină doar fișiere utilitare mici (cum ar fi fișiere cheie PGP).
+\n
+\nBaza ta de date ar putea deveni foarte mare și s-ar reduce performanța cu această încărcare.</string>
+    <string name="warning_empty_recycle_bin">Ștergi permanent toate nodurile din coșul de reciclare?</string>
+    <string name="ask">Întreabă</string>
+    <string name="configure">Configurează</string>
+    <string name="properties">Proprietăți</string>
+    <string name="success_export_app_properties">Setările aplicației au fost exportate</string>
+    <string name="error_export_app_properties">Eroare în timpul exportării setărilor aplicației</string>
+    <string name="error_import_app_properties">Eroare în timpul importării setărilor aplicației</string>
+    <string name="warning_exact_alarm">Nu ai permis aplicației să folosească o alarmă exactă. Drept urmare, capabilitățile care necesită un cronometru nu vor fi efectuate cu un timp exact.</string>
+    <string name="warning_database_info_reloaded">Reîncărcarea bazei de date va șterge datele modificate local.</string>
+    <string name="menu_appearance_settings_summary">Teme, culori, atribute</string>
+    <string name="autofill_preference_title">Setări de autocompletare</string>
+    <string name="warning_replace_file">Încărcarea acestui fișier îl va înlocui pe cel existent.</string>
+    <string name="content">Conținut</string>
+    <string name="warning_empty_keyfile">Nu este recomandat să adaugi un fișier-cheie gol.</string>
+    <string name="warning_database_already_opened">O bază de date este deja deschisă, închide-o întâi pentru a o deschide pe cea nouă</string>
+    <string name="export_app_properties_summary">Crează un fișier pentru a exporta setările aplicației</string>
+    <string name="permission">Permisiune</string>
+    <string name="warning_empty_keyfile_explanation">Conținutul fișierului-cheie nu ar trebui schimbat vreodată, și, în cel mai bun caz, ar trebui să conțină date generate aleatoriu.</string>
+    <string name="later">Mai târziu</string>
+    <string name="success_import_app_properties">Setările aplicației au fost importate</string>
 </resources>
