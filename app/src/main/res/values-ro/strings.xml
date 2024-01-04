@@ -146,7 +146,7 @@
     <string name="list_size_summary">Dimensiunea textului în lista de elemente</string>
     <string name="creating_database">Crearea bazei de date …</string>
     <string name="loading_database">Se încarcă baza de date …</string>
-    <string name="lowercase">Caz jos</string>
+    <string name="lowercase">Litere mici</string>
     <string name="menu_change_key_settings">Schimbă cheia principală</string>
     <string name="copy_field">Copie din %1$s</string>
     <string name="settings">Setări</string>
@@ -196,7 +196,7 @@
     <string name="contains_duplicate_uuid_procedure">Prin validarea acestui dialog, KeePassDX va rezolva problema (prin generarea de noi UUID-uri pentru duplicate) și va continua\?</string>
     <string name="selection_mode">Mod de selectare</string>
     <string name="root">Rădăcină</string>
-    <string name="encryption_explanation">Algoritmul bazei de date de criptare utilizat pentru toate datele.</string>
+    <string name="encryption_explanation">Algoritm de criptare a bazei de date utilizat pentru toate datele</string>
     <string name="kdf_explanation">Pentru a genera cheia pentru algoritmul de criptare, cheia principală este transformată folosind o funcție de derivare a cheilor sărate aleatoriu.</string>
     <string name="rounds">Rundele de transformare</string>
     <string name="rounds_explanation">Rundele suplimentare de criptare oferă o protecție mai mare împotriva atacurilor de forță brută, dar pot încetini cu adevărat încărcarea și economisirea.</string>
@@ -225,9 +225,9 @@
     <string name="uppercase">Cu majuscule</string>
     <string name="warning">Avertizare</string>
     <string name="warning_password_encoding">Evitați caracterele parole în afara formatului de codare a textului în fișierul bazei de date (caracterele nerecunoscute sunt convertite în aceeași literă).</string>
-    <string name="warning_empty_password">Chiar nu doriți nicio protecție de deblocare a parolei\?</string>
-    <string name="warning_no_encryption_key">Ești sigur că nu vrei să folosești nicio cheie de criptare\?</string>
-    <string name="warning_permanently_delete_nodes">Sigur doriți să ștergeți definitiv nodurile selectate\?</string>
+    <string name="warning_empty_password">Continuați fără protecție de deblocare a parolei?</string>
+    <string name="warning_no_encryption_key">Continuați fără cheia de criptare?</string>
+    <string name="warning_permanently_delete_nodes">Ștergeți definitiv nodurile selectate?</string>
     <string name="version_label">Versiunea %1$s</string>
     <string name="build_label">Construiți %1$s</string>
     <string name="keystore_not_accessible">Magazinul de chei nu este inițializat corect.</string>
@@ -511,13 +511,13 @@
     <string name="menu_app_settings_summary">Căutare, blocare, istoric, proprietăți</string>
     <string name="menu_form_filling_settings_summary">Tastatură, completarea automată, clipboard</string>
     <string name="menu_advanced_unlock_settings_summary">Biometrie, acreditare din dispozitiv</string>
-    <string name="menu_database_settings_summary">Metadata, coșul de reciclare, șabloane, istoric</string>
+    <string name="menu_database_settings_summary">Metadate, coș de reciclare, șabloane, istoric</string>
     <string name="master_key_settings_summary">Schimbare, reînnoire</string>
     <string name="menu_security_settings_summary">Criptare, funcție de derivare a cheilor</string>
     <string name="menu_external_icon">Iconiță externă</string>
     <string name="subdomain_search_title">Căutare subdomeniu</string>
     <string name="subdomain_search_summary">Căutați domenii web cu constrângeri de subdomenii</string>
-    <string name="import_app_properties_title">Importați proprietățile aplicației</string>
+    <string name="import_app_properties_title">Importați setările aplicației</string>
     <string name="auto_type">Auto-Scriere</string>
     <string name="error_XML_malformed">XML malformat.</string>
     <string name="error_rebuild_list">Nu s-a putut reconstrui corect lista.</string>
@@ -533,8 +533,8 @@
     <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Amintiți cheile hardware</string>
     <string name="remember_hardware_key_summary">Ține evidența cheilor hardware utilizate</string>
-    <string name="import_app_properties_summary">Selectați un fișier pentru a importa proprietățile aplicației</string>
-    <string name="export_app_properties_title">Exportați proprietățile aplicației</string>
+    <string name="import_app_properties_summary">Selectați un fișier pentru a importa setările aplicației</string>
+    <string name="export_app_properties_title">Exportați setările aplicației</string>
     <string name="warning_database_info_changed">Informația conținută în fișierul tău de bază de date a fost modificată în afara aplicației.</string>
     <string name="credential_before_click_advanced_unlock_button">Scrie parola, apoi apasă pe acest buton.</string>
     <string name="filter">Filtru</string>
@@ -562,4 +562,6 @@
     <string name="warning_empty_keyfile_explanation">Conținutul fișierului-cheie nu ar trebui schimbat vreodată, și, în cel mai bun caz, ar trebui să conțină date generate aleatoriu.</string>
     <string name="later">Mai târziu</string>
     <string name="success_import_app_properties">Setările aplicației au fost importate</string>
+    <string name="warning_sure_add_file">Adăugați fișierul oricum?</string>
+    <string name="description_app_properties">Proprietățile KeePassDX pentru a gestiona setările aplicației</string>
 </resources>
