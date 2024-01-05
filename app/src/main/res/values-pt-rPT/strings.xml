@@ -153,7 +153,7 @@
     <string name="menu_cancel">Cancelar</string>
     <string name="menu_file_selection_read_only">Apenas leitura</string>
     <string name="menu_open_file_read_and_write">Alterável</string>
-    <string name="create_keepass_file">Criar novo Cofre</string>
+    <string name="create_keepass_file">Criar novo cofre</string>
     <string name="kdf_explanation">Para gerar a chave para o algoritmo de encriptação, a chave mestra é transformada usando uma função de derivação de chave com um salt aleatório.</string>
     <string name="memory_usage">Uso de memória</string>
     <string name="memory_usage_explanation">Quantidade de memória a ser usada pela função de derivação de chave.</string>
@@ -315,7 +315,7 @@
     <string name="content_description_file_information">Informações sobre ficheiro</string>
     <string name="content_description_password_checkbox">Caixa de seleção da palavra-passe</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do ficheiro-chave</string>
-    <string name="content_description_repeat_toggle_password_visibility">Repetir alternar a visibilidade da palavra-passe</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetir mudança de visibilidade da palavra-passe</string>
     <string name="content_description_entry_icon">Ícone da entrada</string>
     <string name="entry_password_generator">Gerador de palavras-passe</string>
     <string name="content_description_password_length">Comprimento da palavra-passe</string>
@@ -406,7 +406,7 @@
     <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
     <string name="settings_database_force_changing_master_key_summary">Forçar alteração da chave mestra (em dias)</string>
     <string name="command_execution">A executar o comando…</string>
-    <string name="otp_algorithm">Algorítimo</string>
+    <string name="otp_algorithm">Algoritmo</string>
     <string name="show_recent_files_title">Mostrar ficheiros recentes</string>
     <string name="content_description_background">Plano de fundo</string>
     <string name="lock_database_show_button_title">Mostrar botão de bloquear</string>
