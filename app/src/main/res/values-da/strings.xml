@@ -336,7 +336,7 @@
     <string name="menu_advanced_unlock_settings">Oplåsning af enhed</string>
     <string name="biometric">Biometrisk</string>
     <string name="biometric_auto_open_prompt_title">Prompt til automatisk åbning</string>
-    <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter avanceret oplåsning, hvis databasen er konfigureret til at bruge det</string>
+    <string name="biometric_auto_open_prompt_summary">Anmod automatisk om oplåsning af enheden, hvis databasen er konfigureret til at bruge den</string>
     <string name="enable">Aktivér</string>
     <string name="disable">Deaktiver</string>
     <string name="master_key">Hovednøgle</string>
@@ -365,7 +365,7 @@
     <string name="contains_duplicate_uuid_procedure">Løs problemet ved at generere nye UUID\'er for dubletter og fortsætte\?</string>
     <string name="database_opened">Database åbnet</string>
     <string name="clipboard_explanation_summary">Kopier indtastningsfelter ved hjælp af enhedens udklipsholder</string>
-    <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
+    <string name="advanced_unlock_explanation_summary">Brug enhedsoplåsning til at åbne en database nemmere</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerer databasens størrelse</string>
     <string name="max_history_items_title">Maksimalt antal</string>
@@ -506,11 +506,11 @@
     <string name="advanced_unlock_tap_delete">Tryk for at slette enhedens oplåsningsnøgler</string>
     <string name="content">Indhold</string>
     <string name="credential_before_click_advanced_unlock_button">Indtast adgangskoden, og klik derefter på denne knap.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Kunne ikke initialisere avanceret oplåsningsprompt.</string>
-    <string name="advanced_unlock_scanning_error">Fejl ved avanceret oplåsning: %1$s</string>
+    <string name="advanced_unlock_prompt_not_initialized">Kunne ikke initialisere oplåsningsprompt.</string>
+    <string name="advanced_unlock_scanning_error">Fejl ved oplåsning: %1$s</string>
     <string name="advanced_unlock_not_recognized">Kunne ikke genkende aftryk til avanceret oplåsning</string>
-    <string name="advanced_unlock_invalid_key">Den avancerede oplåsningsnøgle kan ikke læses. Slet den og gentag proceduren for genkendelse af oplåsning.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Åbn database med avanceret oplåsningsgenkendelse</string>
+    <string name="advanced_unlock_invalid_key">Oplåsningsnøgle kan ikke læses. Slet den og gentag proceduren for genkendelse af oplåsning.</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Enhedsoplåsningsgenkendelse</string>
     <string name="advanced_unlock_prompt_store_credential_title">Link til enhedsoplåsning</string>
     <string name="warning_database_info_changed_options">Flet data, overskriv de eksterne ændringer ved at gemme databasen eller genindlæs den med de seneste ændringer.</string>
     <string name="warning_database_info_changed">Oplysningerne i databasefilen er blevet ændret uden for appen.</string>
@@ -537,9 +537,9 @@
     <string name="autofill_inline_suggestions_title">Indbyggede forslag</string>
     <string name="backspace">Tilbagetast</string>
     <string name="advanced_unlock_timeout">Tidsudløb for avanceret oplåsning</string>
-    <string name="temp_advanced_unlock_timeout_title">Udløb af avanceret oplåsning</string>
-    <string name="temp_advanced_unlock_enable_summary">Gem ikke krypteret indhold for at bruge avanceret oplåsning</string>
-    <string name="temp_advanced_unlock_enable_title">Midlertidig avanceret oplåsning</string>
+    <string name="temp_advanced_unlock_timeout_title">Udløb af oplåsning af enhed</string>
+    <string name="temp_advanced_unlock_enable_summary">Gem ikke krypteret indhold for at bruge enhedsoplåsning</string>
+    <string name="temp_advanced_unlock_enable_title">Midlertidig oplåsning af enhed</string>
     <string name="device_credential">Enhedens legitimation</string>
     <string name="properties">Egenskaber</string>
     <string name="error_export_app_properties">Fejl under eksport af app-indstillinger</string>
@@ -684,4 +684,5 @@
     <string name="merge_success">Sammenfletning gennemført</string>
     <string name="menu_app_settings_summary">Søg, lås, historik, egenskaber</string>
     <string name="later">Senere</string>
+    <string name="menu_appearance_settings_summary">Temaer, farver, attributter</string>
 </resources>
