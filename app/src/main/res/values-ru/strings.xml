@@ -160,7 +160,7 @@
     <string name="sort_creation_time">Время создания</string>
     <string name="sort_last_modify_time">Время изменения</string>
     <string name="sort_last_access_time">Время последнего доступа</string>
-    <string name="edit_entry">Изменить</string>
+    <string name="edit_entry">Изменить запись</string>
     <string name="allow">Разрешить</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
     <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
