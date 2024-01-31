@@ -30,7 +30,7 @@
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Configuració de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
-    <string name="file_manager_install_description">Es requereix un gestor d\'arxius que accepti les intencions ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT per a crear, obrir i desar fitxers de base de dades.</string>
+    <string name="file_manager_install_description">Es requereix un gestor de fitxers que accepti les intencions ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT per a crear, obrir i desar fitxers de base de dades.</string>
     <string name="clipboard_cleared">Porta-retalls netejat</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls (si el teu dispositiu ho suporta)</string>
@@ -42,7 +42,7 @@
     <string name="digits">Dígits</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft és <strong> programari lliure </strong> i <strong>sense anuncis</strong>.
 \nEs proporciona tal com està, sota una llicència <strong>GPLv3</strong>, sense cap garantia.</string>
-    <string name="select_database_file">Obri una base de dades existent</string>
+    <string name="select_database_file">Obre una caixa forta existent</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
     <string name="entry_notes">Comentaris</string>
@@ -102,7 +102,7 @@
     <string name="minus">Menys</string>
     <string name="never">Mai</string>
     <string name="no_results">Cap resultat de cerca</string>
-    <string name="no_url_handler">Instal·leu un navegador web per a obri aquesta URL</string>
+    <string name="no_url_handler">Instal·leu un navegador web per a obrir aquest URL.</string>
     <string name="progress_create">Creant nova base de dades…</string>
     <string name="progress_title">Treballant…</string>
     <string name="content_description_remove_from_list">Elimina</string>
@@ -177,7 +177,7 @@
     <string name="autofill">Autocompleta</string>
     <string name="general">General</string>
     <string name="biometric">Biomètric</string>
-    <string name="menu_appearance_settings">Apariència</string>
+    <string name="menu_appearance_settings">Aparença</string>
     <string name="database_history">Història</string>
     <string name="encrypted_value_stored">Contrasenya xifrada desada</string>
     <string name="warning_permanently_delete_nodes">Voleu suprimir definitivament els nodes seleccionats\?</string>
@@ -209,7 +209,7 @@
     <string name="protection">Protecció</string>
     <string name="auto_focus_search_summary">Sol·licita una cerca quan s\'obre una base de dades</string>
     <string name="auto_focus_search_title">Cerca ràpida</string>
-    <string name="create_keepass_file">Crea una nova base de dades</string>
+    <string name="create_keepass_file">Crea una caixa forta</string>
     <string name="menu_delete_entry_history">Suprimeix la història</string>
     <string name="menu_restore_entry_history">Restaura la història</string>
     <string name="menu_empty_recycle_bin">Buida la paperera</string>
@@ -232,7 +232,7 @@
     <string name="list_entries_show_username_title">Mostra noms d\'usuari</string>
     <string name="keyfile_is_empty">El fitxer de clau és buit.</string>
     <string name="invalid_algorithm">Algorisme incorrecte.</string>
-    <string name="file_not_found_content">No s\'ha trobat el fitxer. Mireu de reobrir-lo des de l\'explorador de fitxers.</string>
+    <string name="file_not_found_content">No s\'ha trobat el fitxer. Mireu de tornar-lo a obrir des de l\'explorador de fitxers.</string>
     <string name="field_value">Valor del camp</string>
     <string name="field_name">Nom del camp</string>
     <string name="error_otp_digits">El testimoni ha de tenir entre %1$d i %2$d dígits.</string>
@@ -312,7 +312,7 @@
     <string name="html_text_feature_generosity">Aquest &lt;strong&gt;estil visual&lt;/strong&gt; és disponible gràcies a la vostra generositat.</string>
     <string name="html_text_dev_feature_upgrade">No us oblideu de mantenir l’aplicació actualitzada instal·lant les versions noves.</string>
     <string name="icon_section_standard">Estàndard</string>
-    <string name="show_uuid_title">Mostra l’UUID</string>
+    <string name="show_uuid_title">Mostra l\'UUID</string>
     <string name="hide_expired_entries_summary">No es mostren les entrades expirades</string>
     <string name="hide_expired_entries_title">Amaga les entrades expirades</string>
     <string name="contribute">Contribuïu-hi</string>
@@ -365,7 +365,7 @@
     <string name="advanced_unlock">Desbloqueja dispositiu</string>
     <string name="template">Plantilla</string>
     <string name="title_case">Primera Majúscula</string>
-    <string name="navigation_drawer_open">Obrir calaix de navegació</string>
+    <string name="navigation_drawer_open">El calaix de navegació està obert</string>
     <string name="max_history_size_summary">Limita la mida de l\'historial per entrada</string>
     <string name="success_export_app_properties">Configuració de l\'aplicació exportada</string>
     <string name="error_export_app_properties">Error a l\'exportar la configuració de l\'aplicació</string>
@@ -445,4 +445,21 @@
     <string name="settings_database_force_changing_master_key_next_time_summary">Requereix canviar la clau mestra el pròxim cop (un cop)</string>
     <string name="allow_copy_password_summary">Permet copiar la clau i els camps protegits d\'una entrada al porta-retalls</string>
     <string name="success_import_app_properties">Configuració de l\'aplicació importada</string>
+    <string name="passphrase">Contrasenya</string>
+    <string name="colorize_password_title">Acoloreix les contrasenyes</string>
+    <string name="colorize_password_summary">Acoloreix les contrasenyes per tipus</string>
+    <string name="error_remove_file">S\'ha produït un error en suprimir les dades del fitxer.</string>
+    <string name="error_start_database_action">S\'ha produït un error en realitzar una acció a la base de dades.</string>
+    <string name="error_response_already_provided">Ja s\'ha proveït la resposta.</string>
+    <string name="show_otp_token_title">Mostra el testimoni OTP</string>
+    <string name="error_no_response_from_challenge">No s\'ha pogut obtenir la resposta del desafiament.</string>
+    <string name="error_upload_file">S\'ha produït un error en pujar les dades del fitxer.</string>
+    <string name="error_duplicate_file">Les dades del fitxer ja existeixen.</string>
+    <string name="hint_icon_name">Nom de la icona</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Us haureu de recordar de la credencial principal de la caixa forta en el cas que feu servir el reconeixement del dispositiu pel desbloqueig.</string>
+    <string name="secure_note">Nota segura</string>
+    <string name="error_file_to_big">El fitxer que esteu intentant pujar és massa gros.</string>
+    <string name="error_challenge_already_requested">El desafiament ja s\'ha sol·licitat</string>
+    <string name="error_cancel_by_user">S\'ha cancel·lat per l\'usuari.</string>
+    <string name="error_driver_required">Es requereix un controlador per %1$s.</string>
 </resources>
