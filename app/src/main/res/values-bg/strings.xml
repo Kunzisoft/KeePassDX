@@ -22,10 +22,10 @@
     <string name="clipboard_timeout_summary">Продължителност на съхранение в клипборда (ако се поддържа от вашето устройство)</string>
     <string name="clipboard_error">Някои устройства не позволяват на приложенията да използват клипборда.</string>
     <string name="entry_title">Заглавие</string>
-    <string name="about_description">Android версия на мениджъра на пароли KeePass</string>
+    <string name="about_description">Версия за Андроид на приложението за управление на пароли KeePass</string>
     <string name="save">Запазване</string>
     <string name="entry_confpassword">Потвърди парола</string>
-    <string name="key_derivation_function">Функция за генериране на ключа</string>
+    <string name="key_derivation_function">Функция за извличане на ключ</string>
     <string name="content_description_open_file">Отваряне на файл</string>
     <string name="entry_cancel">Отказ</string>
     <string name="custom_data">Персонализирани данни</string>
@@ -130,4 +130,5 @@
     <string name="discard_changes">Отхвърляне на промените?</string>
     <string name="menu_reload_database">Презареждане на данните</string>
     <string name="contribute">Допринасяне</string>
+    <string name="error_load_database_KDF_memory">Ключът не може да бъде зареден. Пробвайте да намалите зползваната памет от функцията за извличане на ключ.</string>
 </resources>
