@@ -123,8 +123,8 @@
     <string name="sort_menu">Сортиране</string>
     <string name="field_value">Стойност на полето</string>
     <string name="hint_group_name">Име на групата</string>
-    <string name="menu_merge_database">Сливане на данните</string>
-    <string name="menu_merge_from">Сливане от…</string>
+    <string name="menu_merge_database">Обединяване на данните</string>
+    <string name="menu_merge_from">Обединяване с…</string>
     <string name="menu_save_copy_to">Запазване на копие в…</string>
     <string name="sort_title">Заглавие</string>
     <string name="discard_changes">Отхвърляне на промените?</string>
@@ -485,4 +485,41 @@
     <string name="read_only_warning">В зависимост от приложението за управление на файлове, KeePassDX може да няма права да пише в паметта на устройството.</string>
     <string name="hide_broken_locations_title">Скриване на липсващи хранилища</string>
     <string name="rounds_explanation">По-големият брой преобразувания дава по-добра устойчивост срещу атаки с груба сила, но може сериозно да забави зареждането изапазването.</string>
+    <string name="warning_sure_remove_data">Премахване на данните въпреки това?</string>
+    <string name="build_label">Компилация %1$s</string>
+    <string name="warning_permanently_delete_nodes">Безвъзвратно премахване на избраните възли?</string>
+    <string name="warning_database_read_only">Дайте права за писане на файла, за да бъдат запазени промените в хранилището</string>
+    <string name="warning_database_link_revoked">Достъпът до файла е оттеглен от приложението за управление на файлове</string>
+    <string name="warning_empty_password">Продължаване без парола за защита на хранилището?</string>
+    <string name="warning_no_encryption_key">Продължаване без ключ за шифроване?</string>
+    <string name="warning_empty_keyfile">Не е препоръчително да бъде добавян празен файл с ключ.</string>
+    <string name="warning_database_revoked">Достъпът до файла е оттеглен от приложението за управление на файлове, отворете хранилището отново.</string>
+    <string name="version_label">Издание %1$s</string>
+    <string name="list_password_generator_options_title">Знаци за парола</string>
+    <string name="lock_database_screen_off_title">Заключване на екрана</string>
+    <string name="database_data_remove_unlinked_attachments_title">Премахване на несвързани данни</string>
+    <string name="warning_sure_add_file">Добавяне на файла въпреки това?</string>
+    <string name="error_unable_merge_database_kdb">Обединяване от хранилище V1 е невъзможно.</string>
+    <string name="memory_usage_explanation">Количество памет, използвана от функцията за извличане на ключове.</string>
+    <string name="warning_database_already_opened">Има отворено хранилище, затворете го, за да отворите друго</string>
+    <string name="warning_replace_file">При добавяне на този файл ще бъде заменен вече съществуващ.</string>
+    <string name="warning_remove_unlinked_attachment">Премахването на несвързаните данни може да намали размера на хранилището, но може да изтрие информация от разширения на KeePass.</string>
+    <string name="warning_database_info_changed">Информация от хранилището е променена извън приложението.</string>
+    <string name="warning_database_info_reloaded">При презареждане на хранилището ще бъдат изгубени местните промени.</string>
+    <string name="merge_success">Обединяването е завършено</string>
+    <string name="configure">Настройка</string>
+    <string name="unavailable">Недостъпно</string>
+    <string name="database_opened">Хранилището е отвоерно</string>
+    <string name="ask">Питане</string>
+    <string name="list_password_generator_options_summary">Задава набора от разрешени знаци за създаване на парола</string>
+    <string name="later">По-късно</string>
+    <string name="warning_empty_recycle_bin">Безвъзвратно премахване на всички възли в кошчето?</string>
+    <string name="parallelism_explanation">Степен на едновременно изпълняване (т.е. брой нишки), използвана от функцията за извличане на ключове.</string>
+    <string name="warning_password_encoding">Избягвайте да използвате в паролите знаци, които не са от кодировката на текста на хранилището (такива знаци ще бъдат превърнати в една буква).</string>
+    <string name="warning_file_too_big">Предполага се, че хранилищата на KeePass съдържат само малки служебни файлове (например файлове с ключове на PGP).
+\n
+\nАко добавите този файл, хранилището ще нарасне много и бързодействието ще намалее.</string>
+    <string name="database_data_remove_unlinked_attachments_summary">Премахва от хранилището прикачени файлове без връзка със запис</string>
+    <string name="warning_empty_keyfile_explanation">Съдържанието на файла с ключ не трябва да бъде променяно и най-добре е да съдържа случайна стойност.</string>
+    <string name="warning_database_info_changed_options">Обединете данните, презапишете външните промени или презаредете хранилището с последните промени.</string>
 </resources>
