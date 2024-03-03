@@ -299,7 +299,7 @@
     <string name="settings_database_force_changing_master_key_title">Принудителна смяна</string>
     <string name="database_name_title">Име на хранилището</string>
     <string name="database_description_title">Описание на хранилището</string>
-    <string name="magic_keyboard_title">Настройки Magikeyboard</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_appearance_category">Външен вид</string>
@@ -548,4 +548,24 @@
     <string name="templates_group_uuid_title">Група „Шаблони“</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Извличане на главната парола на хранилището при отключване на устройството</string>
     <string name="advanced_unlock_invalid_key">Ключът за отключване на устройството не може да бъде прочетен. Премахнете го и повторете процедурата по разпознаване.</string>
+    <string name="advanced_unlock_keystore_warning">Това свойство на приложението ще пази шифровани данни за достъп в защитеното хранилище за ключове на устройството.
+\n
+\nВ зависимост реализацията на ППИ на операционната система то може да не е пълнофункционално.
+\nПроверете съвместимостта и степента на сигурност на хранилището за ключове при производителя на устройството или автора на инсталираната операционната система.</string>
+    <string name="templates_group_enable_summary">Използване на динамични шаблони за попълване на полетата на записи</string>
+    <string name="max_history_items_title">Максимален брой записи</string>
+    <string name="max_history_items_summary">Ограничаване на броя на елементите от историята на запис</string>
+    <string name="max_history_size_title">Максимален размер</string>
+    <string name="monospace_font_fields_enable_summary">Полетата използват различен шрифт за по-добра четимост на знаците</string>
+    <string name="magic_keyboard_explanation_summary">Включете потребителска клавиатура, която да попълва пароли и полета за удостоверяване</string>
+    <string name="clear_clipboard_notification_title">Изчистване при затваряне</string>
+    <string name="max_history_size_summary">Ограничаване на размера на историята на всеки запис</string>
+    <string name="keyboard_notification_entry_summary">Показване на известие, когато има достъпен запис</string>
+    <string name="monospace_font_fields_enable_title">Отделен шрифт за полетата</string>
+    <string name="enable">Включване</string>
+    <string name="disable">Изключване</string>
+    <string name="notification">Известие</string>
+    <string name="device_keyboard_setting_title">Настройки на клавиатурата на устройството</string>
+    <string name="keyboard_selection_entry_summary">При преглед на запис в KeePassDX, стойностите на Magikeyboard да бъдат попълнени с неговите данни</string>
+    <string name="keyboard_notification_entry_title">Известие за наличие</string>
 </resources>
