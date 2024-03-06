@@ -30,7 +30,7 @@
     <string name="entry_cancel">Отказ</string>
     <string name="custom_data">Потребителски данни</string>
     <string name="tags">Етикети</string>
-    <string name="clipboard_explanation_summary">Копирайте полетата за въвеждане, като използвате клипборда на вашето устройство</string>
+    <string name="clipboard_explanation_summary">Копиране на полета за въвеждане посредством междинната памет на устройството</string>
     <string name="otp_type">Вид на OTP</string>
     <string name="entry_url">Адрес в интернет</string>
     <string name="contribution">Участие</string>
@@ -59,7 +59,7 @@
     <string name="entry_notes">Бележка</string>
     <string name="otp_counter">Брояч</string>
     <string name="allow">Разрешаване</string>
-    <string name="allow_copy_password_warning">Внимание: Клипбордът се споделя от всички приложения. Ако се копират чувствителни данни, друг софтуер може да ги възстанови.</string>
+    <string name="allow_copy_password_warning">Внимание: Междинната памет се споделя от всички приложения. Ако бъде копирана чувствителна информация, друго приложение може да ги използва.</string>
     <string name="entry_modified">Променен</string>
     <string name="select_to_copy">Изберете, за да копирате %1$s в клипборда</string>
     <string name="otp_secret">Таен ключ</string>
@@ -440,7 +440,7 @@
     <string name="html_text_dev_feature_work_hard">Работим усърдно, за да добавим бързо тази възможност.</string>
     <string name="hint_generated_password">Създадена парола</string>
     <string name="hint_length">Дължина</string>
-    <string name="invalid_credentials">Удостоверяването не може да бъде прочетено.</string>
+    <string name="invalid_credentials">Неправилна главна парола или файл с ключ.</string>
     <string name="show_otp_token_summary">Показват се кодовете за достъп от OTP в списъка със записите</string>
     <string name="show_otp_token_title">Кодове от OTP</string>
     <string name="error_can_not_handle_uri">Указаният URI не може да бъде обработен от KeePassDX.</string>
@@ -634,4 +634,36 @@
     <string name="autofill_manual_selection_title">Ръчен избор</string>
     <string name="autofill_manual_selection_summary">Показване на възможните записи от хранилището, от които потребителят да избере</string>
     <string name="autofill_save_search_info_title">Запазване на информация от търсене</string>
+    <string name="biometric_unlock_enable_title">Биометрично отключване</string>
+    <string name="biometric_auto_open_prompt_title">Питане при автоматично отключване</string>
+    <string name="configure_biometric">Не са регистрирани биометрични или други способи за отключване на устройството.</string>
+    <string name="biometric_security_update_required">Необходимо е обновяване на биометричната система за сигурност.</string>
+    <string name="encrypted_value_stored">Шифрованата парола е запазена</string>
+    <string name="keystore_not_accessible">Хранилището за ключове не е подготвено.</string>
+    <string name="clipboard">Междинна памет</string>
+    <string name="device_credential_unlock_enable_title">Отключване на устройството</string>
+    <string name="error_database_uri_null">Идентификаторът на хранилището не може да бъде получен.</string>
+    <string name="error_remove_file">Грешка при премахване на файла.</string>
+    <string name="error_upload_file">Грешка при изпращане на файла.</string>
+    <string name="error_cancel_by_user">Отказано от потребителя.</string>
+    <string name="error_driver_required">За %1$s е необходим драйвер.</string>
+    <string name="error_location_unknown">Мястото на хранилището е неизвестно, действието не може да бъде извършено.</string>
+    <string name="warning_copy_permission">Разрешението е необходимо за показване на известия за междинната памет.</string>
+    <string name="unlock_and_link_biometric">Настройка отключване с устройството</string>
+    <string name="clipboard_warning">При неуспешно автоматично изчистване на междинната памет, изчистете историята ѝ ръчно.</string>
+    <string name="clipboard_notifications_title">Известия от междинната памет</string>
+    <string name="clipboard_notifications_summary">Известия от междинната памет за копиране на полета при преглед на запис</string>
+    <string name="biometric_unlock_enable_summary">Дава възможност за отключване на хранилището посредством биометрични данни</string>
+    <string name="device_credential_unlock_enable_summary">Дава възможност за отключване на хранилището при отключване на устройството</string>
+    <string name="biometric_auto_open_prompt_summary">Автоматична заявка за отключване на устройството ако хранилището се отключва с устройството</string>
+    <string name="allow_copy_password_summary">Разрешава копиране на паролите и защитените полета от записите в междинната памет</string>
+    <string name="error_rebuild_list">Списъкът не може да бъде изграден отново.</string>
+    <string name="error_otp_type">Формулярът не разпознава този вид OTP и може да не създава правилни кодове за достъп.</string>
+    <string name="warning_keyfile_integrity">Отпечатъкът от файла не е сигурен, защото Андроид може да променя данните в движение. Променете разширението на файла на .bin, за бъде невредим.</string>
+    <string name="allow_copy_password_title">Доверяване на междинната памет</string>
+    <string name="warning_exact_alarm">Приложението няма права за използване на точен будилник. В резултат на това дейностите, които зависят от него няма да се изпълняват на време.</string>
+    <string name="clear_clipboard_notification_summary">Заключва хранилището при затваряне на известието или изтече времето за изчакване на междинната памет</string>
+    <string name="warning_database_notification_permission">Разрешението дава възможност за показване на състоянието на хранилището, както и да го заключвате с леснодостъпен бутон.
+\n
+\nАко не предоставите това разрешение, отвореното във фонов режим хранилище няма да бъде видимо, ако друго приложение се показва в момента.</string>
 </resources>
