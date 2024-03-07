@@ -54,4 +54,16 @@
     <string name="discard_changes">Zavrzi spremembe\?</string>
     <string name="entry_password_generator">Generator gesel</string>
     <string name="content_description_password_length">Dolžina gesla</string>
+    <string name="memory_usage">Poraba spomina</string>
+    <string name="menu_appearance_settings">Izgled</string>
+    <string name="membership">Članstvo</string>
+    <string name="menu_form_filling_settings">Izpolnitev obrazca</string>
+    <string name="menu_form_filling_settings_summary">Tipkovnica, samodejno izpolnevanje, odložišče</string>
+    <string name="settings">Nastavitve</string>
+    <string name="menu_advanced_unlock_settings">Odklepanje naprave</string>
+    <string name="menu_app_settings">Nastavitve aplikacije</string>
+    <string name="menu_delete">Izbriši</string>
+    <string name="sort_last_access_time">Zadnji dostop</string>
+    <string name="menu_copy">Kopiraj</string>
+    <string name="menu_donate">Doniraj</string>
 </resources>
