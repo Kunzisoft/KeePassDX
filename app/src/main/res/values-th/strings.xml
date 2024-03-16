@@ -663,4 +663,7 @@
     <string name="menu_advanced_unlock_settings_summary">ไบโอเมตริก, ข้อมูลประจำตัวของอุปกรณ์</string>
     <string name="menu_database_settings_summary">เมตาดาต้า, ถังขยะ, แม่แบบ, ประวัติ</string>
     <string name="menu_app_settings_summary">การค้นหา, การล็อก, ประวัติ, ค่ากำหนด</string>
+    <string name="education_validate_entry_summary">พึงระลึกไว้ว่าตรวจสอบข้อมูลรายการและบันทึกฐานข้อมูลไว้ให้ดี
+\n
+\nหากการล็อกอัตโนมัติเปิดใช้งานและลีมบันทึกการเปลี่ยนแปลงไว้ คุณมีความเสียงที่ข้อมูลจะสูญหาย</string>
 </resources>
