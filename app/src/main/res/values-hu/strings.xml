@@ -412,7 +412,7 @@
     <string name="biometric_auto_open_prompt_summary">Az eszközfeloldás automatikus kérése, ha az adatbázis úgy van beállítva, hogy használja</string>
     <string name="biometric_auto_open_prompt_title">Automatikus megnyitási képernyő</string>
     <string name="biometric">Ujjlenyomat</string>
-    <string name="menu_advanced_unlock_settings">Eszközfeloldás</string>
+    <string name="menu_advanced_unlock_settings">Eszköz feloldása</string>
     <string name="content_description_keyboard_close_fields">Mezők bezárása</string>
     <string name="content_description_update_from_list">Frissítés</string>
     <string name="list_groups_show_number_entries_summary">A csoportban szereplő bejegyzések számának megjelenítése</string>
