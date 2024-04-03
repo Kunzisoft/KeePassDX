@@ -173,4 +173,9 @@
     <string name="error_XML_malformed">XML malformed.</string>
     <string name="error_load_database">Could not load the database.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
+    <string name="error_disallow_no_credentials">At least one credential must be set.</string>
+    <string name="error_pass_match">The passwords do not match.</string>
+    <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
+    <string name="error_string_key">Each string must have a field name.</string>
+    <string name="error_label_exists">This label already exists.</string>
 </resources>
