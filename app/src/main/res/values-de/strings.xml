@@ -23,7 +23,7 @@
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Kontakt</string>
     <string name="contribution">Beiträge</string>
-    <string name="feedback">Rückmeldung</string>
+    <string name="feedback">Feedback</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
     <string name="accept">Akzeptieren</string>
@@ -36,10 +36,10 @@
     <string name="menu_app_settings">App-Einstellungen</string>
     <string name="brackets">Klammern</string>
     <string name="file_manager_install_description">Zum Erstellen, Öffnen und Speichern von Datenbankdateien wird ein Dateimanager benötigt, der die beabsichtigte Aktion ACTION_CREATE_DOCUMENT und ACTION_OPEN_DOCUMENT akzeptiert.</string>
-    <string name="clipboard_cleared">Zwischenablage geleert</string>
+    <string name="clipboard_cleared">Zwischenablage gelöscht</string>
     <string name="clipboard_error_title">Zwischenablage-Fehler</string>
     <string name="clipboard_error">Einige Geräte lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
-    <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
+    <string name="clipboard_error_clear">Löschen der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablage-Inaktivitätszeit</string>
     <string name="clipboard_timeout_summary">Speicherdauer in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
