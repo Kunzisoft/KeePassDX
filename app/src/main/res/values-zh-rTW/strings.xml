@@ -674,4 +674,8 @@
     <string name="consider_chars_filter">可以包括</string>
     <string name="ignore_chars_filter">不要包括</string>
     <string name="title_case">標題大小寫</string>
+    <string name="content_description_nav_header">導航列</string>
+    <string name="education_validate_entry_summary">記得驗證和儲存你的資料庫。
+\n
+\n如果自動鎖定已啓用，而你又忘記你在更改資料，你可能會失去你的資料。</string>
 </resources>
