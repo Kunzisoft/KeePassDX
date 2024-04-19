@@ -37,7 +37,6 @@ import kotlin.collections.ArrayList
 @RequiresApi(api = Build.VERSION_CODES.O)
 class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
-    private var usernameNeeded = true
     private var usernameIdCandidate: AutofillId? = null
     private var usernameValueCandidate: AutofillValue? = null
 
@@ -163,7 +162,8 @@ class StructureParser(private val structure: AssistStructure) {
                     result?.passwordId = autofillId
                     result?.passwordValue = node.autofillValue
                     Log.d(TAG, "Autofill password hint")
-                    //return true
+                    // Comment "return" to check all the tree
+                    // return true
                 }
                 it.equals("cc-name", true) -> {
                     Log.d(TAG, "Autofill credit card name hint")
@@ -340,91 +340,128 @@ class StructureParser(private val structure: AssistStructure) {
         return "0x${"%08x".format(inputType)}"
     }
 
+    private fun manageTypeText(
+        node: AssistStructure.ViewNode,
+        autofillId: AutofillId?,
+        inputType: Int
+    ): Boolean {
+        when {
+            inputIsVariationType(inputType,
+                InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+                InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) -> {
+                if (result?.passwordId == null) {
+                    result?.usernameId = autofillId
+                    result?.usernameValue = node.autofillValue
+                    Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
+                }
+            }
+            inputIsVariationType(inputType,
+                InputType.TYPE_TEXT_VARIATION_NORMAL,
+                InputType.TYPE_TEXT_VARIATION_PERSON_NAME,
+                InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) -> {
+                // Assume the username field is before the password field
+                if (result?.passwordId == null) {
+                    usernameIdCandidate = autofillId
+                    usernameValueCandidate = node.autofillValue
+                }
+                Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
+            }
+            inputIsVariationType(inputType,
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {
+                // Some forms used visible password as username
+                if (result?.passwordId == null &&
+                    usernameIdCandidate == null && usernameValueCandidate == null) {
+                    usernameIdCandidate = autofillId
+                    usernameValueCandidate = node.autofillValue
+                    Log.d(TAG, "Autofill visible password android text type (as username): ${showHexInputType(inputType)}")
+                } else if (result?.passwordId == null && result?.passwordValue == null) {
+                    result?.passwordId = autofillId
+                    result?.passwordValue = node.autofillValue
+                    Log.d(TAG, "Autofill visible password android text type (as password): ${showHexInputType(inputType)}")
+                }
+            }
+            inputIsVariationType(inputType,
+                InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD) -> {
+                result?.passwordId = autofillId
+                result?.passwordValue = node.autofillValue
+                Log.d(TAG, "Autofill password android text type: ${showHexInputType(inputType)}")
+                return true
+            }
+            inputIsVariationType(inputType,
+                InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT,
+                InputType.TYPE_TEXT_VARIATION_FILTER,
+                InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE,
+                InputType.TYPE_TEXT_VARIATION_PHONETIC,
+                InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS,
+                InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE,
+                InputType.TYPE_TEXT_VARIATION_URI) -> {
+                // Type not used
+                Log.d(TAG, "Autofill not used android text type: ${showHexInputType(inputType)}")
+            }
+            else -> {
+                Log.d(TAG, "Autofill unknown android text type: ${showHexInputType(inputType)}")
+            }
+        }
+        return false
+    }
+
+    private fun manageTypeNumber(
+        node: AssistStructure.ViewNode,
+        autofillId: AutofillId?,
+        inputType: Int
+    ): Boolean {
+        when {
+            inputIsVariationType(inputType,
+                InputType.TYPE_NUMBER_VARIATION_NORMAL) -> {
+                if (usernameIdCandidate == null) {
+                    usernameIdCandidate = autofillId
+                    usernameValueCandidate = node.autofillValue
+                    Log.d(TAG, "Autofill username candidate android number type: ${showHexInputType(inputType)}")
+                }
+            }
+            inputIsVariationType(inputType,
+                InputType.TYPE_NUMBER_VARIATION_PASSWORD) -> {
+                result?.passwordId = autofillId
+                result?.passwordValue = node.autofillValue
+                Log.d(TAG, "Autofill password android number type: ${showHexInputType(inputType)}")
+                return true
+            }
+            else -> {
+                Log.d(TAG, "Autofill unknown android number type: ${showHexInputType(inputType)}")
+            }
+        }
+        return false
+    }
+
+    private fun manageTypeNull(
+        node: AssistStructure.ViewNode,
+        autofillId: AutofillId?,
+        inputType: Int
+    ): Boolean {
+        if (node.className == "android.widget.EditText") {
+            Log.d(TAG, "Autofill null android input type class: ${showHexInputType(inputType)}" +
+                    ", get the EditText node class name!")
+            if (result?.passwordId == null) {
+                usernameIdCandidate = autofillId
+                usernameValueCandidate = node.autofillValue
+            }
+        }
+        return false
+    }
+
     private fun parseNodeByAndroidInput(node: AssistStructure.ViewNode): Boolean {
         val autofillId = node.autofillId
         val inputType = node.inputType
         when (inputType and InputType.TYPE_MASK_CLASS) {
             InputType.TYPE_CLASS_TEXT -> {
-                when {
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
-                            InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) -> {
-                        if (result?.passwordId == null) {
-                            result?.usernameId = autofillId
-                            result?.usernameValue = node.autofillValue
-                            Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
-                        }
-                    }
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_TEXT_VARIATION_NORMAL,
-                            InputType.TYPE_TEXT_VARIATION_PERSON_NAME,
-                            InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) -> {
-                        // Assume the username field is before the password field
-                        if (result?.passwordId == null) {
-                            usernameIdCandidate = autofillId
-                            usernameValueCandidate = node.autofillValue
-                        }
-                        Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
-                    }
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {
-                        // Some forms used visible password as username
-                        if (result?.passwordId == null &&
-                            usernameIdCandidate == null && usernameValueCandidate == null) {
-                            usernameIdCandidate = autofillId
-                            usernameValueCandidate = node.autofillValue
-                            Log.d(TAG, "Autofill visible password android text type (as username): ${showHexInputType(inputType)}")
-                        } else if (result?.passwordId == null && result?.passwordValue == null) {
-                            result?.passwordId = autofillId
-                            result?.passwordValue = node.autofillValue
-                            Log.d(TAG, "Autofill visible password android text type (as password): ${showHexInputType(inputType)}")
-                            usernameNeeded = false
-                        }
-                    }
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_TEXT_VARIATION_PASSWORD,
-                            InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD) -> {
-                        result?.passwordId = autofillId
-                        result?.passwordValue = node.autofillValue
-                        Log.d(TAG, "Autofill password android text type: ${showHexInputType(inputType)}")
-                        return true
-                    }
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT,
-                            InputType.TYPE_TEXT_VARIATION_FILTER,
-                            InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE,
-                            InputType.TYPE_TEXT_VARIATION_PHONETIC,
-                            InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS,
-                            InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE,
-                            InputType.TYPE_TEXT_VARIATION_URI) -> {
-                        // Type not used
-                    }
-                    else -> {
-                        Log.d(TAG, "Autofill unknown android text type: ${showHexInputType(inputType)}")
-                    }
-                }
+                return manageTypeText(node, autofillId, inputType)
             }
             InputType.TYPE_CLASS_NUMBER -> {
-                when {
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_NUMBER_VARIATION_NORMAL) -> {
-                        if (usernameIdCandidate == null) {
-                            usernameIdCandidate = autofillId
-                            usernameValueCandidate = node.autofillValue
-                            Log.d(TAG, "Autofill username candidate android number type: ${showHexInputType(inputType)}")
-                        }
-                    }
-                    inputIsVariationType(inputType,
-                            InputType.TYPE_NUMBER_VARIATION_PASSWORD) -> {
-                        result?.passwordId = autofillId
-                        result?.passwordValue = node.autofillValue
-                        Log.d(TAG, "Autofill password android number type: ${showHexInputType(inputType)}")
-                        return true
-                    }
-                    else -> {
-                        Log.d(TAG, "Autofill unknown android number type: ${showHexInputType(inputType)}")
-                    }
-                }
+                return manageTypeNumber(node, autofillId, inputType)
+            }
+            InputType.TYPE_NULL -> {
+                return manageTypeNull(node, autofillId, inputType)
             }
         }
         return false
@@ -453,21 +490,13 @@ class StructureParser(private val structure: AssistStructure) {
         var creditCardExpirationDayOptions: Array<CharSequence>? = null
 
         var usernameId: AutofillId? = null
-
         var passwordId: AutofillId? = null
-
         var creditCardHolderId: AutofillId? = null
-
         var creditCardNumberId: AutofillId? = null
-
         var creditCardExpirationDateId: AutofillId? = null
-
         var creditCardExpirationYearId: AutofillId? = null
-
         var creditCardExpirationMonthId: AutofillId? = null
-
         var creditCardExpirationDayId: AutofillId? = null
-
         var cardVerificationValueId: AutofillId? = null
 
         fun allAutofillIds(): Array<AutofillId> {
