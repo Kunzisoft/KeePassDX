@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.AutofillBlocklistAdapter
+import com.kunzisoft.keepass.utils.getParcelableArrayCompat
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.HashSet
@@ -36,8 +37,9 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat(),
         AutofillBlocklistAdapter.ItemDeletedCallback<SearchInfo> {
 
-    private var persistedItems = TreeSet<SearchInfo>(
-            Comparator { o1, o2 -> o1.toString().compareTo(o2.toString()) })
+    private var persistedItems = TreeSet<SearchInfo> { o1, o2 ->
+        o1.toString().compareTo(o2.toString())
+    }
 
     private var filterAdapter: AutofillBlocklistAdapter<SearchInfo>? = null
 
@@ -49,11 +51,9 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
         super.onCreate(savedInstanceState)
 
         // To get items for saved instance state
-        savedInstanceState?.getParcelableArray(ITEMS_KEY)?.let {
+        savedInstanceState?.getParcelableArrayCompat<SearchInfo>(ITEMS_KEY)?.let {
             it.forEach { itemSaved ->
-                (itemSaved as SearchInfo?)?.let { item ->
-                    persistedItems.add(item)
-                }
+                persistedItems.add(itemSaved)
             }
         } ?: run {
             // Or from preference
@@ -66,7 +66,7 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        setOnInputTextEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+        setOnInputTextEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
                     if (inputText.isEmpty()) {
@@ -78,9 +78,10 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
                         false
                     }
                 }
+
                 else -> false
             }
-        })
+        }
 
         val addItemButton = view.findViewById<View>(R.id.add_item_button)
         addItemButton?.setOnClickListener {

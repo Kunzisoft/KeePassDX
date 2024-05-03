@@ -19,11 +19,13 @@
 -->
 <resources>
     <style name="KeepassDXStyle.Light.v27" parent="KeepassDXStyle.Light.v23" >
-        <item name="android:navigationBarColor">@color/white_dark</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
     <style name="KeepassDXStyle.Night.v27" parent="KeepassDXStyle.Night.v23" >
-        <item name="android:navigationBarColor">@color/grey_dark</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
         <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 </resources>

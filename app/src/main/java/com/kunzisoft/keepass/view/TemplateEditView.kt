@@ -16,6 +16,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import org.joda.time.DateTime
 
@@ -216,14 +217,12 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setCurrentDateTimeValue(date: DataDate) {
+    fun setCurrentDateTimeValue(dateMilliseconds: Long) {
         // Save the date
         setCurrentDateTimeSelection { instant ->
             val newDateInstant = DateInstant(
                 DateTime(instant.date)
-                .withYear(date.year)
-                .withMonthOfYear(date.month + 1)
-                .withDayOfMonth(date.day)
+                    .withMillis(dateMilliseconds)
                 .toDate(), instant.type)
             if (instant.type == DateInstant.Type.DATE_TIME) {
                 val instantTime = DateInstant(instant.date, DateInstant.Type.TIME)

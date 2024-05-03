@@ -21,13 +21,11 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.R
 
@@ -70,7 +68,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         get() = textUnitView?.text?.toString() ?: ""
         set(unitText) {
             textUnitView?.apply {
-                if (unitText != null && unitText.isNotEmpty()) {
+                if (!unitText.isNullOrEmpty()) {
                     text = unitText
                     visibility = View.VISIBLE
                 } else {
@@ -88,7 +86,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         get() = textExplanationView?.text?.toString() ?: ""
         set(explanationText) {
             textExplanationView?.apply {
-                if (explanationText != null && explanationText.isNotEmpty()) {
+                if (!explanationText.isNullOrEmpty()) {
                     text = explanationText
                     visibility = View.VISIBLE
                 } else {
@@ -107,7 +105,7 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
 
     fun setExplanationButton(explanationButtonText: String?, clickListener: View.OnClickListener) {
         explanationButton?.apply {
-            if (explanationButtonText != null && explanationButtonText.isNotEmpty()) {
+            if (!explanationButtonText.isNullOrEmpty()) {
                 text = explanationButtonText
                 visibility = View.VISIBLE
                 setOnClickListener(clickListener)
@@ -155,20 +153,6 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         explanationButton?.visibility = View.GONE
         switchElementView = view.findViewById(R.id.switch_element)
         switchElementView?.visibility = View.GONE
-    }
-
-    protected fun hideKeyboard(): Boolean {
-        context?.let {
-            ContextCompat.getSystemService(it, InputMethodManager::class.java)?.let { inputManager ->
-                activity?.currentFocus?.let { focus ->
-                    val windowToken = focus.windowToken
-                    if (windowToken != null) {
-                        return inputManager.hideSoftInputFromWindow(windowToken, 0)
-                    }
-                }
-            }
-        }
-        return false
     }
 
     fun setSwitchAction(onCheckedChange: ((isChecked: Boolean)-> Unit)?, defaultChecked: Boolean) {

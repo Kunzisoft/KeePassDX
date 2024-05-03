@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:alpha="0.46" android:color="?attr/colorOnSurface" android:state_hovered="true"/>
+    <item android:alpha="0.38" android:color="?attr/colorOnSurface" android:state_enabled="false"/>
+    <item android:alpha="1.00" android:color="?attr/colorOnSurface"/>
+</selector>

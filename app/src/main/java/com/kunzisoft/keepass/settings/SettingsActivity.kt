@@ -26,6 +26,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -35,13 +36,13 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.MainCredential
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import org.joda.time.DateTime
-import java.util.*
+import java.util.Properties
 
 open class SettingsActivity
     : DatabaseLockActivity(),
@@ -54,6 +55,7 @@ open class SettingsActivity
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var lockView: FloatingActionButton? = null
+    private var footer: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,10 +64,19 @@ open class SettingsActivity
 
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
+        lockView = findViewById(R.id.lock_button)
+        footer = findViewById(R.id.screenshot_mode_banner)
+
+        // To apply navigation bar with background color
+        /* TODO Settings nav bar
+        setTransparentNavigationBar {
+            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }*/
 
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { selectedFileUri ->
-            // Import app properties result
+            // Import app settings result
             try {
                 selectedFileUri?.let { uri ->
                     val appProperties = Properties()
@@ -80,11 +91,11 @@ open class SettingsActivity
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, R.string.error_import_app_properties, Toast.LENGTH_LONG).show()
-                Log.e(TAG, "Unable to import app properties", e)
+                Log.e(TAG, "Unable to import app settings", e)
             }
         }
         mExternalFileHelper?.buildCreateDocument { createdFileUri ->
-            // Export app properties result
+            // Export app settings result
             try {
                 createdFileUri?.let { uri ->
                     contentResolver?.openOutputStream(uri)?.use { outputStream ->
@@ -96,7 +107,7 @@ open class SettingsActivity
                 }
             } catch (e: Exception) {
                 Toast.makeText(this, R.string.error_export_app_properties, Toast.LENGTH_LONG).show()
-                Log.e(DatabaseLockActivity.TAG, "Unable to export app properties", e)
+                Log.e(DatabaseLockActivity.TAG, "Unable to export app settings", e)
             }
         }
 
@@ -107,7 +118,6 @@ open class SettingsActivity
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
             lockAndExit()
         }
@@ -150,7 +160,7 @@ open class SettingsActivity
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -166,7 +176,7 @@ open class SettingsActivity
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> onBackPressed()
+            android.R.id.home -> onDatabaseBackPressed()
         }
 
         return super.onOptionsItemSelected(item)
@@ -200,10 +210,10 @@ open class SettingsActivity
         }
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         // this if statement is necessary to navigate through nested and main fragments
         if (supportFragmentManager.backStackEntryCount == 0) {
-            super.onBackPressed()
+            super.onDatabaseBackPressed()
         } else {
             supportFragmentManager.popBackStack()
         }

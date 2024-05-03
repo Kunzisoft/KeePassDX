@@ -1,0 +1,7 @@
+ * Nouveau UX/UI avec Material 3 #1183 #1529 #1428 #1441 #1607
+ * Thème Material You (follow system colors) #1469
+ * Refactorisation du code interne #1371
+ * Migration vers API 33
+ * Couper, copier et supprimer depuis la recherche #891 #1308 #1263
+ * Corrections de comportements #1351 #874 #1327
+ * Corrections de bugs #1589 #1584 #1545 #1563 #1371 #1609

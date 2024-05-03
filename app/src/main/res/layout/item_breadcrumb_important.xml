@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2021 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/breadcrumb_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/min_height_breadcrumb"
+    android:layout_marginVertical="@dimen/margin_vertical_breadcrumb"
+    android:background="?android:attr/selectableItemBackground"
+    style="@style/KeepassDXStyle.Cardview.Surface.Small">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="5dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:baselineAligned="false">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:gravity="center_vertical">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/group_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:tint="?attr/colorOnSurface"
+                android:scaleType="fitXY" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_numbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="3"
+                style="@style/KeepassDXStyle.Text.Badge" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_weight="1">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/root"
+                android:maxLines="2"
+                android:ellipsize="end"
+                style="@style/KeepassDXStyle.Title.Group" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/group_meta"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                tools:text="7543A7EAB2EA7CFD1394F1615EBEB08C"
+                android:lines="1"
+                android:singleLine="true"
+                style="@style/KeepassDXStyle.Text.Meta.OnSurface" />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.utils.DataByte
 
 class DatabaseMaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -34,7 +34,7 @@ class DatabaseMaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePrefere
         setExplanationText(R.string.max_history_size_summary)
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         database?.historyMaxSize?.let { maxItemsDatabase ->
             dataByte = DataByte(maxItemsDatabase, DataByte.ByteFormat.BYTE)
@@ -61,7 +61,7 @@ class DatabaseMaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePrefere
         }
     }
 
-    override fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+    override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         super.onDialogClosed(database, positiveResult)
         if (positiveResult) {
             database?.let {

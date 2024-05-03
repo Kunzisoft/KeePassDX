@@ -27,10 +27,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.viewmodels.IconPickerViewModel
 
 class IconEditDialogFragment : DatabaseDialogFragment() {
@@ -44,7 +45,7 @@ class IconEditDialogFragment : DatabaseDialogFragment() {
 
     private var mCustomIcon: IconImageCustom? = null
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
             database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon)
@@ -63,11 +64,11 @@ class IconEditDialogFragment : DatabaseDialogFragment() {
 
             if (savedInstanceState != null
                     && savedInstanceState.containsKey(KEY_CUSTOM_ICON_ID)) {
-                mCustomIcon = savedInstanceState.getParcelable(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
+                mCustomIcon = savedInstanceState.getParcelableCompat(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
             } else {
                 arguments?.apply {
                     if (containsKey(KEY_CUSTOM_ICON_ID)) {
-                        mCustomIcon = getParcelable(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
+                        mCustomIcon = getParcelableCompat(KEY_CUSTOM_ICON_ID) ?: mCustomIcon
                     }
                 }
             }

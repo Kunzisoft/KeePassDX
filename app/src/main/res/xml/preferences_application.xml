@@ -22,32 +22,32 @@
     <PreferenceCategory
         android:title="@string/general">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/allow_no_password_key"
             android:title="@string/allow_no_password_title"
             android:summary="@string/allow_no_password_summary"
             android:defaultValue="@bool/allow_no_password_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/delete_entered_password_key"
             android:title="@string/delete_entered_password_title"
             android:summary="@string/delete_entered_password_summary"
             android:defaultValue="@bool/delete_entered_password_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/enable_read_only_key"
             android:title="@string/enable_read_only_title"
             android:summary="@string/enable_read_only_summary"
             android:defaultValue="@bool/enable_read_only_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/enable_auto_save_database_key"
             android:title="@string/enable_auto_save_database_title"
             android:summary="@string/enable_auto_save_database_summary"
             android:defaultValue="@bool/enable_auto_save_database_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/enable_keep_screen_on_key"
             android:title="@string/enable_keep_screen_on_title"
             android:summary="@string/enable_keep_screen_on_summary"
             android:defaultValue="@bool/enable_keep_screen_on_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/enable_screenshot_mode_key"
             android:title="@string/enable_screenshot_mode_title"
             android:summary="@string/enable_screenshot_mode_summary"
@@ -58,12 +58,12 @@
     <PreferenceCategory
         android:title="@string/search">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/auto_focus_search_key"
             android:title="@string/auto_focus_search_title"
             android:summary="@string/auto_focus_search_summary"
             android:defaultValue="@bool/auto_focus_search_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/subdomain_search_key"
             android:title="@string/subdomain_search_title"
             android:summary="@string/subdomain_search_summary"
@@ -79,17 +79,17 @@
             android:summary="@string/app_timeout_summary"
             android:dialogTitle="@string/app_timeout"
             android:defaultValue="@string/timeout_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/lock_database_screen_off_key"
             android:title="@string/lock_database_screen_off_title"
             android:summary="@string/lock_database_screen_off_summary"
             android:defaultValue="@bool/lock_database_screen_off_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/lock_database_back_root_key"
             android:title="@string/lock_database_back_root_title"
             android:summary="@string/lock_database_back_root_summary"
             android:defaultValue="@bool/lock_database_back_root_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/lock_database_show_button_key"
             android:title="@string/lock_database_show_button_title"
             android:summary="@string/lock_database_show_button_summary"
@@ -100,30 +100,30 @@
     <PreferenceCategory
         android:title="@string/database_history">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/remember_database_locations_key"
             android:title="@string/remember_database_locations_title"
             android:summary="@string/remember_database_locations_summary"
             android:defaultValue="@bool/remember_database_locations_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/remember_keyfile_locations_key"
             android:title="@string/remember_keyfile_locations_title"
             android:summary="@string/remember_keyfile_locations_summary"
             android:dependency="@string/remember_database_locations_key"
             android:defaultValue="@bool/remember_keyfile_locations_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/remember_hardware_key_key"
             android:title="@string/remember_hardware_key_title"
             android:summary="@string/remember_hardware_key_summary"
             android:dependency="@string/remember_database_locations_key"
             android:defaultValue="@bool/remember_hardware_key_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/show_recent_files_key"
             android:title="@string/show_recent_files_title"
             android:summary="@string/show_recent_files_summary"
             android:dependency="@string/remember_database_locations_key"
             android:defaultValue="@bool/show_recent_files_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/hide_broken_locations_key"
             android:title="@string/hide_broken_locations_title"
             android:summary="@string/hide_broken_locations_summary"

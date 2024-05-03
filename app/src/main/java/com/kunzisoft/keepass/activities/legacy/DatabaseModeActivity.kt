@@ -3,13 +3,14 @@ package com.kunzisoft.keepass.activities.legacy
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.TypeMode
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.view.SpecialModeView
+import com.kunzisoft.keepass.view.ToolbarSpecial
 
 
 /**
@@ -20,20 +21,22 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
     private var mTypeMode: TypeMode = TypeMode.DEFAULT
 
-    private var mSpecialModeView: SpecialModeView? = null
+    private var mToolbarSpecial: ToolbarSpecial? = null
 
-    override fun onBackPressed() {
+    open fun onDatabaseBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)
             onCancelSpecialMode()
         else
-            super.onBackPressed()
+            onRegularBackPressed()
     }
 
     /**
      * To call the regular onBackPressed() method in special mode
      */
     protected fun onRegularBackPressed() {
-        super.onBackPressed()
+        // Do not call onBackPressedDispatcher.onBackPressed() to avoid loop
+        // Calling onBackPressed() is now deprecated, directly finish the activity
+        finish()
     }
 
     /**
@@ -72,7 +75,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     open fun onCancelSpecialMode() {
         if (isIntentSender()) {
             // To get the app caller, only for IntentSender
-            super.onBackPressed()
+            onRegularBackPressed()
         } else {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
@@ -85,7 +88,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     protected fun backToTheAppCaller() {
         if (isIntentSender()) {
             // To get the app caller, only for IntentSender
-            super.onBackPressed()
+            onRegularBackPressed()
         } else {
             backToTheMainAppAndFinish()
         }
@@ -100,6 +103,12 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onDatabaseBackPressed()
+            }
+        })
+
         mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
         mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
     }
@@ -113,8 +122,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
                 ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
 
         // To show the selection mode
-        mSpecialModeView = findViewById(R.id.special_mode_view)
-        mSpecialModeView?.apply {
+        mToolbarSpecial = findViewById(R.id.special_mode_view)
+        mToolbarSpecial?.apply {
             // Populate title
             val selectionModeStringId = when (mSpecialMode) {
                 SpecialMode.DEFAULT, // Not important because hidden

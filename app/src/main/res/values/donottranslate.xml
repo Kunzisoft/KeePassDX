@@ -31,8 +31,10 @@
     <string name="app_name_part3" translatable="false">Pro</string>
 
     <string name="play_store_url" translatable="false">https://play.google.com/store/apps/details?id=%1$s</string>
+    <string name="f_droid_url" translatable="false">https://f-droid.org/en/packages/%1$s</string>
     <string name="keepro_app_id" translatable="false">com.kunzisoft.keepass.pro</string>
-    <string name="key_driver_url" translatable="false">https://gitlab.com/kunzisoft/android-hardware-key-driver#user-content-download</string>
+    <string name="key_driver_app_id" translatable="false">com.kunzisoft.hardware.key</string>
+    <string name="key_driver_url" translatable="false">https://gitlab.com/kunzisoft/android-hardware-key-driver/-/releases/</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/#donation</string>
     <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
     <string name="external_icon_url" translatable="false">https://www.keepassdx.com/#icons</string>
@@ -143,7 +145,7 @@
     <string name="keyboard_save_search_info_key" translatable="false">keyboard_save_search_info_key</string>
     <bool name="keyboard_save_search_info_default" translatable="false">false</bool>
     <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>
-    <bool name="keyboard_auto_go_action_default" translatable="false">true</bool>
+    <bool name="keyboard_auto_go_action_default" translatable="false">false</bool>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
@@ -258,6 +260,7 @@
     <bool name="search_option_templates_default" translatable="false">false</bool>
 
     <!-- Database Settings -->
+    <string name="settings_database_category_key" translatable="false">settings_database_category_key</string>
     <string name="settings_database_key" translatable="false">settings_database_key</string>
     <string name="settings_database_security_key" translatable="false">settings_database_security_key</string>
     <string name="settings_database_credentials_key" translatable="false">settings_database_credentials_key</string>
@@ -348,6 +351,8 @@
     <bool name="education_add_attachment_default" translatable="false">false</bool>
     <string name="education_setup_OTP_key" translatable="false">education_setup_OTP_key</string>
     <bool name="education_setup_OTP_default" translatable="false">false</bool>
+    <string name="education_validate_entry_key" translatable="false">education_validate_entry_key</string>
+    <bool name="education_validate_entry_default" translatable="false">false</bool>
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
     <bool name="education_screen_reclicked_default" translatable="false">false</bool>
 
@@ -390,6 +395,8 @@
     <string name="list_style_name_reply_night" translatable="false">KeepassDXStyle_Reply_Night</string>
     <string name="list_style_name_purple" translatable="false">KeepassDXStyle_Purple</string>
     <string name="list_style_name_purple_dark" translatable="false">KeepassDXStyle_Purple_Dark</string>
+    <string name="list_style_name_dynamic_light" translatable="false">KeepassDXStyle_Dynamic_Light</string>
+    <string name="list_style_name_dynamic_night" translatable="false">KeepassDXStyle_Dynamic_Night</string>
     <string-array name="list_style_values_light">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_white</item>
@@ -399,6 +406,7 @@
         <item translatable="false">@string/list_style_name_red</item>
         <item translatable="false">@string/list_style_name_reply</item>
         <item translatable="false">@string/list_style_name_purple</item>
+        <item translatable="false">@string/list_style_name_dynamic_light</item>
     </string-array>
     <string-array name="list_style_values_night">
         <item translatable="false">@string/list_style_name_night</item>
@@ -409,6 +417,7 @@
         <item translatable="false">@string/list_style_name_red_night</item>
         <item translatable="false">@string/list_style_name_reply_night</item>
         <item translatable="false">@string/list_style_name_purple_dark</item>
+        <item translatable="false">@string/list_style_name_dynamic_night</item>
     </string-array>
     <string name="list_style_brightness_light" translatable="false">KeepassDXStyle_Brightness_Light</string>
     <string name="list_style_brightness_night" translatable="false">KeepassDXStyle_Brightness_Night</string>

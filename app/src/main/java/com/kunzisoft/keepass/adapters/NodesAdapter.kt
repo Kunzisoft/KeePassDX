@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
 import android.util.TypedValue
@@ -29,12 +30,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
@@ -42,21 +44,23 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
-import java.util.*
+import java.util.LinkedList
 
 /**
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-class NodesAdapter (private val context: Context,
-                    private val database: Database)
-    : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
+class NodesAdapter (
+    private val context: Context,
+    private val database: ContextualDatabase
+) : RecyclerView.Adapter<NodesAdapter.NodeViewHolder>() {
 
     private var mNodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
     private val mNodeSortedListCallback: NodeSortedListCallback
@@ -87,15 +91,17 @@ class NodesAdapter (private val context: Context,
     private var mClipboardHelper = ClipboardHelper(context)
 
     @ColorInt
+    private val mColorSurfaceContainer: Int
+    @ColorInt
     private val mTextColorPrimary: Int
     @ColorInt
     private val mTextColor: Int
     @ColorInt
     private val mTextColorSecondary: Int
     @ColorInt
-    private val mColorAccentLight: Int
+    private val mColorSecondary: Int
     @ColorInt
-    private val mColorOnAccentColor: Int
+    private val mColorOnSecondary: Int
 
     /**
      * Determine if the adapter contains or not any element
@@ -112,26 +118,29 @@ class NodesAdapter (private val context: Context,
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
+        val taColorSurfaceContainer = context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
+        this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
+        taColorSurfaceContainer.recycle()
         // Retrieve the color to tint the icon
-        val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
+        val taTextColorPrimary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.mTextColorPrimary = taTextColorPrimary.getColor(0, Color.BLACK)
         taTextColorPrimary.recycle()
         // To get text color
-        val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
+        val taTextColor = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         this.mTextColor = taTextColor.getColor(0, Color.BLACK)
         taTextColor.recycle()
         // To get text color secondary
-        val taTextColorSecondary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
+        val taTextColorSecondary = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
         this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
         taTextColorSecondary.recycle()
         // To get background color for selection
-        val taColorAccentLight = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccentLight))
-        this.mColorAccentLight = taColorAccentLight.getColor(0, Color.GRAY)
-        taColorAccentLight.recycle()
+        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
+        taColorSecondary.recycle()
         // To get text color for selection
-        val taColorOnAccentColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnAccentColor))
-        this.mColorOnAccentColor = taColorOnAccentColor.getColor(0, Color.WHITE)
-        taColorOnAccentColor.recycle()
+        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
+        this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
+        taColorOnSecondary.recycle()
     }
 
     private fun assignPreferences() {
@@ -152,7 +161,9 @@ class NodesAdapter (private val context: Context,
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
-        this.mEntryFilters = Group.ChildFilter.getDefaults(context)
+        this.mEntryFilters = Group.ChildFilter.getDefaults(
+            PreferencesUtil.showExpiredEntries(context)
+        )
 
         // Reinit textSize for all view type
         mCalculateViewTypeTextSize.forEachIndexed { index, _ -> mCalculateViewTypeTextSize[index] = true }
@@ -186,6 +197,7 @@ class NodesAdapter (private val context: Context,
                         && oldItem.containsAttachment() == newItem.containsAttachment()
             } else if (oldItem is Group && newItem is Group) {
                 typeContentTheSame = oldItem.numberOfChildEntries == newItem.numberOfChildEntries
+                        && oldItem.recursiveNumberOfChildEntries == newItem.recursiveNumberOfChildEntries
                         && oldItem.notes == newItem.notes
             }
             return typeContentTheSame
@@ -376,10 +388,10 @@ class NodesAdapter (private val context: Context,
 
         // Assign icon colors
         var iconColor = if (holder.container.isSelected)
-            mColorOnAccentColor
+            mColorOnSecondary
         else when (subNode.type) {
-            Type.GROUP -> mTextColorPrimary
-            Type.ENTRY -> mTextColor
+            Type.GROUP -> mTextColor
+            Type.ENTRY -> mColorSecondary
         }
 
         // Specific elements for entry
@@ -424,16 +436,8 @@ class NodesAdapter (private val context: Context,
                     if (entry.containsAttachment()) View.VISIBLE else View.GONE
 
             // Assign colors
-            val backgroundColor = if (mShowEntryColors) entry.backgroundColor else null
-            if (!holder.container.isSelected) {
-                if (backgroundColor != null) {
-                    holder.container.setBackgroundColor(backgroundColor)
-                } else {
-                    holder.container.setBackgroundColor(Color.TRANSPARENT)
-                }
-            } else {
-                holder.container.setBackgroundColor(mColorAccentLight)
-            }
+            assignBackgroundColor(holder.container, entry)
+            assignBackgroundColor(holder.otpContainer, entry)
             val foregroundColor = if (mShowEntryColors) entry.foregroundColor else null
             if (!holder.container.isSelected) {
                 if (foregroundColor != null) {
@@ -453,12 +457,12 @@ class NodesAdapter (private val context: Context,
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
-                holder.text.setTextColor(mColorOnAccentColor)
-                holder.subText?.setTextColor(mColorOnAccentColor)
-                holder.otpToken?.setTextColor(mColorOnAccentColor)
-                holder.otpProgress?.setIndicatorColor(mColorOnAccentColor)
-                holder.attachmentIcon?.setColorFilter(mColorOnAccentColor)
-                holder.meta.setTextColor(mColorOnAccentColor)
+                holder.text.setTextColor(mColorOnSecondary)
+                holder.subText?.setTextColor(mColorOnSecondary)
+                holder.otpToken?.setTextColor(mColorOnSecondary)
+                holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
+                holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
+                holder.meta.setTextColor(mColorOnSecondary)
             }
 
             database.stopManageEntry(entry)
@@ -469,7 +473,7 @@ class NodesAdapter (private val context: Context,
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .numberOfChildEntries
+                            .recursiveNumberOfChildEntries
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
@@ -524,12 +528,29 @@ class NodesAdapter (private val context: Context,
                 try {
                     mClipboardHelper.copyToClipboard(
                         TemplateField.getLocalizedName(context, TemplateField.LABEL_TOKEN),
-                        token
+                        token,
+                        true
                     )
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to copy the OTP token", e)
                 }
             }
+        }
+    }
+
+    private fun assignBackgroundColor(view: View?, entry: Entry) {
+        view?.let {
+            ViewCompat.setBackgroundTintList(
+                view,
+                ColorStateList.valueOf(
+                    if (!view.isSelected) {
+                        (if (mShowEntryColors) entry.backgroundColor else null)
+                            ?: mColorSurfaceContainer
+                    } else {
+                        mColorSecondary
+                    }
+                )
+            )
         }
     }
 
@@ -562,8 +583,8 @@ class NodesAdapter (private val context: Context,
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(database: Database, node: Node)
-        fun onNodeLongClick(database: Database, node: Node): Boolean
+        fun onNodeClick(database: ContextualDatabase, node: Node)
+        fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

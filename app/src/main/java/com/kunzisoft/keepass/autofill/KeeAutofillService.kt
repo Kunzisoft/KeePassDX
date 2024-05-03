@@ -29,35 +29,33 @@ import android.os.CancellationSignal
 import android.service.autofill.*
 import android.util.Log
 import android.view.autofill.AutofillId
-import android.view.inputmethod.InlineSuggestionsRequest
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.CreditCard
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.WebDomain
 import org.joda.time.DateTime
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private var applicationIdBlocklist: Set<String>? = null
     private var webDomainBlocklist: Set<String>? = null
     private var askToSaveData: Boolean = false
     private var autofillInlineSuggestionsEnabled: Boolean = false
-    private var mLock = AtomicBoolean()
 
     override fun onCreate() {
         super.onCreate()
@@ -90,41 +88,43 @@ class KeeAutofillService : AutofillService() {
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
-        // Lock
-        if (!mLock.get()) {
-            mLock.set(true)
-            // Check user's settings for authenticating Responses and Datasets.
-            val latestStructure = request.fillContexts.last().structure
-            StructureParser(latestStructure).parse()?.let { parseResult ->
+        if (request.flags and FillRequest.FLAG_COMPATIBILITY_MODE_REQUEST != 0) {
+            Log.d(TAG, "Autofill requested in compatibility mode")
+        } else {
+            Log.d(TAG, "Autofill requested in native mode")
+        }
 
-                // Build search info only if applicationId or webDomain are not blocked
-                if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                        && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
-                    val searchInfo = SearchInfo().apply {
-                        applicationId = parseResult.applicationId
-                        webDomain = parseResult.webDomain
-                        webScheme = parseResult.webScheme
+        // Check user's settings for authenticating Responses and Datasets.
+        val latestStructure = request.fillContexts.last().structure
+        StructureParser(latestStructure).parse()?.let { parseResult ->
+
+            // Build search info only if applicationId or webDomain are not blocked
+            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.webDomain
+                    webScheme = parseResult.webScheme
+                }
+                WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                    searchInfo.webDomain = webDomainWithoutSubDomain
+                    val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                            && autofillInlineSuggestionsEnabled) {
+                        CompatInlineSuggestionsRequest(request)
+                    } else {
+                        null
                     }
-                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
-                        searchInfo.webDomain = webDomainWithoutSubDomain
-                        val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                                && autofillInlineSuggestionsEnabled) {
-                            CompatInlineSuggestionsRequest(request)
-                        } else {
-                            null
-                        }
-                        launchSelection(mDatabase,
-                                searchInfo,
-                                parseResult,
-                                inlineSuggestionsRequest,
-                                callback)
-                    }
+                    launchSelection(mDatabase,
+                            searchInfo,
+                            parseResult,
+                            inlineSuggestionsRequest,
+                            callback)
                 }
             }
         }
     }
 
-    private fun launchSelection(database: Database?,
+    private fun launchSelection(database: ContextualDatabase?,
                                 searchInfo: SearchInfo,
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
@@ -153,143 +153,201 @@ class KeeAutofillService : AutofillService() {
 
     @SuppressLint("RestrictedApi")
     private fun showUIForEntrySelection(parseResult: StructureParser.Result,
-                                        database: Database?,
+                                        database: ContextualDatabase?,
                                         searchInfo: SearchInfo,
                                         inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                         callback: FillCallback) {
+        var success = false
         parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val intentSender = AutofillLauncherActivity.getPendingIntentForSelection(this,
-                        searchInfo, inlineSuggestionsRequest).intentSender
-                val responseBuilder = FillResponse.Builder()
-                val remoteViewsUnlock: RemoteViews = if (database == null) {
-                    if (!parseResult.webDomain.isNullOrEmpty()) {
-                        RemoteViews(
-                            packageName,
-                            R.layout.item_autofill_unlock_web_domain
-                        ).apply {
-                            setTextViewText(
-                                R.id.autofill_web_domain_text,
-                                parseResult.webDomain
-                            )
-                        }
-                    } else if (!parseResult.applicationId.isNullOrEmpty()) {
-                        RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
-                            setTextViewText(
-                                R.id.autofill_app_id_text,
-                                parseResult.applicationId
-                            )
-                        }
-                    } else {
-                        RemoteViews(packageName, R.layout.item_autofill_unlock)
-                    }
-                } else {
-                    if (!parseResult.webDomain.isNullOrEmpty()) {
-                        RemoteViews(
-                            packageName,
-                            R.layout.item_autofill_select_entry_web_domain
-                        ).apply {
-                            setTextViewText(
-                                R.id.autofill_web_domain_text,
-                                parseResult.webDomain
-                            )
-                        }
-                    } else if (!parseResult.applicationId.isNullOrEmpty()) {
-                        RemoteViews(packageName, R.layout.item_autofill_select_entry_app_id).apply {
-                            setTextViewText(
-                                R.id.autofill_app_id_text,
-                                parseResult.applicationId
-                            )
+                AutofillLauncherActivity.getPendingIntentForSelection(this,
+                        searchInfo, inlineSuggestionsRequest)?.intentSender?.let { intentSender ->
+                    val responseBuilder = FillResponse.Builder()
+                    val remoteViewsUnlock: RemoteViews = if (database == null) {
+                        if (!parseResult.webDomain.isNullOrEmpty()) {
+                            RemoteViews(
+                                packageName,
+                                R.layout.item_autofill_unlock_web_domain
+                            ).apply {
+                                setTextViewText(
+                                    R.id.autofill_web_domain_text,
+                                    parseResult.webDomain
+                                )
+                            }
+                        } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                            RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
+                                setTextViewText(
+                                    R.id.autofill_app_id_text,
+                                    parseResult.applicationId
+                                )
+                            }
+                        } else {
+                            RemoteViews(packageName, R.layout.item_autofill_unlock)
                         }
                     } else {
-                        RemoteViews(packageName, R.layout.item_autofill_select_entry)
-                    }
-                }
-
-                // Tell the autofill framework the interest to save credentials
-                if (askToSaveData) {
-                    var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
-                    val requiredIds = ArrayList<AutofillId>()
-                    val optionalIds = ArrayList<AutofillId>()
-
-                    // Only if at least a password
-                    parseResult.passwordId?.let { passwordInfo ->
-                        parseResult.usernameId?.let { usernameInfo ->
-                            types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
-                            requiredIds.add(usernameInfo)
+                        if (!parseResult.webDomain.isNullOrEmpty()) {
+                            RemoteViews(
+                                packageName,
+                                R.layout.item_autofill_select_entry_web_domain
+                            ).apply {
+                                setTextViewText(
+                                    R.id.autofill_web_domain_text,
+                                    parseResult.webDomain
+                                )
+                            }
+                        } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                            RemoteViews(
+                                packageName,
+                                R.layout.item_autofill_select_entry_app_id
+                            ).apply {
+                                setTextViewText(
+                                    R.id.autofill_app_id_text,
+                                    parseResult.applicationId
+                                )
+                            }
+                        } else {
+                            RemoteViews(packageName, R.layout.item_autofill_select_entry)
                         }
-                        types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
-                        requiredIds.add(passwordInfo)
                     }
-                    // or a credit card form
-                    if (requiredIds.isEmpty()) {
-                        parseResult.creditCardNumberId?.let { numberId ->
-                            types = types or SaveInfo.SAVE_DATA_TYPE_CREDIT_CARD
-                            requiredIds.add(numberId)
-                            Log.d(TAG, "Asking to save credit card number")
-                        }
-                        parseResult.creditCardExpirationDateId?.let { id -> optionalIds.add(id) }
-                        parseResult.creditCardExpirationYearId?.let { id -> optionalIds.add(id) }
-                        parseResult.creditCardExpirationMonthId?.let { id -> optionalIds.add(id) }
-                        parseResult.creditCardHolderId?.let { id -> optionalIds.add(id) }
-                        parseResult.cardVerificationValueId?.let { id -> optionalIds.add(id) }
-                    }
-                    if (requiredIds.isNotEmpty()) {
-                        val builder = SaveInfo.Builder(types, requiredIds.toTypedArray())
-                        if (optionalIds.isNotEmpty()) {
-                            builder.setOptionalIds(optionalIds.toTypedArray())
-                        }
-                        responseBuilder.setSaveInfo(builder.build())
-                    }
-                }
 
-                // Build inline presentation
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                        && autofillInlineSuggestionsEnabled) {
-                    var inlinePresentation: InlinePresentation? = null
-                    inlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
-                        val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
-                        if (inlineSuggestionsRequest.maxSuggestionCount > 0
-                                && inlinePresentationSpecs.size > 0) {
-                            val inlinePresentationSpec = inlinePresentationSpecs[0]
+                    // Tell the autofill framework the interest to save credentials
+                    if (askToSaveData) {
+                        var types: Int = SaveInfo.SAVE_DATA_TYPE_GENERIC
+                        val requiredIds = ArrayList<AutofillId>()
+                        val optionalIds = ArrayList<AutofillId>()
 
-                            // Make sure that the IME spec claims support for v1 UI template.
-                            val imeStyle = inlinePresentationSpec.style
-                            if (UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1)) {
-                                // Build the content for IME UI
-                                inlinePresentation = InlinePresentation(
+                        // Only if at least a password
+                        parseResult.passwordId?.let { passwordInfo ->
+                            parseResult.usernameId?.let { usernameInfo ->
+                                types = types or SaveInfo.SAVE_DATA_TYPE_USERNAME
+                                requiredIds.add(usernameInfo)
+                            }
+                            types = types or SaveInfo.SAVE_DATA_TYPE_PASSWORD
+                            requiredIds.add(passwordInfo)
+                        }
+                        // or a credit card form
+                        if (requiredIds.isEmpty()) {
+                            parseResult.creditCardNumberId?.let { numberId ->
+                                types = types or SaveInfo.SAVE_DATA_TYPE_CREDIT_CARD
+                                requiredIds.add(numberId)
+                                Log.d(TAG, "Asking to save credit card number")
+                            }
+                            parseResult.creditCardExpirationDateId?.let { id -> optionalIds.add(id) }
+                            parseResult.creditCardExpirationYearId?.let { id -> optionalIds.add(id) }
+                            parseResult.creditCardExpirationMonthId?.let { id -> optionalIds.add(id) }
+                            parseResult.creditCardHolderId?.let { id -> optionalIds.add(id) }
+                            parseResult.cardVerificationValueId?.let { id -> optionalIds.add(id) }
+                        }
+                        if (requiredIds.isNotEmpty()) {
+                            val builder = SaveInfo.Builder(types, requiredIds.toTypedArray())
+                            if (optionalIds.isNotEmpty()) {
+                                builder.setOptionalIds(optionalIds.toTypedArray())
+                            }
+                            responseBuilder.setSaveInfo(builder.build())
+                        }
+                    }
+
+                    // Build inline presentation
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                        && autofillInlineSuggestionsEnabled
+                    ) {
+                        var inlinePresentation: InlinePresentation? = null
+                        inlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
+                            val inlinePresentationSpecs =
+                                inlineSuggestionsRequest.inlinePresentationSpecs
+                            if (inlineSuggestionsRequest.maxSuggestionCount > 0
+                                && inlinePresentationSpecs.size > 0
+                            ) {
+                                val inlinePresentationSpec = inlinePresentationSpecs[0]
+
+                                // Make sure that the IME spec claims support for v1 UI template.
+                                val imeStyle = inlinePresentationSpec.style
+                                if (UiVersions.getVersions(imeStyle)
+                                        .contains(UiVersions.INLINE_UI_VERSION_1)
+                                ) {
+                                    // Build the content for IME UI
+                                    inlinePresentation = InlinePresentation(
                                         InlineSuggestionUi.newContentBuilder(
-                                                PendingIntent.getActivity(this,
-                                                    0,
-                                                    Intent(this, AutofillSettingsActivity::class.java),
-                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                        PendingIntent.FLAG_IMMUTABLE
-                                                    } else {
-                                                        0
-                                                    })
+                                            PendingIntent.getActivity(
+                                                this,
+                                                0,
+                                                Intent(this, AutofillSettingsActivity::class.java),
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    PendingIntent.FLAG_IMMUTABLE
+                                                } else {
+                                                    0
+                                                }
+                                            )
                                         ).apply {
                                             setContentDescription(getString(R.string.autofill_sign_in_prompt))
                                             setTitle(getString(R.string.autofill_sign_in_prompt))
-                                            setStartIcon(Icon.createWithResource(this@KeeAutofillService, R.mipmap.ic_launcher_round).apply {
-                                                setTintBlendMode(BlendMode.DST)
-                                            })
-                                        }.build().slice, inlinePresentationSpec, false)
+                                            setStartIcon(
+                                                Icon.createWithResource(
+                                                    this@KeeAutofillService,
+                                                    R.mipmap.ic_launcher_round
+                                                ).apply {
+                                                    setTintBlendMode(BlendMode.DST)
+                                                })
+                                        }.build().slice, inlinePresentationSpec, false
+                                    )
+                                }
                             }
                         }
+
+                        // Build response
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            try {
+                                // Buggy method on some API 33 devices
+                                responseBuilder.setAuthentication(
+                                    autofillIds,
+                                    intentSender,
+                                    Presentations.Builder().apply {
+                                        inlinePresentation?.let {
+                                            setInlinePresentation(it)
+                                        }
+                                        setDialogPresentation(remoteViewsUnlock)
+                                    }.build()
+                                )
+                            } catch (e: Exception) {
+                                Log.e(TAG, "Unable to use the new setAuthentication method.", e)
+                                @Suppress("DEPRECATION")
+                                responseBuilder.setAuthentication(
+                                    autofillIds,
+                                    intentSender,
+                                    remoteViewsUnlock,
+                                    inlinePresentation
+                                )
+                            }
+                        } else {
+                            @Suppress("DEPRECATION")
+                            responseBuilder.setAuthentication(
+                                autofillIds,
+                                intentSender,
+                                remoteViewsUnlock,
+                                inlinePresentation
+                            )
+                        }
+                    } else {
+                        @Suppress("DEPRECATION")
+                        responseBuilder.setAuthentication(
+                            autofillIds,
+                            intentSender,
+                            remoteViewsUnlock
+                        )
                     }
-                    // Build response
-                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock, inlinePresentation)
-                } else {
-                    responseBuilder.setAuthentication(autofillIds, intentSender, remoteViewsUnlock)
+                    success = true
+                    callback.onSuccess(responseBuilder.build())
                 }
-                callback.onSuccess(responseBuilder.build())
             }
         }
+        if (!success)
+            callback.onFailure("Unable to get Autofill ids for UI selection")
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
+        var success = false
         if (askToSaveData) {
             val latestStructure = request.fillContexts.last().structure
             StructureParser(latestStructure).parse(true)?.let { parseResult ->
@@ -332,14 +390,16 @@ class KeeAutofillService : AutofillService() {
                     //    callback.onSuccess(AutofillLauncherActivity.getAuthIntentSenderForRegistration(this,
                     //            registerInfo))
                     //} else {
-                        AutofillLauncherActivity.launchForRegistration(this, registerInfo)
-                        callback.onSuccess()
+                    AutofillLauncherActivity.launchForRegistration(this, registerInfo)
+                    success = true
+                    callback.onSuccess()
                     //}
-                    return
                 }
             }
         }
-        callback.onFailure("Saving form values is not allowed")
+        if (!success) {
+            callback.onFailure("Saving form values is not allowed")
+        }
     }
 
     override fun onConnected() {
@@ -348,7 +408,6 @@ class KeeAutofillService : AutofillService() {
     }
 
     override fun onDisconnected() {
-        mLock.set(false)
         Log.d(TAG, "onDisconnected")
     }
 

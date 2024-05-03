@@ -21,22 +21,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/node_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/KeepassDXStyle.Selectable.Item">
+    android:paddingTop="@dimen/selectable_margin_top"
+    android:paddingHorizontal="@dimen/selectable_margin_horizontal">
 
     <RelativeLayout
+        android:id="@+id/node_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
-        android:minHeight="48dp"
+        android:minHeight="@dimen/selectable_min_height"
+        style="@style/KeepassDXStyle.Selectable.Item"
         app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="?android:attr/selectableItemBackground" >
+        app:layout_constraintEnd_toEndOf="parent" >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
@@ -56,7 +57,7 @@
 
         <TextView
             android:id="@+id/node_child_numbers"
-            style="@style/KeepassDXStyle.TextAppearance.Info"
+            style="@style/KeepassDXStyle.Text.Badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/node_icon"
@@ -80,7 +81,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_text"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Title"
+                style="@style/KeepassDXStyle.Title.Group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -90,7 +91,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/node_meta"
-                style="@style/KeepassDXStyle.TextAppearance.Group.Meta"
+                style="@style/KeepassDXStyle.Meta.Group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"

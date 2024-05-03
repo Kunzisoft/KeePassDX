@@ -29,14 +29,15 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.action.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class AttachmentFileNotificationService: LockNotificationService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private val mPendingCommands: MutableList<Intent?> = mutableListOf()
 
     override val notificationId: Int = 10000
@@ -131,7 +132,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private fun actionRequested(intent: Intent?) {
 
         val downloadFileUri: Uri? = if (intent?.hasExtra(FILE_URI_KEY) == true) {
-            intent.getParcelableExtra(FILE_URI_KEY)
+            intent.getParcelableExtraCompat(FILE_URI_KEY)
         } else null
 
         when(intent?.action) {
@@ -149,7 +150,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     StreamDirection.DOWNLOAD)
             }
             ACTION_ATTACHMENT_REMOVE -> {
-                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                intent.getParcelableExtraCompat<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
                     attachmentNotificationList.firstOrNull { it.entryAttachmentState.attachment == entryAttachment }?.let { elementToRemove ->
                         attachmentNotificationList.remove(elementToRemove)
                     }
@@ -218,7 +219,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
             }
         )
 
-        val fileName = UriUtil.getFileData(this, attachmentNotification.uri)?.name
+        val fileName = attachmentNotification.uri.getDocumentFile(this)?.name
                 ?: attachmentNotification.uri.path
 
         val builder = buildNewNotification().apply {
@@ -239,10 +240,10 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     setOngoing(true)
                 }
                 AttachmentState.IN_PROGRESS -> {
-                    if (attachmentNotification.entryAttachmentState.downloadProgression > 100) {
+                    if (attachmentNotification.entryAttachmentState.downloadProgression > FILE_PROGRESSION_MAX) {
                         setContentText(getString(R.string.download_finalization))
                     } else {
-                        setProgress(100,
+                        setProgress(FILE_PROGRESSION_MAX,
                                 attachmentNotification.entryAttachmentState.downloadProgression,
                                 false)
                         setContentText(getString(R.string.download_progression,
@@ -280,7 +281,14 @@ class AttachmentFileNotificationService: LockNotificationService() {
             AttachmentState.CANCELED,
             AttachmentState.ERROR -> {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
-                notificationManager?.notify(attachmentNotification.notificationId, builder.build())
+                try {
+                    notificationManager?.notify(
+                        attachmentNotification.notificationId,
+                        builder.build()
+                    )
+                } catch (e: SecurityException) {
+                    Log.e(TAG, "Unable to notify the attachment state", e)
+                }
             } else -> {
                 startForeground(attachmentNotification.notificationId, builder.build())
             }
@@ -325,7 +333,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         if (fileUri != null
                 && intent.hasExtra(ATTACHMENT_KEY)) {
             try {
-                intent.getParcelableExtra<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                intent.getParcelableExtraCompat<Attachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
 
                     val nextNotificationId = (attachmentNotificationList.maxByOrNull { it.notificationId }
                             ?.notificationId ?: notificationId) + 1
@@ -365,9 +373,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     private class AttachmentFileAction(
-            private val attachmentNotification: AttachmentNotification,
-            private val database: Database,
-            private val contentResolver: ContentResolver) {
+        private val attachmentNotification: AttachmentNotification,
+        private val database: ContextualDatabase,
+        private val contentResolver: ContentResolver) {
 
         private val updateMinFrequency = 1000
         private var previousSaveTime = System.currentTimeMillis()
@@ -438,7 +446,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         if (downloadState != AttachmentState.CANCELED
                                 && downloadState != AttachmentState.ERROR) {
                             downloadState = AttachmentState.COMPLETE
-                            downloadProgression = 100
+                            downloadProgression = FILE_PROGRESSION_MAX
                         }
                     }
                     attachmentNotification.attachmentFileAction = null
@@ -487,6 +495,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         const val FILE_URI_KEY = "FILE_URI_KEY"
         const val ATTACHMENT_KEY = "ATTACHMENT_KEY"
+
+        const val FILE_PROGRESSION_MAX = 100
     }
 
 }

@@ -24,165 +24,162 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    android:fitsSystemWindows="true">
+    android:filterTouchesWhenObscured="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_group_container_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.kunzisoft.keepass.view.SpecialModeView
-            android:id="@+id/special_mode_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_group_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="?attr/toolbarSpecialAppearance"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+            <com.kunzisoft.keepass.view.ToolbarSpecial
+                android:id="@+id/special_mode_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="?attr/toolbarAppearance"
-            android:title="@string/app_name"
-            app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
-            <FrameLayout
-                android:id="@+id/database_name_container"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:title="@string/app_name"
+                app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
                 <TextView
                     android:id="@+id/database_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     tools:text="Database"
-                    style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
+                    style="@style/KeepassDXStyle.Title.OnSurface" />
+            </com.google.android.material.appbar.MaterialToolbar>
+
+            <FrameLayout
+                android:layout_width="48dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginLeft="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <ImageView
+                    android:id="@+id/database_color"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:visibility="gone"
+                    android:src="@drawable/background_rounded_square"
+                    android:contentDescription="@string/content_description_database_color"/>
+                <ImageView
+                    android:id="@+id/database_modified"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center_vertical|start"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_modified_white_12dp"
+                    android:contentDescription="@string/save"/>
             </FrameLayout>
-        </androidx.appcompat.widget.Toolbar>
-
-        <FrameLayout
-            android:layout_width="48dp"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/special_mode_view">
-
-        <ImageView
-                android:id="@+id/database_color"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical|start"
-                android:visibility="gone"
-                android:src="@drawable/background_rounded_square"
-                android:contentDescription="@string/content_description_database_color"/>
-            <ImageView
-                android:id="@+id/database_modified"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_gravity="center_vertical|start"
-                android:visibility="gone"
-                android:src="@drawable/ic_modified_white_12dp"
-                android:tint="?attr/textColorInverse"
-                android:contentDescription="@string/save"/>
-        </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/group_coordinator"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/toolbar_action"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_group_header">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:targetApi="lollipop"
-                android:fitsSystemWindows="true">
+                android:layout_height="wrap_content">
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/colorSurface"
                     app:layout_scrollFlags="scroll|snap|enterAlways">
 
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar_breadcrumb"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/breadcrumb_list"
                         android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:background="?attr/colorPrimary"
-                        android:theme="?attr/toolbarAppearance"
-                        tools:targetApi="lollipop">
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/breadcrumb_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                            android:orientation="horizontal" />
-                    </androidx.appcompat.widget.Toolbar>
+                        android:layout_height="64dp"
+                        android:paddingHorizontal="12dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal" />
 
                     <com.kunzisoft.keepass.view.SearchFiltersView
                         android:id="@+id/search_filters"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
                 </FrameLayout>
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <RelativeLayout
-                android:id="@+id/node_list_container"
+            <FrameLayout
+                android:id="@+id/nodes_list_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_below="@+id/toolbar">
+                android:background="?android:attr/windowBackground"
+                android:layout_below="@+id/toolbar" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                <FrameLayout
-                    android:id="@+id/nodes_list_fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/windowBackground" />
-            </RelativeLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/activity_group_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.kunzisoft.keepass.view.ToolbarAction
+                android:id="@+id/toolbar_action"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
 
             <com.kunzisoft.keepass.view.AddNodeButtonView
                 android:id="@+id/add_node_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_anchor="@+id/node_list_container"
+                app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_anchor="@+id/nodes_list_fragment_container"
                 app:layout_anchorGravity="end|bottom" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <com.kunzisoft.keepass.view.ToolbarAction
-            android:id="@+id/toolbar_action"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:visibility="gone"
-            android:theme="?attr/toolbarActionAppearance"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ProgressBar
-                android:id="@+id/loading"
+            <include
+                layout="@layout/view_button_lock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:indeterminate="true" />
-        </FrameLayout>
+                app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <include
-            layout="@layout/view_button_lock"
+            <include layout="@layout/view_screenshot_mode_banner" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/error_coordinator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"/>
+
+        <ProgressBar
+            android:id="@+id/loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
-
-        <include layout="@layout/view_screenshot_mode_banner" />
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.kunzisoft.keepass.view.NavigationDatabaseView
@@ -190,8 +187,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:itemTextColor="?android:attr/textColor"
-        app:subheaderColor="?attr/colorAccent"
-        android:fitsSystemWindows="true" />
+        style="@style/Widget.Material3.NavigationView" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

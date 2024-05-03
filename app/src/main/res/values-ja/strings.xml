@@ -267,7 +267,7 @@
     <string name="biometric_security_update_required">生体認証セキュリティの更新が必要です。</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
-    <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
+    <string name="unavailable">データベースの保存済み認証情報はありません。</string>
     <string name="database_history">履歴</string>
     <string name="menu_appearance_settings">デザイン</string>
     <string name="biometric">生体認証</string>
@@ -411,7 +411,7 @@
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="education_create_database_title">データベース ファイルを作成</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
-    <string name="education_select_database_title">既存のデータペースを開く</string>
+    <string name="education_select_database_title">既存のデータベースを開く</string>
     <string name="education_select_database_summary">これまで使ってきたデータベース ファイルを、ファイルブラウザから開いて引き続き使用します。</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。\n\nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
@@ -468,16 +468,7 @@
     </string-array>
     <string name="style_choose_title">アプリのテーマ</string>
     <string name="style_choose_summary">アプリで使用するテーマ</string>
-    <string-array name="list_style_names">
-        <item>Forest</item>
-        <item>Divine</item>
-        <item>Classic</item>
-        <item>Simple</item>
-        <item>Moon</item>
-        <item>Sun</item>
-        <item>Reply</item>
-        <item>Kunzite</item>
-    </string-array>
+    <string name="style_name_follow_system">システムに従う</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
     <string name="hide_expired_entries_title">有効期限切れのエントリーを非表示にする</string>
@@ -506,8 +497,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">高度なロック解除を使ってデータベースを開く</string>
     <string name="advanced_unlock_prompt_store_credential_message">高度なロック解除を使用する場合も、主たる認証情報は記憶する必要があります。</string>
     <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
-    <string name="open_advanced_unlock_prompt_store_credential">ログイン プロンプトを開いて認証情報を保存する</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">ログイン プロンプトを開いてロックを解除する</string>
     <string name="select_entry">エントリーを選択</string>
     <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
     <string name="education_advanced_unlock_title">データベースの高度なロック解除</string>
@@ -633,7 +622,7 @@
 \nKeyStore の互換性と安全性については、お使いのデバイスの製造元および使用するROMの作成者にご確認ください。</string>
     <string name="navigation_drawer_open">ナビゲーション ドロワーが開いています</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
-    <string name="auto_type_sequence">Auto-Type シークエンス</string>
+    <string name="auto_type_sequence">自動入力シークエンス</string>
     <string name="current_group">選択されたグループ</string>
     <string name="keyboard_previous_search_summary">検索画面で切り替え前のキーボードに自動的に戻します</string>
     <string name="menu_merge_from">マージ…</string>
@@ -645,4 +634,22 @@
     <string name="consider_chars_filter">対象に加える文字</string>
     <string name="ignore_chars_filter">使用しない文字</string>
     <string name="title_case">語頭を大文字</string>
+    <string name="enable_screenshot_mode_summary">サードパーティのアプリでこのアプリのスクリーンショットを撮れるようにします</string>
+    <string name="enable_screenshot_mode_title">スクリーンショット モード</string>
+    <string name="html_about_privacy">&lt;strong&gt;ユーザーからデータを取得しません&lt;/strong&gt;。このアプリケーションは特定のサーバーに接続せず、ローカルでのみ動作し、ユーザーのプライバシーを完全に尊重します。</string>
+    <string name="hardware_key">ハードウェアキー</string>
+    <string name="error_no_hardware_key">ハードウェアキーを選択してください。</string>
+    <string name="error_XML_malformed">XMLの形式が正しくありません。</string>
+    <string name="error_hardware_key_unsupported">ハードウェアキーには対応していません。</string>
+    <string name="remember_hardware_key_title">ハードウェアキーを記憶</string>
+    <string name="remember_hardware_key_summary">ハードウェアキーの使用記録を保持します</string>
+    <string name="screenshot_mode_banner_text">スクリーンショット モード</string>
+    <string name="content_description_nav_header">ナビゲーション ヘッダー</string>
+    <string name="content_description_hardware_key_checkbox">ハードウェアキーのチェックボックス</string>
+    <string name="error_empty_key">キーを空にすることはできません。</string>
+    <string name="corrupted_file">ファイルが破損しています。</string>
+    <string name="error_cancel_by_user">ユーザーによってキャンセルされました。</string>
+    <string name="error_location_unknown">データベースの場所が不明です。データベースへの操作を実行できません。</string>
+    <string name="error_driver_required">%1$s 用のドライバーが必要です。</string>
+    <string name="auto_type">自動入力</string>
 </resources>

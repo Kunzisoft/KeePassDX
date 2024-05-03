@@ -27,8 +27,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.database.element.MainCredential
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 
 class MainCredentialDialogFragment : DatabaseDialogFragment() {
@@ -65,7 +66,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
             var databaseUri: Uri? = null
             arguments?.apply {
                 if (containsKey(KEY_ASK_CREDENTIAL_URI))
-                    databaseUri = getParcelable(KEY_ASK_CREDENTIAL_URI)
+                    databaseUri = getParcelableCompat(KEY_ASK_CREDENTIAL_URI)
             }
 
             val builder = AlertDialog.Builder(activity)
@@ -74,7 +75,7 @@ class MainCredentialDialogFragment : DatabaseDialogFragment() {
             mainCredentialView = root.findViewById(R.id.main_credential_view)
             databaseUri?.let {
                 root.findViewById<TextView>(R.id.title_database)?.text =
-                    UriUtil.getFileData(requireContext(), it)?.name
+                    it.getDocumentFile(requireContext())?.name
             }
             builder.setView(root)
                     // Add action buttons

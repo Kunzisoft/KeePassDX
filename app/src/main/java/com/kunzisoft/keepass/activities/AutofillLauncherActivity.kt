@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
@@ -36,11 +37,15 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.autofill.CompatInlineSuggestionsRequest
 import com.kunzisoft.keepass.autofill.KeeAutofillService
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.WebDomain
+import java.lang.RuntimeException
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
@@ -58,7 +63,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         // Retrieve selection mode
@@ -69,11 +74,11 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         // To pass extra inline request
                         var compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            compatInlineSuggestionsRequest = bundle.getParcelable(KEY_INLINE_SUGGESTION)
+                            compatInlineSuggestionsRequest = bundle.getParcelableCompat(KEY_INLINE_SUGGESTION)
                         }
                         // Build search param
-                        bundle.getParcelable<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
-                            SearchInfo.getConcreteWebDomain(
+                        bundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
+                            WebDomain.getConcreteWebDomain(
                                 this,
                                 searchInfo.webDomain
                             ) { concreteWebDomain ->
@@ -99,9 +104,9 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 }
                 SpecialMode.REGISTRATION -> {
                     // To register info
-                    val registerInfo = intent.getParcelableExtra<RegisterInfo>(KEY_REGISTER_INFO)
+                    val registerInfo = intent.getParcelableExtraCompat<RegisterInfo>(KEY_REGISTER_INFO)
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    SearchInfo.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
                         launchRegistration(database, searchInfo, registerInfo)
                     }
@@ -115,7 +120,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         }
     }
 
-    private fun launchSelection(database: Database?,
+    private fun launchSelection(database: ContextualDatabase?,
                                 autofillComponent: AutofillComponent?,
                                 searchInfo: SearchInfo) {
         if (autofillComponent == null) {
@@ -158,7 +163,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         }
     }
 
-    private fun launchRegistration(database: Database?,
+    private fun launchRegistration(database: ContextualDatabase?,
                                    searchInfo: SearchInfo,
                                    registerInfo: RegisterInfo?) {
         if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
@@ -213,6 +218,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
     companion object {
 
+        private val TAG = AutofillLauncherActivity::class.java.name
+
         private const val KEY_SELECTION_BUNDLE = "KEY_SELECTION_BUNDLE"
         private const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
         private const val KEY_INLINE_SUGGESTION = "KEY_INLINE_SUGGESTION"
@@ -221,37 +228,51 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
         fun getPendingIntentForSelection(context: Context,
                                          searchInfo: SearchInfo? = null,
-                                         compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null): PendingIntent {
-            return PendingIntent.getActivity(context, 0,
-                // Doesn't work with direct extra Parcelable (don't know why?)
-                // Wrap into a bundle to bypass the problem
-                Intent(context, AutofillLauncherActivity::class.java).apply {
-                    putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
-                        putParcelable(KEY_SEARCH_INFO, searchInfo)
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            putParcelable(KEY_INLINE_SUGGESTION, compatInlineSuggestionsRequest)
-                        }
-                    })
-                },
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-                } else {
-                    PendingIntent.FLAG_CANCEL_CURRENT
-                })
+                                         compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null): PendingIntent? {
+            try {
+                return PendingIntent.getActivity(
+                    context, 0,
+                    // Doesn't work with direct extra Parcelable (don't know why?)
+                    // Wrap into a bundle to bypass the problem
+                    Intent(context, AutofillLauncherActivity::class.java).apply {
+                        putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
+                            putParcelable(KEY_SEARCH_INFO, searchInfo)
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                putParcelable(KEY_INLINE_SUGGESTION, compatInlineSuggestionsRequest)
+                            }
+                        })
+                    },
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                    } else {
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                    }
+                )
+            } catch (e: RuntimeException) {
+                Log.e(TAG, "Unable to create pending intent for selection", e)
+                return null
+            }
         }
 
         fun getPendingIntentForRegistration(context: Context,
-                                            registerInfo: RegisterInfo): PendingIntent {
-            return PendingIntent.getActivity(context, 0,
-                Intent(context, AutofillLauncherActivity::class.java).apply {
-                    EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
-                    putExtra(KEY_REGISTER_INFO, registerInfo)
-                },
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-                } else {
-                    PendingIntent.FLAG_CANCEL_CURRENT
-                })
+                                            registerInfo: RegisterInfo): PendingIntent? {
+            try {
+                return PendingIntent.getActivity(
+                    context, 0,
+                    Intent(context, AutofillLauncherActivity::class.java).apply {
+                        EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
+                        putExtra(KEY_REGISTER_INFO, registerInfo)
+                    },
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                    } else {
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                    }
+                )
+            } catch (e: RuntimeException) {
+                Log.e(TAG, "Unable to create pending intent for registration", e)
+                return null
+            }
         }
 
         fun launchForRegistration(context: Context,

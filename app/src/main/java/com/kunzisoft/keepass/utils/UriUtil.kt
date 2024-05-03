@@ -28,29 +28,27 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.education.Education
-import java.io.*
-import java.util.*
+import java.io.File
 
 
 object UriUtil {
 
-    fun getFileData(context: Context, fileUri: Uri?): DocumentFile? {
-        if (fileUri == null)
-            return null
+    fun Uri.getDocumentFile(context: Context): DocumentFile? {
         return try {
             when {
-                isFileScheme(fileUri) -> {
-                    fileUri.path?.let {
+                this.withFileScheme() -> {
+                    this.path?.let {
                         File(it).let { file ->
                             return DocumentFile.fromFile(file)
                         }
                     }
                 }
-                isContentScheme(fileUri) -> {
-                    DocumentFile.fromSingleUri(context, fileUri)
+                this.withContentScheme() -> {
+                    DocumentFile.fromSingleUri(context, this)
                 }
                 else -> {
                     Log.e("FileData", "Content scheme not known")
@@ -61,66 +59,6 @@ object UriUtil {
             Log.e(TAG, "Unable to get document file", e)
             null
         }
-    }
-
-    @Throws(FileNotFoundException::class)
-    fun getUriOutputStream(contentResolver: ContentResolver, fileUri: Uri?): OutputStream? {
-        if (fileUri == null)
-            return null
-        return when {
-            isFileScheme(fileUri) -> fileUri.path?.let { FileOutputStream(it) }
-            isContentScheme(fileUri) -> {
-                try {
-                    contentResolver.openOutputStream(fileUri, "wt")
-                } catch (e: FileNotFoundException) {
-                    Log.e(TAG, "Unable to open stream in `wt` mode, retry in `rwt` mode.", e)
-                    // https://issuetracker.google.com/issues/180526528
-                    // Try with rwt to fix content provider issue
-                    val outStream = contentResolver.openOutputStream(fileUri, "rwt")
-                    Log.w(TAG, "`rwt` mode used.")
-                    outStream
-                }
-            }
-            else -> null
-        }
-    }
-
-    @Throws(FileNotFoundException::class)
-    fun getUriInputStream(contentResolver: ContentResolver, fileUri: Uri?): InputStream? {
-        if (fileUri == null)
-            return null
-        return when {
-            isFileScheme(fileUri) -> fileUri.path?.let { FileInputStream(it) }
-            isContentScheme(fileUri) -> contentResolver.openInputStream(fileUri)
-            else -> null
-        }
-    }
-
-    private fun isFileScheme(fileUri: Uri): Boolean {
-        val scheme = fileUri.scheme
-        if (scheme == null || scheme.isEmpty() || scheme.lowercase(Locale.ENGLISH) == "file") {
-            return true
-        }
-        return false
-    }
-
-    private fun isContentScheme(fileUri: Uri): Boolean {
-        val scheme = fileUri.scheme
-        if (scheme != null && scheme.lowercase(Locale.ENGLISH) == "content") {
-            return true
-        }
-        return false
-    }
-
-    fun parse(stringUri: String?): Uri? {
-        return if (stringUri?.isNotEmpty() == true) {
-            Uri.parse(stringUri)
-        } else
-            null
-    }
-
-    fun decode(uri: String?): String {
-        return Uri.decode(uri) ?: ""
     }
 
     private fun persistUriPermission(contentResolver: ContentResolver?,
@@ -189,18 +127,19 @@ object UriUtil {
         }
     }
 
-    fun takeUriPermission(contentResolver: ContentResolver?,
-                          uri: Uri,
-                          readOnly: Boolean = false) {
-        persistUriPermission(contentResolver, uri, false, readOnly)
+    fun ContentResolver.takeUriPermission(uri: Uri?, readOnly: Boolean = false) {
+        uri?.let {
+            persistUriPermission(this, it, false, readOnly)
+        }
     }
 
-    fun releaseUriPermission(contentResolver: ContentResolver?,
-                             uri: Uri) {
-        persistUriPermission(contentResolver, uri, release = true, readOnly = false)
+    fun ContentResolver.releaseUriPermission(uri: Uri?) {
+        uri?.let {
+            persistUriPermission(this, it, release = true, readOnly = false)
+        }
     }
 
-    fun releaseAllUnnecessaryPermissionUris(applicationContext: Context?) {
+    fun Context.releaseAllUnnecessaryPermissionUris() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             applicationContext?.let { appContext ->
                 val fileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(appContext)
@@ -219,17 +158,17 @@ object UriUtil {
                     resolver.persistedUriPermissions.forEach { uriPermission ->
                         val uri = uriPermission.uri
                         if (!listToNotRemove.contains(uri))
-                            releaseUriPermission(resolver, uri)
+                            resolver.releaseUriPermission(uri)
                     }
                 }
             }
         }
     }
 
-    fun getUriFromIntent(intent: Intent?, key: String): Uri? {
+    fun Intent.getUri(key: String): Uri? {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                val clipData = intent?.clipData
+                val clipData = this.clipData
                 if (clipData != null) {
                     if (clipData.description.label == key) {
                         if (clipData.itemCount == 1) {
@@ -242,45 +181,44 @@ object UriUtil {
                 }
             }
         } catch (e: Exception) {
-            return intent?.getParcelableExtra(key)
+            return this.getParcelableExtraCompat(key)
         }
         return null
     }
 
-    fun gotoUrl(context: Context, url: String?) {
+    fun Context.openUrl(url: String?) {
         try {
-            if (url != null && url.isNotEmpty()) {
+            if (!url.isNullOrEmpty()) {
                 // Default http:// if no protocol specified
                 val newUrl = if (!url.contains("://")) {
                     "http://$url"
                 } else {
                     url
                 }
-                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(newUrl)))
+                this.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(newUrl)))
             }
         } catch (e: Exception) {
-            Toast.makeText(context, R.string.no_url_handler, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show()
         }
     }
 
-    fun gotoUrl(context: Context, resId: Int) {
-        gotoUrl(context, context.getString(resId))
+    fun Context.openUrl(resId: Int) {
+        this.openUrl(this.getString(resId))
     }
 
-    fun contributingUser(context: Context): Boolean {
-        return (Education.isEducationScreenReclickedPerformed(context)
-                || isExternalAppInstalled(
-                        context,
-                        context.getString(R.string.keepro_app_id),
-                        false
-                    )
-                )
+    fun Context.isContributingUser(): Boolean {
+        return (Education.isEducationScreenReclickedPerformed(this)
+                || isExternalAppInstalled(this.getString(R.string.keepro_app_id), false)
+        )
     }
 
-    fun isExternalAppInstalled(context: Context, packageName: String, showError: Boolean = true): Boolean {
+    fun Context.isExternalAppInstalled(packageName: String, showError: Boolean = true): Boolean {
         try {
-            context.applicationContext.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
-            Education.setEducationScreenReclickedPerformed(context)
+            this.applicationContext.packageManager.getPackageInfoCompat(
+                packageName,
+                PackageManager.GET_ACTIVITIES
+            )
+            Education.setEducationScreenReclickedPerformed(this)
             return true
         } catch (e: Exception) {
             if (showError)
@@ -289,35 +227,41 @@ object UriUtil {
         return false
     }
 
-    fun openExternalApp(context: Context, packageName: String) {
+    fun Context.openExternalApp(packageName: String, sourcesURL: String? = null) {
         var launchIntent: Intent? = null
         try {
-            launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)?.apply {
+            launchIntent = this.packageManager.getLaunchIntentForPackage(packageName)?.apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-        } catch (ignored: Exception) {
-        }
+        } catch (ignored: Exception) { }
         try {
             if (launchIntent == null) {
-                // TODO F-Droid
-                context.startActivity(
+                this.startActivity(
                     Intent(Intent.ACTION_VIEW)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .setData(Uri.parse(context.getString(R.string.play_store_url, packageName)))
+                        .setData(
+                            Uri.parse(
+                                if (sourcesURL != null
+                                    && !BuildConfig.CLOSED_STORE
+                                ) {
+                                    sourcesURL
+                                } else {
+                                    this.getString(
+                                        if (BuildConfig.CLOSED_STORE)
+                                            R.string.play_store_url
+                                        else
+                                            R.string.f_droid_url,
+                                        packageName
+                                    )
+                                }
+                            )
+                        )
                 )
             } else {
-                context.startActivity(launchIntent)
+                this.startActivity(launchIntent)
             }
         } catch (e: Exception) {
             Log.e(TAG, "App cannot be open", e)
-        }
-    }
-
-    fun getBinaryDir(context: Context): File {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            context.applicationContext.noBackupFilesDir
-        } else {
-            context.applicationContext.filesDir
         }
     }
 

@@ -40,7 +40,7 @@
             android:key="@string/setting_icon_pack_choose_key"
             android:title="@string/icon_pack_choose_title"
             android:summary="@string/icon_pack_choose_summary" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/show_entry_colors_key"
             android:title="@string/show_entry_colors_title"
             android:summary="@string/show_entry_colors_summary"
@@ -51,12 +51,12 @@
     <PreferenceCategory
         android:title="@string/password">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/hide_password_key"
             android:title="@string/hide_password_title"
             android:summary="@string/hide_password_summary"
             android:defaultValue="@bool/hide_password_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/colorize_password_key"
             android:title="@string/colorize_password_title"
             android:summary="@string/colorize_password_summary"
@@ -67,22 +67,22 @@
     <PreferenceCategory
         android:title="@string/text_appearance">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/list_entries_show_username_key"
             android:title="@string/list_entries_show_username_title"
             android:summary="@string/list_entries_show_username_summary"
             android:defaultValue="@bool/list_entries_show_username_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/list_groups_show_number_entries_key"
             android:title="@string/list_groups_show_number_entries_title"
             android:summary="@string/list_groups_show_number_entries_summary"
             android:defaultValue="@bool/list_groups_show_number_entries_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/show_otp_token_key"
             android:title="@string/show_otp_token_title"
             android:summary="@string/show_otp_token_summary"
             android:defaultValue="@bool/show_otp_token_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/show_uuid_key"
             android:title="@string/show_uuid_title"
             android:summary="@string/show_uuid_summary"
@@ -95,7 +95,7 @@
             android:entryValues="@array/list_size_string_values"
             android:dialogTitle="@string/list_size_summary"
             android:defaultValue="@string/list_size_string_medium"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/monospace_font_fields_enable_key"
             android:title="@string/monospace_font_fields_enable_title"
             android:summary="@string/monospace_font_fields_enable_summary"
@@ -106,12 +106,12 @@
     <PreferenceCategory
         android:title="@string/other">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/hide_expired_entries_key"
             android:title="@string/hide_expired_entries_title"
             android:summary="@string/hide_expired_entries_summary"
             android:defaultValue="@bool/hide_expired_entries_default"/>
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="@string/enable_education_screens_key"
             android:title="@string/enable_education_screens_title"
             android:summary="@string/enable_education_screens_summary"

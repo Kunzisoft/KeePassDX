@@ -1,0 +1,1 @@
+ * Fix action dialog with YubiKey challenge-response #1506

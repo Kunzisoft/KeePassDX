@@ -1,0 +1,8 @@
+ * Support YubiKey challenge-response #8 #137
+ * Better exception management during database save #1346
+ * Add "Screenshot mode" setting #459 #1377 #1354 (Thx @GianpaMX)
+ * Hide clipboard sensitive text #1386
+ * Fix attachment button #1401
+ * Add monochrome icon #1403 #1404 (Thx @Sandelinos)
+ * Fix lock with back button #1412 #1414 (Thx @ryg-git)
+ * Vanadium compatibility #1447 (Thx @flawedworld)

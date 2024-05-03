@@ -118,7 +118,7 @@
     <string name="read_only">Только чтение</string>
     <string name="read_only_warning">KeePassDX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
-    <string name="root">База</string>
+    <string name="root">Корень</string>
     <string name="rounds">Раунды шифрования</string>
     <string name="rounds_explanation">Дополнительные раунды шифрования – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение.</string>
     <string name="saving_database">Сохранение базы…</string>
@@ -133,7 +133,7 @@
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="version_label">Версия %1$s</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="no_credentials_stored">Для этой базы главный пароль ещё не сохранён.</string>
+    <string name="unavailable">Недоступно</string>
     <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
 \n
 \nНе забывайте сохранять копию файла базы в безопасном месте после каждого изменения.</string>
@@ -196,11 +196,11 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу через несколько секунд после отключения экрана</string>
-    <string name="advanced_unlock">Расширенная разблокировка</string>
+    <string name="advanced_unlock">Разблокировка устройства</string>
     <string name="biometric_unlock_enable_title">Биометрическая разблокировка</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
-    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки</string>
+    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства</string>
     <string name="unavailable_feature_text">Невозможно использовать эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s, требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
@@ -219,7 +219,7 @@
     <string name="database_description_title">Описание базы</string>
     <string name="database_version_title">Версия базы</string>
     <string name="text_appearance">Текст</string>
-    <string name="application_appearance">Внешний вид</string>
+    <string name="application_appearance">Интерфейс</string>
     <string name="other">Прочее</string>
     <string name="keyboard">Клавиатура</string>
     <string name="magic_keyboard_title">Настройки Magikeyboard</string>
@@ -230,7 +230,7 @@
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Обучающие подсказки</string>
     <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
-    <string name="reset_education_screens_title">Сбросить обучающие подсказки</string>
+    <string name="reset_education_screens_title">Вернуть обучающие подсказки</string>
     <string name="reset_education_screens_summary">Снова показывать все обучающие подсказки</string>
     <string name="reset_education_screens_text">Обучающие подсказки сброшены</string>
     <string name="education_create_database_title">Создайте файл базы</string>
@@ -266,9 +266,9 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих других приложений управления паролями, здесь &lt;strong&gt;нет рекламы&lt;/strong&gt;, и оно &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Приложение не собирает ваши личные данные на своих серверах независимо от версии, которую вы используете.</string>
-    <string name="html_text_buy_pro">Купив Pro–версию, у вас появится доступ к данным &lt;strong&gt;визуальным стилям&lt;/strong&gt;, а также вы внесёте вклад в &lt;strong&gt;реализацию общественных проектов&lt;/strong&gt;.</string>
+    <string name="html_text_buy_pro">Купите Pro–версию и откройте доступ к этой &lt;strong&gt;теме&lt;/strong&gt;. Покупая Pro-версию, вы помогаете &lt;strong&gt;разработчикам открытого ПО&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на вашу &lt;strong&gt;поддержку&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Для развития нашего проекта и его независимости нам необходима ваша &lt;strong&gt;поддержка&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;Pro&lt;/strong&gt;–версию,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
@@ -334,10 +334,10 @@
     <string name="content_description_update_from_list">Обновить</string>
     <string name="content_description_keyboard_close_fields">Закрыть поля</string>
     <string name="error_create_database_file">Невозможно создать базу с этим паролем и ключевым файлом.</string>
-    <string name="menu_advanced_unlock_settings">Расширенная разблокировка</string>
+    <string name="menu_advanced_unlock_settings">Разблокировка устройства</string>
     <string name="biometric">Биометрический ключ</string>
     <string name="biometric_auto_open_prompt_title">Автозапрос ключа</string>
-    <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать расширенную разблокировку, если она установлена для базы</string>
+    <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать разблокировку устройства, если она установлена для базы</string>
     <string name="enable">Включить</string>
     <string name="disable">Отключить</string>
     <string name="selection_mode">Режим выбора</string>
@@ -367,7 +367,7 @@
     <string name="contains_duplicate_uuid_procedure">Исправить проблему путём создания новых UUID для дубликатов и продолжить работу\?</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
-    <string name="advanced_unlock_explanation_summary">Использовать расширенную разблокировку для более лёгкого открытия базы данных</string>
+    <string name="advanced_unlock_explanation_summary">Использовать разблокировку устройства для более лёгкого открытия базы</string>
     <string name="database_data_compression_title">Сжатие данных</string>
     <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы</string>
     <string name="max_history_items_title">Максимум записей</string>
@@ -413,9 +413,9 @@
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
     <string name="remember_database_locations_title">Помнить расположение баз</string>
-    <string name="remember_database_locations_summary">Отслеживать расположение баз</string>
-    <string name="remember_keyfile_locations_title">Помнить расположение файлов ключей</string>
-    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз</string>
+    <string name="remember_database_locations_summary">Запоминать расположение баз паролей</string>
+    <string name="remember_keyfile_locations_title">Помнить расположение ключей</string>
+    <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей к базам паролей</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
@@ -446,7 +446,7 @@
     <string name="content_description_add_item">Добавить элемент</string>
     <string name="keyboard_previous_database_credentials_title">Экран ввода главного пароля</string>
     <string name="keyboard_previous_fill_in_summary">Автоматически переключаться на предыдущую клавиатуру после заполнения формы и выполнения автоматического действия кнопки</string>
-    <string name="keyboard_previous_fill_in_title">Автоматическое действие кнопки</string>
+    <string name="keyboard_previous_fill_in_title">Переключение назад</string>
     <string name="keyboard_previous_database_credentials_summary">Автоматически переключаться на предыдущую клавиатуру на экране входа в базу</string>
     <string name="keyboard_change">Переключение клавиатуры</string>
     <string name="upload_attachment">Добавить %1$s</string>
@@ -491,31 +491,29 @@
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
     <string name="device_credential">Учётные данные устройства</string>
     <string name="credential_before_click_advanced_unlock_button">Введите пароль и нажмите эту кнопку.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Невозможно инициализировать запрос расширенной разблокировки.</string>
-    <string name="advanced_unlock_not_recognized">Невозможно распознать расширенную разблокировку</string>
-    <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ расширенной разблокировки. Удалите его и повторите процедуру распознавания разблокировки.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием расширенной разблокировки</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Открыть базу с расширенным распознаванием разблокировки</string>
-    <string name="advanced_unlock_prompt_store_credential_message">При использовании расширенной разблокировки вам всё равно необходимо помнить основные учётные данные.</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Открыть запрос расширенной разблокировки для сохранения учётных данных</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Открыть запрос расширенной разблокировки для разблокировки базы</string>
-    <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием расширенной разблокировки\?</string>
-    <string name="advanced_unlock_scanning_error">Ошибка расширенной разблокировки: %1$s</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Распознавание расширенной разблокировки</string>
-    <string name="menu_keystore_remove_key">Удалить ключ расширенной разблокировки</string>
+    <string name="advanced_unlock_prompt_not_initialized">Невозможно инициализировать запрос разблокировки устройства.</string>
+    <string name="advanced_unlock_not_recognized">Невозможно распознать разблокировку устройства</string>
+    <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ разблокировки устройства. Удалите его и повторите процедуру распознавания разблокировки.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием разблокировки устройства</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Распознавание разблокировки устройства</string>
+    <string name="advanced_unlock_prompt_store_credential_message">При использовании разблокировки устройства вам всё равно необходимо помнить основные учётные данные.</string>
+    <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства\?</string>
+    <string name="advanced_unlock_scanning_error">Ошибка разблокировки устройства: %1$s</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Настройка разблокировки устройства</string>
+    <string name="menu_keystore_remove_key">Удалить ключ разблокировки устройства</string>
     <string name="enter">Ввод</string>
     <string name="back_to_previous_keyboard">Возврат к предыдущей клавиатуре</string>
     <string name="custom_fields">Пользовательские поля</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Выберите запись</string>
-    <string name="education_advanced_unlock_title">Расширенная разблокировка базы</string>
-    <string name="advanced_unlock_timeout">Срок действия расширенной разблокировки</string>
+    <string name="education_advanced_unlock_title">Разблокировка базы устройством</string>
+    <string name="advanced_unlock_timeout">Срок действия разблокировки устройства</string>
     <string name="education_advanced_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
-    <string name="temp_advanced_unlock_timeout_summary">Продолжительность использования содержимого расширенной разблокировки до его удаления</string>
+    <string name="temp_advanced_unlock_timeout_summary">Продолжительность использования содержимого разблокировки устройства до его удаления</string>
     <string name="temp_advanced_unlock_timeout_title">Время действия</string>
-    <string name="temp_advanced_unlock_enable_title">Временная расширенная разблокировка</string>
-    <string name="temp_advanced_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования расширенной разблокировки</string>
-    <string name="advanced_unlock_tap_delete">Нажмите, чтобы удалить ключи расширенной разблокировки</string>
+    <string name="temp_advanced_unlock_enable_title">Временная разблокировка устройства</string>
+    <string name="temp_advanced_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования разблокировки устройства</string>
+    <string name="advanced_unlock_tap_delete">Нажмите, чтобы удалить ключи разблокировки устройства</string>
     <string name="content">Содержимое</string>
     <string name="error_database_uri_null">Невозможно получить URI базы.</string>
     <string name="error_rebuild_list">Невозможно правильно перестроить список.</string>
@@ -547,10 +545,10 @@
     <string name="error_import_app_properties">Ошибка при импорте настроек приложения</string>
     <string name="success_import_app_properties">Настройки приложения импортированы</string>
     <string name="description_app_properties">Управление настройками приложения KeePassDX</string>
-    <string name="export_app_properties_summary">Создать файл настроек приложения</string>
+    <string name="export_app_properties_summary">Создать резервную копию настроек</string>
     <string name="export_app_properties_title">Экспорт настроек</string>
-    <string name="import_app_properties_summary">Импортировать настройки приложения из файла</string>
-    <string name="import_app_properties_title">Импорт настроек</string>
+    <string name="import_app_properties_summary">Выберите резервную копию настроек</string>
+    <string name="import_app_properties_title">Восстановить настройки</string>
     <string name="error_start_database_action">Произошла ошибка при выполнении действия с базой.</string>
     <string name="error_move_group_here">Сюда группу переместить невозможно.</string>
     <string name="error_word_reserved">Это слово зарезервировано и не может быть использовано.</string>
@@ -605,7 +603,7 @@
     <string name="tags">Метки</string>
     <string name="warning_keyfile_integrity">Хеш файла не гарантируется, поскольку Android может изменять свои данные на лету. Измените расширение файла на .bin для сохранения целостности.</string>
     <string name="enable_keep_screen_on_title">Держать экран включённым</string>
-    <string name="enable_keep_screen_on_summary">Не отключать экран при просмотре записи</string>
+    <string name="enable_keep_screen_on_summary">Не отключать экран при просмотре или редактировании записи</string>
     <string name="show_entry_colors_title">Цвета записей</string>
     <string name="show_entry_colors_summary">Показывать цвета текста и фона записи</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
@@ -659,13 +657,35 @@
     <string name="corrupted_file">Файл повреждён.</string>
     <string name="error_location_unknown">Расположение базы неизвестно, действие с базой не может быть выполнено.</string>
     <string name="remember_hardware_key_title">Помнить аппаратные ключи</string>
-    <string name="remember_hardware_key_summary">Помнить используемые аппаратные ключи</string>
+    <string name="remember_hardware_key_summary">Запоминать используемые аппаратные ключи</string>
     <string name="screenshot_mode_banner_text">Режим снимка экрана</string>
-    <string name="enable_screenshot_mode_title">Режим снимка экрана</string>
+    <string name="enable_screenshot_mode_title">Разрешать снимки экрана</string>
     <string name="hardware_key">Аппаратный ключ</string>
     <string name="enable_screenshot_mode_summary">Разрешать сторонним приложениям делать снимки или запись экрана приложения</string>
     <string name="waiting_challenge_request">Ожидание запроса на вызов…</string>
     <string name="waiting_challenge_response">Ожидание ответа на вызов…</string>
     <string name="html_about_privacy">&lt;strong&gt;Никакие пользовательские данные не собираются&lt;/strong&gt;, это приложение не подключается ни к одному серверу, работает исключительно локально и полностью соблюдает конфиденциальность пользователей.</string>
     <string name="auto_type">Автонабор</string>
+    <string name="merge_success">Объединение выполнено</string>
+    <string name="later">Позже</string>
+    <string name="ask">Запрос</string>
+    <string name="unlock">Открыть</string>
+    <string name="menu_app_settings_summary">Поиск, блокировка, история, настройки</string>
+    <string name="menu_form_filling_settings_summary">Клавиатура, автозаполнение, буфер обмена</string>
+    <string name="menu_advanced_unlock_settings_summary">Биометрия, учётные данные устройства</string>
+    <string name="menu_database_settings_summary">Метаданные, корзина, шаблоны, история</string>
+    <string name="menu_security_settings_summary">Шифрование, функция формирования ключа</string>
+    <string name="education_validate_entry_summary">Не забывайте проверять введённые данные и сохранять базу.
+\n
+\nЕсли сработает автоматическая блокировка, а вы забудете, что вносили изменения, то рискуете потерять данные.</string>
+    <string name="info">Информация</string>
+    <string name="master_key_settings_summary">Изменение, обновление</string>
+    <string name="warning_copy_permission">Разрешение необходимо для использования функции уведомления буфера обмена.</string>
+    <string name="menu_appearance_settings_summary">Темы, цвета, атрибуты</string>
+    <string name="configure">Настройка</string>
+    <string name="education_validate_entry_title">Проверка записи</string>
+    <string name="unlock_and_link_biometric">Настройка разблокировки устройства</string>
+    <string name="warning_database_notification_permission">Разрешение на отображение уведомлений позволяет показывать состояние базы и блокировать её с помощью легкодоступной кнопки.
+\n
+\nЕсли не предоставить это разрешение, то открытая в фоновом режиме база не будет видна, если на переднем плане находится другое приложение.</string>
 </resources>

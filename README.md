@@ -8,7 +8,7 @@
 
  - Create database files / entries and groups.
  - Support for **.kdb** and **.kdbx** files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm.
- - **Compatible** with the majority of alternative programs (KeePass, KeePassX, KeePassXC, …).
+ - **Compatible** with the majority of alternative programs (KeePass, KeePassXC, KeeWeb, …).
  - Allows opening and **copying URI / URL fields quickly**.
  - **Biometric recognition** for fast unlocking *(fingerprint / face unlock / …)*.
  - **One-Time Password** management *(HOTP / TOTP)* for Two-factor authentication (2FA).
@@ -48,18 +48,34 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 
 ## Download
 
-*[F-Droid](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/) is the recommended way of installing, a libre software project that verifies that all the libraries and app code is libre software.*
+*[F-Droid](https://f-droid.org/packages/com.kunzisoft.keepass.libre/) is the recommended way of installing, a libre software project that verifies that all the libraries and app code is libre software.*
 
 [<img src="https://f-droid.org/badge/get-it-on.png"
       alt="Get it on F-Droid"
-      height="80">](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/)
+      height="80">](https://f-droid.org/packages/com.kunzisoft.keepass.libre/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Get it on Google Play"
 	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
 [<img src="https://raw.githubusercontent.com/Kunzisoft/Github-badge/main/get-it-on-github.png"
       alt="Get it on Github"
 	height="80">](https://github.com/Kunzisoft/KeePassDX/releases)
-	
+
+## Verify the authenticity of the downloaded app from GitHub
+1- Download the latest app from [GitHub releases](https://github.com/Kunzisoft/KeePassDX/releases/latest). <br>
+2- Open the directory where you saved the downloaded file in the Terminal on Linux/MacOS. <br>
+3- You must have `keytool` command installed. <br>
+4- Depending on the flavor you downloaded, run:
+```
+keytool -printcert -jarfile KeePassDX-*-libre.apk | grep '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04'
+```
+Or:
+```
+keytool -printcert -jarfile KeePassDX-*-free.apk | grep '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04'
+```
+You should get this output:
+```
+SHA256: 7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04
+```
 ## Frequently Asked Questions
 
 Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/wiki/FAQ) 
@@ -74,7 +90,7 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
 
 ## License
 
-  Copyright © 2022 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+  Copyright © 2023 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
 
   This file is part of KeePassDX.
 

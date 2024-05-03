@@ -29,8 +29,7 @@
         android:scrollbarStyle="insideOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground"
-        android:paddingBottom="?attr/actionBarSize"
+        android:paddingBottom="120dp"
         android:clipToPadding="false" />
     <LinearLayout
         android:id="@+id/not_found_container"

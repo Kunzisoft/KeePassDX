@@ -18,11 +18,11 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Build a new Beta version"
-  lane :build_beta do |options|
+  desc "Build a new version"
+  lane :build do |options|
     gradle(
       task: "assemble",
-      flavor: "free",
+      flavor: options[:flavor],
       build_type: "Release",
       print_command: false,
       properties: {
@@ -33,8 +33,14 @@ platform :android do
       }
     )
     sh("mkdir", "-p", "../releases")
-    @releaseFile = "../releases/KeePassDX-" + android_get_version_name + ".apk"
-    sh("cp", "../app/build/outputs/apk/free/release/app-free-release.apk", @releaseFile)
+    @releaseFile = "../releases/KeePassDX-" + android_get_version_name + "-" + options[:flavor] + ".apk"
+    sh("cp", "../app/build/outputs/apk/" + options[:flavor] + "/release/app-" + options[:flavor] + "-release.apk", @releaseFile)
+  end
+  
+  desc "Build each flavor and create release"
+  lane :build_release do |options|
+    build(flavor: "free", storefile: options[:storefile], storepass: options[:storepass], keyalias: options[:keyalias], keypass: options[:keypass])
+    build(flavor: "libre", storefile: options[:storefile], storepass: options[:storepass], keyalias: options[:keyalias], keypass: options[:keypass])
     sh("./releaseDescGenerator.sh", android_get_version_code, android_get_version_name)
   end
 

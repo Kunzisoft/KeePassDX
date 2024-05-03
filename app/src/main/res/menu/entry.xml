@@ -25,10 +25,4 @@
         android:orderInCategory="22"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
-    <item android:id="@+id/menu_goto_url"
-        android:icon="@drawable/ic_launch_white_24dp"
-        android:title="@string/menu_url"
-        android:orderInCategory="23"
-        app:iconTint="?attr/colorControlNormal"
-        app:showAsAction="ifRoom" />
 </menu>

@@ -23,32 +23,35 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
-import androidx.preference.SwitchPreference
+import androidx.preference.TwoStatePreference
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.element.template.TemplateEngine
+import com.kunzisoft.keepass.database.helper.*
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.getSerializableCompat
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
     private var mDatabaseReadOnly: Boolean = false
     private var mMergeDataAllowed: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
@@ -70,8 +73,51 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     private var mMemoryPref: InputKdfSizePreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
 
+    private val menuProvider: MenuProvider = object: MenuProvider {
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.database, menu)
+            if (mDatabaseReadOnly) {
+                menu.findItem(R.id.menu_save_database)?.isVisible = false
+                menu.findItem(R.id.menu_merge_database)?.isVisible = false
+            }
+            if (!mMergeDataAllowed) {
+                menu.findItem(R.id.menu_merge_database)?.isVisible = false
+            }
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            return when (menuItem.itemId) {
+                R.id.menu_save_database -> {
+                    saveDatabase(!mDatabaseReadOnly)
+                    true
+                }
+                R.id.menu_merge_database -> {
+                    mergeDatabase(!mDatabaseReadOnly)
+                    true
+                }
+                R.id.menu_reload_database -> {
+                    reloadDatabase()
+                    true
+                }
+                R.id.menu_app_settings -> {
+                    // Check the time lock before launching settings
+                    // TODO activity menu
+                    (activity as SettingsActivity?)?.let {
+                        SettingsActivity.launch(it, true)
+                    }
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
             mDatabase = database
@@ -85,8 +131,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
-        setHasOptionsMenu(true)
-
         mScreen = screen
         val database = mDatabase
         // Load the preferences from an XML resource
@@ -115,15 +159,15 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         mDatabaseViewModel.saveDatabase(save)
     }
 
-    private fun mergeDatabase() {
-        mDatabaseViewModel.mergeDatabase(false)
+    private fun mergeDatabase(save: Boolean) {
+        mDatabaseViewModel.mergeDatabase(save)
     }
 
     private fun reloadDatabase() {
         mDatabaseViewModel.reloadDatabase(false)
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         mDatabase = database
         mDatabaseReadOnly = database?.isReadOnly == true
         mMergeDataAllowed = database?.isMergeDataAllowed() == true
@@ -149,7 +193,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun onCreateDatabasePreference(database: Database) {
+    private fun onCreateDatabasePreference(database: ContextualDatabase) {
         val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
 
         // Database name
@@ -199,7 +243,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
         if (database.allowDataCompression) {
             dbDataCompressionPref?.summary = (database.compressionAlgorithm
-                ?: CompressionAlgorithm.None).getName(resources)
+                ?: CompressionAlgorithm.NONE).getLocalizedName(resources)
         } else {
             dbCompressionPrefCategory?.isVisible = false
         }
@@ -209,13 +253,13 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         // Recycle bin
         if (database.allowConfigurableRecycleBin) {
-            val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
+            val recycleBinEnablePref: TwoStatePreference? = findPreference(getString(R.string.recycle_bin_enable_key))
             recycleBinEnablePref?.apply {
                 isChecked = database.isRecycleBinEnabled
                 isEnabled = if (!mDatabaseReadOnly) {
                     setOnPreferenceChangeListener { _, newValue ->
                         val recycleBinEnabled = newValue as Boolean
-                        database.enableRecycleBin(recycleBinEnabled, resources)
+                        database.enableRecycleBin(recycleBinEnabled, resources.getString(R.string.recycle_bin))
                         refreshRecycleBinGroup(database)
                         // Save the database if not in readonly mode
                         saveDatabase(mDatabaseAutoSaveEnabled)
@@ -242,14 +286,14 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         val templatesGroupPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_templates_key))
         templatesGroupPref = findPreference(getString(R.string.templates_group_uuid_key))
         if (database.allowTemplatesGroup) {
-            val templatesEnablePref: SwitchPreference? = findPreference(getString(R.string.templates_group_enable_key))
+            val templatesEnablePref: TwoStatePreference? = findPreference(getString(R.string.templates_group_enable_key))
             templatesEnablePref?.apply {
                 isChecked = database.isTemplatesEnabled
                 isEnabled = if (!mDatabaseReadOnly) {
                     setOnPreferenceChangeListener { _, newValue ->
                         val templatesEnabled = newValue as Boolean
                         database.enableTemplates(templatesEnabled,
-                            TemplateEngine.getDefaultTemplateGroupName(resources)
+                            resources.getString(R.string.templates)
                         )
                         refreshTemplatesGroup(database)
                         // Save the database if not in readonly mode
@@ -282,7 +326,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun refreshRecycleBinGroup(database: Database?) {
+    private fun refreshRecycleBinGroup(database: ContextualDatabase?) {
         recycleBinGroupPref?.apply {
             if (database?.isRecycleBinEnabled == true) {
                 summary = database.recycleBin?.toString()
@@ -294,7 +338,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun refreshTemplatesGroup(database: Database?) {
+    private fun refreshTemplatesGroup(database: ContextualDatabase?) {
         templatesGroupPref?.apply {
             if (database?.isTemplatesEnabled == true) {
                 summary = database.templatesGroup?.toString()
@@ -306,7 +350,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun onCreateDatabaseSecurityPreference(database: Database) {
+    private fun onCreateDatabaseSecurityPreference(database: ContextualDatabase) {
         // Encryption Algorithm
         mEncryptionAlgorithmPref = findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.apply {
             summary = database.getEncryptionAlgorithmName()
@@ -333,7 +377,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
-    private fun onCreateDatabaseMasterKeyPreference(database: Database) {
+    private fun onCreateDatabaseMasterKeyPreference(database: ContextualDatabase) {
         findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
             isEnabled = if (!mDatabaseReadOnly) {
                 onPreferenceClickListener = Preference.OnPreferenceClickListener {
@@ -371,7 +415,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
     }
 
     // TODO check error
-    override fun onDatabaseActionFinished(database: Database,
+    override fun onDatabaseActionFinished(database: ContextualDatabase,
                                           actionTask: String,
                                           result: ActionRunnable.Result) {
         result.data?.let { data ->
@@ -433,8 +477,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         dbCustomColorPref?.summary = defaultColorToShow
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
-                        val oldCompression = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as CompressionAlgorithm
-                        val newCompression = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as CompressionAlgorithm
+                        val oldCompression = data.getSerializableCompat<CompressionAlgorithm>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newCompression = data.getSerializableCompat<CompressionAlgorithm>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newCompression
@@ -442,11 +486,11 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                     mDatabase?.compressionAlgorithm = oldCompression
                                     oldCompression
                                 }
-                        dbDataCompressionPref?.summary = algorithmToShow.getName(resources)
+                        dbDataCompressionPref?.summary = algorithmToShow?.getLocalizedName(resources)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_RECYCLE_BIN_TASK -> {
-                        val oldRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newRecycleBin = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val oldRecycleBin = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newRecycleBin = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val recycleBinToShow =
                                 if (result.isSuccess) {
                                     newRecycleBin
@@ -457,8 +501,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         refreshRecycleBinGroup(database)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
-                        val oldTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newTemplatesGroup = data.getParcelable<Group?>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val oldTemplatesGroup = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newTemplatesGroup = data.getParcelableCompat<Group>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val templatesGroupToShow =
                             if (result.isSuccess) {
                                 newTemplatesGroup
@@ -499,8 +543,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                     --------
                      */
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK -> {
-                        val oldEncryption = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as EncryptionAlgorithm
-                        val newEncryption = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as EncryptionAlgorithm
+                        val oldEncryption = data.getSerializableCompat<EncryptionAlgorithm>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newEncryption = data.getSerializableCompat<EncryptionAlgorithm>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newEncryption
@@ -511,8 +555,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         mEncryptionAlgorithmPref?.summary = algorithmToShow.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> {
-                        val oldKeyDerivationEngine = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as KdfEngine
-                        val newKeyDerivationEngine = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as KdfEngine
+                        val oldKeyDerivationEngine = data.getSerializableCompat<KdfEngine>(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newKeyDerivationEngine = data.getSerializableCompat<KdfEngine>(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val kdfEngineToShow =
                                 if (result.isSuccess) {
                                     newKeyDerivationEngine
@@ -522,10 +566,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 }
                         mKeyDerivationPref?.summary = kdfEngineToShow.toString()
 
-                        mRoundPref?.summary = kdfEngineToShow.defaultKeyRounds.toString()
+                        mRoundPref?.summary = kdfEngineToShow?.defaultKeyRounds.toString()
                         // Disable memory and parallelism if not available
-                        mMemoryPref?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
-                        mParallelismPref?.summary = kdfEngineToShow.defaultParallelism.toString()
+                        mMemoryPref?.summary = kdfEngineToShow?.defaultMemoryUsage.toString()
+                        mParallelismPref?.summary = kdfEngineToShow?.defaultParallelism.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> {
                         val oldIterations = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
@@ -648,47 +692,6 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
 
         context?.let { context ->
             mDatabaseAutoSaveEnabled = PreferencesUtil.isAutoSaveDatabaseEnabled(context)
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-
-        inflater.inflate(R.menu.database, menu)
-        if (mDatabaseReadOnly) {
-            menu.findItem(R.id.menu_save_database)?.isVisible = false
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-        if (!mMergeDataAllowed) {
-            menu.findItem(R.id.menu_merge_database)?.isVisible = false
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_save_database -> {
-                saveDatabase(!mDatabaseReadOnly)
-                true
-            }
-            R.id.menu_merge_database -> {
-                mergeDatabase()
-                true
-            }
-            R.id.menu_reload_database -> {
-                reloadDatabase()
-                true
-            }
-            R.id.menu_app_settings -> {
-                // Check the time lock before launching settings
-                // TODO activity menu
-                (activity as SettingsActivity?)?.let {
-                    SettingsActivity.launch(it, true)
-                }
-                true
-            }
-            else -> {
-                super.onOptionsItemSelected(item)
-            }
         }
     }
 

@@ -30,7 +30,8 @@ import androidx.core.text.HtmlCompat
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.getPackageInfoCompat
 import org.joda.time.DateTime
 
 class AboutActivity : StylishActivity() {
@@ -46,7 +47,7 @@ class AboutActivity : StylishActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val appName = if (UriUtil.contributingUser(this))
+        val appName = if (this.isContributingUser())
             getString(R.string.app_name) + " " + getString(R.string.app_name_part3)
          else
             getString(R.string.app_name)
@@ -55,7 +56,7 @@ class AboutActivity : StylishActivity() {
         var version: String
         var build: String
         try {
-            version = packageManager.getPackageInfo(packageName, 0).versionName
+            version = packageManager.getPackageInfoCompat(packageName).versionName
             build = BuildConfig.BUILD_VERSION
         } catch (e: NameNotFoundException) {
             Log.w(javaClass.simpleName, "Unable to get the app or the build version", e)

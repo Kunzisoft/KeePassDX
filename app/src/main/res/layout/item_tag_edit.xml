@@ -33,7 +33,7 @@
         android:layout_gravity="center_vertical"
         app:drawableLeftCompat="@drawable/ic_bookmark_white_12dp"
         app:drawableStartCompat="@drawable/ic_bookmark_white_12dp"
-        app:drawableTint="?attr/colorAccent"
+        app:drawableTint="?attr/colorSecondary"
         android:drawablePadding="2dp"
         tools:text="text"
         android:textSize="12sp"
@@ -47,7 +47,7 @@
         android:layout_height="24dp"
         android:padding="4dp"
         android:src="@drawable/ic_close_white_24dp"
-        app:tint="?attr/colorAccent"
+        app:tint="?attr/colorSecondary"
         android:gravity="center_vertical"
         android:layout_gravity="center"
         android:contentDescription="@string/menu_delete" />

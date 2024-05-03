@@ -19,21 +19,27 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.app.SearchManager
-import android.app.TimePickerDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.net.Uri
-import android.os.*
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -49,8 +55,13 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.GroupDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.MainCredentialDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
@@ -59,21 +70,24 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -81,16 +95,28 @@ import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
-import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
+import com.kunzisoft.keepass.utils.UriUtil.openUrl
+import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.putParcelableList
+import com.kunzisoft.keepass.utils.readParcelableCompat
+import com.kunzisoft.keepass.view.AddNodeButtonView
+import com.kunzisoft.keepass.view.NavigationDatabaseView
+import com.kunzisoft.keepass.view.SearchFiltersView
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.WindowInsetPosition
+import com.kunzisoft.keepass.view.applyWindowInsets
+import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
+import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
-import org.joda.time.DateTime
 
 
 class GroupActivity : DatabaseLockActivity(),
-        DatePickerDialog.OnDateSetListener,
-        TimePickerDialog.OnTimeSetListener,
         GroupFragment.NodeClickListener,
         GroupFragment.NodesActionMenuListener,
         GroupFragment.OnScrollListener,
@@ -99,18 +125,19 @@ class GroupActivity : DatabaseLockActivity(),
         MainCredentialDialogFragment.AskMainCredentialDialogListener {
 
     // Views
+    private var header: ViewGroup? = null
+    private var footer: ViewGroup? = null
     private var drawerLayout: DrawerLayout? = null
     private var databaseNavView: NavigationDatabaseView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
+    private var coordinatorError: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
-    private var databaseNameContainer: ViewGroup? = null
     private var databaseModifiedView: ImageView? = null
     private var databaseColorView: ImageView? = null
     private var databaseNameView: TextView? = null
     private var searchView: SearchView? = null
     private var searchFiltersView: SearchFiltersView? = null
-    private var toolbarBreadcrumb: Toolbar? = null
     private var toolbarAction: ToolbarAction? = null
     private var numberChildrenView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
@@ -136,6 +163,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     // Manage group
     private var mSearchState: SearchState? = null
+    private var mAutoSearch: Boolean = false // To mainly manage keyboard
     private var mMainGroupState: GroupState? = null // Group state, not a search
     private var mRootGroup: Group? = null // Root group in the tree
     private var mMainGroup: Group? = null // Main group currently in memory
@@ -175,22 +203,16 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
-        override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+        override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
             searchFiltersView?.visibility = View.VISIBLE
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
 
             addSearch()
-            //loadGroup()
-
-            // Back to previous keyboard
-            if (PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
-                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
-            }
             return true
         }
 
-        override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+        override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
             searchFiltersView?.onParametersChangeListener = null
             searchView?.setOnQueryTextListener(null)
             searchFiltersView?.visibility = View.GONE
@@ -199,6 +221,22 @@ class GroupActivity : DatabaseLockActivity(),
             loadGroup()
             return true
         }
+    }
+    private val mOnSearchTextFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+        if (!mAutoSearch
+            && hasFocus
+            && PreferencesUtil.isKeyboardPreviousSearchEnable(this@GroupActivity)) {
+            // Change to the previous keyboard and show it
+            sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            view.showKeyboard()
+        }
+    }
+
+    private val mEntryActivityResultLauncher = EntryEditActivity.registerForEntryResult(this) { entryId ->
+        entryId?.let {
+            // Simply refresh the list when entry is updated
+            loadGroup()
+        } ?: Log.e(this.javaClass.name, "Entry cannot be retrieved in Activity Result")
     }
 
     private fun addSearch() {
@@ -210,7 +248,6 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun removeSearch() {
-        finishNodeAction()
         mSearchState = null
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -236,22 +273,30 @@ class GroupActivity : DatabaseLockActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        header = findViewById(R.id.activity_group_header)
+        footer = findViewById(R.id.activity_group_footer)
         drawerLayout = findViewById(R.id.drawer_layout)
         databaseNavView = findViewById(R.id.database_nav_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
+        coordinatorError = findViewById(R.id.error_coordinator)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
-        databaseNameContainer = findViewById(R.id.database_name_container)
         databaseModifiedView = findViewById(R.id.database_modified)
         databaseColorView = findViewById(R.id.database_color)
         databaseNameView = findViewById(R.id.database_name)
         searchFiltersView = findViewById(R.id.search_filters)
-        toolbarBreadcrumb = findViewById(R.id.toolbar_breadcrumb)
         breadcrumbListView = findViewById(R.id.breadcrumb_list)
         toolbarAction = findViewById(R.id.toolbar_action)
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
+
+        // To apply fit window with transparency
+        setTransparentNavigationBar {
+            header?.applyWindowInsets(WindowInsetPosition.TOP)
+            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.LEGIT_TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }
 
         lockView?.setOnClickListener {
             lockAndExit()
@@ -302,7 +347,7 @@ class GroupActivity : DatabaseLockActivity(),
                         lockAndExit()
                     }
                     R.id.menu_contribute -> {
-                        UriUtil.gotoUrl(this@GroupActivity, R.string.contribution_url)
+                        this@GroupActivity.openUrl(R.string.contribution_url)
                     }
                     R.id.menu_about -> {
                         startActivity(Intent(this@GroupActivity, AboutActivity::class.java))
@@ -361,7 +406,7 @@ class GroupActivity : DatabaseLockActivity(),
                 savedInstanceState.remove(REQUEST_STARTUP_SEARCH_KEY)
             }
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY)) {
-                mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
+                mOldGroupToUpdate = savedInstanceState.getParcelableCompat(OLD_GROUP_TO_UPDATE_KEY)
                 savedInstanceState.remove(OLD_GROUP_TO_UPDATE_KEY)
             }
         }
@@ -369,9 +414,8 @@ class GroupActivity : DatabaseLockActivity(),
         // Retrieve previous groups
         if (savedInstanceState != null && savedInstanceState.containsKey(PREVIOUS_GROUPS_IDS_KEY)) {
             try {
-                mPreviousGroupsIds =
-                    (savedInstanceState.getParcelableArray(PREVIOUS_GROUPS_IDS_KEY)
-                        ?.map { it as GroupState })?.toMutableList() ?: mutableListOf()
+                mPreviousGroupsIds = savedInstanceState.getParcelableList(PREVIOUS_GROUPS_IDS_KEY)
+                    ?: mutableListOf()
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to retrieve previous groups", e)
             }
@@ -430,18 +474,20 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupEditViewModel.requestDateTimeSelection.observe(this) { dateInstant ->
             if (dateInstant.type == DateInstant.Type.TIME) {
                 // Launch the time picker
-                val dateTime = DateTime(dateInstant.date)
-                TimePickerFragment.getInstance(dateTime.hourOfDay, dateTime.minuteOfHour)
-                    .show(supportFragmentManager, "TimePickerFragment")
+                MaterialTimePicker.Builder().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mGroupEditViewModel.selectTime(this.hour, this.minute)
+                    }
+                    show(supportFragmentManager, "TimePickerFragment")
+                }
             } else {
                 // Launch the date picker
-                val dateTime = DateTime(dateInstant.date)
-                DatePickerFragment.getInstance(
-                    dateTime.year,
-                    dateTime.monthOfYear - 1,
-                    dateTime.dayOfMonth
-                )
-                    .show(supportFragmentManager, "DatePickerFragment")
+                MaterialDatePicker.Builder.datePicker().build().apply {
+                    addOnPositiveButtonClickListener {
+                        mGroupEditViewModel.selectDate(it)
+                    }
+                    show(supportFragmentManager, "DatePickerFragment")
+                }
             }
         }
 
@@ -475,14 +521,12 @@ class GroupActivity : DatabaseLockActivity(),
                     EntrySelectionHelper.doSpecialAction(intent,
                         {
                             mMainGroup?.nodeId?.let { currentParentGroupId ->
-                                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                                    EntryEditActivity.launchToCreate(
-                                        this@GroupActivity,
-                                        database,
-                                        currentParentGroupId,
-                                        resultLauncher
-                                    )
-                                }
+                                EntryEditActivity.launchToCreate(
+                                    this@GroupActivity,
+                                    database,
+                                    currentParentGroupId,
+                                    mEntryActivityResultLauncher
+                                )
                             }
                         },
                         {
@@ -570,7 +614,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
@@ -614,15 +658,19 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
 
-        var newNodes: List<Node> = ArrayList()
-        result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
-            newNodes = getListNodesFromBundle(database, newNodesBundle)
+        var entry: Entry? = null
+        try {
+            result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
+                entry = getListNodesFromBundle(database, newNodesBundle)[0] as Entry
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to retrieve entry action for selection", e)
         }
 
         when (actionTask) {
@@ -639,27 +687,15 @@ class GroupActivity : DatabaseLockActivity(),
                             // Save not used
                         },
                         {
-                            try {
-                                val entry = newNodes[0] as Entry
-                                entrySelectedForKeyboardSelection(database, entry)
-                            } catch (e: Exception) {
-                                Log.e(
-                                    TAG,
-                                    "Unable to perform action for keyboard selection after entry update",
-                                    e
-                                )
+                            // Keyboard selection
+                            entry?.let {
+                                entrySelectedForKeyboardSelection(database, it)
                             }
                         },
                         { _, _ ->
-                            try {
-                                val entry = newNodes[0] as Entry
-                                entrySelectedForAutofillSelection(database, entry)
-                            } catch (e: Exception) {
-                                Log.e(
-                                    TAG,
-                                    "Unable to perform action for autofill selection after entry update",
-                                    e
-                                )
+                            // Autofill selection
+                            entry?.let {
+                                entrySelectedForAutofillSelection(database, it)
                             }
                         },
                         {
@@ -668,26 +704,12 @@ class GroupActivity : DatabaseLockActivity(),
                     )
                 }
             }
-            ACTION_DATABASE_UPDATE_GROUP_TASK -> {
-                if (result.isSuccess) {
-                    try {
-                        if (mMainGroup == newNodes[0] as Group)
-                            reloadCurrentGroup()
-                    } catch (e: Exception) {
-                        Log.e(
-                            TAG,
-                            "Unable to perform action after group update",
-                            e
-                        )
-                    }
-                }
-            }
         }
 
-        coordinatorLayout?.showActionErrorIfNeeded(result)
-        if (!result.isSuccess) {
-            reloadCurrentGroup()
-        }
+        coordinatorError?.showActionErrorIfNeeded(result)
+
+        // Reload the group
+        loadGroup()
         finishNodeAction()
     }
 
@@ -708,13 +730,14 @@ class GroupActivity : DatabaseLockActivity(),
     private fun manageIntent(intent: Intent?) {
         intent?.let {
             if (intent.extras?.containsKey(GROUP_STATE_KEY) == true) {
-                mMainGroupState = intent.getParcelableExtra(GROUP_STATE_KEY)
+                mMainGroupState = intent.getParcelableExtraCompat(GROUP_STATE_KEY)
                 intent.removeExtra(GROUP_STATE_KEY)
             }
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
             transformSearchInfoIntent(intent)
             // Get search query
             if (intent.action == Intent.ACTION_SEARCH) {
+                mAutoSearch = true
                 val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
                 intent.action = Intent.ACTION_DEFAULT
                 intent.removeExtra(SearchManager.QUERY)
@@ -739,7 +762,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelableArray(PREVIOUS_GROUPS_IDS_KEY, mPreviousGroupsIds.toTypedArray())
+        outState.putParcelableList(PREVIOUS_GROUPS_IDS_KEY, mPreviousGroupsIds)
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
@@ -800,7 +823,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onNodeClick(
-        database: Database,
+        database: ContextualDatabase,
         node: Node
     ) {
         when (node.type) {
@@ -814,7 +837,6 @@ class GroupActivity : DatabaseLockActivity(),
                 }
                 // Open child group
                 loadMainGroup(GroupState(group.nodeId, 0))
-
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
@@ -823,22 +845,22 @@ class GroupActivity : DatabaseLockActivity(),
                 val entryVersioned = node as Entry
                 EntrySelectionHelper.doSpecialAction(intent,
                     {
-                        mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                            EntryActivity.launch(
-                                this@GroupActivity,
-                                database,
-                                entryVersioned.nodeId,
-                                resultLauncher
-                            )
-                        }
+                        EntryActivity.launch(
+                            this@GroupActivity,
+                            database,
+                            entryVersioned.nodeId,
+                            mEntryActivityResultLauncher
+                        )
+                        // Do not reload group here
                     },
                     {
                         // Nothing here, a search is simply performed
                     },
                     { searchInfo ->
-                        if (!database.isReadOnly)
+                        if (!database.isReadOnly) {
                             entrySelectedForSave(database, entryVersioned, searchInfo)
-                        else
+                            loadGroup()
+                        } else
                             finish()
                     },
                     { searchInfo ->
@@ -849,6 +871,7 @@ class GroupActivity : DatabaseLockActivity(),
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }
                         entrySelectedForKeyboardSelection(database, entryVersioned)
+                        loadGroup()
                     },
                     { searchInfo, _ ->
                         if (!database.isReadOnly
@@ -858,23 +881,23 @@ class GroupActivity : DatabaseLockActivity(),
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }
                         entrySelectedForAutofillSelection(database, entryVersioned)
+                        loadGroup()
                     },
                     { registerInfo ->
-                        if (!database.isReadOnly)
+                        if (!database.isReadOnly) {
                             entrySelectedForRegistration(database, entryVersioned, registerInfo)
-                        else
+                            loadGroup()
+                        } else
                             finish()
                     })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
-
-        reloadGroupIfSearch()
     }
 
-    private fun entrySelectedForSave(database: Database, entry: Entry, searchInfo: SearchInfo) {
-        reloadCurrentGroup()
+    private fun entrySelectedForSave(database: ContextualDatabase, entry: Entry, searchInfo: SearchInfo) {
+        removeSearch()
         // Save to update the entry
         EntryEditActivity.launchToUpdateForSave(
             this@GroupActivity,
@@ -885,8 +908,8 @@ class GroupActivity : DatabaseLockActivity(),
         onLaunchActivitySpecialMode()
     }
 
-    private fun entrySelectedForKeyboardSelection(database: Database, entry: Entry) {
-        reloadCurrentGroup()
+    private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
+        removeSearch()
         // Populate Magikeyboard with entry
         MagikeyboardService.populateKeyboardAndMoveAppToBackground(
             this,
@@ -895,7 +918,8 @@ class GroupActivity : DatabaseLockActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entrySelectedForAutofillSelection(database: Database, entry: Entry) {
+    private fun entrySelectedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
+        removeSearch()
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.buildResponseAndSetResult(
@@ -908,11 +932,11 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun entrySelectedForRegistration(
-        database: Database,
+        database: ContextualDatabase,
         entry: Entry,
         registerInfo: RegisterInfo?
     ) {
-        reloadCurrentGroup()
+        removeSearch()
         // Registration to update the entry
         EntryEditActivity.launchToUpdateForRegistration(
             this@GroupActivity,
@@ -924,7 +948,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     private fun updateEntryWithSearchInfo(
-        database: Database,
+        database: ContextualDatabase,
         entry: Entry,
         searchInfo: SearchInfo
     ) {
@@ -941,30 +965,12 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        // To fix android 4.4 issue
-        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
-        if (datePicker?.isShown == true) {
-            mGroupEditViewModel.selectDate(year, month, day)
-        }
-    }
-
-    override fun onTimeSet(view: TimePicker?, hours: Int, minutes: Int) {
-        mGroupEditViewModel.selectTime(hours, minutes)
-    }
-
     private fun finishNodeAction() {
         actionNodeMode?.finish()
     }
 
-    private fun reloadGroupIfSearch() {
-        if (Intent.ACTION_SEARCH == intent.action) {
-            reloadCurrentGroup()
-        }
-    }
-
     override fun onNodeSelected(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         if (nodes.isNotEmpty()) {
@@ -990,7 +996,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onOpenMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         node: Node
     ): Boolean {
         finishNodeAction()
@@ -999,7 +1005,7 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onEditMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         node: Node
     ): Boolean {
         finishNodeAction()
@@ -1008,17 +1014,14 @@ class GroupActivity : DatabaseLockActivity(),
                 launchDialogForGroupUpdate(node as Group)
             }
             Type.ENTRY -> {
-                mGroupFragment?.mEntryActivityResultLauncher?.let { resultLauncher ->
-                    EntryEditActivity.launchToUpdate(
-                        this@GroupActivity,
-                        database,
-                        (node as Entry).nodeId,
-                        resultLauncher
-                    )
-                }
+                EntryEditActivity.launchToUpdate(
+                    this@GroupActivity,
+                    database,
+                    (node as Entry).nodeId,
+                    mEntryActivityResultLauncher
+                )
             }
         }
-        reloadGroupIfSearch()
         return true
     }
 
@@ -1047,27 +1050,27 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onCopyMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
-
-        // Nothing here fragment calls onPasteMenuClick internally
+        removeSearch()
+        loadGroup()
         return true
     }
 
     override fun onMoveMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         actionNodeMode?.invalidate()
-
-        // Nothing here fragment calls onPasteMenuClick internally
+        removeSearch()
+        loadGroup()
         return true
     }
 
     override fun onPasteMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         pasteMode: GroupFragment.PasteMode?,
         nodes: List<Node>
     ): Boolean {
@@ -1092,24 +1095,27 @@ class GroupActivity : DatabaseLockActivity(),
     }
 
     override fun onDeleteMenuClick(
-        database: Database,
+        database: ContextualDatabase,
         nodes: List<Node>
     ): Boolean {
         deleteNodes(nodes)
         finishNodeAction()
-        reloadGroupIfSearch()
         return true
     }
 
-    override fun onAskMainCredentialDialogPositiveClick(databaseUri: Uri?,
-                                                        mainCredential: MainCredential) {
+    override fun onAskMainCredentialDialogPositiveClick(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
         databaseUri?.let {
             mergeDatabaseFrom(it, mainCredential)
         }
     }
 
-    override fun onAskMainCredentialDialogNegativeClick(databaseUri: Uri?,
-                                                        mainCredential: MainCredential) { }
+    override fun onAskMainCredentialDialogNegativeClick(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) { }
 
     override fun onResume() {
         super.onResume()
@@ -1122,6 +1128,8 @@ class GroupActivity : DatabaseLockActivity(),
         }
         // Padding if lock button visible
         toolbarAction?.updateLockPaddingLeft()
+
+        loadGroup()
     }
 
     override fun onPause() {
@@ -1134,6 +1142,8 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun addSearchQueryInSearchView(searchQuery: String) {
         searchView?.setOnQueryTextListener(null)
+        if (mAutoSearch)
+            searchView?.clearFocus()
         searchView?.setQuery(searchQuery, false)
         searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
     }
@@ -1180,6 +1190,7 @@ class GroupActivity : DatabaseLockActivity(),
             it.setOnActionExpandListener(mOnSearchActionExpandListener)
             searchView = it.actionView as SearchView?
             searchView?.apply {
+                setOnQueryTextFocusChangeListener(mOnSearchTextFocusChangeListener)
                 val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
                 (searchManager?.getSearchableInfo(
                     ComponentName(this@GroupActivity, GroupActivity::class.java)
@@ -1195,13 +1206,14 @@ class GroupActivity : DatabaseLockActivity(),
                 }
             }
             if (it.isActionViewExpanded) {
-                toolbarBreadcrumb?.visibility = View.GONE
+                breadcrumbListView?.visibility = View.GONE
                 searchFiltersView?.visibility = View.VISIBLE
             } else {
                 searchFiltersView?.visibility = View.GONE
-                toolbarBreadcrumb?.visibility = View.VISIBLE
+                breadcrumbListView?.visibility = View.VISIBLE
             }
             mLockSearchListeners = false
+            mAutoSearch = false
         }
 
         super.onCreateOptionsMenu(menu)
@@ -1320,6 +1332,12 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
+    override fun onCancelSpecialMode() {
+        super.onCancelSpecialMode()
+        removeSearch()
+        loadGroup()
+    }
+
     override fun startActivity(intent: Intent) {
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
@@ -1336,12 +1354,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    private fun reloadCurrentGroup() {
-        removeSearch()
-        loadGroup()
-    }
-
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         if (mGroupFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {
@@ -1349,8 +1362,8 @@ class GroupActivity : DatabaseLockActivity(),
             if (mRootGroup != null && mRootGroup != mCurrentGroup) {
                 when {
                     Intent.ACTION_SEARCH == intent.action -> {
-                        // Remove the search
-                        reloadCurrentGroup()
+                        removeSearch()
+                        loadGroup()
                     }
                     mPreviousGroupsIds.isEmpty() -> {
                         super.onRegularBackPressed()
@@ -1368,7 +1381,6 @@ class GroupActivity : DatabaseLockActivity(),
                 EntrySelectionHelper.removeInfoFromIntent(intent)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
-                    super.onRegularBackPressed()
                 } else {
                     backToTheAppCaller()
                 }
@@ -1382,8 +1394,7 @@ class GroupActivity : DatabaseLockActivity(),
     ) : Parcelable {
 
         private constructor(parcel: Parcel) : this(
-            parcel.readParcelable<SearchParameters>
-                (SearchParameters::class.java.classLoader) ?: SearchParameters(),
+            parcel.readParcelableCompat<SearchParameters>() ?: SearchParameters(),
             parcel.readInt()
         )
 
@@ -1411,7 +1422,7 @@ class GroupActivity : DatabaseLockActivity(),
     ) : Parcelable {
 
         private constructor(parcel: Parcel) : this(
-            parcel.readParcelable<NodeId<*>>(NodeId::class.java.classLoader),
+            parcel.readParcelableCompat<NodeId<*>>(),
             parcel.readInt()
         )
 
@@ -1476,7 +1487,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launch(context: Context,
-                   database: Database,
+                   database: ContextualDatabase,
                    autoSearch: Boolean = false) {
             if (database.loaded) {
                 checkTimeAndBuildIntent(context, null) { intent ->
@@ -1492,7 +1503,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForSearchResult(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   searchInfo: SearchInfo,
                                   autoSearch: Boolean = false) {
             if (database.loaded) {
@@ -1513,7 +1524,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForSaveResult(context: Context,
-                                database: Database,
+                                database: ContextualDatabase,
                                 searchInfo: SearchInfo,
                                 autoSearch: Boolean = false) {
             if (database.loaded && !database.isReadOnly) {
@@ -1534,7 +1545,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForKeyboardSelectionResult(context: Context,
-                                             database: Database,
+                                             database: ContextualDatabase,
                                              searchInfo: SearchInfo? = null,
                                              autoSearch: Boolean = false) {
             if (database.loaded) {
@@ -1556,7 +1567,7 @@ class GroupActivity : DatabaseLockActivity(),
          */
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: AppCompatActivity,
-                                    database: Database,
+                                    database: ContextualDatabase,
                                     activityResultLaunch: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null,
@@ -1581,7 +1592,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launchForRegistration(context: Context,
-                                  database: Database,
+                                  database: ContextualDatabase,
                                   registerInfo: RegisterInfo? = null) {
             if (database.loaded && !database.isReadOnly) {
                 checkTimeAndBuildIntent(context, null) { intent ->
@@ -1601,7 +1612,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launch(activity: AppCompatActivity,
-                   database: Database,
+                   database: ContextualDatabase,
                    onValidateSpecialMode: () -> Unit,
                    onCancelSpecialMode: () -> Unit,
                    onLaunchActivitySpecialMode: () -> Unit,

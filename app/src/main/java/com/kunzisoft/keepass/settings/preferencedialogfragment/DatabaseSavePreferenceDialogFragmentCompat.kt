@@ -24,9 +24,9 @@ import android.os.Bundle
 import androidx.fragment.app.activityViewModels
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -38,7 +38,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
 
     private var mDatabaseAutoSaveEnable = true
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: Database? = null
+    private var mDatabase: ContextualDatabase? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,12 +57,12 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         onDatabaseRetrieved(mDatabase)
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         this.mDatabase = database
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -73,7 +73,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         onDialogClosed(mDatabase, positiveResult)
     }
 
-    open fun onDialogClosed(database: Database?, positiveResult: Boolean) {
+    open fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {
         // To inherit to save element in database
     }
 
@@ -91,7 +91,8 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
     }
 
     protected fun saveCompression(oldCompression: CompressionAlgorithm,
-                                  newCompression: CompressionAlgorithm) {
+                                  newCompression: CompressionAlgorithm
+    ) {
         mDatabaseViewModel.saveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
     }
 

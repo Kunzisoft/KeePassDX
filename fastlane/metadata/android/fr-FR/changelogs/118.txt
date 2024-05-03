@@ -1,0 +1,8 @@
+ * Support du YubiKey challenge-response #8 #137
+ * Meilleure gestion des exceptions de sauvegarde #1346
+ * Ajout du "Mode Capture d'Ecran" dans les paramètres #459 #1377 #1354 (Thx @GianpaMX)
+ * Masquage du texte sensible du presse-papiers #1386
+ * Correction du bouton des pièces jointes #1401
+ * Ajout de l'icone monochrome #1403 #1404 (Thx @Sandelinos)
+ * Correction du verrouillage avec bouton arrière #1412 #1414 (Thx @ryg-git)
+ * Compatibilité de Vanadium #1447 (Thx @flawedworld)

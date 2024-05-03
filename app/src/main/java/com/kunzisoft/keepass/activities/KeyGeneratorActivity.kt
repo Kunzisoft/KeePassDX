@@ -96,7 +96,7 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+                onDatabaseBackPressed()
             }
             R.id.menu_generate -> {
                 keyGeneratorViewModel.requireKeyGeneration()
@@ -106,9 +106,9 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         setResult(Activity.RESULT_CANCELED, Intent())
-        super.onBackPressed()
+        super.onDatabaseBackPressed()
     }
 
     companion object {

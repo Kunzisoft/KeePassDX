@@ -168,7 +168,7 @@
     <string name="warning_no_encryption_key">Ønsker du å fortsette uten en krypteringsnøkkel\?</string>
     <string name="version_label">Versjon %1$s</string>
     <string name="encrypted_value_stored">Kryptert passord lagret</string>
-    <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
+    <string name="unavailable">Denne databasen har ikke et passord enda.</string>
     <string name="database_history">Historikk</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
@@ -536,8 +536,6 @@
     <string name="permission">Tilgang</string>
     <string name="biometric_security_update_required">Biometrisk sikkerhetsoppdatering kreves.</string>
     <string name="warning_exact_alarm">Du har ikke tillat programmet å bruke en eksakt alarm. Som resultat vil funksjoner som krever et tidsur ikke gjøres til eksakt tid.</string>
-    <string name="open_advanced_unlock_prompt_unlock_database">Åpne avansert opplåsningsspørring for å låse opp databasen</string>
-    <string name="open_advanced_unlock_prompt_store_credential">Åpne avansert opplåsningsspørring for å lagre identitetsdetaljer</string>
     <string name="advanced_unlock_prompt_store_credential_message">Advarsel: Du vil fremdeles måtte huske hovedpassordet ditt hvis du bruker avansert opplåsningsgjenkjennelse.</string>
     <string name="advanced_unlock_not_recognized">Kunne ikke gjenkjenne avansert opplåsningsskrift</string>
     <string name="credential_before_click_advanced_unlock_button">Skriv inn passordet, og klikk deretter på denne knappen.</string>

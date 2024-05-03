@@ -22,8 +22,16 @@ package com.kunzisoft.keepass.view
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
-import android.graphics.*
+import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.graphics.Typeface
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Selection
 import android.text.Spannable
 import android.text.SpannableString
@@ -32,28 +40,31 @@ import android.text.method.LinkMovementMethod
 import android.text.method.PasswordTransformationMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.forEach
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.helper.getLocalizedMessage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import androidx.appcompat.view.menu.ActionMenuItemView
-
-import android.widget.ImageView
-import androidx.appcompat.widget.ActionMenuView
-
-import androidx.core.graphics.drawable.DrawableCompat
-
-import android.graphics.drawable.Drawable
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 
 
 /**
@@ -124,15 +135,15 @@ fun View.collapse(animate: Boolean = true,
         play(slideAnimator)
         interpolator = AccelerateDecelerateInterpolator()
         addListener(object: Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
             }
-            override fun onAnimationRepeat(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
                 visibility = View.GONE
                 layoutParams.height = recordViewHeight
                 onCollapseFinished?.invoke()
             }
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
         })
     }.start()
 }
@@ -158,12 +169,12 @@ fun View.expand(animate: Boolean = true,
         play(slideAnimator)
         interpolator = AccelerateDecelerateInterpolator()
         addListener(object: Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {}
-            override fun onAnimationRepeat(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
+            override fun onAnimationEnd(animation: Animator) {
                 onExpandFinished?.invoke()
             }
-            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
         })
     }.start()
 }
@@ -193,12 +204,12 @@ fun View.hideByFading() {
             .alpha(0f)
             .setDuration(140)
             .setListener(object: Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {}
-                override fun onAnimationEnd(p0: Animator?) {
+                override fun onAnimationStart(p0: Animator) {}
+                override fun onAnimationEnd(p0: Animator) {
                     isVisible = false
                 }
-                override fun onAnimationCancel(p0: Animator?) {}
-                override fun onAnimationRepeat(p0: Animator?) {}
+                override fun onAnimationCancel(p0: Animator) {}
+                override fun onAnimationRepeat(p0: Animator) {}
             })
 }
 
@@ -226,8 +237,8 @@ fun View.updateLockPaddingLeft() {
 
 fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.errorId?.let { errorId ->
-            Toast.makeText(this, errorId, Toast.LENGTH_LONG).show()
+        result.exception?.getLocalizedMessage(resources)?.let { errorMessage ->
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
         } ?: result.message?.let { message ->
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
@@ -236,8 +247,8 @@ fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
 
 fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
     if (!result.isSuccess) {
-        result.exception?.errorId?.let { errorId ->
-            Snackbar.make(this, errorId, Snackbar.LENGTH_LONG).asError().show()
+        result.exception?.getLocalizedMessage(resources)?.let { errorMessage ->
+            Snackbar.make(this, errorMessage, Snackbar.LENGTH_LONG).asError().show()
         } ?: result.message?.let { message ->
             Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
         }
@@ -288,4 +299,69 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
     setCollapsedTitleTextColor(color)
     setExpandedTitleColor(color)
     invalidate()
+}
+
+fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, applyWindowInsets: () -> Unit) {
+    // Only in portrait
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
+        && resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        this.window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
+        if (applyToStatusBar) {
+            this.window.statusBarColor = ContextCompat.getColor(this, R.color.surface_selector)
+        }
+        applyWindowInsets.invoke()
+    }
+}
+
+/**
+ * Apply a margin to a view to fix the window inset
+ */
+fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.BOTTOM) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        var consumed = false
+
+        // To fix listener in API 27
+        if (view is ViewGroup) {
+            view.forEach { child ->
+                // Dispatch the insets to the child
+                val childResult = ViewCompat.dispatchApplyWindowInsets(child, windowInsets)
+                // If the child consumed the insets, record it
+                if (childResult.isConsumed) {
+                    consumed = true
+                }
+            }
+        }
+
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        when (position) {
+            WindowInsetPosition.TOP -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = insets.top
+                    }
+                }
+            }
+            WindowInsetPosition.LEGIT_TOP -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = 0
+                    }
+                }
+            }
+            WindowInsetPosition.BOTTOM -> {
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = insets.bottom
+                    }
+                }
+            }
+        }
+        // If any of the children consumed the insets, return an appropriate value
+        if (consumed) WindowInsetsCompat.CONSUMED else windowInsets
+    }
+}
+
+enum class WindowInsetPosition {
+    TOP, BOTTOM, LEGIT_TOP
 }

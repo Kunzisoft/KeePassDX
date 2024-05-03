@@ -110,9 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@string/about"
-                    android:textStyle="bold"
-                    style="@style/KeepassDXStyle.TextAppearance.Title"/>
+                    android:text="@string/info"
+                    style="@style/KeepassDXStyle.Title"/>
                 <TextView
                     android:id="@+id/activity_about_licence_text"
                     android:layout_marginTop="8dp"
@@ -135,8 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/contact"
-                    android:textStyle="bold"
-                    style="@style/KeepassDXStyle.TextAppearance.Title"/>
+                    style="@style/KeepassDXStyle.Title"/>
 
                 <TextView
                     android:id="@+id/activity_about_homepage_subtitle"
@@ -144,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/homepage"
-                    style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+                    style="@style/KeepassDXStyle.SubTitle"/>
                 <TextView
                     android:id="@+id/activity_about_homepage_link"
                     android:layout_width="wrap_content"
@@ -158,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/feedback"
-                    style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+                    style="@style/KeepassDXStyle.SubTitle"/>
                 <TextView
                     android:id="@+id/activity_about_feedback_link"
                     android:layout_width="wrap_content"
@@ -172,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/contribution"
-                    style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+                    style="@style/KeepassDXStyle.SubTitle"/>
                 <TextView
                     android:id="@+id/activity_about_contribution_link"
                     android:layout_width="wrap_content"

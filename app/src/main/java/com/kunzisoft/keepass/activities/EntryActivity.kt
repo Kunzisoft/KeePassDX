@@ -23,6 +23,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -30,17 +31,22 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -51,8 +57,8 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
@@ -67,17 +73,21 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.view.WindowInsetPosition
+import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.changeControlColor
 import com.kunzisoft.keepass.view.changeTitleColor
 import com.kunzisoft.keepass.view.hideByFading
+import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
-import java.util.*
+import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
+    private var footer: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var appBarLayout: AppBarLayout? = null
@@ -98,7 +108,6 @@ class EntryActivity : DatabaseLockActivity() {
     private var mMainEntryId: NodeId<UUID>? = null
     private var mHistoryPosition: Int = -1
     private var mEntryIsHistory: Boolean = false
-    private var mUrl: String? = null
     private var mEntryLoaded = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
@@ -111,9 +120,9 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private var mIcon: IconImage? = null
-    private var mColorAccent: Int = 0
-    private var mControlColor: Int = 0
-    private var mColorPrimary: Int = 0
+    private var mColorSecondary: Int = 0
+    private var mColorSurface: Int = 0
+    private var mColorOnSurface: Int = 0
     private var mColorBackground: Int = 0
     private var mBackgroundColor: Int? = null
     private var mForegroundColor: Int? = null
@@ -129,6 +138,7 @@ class EntryActivity : DatabaseLockActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         // Get views
+        footer = findViewById(R.id.activity_entry_footer)
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         appBarLayout = findViewById(R.id.app_bar)
@@ -140,22 +150,30 @@ class EntryActivity : DatabaseLockActivity() {
         lockView = findViewById(R.id.lock_button)
         loadingView = findViewById(R.id.loading)
 
+        // To apply fit window with transparency
+        setTransparentNavigationBar {
+            // To fix margin with API 27
+            ViewCompat.setOnApplyWindowInsetsListener(collapsingToolbarLayout!!, null)
+            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        }
+
         // Empty title
         collapsingToolbarLayout?.title = " "
         toolbar?.title = " "
 
         // Retrieve the textColor to tint the toolbar
-        val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
-        val taControlColor = theme.obtainStyledAttributes(intArrayOf(R.attr.toolbarColorControl))
-        val taColorPrimary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorPrimary))
+        val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        val taColorSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface))
+        val taColorOnSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
         val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
-        mColorAccent = taColorAccent.getColor(0, Color.BLACK)
-        mControlColor = taControlColor.getColor(0, Color.BLACK)
-        mColorPrimary = taColorPrimary.getColor(0, Color.BLACK)
+        mColorSecondary = taColorSecondary.getColor(0, Color.BLACK)
+        mColorSurface = taColorSurface.getColor(0, Color.BLACK)
+        mColorOnSurface = taColorOnSurface.getColor(0, Color.BLACK)
         mColorBackground = taColorBackground.getColor(0, Color.BLACK)
-        taColorAccent.recycle()
-        taControlColor.recycle()
-        taColorPrimary.recycle()
+        taColorSecondary.recycle()
+        taColorSurface.recycle()
+        taColorOnSurface.recycle()
         taColorBackground.recycle()
 
         // Init Tags adapter
@@ -180,7 +198,7 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get Entry from UUID
         try {
-            intent.getParcelableExtra<NodeId<UUID>?>(KEY_ENTRY)?.let { mainEntryId ->
+            intent.getParcelableExtraCompat<NodeId<UUID>>(KEY_ENTRY)?.let { mainEntryId ->
                 intent.removeExtra(KEY_ENTRY)
                 val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
                 intent.removeExtra(KEY_ENTRY_HISTORY_POSITION)
@@ -224,16 +242,16 @@ class EntryActivity : DatabaseLockActivity() {
                 this.mEntryIsHistory = entryIsHistory
                 // Assign history dedicated view
                 historyView?.visibility = if (entryIsHistory) View.VISIBLE else View.GONE
+                // TODO History badge
+                /*
                 if (entryIsHistory) {
-                    collapsingToolbarLayout?.contentScrim =
-                        ColorDrawable(mColorAccent)
-                }
+                }*/
 
                 val entryInfo = entryInfoHistory.entryInfo
                 // Manage entry copy to start notification if allowed (at the first start)
                 if (savedInstanceState == null) {
                     // Manage entry to launch copying notification if allowed
-                    ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
+                    ClipboardEntryNotificationService.checkAndLaunchNotification(this, entryInfo)
                     // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
                     if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
                         MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
@@ -246,7 +264,6 @@ class EntryActivity : DatabaseLockActivity() {
                     if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
-                mUrl = entryInfo.url
                 // Assign tags
                 val tags = entryInfo.tags
                 tagsListView?.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
@@ -310,14 +327,14 @@ class EntryActivity : DatabaseLockActivity() {
         return coordinatorLayout
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         mEntryViewModel.loadDatabase(database)
     }
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -365,8 +382,8 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     private fun applyToolbarColors() {
-        appBarLayout?.setBackgroundColor(mBackgroundColor ?: mColorPrimary)
-        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorPrimary)
+        collapsingToolbarLayout?.setBackgroundColor(mBackgroundColor ?: mColorSurface)
+        collapsingToolbarLayout?.contentScrim = ColorDrawable(mBackgroundColor ?: mColorSurface)
         val backgroundDarker = if (mBackgroundColor != null) {
             ColorUtils.blendARGB(mBackgroundColor!!, Color.WHITE, 0.1f)
         } else {
@@ -376,15 +393,15 @@ class EntryActivity : DatabaseLockActivity() {
             .createBlendModeColorFilterCompat(backgroundDarker, BlendModeCompat.SRC_IN)
         mIcon?.let { icon ->
             titleIconView?.let { iconView ->
-                mIconDrawableFactory?.assignDatabaseIcon(
+                mDatabase?.iconDrawableFactory?.assignDatabaseIcon(
                     iconView,
                     icon,
-                    mForegroundColor ?: mColorAccent
+                    mForegroundColor ?: mColorSecondary
                 )
             }
         }
-        toolbar?.changeControlColor(mForegroundColor ?: mControlColor)
-        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mControlColor)
+        toolbar?.changeControlColor(mForegroundColor ?: mColorOnSurface)
+        collapsingToolbarLayout?.changeTitleColor(mForegroundColor ?: mColorOnSurface)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -408,9 +425,6 @@ class EntryActivity : DatabaseLockActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        if (mUrl?.isEmpty() != false) {
-            menu?.findItem(R.id.menu_goto_url)?.isVisible = false
-        }
         if (mEntryIsHistory || mDatabaseReadOnly) {
             menu?.findItem(R.id.menu_save_database)?.isVisible = false
             menu?.findItem(R.id.menu_merge_database)?.isVisible = false
@@ -471,12 +485,6 @@ class EntryActivity : DatabaseLockActivity() {
                 }
                 return true
             }
-            R.id.menu_goto_url -> {
-                mUrl?.let { url ->
-                    UriUtil.gotoUrl(this, url)
-                }
-                return true
-            }
             R.id.menu_restore_entry_history -> {
                 mMainEntryId?.let { mainEntryId ->
                     restoreEntryHistory(
@@ -526,7 +534,7 @@ class EntryActivity : DatabaseLockActivity() {
          * Open standard Entry activity
          */
         fun launch(activity: Activity,
-                   database: Database,
+                   database: ContextualDatabase,
                    entryId: NodeId<UUID>,
                    activityResultLauncher: ActivityResultLauncher<Intent>) {
             if (database.loaded) {
@@ -542,7 +550,7 @@ class EntryActivity : DatabaseLockActivity() {
          * Open history Entry activity
          */
         fun launch(activity: Activity,
-                   database: Database,
+                   database: ContextualDatabase,
                    entryId: NodeId<UUID>,
                    historyPosition: Int,
                    activityResultLauncher: ActivityResultLauncher<Intent>) {

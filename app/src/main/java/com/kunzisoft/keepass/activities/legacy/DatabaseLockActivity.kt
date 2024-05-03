@@ -36,14 +36,13 @@ import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.GroupInfo
-import com.kunzisoft.keepass.database.element.MainCredential
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -67,8 +66,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
 
-    protected var mIconDrawableFactory: IconDrawableFactory? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -90,8 +87,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabaseTaskProvider?.startDatabaseSave(save)
         }
 
-        mDatabaseViewModel.mergeDatabase.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseMerge()
+        mDatabaseViewModel.mergeDatabase.observe(this) { save ->
+            mDatabaseTaskProvider?.startDatabaseMerge(save)
         }
 
         mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
@@ -167,7 +164,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         return true
     }
 
-    override fun onDatabaseRetrieved(database: Database?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         // End activity if database not loaded
@@ -207,16 +204,24 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
             mDatabaseReadOnly = database.isReadOnly
             mMergeDataAllowed = database.isMergeDataAllowed()
-            mIconDrawableFactory = database.iconDrawableFactory
 
             checkRegister()
+        }
+    }
+
+    override fun finish() {
+        // To fix weird crash
+        try {
+            super.finish()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to finish the activity", e)
         }
     }
 
     abstract fun viewToInvalidateTimeout(): View?
 
     override fun onDatabaseActionFinished(
-        database: Database,
+        database: ContextualDatabase,
         actionTask: String,
         result: ActionRunnable.Result
     ) {
@@ -227,6 +232,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 // Reload the current activity
                 if (result.isSuccess) {
                     reloadActivity()
+                    if (actionTask == DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK) {
+                        Toast.makeText(this, R.string.merge_success, Toast.LENGTH_LONG).show()
+                    }
                 } else {
                     this.showActionErrorIfNeeded(result)
                     finish()
@@ -235,15 +243,19 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onPasswordEncodingValidateListener(databaseUri: Uri?,
-                                                    mainCredential: MainCredential) {
+    override fun onPasswordEncodingValidateListener(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
         assignDatabasePassword(databaseUri, mainCredential)
     }
 
-    private fun assignDatabasePassword(databaseUri: Uri?,
-                                       mainCredential: MainCredential) {
+    private fun assignDatabasePassword(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
         if (databaseUri != null) {
-            mDatabaseTaskProvider?.startDatabaseAssignPassword(databaseUri, mainCredential)
+            mDatabaseTaskProvider?.startDatabaseAssignCredential(databaseUri, mainCredential)
         }
     }
 
@@ -251,7 +263,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
-                if (database.validatePasswordEncoding(mainCredential)) {
+                if (database.isValidCredential(mainCredential.toMasterCredential(contentResolver))) {
                     assignDatabasePassword(databaseUri, mainCredential)
                 } else {
                     PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
@@ -270,11 +282,11 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun mergeDatabase() {
-        mDatabaseTaskProvider?.startDatabaseMerge()
+        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable)
     }
 
     fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
-        mDatabaseTaskProvider?.startDatabaseMerge(uri, mainCredential)
+        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable, uri, mainCredential)
     }
 
     fun reloadDatabase() {
@@ -303,7 +315,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabaseTaskProvider?.startDatabaseMoveNodes(nodesToMove, newParent, mAutoSaveEnable)
     }
 
-    private fun eachNodeRecyclable(database: Database, nodes: List<Node>): Boolean {
+    private fun eachNodeRecyclable(database: ContextualDatabase, nodes: List<Node>): Boolean {
         return nodes.find { node ->
             var cannotRecycle = true
             if (node is Entry) {
@@ -319,7 +331,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mDatabase?.let { database ->
             // If recycle bin enabled, ensure it exists
             if (database.isRecycleBinEnabled) {
-                database.ensureRecycleBinExists(resources)
+                database.ensureRecycleBinExists(resources.getString(R.string.recycle_bin))
             }
 
             // If recycle bin enabled and not in recycle bin, move in recycle bin
@@ -451,14 +463,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             mDatabase?.loaded ?: false)
     }
 
-    override fun onBackPressed() {
+    override fun onDatabaseBackPressed() {
         if (mTimeoutEnable) {
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this,
                 mDatabase?.loaded == true) {
-                super.onBackPressed()
+                super.onDatabaseBackPressed()
             }
         } else {
-            super.onBackPressed()
+            super.onDatabaseBackPressed()
         }
     }
 
