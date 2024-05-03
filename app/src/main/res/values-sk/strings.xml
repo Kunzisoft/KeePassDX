@@ -41,7 +41,7 @@
     <string name="digits">Číslice</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bez reklamy&lt;/strong&gt;.
 \nPoskytuje sa tak, ako je, na základe licencie &lt;strong&gt;GPLv3&lt;/strong&gt; bez akejkoľvek záruky.</string>
-    <string name="select_database_file">Otvorte existujúcu databázu</string>
+    <string name="select_database_file">Otvoriť existujúci trezor</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
     <string name="entry_notes">Poznámky</string>
@@ -164,7 +164,7 @@
     <string name="error_otp_type">Existujúci typ OTP tento formulár nerozpoznáva, jeho validácia už nemusí správne generovať token.</string>
     <string name="invalid_db_same_uuid">%1$s s rovnakým UUID %2$s už existuje.</string>
     <string name="education_setup_OTP_title">Nastaviť OTP</string>
-    <string name="create_keepass_file">Vytvorte novú databázu</string>
+    <string name="create_keepass_file">Vytvorte novú trezor</string>
     <string name="auto_focus_search_summary">Pri otváraní databázy požiadajte o vyhľadávanie</string>
     <string name="import_app_properties_summary">Vyberte súbor na import nastavení aplikácie</string>
     <string name="search_mode">Režim vyhľadávania</string>
@@ -277,7 +277,7 @@
     <string name="menu_master_key_settings">Nastavenia hlavného kľúča</string>
     <string name="menu_move">Presunúť</string>
     <string name="menu_paste">Vložiť</string>
-    <string name="menu_keystore_remove_key">Odstrániť rozšírený odomykací kľúč</string>
+    <string name="menu_keystore_remove_key">Odstrániť odomykací kľúč</string>
     <string name="menu_file_selection_read_only">Ochrana proti zápisu</string>
     <string name="menu_open_file_read_and_write">Upraviteľné</string>
     <string name="auto_focus_search_title">Rýchle hľadanie</string>
@@ -485,7 +485,7 @@
     <string name="education_sort_summary">Vyberte spôsob triedenia záznamov a skupín.</string>
     <string name="icon_pack_choose_title">Balík ikon</string>
     <string name="template_group_name">Šablóny</string>
-    <string name="menu_advanced_unlock_settings">Pokročilé odblokovanie</string>
+    <string name="menu_advanced_unlock_settings">Odomknutie zariadenia</string>
     <string name="menu_copy">Kopírovať</string>
     <string name="autofill_block_restart">Ak chcete aktivovať blokovanie, reštartujte aplikáciu obsahujúcu formulár.</string>
     <string name="content_description_keyfile_checkbox">Začiarkavacie políčko Keyfile</string>
@@ -667,4 +667,11 @@
     <string name="icon_section_custom">Vlastná</string>
     <string name="icon_pack_choose_summary">Balík ikon používaný v aplikácii</string>
     <string name="show_entry_colors_title">Vstupné farby</string>
+    <string name="master_key_settings_summary">Zmena, obnova</string>
+    <string name="info">Informácie</string>
+    <string name="menu_form_filling_settings_summary">Klávesnica, automatické doplnenie, schránka</string>
+    <string name="menu_security_settings_summary">Šifrovanie, derivácia kľúčov, funkcie</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometria, prístupové údaje do zariadenia</string>
+    <string name="menu_database_settings_summary">Metadáta, kôš, šablóny, história</string>
+    <string name="menu_app_settings_summary">Hľadať, uzamknutie, história, nastavenia</string>
 </resources>

@@ -79,7 +79,7 @@
     <string name="monospace_font_fields_enable_title">Tipo de letra nos campos</string>
     <string name="recycle_bin_summary">Move grupos e entradas para o \"Caixote da reciclagem\" antes de eliminar</string>
     <string name="recycle_bin_title">Utilização do caixote da reciclagem</string>
-    <string name="create_keepass_file">Criar novo Cofre</string>
+    <string name="create_keepass_file">Criar novo cofre</string>
     <string name="assign_master_key">Atribuir uma chave mestra</string>
     <string name="path">Caminho</string>
     <string name="file_name">Nome do ficheiro</string>
@@ -211,8 +211,8 @@
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft tem o &lt;strong&gt;código-fonte aberto&lt;/strong&gt; e &lt;strong&gt;sem publicidade&lt;/strong&gt;.
 \nÉ fornecido como está, sob a &lt;strong&gt;licença GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
-    <string name="content_description_file_information">Informações sobre ficheiro</string>
-    <string name="content_description_credentials_information">Informações sobre credenciais</string>
+    <string name="content_description_file_information">Informações do ficheiro</string>
+    <string name="content_description_credentials_information">Informações das credenciais</string>
     <string name="keyboard_previous_fill_in_summary">Mudar automaticamente para o teclado anterior depois de executar a \"tecla automática\"</string>
     <string name="keyboard_previous_fill_in_title">Voltar atrás</string>
     <string name="keyboard_previous_database_credentials_summary">Voltar automaticamente para o teclado anterior no ecrã de credenciais da base de dados</string>
@@ -314,7 +314,7 @@
     <string name="error_disallow_no_credentials">Tem de ser definida pelo menos uma credencial.</string>
     <string name="error_invalid_OTP">Segredo OTP inválido.</string>
     <string name="entry_otp">OTP</string>
-    <string name="otp_algorithm">Algorítimo</string>
+    <string name="otp_algorithm">Algoritmo</string>
     <string name="otp_digits">Dígitos</string>
     <string name="otp_counter">Contador</string>
     <string name="otp_period">Período (segundos)</string>
@@ -342,7 +342,7 @@
     <string name="content_description_remove_from_list">Remover</string>
     <string name="content_description_update_from_list">Atualizar</string>
     <string name="content_description_background">Plano de fundo</string>
-    <string name="file_manager_install_description">Um gestor de ficheiros que aceita a ação intencional ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT é necessário para criar, abrir e gravar ficheiros da base de dados.</string>
+    <string name="file_manager_install_description">É necessário um gestor de ficheiros que aceite a ação intencional ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT para criar, abrir e gravar ficheiros da base de dados.</string>
     <string name="list_groups_show_number_entries_summary">Mostra o número de entradas dentro de um grupo</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="error_copy_entry_here">Não se pode copiar uma entrada aqui.</string>
@@ -351,7 +351,7 @@
     <string name="content_description_remove_field">Remover campo</string>
     <string name="content_description_password_length">Comprimento da palavra-passe</string>
     <string name="content_description_entry_icon">Ícone da entrada</string>
-    <string name="content_description_repeat_toggle_password_visibility">Repetir alternar a visibilidade da palavra-passe</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetir mudança de visibilidade da palavra-passe</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do ficheiro-chave</string>
     <string name="content_description_password_checkbox">Caixa de seleção da palavra-passe</string>
     <string name="content_description_add_group">Adicionar grupo</string>

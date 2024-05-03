@@ -2,7 +2,7 @@
 <resources>
     <string name="encryption_algorithm">อัลกอริทึมของการเข้ารหัส</string>
     <string name="encryption">การเข้ารหัส</string>
-    <string name="contribution">ร่วมแก้ไข</string>
+    <string name="contribution">ร่วมพัฒนา</string>
     <string name="feedback">ข้อเสนอแนะ</string>
     <string name="about_description">แอปจัดการรหัสผ่านแบบ KeePass ในเวอร์ชั่น Android</string>
     <string name="accept">ยอมรับ</string>
@@ -210,7 +210,7 @@
     <string name="html_text_dev_feature_work_hard">เรากำลังทำงานหนักเพื่อปล่อยให้ใด้ใช้งานฟีเจอร์นี้โดยเร็วที่สุด</string>
     <string name="html_text_dev_feature_upgrade">อย่าลืมอัปเดทแอปให้ทันสมัยอยู่เสมอด้วยการติดตั้งเวอร์ชั่นใหม่</string>
     <string name="download">ดาวน์โหลด</string>
-    <string name="contribute">ร่วมแก้ไข</string>
+    <string name="contribute">ร่วมพัฒนา</string>
     <string name="download_attachment">ดาวน์โหลด %1$s</string>
     <string name="upload_attachment">อัปโหลด %1$s</string>
     <string name="download_initialization">กำลังเรื่ม…</string>
@@ -663,4 +663,7 @@
     <string name="menu_advanced_unlock_settings_summary">ไบโอเมตริก, ข้อมูลประจำตัวของอุปกรณ์</string>
     <string name="menu_database_settings_summary">เมตาดาต้า, ถังขยะ, แม่แบบ, ประวัติ</string>
     <string name="menu_app_settings_summary">การค้นหา, การล็อก, ประวัติ, ค่ากำหนด</string>
+    <string name="education_validate_entry_summary">พึงระลึกไว้ว่าตรวจสอบข้อมูลรายการและบันทึกฐานข้อมูลไว้ให้ดี
+\n
+\nหากการล็อกอัตโนมัติเปิดใช้งานและลีมบันทึกการเปลี่ยนแปลงไว้ คุณมีความเสียงที่ข้อมูลจะสูญหาย</string>
 </resources>

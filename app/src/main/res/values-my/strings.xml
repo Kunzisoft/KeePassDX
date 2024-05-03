@@ -30,4 +30,18 @@
     <string name="clipboard_timeout">ကလစ်ဘုတ် သတ်မှတ်ချိန်ကုန်သွားသည်</string>
     <string name="clipboard_timeout_summary">ကလစ်ဘုတ်ရှိ သိုလှောင်မှုကြာချိန် (သင့်ဖုန်းမှပံ့ပိုးပေးလျှင်)</string>
     <string name="content_description_background">နောက်ခံ</string>
+    <string name="brackets">ကွင်းစကွင်းပိတ်များ</string>
+    <string name="content_description_add_group">ဂရုထည့်မည်</string>
+    <string name="content_description_add_item">အိုင်တမ်ထည့်မည်</string>
+    <string name="content_description_otp_information">တစ်ခါသုံး password အချက်အလက်</string>
+    <string name="content_description_keyfile_checkbox">Keyfile စစ်ဆေးရန်</string>
+    <string name="content_description_repeat_toggle_password_visibility">password မြင်နိုင်စွမ်းအား ထပ်တလဲလဲ ပြရန်</string>
+    <string name="content_description_entry_icon">ပစ္စည်း အိုင်ကွန်</string>
+    <string name="content_description_database_color">Database အရောင်</string>
+    <string name="content_description_entry_background_color">ပစ္စည်းနောက်ခံ အရောင်</string>
+    <string name="content_description_file_information">ဖိုင်အချက်အလက်</string>
+    <string name="content_description_credentials_information">ဝင်ရောက်ရန်အချက်အလက်</string>
+    <string name="content_description_password_checkbox">Password စစ်ဆေးရန်</string>
+    <string name="content_description_hardware_key_checkbox">ဟက်ဝဲလ် ကီး စစ်ဆေးရန်</string>
+    <string name="content_description_entry_foreground_color">ပစ္စည်း ရှေ့မျက်နှာစာ အရောင်</string>
 </resources>

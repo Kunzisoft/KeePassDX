@@ -24,7 +24,7 @@
     <string name="encryption_algorithm">خوارزمية التشفير</string>
     <string name="application">التطبيق</string>
     <string name="brackets">الأقواس</string>
-    <string name="extended_ASCII">تمديد ASCII</string>
+    <string name="extended_ASCII">ASCII ممتد</string>
     <string name="allow">سماح</string>
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>
@@ -272,7 +272,7 @@
     <string name="master_key">المفتاح الرئيسي</string>
     <string name="error_otp_period">يجب ان تكون المدة بين %1$d و%2$d ثانية.</string>
     <string name="error_otp_secret_key">المفتاح السري يجب ان يكون بصيغة Base32.</string>
-    <string name="error_save_database">لا يمكن حفظ قاعدة البيانات.</string>
+    <string name="error_save_database">تعذر حفظ قاعدة البيانات.</string>
     <string name="error_create_database">لا يمكن إنشاء ملف قاعدة البيانات.</string>
     <string name="error_copy_group_here">لا يمكن نسخ مجموعة هنا.</string>
     <string name="error_label_exists">هذه التسمية موجودة بالفعل.</string>

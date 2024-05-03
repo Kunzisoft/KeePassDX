@@ -124,7 +124,7 @@
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
     <string name="uppercase">רישית</string>
     <string name="version_label">גרסה %1$s</string>
-    <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים.</string>
+    <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים. גבה את קובץ מסד הנתונים שלך במקום בטוח לאחר כל שינוי.</string>
     <string-array name="list_size_options">
         <item>קטן</item>
         <item>בינוני</item>
@@ -226,7 +226,7 @@
     <string name="content_description_node_children">ילדי החוליה</string>
     <string name="content_description_background">רקע</string>
     <string name="contact">איש קשר</string>
-    <string name="contribution">תרומה</string>
+    <string name="contribution">השתתפות</string>
     <string name="master_key">מפתח ראשי</string>
     <string name="key_derivation_function">פונקציית גזירת מפתח</string>
     <string name="content_description_nav_header">כותרת ניווט</string>
@@ -276,7 +276,7 @@
     <string name="content_description_repeat_toggle_password_visibility">החלפת נראות הסיסמה</string>
     <string name="entry_add_field">הוסף שדה</string>
     <string name="menu_form_filling_settings">מילוי טפסים</string>
-    <string name="menu_advanced_unlock_settings">ביטול נעילה מתקדם</string>
+    <string name="menu_advanced_unlock_settings">נעילה מכשיר</string>
     <string name="menu_save_database">שמור נתונים</string>
     <string name="menu_merge_database">מזג נתונים</string>
     <string name="list_groups_show_number_entries_title">הצג מספר ערכים</string>
@@ -314,4 +314,12 @@
     <string name="subdomain_search_title">חיפוש תת-דומיין</string>
     <string name="menu_keystore_remove_key">מחק מפתח ביטול נעילה מתקדם</string>
     <string name="invalid_db_same_uuid">%1$s עם אותו UUID %2$s כבר קיים.</string>
+    <string name="master_key_settings_summary">שינוי, חידוש</string>
+    <string name="info">מידע</string>
+    <string name="registration_mode">מצב הרשמה</string>
+    <string name="menu_form_filling_settings_summary">מקלדת, מילוי אוטומטי, לוח</string>
+    <string name="search_mode">מצב חיפוש</string>
+    <string name="remember_database_locations_title">זכור מיקומי מסדי הנתונים</string>
+    <string name="save_mode">מצב שמירה</string>
+    <string name="selection_mode">מצב בחירה</string>
 </resources>
