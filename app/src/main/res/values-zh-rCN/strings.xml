@@ -202,7 +202,7 @@
     <string name="copy_field">复制%1$s</string>
     <string name="sort_ascending">最底的在前↓</string>
     <string name="warning_password_encoding">避免在数据库中保存编码格式外字符的密码（未识别的字符将转换为同一字符）。</string>
-    <string name="sort_groups_before">群组在前</string>
+    <string name="sort_groups_before">分组在前</string>
     <string name="sort_recycle_bin_bottom">回收站在末尾</string>
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
@@ -228,7 +228,7 @@
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>
     <string name="assign_master_key">分配主密钥</string>
     <string name="recycle_bin_title">回收站使用情况</string>
-    <string name="recycle_bin_summary">删除群组和条目前先移至回收站</string>
+    <string name="recycle_bin_summary">删除分组和条目前先移至回收站</string>
     <string name="monospace_font_fields_enable_title">字段字型</string>
     <string name="monospace_font_fields_enable_summary">更改字段字体，可以使字符更清楚</string>
     <string name="allow_copy_password_summary">允许复制整段密码和受保护的字段至剪切板</string>
@@ -267,7 +267,7 @@
     <string name="education_new_node_title">向数据库添加项目</string>
     <string name="education_new_node_summary">这些条目帮助管理数字化身份。
 \n
-\n还可以使用群组来管理数据库中的条目。</string>
+\n还可以使用分组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
@@ -289,7 +289,7 @@
     <string name="education_lock_title">锁定数据库</string>
     <string name="education_lock_summary">可以设置在无操作和屏幕关闭的时候，锁定数据库。</string>
     <string name="education_sort_title">条目排序</string>
-    <string name="education_sort_summary">选择条目和群组的排序方式。</string>
+    <string name="education_sort_summary">选择条目和分组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
     <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
@@ -332,7 +332,7 @@
     <string name="error_move_entry_here">你不能将条目移到此处。</string>
     <string name="error_copy_entry_here">您不能将条目复制到此处。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
-    <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
+    <string name="list_groups_show_number_entries_summary">显示分组中的条目数</string>
     <string name="content_description_background">后台</string>
     <string name="content_description_update_from_list">更新</string>
     <string name="content_description_keyboard_close_fields">关闭字段</string>
@@ -356,7 +356,7 @@
     <string name="entry_otp">OTP</string>
     <string name="error_invalid_OTP">OTP 密钥无效。</string>
     <string name="error_disallow_no_credentials">至少需要设置一个凭据。</string>
-    <string name="error_copy_group_here">您无法将分组复制到此处。</string>
+    <string name="error_copy_group_here">您无法在此处复制分组。</string>
     <string name="error_otp_secret_key">密钥必须是 Base32 格式。</string>
     <string name="error_otp_counter">计数器必须在%1$d和%2$d之间。</string>
     <string name="error_otp_period">时长必须在%1$d秒到%2$d秒之间。</string>
@@ -465,7 +465,7 @@
     <string name="data">数据</string>
     <string name="database_data_remove_unlinked_attachments_title">删除未链接的数据</string>
     <string name="database_data_remove_unlinked_attachments_summary">删除包含于数据库中但未连接到一个条目的附件</string>
-    <string name="show_uuid_summary">显示与一个条目或群组相链接的 UUID</string>
+    <string name="show_uuid_summary">显示与一个条目或分组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
     <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
     <string name="autofill_ask_to_save_data_summary">填写完表单后，询问是否保存数据</string>
