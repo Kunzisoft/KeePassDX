@@ -75,7 +75,7 @@
     <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। 2147483648 पर सेट हो रहा है।</string>
     <string name="error_string_key">प्रत्येक स्ट्रिंग में फ़ील्ड नाम होना चाहिए।</string>
     <string name="content_description_open_file">फ़ाइल खोलें</string>
-    <string name="content_description_node_children">नोड के बच्चे</string>
+    <string name="content_description_node_children">उप नोड</string>
     <string name="content_description_add_node">नोड जोड़ें</string>
     <string name="content_description_add_entry">रिकॉर्ड जोड़ें</string>
     <string name="content_description_add_group">समूह जोड़ें</string>
@@ -166,4 +166,5 @@
     <string name="error_database_uri_null">डेटाबेस URI को पुनःप्राप्त नहीं किया जा सका।</string>
     <string name="error_upload_file">फ़ाइल डेटा को अपलोड करते समय एक त्रुटि हुई।</string>
     <string name="error_duplicate_file">फ़ाइल डेटा पहले से उपलब्ध है।</string>
+    <string name="info">जानकारी</string>
 </resources>

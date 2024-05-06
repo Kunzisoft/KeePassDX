@@ -415,9 +415,9 @@
     <string name="auto_focus_search_title">快速搜索</string>
     <string name="auto_focus_search_summary">打开数据库时询问是否进行搜索</string>
     <string name="remember_database_locations_title">记住数据库位置</string>
-    <string name="remember_database_locations_summary">跟踪数据库存储的位置</string>
+    <string name="remember_database_locations_summary">保留数据库存储的位置</string>
     <string name="remember_keyfile_locations_title">记住密钥文件位置</string>
-    <string name="remember_keyfile_locations_summary">保留密钥文件存储的踪迹</string>
+    <string name="remember_keyfile_locations_summary">保留密钥文件存储的位置</string>
     <string name="hide_broken_locations_title">隐藏已损坏的数据库路径</string>
     <string name="hide_broken_locations_summary">在最近的数据库列表中隐藏已损坏的数据库的链接</string>
     <string name="warning_database_read_only">授予软件文件读写访问权限以保存数据库更改</string>
@@ -661,7 +661,7 @@
     <string name="error_empty_key">秘钥不能为空。</string>
     <string name="corrupted_file">文件损坏。</string>
     <string name="remember_hardware_key_title">记住硬件秘钥</string>
-    <string name="remember_hardware_key_summary">保留所用硬件秘钥的痕迹</string>
+    <string name="remember_hardware_key_summary">保留所用硬件秘钥的位置</string>
     <string name="enable_screenshot_mode_title">截屏模式</string>
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>

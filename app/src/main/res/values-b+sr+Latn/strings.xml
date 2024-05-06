@@ -262,4 +262,6 @@
     <string name="edit_entry">Izmeni stavku</string>
     <string name="add_entry">Dodaj stavku</string>
     <string name="contact">Kontakt</string>
+    <string name="biometric_security_update_required">Neophodno je ažurirati biometriju.</string>
+    <string name="configure">Podesi</string>
 </resources>
