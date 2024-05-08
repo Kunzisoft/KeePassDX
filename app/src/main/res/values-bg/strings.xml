@@ -551,6 +551,7 @@
     <string name="advanced_unlock_keystore_warning">Това свойство на приложението ще пази шифровани данни за достъп в защитеното хранилище за ключове на устройството.
 \n
 \nВ зависимост реализацията на ППИ на операционната система то може да не е пълнофункционално.
+\n
 \nПроверете съвместимостта и степента на сигурност на хранилището за ключове при производителя на устройството или автора на инсталираната операционната система.</string>
     <string name="templates_group_enable_summary">Използване на динамични шаблони за попълване на полетата на записи</string>
     <string name="max_history_items_title">Максимален брой записи</string>
@@ -666,4 +667,15 @@
     <string name="warning_database_notification_permission">Разрешението дава възможност за показване на състоянието на хранилището, както и да го заключвате с леснодостъпен бутон.
 \n
 \nАко не предоставите това разрешение, отвореното във фонов режим хранилище няма да бъде видимо, ако друго приложение се показва в момента.</string>
+    <string name="style_name_forest">Горска</string>
+    <string name="style_name_divine">Божествена</string>
+    <string name="style_name_classic">Класическа</string>
+    <string name="style_name_simple">Обикновена</string>
+    <string name="style_name_moon">Лунна</string>
+    <string name="style_name_sun">Слънчева</string>
+    <string name="style_name_reply">Отговор</string>
+    <string name="style_name_kunzite">Авторска</string>
+    <string name="style_name_follow_system">Като системната</string>
+    <string name="style_name_light">Светла</string>
+    <string name="style_name_dark">Тъмна</string>
 </resources>
