@@ -204,6 +204,7 @@
     <string name="error_challenge_already_requested">"Challenge already requested"</string>
     <string name="error_response_already_provided">Response already provided.</string>
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
+    <string name="error_action_empty_response_from_challenge">WARNING : Action performed with an empty challenge response.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
     <string name="error_driver_required">Driver for %1$s is required.</string>
     <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
