@@ -479,11 +479,9 @@ class EntryEditActivity : DatabaseLockActivity(),
 
     private fun entryValidatedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
         // Build Autofill response with the entry selected
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
-                    database,
-                    entry.getEntryInfo(database))
-        }
+        AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
+                database,
+                entry.getEntryInfo(database))
         onValidateSpecialMode()
     }
 
@@ -605,14 +603,14 @@ class EntryEditActivity : DatabaseLockActivity(),
         menu?.findItem(R.id.menu_add_attachment)?.apply {
             // Attachment not compatible below KitKat
             isEnabled = !mIsTemplate
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                    && true
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_otp)?.apply {
             // OTP not compatible below KitKat
             isEnabled = mAllowOTP
                     && !mIsTemplate
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
+                    && true
             isVisible = isEnabled
         }
         return super.onPrepareOptionsMenu(menu)

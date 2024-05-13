@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.utils.readParcelableCompat
 /**
  * Utility class only to prevent java.lang.NoClassDefFoundError for old Android version and new lib compilation
  */
-@RequiresApi(Build.VERSION_CODES.O)
 class CompatInlineSuggestionsRequest : Parcelable {
 
     @TargetApi(Build.VERSION_CODES.R)

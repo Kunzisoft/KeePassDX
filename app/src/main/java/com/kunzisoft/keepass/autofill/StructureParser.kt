@@ -34,7 +34,6 @@ import kotlin.collections.ArrayList
 /**
  * Parse AssistStructure and guess username and password fields.
  */
-@RequiresApi(api = Build.VERSION_CODES.O)
 class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
     private var usernameIdCandidate: AutofillId? = null
@@ -88,12 +87,10 @@ class StructureParser(private val structure: AssistStructure) {
                 Log.d(TAG, "Autofill domain: $webDomain")
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            node.webScheme?.let { webScheme ->
-                if (webScheme.isNotEmpty()) {
-                    result?.webScheme = webScheme
-                    Log.d(TAG, "Autofill scheme: $webScheme")
-                }
+        node.webScheme?.let { webScheme ->
+            if (webScheme.isNotEmpty()) {
+                result?.webScheme = webScheme
+                Log.d(TAG, "Autofill scheme: $webScheme")
             }
         }
         val domainNotEmpty = result?.webDomain?.isNotEmpty() == true
@@ -467,7 +464,6 @@ class StructureParser(private val structure: AssistStructure) {
         return false
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     class Result {
         var isWebView: Boolean = false
         var applicationId: String? = null

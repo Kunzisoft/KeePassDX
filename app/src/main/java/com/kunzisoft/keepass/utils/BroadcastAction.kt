@@ -65,35 +65,23 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
                                 Intent(intent).apply {
                                     action = LOCK_ACTION
                                 },
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    PendingIntent.FLAG_IMMUTABLE
-                                } else {
-                                    0
-                                }
+                                PendingIntent.FLAG_IMMUTABLE
                             )
                             // Launch the effective action after a small time
                             val first: Long = System.currentTimeMillis() + context.getString(R.string.timeout_screen_off).toLong()
                             (context.getSystemService(ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                                        && !alarmManager.canScheduleExactAlarms()) {
-                                        alarmManager.set(
-                                            AlarmManager.RTC_WAKEUP,
-                                            first,
-                                            mLockPendingIntent
-                                        )
-                                    } else {
-                                        alarmManager.setExact(
-                                            AlarmManager.RTC_WAKEUP,
-                                            first,
-                                            mLockPendingIntent
-                                        )
-                                    }
-                                } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                                    && !alarmManager.canScheduleExactAlarms()) {
                                     alarmManager.set(
                                         AlarmManager.RTC_WAKEUP,
                                         first,
-                                        mLockPendingIntent
+                                        mLockPendingIntent!!
+                                    )
+                                } else {
+                                    alarmManager.setExact(
+                                        AlarmManager.RTC_WAKEUP,
+                                        first,
+                                        mLockPendingIntent!!
                                     )
                                 }
                             }
@@ -122,7 +110,7 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
     private fun cancelLockPendingIntent(context: Context) {
         mLockPendingIntent?.let {
             val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager?
-            alarmManager?.cancel(mLockPendingIntent)
+            alarmManager?.cancel(mLockPendingIntent!!)
             mLockPendingIntent = null
         }
     }

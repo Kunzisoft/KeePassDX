@@ -107,10 +107,8 @@ object EntrySelectionHelper {
     }
 
     fun retrieveSpecialModeFromIntent(intent: Intent): SpecialMode {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (AutofillHelper.retrieveAutofillComponent(intent) != null)
-                return SpecialMode.SELECTION
-        }
+        if (AutofillHelper.retrieveAutofillComponent(intent) != null)
+            return SpecialMode.SELECTION
         return intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
     }
 
@@ -119,10 +117,8 @@ object EntrySelectionHelper {
     }
 
     fun retrieveTypeModeFromIntent(intent: Intent): TypeMode {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (AutofillHelper.retrieveAutofillComponent(intent) != null)
-                return TypeMode.AUTOFILL
-        }
+        if (AutofillHelper.retrieveAutofillComponent(intent) != null)
+            return TypeMode.AUTOFILL
         return intent.getEnumExtra<TypeMode>(KEY_TYPE_MODE) ?: TypeMode.DEFAULT
     }
 
@@ -169,11 +165,9 @@ object EntrySelectionHelper {
             SpecialMode.SELECTION -> {
                 val searchInfo: SearchInfo? = retrieveSearchInfoFromIntent(intent)
                 var autofillComponentInit = false
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    AutofillHelper.retrieveAutofillComponent(intent)?.let { autofillComponent ->
-                        autofillSelectionAction.invoke(searchInfo, autofillComponent)
-                        autofillComponentInit = true
-                    }
+                AutofillHelper.retrieveAutofillComponent(intent)?.let { autofillComponent ->
+                    autofillSelectionAction.invoke(searchInfo, autofillComponent)
+                    autofillComponentInit = true
                 }
                 if (!autofillComponentInit) {
                     if (intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) != null) {

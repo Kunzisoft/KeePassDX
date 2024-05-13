@@ -256,7 +256,7 @@ fun CoordinatorLayout.showActionErrorIfNeeded(result: ActionRunnable.Result) {
 }
 
 fun Toolbar.changeControlColor(color: Int) {
-    val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    val colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     for (i in 0 until childCount) {
         val view: View = getChildAt(i)
         // Change the color of back button (or open drawer button).
@@ -303,8 +303,7 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
 
 fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, applyWindowInsets: () -> Unit) {
     // Only in portrait
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
-        && resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+    if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         this.window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
         if (applyToStatusBar) {

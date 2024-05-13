@@ -151,9 +151,7 @@ class ExternalFileHelper {
             return super.createIntent(context, input).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
-                }
+                addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
@@ -166,9 +164,7 @@ class ExternalFileHelper {
             return super.createIntent(context, input).apply {
                 addCategory(Intent.CATEGORY_OPENABLE)
                 addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
-                }
+                addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             }
