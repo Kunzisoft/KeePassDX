@@ -273,13 +273,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val responseChannel = mResponseChallengeChannel
             if (responseChannel == null || responseChannel.isEmpty) {
                 if (response.isEmpty()) {
-                    Toast.makeText(
-                        this@DatabaseTaskNotificationService,
-                        getString(
-                            R.string.error_action_empty_response_from_challenge),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    mResponseChallengeChannel?.send(response)
                     cancelChallengeResponse(R.string.error_no_response_from_challenge)
                 } else {
                     mResponseChallengeChannel?.send(response)
