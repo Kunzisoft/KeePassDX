@@ -40,17 +40,15 @@ abstract class NotificationService : Service() {
 
         notificationManager = NotificationManagerCompat.from(this)
 
-        // Create notification channel for Oreo+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (notificationManager?.getNotificationChannel(retrieveChannelId()) == null) {
-                val channel = NotificationChannel(retrieveChannelId(),
-                        retrieveChannelName(),
-                        NotificationManager.IMPORTANCE_DEFAULT).apply {
-                    enableVibration(false)
-                    setSound(null, null)
-                }
-                notificationManager?.createNotificationChannel(channel)
+        // Create notification channel
+        if (notificationManager?.getNotificationChannel(retrieveChannelId()) == null) {
+            val channel = NotificationChannel(retrieveChannelId(),
+                    retrieveChannelName(),
+                    NotificationManager.IMPORTANCE_DEFAULT).apply {
+                enableVibration(false)
+                setSound(null, null)
             }
+            notificationManager?.createNotificationChannel(channel)
         }
 
         // Get the color

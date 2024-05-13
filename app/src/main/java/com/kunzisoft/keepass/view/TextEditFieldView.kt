@@ -52,13 +52,9 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
         inputType = EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
-            importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
-        }
+        imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
+        importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
+        importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
         maxLines = 1
     }
     private var actionImageButton = AppCompatImageButton(
@@ -72,9 +68,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.addRule(ALIGN_PARENT_END)
-            }
+            it.addRule(ALIGN_PARENT_END)
         }
         visibility = View.GONE
         contentDescription = context.getString(R.string.menu_edit)
@@ -108,9 +102,7 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, actionImageButtonId)
-                }
+                it?.addRule(START_OF, actionImageButtonId)
             }
         }
         valueView.apply {

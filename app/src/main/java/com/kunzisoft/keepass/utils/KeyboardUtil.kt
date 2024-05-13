@@ -37,14 +37,7 @@ object KeyboardUtil {
         var imeManager: InputMethodManager? = null
         try {
             imeManager = ContextCompat.getSystemService(this, InputMethodManager::class.java)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                switchToPreviousInputMethod()
-            } else {
-                @Suppress("DEPRECATION")
-                window.window?.let { window ->
-                    imeManager?.switchToLastInputMethod(window.attributes.token)
-                }
-            }
+            switchToPreviousInputMethod()
         } catch (e: Exception) {
             Log.e(TAG, "Unable to switch to the previous IME", e)
             imeManager?.showInputMethodPicker()

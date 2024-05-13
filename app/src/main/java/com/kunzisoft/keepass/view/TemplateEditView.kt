@@ -119,9 +119,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-                }
+                importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             }
         }
     }
@@ -133,9 +131,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 setItems(templateAttribute.options.getListItems())
                 default = templateAttribute.default
                 setActionClick(templateAttribute, field, this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
-                }
+                importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
             }
         }
     }

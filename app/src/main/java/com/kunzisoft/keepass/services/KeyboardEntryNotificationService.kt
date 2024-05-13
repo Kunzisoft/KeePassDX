@@ -96,11 +96,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
             action = ACTION_CLEAN_KEYBOARD_ENTRY
         }
         pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         val builder = buildNewNotification()

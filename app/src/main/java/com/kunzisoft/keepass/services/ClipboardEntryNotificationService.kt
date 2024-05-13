@@ -121,11 +121,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         }
         return PendingIntent.getService(
             this, 0, copyIntent,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            } else {
-                PendingIntent.FLAG_UPDATE_CURRENT
-            }
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
     }
 
@@ -185,11 +181,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             cleanIntent.action = ACTION_CLEAN_CLIPBOARD
             val cleanPendingIntent = PendingIntent.getService(
                 this, 0, cleanIntent,
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                } else {
-                    PendingIntent.FLAG_UPDATE_CURRENT
-                }
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
             builder.setDeleteIntent(cleanPendingIntent)
 

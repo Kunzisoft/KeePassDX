@@ -47,7 +47,6 @@ import com.kunzisoft.keepass.utils.WebDomain
 import org.joda.time.DateTime
 
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
@@ -274,11 +273,7 @@ class KeeAutofillService : AutofillService() {
                                                 this,
                                                 0,
                                                 Intent(this, AutofillSettingsActivity::class.java),
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    PendingIntent.FLAG_IMMUTABLE
-                                                } else {
-                                                    0
-                                                }
+                                                PendingIntent.FLAG_IMMUTABLE
                                             )
                                         ).apply {
                                             setContentDescription(getString(R.string.autofill_sign_in_prompt))

@@ -98,18 +98,15 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
 
     private val menuProvider: MenuProvider = object: MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // biometric menu
-                if (mAllowAdvancedUnlockMenu)
-                    menuInflater.inflate(R.menu.advanced_unlock, menu)
-            }
+            // biometric menu
+            if (mAllowAdvancedUnlockMenu)
+                menuInflater.inflate(R.menu.advanced_unlock, menu)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.menu_keystore_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                R.id.menu_keystore_remove_key ->
                     deleteEncryptedDatabaseKey()
-                }
             }
             return false
         }
@@ -121,9 +118,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(context)
         mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(context)
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mBuilderListener = context as BuilderListener
-            }
+            mBuilderListener = context as BuilderListener
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString()
                     + " must implement " + BuilderListener::class.java.name)
@@ -174,31 +169,29 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     }
 
     private fun onDatabaseLoaded(databaseUri: Uri?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // To get device credential unlock result, only if same database uri
-            if (databaseUri != null
-                    && mAdvancedUnlockEnabled) {
-                val deviceCredentialAuthSucceeded = mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
-                deviceCredentialAuthSucceeded?.let {
-                    if (databaseUri == databaseFileUri) {
-                        if (deviceCredentialAuthSucceeded == true) {
-                            advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationSucceeded()
-                        } else {
-                            advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationFailed()
-                        }
+        // To get device credential unlock result, only if same database uri
+        if (databaseUri != null
+                && mAdvancedUnlockEnabled) {
+            val deviceCredentialAuthSucceeded = mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
+            deviceCredentialAuthSucceeded?.let {
+                if (databaseUri == databaseFileUri) {
+                    if (deviceCredentialAuthSucceeded == true) {
+                        advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationSucceeded()
                     } else {
-                        disconnect()
+                        advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationFailed()
                     }
-                } ?: run {
-                    if (databaseUri != databaseFileUri) {
-                        connect(databaseUri)
-                    }
+                } else {
+                    disconnect()
                 }
-            } else {
-                disconnect()
+            } ?: run {
+                if (databaseUri != databaseFileUri) {
+                    connect(databaseUri)
+                }
             }
-            mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded = null
+        } else {
+            disconnect()
         }
+        mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded = null
     }
 
     /**
@@ -206,38 +199,35 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
      */
     private fun checkUnlockAvailability() {
         context?.let { context ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                allowOpenBiometricPrompt = true
-                if (PreferencesUtil.isBiometricUnlockEnable(context)) {
-                    // biometric not supported (by API level or hardware) so keep option hidden
-                    // or manually disable
-                    val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
-                    if (!PreferencesUtil.isAdvancedUnlockEnable(context)
-                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                            || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-                        toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
-                    } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
-                        toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
-                    } else {
-                        // biometric is available but not configured, show icon but in disabled state with some information
-                        if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-                            toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
-                        } else {
-                            selectMode()
-                        }
-                    }
-                } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
-                    if (AdvancedUnlockManager.isDeviceSecure(context)) {
-                        selectMode()
-                    } else {
+            allowOpenBiometricPrompt = true
+            if (PreferencesUtil.isBiometricUnlockEnable(context)) {
+                // biometric not supported (by API level or hardware) so keep option hidden
+                // or manually disable
+                val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(context)
+                if (!PreferencesUtil.isAdvancedUnlockEnable(context)
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                    toggleMode(Mode.BIOMETRIC_UNAVAILABLE)
+                } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
+                    toggleMode(Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
+                } else {
+                    // biometric is available but not configured, show icon but in disabled state with some information
+                    if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
                         toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                    } else {
+                        selectMode()
                     }
+                }
+            } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(context)) {
+                if (AdvancedUnlockManager.isDeviceSecure(context)) {
+                    selectMode()
+                } else {
+                    toggleMode(Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                 }
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun selectMode() {
         // Check if fingerprint well init (be called the first time the fingerprint is configured
         // and the activity still active)
@@ -270,7 +260,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun toggleMode(newBiometricMode: Mode) {
         if (newBiometricMode != biometricMode) {
             biometricMode = newBiometricMode
@@ -278,14 +267,12 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initNotAvailable() {
         showViews(false)
 
         mAdvancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun openBiometricSetting() {
         mAdvancedUnlockInfoView?.setIconViewClickListener {
             try {
@@ -293,7 +280,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> {
                         context?.startActivity(Intent(Settings.ACTION_BIOMETRIC_ENROLL))
                     }
-                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.P -> {
+                    true -> {
                         @Suppress("DEPRECATION") context
                             ?.startActivity(Intent(Settings.ACTION_FINGERPRINT_ENROLL))
                     }
@@ -308,7 +295,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initSecurityUpdateRequired() {
         showViews(true)
         setAdvancedUnlockedTitleView(R.string.biometric_security_update_required)
@@ -316,7 +302,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         openBiometricSetting()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initNotConfigured() {
         showViews(true)
         setAdvancedUnlockedTitleView(R.string.configure_biometric)
@@ -325,7 +310,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         openBiometricSetting()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initKeyManagerNotAvailable() {
         showViews(true)
         setAdvancedUnlockedTitleView(R.string.keystore_not_accessible)
@@ -333,7 +317,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         openBiometricSetting()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initWaitData() {
         showViews(true)
         setAdvancedUnlockedTitleView(R.string.unavailable)
@@ -347,7 +330,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt) {
         lifecycleScope.launch(Dispatchers.Main) {
             if (allowOpenBiometricPrompt) {
@@ -364,7 +346,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initEncryptData() {
         showViews(true)
         setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
@@ -378,7 +359,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         } ?: throw Exception("AdvancedUnlockManager not initialized")
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initDecryptData() {
         showViews(true)
         setAdvancedUnlockedTitleView(R.string.unlock)
@@ -409,23 +389,21 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     }
 
     private fun initAdvancedUnlockMode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mAllowAdvancedUnlockMenu = false
-            try {
-                when (biometricMode) {
-                    Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
-                    Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
-                    Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
-                    Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
-                    Mode.WAIT_CREDENTIAL -> initWaitData()
-                    Mode.STORE_CREDENTIAL -> initEncryptData()
-                    Mode.EXTRACT_CREDENTIAL -> initDecryptData()
-                }
-            } catch (e: Exception) {
-                onGenericException(e)
+        mAllowAdvancedUnlockMenu = false
+        try {
+            when (biometricMode) {
+                Mode.BIOMETRIC_UNAVAILABLE -> initNotAvailable()
+                Mode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> initSecurityUpdateRequired()
+                Mode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
+                Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
+                Mode.WAIT_CREDENTIAL -> initWaitData()
+                Mode.STORE_CREDENTIAL -> initEncryptData()
+                Mode.EXTRACT_CREDENTIAL -> initDecryptData()
             }
-            invalidateBiometricMenu()
+        } catch (e: Exception) {
+            onGenericException(e)
         }
+        invalidateBiometricMenu()
     }
 
     private fun invalidateBiometricMenu() {
@@ -444,7 +422,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun connect(databaseUri: Uri) {
         showViews(true)
         this.databaseFileUri = databaseUri
@@ -463,7 +440,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         checkUnlockAvailability()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun disconnect(hideViews: Boolean = true,
                    closePrompt: Boolean = true) {
         this.databaseFileUri = null
@@ -480,7 +456,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun deleteEncryptedDatabaseKey() {
         mAllowAdvancedUnlockMenu = false
         advancedUnlockManager?.closeBiometricPrompt()
@@ -491,7 +466,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         } ?: checkUnlockAvailability()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
             Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
@@ -499,7 +473,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationFailed() {
         lifecycleScope.launch(Dispatchers.Main) {
             Log.e(TAG, "Biometric authentication failed, biometric not recognized")
@@ -507,7 +480,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onAuthenticationSucceeded() {
         lifecycleScope.launch(Dispatchers.Main) {
             when (biometricMode) {
@@ -569,17 +541,14 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onUnrecoverableKeyException(e: Exception) {
         setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onInvalidKeyException(e: Exception) {
         setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onGenericException(e: Exception) {
         val errorMessage = e.cause?.localizedMessage ?: e.localizedMessage ?: ""
         setAdvancedUnlockedMessageView(errorMessage)
@@ -598,21 +567,18 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedTitleView(textId: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.setTitle(textId)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(textId: Int) {
         lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.setMessage(textId)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun setAdvancedUnlockedMessageView(text: CharSequence) {
         lifecycleScope.launch(Dispatchers.Main) {
             mAdvancedUnlockInfoView?.setMessage(text)
@@ -637,12 +603,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     }
 
     override fun onPause() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!keepConnection) {
-                // If close prompt, bug "user not authenticated in Android R"
-                disconnect(false)
-                advancedUnlockManager = null
-            }
+        if (!keepConnection) {
+            // If close prompt, bug "user not authenticated in Android R"
+            disconnect(false)
+            advancedUnlockManager = null
         }
 
         super.onPause()
@@ -655,11 +619,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     }
 
     override fun onDestroy() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            disconnect()
-            advancedUnlockManager = null
-            mBuilderListener = null
-        }
+        disconnect()
+        advancedUnlockManager = null
+        mBuilderListener = null
 
         super.onDestroy()
     }

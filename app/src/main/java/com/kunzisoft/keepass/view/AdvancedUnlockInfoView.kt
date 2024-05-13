@@ -30,7 +30,6 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 
-@RequiresApi(api = Build.VERSION_CODES.M)
 class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
                                                        attrs: AttributeSet? = null,
                                                        defStyle: Int = 0)

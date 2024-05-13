@@ -64,11 +64,7 @@ class AdvancedUnlockNotificationService : NotificationService() {
         val pendingDeleteIntent = PendingIntent.getBroadcast(this,
             4577,
             Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION),
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.FLAG_IMMUTABLE
-            } else {
-                0
-            })
+            PendingIntent.FLAG_IMMUTABLE)
         val biometricUnlockEnabled = PreferencesUtil.isBiometricUnlockEnable(this)
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(if (biometricUnlockEnabled) {

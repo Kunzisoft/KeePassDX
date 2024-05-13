@@ -200,11 +200,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 setDataAndType(attachmentNotification.uri,
                         contentResolver.getType(attachmentNotification.uri))
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            },
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-            } else {
-                PendingIntent.FLAG_CANCEL_CURRENT
-            }
         )
 
         val pendingDeleteIntent =  PendingIntent.getService(this,
@@ -212,11 +209,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 Intent(this, AttachmentFileNotificationService::class.java).apply {
                     // No action to delete the service
                     putExtra(FILE_URI_KEY, attachmentNotification.uri)
-                }, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                },
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
-            } else {
-                PendingIntent.FLAG_CANCEL_CURRENT
-            }
         )
 
         val fileName = attachmentNotification.uri.getDocumentFile(this)?.name

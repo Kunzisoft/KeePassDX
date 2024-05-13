@@ -47,13 +47,10 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.WebDomain
 import java.lang.RuntimeException
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
 
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             AutofillHelper.buildActivityResultLauncher(this, true)
-        else null
 
     override fun applyCustomStyle(): Boolean {
         return false

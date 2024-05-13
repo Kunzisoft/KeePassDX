@@ -61,7 +61,7 @@ class KeyGeneratorFragment : DatabaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        keyGeneratorPagerAdapter = KeyGeneratorPagerAdapter(this, )
+        keyGeneratorPagerAdapter = KeyGeneratorPagerAdapter(this)
         viewPager = view.findViewById(R.id.tabs_view_pager)
         tabLayout = view.findViewById(R.id.tabs_layout)
         viewPager.adapter = keyGeneratorPagerAdapter

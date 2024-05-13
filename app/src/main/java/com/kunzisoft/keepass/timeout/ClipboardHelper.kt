@@ -66,10 +66,8 @@ class ClipboardHelper(context: Context) {
 
     fun copyToClipboard(label: String, value: String, sensitive: Boolean = false) {
         getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(DEFAULT_LABEL, value).apply {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                description.extras = PersistableBundle().apply {
-                    putBoolean("android.content.extra.IS_SENSITIVE", sensitive)
-                }
+            description.extras = PersistableBundle().apply {
+                putBoolean("android.content.extra.IS_SENSITIVE", sensitive)
             }
         })
         if (label.isNotEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.S_V2) {
@@ -86,11 +84,7 @@ class ClipboardHelper(context: Context) {
 
     fun cleanClipboard() {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                getClipboardManager()?.clearPrimaryClip()
-            } else {
-                copyToClipboard(DEFAULT_LABEL, "")
-            }
+            getClipboardManager()?.clearPrimaryClip()
         } catch (e: Exception) {
             Log.e("ClipboardHelper", "Unable to clean the clipboard", e)
         }

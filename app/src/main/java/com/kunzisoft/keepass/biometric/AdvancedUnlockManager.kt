@@ -48,7 +48,6 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
-@RequiresApi(api = Build.VERSION_CODES.M)
 class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity) {
 
     private var keyStore: KeyStore? = null
@@ -150,9 +149,8 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                                             setUserAuthenticationRequired(true)
                                         }
                                         // To store in the security chip
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-                                            && retrieveContext().packageManager.hasSystemFeature(
-                                                PackageManager.FEATURE_STRONGBOX_KEYSTORE)) {
+                                        if (retrieveContext().packageManager.hasSystemFeature(
+                                            PackageManager.FEATURE_STRONGBOX_KEYSTORE)) {
                                             setIsStrongBoxBacked(true)
                                         }
                                     }
@@ -173,7 +171,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         return null
     }
 
-    @Synchronized fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,) {
+    @Synchronized fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
         initEncryptData(actionIfCypherInit, true)
     }
 
@@ -374,7 +372,6 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         private const val ADVANCED_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
         private const val ADVANCED_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
-        @RequiresApi(api = Build.VERSION_CODES.M)
         fun canAuthenticate(context: Context): Int {
             return try {
                 BiometricManager.from(context).canAuthenticate(
@@ -476,29 +473,27 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         }
 
         fun deleteAllEntryKeysInKeystoreForBiometric(activity: FragmentActivity) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deleteEntryKeyInKeystoreForBiometric(
-                    activity,
-                    object : AdvancedUnlockErrorCallback {
-                        fun showException(e: Exception) {
-                            Toast.makeText(activity,
-                                activity.getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
-                                Toast.LENGTH_SHORT).show()
-                        }
+            deleteEntryKeyInKeystoreForBiometric(
+                activity,
+                object : AdvancedUnlockErrorCallback {
+                    fun showException(e: Exception) {
+                        Toast.makeText(activity,
+                            activity.getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
+                            Toast.LENGTH_SHORT).show()
+                    }
 
-                        override fun onUnrecoverableKeyException(e: Exception) {
-                            showException(e)
-                        }
+                    override fun onUnrecoverableKeyException(e: Exception) {
+                        showException(e)
+                    }
 
-                        override fun onInvalidKeyException(e: Exception) {
-                            showException(e)
-                        }
+                    override fun onInvalidKeyException(e: Exception) {
+                        showException(e)
+                    }
 
-                        override fun onGenericException(e: Exception) {
-                            showException(e)
-                        }
-                    })
-            }
+                    override fun onGenericException(e: Exception) {
+                        showException(e)
+                    }
+                })
             CipherDatabaseAction.getInstance(activity.applicationContext).deleteAll()
         }
     }

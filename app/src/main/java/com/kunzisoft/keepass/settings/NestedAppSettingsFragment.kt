@@ -118,60 +118,53 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_form_filling, rootKey)
 
         activity?.let { activity ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference: TwoStatePreference? = findPreference(getString(R.string.settings_autofill_enable_key))
-                activity.getSystemService(AutofillManager::class.java)?.let { autofillManager ->
-                    if (autofillManager.hasEnabledAutofillServices())
-                        autoFillEnablePreference?.isChecked = autofillManager.hasEnabledAutofillServices()
+            val autoFillEnablePreference: TwoStatePreference? = findPreference(getString(R.string.settings_autofill_enable_key))
+            activity.getSystemService(AutofillManager::class.java)?.let { autofillManager ->
+                if (autofillManager.hasEnabledAutofillServices())
+                    autoFillEnablePreference?.isChecked = autofillManager.hasEnabledAutofillServices()
 
-                    autoFillEnablePreference?.onPreferenceClickListener =
-                        object : Preference.OnPreferenceClickListener {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            override fun onPreferenceClick(preference: Preference): Boolean {
-                                if ((preference as TwoStatePreference).isChecked) {
-                                    try {
-                                        enableService()
-                                    } catch (e: ActivityNotFoundException) {
-                                        val error =
-                                            getString(R.string.error_autofill_enable_service)
-                                        preference.isChecked = false
-                                        Log.d(javaClass.name, error, e)
-                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                                    }
-
-                                } else {
-                                    disableService()
+                autoFillEnablePreference?.onPreferenceClickListener =
+                    object : Preference.OnPreferenceClickListener {
+                        override fun onPreferenceClick(preference: Preference): Boolean {
+                            if ((preference as TwoStatePreference).isChecked) {
+                                try {
+                                    enableService()
+                                } catch (e: ActivityNotFoundException) {
+                                    val error =
+                                        getString(R.string.error_autofill_enable_service)
+                                    preference.isChecked = false
+                                    Log.d(javaClass.name, error, e)
+                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                                 }
-                                return false
+
+                            } else {
+                                disableService()
                             }
+                            return false
+                        }
 
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            private fun disableService() {
-                                if (autofillManager.hasEnabledAutofillServices()) {
-                                    autofillManager.disableAutofillServices()
-                                } else {
-                                    Log.d(javaClass.name, "Autofill service already disabled.")
-                                }
-                            }
-
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            @Throws(ActivityNotFoundException::class)
-                            private fun enableService() {
-                                if (!autofillManager.hasEnabledAutofillServices()) {
-                                    val intent =
-                                        Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
-                                    intent.data =
-                                        Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
-                                    Log.d(javaClass.name, "Autofill enable service: intent=$intent")
-                                    startActivity(intent)
-                                } else {
-                                    Log.d(javaClass.name, "Autofill service already enabled.")
-                                }
+                        private fun disableService() {
+                            if (autofillManager.hasEnabledAutofillServices()) {
+                                autofillManager.disableAutofillServices()
+                            } else {
+                                Log.d(javaClass.name, "Autofill service already disabled.")
                             }
                         }
-                }
-            } else {
-                findPreference<Preference>(getString(R.string.autofill_key))?.isVisible = false
+
+                        @Throws(ActivityNotFoundException::class)
+                        private fun enableService() {
+                            if (!autofillManager.hasEnabledAutofillServices()) {
+                                val intent =
+                                    Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
+                                intent.data =
+                                    Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
+                                Log.d(javaClass.name, "Autofill enable service: intent=$intent")
+                                startActivity(intent)
+                            } else {
+                                Log.d(javaClass.name, "Autofill service already enabled.")
+                            }
+                        }
+                    }
             }
         }
 
@@ -250,11 +243,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             val autoOpenPromptPreference: TwoStatePreference? = findPreference(getString(R.string.biometric_auto_open_prompt_key))
             val tempAdvancedUnlockPreference: TwoStatePreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
 
-            val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                AdvancedUnlockManager.biometricUnlockSupported(activity)
-            } else false
+            val biometricUnlockSupported =
+                    AdvancedUnlockManager.biometricUnlockSupported(activity)
             biometricUnlockEnablePreference?.apply {
-                // False if under Marshmallow
                 if (!biometricUnlockSupported) {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
@@ -295,9 +286,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 }
             }
 
-            val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                AdvancedUnlockManager.deviceCredentialUnlockSupported(activity)
-            } else false
+            val deviceCredentialUnlockSupported =
+                    AdvancedUnlockManager.deviceCredentialUnlockSupported(activity)
             deviceCredentialUnlockEnablePreference?.apply {
                 // Biometric unlock already checked
                 if (biometricUnlockEnablePreference?.isChecked == true)
@@ -394,7 +384,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             ) { _, _ ->
                 validate?.invoke()
                 warningAlertDialog?.setOnDismissListener(null)
-                if (deleteKeys && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (deleteKeys) {
                     AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
                 }
             }
@@ -527,12 +517,10 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     override fun onResume() {
         super.onResume()
         activity?.let { activity ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                findPreference<TwoStatePreference?>(getString(R.string.settings_autofill_enable_key))?.let { autoFillEnablePreference ->
-                    val autofillManager = activity.getSystemService(AutofillManager::class.java)
-                    autoFillEnablePreference.isChecked = autofillManager != null
-                            && autofillManager.hasEnabledAutofillServices()
-                }
+            findPreference<TwoStatePreference?>(getString(R.string.settings_autofill_enable_key))?.let { autoFillEnablePreference ->
+                val autofillManager = activity.getSystemService(AutofillManager::class.java)
+                autoFillEnablePreference.isChecked = autofillManager != null
+                        && autofillManager.hasEnabledAutofillServices()
             }
         }
     }
