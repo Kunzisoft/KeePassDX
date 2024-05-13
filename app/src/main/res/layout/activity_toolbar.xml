@@ -46,14 +46,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <include
-        layout="@layout/view_button_lock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
+        <include
+            layout="@layout/view_button_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            app:layout_anchorGravity="bottom|start"
+            app:layout_dodgeInsetEdges="bottom" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <include layout="@layout/view_screenshot_mode_banner"
         app:layout_constraintBottom_toBottomOf="parent"/>
