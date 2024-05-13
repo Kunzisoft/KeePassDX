@@ -101,9 +101,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private var mExternalFileHelper: ExternalFileHelper? = null
 
     private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             AutofillHelper.buildActivityResultLauncher(this)
-        else null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -324,9 +322,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
         launchPasswordActivity(databaseUri, null, null)
-        // Delete flickering for kitkat <=
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            overridePendingTransition(0, 0)
     }
 
     override fun onResume() {
@@ -500,7 +495,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          * -------------------------
          */
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: AppCompatActivity,
                                     activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
