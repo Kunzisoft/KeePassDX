@@ -5,13 +5,13 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.kunzisoft.keepass'
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+    compileSdk 34
+    buildToolsVersion "34.0.0"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
-        minSdkVersion 15
-        targetSdkVersion 33
+        minSdk 29
+        targetSdk 33
         versionCode = 129
         versionName = "4.0.6"
         multiDexEnabled true
@@ -94,22 +94,22 @@ android {
     }
 }
 
-def room_version = "2.5.1"
+def room_version = "2.6.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.android.support:multidex:1.0.3"
     implementation "androidx.appcompat:appcompat:$android_appcompat_version"
-    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta02'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-rc01'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.1.0'
-    implementation 'androidx.media:media:1.6.0'
+    implementation 'androidx.media:media:1.7.0'
     // Lifecycle - LiveData - ViewModel - Coroutines
     implementation "androidx.core:core-ktx:$android_core_version"
-    implementation 'androidx.fragment:fragment-ktx:1.6.0'
+    implementation 'androidx.fragment:fragment-ktx:1.7.0'
     implementation "com.google.android.material:material:$android_material_version"
     // Token auto complete
     // From sources until https://github.com/splitwise/TokenAutoComplete/pull/422 fixed
@@ -126,7 +126,7 @@ dependencies {
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.3'
     // Apache Commons
-    implementation 'commons-io:commons-io:2.8.0'
+    implementation 'commons-io:commons-io:2.13.0'
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'

@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.kunzisoft.keepass.icon'
-    compileSdkVersion 33
-    buildToolsVersion '33.0.2'
+    compileSdk 34
+    buildToolsVersion '34.0.0'
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 33
+        minSdk 29
+        targetSdk 33
     }
 
     compileOptions {

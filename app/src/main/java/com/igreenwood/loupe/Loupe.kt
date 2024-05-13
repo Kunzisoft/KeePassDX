@@ -201,12 +201,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
         object : GestureDetector.SimpleOnGestureListener() {
             override fun onDown(e: MotionEvent): Boolean = true
 
-            override fun onScroll(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                distanceX: Float,
-                distanceY: Float
-            ): Boolean {
+            override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
                 if (e2.pointerCount != 1) {
                     return true
                 }
@@ -219,12 +214,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
                 return true
             }
 
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
                 if (scale > minScale) {
                     processFlingBitmap(velocityX, velocityY)
                 } else {

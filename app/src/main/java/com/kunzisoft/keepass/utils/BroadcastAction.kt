@@ -80,20 +80,20 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
                                         alarmManager.set(
                                             AlarmManager.RTC_WAKEUP,
                                             first,
-                                            mLockPendingIntent
+                                            mLockPendingIntent!!
                                         )
                                     } else {
                                         alarmManager.setExact(
                                             AlarmManager.RTC_WAKEUP,
                                             first,
-                                            mLockPendingIntent
+                                            mLockPendingIntent!!
                                         )
                                     }
                                 } else {
                                     alarmManager.set(
                                         AlarmManager.RTC_WAKEUP,
                                         first,
-                                        mLockPendingIntent
+                                        mLockPendingIntent!!
                                     )
                                 }
                             }
@@ -122,7 +122,7 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
     private fun cancelLockPendingIntent(context: Context) {
         mLockPendingIntent?.let {
             val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager?
-            alarmManager?.cancel(mLockPendingIntent)
+            alarmManager?.cancel(mLockPendingIntent!!)
             mLockPendingIntent = null
         }
     }
