@@ -68,11 +68,10 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.DexUtil
 import com.kunzisoft.keepass.utils.MagikeyboardUtil
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.getParcelableCompat
-import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.allowCreateDocumentByStorageAccessFramework
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
@@ -180,17 +179,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
         fileDatabaseHistoryRecyclerView.adapter = mAdapterDatabaseHistory
 
-        // Load default database if not an orientation change
-        if (!(savedInstanceState != null
-                        && savedInstanceState.containsKey(EXTRA_STAY)
-                        && savedInstanceState.getBoolean(EXTRA_STAY, false))) {
-            val databasePath = PreferencesUtil.getDefaultDatabasePath(this)
-
-            databasePath?.parseUri()?.let { databaseFileUri ->
-                launchPasswordActivityWithPath(databaseFileUri)
-            } ?: run {
-                Log.i(TAG, "No default database to prepare")
-            }
+        // Load default database the first time
+        databaseFilesViewModel.doForDefaultDatabase { databaseFileUri ->
+            launchPasswordActivityWithPath(databaseFileUri)
         }
 
         // Retrieve the database URI provided by file manager after an orientation change
@@ -366,8 +357,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        // only to keep the current activity
-        outState.putBoolean(EXTRA_STAY, true)
         // to retrieve the URI of a created database after an orientation change
         outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
     }
@@ -442,7 +431,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     companion object {
 
         private const val TAG = "FileDbSelectActivity"
-        private const val EXTRA_STAY = "EXTRA_STAY"
         private const val EXTRA_DATABASE_URI = "EXTRA_DATABASE_URI"
 
         /*
