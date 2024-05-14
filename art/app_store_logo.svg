@@ -2,24 +2,24 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="512"
    height="512"
    viewBox="0 0 135.46666 135.46667"
    version="1.1"
    id="svg3912"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
    sodipodi:docname="app_store_logo.svg"
    inkscape:export-filename="/home/joker/Projects/KeePassDX/art/app_store_logo.png"
    inkscape:export-xdpi="96.000008"
-   inkscape:export-ydpi="96.000008">
+   inkscape:export-ydpi="96.000008"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs3906">
     <clipPath
@@ -848,7 +848,11 @@
     <filter
        style="color-interpolation-filters:sRGB;"
        inkscape:label="Drop Shadow"
-       id="filter1253">
+       id="filter1253"
+       x="-0.070925703"
+       y="-0.07092293"
+       width="1.1418514"
+       height="1.1713971">
       <feFlood
          flood-opacity="0.27451"
          flood-color="rgb(0,0,0)"
@@ -880,7 +884,11 @@
     <filter
        style="color-interpolation-filters:sRGB;"
        inkscape:label="Drop Shadow"
-       id="filter1265">
+       id="filter1265"
+       x="-0.067191603"
+       y="-0.067191968"
+       width="1.1343832"
+       height="1.1623806">
       <feFlood
          flood-opacity="0.27451"
          flood-color="rgb(0,0,0)"
@@ -909,6 +917,42 @@
          result="composite2"
          id="feComposite1263" />
     </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter1631-3"
+       x="-0.061701422"
+       y="-0.064966036"
+       width="1.1234028"
+       height="1.1840704">
+      <feFlood
+         flood-opacity="0.2"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1621-6" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1623-7" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="1"
+         result="blur"
+         id="feGaussianBlur1625-5" />
+      <feOffset
+         dx="-2.41474e-15"
+         dy="2"
+         result="offset"
+         id="feOffset1627-3" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1629-5" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -918,20 +962,22 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="254.20118"
-     inkscape:cy="159.99738"
+     inkscape:cx="88.388348"
+     inkscape:cy="295.57064"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="true"
      units="px"
      inkscape:pagecheckerboard="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="false"
-     inkscape:guide-bbox="true">
+     inkscape:guide-bbox="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
     <inkscape:grid
        type="xygrid"
        id="grid3914"
@@ -966,7 +1012,7 @@
        height="135.46666"
        width="135.46666"
        id="rect4978-4"
-       style="display:inline;fill:url(#linearGradient1674);fill-opacity:1;stroke:none;stroke-width:75.25925446;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="display:inline;fill:url(#linearGradient1674);fill-opacity:1;stroke:none;stroke-width:75.2593;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -984,7 +1030,14 @@
        id="path1719"
        d="m 86.496087,30.17525 c -4.57161,0.169389 -8.910241,2.060668 -12.145971,5.294733 -7.081661,7.08111 -7.081661,18.562749 0,25.643858 7.080828,7.081912 18.561988,7.081912 25.642803,0 7.081661,-7.081109 7.081661,-18.562748 0,-25.643858 -3.566853,-3.565199 -8.457348,-5.483705 -13.496832,-5.294733 z m 7.901546,12.572445 c 3.061609,8.31e-4 5.543331,2.482664 5.544155,5.544397 -8.24e-4,3.061737 -2.482546,5.543567 -5.544155,5.544392 -3.061617,-8.25e-4 -5.543331,-2.482655 -5.54416,-5.544392 8.29e-4,-3.061733 2.482543,-5.543566 5.54416,-5.544397 z M 57.071676,70.418527 33.866667,93.624429 v 7.975181 h 7.974891 l 8.488822,-8.489155 v 0.02913 h 7.974864 V 85.1646 h -0.02984 l 0.02984,-0.02915 v 0.02915 h 8.004179 v -5.507572 z"
        inkscape:connector-curvature="0"
-       style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:3.75985432;filter:url(#filter1265)" />
+       style="display:none;fill:#ffffff;fill-opacity:1;stroke-width:3.75985;filter:url(#filter1265)" />
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke-width:1.99999;filter:url(#filter1631-3)"
+       d="m -15.499022,367.05762 c -0.791464,0 -1.582993,0.30369 -2.189454,0.91015 l -7.298828,7.29883 c -1.212921,1.21293 -1.212921,3.16403 0,4.37695 l 7.298828,7.29883 c 1.212922,1.21292 3.165985,1.21292 4.378907,0 l 7.296875,-7.29883 c 1.212921,-1.21292 1.212921,-3.16403 0,-4.37695 l -7.296875,-7.29883 c -0.606461,-0.60646 -1.397989,-0.91015 -2.189453,-0.91015 z m 3.171875,7.54297 c 1.656854,0 3,1.34314 3,3 0,1.65685 -1.343146,3 -3,3 -1.656854,0 -3,-1.34315 -3,-3 0,-1.65686 1.343146,-3 3,-3 z M -31.656249,387.41406 -44,399.75781 V 404 h 4.242188 l 4.515625,-4.51562 v 0.0156 h 4.242188 v -4.24219 h -0.01563 l 0.01563,-0.0156 v 0.0156 h 4.257812 v -2.92969 z"
+       id="path1451"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sssssccccsssssscccccccccccccc"
+       transform="matrix(1.8726624,0,0,1.8726624,116.29967,-655.27217)" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1002,7 +1055,8 @@
         <g
            id="g30">
           <g
-             id="g32" />
+             id="g32"
+             style="display:inline" />
           <g
              id="g60"
              mask="url(#mask42-6)">
@@ -1022,7 +1076,7 @@
                     <g
                        clip-path="url(#clipPath70-1)"
                        id="g108"
-                       style="opacity:0.10000598">
+                       style="opacity:0.100006">
                       <path
                          d="M 164,548 H 548 V 164 H 164 Z"
                          style="fill:#66ddb7;fill-opacity:1;fill-rule:nonzero;stroke:none"
@@ -1090,7 +1144,7 @@
                     <g
                        clip-path="url(#clipPath74-6)"
                        id="g142"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(164.4194,164.3096)"
                          id="g140">
@@ -1112,7 +1166,7 @@
                     <g
                        clip-path="url(#clipPath78-2)"
                        id="g154"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(547.4814,164.5293)"
                          id="g152">
@@ -1134,7 +1188,7 @@
                     <g
                        clip-path="url(#clipPath82-6)"
                        id="g166"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(300,548)"
                          id="g164">
@@ -1156,7 +1210,7 @@
                     <g
                        clip-path="url(#clipPath86-5)"
                        id="g178"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(356,548)"
                          id="g176">
@@ -1178,7 +1232,7 @@
                     <g
                        clip-path="url(#clipPath90-4)"
                        id="g190"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(412.0801,548)"
                          id="g188">
@@ -1200,7 +1254,7 @@
                     <g
                        clip-path="url(#clipPath94-6)"
                        id="g202"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(547.7334,412)"
                          id="g200">
@@ -1222,7 +1276,7 @@
                     <g
                        clip-path="url(#clipPath98-6)"
                        id="g214"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(547.7334,356)"
                          id="g212">
@@ -1244,7 +1298,7 @@
                     <g
                        clip-path="url(#clipPath102-3)"
                        id="g226"
-                       style="opacity:0.30000299">
+                       style="opacity:0.300003">
                       <g
                          transform="translate(547.7334,300)"
                          id="g224">
