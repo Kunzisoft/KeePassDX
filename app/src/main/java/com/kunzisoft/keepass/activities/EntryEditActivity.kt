@@ -179,7 +179,7 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // To apply fit window with transparency
         setTransparentNavigationBar(applyToStatusBar = true) {
-            container?.applyWindowInsets(WindowInsetPosition.TOP)
+            container?.applyWindowInsets(WindowInsetPosition.TOP_BOTTOM_IME)
             footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
         }
 

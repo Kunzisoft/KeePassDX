@@ -350,9 +350,19 @@ fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.B
                 }
             }
             WindowInsetPosition.BOTTOM -> {
+                val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
                 if (view.layoutParams is ViewGroup.MarginLayoutParams) {
                     view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = insets.bottom
+                        bottomMargin = if (imeHeight > 1) 0 else insets.bottom
+                    }
+                }
+            }
+            WindowInsetPosition.TOP_BOTTOM_IME -> {
+                val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
+                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
+                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        topMargin = insets.top
+                        bottomMargin = if (imeHeight > 1) imeHeight else 0
                     }
                 }
             }
@@ -363,5 +373,5 @@ fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.B
 }
 
 enum class WindowInsetPosition {
-    TOP, BOTTOM, LEGIT_TOP
+    TOP, BOTTOM, LEGIT_TOP, TOP_BOTTOM_IME
 }
