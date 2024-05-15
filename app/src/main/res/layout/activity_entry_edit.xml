@@ -78,39 +78,51 @@
         android:id="@+id/activity_entry_edit_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner">
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.kunzisoft.keepass.view.ToolbarAction
-            android:id="@+id/entry_edit_bottom_bar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/entry_edit_validate"
-            style="@style/KeepassDXStyle.Fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/validate"
-            android:src="@drawable/ic_check_white_24dp"
-            app:fabCustomSize="@dimen/button_small_size"
-            app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
-            app:layout_constraintBottom_toBottomOf="@+id/entry_edit_bottom_bar"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <com.kunzisoft.keepass.view.ToolbarAction
+                android:id="@+id/entry_edit_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/entry_edit_validate"
+                style="@style/KeepassDXStyle.Fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/validate"
+                android:src="@drawable/ic_check_white_24dp"
+                app:fabCustomSize="@dimen/button_small_size"
+                app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
+                app:layout_constraintBottom_toBottomOf="@+id/entry_edit_bottom_bar"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <include
+                layout="@layout/view_button_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            layout="@layout/view_button_lock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/bottom_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/view_screenshot_mode_banner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <include layout="@layout/view_screenshot_mode_banner" />
 
     <ProgressBar
         android:id="@+id/loading"
