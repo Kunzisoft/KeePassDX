@@ -182,8 +182,11 @@ class DatabaseTaskProvider(
 
     private var databaseInfoListener = object:
         DatabaseTaskNotificationService.DatabaseInfoListener {
-        override fun onDatabaseInfoChanged(previousDatabaseInfo: SnapFileDatabaseInfo,
-                                           newDatabaseInfo: SnapFileDatabaseInfo) {
+        override fun onDatabaseInfoChanged(
+            previousDatabaseInfo: SnapFileDatabaseInfo,
+            newDatabaseInfo: SnapFileDatabaseInfo,
+            readOnlyDatabase: Boolean
+        ) {
             activity?.let { activity ->
                 activity.lifecycleScope.launch {
                     if (databaseChangedDialogFragment == null) {
@@ -195,7 +198,8 @@ class DatabaseTaskProvider(
                     if (progressTaskDialogFragment == null) {
                         databaseChangedDialogFragment = DatabaseChangedDialogFragment.getInstance(
                             previousDatabaseInfo,
-                            newDatabaseInfo
+                            newDatabaseInfo,
+                            readOnlyDatabase
                         )
                         databaseChangedDialogFragment?.actionDatabaseListener =
                             mActionDatabaseListener

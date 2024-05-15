@@ -27,7 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
@@ -162,6 +161,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun onDatabaseInfoChanged(
             previousDatabaseInfo: SnapFileDatabaseInfo,
             newDatabaseInfo: SnapFileDatabaseInfo,
+            readOnlyDatabase: Boolean
         )
     }
 
@@ -220,8 +220,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     // Call listener to indicate a change in database info
                     if (!mSaveState && previousDatabaseInfo != null) {
                         mDatabaseInfoListeners.forEach { listener ->
-                            listener.onDatabaseInfoChanged(previousDatabaseInfo,
-                                lastFileDatabaseInfo)
+                            listener.onDatabaseInfoChanged(
+                                previousDatabaseInfo,
+                                lastFileDatabaseInfo,
+                                mDatabase?.isReadOnly ?: true
+                            )
                         }
                     }
                     mSnapFileDatabaseInfo = lastFileDatabaseInfo
