@@ -32,16 +32,16 @@
     <string name="application">Aplicație</string>
     <string name="brackets">Paranteze pătrate</string>
     <string name="extended_ASCII">ASCII extins</string>
-    <string name="file_manager_install_description">Pentru a crea, deschide și salva fișiere de baze de date este necesar un manager de fișiere care acceptă acțiunea de intenție ACȚIUNE_CREARE_DOCUMENT și ACȚIUNE_DESCHIDE_DOCUMENT.</string>
+    <string name="file_manager_install_description">Pentru a crea, deschide și salva fișiere de baze de date este necesar un manager de fișiere care acceptă acțiunea de intenție ACTION_CREATE_DOCUMENT și ACTION_OPEN_DOCUMENT.</string>
     <string name="allow">Permiteți</string>
     <string name="clipboard_cleared">Clipboard curățat</string>
-    <string name="clipboard_error_title">Eroare Clipboard</string>
-    <string name="clipboard_error">Unele dispozitive nu permit aplicației sa folosească clipboard-ul.</string>
-    <string name="clipboard_error_clear">Nu s-a putut curăța clipboard-ul</string>
+    <string name="clipboard_error_title">Eroare clipboard</string>
+    <string name="clipboard_error">Unele dispozitive nu permit aplicațiilor să utilizeze clipboardul.</string>
+    <string name="clipboard_error_clear">Nu s-a putut curăța clipboardul</string>
     <string name="clipboard_timeout">Timpul de așteptare pentru clipboard</string>
     <string name="clipboard_timeout_summary">Durata de stocare în clipboard (dacă dispozitivul tău suportă)</string>
     <string name="content_description_background">În fundal</string>
-    <string name="content_description_open_file">Deschide fișier</string>
+    <string name="content_description_open_file">Deschideți fișierul</string>
     <string name="content_description_node_children">Nod copil</string>
     <string name="content_description_add_node">Adăugați nod</string>
     <string name="content_description_add_entry">Introduceți intrarea</string>
@@ -122,7 +122,7 @@
     <string name="error_otp_digits">Tokenul trebuie să conțină cifre de la %1$d to %2$d digits.</string>
     <string name="field_name">Numele domeniului</string>
     <string name="field_value">Valoarea câmpului</string>
-    <string name="file_not_found_content">Nu s-a putut găsi fișierul. Încercați să-l redeschideți din browserul de fișiere.</string>
+    <string name="file_not_found_content">Nu s-a putut găsi fișierul. Încercați să îl redeschideți din navigatorul de fișiere.</string>
     <string name="file_browser">Manager de fișiere</string>
     <string name="generate_password">Generare parolă</string>
     <string name="hint_conf_pass">Confirmă parola</string>
@@ -166,7 +166,7 @@
     <string name="menu_hide_password">Ascunde parola</string>
     <string name="menu_lock">Blochează baza de date</string>
     <string name="menu_save_database">Salvează datele</string>
-    <string name="menu_open">Deschide</string>
+    <string name="menu_open">Deschidere</string>
     <string name="menu_search">Caută</string>
     <string name="menu_showpass">Afișează parola</string>
     <string name="menu_url">Accesați adresa URL</string>
@@ -178,9 +178,9 @@
     <string name="minus">Mai puțin</string>
     <string name="never">Niciodată</string>
     <string name="no_results">Nu există rezultate de căutare</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open-source (sursă deschisă)&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;.
-\nEste prevăzut așa cum este, sub licența &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nici un fel de garanție.</string>
-    <string name="html_about_contribution">În ordine să &lt;strong&gt;pastrăm libertatea noastră&lt;/strong&gt;, &lt;strong&gt;fixăm bug-uri&lt;/strong&gt;, &lt;strong&gt;adăugăm funcții&lt;/strong&gt; și&lt;strong&gt;să fie întotdeauna activ&lt;/strong&gt;, ne bazam pe &lt;strong&gt;contribuția&lt;/strong&gt; ta.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este <strong>open source</strong> și <strong>fără reclame</strong>.
+\nEste furnizat ca atare, sub licență <strong>GPLv3</strong>, fără nicio garanție.</string>
+    <string name="html_about_contribution">Pentru a ne <strong>păstra libertatea</strong>, <strong>pentru a remedia erori</strong>, <strong>pentru a adăuga funcții</strong> și <strong>pentru a fi mereu activi</strong>, ne bazăm pe <strong>contribuția</strong> dvs.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>
@@ -248,10 +248,10 @@
     <string name="list_password_generator_options_summary">Setați caracterele permise pentru generatorul de parole</string>
     <string name="database_opened">Bază de date deschisă</string>
     <string name="clipboard">Clipboard</string>
-    <string name="clipboard_explanation_summary">Copiați câmpurile de intrare utilizând clipboard-ul dispozitivului dvs.</string>
+    <string name="clipboard_explanation_summary">Copiați câmpurile de intrare utilizând clipboardul dispozitivului dvs.</string>
     <string name="clipboard_notifications_title">Notificări clipboard</string>
     <string name="clipboard_notifications_summary">Afișați notificările pentru clipboard pentru a copia câmpurile atunci când vizualizați o intrare</string>
-    <string name="clipboard_warning">Dacă ștergerea automată a clipboard-ului nu reușește, ștergeți manual istoricul acestuia.</string>
+    <string name="clipboard_warning">Dacă ștergerea automată a clipboardului nu reușește, ștergeți manual istoricul acestuia.</string>
     <string name="lock">Blochează</string>
     <string name="lock_database_screen_off_title">Blocare ecran</string>
     <string name="lock_database_screen_off_summary">Blocați baza de date după câteva secunde după ce ecranul este oprit</string>
@@ -290,11 +290,11 @@
     <string name="monospace_font_fields_enable_summary">Schimbați fontul utilizat în câmpuri pentru o mai bună vizibilitate a caracterelor</string>
     <string name="allow_copy_password_title">Clipboard de încredere</string>
     <string name="allow_copy_password_summary">Permiteți copierea în clipboard a parolei de intrare și a câmpurilor protejate</string>
-    <string name="allow_copy_password_warning">Avertisment: Clipboard-ul este partajat de toate aplicațiile. Dacă sunt copiate date sensibile, alte programe le pot recupera.</string>
+    <string name="allow_copy_password_warning">Avertisment: Clipboardul este partajat de toate aplicațiile. Dacă sunt copiate date sensibile, alte programe le pot recupera.</string>
     <string name="enable">Activează</string>
     <string name="disable">Dezactivează</string>
     <string name="clear_clipboard_notification_title">Curat la închidere</string>
-    <string name="clear_clipboard_notification_summary">Blocați baza de date atunci când durata clipboard-ului expiră sau notificarea este închisă după ce ați început să o utilizați</string>
+    <string name="clear_clipboard_notification_summary">Blocați baza de date atunci când durata clipboardului expiră sau notificarea este închisă după ce ați început să o utilizați</string>
     <string name="database_name_title">Numele bazei de date</string>
     <string name="database_description_title">Descrierea bazei de date</string>
     <string name="database_default_username_title">Nume de utilizator implicit</string>
@@ -334,7 +334,7 @@
     <string name="keyboard_key_vibrate_title">Apăsare vibratorie a tastelor</string>
     <string name="keyboard_key_sound_title">Apăsarea sonoră a tastelor</string>
     <string name="allow_no_password_title">Nu permiteți nicio cheie principală</string>
-    <string name="allow_no_password_summary">Permite apăsarea butonului \"Deschide\" în cazul în care nu sunt selectate credențiale</string>
+    <string name="allow_no_password_summary">Permite apăsarea butonului \"Deschidere\" în cazul în care nu sunt selectate credențiale</string>
     <string name="delete_entered_password_title">Ștergeți parola</string>
     <string name="delete_entered_password_summary">Șterge parola introdusă după o încercare de conectare la o bază de date</string>
     <string name="enable_read_only_title">Protejat la scriere</string>
@@ -367,10 +367,10 @@
 \n
 \nFaceți o copie de rezervă a fișierului bazei de date într-un loc sigur după fiecare modificare.</string>
     <string name="education_read_only_title">Protejați-vă baza de date</string>
-    <string name="education_read_only_summary">Schimbați modul de deschidere pentru sesiune.
+    <string name="education_read_only_summary">Modificați modul de deschidere pentru sesiune.
 \n
-\n„Protecție la scriere” previne modificările neintenționate ale bazei de date.
-\n„Modificabil” vă permite să adăugați, să ștergeți sau să modificați toate elementele.</string>
+\n\"Protejat la scriere\" previne modificările neintenționate ale bazei de date.
+\n\"Modificabil\" vă permite să adăugați, să ștergeți sau să modificați toate elementele după cum doriți.</string>
     <string name="education_field_copy_title">Copiați un câmp</string>
     <string name="education_field_copy_summary">Câmpurile copiate pot fi lipite oriunde.
 \n
@@ -469,7 +469,7 @@
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de siguranță</string>
-    <string name="html_about_privacy">&lt;strong&gt;Nu este colectat datele utilizatorilor &lt;/strong&gt;, această aplicație nu se conectează la niciun server, funcționează doar la local și respectă pe deplin confidențialitatea utilizatorilor.</string>
+    <string name="html_about_privacy"><strong>Nu sunt colectate date ale utilizatorului</strong>, această aplicație nu se conectează la niciun server, funcționează doar local și respectă pe deplin confidențialitatea utilizatorilor.</string>
     <string name="current_group">Grupul curent</string>
     <string name="search_filters">Filtre de căutare</string>
     <string name="navigation_drawer_close">Sertar de navigare închis</string>
@@ -595,7 +595,7 @@
     <string name="warning_database_notification_permission">Permisiunea de notificare vă permite să afișați starea bazei de date și să o blocați cu un buton ușor accesibil.
 \n
 \nDacă nu activați această permisiune, baza de date deschisă în fundal nu va fi vizibilă dacă o altă aplicație se află în prim-plan.</string>
-    <string name="warning_copy_permission">Permisiunea de notificare este necesară pentru a utiliza funcția de notificare a clipboard-ului.</string>
+    <string name="warning_copy_permission">Permisiunea de notificare este necesară pentru a utiliza funcția de notificare a clipboardului.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Legătură la deblocarea dispozitivului</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Recunoașterea deblocării dispozitivului</string>
     <string name="advanced_unlock_scanning_error">Eroare de deblocare a dispozitivului: %1$s</string>
@@ -608,6 +608,7 @@
     <string name="advanced_unlock_keystore_warning">Această funcție va stoca datele credențiale criptate în depozitul de chei securizat al dispozitivului dvs.
 \n
 \nÎn funcție de implementarea API-ului nativ al sistemului de operare, este posibil ca această funcție să nu fie complet funcțională.
+\n
 \nVerificați compatibilitatea și securitatea KeyStore cu producătorul dispozitivului dvs. și cu creatorul ROM-ului pe care îl utilizați.</string>
     <string name="database_data_remove_unlinked_attachments_summary">Elimină atașamentele conținute în baza de date, dar care nu sunt legate de o intrare</string>
     <string name="templates_group_enable_title">Utilizarea șabloanelor</string>
