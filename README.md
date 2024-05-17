@@ -78,7 +78,7 @@ keytool -version
 ```shell
 (keytool -printcert -jarfile KeePassDX-*-free.apk | grep -q '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04' && echo && echo && echo "The app is safe to be installed.") || (echo && echo && echo "The app is not safe to be installed.")
 ```
-You should get an output that tells you if the app is safe to e installed or not.
+You should get an output that tells you if the app is safe to be installed or not.
 ## Frequently Asked Questions
 
 Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/wiki/FAQ) 
