@@ -65,11 +65,14 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 2- Open the directory where you saved the downloaded file in the Terminal on Linux/MacOS. <br>
 3- You must have `keytool` command installed. <br>
 4- Depending on the flavor you downloaded, run:
-```
+
+- For the `libre` flavor:
+```shell
 keytool -printcert -jarfile KeePassDX-*-libre.apk | grep '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04'
 ```
-Or:
-```
+
+- For the `free` flavor:
+```shell
 keytool -printcert -jarfile KeePassDX-*-free.apk | grep '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04'
 ```
 You should get this output:
