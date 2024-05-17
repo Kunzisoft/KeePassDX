@@ -603,6 +603,7 @@
     <string name="advanced_unlock_keystore_warning">Esta funcionalidade irá armazenar dados encriptados de credenciais na KeyStore segura do seu dispositivo.
 \n
 \nDependendo da implementação da API nativa do sistema operativo, esta pode não estar totalmente funcional.
+\n
 \nVerifique a compatibilidade e segurança da KeyStore com o fabricante do seu dispositivo e com o criador da ROM que está a utilizar.</string>
     <string name="keyboard_previous_search_title">Ecrã de pesquisa</string>
     <string name="entropy_high">Entropia: alta</string>
@@ -666,4 +667,15 @@
 \n
 \nSe não ativar esta permissão, a base de dados aberta em segundo plano não será visível se outra aplicação estiver em primeiro plano.</string>
     <string name="menu_appearance_settings_summary">Temas, cores, atributos</string>
+    <string name="style_name_forest">Floresta</string>
+    <string name="style_name_divine">Divino</string>
+    <string name="style_name_classic">Clássico</string>
+    <string name="style_name_simple">Simples</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Seguir o sistema</string>
+    <string name="style_name_light">Claro</string>
+    <string name="style_name_dark">Escuro</string>
+    <string name="style_name_moon">Lua</string>
+    <string name="style_name_reply">Resposta</string>
 </resources>
