@@ -61,21 +61,24 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 	height="80">](https://github.com/Kunzisoft/KeePassDX/releases)
 
 ## Verify the authenticity of the downloaded app from GitHub
-1- Download the latest app from [GitHub releases](https://github.com/Kunzisoft/KeePassDX/releases/latest). <br>
-2- Open the directory where you saved the downloaded file in the Terminal on Linux/MacOS. <br>
-3- You must have `keytool` command installed. <br>
-4- Depending on the flavor you downloaded, run:
+- Download the latest app from [GitHub releases](https://github.com/Kunzisoft/KeePassDX/releases/latest). <br>
+- Open the directory where you saved the downloaded file in the Terminal on Linux/MacOS.
+- Make sure that you have `keytool` installed by running:
 ```
-keytool -printcert -jarfile KeePassDX-*-libre.apk | grep '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04'
+keytool -version
 ```
-Or:
+- Depending on the flavor you downloaded, run:
+
+- For the `libre` flavor:
+```shell
+(keytool -printcert -jarfile KeePassDX-*-libre.apk | grep -q '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04' && echo && echo && echo "The app is safe to be installed.") || (echo && echo && echo "The app is not safe to be installed.")
 ```
-keytool -printcert -jarfile KeePassDX-*-free.apk | grep '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04'
+
+- For the `free` flavor:
+```shell
+(keytool -printcert -jarfile KeePassDX-*-free.apk | grep -q '7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04' && echo && echo && echo "The app is safe to be installed.") || (echo && echo && echo "The app is not safe to be installed.")
 ```
-You should get this output:
-```
-SHA256: 7D:55:B8:AF:21:03:81:AA:BF:96:0F:07:E1:7C:F7:85:7B:6D:2A:64:2C:A2:DA:6B:F0:BD:F1:B2:00:36:2F:04
-```
+You should get an output that tells you if the app is safe to be installed or not.
 ## Frequently Asked Questions
 
 Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/wiki/FAQ) 
