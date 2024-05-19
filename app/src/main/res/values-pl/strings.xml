@@ -700,4 +700,5 @@
     <string name="style_name_reply">Odpowiedzi</string>
     <string name="style_name_dark">Ciemny</string>
     <string name="style_name_simple">Prosty</string>
+    <string name="warning_database_info_changed_options_read_only">Załaduj ponownie bazę danych z najnowszymi zmianami.</string>
 </resources>
