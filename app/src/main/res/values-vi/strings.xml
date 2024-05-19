@@ -264,7 +264,7 @@
     <string name="menu_security_settings_summary">Mã hóa, hàm dẫn xuất khóa</string>
     <string name="menu_master_key_settings">Thiết đặt khóa chính</string>
     <string name="master_key_settings_summary">Thay đổi, gia hạn</string>
-    <string name="menu_donate">Đóng góp</string>
+    <string name="menu_donate">Quyên góp</string>
     <string name="menu_edit">Chỉnh sửa</string>
     <string name="menu_copy">Sao chép</string>
     <string name="menu_move">Di chuyển</string>

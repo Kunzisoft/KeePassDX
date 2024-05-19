@@ -434,7 +434,7 @@
     <string name="style_name_moon">Mond</string>
     <string name="style_name_sun">Sonne</string>
     <string name="style_name_reply">Antwort</string>
-    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_kunzite">Kunzit</string>
     <string name="style_name_follow_system">System folgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
@@ -633,7 +633,7 @@
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="expired">Abgelaufen</string>
     <string name="warning_database_already_opened">Eine Datenbank ist bereits geöffnet. Schließe sie, um eine neue zu öffnen</string>
-    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher deines Geräts.
+    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
 \n
 \nJe nach der internen API-Implementierung des Betriebssystems kann sie eingeschränkt sein.
 \nBitte die Kompatibilität und Sicherheit des Schlüsselspeichers vom Gerätehersteller und vom Ersteller der verwendeten ROM abgleichen.</string>
@@ -700,4 +700,6 @@
 \n
 \nWenn ein automatisches Sperren aktiviert ist und vergessen wird, dass Änderungen vorgenommen wurden, besteht die Gefahr von Datenverlust.</string>
     <string name="info">Info</string>
+    <string name="style_name_light">Hell</string>
+    <string name="style_name_dark">Dunkel</string>
 </resources>

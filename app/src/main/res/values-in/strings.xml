@@ -615,6 +615,7 @@
     <string name="advanced_unlock_keystore_warning">Fitur ini akan menyimpan data kredensial terenkripsi di KeyStore perangkat Anda yang aman.
 \n
 \nBergantung pada implementasi API asli dari sistem operasi, mungkin tidak berfungsi penuh.
+\n
 \nPeriksa kompatibilitas dan keamanan KeyStore dengan produsen perangkat Anda dan pembuat ROM yang Anda gunakan.</string>
     <string name="education_read_only_title">Lindungi basis data Anda dari penulisan</string>
     <string name="keyboard_save_search_info_summary">Coba simpan informasi terbagi ketika membuat sebuah pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
@@ -666,4 +667,15 @@
     <string name="menu_appearance_settings_summary">Tema, warna, atribut</string>
     <string name="unlock">Buka kunci</string>
     <string name="education_validate_entry_title">Validasi entri</string>
+    <string name="style_name_moon">Bulan</string>
+    <string name="style_name_sun">Matahari</string>
+    <string name="style_name_reply">Balas</string>
+    <string name="style_name_divine">Ilahi</string>
+    <string name="style_name_forest">Hutan</string>
+    <string name="style_name_simple">Sederhana</string>
+    <string name="style_name_classic">Klasik</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Ikuti sistem</string>
+    <string name="style_name_light">Terang</string>
+    <string name="style_name_dark">Gelap</string>
 </resources>

@@ -619,6 +619,7 @@
     <string name="advanced_unlock_keystore_warning">Esta funcionalidade irá armazenar dados encriptados de credenciais na KeyStore segura do seu dispositivo.
 \n
 \nDependendo da implementação da API nativa do sistema operativo, esta pode não estar totalmente funcional.
+\n
 \nVerifique a compatibilidade e segurança da KeyStore com o fabricante do seu dispositivo e com o criador da ROM que está a utilizar.</string>
     <string name="keyboard_previous_search_summary">Mudar automaticamente para o teclado anterior no ecrã de pesquisa</string>
     <string name="enable_screenshot_mode_summary">Permitir que aplicações de terceiros registem ou fotografem os ecrãs da aplicação</string>
@@ -688,4 +689,15 @@
     <string name="configure">Configurar</string>
     <string name="unlock_and_link_biometric">Ligação de desbloqueio do dispositivo</string>
     <string name="menu_appearance_settings_summary">Temas, cores, atributos</string>
+    <string name="style_name_classic">Clássico</string>
+    <string name="style_name_reply">Resposta</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Seguir o sistema</string>
+    <string name="style_name_dark">Escuro</string>
+    <string name="style_name_forest">Floresta</string>
+    <string name="style_name_divine">Divino</string>
+    <string name="style_name_simple">Simples</string>
+    <string name="style_name_moon">Lua</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_light">Claro</string>
 </resources>
