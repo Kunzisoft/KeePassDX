@@ -702,4 +702,5 @@
     <string name="style_name_moon">Maan</string>
     <string name="style_name_follow_system">Systeem volgen</string>
     <string name="style_name_dark">Donker</string>
+    <string name="warning_database_info_changed_options_read_only">Database opnieuw laden met de jongste wijzigingen.</string>
 </resources>
