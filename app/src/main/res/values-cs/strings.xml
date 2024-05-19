@@ -701,4 +701,5 @@
     <string name="style_name_follow_system">Podle systému</string>
     <string name="style_name_light">Světlý</string>
     <string name="style_name_dark">Tmavý</string>
+    <string name="warning_database_info_changed_options_read_only">Znovu načíst databázi s posledními změnami.</string>
 </resources>
