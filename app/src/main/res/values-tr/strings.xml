@@ -695,4 +695,5 @@
     <string name="style_name_simple">Basit</string>
     <string name="style_name_moon">Ay</string>
     <string name="style_name_sun">Güneş</string>
+    <string name="warning_database_info_changed_options_read_only">Veri tabanını en son değişikliklerle yeniden yükle.</string>
 </resources>
