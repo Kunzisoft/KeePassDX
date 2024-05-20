@@ -700,4 +700,5 @@
     <string name="style_name_kunzite">Kunzite</string>
     <string name="style_name_light">浅色</string>
     <string name="style_name_dark">深色</string>
+    <string name="warning_database_info_changed_options_read_only">重新加载数据库最新变化。</string>
 </resources>
