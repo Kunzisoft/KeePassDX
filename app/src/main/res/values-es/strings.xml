@@ -702,4 +702,5 @@
     <string name="style_name_follow_system">Seguir el sistema</string>
     <string name="style_name_light">Claro</string>
     <string name="style_name_dark">Oscuro</string>
+    <string name="warning_database_info_changed_options_read_only">Recargue la base de datos con los últimos cambios.</string>
 </resources>
