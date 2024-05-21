@@ -700,4 +700,5 @@
     <string name="style_name_simple">Simples</string>
     <string name="style_name_divine">Divino</string>
     <string name="style_name_dark">Escuro</string>
+    <string name="warning_database_info_changed_options_read_only">Recarregar o banco de dados com as alterações mais recentes.</string>
 </resources>
