@@ -702,4 +702,5 @@
     <string name="style_name_simple">Semplice</string>
     <string name="style_name_sun">Sole</string>
     <string name="style_name_follow_system">Segui il sistema</string>
+    <string name="warning_database_info_changed_options_read_only">Ricarica il database con le ultime modifiche.</string>
 </resources>
