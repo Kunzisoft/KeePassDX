@@ -700,4 +700,5 @@
     <string name="style_name_forest">Лесная</string>
     <string name="style_name_moon">Лунная</string>
     <string name="style_name_follow_system">Как в системе</string>
+    <string name="warning_database_info_changed_options_read_only">Перезагрузите базу с последними изменениями.</string>
 </resources>
