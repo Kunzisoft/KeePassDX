@@ -700,4 +700,5 @@
     <string name="style_name_sun">Ήλιος</string>
     <string name="style_name_kunzite">Κουνζίτης</string>
     <string name="style_name_follow_system">Όπως το σύστημα</string>
+    <string name="warning_database_info_changed_options_read_only">Επαναφορτώστε τη βάση δεδομένων με τις τελευταίες αλλαγές.</string>
 </resources>
