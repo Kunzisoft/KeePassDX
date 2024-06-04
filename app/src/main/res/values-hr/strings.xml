@@ -695,4 +695,5 @@
     <string name="style_name_sun">Sunce</string>
     <string name="style_name_kunzite">Spodumen</string>
     <string name="style_name_dark">Tamna</string>
+    <string name="warning_database_info_changed_options_read_only">Ponovo učitaj bazu podataka s najnovijim promjenama.</string>
 </resources>
