@@ -206,7 +206,7 @@
     <string name="parallelism_explanation">Gradul de paralelism (adică numărul de fire de execuție) utilizat de funcția de derivare a cheilor.</string>
     <string name="saving_database">Salvarea bazei de date…</string>
     <string name="command_execution">Executarea comenzii…</string>
-    <string name="do_not_kill_app">Nu închideți aplicația…</string>
+    <string name="do_not_kill_app">Nu întrerupeți aplicația…</string>
     <string name="space">Spațiu</string>
     <string name="sort_menu">Sortare</string>
     <string name="sort_ascending">Cea mai mică prima ↓</string>
