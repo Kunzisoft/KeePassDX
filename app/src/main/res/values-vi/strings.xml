@@ -730,4 +730,5 @@
     <string name="show_entry_colors_summary">Hiển thị màu nền trước và màu nền cho mục nhập</string>
     <string name="hide_expired_entries_title">Ẩn các mục đã hết hạn</string>
     <string name="hide_expired_entries_summary">Các mục hết hạn không được hiển thị</string>
+    <string name="warning_database_info_changed_options_read_only">Tải lại cơ sở dữ liệu với những thay đổi mới nhất.</string>
 </resources>
