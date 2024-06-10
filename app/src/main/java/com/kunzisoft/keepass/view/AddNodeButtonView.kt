@@ -68,6 +68,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
 
     init {
         inflate(context)
+        hideButton()
     }
 
     private fun inflate(context: Context) {

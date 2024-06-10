@@ -6,15 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorSurface"
-    android:fitsSystemWindows="true"
     tools:ignore="UnusedAttribute">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
-        android:layout_marginTop="@dimen/default_margin"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin">
+        android:layout_margin="@dimen/default_margin">
 
         <TextView
             android:id="@+id/nav_database_version"

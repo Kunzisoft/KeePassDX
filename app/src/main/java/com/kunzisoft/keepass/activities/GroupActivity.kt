@@ -292,10 +292,9 @@ class GroupActivity : DatabaseLockActivity(),
         loadingView = findViewById(R.id.loading)
 
         // To apply fit window with transparency
-        setTransparentNavigationBar {
-            header?.applyWindowInsets(WindowInsetPosition.TOP)
-            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.LEGIT_TOP)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+        setTransparentNavigationBar(applyToStatusBar = true) {
+            drawerLayout?.applyWindowInsets(WindowInsetPosition.TOP_BOTTOM_IME)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM_IME)
         }
 
         lockView?.setOnClickListener {
