@@ -660,6 +660,7 @@
     <string name="advanced_unlock_keystore_warning">ستقوم هذه الميزة بتخزين بيانات الاعتماد المشفرة في KeyStore الآمن بجهازك.
 \n
 \nاعتمادًا على تطبيق API الأصلي لنظام التشغيل، قد لا يعمل بكامل طاقته.
+\n
 \nتحقق من توافق وأمن KeyStore مع الشركة المصنعة لجهازك ومنشئ ROM الذي تستخدمه.</string>
     <string name="keyboard_selection_entry_summary">عند عرض إدخال في KeePassDX، عبئ Magikeyboard بهذا الإدخال</string>
     <string name="enable_screenshot_mode_summary">اسمح لتطبيقات الطرف الثالث بتسجيل أو التقاط لقطات شاشة للتطبيق</string>
