@@ -1,1 +1,1 @@
-Gestionnaire de mots de passe open source compatible KeePass
+Coffre-fort et gestionnaire de mots de passe open source sécurisé
