@@ -22,59 +22,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:importantForAutofill="noExcludeDescendants"
+    android:id="@+id/activity_entry_edit_container"
     tools:targetApi="o"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
 
+    <com.kunzisoft.keepass.view.ToolbarSpecial
+        android:id="@+id/special_mode_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/entry_edit_coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/activity_entry_edit_container"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/entry_edit_scroll"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.kunzisoft.keepass.view.ToolbarSpecial
-                android:id="@+id/special_mode_view"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="none"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/entry_edit_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:scrollbarStyle="insideOverlay"
-                android:scrollbars="none"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/card_view_margin_vertical"
+                android:paddingBottom="128dp">
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/entry_edit_template_selector"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="@dimen/card_view_margin_vertical"
-                    android:paddingBottom="128dp">
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/entry_edit_template_selector"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <androidx.fragment.app.FragmentContainerView
-                        android:id="@+id/entry_edit_content"
-                        android:name="com.kunzisoft.keepass.activities.fragments.EntryEditFragment"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintWidth_percent="@dimen/content_percent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.core.widget.NestedScrollView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/entry_edit_content"
+                    android:name="com.kunzisoft.keepass.activities.fragments.EntryEditFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintWidth_percent="@dimen/content_percent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/entry_edit_template_selector"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -84,35 +80,47 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.kunzisoft.keepass.view.ToolbarAction
-            android:id="@+id/entry_edit_bottom_bar"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/entry_edit_validate"
-            style="@style/KeepassDXStyle.Fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/validate"
-            android:src="@drawable/ic_check_white_24dp"
-            app:fabCustomSize="@dimen/button_small_size"
-            app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
-            app:layout_constraintBottom_toBottomOf="@+id/entry_edit_bottom_bar"
-            android:layout_marginBottom="6dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <com.kunzisoft.keepass.view.ToolbarAction
+                android:id="@+id/entry_edit_bottom_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/entry_edit_validate"
+                style="@style/KeepassDXStyle.Fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/validate"
+                android:src="@drawable/ic_check_white_24dp"
+                app:fabCustomSize="@dimen/button_small_size"
+                app:layout_constraintTop_toTopOf="@+id/entry_edit_bottom_bar"
+                app:layout_constraintBottom_toBottomOf="@+id/entry_edit_bottom_bar"
+                android:layout_marginBottom="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <include
+                layout="@layout/view_button_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            layout="@layout/view_button_lock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/screenshot_mode_banner"/>
-
-        <include layout="@layout/view_screenshot_mode_banner" />
+            app:layout_constraintTop_toBottomOf="@+id/bottom_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            layout="@layout/view_screenshot_mode_banner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

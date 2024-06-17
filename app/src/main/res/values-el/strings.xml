@@ -199,7 +199,7 @@
     <string name="application_appearance">Διεπαφή</string>
     <string name="other">Άλλα</string>
     <string name="keyboard">Πληκτρολόγιο</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_title">Magikeybοard</string>
     <string name="reset_education_screens_title">Επαναφορά εκπαιδευτικών υποδείξεων</string>
     <string name="reset_education_screens_summary">Εμφάνιση όλων των εκπαιδευτικών πληροφοριών ξανά</string>
     <string name="reset_education_screens_text">Επαναφορά εκπαιδευτικών υποδείξεων</string>
@@ -273,8 +273,8 @@
     <string name="list_entries_show_username_summary">Εμφάνιση ονομάτων χρηστών σε λίστες καταχώρησης</string>
     <string name="clipboard">Πρόχειρο</string>
     <string name="build_label">Κατασκευή %1$s</string>
-    <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
+    <string name="keyboard_name">Magikeybοard</string>
+    <string name="keyboard_label">Magikeybοard (KeePassDX)</string>
     <string name="keyboard_setting_label">Ρυθμίσεις Magikeyboard</string>
     <string name="keyboard_entry_category">Καταχώριση</string>
     <string name="keyboard_entry_timeout_title">Τέλος χρόνου</string>
@@ -624,6 +624,7 @@
     <string name="advanced_unlock_keystore_warning">Αυτή η δυνατότητα θα αποθηκεύσει κρυπτογραφημένα δεδομένα διαπιστευτηρίων στο ασφαλές KeyStore της συσκευής σας.
 \n
 \nΑνάλογα με την εγγενή υλοποίηση API του λειτουργικού συστήματος, ενδέχεται να μην είναι πλήρως λειτουργικό.
+\n
 \nΕλέγξτε τη συμβατότητα και την ασφάλεια του KeyStore με τον κατασκευαστή της συσκευής σας και τον δημιουργό της ROM που χρησιμοποιείτε.</string>
     <string name="passphrase">Συνθηματική φράση</string>
     <string name="colorize_password_summary">Χρωματίστε τους χαρακτήρες του κωδικού πρόσβασης ανά τύπο</string>
@@ -688,4 +689,16 @@
     <string name="education_validate_entry_summary">Θυμηθείτε να επικυρώσετε την καταχώρησή σας και να αποθηκεύσετε τη βάση δεδομένων σας.
 \n
 \nΕάν ενεργοποιηθεί ένα αυτόματο κλείδωμα και ξεχάσετε ότι κάνετε μια τροποποίηση, κινδυνεύετε να χάσετε τα δεδομένα σας.</string>
+    <string name="style_name_forest">Δάσος</string>
+    <string name="style_name_divine">Θείο</string>
+    <string name="style_name_classic">Κλασσικό</string>
+    <string name="style_name_simple">Απλό</string>
+    <string name="style_name_reply">Απάντηση</string>
+    <string name="style_name_light">Φωτεινό</string>
+    <string name="style_name_dark">Σκοτεινό</string>
+    <string name="style_name_moon">Φεγγάρι</string>
+    <string name="style_name_sun">Ήλιος</string>
+    <string name="style_name_kunzite">Κουνζίτης</string>
+    <string name="style_name_follow_system">Όπως το σύστημα</string>
+    <string name="warning_database_info_changed_options_read_only">Επαναφορτώστε τη βάση δεδομένων με τις τελευταίες αλλαγές.</string>
 </resources>

@@ -625,6 +625,7 @@
     <string name="advanced_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia.
 \n
 \nW zależności od konkretnej implementacji interfejsu API systemu operacyjnego, może nie być w pełni funkcjonalna.
+\n
 \nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
     <string name="passphrase">Fraza hasła</string>
     <string name="colorize_password_summary">Koloruj znaki hasła według typu</string>
@@ -688,4 +689,16 @@
     <string name="education_validate_entry_summary">Pamiętaj, aby sprawdzić poprawność wpisu i zapisać bazę danych.
 \n
 \nJeśli aktywowane jest automatyczne blokowanie i zapomnisz, że dokonano modyfikacji, ryzykujesz utratę danych.</string>
+    <string name="style_name_forest">Leśny</string>
+    <string name="style_name_divine">Boski</string>
+    <string name="style_name_classic">Klasyczny</string>
+    <string name="style_name_moon">Księżycowy</string>
+    <string name="style_name_sun">Słoneczny</string>
+    <string name="style_name_kunzite">Kunzytowy</string>
+    <string name="style_name_follow_system">Systemowy</string>
+    <string name="style_name_light">Jasny</string>
+    <string name="style_name_reply">Odpowiedzi</string>
+    <string name="style_name_dark">Ciemny</string>
+    <string name="style_name_simple">Prosty</string>
+    <string name="warning_database_info_changed_options_read_only">Załaduj ponownie bazę danych z najnowszymi zmianami.</string>
 </resources>

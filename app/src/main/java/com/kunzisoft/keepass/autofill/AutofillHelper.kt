@@ -60,6 +60,7 @@ import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import kotlin.math.min
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -321,10 +322,11 @@ object AutofillHelper {
             val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
             val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
 
-            if (positionItem <= maxSuggestion - 1
-                && inlinePresentationSpecs.size > positionItem
-            ) {
-                val inlinePresentationSpec = inlinePresentationSpecs[positionItem]
+            if (positionItem <= maxSuggestion - 1) {
+
+                // If positionItem is larger than the number of specs in the list, then
+                // the last spec is used for the remainder of the suggestions
+                val inlinePresentationSpec = inlinePresentationSpecs[min(positionItem, inlinePresentationSpecs.size - 1)]
 
                 // Make sure that the IME spec claims support for v1 UI template.
                 val imeStyle = inlinePresentationSpec.style

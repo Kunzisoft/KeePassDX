@@ -1,8 +1,8 @@
 # Android KeePassDX
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> **Lightweight password manager for Android**, KeePassDX allows editing encrypted data in a single file in KeePass format and fill in the forms in a secure way.
+<img alt="KeePassDX Icon" src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/icon.png"> **Lightweight password safe and manager for Android**, KeePassDX allows editing encrypted data in a single file in KeePass format and fill in the forms in a secure way.
 
-<img src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
+<img alt="KeePassDX Screenshot" src="https://raw.githubusercontent.com/Kunzisoft/KeePassDX/master/art/screen.jpg" width="220">
 
 ### Features
 
@@ -90,7 +90,7 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
 
 ## License
 
-  Copyright © 2023 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+  Copyright © 2024 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
 
   This file is part of KeePassDX.
 

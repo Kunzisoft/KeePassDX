@@ -43,6 +43,7 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
 
             val oldSnapFileDatabaseInfo: SnapFileDatabaseInfo? = arguments?.getParcelableCompat(OLD_FILE_DATABASE_INFO)
             val newSnapFileDatabaseInfo: SnapFileDatabaseInfo? = arguments?.getParcelableCompat(NEW_FILE_DATABASE_INFO)
+            val readOnlyDatabase: Boolean = arguments?.getBoolean(READ_ONLY_DATABASE) ?: true
 
             if (oldSnapFileDatabaseInfo != null && newSnapFileDatabaseInfo != null) {
                 // Use the Builder class for convenient dialog construction
@@ -54,7 +55,13 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
                     stringBuilder.append("\n\n" +oldSnapFileDatabaseInfo.toString(activity)
                             + "\n→\n" +
                             newSnapFileDatabaseInfo.toString(activity) + "\n\n")
-                    stringBuilder.append(getString(R.string.warning_database_info_changed_options))
+                    stringBuilder.append(getString(
+                        if (readOnlyDatabase) {
+                            R.string.warning_database_info_changed_options_read_only
+                        } else {
+                            R.string.warning_database_info_changed_options
+                        }
+                    ))
                 } else {
                     stringBuilder.append(getString(R.string.warning_database_revoked))
                 }
@@ -77,15 +84,18 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
         const val DATABASE_CHANGED_DIALOG_TAG = "databaseChangedDialogFragment"
         private const val OLD_FILE_DATABASE_INFO = "OLD_FILE_DATABASE_INFO"
         private const val NEW_FILE_DATABASE_INFO = "NEW_FILE_DATABASE_INFO"
+        private const val READ_ONLY_DATABASE = "READ_ONLY_DATABASE"
 
         fun getInstance(oldSnapFileDatabaseInfo: SnapFileDatabaseInfo,
-                        newSnapFileDatabaseInfo: SnapFileDatabaseInfo
+                        newSnapFileDatabaseInfo: SnapFileDatabaseInfo,
+                        readOnly: Boolean
         )
         : DatabaseChangedDialogFragment {
             val fragment = DatabaseChangedDialogFragment()
             fragment.arguments = Bundle().apply {
                 putParcelable(OLD_FILE_DATABASE_INFO, oldSnapFileDatabaseInfo)
                 putParcelable(NEW_FILE_DATABASE_INFO, newSnapFileDatabaseInfo)
+                putBoolean(READ_ONLY_DATABASE, readOnly)
             }
             return fragment
         }

@@ -36,10 +36,24 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
-import com.kunzisoft.keepass.database.action.*
+import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
+import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
+import com.kunzisoft.keepass.database.action.MergeDatabaseRunnable
+import com.kunzisoft.keepass.database.action.ReloadDatabaseRunnable
+import com.kunzisoft.keepass.database.action.RemoveUnlinkedDataDatabaseRunnable
+import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
+import com.kunzisoft.keepass.database.action.UpdateCompressionBinariesDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
-import com.kunzisoft.keepass.database.action.node.*
+import com.kunzisoft.keepass.database.action.node.ActionNodesValues
+import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
+import com.kunzisoft.keepass.database.action.node.AddGroupRunnable
+import com.kunzisoft.keepass.database.action.node.AfterActionNodesFinish
+import com.kunzisoft.keepass.database.action.node.CopyNodesRunnable
+import com.kunzisoft.keepass.database.action.node.DeleteNodesRunnable
+import com.kunzisoft.keepass.database.action.node.MoveNodesRunnable
+import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
+import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -62,9 +76,17 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putParcelableList
 import com.kunzisoft.keepass.viewmodels.FileDatabaseInfo
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
-import java.util.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import java.util.UUID
 
 open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
@@ -139,6 +161,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun onDatabaseInfoChanged(
             previousDatabaseInfo: SnapFileDatabaseInfo,
             newDatabaseInfo: SnapFileDatabaseInfo,
+            readOnlyDatabase: Boolean
         )
     }
 
@@ -197,8 +220,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     // Call listener to indicate a change in database info
                     if (!mSaveState && previousDatabaseInfo != null) {
                         mDatabaseInfoListeners.forEach { listener ->
-                            listener.onDatabaseInfoChanged(previousDatabaseInfo,
-                                lastFileDatabaseInfo)
+                            listener.onDatabaseInfoChanged(
+                                previousDatabaseInfo,
+                                lastFileDatabaseInfo,
+                                mDatabase?.isReadOnly ?: true
+                            )
                         }
                     }
                     mSnapFileDatabaseInfo = lastFileDatabaseInfo
@@ -831,6 +857,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         if (intent.hasExtra(MAIN_CREDENTIAL_KEY)) {
             databaseToMergeMainCredential = intent.getParcelableExtraCompat(MAIN_CREDENTIAL_KEY)
         }
+        val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
         return MergeDatabaseRunnable(
             this,
             databaseToMergeUri,
@@ -839,7 +866,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
             database,
-            !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+            !database.isReadOnly && saveDatabase,
             { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             },
@@ -932,12 +959,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val parentId: NodeId<*>? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
             val newGroup: Group? = intent.getParcelableExtraCompat(GROUP_KEY)
             if (parentId == null || newGroup == null) return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { parent ->
                 AddGroupRunnable(this,
                     database,
                     newGroup,
                     parent,
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && saveDatabase,
                     AfterActionNodesRunnable()
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -959,12 +987,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val groupId: NodeId<*>? = intent.getParcelableExtraCompat(GROUP_ID_KEY)
             val newGroup: Group? = intent.getParcelableExtraCompat(GROUP_KEY)
             if (groupId == null || newGroup == null) return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(groupId)?.let { oldGroup ->
                 UpdateGroupRunnable(this,
                     database,
                     oldGroup,
                     newGroup,
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && saveDatabase,
                     AfterActionNodesRunnable()
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -986,12 +1015,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val parentId: NodeId<*>? = intent.getParcelableExtraCompat(PARENT_ID_KEY)
             val newEntry: Entry? = intent.getParcelableExtraCompat(ENTRY_KEY)
             if (parentId == null || newEntry == null) return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { parent ->
                 AddEntryRunnable(this,
                     database,
                     newEntry,
                     parent,
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && saveDatabase,
                     AfterActionNodesRunnable()
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -1013,12 +1043,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val entryId: NodeId<UUID>? = intent.getParcelableExtraCompat(ENTRY_ID_KEY)
             val newEntry: Entry? = intent.getParcelableExtraCompat(ENTRY_KEY)
             if (entryId == null || newEntry == null) return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getEntryById(entryId)?.let { oldEntry ->
                 UpdateEntryRunnable(this,
                     database,
                     oldEntry,
                     newEntry,
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && saveDatabase,
                     AfterActionNodesRunnable()
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -1039,12 +1070,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val parentId: NodeId<*> = intent.getParcelableExtraCompat(PARENT_ID_KEY) ?: return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { newParent ->
                 CopyNodesRunnable(this,
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && saveDatabase,
                     AfterActionNodesRunnable()
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -1065,12 +1097,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val parentId: NodeId<*> = intent.getParcelableExtraCompat(PARENT_ID_KEY) ?: return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getGroupById(parentId)?.let { newParent ->
                 MoveNodesRunnable(this,
                     database,
                     getListNodesFromBundle(database, intent.extras!!),
                     newParent,
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                    !database.isReadOnly && saveDatabase,
                     AfterActionNodesRunnable()
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -1089,11 +1122,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(ENTRIES_ID_KEY)
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             DeleteNodesRunnable(this,
                 database,
                 getListNodesFromBundle(database, intent.extras!!),
                 resources.getString(R.string.recycle_bin),
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                !database.isReadOnly && saveDatabase,
                 AfterActionNodesRunnable()
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
@@ -1112,12 +1146,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val entryId: NodeId<UUID> = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getEntryById(entryId)?.let { mainEntry ->
                 RestoreEntryHistoryDatabaseRunnable(this,
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                    !database.isReadOnly && saveDatabase
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 }
@@ -1136,12 +1171,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val entryId: NodeId<UUID> = intent.getParcelableExtraCompat(ENTRY_ID_KEY) ?: return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             database.getEntryById(entryId)?.let { mainEntry ->
                 DeleteEntryHistoryDatabaseRunnable(this,
                     database,
                     mainEntry,
                     intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
-                    !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                    !database.isReadOnly && saveDatabase
                 ) { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
                 }
@@ -1162,11 +1198,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             val oldElement: CompressionAlgorithm? = intent.getParcelableExtraCompat(OLD_ELEMENT_KEY)
             val newElement: CompressionAlgorithm? = intent.getParcelableExtraCompat(NEW_ELEMENT_KEY)
             if (oldElement == null || newElement == null) return null
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             return UpdateCompressionBinariesDatabaseRunnable(this,
                 database,
                 oldElement,
                 newElement,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && saveDatabase
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
@@ -1184,9 +1221,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             return RemoveUnlinkedDataDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+                !database.isReadOnly && saveDatabase
             ) { hardwareKey, seed ->
                 retrieveResponseFromChallenge(hardwareKey, seed)
             }.apply {
@@ -1204,9 +1242,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase,
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             return SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                !database.isReadOnly && saveDatabase,
                 null,
                 { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)
@@ -1229,13 +1268,14 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         database: ContextualDatabase
     ): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            val saveDatabase = intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             var databaseCopyUri: Uri? = null
             if (intent.hasExtra(DATABASE_URI_KEY)) {
                 databaseCopyUri = intent.getParcelableExtraCompat(DATABASE_URI_KEY)
             }
             SaveDatabaseRunnable(this,
                 database,
-                !database.isReadOnly && intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                !database.isReadOnly && saveDatabase,
                 null,
                 { hardwareKey, seed ->
                     retrieveResponseFromChallenge(hardwareKey, seed)

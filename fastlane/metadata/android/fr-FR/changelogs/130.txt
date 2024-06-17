@@ -1,0 +1,5 @@
+ * Prevention de fichier à 0 Byte avec un cache durant une exception de sauvegarde #1620 #1594 #1680
+ * Corrrection de la suggestion de clavier #1840
+ * Correction des liens cassés par défaut #1755
+ * Correction de l'UX en affichant le bouton de validation dans l'édition d'entrée #1770
+ * Corrections de bugs mineurs #1709

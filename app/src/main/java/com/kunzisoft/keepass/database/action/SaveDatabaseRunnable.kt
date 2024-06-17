@@ -51,8 +51,10 @@ open class SaveDatabaseRunnable(
                 // Build temp database file to avoid file corruption if error
                 database.saveData(
                     cacheFile = File(context.cacheDir, databaseCopyUri.hashCode().toString()),
-                    databaseOutputStream = contentResolver
-                        .getUriOutputStream(databaseCopyUri ?: database.fileUri),
+                    databaseOutputStream = {
+                        contentResolver
+                            .getUriOutputStream(databaseCopyUri ?: database.fileUri)
+                    },
                     isNewLocation = databaseCopyUri == null,
                     mainCredential?.toMasterCredential(contentResolver),
                     challengeResponseRetriever)

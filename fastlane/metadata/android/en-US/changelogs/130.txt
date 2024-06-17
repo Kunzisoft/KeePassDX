@@ -1,0 +1,5 @@
+ * Prevent 0 Byte file with cache during a save exception #1620 #1594 #1680
+ * Fix inline suggestions in keyboard #1840
+ * Fix broken links by default #1755
+ * Fix UX by allowing validation in entry edition #1770
+ * Fix small bugs #1709

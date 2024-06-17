@@ -779,7 +779,7 @@ open class Database {
     @Throws(DatabaseOutputException::class)
     fun saveData(
         cacheFile: File,
-        databaseOutputStream: OutputStream?,
+        databaseOutputStream: () -> OutputStream?,
         isNewLocation: Boolean,
         masterCredential: MasterCredential?,
         challengeResponseRetriever: (HardwareKey, ByteArray?) -> ByteArray
@@ -820,7 +820,7 @@ open class Database {
                 }
             }
             // Copy from the cache to the final stream
-            databaseOutputStream?.use { outputStream ->
+            databaseOutputStream.invoke()?.use { outputStream ->
                 cacheFile.inputStream().use { inputStream ->
                     inputStream.readAllBytes { buffer ->
                         outputStream.write(buffer)

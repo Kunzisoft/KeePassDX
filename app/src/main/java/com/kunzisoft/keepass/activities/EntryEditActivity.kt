@@ -108,8 +108,8 @@ class EntryEditActivity : DatabaseLockActivity(),
         ReplaceFileDialogFragment.ActionChooseListener {
 
     // Views
-    private var footer: ViewGroup? = null
-    private var container: ViewGroup? = null
+    private var footer: View? = null
+    private var container: View? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var templateSelectorSpinner: Spinner? = null
@@ -179,8 +179,8 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // To apply fit window with transparency
         setTransparentNavigationBar(applyToStatusBar = true) {
-            container?.applyWindowInsets(WindowInsetPosition.TOP)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+            container?.applyWindowInsets(WindowInsetPosition.TOP_BOTTOM_IME)
+            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM_IME)
         }
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))

@@ -434,7 +434,7 @@
     <string name="style_name_moon">Mond</string>
     <string name="style_name_sun">Sonne</string>
     <string name="style_name_reply">Antwort</string>
-    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_kunzite">Kunzit</string>
     <string name="style_name_follow_system">System folgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
     <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
@@ -546,7 +546,7 @@
     <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
     <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung erzeugt Token möglicherweise nicht mehr korrekt.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
-    <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Schließe die Datenbank und öffne sie von ihrem Speicherort erneut.</string>
+    <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort erneut öffnen.</string>
     <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen</string>
     <string name="success_export_app_properties">App-Einstellungen exportiert</string>
     <string name="error_import_app_properties">Fehler beim Importieren der App-Einstellungen</string>
@@ -615,7 +615,7 @@
     <string name="tags">Tags</string>
     <string name="show_entry_colors_title">Eintragsfarben</string>
     <string name="enable_keep_screen_on_title">Bildschirm eingeschaltet lassen</string>
-    <string name="warning_keyfile_integrity">Der Hash der Datei kann nicht garantiert werden, da Android seine Daten ändern kann. Änder die Dateiendung zu .bin, um die Integrität zu gewährleisten.</string>
+    <string name="warning_keyfile_integrity">Der Hash der Datei kann nicht garantiert werden, da Android deren Daten ändern kann. Bitte die Dateiendung in .bin ändern, um die Integrität zu gewährleisten.</string>
     <string name="enable_keep_screen_on_summary">Bildschirm beim Anzeigen oder Bearbeiten des Eintrags eingeschaltet lassen</string>
     <string name="show_entry_colors_summary">Vorder- und Hintergrundfarbe für einen Eintrag anzeigen</string>
     <string name="auto_type_sequence">Automatische Eingabefolge</string>
@@ -633,7 +633,7 @@
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="expired">Abgelaufen</string>
     <string name="warning_database_already_opened">Eine Datenbank ist bereits geöffnet. Schließe sie, um eine neue zu öffnen</string>
-    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher deines Geräts.
+    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
 \n
 \nJe nach der internen API-Implementierung des Betriebssystems kann sie eingeschränkt sein.
 \nBitte die Kompatibilität und Sicherheit des Schlüsselspeichers vom Gerätehersteller und vom Ersteller der verwendeten ROM abgleichen.</string>
@@ -700,4 +700,7 @@
 \n
 \nWenn ein automatisches Sperren aktiviert ist und vergessen wird, dass Änderungen vorgenommen wurden, besteht die Gefahr von Datenverlust.</string>
     <string name="info">Info</string>
+    <string name="style_name_light">Hell</string>
+    <string name="style_name_dark">Dunkel</string>
+    <string name="warning_database_info_changed_options_read_only">Die Datenbank mit den letzten Änderungen neu laden.</string>
 </resources>

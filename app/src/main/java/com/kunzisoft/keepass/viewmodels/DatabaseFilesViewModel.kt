@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.App
@@ -10,8 +11,8 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
-import com.kunzisoft.keepass.utils.parseUri
 import com.kunzisoft.keepass.utils.UriUtil.releaseUriPermission
+import com.kunzisoft.keepass.utils.parseUri
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -25,11 +26,29 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
         MutableLiveData<DatabaseFileData>()
     }
 
+    private var mDefaultDatabaseAlreadyChecked : Boolean = false
+
     val defaultDatabase: MutableLiveData<Uri?> by lazy {
         MutableLiveData<Uri?>()
     }
 
-    fun checkDefaultDatabase() {
+    fun doForDefaultDatabase(action: (defaultDatabaseUri: Uri) -> Unit) {
+        if (!mDefaultDatabaseAlreadyChecked) {
+            mDefaultDatabaseAlreadyChecked = true
+            val context = getApplication<App>().applicationContext
+            PreferencesUtil.getDefaultDatabasePath(context)?.parseUri()?.let { databaseFileUri ->
+                if (FileDatabaseInfo(context, databaseFileUri).exists) {
+                    action.invoke(databaseFileUri)
+                } else {
+                    Log.e(TAG, "Unable to automatically load a non-accessible file")
+                }
+            } ?: run {
+                Log.i(TAG, "No default database to prepare")
+            }
+        }
+    }
+
+    private fun checkDefaultDatabase() {
         IOActionTask(
                 {
                     PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext)
@@ -148,5 +167,9 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
 
     enum class DatabaseFileAction {
         NONE, ADD, UPDATE, DELETE
+    }
+
+    companion object {
+        private val TAG = DatabaseFilesViewModel::class.java.name
     }
 }

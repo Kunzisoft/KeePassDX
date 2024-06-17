@@ -262,8 +262,8 @@
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa &lt;strong&gt;stile visivo&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione dei progetti della comunità.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Questa &lt;strong&gt;stile visivo&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questo &lt;strong&gt;stile visivo&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione dei progetti della comunità.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Questo &lt;strong&gt;stile visivo&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
     <string name="html_text_donation">Al fine di mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo &lt;strong&gt;contributo.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Questa funzione è &lt;strong&gt;in sviluppo&lt;/strong&gt; e richiede il tuo &lt;strong&gt;contributo&lt;/strong&gt; per essere disponibile a breve.</string>
     <string name="html_text_dev_feature_buy_pro">Acquistando la versione &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -631,6 +631,7 @@
     <string name="advanced_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
 \n
 \nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienamente funzionante.
+\n
 \nVerificare la compatibilità e la sicurezza del KeyStore consultando sia il costruttore del dispositivo che il creatore della ROM in uso nel dispositivo stesso.</string>
     <string name="keyboard_previous_search_title">Schermata di ricerca</string>
     <string name="keyboard_previous_search_summary">Ritornare automaticamente alla tastiera precedente quando ci si trova sulla schermata di ricerca</string>
@@ -691,4 +692,15 @@
     <string name="warning_database_notification_permission">L\'autorizzazione per le notifiche ti permette di mostrare lo stato del database e bloccarlo con un pulsante facilmente accessibile.
 \n
 \nSe non attivi questa autorizzazione, il database aperto in secondo piano non sarà visibile se un\'altra applicazione è aperta in primo piano.</string>
+    <string name="style_name_forest">Foresta</string>
+    <string name="style_name_divine">Divino</string>
+    <string name="style_name_moon">Luna</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_light">Chiaro</string>
+    <string name="style_name_dark">Scuro</string>
+    <string name="style_name_classic">Classico</string>
+    <string name="style_name_simple">Semplice</string>
+    <string name="style_name_sun">Sole</string>
+    <string name="style_name_follow_system">Segui il sistema</string>
+    <string name="warning_database_info_changed_options_read_only">Ricarica il database con le ultime modifiche.</string>
 </resources>

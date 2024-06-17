@@ -630,10 +630,11 @@
     <string name="consider_chars_filter">Considere caracteres</string>
     <string name="entropy_calculate">Entropía: calcular…</string>
     <string name="word_separator">Separador</string>
-    <string name="advanced_unlock_keystore_warning">Esta característica almacenará credenciales cifradas en el almacenaje seguro KeyStore de su dispositivo.
+    <string name="advanced_unlock_keystore_warning">Esta función almacenará datos de credenciales cifrados en el almacén de claves seguro del dispositivo.
 \n
-\nDependiendo de la implementación del API nativo del sistema operativo, tal vez no sea completamente funcional.
-\nCompruebe la compatibilidad y garantía del almacenaje KeyStore con el fabricante de su dispositivo y el creadas de la ROM que está utilizando.</string>
+\nDependiendo de la implementación de la API nativa del sistema operativo, puede que no sea totalmente funcional.
+\n
+\nComprueba la compatibilidad y seguridad del KeyStore con el fabricante de tu dispositivo y el creador de la ROM que estés utilizando.</string>
     <string name="content_description_passphrase_word_count">Recuento de palabras de la frase de paso</string>
     <string name="passphrase">Frase de acceso</string>
     <string name="colorize_password_title">Colorear contraseñas</string>
@@ -690,4 +691,16 @@
     <string name="education_validate_entry_summary">No olvides validar tu entrada y guardar tu base de datos.
 \n
 \nSi se activa un bloqueo automático y olvidas que estabas haciendo una modificación, corres el riesgo de perder tus datos.</string>
+    <string name="style_name_classic">Clásico</string>
+    <string name="style_name_divine">Divino</string>
+    <string name="style_name_forest">Bosque</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Luna</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_reply">Responder</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Seguir el sistema</string>
+    <string name="style_name_light">Claro</string>
+    <string name="style_name_dark">Oscuro</string>
+    <string name="warning_database_info_changed_options_read_only">Recargue la base de datos con los últimos cambios.</string>
 </resources>

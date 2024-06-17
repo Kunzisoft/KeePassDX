@@ -41,7 +41,7 @@
     <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="credentials_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Credentials</string>
     <string name="otp_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/OTP</string>
-    <string name="advanced_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Advanced-Unlocking</string>
+    <string name="advanced_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Device-Unlocking</string>
     <string name="magic_keyboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Magikeyboard</string>
     <string name="clipboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Clipboard</string>
     <string name="autofill_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Autofill</string>
@@ -94,7 +94,7 @@
     <string name="show_recent_files_key" translatable="false">show_recent_files_key</string>
     <bool name="show_recent_files_default" translatable="false">true</bool>
     <string name="hide_broken_locations_key" translatable="false">hide_broken_locations_key</string>
-    <bool name="hide_broken_locations_default" translatable="false">true</bool>
+    <bool name="hide_broken_locations_default" translatable="false">false</bool>
     <string name="remember_keyfile_locations_key" translatable="false">remember_keyfile_locations_key</string>
     <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
     <string name="remember_hardware_key_key" translatable="false">remember_hardware_key_key</string>

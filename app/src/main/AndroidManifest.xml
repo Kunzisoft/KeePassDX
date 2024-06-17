@@ -118,7 +118,7 @@
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
             android:exported="false"
             android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.default_searchable"
                 android:value="com.kunzisoft.keepass.search.SearchResults"
@@ -145,7 +145,7 @@
             android:configChanges="keyboardHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"

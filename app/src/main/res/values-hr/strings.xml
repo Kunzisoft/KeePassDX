@@ -26,7 +26,7 @@
     <string name="security">Sigurnost</string>
     <string name="encryption">Šifriranje</string>
     <string name="encryption_algorithm">Algoritam šifriranja</string>
-    <string name="key_derivation_function">Funkcija za generiranje ključeva</string>
+    <string name="key_derivation_function">Funkcija derivacije ključa</string>
     <string name="app_timeout_summary">Vrijeme neaktivnosti prije zaključavanja baze podataka</string>
     <string name="application">Aplikacija</string>
     <string name="brackets">Zagrade</string>
@@ -37,7 +37,7 @@
     <string name="clipboard_error_title">Greška međuspremnika</string>
     <string name="clipboard_error">Neki uređaji neće dopustiti aplikacijama korištenje međuspremnika.</string>
     <string name="clipboard_error_clear">Nije moguće isprazniti međuspremnik</string>
-    <string name="clipboard_timeout_summary">Trajanje spremišta u međuspremniku (ako uređaj to podržava)</string>
+    <string name="clipboard_timeout_summary">Trajanje pohrane u međuspremniku (ukoliko uređaj to podržava)</string>
     <string name="content_description_background">Pozadina</string>
     <string name="content_description_open_file">Otvori datoteku</string>
     <string name="content_description_add_node">Dodaj čvor</string>
@@ -391,7 +391,7 @@
     <string name="hide_broken_locations_title">Sakrij pokvarene poveznice baze podataka</string>
     <string name="autofill_block">Blokiranje automatskog ispunjavanja</string>
     <string name="keystore_not_accessible">Baza ključeva nije ispravno inicijalizirana.</string>
-    <string name="icon_pack_choose_summary">Paket ikona, koji se koristi u aplikaciji</string>
+    <string name="icon_pack_choose_summary">Paket ikona koji se koristi u aplikaciji</string>
     <string name="hide_expired_entries_summary">Istekli unosi se ne pokazuju</string>
     <string name="education_lock_title">Zaključaj bazu podataka</string>
     <string name="education_unlock_title">Otključaj bazu podataka</string>
@@ -525,8 +525,8 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Prekinuto!</string>
-    <string name="icon_section_custom">Prilagođeno</string>
-    <string name="icon_section_standard">Standardno</string>
+    <string name="icon_section_custom">Prilagođene</string>
+    <string name="icon_section_standard">Standardne</string>
     <string name="style_brightness_summary">Odaberi svijetle ili tamne teme</string>
     <string name="style_brightness_title">Svjetlina teme</string>
     <string name="error_upload_file">Tijekom prijenosa podataka datoteke došlo je do greške.</string>
@@ -617,6 +617,7 @@
     <string name="advanced_unlock_keystore_warning">Ova će funckija spremiti šifrirane podatke za prijavu u sigurni KeyStore tvog uređaja.
 \n
 \nOvisno o izvornoj API implementaciji operacijskog sustava, funcionalsnost možda neće biti potpuna.
+\n
 \nProvjeri kompatibilnost i sigurnost KeyStorea kod proizvođača tvog uređaja i kreatora ROM-a koji koristiš.</string>
     <string name="warning_database_already_opened">Baza podataka je već otvorena. Za otvaranje nove, najprije je zatvori</string>
     <string name="content_description_passphrase_word_count">Broj riječi dugačke lozinke</string>
@@ -683,4 +684,16 @@
     <string name="education_validate_entry_summary">Nemoj zaboraviti potvrditi svoj unos i spremiti svoju bazu podataka.
 \n
 \nAko se automatsko zaključavanje aktivira i ako zaboraviš da si izvršio/la promjene, riskiraš gubitak podataka.</string>
+    <string name="style_name_forest">Šuma</string>
+    <string name="style_name_divine">Božanstveno</string>
+    <string name="style_name_classic">Klasično</string>
+    <string name="style_name_moon">Mjesec</string>
+    <string name="style_name_reply">Odgovor</string>
+    <string name="style_name_follow_system">Prati stil sustava</string>
+    <string name="style_name_light">Svijetla</string>
+    <string name="style_name_simple">Jednostavno</string>
+    <string name="style_name_sun">Sunce</string>
+    <string name="style_name_kunzite">Spodumen</string>
+    <string name="style_name_dark">Tamna</string>
+    <string name="warning_database_info_changed_options_read_only">Ponovo učitaj bazu podataka s najnovijim promjenama.</string>
 </resources>

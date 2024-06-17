@@ -1,4 +1,4 @@
-KeePassDX ist <b>Open Source</b> und <b>werbefrei</b>. <b>Als KeePass Multiformat-Passwortmanager</b> ermöglicht die Anwendung das sichere Speichern und Verwenden von Passwörtern, Schlüsseln und digitalen Identitäten. Sie integriert die Android-Designstandards und <b>benötigt keine Internetverbindung</b>.
+KeePassDX ist ein <b>Passwort-Safe und -Manager</b>, der es ermöglicht, verschlüsselte <b>Daten in einer einzigen Datei</b> im offenen KeePass-Format zu bearbeiten und <b>die Formulare auf sichere Weise auszufüllen</b>, <b>erfordert keine Internetverbindung</b> und integriert Android-Designstandards. Die App ist <b>Open Source, ohne Werbung</b>.
 
 <b>Funktionalitäten</b>
  - Erstellung von Datenbanken / Einträgen und Gruppen.

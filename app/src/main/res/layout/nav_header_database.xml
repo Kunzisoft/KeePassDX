@@ -1,91 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorSurface"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:layout_marginBottom="6dp"
-    android:paddingTop="36dp"
-    android:paddingLeft="@dimen/default_margin"
-    android:paddingRight="@dimen/default_margin"
-    android:paddingBottom="@dimen/default_margin"
     tools:ignore="UnusedAttribute">
-
-    <TextView
-        android:id="@+id/nav_database_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingStart="8dp"
-        android:paddingLeft="8dp"
-        android:paddingEnd="8dp"
-        android:paddingRight="8dp"
-        style="@style/KeepassDXStyle.Text.Info.OnSurface"
-        android:textSize="11sp"
-        tools:text="version"
-        android:textIsSelectable="true" />
-
-    <ImageView
-        android:id="@+id/nav_database_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/content_description_nav_header"
-        app:layout_constraintTop_toBottomOf="@+id/nav_database_version"
-        app:layout_constraintBottom_toTopOf="@+id/nav_database_name"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginBottom="12dp"
-        app:srcCompat="@drawable/ic_database_white_36dp"
-        style="@style/KeepassDXStyle.Icon"
-        app:tint="?attr/colorSecondary" />
-
-    <ImageView
-        android:id="@+id/nav_database_modified"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/save"
-        android:src="@drawable/ic_modified_white_12dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/nav_database_icon"
-        app:layout_constraintStart_toEndOf="@+id/nav_database_icon"
-        app:layout_constraintTop_toTopOf="@+id/nav_database_icon" />
-
-    <ImageView
-        android:id="@+id/nav_database_color"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_gravity="center"
-        android:contentDescription="@string/content_description_database_color"
-        android:src="@drawable/background_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/nav_database_name"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/nav_database_name"
-        style="@style/KeepassDXStyle.Title.OnSurface"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:maxLines="2"
-        android:text="@string/database"
-        android:textIsSelectable="true"
-        app:layout_constraintBottom_toTopOf="@+id/nav_database_path"
-        app:layout_constraintEnd_toStartOf="@+id/nav_database_color"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/nav_database_path"
-        style="@style/KeepassDXStyle.Text.Info.OnSurface"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:textSize="11sp"
-        android:text="@string/path"
-        android:textIsSelectable="true"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:gravity="bottom"
+        android:layout_margin="@dimen/default_margin">
+
+        <TextView
+            android:id="@+id/nav_database_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp"
+            style="@style/KeepassDXStyle.Text.Info.OnSurface"
+            android:textSize="11sp"
+            tools:text="version"
+            android:textIsSelectable="true" />
+
+        <ImageView
+            android:id="@+id/nav_database_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_nav_header"
+            app:layout_constraintTop_toBottomOf="@+id/nav_database_version"
+            app:layout_constraintBottom_toTopOf="@+id/nav_database_name"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="12dp"
+            app:srcCompat="@drawable/ic_database_white_36dp"
+            style="@style/KeepassDXStyle.Icon"
+            app:tint="?attr/colorSecondary" />
+
+        <ImageView
+            android:id="@+id/nav_database_modified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/save"
+            android:src="@drawable/ic_modified_white_12dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/nav_database_icon"
+            app:layout_constraintStart_toEndOf="@+id/nav_database_icon"
+            app:layout_constraintTop_toTopOf="@+id/nav_database_icon" />
+
+        <ImageView
+            android:id="@+id/nav_database_color"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/content_description_database_color"
+            android:src="@drawable/background_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/nav_database_name"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/nav_database_name"
+            style="@style/KeepassDXStyle.Title.OnSurface"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:maxLines="2"
+            android:text="@string/database"
+            android:textIsSelectable="true"
+            app:layout_constraintBottom_toTopOf="@+id/nav_database_path"
+            app:layout_constraintEnd_toStartOf="@+id/nav_database_color"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/nav_database_path"
+            style="@style/KeepassDXStyle.Text.Info.OnSurface"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="11sp"
+            android:text="@string/path"
+            android:textIsSelectable="true"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

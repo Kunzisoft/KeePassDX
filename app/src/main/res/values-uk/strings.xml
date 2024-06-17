@@ -621,10 +621,11 @@
     <string name="menu_save_copy_to">Зберегти копію в …</string>
     <string name="expired">Термін дії завершився</string>
     <string name="warning_database_already_opened">База даних уже відкрита, спочатку закрийте її, щоб відкрити нову</string>
-    <string name="advanced_unlock_keystore_warning">Ця функція зберігатиме зашифровані облікові дані в захищеному сховищі ключів вашого пристрою.
+    <string name="advanced_unlock_keystore_warning">Ця функція зберігатиме зашифровані облікові дані в захищеному сховищі ключів вашого пристрою (KeyStore).
 \n
-\nЗалежно від вбудованої реалізації API операційної системи, вона може бути не повністю функціональною.
-\nПеревірте сумісність і безпеку сховища ключів із виробником вашого пристрою та творцем використовуваного ROM.</string>
+\nЗалежно від операційної системи, вона може бути не повністю функціональною.
+\n
+\nПеревірте сумісність і безпеку сховища ключів із виробником вашого пристрою та автором використовуваного ROM.</string>
     <string name="passphrase">Парольна фраза</string>
     <string name="colorize_password_title">Забарвлювати паролі</string>
     <string name="colorize_password_summary">Забарвлювати символи пароля за типом</string>
@@ -688,4 +689,15 @@
     <string name="warning_database_notification_permission">Дозвіл на сповіщення дозволяє показувати стан бази даних і блокувати її за допомогою легкодоступної кнопки.
 \n
 \nЯкщо ви не активуєте цей дозвіл відкриту у фоновому режимі базу даних не буде видно, якщо на передньому плані інший застосунок.</string>
+    <string name="style_name_forest">Лісова</string>
+    <string name="style_name_classic">Класична</string>
+    <string name="style_name_sun">Сонячна</string>
+    <string name="style_name_reply">Відповідь</string>
+    <string name="style_name_kunzite">Кунжитова</string>
+    <string name="style_name_follow_system">Системна</string>
+    <string name="style_name_light">Світла</string>
+    <string name="style_name_dark">Темна</string>
+    <string name="style_name_divine">Божественна</string>
+    <string name="style_name_simple">Спрощенна</string>
+    <string name="style_name_moon">Місячна</string>
 </resources>
