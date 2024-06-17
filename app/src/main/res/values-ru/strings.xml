@@ -624,6 +624,7 @@
     <string name="advanced_unlock_keystore_warning">Эта функция будет хранить зашифрованные учётные данные в безопасном хранилище ключей вашего устройства.
 \n
 \nВ зависимости от конкретной реализации API операционной системы, он может быть не полностью функциональным.
+\n
 \nПроверьте совместимость и безопасность хранилища ключей через производителя устройства и разработчика используемого ПЗУ.</string>
     <string name="passphrase">Кодовая фраза</string>
     <string name="colorize_password_title">Раскрашивать пароли</string>
@@ -688,4 +689,16 @@
     <string name="warning_database_notification_permission">Разрешение на отображение уведомлений позволяет показывать состояние базы и блокировать её с помощью легкодоступной кнопки.
 \n
 \nЕсли не предоставить это разрешение, то открытая в фоновом режиме база не будет видна, если на переднем плане находится другое приложение.</string>
+    <string name="style_name_classic">Классическая</string>
+    <string name="style_name_simple">Простая</string>
+    <string name="style_name_sun">Солнечная</string>
+    <string name="style_name_divine">Божественная</string>
+    <string name="style_name_light">Светлая</string>
+    <string name="style_name_dark">Тёмная</string>
+    <string name="style_name_reply">Ответная</string>
+    <string name="style_name_kunzite">Авторская</string>
+    <string name="style_name_forest">Лесная</string>
+    <string name="style_name_moon">Лунная</string>
+    <string name="style_name_follow_system">Как в системе</string>
+    <string name="warning_database_info_changed_options_read_only">Перезагрузите базу с последними изменениями.</string>
 </resources>

@@ -383,7 +383,7 @@
     <string name="keyboard_notification_entry_title">ข้อมูลการแจ้งเตือน</string>
     <string name="keyboard_notification_entry_summary">แสดงการแจ้งเตือนเพื่มมีรายการให้ใช้งาน</string>
     <string name="keyboard_save_search_info_title">บันทึกขัอมูลที่ใช้รวมกัน</string>
-    <string name="database_data_remove_unlinked_attachments_title">ลบข้อมูลที่ไม่ได้เชื่อมไว่</string>
+    <string name="database_data_remove_unlinked_attachments_title">ลบข้อมูลที่ไม่ได้เชื่อมไว้</string>
     <string name="templates_group_enable_title">การใช้แม่แบบ</string>
     <string name="max_history_items_title">จำนวนสูงสุด</string>
     <string name="max_history_size_summary">จำกัดขนาดสูงสุดต่อรายการ</string>
