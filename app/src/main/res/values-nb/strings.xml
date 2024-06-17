@@ -46,8 +46,8 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er <strong>fri programvare</strong>, og <strong>reklamefritt</strong>.
-\nDet tilbys som det er, i hendhold til <strong>GPL versjon 3 eller senere</strong>, uten noen garantier.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;reklamefritt&lt;/strong&gt;.
+\nDet tilbys som det er, i hendhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -260,15 +260,15 @@
     <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
-    <string name="html_text_ad_free">I motsetning til mange passordadministrasjons-apper er denne <strong>annonsefri</strong>, <strong>copylefted libre-programvare</strong> og samler ikke inn personlige data på serverne, uansett hvilken versjon du bruker.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil bidra med støtte til <strong> realisering av fellesskaps prosjekter.</strong></string>
+    <string name="html_text_ad_free">I motsetning til mange passordadministrasjons-apper er denne &lt;strong&gt;annonsefri&lt;/strong&gt;, &lt;strong&gt;copylefted libre-programvare&lt;/strong&gt; og samler ikke inn personlige data på serverne, uansett hvilken versjon du bruker.</string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil bidra med støtte til &lt;strong&gt; realisering av fellesskaps prosjekter.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stilen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
     <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;
     </string>
     <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe &lt;strong&gt;pro&lt;/strong&gt;-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å &lt;strong&gt;bidra&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape <strong>nye funksjoner</strong> og til å <strong>fikse feil</strong> i henhold til dine kommentarer.</string>
+    <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape &lt;strong&gt;nye funksjoner&lt;/strong&gt; og til å &lt;strong&gt;fikse feil&lt;/strong&gt; i henhold til dine kommentarer.</string>
     <string name="html_text_dev_feature_thanks">Takk for ditt bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Det arbeides hardt på realiseringen av denne utgaven.</string>
     <string name="html_text_dev_feature_upgrade">Husk å holde appen din oppdatert ved å installere nye versjoner.</string>
@@ -602,7 +602,7 @@
     <string name="show_entry_colors_summary">Viser forgrunns- og bakgrunnsfarger for en oppføring</string>
     <string name="warning_database_info_reloaded">Gjeninnlasting av databasen vil slette lokalt endret data.</string>
     <string name="colorize_password_title">Fargelegg passordene</string>
-    <string name="html_about_privacy"><strong>Ingen brukerdata hentes</strong>, denne applikasjonen kobles ikke til noen server, fungerer kun lokalt og respekterer brukernes personvern fullt ut.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Ingen brukerdata hentes&lt;/strong&gt;, denne applikasjonen kobles ikke til noen server, fungerer kun lokalt og respekterer brukernes personvern fullt ut.</string>
     <string name="unlock_and_link_biometric">Enhetsopplåsningskobling</string>
     <string name="unlock">Lås opp</string>
     <string name="keyboard_previous_search_summary">Bytt automatisk tilbake til forrige tastatur på søkeskjermen</string>

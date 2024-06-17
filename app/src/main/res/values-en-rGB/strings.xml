@@ -71,7 +71,7 @@
     <string name="content_description_password_length">Password length</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
-    <string name="html_about_contribution">In order to <strong>keep our freedom</strong>, <strong>fix bugs</strong>, <strong>add features</strong> and <strong>to be always active</strong>, we count on your <strong>contribution</strong>.</string>
+    <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_confpassword">Confirm password</string>
     <string name="clipboard_error_clear">Could not clear clipboard</string>
@@ -89,9 +89,9 @@
     <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
     <string name="content_description_update_from_list">Update</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is <strong>open source</strong> and <strong>without advertising</strong>.
-\nIt is provided as is, under <strong>GPLv3</strong> license, without any warranty.</string>
-    <string name="html_about_privacy"><strong>No user data is retrieved</strong>, this application does not connect to any server, works only locally and fully respects the privacy of users.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;.
+\nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
+    <string name="html_about_privacy">&lt;strong&gt;No user data is retrieved&lt;/strong&gt;, this application does not connect to any server, works only locally and fully respects the privacy of users.</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
     <string name="entry_created">Created</string>

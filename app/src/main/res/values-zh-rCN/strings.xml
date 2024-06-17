@@ -311,7 +311,7 @@
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看条目时，用该条目填充 Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>

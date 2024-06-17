@@ -178,9 +178,9 @@
     <string name="minus">Mai puțin</string>
     <string name="never">Niciodată</string>
     <string name="no_results">Nu există rezultate de căutare</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este <strong>open source</strong> și <strong>fără reclame</strong>.
-\nEste furnizat ca atare, sub licență <strong>GPLv3</strong>, fără nicio garanție.</string>
-    <string name="html_about_contribution">Pentru a ne <strong>păstra libertatea</strong>, <strong>pentru a remedia erori</strong>, <strong>pentru a adăuga funcții</strong> și <strong>pentru a fi mereu activi</strong>, ne bazăm pe <strong>contribuția</strong> dvs.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open source&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;.
+\nEste furnizat ca atare, sub licență &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nicio garanție.</string>
+    <string name="html_about_contribution">Pentru a ne &lt;strong&gt;păstra libertatea&lt;/strong&gt;, &lt;strong&gt;pentru a remedia erori&lt;/strong&gt;, &lt;strong&gt;pentru a adăuga funcții&lt;/strong&gt; și &lt;strong&gt;pentru a fi mereu activi&lt;/strong&gt;, ne bazăm pe &lt;strong&gt;contribuția&lt;/strong&gt; dvs.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>
@@ -381,14 +381,14 @@
     <string name="education_sort_summary">Alegeți cum sunt sortate intrările și grupurile.</string>
     <string name="education_donation_title">Participați</string>
     <string name="education_donation_summary">Ajutați la creșterea stabilității, a securității și la adăugarea de noi caracteristici.</string>
-    <string name="html_text_ad_free">Spre deosebire de multe aplicații de gestionare a parolelor, aceasta este <strong>fără reclame</strong>, <strong>software liber cu copyleft</strong> și nu colectează date personale pe serverele sale, indiferent de versiunea pe care o utilizați.</string>
-    <string name="html_text_buy_pro">Prin cumpărarea versiunii pro, veți avea acces la acest lucru <strong>stil vizual</strong> și veți ajuta în special la <strong>realizarea proiectelor comunitare.</strong></string>
+    <string name="html_text_ad_free">Spre deosebire de multe aplicații de gestionare a parolelor, aceasta este &lt;strong&gt;fără reclame&lt;/strong&gt;, &lt;strong&gt;software liber cu copyleft&lt;/strong&gt; și nu colectează date personale pe serverele sale, indiferent de versiunea pe care o utilizați.</string>
+    <string name="html_text_buy_pro">Prin cumpărarea versiunii pro, veți avea acces la acest lucru &lt;strong&gt;stil vizual&lt;/strong&gt; și veți ajuta în special la &lt;strong&gt;realizarea proiectelor comunitare.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Acest &lt;strong&gt; stil vizual &lt;/strong&gt; este disponibil datorită generozității tale.</string>
-    <string name="html_text_donation">Pentru a ne păstra libertatea și pentru a fi mereu activi, ne bazăm pe <strong>contribuția dvs.</strong></string>
-    <string name="html_text_dev_feature">Această caracteristică este <strong> în curs de dezvoltare</strong> și necesită ca <strong>contribuția</strong> dvs. să fie disponibilă în curând.</string>
+    <string name="html_text_donation">Pentru a ne păstra libertatea și pentru a fi mereu activi, ne bazăm pe &lt;strong&gt;contribuția dvs.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">Această caracteristică este &lt;strong&gt; în curs de dezvoltare&lt;/strong&gt; și necesită ca &lt;strong&gt;contribuția&lt;/strong&gt; dvs. să fie disponibilă în curând.</string>
     <string name="html_text_dev_feature_buy_pro">Cumpărând versiunea &lt;strong&gt; pro &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Prin &lt;strong&gt; contribuție &lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">îi încurajați pe dezvoltatori să creeze <strong>noi caracteristici</strong> și să <strong>rezolve problemele</strong> în conformitate cu observațiile dvs.</string>
+    <string name="html_text_dev_feature_encourage">îi încurajați pe dezvoltatori să creeze &lt;strong&gt;noi caracteristici&lt;/strong&gt; și să &lt;strong&gt;rezolve problemele&lt;/strong&gt; în conformitate cu observațiile dvs.</string>
     <string name="html_text_dev_feature_thanks">Mulțumesc mult pentru contribuție.</string>
     <string name="html_text_dev_feature_work_hard">Muncim din greu pentru a lansa rapid această caracteristică.</string>
     <string name="html_text_dev_feature_upgrade">Nu uitați să mențineți aplicația la zi instalând noi versiuni.</string>
@@ -469,7 +469,7 @@
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de acces</string>
-    <string name="html_about_privacy"><strong>Nu sunt colectate date ale utilizatorului</strong>, această aplicație nu se conectează la niciun server, funcționează doar local și respectă pe deplin confidențialitatea utilizatorilor.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Nu sunt colectate date ale utilizatorului&lt;/strong&gt;, această aplicație nu se conectează la niciun server, funcționează doar local și respectă pe deplin confidențialitatea utilizatorilor.</string>
     <string name="current_group">Grupul curent</string>
     <string name="search_filters">Filtre de căutare</string>
     <string name="navigation_drawer_close">Sertar de navigare închis</string>

@@ -374,7 +374,7 @@
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
     <string name="keyboard_save_search_info_summary">將 URL 分享到 KeePassDX 後，當選好條目時，將嘗試記住該條目以備日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
-    <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
     <string name="keyboard_selection_entry_title">條目選擇</string>
     <string name="keyboard_setting_label">魔法鍵盤設置</string>
     <string name="keyboard_theme_title">鍵盤主題</string>
@@ -648,7 +648,7 @@
     <string name="screenshot_mode_banner_text">螢幕截圖模式</string>
     <string name="auto_type">自動填入</string>
     <string name="info">資訊</string>
-    <string name="html_about_privacy"><strong>不收集用戶資料。</strong>，此應用程式不連接任何伺服器，僅在裝置上運作，而且完全尊重用戶私穩。</string>
+    <string name="html_about_privacy">&lt;strong&gt;不收集用戶資料。&lt;/strong&gt;，此應用程式不連接任何伺服器，僅在裝置上運作，而且完全尊重用戶私穩。</string>
     <string name="waiting_challenge_request">正等待Challenge請求……</string>
     <string name="waiting_challenge_response">正等待Challenge回應……</string>
     <string name="error_XML_malformed">XML格式錯誤。</string>

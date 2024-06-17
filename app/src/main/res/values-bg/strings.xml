@@ -167,7 +167,7 @@
     <string name="content_description_entry_icon">Пиктограма на запис</string>
     <string name="inherited">Наследено</string>
     <string name="menu_empty_recycle_bin">Изпразване на кошчето</string>
-    <string name="html_about_privacy"><strong>Не се събират никакви потребителски данни</strong>, приложението не се свързва с никакви сървъри, работи изцяло локално и напълно уважава поверителността на потребителите.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Не се събират никакви потребителски данни&lt;/strong&gt;, приложението не се свързва с никакви сървъри, работи изцяло локално и напълно уважава поверителността на потребителите.</string>
     <string name="searchable">Достъпно за търсене</string>
     <string name="menu_external_icon">Външна пиктограма</string>
     <string name="autofill_select_entry">Избиране на запис…</string>
@@ -235,8 +235,8 @@
     <string name="menu_appearance_settings_summary">Теми, цветове, атрибути</string>
     <string name="download_initialization">Подготвяне…</string>
     <string name="content_description_entry_background_color">Цвят на фона на запис</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с <strong>отворен код</strong> и <strong>без реклами</strong>.
-\nРазпространява се под лиценза <strong>GPLv3</strong> без каквато и да е гаранция.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с &lt;strong&gt;отворен код&lt;/strong&gt; и &lt;strong&gt;без реклами&lt;/strong&gt;.
+\nРазпространява се под лиценза &lt;strong&gt;GPLv3&lt;/strong&gt; без каквато и да е гаранция.</string>
     <string name="menu_advanced_unlock_settings_summary">Биометрия, удостоверяване</string>
     <string name="menu_security_settings_summary">Шифроване, функция за извличане на ключ</string>
     <string name="menu_master_key_settings">Настройки на главната парола</string>
@@ -399,7 +399,7 @@
 \n
 \nИзползвайте групите (подобно на папки), за да групирате записите в хранилището.</string>
     <string name="education_search_summary">Търсете по заглавие, потребител или съдържание на други полета, за да намерите своите пароли.</string>
-    <string name="html_about_contribution">За <strong>запазване на нашата независимост</strong>, <strong>отстраняване на дефекти</strong>, <strong>добавяне на нови възможности</strong> и <strong>поддържане на активна разработка</strong>, разчитаме на вашата <strong>поддръжка</strong>.</string>
+    <string name="html_about_contribution">За &lt;strong&gt;запазване на нашата независимост&lt;/strong&gt;, &lt;strong&gt;отстраняване на дефекти&lt;/strong&gt;, &lt;strong&gt;добавяне на нови възможности&lt;/strong&gt; и &lt;strong&gt;поддържане на активна разработка&lt;/strong&gt;, разчитаме на вашата &lt;strong&gt;поддръжка&lt;/strong&gt;.</string>
     <string name="lock_database_show_button_title">Бутон за заключване</string>
     <string name="autofill_explanation_summary">Включете услугата за попълване на формуляри в други приложения</string>
     <string name="properties">Свойства</string>
@@ -420,10 +420,10 @@
     <string name="export_app_properties_summary">Създава резервно копие на настройките</string>
     <string name="root">Корен</string>
     <string name="show_uuid_title">Идентификатор</string>
-    <string name="html_text_dev_feature_buy_pro">Купувайки версията <strong>Pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Участвайки в проекта</strong>,</string>
-    <string name="html_text_dev_feature">Тази възможност е <strong>в разработка</strong> и изисква вашето <strong>участие</strong>, за да бъде достъпна скоро.</string>
-    <string name="html_text_feature_generosity">Тази <strong>тема</strong> е достъпна, благодарение на вашата щедрост.</string>
+    <string name="html_text_dev_feature_buy_pro">Купувайки версията &lt;strong&gt;Pro&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвайки в проекта&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature">Тази възможност е &lt;strong&gt;в разработка&lt;/strong&gt; и изисква вашето &lt;strong&gt;участие&lt;/strong&gt;, за да бъде достъпна скоро.</string>
+    <string name="html_text_feature_generosity">Тази &lt;strong&gt;тема&lt;/strong&gt; е достъпна, благодарение на вашата щедрост.</string>
     <string name="invalid_db_sig">Форматът на хранилището не може да бъде определен.</string>
     <string name="list_entries_show_username_summary">Показват се потребителските имена в списъка със записите</string>
     <string name="list_entries_show_username_title">Потребители</string>
@@ -453,11 +453,11 @@
     <string name="enable_keep_screen_on_title">Екранът винаги включен</string>
     <string name="enable_keep_screen_on_summary">Поддържа екрана включен при преглед или промяна на запис</string>
     <string name="enable_auto_save_database_summary">Запазва хранилището при важни действия (в режим „четене и запис“)</string>
-    <string name="html_text_ad_free">За разлика от много други приложения за управление на пароли това е <strong>без реклами</strong>, <strong>свободно от лицензи</strong> и не събира лични данни на сървърите си без значение каква версия използвате.</string>
+    <string name="html_text_ad_free">За разлика от много други приложения за управление на пароли това е &lt;strong&gt;без реклами&lt;/strong&gt;, &lt;strong&gt;свободно от лицензи&lt;/strong&gt; и не събира лични данни на сървърите си без значение каква версия използвате.</string>
     <string name="html_text_dev_feature_upgrade">Не забравяйте да обновявате приложението.</string>
-    <string name="html_text_dev_feature_encourage">вие поощрявате разработчиците да добавят <strong>нови възможности</strong> и да <strong>отстраняват дефекти</strong> според вашите отзиви.</string>
-    <string name="html_text_buy_pro">Купувайки версията Pro ще имате достъп до тази <strong>тема</strong> и особено ще помогнете за <strong>изпълнението на проекти на общността</strong>.</string>
-    <string name="html_text_donation">За да развиваме проекта и да запазим неговата независимост се нуждаем от вашата <strong>поддръжка</strong>.</string>
+    <string name="html_text_dev_feature_encourage">вие поощрявате разработчиците да добавят &lt;strong&gt;нови възможности&lt;/strong&gt; и да &lt;strong&gt;отстраняват дефекти&lt;/strong&gt; според вашите отзиви.</string>
+    <string name="html_text_buy_pro">Купувайки версията Pro ще имате достъп до тази &lt;strong&gt;тема&lt;/strong&gt; и особено ще помогнете за &lt;strong&gt;изпълнението на проекти на общността&lt;/strong&gt;.</string>
+    <string name="html_text_donation">За да развиваме проекта и да запазим неговата независимост се нуждаем от вашата &lt;strong&gt;поддръжка&lt;/strong&gt;.</string>
     <string name="hint_keyfile">Файл с ключ</string>
     <string name="invalid_algorithm">Грешен алгоритъм.</string>
     <string name="description_app_properties">Свойства за управление на настройките на KeePassDX</string>
