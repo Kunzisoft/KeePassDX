@@ -660,6 +660,7 @@
     <string name="advanced_unlock_keystore_warning">ستقوم هذه الميزة بتخزين بيانات الاعتماد المشفرة في KeyStore الآمن بجهازك.
 \n
 \nاعتمادًا على تطبيق API الأصلي لنظام التشغيل، قد لا يعمل بكامل طاقته.
+\n
 \nتحقق من توافق وأمن KeyStore مع الشركة المصنعة لجهازك ومنشئ ROM الذي تستخدمه.</string>
     <string name="keyboard_selection_entry_summary">عند عرض إدخال في KeePassDX، عبئ Magikeyboard بهذا الإدخال</string>
     <string name="enable_screenshot_mode_summary">اسمح لتطبيقات الطرف الثالث بتسجيل أو التقاط لقطات شاشة للتطبيق</string>
@@ -683,4 +684,16 @@
     <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
     <string name="html_text_donation">من أجل الحفاظ على حريتنا ولكي نكون نشيطين دائمًا، فإننا نعتمد على &lt;strong&gt; مساهمتك.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
+    <string name="style_name_forest">غابة</string>
+    <string name="style_name_simple">بسيط</string>
+    <string name="style_name_moon">قمر</string>
+    <string name="style_name_divine">إلهي</string>
+    <string name="style_name_classic">كلاسيكي</string>
+    <string name="style_name_dark">داكن</string>
+    <string name="style_name_reply">رد</string>
+    <string name="warning_database_info_changed_options_read_only">أعِد تحميل قاعدة البيانات بأحدث التغييرات.</string>
+    <string name="style_name_sun">شمس</string>
+    <string name="style_name_kunzite">الكونزيت</string>
+    <string name="style_name_follow_system">اتبع النظام</string>
+    <string name="style_name_light">فاتح</string>
 </resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="homepage">Meie veebisait</string>
+    <string name="about_description">KeePassi salasõnahalduri Androidi variant</string>
+    <string name="contact">Meie kontaktid</string>
+    <string name="info">Teave</string>
+    <string name="accept">Nõustu</string>
+    <string name="add_group">Lisa grupp</string>
+    <string name="master_key">Peavõti</string>
+    <string name="security">Turvalisus</string>
+    <string name="encryption">Krüptimine</string>
+    <string name="encryption_algorithm">Krüptoalgoritm</string>
+    <string name="key_derivation_function">Võtmetuletusfunktsioon</string>
+    <string name="app_timeout_summary">Ooteaeg enne andmebaasi lukustamist</string>
+    <string name="application">Rakendus</string>
+    <string name="feedback">Tagasiside</string>
+    <string name="contribution">Toeta meid</string>
+    <string name="add_entry">Lisa kirje</string>
+    <string name="edit_entry">Muuda kirjet</string>
+    <string name="app_timeout">Aegumine</string>
+</resources>

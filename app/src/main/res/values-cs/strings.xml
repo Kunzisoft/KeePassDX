@@ -628,6 +628,7 @@
     <string name="advanced_unlock_keystore_warning">Tato funkce uloží přihlašovací údaje v bezpečném úložišti klíčů Vašeho zařízení.
 \n
 \nV závislosti na implementaci nativního API operačního systému nemusí být plně funkční.
+\n
 \nOvěřte kompatibilitu a zabezpečení úložiště klíčů u výrobce svého zařízení a dodavatele operačního systému, jejž používáte.</string>
     <string name="keyboard_previous_search_title">Panel hledání</string>
     <string name="keyboard_previous_search_summary">Automaticky přepnout na předchozí klávesnici v panelu hledání</string>
@@ -689,4 +690,16 @@
     <string name="education_validate_entry_summary">Nezapomeňte ověřit svůj vstup a uložit databázi.
 \n
 \nPokud je aktivované automatické uzamčení a zapomenete, že jste něco upravili, riskujete ztrátu dat.</string>
+    <string name="style_name_forest">Les</string>
+    <string name="style_name_divine">Božský</string>
+    <string name="style_name_classic">Klasický</string>
+    <string name="style_name_simple">Jednoduchý</string>
+    <string name="style_name_moon">Měsíc</string>
+    <string name="style_name_sun">Slunce</string>
+    <string name="style_name_reply">Reply</string>
+    <string name="style_name_kunzite">Kunzit</string>
+    <string name="style_name_follow_system">Podle systému</string>
+    <string name="style_name_light">Světlý</string>
+    <string name="style_name_dark">Tmavý</string>
+    <string name="warning_database_info_changed_options_read_only">Znovu načíst databázi s posledními změnami.</string>
 </resources>

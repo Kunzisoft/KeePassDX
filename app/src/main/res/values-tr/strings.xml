@@ -619,6 +619,7 @@
     <string name="advanced_unlock_keystore_warning">Bu özellik, şifrelenen kimlik bilgilerini aygıtınızın güvenli anahtar deposunda saklayacaktır.
 \n
 \nİşletim sisteminin yerel API uygulamasına bağlı olarak, tam olarak işlevsel olmayabilir.
+\n
 \nAygıtınızın üreticisi ve kullandığınız ROM\'un geliştiricisi ile anahtar deposunun uyumluluğunu ve güvenliğini denetleyin.</string>
     <string name="content_description_passphrase_word_count">Parola sözcük sayısı</string>
     <string name="at_least_one_char">Her birinden en az bir karakter</string>
@@ -683,4 +684,16 @@
     <string name="menu_database_settings_summary">Meta veriler, geri dönüşüm kutusu, şablonlar, geçmiş</string>
     <string name="menu_app_settings_summary">Ara, kilit, geçmiş, özellikler</string>
     <string name="later">Daha Sonra</string>
+    <string name="style_name_divine">Kutsal</string>
+    <string name="style_name_reply">Yanıt</string>
+    <string name="style_name_kunzite">Kunzit</string>
+    <string name="style_name_follow_system">Sistemi takip et</string>
+    <string name="style_name_light">Açık</string>
+    <string name="style_name_dark">Koyu</string>
+    <string name="style_name_forest">Orman</string>
+    <string name="style_name_classic">Klasik</string>
+    <string name="style_name_simple">Basit</string>
+    <string name="style_name_moon">Ay</string>
+    <string name="style_name_sun">Güneş</string>
+    <string name="warning_database_info_changed_options_read_only">Veri tabanını en son değişikliklerle yeniden yükle.</string>
 </resources>

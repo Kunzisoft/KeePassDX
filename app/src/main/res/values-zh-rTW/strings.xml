@@ -19,19 +19,19 @@
     <string name="account">帳戶</string>
     <string name="add_entry">添加項目</string>
     <string name="add_group">添加群組</string>
-    <string name="advanced_unlock">進階解鎖</string>
-    <string name="advanced_unlock_delete_all_key_warning">要刪除所有與高級解鎖相關的加密密鑰嗎？</string>
-    <string name="advanced_unlock_explanation_summary">使用高級解鎖以便快速解鎖資料庫</string>
-    <string name="advanced_unlock_invalid_key">無法讀取高級解鎖密鑰。請刪除它，並重複解鎖步驟。</string>
-    <string name="advanced_unlock_not_recognized">無法辨識高級解鎖印記</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">用高級解鎖資料提取資料庫憑證</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">用高級解鎖開啟資料庫</string>
-    <string name="advanced_unlock_prompt_not_initialized">無法初始化高級解鎖提示。</string>
-    <string name="advanced_unlock_prompt_store_credential_message">即使你使用高級解鎖，你仍然需要記住你的解鎖憑證。</string>
-    <string name="advanced_unlock_prompt_store_credential_title">高級解鎖</string>
-    <string name="advanced_unlock_scanning_error">高級解鎖出錯：%1$s</string>
-    <string name="advanced_unlock_tap_delete">點擊刪除高級解鎖密鑰</string>
-    <string name="advanced_unlock_timeout">高級解鎖超時</string>
+    <string name="advanced_unlock">裝置解鎖</string>
+    <string name="advanced_unlock_delete_all_key_warning">要刪除所有與裝置解鎖相關的加密密鑰嗎？</string>
+    <string name="advanced_unlock_explanation_summary">使用裝置解鎖以便快速解鎖資料庫</string>
+    <string name="advanced_unlock_invalid_key">無法讀取裝置解鎖密鑰。請刪除它，並重複解鎖步驟。</string>
+    <string name="advanced_unlock_not_recognized">無法辨識裝置解鎖印記</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">使用裝置解鎖資料擷取資料庫憑證</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">裝置解鎖識別</string>
+    <string name="advanced_unlock_prompt_not_initialized">無法初始化裝置解鎖提示。</string>
+    <string name="advanced_unlock_prompt_store_credential_message">即使你使用裝置解鎖識別，你仍然需要記住你的解鎖憑證。</string>
+    <string name="advanced_unlock_prompt_store_credential_title">裝置解鎖連線</string>
+    <string name="advanced_unlock_scanning_error">裝置解鎖出錯：%1$s</string>
+    <string name="advanced_unlock_tap_delete">點擊刪除裝置解鎖密鑰</string>
+    <string name="advanced_unlock_timeout">裝置解鎖超時</string>
     <string name="allow">允許</string>
     <string name="allow_copy_password_summary">允許複製密碼或受保護的欄位到剪貼簿</string>
     <string name="allow_copy_password_title">信任剪貼簿</string>
@@ -62,7 +62,7 @@
     <string name="autofill_manual_selection_title">手動選擇</string>
     <string name="autofill_preference_title">自動填入設定</string>
     <string name="autofill_read_only_save">以唯讀方式開啟的資料庫不允許保存資料。</string>
-    <string name="autofill_save_search_info_summary">手動選擇條目時，嘗試保存搜尋信息</string>
+    <string name="autofill_save_search_info_summary">進行手動輸入選擇時嘗試儲存搜尋信息，以便將來使用</string>
     <string name="autofill_save_search_info_title">保存搜尋資訊</string>
     <string name="autofill_select_entry">選擇條目…</string>
     <string name="autofill_service_name">KeePassDX 自動填入</string>
@@ -75,9 +75,9 @@
     <string name="bank_identifier_code">SWIFT / BIC</string>
     <string name="bank_name">銀行名稱</string>
     <string name="biometric">生物辨識</string>
-    <string name="biometric_auto_open_prompt_summary">資料庫就緒後，應用將自動請求高級解鎖</string>
+    <string name="biometric_auto_open_prompt_summary">資料庫就緒後，應用將自動請求裝置解鎖</string>
     <string name="biometric_auto_open_prompt_title">自動開啟提示</string>
-    <string name="biometric_delete_all_key_summary">刪除所有和高級解鎖方式有關的加密密鑰</string>
+    <string name="biometric_delete_all_key_summary">刪除所有和裝置解鎖方式有關的加密密鑰</string>
     <string name="biometric_delete_all_key_title">刪除加密密鑰</string>
     <string name="biometric_security_update_required">需要生物辨識安全更新。</string>
     <string name="biometric_unlock_enable_summary">通過生物辨識解鎖資料庫</string>
@@ -174,7 +174,7 @@
     <string name="education_add_attachment_summary">將附件上傳到你的條目以保存重要的外部資料。</string>
     <string name="education_add_attachment_title">添加附件</string>
     <string name="education_advanced_unlock_summary">將你的密碼連接到你掃瞄的生物特徵或設備憑證，以快速解鎖你的資料庫。</string>
-    <string name="education_advanced_unlock_title">高級資料庫解鎖</string>
+    <string name="education_advanced_unlock_title">裝置資料庫解鎖</string>
     <string name="education_create_database_summary">新建第一個密碼管理資料庫。</string>
     <string name="education_create_database_title">建立你的資料庫檔案</string>
     <string name="education_donation_summary">幫助增加穩定性、安全性並添加更多的功能。</string>
@@ -224,7 +224,7 @@
     <string name="encrypted_value_stored">已儲存加密密碼</string>
     <string name="encryption">加密</string>
     <string name="encryption_algorithm">加密演算法</string>
-    <string name="encryption_explanation">用於所有資料的資料庫加密演算法。</string>
+    <string name="encryption_explanation">資料庫所有資料均採用加密演算法</string>
     <string name="enter">輸入</string>
     <string name="entry_UUID">UUID</string>
     <string name="entry_accessed">存取於</string>
@@ -257,11 +257,11 @@
     <string name="error_database_uri_null">無法取回資料庫 URI。</string>
     <string name="error_disallow_no_credentials">至少需要設置一個憑證。</string>
     <string name="error_duplicate_file">該檔案已存在。</string>
-    <string name="error_export_app_properties">導出應用配置時發生錯誤</string>
+    <string name="error_export_app_properties">導出應用程式設定時發生錯誤</string>
     <string name="error_field_name_already_exists">欄位名已存在。</string>
     <string name="error_file_not_create">不能創建檔案</string>
     <string name="error_file_to_big">嘗試上傳的檔案過大。</string>
-    <string name="error_import_app_properties">導入應用配置時發生錯誤</string>
+    <string name="error_import_app_properties">導入應用程式設定時發生錯誤</string>
     <string name="error_invalid_OTP">無效 OTP 密鑰。</string>
     <string name="error_invalid_db">無法讀取資料庫。</string>
     <string name="error_invalid_path">請確保路徑正確。</string>
@@ -291,8 +291,8 @@
     <string name="error_upload_file">上傳檔案時發生錯誤。</string>
     <string name="error_word_reserved">該字詞是保留字，無法使用。</string>
     <string name="error_wrong_length">請在長度欄位輸入一個正整數。</string>
-    <string name="export_app_properties_summary">建立一個檔案以匯出配置</string>
-    <string name="export_app_properties_title">導出配置</string>
+    <string name="export_app_properties_summary">建立檔案以匯出應用程式設定</string>
+    <string name="export_app_properties_title">導出應用程式設定</string>
     <string name="extended_ASCII">增強的 ASCII</string>
     <string name="feedback">回饋</string>
     <string name="field_name">欄位名</string>
@@ -337,8 +337,8 @@
     <string name="icon_section_custom">自定義</string>
     <string name="icon_section_standard">標準</string>
     <string name="id_card">身份證</string>
-    <string name="import_app_properties_summary">選擇一個配置檔案以導入應用</string>
-    <string name="import_app_properties_title">導入配置</string>
+    <string name="import_app_properties_summary">選擇要匯入應用程式設定的文件</string>
+    <string name="import_app_properties_title">導入應用程式設定</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="invalid_algorithm">無效的演算法。</string>
     <string name="invalid_credentials">無法獲取身份驗證信息。</string>
@@ -369,12 +369,12 @@
     <string name="keyboard_previous_database_credentials_summary">如果顯示資料庫憑證畫面，則自動返回到前一個鍵盤</string>
     <string name="keyboard_previous_database_credentials_title">資料庫憑證畫面</string>
     <string name="keyboard_previous_fill_in_summary">執行「自動鍵動作」後，自動返回前一個鍵盤</string>
-    <string name="keyboard_previous_fill_in_title">自動鍵動作</string>
+    <string name="keyboard_previous_fill_in_title">切換回</string>
     <string name="keyboard_previous_lock_summary">鎖定資料庫後自動返回前一個鍵盤</string>
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
     <string name="keyboard_save_search_info_summary">將 URL 分享到 KeePassDX 後，當選好條目時，將嘗試記住該條目以備日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
-    <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
     <string name="keyboard_selection_entry_title">條目選擇</string>
     <string name="keyboard_setting_label">魔法鍵盤設置</string>
     <string name="keyboard_theme_title">鍵盤主題</string>
@@ -413,7 +413,7 @@
     <string name="membership">會員身份</string>
     <string name="memory_usage">記憶體使用情況</string>
     <string name="memory_usage_explanation">密鑰推算函數使用的記憶體的大小。</string>
-    <string name="menu_advanced_unlock_settings">高級解鎖</string>
+    <string name="menu_advanced_unlock_settings">裝置解鎖</string>
     <string name="menu_app_settings">應用程式設定</string>
     <string name="menu_appearance_settings">外觀</string>
     <string name="menu_cancel">取消</string>
@@ -429,7 +429,7 @@
     <string name="menu_file_selection_read_only">唯讀</string>
     <string name="menu_form_filling_settings">表格填入</string>
     <string name="menu_hide_password">隱藏密碼</string>
-    <string name="menu_keystore_remove_key">刪除高級解鎖密鑰</string>
+    <string name="menu_keystore_remove_key">刪除裝置解鎖密鑰</string>
     <string name="menu_lock">鎖定資料庫</string>
     <string name="menu_master_key_settings">主密鑰設定</string>
     <string name="menu_move">移動</string>
@@ -500,7 +500,7 @@
     <string name="secure_note">安全註記</string>
     <string name="security">安全</string>
     <string name="seed">種子</string>
-    <string name="select_database_file">選擇一個已存在之資料庫</string>
+    <string name="select_database_file">選擇已存在之資料庫</string>
     <string name="select_entry">選擇條目</string>
     <string name="select_to_copy">複製%1$s到剪貼簿</string>
     <string name="selection_mode">選擇模式</string>
@@ -538,12 +538,12 @@
     <string name="style_choose_title">應用主題</string>
     <string name="subdomain_search_summary">搜尋帶有子網域限制的網域</string>
     <string name="subdomain_search_title">子網域搜尋</string>
-    <string name="success_export_app_properties">已導出應用配置</string>
-    <string name="success_import_app_properties">已導入應用配置</string>
-    <string name="temp_advanced_unlock_enable_summary">不要存儲任何加密內容來使用高級解鎖</string>
-    <string name="temp_advanced_unlock_enable_title">臨時性高級解鎖</string>
-    <string name="temp_advanced_unlock_timeout_summary">刪除內容之前高級解鎖使用的持續時間</string>
-    <string name="temp_advanced_unlock_timeout_title">高級解鎖過期</string>
+    <string name="success_export_app_properties">已導出應用程式設定</string>
+    <string name="success_import_app_properties">已導入應用程式設定</string>
+    <string name="temp_advanced_unlock_enable_summary">不要存儲任何加密內容來使用裝置解鎖</string>
+    <string name="temp_advanced_unlock_enable_title">臨時性裝置解鎖</string>
+    <string name="temp_advanced_unlock_timeout_summary">刪除內容之前裝置解鎖使用的持續時間</string>
+    <string name="temp_advanced_unlock_timeout_title">高級裝置過期</string>
     <string name="template">樣板</string>
     <string name="template_group_name">樣板</string>
     <string name="templates">樣板</string>
@@ -610,7 +610,7 @@
     <string name="show_entry_colors_title">條目顔色</string>
     <string name="show_entry_colors_summary">顯示條目中的前景色和背景色</string>
     <string name="enable_keep_screen_on_title">保持螢幕開啟</string>
-    <string name="enable_keep_screen_on_summary">在查看條目時保持熒幕打開</string>
+    <string name="enable_keep_screen_on_summary">瀏覽或編輯條目時保持螢幕打開</string>
     <string name="regex">正則表達式</string>
     <string name="navigation_drawer_close">關閉導航抽屜</string>
     <string name="searchable">可搜索</string>
@@ -648,7 +648,7 @@
     <string name="screenshot_mode_banner_text">螢幕截圖模式</string>
     <string name="auto_type">自動填入</string>
     <string name="info">資訊</string>
-    <string name="html_about_privacy"><strong>不收集用戶資料。</strong>，此應用程式不連接任何伺服器，僅在裝置上運作，而且完全尊重用戶私穩。</string>
+    <string name="html_about_privacy">&lt;strong&gt;不收集用戶資料。&lt;/strong&gt;，此應用程式不連接任何伺服器，僅在裝置上運作，而且完全尊重用戶私穩。</string>
     <string name="waiting_challenge_request">正等待Challenge請求……</string>
     <string name="waiting_challenge_response">正等待Challenge回應……</string>
     <string name="error_XML_malformed">XML格式錯誤。</string>
@@ -678,4 +678,21 @@
     <string name="education_validate_entry_summary">記得驗證和儲存你的資料庫。
 \n
 \n如果自動鎖定已啓用，而你又忘記你在更改資料，你可能會失去你的資料。</string>
+    <string name="style_name_forest">Forest</string>
+    <string name="style_name_divine">Divine</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Moon</string>
+    <string name="style_name_sun">Sun</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">遵循系統</string>
+    <string name="style_name_light">淺色</string>
+    <string name="style_name_dark">黑暗</string>
+    <string name="style_name_classic">Classic</string>
+    <string name="style_name_reply">Reply</string>
+    <string name="remember_hardware_key_summary">追蹤使用的硬體密鑰</string>
+    <string name="warning_database_notification_permission">通知權限讓您在資料庫運作於背景時，透過通知欄查看其狀態並使用方便的按鈕將其鎖住。
+\n
+\n如果不啟用此權限，當其他應用程式在前台運作時，您将无法在通知欄中查看背景運行的資料庫。</string>
+    <string name="unlock_and_link_biometric">裝置解鎖連線</string>
+    <string name="education_validate_entry_title">驗證條目</string>
 </resources>

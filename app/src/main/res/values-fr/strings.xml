@@ -697,4 +697,5 @@
     <string name="education_validate_entry_summary">N\'oubliez pas de valider votre saisie et de sauvegarder votre base de données
 \n
 \nSi un verrouillage automatique est activé et que vous oubliez que vous étiez en train d\'effectuer une modification, vous risquez de perdre vos données.</string>
+    <string name="warning_database_info_changed_options_read_only">Recharger la base de données avec les dernières modifications.</string>
 </resources>

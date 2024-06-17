@@ -52,10 +52,10 @@
     <string name="select_to_copy">複製%1$s去剪貼簿</string>
     <string name="default_checkbox">用作預設資料庫</string>
     <string name="digits">數字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；呢個係<strong>冇廣告</strong>嘅<strong>開源</strong>軟件。
-\n你可以喺遵循<strong>GPL 3</strong>或者更高版本嘅情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
-    <string name="html_about_privacy"><strong>唔收集用戶資料。</strong>，呢個應用程式唔會連接任何伺服器，只會喺裝置上運作，完全尊重用戶私穩。</string>
-    <string name="html_about_contribution">為程式能夠<strong>保持自主</strong>、<strong>修復漏洞</strong>、<strong>新增功能</strong>同<strong>保持持續開發</strong>，有賴你的<strong>貢獻</strong>。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；呢個係&lt;strong&gt;冇廣告&lt;/strong&gt;嘅&lt;strong&gt;開源&lt;/strong&gt;軟件。
+\n你可以喺遵循&lt;strong&gt;GPL 3&lt;/strong&gt;或者更高版本嘅情況下重新發佈，而Kunzisoft對此不帶有任何擔保。</string>
+    <string name="html_about_privacy">&lt;strong&gt;唔收集用戶資料。&lt;/strong&gt;，呢個應用程式唔會連接任何伺服器，只會喺裝置上運作，完全尊重用戶私穩。</string>
+    <string name="html_about_contribution">為程式能夠&lt;strong&gt;保持自主&lt;/strong&gt;、&lt;strong&gt;修復漏洞&lt;/strong&gt;、&lt;strong&gt;新增功能&lt;/strong&gt;同&lt;strong&gt;保持持續開發&lt;/strong&gt;，有賴你的&lt;strong&gt;貢獻&lt;/strong&gt;。</string>
     <string name="entry_confpassword">確認密碼</string>
     <string name="entry_expires">失效時間</string>
     <string name="expired">過期</string>

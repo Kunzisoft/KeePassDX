@@ -22,16 +22,16 @@
     <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
-    <string name="add_group">添加群组</string>
+    <string name="add_group">添加分组</string>
     <string name="encryption_algorithm">加密算法</string>
     <string name="app_timeout">超时</string>
     <string name="app_timeout_summary">在锁定数据库前处于非活动状态的时长</string>
-    <string name="application">应用程序</string>
+    <string name="application">应用</string>
     <string name="menu_app_settings">应用设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">需要一款接受意图操作 ACTION_CREATE_DOCUMENT 和 ACTION_OPEN_DOCUMENT 的文件管理器来创建、打开和保存数据库文件。</string>
     <string name="clipboard_cleared">剪贴板已清空</string>
-    <string name="clipboard_timeout">剪贴板清空延时</string>
+    <string name="clipboard_timeout">剪贴板清空超时</string>
     <string name="clipboard_timeout_summary">剪贴板保存时间 （若您的设备支持该功能）</string>
     <string name="select_to_copy">选择%1$s以复制到剪贴板</string>
     <string name="retrieving_db_key">读取数据库密钥中……</string>
@@ -55,7 +55,7 @@
     <string name="entry_title">名称</string>
     <string name="entry_url">网址</string>
     <string name="entry_user_name">用户名</string>
-    <string name="error_arc4">不支持Arcfour流式加密。</string>
+    <string name="error_arc4">不支持 Arcfour 流式加密。</string>
     <string name="error_can_not_handle_uri">无法在 KeePassDX 中处理此 URI 。</string>
     <string name="error_file_not_create">无法新建文件</string>
     <string name="error_invalid_db">无法读取数据库。</string>
@@ -63,7 +63,7 @@
     <string name="error_no_name">输入名称。</string>
     <string name="error_nokeyfile">请选择密钥文件。</string>
     <string name="error_out_of_memory">因内存不足无法加载数据库。</string>
-    <string name="error_pass_gen_type">必须至少选择一种密码生成类型。</string>
+    <string name="error_pass_gen_type">至少选择一种密码生成类型。</string>
     <string name="error_pass_match">密码不匹配。</string>
     <string name="error_rounds_too_large">“变换次数”项设置过大。已设置为2147483648。</string>
     <string name="error_wrong_length">请在“长度”字段输入正整数。</string>
@@ -103,7 +103,7 @@
     <string name="no_url_handler">需要安装网络浏览器才能打开这个网址。</string>
     <string name="progress_create">正在新建数据库…</string>
     <string name="progress_title">正在处理…</string>
-    <string name="content_description_remove_from_list">移除</string>
+    <string name="content_description_remove_from_list">删除</string>
     <string name="root">Root</string>
     <string name="rounds">迭代次数</string>
     <string name="rounds_explanation">更多的迭代次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
@@ -136,7 +136,7 @@
     <string name="key_derivation_function">密钥推导函数</string>
     <string name="entry_not_found">找不到条目数据。</string>
     <string name="error_load_database">无法加载数据库。</string>
-    <string name="error_load_database_KDF_memory">无法加载密钥。尝试降低KDF的“内存使用”值。</string>
+    <string name="error_load_database_KDF_memory">无法加载密钥。尝试降低 KDF 的“内存使用”值。</string>
     <string name="error_autofill_enable_service">无法启用自动填充服务。</string>
     <string name="file_not_found_content">找不到文件。请重新打开文件。</string>
     <string name="invalid_algorithm">算法无效。</string>
@@ -202,14 +202,14 @@
     <string name="copy_field">复制%1$s</string>
     <string name="sort_ascending">最底的在前↓</string>
     <string name="warning_password_encoding">避免在数据库中保存编码格式外字符的密码（未识别的字符将转换为同一字符）。</string>
-    <string name="sort_groups_before">群组在前</string>
+    <string name="sort_groups_before">分组在前</string>
     <string name="sort_recycle_bin_bottom">回收站在末尾</string>
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">构建 %1$s</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="unavailable">不可用</string>
-    <string name="set_autofill_service_title">设为默认的填充服务</string>
+    <string name="set_autofill_service_title">设为默认自动填充服务</string>
     <string name="autofill_explanation_summary">启用自动填充功能，以快速填写其他应用中的表单</string>
     <string name="password_size_title">密码生成长度</string>
     <string name="password_size_summary">设置生成密码的默认长度</string>
@@ -228,7 +228,7 @@
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>
     <string name="assign_master_key">分配主密钥</string>
     <string name="recycle_bin_title">回收站使用情况</string>
-    <string name="recycle_bin_summary">删除群组和条目前先移至回收站</string>
+    <string name="recycle_bin_summary">删除分组和条目前先移至回收站</string>
     <string name="monospace_font_fields_enable_title">字段字型</string>
     <string name="monospace_font_fields_enable_summary">更改字段字体，可以使字符更清楚</string>
     <string name="allow_copy_password_summary">允许复制整段密码和受保护的字段至剪切板</string>
@@ -267,7 +267,7 @@
     <string name="education_new_node_title">向数据库添加项目</string>
     <string name="education_new_node_summary">这些条目帮助管理数字化身份。
 \n
-\n还可以使用群组来管理数据库中的条目。</string>
+\n还可以使用分组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
@@ -289,7 +289,7 @@
     <string name="education_lock_title">锁定数据库</string>
     <string name="education_lock_summary">可以设置在无操作和屏幕关闭的时候，锁定数据库。</string>
     <string name="education_sort_title">条目排序</string>
-    <string name="education_sort_summary">选择条目和群组的排序方式。</string>
+    <string name="education_sort_summary">选择条目和分组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
     <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
@@ -311,7 +311,7 @@
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
-    <string name="keyboard_selection_entry_summary">在 KeePass DX 中查看条目时，用该条目填充 Magikeyboard</string>
+    <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看条目时，用该条目填充 Magikeyboard</string>
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">在尝试连接数据库后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
@@ -332,7 +332,7 @@
     <string name="error_move_entry_here">你不能将条目移到此处。</string>
     <string name="error_copy_entry_here">您不能将条目复制到此处。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
-    <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
+    <string name="list_groups_show_number_entries_summary">显示分组中的条目数</string>
     <string name="content_description_background">后台</string>
     <string name="content_description_update_from_list">更新</string>
     <string name="content_description_keyboard_close_fields">关闭字段</string>
@@ -348,16 +348,16 @@
     <string name="entry_history">修改历史</string>
     <string name="entry_setup_otp">设置 OTP</string>
     <string name="otp_type">OTP 类型</string>
-    <string name="otp_secret">OTP密钥</string>
+    <string name="otp_secret">OTP 密钥</string>
     <string name="otp_period">时长（秒）</string>
     <string name="otp_counter">计数器</string>
     <string name="otp_digits">数字位数</string>
     <string name="otp_algorithm">算法</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_invalid_OTP">OTP密钥无效。</string>
+    <string name="error_invalid_OTP">OTP 密钥无效。</string>
     <string name="error_disallow_no_credentials">至少需要设置一个凭据。</string>
-    <string name="error_copy_group_here">您无法将分组复制到此处。</string>
-    <string name="error_otp_secret_key">密钥必须是BASE32格式。</string>
+    <string name="error_copy_group_here">您无法在此处复制分组。</string>
+    <string name="error_otp_secret_key">密钥必须是 Base32 格式。</string>
     <string name="error_otp_counter">计数器必须在%1$d和%2$d之间。</string>
     <string name="error_otp_period">时长必须在%1$d秒到%2$d秒之间。</string>
     <string name="error_otp_digits">口令必须包括%1$d到%2$d个数字。</string>
@@ -454,18 +454,18 @@
     <string name="education_add_attachment_title">添加附件</string>
     <string name="warning_sure_add_file">不论如何都要添加这个文件吗？</string>
     <string name="warning_replace_file">上载此文件将替换现有文件。</string>
-    <string name="warning_file_too_big">KeePass数据库应该只包含小的实用程序文件(例如PGP密钥文件)。
+    <string name="warning_file_too_big">KeePass 数据库应该只包含小的实用程序文件（例如 PGP 密钥文件）。
 \n
 \n上传大文件会使增大数据库体积并降低性能。</string>
     <string name="content_description_credentials_information">凭证信息</string>
-    <string name="warning_remove_unlinked_attachment">删除未链接的数据可能会减少数据库的大小，但也可能会删除用于KeePass插件的数据。</string>
+    <string name="warning_remove_unlinked_attachment">删除未链接的数据可能会减少数据库的大小，但也可能会删除用于 KeePass 插件的数据。</string>
     <string name="warning_sure_remove_data">无论如何要删除这些数据\?</string>
     <string name="warning_empty_keyfile">不推荐添加一个空的密钥文件。</string>
     <string name="warning_empty_keyfile_explanation">密钥文件的内容应该永不更改，在最好的情况下，应该包含随机生成的数据。</string>
     <string name="data">数据</string>
     <string name="database_data_remove_unlinked_attachments_title">删除未链接的数据</string>
     <string name="database_data_remove_unlinked_attachments_summary">删除包含于数据库中但未连接到一个条目的附件</string>
-    <string name="show_uuid_summary">显示与一个条目或群组相链接的 UUID</string>
+    <string name="show_uuid_summary">显示与一个条目或分组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
     <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
     <string name="autofill_ask_to_save_data_summary">填写完表单后，询问是否保存数据</string>
@@ -576,8 +576,8 @@
     <string name="wireless">Wi-Fi</string>
     <string name="email_address">电子邮件地址</string>
     <string name="email">电子邮件</string>
-    <string name="date_of_issue">发行日期</string>
-    <string name="place_of_issue">发行地</string>
+    <string name="date_of_issue">签发日期</string>
+    <string name="place_of_issue">签发地</string>
     <string name="name">姓名</string>
     <string name="id_card">身份证</string>
     <string name="personal_identification_number">PIN</string>
@@ -625,6 +625,7 @@
     <string name="advanced_unlock_keystore_warning">此功能将把加密的凭据数据存储在你设备的安全 KeyStore 中。
 \n
 \n取决于操作系统的原生 API 实现，它可能无法完全正常工作。
+\n
 \n请与设备制造商和你正使用的 ROM 的创建者一起检查 KeyStore 的兼容性和安全性。</string>
     <string name="content_description_passphrase_word_count">密码口令单词计数</string>
     <string name="colorize_password_title">给密码添加颜色</string>
@@ -644,11 +645,11 @@
     <string name="colorize_password_summary">按类型给密码字符加上颜色</string>
     <string name="entropy_high">熵：高</string>
     <string name="entropy">熵：%1$s bit</string>
-    <string name="content_description_hardware_key_checkbox">硬件秘钥复选框</string>
+    <string name="content_description_hardware_key_checkbox">硬件密钥复选框</string>
     <string name="waiting_challenge_request">等待挑战请求中…</string>
     <string name="waiting_challenge_response">等待挑战响应中…</string>
-    <string name="hardware_key">硬件秘钥</string>
-    <string name="error_no_hardware_key">选择硬件秘钥。</string>
+    <string name="hardware_key">硬件密钥</string>
+    <string name="error_no_hardware_key">选择硬件密钥。</string>
     <string name="error_XML_malformed">XML 文件畸形。</string>
     <string name="error_challenge_already_requested">已请求挑战</string>
     <string name="error_response_already_provided">已提供响应。</string>
@@ -656,12 +657,12 @@
     <string name="error_cancel_by_user">被用户取消。</string>
     <string name="error_unable_merge_database_kdb">无法从 v1 版数据库进行合并。</string>
     <string name="error_location_unknown">数据库位置未知，无法进行数据库操作。</string>
-    <string name="error_hardware_key_unsupported">硬件秘钥不受支持。</string>
+    <string name="error_hardware_key_unsupported">不支持的硬件密钥。</string>
     <string name="error_driver_required">%1$s 的驱动是必需的。</string>
-    <string name="error_empty_key">秘钥不能为空。</string>
+    <string name="error_empty_key">密钥不能为空。</string>
     <string name="corrupted_file">文件损坏。</string>
-    <string name="remember_hardware_key_title">记住硬件秘钥</string>
-    <string name="remember_hardware_key_summary">保留所用硬件秘钥的位置</string>
+    <string name="remember_hardware_key_title">记住硬件密钥</string>
+    <string name="remember_hardware_key_summary">保留所用硬件密钥的位置</string>
     <string name="enable_screenshot_mode_title">截屏模式</string>
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>
@@ -688,4 +689,16 @@
     <string name="education_validate_entry_summary">记得验证你的条目并保存你的数据库。
 \n
 \n如果激活了自动锁定，且你忘了你正在进行更改，你可能失去你的数据。</string>
+    <string name="style_name_follow_system">跟随系统</string>
+    <string name="style_name_forest">Forest</string>
+    <string name="style_name_divine">Divine</string>
+    <string name="style_name_classic">Classic</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Moon</string>
+    <string name="style_name_sun">Sun</string>
+    <string name="style_name_reply">Reply</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_light">浅色</string>
+    <string name="style_name_dark">深色</string>
+    <string name="warning_database_info_changed_options_read_only">重新加载数据库最新变化。</string>
 </resources>

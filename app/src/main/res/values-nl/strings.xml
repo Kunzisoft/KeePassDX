@@ -624,6 +624,7 @@
     <string name="advanced_unlock_keystore_warning">Deze functie slaat versleutelde gegevens op in de beveiligde KeyStore van uw apparaat.
 \n
 \nAfhankelijk van de specifieke API-implementatie van het besturingssysteem, is dit mogelijk niet volledig functioneel.
+\n
 \nControleer de compatibiliteit en beveiliging van de KeyStore met de fabrikant van uw apparaat en de maker van de ROM die u gebruikt.</string>
     <string name="warning_database_already_opened">Er is al een database geopend, sluit deze eerst alvorens een nieuwe te openen</string>
     <string name="content_description_passphrase_word_count">Lengte wachtwoordzin</string>
@@ -690,4 +691,16 @@
 \nWanneer automatische vergrendeling is geactiveerd en u vergeet dat u een wijziging aan het aanbrengen was, dan loopt u het risico gegevens te verliezen.</string>
     <string name="unlock">Ontgrendelen</string>
     <string name="education_validate_entry_title">Invoer valideren</string>
+    <string name="style_name_forest">Bos</string>
+    <string name="style_name_classic">Klassiek</string>
+    <string name="style_name_simple">Eenvoudig</string>
+    <string name="style_name_sun">Zon</string>
+    <string name="style_name_reply">Amtwoord</string>
+    <string name="style_name_kunzite">Kunziet</string>
+    <string name="style_name_light">Licht</string>
+    <string name="style_name_divine">Goddelijk</string>
+    <string name="style_name_moon">Maan</string>
+    <string name="style_name_follow_system">Systeem volgen</string>
+    <string name="style_name_dark">Donker</string>
+    <string name="warning_database_info_changed_options_read_only">Database opnieuw laden met de jongste wijzigingen.</string>
 </resources>

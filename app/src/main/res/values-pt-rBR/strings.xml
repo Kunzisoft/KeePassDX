@@ -638,6 +638,7 @@
     <string name="advanced_unlock_keystore_warning">Esse recurso armazenará dados de credenciais criptografados no KeyStore seguro do seu dispositivo.
 \n
 \nDependendo da implementação da API nativa do sistema operacional, pode não ser totalmente funcional.
+\n
 \nVerifique a compatibilidade e segurança do KeyStore com o fabricante do seu dispositivo e o criador da ROM que você está usando.</string>
     <string name="ignore_chars_filter">Ignorar caracteres</string>
     <string name="word_separator">Separador</string>
@@ -688,4 +689,16 @@
 \n
 \nSe um bloqueio automático for ativado e você esquecer que estava fazendo uma modificação, você corre o risco de perder seus dados.</string>
     <string name="menu_form_filling_settings_summary">Teclado, preenchimento automático, área de transferência</string>
+    <string name="style_name_classic">Clássico</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Acompanhar o sistema</string>
+    <string name="style_name_light">Claro</string>
+    <string name="style_name_moon">Lua</string>
+    <string name="style_name_reply">Resposta</string>
+    <string name="style_name_forest">Floresta</string>
+    <string name="style_name_simple">Simples</string>
+    <string name="style_name_divine">Divino</string>
+    <string name="style_name_dark">Escuro</string>
+    <string name="warning_database_info_changed_options_read_only">Recarregar o banco de dados com as alterações mais recentes.</string>
 </resources>
