@@ -306,10 +306,11 @@ fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, appl
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
         && resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        this.window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
         if (applyToStatusBar) {
-            this.window.statusBarColor = obtainStyledAttributes(intArrayOf(R.attr.colorSurface)).use {
-                it.getColor(0, Color.GRAY)
+            obtainStyledAttributes(intArrayOf(R.attr.colorSurface)).apply {
+                window.statusBarColor = getColor(0, Color.GRAY)
+                recycle()
             }
         }
         applyWindowInsets.invoke()
