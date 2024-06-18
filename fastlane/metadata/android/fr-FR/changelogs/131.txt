@@ -1,0 +1,1 @@
+ * Correction d'un bug graphique qui empêchait l'ouverture des bases de données sur certaines versions d'Android #1848 #1850

@@ -1,0 +1,1 @@
+ * Fix graphical bug that prevented databases from being opened on some versions of Android #1848 #1850

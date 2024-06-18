@@ -1,3 +1,6 @@
+KeePassDX(4.0.8)
+ * Fix graphical bug that prevented databases from being opened on some versions of Android #1848 #1850
+
 KeePassDX(4.0.7)
  * Prevent 0 Byte file with cache during a save exception #1620 #1594 #1680
  * Fix inline suggestions in keyboard #1840
