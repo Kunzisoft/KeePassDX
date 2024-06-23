@@ -80,7 +80,7 @@
     <string name="error_wrong_length">Gib eine positive ganze Zahl in das Feld „Länge“ ein.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="file_not_found_content">Datei nicht gefunden. Versuche, sie über den Dateimanager zu öffnen.</string>
+    <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="hint_conf_pass">Passwort bestätigen</string>
@@ -124,7 +124,7 @@
     <string name="progress_title">Bearbeitung läuft …</string>
     <string name="protection">Schutz</string>
     <string name="read_only">Schreibgeschützt</string>
-    <string name="read_only_warning">Abhängig von deinem Dateimanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
+    <string name="read_only_warning">Abhängig vom Dateimanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
     <string name="content_description_remove_from_list">Entfernen</string>
     <string name="root">Start</string>
     <string name="rounds">Verschlüsselungsrunden</string>
@@ -228,7 +228,7 @@
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiter zu verwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
-    <string name="education_new_node_summary">Einträge helfen dabei, digitale Konten zu verwalten.
+    <string name="education_new_node_summary">Einträge helfen digitale Konten zu verwalten.
 \n
 \nGruppen/Ordner gliedern Einträge in der Datenbank.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
@@ -236,7 +236,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Erstelle ein starkes Passwort, das mit deinem Eintrag verbunden wird, lege es einfach anhand von Formularkriterien fest und vergiss nicht, dein Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht Ihr Passwort zu sichern.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -476,16 +476,16 @@
     <string name="warning_sure_remove_data">Diese Daten trotzdem entfernen\?</string>
     <string name="warning_remove_unlinked_attachment">Das Entfernen nicht verknüpfter Daten kann die Größe der Datenbank reduzieren, allerdings auch Daten löschen, die von KeePass-Plugins genutzt werden.</string>
     <string name="warning_replace_file">Das Hinzufügen dieser Datei wird die bestehende Datei ersetzen.</string>
-    <string name="warning_file_too_big">Eine KeePass-Datenbank soll nur kleine Dateien beinhalten (wie z. B. PGP-Schlüsseldateien).
+    <string name="warning_file_too_big">Eine KeePass-Datenbank soll nur kleine Dateien beinhalten (wie z. B. PGP-Schlüsseldateien).
 \n
-\nDeine Datenbank könnte mit diesem Anhang sehr groß und leistungsschwach werden.</string>
+\nMit diesem Anhang könnte die Datenbank sehr groß werden und damit die Leistung beeinträchtigen.</string>
     <string name="upload_attachment">%1$s hochladen</string>
     <string name="education_add_attachment_title">Anhang hinzufügen</string>
     <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge, die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
     <string name="warning_sure_add_file">Datei trotzdem hinzufügen\?</string>
     <string name="show_uuid_summary">Zeigt die mit einem Eintrag oder einer Gruppe verknüpfte UUID an</string>
     <string name="show_uuid_title">UUID anzeigen</string>
-    <string name="autofill_read_only_save">Datenspeicherung ist bei schreibgeschützt geöffneter Datenbank nicht möglich.</string>
+    <string name="autofill_read_only_save">Das Speichern von Daten ist bei einer schreibgeschützt geöffneter Datenbank nicht möglich.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
     <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
