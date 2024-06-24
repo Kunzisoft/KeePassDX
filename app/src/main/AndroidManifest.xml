@@ -10,6 +10,10 @@
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission
         android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission
         android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -197,18 +201,27 @@
 
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.services.AttachmentFileNotificationService"
+            android:foregroundServiceType="dataSync"
             android:enabled="true"
             android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.services.ClipboardEntryNotificationService"
+            android:foregroundServiceType="specialUse"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name="com.kunzisoft.keepass.services.KeyboardEntryNotificationService"
+            android:foregroundServiceType="specialUse"
             android:enabled="true"
             android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.services.AdvancedUnlockNotificationService"
+            android:foregroundServiceType="specialUse"
             android:enabled="true"
             android:exported="false" />
         <!-- Receiver for Autofill -->
@@ -235,10 +248,6 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
-        <service
-            android:name="com.kunzisoft.keepass.services.KeyboardEntryNotificationService"
-            android:enabled="true"
-            android:exported="false" />
         <receiver
             android:name="com.kunzisoft.keepass.receivers.DexModeReceiver"
             android:exported="true">

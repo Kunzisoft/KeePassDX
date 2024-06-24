@@ -591,7 +591,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
 
         // Create the notification
-        startForeground(notificationId, notificationBuilder.build())
+        startForegroundCompat(
+            notificationId,
+            notificationBuilder,
+            NotificationServiceType.DATABASE_TASK
+        )
     }
 
     private fun removeIntentData(intent: Intent?) {

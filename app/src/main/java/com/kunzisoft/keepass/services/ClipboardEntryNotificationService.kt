@@ -19,16 +19,12 @@
  */
 package com.kunzisoft.keepass.services
 
-import android.Manifest
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -196,23 +192,29 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             //Get settings
             val notificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
             if (notificationTimeoutMilliSecs != NEVER) {
-                defineTimerJob(builder, notificationTimeoutMilliSecs, {
-                    val newGeneratedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
-                    // New auto generated value
-                    if (generatedValue != newGeneratedValue) {
-                        generatedValue = newGeneratedValue
-                        clipboardHelper?.copyToClipboard(
-                            fieldToCopy.label,
-                            generatedValue,
-                            fieldToCopy.isSensitive
-                        )
+                defineTimerJob(
+                    builder,
+                    NotificationServiceType.CLIPBOARD,
+                    notificationTimeoutMilliSecs,
+                    {
+                        val newGeneratedValue = fieldToCopy.getGeneratedValue(mEntryInfo)
+                        // New auto generated value
+                        if (generatedValue != newGeneratedValue) {
+                            generatedValue = newGeneratedValue
+                            clipboardHelper?.copyToClipboard(
+                                fieldToCopy.label,
+                                generatedValue,
+                                fieldToCopy.isSensitive
+                            )
+                        }
+                    },
+                    {
+                        stopNotificationAndSendLockIfNeeded()
+                        // Clean password only if no next field
+                        if (nextFields.size <= 0)
+                            clipboardHelper?.cleanClipboard()
                     }
-                }) {
-                    stopNotificationAndSendLockIfNeeded()
-                    // Clean password only if no next field
-                    if (nextFields.size <= 0)
-                        clipboardHelper?.cleanClipboard()
-                }
+                )
             } else {
                 // No timer
                 checkNotificationsPermission {
@@ -226,12 +228,11 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     private fun checkNotificationsPermission(action: () -> Unit) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-            == PackageManager.PERMISSION_GRANTED) {
-            action.invoke()
-        } else {
-            showPermissionErrorIfNeeded(this)
-        }
+        checkNotificationsPermission(
+            this,
+            PreferencesUtil.isClipboardNotificationsEnable(this),
+            action
+        )
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
@@ -255,26 +256,14 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         const val EXTRA_CLIPBOARD_FIELDS = "EXTRA_CLIPBOARD_FIELDS"
         const val ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD"
 
-        private fun showPermissionErrorIfNeeded(context: Context) {
-            if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
-                Toast.makeText(context, R.string.warning_copy_permission, Toast.LENGTH_LONG).show()
-            }
-        }
-
         fun checkAndLaunchNotification(
             activity: Activity,
             entry: EntryInfo
         ) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        activity,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED) {
-                        launchNotificationIfAllowed(activity, entry)
-                } else {
-                    showPermissionErrorIfNeeded(activity)
-                }
-            } else {
+            checkNotificationsPermission(
+                activity,
+                PreferencesUtil.isClipboardNotificationsEnable(activity)
+            ) {
                 launchNotificationIfAllowed(activity, entry)
             }
         }
