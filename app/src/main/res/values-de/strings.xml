@@ -184,7 +184,7 @@
     <string name="memory_usage">Arbeitsspeichernutzung</string>
     <string name="memory_usage_explanation">Arbeitsspeicher, der für die Schlüsselableitung gebraucht wird.</string>
     <string name="parallelism">Parallelisierung</string>
-    <string name="parallelism_explanation">Grad der Parallelisierung (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism_explanation">Grad der Parallelisierung (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
     <string name="sort_ascending">Aufsteigend ↓</string>
     <string name="sort_groups_before">Gruppen oben</string>
@@ -228,7 +228,7 @@
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiter zu verwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
-    <string name="education_new_node_summary">Einträge helfen digitale Konten zu verwalten.
+    <string name="education_new_node_summary">Einträge helfen, digitale Konten zu verwalten.
 \n
 \nGruppen/Ordner gliedern Einträge in der Datenbank.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
@@ -236,7 +236,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht Ihr Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht, Ihr Passwort zu sichern.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -626,8 +626,8 @@
     <string name="search_filters">Suchfilter</string>
     <string name="current_group">Aktuelle Gruppe</string>
     <string name="case_sensitive">Groß-/Kleinschreibung beachten</string>
-    <string name="menu_merge_from">Zusammenführen von …</string>
-    <string name="menu_save_copy_to">Kopie speichern unter …</string>
+    <string name="menu_merge_from">Zusammenführen von …</string>
+    <string name="menu_save_copy_to">Kopie speichern unter …</string>
     <string name="content_description_nav_header">Navigationskopfzeile</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
@@ -636,6 +636,7 @@
     <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
 \n
 \nJe nach der internen API-Implementierung des Betriebssystems kann sie eingeschränkt sein.
+\n
 \nBitte die Kompatibilität und Sicherheit des Schlüsselspeichers vom Gerätehersteller und vom Ersteller der verwendeten ROM abgleichen.</string>
     <string name="content_description_passphrase_word_count">Passphrasen-Wortanzahl</string>
     <string name="passphrase">Passphrase</string>
