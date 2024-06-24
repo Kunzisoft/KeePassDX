@@ -53,8 +53,8 @@ Optional visual styles are accessible after a contribution (and a congratulatory
 | Source | Status | Version |
 |--------|--------|---------|
 | [Google Play](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free) | ![PlayStore release](https://img.shields.io/endpoint?color=green&logo=google-play&logoColor=green&url=https%3A%2F%2Fplay.cuzi.workers.dev%2Fplay%3Fi%3Dcom.kunzisoft.keepass.free%26gl%3DUS%26hl%3Den%26l%3DGoogle%2520Play%26m%3D%24version) | Free + [Pro](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro) |
-| [F-Droid](https://f-droid.org/en/packages/eu.darken.sdmse/) | ![F-Droid Version](https://img.shields.io/f-droid/v/com.kunzisoft.keepass.libre?logo=F-Droid) | Libre |
-| [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.kunzisoft.keepass.free) | ![IzzyOnDroid Version](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.kunzisoft.keepass.free) | Free |
+| [F-Droid](https://f-droid.org/en/packages/com.kunzisoft.keepass.libre/) | ![F-Droid Version](https://img.shields.io/f-droid/v/com.kunzisoft.keepass.libre?logo=F-Droid) | Libre |
+| [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.kunzisoft.keepass.free) | ![IzzyOnDroid Version](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.kunzisoft.keepass.free&label=IzzyOnDroid) | Free |
 | [GitHub](https://github.com/Kunzisoft/KeePassDX/releases) / [Obtainium](https://github.com/ImranR98/Obtainium) | ![GitHub Release](https://img.shields.io/github/v/release/Kunzisoft/KeePassDX?include_prereleases&logo=GitHub) | Free & Libre |
 
 [Version [differences](https://github.com/Kunzisoft/KeePassDX/wiki/FAQ#why-a-libre-and-free-version)]
