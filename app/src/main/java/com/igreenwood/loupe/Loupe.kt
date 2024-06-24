@@ -38,7 +38,11 @@ import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import android.util.TypedValue
-import android.view.*
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
@@ -202,7 +206,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
             override fun onDown(e: MotionEvent): Boolean = true
 
             override fun onScroll(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 distanceX: Float,
                 distanceY: Float
@@ -220,7 +224,7 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
             }
 
             override fun onFling(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 velocityX: Float,
                 velocityY: Float

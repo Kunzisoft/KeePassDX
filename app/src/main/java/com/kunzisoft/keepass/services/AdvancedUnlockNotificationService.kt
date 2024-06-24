@@ -86,11 +86,19 @@ class AdvancedUnlockNotificationService : NotificationService() {
         val notificationTimeoutMilliSecs = PreferencesUtil.getAdvancedUnlockTimeout(this)
         // Not necessarily a foreground service
         if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
-            defineTimerJob(notificationBuilder, notificationTimeoutMilliSecs) {
+            defineTimerJob(
+                notificationBuilder,
+                NotificationServiceType.ADVANCED_UNLOCK,
+                notificationTimeoutMilliSecs
+            ) {
                 sendBroadcast(Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION))
             }
         } else {
-            startForeground(notificationId, notificationBuilder.build())
+            startForegroundCompat(
+                notificationId,
+                notificationBuilder,
+                NotificationServiceType.ADVANCED_UNLOCK
+            )
         }
 
         return mActionTaskBinder

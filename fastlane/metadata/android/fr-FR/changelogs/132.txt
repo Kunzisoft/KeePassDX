@@ -1,0 +1,1 @@
+ * Mise à jour vers API 34 (Android 14)
