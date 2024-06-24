@@ -485,7 +485,7 @@
     <string name="warning_sure_add_file">Datei trotzdem hinzufügen\?</string>
     <string name="show_uuid_summary">Zeigt die mit einem Eintrag oder einer Gruppe verknüpfte UUID an</string>
     <string name="show_uuid_title">UUID anzeigen</string>
-    <string name="autofill_read_only_save">Das Speichern von Daten ist bei einer schreibgeschützt geöffneter Datenbank nicht möglich.</string>
+    <string name="autofill_read_only_save">Das Speichern von Daten ist bei einer schreibgeschützt geöffneten Datenbank nicht möglich.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
     <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
