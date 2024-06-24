@@ -5,13 +5,12 @@ plugins {
 
 android {
     namespace 'com.kunzisoft.encrypt'
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+    compileSdkVersion 34
     ndkVersion "21.4.7075529"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 33
+        targetSdkVersion 34
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
