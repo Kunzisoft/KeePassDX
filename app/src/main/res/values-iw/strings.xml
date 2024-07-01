@@ -124,7 +124,8 @@
     <string name="unsupported_db_version">גרסת מסד נתונים לא נתמכת.</string>
     <string name="uppercase">רישית</string>
     <string name="version_label">גרסה %1$s</string>
-    <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים. גבה את קובץ מסד הנתונים שלך במקום בטוח לאחר כל שינוי.</string>
+    <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים.
+\nגבה את קובץ מסד הנתונים שלך במקום בטוח לאחר כל שינוי.</string>
     <string-array name="list_size_options">
         <item>קטן</item>
         <item>בינוני</item>
@@ -322,4 +323,5 @@
     <string name="remember_database_locations_title">זכור מיקומי מסדי הנתונים</string>
     <string name="save_mode">מצב שמירה</string>
     <string name="selection_mode">מצב בחירה</string>
+    <string name="menu_app_settings_summary">חיפוש, לנעול, היסטוריה, מאפיינים</string>
 </resources>
