@@ -700,4 +700,5 @@
     <string name="style_name_divine">Божественна</string>
     <string name="style_name_simple">Спрощенна</string>
     <string name="style_name_moon">Місячна</string>
+    <string name="warning_database_info_changed_options_read_only">Перезавантажте базу даних з останніми змінами.</string>
 </resources>
