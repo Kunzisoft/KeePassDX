@@ -324,7 +324,7 @@
     <string name="delete_entered_password_title">Parolayı sil</string>
     <string name="delete_entered_password_summary">Veri tabanına bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
-    <string name="content_description_repeat_toggle_password_visibility">Parola görünürlüğünü değiştirmeyi tekrarla</string>
+    <string name="content_description_repeat_toggle_password_visibility">­Parola görünürlüğünü değiştirmeyi tekrarla</string>
     <string name="content_description_background">Arka plan</string>
     <string name="content_description_update_from_list">Güncelle</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
