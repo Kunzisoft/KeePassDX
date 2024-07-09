@@ -391,7 +391,7 @@
     <string name="html_text_dev_feature_encourage">îi încurajați pe dezvoltatori să creeze <strong>noi caracteristici</strong> și să <strong>rezolve problemele</strong> în conformitate cu observațiile dvs.</string>
     <string name="html_text_dev_feature_thanks">Mulțumesc mult pentru contribuție.</string>
     <string name="html_text_dev_feature_work_hard">Muncim din greu pentru a lansa rapid această caracteristică.</string>
-    <string name="html_text_dev_feature_upgrade">Nu uitați să mențineți aplicația la zi instalând noi versiuni.</string>
+    <string name="html_text_dev_feature_upgrade">Nu uitați să vă mențineți aplicația la zi instalând noi actualizări.</string>
     <string name="download">Descărcați</string>
     <string name="contribute">Contribuie</string>
     <string name="download_attachment">Descărcați %1$s</string>
@@ -687,4 +687,13 @@
     <string name="style_name_follow_system">Urmează sistemul</string>
     <string name="style_name_light">Luminos</string>
     <string name="style_name_dark">Întunecat</string>
+    <string name="style_name_forest">Pădure</string>
+    <string name="style_name_divine">Divin</string>
+    <string name="style_name_simple">Simplu</string>
+    <string name="style_name_moon">Lună</string>
+    <string name="style_name_sun">Soare</string>
+    <string name="style_name_reply">Răspunde</string>
+    <string name="style_name_kunzite">Kunzită</string>
+    <string name="warning_database_info_changed_options_read_only">Reîncarcă baza de date cu noile schimbări.</string>
+    <string name="style_name_classic">Clasic</string>
 </resources>
