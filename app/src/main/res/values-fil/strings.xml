@@ -307,4 +307,8 @@
     <string name="read_only_warning">Depende sa iyong file manager, hindi maaring pinapayagan ang KeePassDX na mag-write sa iyong storage.</string>
     <string name="protection">Proteksyon</string>
     <string name="remember_database_locations_title">Tandaan ang mga lokasyon ng database</string>
+    <string name="description_app_properties">Mga property ng KeePassDX para ipamahala ang mga setting ng app</string>
+    <string name="success_import_app_properties">Na-import ang mga setting ng app</string>
+    <string name="error_import_app_properties">Error habang nagi-import ng mga setting ng app</string>
+    <string name="success_export_app_properties">Na-export ang mga setting ng app</string>
 </resources>
