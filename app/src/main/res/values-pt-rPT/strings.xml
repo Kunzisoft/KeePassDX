@@ -700,4 +700,5 @@
     <string name="style_name_moon">Lua</string>
     <string name="style_name_sun">Sol</string>
     <string name="style_name_light">Claro</string>
+    <string name="warning_database_info_changed_options_read_only">Recarregar a base de dados com as alterações mais recentes.</string>
 </resources>
