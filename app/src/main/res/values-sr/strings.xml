@@ -56,7 +56,7 @@
     <string name="homepage">Почетна страна</string>
     <string name="application">Апликација</string>
     <string name="bank">Банка</string>
-    <string name="sort_title"></string>
+    <string name="sort_title"/>
     <string name="invalid_algorithm">Погрешан алгоритам.</string>
     <string name="menu_appearance_settings">Изглед</string>
     <string name="application_appearance">Сучеље</string>
@@ -64,4 +64,7 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_byte">B</string>
     <string name="content_description_otp_information">Информације о једнократној лозинци</string>
+    <string name="entry_expires">Истиче</string>
+    <string name="public_key">Јавни кључ</string>
+    <string name="membership">Чланство</string>
 </resources>
