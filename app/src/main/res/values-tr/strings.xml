@@ -642,7 +642,7 @@
     <string name="html_about_privacy">&lt;strong&gt;Hiçbir kullanıcı verisi alınmaz&lt;/strong&gt;, bu uygulama herhangi bir sunucuya bağlanmaz, yalnızca yerel olarak çalışır ve kullanıcıların gizliliğine tamamen saygı duyar.</string>
     <string name="error_empty_key">Anahtar boş olamaz.</string>
     <string name="remember_hardware_key_title">Donanım anahtarlarını hatırla</string>
-    <string name="error_unable_merge_database_kdb">V1 veri tabanından birleştirme yapılamıyor.</string>
+    <string name="error_unable_merge_database_kdb">kdb veri tabanı dosyasıyla birleştirme yapılamıyor</string>
     <string name="error_location_unknown">Veri tabanı konumu bilinmiyor, veri tabanı eylemi gerçekleştirilemiyor.</string>
     <string name="error_hardware_key_unsupported">Donanım anahtarı desteklenmiyor.</string>
     <string name="corrupted_file">Bozuk dosya.</string>
