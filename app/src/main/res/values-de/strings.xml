@@ -664,7 +664,7 @@
     <string name="waiting_challenge_request">Challenge-Anfrage abwarten …</string>
     <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
     <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
-    <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
+    <string name="error_unable_merge_database_kdb">Das Zusammenführen mit einer kdb-Datenbankdatei ist nicht möglich.</string>
     <string name="error_location_unknown">Der Speicherort der Datenbank ist unbekannt, Datenbankaktion kann nicht ausgeführt werden.</string>
     <string name="error_hardware_key_unsupported">Der Hardwareschlüssel wird nicht unterstützt.</string>
     <string name="error_empty_key">Der Schlüssel darf nicht leer sein.</string>
