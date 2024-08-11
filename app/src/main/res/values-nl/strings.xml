@@ -660,7 +660,7 @@
     <string name="enable_screenshot_mode_summary">Toestaan dat andere apps schermopnames maken van deze app</string>
     <string name="screenshot_mode_banner_text">Schermopname-modus</string>
     <string name="auto_type">Auto-Type</string>
-    <string name="error_unable_merge_database_kdb">Samenvoegen vanuit database V1 niet mogelijk.</string>
+    <string name="error_unable_merge_database_kdb">Het is niet mogelijk je database samen te voegen met een kdb database</string>
     <string name="error_no_hardware_key">Kies een fysieke sleutel.</string>
     <string name="remember_hardware_key_summary">Houdt de gebruikte fysieke sleutels bij</string>
     <string name="html_about_privacy">&lt;strong&gt;Er worden geen gebruikersgegevens opgehaald&lt;/strong&gt;, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>
