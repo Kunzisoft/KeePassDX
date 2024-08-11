@@ -206,7 +206,7 @@
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
     <string name="error_driver_required">Driver for %1$s is required.</string>
-    <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
+    <string name="error_unable_merge_database_kdb">Unable to merge with a kdb database file</string>
     <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
     <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
     <string name="error_empty_key">"Key cannot be empty."</string>
