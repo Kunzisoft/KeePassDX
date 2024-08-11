@@ -650,7 +650,7 @@
     <string name="error_challenge_already_requested">Wyzwanie już zażądane</string>
     <string name="error_response_already_provided">Odpowiedź już udzielona.</string>
     <string name="error_cancel_by_user">Anulowano przez użytkownika.</string>
-    <string name="error_unable_merge_database_kdb">Nie można scalić z bazą danych V1.</string>
+    <string name="error_unable_merge_database_kdb">Nie można scalić z plikiem bazy danych KDB</string>
     <string name="error_location_unknown">Lokalizacja bazy danych jest nieznana, nie można wykonać działania bazy danych.</string>
     <string name="error_hardware_key_unsupported">Klucz sprzętowy nie jest obsługiwany.</string>
     <string name="error_empty_key">Klucz nie może być pusty.</string>
