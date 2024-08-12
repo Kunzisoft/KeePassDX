@@ -655,7 +655,7 @@
     <string name="error_response_already_provided">已提供响应。</string>
     <string name="error_no_response_from_challenge">无法从挑战获取响应。</string>
     <string name="error_cancel_by_user">被用户取消。</string>
-    <string name="error_unable_merge_database_kdb">无法从 v1 版数据库进行合并。</string>
+    <string name="error_unable_merge_database_kdb">无法与 kdb 数据库文件合并</string>
     <string name="error_location_unknown">数据库位置未知，无法进行数据库操作。</string>
     <string name="error_hardware_key_unsupported">不支持的硬件密钥。</string>
     <string name="error_driver_required">%1$s 的驱动是必需的。</string>
