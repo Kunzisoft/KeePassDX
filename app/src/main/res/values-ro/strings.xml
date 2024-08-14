@@ -528,7 +528,7 @@
     <string name="error_no_response_from_challenge">Nu s-a reușit să obțină răspunsul la provocare.</string>
     <string name="error_cancel_by_user">Anulat de utilizator.</string>
     <string name="error_driver_required">Driver-ul pentru %1$s este necesară.</string>
-    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona de la o bază de date V1.</string>
+    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb</string>
     <string name="error_location_unknown">Locația bazei de date este necunoscută, acțiunea bazei de date nu poate fi efectuată.</string>
     <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Reține cheile hardware</string>
