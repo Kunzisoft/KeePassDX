@@ -216,6 +216,7 @@
     <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
+    <string name="generate_keyfile">Generate keyfile</string>
     <string name="hint_conf_pass">Confirm password</string>
     <string name="hint_generated_password">Generated password</string>
     <string name="hint_group_name">Group name</string>

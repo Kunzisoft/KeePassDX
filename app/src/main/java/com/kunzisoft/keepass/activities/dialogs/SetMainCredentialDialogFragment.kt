@@ -45,6 +45,11 @@ import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.PassKeyView
 import com.kunzisoft.keepass.view.applyFontVisibility
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.security.SecureRandom
+
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
@@ -60,6 +65,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var passwordRepeatView: TextView
 
     private lateinit var keyFileCheckBox: CompoundButton
+    private lateinit var keyFileGenerateButton: View
     private lateinit var keyFileSelectionView: KeyFileSelectionView
 
     private lateinit var hardwareKeyCheckBox: CompoundButton
@@ -147,12 +153,21 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             passwordRepeatView.applyFontVisibility()
 
             keyFileCheckBox = rootView.findViewById(R.id.keyfile_checkbox)
+            keyFileGenerateButton = rootView.findViewById(R.id.keyfile_generate)
             keyFileSelectionView = rootView.findViewById(R.id.keyfile_selection)
 
             hardwareKeyCheckBox = rootView.findViewById(R.id.hardware_key_checkbox)
             hardwareKeySelectionView = rootView.findViewById(R.id.hardware_key_selection)
 
             mExternalFileHelper = ExternalFileHelper(this)
+            mExternalFileHelper?.buildCreateDocument { createdFileUri ->
+                createdFileUri?.let { uri ->
+                    createKeyFile(uri)
+                    keyFileSelectionView.error = null
+                    keyFileCheckBox.isChecked = true
+                    keyFileSelectionView.uri = uri
+                }
+            }
             mExternalFileHelper?.buildOpenDocument { uri ->
                 uri?.let { pathUri ->
                     pathUri.getDocumentFile(requireContext())?.length()?.let { lengthFile ->
@@ -162,6 +177,9 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                         showLengthKeyFileConfirmationDialog(lengthFile)
                     }
                 }
+            }
+            keyFileGenerateButton.setOnClickListener {
+                mExternalFileHelper?.createDocument(DEFAULT_KEYFILE_NAME)
             }
             keyFileSelectionView.setOpenDocumentClickListener(mExternalFileHelper)
 
@@ -198,6 +216,16 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
 
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun createKeyFile(uri: Uri) {
+        CoroutineScope(Dispatchers.IO).launch {
+            activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                val randomBytes = ByteArray(DEFAULT_KEYFILE_SIZE)
+                SecureRandom().nextBytes(randomBytes)
+                outputStream.write(randomBytes)
+            }
+        }
     }
 
     private fun approveMainCredential() {
@@ -370,6 +398,8 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     companion object {
 
         private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
+        private const val DEFAULT_KEYFILE_NAME = "keyfile.bin"
+        private const val DEFAULT_KEYFILE_SIZE = 128
 
         fun getInstance(allowNoMasterKey: Boolean): SetMainCredentialDialogFragment {
             val fragment = SetMainCredentialDialogFragment()
