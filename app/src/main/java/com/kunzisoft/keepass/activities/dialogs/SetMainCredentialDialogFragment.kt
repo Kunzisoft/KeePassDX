@@ -159,9 +159,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
                         keyFileSelectionView.error = null
                         keyFileCheckBox.isChecked = true
                         keyFileSelectionView.uri = pathUri
-                        if (lengthFile <= 0L) {
-                            showEmptyKeyFileConfirmationDialog()
-                        }
+                        showLengthKeyFileConfirmationDialog(lengthFile)
                     }
                 }
             }
@@ -339,21 +337,31 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun showEmptyKeyFileConfirmationDialog() {
+    private fun showLengthKeyFileConfirmationDialog(length: Long) {
         activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(SpannableStringBuilder().apply {
-                append(getString(R.string.warning_empty_keyfile))
-                append("\n\n")
                 append(getString(R.string.warning_empty_keyfile_explanation))
-                append("\n\n")
-                append(getString(R.string.warning_sure_add_file))
-                })
-                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        keyFileCheckBox.isChecked = false
-                        keyFileSelectionView.uri = null
-                    }
+                var warning = false
+                if (length <= 0L) {
+                    warning = true
+                    append("\n\n")
+                    append(getString(R.string.warning_empty_keyfile))
+                } else if (length > 10485760L) {
+                    warning = true
+                    append("\n\n")
+                    append(getString(R.string.warning_large_keyfile))
+                }
+                if (warning) {
+                    append("\n\n")
+                    append(getString(R.string.warning_sure_add_file))
+                }
+            })
+                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
+                    keyFileCheckBox.isChecked = false
+                    keyFileSelectionView.uri = null
+                }
             mEmptyKeyFileConfirmationDialog = builder.create()
             mEmptyKeyFileConfirmationDialog?.show()
         }
