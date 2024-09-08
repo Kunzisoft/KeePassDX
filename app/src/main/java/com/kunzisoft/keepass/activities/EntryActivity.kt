@@ -163,9 +163,9 @@ class EntryActivity : DatabaseLockActivity() {
         toolbar?.title = " "
 
         // Retrieve the textColor to tint the toolbar
-        val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
-        val taColorSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorSurface))
-        val taColorOnSurface = theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
+        val taColorSecondary = theme.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorSecondary))
+        val taColorSurface = theme.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorSurface))
+        val taColorOnSurface = theme.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorOnSurface))
         val taColorBackground = theme.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
         mColorSecondary = taColorSecondary.getColor(0, Color.BLACK)
         mColorSurface = taColorSurface.getColor(0, Color.BLACK)

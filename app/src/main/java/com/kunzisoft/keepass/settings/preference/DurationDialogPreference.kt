@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.R
 
 class DurationDialogPreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,
-                                                         defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+                                                         defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
                                                          defStyleRes: Int = defStyleAttr)
     : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 
@@ -52,6 +52,7 @@ class DurationDialogPreference @JvmOverloads constructor(context: Context,
         notifyChanged()
     }
 
+    @Deprecated(message = "")
     override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         if (restorePersistedValue) {
             mDuration = getPersistedString(mDuration.toString()).toLongOrNull() ?: mDuration

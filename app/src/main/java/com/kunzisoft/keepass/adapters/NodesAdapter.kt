@@ -118,7 +118,7 @@ class NodesAdapter (
         this.mNodeSortedListCallback = NodeSortedListCallback()
         this.mNodeSortedList = SortedList(Node::class.java, mNodeSortedListCallback)
 
-        val taColorSurfaceContainer = context.obtainStyledAttributes(intArrayOf(R.attr.colorSurfaceContainer))
+        val taColorSurfaceContainer = context.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorSurfaceContainer))
         this.mColorSurfaceContainer = taColorSurfaceContainer.getColor(0, Color.BLACK)
         taColorSurfaceContainer.recycle()
         // Retrieve the color to tint the icon
@@ -134,11 +134,11 @@ class NodesAdapter (
         this.mTextColorSecondary = taTextColorSecondary.getColor(0, Color.BLACK)
         taTextColorSecondary.recycle()
         // To get background color for selection
-        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+        val taColorSecondary = context.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorSecondary))
         this.mColorSecondary = taColorSecondary.getColor(0, Color.GRAY)
         taColorSecondary.recycle()
         // To get text color for selection
-        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(R.attr.colorOnSecondary))
+        val taColorOnSecondary = context.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorOnSecondary))
         this.mColorOnSecondary = taColorOnSecondary.getColor(0, Color.WHITE)
         taColorOnSecondary.recycle()
     }

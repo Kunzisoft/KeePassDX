@@ -733,4 +733,8 @@
     <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+
+    <string name="passkey_biometric_prompt_title">Confirm passkey usage</string>
+    <string name="passkey_biometric_prompt_subtitle">for %1$s</string>
+    <string name="passkey_biometric_prompt_negative_button_text">Cancel</string>
 </resources>

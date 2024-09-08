@@ -108,7 +108,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             uuidReferenceView = root.findViewById(R.id.group_UUID_reference)
 
             // Retrieve the textColor to tint the icon
-            val ta = activity.theme.obtainStyledAttributes(intArrayOf(R.attr.colorSecondary))
+            val ta = activity.theme.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorSecondary))
             mIconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
 

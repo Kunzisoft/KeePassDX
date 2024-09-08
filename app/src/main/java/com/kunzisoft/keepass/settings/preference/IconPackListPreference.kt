@@ -28,7 +28,7 @@ import java.util.*
 
 class IconPackListPreference @JvmOverloads constructor(context: Context,
                                                        attrs: AttributeSet? = null,
-                                                       defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+                                                       defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
                                                        defStyleRes: Int = defStyleAttr)
     : ListPreference(context, attrs, defStyleAttr, defStyleRes) {
 

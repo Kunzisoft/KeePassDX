@@ -9,7 +9,7 @@ android {
     ndkVersion "21.4.7075529"
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 34
         multiDexEnabled true
 
@@ -40,7 +40,7 @@ android {
 
 dependencies {
     // Crypto
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.78.1'
 
     testImplementation "androidx.test:runner:$android_test_version"
 }

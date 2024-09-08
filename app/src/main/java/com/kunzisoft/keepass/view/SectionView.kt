@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.R
 
 class SectionView @JvmOverloads constructor(context: Context,
                                             attrs: AttributeSet? = null,
-                                            defStyle: Int = R.attr.cardViewStyle)
+                                            defStyle: Int = com.google.android.material.R.attr.cardViewStyle)
     : CardView(context, attrs, defStyle) {
 
     private var containerSectionView = LinearLayout(context).apply {

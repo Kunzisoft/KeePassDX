@@ -44,7 +44,9 @@
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:theme="@style/KeepassDXStyle.Night"
-        tools:targetApi="s">
+        tools:targetApi="s"
+        android:enableOnBackInvokedCallback="true">
+
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="${googleAndroidBackupAPIKey}" />
@@ -199,6 +201,14 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="com.kunzisoft.keepass.credentialprovider.CredentialProviderActivity"
+            android:label="CredentialProviderActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.kunzisoft.keepass.credentialprovider.GET_PASSKEY"/>
+            </intent-filter>
+        </activity>
+
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
             android:foregroundServiceType="dataSync"
@@ -248,6 +258,21 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
+
+        <service android:name="com.kunzisoft.keepass.credentialprovider.KeePassDXCredentialProviderService"
+            android:enabled="true"
+            android:exported="true"
+            android:label="KeyPassDX Credential Provider"
+            android:icon="@mipmap/ic_launcher"
+            android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.credentials.CredentialProviderService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.credentials.provider"
+                android:resource="@xml/provider"/>
+        </service>
+
         <receiver
             android:name="com.kunzisoft.keepass.receivers.DexModeReceiver"
             android:exported="true">

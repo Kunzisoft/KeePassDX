@@ -98,7 +98,7 @@ open class Education(val activity: Activity) {
     }
 
     protected fun getCircleColor(): Int {
-        val typedArray = activity.obtainStyledAttributes(intArrayOf(R.attr.colorPrimaryContainer))
+        val typedArray = activity.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorPrimaryContainer))
         val colorControl = typedArray.getColor(0, Color.GREEN)
         typedArray.recycle()
         return colorControl
@@ -109,7 +109,7 @@ open class Education(val activity: Activity) {
     }
 
     protected fun getTextColor(): Int {
-        val typedArray = activity.obtainStyledAttributes(intArrayOf(R.attr.colorOnPrimaryContainer))
+        val typedArray = activity.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorOnPrimaryContainer))
         val colorControl = typedArray.getColor(0, Color.WHITE)
         typedArray.recycle()
         return colorControl

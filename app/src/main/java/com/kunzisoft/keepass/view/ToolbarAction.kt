@@ -47,7 +47,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
     init {
         ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)?.let { closeDrawable ->
             val typedValue = TypedValue()
-            context.theme.resolveAttribute(R.attr.colorOnSurface, typedValue, true)
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true)
             @ColorInt val colorControl = typedValue.data
             closeDrawable.colorFilter = PorterDuffColorFilter(colorControl, PorterDuff.Mode.SRC_ATOP)
             navigationIcon = closeDrawable

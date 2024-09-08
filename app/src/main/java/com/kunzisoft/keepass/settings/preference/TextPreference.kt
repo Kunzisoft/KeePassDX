@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.R
 
 open class TextPreference @JvmOverloads constructor(context: Context,
                                                     attrs: AttributeSet? = null,
-                                                    defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+                                                    defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
                                                     defStyleRes: Int = defStyleAttr)
     : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 

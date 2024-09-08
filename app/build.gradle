@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 34
         versionCode = 132
         versionName = "4.1.0"
@@ -33,6 +33,10 @@ android {
         release {
             minifyEnabled = false
         }
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     dependenciesInfo {
@@ -98,6 +102,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packaging {
+        resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF") // necessary for bcpkix-jdk18on in crypto
+    }
 }
 
 def room_version = "2.5.1"
@@ -122,6 +130,7 @@ dependencies {
     implementation "com.splitwise:tokenautocomplete:4.0.0-beta05"
     // Database
     implementation "androidx.room:room-runtime:$room_version"
+    implementation project(':crypto')
     kapt "androidx.room:room-compiler:$room_version"
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
@@ -136,6 +145,10 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
+
+    // Credentials Provider
+    implementation "androidx.credentials:credentials:1.2.2"
+    implementation "androidx.credentials:credentials-play-services-auth:1.2.2"
     
     // Modules import
     implementation project(path: ':database')

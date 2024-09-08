@@ -70,7 +70,7 @@ abstract class NotificationService : Service() {
         setTheme(Stylish.getThemeId(this))
         val typedValue = TypedValue()
         val theme = theme
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+        theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
         colorNotificationAccent = typedValue.data
     }
 

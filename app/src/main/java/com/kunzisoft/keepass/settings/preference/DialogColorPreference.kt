@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.R
 
 class DialogColorPreference @JvmOverloads constructor(context: Context,
                                                       attrs: AttributeSet? = null,
-                                                      defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+                                                      defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
                                                       defStyleRes: Int = defStyleAttr)
     : ChromaPreferenceCompat(context, attrs, defStyleAttr, defStyleRes) {
 

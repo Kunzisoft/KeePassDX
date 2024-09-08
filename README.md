@@ -109,3 +109,24 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
   
   *This project is a fork of [KeePassDroid](https://github.com/bpellin/keepassdroid) by bpellin.*
+
+
+## Credential Provider
+
+Use this version only for testing at your own risk.
+
+### requirements
+- Android 14 or up
+- enable 3rd party passkeys in chrome. For detail see https://1password.community/discussion/comment/711037/#Comment_711037
+- set KeepassDX in the Android setting Passwords & Accounts > Your Provider > Enable
+
+### working
+- sign in with ecdsa/rsa passkeys created by KeepassXC in Chrome. Tested with passkeys.io and webauthn.io.
+
+### maybe working
+- sign in with passkeys apps natively (without browser)
+
+### not working
+- create passkeys
+- user credential provider with username/password
+- open KeepassDX to unlock the database, if it is locked (currently a dummy entry with title unlock db is shown)
