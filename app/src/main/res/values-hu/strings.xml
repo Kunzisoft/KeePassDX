@@ -694,8 +694,8 @@
     <string name="style_name_divine">Isteni</string>
     <string name="style_name_classic">Klasszikus</string>
     <string name="style_name_simple">Egyszerű</string>
-    <string name="style_name_moon">Holdvilág</string>
-    <string name="style_name_sun">Napos</string>
+    <string name="style_name_moon">Éjszakai</string>
+    <string name="style_name_sun">Nappali</string>
     <string name="style_name_kunzite">Kunzit</string>
     <string name="style_name_follow_system">Kövesse a rendszert</string>
     <string name="style_name_light">Világos</string>
