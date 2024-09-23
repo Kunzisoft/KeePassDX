@@ -23,7 +23,7 @@
     <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
     <string name="accept">Aceptar</string>
-    <string name="add_entry">Añadir entrada</string>
+    <string name="add_entry">Añadir apunte</string>
     <string name="add_group">Añadir grupo</string>
     <string name="encryption_algorithm">Algoritmo de cifrado</string>
     <string name="app_timeout">Tiempo de espera superado</string>
@@ -50,7 +50,7 @@
     <string name="entry_confpassword">Confirmar contraseña</string>
     <string name="entry_created">Creado</string>
     <string name="entry_expires">Caduca</string>
-    <string name="entry_keyfile">Archivo clave</string>
+    <string name="entry_keyfile">Cerrojo</string>
     <string name="entry_modified">Modificada</string>
     <string name="entry_password">Contraseña</string>
     <string name="save">Guardar</string>
@@ -61,20 +61,20 @@
     <string name="error_can_not_handle_uri">KeePassDX no puede manejar este URI.</string>
     <string name="error_file_not_create">No se ha podido crear el archivo</string>
     <string name="error_invalid_db">No se ha podido leer la base de datos.</string>
-    <string name="error_invalid_path">Asegúrese de que la ruta es correcta.</string>
+    <string name="error_invalid_path">Asegúrese que la ruta es correcta.</string>
     <string name="error_no_name">Proporcione un nombre.</string>
-    <string name="error_nokeyfile">Seleccione un archivo clave.</string>
+    <string name="error_nokeyfile">Seleccione un cerrojo.</string>
     <string name="error_out_of_memory">No hay memoria para cargar toda la base de datos.</string>
     <string name="error_pass_gen_type">Debe seleccionarse al menos un tipo de generación de contraseñas.</string>
     <string name="error_pass_match">Las contraseñas no coinciden.</string>
-    <string name="error_rounds_too_large">Rondas de transformación demasiado altas. Establecidas a a 2147483648.</string>
-    <string name="error_wrong_length">Introduzca un número entero positivo en el campo \"Longitud\".</string>
+    <string name="error_rounds_too_large">Rondas de transformación demasiado altas. Establecidas a 2147483648.</string>
+    <string name="error_wrong_length">Introduzca un número entero positivo en el campo «Longitud».</string>
     <string name="file_browser">Explorador de archivos</string>
     <string name="generate_password">Generar contraseña</string>
     <string name="hint_conf_pass">Confirmar contraseña</string>
     <string name="hint_generated_password">Contraseña generada</string>
     <string name="hint_group_name">Nombre del grupo</string>
-    <string name="hint_keyfile">Archivo clave</string>
+    <string name="hint_keyfile">Cerrojo</string>
     <string name="hint_length">Longitud</string>
     <string name="password">Contraseña</string>
     <string name="hint_pass">Contraseña</string>
@@ -119,9 +119,9 @@
     <string name="unsupported_db_version">No se admite esta versión de la base de datos.</string>
     <string name="uppercase">Mayúsculas</string>
     <string name="version_label">Versión %1$s</string>
-    <string name="education_unlock_summary">Introduzca la contraseña y/o el archivo clave para desbloquear su base de datos.
+    <string name="education_unlock_summary">Introduzca la contraseña y/o el cerrojo para desbloquear su base de datos.
 \n
-\nHaga una copia de seguridad de su archivo de base de datos en un lugar seguro después de cada cambio.</string>
+\nRealice un respaldo de su archivo de base de datos en un lugar seguro después de cada modificación.</string>
     <string-array name="list_size_options">
         <item>Pequeño</item>
         <item>Mediano</item>
@@ -140,7 +140,7 @@
     <string name="field_value">Valor del campo</string>
     <string name="file_not_found_content">No se ha podido encontrar el archivo. Intente volver a abrirlo en el explorador de archivos.</string>
     <string name="invalid_algorithm">Algoritmo incorrecto.</string>
-    <string name="keyfile_is_empty">El archivo clave está vacío.</string>
+    <string name="keyfile_is_empty">El cerrojo está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
     <string name="menu_form_filling_settings">Rellenado de formularios</string>
     <string name="protection">Protección</string>
@@ -260,7 +260,7 @@
     <string name="style_choose_summary">Tema utilizado en la aplicación</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
     <string name="icon_pack_choose_summary">Cambiar el paquete de iconos en la aplicación</string>
-    <string name="edit_entry">Editar entrada</string>
+    <string name="edit_entry">Editar apunte</string>
     <string name="error_load_database">No se pudo cargar la base de datos.</string>
     <string name="error_load_database_KDF_memory">No se ha podido cargar la clave. Intente disminuir el uso de memoria de KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nombres de usuario</string>
@@ -316,8 +316,8 @@
     <string name="content_description_add_group">Añadir grupo</string>
     <string name="content_description_file_information">Información del archivo</string>
     <string name="content_description_password_checkbox">Casilla de contraseña</string>
-    <string name="content_description_keyfile_checkbox">Casilla del archivo clave</string>
-    <string name="content_description_entry_icon">Icono de entrada</string>
+    <string name="content_description_keyfile_checkbox">Casilla del cerrojo</string>
+    <string name="content_description_entry_icon">Icono de apunte</string>
     <string name="entry_password_generator">Generador de contraseñas</string>
     <string name="content_description_password_length">Longitud de contraseña</string>
     <string name="entry_add_field">Añadir campo</string>
@@ -330,7 +330,7 @@
     <string name="content_description_background">Fondo</string>
     <string name="content_description_update_from_list">Actualizar</string>
     <string name="content_description_keyboard_close_fields">Cerrar campos</string>
-    <string name="error_create_database_file">No se puede crear la base de datos con esta contraseña y este archivo clave.</string>
+    <string name="error_create_database_file">No se puede crear la base de datos con esta contraseña y este cerrojo.</string>
     <string name="menu_advanced_unlock_settings">Desbloqueo de dispositivos</string>
     <string name="biometric">Biometría</string>
     <string name="biometric_auto_open_prompt_title">Abrir petición automáticamente</string>
@@ -409,7 +409,7 @@
     <string name="error_copy_group_here">No puede copiar un grupo aquí.</string>
     <string name="database_data_compression_summary">La compresión de datos reduce el tamaño de la base de datos</string>
     <string name="database_data_compression_title">Compresión de datos</string>
-    <string name="warning_empty_keyfile">No se recomienda agregar un archivo de claves vacío.</string>
+    <string name="warning_empty_keyfile">No se recomienda agregar un cerrojo vacío.</string>
     <string name="warning_sure_remove_data">¿Eliminar estos datos de todos modos\?</string>
     <string name="warning_sure_add_file">¿Agregar el archivo de todos modos\?</string>
     <string name="warning_replace_file">Al cargar este archivo reemplazará el existente.</string>
@@ -418,8 +418,8 @@
     <string name="command_execution">Ejecutando el comando…</string>
     <string name="hide_broken_locations_summary">Ocultar enlaces rotos en la lista de bases de datos recientes</string>
     <string name="hide_broken_locations_title">Ocultar enlaces rotos de la base de datos</string>
-    <string name="remember_keyfile_locations_summary">Lleva un registro de dónde se almacenan los archivos clave</string>
-    <string name="remember_keyfile_locations_title">Recordar ubicaciones de archivos clave</string>
+    <string name="remember_keyfile_locations_summary">Lleva un registro de dónde se almacenan los cerrojos</string>
+    <string name="remember_keyfile_locations_title">Recordar ubicaciones de cerrojo</string>
     <string name="subdomain_search_summary">Buscar dominios web con restricciones de subdominios</string>
     <string name="subdomain_search_title">Búsqueda de subdominio</string>
     <string name="auto_focus_search_summary">Solicite una búsqueda al abrir una base de datos</string>
@@ -466,7 +466,7 @@
     <string name="keystore_not_accessible">El almacén de claves no está debidamente inicializado.</string>
     <string name="biometric_security_update_required">Se requiere una actualización de la seguridad biométrica.</string>
     <string name="configure_biometric">No se ha inscrito ninguna credencial biométrica o del dispositivo.</string>
-    <string name="warning_empty_keyfile_explanation">El contenido del archivo clave nunca debe modificarse y, en el mejor de los casos, debe contener datos generados al azar.</string>
+    <string name="warning_empty_keyfile_explanation">El contenido del cerrojo nunca debe modificarse y, en el mejor de los casos, debe contener datos generados al azar.</string>
     <string name="warning_empty_recycle_bin">¿Borrar permanentemente todos los nodos de la papelera de reciclaje\?</string>
     <string name="registration_mode">Modo de registro</string>
     <string name="save_mode">Modo de guardado</string>
@@ -598,8 +598,8 @@
     <string name="warning_exact_alarm">No ha permitido que la app use una alarma exacta. Como resultado, las funciones que requieren un temporizador no se harán con una hora exacta.</string>
     <string name="permission">Permiso</string>
     <string name="content_description_database_color">Color de la base de datos</string>
-    <string name="content_description_entry_foreground_color">Color de primer plano de la entrada</string>
-    <string name="content_description_entry_background_color">Color de fondo de la entrada</string>
+    <string name="content_description_entry_foreground_color">Color de primer plano del apunte</string>
+    <string name="content_description_entry_background_color">Color de fondo del apunte</string>
     <string name="tags">Etiquetas</string>
     <string name="warning_database_info_reloaded">La recarga de la base de datos borrará los datos modificados localmente.</string>
     <string name="warning_keyfile_integrity">El hash del archivo no está garantizado porque Android puede cambiar sus datos sobre la marcha. Cambia la extensión del archivo a .bin para una correcta integridad.</string>
