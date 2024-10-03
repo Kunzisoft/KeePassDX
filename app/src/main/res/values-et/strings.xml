@@ -164,4 +164,7 @@
     <string name="hint_conf_pass">Kinnita salasõna</string>
     <string name="hint_generated_password">Loodud salasõna</string>
     <string name="error_empty_key">Võti ei tohi olla tühi.</string>
+    <string name="error_invalid_OTP">Vigane OTP salasõna.</string>
+    <string name="error_move_group_here">Gruppi ei saa siia tõsta.</string>
+    <string name="error_word_reserved">See sõna on reserveeritud muuks kasutuseks ning sa ei saa teda pruukida.</string>
 </resources>
