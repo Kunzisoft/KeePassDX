@@ -94,4 +94,26 @@
     <string name="error_rounds_too_large">\"Transformasiya mərhələləri\" çox yüksəkdir. 2147483648-ə təyin edin.</string>
     <string name="error_save_database">Malumat bazasını yadda saxlamaq mümkün olmadı.</string>
     <string name="error_otp_secret_key">Məxfi söz Base32 formatında olmalıdır.</string>
+    <string name="error_challenge_already_requested">Doğrulama artıq istənilib</string>
+    <string name="error_response_already_provided">Artıq cavab verilib.</string>
+    <string name="error_location_unknown">Məlumat bazasının yeri məlum deyil, məlumat bazası funksiyası yerinə yetirilə bilməz.</string>
+    <string name="error_empty_key">Açar bölməsi boş saxlanıla bilməz.</string>
+    <string name="field_name">Sahə adı</string>
+    <string name="field_value">Sahə dəyəri</string>
+    <string name="file_not_found_content">Fayl tapılmadı. Onu fayl brauzerində yenidən açmağı yoxlayın.</string>
+    <string name="corrupted_file">Zədələnmiş fayl.</string>
+    <string name="hint_conf_pass">Şifrəni təsdiq et</string>
+    <string name="hint_generated_password">Yaradılmış şifrə</string>
+    <string name="hint_group_name">Qrup adı</string>
+    <string name="hint_icon_name">Etiket adı</string>
+    <string name="hint_keyfile">Açar faylı</string>
+    <string name="passphrase">Şifrəli cümlə</string>
+    <string name="error_driver_required">%1$s üçün drayver lazımdır.</string>
+    <string name="error_cancel_by_user">İstifadəçi tərəfindən ləğv edildi.</string>
+    <string name="hint_length">Uzunluq</string>
+    <string name="error_hardware_key_unsupported">Aparat-təchizat açarı dəstəklənmir.</string>
+    <string name="generate_password">Şifrə yarat</string>
+    <string name="password">Şifrə</string>
+    <string name="file_browser">Fayl meneceri</string>
+    <string name="hint_pass">Şifrə</string>
 </resources>
