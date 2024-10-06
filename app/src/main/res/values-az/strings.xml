@@ -139,4 +139,22 @@
     <string name="menu_database_settings">Məlumat bazası parametrləri</string>
     <string name="menu_database_settings_summary">Meta məlumatlar, zibil qutusu, şablonlar, tarixçə</string>
     <string name="menu_security_settings">Təhlükəsizlik parametrləri</string>
+    <string name="menu_paste">Yapışdır</string>
+    <string name="menu_delete">Sil</string>
+    <string name="menu_cancel">Ləğv et</string>
+    <string name="menu_hide_password">Şifrəni gizlət</string>
+    <string name="menu_lock">Məlumat bazasını kilidlə</string>
+    <string name="menu_save_database">Məlumatları yadda saxla</string>
+    <string name="menu_merge_database">Məlumatları birləşdir</string>
+    <string name="menu_reload_database">Məlumatları yenidən yüklə</string>
+    <string name="menu_merge_from">... -dan birləşdir</string>
+    <string name="menu_save_copy_to">Bir nüsxəsini burada ... yadda saxla</string>
+    <string name="menu_open">Aç</string>
+    <string name="menu_search">Axtar</string>
+    <string name="menu_showpass">Şifrəni göstər</string>
+    <string name="menu_donate">İanə et</string>
+    <string name="master_key_settings_summary">Dəyişiklik, yenilənmə</string>
+    <string name="menu_edit">Düzəliş et</string>
+    <string name="menu_copy">Nüsxələ</string>
+    <string name="menu_move">Köçür</string>
 </resources>
