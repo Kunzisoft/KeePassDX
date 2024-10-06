@@ -157,4 +157,7 @@
     <string name="menu_edit">Düzəliş et</string>
     <string name="menu_copy">Nüsxələ</string>
     <string name="menu_move">Köçür</string>
+    <string name="remember_hardware_key_title">Aparat-təchizat açarlarını xatırla</string>
+    <string name="remember_keyfile_locations_title">Açar faylın yerini xatırla</string>
+    <string name="remember_keyfile_locations_summary">Açar faylların saxlanıldığı yeri unutma</string>
 </resources>
