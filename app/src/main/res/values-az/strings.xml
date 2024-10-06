@@ -116,4 +116,27 @@
     <string name="password">Şifrə</string>
     <string name="file_browser">Fayl meneceri</string>
     <string name="hint_pass">Şifrə</string>
+    <string name="show_uuid_title">UUID-ni göstər</string>
+    <string name="show_uuid_summary">Şifrə və ya qrupa bağlı UUID-ni göstər</string>
+    <string name="list_groups_show_number_entries_summary">Qrupdaki şifrələrin sayını göstər</string>
+    <string name="list_size_title">Listdəki faylların həcmi</string>
+    <string name="list_size_summary">Element listindəki mətnin ölçüsü</string>
+    <string name="creating_database">Məlumat bazası yaradılır …</string>
+    <string name="loading_database">Məlumat bazası yüklənir …</string>
+    <string name="lowercase">Kiçik hərf</string>
+    <string name="about">Haqqında</string>
+    <string name="menu_change_key_settings">Ana açarı dəyişdir</string>
+    <string name="copy_field">%1$s nüsxələndi</string>
+    <string name="menu_form_filling_settings">Forum doldurma</string>
+    <string name="menu_form_filling_settings_summary">Klaviatura, avtomatik douldurma, mübadilə buferi</string>
+    <string name="menu_advanced_unlock_settings">Cihaz kilidini aç</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometrik, cihaz şəxsiyyət məlumatları</string>
+    <string name="menu_security_settings_summary">Şifrələmə, açar hazırlama funskiyası</string>
+    <string name="menu_master_key_settings">Ana açar parametrləri</string>
+    <string name="settings">Parametrlər</string>
+    <string name="menu_app_settings">Tətbiq parametrləri</string>
+    <string name="menu_app_settings_summary">Axtar, kilidlə, tarixçə, xüsusiyyətlər</string>
+    <string name="menu_database_settings">Məlumat bazası parametrləri</string>
+    <string name="menu_database_settings_summary">Meta məlumatlar, zibil qutusu, şablonlar, tarixçə</string>
+    <string name="menu_security_settings">Təhlükəsizlik parametrləri</string>
 </resources>
