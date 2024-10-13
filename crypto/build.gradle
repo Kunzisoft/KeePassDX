@@ -36,11 +36,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packaging {
+        resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF") // bouncycastle need this
+    }
 }
+
 
 dependencies {
     // Crypto
     implementation 'org.bouncycastle:bcpkix-jdk18on:1.78.1'
 
-    testImplementation "androidx.test:runner:$android_test_version"
+    androidTestImplementation "androidx.test:runner:$android_test_version"
+    androidTestImplementation 'org.testng:testng:6.9.6'
 }

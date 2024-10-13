@@ -44,7 +44,7 @@
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:theme="@style/KeepassDXStyle.Night"
-        tools:targetApi="s"
+        tools:targetApi="tiramisu"
         android:enableOnBackInvokedCallback="true">
 
         <meta-data
@@ -197,17 +197,21 @@
             android:label="@string/keyboard_setting_label"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.kunzisoft.keepass.credentialprovider.CredentialProviderActivity"
-            android:label="CredentialProviderActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.kunzisoft.keepass.credentialprovider.GET_PASSKEY"/>
-            </intent-filter>
-        </activity>
+        <activity
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.CreatePasskeyActivity"
+            android:label="CreatePasskeyActivity"
+            android:exported="true"
+            tools:targetApi="upside_down_cake" />
+
+        <activity
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.UsePasskeyActivity"
+            android:label="UsePasskeyActivity"
+            android:exported="true"
+            tools:targetApi="upside_down_cake" />
 
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
@@ -259,18 +263,20 @@
             </intent-filter>
         </service>
 
-        <service android:name="com.kunzisoft.keepass.credentialprovider.KeePassDXCredentialProviderService"
+        <service
+            android:name="com.kunzisoft.keepass.credentialprovider.service.KeePassDXCredentialProviderService"
             android:enabled="true"
             android:exported="true"
             android:label="KeyPassDX Credential Provider"
             android:icon="@mipmap/ic_launcher"
-            android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE">
+            android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE"
+            tools:targetApi="upside_down_cake">
             <intent-filter>
-                <action android:name="android.service.credentials.CredentialProviderService"/>
+                <action android:name="android.service.credentials.CredentialProviderService" />
             </intent-filter>
             <meta-data
                 android:name="android.credentials.provider"
-                android:resource="@xml/provider"/>
+                android:resource="@xml/provider" />
         </service>
 
         <receiver

@@ -113,20 +113,29 @@ Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/w
 
 ## Credential Provider
 
-Use this version only for testing at your own risk.
+Use this version only for testing at your own risk. Make a backup of your databases.
 
 ### requirements
+
 - Android 14 or up
 - enable 3rd party passkeys in chrome. For detail see https://1password.community/discussion/comment/711037/#Comment_711037
 - set KeepassDX in the Android setting Passwords & Accounts > Your Provider > Enable
+- biometric authentication set up
 
 ### working
-- sign in with ecdsa/rsa passkeys created by KeepassXC in Chrome. Tested with passkeys.io and webauthn.io.
 
-### maybe working
-- sign in with passkeys apps natively (without browser)
+- sign in with ecdsa/rsa passkeys created by KeepassXC or KeepassDX in Chrome/Firefox. Tested with
+  passkeys.io and webauthn.io.
+- create new passkeys with ecdsa/rsa in root group (compatible with KeepassXC)
+- update existing passkeys
 
 ### not working
-- create passkeys
-- user credential provider with username/password
-- open KeepassDX to unlock the database, if it is locked (currently a dummy entry with title unlock db is shown)
+
+- support for username/password see provider.xml
+- go back after unlocking a database, if all databases are locked
+- support for native apps (implementation is included, but disable in AppRelyingPartyRelation to
+  prevent phishing)
+- select the group, where the new passkeys are saved
+- strings in non-english
+- respect excludeCredentials
+- other userVerification methode other than strong biometric

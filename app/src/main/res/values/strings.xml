@@ -734,7 +734,21 @@
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
 
-    <string name="passkey_biometric_prompt_title">Confirm passkey usage</string>
-    <string name="passkey_biometric_prompt_subtitle">for %1$s</string>
-    <string name="passkey_biometric_prompt_negative_button_text">Cancel</string>
+    <string name="passkey_usage_biometric_prompt_title">Confirm passkey usage</string>
+    <string name="passkey_usage_biometric_prompt_subtitle">for %1$s</string>
+    <string name="passkey_usage_biometric_prompt_negative_button_text">Cancel</string>
+
+    <string name="passkey_creation_biometric_prompt_title">Confirm passkey creation</string>
+    <string name="passkey_creation_biometric_prompt_subtitle">for %1$s</string>
+    <string name="passkey_creation_biometric_prompt_negative_button_text">Cancel</string>
+
+    <string name="passkey_creation_description">Save passkey in new entry</string>
+    <string name="passkey_update_description">Update passkey in "%1$s"</string>
+
+
+    <string name="passkey_usage_unlock_database_message">Please unlock your database</string>
+    <string name="passkey_unknown_username">unknown</string>
+
+
+
 </resources>
