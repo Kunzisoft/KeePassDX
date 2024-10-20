@@ -358,43 +358,6 @@ class GroupActivity : DatabaseLockActivity(),
 
         searchFiltersView?.closeAdvancedFilters()
 
-        mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
-            // Open group on breadcrumb click
-            onItemClickListener = { node, _ ->
-                // If last item & not a virtual root group
-                val currentGroup = mMainGroup
-                if (currentGroup != null && node == currentGroup
-                    && (currentGroup != mDatabase?.rootGroup
-                            || mDatabase?.rootGroupIsVirtual == false)
-                ) {
-                    finishNodeAction()
-                    launchDialogToShowGroupInfo(currentGroup)
-                } else {
-                    if (mGroupFragment?.nodeActionSelectionMode == true) {
-                        finishNodeAction()
-                    }
-                    mDatabase?.let { database ->
-                        onNodeClick(database, node)
-                    }
-                }
-            }
-            onLongItemClickListener = { node, position ->
-                val currentGroup = mMainGroup
-                if (currentGroup != null && node == currentGroup
-                    && (currentGroup != mDatabase?.rootGroup
-                            || mDatabase?.rootGroupIsVirtual == false)
-                ) {
-                    finishNodeAction()
-                    launchDialogForGroupUpdate(currentGroup)
-                } else {
-                    onItemClickListener?.invoke(node, position)
-                }
-            }
-        }
-        breadcrumbListView?.apply {
-            adapter = mBreadcrumbAdapter
-        }
-
         // Retrieve group if defined at launch
         manageIntent(intent)
 
@@ -615,6 +578,43 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
+
+        mBreadcrumbAdapter = BreadcrumbAdapter(this, database).apply {
+            // Open group on breadcrumb click
+            onItemClickListener = { node, _ ->
+                // If last item & not a virtual root group
+                val currentGroup = mMainGroup
+                if (currentGroup != null && node == currentGroup
+                    && (currentGroup != mDatabase?.rootGroup
+                            || mDatabase?.rootGroupIsVirtual == false)
+                ) {
+                    finishNodeAction()
+                    launchDialogToShowGroupInfo(currentGroup)
+                } else {
+                    if (mGroupFragment?.nodeActionSelectionMode == true) {
+                        finishNodeAction()
+                    }
+                    mDatabase?.let { database ->
+                        onNodeClick(database, node)
+                    }
+                }
+            }
+            onLongItemClickListener = { node, position ->
+                val currentGroup = mMainGroup
+                if (currentGroup != null && node == currentGroup
+                    && (currentGroup != mDatabase?.rootGroup
+                            || mDatabase?.rootGroupIsVirtual == false)
+                ) {
+                    finishNodeAction()
+                    launchDialogForGroupUpdate(currentGroup)
+                } else {
+                    onItemClickListener?.invoke(node, position)
+                }
+            }
+        }
+        breadcrumbListView?.apply {
+            adapter = mBreadcrumbAdapter
+        }
 
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
 

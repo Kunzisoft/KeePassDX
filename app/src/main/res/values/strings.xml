@@ -733,4 +733,6 @@
     <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+    <string name="hide_templates_title">Hide templates</string>
+    <string name="hide_templates_summary">Templates are not shown</string>
 </resources>

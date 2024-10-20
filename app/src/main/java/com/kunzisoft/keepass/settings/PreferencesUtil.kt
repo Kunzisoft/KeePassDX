@@ -162,6 +162,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.hide_expired_entries_default))
     }
 
+    fun showTemplates(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return ! prefs.getBoolean(context.getString(R.string.hide_templates_key),
+            context.resources.getBoolean(R.bool.hide_templates_default))
+    }
+
     fun getStyle(context: Context): String {
         val defaultStyleString = Stylish.defaultStyle(context)
         val styleString = PreferenceManager.getDefaultSharedPreferences(context)

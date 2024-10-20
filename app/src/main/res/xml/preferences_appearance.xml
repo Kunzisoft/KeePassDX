@@ -112,6 +112,11 @@
             android:summary="@string/hide_expired_entries_summary"
             android:defaultValue="@bool/hide_expired_entries_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/hide_templates_key"
+            android:title="@string/hide_templates_title"
+            android:summary="@string/hide_templates_summary"
+            android:defaultValue="@bool/hide_templates_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/enable_education_screens_key"
             android:title="@string/enable_education_screens_title"
             android:summary="@string/enable_education_screens_summary"
