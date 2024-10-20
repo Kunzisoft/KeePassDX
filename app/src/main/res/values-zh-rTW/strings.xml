@@ -655,7 +655,7 @@
     <string name="error_challenge_already_requested">已請求Challenge</string>
     <string name="error_no_response_from_challenge">無法從Challenge得到回應。</string>
     <string name="error_driver_required">需要 %1$s 驅動程式。</string>
-    <string name="error_unable_merge_database_kdb">無法從資料庫V1合井。</string>
+    <string name="error_unable_merge_database_kdb">無法與資料庫檔案合井</string>
     <string name="colorize_password_summary">按類型為密碼字元上色</string>
     <string name="menu_app_settings_summary">搜尋、鎖定、紀錄、屬性</string>
     <string name="menu_form_filling_settings_summary">鍵盤、自動填入、剪貼簿</string>
@@ -695,4 +695,5 @@
 \n如果不啟用此權限，當其他應用程式在前台運作時，您将无法在通知欄中查看背景運行的資料庫。</string>
     <string name="unlock_and_link_biometric">裝置解鎖連線</string>
     <string name="education_validate_entry_title">驗證條目</string>
+    <string name="warning_database_info_changed_options_read_only">以最新的變動重新載入資料庫。</string>
 </resources>
