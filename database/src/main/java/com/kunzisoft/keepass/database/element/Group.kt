@@ -295,19 +295,19 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
      */
     private fun getNumberOfChildEntriesInGroups(filter: (Node) -> Boolean): Int {
         var counter = 0
-        getChildGroups().forEach { childGroup ->
+        getChildGroups().filter(filter).forEach { childGroup ->
             counter += childGroup.getNumberOfChildEntriesInGroups(filter)
         }
         return getChildEntries().filter(filter).size + counter
     }
 
     fun getNumberOfChildEntries(
-        directChildren: Boolean = true,
+        recursive: Boolean = false,
         filter: (Node) -> Boolean = { true }
     ): Int {
         numberOfChildEntries = getChildEntries().filter(filter).size
         recursiveNumberOfChildEntries = getNumberOfChildEntriesInGroups(filter)
-        return if (directChildren) numberOfChildEntries else recursiveNumberOfChildEntries
+        return if (recursive) recursiveNumberOfChildEntries else numberOfChildEntries
     }
 
     /**

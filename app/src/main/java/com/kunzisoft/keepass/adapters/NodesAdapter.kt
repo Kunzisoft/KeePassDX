@@ -474,7 +474,9 @@ class NodesAdapter (
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries { mNodeFilter.getFilter(subNode) }
+                            .getNumberOfChildEntries(mNodeFilter.recursiveNumberOfEntries) {
+                                mNodeFilter.getFilter(subNode)
+                            }
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE

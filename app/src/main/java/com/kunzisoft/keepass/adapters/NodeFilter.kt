@@ -11,6 +11,8 @@ class NodeFilter(
     context: Context,
     var database: Database? = null
 ) {
+    var recursiveNumberOfEntries = PreferencesUtil.recursiveNumberEntries(context)
+        private set
     private var showExpired = PreferencesUtil.showExpiredEntries(context)
     private var showTemplate = PreferencesUtil.showTemplates(context)
 
@@ -18,9 +20,6 @@ class NodeFilter(
         return (when (node) {
             is Entry -> {
                 node.entryKDB?.isMetaStream() != true
-                        && (showTemplate || database?.templatesGroup?.let {
-                            template -> node.isContainedIn(template)
-                        } != true)
             }
             is Group -> {
                 showTemplate || database?.templatesGroup != node

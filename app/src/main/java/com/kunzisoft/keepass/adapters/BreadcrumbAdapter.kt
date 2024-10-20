@@ -115,7 +115,7 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
 
                 holder.groupNumbersView?.apply {
                     if (mShowNumberEntries) {
-                        text = group.getNumberOfChildEntries {
+                        text = group.getNumberOfChildEntries(mNodeFilter.recursiveNumberOfEntries) {
                             mNodeFilter.getFilter(node)
                         }.toString()
                         visibility = View.VISIBLE

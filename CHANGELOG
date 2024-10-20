@@ -2,6 +2,7 @@ KeePassDX(4.1.0)
  * Upgrade to API 34 (Android 14) #1730
  * Generate keyfile #1290
  * Hide template group #1894
+ * Group count sum recursively #421
  * Small fixes #1711 #1831 #1780 #1821 #1863
 
 KeePassDX(4.0.8)
