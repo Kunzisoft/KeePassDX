@@ -16,8 +16,8 @@ class NodeFilter(
     private var showExpired = PreferencesUtil.showExpiredEntries(context)
     private var showTemplate = PreferencesUtil.showTemplates(context)
 
-    fun getFilter(node: Node): Boolean {
-        return (when (node) {
+    val filter: (Node) -> Boolean = { node ->
+        when (node) {
             is Entry -> {
                 node.entryKDB?.isMetaStream() != true
             }
@@ -25,6 +25,6 @@ class NodeFilter(
                 showTemplate || database?.templatesGroup != node
             }
             else -> true
-        }) && (showExpired || !node.isCurrentlyExpires)
+        } && (showExpired || !node.isCurrentlyExpires)
     }
 }

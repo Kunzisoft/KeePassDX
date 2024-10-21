@@ -175,9 +175,7 @@ class NodesAdapter (
         mOldVirtualGroup = mVirtualGroup
         mVirtualGroup = group.isVirtual
         assignPreferences()
-        mNodeSortedList.replaceAll(group.getChildren { node ->
-            mNodeFilters?.getFilter(node) ?: true
-        })
+        mNodeSortedList.replaceAll(group.getChildren(mNodeFilter.filter))
     }
 
     private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
@@ -474,9 +472,10 @@ class NodesAdapter (
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries(mNodeFilter.recursiveNumberOfEntries) {
-                                mNodeFilter.getFilter(subNode)
-                            }
+                            .getNumberOfChildEntries(
+                                mNodeFilter.recursiveNumberOfEntries,
+                                mNodeFilter.filter
+                            )
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE
