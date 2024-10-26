@@ -489,4 +489,5 @@
     <string name="download_progression">בתהליך: %1$d%%</string>
     <string name="download_finalization">משלים…</string>
     <string name="icon_pack_choose_title">חבילת אייקונים</string>
+    <string name="download_complete">סיים!</string>
 </resources>
