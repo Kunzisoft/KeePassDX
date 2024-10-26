@@ -562,4 +562,5 @@
     <string name="style_brightness_title">בהירות ערכת נושא</string>
     <string name="style_brightness_summary">בחר ערכות נושא כהות או בהירות</string>
     <string name="hide_expired_entries_title">הסתר רשומות פגות תוקף</string>
+    <string name="icon_section_standard">רגיל</string>
 </resources>
