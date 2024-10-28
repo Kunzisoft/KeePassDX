@@ -146,7 +146,7 @@
     <string name="key_derivation_function">Функция формирования ключа</string>
     <string name="extended_ASCII">Расширенный набор ASCII</string>
     <string name="error_autofill_enable_service">Служба автозаполнения не может быть включена.</string>
-    <string name="copy_field">%1$s скопировано</string>
+    <string name="copy_field">Скопировано: %1$s</string>
     <string name="menu_form_filling_settings">Заполнение форм</string>
     <string name="encryption_explanation">Алгоритм шифрования всех данных базы</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
@@ -580,7 +580,7 @@
     <string name="wireless">Wi–Fi</string>
     <string name="email_address">Адрес эл. почты</string>
     <string name="name">Имя</string>
-    <string name="personal_identification_number">PIN–код</string>
+    <string name="personal_identification_number">PIN</string>
     <string name="card_verification_value">CVV</string>
     <string name="number">Номер</string>
     <string name="holder">Владелец</string>
