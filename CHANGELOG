@@ -3,7 +3,7 @@ KeePassDX(4.1.0)
  * Generate keyfile #1290
  * Hide template group #1894
  * Group count sum recursively #421
- * Small fixes #1711 #1831 #1780 #1821 #1863
+ * Small fixes #1711 #1831 #1780 #1821 #1863 #1889
 
 KeePassDX(4.0.8)
  * Fix graphical bug that prevented databases from being opened on some versions of Android #1848 #1850

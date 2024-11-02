@@ -114,6 +114,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
+import org.joda.time.Instant
 
 
 class GroupActivity : DatabaseLockActivity(),
@@ -339,8 +340,9 @@ class GroupActivity : DatabaseLockActivity(),
                     R.id.menu_save_copy_to -> {
                         mExternalFileHelper?.createDocument(
                             getString(R.string.database_file_name_default) +
-                            getString(R.string.database_file_name_copy) +
-                            mDatabase?.defaultFileExtension)
+                                    "_" +
+                                    Instant.now().toString() +
+                                    mDatabase?.defaultFileExtension)
                     }
                     R.id.menu_lock_all -> {
                         lockAndExit()
