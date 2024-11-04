@@ -605,7 +605,7 @@
     <string name="hint_icon_name">Nom de l\'icône</string>
     <string name="content_description_database_color">Couleur de la base de données</string>
     <string name="content_description_entry_foreground_color">Couleur de premier plan de l\'entrée</string>
-    <string name="permission">Permission</string>
+    <string name="permission">Autorisation</string>
     <string name="warning_exact_alarm">Vous n\'avez pas autorisé l\'application à utiliser une alarme exacte. Par conséquent, les fonctions nécessitant une minuterie ne seront pas effectuées avec une heure exacte.</string>
     <string name="content_description_entry_background_color">Couleur d\'arrière plan de l\'entrée</string>
     <string name="tags">Étiquettes</string>
@@ -681,7 +681,7 @@
     <string name="error_no_response_from_challenge">Impossible d\'obtenir la réponse du challenge.</string>
     <string name="error_cancel_by_user">Annulé par l\'utilisateur.</string>
     <string name="error_driver_required">Le pilote pour %1$s est nécessaire.</string>
-    <string name="error_unable_merge_database_kdb">Impossible de fusionner à partir d\'une base de données V1.</string>
+    <string name="error_unable_merge_database_kdb">Impossible de fusionner à partir d\'un fichier de base de données kdb</string>
     <string name="merge_success">Fusion terminée avec succès</string>
     <string name="info">Info</string>
     <string name="menu_app_settings_summary">Recherche, verrouillage, historique, propriétés</string>
