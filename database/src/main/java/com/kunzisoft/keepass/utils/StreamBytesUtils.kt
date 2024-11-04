@@ -235,11 +235,9 @@ fun bytes5ToDate(buf: ByteArray): DateInstant {
     val minute = dw4 and 0x0000000F shl 2 or (dw5 shr 6)
     val second = dw5 and 0x0000003F
 
-    // File format is a 1 based month, java Calendar uses a zero based month
-    // File format is a 1 based day, java Calendar uses a 1 based day
     return DateInstant(Instant.ofEpochMilli(DateTime(
         year,
-        month - 1,
+        month,
         day,
         hour,
         minute,
@@ -294,9 +292,7 @@ fun uuidTo16Bytes(uuid: UUID): ByteArray {
 
 fun dateTo5Bytes(dateInstant: DateInstant): ByteArray {
     val year = dateInstant.getYear()
-    // File format is a 1 based month, java Calendar uses a zero based month
-    val month = dateInstant.getMonth() + 1
-    // File format is a 1 based day, java Calendar uses a 1 based day
+    val month = dateInstant.getMonth()
     val day = dateInstant.getDay()
     val hour = dateInstant.getHour()
     val minute = dateInstant.getMinute()
