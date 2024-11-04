@@ -19,9 +19,6 @@
  */
 package com.kunzisoft.keepass.database.file
 
-import java.text.SimpleDateFormat
-import java.util.*
-
 object DatabaseKDBXXML {
 
     const val ElemDocNode = "KeePassFile"
@@ -128,8 +125,4 @@ object DatabaseKDBXXML {
 
     const val ElemCustomData = "CustomData"
     const val ElemStringDictExItem = "Item"
-
-    val DateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT).apply {
-        timeZone = TimeZone.getTimeZone("UTC")
-    }
 }

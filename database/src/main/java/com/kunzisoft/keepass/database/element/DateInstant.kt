@@ -21,27 +21,27 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.utils.readSerializableCompat
 import com.kunzisoft.keepass.utils.readEnum
+import com.kunzisoft.keepass.utils.readSerializableCompat
 import com.kunzisoft.keepass.utils.writeEnum
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.Duration
 import org.joda.time.Instant
 import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import org.joda.time.LocalTime
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
+
 
 class DateInstant : Parcelable {
 
-    private var jDate: Date = Date()
+    private var mInstant: Instant = Instant.now()
     private var mType: Type = Type.DATE_TIME
 
-    val date: Date
-        get() = jDate
+    val instant: Instant
+        get() = mInstant
 
     var type: Type
         get() = mType
@@ -50,42 +50,37 @@ class DateInstant : Parcelable {
         }
 
     constructor(source: DateInstant) {
-        this.jDate = Date(source.jDate.time)
+        this.mInstant = Instant(source.mInstant)
         this.mType = source.mType
     }
 
-    constructor(date: Date, type: Type = Type.DATE_TIME) {
-        jDate = Date(date.time)
+    constructor(instant: Instant, type: Type = Type.DATE_TIME) {
+        mInstant = Instant(instant)
         mType = type
     }
 
-    constructor(millis: Long, type: Type = Type.DATE_TIME) {
-        jDate = Date(millis)
-        mType = type
-    }
-
-    private fun parse(value: String, type: Type): Date {
+    private fun parse(value: String, type: Type): Instant {
         return when (type) {
-            Type.DATE -> dateFormat.parse(value) ?: jDate
-            Type.TIME -> timeFormat.parse(value) ?: jDate
-            else -> dateTimeFormat.parse(value) ?: jDate
+            Type.DATE -> Instant(dateFormat.parseDateTime(value) ?: DateTime())
+            Type.TIME -> Instant(timeFormat.parseDateTime(value) ?: DateTime())
+            else -> Instant(dateTimeFormat.parseDateTime(value) ?: DateTime())
         }
     }
 
     constructor(string: String, type: Type = Type.DATE_TIME) {
         try {
-            jDate = parse(string, type)
+            mInstant = parse(string, type)
             mType = type
         } catch (e: Exception) {
             // Retry with second format
             try {
                 when (type) {
                     Type.TIME -> {
-                        jDate = parse(string, Type.DATE)
+                        mInstant = parse(string, Type.DATE)
                         mType = Type.DATE
                     }
                     else -> {
-                        jDate = parse(string, Type.TIME)
+                        mInstant = parse(string, Type.TIME)
                         mType = Type.TIME
                     }
                 }
@@ -93,11 +88,11 @@ class DateInstant : Parcelable {
                 // Retry with third format
                 when (type) {
                     Type.DATE, Type.TIME -> {
-                        jDate = parse(string, Type.DATE_TIME)
+                        mInstant = parse(string, Type.DATE_TIME)
                         mType = Type.DATE_TIME
                     }
                     else -> {
-                        jDate = parse(string, Type.DATE)
+                        mInstant = parse(string, Type.DATE)
                         mType = Type.DATE
                     }
                 }
@@ -110,11 +105,11 @@ class DateInstant : Parcelable {
     }
 
     constructor() {
-        jDate = Date()
+        mInstant = Instant.now()
     }
 
     constructor(parcel: Parcel) {
-        jDate = parcel.readSerializableCompat() ?: jDate
+        mInstant = parcel.readSerializableCompat() ?: mInstant
         mType = parcel.readEnum<Type>() ?: mType
     }
 
@@ -123,47 +118,82 @@ class DateInstant : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeSerializable(jDate)
+        dest.writeSerializable(mInstant)
         dest.writeEnum(mType)
     }
 
-    fun getYearInt(): Int {
-        val dateFormat = SimpleDateFormat("yyyy", Locale.ENGLISH)
-        return dateFormat.format(date).toInt()
+    fun setDate(year: Int, month: Int, day: Int) {
+        mInstant = DateTime(mInstant)
+            .withYear(year)
+            .withMonthOfYear(month)
+            .withDayOfMonth(day)
+            .toInstant()
     }
 
-    fun getMonthInt(): Int {
-        val dateFormat = SimpleDateFormat("MM", Locale.ENGLISH)
-        return dateFormat.format(date).toInt()
+    fun setTime(hour: Int, minute: Int) {
+        mInstant = DateTime(mInstant)
+            .withHourOfDay(hour)
+            .withMinuteOfHour(minute)
+            .toInstant()
+    }
+
+    fun getYear(): Int {
+        return mInstant.toDateTime().year
+    }
+
+    fun getMonth(): Int {
+        return mInstant.toDateTime().monthOfYear
     }
 
     fun getDay(): Int {
-        val dateFormat = SimpleDateFormat("dd", Locale.ENGLISH)
-        return dateFormat.format(date).toInt()
+        return mInstant.toDateTime().dayOfMonth
+    }
+
+    fun getHour(): Int {
+        return mInstant.toDateTime().hourOfDay
+    }
+
+    fun getMinute(): Int {
+        return mInstant.toDateTime().minuteOfHour
+    }
+
+    fun getSecond(): Int {
+        return mInstant.toDateTime().secondOfMinute
     }
 
     // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
     // it is not expires
     fun isNeverExpires(): Boolean {
-        return LocalDateTime(jDate)
-            .isBefore(
-                LocalDateTime.fromDateFields(NEVER_EXPIRES.date)
-                .minusMonths(1))
+        return mInstant.isBefore(NEVER_EXPIRES.instant.minus(Duration.standardDays(30)))
     }
 
     fun isCurrentlyExpire(): Boolean {
         return when (type) {
-            Type.DATE -> LocalDate.fromDateFields(jDate).isBefore(LocalDate.now())
-            Type.TIME -> LocalTime.fromDateFields(jDate).isBefore(LocalTime.now())
-            else -> LocalDateTime.fromDateFields(jDate).isBefore(LocalDateTime.now())
+            Type.DATE -> LocalDate.fromDateFields(mInstant.toDate()).isBefore(LocalDate.now())
+            Type.TIME -> LocalTime.fromDateFields(mInstant.toDate()).isBefore(LocalTime.now())
+            else -> LocalDateTime.fromDateFields(mInstant.toDate()).isBefore(LocalDateTime.now())
         }
+    }
+
+    fun toDotNetSeconds(): Long {
+        val duration = Duration(JAVA_EPOCH_DATE_TIME, mInstant)
+        val seconds = duration.millis / 1000L
+        return seconds + EPOCH_OFFSET
+    }
+
+    fun toJavaMilliseconds(): Long {
+        return mInstant.millis
+    }
+
+    fun toDateTimeSecondsFormat(): String {
+        return dateTimeSecondsFormat.print(mInstant)
     }
 
     override fun toString(): String {
         return when (type) {
-            Type.DATE -> dateFormat.format(jDate)
-            Type.TIME -> timeFormat.format(jDate)
-            else -> dateTimeFormat.format(jDate)
+            Type.DATE -> dateFormat.print(mInstant)
+            Type.TIME -> timeFormat.print(mInstant)
+            else -> dateTimeFormat.print(mInstant)
         }
     }
 
@@ -171,16 +201,36 @@ class DateInstant : Parcelable {
         if (this === other) return true
         if (other !is DateInstant) return false
 
-        if (jDate != other.jDate) return false
         if (mType != other.mType) return false
-
+        if (mType == Type.DATE || mType == Type.DATE_TIME) {
+            if (getYear() != other.getYear()) return false
+            if (getMonth() != other.getMonth()) return false
+            if (getDay() != other.getDay()) return false
+            if (getHour() != other.getHour()) return false
+        }
+        if (mType == Type.TIME || mType == Type.DATE_TIME) {
+            if (getMinute() != other.getMinute()) return false
+            if (getSecond() != other.getSecond()) return false
+        }
         return true
     }
 
     override fun hashCode(): Int {
-        var result = jDate.hashCode()
+        var result = mInstant.hashCode()
         result = 31 * result + mType.hashCode()
         return result
+    }
+
+    fun isBefore(dateInstant: DateInstant): Boolean {
+        return this.mInstant.isBefore(dateInstant.mInstant)
+    }
+
+    fun isAfter(dateInstant: DateInstant): Boolean {
+        return this.mInstant.isAfter(dateInstant.mInstant)
+    }
+
+    fun compareTo(other: DateInstant?): Int {
+        return mInstant.compareTo(other?.mInstant)
     }
 
     enum class Type {
@@ -189,29 +239,40 @@ class DateInstant : Parcelable {
 
     companion object {
 
-        val NEVER_EXPIRES = DateInstant(Calendar.getInstance().apply {
-                set(Calendar.YEAR, 2999)
-                set(Calendar.MONTH, 11)
-                set(Calendar.DAY_OF_MONTH, 28)
-                set(Calendar.HOUR, 23)
-                set(Calendar.MINUTE, 59)
-                set(Calendar.SECOND, 59)
-            }.time)
-        val IN_ONE_MONTH_DATE_TIME = DateInstant(
-                Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE_TIME)
-        val IN_ONE_MONTH_DATE = DateInstant(
-                Instant.now().plus(Duration.standardDays(30)).toDate(), Type.DATE)
-        val IN_ONE_HOUR_TIME = DateInstant(
-                Instant.now().plus(Duration.standardHours(1)).toDate(), Type.TIME)
+        private val DOT_NET_EPOCH_DATE_TIME = DateTime(1, 1, 1, 0, 0, 0, DateTimeZone.UTC)
+        private val JAVA_EPOCH_DATE_TIME = DateTime(1970, 1, 1, 0, 0, 0, DateTimeZone.UTC)
+        private val EPOCH_OFFSET = (JAVA_EPOCH_DATE_TIME.millis - DOT_NET_EPOCH_DATE_TIME.millis) / 1000L
+        private val NEVER_EXPIRES_DATE_TIME = DateTime(2999, 11, 28, 23, 59, 59, DateTimeZone.UTC)
 
-        private val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.ROOT).apply {
-            timeZone = TimeZone.getTimeZone("UTC")
+        val NEVER_EXPIRES = DateInstant(NEVER_EXPIRES_DATE_TIME.toInstant())
+        val IN_ONE_MONTH_DATE_TIME = DateInstant(
+                Instant.now().plus(Duration.standardDays(30)), Type.DATE_TIME)
+        val IN_ONE_MONTH_DATE = DateInstant(
+                Instant.now().plus(Duration.standardDays(30)), Type.DATE)
+        val IN_ONE_HOUR_TIME = DateInstant(
+                Instant.now().plus(Duration.standardHours(1)), Type.TIME)
+
+        val dateTimeSecondsFormat: DateTimeFormatter =
+            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
+                .withZoneUTC()
+        var dateTimeFormat: DateTimeFormatter =
+            DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm'Z'")
+                .withZoneUTC()
+        var dateFormat: DateTimeFormatter =
+            DateTimeFormat.forPattern("yyyy-MM-dd'Z'")
+                .withZoneUTC()
+        var timeFormat: DateTimeFormatter =
+            DateTimeFormat.forPattern("HH:mm'Z'")
+                .withZoneUTC()
+
+        fun fromDotNetSeconds(seconds: Long): DateInstant {
+            val dt = DOT_NET_EPOCH_DATE_TIME.plus(seconds * 1000L)
+            // Switch corrupted dates to a more recent date that won't cause issues on the client
+            return DateInstant((if (dt.isBefore(JAVA_EPOCH_DATE_TIME)) { JAVA_EPOCH_DATE_TIME } else dt).toInstant())
         }
-        private val dateFormat = SimpleDateFormat("yyyy-MM-dd'Z'", Locale.ROOT).apply {
-            timeZone = TimeZone.getTimeZone("UTC")
-        }
-        private val timeFormat = SimpleDateFormat("HH:mm'Z'", Locale.ROOT).apply {
-            timeZone = TimeZone.getTimeZone("UTC")
+
+        fun fromDateTimeSecondsFormat(value: String): DateInstant {
+            return DateInstant(dateTimeSecondsFormat.parseDateTime(value).toInstant())
         }
 
         @JvmField

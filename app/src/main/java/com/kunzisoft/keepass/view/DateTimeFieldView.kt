@@ -128,7 +128,7 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
                 mDefault
         }
         set(value) {
-            mDateTime = DateInstant(value.date, mDateTime.type)
+            mDateTime = DateInstant(value.instant, mDateTime.type)
             assignExpiresDateText()
         }
 

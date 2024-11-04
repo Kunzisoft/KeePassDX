@@ -23,7 +23,6 @@ package com.kunzisoft.keepass.database.element
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
-import java.util.*
 
 enum class SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
@@ -173,8 +172,8 @@ enum class SortNodeEnum {
     ) : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
-            val creationCompare = object1.creationTime.date
-                    .compareTo(object2.creationTime.date)
+            val creationCompare = object1.creationTime
+                    .compareTo(object2.creationTime)
             return if (creationCompare == 0)
                 NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
@@ -192,8 +191,8 @@ enum class SortNodeEnum {
     ) : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
-            val lastModificationCompare = object1.lastModificationTime.date
-                    .compareTo(object2.lastModificationTime.date)
+            val lastModificationCompare = object1.lastModificationTime
+                    .compareTo(object2.lastModificationTime)
             return if (lastModificationCompare == 0)
                 NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)
@@ -211,8 +210,8 @@ enum class SortNodeEnum {
     ) : NodeComparator<G, T>(database, sortNodeParameters) {
 
         override fun compareBySpecificOrder(object1: T, object2: T): Int {
-            val lastAccessCompare = object1.lastAccessTime.date
-                    .compareTo(object2.lastAccessTime.date)
+            val lastAccessCompare = object1.lastAccessTime
+                    .compareTo(object2.lastAccessTime)
             return if (lastAccessCompare == 0)
                 NodeNaturalComparator<G, T>(database, sortNodeParameters)
                         .compare(object1, object2)

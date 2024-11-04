@@ -165,7 +165,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     }
                     0x0003 -> {
                         newGroup?.let { group ->
-                            group.creationTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            group.creationTime = cipherInputStream.readBytes5ToDate()
                         } ?:
                         newEntry?.let { entry ->
                             var iconId = cipherInputStream.readBytes4ToUInt().toKotlinInt()
@@ -178,7 +178,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     }
                     0x0004 -> {
                         newGroup?.let { group ->
-                            group.lastModificationTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            group.lastModificationTime = cipherInputStream.readBytes5ToDate()
                         } ?:
                         newEntry?.let { entry ->
                             entry.title = cipherInputStream.readBytesToString(fieldSize)
@@ -186,7 +186,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     }
                     0x0005 -> {
                         newGroup?.let { group ->
-                            group.lastAccessTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            group.lastAccessTime = cipherInputStream.readBytes5ToDate()
                         } ?:
                         newEntry?.let { entry ->
                             entry.url = cipherInputStream.readBytesToString(fieldSize)
@@ -194,7 +194,7 @@ class DatabaseInputKDB(database: DatabaseKDB)
                     }
                     0x0006 -> {
                         newGroup?.let { group ->
-                            group.expiryTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            group.expiryTime = cipherInputStream.readBytes5ToDate()
                         } ?:
                         newEntry?.let { entry ->
                             entry.username = cipherInputStream.readBytesToString(fieldSize)
@@ -221,22 +221,22 @@ class DatabaseInputKDB(database: DatabaseKDB)
                             group.groupFlags = cipherInputStream.readBytes4ToUInt().toKotlinInt()
                         } ?:
                         newEntry?.let { entry ->
-                            entry.creationTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            entry.creationTime = cipherInputStream.readBytes5ToDate()
                         }
                     }
                     0x000A -> {
                         newEntry?.let { entry ->
-                            entry.lastModificationTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            entry.lastModificationTime = cipherInputStream.readBytes5ToDate()
                         }
                     }
                     0x000B -> {
                         newEntry?.let { entry ->
-                            entry.lastAccessTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            entry.lastAccessTime = cipherInputStream.readBytes5ToDate()
                         }
                     }
                     0x000C -> {
                         newEntry?.let { entry ->
-                            entry.expiryTime = DateInstant(cipherInputStream.readBytes5ToDate())
+                            entry.expiryTime = cipherInputStream.readBytes5ToDate()
                         }
                     }
                     0x000D -> {

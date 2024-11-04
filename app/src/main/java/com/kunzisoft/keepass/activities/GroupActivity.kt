@@ -84,6 +84,7 @@ import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -96,6 +97,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
+import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
@@ -440,7 +442,7 @@ class GroupActivity : DatabaseLockActivity(),
                 // Launch the time picker
                 MaterialTimePicker.Builder().build().apply {
                     addOnPositiveButtonClickListener {
-                        mGroupEditViewModel.selectTime(this.hour, this.minute)
+                        mGroupEditViewModel.selectTime(DataTime(this.hour, this.minute))
                     }
                     show(supportFragmentManager, "TimePickerFragment")
                 }
@@ -448,7 +450,7 @@ class GroupActivity : DatabaseLockActivity(),
                 // Launch the date picker
                 MaterialDatePicker.Builder.datePicker().build().apply {
                     addOnPositiveButtonClickListener {
-                        mGroupEditViewModel.selectDate(it)
+                        mGroupEditViewModel.selectDate(datePickerToDataDate(it))
                     }
                     show(supportFragmentManager, "DatePickerFragment")
                 }
