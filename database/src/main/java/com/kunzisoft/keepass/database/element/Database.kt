@@ -866,8 +866,8 @@ open class Database {
 
     fun createVirtualGroupFromSearch(
         searchParameters: SearchParameters,
-         fromGroup: NodeId<*>? = null,
-         max: Int = Integer.MAX_VALUE
+        fromGroup: NodeId<*>? = null,
+        max: Int = Integer.MAX_VALUE
     ): Group? {
         return mSearchHelper.createVirtualGroupWithSearchResult(this,
             searchParameters, fromGroup, max)

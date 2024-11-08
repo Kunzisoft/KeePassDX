@@ -148,7 +148,15 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUrls) {
-                if (checkSearchQuery(entry.url, searchParameters))
+                if (checkSearchQuery(entry.url, searchParameters) { stringToCheck, word ->
+                        // domain.org
+                        stringToCheck.equals(word, !searchParameters.caseSensitive) ||
+                        // subdomain.domain.org
+                        stringToCheck.endsWith(".$word", !searchParameters.caseSensitive) ||
+                        // https://domain.org
+                        stringToCheck.endsWith("\\/$word", !searchParameters.caseSensitive)
+                        // Don't allow mydomain.org
+                    })
                     return true
             }
             if (searchParameters.searchInNotes) {
@@ -176,7 +184,10 @@ class SearchHelper {
             return false
         }
 
-        private fun checkSearchQuery(stringToCheck: String, searchParameters: SearchParameters): Boolean {
+        private fun checkSearchQuery(
+            stringToCheck: String,
+            searchParameters: SearchParameters,
+            specialComparison: ((check: String, word: String) -> Boolean)? = null): Boolean {
             /*
             // TODO Search settings
             var removeAccents = true <- Too much time, to study
@@ -196,7 +207,8 @@ class SearchHelper {
                 var searchFound = true
                 searchParameters.searchQuery.split(" ").forEach { word ->
                     searchFound = searchFound
-                            && stringToCheck.contains(word, !searchParameters.caseSensitive)
+                            && (specialComparison?.invoke(stringToCheck, word)
+                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive))
                 }
                 searchFound
             }
