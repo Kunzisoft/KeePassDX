@@ -165,6 +165,27 @@ class ValuesTest : TestCase() {
         assertTrue("jDate $jDate and cDate $cDate not equal", cDate == jDate)
     }
 
+    fun testDateCompare() {
+        val dateInstantA = DateInstant().apply {
+            setDate(2024, 12, 2)
+            setTime(5, 13)
+        }
+        val dateInstantB = DateInstant().apply {
+            setDate(2024, 12, 2)
+            setTime(5, 10)
+        }
+        val dateInstantC = DateInstant().apply {
+            setDate(2024, 12, 2)
+            setTime(5, 10)
+        }
+        assertTrue(dateInstantA.compareTo(dateInstantB) > 0)
+        assertTrue(dateInstantB.compareTo(dateInstantA) < 0)
+        assertTrue(dateInstantB.compareTo(dateInstantC) == 0)
+        assertTrue(dateInstantA.isAfter(dateInstantB))
+        assertTrue(dateInstantB.isBefore(dateInstantA))
+        assertFalse(dateInstantB.isBefore(dateInstantC))
+    }
+
     fun testUUID() {
         val bUUID = ByteArray(16)
         Random().nextBytes(bUUID)

@@ -229,8 +229,8 @@ class DateInstant : Parcelable {
         return this.mInstant.isAfter(dateInstant.mInstant)
     }
 
-    fun compareTo(other: DateInstant?): Int {
-        return mInstant.compareTo(other?.mInstant)
+    fun compareTo(other: DateInstant): Int {
+        return mInstant.compareTo(other.mInstant)
     }
 
     enum class Type {

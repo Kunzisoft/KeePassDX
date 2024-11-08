@@ -204,6 +204,11 @@ class NodesAdapter (
                     && oldItem.type == newItem.type
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
+                    && oldItem.creationTime == newItem.creationTime
+                    && oldItem.lastModificationTime == newItem.lastModificationTime
+                    && oldItem.lastAccessTime == newItem.lastAccessTime
+                    && oldItem.expiryTime == newItem.expiryTime
+                    && oldItem.expires == newItem.expires
                     && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
         }
 
