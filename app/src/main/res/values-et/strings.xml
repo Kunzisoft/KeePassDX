@@ -215,4 +215,6 @@
     <string name="show_uuid_summary">Näitab kirje või grupiga seotud UUID\'d</string>
     <string name="menu_hide_password">Peida salasõna</string>
     <string name="menu_showpass">Näita salasõna</string>
+    <string name="error_cancel_by_user">Katkestatud kasutaja poolt.</string>
+    <string name="error_driver_required">%1$s draiver on vajalik.</string>
 </resources>
