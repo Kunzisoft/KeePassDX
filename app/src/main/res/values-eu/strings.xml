@@ -45,7 +45,7 @@
     <string name="digits">Digituak</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;kode irekiko&lt;/strong&gt; eta &lt;strong&gt;iragarki gabekoa da&lt;/strong&gt;.
 \n&lt;strong&gt;GPLv3&lt;/strong&gt; lizentziapean banatu da, hori dela eta ez dakar inolako bermerik.</string>
-    <string name="select_database_file">Ireki aurrez sortutako datu-basea</string>
+    <string name="select_database_file">Ireki aurrez sortutako kutxa gotorra</string>
     <string name="entry_accessed">Atzituta</string>
     <string name="entry_cancel">Utzi</string>
     <string name="entry_notes">Iruzkinak</string>
@@ -138,7 +138,7 @@
     </string-array>
     <string name="security">Segurtasuna</string>
     <string name="contact">Harremanetarako</string>
-    <string name="contribution">Ekarpen</string>
+    <string name="contribution">Diru-laguntza</string>
     <string name="master_key">Gako nagusia</string>
     <string name="edit_entry">Sarrera editatu</string>
     <string name="key_derivation_function">Gakoaren eratorpen funtzioa</string>
@@ -281,7 +281,7 @@
     <string name="education_create_database_summary">Sortu zure lehen pasahaitz kudeatzaile fitxategia.</string>
     <string name="education_new_node_title">Gehitu elementuak zure datu-basera</string>
     <string name="reset_education_screens_text">Berrezarri hezkuntza-pistak</string>
-    <string name="export_app_properties_summary">Sortu fitxategia aplikazioaren propietateak esportatzeko</string>
+    <string name="export_app_properties_summary">Sortu fitxategia aplikazioaren ezarpenak esportatzeko</string>
     <string name="max_history_items_summary">Mugatu historial elementu kopurua sarrera bakoitzeko</string>
     <string name="max_history_size_title">Tamaina maximoa</string>
     <string name="clear_clipboard_notification_summary">Blokeatu datu-basea arbelaren iraupena amaitzean edo jakinarazpena ixtean erabiltzen hasi ondoren</string>
@@ -300,7 +300,7 @@
     <string name="education_search_title">Bilatu sarreren artean</string>
     <string name="file_not_found_content">Ezin izan da fitxategia aurkitu. Saiatu zure fitxategi nabigatzailetik berriro irekitzen.</string>
     <string name="menu_save_database">Datuak gorde</string>
-    <string name="success_export_app_properties">Aplikazioaren ezaugarriak esportatuta</string>
+    <string name="success_export_app_properties">Aplikazioaren ezarpenak esportatuta</string>
     <string name="monospace_font_fields_enable_summary">Aldatu eremuen iturria karaktereen ikusgarritasuna hobetzeko</string>
     <string name="allow_copy_password_summary">Baimendu sarrera pasahitza eta babestutako eremuak arbelean kopiatzea</string>
     <string name="allow_copy_password_warning">Abisua: Arbela aplikazio guztiek partekatzen dute. Datu sentikorrak kopiatzen badira, beste software batek berreskura ditzake.</string>
@@ -331,7 +331,7 @@
     <string name="error_no_response_from_challenge">Ezinezkoa da erronkaren erantzuna jasotzea.</string>
     <string name="error_cancel_by_user">Erabiltzaileak bertan behera utzita.</string>
     <string name="error_driver_required">Kontrolagailu bat behar da %1$srentzat.</string>
-    <string name="error_unable_merge_database_kdb">Ezinezkoa da V1 datu-basetik fusionatzea.</string>
+    <string name="error_unable_merge_database_kdb">Ezinezkoa da kdb datu-base fitxategitik fusionatzea.</string>
     <string name="error_location_unknown">Datu-basearen kokalekua ezezaguna da, ezin da datu-basearen akzioa bete.</string>
     <string name="error_hardware_key_unsupported">Gako-fisikoa ez da onartzen.</string>
     <string name="error_empty_key">Gakoak ezin du hutsik egon.</string>
@@ -347,7 +347,7 @@
     <string name="menu_merge_from">Fusionatu hemendik…</string>
     <string name="menu_save_copy_to">Gorde kopia hemen…</string>
     <string name="menu_delete_entry_history">Ezabatu historiala</string>
-    <string name="menu_keystore_remove_key">Kendu gakoa desblokeo aurreratutik</string>
+    <string name="menu_keystore_remove_key">Ezabatu gailuaren desblokeo gakoa</string>
     <string name="menu_file_selection_read_only">Idazketaren aurka babestua</string>
     <string name="menu_restore_entry_history">Berrezarri historiala</string>
     <string name="auto_focus_search_summary">Eskatu bilaketa bat datu-base bat irekitzean</string>
@@ -364,11 +364,11 @@
     <string name="remember_hardware_key_summary">Erabilitako hardware-gakoen segimendua egiten du</string>
     <string name="show_recent_files_summary">Erakusti azken datu-baseen kokapena</string>
     <string name="hide_broken_locations_title">Ezkutatu datu-baseetara hautsitako estekak</string>
-    <string name="import_app_properties_title">Inportatu aplikazio baten ezaugarriak</string>
-    <string name="import_app_properties_summary">Hautatu fitxategia aplikazioaren ezaugarriak inportatzeko</string>
-    <string name="success_import_app_properties">Inportatutako aplikazioen ezaugarriak</string>
-    <string name="error_import_app_properties">Errorea aplikazioaren ezaugarriak inportatzean</string>
-    <string name="error_export_app_properties">Errorea aplikazioaren ezaugarriak esportatzean</string>
+    <string name="import_app_properties_title">Inportatu aplikazioaren ezarpenak</string>
+    <string name="import_app_properties_summary">Hautatu fitxategia aplikazioaren ezarpenak inportatzeko</string>
+    <string name="success_import_app_properties">Aplikazioen ezarpenak inportatu dira</string>
+    <string name="error_import_app_properties">Errorea aplikazioaren ezarpenak inportatzean</string>
+    <string name="error_export_app_properties">Errorea aplikazioaren ezarpenak esportatzean</string>
     <string name="memory_usage">Memoria erabilpena</string>
     <string name="parallelism_explanation">Gakoaren eratorpen funtzioak erabilitako paralelismo gradua (adb. hari kopurua).</string>
     <string name="command_execution">Komandoa exekutatzen…</string>
@@ -416,14 +416,14 @@
     <string name="read_only">Idazketaren aurka babestua</string>
     <string name="subdomain_search_title">Azpi-domeinu bilaketa</string>
     <string name="auto_focus_search_title">Bilaketa azkarra</string>
-    <string name="create_keepass_file">Sortu datu-base berria</string>
+    <string name="create_keepass_file">Sortu kutxa gotor berria</string>
     <string name="menu_empty_recycle_bin">Hustu zakarrontzia</string>
     <string name="menu_open_file_read_and_write">Editagarri</string>
     <string name="menu_copy">Kopiatu</string>
     <string name="menu_security_settings">Segurtasun ezarpenak</string>
     <string name="menu_cancel">Deuseztu</string>
     <string name="menu_paste">Itsatsi</string>
-    <string name="menu_advanced_unlock_settings">Desblokeatze aurreratua</string>
+    <string name="menu_advanced_unlock_settings">Gailu blokeatzailea</string>
     <string name="list_groups_show_number_entries_summary">Talde bateko sarrera kopurua erakusten du</string>
     <string name="invalid_db_same_uuid">%1$sk %2$sren UUID bera du.</string>
     <string name="sort_ascending">Baxuena lehenbizi↓</string>
@@ -474,7 +474,7 @@
     <string name="enable_education_screens_summary">Nabarmendu elementuak aplikazioak nola funtzionatzen duen ikasteko</string>
     <string name="reset_education_screens_summary">Erakutsi hezkuntza informazioa berriro</string>
     <string name="education_select_database_title">Ireki aurrez existitzen den datu-basea</string>
-    <string name="export_app_properties_title">Esportatu aplikazioaren ezaugarriak</string>
+    <string name="export_app_properties_title">Esportatu aplikazioaren ezarpenak</string>
     <string name="kdf_explanation">Zifraketa algoritmorako gakoa sortzeko, gako nagusia itxuraldatu egiten da eratorpen funtzio eta ausazko gatz baten bidez.</string>
     <string name="keyboard_previous_search_title">Bilaketa pantaila</string>
     <string name="autofill_manual_selection_summary">Erabiltzaileari datu-baseko sarrera hautatzeko aukera erakutsi</string>
@@ -486,14 +486,14 @@
     <string name="warning_keyfile_integrity">Ezin da fitxategiaren hasha bermatu Androidek aldaketak egin ditzakeelako sortu ahala. Aldatu fitxategiaren luzapena .binera integritate zuzen baterako.</string>
     <string name="warning_database_info_changed_options">Fusionatu datuak, gain idatzi kanpo aldaketak datu-basean gordez edo birkargatu azken aldaketekin.</string>
     <string name="warning_exact_alarm">Ez diozu aplikazioari alarma zehatz bat erabiltzen utzi, Hori dela eta, tenporizadore bat behar dituzten ezaugarriak ez dira ordu zehatz batean egingo.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Zure pasahitz-nagusia gogoratu behar duzu desblokeo aurreratuko ezagutzea erabili arren.</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Zure kutxa gotorraren pasahitz-nagusia gogoratu behar duzu naiz eta desblokeo aurreratuko ezagutzea erabili arren.</string>
     <string name="encrypted_value_stored">Zifratutako pasahitza gordeta</string>
     <string name="unavailable">Datu-base honek ez du biltegiratuta kredentzialik.</string>
-    <string name="advanced_unlock_scanning_error">Desblokeatze aurreratuko errorea: %1$s</string>
+    <string name="advanced_unlock_scanning_error">Gailuaren desblokeatze errorea: %1$s</string>
     <string name="menu_appearance_settings">Itxura</string>
     <string name="autofill_sign_in_prompt">KeePassDXekin erregistratu</string>
     <string name="autofill_explanation_summary">Gaitu betetze automatikoa beste aplikazioetako formularioak errez betetzeko</string>
-    <string name="advanced_unlock">Desblokeo aurreratua</string>
+    <string name="advanced_unlock">Gailua desblokeatu</string>
     <string name="advanced_unlock_delete_all_key_warning">Ezabatu ezagutze desblokeo aurreratuaren zifraketa gako guztiak\?</string>
     <string name="path">Bidea</string>
     <string name="keyboard_auto_go_action_summary">\"Aurrera\" teklaren akzioa \"Eremu\" tekla zapaltzean</string>
@@ -505,12 +505,12 @@
     <string name="permission">Baimena</string>
     <string name="build_label">Konpilazio bertsioa%1$s</string>
     <string name="database_history">Historiala</string>
-    <string name="advanced_unlock_tap_delete">Ukitu desblokeatze aurreratuko gakoak ezabatzeko</string>
+    <string name="advanced_unlock_tap_delete">Ukitu gailua desblokeatzeko gakoak ezabatzeko</string>
     <string name="file_name">Fitxategiaren izena</string>
     <string name="recycle_bin_group_title">Zakarrontziaren taldea</string>
     <string name="assign_master_key">Esleitu gako nagusia</string>
     <string name="icon_pack_choose_summary">Aplikazioak erabilitako ikono paketea</string>
-    <string name="advanced_unlock_invalid_key">Ezin da irakurri desblokeatze aurreratuko gakoa. Mesedez ezabatu ezatu eta errepikatu desblokeatze prozedura.</string>
+    <string name="advanced_unlock_invalid_key">Ezin da irakurri desblokeatze gakoa. Mesedez ezabatu ezatu eta errepikatu desblokeatze prozedura.</string>
     <string name="device_credential_unlock_enable_title">Gailuaren kredentzialen desblokeoa</string>
     <string name="advanced_unlock_keystore_warning">Ezaugarri honek zifratutako kredentzialen informazioa zure gailuaren KeyStorean gordeko ditu.
 \n
@@ -530,8 +530,8 @@
     <string name="show_entry_colors_title">Sarrerako koloreak</string>
     <string name="show_entry_colors_summary">Erakutsi sarreraren aurreko eta atzeko planoen koloreak</string>
     <string name="hide_expired_entries_summary">Iraungitako sarrerak ez dira erakusten</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Ireki datu-basea desblokeo aurreratuko ezagutzearekin</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Atera datu-baseko kredentzialak desblokeo aurreratuko datuekin</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Gailuaren desblokeo ezagutza</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Atera datu-baseko kredentzialak desblokeo datuekin</string>
     <string name="education_setup_OTP_summary">Ezarri erabilera bakarreko pasahitzen kudeaketa (HOTP/TOTP) bi faktoreko autentifikazioak (2FA) eskatzen duen tokena sortzeko.</string>
     <string name="education_read_only_summary">Aldatu saioaren irekiera modua.
 \n
@@ -553,9 +553,9 @@
     <string name="warning_database_already_opened">Dagoeneko datu-base bat irekita dago, itxi ezazu beste bat ireki ahal izateko</string>
     <string name="warning_permanently_delete_nodes">Ezabatu betiko hautatutako nodoak\?</string>
     <string name="warning_sure_add_file">Gehitu fitxategia edonola ere\?</string>
-    <string name="temp_advanced_unlock_enable_summary">Ez gorde zifratutako edukirik desblokeatze aurreratua erabiltzeko</string>
-    <string name="temp_advanced_unlock_timeout_title">Desblokeatze aurreratuaren iraungitzea</string>
-    <string name="advanced_unlock_timeout">Desblokeatze aurreratua erabiltzeko denbora muga</string>
+    <string name="temp_advanced_unlock_enable_summary">Ez gorde zifratutako edukirik gailu desblokeatzea erabiltzeko</string>
+    <string name="temp_advanced_unlock_timeout_title">Gailu desblokeatzearen iraungitzea</string>
+    <string name="advanced_unlock_timeout">Gailu desblokeatzea erabiltzeko denbora muga</string>
     <string name="lock">Blokeatu</string>
     <string name="html_text_donation">Gure askatasuna mantentzeko eta beti aktibo egoteko, aintzat dugu zure &lt;strong&gt;ekarpena.&lt;/strong&gt;</string>
     <string name="education_read_only_title">Babestu zure datu-basea idazketen aurka</string>
@@ -576,8 +576,8 @@
     <string name="warning_database_read_only">Eman idazketa baimena datu-basean aldaketak gordetzeko</string>
     <string name="warning_password_encoding">Saihestu kodetze formatutik kanpoko karaktereak datu-baseko pasahitz fitxategietan (ezagutzen ez diren karaktereak letra berarengatik ordezten dira).</string>
     <string name="warning_database_revoked">Fitxategirako atzipena baliogabetu du fitxategi kudeatzaileak, itxi datu-basea eta berriro ireki ezazu bere lokalizaziotik.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Desblokeo aurreratuko ezagutzea</string>
-    <string name="advanced_unlock_prompt_not_initialized">Ezin izan da hasieratu desblokeatze aurreratuko menua.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Gailuaren desblokeorako esteka</string>
+    <string name="advanced_unlock_prompt_not_initialized">Ezin izan da hasieratu gailuaren desblokeatze menua.</string>
     <string name="set_autofill_service_title">Lehenetsi betetze automatiko zerbitzua</string>
     <string name="content">Edukia</string>
     <string name="education_advanced_unlock_title">Datu-basearen desblokeatze automatikoa</string>
@@ -594,14 +594,14 @@
     <string name="lock_database_back_root_summary">Blokeatu datu-basea erabiltzaileak atzera botoia sakatzen duenean hasierako pantailan</string>
     <string name="lock_database_show_button_title">Erakutsi blokeatzeko botoia</string>
     <string name="lock_database_show_button_summary">Blokeatzeko botoia erakusten du interfazean</string>
-    <string name="advanced_unlock_explanation_summary">Erabili desblokeatze aurreratua datu-base bat errazago irekitzeko</string>
+    <string name="advanced_unlock_explanation_summary">Erabili gailu desblokeatzea datu-base bat errazago irekitzeko</string>
     <string name="biometric_unlock_enable_title">Desblokeo biometrikoa</string>
     <string name="biometric_unlock_enable_summary">Zure datu biometrikoak eskaneatzen uzten dizu datu-basea irekitzeko</string>
     <string name="device_credential_unlock_enable_summary">Zure gailuaren kredentzialak datu-basea irekitzeko erabiltzen uzten dizu</string>
-    <string name="biometric_auto_open_prompt_summary">Automatikoki eskatu desblokeatze aurreratua datu-basea horrela erabiltzeko prestatu bada</string>
-    <string name="temp_advanced_unlock_enable_title">Denboraz mugatutako desblokeatze aurreratua</string>
+    <string name="biometric_auto_open_prompt_summary">Automatikoki eskatu gailu desblokeatzea datu-basea horrela erabiltzeko prestatu bada</string>
+    <string name="temp_advanced_unlock_enable_title">Denboraz mugatutako gailu desblokeatze</string>
     <string name="biometric_delete_all_key_title">Ezabatu zifraketa gakoak</string>
-    <string name="biometric_delete_all_key_summary">Ezabatu ezagutze desblokeo aurreratuaren zifraketa gako guztiak</string>
+    <string name="biometric_delete_all_key_summary">Ezabatu gailu desblokeoari lotutako zifraketa gako guztiak</string>
     <string name="unavailable_feature_text">Ezin izan da ezaugarri hau hasieratu.</string>
     <string name="unavailable_feature_version">Gailuak Android %1$srekin funtzionatzen du, baina %2$s edo ondorengoak behar ditu.</string>
     <string name="unavailable_feature_hardware">Ezin izan da dagokion hardwarea aurkitu.</string>
@@ -619,7 +619,7 @@
     <string name="education_unlock_title">Desblokeatu zure datu-basea</string>
     <string name="autofill_preference_title">Betetze automatikoaren ezarpenak</string>
     <string name="biometric_security_update_required">Segurtasun biometrikoko eguneraketa behar da.</string>
-    <string name="advanced_unlock_not_recognized">Ezin izan da errekonozitu desblokeatze aurreratuko aztarna</string>
+    <string name="advanced_unlock_not_recognized">Ezin izan da errekonozitu desblokeatze aztarna</string>
     <string name="biometric">Biometria</string>
     <string name="device_credential">Gailuaren kredentzialak</string>
     <string name="general">Orokor</string>
@@ -668,4 +668,19 @@
     <string name="download_canceled">Bertan behera utzi da!</string>
     <string name="character_count">Karaktere kopurua:%1$d</string>
     <string name="download_progression">Oraingoz egindakoa:%1$d%%</string>
+    <string name="info">Info</string>
+    <string name="menu_app_settings_summary">Bilatu, blokeoatu, historiala,ezaugarriak</string>
+    <string name="menu_form_filling_settings_summary">Teklatua,beteze automatikoa,arbela</string>
+    <string name="menu_advanced_unlock_settings_summary">Biometria, gailuaren egiztagiria</string>
+    <string name="menu_database_settings_summary">Metadatuak, zakarrontzia, txantilioiak, historiala</string>
+    <string name="menu_security_settings_summary">Zifraketa, gakoen deribazio funtzioa</string>
+    <string name="master_key_settings_summary">Aldaketa,berriztapena</string>
+    <string name="warning_copy_permission">Jakinarazpen baimena behar da arbelaren jakinarazpen funtziorako.</string>
+    <string name="unlock_and_link_biometric">Gailua desblokeatzeko esteka</string>
+    <string name="menu_appearance_settings_summary">Gaiak,koloreak,atributuak</string>
+    <string name="warning_database_info_changed_options_read_only">Birkargatu datu-basea azken aldaketekin.</string>
+    <string name="later">Beranduago</string>
+    <string name="ask">Galdetu</string>
+    <string name="configure">Konfiguratu</string>
+    <string name="unlock">Desblokeatu</string>
 </resources>
