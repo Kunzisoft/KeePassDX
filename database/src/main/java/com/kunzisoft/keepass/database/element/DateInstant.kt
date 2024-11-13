@@ -123,7 +123,7 @@ class DateInstant : Parcelable {
     }
 
     fun setDate(year: Int, month: Int, day: Int) {
-        mInstant = DateTime(mInstant)
+        mInstant = DateTime(mInstant, DateTimeZone.getDefault())
             .withYear(year)
             .withMonthOfYear(month)
             .withDayOfMonth(day)
@@ -131,7 +131,7 @@ class DateInstant : Parcelable {
     }
 
     fun setTime(hour: Int, minute: Int) {
-        mInstant = DateTime(mInstant)
+        mInstant = DateTime(mInstant, DateTimeZone.getDefault())
             .withHourOfDay(hour)
             .withMinuteOfHour(minute)
             .toInstant()
