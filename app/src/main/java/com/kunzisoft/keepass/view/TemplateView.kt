@@ -100,13 +100,12 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return context?.let {
             DateTimeFieldView(it).apply {
                 label = TemplateField.getLocalizedName(context, field.name)
-                val dateInstantType = templateAttribute.options.getDateFormat()
+                type = templateAttribute.options.getDateFormat()
+                isExpirable = templateAttribute.options.getExpirable()
                 try {
                     val value = field.protectedValue.toString().trim()
-                    type = dateInstantType
                     activation = value.isNotEmpty()
                 } catch (e: Exception) {
-                    type = dateInstantType
                     activation = false
                 }
             }

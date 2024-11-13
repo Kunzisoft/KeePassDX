@@ -57,8 +57,6 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
     }
 
     private fun assignExpiresDateText() {
-        val isExpires = mDateTime.isCurrentlyExpire()
-
         // Show or not the warning icon
         expiresImage.isVisible = if (mActivated) {
             isExpires
@@ -98,6 +96,13 @@ class DateTimeFieldView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             mDateTime.type = value
+        }
+
+    var isExpirable: Boolean = false
+
+    val isExpires: Boolean
+        get() {
+            return isExpirable && mDateTime.isCurrentlyExpire()
         }
 
     override var activation: Boolean

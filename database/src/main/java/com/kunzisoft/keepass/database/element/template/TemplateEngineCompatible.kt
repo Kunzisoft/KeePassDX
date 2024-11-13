@@ -216,6 +216,11 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
                 attribute.options.associatePasswordGenerator()
             }
 
+            // Add expiration
+            if (attribute.label.equals(TEMPLATE_ATTRIBUTE_EXPIRES, true)) {
+                attribute.options.setExpirable(true)
+            }
+
             // Add default value
             if (defaultValues.containsKey(attribute.label)) {
                 attribute.options.default = defaultValues[attribute.label]!!

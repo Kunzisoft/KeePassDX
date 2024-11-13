@@ -3,7 +3,7 @@ KeePassDX(4.1.0)
  * Generate keyfile #1290
  * Hide template group #1894
  * Group count sum recursively #421
- * Fix when selecting date fields #1695
+ * Fix date fields #1695 #1710
  * Fix distinct domain names #1105 #1820
  * Support otpauth://steam/Steam link #1289
  * Small fixes #1711 #1831 #1780 #1821 #1863 #1889
