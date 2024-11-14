@@ -37,9 +37,9 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class PassKeyView @JvmOverloads constructor(context: Context,
-                                            attrs: AttributeSet? = null,
-                                            defStyle: Int = 0)
+class PasswordView @JvmOverloads constructor(context: Context,
+                                             attrs: AttributeSet? = null,
+                                             defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
     private var mPasswordEntropyCalculator: PasswordEntropy? = null
@@ -60,13 +60,13 @@ class PassKeyView @JvmOverloads constructor(context: Context,
     init {
         context.theme.obtainStyledAttributes(
             attrs,
-            R.styleable.PassKeyView,
+            R.styleable.PasswordView,
             0, 0).apply {
             try {
-                mViewHint = getString(R.styleable.PassKeyView_passKeyHint)
+                mViewHint = getString(R.styleable.PasswordView_passwordHint)
                     ?: context.getString(R.string.password)
-                mMaxLines = getInteger(R.styleable.PassKeyView_passKeyMaxLines, mMaxLines)
-                mShowPassword = getBoolean(R.styleable.PassKeyView_passKeyVisible,
+                mMaxLines = getInteger(R.styleable.PasswordView_passwordMaxLines, mMaxLines)
+                mShowPassword = getBoolean(R.styleable.PasswordView_passwordVisible,
                     !PreferencesUtil.hideProtectedValue(context))
             } finally {
                 recycle()
@@ -74,7 +74,7 @@ class PassKeyView @JvmOverloads constructor(context: Context,
         }
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_passkey, this)
+        inflater?.inflate(R.layout.view_password, this)
 
         passwordInputLayout = findViewById(R.id.password_input_layout)
         passwordInputLayout?.hint = mViewHint

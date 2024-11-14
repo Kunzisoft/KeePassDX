@@ -43,7 +43,7 @@ import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
-import com.kunzisoft.keepass.view.PassKeyView
+import com.kunzisoft.keepass.view.PasswordView
 import com.kunzisoft.keepass.view.applyFontVisibility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +60,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var rootView: View
 
     private lateinit var passwordCheckBox: CompoundButton
-    private lateinit var passwordView: PassKeyView
+    private lateinit var passwordView: PasswordView
     private lateinit var passwordRepeatTextInputLayout: TextInputLayout
     private lateinit var passwordRepeatView: TextView
 

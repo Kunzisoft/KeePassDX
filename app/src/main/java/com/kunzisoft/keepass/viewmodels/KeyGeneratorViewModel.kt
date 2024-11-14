@@ -43,8 +43,8 @@ class KeyGeneratorViewModel: ViewModel() {
     val requirePassphraseGeneration : LiveData<Void?> get() = _requirePassphraseGeneration
     private val _requirePassphraseGeneration = SingleLiveEvent<Void?>()
 
-    fun setKeyGenerated(passKey: String) {
-        _keyGenerated.value = passKey
+    fun setKeyGenerated(value: String) {
+        _keyGenerated.value = value
     }
 
     fun validateKeyGenerated() {
