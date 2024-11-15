@@ -17,6 +17,7 @@ import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.DataDate
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -113,7 +114,7 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
                                      field: Field): TextEditFieldView? {
         return context?.let {
-            (if (templateAttribute.label == TemplateField.LABEL_PASSWORD)
+            (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
                 PasswordTextEditFieldView(it)
             else TextEditFieldView(it)).apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout

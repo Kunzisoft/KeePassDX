@@ -33,8 +33,8 @@ import android.widget.TextView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.password.PasswordEntropy
+import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class PasswordEditView @JvmOverloads constructor(context: Context,
@@ -46,7 +46,6 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
 
     private val passwordInputLayout: TextInputLayout
     private val passwordText: EditText
-    private var textModified = false
     private val passwordStrengthProgress: LinearProgressIndicator
     private val passwordEntropy: TextView
 
@@ -76,22 +75,22 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_password_edit, this)
 
-        passwordInputLayout = findViewById(R.id.password_input_layout)
+        passwordInputLayout = findViewById(R.id.password_edit_input_layout)
         passwordInputLayout?.hint = mViewHint
-        passwordText = findViewById(R.id.password_text)
+        passwordText = findViewById(R.id.password_edit_text)
         if (mShowPassword) {
             passwordText?.inputType = passwordText.inputType or
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
         }
         passwordText?.maxLines = mMaxLines
         passwordText?.applyFontVisibility()
-        passwordStrengthProgress = findViewById(R.id.password_strength_progress)
+        passwordStrengthProgress = findViewById(R.id.password_edit_strength_progress)
         passwordStrengthProgress?.apply {
             setIndicatorColor(PasswordEntropy.Strength.RISKY.color)
             progress = 0
             max = 100
         }
-        passwordEntropy = findViewById(R.id.password_entropy)
+        passwordEntropy = findViewById(R.id.password_edit_entropy)
 
         mPasswordEntropyCalculator = PasswordEntropy {
             passwordText?.text?.toString()?.let { firstPassword ->
@@ -113,20 +112,11 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
             }
 
             override fun afterTextChanged(editable: Editable) {
-                /* Fixme 1686
-                if (textModified) {
-                    textModified = false
-                } else {
-                    textModified = true
-                    val selectionStart = passwordText.selectionStart
-                    val selectionEnd = passwordText.selectionEnd
-                    passwordString = editable.toString()
-                    passwordText.setSelection(selectionStart, selectionEnd)
-                }*/
                 mPasswordTextWatchers.forEach {
                     it.afterTextChanged(editable)
                 }
                 getEntropyStrength(editable.toString())
+                PasswordGenerator.colorizedPassword(editable)
             }
         }
         passwordText?.addTextChangedListener(mPasswordTextWatcher)

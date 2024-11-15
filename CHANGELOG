@@ -6,7 +6,7 @@ KeePassDX(4.1.0)
  * Fix date fields #1695 #1710
  * Fix distinct domain names #1105 #1820
  * Support otpauth://steam/Steam link #1289
- * Small fixes #1711 #1831 #1780 #1821 #1863 #1889
+ * Small fixes #1711 #1831 #1780 #1821 #1863 #1889 #1490 #1355
 
 KeePassDX(4.0.8)
  * Fix graphical bug that prevented databases from being opened on some versions of Android #1848 #1850

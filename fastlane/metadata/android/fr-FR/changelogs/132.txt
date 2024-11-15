@@ -5,4 +5,4 @@
  * Correction des champs date #1695 #1710
  * Correction des noms de domaines #1105 #1820
  * Support des liens otpauth://steam/Steam #1289
- * Petites corrections #1711 #1831 #1780 #1821 #1863
+ * Petites corrections #1711 #1831 #1780 #1821 #1863 #1490 #1355

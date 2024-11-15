@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.password
 
 import android.content.res.Resources
 import android.graphics.Color
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -253,51 +254,62 @@ class PasswordGenerator(private val resources: Resources) {
             return charSet.toString()
         }
 
+        fun colorizedPassword(editable: Editable?) {
+            editable.toString().forEachIndexed { index, char ->
+                colorFromChar(char)?.let { color ->
+                    editable?.setSpan(
+                        ForegroundColorSpan(color),
+                        index,
+                        index + 1,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+            }
+        }
+
         fun getColorizedPassword(password: String): Spannable {
             val spannableString = SpannableStringBuilder()
             if (password.isNotEmpty()) {
-                password.forEach {
-                    when {
-                        UPPERCASE_CHARS.contains(it)||
-                        LOWERCASE_CHARS.contains(it) -> {
-                            spannableString.append(it)
-                        }
-                        DIGIT_CHARS.contains(it) -> {
-                            // RED
-                            spannableString.append(colorizeChar(it, Color.rgb(246, 79, 62)))
-                        }
-                        SPECIAL_CHARS.contains(it) -> {
-                            // Blue
-                            spannableString.append(colorizeChar(it, Color.rgb(39, 166, 228)))
-                        }
-                        MINUS_CHAR.contains(it)||
-                        UNDERLINE_CHAR.contains(it)||
-                        BRACKET_CHARS.contains(it) -> {
-                            // Purple
-                            spannableString.append(colorizeChar(it, Color.rgb(185, 38, 209)))
-                        }
-                        extendedChars().contains(it) -> {
-                            // Green
-                            spannableString.append(colorizeChar(it, Color.rgb(44, 181, 50)))
-                        }
-                        else -> {
-                            spannableString.append(it)
-                        }
-                    }
+                password.forEach { char ->
+                    colorFromChar(char)?.let { color ->
+                        val spannableColorChar = SpannableString(char.toString())
+                        spannableColorChar.setSpan(
+                            ForegroundColorSpan(color),
+                            0,
+                            1,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        spannableString.append(spannableColorChar)
+                    } ?: spannableString.append(char)
                 }
             }
             return spannableString
         }
 
-        private fun colorizeChar(char: Char, color: Int): Spannable {
-            val spannableColorChar = SpannableString(char.toString())
-            spannableColorChar.setSpan(
-                ForegroundColorSpan(color),
-                0,
-                1,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            return spannableColorChar
+        private fun colorFromChar(char: Char): Int? {
+            return when {
+                DIGIT_CHARS.contains(char) -> {
+                    // RED
+                    Color.rgb(246, 79, 62)
+                }
+                SPECIAL_CHARS.contains(char) -> {
+                    // Blue
+                    Color.rgb(39, 166, 228)
+                }
+                MINUS_CHAR.contains(char)||
+                        UNDERLINE_CHAR.contains(char)||
+                        BRACKET_CHARS.contains(char) -> {
+                    // Purple
+                    Color.rgb(185, 38, 209)
+                }
+                extendedChars().contains(char) -> {
+                    // Green
+                    Color.rgb(44, 181, 50)
+                }
+                else -> {
+                    null
+                }
+            }
         }
     }
 }
