@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/card_view_padding">
 
-                <com.kunzisoft.keepass.view.PasswordView
+                <com.kunzisoft.keepass.view.PasswordEditView
                     android:id="@+id/passphrase_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

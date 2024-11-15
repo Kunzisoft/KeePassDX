@@ -113,7 +113,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
                                      field: Field): TextEditFieldView? {
         return context?.let {
-            TextEditFieldView(it).apply {
+            (if (templateAttribute.label == TemplateField.LABEL_PASSWORD)
+                PasswordTextEditFieldView(it)
+            else TextEditFieldView(it)).apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
                 setProtection(field.protectedValue.isProtected)
                 default = templateAttribute.default

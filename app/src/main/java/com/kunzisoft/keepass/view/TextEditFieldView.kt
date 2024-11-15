@@ -27,24 +27,24 @@ import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class TextEditFieldView @JvmOverloads constructor(context: Context,
+open class TextEditFieldView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,
                                                   defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
-    private var actionImageButtonId = ViewCompat.generateViewId()
+    protected var actionImageButtonId = ViewCompat.generateViewId()
 
     private var textModified = false
     private var isColorizedPasswordActivated = PreferencesUtil.colorizePassword(context)
 
-    private val labelView = TextInputLayout(context).apply {
+    protected val labelView = TextInputLayout(context).apply {
         layoutParams = LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
     }
-    private val valueView = TextInputEditText(
+    protected val valueView = TextInputEditText(
         ContextThemeWrapper(getContext(),
         R.style.KeepassDXStyle_TextInputLayout)
     ).apply {
@@ -106,10 +106,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     private fun buildViews() {
         labelView.apply {
             id = labelViewId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, actionImageButtonId)
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(LEFT_OF, actionImageButtonId)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, actionImageButtonId)
+                    it.addRule(START_OF, actionImageButtonId)
                 }
             }
         }

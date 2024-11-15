@@ -34,12 +34,12 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
-import com.kunzisoft.keepass.view.PasswordView
+import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 
 class PassphraseGeneratorFragment : DatabaseFragment() {
 
-    private lateinit var passwordView: PasswordView
+    private lateinit var passwordEditView: PasswordEditView
 
     private lateinit var sliderWordCount: Slider
     private lateinit var wordCountText: EditText
@@ -62,7 +62,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        passwordView = view.findViewById(R.id.passphrase_view)
+        passwordEditView = view.findViewById(R.id.passphrase_view)
         val passphraseCopyView: ImageView? = view.findViewById(R.id.passphrase_copy_button)
         sliderWordCount = view.findViewById(R.id.slider_word_count)
         wordCountText = view.findViewById(R.id.word_count)
@@ -80,7 +80,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
             passphraseCopyView?.setOnClickListener {
                 clipboardHelper.timeoutCopyToClipboard(
                     getString(R.string.passphrase),
-                    passwordView.passwordString,
+                    passwordEditView.passwordString,
                     true
                 )
             }
@@ -146,7 +146,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         generatePassphrase()
 
         mKeyGeneratorViewModel.passphraseGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passwordView.passwordString)
+            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordString)
         }
 
         mKeyGeneratorViewModel.requirePassphraseGeneration.observe(viewLifecycleOwner) {
@@ -219,7 +219,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a passphrase", e)
         }
-        passwordView.passwordString = passphrase
+        passwordEditView.passwordString = passphrase
         charactersCountText.text = getString(R.string.character_count, passphrase.length)
     }
 

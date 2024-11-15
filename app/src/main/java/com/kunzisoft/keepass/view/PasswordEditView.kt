@@ -37,9 +37,9 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class PasswordView @JvmOverloads constructor(context: Context,
-                                             attrs: AttributeSet? = null,
-                                             defStyle: Int = 0)
+class PasswordEditView @JvmOverloads constructor(context: Context,
+                                                 attrs: AttributeSet? = null,
+                                                 defStyle: Int = 0)
     : FrameLayout(context, attrs, defStyle) {
 
     private var mPasswordEntropyCalculator: PasswordEntropy? = null
@@ -74,7 +74,7 @@ class PasswordView @JvmOverloads constructor(context: Context,
         }
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_password, this)
+        inflater?.inflate(R.layout.view_password_edit, this)
 
         passwordInputLayout = findViewById(R.id.password_input_layout)
         passwordInputLayout?.hint = mViewHint
