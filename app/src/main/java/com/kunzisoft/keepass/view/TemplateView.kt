@@ -10,6 +10,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -48,7 +49,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
                                      field: Field): TextFieldView? {
         // Add an action icon if needed
         return context?.let {
-            TextFieldView(it).apply {
+            (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
+                PasswordTextFieldView(it)
+            else TextFieldView(it)).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
                 label = templateAttribute.alias
