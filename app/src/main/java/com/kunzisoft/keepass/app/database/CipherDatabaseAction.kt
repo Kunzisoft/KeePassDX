@@ -177,14 +177,18 @@ class CipherDatabaseAction(context: Context) {
         }
     }
 
-    fun resetCipherParameters() {
-        mBinder?.resetTimer()
-    }
-
     fun containsCipherDatabase(databaseUri: Uri,
                                contains: (Boolean) -> Unit) {
         getCipherDatabase(databaseUri) {
             contains.invoke(it != null)
+        }
+    }
+
+    fun resetCipherParameters(databaseUri: Uri) {
+        containsCipherDatabase(databaseUri) { contains ->
+            if (contains) {
+                mBinder?.resetTimer()
+            }
         }
     }
 
