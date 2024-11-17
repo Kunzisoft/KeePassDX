@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_warning_white_24dp"
+            android:src="@drawable/ic_hourglass_bottom_white_24dp"
             android:contentDescription="@string/content_description_file_information"
             app:tint="?android:attr/textColor"/>
         <androidx.appcompat.widget.AppCompatTextView
