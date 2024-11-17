@@ -26,7 +26,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
             return mTempCipherDao.firstOrNull { it.databaseUri == databaseUri.toString()}
         }
         fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity) {
-            val cipherDatabaseRetrieve = mTempCipherDao.firstOrNull { it.databaseUri == cipherDatabaseEntity.databaseUri }
+            val cipherDatabaseRetrieve = mTempCipherDao.firstOrNull {
+                it.databaseUri == cipherDatabaseEntity.databaseUri
+            }
             cipherDatabaseRetrieve?.replaceContent(cipherDatabaseEntity)
                     ?: mTempCipherDao.add(cipherDatabaseEntity)
         }
@@ -34,6 +36,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
             mTempCipherDao.firstOrNull { it.databaseUri == databaseUri.toString() }?.let {
                 mTempCipherDao.remove(it)
             }
+        }
+        fun resetTimer() {
+            resetTimeJob()
         }
         fun deleteAll() {
             mTempCipherDao.clear()

@@ -567,6 +567,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                 }
             )
         }
+        cipherDatabaseAction.resetCipherParameters()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

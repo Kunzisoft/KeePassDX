@@ -33,6 +33,7 @@ abstract class NotificationService : Service() {
     private var colorNotificationAccent: Int = 0
 
     protected var mTimerJob: Job? = null
+    private var mReset: Boolean = false
 
     protected abstract val notificationId: Int
 
@@ -120,16 +121,24 @@ abstract class NotificationService : Service() {
         mTimerJob = CoroutineScope(Dispatchers.Main).launch {
             if (timeoutMilliseconds > 0) {
                 val timeoutInSeconds = timeoutMilliseconds / 1000L
-                for (currentTime in timeoutInSeconds downTo 0) {
+                var currentTime = timeoutInSeconds
+                while (currentTime >= 0) {
+                    // Reset the timer if needed
+                    if (mReset) {
+                        mReset = false
+                        currentTime = timeoutInSeconds
+                    }
+                    // Update every second
                     actionAfterASecond?.invoke()
                     builder.setProgress(100,
-                            (currentTime * 100 / timeoutInSeconds).toInt(),
-                            false)
+                        (currentTime * 100 / timeoutInSeconds).toInt(),
+                        false)
                     startForegroundCompat(notificationId, builder, type)
                     delay(1000)
                     if (currentTime <= 0) {
                         actionEnd()
                     }
+                    currentTime--
                 }
             } else {
                 // If timeout is 0, run action once
@@ -139,6 +148,10 @@ abstract class NotificationService : Service() {
             mTimerJob = null
             cancel()
         }
+    }
+
+    protected fun resetTimeJob() {
+        mReset = true
     }
 
     override fun onDestroy() {
