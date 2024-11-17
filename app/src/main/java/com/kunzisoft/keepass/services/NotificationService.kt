@@ -25,6 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.joda.time.Instant
 
 
 abstract class NotificationService : Service() {
@@ -120,25 +121,26 @@ abstract class NotificationService : Service() {
         mTimerJob?.cancel()
         mTimerJob = CoroutineScope(Dispatchers.Main).launch {
             if (timeoutMilliseconds > 0) {
-                val timeoutInSeconds = timeoutMilliseconds / 1000L
-                var currentTime = timeoutInSeconds
+                var startInstant = Instant.now().millis
+                var currentTime = timeoutMilliseconds
                 while (currentTime >= 0) {
                     // Reset the timer if needed
                     if (mReset) {
                         mReset = false
-                        currentTime = timeoutInSeconds
+                        startInstant = Instant.now().millis
+                        currentTime = timeoutMilliseconds
                     }
                     // Update every second
                     actionAfterASecond?.invoke()
                     builder.setProgress(100,
-                        (currentTime * 100 / timeoutInSeconds).toInt(),
+                        (currentTime * 100 / timeoutMilliseconds).toInt(),
                         false)
                     startForegroundCompat(notificationId, builder, type)
                     delay(1000)
+                    currentTime = timeoutMilliseconds - (Instant.now().millis - startInstant)
                     if (currentTime <= 0) {
                         actionEnd()
                     }
-                    currentTime--
                 }
             } else {
                 // If timeout is 0, run action once

@@ -5,4 +5,4 @@
  * Correction des noms de domaines #1105 #1820
  * Entropie de mot de passe #1490 #1355
  * Mise à jour vers API 34 (Android 14)
- * Petites corrections #1711 #1831 #1780 #1821 #1863 #1889 #1289 #1600
+ * Petites corrections #1711 #1831 #1780 #1821 #1863 #1889 #1289 #1600 #1467
