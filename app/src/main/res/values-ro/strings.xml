@@ -391,7 +391,7 @@
     <string name="html_text_dev_feature_encourage">îi încurajați pe dezvoltatori să creeze &lt;strong&gt;noi caracteristici&lt;/strong&gt; și să &lt;strong&gt;rezolve problemele&lt;/strong&gt; în conformitate cu observațiile dvs.</string>
     <string name="html_text_dev_feature_thanks">Mulțumesc mult pentru contribuție.</string>
     <string name="html_text_dev_feature_work_hard">Muncim din greu pentru a lansa rapid această caracteristică.</string>
-    <string name="html_text_dev_feature_upgrade">Nu uitați să mențineți aplicația la zi instalând noi versiuni.</string>
+    <string name="html_text_dev_feature_upgrade">Nu uitați să vă mențineți aplicația la zi instalând noi actualizări.</string>
     <string name="download">Descărcați</string>
     <string name="contribute">Contribuie</string>
     <string name="download_attachment">Descărcați %1$s</string>
@@ -528,7 +528,7 @@
     <string name="error_no_response_from_challenge">Nu s-a reușit să obțină răspunsul la provocare.</string>
     <string name="error_cancel_by_user">Anulat de utilizator.</string>
     <string name="error_driver_required">Driver-ul pentru %1$s este necesară.</string>
-    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona de la o bază de date V1.</string>
+    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb</string>
     <string name="error_location_unknown">Locația bazei de date este necunoscută, acțiunea bazei de date nu poate fi efectuată.</string>
     <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Reține cheile hardware</string>
@@ -687,4 +687,13 @@
     <string name="style_name_follow_system">Urmează sistemul</string>
     <string name="style_name_light">Luminos</string>
     <string name="style_name_dark">Întunecat</string>
+    <string name="style_name_forest">Pădure</string>
+    <string name="style_name_divine">Divin</string>
+    <string name="style_name_simple">Simplu</string>
+    <string name="style_name_moon">Lună</string>
+    <string name="style_name_sun">Soare</string>
+    <string name="style_name_reply">Răspunde</string>
+    <string name="style_name_kunzite">Kunzită</string>
+    <string name="warning_database_info_changed_options_read_only">Reîncarcă baza de date cu noile schimbări.</string>
+    <string name="style_name_classic">Clasic</string>
 </resources>

@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 class AutofillBlocklistWebDomainPreferenceDialogFragmentCompat
     : AutofillBlocklistPreferenceDialogFragmentCompat() {
 
-    override fun buildSearchInfoFromString(searchInfoString: String): SearchInfo? {
+    override fun buildSearchInfoFromString(searchInfoString: String): SearchInfo {
         val newSearchInfo = searchInfoString
                 // remove prefix https://
                 .replace(Regex("^.*://"), "")

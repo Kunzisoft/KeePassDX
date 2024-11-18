@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.os.Build
 import android.text.InputFilter
-import android.text.SpannableString
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -38,15 +37,11 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
-import com.kunzisoft.keepass.password.PasswordGenerator
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
 
-class TextFieldView @JvmOverloads constructor(context: Context,
+open class TextFieldView @JvmOverloads constructor(context: Context,
                                               attrs: AttributeSet? = null,
                                               defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
@@ -56,7 +51,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
     private var showButtonId = ViewCompat.generateViewId()
     private var copyButtonId = ViewCompat.generateViewId()
 
-    private val labelView = AppCompatTextView(context).apply {
+    protected val labelView = AppCompatTextView(context).apply {
         setTextAppearance(context,
             R.style.KeepassDXStyle_TextAppearance_LabelTextStyle)
         layoutParams = LayoutParams(
@@ -77,7 +72,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             }
         }
     }
-    private val valueView = AppCompatTextView(context).apply {
+    protected val valueView = AppCompatTextView(context).apply {
         setTextAppearance(context,
             R.style.KeepassDXStyle_TextAppearance_TextNode)
         layoutParams = LayoutParams(
@@ -131,46 +126,46 @@ class TextFieldView @JvmOverloads constructor(context: Context,
     private fun buildViews() {
         copyButton.apply {
             id = copyButtonId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(ALIGN_PARENT_RIGHT)
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(ALIGN_PARENT_RIGHT)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(ALIGN_PARENT_END)
+                    it.addRule(ALIGN_PARENT_END)
                 }
             }
         }
         showButton.apply {
             id = showButtonId
-            layoutParams = (layoutParams as LayoutParams?).also {
+            layoutParams = (layoutParams as LayoutParams?)?.also {
                 if (copyButton.isVisible) {
-                    it?.addRule(LEFT_OF, copyButtonId)
+                    it.addRule(LEFT_OF, copyButtonId)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        it?.addRule(START_OF, copyButtonId)
+                        it.addRule(START_OF, copyButtonId)
                     }
                 } else {
-                    it?.addRule(ALIGN_PARENT_RIGHT)
+                    it.addRule(ALIGN_PARENT_RIGHT)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        it?.addRule(ALIGN_PARENT_END)
+                        it.addRule(ALIGN_PARENT_END)
                     }
                 }
             }
         }
         labelView.apply {
             id = labelViewId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, showButtonId)
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(LEFT_OF, showButtonId)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, showButtonId)
+                    it.addRule(START_OF, showButtonId)
                 }
             }
         }
         valueView.apply {
             id = valueViewId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, showButtonId)
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(LEFT_OF, showButtonId)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, showButtonId)
+                    it.addRule(START_OF, showButtonId)
                 }
-                it?.addRule(BELOW, labelViewId)
+                it.addRule(BELOW, labelViewId)
             }
         }
     }
@@ -188,7 +183,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             labelView.text = value
         }
 
-    fun setLabel(@StringRes labelId: Int) {
+    open fun setLabel(@StringRes labelId: Int) {
         labelView.setText(labelId)
     }
 
@@ -197,17 +192,11 @@ class TextFieldView @JvmOverloads constructor(context: Context,
             return valueView.text.toString()
         }
         set(value) {
-            val spannableString =
-                if (PreferencesUtil.colorizePassword(context)
-                    && TemplateField.isStandardPasswordName(context, label))
-                    PasswordGenerator.getColorizedPassword(value)
-                else
-                    SpannableString(value)
-            valueView.text = spannableString
+            valueView.text = value
             changeProtectedValueParameters()
         }
 
-    fun setValue(@StringRes valueId: Int) {
+    open fun setValue(@StringRes valueId: Int) {
         value = resources.getString(valueId)
         changeProtectedValueParameters()
     }
@@ -237,7 +226,7 @@ class TextFieldView @JvmOverloads constructor(context: Context,
         invalidate()
     }
 
-    private fun changeProtectedValueParameters() {
+    protected fun changeProtectedValueParameters() {
         valueView.apply {
             if (showButton.isVisible) {
                 applyHiddenStyle(showButton.isSelected)

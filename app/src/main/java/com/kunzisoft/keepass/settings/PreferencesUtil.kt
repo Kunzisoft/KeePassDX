@@ -120,6 +120,18 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.show_entry_colors_default))
     }
 
+    fun showExpiredEntries(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
+            context.resources.getBoolean(R.bool.hide_expired_entries_default))
+    }
+
+    fun showTemplates(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return ! prefs.getBoolean(context.getString(R.string.hide_templates_key),
+            context.resources.getBoolean(R.bool.hide_templates_default))
+    }
+
     fun hideProtectedValue(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.hide_password_key),
@@ -144,6 +156,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.list_groups_show_number_entries_default))
     }
 
+    fun recursiveNumberEntries(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.recursive_number_entries_key),
+            context.resources.getBoolean(R.bool.recursive_number_entries_default))
+    }
+
     fun showOTPToken(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_otp_token_key),
@@ -154,12 +172,6 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.show_uuid_key),
             context.resources.getBoolean(R.bool.show_uuid_default))
-    }
-
-    fun showExpiredEntries(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
-            context.resources.getBoolean(R.bool.hide_expired_entries_default))
     }
 
     fun getStyle(context: Context): String {
@@ -841,15 +853,17 @@ object PreferencesUtil {
                 context.getString(R.string.setting_style_brightness_key) -> editor.putString(name, value)
                 context.getString(R.string.setting_icon_pack_choose_key) -> editor.putString(name, value)
                 context.getString(R.string.show_entry_colors_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.hide_templates_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.hide_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.colorize_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_entries_show_username_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_groups_show_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.recursive_number_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_otp_token_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.show_uuid_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.list_size_key) -> editor.putString(name, value)
                 context.getString(R.string.monospace_font_fields_enable_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.hide_expired_entries_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_education_screens_key) -> editor.putBoolean(name, value.toBoolean())
 
                 context.getString(R.string.password_generator_length_key) -> editor.putInt(name, value.toInt())

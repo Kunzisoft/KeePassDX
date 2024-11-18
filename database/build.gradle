@@ -36,7 +36,7 @@ android {
 
 dependencies {
     // Time
-    implementation 'joda-time:joda-time:2.10.13'
+    implementation 'joda-time:joda-time:2.13.0'
     // Apache Commons
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'

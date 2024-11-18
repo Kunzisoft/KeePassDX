@@ -566,6 +566,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                     this.decryptedValue = decryptedValue
                 }
             )
+            cipherDatabaseAction.resetCipherParameters(databaseUri)
         }
     }
 

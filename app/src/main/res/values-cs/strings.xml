@@ -654,7 +654,7 @@
     <string name="error_no_response_from_challenge">Odezvu nelze z výzvy obdržet.</string>
     <string name="error_cancel_by_user">Zrušeno uživatelem.</string>
     <string name="error_driver_required">Ovladač pro %1$s je nutný.</string>
-    <string name="error_unable_merge_database_kdb">Spojení z databáze V1 nelze provést.</string>
+    <string name="error_unable_merge_database_kdb">Nepodařilo se sloučit s databázovým souborem kdb</string>
     <string name="error_hardware_key_unsupported">Hardwarový klíč není podporován.</string>
     <string name="error_empty_key">Klíč nemůže být prázdný.</string>
     <string name="enable_screenshot_mode_title">Režim screenshotu</string>

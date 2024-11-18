@@ -66,6 +66,7 @@ class NodesAdapter (
     private val mNodeSortedListCallback: NodeSortedListCallback
     private val mNodeSortedList: SortedList<Node>
     private val mInflater: LayoutInflater = LayoutInflater.from(context)
+    private val mNodeFilter: NodeFilter = NodeFilter(context, database)
 
     private var mCalculateViewTypeTextSize = Array(2) { true } // number of view type
     private var mTextSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
@@ -82,7 +83,7 @@ class NodesAdapter (
     private var mShowNumberEntries: Boolean = true
     private var mShowOTP: Boolean = false
     private var mShowUUID: Boolean = false
-    private var mEntryFilters = arrayOf<Group.ChildFilter>()
+    private var mNodeFilters: NodeFilter? = null
     private var mOldVirtualGroup = false
     private var mVirtualGroup = false
 
@@ -161,9 +162,7 @@ class NodesAdapter (
         this.mShowOTP = PreferencesUtil.showOTPToken(context)
         this.mShowUUID = PreferencesUtil.showUUID(context)
 
-        this.mEntryFilters = Group.ChildFilter.getDefaults(
-            PreferencesUtil.showExpiredEntries(context)
-        )
+        this.mNodeFilters = NodeFilter(context, database)
 
         // Reinit textSize for all view type
         mCalculateViewTypeTextSize.forEachIndexed { index, _ -> mCalculateViewTypeTextSize[index] = true }
@@ -176,7 +175,7 @@ class NodesAdapter (
         mOldVirtualGroup = mVirtualGroup
         mVirtualGroup = group.isVirtual
         assignPreferences()
-        mNodeSortedList.replaceAll(group.getFilteredChildren(mEntryFilters))
+        mNodeSortedList.replaceAll(group.getChildren(mNodeFilter.filter))
     }
 
     private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
@@ -205,6 +204,11 @@ class NodesAdapter (
                     && oldItem.type == newItem.type
                     && oldItem.title == newItem.title
                     && oldItem.icon == newItem.icon
+                    && oldItem.creationTime == newItem.creationTime
+                    && oldItem.lastModificationTime == newItem.lastModificationTime
+                    && oldItem.lastAccessTime == newItem.lastAccessTime
+                    && oldItem.expiryTime == newItem.expiryTime
+                    && oldItem.expires == newItem.expires
                     && oldItem.isCurrentlyExpires == newItem.isCurrentlyExpires
         }
 
@@ -473,7 +477,10 @@ class NodesAdapter (
             if (mShowNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .recursiveNumberOfChildEntries
+                            .getNumberOfChildEntries(
+                                mNodeFilter.recursiveNumberOfEntries,
+                                mNodeFilter.filter
+                            )
                             .toString()
                     setTextSize(mTextSizeUnit, mNumberChildrenTextDefaultDimension, mPrefSizeMultiplier)
                     visibility = View.VISIBLE

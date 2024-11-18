@@ -75,16 +75,16 @@ class EntryOutputKDB(private val mDatabase: DatabaseKDB,
             writeStringToStream(mOutputStream, mEntry.notes)
 
             // Create date
-            writeDate(CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime.date))
+            writeDate(CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime))
 
             // Modification date
-            writeDate(MOD_FIELD_TYPE, dateTo5Bytes(mEntry.lastModificationTime.date))
+            writeDate(MOD_FIELD_TYPE, dateTo5Bytes(mEntry.lastModificationTime))
 
             // Access date
-            writeDate(ACCESS_FIELD_TYPE, dateTo5Bytes(mEntry.lastAccessTime.date))
+            writeDate(ACCESS_FIELD_TYPE, dateTo5Bytes(mEntry.lastAccessTime))
 
             // Expiration date
-            writeDate(EXPIRE_FIELD_TYPE, dateTo5Bytes(mEntry.expiryTime.date))
+            writeDate(EXPIRE_FIELD_TYPE, dateTo5Bytes(mEntry.expiryTime))
 
             // Binary description
             mOutputStream.write(BINARY_DESC_FIELD_TYPE)

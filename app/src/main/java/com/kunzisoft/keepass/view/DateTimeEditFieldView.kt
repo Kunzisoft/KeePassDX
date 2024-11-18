@@ -111,7 +111,7 @@ class DateTimeEditFieldView @JvmOverloads constructor(context: Context,
                 mDefault
         }
         set(value) {
-            mDateTime = DateInstant(value.date, mDateTime.type)
+            mDateTime = DateInstant(value.instant, mDateTime.type)
             entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
                 mDateTime.getDateTimeString(resources)
             } else {

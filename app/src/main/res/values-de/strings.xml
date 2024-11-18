@@ -53,7 +53,7 @@
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
-    <string name="entry_notes">Notizen</string>
+    <string name="entry_notes">Hinweise</string>
     <string name="entry_confpassword">Passwort bestätigen</string>
     <string name="entry_created">Erstellt</string>
     <string name="entry_expires">Gültig bis</string>
@@ -64,7 +64,7 @@
     <string name="save">Speichern</string>
     <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
-    <string name="entry_user_name">Nutzername</string>
+    <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/Arcfour-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
     <string name="error_file_not_create">Datei konnte nicht erstellt werden</string>
@@ -80,7 +80,7 @@
     <string name="error_wrong_length">Gib eine positive ganze Zahl in das Feld „Länge“ ein.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="file_not_found_content">Datei nicht gefunden. Versuche sie über den Dateimanager zu öffnen.</string>
+    <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="hint_conf_pass">Passwort bestätigen</string>
@@ -124,7 +124,7 @@
     <string name="progress_title">Bearbeitung läuft …</string>
     <string name="protection">Schutz</string>
     <string name="read_only">Schreibgeschützt</string>
-    <string name="read_only_warning">Abhängig von deinem Dateienmanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
+    <string name="read_only_warning">Abhängig vom Dateimanager hat KeePassDX möglicherweise keine Schreibberechtigung.</string>
     <string name="content_description_remove_from_list">Entfernen</string>
     <string name="root">Start</string>
     <string name="rounds">Verschlüsselungsrunden</string>
@@ -174,7 +174,7 @@
     <string name="unavailable">Nicht vorhanden</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
-    <string name="extended_ASCII">Erweiterte ASCII</string>
+    <string name="extended_ASCII">Erweiterter ASCII</string>
     <string name="allow">Erlauben</string>
     <string name="error_autofill_enable_service">Dienst für automatisches Ausfüllen kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
@@ -184,20 +184,20 @@
     <string name="memory_usage">Arbeitsspeichernutzung</string>
     <string name="memory_usage_explanation">Arbeitsspeicher, der für die Schlüsselableitung gebraucht wird.</string>
     <string name="parallelism">Parallelisierung</string>
-    <string name="parallelism_explanation">Grad der Parallelisierung (d.h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism_explanation">Grad der Parallelisierung (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
     <string name="sort_ascending">Aufsteigend ↓</string>
     <string name="sort_groups_before">Gruppen oben</string>
     <string name="sort_recycle_bin_bottom">Papierkorb unten</string>
     <string name="sort_title">Titel</string>
-    <string name="sort_username">Nutzername</string>
+    <string name="sort_username">Benutzername</string>
     <string name="sort_creation_time">Erstellungsdatum</string>
     <string name="sort_last_modify_time">Änderungsdatum</string>
     <string name="sort_last_access_time">Zugriffsdatum</string>
     <string name="autofill">Automatisches Ausfüllen</string>
     <string name="autofill_service_name">KeePassDX Auto-Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
-    <string name="set_autofill_service_title">Standard Autofill-Service festlegen</string>
+    <string name="set_autofill_service_title">Standard-Autofill-Service festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare in anderen Apps schnell auszufüllen</string>
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
@@ -228,15 +228,15 @@
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiter zu verwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
-    <string name="education_new_node_summary">Einträge helfen dabei digitale Konten zu verwalten.
+    <string name="education_new_node_summary">Einträge helfen, digitale Konten zu verwalten.
 \n
 \nGruppen/Ordner gliedern Einträge in der Datenbank.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
-    <string name="education_search_summary">Titel, Nutzernamen oder Inhalte anderer Felder eingeben, um Passwörter zu finden.</string>
+    <string name="education_search_summary">Titel, Benutzernamen oder Inhalt anderer Felder eingeben, um Passwörter zu finden.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht Ihr Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht, Ihr Passwort zu sichern.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -250,7 +250,7 @@
     <string name="education_sort_summary">Wählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern sowie weitere Funktionen zu ermöglichen.</string>
-    <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version du verwendest.</string>
+    <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version man verwendet.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhältst du Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; ist dank deiner Großzügigkeit verfügbar.</string>
     <string name="html_text_donation">Um unsere Freiheit zu erhalten und stets aktiv zu bleiben, zählen wir auf deinen &lt;strong&gt;Beitrag.&lt;/strong&gt;</string>
@@ -287,8 +287,8 @@
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
-    <string name="list_entries_show_username_title">Nutzernamen anzeigen</string>
-    <string name="list_entries_show_username_summary">Nutzernamen in Liste anzeigen</string>
+    <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
+    <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -318,7 +318,7 @@
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
     <string name="do_not_kill_app">App nicht beenden …</string>
-    <string name="lock_database_back_root_summary">Datenbank sperren, wenn im Wurzelordner die Zurück-Taste gedrückt wird</string>
+    <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm die Taste „Zurück“ gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
@@ -382,7 +382,7 @@
     <string name="menu_security_settings">Sicherheitseinstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüsseleinstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält doppelte UUIDs.</string>
-    <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden um fortzufahren\?</string>
+    <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden, um fortzufahren?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mit der Zwischenablage des Geräts kopieren</string>
     <string name="advanced_unlock_explanation_summary">Geräteentsperrung verwenden, um eine Datenbank einfacher zu öffnen</string>
@@ -393,12 +393,12 @@
     <string name="max_history_size_title">Maximale Größe</string>
     <string name="max_history_size_summary">Verlaufsumfang pro Eintrag begrenzen</string>
     <string name="settings_database_recommend_changing_master_key_title">Passwortänderung empfehlen</string>
-    <string name="settings_database_recommend_changing_master_key_summary">(Nach Tagen) Ändern des Hauptschlüssels empfehlen</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Ändern des Hauptschlüssels empfehlen (Tage)</string>
     <string name="settings_database_force_changing_master_key_title">Passwortänderung erzwingen</string>
     <string name="settings_database_force_changing_master_key_summary">Ändern des Hauptschlüssels erforderlich (Tage)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Änderung nächstes Mal erzwingen</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Ändern des Hauptschlüssels beim nächsten Mal erfordern (einmalig)</string>
-    <string name="database_default_username_title">Standardnutzername</string>
+    <string name="database_default_username_title">Standardbenutzername</string>
     <string name="database_custom_color_title">Eigene Datenbankfarbe</string>
     <string name="compression">Komprimierung</string>
     <string name="compression_none">Keine</string>
@@ -448,7 +448,7 @@
     <string name="autofill_manual_selection_summary">Option zur manuellen Auswahl des Datenbankeintrags anzeigen</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
     <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
-    <string name="autofill_preference_title">Autofüll-Einstellungen</string>
+    <string name="autofill_preference_title">Einstellungen für automatisches Ausfüllen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
     <string name="autofill_block_restart">Die das Formular enthaltende App neu starten, um die Sperrung zu aktivieren.</string>
@@ -463,7 +463,7 @@
     <string name="content_description_add_item">Element hinzufügen</string>
     <string name="filter">Filter</string>
     <string name="keyboard_change">Tastatur wechseln</string>
-    <string name="keyboard_previous_fill_in_title">Zurück wechseln</string>
+    <string name="keyboard_previous_fill_in_title">Zurückwechseln</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
     <string name="keyboard_previous_fill_in_summary">Nach dem Ausführen der automatischen Tastenaktion automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_database_credentials_summary">Auf dem Datenbank-Anmeldebildschirm automatisch zur vorherigen Tastatur wechseln</string>
@@ -476,16 +476,16 @@
     <string name="warning_sure_remove_data">Diese Daten trotzdem entfernen\?</string>
     <string name="warning_remove_unlinked_attachment">Das Entfernen nicht verknüpfter Daten kann die Größe der Datenbank reduzieren, allerdings auch Daten löschen, die von KeePass-Plugins genutzt werden.</string>
     <string name="warning_replace_file">Das Hinzufügen dieser Datei wird die bestehende Datei ersetzen.</string>
-    <string name="warning_file_too_big">Eine KeePass-Datenbank soll nur kleine Dateien beinhalten (wie z.B. PGP-Schlüsseldateien).
+    <string name="warning_file_too_big">Eine KeePass-Datenbank soll nur kleine Dateien beinhalten (wie z. B. PGP-Schlüsseldateien).
 \n
-\nDeine Datenbank könnte mit diesem Anhang sehr groß und leistungsschwach werden.</string>
+\nMit diesem Anhang könnte die Datenbank sehr groß werden und damit die Leistung beeinträchtigen.</string>
     <string name="upload_attachment">%1$s hochladen</string>
     <string name="education_add_attachment_title">Anhang hinzufügen</string>
     <string name="database_data_remove_unlinked_attachments_summary">Entfernt Anhänge, die in der Datenbank enthalten, aber keinem Eintrag zugeordnet sind</string>
     <string name="warning_sure_add_file">Datei trotzdem hinzufügen\?</string>
     <string name="show_uuid_summary">Zeigt die mit einem Eintrag oder einer Gruppe verknüpfte UUID an</string>
     <string name="show_uuid_title">UUID anzeigen</string>
-    <string name="autofill_read_only_save">Daten speichern ist bei schreibgeschützt geöffneter Datenbank nicht möglich.</string>
+    <string name="autofill_read_only_save">Das Speichern von Daten ist bei einer schreibgeschützt geöffneten Datenbank nicht möglich.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
     <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
@@ -496,7 +496,7 @@
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig</string>
-    <string name="autofill_save_search_info_summary">Bei manueller Eintragsauswahl Suchinformationen speichern, für leichtere zukünftige Verwendung</string>
+    <string name="autofill_save_search_info_summary">Bei manueller Eintragsauswahl Suchinformationen speichern, um sie später leichter verwenden zu können</string>
     <string name="autofill_ask_to_save_data_summary">Fragen, ob Daten nach Formularausfüllung gespeichert werden sollen</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
     <string name="autofill_save_search_info_title">Suchinformationen speichern</string>
@@ -511,7 +511,7 @@
     <string name="education_advanced_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
     <string name="education_advanced_unlock_title">Geräteentsperrung der Datenbank</string>
     <string name="advanced_unlock_timeout">Zeitlimit für Geräteentsperrung</string>
-    <string name="temp_advanced_unlock_timeout_summary">Dauer der Geräteentsperrung bis sie zurückgesetzt wird</string>
+    <string name="temp_advanced_unlock_timeout_summary">Dauer der Geräteentsperrung, bis sie zurückgesetzt wird</string>
     <string name="temp_advanced_unlock_timeout_title">Ablauf der Geräteentsperrung</string>
     <string name="temp_advanced_unlock_enable_summary">Bei Nutzung der Geräteentsperrung keine verschlüsselten Inhalte speichern</string>
     <string name="temp_advanced_unlock_enable_title">Zeitlich begrenzte Geräteentsperrung</string>
@@ -546,7 +546,7 @@
     <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
     <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung erzeugt Token möglicherweise nicht mehr korrekt.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
-    <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort erneut öffnen.</string>
+    <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort aus erneut öffnen.</string>
     <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen</string>
     <string name="success_export_app_properties">App-Einstellungen exportiert</string>
     <string name="error_import_app_properties">Fehler beim Importieren der App-Einstellungen</string>
@@ -566,13 +566,13 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Abgebrochen!</string>
-    <string name="autofill_inline_suggestions_keyboard">Autofüll-Vorschläge hinzugefügt.</string>
-    <string name="autofill_inline_suggestions_summary">Falls möglich, Autofüll-Vorschläge direkt auf kompatibler Tastatur anzeigen</string>
+    <string name="autofill_inline_suggestions_keyboard">Vorschläge zum automatischen Ausfüllen hinzugefügt.</string>
+    <string name="autofill_inline_suggestions_summary">Falls möglich, Vorschläge zum automatischen Ausfüllen direkt auf kompatibler Tastatur anzeigen</string>
     <string name="properties">Eigenschaften</string>
     <string name="description_app_properties">KeePassDX-Eigenschaften zur Verwaltung der App-Einstellungen</string>
     <string name="secure_note">Sicherer Hinweis</string>
     <string name="type">Typ</string>
-    <string name="date_of_issue">Datum</string>
+    <string name="date_of_issue">Ausstellungsdatum</string>
     <string name="place_of_issue">Ausstellungsort</string>
     <string name="name">Name</string>
     <string name="id_card">Personalausweis</string>
@@ -582,14 +582,14 @@
     <string name="templates">Vorlagen</string>
     <string name="templates_group_uuid_title">Vorlagengruppe</string>
     <string name="templates_group_enable_summary">Dynamische Vorlagen zum Ausfüllen der Felder eines Eintrags verwenden</string>
-    <string name="templates_group_enable_title">Vorlagen-Verwendung</string>
+    <string name="templates_group_enable_title">Verwendung von Vorlagen</string>
     <string name="version">Version</string>
     <string name="template">Vorlage</string>
     <string name="standard">Standard</string>
     <string name="membership">Mitgliedschaft</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="bank_identifier_code">SWIFT/BIC</string>
-    <string name="bank_name">Bankname</string>
+    <string name="bank_name">Name der Bank</string>
     <string name="bank">Bank</string>
     <string name="account">Konto</string>
     <string name="seed">Seed</string>
@@ -626,8 +626,8 @@
     <string name="search_filters">Suchfilter</string>
     <string name="current_group">Aktuelle Gruppe</string>
     <string name="case_sensitive">Groß-/Kleinschreibung beachten</string>
-    <string name="menu_merge_from">Zusammenführen von …</string>
-    <string name="menu_save_copy_to">Kopie speichern unter …</string>
+    <string name="menu_merge_from">Zusammenführen von …</string>
+    <string name="menu_save_copy_to">Kopie speichern unter …</string>
     <string name="content_description_nav_header">Navigationskopfzeile</string>
     <string name="navigation_drawer_close">Navigationsleiste schließen</string>
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
@@ -636,17 +636,18 @@
     <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
 \n
 \nJe nach der internen API-Implementierung des Betriebssystems kann sie eingeschränkt sein.
+\n
 \nBitte die Kompatibilität und Sicherheit des Schlüsselspeichers vom Gerätehersteller und vom Ersteller der verwendeten ROM abgleichen.</string>
     <string name="content_description_passphrase_word_count">Passphrasen-Wortanzahl</string>
     <string name="passphrase">Passphrase</string>
-    <string name="colorize_password_title">Passwörter kolorieren</string>
-    <string name="colorize_password_summary">Koloriere Passwortzeichen nach Typ</string>
+    <string name="colorize_password_title">Passwörter einfärben</string>
+    <string name="colorize_password_summary">Passwortzeichen nach Typ einfärben</string>
     <string name="keyboard_previous_search_title">Suchbildschirm</string>
     <string name="keyboard_previous_search_summary">Auf dem Suchbildschirm automatisch zur vorherigen Tastatur wechseln</string>
     <string name="entropy">Entropie: %1$s Bit</string>
     <string name="entropy_high">Entropie: Hoch</string>
     <string name="entropy_calculate">Entropie: Berechnen …</string>
-    <string name="at_least_one_char">Mindestens jedes Zeichen einmal</string>
+    <string name="at_least_one_char">Mindestens ein Zeichen von jedem</string>
     <string name="consider_chars_filter">Zeichen beinhalten</string>
     <string name="word_separator">Trennzeichen</string>
     <string name="ignore_chars_filter">Zeichen ignorieren</string>
@@ -663,7 +664,7 @@
     <string name="waiting_challenge_request">Challenge-Anfrage abwarten …</string>
     <string name="error_cancel_by_user">Vom Benutzer abgebrochen.</string>
     <string name="error_driver_required">Treiber für %1$s ist erforderlich.</string>
-    <string name="error_unable_merge_database_kdb">Die Zusammenführung aus einer Datenbank V1 ist nicht möglich.</string>
+    <string name="error_unable_merge_database_kdb">Das Zusammenführen mit einer kdb-Datenbankdatei ist nicht möglich.</string>
     <string name="error_location_unknown">Der Speicherort der Datenbank ist unbekannt, Datenbankaktion kann nicht ausgeführt werden.</string>
     <string name="error_hardware_key_unsupported">Der Hardwareschlüssel wird nicht unterstützt.</string>
     <string name="error_empty_key">Der Schlüssel darf nicht leer sein.</string>
@@ -679,7 +680,7 @@
     <string name="auto_type">Automatische Eingabe</string>
     <string name="html_about_privacy">&lt;strong&gt;Es werden keine Benutzerdaten ausgelesen&lt;/strong&gt;, diese Anwendung stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert vollständig die Privatsphäre der Benutzer.</string>
     <string name="merge_success">Zusammenführung erfolgreich abgeschlossen</string>
-    <string name="menu_form_filling_settings_summary">Tastatur, Automatisches Ausfüllen, Zwischenablage</string>
+    <string name="menu_form_filling_settings_summary">Tastatur, automatisches Ausfüllen, Zwischenablage</string>
     <string name="menu_advanced_unlock_settings_summary">Biometrie, Geräteanmeldedaten</string>
     <string name="menu_database_settings_summary">Metadaten, Papierkorb, Vorlagen, Verlauf</string>
     <string name="menu_app_settings_summary">Suche, Sperre, Verlauf, Eigenschaften</string>

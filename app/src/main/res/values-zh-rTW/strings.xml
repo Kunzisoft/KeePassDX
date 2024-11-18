@@ -372,7 +372,7 @@
     <string name="keyboard_previous_fill_in_title">切換回</string>
     <string name="keyboard_previous_lock_summary">鎖定資料庫後自動返回前一個鍵盤</string>
     <string name="keyboard_previous_lock_title">鎖定資料庫</string>
-    <string name="keyboard_save_search_info_summary">將 URL 分享到 KeePassDX 後，當選好條目時，將嘗試記住該條目以備日後使用</string>
+    <string name="keyboard_save_search_info_summary">於 KeePassDX 手動選擇條目後，嘗試記住分享標的以供日後使用</string>
     <string name="keyboard_save_search_info_title">保存分享的訊息</string>
     <string name="keyboard_selection_entry_summary">在 KeePassDX 中查看條目時，同時把該條目填充到 Magikeyboard</string>
     <string name="keyboard_selection_entry_title">條目選擇</string>
@@ -448,7 +448,7 @@
     <string name="monospace_font_fields_enable_title">欄位字型</string>
     <string name="name">姓名</string>
     <string name="never">從不</string>
-    <string name="unavailable">當前資料庫無密碼。</string>
+    <string name="unavailable">當前資料庫無密碼</string>
     <string name="no_results">沒有搜尋結果</string>
     <string name="no_url_handler">沒有這個連結的處理程式。</string>
     <string name="notification">通知</string>
@@ -616,10 +616,7 @@
     <string name="searchable">可搜索</string>
     <string name="inherited">繼承</string>
     <string name="warning_database_already_opened">已經有一個資料庫打開了，先關閉它，才可以打開新的資料庫</string>
-    <string name="advanced_unlock_keystore_warning">此功能會將加密的身份驗證數據儲存在設備裏安全存儲 KeyStore 中。
-\n
-\n基於操作系統的原始 API 實現，Keystore 有可能無法發揮其應有的作用。
-\n請向設備的製造商和 ROM 的創建者咨詢 KeyStore 的兼容性和安全性。</string>
+    <string name="advanced_unlock_keystore_warning">此功能會將加密的身份驗證數據儲存在設備裏安全存儲 KeyStore 中。\n\n基於操作系統的原始 API 實現，Keystore 有可能無法發揮其應有的作用。\n\n請向設備的製造商和 ROM 的創建者咨詢 KeyStore 的兼容性和安全性。</string>
     <string name="content_description_passphrase_word_count">密碼短句字數</string>
     <string name="passphrase">密碼短句</string>
     <string name="colorize_password_title">以顏色標示密碼</string>
@@ -649,14 +646,14 @@
     <string name="auto_type">自動填入</string>
     <string name="info">資訊</string>
     <string name="html_about_privacy">&lt;strong&gt;不收集用戶資料。&lt;/strong&gt;，此應用程式不連接任何伺服器，僅在裝置上運作，而且完全尊重用戶私穩。</string>
-    <string name="waiting_challenge_request">正等待Challenge請求……</string>
+    <string name="waiting_challenge_request">正等待開發請求……</string>
     <string name="waiting_challenge_response">正等待Challenge回應……</string>
     <string name="error_XML_malformed">XML格式錯誤。</string>
     <string name="error_challenge_already_requested">已請求Challenge</string>
     <string name="error_no_response_from_challenge">無法從Challenge得到回應。</string>
     <string name="error_driver_required">需要 %1$s 驅動程式。</string>
-    <string name="error_unable_merge_database_kdb">無法從資料庫V1合井。</string>
-    <string name="colorize_password_summary">按類型為密碼字元上色</string>
+    <string name="error_unable_merge_database_kdb">無法與資料庫檔案合井</string>
+    <string name="colorize_password_summary">以色彩分類各密碼字元</string>
     <string name="menu_app_settings_summary">搜尋、鎖定、紀錄、屬性</string>
     <string name="menu_form_filling_settings_summary">鍵盤、自動填入、剪貼簿</string>
     <string name="menu_advanced_unlock_settings_summary">生物特徵、裝置憑證</string>
@@ -680,7 +677,7 @@
 \n如果自動鎖定已啓用，而你又忘記你在更改資料，你可能會失去你的資料。</string>
     <string name="style_name_forest">Forest</string>
     <string name="style_name_divine">Divine</string>
-    <string name="style_name_simple">Simple</string>
+    <string name="style_name_simple">簡單</string>
     <string name="style_name_moon">Moon</string>
     <string name="style_name_sun">Sun</string>
     <string name="style_name_kunzite">Kunzite</string>
@@ -688,11 +685,12 @@
     <string name="style_name_light">淺色</string>
     <string name="style_name_dark">黑暗</string>
     <string name="style_name_classic">Classic</string>
-    <string name="style_name_reply">Reply</string>
+    <string name="style_name_reply">回覆</string>
     <string name="remember_hardware_key_summary">追蹤使用的硬體密鑰</string>
     <string name="warning_database_notification_permission">通知權限讓您在資料庫運作於背景時，透過通知欄查看其狀態並使用方便的按鈕將其鎖住。
 \n
 \n如果不啟用此權限，當其他應用程式在前台運作時，您将无法在通知欄中查看背景運行的資料庫。</string>
     <string name="unlock_and_link_biometric">裝置解鎖連線</string>
     <string name="education_validate_entry_title">驗證條目</string>
+    <string name="warning_database_info_changed_options_read_only">以最新的變動重新載入資料庫。</string>
 </resources>

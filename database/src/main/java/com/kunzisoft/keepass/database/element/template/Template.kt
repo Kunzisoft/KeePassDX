@@ -154,7 +154,10 @@ class Template : Parcelable {
         val EXPIRATION_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_EXPIRATION,
             TemplateAttributeType.DATETIME,
-            false)
+            false,
+            TemplateAttributeOption().apply {
+                setExpirable(true)
+            })
         val NOTES_ATTRIBUTE = TemplateAttribute(
             TemplateField.LABEL_NOTES,
             TemplateAttributeType.TEXT,

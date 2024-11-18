@@ -43,7 +43,7 @@ import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
-import com.kunzisoft.keepass.view.PassKeyView
+import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.view.applyFontVisibility
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +60,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var rootView: View
 
     private lateinit var passwordCheckBox: CompoundButton
-    private lateinit var passwordView: PassKeyView
+    private lateinit var passwordEditView: PasswordEditView
     private lateinit var passwordRepeatTextInputLayout: TextInputLayout
     private lateinit var passwordRepeatView: TextView
 
@@ -147,7 +147,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
 
             passwordCheckBox = rootView.findViewById(R.id.password_checkbox)
-            passwordView = rootView.findViewById(R.id.password_view)
+            passwordEditView = rootView.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView.findViewById(R.id.password_confirmation)
             passwordRepeatView.applyFontVisibility()
@@ -276,7 +276,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         var error = false
         passwordRepeatTextInputLayout.error = null
         if (passwordCheckBox.isChecked) {
-            mMasterPassword = passwordView.passwordString
+            mMasterPassword = passwordEditView.passwordString
             val confPassword = passwordRepeatView.text.toString()
 
             // Verify that passwords match
@@ -328,13 +328,13 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onResume()
 
         // To check checkboxes if a text is present
-        passwordView.addTextChangedListener(passwordTextWatcher)
+        passwordEditView.addTextChangedListener(passwordTextWatcher)
     }
 
     override fun onPause() {
         super.onPause()
 
-        passwordView.removeTextChangedListener(passwordTextWatcher)
+        passwordEditView.removeTextChangedListener(passwordTextWatcher)
     }
 
     private fun showEmptyPasswordConfirmationDialog() {

@@ -416,6 +416,13 @@
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
 
+    <!-- Indicator -->
+    <style name="KeepassDXStyle.Text.Indicator" parent="KeepassDXStyle.Text">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Nodes Text Style -->
     <style name="KeepassDXStyle.Title.Entry" parent="KeepassDXStyle.Text">
         <item name="android:textColor">@color/text_primary_color</item>

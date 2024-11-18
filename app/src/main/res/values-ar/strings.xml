@@ -620,7 +620,7 @@
     <string name="error_response_already_provided">تقدم الرد بالفعل.</string>
     <string name="error_no_response_from_challenge">غير قادر على الحصول على رد من التحدي.</string>
     <string name="error_driver_required">مطلوب تعريف لـ%1$s.</string>
-    <string name="error_unable_merge_database_kdb">تعذر الدمج من قاعدة بيانات V1.</string>
+    <string name="error_unable_merge_database_kdb">غير قادر على الدمج مع ملف قاعدة بيانات kdb</string>
     <string name="error_location_unknown">موقع قاعدة البيانات غير معروف، لا يمكن تنفيذ إجراء قاعدة البيانات.</string>
     <string name="menu_advanced_unlock_settings_summary">القياس الحيوي، بيانات اعتماد الجهاز</string>
     <string name="menu_database_settings_summary">البيانات الوصفية، سلة المحذوفات، القوالب، التاريخ</string>

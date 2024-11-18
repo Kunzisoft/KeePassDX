@@ -184,6 +184,14 @@ class CipherDatabaseAction(context: Context) {
         }
     }
 
+    fun resetCipherParameters(databaseUri: Uri) {
+        containsCipherDatabase(databaseUri) { contains ->
+            if (contains) {
+                mBinder?.resetTimer()
+            }
+        }
+    }
+
     fun addOrUpdateCipherDatabase(cipherEncryptDatabase: CipherEncryptDatabase,
                                   cipherDatabaseResultListener: (() -> Unit)? = null) {
         cipherEncryptDatabase.databaseUri?.let { databaseUri ->

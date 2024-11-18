@@ -441,7 +441,7 @@
     <string name="autofill_application_id_blocklist_summary">Blokeringsliste der forhindrer automatisk udfyldning af apps</string>
     <string name="autofill_application_id_blocklist_title">Blokeringsliste for applikation</string>
     <string name="keyboard_previous_fill_in_summary">Skift automatisk tilbage til det forrige tastatur efter udførelse af \"Automatisk tastehandling\"</string>
-    <string name="keyboard_previous_fill_in_title">Automatisk tastehandling</string>
+    <string name="keyboard_previous_fill_in_title">Skift tilbage</string>
     <string name="keyboard_previous_database_credentials_summary">Skift automatisk tilbage til det forrige tastatur på databasens legitimationsskærm</string>
     <string name="keyboard_previous_database_credentials_title">Skærm til databaselegitimationsoplysninger</string>
     <string name="keyboard_change">Skift tastatur</string>
@@ -497,12 +497,12 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Annulleret!</string>
-    <string name="education_advanced_unlock_title">Avanceret database-oplåsning</string>
+    <string name="education_advanced_unlock_title">Database-oplåsning</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyld tilføjet.</string>
     <string name="select_entry">Vælg post</string>
     <string name="back_to_previous_keyboard">Tilbage til forrige tastatur</string>
     <string name="custom_fields">Brugerdefinerede felter</string>
-    <string name="advanced_unlock_delete_all_key_warning">Slet alle krypteringsnøgler relateret til avanceret oplåsningsgenkendelse\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Seletealle krypteringsnøgler relateret til enhedsoplåsningsgenkendelse?</string>
     <string name="advanced_unlock_tap_delete">Tryk for at slette enhedens oplåsningsnøgler</string>
     <string name="content">Indhold</string>
     <string name="credential_before_click_advanced_unlock_button">Indtast adgangskoden, og klik derefter på denne knap.</string>
@@ -591,7 +591,7 @@
     <string name="permission">Tilladelse</string>
     <string name="templates_group_uuid_title">Skabelongruppe</string>
     <string name="autofill_manual_selection_title">Manuelt valg</string>
-    <string name="enable_keep_screen_on_summary">Hold skærmen tændt, når du ser på posten</string>
+    <string name="enable_keep_screen_on_summary">Hold skærmen tændt, når du læser eller redigere et indlæg</string>
     <string name="enable_keep_screen_on_title">Hold skærmen tændt</string>
     <string name="keyboard_previous_search_title">Søgeskærm</string>
     <string name="keyboard_previous_search_summary">Skift automatisk tilbage til det tidligere tastatur på søgeskærmen</string>
@@ -645,8 +645,8 @@
     <string name="templates_group_enable_summary">Brug dynamiske skabeloner til at udfylde felterne i en post</string>
     <string name="advanced_unlock_keystore_warning">Denne funktion gemmer krypterede legitimationsdata i den sikre KeyStore på din enhed.
 \n
-\nAfhængigt af operativsystemets indbyggede API-implementering er den muligvis ikke fuldt funktionel.
-\nKontroller KeyStore\'s kompatibilitet og sikkerhed med producenten af din enhed og skaberen af den ROM, du bruger.</string>
+\nAfhængigt af operativsystemets indbyggede API-implementering er funktionen muligvis ikke fuldt funktionsdygtig.
+\nKontroller kompatibiliteten og sikkerheden af KeyStore med producenten af din enhed og skaberen af den ROM, du bruger.</string>
     <string name="entropy">Entropi: %1$s bit</string>
     <string name="consider_chars_filter">Overvej tegn</string>
     <string name="html_about_privacy">&lt;strong&gt;Der hentes ingen brugerdata&lt;/strong&gt;, denne applikation opretter ikke forbindelse til nogen server, kører kun lokalt og respekterer fuldt ud brugernes privatliv.</string>
@@ -685,4 +685,20 @@
     <string name="menu_app_settings_summary">Søg, lås, historik, egenskaber</string>
     <string name="later">Senere</string>
     <string name="menu_appearance_settings_summary">Temaer, farver, attributter</string>
+    <string name="style_name_forest">Skov</string>
+    <string name="style_name_divine">Guddommelig</string>
+    <string name="style_name_classic">Klassisk</string>
+    <string name="style_name_light">Lys</string>
+    <string name="style_name_dark">Mørk</string>
+    <string name="education_validate_entry_title">Bekræft ændring</string>
+    <string name="warning_database_info_changed_options_read_only">Genindlæs databasen med de seneste ændringer.</string>
+    <string name="education_validate_entry_summary">Husk at validere dine indtastede data og sikre, at din database er gemt.
+\n
+\nHvis en automatisk lås aktiveres uden, at ændringerne er blevet gemt, kan det resultere i tab af data.</string>
+    <string name="style_name_simple">Simpel</string>
+    <string name="style_name_moon">Måne</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_reply">Besvar</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Følg systemets tilstand</string>
 </resources>

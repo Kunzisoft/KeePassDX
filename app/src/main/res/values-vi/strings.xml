@@ -387,7 +387,7 @@
     <string name="merge_success">Việc hợp nhất đã hoàn thành thành công</string>
     <string name="permission">Quyền</string>
     <string name="version_label">Phiên bản %1$s</string>
-    <string name="build_label">Xây dựng %1$s</string>
+    <string name="build_label">Bản dựng %1$s</string>
     <string name="configure">Định cấu hình</string>
     <string name="configure_biometric">Không có thông tin xác thực sinh trắc học hoặc thiết bị nào được đăng ký.</string>
     <string name="biometric_security_update_required">Cần cập nhật bảo mật sinh trắc học.</string>
@@ -622,7 +622,7 @@
     <string name="html_text_ad_free">Không giống như nhiều ứng dụng quản lý mật khẩu, ứng dụng này &lt;strong&gt;không có quảng cáo&lt;/strong&gt;, &lt;strong&gt;phần mềm tự do được sao chép&lt;/strong&gt; và không thu thập dữ liệu cá nhân trên máy chủ của nó, bất kể bạn sử dụng phiên bản nào.</string>
     <string name="html_text_buy_pro">Bằng cách mua phiên bản chuyên nghiệp, bạn sẽ có quyền truy cập vào &lt;strong&gt;phong cách trực quan&lt;/strong&gt; và bạn sẽ đặc biệt giúp &lt;strong&gt;thực hiện các dự án cộng đồng.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">&lt;strong&gt;phong cách trực quan&lt;/strong&gt; có sẵn nhờ vào sự hào phóng của bạn.</string>
-    <string name="html_text_donation">Để giữ được quyền tự do và luôn hoạt động, chúng tôi tin tưởng vào &lt;strong&gt;sự đóng góp của bạn.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Để giữ được quyền tự do và luôn hoạt động, chúng tôi tin tưởng vào &lt;strong&gt;sự đóng góp&lt;/strong&gt; của bạn.</string>
     <string name="html_text_dev_feature">Tính năng này &lt;strong&gt;đang được phát triển&lt;/strong&gt; và yêu cầu &lt;strong&gt;sự đóng góp của bạn&lt;/strong&gt; để sớm được khả dụng.</string>
     <string name="html_text_dev_feature_buy_pro">Bằng cách mua phiên bản &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Bằng cách &lt;strong&gt;đóng góp&lt;/strong&gt;,</string>

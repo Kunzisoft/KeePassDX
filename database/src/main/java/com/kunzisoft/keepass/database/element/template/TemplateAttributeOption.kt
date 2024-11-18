@@ -152,6 +152,18 @@ class TemplateAttributeOption() : Parcelable {
         mOptions[DATETIME_FORMAT_ATTR] = DATETIME_FORMAT_VALUE_TIME
     }
 
+    fun getExpirable(): Boolean {
+        return try {
+            mOptions[DATETIME_EXPIRABLE_ATTR]?.toBoolean() ?: DATETIME_EXPIRABLE_VALUE_DEFAULT
+        } catch (e: Exception) {
+            DATETIME_EXPIRABLE_VALUE_DEFAULT
+        }
+    }
+
+    fun setExpirable(value: Boolean) {
+        mOptions[DATETIME_EXPIRABLE_ATTR] = value.toString().lowercase()
+    }
+
     fun get(label: String): String? {
         return mOptions[label]
     }
@@ -245,6 +257,15 @@ class TemplateAttributeOption() : Parcelable {
         private const val DATETIME_FORMAT_ATTR = "format"
         private const val DATETIME_FORMAT_VALUE_DATE = "date"
         private const val DATETIME_FORMAT_VALUE_TIME = "time"
+
+        /**
+         * Applicable to type DATETIME
+         * Define if a datetime is expirable
+         * Boolean ("true" or "false")
+         * "false" if not defined
+         */
+        private const val DATETIME_EXPIRABLE_ATTR = "expirable"
+        private const val DATETIME_EXPIRABLE_VALUE_DEFAULT = false
 
         private fun removeSpecialChars(string: String): String {
             return string.filterNot { "{,:}".indexOf(it) > -1 }

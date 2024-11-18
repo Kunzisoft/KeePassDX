@@ -25,6 +25,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.joda.time.Instant
 
 
 abstract class NotificationService : Service() {
@@ -33,6 +34,7 @@ abstract class NotificationService : Service() {
     private var colorNotificationAccent: Int = 0
 
     protected var mTimerJob: Job? = null
+    private var mReset: Boolean = false
 
     protected abstract val notificationId: Int
 
@@ -119,14 +121,23 @@ abstract class NotificationService : Service() {
         mTimerJob?.cancel()
         mTimerJob = CoroutineScope(Dispatchers.Main).launch {
             if (timeoutMilliseconds > 0) {
-                val timeoutInSeconds = timeoutMilliseconds / 1000L
-                for (currentTime in timeoutInSeconds downTo 0) {
+                var startInstant = Instant.now().millis
+                var currentTime = timeoutMilliseconds
+                while (currentTime >= 0) {
+                    // Reset the timer if needed
+                    if (mReset) {
+                        mReset = false
+                        startInstant = Instant.now().millis
+                        currentTime = timeoutMilliseconds
+                    }
+                    // Update every second
                     actionAfterASecond?.invoke()
                     builder.setProgress(100,
-                            (currentTime * 100 / timeoutInSeconds).toInt(),
-                            false)
+                        (currentTime * 100 / timeoutMilliseconds).toInt(),
+                        false)
                     startForegroundCompat(notificationId, builder, type)
                     delay(1000)
+                    currentTime = timeoutMilliseconds - (Instant.now().millis - startInstant)
                     if (currentTime <= 0) {
                         actionEnd()
                     }
@@ -139,6 +150,10 @@ abstract class NotificationService : Service() {
             mTimerJob = null
             cancel()
         }
+    }
+
+    protected fun resetTimeJob() {
+        mReset = true
     }
 
     override fun onDestroy() {

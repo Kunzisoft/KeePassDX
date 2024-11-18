@@ -606,7 +606,7 @@
     <string name="error_challenge_already_requested">Desafio já solicitado</string>
     <string name="error_response_already_provided">Resposta já fornecida.</string>
     <string name="error_no_response_from_challenge">Não foi possível obter a resposta do desafio.</string>
-    <string name="error_unable_merge_database_kdb">Não é possível fundir a partir de uma base de dados V1.</string>
+    <string name="error_unable_merge_database_kdb">Não é possível fundir com um ficheiro de base de dados kdb</string>
     <string name="error_location_unknown">A localização da base de dados é desconhecida, a ação da base de dados não pode ser executada.</string>
     <string name="error_hardware_key_unsupported">A chave física não é suportada.</string>
     <string name="error_empty_key">A chave não pode estar vazia.</string>
@@ -700,4 +700,5 @@
     <string name="style_name_moon">Lua</string>
     <string name="style_name_sun">Sol</string>
     <string name="style_name_light">Claro</string>
+    <string name="warning_database_info_changed_options_read_only">Recarregar a base de dados com as alterações mais recentes.</string>
 </resources>

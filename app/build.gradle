@@ -135,7 +135,7 @@ dependencies {
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
     // Time
-    implementation 'joda-time:joda-time:2.10.13'
+    implementation 'joda-time:joda-time:2.13.0'
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.6'
     // Education
