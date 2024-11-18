@@ -42,7 +42,7 @@
     <string name="decrypting_db">Məlumat bazası məzmunun şifrəsi açılır …</string>
     <string name="digits">Rəqəmlər</string>
     <string name="default_checkbox">Standart məlumat bazası olaraq istifədə et</string>
-    <string name="html_about_privacy"><strong>Heç bir istifadəçi məlumatı toplanmır</strong>, bu tətbiq heç bir serverə bağlanmır, yalnız lokal olaraq işləyir və tamamilə istidəçilərin gizliliyinə hörmət edir.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Heç bir istifadəçi məlumatı toplanmır&lt;/strong&gt;, bu tətbiq heç bir serverə bağlanmır, yalnız lokal olaraq işləyir və tamamilə istidəçilərin gizliliyinə hörmət edir.</string>
     <string name="entry_accessed">Giriş edildi</string>
     <string name="entry_cancel">Ləğv et</string>
     <string name="entry_notes">Qeydlər</string>
@@ -84,7 +84,7 @@
     <string name="content_description_passphrase_word_count">Şifrədəki söz sayısı</string>
     <string name="content_description_update_from_list">Yenilə</string>
     <string name="content_description_remove_from_list">Sil</string>
-    <string name="html_about_contribution"><strong>Müstəqilliyimiz qorumaq</strong>, <strong>xətaları düzəltmək</strong>,<strong>yeni funskiyalar əlavə etmək</strong> və <strong>hər zaman aktiv olmaq</strong>üçün<strong>sizin </strong>dəstəyinizə etibar edirik.</string>
+    <string name="html_about_contribution">&lt;strong&gt;Müstəqilliyimiz qorumaq&lt;/strong&gt;, &lt;strong&gt;xətaları düzəltmək&lt;/strong&gt;,&lt;strong&gt;yeni funskiyalar əlavə etmək&lt;/strong&gt; və &lt;strong&gt;hər zaman aktiv olmaq&lt;/strong&gt;üçün&lt;strong&gt;sizin &lt;/strong&gt;dəstəyinizə etibar edirik.</string>
     <string name="entry_created">Yaradıldı</string>
     <string name="entry_expires">İstifadə müddəti biti</string>
     <string name="tags">Etiketlər</string>
@@ -312,10 +312,10 @@
     <string name="education_field_copy_title">Bölməni (sahəni) nüsxələyin</string>
     <string name="education_field_copy_summary">Nüsxələnmiş bölmələr (sahələr) istənilən yerə nüsxələnə bilər.\n\nÜntünlük verdiyiniz form doldurma metodunu seçin.</string>
     <string name="education_lock_title">Məlumat bazasını kilidləyin</string>
-    <string name="html_text_donation">Azadlığımızı qorumaq və daima aktiv olmağınız üçün sizin <strong>yardımınıza güvənirik.</strong></string>
-    <string name="html_text_feature_generosity">Bu <strong>görünüş stili</strong>sizin əliaçıqlığınız sayəsində mövuddur.</string>
+    <string name="html_text_donation">Azadlığımızı qorumaq və daima aktiv olmağınız üçün sizin &lt;strong&gt;yardımınıza güvənirik.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Bu &lt;strong&gt;görünüş stili&lt;/strong&gt;sizin əliaçıqlığınız sayəsində mövuddur.</string>
     <string name="html_text_dev_feature">Bu xüsusiyyət &lt;strong&gt;hazırlıq mərhələsindədir&lt;/strong&gt; və tezliklə &lt;strong&gt;istifadə verilməsi üçün sizin &lt;strong&gt;yardımınıza ehtiyyacı var.</string>
-    <string name="html_text_dev_feature_encourage">tərtibatçıları <strong>yeni funksiyalar əlavə etməyə</strong>və <strong>sizin rəylərinizə əsasən </strong>xətaları düzəltməyə həvəsləndirirsiniz.</string>
+    <string name="html_text_dev_feature_encourage">tərtibatçıları &lt;strong&gt;yeni funksiyalar əlavə etməyə&lt;/strong&gt;və &lt;strong&gt;sizin rəylərinizə əsasən &lt;/strong&gt;xətaları düzəltməyə həvəsləndirirsiniz.</string>
     <string name="contribute">Yardım et</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_mebibyte">MiB</string>
@@ -341,7 +341,7 @@
     <string name="clipboard_notifications_title">Mübadilə buferi bildirişləri</string>
     <string name="clipboard_notifications_summary">Şifrəni göstərərkən sahələri (bölmə) nüsxələmək üçün mübadilə buferi bildirişlərini göstər</string>
     <string name="clipboard_warning">Əgər mübadilə buferinin avtomatik silinməsi uğursuz olarsa, onun tarixçəsini əllə silin.</string>
-    <string name="html_text_ad_free">Digər bir çox şifrə menecerlerindən fərqli olaraq, bu tətbiq <strong>reklamsız</strong>,<strong>azad lisenziyaya sahibdir</strong> və hansı versiyanı istifadə etdiyinizdən asılı olmayaraq, şəxsi məlumatlarınızı öz serverlərində toplamır.</string>
+    <string name="html_text_ad_free">Digər bir çox şifrə menecerlerindən fərqli olaraq, bu tətbiq &lt;strong&gt;reklamsız&lt;/strong&gt;,&lt;strong&gt;azad lisenziyaya sahibdir&lt;/strong&gt; və hansı versiyanı istifadə etdiyinizdən asılı olmayaraq, şəxsi məlumatlarınızı öz serverlərində toplamır.</string>
     <string name="advanced_unlock_keystore_warning">Bu xüsusiyyət, şifrələnən şəxsiyyəti təsdiq edən məlumatları cihazın təhlükəsiz açar bazasında saxlayacaqdır.\n\nƏməliyyat sisteminin yerli APİ-nin tətbiqindən asılı olaraq, tam olaraq funksional olmaya bilər.\n\nCihazın istehsalçısı və istifadə etdiyiniz ROM-un tərtibatçısı ilə açar bazasının uyğunluğu və təhlükəsizliyini yoxlayın.</string>
     <string name="autofill_inline_suggestions_title">Cümlə daxili təkliflər</string>
     <string name="autofill_inline_suggestions_summary">Birbaşa uyğun olan klaviaturadan avtomatik doldurma təkliflərini göstərməyə çalış</string>
@@ -370,7 +370,7 @@
     <string name="entry_add_field">Sahə (bölmə) əlavə et</string>
     <string name="content_description_remove_field">Sahəni (bölməni) sil</string>
     <string name="content_description_keyboard_close_fields">Sahələri (bölmələri) bağla</string>
-    <string name="html_about_licence">KeePassDX©%1$dKunzisoft<strong>açıq mənbəlidir və</strong>və<strong>ondan heç bir reklam yoxdur</strong>.\n<strong>GPLv3</strong>lisenziyasına sahibdir, hər hansısa bir qarantiyası yoxdur.</string>
+    <string name="html_about_licence">KeePassDX©%1$dKunzisoft&lt;strong&gt;açıq mənbəlidir və&lt;/strong&gt;və&lt;strong&gt;ondan heç bir reklam yoxdur&lt;/strong&gt;.\n&lt;strong&gt;GPLv3&lt;/strong&gt;lisenziyasına sahibdir, hər hansısa bir qarantiyası yoxdur.</string>
     <string name="inherited">İdxal et</string>
     <string name="auto_type">Avtomatik yazma</string>
     <string name="auto_type_sequence">Avtomatik yazma sırası</string>
@@ -606,9 +606,9 @@
     <string name="education_sort_summary">Şifrə və qrupların necə sıralandığını seçin.</string>
     <string name="education_donation_title">İştirak et</string>
     <string name="education_donation_summary">Stabilliyin, təhlükəsizliyin artırılmasına və daha çox funksiyaların əlavə edilməsinə yardım edin.</string>
-    <string name="html_text_buy_pro">Pro versiyasını alaraq, bu <strong>görünüş stilindən</strong>istifadə edə və xüsusilə <strong>ictimai layihələrinin həyata keçirilməsinə yardım etmiş olacaqsınız.</strong></string>
-    <string name="html_text_dev_feature_buy_pro"><strong>Pro</strong>versiyasını alaraq,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Yardım göstərərək</strong>,</string>
+    <string name="html_text_buy_pro">Pro versiyasını alaraq, bu &lt;strong&gt;görünüş stilindən&lt;/strong&gt;istifadə edə və xüsusilə &lt;strong&gt;ictimai layihələrinin həyata keçirilməsinə yardım etmiş olacaqsınız.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;Pro&lt;/strong&gt;versiyasını alaraq,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Yardım göstərərək&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_thanks">Yardım etdiyiniz üçün çox sağ olun.</string>
     <string name="html_text_dev_feature_work_hard">Bu funksiyası tezliklə yayımlamaq üçün çox çaılşırıq.</string>
     <string name="html_text_dev_feature_upgrade">Yeni versiyaları quraşdıraraq tətbiqi yeni saxlamağı unutmayın.</string>

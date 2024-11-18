@@ -43,8 +43,8 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
     <string name="default_checkbox">Använd som standarddatabas</string>
     <string name="digits">Siffror</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft är <strong>öppen källkod</strong> och <strong>utan reklam</strong>.
-\nDen tillhandahålls i befintligt skick, under <strong>GPLv3-licens</strong>, utan någon garanti.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft är &lt;strong&gt;öppen källkod&lt;/strong&gt; och &lt;strong&gt;utan reklam&lt;/strong&gt;.
+\nDen tillhandahålls i befintligt skick, under &lt;strong&gt;GPLv3-licens&lt;/strong&gt;, utan någon garanti.</string>
     <string name="select_database_file">Öppna befintlig databas</string>
     <string name="entry_accessed">Åtkomst</string>
     <string name="entry_cancel">Avbryt</string>

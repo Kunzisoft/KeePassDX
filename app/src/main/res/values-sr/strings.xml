@@ -73,7 +73,7 @@
     <string name="database">База података</string>
     <string name="entry_created">Креирано</string>
     <string name="default_checkbox">Користи као подразумевану базу података</string>
-    <string name="html_about_privacy"><strong>Не преузимају се никакви кориснички подаци</strong>, ова апликација се не повезује ни на један сервер, ради само локално и у потпуности поштује приватност корисника.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Не преузимају се никакви кориснички подаци&lt;/strong&gt;, ова апликација се не повезује ни на један сервер, ради само локално и у потпуности поштује приватност корисника.</string>
     <string name="entry_cancel">Откажи</string>
     <string name="entry_keyfile">Датотека кључа</string>
     <string name="entry_attachments">Прилози</string>
@@ -162,8 +162,8 @@
     <string name="waiting_challenge_response">Чека се одговор на изазов…</string>
     <string name="template_group_name">Предлошци</string>
     <string name="decrypting_db">Дешифровање садржаја базе података…</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft је <strong>отвореног кода</strong> и<strong>не даржи рекламе</strong>.\nПонуђен је онакав какав јесте, под <strong>GPLv3</strong> лиценцом, без икаквих гаранција.</string>
-    <string name="html_about_contribution">Како бисмо<strong>задржали нашу слободу</strong>, <strong>исправљали грешке</strong>, <strong>додавали нове опције</strong> и <strong>увек били активни</strong>, рачунамо на Ваш<strong>допринос</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft је &lt;strong&gt;отвореног кода&lt;/strong&gt; и&lt;strong&gt;не даржи рекламе&lt;/strong&gt;.\nПонуђен је онакав какав јесте, под &lt;strong&gt;GPLv3&lt;/strong&gt; лиценцом, без икаквих гаранција.</string>
+    <string name="html_about_contribution">Како бисмо&lt;strong&gt;задржали нашу слободу&lt;/strong&gt;, &lt;strong&gt;исправљали грешке&lt;/strong&gt;, &lt;strong&gt;додавали нове опције&lt;/strong&gt; и &lt;strong&gt;увек били активни&lt;/strong&gt;, рачунамо на Ваш&lt;strong&gt;допринос&lt;/strong&gt;.</string>
     <string name="entry_notes">Напомене</string>
     <string name="entry_confpassword">Потврди лозинку</string>
     <string name="expired">Истекло</string>

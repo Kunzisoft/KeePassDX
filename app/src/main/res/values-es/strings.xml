@@ -650,7 +650,7 @@
     <string name="character_count">Conteo de caracteres: %1$d</string>
     <string name="screenshot_mode_banner_text">Modo captura de pantalla</string>
     <string name="error_hardware_key_unsupported">La llave física no está admitida.</string>
-    <string name="html_about_privacy"><strong>No se recupera ningún dato del usuario</strong>, esta aplicación no se conecta a ningún servidor, funciona solo localmente y respeta completamente la privacidad del usuario.</string>
+    <string name="html_about_privacy">&lt;strong&gt;No se recupera ningún dato del usuario&lt;/strong&gt;, esta aplicación no se conecta a ningún servidor, funciona solo localmente y respeta completamente la privacidad del usuario.</string>
     <string name="error_unable_merge_database_kdb">No se puede fusionar desde una base de datos kdb</string>
     <string name="error_cancel_by_user">Cancelado por el usuario.</string>
     <string name="error_no_response_from_challenge">No se puede obtener la respuesta del desafío.</string>

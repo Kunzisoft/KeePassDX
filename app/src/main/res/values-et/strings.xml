@@ -180,9 +180,9 @@
     <string name="file_manager_install_description">Andmebaasifailide loomiseks, avamiseks ja salvestamiseks on vajalik failihalduri olemasolu, mis oskaks kasutada ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT päringuid.</string>
     <string name="navigation_drawer_open">Menüü on avatud</string>
     <string name="navigation_drawer_close">Menüü on suletud</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on <strong>avatud lähtekoodiga</strong> ja <strong>reklaamivaba</strong>.\nSeda programmi levitatakse ilma igasuguse garantiita ning ta on litsentseeritud <strong>GPLv3</strong> alusel.</string>
-    <string name="html_about_privacy"><strong>See rakendus ei laadi kasutajate andmeid</strong>, ei loo ühendust ühegi serveriga, töötab nutiseadmes ainult kohalikus režiimis ja täies mahus austab kasutajate privaatsust.</string>
-    <string name="html_about_contribution"><strong>Meie vabaduse säilitamiseks</strong>, <strong>vigade parandamiseks</strong>, <strong>uue funktsionaalsuse lisamiseks</strong> ning <strong>et olla alati tänapäevane</strong>, me tõsiselt arvestame sinu <strong>kaastöö ja osalemisega</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avatud lähtekoodiga&lt;/strong&gt; ja &lt;strong&gt;reklaamivaba&lt;/strong&gt;.\nSeda programmi levitatakse ilma igasuguse garantiita ning ta on litsentseeritud &lt;strong&gt;GPLv3&lt;/strong&gt; alusel.</string>
+    <string name="html_about_privacy">&lt;strong&gt;See rakendus ei laadi kasutajate andmeid&lt;/strong&gt;, ei loo ühendust ühegi serveriga, töötab nutiseadmes ainult kohalikus režiimis ja täies mahus austab kasutajate privaatsust.</string>
+    <string name="html_about_contribution">&lt;strong&gt;Meie vabaduse säilitamiseks&lt;/strong&gt;, &lt;strong&gt;vigade parandamiseks&lt;/strong&gt;, &lt;strong&gt;uue funktsionaalsuse lisamiseks&lt;/strong&gt; ning &lt;strong&gt;et olla alati tänapäevane&lt;/strong&gt;, me tõsiselt arvestame sinu &lt;strong&gt;kaastöö ja osalemisega&lt;/strong&gt;.</string>
     <string name="inherited">Päri</string>
     <string name="error_arc4">Arcfouri jadašiffer pole toetatud.</string>
     <string name="error_wrong_length">Väljale „Pikkus“ sisesta positiivne täisarv.</string>

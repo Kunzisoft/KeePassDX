@@ -305,7 +305,7 @@
     <string name="memory_usage">Korišćenje memorije</string>
     <string name="show_recent_files_title">Prikaži nedavne datoteke</string>
     <string name="show_uuid_title">Prikaži UUID</string>
-    <string name="html_about_privacy"><strong>Ne preuzimaju se nikakvi korisnički podaci</strong>, ova aplikacija se ne povezuje ni na jedan server, radi samo lokalno i u potpunosti poštuje privatnost korisnika.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Ne preuzimaju se nikakvi korisnički podaci&lt;/strong&gt;, ova aplikacija se ne povezuje ni na jedan server, radi samo lokalno i u potpunosti poštuje privatnost korisnika.</string>
     <string name="expired">Isteklo</string>
     <string name="hardware_key">Hardverski ključ</string>
     <string name="bank">Banka</string>
