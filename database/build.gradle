@@ -3,12 +3,11 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.kunzisoft.keepass.database'
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 15
-        targetSdk 33
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,7 +36,7 @@ android {
 
 dependencies {
     // Time
-    implementation 'joda-time:joda-time:2.10.13'
+    implementation 'joda-time:joda-time:2.13.0'
     // Apache Commons
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'

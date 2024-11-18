@@ -27,6 +27,7 @@ import android.net.Uri
 import android.os.IBinder
 import android.util.Base64
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
@@ -69,9 +70,11 @@ class CipherDatabaseAction(context: Context) {
 
     @Synchronized
     private fun attachService(performedAction: () -> Unit) {
-        applicationContext.registerReceiver(mAdvancedUnlockBroadcastReceiver, IntentFilter().apply {
-            addAction(AdvancedUnlockNotificationService.REMOVE_ADVANCED_UNLOCK_KEY_ACTION)
-        })
+        ContextCompat.registerReceiver(applicationContext, mAdvancedUnlockBroadcastReceiver,
+            IntentFilter().apply {
+                addAction(AdvancedUnlockNotificationService.REMOVE_ADVANCED_UNLOCK_KEY_ACTION)
+            }, ContextCompat.RECEIVER_EXPORTED
+        )
 
         mServiceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
@@ -97,7 +100,7 @@ class CipherDatabaseAction(context: Context) {
     private fun detachService() {
         try {
             applicationContext.unregisterReceiver(mAdvancedUnlockBroadcastReceiver)
-        } catch (e: Exception) {}
+        } catch (_: Exception) {}
 
         mServiceConnection?.let {
             AdvancedUnlockNotificationService.unbindService(applicationContext, it)
@@ -178,6 +181,14 @@ class CipherDatabaseAction(context: Context) {
                                contains: (Boolean) -> Unit) {
         getCipherDatabase(databaseUri) {
             contains.invoke(it != null)
+        }
+    }
+
+    fun resetCipherParameters(databaseUri: Uri) {
+        containsCipherDatabase(databaseUri) { contains ->
+            if (contains) {
+                mBinder?.resetTimer()
+            }
         }
     }
 

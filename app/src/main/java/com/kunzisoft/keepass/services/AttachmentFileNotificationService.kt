@@ -36,13 +36,13 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.util.LinkedList
 import java.util.concurrent.CopyOnWriteArrayList
 
 
@@ -282,15 +282,21 @@ class AttachmentFileNotificationService: LockNotificationService() {
             AttachmentState.ERROR -> {
                 ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_DETACH)
                 try {
-                    notificationManager?.notify(
-                        attachmentNotification.notificationId,
-                        builder.build()
-                    )
+                    checkNotificationsPermission(this) {
+                        notificationManager?.notify(
+                            attachmentNotification.notificationId,
+                            builder.build()
+                        )
+                    }
                 } catch (e: SecurityException) {
                     Log.e(TAG, "Unable to notify the attachment state", e)
                 }
             } else -> {
-                startForeground(attachmentNotification.notificationId, builder.build())
+                startForegroundCompat(
+                    attachmentNotification.notificationId,
+                    builder,
+                    NotificationServiceType.ATTACHMENT
+                )
             }
         }
     }

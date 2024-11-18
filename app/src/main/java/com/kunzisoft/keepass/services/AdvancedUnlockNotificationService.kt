@@ -26,7 +26,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
             return mTempCipherDao.firstOrNull { it.databaseUri == databaseUri.toString()}
         }
         fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity) {
-            val cipherDatabaseRetrieve = mTempCipherDao.firstOrNull { it.databaseUri == cipherDatabaseEntity.databaseUri }
+            val cipherDatabaseRetrieve = mTempCipherDao.firstOrNull {
+                it.databaseUri == cipherDatabaseEntity.databaseUri
+            }
             cipherDatabaseRetrieve?.replaceContent(cipherDatabaseEntity)
                     ?: mTempCipherDao.add(cipherDatabaseEntity)
         }
@@ -34,6 +36,9 @@ class AdvancedUnlockNotificationService : NotificationService() {
             mTempCipherDao.firstOrNull { it.databaseUri == databaseUri.toString() }?.let {
                 mTempCipherDao.remove(it)
             }
+        }
+        fun resetTimer() {
+            resetTimeJob()
         }
         fun deleteAll() {
             mTempCipherDao.clear()
@@ -86,11 +91,19 @@ class AdvancedUnlockNotificationService : NotificationService() {
         val notificationTimeoutMilliSecs = PreferencesUtil.getAdvancedUnlockTimeout(this)
         // Not necessarily a foreground service
         if (mTimerJob == null && notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
-            defineTimerJob(notificationBuilder, notificationTimeoutMilliSecs) {
+            defineTimerJob(
+                notificationBuilder,
+                NotificationServiceType.ADVANCED_UNLOCK,
+                notificationTimeoutMilliSecs
+            ) {
                 sendBroadcast(Intent(REMOVE_ADVANCED_UNLOCK_KEY_ACTION))
             }
         } else {
-            startForeground(notificationId, notificationBuilder.build())
+            startForegroundCompat(
+                notificationId,
+                notificationBuilder,
+                NotificationServiceType.ADVANCED_UNLOCK
+            )
         }
 
         return mActionTaskBinder

@@ -36,12 +36,12 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
-import com.kunzisoft.keepass.view.PassKeyView
+import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.viewmodels.KeyGeneratorViewModel
 
 class PasswordGeneratorFragment : DatabaseFragment() {
 
-    private lateinit var passKeyView: PassKeyView
+    private lateinit var passwordEditView: PasswordEditView
 
     private lateinit var sliderLength: Slider
     private lateinit var lengthEditView: EditText
@@ -74,7 +74,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        passKeyView = view.findViewById(R.id.password_view)
+        passwordEditView = view.findViewById(R.id.password_view)
         val passwordCopyView: ImageView? = view.findViewById(R.id.password_copy_button)
 
         sliderLength = view.findViewById(R.id.slider_length)
@@ -101,7 +101,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
             passwordCopyView?.setOnClickListener {
                 clipboardHelper.timeoutCopyToClipboard(
                     getString(R.string.password),
-                    passKeyView.passwordString,
+                    passwordEditView.passwordString,
                     true
                 )
             }
@@ -195,7 +195,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         generatePassword()
 
         mKeyGeneratorViewModel.passwordGeneratedValidated.observe(viewLifecycleOwner) {
-            mKeyGeneratorViewModel.setKeyGenerated(passKeyView.passwordString)
+            mKeyGeneratorViewModel.setKeyGenerated(passwordEditView.passwordString)
         }
 
         mKeyGeneratorViewModel.requirePasswordGeneration.observe(viewLifecycleOwner) {
@@ -310,7 +310,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
-        passKeyView.passwordString = password
+        passwordEditView.passwordString = password
     }
 
     override fun onDestroy() {

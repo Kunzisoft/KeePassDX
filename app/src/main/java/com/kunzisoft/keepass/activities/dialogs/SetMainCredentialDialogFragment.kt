@@ -43,8 +43,13 @@ import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.view.HardwareKeySelectionView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
-import com.kunzisoft.keepass.view.PassKeyView
+import com.kunzisoft.keepass.view.PasswordEditView
 import com.kunzisoft.keepass.view.applyFontVisibility
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.security.SecureRandom
+
 
 class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
 
@@ -55,11 +60,12 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     private lateinit var rootView: View
 
     private lateinit var passwordCheckBox: CompoundButton
-    private lateinit var passwordView: PassKeyView
+    private lateinit var passwordEditView: PasswordEditView
     private lateinit var passwordRepeatTextInputLayout: TextInputLayout
     private lateinit var passwordRepeatView: TextView
 
     private lateinit var keyFileCheckBox: CompoundButton
+    private lateinit var keyFileGenerateButton: View
     private lateinit var keyFileSelectionView: KeyFileSelectionView
 
     private lateinit var hardwareKeyCheckBox: CompoundButton
@@ -141,29 +147,39 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
             }
 
             passwordCheckBox = rootView.findViewById(R.id.password_checkbox)
-            passwordView = rootView.findViewById(R.id.password_view)
+            passwordEditView = rootView.findViewById(R.id.password_view)
             passwordRepeatTextInputLayout = rootView.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView.findViewById(R.id.password_confirmation)
             passwordRepeatView.applyFontVisibility()
 
             keyFileCheckBox = rootView.findViewById(R.id.keyfile_checkbox)
+            keyFileGenerateButton = rootView.findViewById(R.id.keyfile_generate)
             keyFileSelectionView = rootView.findViewById(R.id.keyfile_selection)
 
             hardwareKeyCheckBox = rootView.findViewById(R.id.hardware_key_checkbox)
             hardwareKeySelectionView = rootView.findViewById(R.id.hardware_key_selection)
 
             mExternalFileHelper = ExternalFileHelper(this)
+            mExternalFileHelper?.buildCreateDocument { createdFileUri ->
+                createdFileUri?.let { uri ->
+                    createKeyFile(uri)
+                    keyFileSelectionView.error = null
+                    keyFileCheckBox.isChecked = true
+                    keyFileSelectionView.uri = uri
+                }
+            }
             mExternalFileHelper?.buildOpenDocument { uri ->
                 uri?.let { pathUri ->
                     pathUri.getDocumentFile(requireContext())?.length()?.let { lengthFile ->
                         keyFileSelectionView.error = null
                         keyFileCheckBox.isChecked = true
                         keyFileSelectionView.uri = pathUri
-                        if (lengthFile <= 0L) {
-                            showEmptyKeyFileConfirmationDialog()
-                        }
+                        showLengthKeyFileConfirmationDialog(lengthFile)
                     }
                 }
+            }
+            keyFileGenerateButton.setOnClickListener {
+                mExternalFileHelper?.createDocument(DEFAULT_KEYFILE_NAME)
             }
             keyFileSelectionView.setOpenDocumentClickListener(mExternalFileHelper)
 
@@ -200,6 +216,16 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
 
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun createKeyFile(uri: Uri) {
+        CoroutineScope(Dispatchers.IO).launch {
+            activity?.contentResolver?.openOutputStream(uri)?.use { outputStream ->
+                val randomBytes = ByteArray(DEFAULT_KEYFILE_SIZE)
+                SecureRandom().nextBytes(randomBytes)
+                outputStream.write(randomBytes)
+            }
+        }
     }
 
     private fun approveMainCredential() {
@@ -250,7 +276,7 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         var error = false
         passwordRepeatTextInputLayout.error = null
         if (passwordCheckBox.isChecked) {
-            mMasterPassword = passwordView.passwordString
+            mMasterPassword = passwordEditView.passwordString
             val confPassword = passwordRepeatView.text.toString()
 
             // Verify that passwords match
@@ -302,13 +328,13 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         super.onResume()
 
         // To check checkboxes if a text is present
-        passwordView.addTextChangedListener(passwordTextWatcher)
+        passwordEditView.addTextChangedListener(passwordTextWatcher)
     }
 
     override fun onPause() {
         super.onPause()
 
-        passwordView.removeTextChangedListener(passwordTextWatcher)
+        passwordEditView.removeTextChangedListener(passwordTextWatcher)
     }
 
     private fun showEmptyPasswordConfirmationDialog() {
@@ -339,21 +365,31 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    private fun showEmptyKeyFileConfirmationDialog() {
+    private fun showLengthKeyFileConfirmationDialog(length: Long) {
         activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setMessage(SpannableStringBuilder().apply {
-                append(getString(R.string.warning_empty_keyfile))
-                append("\n\n")
                 append(getString(R.string.warning_empty_keyfile_explanation))
-                append("\n\n")
-                append(getString(R.string.warning_sure_add_file))
-                })
-                    .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setNegativeButton(android.R.string.cancel) { _, _ ->
-                        keyFileCheckBox.isChecked = false
-                        keyFileSelectionView.uri = null
-                    }
+                var warning = false
+                if (length <= 0L) {
+                    warning = true
+                    append("\n\n")
+                    append(getString(R.string.warning_empty_keyfile))
+                } else if (length > 10485760L) {
+                    warning = true
+                    append("\n\n")
+                    append(getString(R.string.warning_large_keyfile))
+                }
+                if (warning) {
+                    append("\n\n")
+                    append(getString(R.string.warning_sure_add_file))
+                }
+            })
+                .setPositiveButton(android.R.string.ok) { _, _ -> }
+                .setNegativeButton(android.R.string.cancel) { _, _ ->
+                    keyFileCheckBox.isChecked = false
+                    keyFileSelectionView.uri = null
+                }
             mEmptyKeyFileConfirmationDialog = builder.create()
             mEmptyKeyFileConfirmationDialog?.show()
         }
@@ -362,6 +398,8 @@ class SetMainCredentialDialogFragment : DatabaseDialogFragment() {
     companion object {
 
         private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
+        private const val DEFAULT_KEYFILE_NAME = "keyfile.bin"
+        private const val DEFAULT_KEYFILE_SIZE = 128
 
         fun getInstance(allowNoMasterKey: Boolean): SetMainCredentialDialogFragment {
             val fragment = SetMainCredentialDialogFragment()

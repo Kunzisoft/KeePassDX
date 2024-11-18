@@ -640,7 +640,7 @@
     <string name="upper_case">VELIKA SLOVA</string>
     <string name="hardware_key">Hardverski ključ</string>
     <string name="error_no_hardware_key">Odaberi hardverski ključ.</string>
-    <string name="error_unable_merge_database_kdb">Spajanje iz baze podataka V1 nije moguće.</string>
+    <string name="error_unable_merge_database_kdb">Spajanje s kdb datotekom baze podataka nije moguće</string>
     <string name="error_location_unknown">Mjesto baze podataka nije poznato, radnja baze podataka se ne može izvršiti.</string>
     <string name="error_cancel_by_user">Korisnik je prekinuo radnju.</string>
     <string name="error_driver_required">Potreban je pogon za %1$s.</string>

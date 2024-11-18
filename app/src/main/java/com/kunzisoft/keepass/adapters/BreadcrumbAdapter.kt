@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
@@ -17,7 +18,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
 
-class BreadcrumbAdapter(val context: Context)
+class BreadcrumbAdapter(val context: Context, val database: Database?)
     : RecyclerView.Adapter<BreadcrumbAdapter.BreadcrumbGroupViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -30,6 +31,8 @@ class BreadcrumbAdapter(val context: Context)
     private var mNodeBreadcrumb: MutableList<Node?> = mutableListOf()
     var onItemClickListener: ((item: Node, position: Int)->Unit)? = null
     var onLongItemClickListener: ((item: Node, position: Int)->Unit)? = null
+
+    private var mNodeFilter: NodeFilter = NodeFilter(context, database)
 
     private var mShowNumberEntries = false
     private var mShowUUID = false
@@ -112,12 +115,10 @@ class BreadcrumbAdapter(val context: Context)
 
                 holder.groupNumbersView?.apply {
                     if (mShowNumberEntries) {
-                        group.refreshNumberOfChildEntries(
-                            Group.ChildFilter.getDefaults(
-                                PreferencesUtil.showExpiredEntries(context)
-                            )
-                        )
-                        text = group.recursiveNumberOfChildEntries.toString()
+                        text = group.getNumberOfChildEntries(
+                            mNodeFilter.recursiveNumberOfEntries,
+                            mNodeFilter.filter
+                        ).toString()
                         visibility = View.VISIBLE
                     } else {
                         visibility = View.GONE

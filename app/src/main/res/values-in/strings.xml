@@ -632,7 +632,7 @@
     <string name="error_no_response_from_challenge">Tidak bisa mendapatkan tanggapan dari tantangan.</string>
     <string name="error_cancel_by_user">Dibatalkan oleh pengguna.</string>
     <string name="error_driver_required">Driver untuk %1$s dibutuhkan.</string>
-    <string name="error_unable_merge_database_kdb">Tidak dapat menggabungkan dari sebuah basis data V1.</string>
+    <string name="error_unable_merge_database_kdb">Tidak dapat menggabungkan dengan berkas basis data kdb</string>
     <string name="error_location_unknown">Lokasi basis data tidak diketahui, tindakan basis data tidak dapat dilakukan.</string>
     <string name="error_hardware_key_unsupported">Kunci perangkat keras tidak didukung.</string>
     <string name="error_empty_key">Kunci tidak bisa kosong.</string>
@@ -678,4 +678,5 @@
     <string name="style_name_follow_system">Ikuti sistem</string>
     <string name="style_name_light">Terang</string>
     <string name="style_name_dark">Gelap</string>
+    <string name="warning_database_info_changed_options_read_only">Muat ulang basis data dengan perubahan terkini.</string>
 </resources>

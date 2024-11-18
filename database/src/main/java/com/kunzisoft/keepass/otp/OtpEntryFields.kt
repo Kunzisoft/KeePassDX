@@ -22,12 +22,15 @@ package com.kunzisoft.keepass.otp
 
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.otp.TokenCalculator.*
+import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.otp.TokenCalculator.HOTP_INITIAL_COUNTER
+import com.kunzisoft.keepass.otp.TokenCalculator.HashAlgorithm
+import com.kunzisoft.keepass.otp.TokenCalculator.OTP_DEFAULT_DIGITS
+import com.kunzisoft.keepass.otp.TokenCalculator.TOTP_DEFAULT_PERIOD
 import com.kunzisoft.keepass.utils.StringUtil.removeLineChars
 import com.kunzisoft.keepass.utils.StringUtil.removeSpaceChars
-import java.util.*
+import java.util.Locale
 import java.util.regex.Pattern
 
 object OtpEntryFields {
@@ -40,6 +43,7 @@ object OtpEntryFields {
     // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
     private const val OTP_SCHEME = "otpauth"
     private const val TOTP_AUTHORITY = "totp" // time-based
+    private const val STEAM_AUTHORITY = "steam" // time-based
     private const val HOTP_AUTHORITY = "hotp" // counter-based
     private const val ALGORITHM_URL_PARAM = "algorithm"
     private const val ISSUER_URL_PARAM = "issuer"
@@ -50,7 +54,9 @@ object OtpEntryFields {
     private const val COUNTER_URL_PARAM = "counter"
 
     // OTPauth URI
-    private const val REGEX_OTP_AUTH = "^otpauth://([ht]otp)/?(?:([^:?#]*): *)?([^:?#]*)\\?([^#]+)$"
+    private const val REGEX_OTP_AUTH = "^otpauth://(" +
+            "$TOTP_AUTHORITY|$STEAM_AUTHORITY|$HOTP_AUTHORITY" +
+            ")/?(?:([^:?#]*): *)?([^:?#]*)\\?([^#]+)$"
 
     // Key-values (maybe from plugin or old KeePassXC)
     private const val SEED_KEY = "key"
@@ -116,9 +122,7 @@ object OtpEntryFields {
      * Tell if [otpUri] is a valid Otp URI
      */
     fun isOTPUri(otpUri: String): Boolean {
-        if (Pattern.matches(REGEX_OTP_AUTH, otpUri))
-            return true
-        return false
+        return Pattern.matches(REGEX_OTP_AUTH, otpUri)
     }
 
     /**
@@ -135,7 +139,7 @@ object OtpEntryFields {
      * Parses a secret value from a URI. The format will be:
      *
      * otpauth://totp/user@example.com?secret=FFF...
-     *
+     * otpauth://steam/user@example.com?secret=FFF...
      * otpauth://hotp/user@example.com?secret=FFF...&counter=123
      */
     private fun parseOTPUri(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
@@ -149,7 +153,7 @@ object OtpEntryFields {
             }
 
             val authority = uri.authority
-            if (TOTP_AUTHORITY == authority) {
+            if (TOTP_AUTHORITY == authority || STEAM_AUTHORITY == authority) {
                 otpElement.type = OtpType.TOTP
 
             } else if (HOTP_AUTHORITY == authority) {

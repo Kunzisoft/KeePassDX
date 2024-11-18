@@ -216,7 +216,7 @@
     <color name="classic_theme_light_surfaceContainer">#DBDDDF</color>
     <color name="classic_theme_light_surfaceContainerHigh">#D8DCDF</color>
     <color name="classic_theme_light_surfaceContainerHighest">#D3D8DC</color>
-    <color name="classic_theme_light_surfaceVariant">#DEE5D8</color>
+    <color name="classic_theme_light_surfaceVariant">#D8E4E5</color>
     <color name="classic_theme_light_onSurfaceVariant">#404649</color>
     <color name="classic_theme_light_outline">#72796F</color>
     <color name="classic_theme_light_inverseOnSurface">#F0F1EB</color>
@@ -356,7 +356,7 @@
     <color name="simple_theme_light_surfaceContainer">#F1F7FD</color>
     <color name="simple_theme_light_surfaceContainerHigh">#EEF7FF</color>
     <color name="simple_theme_light_surfaceContainerHighest">#EAF5FF</color>
-    <color name="simple_theme_light_surfaceVariant">#DEE5D8</color>
+    <color name="simple_theme_light_surfaceVariant">#D8E2E5</color>
     <color name="simple_theme_light_onSurfaceVariant">#404649</color>
     <color name="simple_theme_light_outline">#72796F</color>
     <color name="simple_theme_light_inverseOnSurface">#F0F1EB</color>
@@ -426,7 +426,7 @@
     <color name="moon_theme_light_surfaceContainer">#DBEEFE</color>
     <color name="moon_theme_light_surfaceContainerHigh">#D5ECFF</color>
     <color name="moon_theme_light_surfaceContainerHighest">#D2EBFF</color>
-    <color name="moon_theme_light_surfaceVariant">#DEE5D8</color>
+    <color name="moon_theme_light_surfaceVariant">#D8DFE5</color>
     <color name="moon_theme_light_onSurfaceVariant">#404649</color>
     <color name="moon_theme_light_outline">#72796F</color>
     <color name="moon_theme_light_inverseOnSurface">#F0F1EB</color>
@@ -496,7 +496,7 @@
     <color name="sun_theme_light_surfaceContainer">#FFE4E5</color>
     <color name="sun_theme_light_surfaceContainerHigh">#FBDEDF</color>
     <color name="sun_theme_light_surfaceContainerHighest">#FADBDC</color>
-    <color name="sun_theme_light_surfaceVariant">#DEE5D8</color>
+    <color name="sun_theme_light_surfaceVariant">#E5DBD8</color>
     <color name="sun_theme_light_onSurfaceVariant">#494040</color>
     <color name="sun_theme_light_outline">#796F6F</color>
     <color name="sun_theme_light_inverseOnSurface">#F0F1EB</color>

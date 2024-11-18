@@ -176,8 +176,8 @@ object AutofillHelper {
         }
 
         if (entryInfo.expires) {
-            val year = entryInfo.expiryTime.getYearInt()
-            val month = entryInfo.expiryTime.getMonthInt()
+            val year = entryInfo.expiryTime.getYear()
+            val month = entryInfo.expiryTime.getMonth()
             val monthString = month.toString().padStart(2, '0')
             val day = entryInfo.expiryTime.getDay()
             val dayString = day.toString().padStart(2, '0')
@@ -192,7 +192,7 @@ object AutofillHelper {
                 } else {
                     datasetBuilder.addValueToDatasetBuilder(
                         it,
-                        AutofillValue.forDate(entryInfo.expiryTime.date.time)
+                        AutofillValue.forDate(entryInfo.expiryTime.toJavaMilliseconds())
                     )
                 }
             }

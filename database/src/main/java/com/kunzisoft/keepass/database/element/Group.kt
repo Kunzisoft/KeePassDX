@@ -26,14 +26,17 @@ import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.node.*
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdInt
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.UUID
 
 class Group : Node, GroupVersionedInterface<Group, Entry> {
 
@@ -45,8 +48,11 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     // Virtual group is used to defined a detached database group
     var isVirtual = false
 
+    // To optimize number of children call
     var numberOfChildEntries: Int = 0
+        private set
     var recursiveNumberOfChildEntries: Int = 0
+        private set
 
     /**
      * Use this constructor to copy a Group
@@ -82,20 +88,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDB = parcel.readParcelableCompat()
         groupKDBX = parcel.readParcelableCompat()
         isVirtual = parcel.readBooleanCompat()
-    }
-
-    enum class ChildFilter {
-        META_STREAM, EXPIRED;
-
-        companion object {
-            fun getDefaults(showExpiredEntries: Boolean): Array<ChildFilter> {
-                return if (showExpiredEntries) {
-                    arrayOf(META_STREAM)
-                } else {
-                    arrayOf(META_STREAM, EXPIRED)
-                }
-            }
-        }
     }
 
     companion object CREATOR : Parcelable.Creator<Group> {
@@ -280,20 +272,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         ArrayList()
     }
 
-    fun getFilteredChildGroups(filters: Array<ChildFilter>): List<Group> {
-        return groupKDB?.getChildGroups()?.map {
-            Group(it).apply {
-                this.refreshNumberOfChildEntries(filters)
-            }
-        } ?:
-        groupKDBX?.getChildGroups()?.map {
-            Group(it).apply {
-                this.refreshNumberOfChildEntries(filters)
-            }
-        } ?:
-        ArrayList()
-    }
-
     override fun getChildEntries(): List<Entry> {
         return groupKDB?.getChildEntries()?.map {
             Entry(it)
@@ -312,53 +290,32 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         return entriesInfo
     }
 
-    fun getFilteredChildEntries(filters: Array<ChildFilter>): List<Entry> {
-        val withoutMetaStream = filters.contains(ChildFilter.META_STREAM)
-        val showExpiredEntries = !filters.contains(ChildFilter.EXPIRED)
-
-        // TODO Change KDB parser to remove meta entries
-        return groupKDB?.getChildEntries()?.filter {
-            (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream()))
-                    && (!it.isCurrentlyExpires or showExpiredEntries)
-        }?.map {
-            Entry(it)
-        } ?:
-        groupKDBX?.getChildEntries()?.filter {
-            !it.isCurrentlyExpires or showExpiredEntries
-        }?.map {
-            Entry(it)
-        } ?:
-        ArrayList()
-    }
-
-    fun refreshNumberOfChildEntries(filters: Array<ChildFilter> = emptyArray()) {
-        this.numberOfChildEntries = getFilteredChildEntries(filters).size
-        this.recursiveNumberOfChildEntries = getFilteredChildEntriesInGroups(filters)
-    }
-
     /**
      * @return the cumulative number of entries in the current group and its children
      */
-    private fun getFilteredChildEntriesInGroups(filters: Array<ChildFilter>): Int {
+    private fun getNumberOfChildEntriesInGroups(filter: (Node) -> Boolean): Int {
         var counter = 0
-        getChildGroups().forEach { childGroup ->
-            counter += childGroup.getFilteredChildEntriesInGroups(filters)
+        getChildGroups().filter(filter).forEach { childGroup ->
+            counter += childGroup.getNumberOfChildEntriesInGroups(filter)
         }
-        return getFilteredChildEntries(filters).size + counter
+        return getChildEntries().filter(filter).size + counter
+    }
+
+    fun getNumberOfChildEntries(
+        recursive: Boolean = false,
+        filter: (Node) -> Boolean = { true }
+    ): Int {
+        numberOfChildEntries = getChildEntries().filter(filter).size
+        recursiveNumberOfChildEntries = getNumberOfChildEntriesInGroups(filter)
+        return if (recursive) recursiveNumberOfChildEntries else numberOfChildEntries
     }
 
     /**
      * Filter entries and return children
      * @return List of direct children (one level below) as NodeVersioned
      */
-    fun getChildren(): List<Node> {
-        return getChildGroups() + getChildEntries()
-    }
-
-    fun getFilteredChildren(filters: Array<ChildFilter>): List<Node> {
-        val nodes = getFilteredChildGroups(filters) + getFilteredChildEntries(filters)
-        refreshNumberOfChildEntries(filters)
-        return nodes
+    fun getChildren(filter: ((Node) -> Boolean) = { true }): List<Node> {
+        return getChildGroups().filter(filter) + getChildEntries().filter(filter)
     }
 
     override fun addChildGroup(group: Group) {

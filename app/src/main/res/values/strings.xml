@@ -206,7 +206,7 @@
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
     <string name="error_driver_required">Driver for %1$s is required.</string>
-    <string name="error_unable_merge_database_kdb">Unable to merge from a database V1.</string>
+    <string name="error_unable_merge_database_kdb">Unable to merge with a kdb database file</string>
     <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
     <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
     <string name="error_empty_key">"Key cannot be empty."</string>
@@ -216,6 +216,7 @@
     <string name="corrupted_file">Corrupted file.</string>
     <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
+    <string name="generate_keyfile">Generate keyfile</string>
     <string name="hint_conf_pass">Confirm password</string>
     <string name="hint_generated_password">Generated password</string>
     <string name="hint_group_name">Group name</string>
@@ -231,6 +232,7 @@
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
+    <string name="nodes">Nodes</string>
     <string name="hide_password_title">Hide passwords</string>
     <string name="hide_password_summary">Mask passwords (***) by default</string>
     <string name="colorize_password_title">Colorize passwords</string>
@@ -238,11 +240,13 @@
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_entries_show_username_summary">Displays usernames in entry lists</string>
     <string name="list_groups_show_number_entries_title">Show number of entries</string>
+    <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
+    <string name="recursive_number_entries_title">Recursive number of entries</string>
+    <string name="recursive_number_entries_summary">Recursively calculates the number of entries in a group</string>
     <string name="show_otp_token_title">Show OTP Token</string>
     <string name="show_otp_token_summary">Displays OTP tokens in the list of entries</string>
     <string name="show_uuid_title">Show UUID</string>
     <string name="show_uuid_summary">Displays the UUID linked to an entry or a group</string>
-    <string name="list_groups_show_number_entries_summary">Displays the number of entries in a group</string>
     <string name="list_size_title">Size of list items</string>
     <string name="list_size_summary">Text size in the element list</string>
     <string name="creating_database">Creating database…</string>
@@ -373,6 +377,7 @@
     <string name="warning_remove_unlinked_attachment">Removing unlinked data may decrease the size of your database but may also delete data used for KeePass plugins.</string>
     <string name="warning_sure_remove_data">Remove this data anyway?</string>
     <string name="warning_empty_keyfile">It is not recommended to add an empty keyfile.</string>
+    <string name="warning_large_keyfile">It is not recommended to add a large keyfile, this may prevent the database from opening.</string>
     <string name="warning_empty_keyfile_explanation">The content of the keyfile should never be changed, and in the best case, should contain randomly generated data.</string>
     <string name="warning_database_info_changed">The information contained in your database file has been modified outside the app.</string>
     <string name="warning_database_info_changed_options">Merge the data, overwrite the external modifications by saving the database or reload it with the latest changes.</string>
@@ -623,7 +628,7 @@
     <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual style&lt;/strong&gt; and you will especially help &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">This &lt;strong&gt;visual style&lt;/strong&gt; is available thanks to your generosity.</string>
-    <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
+    <string name="html_text_donation">By &lt;strong&gt;contributing&lt;/strong&gt; to the project &lt;i&gt;(monetarily, code, translation),&lt;/i&gt;, you will help it to continue to live and thrive, and you will also be eligible for the &lt;strong&gt;theme&lt;/strong&gt; unlocking procedure.</string>
     <string name="html_text_dev_feature">This feature is &lt;strong&gt;under development&lt;/strong&gt; and requires your &lt;strong&gt;contribution&lt;/strong&gt; to be available soon.</string>
     <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
     <string name="html_text_dev_feature_contibute">By &lt;strong&gt;contributing&lt;/strong&gt;,</string>
@@ -731,4 +736,6 @@
     <string name="show_entry_colors_summary">Displays foreground and background colors for an entry</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
+    <string name="hide_templates_title">Hide templates</string>
+    <string name="hide_templates_summary">Templates are not shown</string>
 </resources>

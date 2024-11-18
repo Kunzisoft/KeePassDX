@@ -483,13 +483,15 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             getString(R.string.setting_style_brightness_key),
             getString(R.string.setting_icon_pack_choose_key),
             getString(R.string.show_entry_colors_key),
+            getString(R.string.hide_expired_entries_key),
+            getString(R.string.hide_templates_key),
             getString(R.string.list_entries_show_username_key),
             getString(R.string.list_groups_show_number_entries_key),
+            getString(R.string.recursive_number_entries_key),
             getString(R.string.show_otp_token_key),
             getString(R.string.show_uuid_key),
             getString(R.string.list_size_key),
             getString(R.string.monospace_font_fields_enable_key),
-            getString(R.string.hide_expired_entries_key),
             getString(R.string.enable_education_screens_key),
             getString(R.string.reset_education_screens_key) -> {
                 DATABASE_PREFERENCE_CHANGED = true

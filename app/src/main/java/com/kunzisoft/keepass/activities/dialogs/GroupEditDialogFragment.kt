@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.view.InheritedCompletionView
 import com.kunzisoft.keepass.view.TagsCompletionView
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.tokenautocomplete.FilteredArrayAdapter
-import org.joda.time.DateTime
 
 class GroupEditDialogFragment : DatabaseDialogFragment() {
 
@@ -90,27 +89,21 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
             mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
         }
 
-        mGroupEditViewModel.onDateSelected.observe(this) { dateMilliseconds ->
+        mGroupEditViewModel.onDateSelected.observe(this) { date ->
             // Save the date
-            mGroupInfo.expiryTime = DateInstant(
-                DateTime(mGroupInfo.expiryTime.date)
-                    .withMillis(dateMilliseconds)
-                    .toDate())
+            mGroupInfo.expiryTime.setDate(date.year, date.month, date.day)
             expirationView.dateTime = mGroupInfo.expiryTime
             if (expirationView.dateTime.type == DateInstant.Type.DATE_TIME) {
-                val instantTime = DateInstant(mGroupInfo.expiryTime.date, DateInstant.Type.TIME)
                 // Trick to recall selection with time
-                mGroupEditViewModel.requestDateTimeSelection(instantTime)
+                mGroupEditViewModel.requestDateTimeSelection(
+                    DateInstant(mGroupInfo.expiryTime.instant, DateInstant.Type.TIME)
+                )
             }
         }
 
         mGroupEditViewModel.onTimeSelected.observe(this) { viewModelTime ->
             // Save the time
-            mGroupInfo.expiryTime = DateInstant(
-                DateTime(mGroupInfo.expiryTime.date)
-                    .withHourOfDay(viewModelTime.hours)
-                    .withMinuteOfHour(viewModelTime.minutes)
-                    .toDate(), mGroupInfo.expiryTime.type)
+            mGroupInfo.expiryTime.setTime(viewModelTime.hour, viewModelTime.minute)
             expirationView.dateTime = mGroupInfo.expiryTime
         }
 

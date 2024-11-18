@@ -648,7 +648,7 @@
     <string name="waiting_challenge_response">Aguardando a resposta do desafio…</string>
     <string name="error_cancel_by_user">Cancelado pelo usuário.</string>
     <string name="error_hardware_key_unsupported">A chave física não é suportada.</string>
-    <string name="error_unable_merge_database_kdb">Não é possível mesclar a partir de um banco de dados V1.</string>
+    <string name="error_unable_merge_database_kdb">Não é possível mesclar a partir de um arquivo de banco de dados kbd</string>
     <string name="error_location_unknown">Localização do banco de dados desconhecida, a ação do banco de dados não pode ser executada.</string>
     <string name="error_empty_key">A chave não pode estar vazia.</string>
     <string name="html_about_privacy">&lt;strong&gt;Nenhum dado do usuário é coletado&lt;/strong&gt;, este aplicativo não se conecta a nenhum servidor, funciona apenas localmente e respeita totalmente a privacidade dos usuários.</string>

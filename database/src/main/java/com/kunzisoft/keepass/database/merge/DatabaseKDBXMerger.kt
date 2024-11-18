@@ -187,34 +187,34 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     fun merge(databaseToMerge: DatabaseKDBX) {
 
         // Merge settings
-        if (database.nameChanged.date.before(databaseToMerge.nameChanged.date)) {
+        if (database.nameChanged.isBefore(databaseToMerge.nameChanged)) {
             database.name = databaseToMerge.name
             database.nameChanged = databaseToMerge.nameChanged
         }
-        if (database.descriptionChanged.date.before(databaseToMerge.descriptionChanged.date)) {
+        if (database.descriptionChanged.isBefore(databaseToMerge.descriptionChanged)) {
             database.description = databaseToMerge.description
             database.descriptionChanged = databaseToMerge.descriptionChanged
         }
-        if (database.defaultUserNameChanged.date.before(databaseToMerge.defaultUserNameChanged.date)) {
+        if (database.defaultUserNameChanged.isBefore(databaseToMerge.defaultUserNameChanged)) {
             database.defaultUserName = databaseToMerge.defaultUserName
             database.defaultUserNameChanged = databaseToMerge.defaultUserNameChanged
         }
-        if (database.keyLastChanged.date.before(databaseToMerge.keyLastChanged.date)) {
+        if (database.keyLastChanged.isBefore(databaseToMerge.keyLastChanged)) {
             database.keyChangeRecDays = databaseToMerge.keyChangeRecDays
             database.keyChangeForceDays = databaseToMerge.keyChangeForceDays
             database.isKeyChangeForceOnce = databaseToMerge.isKeyChangeForceOnce
             database.keyLastChanged = databaseToMerge.keyLastChanged
         }
-        if (database.recycleBinChanged.date.before(databaseToMerge.recycleBinChanged.date)) {
+        if (database.recycleBinChanged.isBefore(databaseToMerge.recycleBinChanged)) {
             database.isRecycleBinEnabled = databaseToMerge.isRecycleBinEnabled
             database.recycleBinUUID = databaseToMerge.recycleBinUUID
             database.recycleBinChanged = databaseToMerge.recycleBinChanged
         }
-        if (database.entryTemplatesGroupChanged.date.before(databaseToMerge.entryTemplatesGroupChanged.date)) {
+        if (database.entryTemplatesGroupChanged.isBefore(databaseToMerge.entryTemplatesGroupChanged)) {
             database.entryTemplatesGroup = databaseToMerge.entryTemplatesGroup
             database.entryTemplatesGroupChanged = databaseToMerge.entryTemplatesGroupChanged
         }
-        if (database.settingsChanged.date.before(databaseToMerge.settingsChanged.date)) {
+        if (database.settingsChanged.isBefore(databaseToMerge.settingsChanged)) {
             database.color = databaseToMerge.color
             database.compressionAlgorithm = databaseToMerge.compressionAlgorithm
             database.historyMaxItems = databaseToMerge.historyMaxItems
@@ -245,8 +245,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
 
         // Merge root group
-        if (rootGroup.lastModificationTime.date
-                .before(rootGroupToMerge.lastModificationTime.date)) {
+        if (rootGroup.lastModificationTime.isBefore(rootGroupToMerge.lastModificationTime)) {
             rootGroup.updateWith(rootGroupToMerge, updateParents = false)
         }
         // Merge children
@@ -293,7 +292,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 val customIconToMerge = databaseToMerge.iconsManager.getIcon(customIconUuid)
                 val customIconModificationToMerge = customIconToMerge?.lastModificationTime
                 if (customIconModification != null && customIconModificationToMerge != null) {
-                    if (customIconModification.date.before(customIconModificationToMerge.date)) {
+                    if (customIconModification.isBefore(customIconModificationToMerge)) {
                         customIcon.updateWith(customIconToMerge)
                     }
                 } else if (customIconModificationToMerge != null) {
@@ -310,19 +309,17 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             val databaseIcon = database.iconsManager.getIcon(deletedObjectId)
             val databaseIconModificationTime = databaseIcon?.lastModificationTime
             if (databaseEntry != null
-                && deletedObject.deletionTime.date
-                    .after(databaseEntry.lastModificationTime.date)) {
+                && deletedObject.deletionTime.isAfter(databaseEntry.lastModificationTime)) {
                 database.removeEntryFrom(databaseEntry, databaseEntry.parent)
             }
             if (databaseGroup != null
-                && deletedObject.deletionTime.date
-                    .after(databaseGroup.lastModificationTime.date)) {
+                && deletedObject.deletionTime.isAfter(databaseGroup.lastModificationTime)) {
                 database.removeGroupFrom(databaseGroup, databaseGroup.parent)
             }
             if (databaseIcon != null
                 && (
                     databaseIconModificationTime == null
-                    || (deletedObject.deletionTime.date.after(databaseIconModificationTime.date))
+                    || (deletedObject.deletionTime.isAfter(databaseIconModificationTime))
                     )
             ) {
                 database.removeCustomIcon(deletedObjectId)
@@ -343,8 +340,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 val customDataItemModification = customDataItem.lastModificationTime
                 val customDataItemToMergeModification = customDataItemToMerge.lastModificationTime
                 if (customDataItemModification != null && customDataItemToMergeModification != null) {
-                    if (customDataItemModification.date
-                            .before(customDataItemToMergeModification.date)) {
+                    if (customDataItemModification.isBefore(customDataItemToMergeModification)) {
                         customData.put(customDataItemToMerge)
                     }
                 } else {
@@ -399,8 +395,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // If it's a deleted object, but another instance was updated
                 // If entry parent to add exists and in current database
                 if ((deletedObject == null
-                    || deletedObject.deletionTime.date
-                        .before(entryToMerge.lastModificationTime.date))
+                    || deletedObject.deletionTime.isBefore(entryToMerge.lastModificationTime))
                     && parentEntryToMerge != null) {
                     database.addEntryTo(entryToMerge, parentEntryToMerge)
                 }
@@ -408,8 +403,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // Merge independently custom data
                 mergeCustomData(entry.customData, entryToMerge.customData)
                 // Merge by modification time
-                if (entry.lastModificationTime.date
-                        .before(entryToMerge.lastModificationTime.date)
+                if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)
                 ) {
                     addHistory(entry, entryToMerge)
                     if (parentEntryToMerge == entry.parent) {
@@ -421,8 +415,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                             database.addEntryTo(entryToMerge, parentEntryToMerge)
                         }
                     }
-                } else if (entry.lastModificationTime.date
-                        .after(entryToMerge.lastModificationTime.date)
+                } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)
                 ) {
                     addHistory(entryToMerge, entry)
                 }
@@ -477,8 +470,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
             if (group == null) {
                 // If group parent to add exists and in current database
                 if ((deletedObject == null
-                    || deletedObject.deletionTime.date
-                        .before(groupToMerge.lastModificationTime.date))
+                    || deletedObject.deletionTime.isBefore(groupToMerge.lastModificationTime))
                     && parentGroupToMerge != null) {
                     database.addGroupTo(groupToMerge, parentGroupToMerge)
                 }
@@ -486,8 +478,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // Merge independently custom data
                 mergeCustomData(group.customData, groupToMerge.customData)
                 // Merge by modification time
-                if (group.lastModificationTime.date
-                        .before(groupToMerge.lastModificationTime.date)
+                if (group.lastModificationTime.isBefore(groupToMerge.lastModificationTime)
                 ) {
                     if (parentGroupToMerge == group.parent) {
                         group.updateWith(groupToMerge, false)

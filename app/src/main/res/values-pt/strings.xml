@@ -625,7 +625,7 @@
     <string name="hardware_key">Chave física</string>
     <string name="error_no_hardware_key">Selecione uma chave física.</string>
     <string name="error_XML_malformed">XML malformado.</string>
-    <string name="error_unable_merge_database_kdb">Não é possível fundir a partir de uma base de dados V1.</string>
+    <string name="error_unable_merge_database_kdb">Não é possível fundir com um ficheiro de base de dados kdb</string>
     <string name="error_cancel_by_user">Cancelado pelo utilizador.</string>
     <string name="error_driver_required">É necessário o driver para %1$s.</string>
     <string name="error_location_unknown">A localização da base de dados é desconhecida, a ação da base de dados não pode ser executada.</string>
@@ -678,4 +678,5 @@
     <string name="style_name_dark">Escuro</string>
     <string name="style_name_moon">Lua</string>
     <string name="style_name_reply">Resposta</string>
+    <string name="warning_database_info_changed_options_read_only">Recarregar a base de dados com as alterações mais recentes.</string>
 </resources>

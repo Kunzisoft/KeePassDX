@@ -19,6 +19,9 @@
  */
 package com.kunzisoft.keepass.utils
 
+import com.kunzisoft.keepass.database.element.DateInstant
+import org.joda.time.DateTime
+import org.joda.time.Instant
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -93,7 +96,7 @@ fun InputStream.readBytes2ToUShort(): Int {
 }
 
 @Throws(IOException::class)
-fun InputStream.readBytes5ToDate(): Date {
+fun InputStream.readBytes5ToDate(): DateInstant {
     return bytes5ToDate(readBytesLength(5))
 }
 
@@ -211,7 +214,7 @@ fun bytes16ToUuid(buf: ByteArray): UUID {
  * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
  * to a java.util.Date instance.
  */
-fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): Date {
+fun bytes5ToDate(buf: ByteArray): DateInstant {
     val dateSize = 5
     val cDate = ByteArray(dateSize)
     System.arraycopy(buf, 0, cDate, 0, dateSize)
@@ -232,11 +235,14 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
     val minute = dw4 and 0x0000000F shl 2 or (dw5 shr 6)
     val second = dw5 and 0x0000003F
 
-    // File format is a 1 based month, java Calendar uses a zero based month
-    // File format is a 1 based day, java Calendar uses a 1 based day
-    calendar.set(year, month - 1, day, hour, minute, second)
-
-    return calendar.time
+    return DateInstant(Instant.ofEpochMilli(DateTime(
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second
+    ).millis))
 }
 
 
@@ -284,19 +290,15 @@ fun uuidTo16Bytes(uuid: UUID): ByteArray {
     return buf
 }
 
-fun dateTo5Bytes(date: Date, calendar: Calendar = Calendar.getInstance()): ByteArray {
+fun dateTo5Bytes(dateInstant: DateInstant): ByteArray {
+    val year = dateInstant.getYear()
+    val month = dateInstant.getMonth()
+    val day = dateInstant.getDay()
+    val hour = dateInstant.getHour()
+    val minute = dateInstant.getMinute()
+    val second = dateInstant.getSecond()
+
     val buf = ByteArray(5)
-    calendar.time = date
-
-    val year = calendar.get(Calendar.YEAR)
-    // File format is a 1 based month, java Calendar uses a zero based month
-    val month = calendar.get(Calendar.MONTH) + 1
-    // File format is a 1 based day, java Calendar uses a 1 based day
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-    val minute = calendar.get(Calendar.MINUTE)
-    val second = calendar.get(Calendar.SECOND)
-
     buf[0] = UnsignedInt(year shr 6 and 0x0000003F).toKotlinByte()
     buf[1] = UnsignedInt(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003)).toKotlinByte()
     buf[2] = (month and 0x00000003 shl 6

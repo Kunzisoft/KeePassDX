@@ -5,15 +5,14 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.kunzisoft.keepass'
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+    compileSdkVersion 34
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
-        targetSdkVersion 33
-        versionCode = 131
-        versionName = "4.0.8"
+        targetSdkVersion 34
+        versionCode = 132
+        versionName = "4.1.0"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -34,6 +33,13 @@ android {
         release {
             minifyEnabled = false
         }
+    }
+
+    dependenciesInfo {
+        // Disables dependency metadata when building APKs.
+        includeInApk = false
+        // Disables dependency metadata when building Android App Bundles.
+        includeInBundle = false
     }
 
     flavorDimensions "version"
@@ -120,7 +126,7 @@ dependencies {
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
     // Time
-    implementation 'joda-time:joda-time:2.10.13'
+    implementation 'joda-time:joda-time:2.13.0'
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.6'
     // Education

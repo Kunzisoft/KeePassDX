@@ -36,13 +36,12 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.utils.UnsignedLong
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.readStringIntMap
 import com.kunzisoft.keepass.utils.readStringParcelableMap
 import com.kunzisoft.keepass.utils.writeStringIntMap
 import com.kunzisoft.keepass.utils.writeStringParcelableMap
-import com.kunzisoft.keepass.utils.UnsignedLong
-import java.util.Date
 import java.util.UUID
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -363,18 +362,16 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     }
 
     fun removeOldestEntryFromHistory(): EntryKDBX? {
-        var min: Date? = null
+        var min: DateInstant? = null
         var index = -1
-
         for (i in history.indices) {
             val entry = history[i]
-            val lastMod = entry.lastModificationTime.date
-            if (min == null  || lastMod.before(min)) {
+            val lastModification = entry.lastModificationTime
+            if (min == null || lastModification.isBefore(min)) {
                 index = i
-                min = lastMod
+                min = lastModification
             }
         }
-
         return if (index != -1) {
             history.removeAt(index)
         } else null

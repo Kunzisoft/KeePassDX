@@ -111,13 +111,18 @@ class KeyboardEntryNotificationService : LockNotificationService() {
                 .setContentIntent(null)
                 .setDeleteIntent(pendingDeleteIntent)
 
-        notificationManager?.cancel(notificationId)
-        notificationManager?.notify(notificationId, builder.build())
+        checkNotificationsPermission(this, PreferencesUtil.isKeyboardNotificationEntryEnable(this)) {
+            notificationManager?.notify(notificationId, builder.build())
+        }
 
         // Timeout only if notification clear is available
         if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
             if (mNotificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
-                defineTimerJob(builder, mNotificationTimeoutMilliSecs) {
+                defineTimerJob(
+                    builder,
+                    NotificationServiceType.KEYBOARD,
+                    mNotificationTimeoutMilliSecs
+                ) {
                     stopNotificationAndSendLockIfNeeded()
                 }
             }

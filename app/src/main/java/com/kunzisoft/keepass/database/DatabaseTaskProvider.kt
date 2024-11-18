@@ -40,6 +40,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
@@ -330,11 +331,11 @@ class DatabaseTaskProvider(
                 }
             }
         }
-        context.registerReceiver(databaseTaskBroadcastReceiver,
+        ContextCompat.registerReceiver(context, databaseTaskBroadcastReceiver,
             IntentFilter().apply {
                 addAction(DATABASE_START_TASK_ACTION)
                 addAction(DATABASE_STOP_TASK_ACTION)
-            }
+            }, RECEIVER_NOT_EXPORTED
         )
 
         // Check if a service is currently running else do nothing

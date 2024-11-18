@@ -146,7 +146,7 @@
     <string name="key_derivation_function">Функция формирования ключа</string>
     <string name="extended_ASCII">Расширенный набор ASCII</string>
     <string name="error_autofill_enable_service">Служба автозаполнения не может быть включена.</string>
-    <string name="copy_field">%1$s скопировано</string>
+    <string name="copy_field">Скопировано: %1$s</string>
     <string name="menu_form_filling_settings">Заполнение форм</string>
     <string name="encryption_explanation">Алгоритм шифрования всех данных базы</string>
     <string name="kdf_explanation">При создании ключа для алгоритма шифрования, главный пароль преобразуется при помощи функции формирования ключа со случайной солью.</string>
@@ -580,7 +580,7 @@
     <string name="wireless">Wi–Fi</string>
     <string name="email_address">Адрес эл. почты</string>
     <string name="name">Имя</string>
-    <string name="personal_identification_number">PIN–код</string>
+    <string name="personal_identification_number">PIN</string>
     <string name="card_verification_value">CVV</string>
     <string name="number">Номер</string>
     <string name="holder">Владелец</string>
@@ -652,7 +652,7 @@
     <string name="error_response_already_provided">Ответ уже предоставлен.</string>
     <string name="error_challenge_already_requested">Вызов уже запрошен</string>
     <string name="error_no_response_from_challenge">Невозможно получить ответ на вызов.</string>
-    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение из базы V1.</string>
+    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb.</string>
     <string name="error_hardware_key_unsupported">Аппаратный ключ не поддерживается.</string>
     <string name="error_empty_key">Ключ не может быть пустым.</string>
     <string name="corrupted_file">Файл повреждён.</string>

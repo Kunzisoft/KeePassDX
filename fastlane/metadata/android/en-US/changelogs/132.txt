@@ -1,0 +1,9 @@
+ * Generate keyfile #1290
+ * Hide template group #1894
+ * Group count sum recursively #421
+ * Fix date fields #1695 #1710
+ * Fix distinct domain names #1105 #1820
+ * Resets the advanced unlock expiration #1600
+ * Password entropy #1490 #1355
+ * Upgrade to API 34 (Android 14) #1730
+ * Small fixes #1711 #1831 #1780 #1821 #1863 #1889 #1289 #1600 #1467 #1870

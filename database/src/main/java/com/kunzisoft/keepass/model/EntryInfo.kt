@@ -232,7 +232,7 @@ class EntryInfo : NodeInfo {
             }
             creditCard?.expiration?.let {
                 expires = true
-                expiryTime = DateInstant(creditCard.expiration.millis)
+                expiryTime = DateInstant(creditCard.expiration.toInstant())
             }
             creditCard?.number?.let {
                 addUniqueField(Field(TemplateField.LABEL_NUMBER, ProtectedString(false, it)))

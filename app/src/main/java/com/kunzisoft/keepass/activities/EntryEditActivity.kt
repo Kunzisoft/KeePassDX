@@ -30,7 +30,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ProgressBar
 import android.widget.Spinner
@@ -73,6 +72,7 @@ import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -87,6 +87,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.ToolbarAction
@@ -301,7 +302,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                 // Launch the time picker
                 MaterialTimePicker.Builder().build().apply {
                     addOnPositiveButtonClickListener {
-                        mEntryEditViewModel.selectTime(this.hour, this.minute)
+                        mEntryEditViewModel.selectTime(DataTime(this.hour, this.minute))
                     }
                     show(supportFragmentManager, "TimePickerFragment")
                 }
@@ -309,7 +310,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                 // Launch the date picker
                 MaterialDatePicker.Builder.datePicker().build().apply {
                     addOnPositiveButtonClickListener {
-                        mEntryEditViewModel.selectDate(it)
+                        mEntryEditViewModel.selectDate(datePickerToDataDate(it))
                     }
                     show(supportFragmentManager, "DatePickerFragment")
                 }

@@ -4,7 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.view.DataTime
+import com.kunzisoft.keepass.model.DataDate
+import com.kunzisoft.keepass.model.DataTime
 
 abstract class NodeEditViewModel : ViewModel() {
 
@@ -23,8 +24,8 @@ abstract class NodeEditViewModel : ViewModel() {
 
     val requestDateTimeSelection : LiveData<DateInstant> get() = _requestDateTimeSelection
     private val _requestDateTimeSelection = SingleLiveEvent<DateInstant>()
-    val onDateSelected : LiveData<Long> get() = _onDateSelected
-    private val _onDateSelected = SingleLiveEvent<Long>()
+    val onDateSelected : LiveData<DataDate> get() = _onDateSelected
+    private val _onDateSelected = SingleLiveEvent<DataDate>()
     val onTimeSelected : LiveData<DataTime> get() = _onTimeSelected
     private val _onTimeSelected = SingleLiveEvent<DataTime>()
 
@@ -57,12 +58,12 @@ abstract class NodeEditViewModel : ViewModel() {
         _requestDateTimeSelection.value = dateInstant
     }
 
-    fun selectDate(dateMilliseconds: Long) {
-        _onDateSelected.value = dateMilliseconds
+    fun selectDate(date: DataDate) {
+        _onDateSelected.value = date
     }
 
-    fun selectTime(hours: Int, minutes: Int) {
-        _onTimeSelected.value = DataTime(hours, minutes)
+    fun selectTime(dataTime: DataTime) {
+        _onTimeSelected.value = dataTime
     }
 
     private enum class ColorRequest {

@@ -22,6 +22,8 @@ package com.kunzisoft.keepass.tests.utils
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.*
 import junit.framework.TestCase
+import org.joda.time.DateTime
+import org.joda.time.Instant
 import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream
 import java.util.*
@@ -136,26 +138,52 @@ class ValuesTest : TestCase() {
     }
 
     fun testDate() {
-        val cal = Calendar.getInstance()
+        val expected = DateInstant(
+            Instant.ofEpochMilli(
+                DateTime(
+                    2008,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+        ).millis))
 
-        val expected = Calendar.getInstance()
-        expected.set(2008, 1, 2, 3, 4, 5)
+        val actual = DateInstant(bytes5ToDate(dateTo5Bytes(expected)))
 
-        val actual = Calendar.getInstance()
-        actual.time = DateInstant(bytes5ToDate(dateTo5Bytes(expected.time, cal), cal)).date
-
-        val jDate = DateInstant(System.currentTimeMillis())
+        val jDate = DateInstant()
         val intermediate = DateInstant(jDate)
-        val cDate = DateInstant(bytes5ToDate(dateTo5Bytes(intermediate.date)))
+        val cDate = DateInstant(bytes5ToDate(dateTo5Bytes(intermediate)))
 
-        assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR))
-        assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH))
-        assertEquals("Day mismatch: ", 2, actual.get(Calendar.DAY_OF_MONTH))
-        assertEquals("Hour mismatch: ", 3, actual.get(Calendar.HOUR_OF_DAY))
-        assertEquals("Minute mismatch: ", 4, actual.get(Calendar.MINUTE))
-        assertEquals("Second mismatch: ", 5, actual.get(Calendar.SECOND))
+        assertEquals("Year mismatch: ", 2008, actual.getYear())
+        assertEquals("Month mismatch: ", 1, actual.getMonth())
+        assertEquals("Day mismatch: ", 2, actual.getDay())
+        assertEquals("Hour mismatch: ", 3, actual.getHour())
+        assertEquals("Minute mismatch: ", 4, actual.getMinute())
+        assertEquals("Second mismatch: ", 5, actual.getSecond())
         assertTrue("jDate and intermediate not equal", jDate == intermediate)
         assertTrue("jDate $jDate and cDate $cDate not equal", cDate == jDate)
+    }
+
+    fun testDateCompare() {
+        val dateInstantA = DateInstant().apply {
+            setDate(2024, 12, 2)
+            setTime(5, 13)
+        }
+        val dateInstantB = DateInstant().apply {
+            setDate(2024, 12, 2)
+            setTime(5, 10)
+        }
+        val dateInstantC = DateInstant().apply {
+            setDate(2024, 12, 2)
+            setTime(5, 10)
+        }
+        assertTrue(dateInstantA.compareTo(dateInstantB) > 0)
+        assertTrue(dateInstantB.compareTo(dateInstantA) < 0)
+        assertTrue(dateInstantB.compareTo(dateInstantC) == 0)
+        assertTrue(dateInstantA.isAfter(dateInstantB))
+        assertTrue(dateInstantB.isBefore(dateInstantA))
+        assertFalse(dateInstantB.isBefore(dateInstantC))
     }
 
     fun testUUID() {

@@ -84,6 +84,7 @@ import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -96,6 +97,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
 import com.kunzisoft.keepass.utils.KeyboardUtil.showKeyboard
+import com.kunzisoft.keepass.utils.TimeUtil.datePickerToDataDate
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
@@ -114,6 +116,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
+import org.joda.time.Instant
 
 
 class GroupActivity : DatabaseLockActivity(),
@@ -339,8 +342,9 @@ class GroupActivity : DatabaseLockActivity(),
                     R.id.menu_save_copy_to -> {
                         mExternalFileHelper?.createDocument(
                             getString(R.string.database_file_name_default) +
-                            getString(R.string.database_file_name_copy) +
-                            mDatabase?.defaultFileExtension)
+                                    "_" +
+                                    Instant.now().toString() +
+                                    mDatabase?.defaultFileExtension)
                     }
                     R.id.menu_lock_all -> {
                         lockAndExit()
@@ -357,43 +361,6 @@ class GroupActivity : DatabaseLockActivity(),
         }
 
         searchFiltersView?.closeAdvancedFilters()
-
-        mBreadcrumbAdapter = BreadcrumbAdapter(this).apply {
-            // Open group on breadcrumb click
-            onItemClickListener = { node, _ ->
-                // If last item & not a virtual root group
-                val currentGroup = mMainGroup
-                if (currentGroup != null && node == currentGroup
-                    && (currentGroup != mDatabase?.rootGroup
-                            || mDatabase?.rootGroupIsVirtual == false)
-                ) {
-                    finishNodeAction()
-                    launchDialogToShowGroupInfo(currentGroup)
-                } else {
-                    if (mGroupFragment?.nodeActionSelectionMode == true) {
-                        finishNodeAction()
-                    }
-                    mDatabase?.let { database ->
-                        onNodeClick(database, node)
-                    }
-                }
-            }
-            onLongItemClickListener = { node, position ->
-                val currentGroup = mMainGroup
-                if (currentGroup != null && node == currentGroup
-                    && (currentGroup != mDatabase?.rootGroup
-                            || mDatabase?.rootGroupIsVirtual == false)
-                ) {
-                    finishNodeAction()
-                    launchDialogForGroupUpdate(currentGroup)
-                } else {
-                    onItemClickListener?.invoke(node, position)
-                }
-            }
-        }
-        breadcrumbListView?.apply {
-            adapter = mBreadcrumbAdapter
-        }
 
         // Retrieve group if defined at launch
         manageIntent(intent)
@@ -475,7 +442,7 @@ class GroupActivity : DatabaseLockActivity(),
                 // Launch the time picker
                 MaterialTimePicker.Builder().build().apply {
                     addOnPositiveButtonClickListener {
-                        mGroupEditViewModel.selectTime(this.hour, this.minute)
+                        mGroupEditViewModel.selectTime(DataTime(this.hour, this.minute))
                     }
                     show(supportFragmentManager, "TimePickerFragment")
                 }
@@ -483,7 +450,7 @@ class GroupActivity : DatabaseLockActivity(),
                 // Launch the date picker
                 MaterialDatePicker.Builder.datePicker().build().apply {
                     addOnPositiveButtonClickListener {
-                        mGroupEditViewModel.selectDate(it)
+                        mGroupEditViewModel.selectDate(datePickerToDataDate(it))
                     }
                     show(supportFragmentManager, "DatePickerFragment")
                 }
@@ -615,6 +582,43 @@ class GroupActivity : DatabaseLockActivity(),
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
+
+        mBreadcrumbAdapter = BreadcrumbAdapter(this, database).apply {
+            // Open group on breadcrumb click
+            onItemClickListener = { node, _ ->
+                // If last item & not a virtual root group
+                val currentGroup = mMainGroup
+                if (currentGroup != null && node == currentGroup
+                    && (currentGroup != mDatabase?.rootGroup
+                            || mDatabase?.rootGroupIsVirtual == false)
+                ) {
+                    finishNodeAction()
+                    launchDialogToShowGroupInfo(currentGroup)
+                } else {
+                    if (mGroupFragment?.nodeActionSelectionMode == true) {
+                        finishNodeAction()
+                    }
+                    mDatabase?.let { database ->
+                        onNodeClick(database, node)
+                    }
+                }
+            }
+            onLongItemClickListener = { node, position ->
+                val currentGroup = mMainGroup
+                if (currentGroup != null && node == currentGroup
+                    && (currentGroup != mDatabase?.rootGroup
+                            || mDatabase?.rootGroupIsVirtual == false)
+                ) {
+                    finishNodeAction()
+                    launchDialogForGroupUpdate(currentGroup)
+                } else {
+                    onItemClickListener?.invoke(node, position)
+                }
+            }
+        }
+        breadcrumbListView?.apply {
+            adapter = mBreadcrumbAdapter
+        }
 
         mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
 

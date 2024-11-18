@@ -19,18 +19,19 @@
  */
 package com.kunzisoft.keepass.icon
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.util.SparseIntArray
-import java.util.*
+import java.util.Locale
 
 /**
  * Class who construct dynamically database icons contains in a separate library
  *
  *
- * It only supports icons with specific nomenclature **[stringId]_[%2d]_32dp**
- * where [stringId] contains in a string xml attribute with id **resource_id** and
- * [%2d] 2 numerical numbers between 00 and 68 included,
+ * It only supports icons with specific nomenclature **{stringId}_{%2d}_32dp**
+ * where {stringId} contains in a string xml attribute with id **resource_id** and
+ * {%2d} 2 numerical numbers between 00 and 68 included,
  *
  *
  * See *icon-pack-classic* module as sample
@@ -41,6 +42,7 @@ import java.util.*
  * @param packageName Context of the app to retrieve the resources
  * @param resourceId String Id of the pack (ex : com.kunzisoft.keepass.icon.classic.R.string.resource_id)
  */
+@SuppressLint("DiscouragedApi")
 class IconPack(packageName: String, resources: Resources, resourceId: Int) {
 
     private val icons: SparseIntArray = SparseIntArray()

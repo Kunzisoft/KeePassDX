@@ -43,9 +43,10 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
     <string name="default_checkbox">Använd som standarddatabas</string>
     <string name="digits">Siffror</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer helt utan garantier. Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft är &lt;strong&gt;öppen källkod&lt;/strong&gt; och &lt;strong&gt;utan reklam&lt;/strong&gt;.
+\nDen tillhandahålls i befintligt skick, under &lt;strong&gt;GPLv3-licens&lt;/strong&gt;, utan någon garanti.</string>
     <string name="select_database_file">Öppna befintlig databas</string>
-    <string name="entry_accessed">Senast använd</string>
+    <string name="entry_accessed">Åtkomst</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Anteckningar</string>
     <string name="entry_confpassword">Bekräfta lösenord</string>
@@ -70,7 +71,7 @@
     <string name="error_pass_match">Lösenorden matchar inte.</string>
     <string name="error_rounds_too_large">\"Transformationsrundor\" är för stort. Sätter värdet till 2147483648.</string>
     <string name="error_string_key">Varje sträng måste ha ett fältnamn.</string>
-    <string name="error_wrong_length">Ange ett positivt heltal i fältet för längd.</string>
+    <string name="error_wrong_length">Ange ett positivt heltal i fältet \"Längd\".</string>
     <string name="field_name">Fältnamn</string>
     <string name="field_value">Fältvärde</string>
     <string name="file_browser">Filhanterare</string>
@@ -475,4 +476,29 @@
     <string name="content_description_passphrase_word_count">Antal ord i Lösenordsfras</string>
     <string name="public_key">Offentlig nyckel</string>
     <string name="private_key">Privat nyckel</string>
+    <string name="error_database_uri_null">Det går inte att hämta databas-URI.</string>
+    <string name="error_rebuild_list">Det går inte att bygga om listan på rätt sätt.</string>
+    <string name="seed">Frö</string>
+    <string name="error_otp_type">Den befintliga OTP-typen känns inte igen av det här formuläret, dess validering kanske inte längre genererar token korrekt.</string>
+    <string name="holder">Hållare</string>
+    <string name="error_word_reserved">Detta ord är reserverat och kan inte användas.</string>
+    <string name="error_string_type">Den här texten stämmer inte överens med det begärda objektet.</string>
+    <string name="content_description_nav_header">Rubrik för navigering</string>
+    <string name="navigation_drawer_open">Navigeringspanelen är öppen</string>
+    <string name="navigation_drawer_close">Stäng navigeringspanelen</string>
+    <string name="custom_data">Anpassade data</string>
+    <string name="content_description_entry_foreground_color">Förgrundsfärg för inmatning</string>
+    <string name="content_description_entry_background_color">Förgrundsfärg för inmatning</string>
+    <string name="waiting_challenge_request">Väntar på utmaningsförfrågan…</string>
+    <string name="waiting_challenge_response">Väntar på utmaningssvaret…</string>
+    <string name="inherited">Ärva</string>
+    <string name="auto_type_sequence">Sekvens för automatisk typ</string>
+    <string name="regex">Reguljärt uttryck</string>
+    <string name="place_of_issue">Plats för utfärdande</string>
+    <string name="token">Bevis</string>
+    <string name="secure_note">Säker anteckning</string>
+    <string name="error_XML_malformed">XML-filen är felaktig.</string>
+    <string name="error_registration_read_only">Det är inte tillåtet att spara ett nytt objekt i en skrivskyddad databas</string>
+    <string name="error_field_name_already_exists">Fältnamnet finns redan.</string>
+    <string name="auto_type">Auto-typ</string>
 </resources>

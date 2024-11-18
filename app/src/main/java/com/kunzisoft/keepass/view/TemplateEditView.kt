@@ -17,8 +17,10 @@ import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.database.helper.isStandardPasswordName
+import com.kunzisoft.keepass.model.DataDate
+import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.otp.OtpEntryFields
-import org.joda.time.DateTime
 
 
 class TemplateEditView @JvmOverloads constructor(context: Context,
@@ -112,7 +114,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     override fun buildLinearTextView(templateAttribute: TemplateAttribute,
                                      field: Field): TextEditFieldView? {
         return context?.let {
-            TextEditFieldView(it).apply {
+            (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
+                PasswordTextEditFieldView(it)
+            else TextEditFieldView(it)).apply {
                 // hiddenProtectedValue (mHideProtectedValue) don't work with TextInputLayout
                 setProtection(field.protectedValue.isProtected)
                 default = templateAttribute.default
@@ -211,35 +215,31 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             val dateTimeView = getFieldViewById(viewId)
             if (dateTimeView is DateTimeEditFieldView) {
                 dateTimeView.dateTime = DateInstant(
-                    action.invoke(dateTimeView.dateTime).date,
-                    dateTimeView.dateTime.type)
+                    action.invoke(dateTimeView.dateTime).instant,
+                    dateTimeView.dateTime.type
+                )
             }
         }
     }
 
-    fun setCurrentDateTimeValue(dateMilliseconds: Long) {
+    fun setCurrentDateTimeValue(date: DataDate) {
         // Save the date
-        setCurrentDateTimeSelection { instant ->
-            val newDateInstant = DateInstant(
-                DateTime(instant.date)
-                    .withMillis(dateMilliseconds)
-                .toDate(), instant.type)
-            if (instant.type == DateInstant.Type.DATE_TIME) {
-                val instantTime = DateInstant(instant.date, DateInstant.Type.TIME)
+        setCurrentDateTimeSelection { dateInstant ->
+            dateInstant.setDate(date.year, date.month, date.day)
+            if (dateInstant.type == DateInstant.Type.DATE_TIME) {
                 // Trick to recall selection with time
-                mOnDateInstantClickListener?.invoke(instantTime)
+                mOnDateInstantClickListener?.invoke(
+                    DateInstant(dateInstant.instant, DateInstant.Type.TIME)
+                )
             }
-            newDateInstant
+            dateInstant
         }
     }
 
     fun setCurrentTimeValue(time: DataTime) {
-        setCurrentDateTimeSelection { instant ->
-            DateInstant(
-                DateTime(instant.date)
-                .withHourOfDay(time.hours)
-                .withMinuteOfHour(time.minutes)
-                .toDate(), instant.type)
+        setCurrentDateTimeSelection { dateInstant ->
+            dateInstant.setTime(time.hour, time.minute)
+            dateInstant
         }
     }
 

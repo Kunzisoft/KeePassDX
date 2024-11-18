@@ -8,45 +8,40 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.annotation.DrawableRes
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.helper.isStandardPasswordName
-import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class TextEditFieldView @JvmOverloads constructor(context: Context,
+open class TextEditFieldView @JvmOverloads constructor(context: Context,
                                                   attrs: AttributeSet? = null,
                                                   defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
 
     private var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
-    private var actionImageButtonId = ViewCompat.generateViewId()
-
-    private var textModified = false
-    private var isColorizedPasswordActivated = PreferencesUtil.colorizePassword(context)
+    protected var actionImageButtonId = ViewCompat.generateViewId()
 
     private val labelView = TextInputLayout(context).apply {
         layoutParams = LayoutParams(
                 LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT)
     }
-    private val valueView = TextInputEditText(
-        ContextThemeWrapper(getContext(),
-        R.style.KeepassDXStyle_TextInputLayout)
+    protected val valueView = TextInputEditText(
+        ContextThemeWrapper(
+            getContext(),
+            R.style.KeepassDXStyle_TextInputLayout
+        )
     ).apply {
         layoutParams = LinearLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT,
@@ -62,7 +57,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         maxLines = 1
     }
     private var actionImageButton = AppCompatImageButton(
-            ContextThemeWrapper(context, R.style.KeepassDXStyle_ImageButton_Simple), null, 0).apply {
+            ContextThemeWrapper(
+                context,
+                R.style.KeepassDXStyle_ImageButton_Simple
+            ), null, 0).apply {
         layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT).also {
@@ -83,21 +81,6 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     init {
         // Manually write view to avoid view id bugs
         buildViews()
-        // To change the password color dynamically
-        /* Fixme 1686
-        valueView.doAfterTextChanged { editable ->
-            editable?.let { text ->
-                if (textModified) {
-                    textModified = false
-                } else {
-                    textModified = true
-                    val selectionStart = valueView.selectionStart
-                    val selectionEnd = valueView.selectionEnd
-                    value = text.toString()
-                    valueView.setSelection(selectionStart, selectionEnd)
-                }
-            }
-        }*/
         labelView.addView(valueView)
         addView(labelView)
         addView(actionImageButton)
@@ -106,10 +89,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
     private fun buildViews() {
         labelView.apply {
             id = labelViewId
-            layoutParams = (layoutParams as LayoutParams?).also {
-                it?.addRule(LEFT_OF, actionImageButtonId)
+            layoutParams = (layoutParams as LayoutParams?)?.also {
+                it.addRule(LEFT_OF, actionImageButtonId)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, actionImageButtonId)
+                    it.addRule(START_OF, actionImageButtonId)
                 }
             }
         }
@@ -130,15 +113,6 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
         return actionImageButton
     }
 
-    private fun spannableValue(value: String?): Spannable? {
-        if (value == null)
-            return null
-        return if (isColorizedPasswordActivated && TemplateField.isStandardPasswordName(context, label))
-                PasswordGenerator.getColorizedPassword(value)
-            else
-                SpannableString(value)
-    }
-
     override var label: String
         get() {
             return labelView.hint?.toString() ?: ""
@@ -151,6 +125,10 @@ class TextEditFieldView @JvmOverloads constructor(context: Context,
             actionImageButtonId = "actionImageButtonId $value".hashCode()
             buildViews()
         }
+
+    protected open fun spannableValue(value: String?): Spannable? {
+        return SpannableString(value)
+    }
 
     override var value: String
         get() {
