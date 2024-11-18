@@ -650,7 +650,7 @@
     <string name="corrupted_file">File danneggiato.</string>
     <string name="enable_screenshot_mode_summary">Consenti alle app di terze parti di registrare o acquisire schermate dell\'app</string>
     <string name="error_cancel_by_user">Annullato dall\'utente.</string>
-    <string name="error_unable_merge_database_kdb">Impossibile eseguire l\'unione da un database V1.</string>
+    <string name="error_unable_merge_database_kdb">Impossibile unire con un file database kdb</string>
     <string name="error_location_unknown">Il percorso del database è sconosciuto, non è possibile eseguire l\'azione sul database.</string>
     <string name="remember_hardware_key_title">Ricorda le chiavi hardware</string>
     <string name="remember_hardware_key_summary">Tiene traccia delle chiavi hardware usate</string>
@@ -703,4 +703,5 @@
     <string name="style_name_sun">Sole</string>
     <string name="style_name_follow_system">Segui il sistema</string>
     <string name="warning_database_info_changed_options_read_only">Ricarica il database con le ultime modifiche.</string>
+    <string name="style_name_reply">Risposta</string>
 </resources>

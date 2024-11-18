@@ -649,7 +649,7 @@
     <string name="error_XML_malformed">Хибний XML.</string>
     <string name="error_response_already_provided">Відповідь уже надана.</string>
     <string name="error_driver_required">Вимагається драйвер для %1$s.</string>
-    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з базою даних V1.</string>
+    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з файлом бази даних kdb</string>
     <string name="remember_hardware_key_title">Пам\'ятати апаратні ключі</string>
     <string name="remember_hardware_key_summary">Пам\'ятати використовувані апаратні ключі</string>
     <string name="enable_screenshot_mode_title">Режим знімка екрана</string>
@@ -700,4 +700,5 @@
     <string name="style_name_divine">Божественна</string>
     <string name="style_name_simple">Спрощенна</string>
     <string name="style_name_moon">Місячна</string>
+    <string name="warning_database_info_changed_options_read_only">Перезавантажте базу даних з останніми змінами.</string>
 </resources>

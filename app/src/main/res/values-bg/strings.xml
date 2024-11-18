@@ -499,7 +499,7 @@
     <string name="lock_database_screen_off_title">Заключване на екрана</string>
     <string name="database_data_remove_unlinked_attachments_title">Премахване на несвързани данни</string>
     <string name="warning_sure_add_file">Добавяне на файла въпреки това?</string>
-    <string name="error_unable_merge_database_kdb">Обединяване от хранилище V1 е невъзможно.</string>
+    <string name="error_unable_merge_database_kdb">Не е възможно обединяване с хранилище във формат KBD</string>
     <string name="memory_usage_explanation">Количество памет, използвана от функцията за извличане на ключове.</string>
     <string name="warning_database_already_opened">Има отворено хранилище, затворете го, за да отворите друго</string>
     <string name="warning_replace_file">При добавяне на този файл ще бъде заменен вече съществуващ.</string>

@@ -18,8 +18,8 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="feedback">Geri bildirim</string>
-    <string name="homepage">Ana sayfa</string>
-    <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
+    <string name="homepage">Ana Sayfa</string>
+    <string name="about_description">KeePass Parola Yöneticisi\'nin Android uygulama uyarlaması</string>
     <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi ekle</string>
     <string name="edit_entry">Girdi düzenle</string>
@@ -32,14 +32,14 @@
     <string name="application">Uygulama</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
-    <string name="file_manager_install_description">Niyet eylemini kabul eden bir dosya yöneticisi. ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT veri tabanı dosyaları oluşturmak, açmak ve kaydetmek için gereklidir.</string>
+    <string name="file_manager_install_description">Veritabanı dosyalarını oluşturmak, açmak ve kaydetmek için ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT intent eylemlerini kabul eden bir dosya yöneticisi gereklidir.</string>
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
     <string name="clipboard_error_title">Pano hatası</string>
     <string name="clipboard_error">Bazı aygıtlar, uygulamaların panoyu kullanmasına izin vermez.</string>
     <string name="clipboard_error_clear">Pano temizlenemedi</string>
     <string name="clipboard_timeout">Pano zaman aşımı</string>
-    <string name="clipboard_timeout_summary">Panodaki depolama süresi (aygıtınız tarafından destekleniyorsa)</string>
+    <string name="clipboard_timeout_summary">Panodaki depolama süresi (eğer aygıtınız tarafından destekleniyorsa)</string>
     <string name="database">Veri tabanı</string>
     <string name="entry_accessed">Erişildi</string>
     <string name="entry_cancel">İptal</string>
@@ -324,7 +324,7 @@
     <string name="delete_entered_password_title">Parolayı sil</string>
     <string name="delete_entered_password_summary">Veri tabanına bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
-    <string name="content_description_repeat_toggle_password_visibility">Parola görünürlüğünü değiştirmeyi tekrarla</string>
+    <string name="content_description_repeat_toggle_password_visibility">­Parola görünürlüğünü değiştirmeyi tekrarla</string>
     <string name="content_description_background">Arka plan</string>
     <string name="content_description_update_from_list">Güncelle</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
@@ -642,7 +642,7 @@
     <string name="html_about_privacy">&lt;strong&gt;Hiçbir kullanıcı verisi alınmaz&lt;/strong&gt;, bu uygulama herhangi bir sunucuya bağlanmaz, yalnızca yerel olarak çalışır ve kullanıcıların gizliliğine tamamen saygı duyar.</string>
     <string name="error_empty_key">Anahtar boş olamaz.</string>
     <string name="remember_hardware_key_title">Donanım anahtarlarını hatırla</string>
-    <string name="error_unable_merge_database_kdb">V1 veri tabanından birleştirme yapılamıyor.</string>
+    <string name="error_unable_merge_database_kdb">kdb veri tabanı dosyasıyla birleştirme yapılamıyor</string>
     <string name="error_location_unknown">Veri tabanı konumu bilinmiyor, veri tabanı eylemi gerçekleştirilemiyor.</string>
     <string name="error_hardware_key_unsupported">Donanım anahtarı desteklenmiyor.</string>
     <string name="corrupted_file">Bozuk dosya.</string>

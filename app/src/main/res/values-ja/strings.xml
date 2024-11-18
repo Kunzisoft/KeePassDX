@@ -167,7 +167,7 @@
     <string name="settings">設定</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="menu_form_filling_settings">フォームの入力</string>
-    <string name="menu_advanced_unlock_settings">高度なロック解除</string>
+    <string name="menu_advanced_unlock_settings">デバイスのロック解除</string>
     <string name="menu_database_settings">データベースの設定</string>
     <string name="menu_security_settings">セキュリティの設定</string>
     <string name="menu_master_key_settings">マスターキーの設定</string>
@@ -218,7 +218,7 @@
     <string name="hide_broken_locations_title">データベースへの壊れたリンクを非表示にする</string>
     <string name="hide_broken_locations_summary">最近使ったデータベースの一覧で、壊れたリンクを非表示にします</string>
     <string name="root">ルート</string>
-    <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズムです。</string>
+    <string name="encryption_explanation">すべてのデータに使用されるデータベース暗号化アルゴリズム</string>
     <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムなソルト付き鍵導出関数を使用して変換されます。</string>
     <string name="rounds">変換ラウンド</string>
     <string name="rounds_explanation">変換ラウンドを増やすことでブルートフォース攻撃に対する保護が強化されますが、読み込みと保存がとても遅くなる可能性があります。</string>
@@ -295,14 +295,14 @@
     <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをタップしたとき、データベースをロックします</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
     <string name="lock_database_show_button_summary">ユーザー インターフェースにロックボタンを表示します</string>
-    <string name="advanced_unlock">高度なロック解除</string>
-    <string name="advanced_unlock_explanation_summary">高度なロック解除を使用して、データベースをより簡単に開きます</string>
+    <string name="advanced_unlock">デバイスのロック解除</string>
+    <string name="advanced_unlock_explanation_summary">デバイスのロック解除を使用してデータベースをより簡単に開きます</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
     <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができるようにします</string>
     <string name="biometric_auto_open_prompt_title">プロンプトを自動で開く</string>
-    <string name="biometric_auto_open_prompt_summary">データベースに設定されている場合、高度なロック解除を自動的に要求します</string>
+    <string name="biometric_auto_open_prompt_summary">データベースがデバイスのロックを使用するように設定されている場合は、デバイスのロック解除を自動的に要求します</string>
     <string name="biometric_delete_all_key_title">暗号鍵を削除</string>
-    <string name="biometric_delete_all_key_summary">高度なロック解除に関するすべての暗号鍵を削除します</string>
+    <string name="biometric_delete_all_key_summary">デバイスのロック解除認識に関連するすべての暗号化キーを削除します</string>
     <string name="unavailable_feature_text">この機能を起動できませんでした。</string>
     <string name="unavailable_feature_version">デバイスは Android %1$s を実行していますが、%2$s 以降が必要です。</string>
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>
@@ -380,7 +380,7 @@
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_previous_database_credentials_title">データベース認証情報の画面</string>
     <string name="keyboard_previous_database_credentials_summary">データベース認証情報の画面で、切り替え前のキーボードへ自動的に戻します</string>
-    <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
+    <string name="keyboard_previous_fill_in_title">スイッチバック</string>
     <string name="keyboard_previous_fill_in_summary">[自動キーアクション] の実行後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_lock_title">データベースをロック</string>
     <string name="keyboard_previous_lock_summary">データベースのロック後、切り替え前のキーボードへ自動的に戻します</string>
@@ -479,33 +479,33 @@
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
     <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>
-    <string name="menu_keystore_remove_key">高度なロック解除用の鍵を削除</string>
-    <string name="advanced_unlock_not_recognized">高度なロック解除を使って認証できませんでした</string>
+    <string name="menu_keystore_remove_key">デバイスのロック解除キーを削除する</string>
+    <string name="advanced_unlock_not_recognized">デバイスのロック解除を認識できませんでした</string>
     <string name="enter">エンター</string>
     <string name="backspace">バックスペース</string>
     <string name="back_to_previous_keyboard">前のキーボードに戻る</string>
     <string name="custom_fields">カスタム フィールド</string>
-    <string name="advanced_unlock_delete_all_key_warning">高度なロック解除に関する暗号鍵をすべて削除しますか？</string>
+    <string name="advanced_unlock_delete_all_key_warning">デバイスのロック解除認識に関連するすべての暗号化キーを削除しますか?</string>
     <string name="device_credential_unlock_enable_summary">デバイス認証情報を使用してデータベースを開くことができるようにします</string>
     <string name="device_credential_unlock_enable_title">デバイス認証情報によるロック解除</string>
     <string name="device_credential">デバイス認証情報</string>
     <string name="credential_before_click_advanced_unlock_button">パスワードを入力し、このボタンをタップします。</string>
-    <string name="advanced_unlock_prompt_not_initialized">高度なロック解除プロンプトを初期化できません。</string>
-    <string name="advanced_unlock_scanning_error">高度なロック解除のエラー：%1$s</string>
-    <string name="advanced_unlock_invalid_key">高度なロック解除用の鍵が読み取れません。削除してロック解除の手順をやり直してください。</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">高度なロック解除を使ってデータベース認証情報を取り出します</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">高度なロック解除を使ってデータベースを開く</string>
-    <string name="advanced_unlock_prompt_store_credential_message">高度なロック解除を使用する場合も、主たる認証情報は記憶する必要があります。</string>
-    <string name="advanced_unlock_prompt_store_credential_title">高度なロック解除の認証</string>
+    <string name="advanced_unlock_prompt_not_initialized">デバイスのロック解除プロンプトを初期化できません。</string>
+    <string name="advanced_unlock_scanning_error">デバイスのロック解除エラー: %1$s</string>
+    <string name="advanced_unlock_invalid_key">デバイスのロック解除キーを読み取ることができません。削除して、ロック解除認識手順を繰り返してください。</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">デバイスのロック解除データを使用してデータベースの資格情報を抽出する</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">デバイスのロック解除認識</string>
+    <string name="advanced_unlock_prompt_store_credential_message">デバイスのロック解除認識を使用する場合でも、Vault のメイン資格情報を覚えておく必要があります。</string>
+    <string name="advanced_unlock_prompt_store_credential_title">デバイスのロック解除のリンク</string>
     <string name="select_entry">エントリーを選択</string>
     <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
-    <string name="education_advanced_unlock_title">データベースの高度なロック解除</string>
-    <string name="advanced_unlock_timeout">高度なロック解除のタイムアウト</string>
-    <string name="temp_advanced_unlock_timeout_summary">コンテンツを削除して高度なロック解除を終了するまでの期間</string>
-    <string name="temp_advanced_unlock_timeout_title">高度なロック解除の有効期限</string>
-    <string name="temp_advanced_unlock_enable_summary">高度なロック解除に使用する暗号化コンテンツを保存しません</string>
-    <string name="temp_advanced_unlock_enable_title">一時的な高度なロック解除</string>
-    <string name="advanced_unlock_tap_delete">タップして高度なロック解除用の鍵を削除する</string>
+    <string name="education_advanced_unlock_title">デバイスデータベースのロック解除</string>
+    <string name="advanced_unlock_timeout">デバイスのロック解除タイムアウト</string>
+    <string name="temp_advanced_unlock_timeout_summary">コンテンツを削除するまでのデバイスのロック解除使用期間</string>
+    <string name="temp_advanced_unlock_timeout_title">デバイスのロック解除の有効期限</string>
+    <string name="temp_advanced_unlock_enable_summary">デバイスのロック解除を使用するために暗号化されたコンテンツを保存しないでください</string>
+    <string name="temp_advanced_unlock_enable_title">一時的なデバイスロック解除</string>
+    <string name="advanced_unlock_tap_delete">タップしてデバイスのロック解除キーを削除します</string>
     <string name="content">コンテンツ</string>
     <string name="error_database_uri_null">データベースの URI が取得できません。</string>
     <string name="autofill_inline_suggestions_keyboard">自動入力候補が追加されました。</string>
@@ -531,16 +531,16 @@
     <string name="error_upload_file">ファイルデータのアップロード中にエラーが発生しました。</string>
     <string name="error_file_to_big">アップロードしようとしているファイルが大きすぎます。</string>
     <string name="content_description_otp_information">ワンタイムパスワードについて</string>
-    <string name="import_app_properties_summary">アプリのプロパティをインポートするファイルを選択します</string>
-    <string name="import_app_properties_title">アプリのプロパティをインポートする</string>
+    <string name="import_app_properties_summary">アプリ設定をインポートするファイルを選択</string>
+    <string name="import_app_properties_title">アプリ設定をインポート</string>
     <string name="properties">プロパティ</string>
-    <string name="error_export_app_properties">アプリのプロパティのエクスポート時にエラーが発生しました</string>
-    <string name="success_export_app_properties">アプリのプロパティをエクスポートしました</string>
-    <string name="error_import_app_properties">アプリのプロパティのインポート時にエラーが発生しました</string>
-    <string name="success_import_app_properties">アプリのプロパティをインポートしました</string>
+    <string name="error_export_app_properties">アプリ設定のエクスポート中にエラーが発生しました</string>
+    <string name="success_export_app_properties">アプリ設定をエクスポートしました</string>
+    <string name="error_import_app_properties">アプリ設定のインポート中にエラーが発生しました</string>
+    <string name="success_import_app_properties">アプリ設定をインポートしました</string>
     <string name="description_app_properties">アプリの設定を管理する KeePassDX のプロパティ</string>
-    <string name="export_app_properties_summary">アプリのプロパティをエクスポートするファイルを作成します</string>
-    <string name="export_app_properties_title">アプリのプロパティをエクスポートする</string>
+    <string name="export_app_properties_summary">アプリ設定をエクスポートするためのファイルを作成する</string>
+    <string name="export_app_properties_title">アプリ設定をエクスポート</string>
     <string name="error_start_database_action">データベースに対するアクションの実行中にエラーが発生しました。</string>
     <string name="error_word_reserved">この単語は予約語のため使用できません。</string>
     <string name="error_move_group_here">グループをここに移動できません。</string>
@@ -616,10 +616,11 @@
     <string name="character_count">文字数：%1$d</string>
     <string name="entropy_high">エントロピー：高</string>
     <string name="warning_database_already_opened">データベースがすでに開いているため、まず閉じてから新しく開き直してください</string>
-    <string name="advanced_unlock_keystore_warning">この機能は、暗号化された認証情報をデバイスの安全な KeyStore に保存します。
+    <string name="advanced_unlock_keystore_warning">この機能により、暗号化された認証情報がデバイスの安全なキーストアに保存されます。
 \n
-\nオペレーティング システムのネイティブ API の実装によっては、完全に機能しない場合があります。
-\nKeyStore の互換性と安全性については、お使いのデバイスの製造元および使用するROMの作成者にご確認ください。</string>
+\nオペレーティング システムのネイティブ API 実装によっては、完全に機能しない場合があります。
+\n
+\nデバイスの製造元と使用している ROM の作成者に、キーストアの互換性とセキュリティを確認してください。</string>
     <string name="navigation_drawer_open">ナビゲーション ドロワーが開いています</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーが閉じています</string>
     <string name="auto_type_sequence">自動入力シークエンス</string>
@@ -652,4 +653,42 @@
     <string name="error_location_unknown">データベースの場所が不明です。データベースへの操作を実行できません。</string>
     <string name="error_driver_required">%1$s 用のドライバーが必要です。</string>
     <string name="auto_type">自動入力</string>
+    <string name="error_challenge_already_requested">チャレンジはすでにリクエストされています</string>
+    <string name="style_name_classic">クラシック</string>
+    <string name="style_name_forest">森</string>
+    <string name="style_name_simple">シンプル</string>
+    <string name="style_name_divine">神聖な</string>
+    <string name="waiting_challenge_response">チャレンジの応答を待っています…</string>
+    <string name="waiting_challenge_request">チャレンジリクエストを待っています…</string>
+    <string name="error_response_already_provided">回答はすでに提供されています。</string>
+    <string name="error_no_response_from_challenge">チャレンジからの応答を取得できません。</string>
+    <string name="error_unable_merge_database_kdb">kdb データベース ファイルとマージできません</string>
+    <string name="menu_advanced_unlock_settings_summary">生体認証、デバイス認証</string>
+    <string name="menu_database_settings_summary">メタデータ、ごみ箱、テンプレート、履歴</string>
+    <string name="menu_security_settings_summary">暗号化、鍵導出機能</string>
+    <string name="master_key_settings_summary">変化、再生</string>
+    <string name="later">後で</string>
+    <string name="education_validate_entry_title">エントリを検証する</string>
+    <string name="warning_database_info_changed_options_read_only">最新の変更を加えてデータベースを再ロードします。</string>
+    <string name="warning_database_notification_permission">通知権限を使用すると、データベースのステータスを表示し、簡単にアクセスできるボタンでロックすることができます。
+\n
+\nこの権限を有効にしないと、別のアプリケーションがフォアグラウンドにある場合、バックグラウンドで開いているデータベースは表示されません。</string>
+    <string name="ask">話す</string>
+    <string name="merge_success">マージが正常に完了しました</string>
+    <string name="configure">設定する</string>
+    <string name="menu_appearance_settings_summary">テーマ、色、属性</string>
+    <string name="unlock">ロックを解除します</string>
+    <string name="style_name_moon">ムーン</string>
+    <string name="style_name_dark">ダーク</string>
+    <string name="style_name_light">ライト</string>
+    <string name="style_name_sun">サン</string>
+    <string name="style_name_reply">返事</string>
+    <string name="info">インフォ</string>
+    <string name="menu_app_settings_summary">検索、ロック、履歴、プロパティ</string>
+    <string name="menu_form_filling_settings_summary">キーボード、オートフィル、クリップボード</string>
+    <string name="warning_copy_permission">クリップボード通知機能を使用するには、通知許可が必要です。</string>
+    <string name="unlock_and_link_biometric">デバイスのロック解除リンク</string>
+    <string name="education_validate_entry_summary">入力内容を検証し、データベースを保存することを忘れないでください。
+\n
+\n自動ロックがアクティブ化され、変更を行ったことを忘れると、データが失われる恐れがあります。</string>
 </resources>

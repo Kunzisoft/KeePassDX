@@ -599,7 +599,7 @@
     <string name="warning_database_info_reloaded">Az adatbázis újratöltése törli a helyileg módosított adatokat.</string>
     <string name="templates">Sablonok</string>
     <string name="error_no_response_from_challenge">Nem kérhető le a válasz a kihívásból.</string>
-    <string name="error_unable_merge_database_kdb">Nem lehet egyesíteni az adatbázis V1-es változatából.</string>
+    <string name="error_unable_merge_database_kdb">Nem lehet egyesíteni az adatbázisfájllal.</string>
     <string name="entropy">Entrópia: %1$s bit</string>
     <string name="keyboard_previous_search_title">Keresési képernyő</string>
     <string name="error_move_group_here">Nem helyezhet át ide csoportot.</string>
@@ -670,6 +670,7 @@
     <string name="advanced_unlock_keystore_warning">A funkció eltárolja a titkosított hitelesítőadatokat az eszköz biztonságos kulcstárában.
 \n
 \nAz operációs rendszer natív API megvalósításától függően lehet, hogy nem lesz teljes értékű.
+\n
 \nEllenőrizze a kulcstár kompatibilitását és biztonságát az eszköz gyártójánál és a használt ROM készítőjénél.</string>
     <string name="show_entry_colors_summary">Megjeleníti egy bejegyzés előtér- és háttérszínét</string>
     <string name="unlock_and_link_biometric">Eszközfeloldási hivatkozás</string>
@@ -688,4 +689,16 @@
     <string name="menu_app_settings_summary">Keresés, zárolás, előzmények, tulajdonságok</string>
     <string name="later">Később</string>
     <string name="error_no_hardware_key">Válasszon hardverkulcsot.</string>
+    <string name="style_name_reply">Válasz</string>
+    <string name="style_name_forest">Erdős</string>
+    <string name="style_name_divine">Isteni</string>
+    <string name="style_name_classic">Klasszikus</string>
+    <string name="style_name_simple">Egyszerű</string>
+    <string name="style_name_moon">Éjszakai</string>
+    <string name="style_name_sun">Nappali</string>
+    <string name="style_name_kunzite">Kunzit</string>
+    <string name="style_name_follow_system">Kövesse a rendszert</string>
+    <string name="style_name_light">Világos</string>
+    <string name="style_name_dark">Sötét</string>
+    <string name="warning_database_info_changed_options_read_only">Adatbázis újratöltése a legújabb módosításokkal.</string>
 </resources>

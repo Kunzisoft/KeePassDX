@@ -174,7 +174,7 @@
     <string name="error_remove_file">Ndodhi një gabim teksa hiqeshin të dhëna kartele.</string>
     <string name="error_start_database_action">Ndodhi një gabim teksa kryhej një veprim te baza e të dhënave.</string>
     <string name="error_cancel_by_user">Anuluar nga përdoruesi.</string>
-    <string name="error_unable_merge_database_kdb">S’arrihet të përzihet që prej një baze të dhënash V1.</string>
+    <string name="error_unable_merge_database_kdb">S’arrihet të përzihet me një kartelë baze të dhënash kdb</string>
     <string name="field_name">Emër fushe</string>
     <string name="field_value">Vlerë fushe</string>
     <string name="corrupted_file">Kartelë e dëmtuar.</string>

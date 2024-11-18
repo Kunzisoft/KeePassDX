@@ -662,7 +662,7 @@
     <string name="error_challenge_already_requested">Η πρόκληση έχει ήδη ζητηθεί</string>
     <string name="error_response_already_provided">Η απάντηση έχει ήδη δοθεί.</string>
     <string name="error_location_unknown">Η θέση της βάσης δεδομένων είναι άγνωστη, η ενέργεια της βάσης δεδομένων δεν μπορεί να εκτελεστεί.</string>
-    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση από μια βάση δεδομένων V1.</string>
+    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση με μια βάση δεδομένων kdb</string>
     <string name="error_empty_key">Το κλειδί δεν μπορεί να είναι κενό.</string>
     <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
