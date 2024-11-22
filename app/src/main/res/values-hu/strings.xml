@@ -599,7 +599,7 @@
     <string name="warning_database_info_reloaded">Az adatbázis újratöltése törli a helyileg módosított adatokat.</string>
     <string name="templates">Sablonok</string>
     <string name="error_no_response_from_challenge">Nem kérhető le a válasz a kihívásból.</string>
-    <string name="error_unable_merge_database_kdb">Nem lehet egyesíteni az adatbázisfájllal.</string>
+    <string name="error_unable_merge_database_kdb">Nem lehet egyesíteni egy kdb adatbázisfájllal.</string>
     <string name="entropy">Entrópia: %1$s bit</string>
     <string name="keyboard_previous_search_title">Keresési képernyő</string>
     <string name="error_move_group_here">Nem helyezhet át ide csoportot.</string>
