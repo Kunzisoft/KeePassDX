@@ -693,4 +693,8 @@
     <string name="unlock_and_link_biometric">裝置解鎖連線</string>
     <string name="education_validate_entry_title">驗證條目</string>
     <string name="warning_database_info_changed_options_read_only">以最新的變動重新載入資料庫。</string>
+    <string name="hide_templates_title">隱藏模板</string>
+    <string name="generate_keyfile">產生密鑰檔案</string>
+    <string name="recursive_number_entries_title">遞迴條目數</string>
+    <string name="hide_templates_summary">模板未顯示</string>
 </resources>
