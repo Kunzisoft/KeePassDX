@@ -192,7 +192,7 @@ object AutofillHelper {
                 } else {
                     datasetBuilder.addValueToDatasetBuilder(
                         it,
-                        AutofillValue.forDate(entryInfo.expiryTime.toJavaMilliseconds())
+                        AutofillValue.forDate(entryInfo.expiryTime.toMilliseconds())
                     )
                 }
             }

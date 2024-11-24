@@ -26,6 +26,8 @@ import com.kunzisoft.encrypt.StreamCipher
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfFactory
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DateInstant.Companion.toDotNetSeconds
+import com.kunzisoft.keepass.database.element.DateInstant.Companion.toISO8601Format
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
@@ -412,7 +414,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX)
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeDateInstant(name: String, date: DateInstant) {
         if (header!!.version.isBefore(FILE_VERSION_40)) {
-            writeString(name, date.toDateTimeSecondsFormat())
+            writeString(name, date.toISO8601Format())
         } else {
             writeString(name, String(
                 Base64.encode(

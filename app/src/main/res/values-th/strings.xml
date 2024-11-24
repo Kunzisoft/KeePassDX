@@ -666,4 +666,13 @@
     <string name="education_validate_entry_summary">พึงระลึกไว้ว่าตรวจสอบข้อมูลรายการและบันทึกฐานข้อมูลไว้ให้ดี
 \n
 \nหากการล็อกอัตโนมัติเปิดใช้งานและลีมบันทึกการเปลี่ยนแปลงไว้ คุณมีความเสียงที่ข้อมูลจะสูญหาย</string>
+    <string name="style_name_light">สว่าง</string>
+    <string name="warning_database_info_changed_options_read_only">โหลดฐานข้อมูลใหม่ด้วยการเปลี่ยนแปลงล่าสุด</string>
+    <string name="style_name_forest">ป่าไม้</string>
+    <string name="style_name_classic">คลาสสิก</string>
+    <string name="style_name_simple">เรียบง่าย</string>
+    <string name="style_name_moon">แสงจันทร์</string>
+    <string name="style_name_sun">พระอาทิตย์</string>
+    <string name="style_name_follow_system">ตามสีของระบบ</string>
+    <string name="style_name_dark">มืด</string>
 </resources>

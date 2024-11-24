@@ -1,3 +1,7 @@
+KeePassDX(4.1.1)
+ * Fix date parser #1933
+ * Fix domain search #1820 #1936
+
 KeePassDX(4.1.0)
  * Generate keyfile #1290
  * Hide template group #1894

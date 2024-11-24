@@ -154,7 +154,7 @@ class SearchHelper {
                         // subdomain.domain.org
                         stringToCheck.endsWith(".$word", !searchParameters.caseSensitive) ||
                         // https://domain.org
-                        stringToCheck.endsWith("\\/$word", !searchParameters.caseSensitive)
+                        stringToCheck.endsWith("/$word", !searchParameters.caseSensitive)
                         // Don't allow mydomain.org
                     })
                     return true

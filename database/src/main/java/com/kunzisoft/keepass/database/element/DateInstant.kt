@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import com.kunzisoft.keepass.utils.readEnum
 import com.kunzisoft.keepass.utils.readSerializableCompat
 import com.kunzisoft.keepass.utils.writeEnum
@@ -60,11 +61,11 @@ class DateInstant : Parcelable {
     }
 
     private fun parse(value: String, type: Type): Instant {
-        return when (type) {
-            Type.DATE -> Instant(dateFormat.parseDateTime(value) ?: DateTime())
-            Type.TIME -> Instant(timeFormat.parseDateTime(value) ?: DateTime())
-            else -> Instant(dateTimeFormat.parseDateTime(value) ?: DateTime())
-        }
+        return Instant(when (type) {
+            Type.DATE_TIME -> dateTimeFormat.parseDateTime(value) ?: DateTime()
+            Type.DATE -> dateFormat.parseDateTime(value) ?: DateTime()
+            Type.TIME -> timeFormat.parseDateTime(value) ?: DateTime()
+        })
     }
 
     constructor(string: String, type: Type = Type.DATE_TIME) {
@@ -175,18 +176,12 @@ class DateInstant : Parcelable {
         }
     }
 
-    fun toDotNetSeconds(): Long {
-        val duration = Duration(JAVA_EPOCH_DATE_TIME, mInstant)
-        val seconds = duration.millis / 1000L
-        return seconds + EPOCH_OFFSET
-    }
-
-    fun toJavaMilliseconds(): Long {
+    /**
+     * Returns:
+     * the number of milliseconds since 1970-01-01T00:00:00Z
+     */
+    fun toMilliseconds(): Long {
         return mInstant.millis
-    }
-
-    fun toDateTimeSecondsFormat(): String {
-        return dateTimeSecondsFormat.print(mInstant)
     }
 
     override fun toString(): String {
@@ -239,6 +234,8 @@ class DateInstant : Parcelable {
 
     companion object {
 
+        private val TAG = DateInstant::class.java.name
+
         private val DOT_NET_EPOCH_DATE_TIME = DateTime(1, 1, 1, 0, 0, 0, DateTimeZone.UTC)
         private val JAVA_EPOCH_DATE_TIME = DateTime(1970, 1, 1, 0, 0, 0, DateTimeZone.UTC)
         private val EPOCH_OFFSET = (JAVA_EPOCH_DATE_TIME.millis - DOT_NET_EPOCH_DATE_TIME.millis) / 1000L
@@ -252,27 +249,42 @@ class DateInstant : Parcelable {
         val IN_ONE_HOUR_TIME = DateInstant(
                 Instant.now().plus(Duration.standardHours(1)), Type.TIME)
 
-        val dateTimeSecondsFormat: DateTimeFormatter =
+        private val ISO8601Format: DateTimeFormatter =
             DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
                 .withZoneUTC()
-        var dateTimeFormat: DateTimeFormatter =
+        private var dateTimeFormat: DateTimeFormatter =
             DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm'Z'")
                 .withZoneUTC()
-        var dateFormat: DateTimeFormatter =
+        private var dateFormat: DateTimeFormatter =
             DateTimeFormat.forPattern("yyyy-MM-dd'Z'")
                 .withZoneUTC()
-        var timeFormat: DateTimeFormatter =
+        private var timeFormat: DateTimeFormatter =
             DateTimeFormat.forPattern("HH:mm'Z'")
                 .withZoneUTC()
 
-        fun fromDotNetSeconds(seconds: Long): DateInstant {
-            val dt = DOT_NET_EPOCH_DATE_TIME.plus(seconds * 1000L)
+        fun Long.fromDotNetSeconds(): DateInstant {
+            val dt = DOT_NET_EPOCH_DATE_TIME.plus(this * 1000L)
             // Switch corrupted dates to a more recent date that won't cause issues on the client
             return DateInstant((if (dt.isBefore(JAVA_EPOCH_DATE_TIME)) { JAVA_EPOCH_DATE_TIME } else dt).toInstant())
         }
 
-        fun fromDateTimeSecondsFormat(value: String): DateInstant {
-            return DateInstant(dateTimeSecondsFormat.parseDateTime(value).toInstant())
+        fun DateInstant.toDotNetSeconds(): Long {
+            val duration = Duration(JAVA_EPOCH_DATE_TIME, mInstant)
+            val seconds = duration.millis / 1000L
+            return seconds + EPOCH_OFFSET
+        }
+
+        fun String.fromISO8601Format(): DateInstant {
+            return DateInstant(try {
+                ISO8601Format.parseDateTime(this).toInstant()
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to parse date time $this", e)
+                Instant.now()
+            })
+        }
+
+        fun DateInstant.toISO8601Format(): String {
+            return ISO8601Format.print(this.instant)
         }
 
         @JvmField
