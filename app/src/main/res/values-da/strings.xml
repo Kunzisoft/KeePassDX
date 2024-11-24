@@ -265,7 +265,7 @@
     <string name="html_text_ad_free">I modsætning til andre apps til adgangskodeadministration er denne &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleft fri software&lt;/strong&gt;, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
     <string name="html_text_buy_pro">Ved at købe pro-versionen får du adgang til &lt;strong&gt;visuel stil&lt;/strong&gt;, og du vil især hjælpe med &lt;strong&gt;gennemførelsen af fællesskabets projekter.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stil&lt;/strong&gt; er tilgængelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For at vi kan bevare vores frihed og altid være aktive, er vi afhængige af dit &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
+    <string name="html_text_donation">For at vi kan bevare vores frihed og altid være aktive, er vi afhængige af dit <strong>bidrag.</strong></string>
     <string name="html_text_dev_feature">Funktionen er &lt;strong&gt;under udvikling&lt;/strong&gt;, og det kræver &lt;strong&gt;bidrag&lt;/strong&gt;, for snart at være tilgængelig.</string>
     <string name="html_text_dev_feature_buy_pro">Ved at købe &lt;strong&gt;pro&lt;/strong&gt; versionen,</string>
     <string name="html_text_dev_feature_contibute">Ved at &lt;strong&gt;bidrage&lt;/strong&gt;,</string>

@@ -245,7 +245,7 @@
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est &lt;strong&gt;sans publicité&lt;/strong&gt;, &lt;strong&gt;libre sous licence copyleft&lt;/strong&gt; et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous aurez accès à ce &lt;strong&gt;style visuelle&lt;/strong&gt; et vous aiderez notamment &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ce &lt;strong&gt;style visuel&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation">Afin de garder notre liberté et d’être toujours actifs, nous comptons sur votre &lt;strong&gt;contribution.&lt;/strong&gt;</string>
+    <string name="html_text_donation">En <strong>contribuant</strong> au projet <i>(financièrement, code, traduction)</i>, vous l\'aiderez à continuer à vivre et à prospérer, et vous serez également éligible à la procédure de déblocage du <strong>theme</strong>.</string>
     <string name="html_text_dev_feature">Cette fonctionnalité est &lt;strong&gt;en cours de développement&lt;/strong&gt; et nécessite votre &lt;strong&gt;contribution&lt;/strong&gt; pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">En &lt;strong&gt;contribuant&lt;/strong&gt;,</string>
@@ -699,4 +699,11 @@
 \n
 \nSi un verrouillage automatique est activé et que vous oubliez que vous étiez en train d\'effectuer une modification, vous risquez de perdre vos données.</string>
     <string name="warning_database_info_changed_options_read_only">Recharger la base de données avec les dernières modifications.</string>
+    <string name="generate_keyfile">Générer un fichier clé</string>
+    <string name="nodes">Nœuds</string>
+    <string name="recursive_number_entries_title">Nombre d\'entrées récursif</string>
+    <string name="recursive_number_entries_summary">Calcule récursivement le nombre d\'entrées dans un groupe</string>
+    <string name="warning_large_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé volumineux, car cela pourrait empêcher l\'ouverture de la base de données.</string>
+    <string name="hide_templates_title">Cacher les modèles</string>
+    <string name="hide_templates_summary">Les modèles ne sont pas affichés</string>
 </resources>

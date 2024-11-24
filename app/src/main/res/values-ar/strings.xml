@@ -682,7 +682,7 @@
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
     <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
-    <string name="html_text_donation">من أجل الحفاظ على حريتنا ولكي نكون نشيطين دائمًا، فإننا نعتمد على &lt;strong&gt; مساهمتك.&lt;/strong&gt;</string>
+    <string name="html_text_donation">من أجل الحفاظ على حريتنا ولكي نكون نشيطين دائمًا، فإننا نعتمد على <strong> مساهمتك.</strong></string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
     <string name="style_name_forest">غابة</string>
     <string name="style_name_simple">بسيط</string>

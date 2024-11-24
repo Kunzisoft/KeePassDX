@@ -204,7 +204,7 @@
     <string name="education_lock_summary">ล็อกฐานข้อมูลอย่างรวดเร็ว คุณสามารถตั้งค่าการล็อกมันหลังจากผ่านไปสักพัก และเมื่อปิดหน้าจอ</string>
     <string name="education_sort_title">จัดเรียงรายการ</string>
     <string name="education_sort_summary">เลือกรายการและกลุ่มที่จะถูกจัดเรียง</string>
-    <string name="html_text_donation">เพื่อเป็นการรักษาความอิสระและพัฒนาอยู่เสมอ เรารอคอยการ&lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;ของคุณ</string>
+    <string name="html_text_donation">เพื่อเป็นการรักษาความอิสระและพัฒนาอยู่เสมอ เรารอคอยการ<strong>ร่วมแก้ไข</strong>ของคุณ</string>
     <string name="html_text_dev_feature_encourage">you are encouraging developers to create &lt;strong&gt;new features&lt;/strong&gt; and to &lt;strong&gt;fix bugs&lt;/strong&gt; according to your remarks.</string>
     <string name="html_text_dev_feature_thanks">ขอขอบคุณสำหรับการร่วมแก้ไขของคุณเป็นอย่างมาก</string>
     <string name="html_text_dev_feature_work_hard">เรากำลังทำงานหนักเพื่อปล่อยให้ใด้ใช้งานฟีเจอร์นี้โดยเร็วที่สุด</string>
@@ -666,4 +666,13 @@
     <string name="education_validate_entry_summary">พึงระลึกไว้ว่าตรวจสอบข้อมูลรายการและบันทึกฐานข้อมูลไว้ให้ดี
 \n
 \nหากการล็อกอัตโนมัติเปิดใช้งานและลีมบันทึกการเปลี่ยนแปลงไว้ คุณมีความเสียงที่ข้อมูลจะสูญหาย</string>
+    <string name="style_name_light">สว่าง</string>
+    <string name="warning_database_info_changed_options_read_only">โหลดฐานข้อมูลใหม่ด้วยการเปลี่ยนแปลงล่าสุด</string>
+    <string name="style_name_forest">ป่าไม้</string>
+    <string name="style_name_classic">คลาสสิก</string>
+    <string name="style_name_simple">เรียบง่าย</string>
+    <string name="style_name_moon">แสงจันทร์</string>
+    <string name="style_name_sun">พระอาทิตย์</string>
+    <string name="style_name_follow_system">ตามสีของระบบ</string>
+    <string name="style_name_dark">มืด</string>
 </resources>

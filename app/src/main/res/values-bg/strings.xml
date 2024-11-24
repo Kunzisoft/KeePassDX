@@ -235,8 +235,7 @@
     <string name="menu_appearance_settings_summary">Теми, цветове, атрибути</string>
     <string name="download_initialization">Подготвяне…</string>
     <string name="content_description_entry_background_color">Цвят на фона на запис</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с &lt;strong&gt;отворен код&lt;/strong&gt; и &lt;strong&gt;без реклами&lt;/strong&gt;.
-\nРазпространява се под лиценза &lt;strong&gt;GPLv3&lt;/strong&gt; без каквато и да е гаранция.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с <strong>отворен код</strong> и <strong>без реклами</strong>. \nРазпространява се под лиценза <strong>GPLv3</strong> без каквато и да е гаранция.</string>
     <string name="menu_advanced_unlock_settings_summary">Биометрия, удостоверяване</string>
     <string name="menu_security_settings_summary">Шифроване, функция за извличане на ключ</string>
     <string name="menu_master_key_settings">Настройки на главната парола</string>
@@ -457,7 +456,7 @@
     <string name="html_text_dev_feature_upgrade">Не забравяйте да обновявате приложението.</string>
     <string name="html_text_dev_feature_encourage">вие поощрявате разработчиците да добавят &lt;strong&gt;нови възможности&lt;/strong&gt; и да &lt;strong&gt;отстраняват дефекти&lt;/strong&gt; според вашите отзиви.</string>
     <string name="html_text_buy_pro">Купувайки версията Pro ще имате достъп до тази &lt;strong&gt;тема&lt;/strong&gt; и особено ще помогнете за &lt;strong&gt;изпълнението на проекти на общността&lt;/strong&gt;.</string>
-    <string name="html_text_donation">За да развиваме проекта и да запазим неговата независимост се нуждаем от вашата &lt;strong&gt;поддръжка&lt;/strong&gt;.</string>
+    <string name="html_text_donation">За да развиваме проекта и да запазим неговата независимост се нуждаем от вашата <strong>поддръжка</strong>.</string>
     <string name="hint_keyfile">Файл с ключ</string>
     <string name="invalid_algorithm">Грешен алгоритъм.</string>
     <string name="description_app_properties">Свойства за управление на настройките на KeePassDX</string>
