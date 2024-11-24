@@ -130,8 +130,7 @@
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie udało się wyczyścić schowka</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
-\nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest <strong>open source</strong> i <strong>bez reklam</strong>. \nJest on dostarczany w stanie, zgodnie z licencją <strong>GPLv3</strong> bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -200,7 +199,7 @@
     <string name="biometric_unlock_enable_title">Odblokowywanie biometryczne</string>
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
-    <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem odblokowania urządzenia</string>
+    <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem odblokowania urządzenia</string>
     <string name="unavailable_feature_text">Nie można uruchomić tej funkcji.</string>
     <string name="unavailable_feature_version">Urządzenie pracuje na systemie Android %1$s, ale wymaga wersji %2$s lub nowszej.</string>
     <string name="unavailable_feature_hardware">Nie można znaleźć odpowiedniego sprzętu.</string>
@@ -268,7 +267,7 @@
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem objętym klauzulą copyleft&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
+    <string name="html_text_donation">Poprzez <strong>wsparcie</strong> projektu <i>(pieniężne, kodowanie, tłumaczenie)</i> pomożesz mu istnieć i rozwijać się, a także uzyskasz dostęp do procedury odblokowywania <strong>motywów</strong>.</string>
     <string name="html_text_dev_feature">Ta funkcja jest &lt;strong&gt;rozwojowa&lt;/strong&gt; i wymaga Twojego &lt;strong&gt;wkładu&lt;/strong&gt;, aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
@@ -408,13 +407,13 @@
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
-    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;naprawiać błędy&lt;/strong&gt;, &lt;strong&gt;dodawać funkcje&lt;/strong&gt; i &lt;strong&gt; być zawsze aktywnym&lt;/strong&gt;, liczymy na Twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Aby <strong>zachować naszą wolność</strong>, <strong>naprawiać błędy</strong>, <strong>dodawać funkcje</strong> i <strong> być zawsze aktywnym</strong>, liczymy na Twój <strong>wkład</strong>.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
     <string name="remember_database_locations_title">Zapamiętaj lokalizacje baz danych</string>
     <string name="remember_database_locations_summary">Śledzi, gdzie przechowywane są bazy danych</string>
     <string name="remember_keyfile_locations_title">Zapamiętaj lokalizacje plików kluczy</string>
-    <string name="remember_keyfile_locations_summary">Śledzi, gdzie przechowywane są pliki z kluczami</string>
+    <string name="remember_keyfile_locations_summary">Śledzi, gdzie przechowywane są pliki z kluczami</string>
     <string name="show_recent_files_title">Pokaż ostatnie pliki</string>
     <string name="show_recent_files_summary">Pokaż lokalizacje najnowszych baz danych</string>
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
@@ -428,7 +427,7 @@
     <string name="discard">Odrzuć</string>
     <string name="discard_changes">Odrzucić zmiany\?</string>
     <string name="validate">Walidacja</string>
-    <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
+    <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
     <string name="lock_database_show_button_title">Pokaż przycisk blokady</string>
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
     <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
@@ -438,7 +437,7 @@
     <string name="autofill_application_id_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
     <string name="filter">Filtr</string>
     <string name="subdomain_search_title">Wyszukiwanie subdomen</string>
-    <string name="subdomain_search_summary">Wyszukiwanie domen internetowych z ograniczeniami związanymi z subdomenami</string>
+    <string name="subdomain_search_summary">Wyszukiwanie domen internetowych z ograniczeniami związanymi z subdomenami</string>
     <string name="error_string_type">Ten tekst nie pasuje do żądanej pozycji.</string>
     <string name="content_description_add_item">Dodaj pozycję</string>
     <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie domen internetowych</string>
@@ -666,7 +665,7 @@
     <string name="error_no_hardware_key">Wybierz klucz sprzętowy.</string>
     <string name="error_XML_malformed">Zniekształcony XML.</string>
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
-    <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
+    <string name="html_about_privacy"><strong>Żadne dane użytkownika nie są pobierane</strong>, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
     <string name="merge_success">Scalanie zostało pomyślnie zakończone</string>
     <string name="info">Informacje</string>
     <string name="menu_app_settings_summary">Wyszukiwanie, blokada, historia, właściwości</string>
@@ -705,4 +704,7 @@
     <string name="warning_large_keyfile">Nie zaleca się dodawania dużego pliku klucza, ponieważ może to uniemożliwić otwarcie bazy danych.</string>
     <string name="generate_keyfile">Wygeneruj plik klucza</string>
     <string name="recursive_number_entries_summary">Rekurencyjnie oblicza liczbę wpisów w grupie</string>
+    <string name="recursive_number_entries_title">Rekurencyjna liczba wpisów</string>
+    <string name="hide_templates_title">Ukryj szablony</string>
+    <string name="hide_templates_summary">Szablony nie są wyświetlane</string>
 </resources>
