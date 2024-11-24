@@ -701,4 +701,7 @@
     <string name="style_name_dark">Ciemny</string>
     <string name="style_name_simple">Prosty</string>
     <string name="warning_database_info_changed_options_read_only">Załaduj ponownie bazę danych z najnowszymi zmianami.</string>
+    <string name="nodes">Węzły</string>
+    <string name="warning_large_keyfile">Nie zaleca się dodawania dużego pliku klucza, ponieważ może to uniemożliwić otwarcie bazy danych.</string>
+    <string name="generate_keyfile">Wygeneruj plik klucza</string>
 </resources>
