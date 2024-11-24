@@ -699,4 +699,9 @@
 \n
 \nSi un verrouillage automatique est activé et que vous oubliez que vous étiez en train d\'effectuer une modification, vous risquez de perdre vos données.</string>
     <string name="warning_database_info_changed_options_read_only">Recharger la base de données avec les dernières modifications.</string>
+    <string name="generate_keyfile">Générer un fichier clé</string>
+    <string name="nodes">Nœuds</string>
+    <string name="recursive_number_entries_title">Nombre d\'entrées récursif</string>
+    <string name="recursive_number_entries_summary">Calcule récursivement le nombre d\'entrées dans un groupe</string>
+    <string name="warning_large_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé volumineux, car cela pourrait empêcher l\'ouverture de la base de données.</string>
 </resources>
