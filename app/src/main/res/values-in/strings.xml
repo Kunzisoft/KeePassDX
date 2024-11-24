@@ -515,7 +515,7 @@
     <string name="education_donation_summary">Bantu meningkatkan stabilitas, keamanan, dan menambahkan lebih banyak fitur.</string>
     <string name="html_text_ad_free">Tidak seperti banyak aplikasi pengelola kata sandi, ini &lt;strong&gt;bebas iklan&lt;/strong&gt;, &lt;strong&gt;perangkat lunak libre copyleft&lt;/strong&gt;, dan tidak mengumpulkan data pribadi di peladennya, tidak peduli versi apa yang Anda gunakan.</string>
     <string name="html_text_feature_generosity">&lt;strong&gt;Gaya visual&lt;/strong&gt; ini tersedia berkat kemurahan hati Anda.</string>
-    <string name="html_text_donation">Untuk menjaga kebebasan kami dan untuk kami selalu aktif, kami mengandalkan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda.</string>
+    <string name="html_text_donation">Untuk menjaga kebebasan kami dan untuk kami selalu aktif, kami mengandalkan <strong>kontribusi</strong> Anda.</string>
     <string name="html_text_dev_feature">Fitur ini &lt;strong&gt;sedang dalam pengembangan&lt;/strong&gt; dan memerlukan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda untuk bisa tersedia segera.</string>
     <string name="show_otp_token_title">Tampilkan Token OTP</string>
     <string name="text_appearance">Teks</string>
