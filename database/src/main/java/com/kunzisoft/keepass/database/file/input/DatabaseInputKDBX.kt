@@ -26,6 +26,8 @@ import com.kunzisoft.keepass.database.crypto.CipherEngine
 import com.kunzisoft.keepass.database.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.database.crypto.HmacBlock
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DateInstant.Companion.fromDotNetSeconds
+import com.kunzisoft.keepass.database.element.DateInstant.Companion.fromISO8601Format
 import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
@@ -829,7 +831,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
         var utcDate = DateInstant()
         if (mDatabase.kdbxVersion.isBefore(FILE_VERSION_40)) {
             try {
-                utcDate = DateInstant.fromDateTimeSecondsFormat(sDate)
+                utcDate = sDate.fromISO8601Format()
             } catch (e: ParseException) {
                 // Catch with null test below
             }
@@ -841,7 +843,7 @@ class DatabaseInputKDBX(database: DatabaseKDBX)
                 buf = buf8
             }
             val seconds = bytes64ToLong(buf)
-            utcDate = DateInstant.fromDotNetSeconds(seconds)
+            utcDate = seconds.fromDotNetSeconds()
         }
         return utcDate
     }
