@@ -703,4 +703,11 @@
     <string name="style_name_light">Claro</string>
     <string name="style_name_dark">Oscuro</string>
     <string name="warning_database_info_changed_options_read_only">Recargue la base de datos con los últimos cambios.</string>
+    <string name="nodes">Nodos</string>
+    <string name="recursive_number_entries_summary">Calcula recursivamente el número de entradas en un grupo</string>
+    <string name="warning_large_keyfile">No se recomienda agregar un archivo de clave grande , esto puede impedir que se abra la base de datos.</string>
+    <string name="hide_templates_title">Ocultar plantillas</string>
+    <string name="generate_keyfile">Generar archivo de claves</string>
+    <string name="recursive_number_entries_title">Número recursivo de entradas</string>
+    <string name="hide_templates_summary">Las plantillas no se muestran</string>
 </resources>
