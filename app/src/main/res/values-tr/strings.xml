@@ -281,7 +281,7 @@
     <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt; copyleft lisanslı özgür yazılımdır&lt;/strong&gt; ve hangi sürümü kullanırsanız kullanın, sunucularında kişisel veri toplamaz.</string>
     <string name="html_text_buy_pro">Pro sürümü satın alarak, bu &lt;strong&gt;görsel stile&lt;/strong&gt; erişebilecek ve özellikle &lt;strong&gt;topluluk projelerinin gerçekleştirilmesine yardımcı olacaksınız.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Bu &lt;strong&gt;görsel stil&lt;/strong&gt;, cömertliğiniz sayesinde kullanılabilir.</string>
-    <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için &lt;strong&gt;katkılarınıza&lt;/strong&gt; güveniyoruz</string>
+    <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik &lt;strong&gt;geliştirme aşamasındadır&lt;/strong&gt; ve &lt;strong&gt;katkılarınızın&lt;/strong&gt; yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;Pro&lt;/strong&gt; sürümü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Katkıda&lt;/strong&gt; bulunarak,</string>
