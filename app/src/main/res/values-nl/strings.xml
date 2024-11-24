@@ -272,7 +272,7 @@
     <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht de versie die je gebruikt.</string>
     <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit &lt;strong&gt;visuele thema&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dit &lt;strong&gt;visuele thema&lt;/strong&gt; is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, rekenen we op jouw <strong>bijdrage.</strong></string>
+    <string name="html_text_donation">Met een <strong>bijdrage</strong> <i>(financieel, code, vertaling),</i> help je dit project in het voortbestaan en verdere groei. Bovendien kom je in aanmerking ook de <strong>procedure</strong> waarmee je de extra thema\'s kunt ontgrendelen.</string>
     <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
@@ -703,4 +703,11 @@
     <string name="style_name_follow_system">Systeem volgen</string>
     <string name="style_name_dark">Donker</string>
     <string name="warning_database_info_changed_options_read_only">Database opnieuw laden met de jongste wijzigingen.</string>
+    <string name="generate_keyfile">Sleutelbestand genereren</string>
+    <string name="nodes">Knooppunten</string>
+    <string name="hide_templates_summary">Sjablonen blijven verborgen</string>
+    <string name="hide_templates_title">Sjablonen verbergen</string>
+    <string name="recursive_number_entries_title">Recursief aantal items</string>
+    <string name="recursive_number_entries_summary">Berekent recursief het aantal items in een groep</string>
+    <string name="warning_large_keyfile">Het is niet verstandig om een groot sleutelbestand toe te voegen, aangezien dit het openen van de database kan belemmeren.</string>
 </resources>
