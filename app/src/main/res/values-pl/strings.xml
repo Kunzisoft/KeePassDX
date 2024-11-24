@@ -268,7 +268,7 @@
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem objętym klauzulą copyleft&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój &lt;strong&gt;wkład.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
     <string name="html_text_dev_feature">Ta funkcja jest &lt;strong&gt;rozwojowa&lt;/strong&gt; i wymaga Twojego &lt;strong&gt;wkładu&lt;/strong&gt;, aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
