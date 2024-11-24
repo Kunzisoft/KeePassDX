@@ -330,7 +330,7 @@
     <string name="html_text_dev_feature_thanks">非常感謝你的捐助與貢獻。</string>
     <string name="html_text_dev_feature_upgrade">記得安裝最新版本來確保應用程式是最新的。</string>
     <string name="html_text_dev_feature_work_hard">我們正在努力的開發並盡快地發佈新功能。</string>
-    <string name="html_text_donation">為繼續建設此自由項目讓其保持活躍，我們需要你的<strong>捐贈。</strong></string>
+    <string name="html_text_donation">為繼續建設此自由項目讓其保持活躍，我們需要你的&lt;strong&gt;捐贈。&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主題樣式&lt;/strong&gt;已可用，感謝你的慷慨相助。</string>
     <string name="icon_pack_choose_summary">應用程式使用的圖示包</string>
     <string name="icon_pack_choose_title">圖示包</string>

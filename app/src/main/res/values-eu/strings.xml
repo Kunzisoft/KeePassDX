@@ -557,7 +557,7 @@
     <string name="temp_advanced_unlock_timeout_title">Gailu desblokeatzearen iraungitzea</string>
     <string name="advanced_unlock_timeout">Gailu desblokeatzea erabiltzeko denbora muga</string>
     <string name="lock">Blokeatu</string>
-    <string name="html_text_donation">Gure askatasuna mantentzeko eta beti aktibo egoteko, aintzat dugu zure <strong>ekarpena.</strong></string>
+    <string name="html_text_donation">Gure askatasuna mantentzeko eta beti aktibo egoteko, aintzat dugu zure &lt;strong&gt;ekarpena.&lt;/strong&gt;</string>
     <string name="education_read_only_title">Babestu zure datu-basea idazketen aurka</string>
     <string name="education_generate_password_title">Sortu pasahitz segurua</string>
     <string name="database_data_compression_title">Datuen konpresioa</string>

@@ -130,7 +130,7 @@
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie udało się wyczyścić schowka</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest <strong>open source</strong> i <strong>bez reklam</strong>. \nJest on dostarczany w stanie, zgodnie z licencją <strong>GPLv3</strong> bez żadnych gwarancji.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;. \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -267,7 +267,7 @@
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem objętym klauzulą copyleft&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Poprzez <strong>wsparcie</strong> projektu <i>(pieniężne, kodowanie, tłumaczenie)</i> pomożesz mu istnieć i rozwijać się, a także uzyskasz dostęp do procedury odblokowywania <strong>motywów</strong>.</string>
+    <string name="html_text_donation">Poprzez &lt;strong&gt;wsparcie&lt;/strong&gt; projektu <i>(pieniężne, kodowanie, tłumaczenie)</i> pomożesz mu istnieć i rozwijać się, a także uzyskasz dostęp do procedury odblokowywania &lt;strong&gt;motywów&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Ta funkcja jest &lt;strong&gt;rozwojowa&lt;/strong&gt; i wymaga Twojego &lt;strong&gt;wkładu&lt;/strong&gt;, aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
@@ -407,7 +407,7 @@
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
-    <string name="html_about_contribution">Aby <strong>zachować naszą wolność</strong>, <strong>naprawiać błędy</strong>, <strong>dodawać funkcje</strong> i <strong> być zawsze aktywnym</strong>, liczymy na Twój <strong>wkład</strong>.</string>
+    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;naprawiać błędy&lt;/strong&gt;, &lt;strong&gt;dodawać funkcje&lt;/strong&gt; i &lt;strong&gt; być zawsze aktywnym&lt;/strong&gt;, liczymy na Twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
     <string name="remember_database_locations_title">Zapamiętaj lokalizacje baz danych</string>
@@ -665,7 +665,7 @@
     <string name="error_no_hardware_key">Wybierz klucz sprzętowy.</string>
     <string name="error_XML_malformed">Zniekształcony XML.</string>
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
-    <string name="html_about_privacy"><strong>Żadne dane użytkownika nie są pobierane</strong>, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
     <string name="merge_success">Scalanie zostało pomyślnie zakończone</string>
     <string name="info">Informacje</string>
     <string name="menu_app_settings_summary">Wyszukiwanie, blokada, historia, właściwości</string>

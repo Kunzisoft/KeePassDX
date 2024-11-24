@@ -660,7 +660,7 @@
     <string name="education_unlock_title">Desbloqueja la base de dades</string>
     <string name="education_setup_OTP_summary">Configureu la gestió de contrasenyes d\'un sol ús (HOTP / TOTP) per generar un testimoni sol·licitat per a l\'autenticació de dos factors (2FA).</string>
     <string name="education_field_copy_title">Copia un camp</string>
-    <string name="html_text_donation">Per tal de mantenir la nostra llibertat i estar sempre actius, comptem amb la seva <strong>aportació. </strong></string>
+    <string name="html_text_donation">Per tal de mantenir la nostra llibertat i estar sempre actius, comptem amb la seva &lt;strong&gt;aportació. &lt;/strong&gt;</string>
     <string name="upload_attachment">Puja %1$s</string>
     <string name="download_finalization">S\'està finalitzant…</string>
     <string name="entropy">Entropia: %1$s bit</string>

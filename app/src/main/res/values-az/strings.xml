@@ -312,7 +312,7 @@
     <string name="education_field_copy_title">Bölməni (sahəni) nüsxələyin</string>
     <string name="education_field_copy_summary">Nüsxələnmiş bölmələr (sahələr) istənilən yerə nüsxələnə bilər.\n\nÜntünlük verdiyiniz form doldurma metodunu seçin.</string>
     <string name="education_lock_title">Məlumat bazasını kilidləyin</string>
-    <string name="html_text_donation">Azadlığımızı qorumaq və daima aktiv olmağınız üçün sizin <strong>yardımınıza güvənirik.</strong></string>
+    <string name="html_text_donation">Azadlığımızı qorumaq və daima aktiv olmağınız üçün sizin &lt;strong&gt;yardımınıza güvənirik.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Bu &lt;strong&gt;görünüş stili&lt;/strong&gt;sizin əliaçıqlığınız sayəsində mövuddur.</string>
     <string name="html_text_dev_feature">Bu xüsusiyyət &lt;strong&gt;hazırlıq mərhələsindədir&lt;/strong&gt; və tezliklə &lt;strong&gt;istifadə verilməsi üçün sizin &lt;strong&gt;yardımınıza ehtiyyacı var.</string>
     <string name="html_text_dev_feature_encourage">tərtibatçıları &lt;strong&gt;yeni funksiyalar əlavə etməyə&lt;/strong&gt;və &lt;strong&gt;sizin rəylərinizə əsasən &lt;/strong&gt;xətaları düzəltməyə həvəsləndirirsiniz.</string>
@@ -370,7 +370,7 @@
     <string name="entry_add_field">Sahə (bölmə) əlavə et</string>
     <string name="content_description_remove_field">Sahəni (bölməni) sil</string>
     <string name="content_description_keyboard_close_fields">Sahələri (bölmələri) bağla</string>
-    <string name="html_about_licence">KeePassDX©%1$dKunzisoft<strong>açıq mənbəlidir və</strong>və<strong>ondan heç bir reklam yoxdur</strong>.\n<strong>GPLv3</strong>lisenziyasına sahibdir, hər hansısa bir qarantiyası yoxdur.</string>
+    <string name="html_about_licence">KeePassDX©%1$dKunzisoft&lt;strong&gt;açıq mənbəlidir və&lt;/strong&gt;və&lt;strong&gt;ondan heç bir reklam yoxdur&lt;/strong&gt;.\n&lt;strong&gt;GPLv3&lt;/strong&gt;lisenziyasına sahibdir, hər hansısa bir qarantiyası yoxdur.</string>
     <string name="inherited">İdxal et</string>
     <string name="auto_type">Avtomatik yazma</string>
     <string name="auto_type_sequence">Avtomatik yazma sırası</string>
