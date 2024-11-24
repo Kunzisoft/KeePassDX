@@ -704,4 +704,11 @@
     <string name="style_name_light">Hell</string>
     <string name="style_name_dark">Dunkel</string>
     <string name="warning_database_info_changed_options_read_only">Die Datenbank mit den letzten Änderungen neu laden.</string>
+    <string name="hide_templates_title">Vorlagen ausblenden</string>
+    <string name="hide_templates_summary">Vorlagen sind ausgeblendet</string>
+    <string name="nodes">Knoten</string>
+    <string name="recursive_number_entries_summary">Berechnet rekursiv die Anzahl der Einträge in einer Gruppe</string>
+    <string name="warning_large_keyfile">Es wird nicht empfohlen, eine große Schlüsseldatei hinzuzufügen, da dies das Öffnen der Datenbank verhindern kann.</string>
+    <string name="recursive_number_entries_title">Rekursive der Anzahl von Einträgen</string>
+    <string name="generate_keyfile">Schlüsseldatei generieren</string>
 </resources>
