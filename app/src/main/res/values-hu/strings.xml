@@ -701,4 +701,11 @@
     <string name="style_name_light">Világos</string>
     <string name="style_name_dark">Sötét</string>
     <string name="warning_database_info_changed_options_read_only">Adatbázis újratöltése a legújabb módosításokkal.</string>
+    <string name="nodes">Csomópontok</string>
+    <string name="recursive_number_entries_title">Rekurzív bejegyzések száma</string>
+    <string name="recursive_number_entries_summary">Rekurzívan kiszámítja a csoportban lévő bejegyzések számát</string>
+    <string name="warning_large_keyfile">Nagy méretű kulcsfájl hozzáadása nem ajánlott, mivel ez megakadályozhatja az adatbázis megnyitását.</string>
+    <string name="hide_templates_summary">A sablonok nem jelennek meg</string>
+    <string name="generate_keyfile">Kulcsfájl előállítása</string>
+    <string name="hide_templates_title">Sablonok elrejtése</string>
 </resources>
