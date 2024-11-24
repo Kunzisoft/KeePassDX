@@ -625,7 +625,7 @@
     <string name="education_donation_title">Participe</string>
     <string name="education_donation_summary">Axude a aumentar a estabilidade, seguranza e número de funcionalidades.</string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está dispoñíbel grazas á súa xenerosidade.</string>
-    <string name="html_text_donation">Para manter a nosa liberdade e estarmos sempre activos, contamos coa súa &lt;strong&gt;contribución.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Para manter a nosa liberdade e estarmos sempre activos, contamos coa súa <strong>contribución.</strong></string>
     <string name="download_attachment">Descarregar %1$s</string>
     <string name="download_initialization">A inicializar…</string>
     <string name="download_progression">En progreso: %1$d%%</string>
