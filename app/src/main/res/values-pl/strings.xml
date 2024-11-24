@@ -704,4 +704,5 @@
     <string name="nodes">Węzły</string>
     <string name="warning_large_keyfile">Nie zaleca się dodawania dużego pliku klucza, ponieważ może to uniemożliwić otwarcie bazy danych.</string>
     <string name="generate_keyfile">Wygeneruj plik klucza</string>
+    <string name="recursive_number_entries_summary">Rekurencyjnie oblicza liczbę wpisów w grupie</string>
 </resources>
