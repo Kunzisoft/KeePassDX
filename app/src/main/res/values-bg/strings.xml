@@ -678,4 +678,6 @@
     <string name="style_name_light">Светла</string>
     <string name="style_name_dark">Тъмна</string>
     <string name="warning_database_info_changed_options_read_only">Презаредете последните промени в хранилището.</string>
+    <string name="generate_keyfile">Създаване на файл с ключ</string>
+    <string name="nodes">Възли</string>
 </resources>
