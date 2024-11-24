@@ -74,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;かつ&lt;strong&gt;広告なし&lt;/strong&gt;です。\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>かつ<strong>広告なし</strong>です。\nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
@@ -445,7 +445,7 @@
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
     <string name="html_text_buy_pro">Pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
-    <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
+    <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;pro&lt;/strong&gt; バージョンを購入することによる、</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;貢献&lt;/strong&gt;による、</string>
