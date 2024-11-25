@@ -48,7 +48,7 @@
     <string name="decrypting_db">Datenbankinhalt wird entschlüsselt …</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Stellen</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist <strong>quelloffen</strong> und <strong>ohne Werbung</strong>.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der <strong>GPLv3</strong> lizenziert.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist <strong>quelloffen</strong> und <strong>ohne Werbung</strong>. \nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der <strong>GPLv3</strong> lizenziert.</string>
     <string name="html_about_contribution">Damit wir &lt;strong&gt;unsere Unabhängigkeit erhalten&lt;/strong&gt;, &lt;strong&gt;Fehler beheben&lt;/strong&gt;, &lt;strong&gt;Funktionen hinzufügen&lt;/strong&gt; und &lt;strong&gt;weiterhin aktiv bleiben&lt;/strong&gt; können, zählen wir auf deinen &lt;strong&gt;Beitrag&lt;/strong&gt;.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
@@ -236,7 +236,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht, Ihr Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Ein starkes Passwort erstellen, das mit dem Eintrag verbunden wird, das kann einfach anhand von Formularkriterien festgelegt werden und bitte nicht vergessen dieses Passwort zu sichern.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -253,7 +253,7 @@
     <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version man verwendet.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhältst du Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; ist dank deiner Großzügigkeit verfügbar.</string>
-    <string name="html_text_donation">Um unsere Freiheit zu erhalten und stets aktiv zu bleiben, zählen wir auf deinen <strong>Beitrag.</strong></string>
+    <string name="html_text_donation">Mit <strong>Beitragen</strong> zum Projekt <i>(finanziell, Code, Übersetzung)</i> wird sichergestellt, dass es weiterlebt und gedeiht, und außerdem berechtigt das für den Vorgang der <strong>Design</strong>-Freischaltung.</string>
     <string name="html_text_dev_feature">Diese Funktion ist &lt;strong&gt;in Entwicklung&lt;/strong&gt; und erfordert &lt;strong&gt;deinen Beitrag&lt;/strong&gt;, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der &lt;strong&gt;Pro-Version&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Durch deinen &lt;strong&gt;Beitrag&lt;/strong&gt;,</string>
@@ -544,7 +544,7 @@
     <string name="error_upload_file">Beim Hochladen der Datei ist ein Fehler aufgetreten.</string>
     <string name="import_app_properties_title">App-Einstellungen importieren</string>
     <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
-    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung erzeugt Token möglicherweise nicht mehr korrekt.</string>
+    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung generiert Token möglicherweise nicht mehr korrekt.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
     <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort aus erneut öffnen.</string>
     <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen</string>
@@ -709,6 +709,6 @@
     <string name="nodes">Knoten</string>
     <string name="recursive_number_entries_summary">Berechnet rekursiv die Anzahl der Einträge in einer Gruppe</string>
     <string name="warning_large_keyfile">Es wird nicht empfohlen, eine große Schlüsseldatei hinzuzufügen, da dies das Öffnen der Datenbank verhindern kann.</string>
-    <string name="recursive_number_entries_title">Rekursive der Anzahl von Einträgen</string>
+    <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
 </resources>
