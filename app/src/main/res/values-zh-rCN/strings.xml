@@ -295,7 +295,7 @@
     <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
-    <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的<strong>捐赠。</strong></string>
+    <string name="html_text_donation">通过多方面向本项目<strong>作贡献</strong>，可以是<i>（财政、代码、翻译等）</i>，你将帮助本项目继续走下去并茁壮成长，并获得<strong>主题</strong>解锁步骤资格。</string>
     <string name="html_text_dev_feature">此功能目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使该功能很快变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买&lt;strong&gt;专业&lt;/strong&gt;版，</string>
     <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;贡献&lt;/strong&gt;，</string>
@@ -701,4 +701,11 @@
     <string name="style_name_light">浅色</string>
     <string name="style_name_dark">深色</string>
     <string name="warning_database_info_changed_options_read_only">重新加载数据库最新变化。</string>
+    <string name="recursive_number_entries_summary">递归计算一个组当中的条目数</string>
+    <string name="warning_large_keyfile">不建议添加大的密钥文件，这可能造成数据库打不开。</string>
+    <string name="hide_templates_summary">模板未显示</string>
+    <string name="generate_keyfile">生成密钥文件</string>
+    <string name="hide_templates_title">隐藏模板</string>
+    <string name="nodes">节点</string>
+    <string name="recursive_number_entries_title">条目的递归数</string>
 </resources>
