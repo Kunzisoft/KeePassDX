@@ -515,7 +515,7 @@
     <string name="education_donation_summary">Bantu meningkatkan stabilitas, keamanan, dan menambahkan lebih banyak fitur.</string>
     <string name="html_text_ad_free">Tidak seperti banyak aplikasi pengelola kata sandi, ini &lt;strong&gt;bebas iklan&lt;/strong&gt;, &lt;strong&gt;perangkat lunak libre copyleft&lt;/strong&gt;, dan tidak mengumpulkan data pribadi di peladennya, tidak peduli versi apa yang Anda gunakan.</string>
     <string name="html_text_feature_generosity">&lt;strong&gt;Gaya visual&lt;/strong&gt; ini tersedia berkat kemurahan hati Anda.</string>
-    <string name="html_text_donation">Untuk menjaga kebebasan kami dan untuk kami selalu aktif, kami mengandalkan <strong>kontribusi</strong> Anda.</string>
+    <string name="html_text_donation">Dengan &lt;strong&gt;berkontribusi&lt;strong&gt; kepada proyek &lt;i&gt;(dalam bentuk uang, kode, penerjemahan)&lt;i&gt;, Anda akan membantu proyek tersebut supaya terus hidup dan berkembang, dan Anda juga akan memenuhi syarat untuk prosedur pembukaan kunci &lt;strong&gt;tema&lt;strong&gt;.</string>
     <string name="html_text_dev_feature">Fitur ini &lt;strong&gt;sedang dalam pengembangan&lt;/strong&gt; dan memerlukan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda untuk bisa tersedia segera.</string>
     <string name="show_otp_token_title">Tampilkan Token OTP</string>
     <string name="text_appearance">Teks</string>
@@ -679,4 +679,11 @@
     <string name="style_name_light">Terang</string>
     <string name="style_name_dark">Gelap</string>
     <string name="warning_database_info_changed_options_read_only">Muat ulang basis data dengan perubahan terkini.</string>
+    <string name="generate_keyfile">Buat berkas kunci</string>
+    <string name="recursive_number_entries_summary">Menghitung jumlah entri dalam suatu grup secara rekursif</string>
+    <string name="hide_templates_summary">Templat tidak ditampilkan</string>
+    <string name="nodes">Titik</string>
+    <string name="recursive_number_entries_title">Jumlah entri rekursif</string>
+    <string name="warning_large_keyfile">Tidak disarankan menambahkan berkas kunci yang besar, ini dapat mencegah pembukaan basis data.</string>
+    <string name="hide_templates_title">Sembunyikan templat</string>
 </resources>
