@@ -43,18 +43,4 @@ class UriHelperTest: TestCase() {
         assertFalse(expected.inTheSameDomainAs("tcp://domain.org", sameSubDomain = true))
         assertFalse(expected.inTheSameDomainAs("dom.org/domain.org", sameSubDomain = true))
     }
-
-    fun testMaxValue() {
-        val maxValue = UnsignedInt.MAX_VALUE.toKotlinLong()
-        assertEquals(4294967295L, maxValue)
-        val longValue = UnsignedInt.fromKotlinLong(4294967295L).toKotlinLong()
-        assertEquals(longValue, maxValue)
-    }
-
-    fun testLong() {
-        val longValue = UnsignedInt.fromKotlinLong(50L).toKotlinInt()
-        assertEquals(50, longValue)
-        val uIntLongValue = UnsignedInt.fromKotlinLong(4294967290).toKotlinLong()
-        assertEquals(4294967290, uIntLongValue)
-    }
 }
