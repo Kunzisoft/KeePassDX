@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
 class SearchHelper {
 
@@ -149,14 +150,12 @@ class SearchHelper {
             }
             if (searchParameters.searchInUrls) {
                 if (checkSearchQuery(entry.url, searchParameters) { stringToCheck, word ->
-                        // domain.org
-                        stringToCheck.equals(word, !searchParameters.caseSensitive) ||
-                        // subdomain.domain.org
-                        stringToCheck.endsWith(".$word", !searchParameters.caseSensitive) ||
-                        // https://domain.org
-                        stringToCheck.endsWith("/$word", !searchParameters.caseSensitive)
-                        // Don't allow mydomain.org
-                    })
+                    try {
+                        stringToCheck.inTheSameDomainAs(word, sameSubDomain = true)
+                    } catch (e: Exception) {
+                        false
+                    }
+                })
                     return true
             }
             if (searchParameters.searchInNotes) {
