@@ -235,7 +235,7 @@
     <string name="menu_appearance_settings_summary">Теми, цветове, атрибути</string>
     <string name="download_initialization">Подготвяне…</string>
     <string name="content_description_entry_background_color">Цвят на фона на запис</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с <strong>отворен код</strong> и <strong>без реклами</strong>. \nРазпространява се под лиценза <strong>GPLv3</strong> без каквато и да е гаранция.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с <strong>отворен код</strong> и <strong>без реклами</strong>.\nРазпространява се под лиценза <strong>GPLv3</strong> без каквато и да е гаранция.</string>
     <string name="menu_advanced_unlock_settings_summary">Биометрия, удостоверяване</string>
     <string name="menu_security_settings_summary">Шифроване, функция за извличане на ключ</string>
     <string name="menu_master_key_settings">Настройки на главната парола</string>
