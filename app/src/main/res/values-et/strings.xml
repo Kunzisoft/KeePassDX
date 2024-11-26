@@ -180,7 +180,7 @@
     <string name="file_manager_install_description">Andmebaasifailide loomiseks, avamiseks ja salvestamiseks on vajalik failihalduri olemasolu, mis oskaks kasutada ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT päringuid.</string>
     <string name="navigation_drawer_open">Menüü on avatud</string>
     <string name="navigation_drawer_close">Menüü on suletud</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on <strong>avatud lähtekoodiga</strong> ja <strong>reklaamivaba</strong>.\nSeda programmi levitatakse ilma igasuguse garantiita ning ta on litsentseeritud <strong>GPLv3</strong> alusel.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on <strong>avatud lähtekoodiga</strong> ja <strong>reklaamivaba</strong>. \nSeda programmi levitatakse ilma igasuguse garantiita ning ta on litsentseeritud <strong>GPLv3</strong> alusel.</string>
     <string name="html_about_privacy">&lt;strong&gt;See rakendus ei laadi kasutajate andmeid&lt;/strong&gt;, ei loo ühendust ühegi serveriga, töötab nutiseadmes ainult kohalikus režiimis ja täies mahus austab kasutajate privaatsust.</string>
     <string name="html_about_contribution">&lt;strong&gt;Meie vabaduse säilitamiseks&lt;/strong&gt;, &lt;strong&gt;vigade parandamiseks&lt;/strong&gt;, &lt;strong&gt;uue funktsionaalsuse lisamiseks&lt;/strong&gt; ning &lt;strong&gt;et olla alati tänapäevane&lt;/strong&gt;, me tõsiselt arvestame sinu &lt;strong&gt;kaastöö ja osalemisega&lt;/strong&gt;.</string>
     <string name="inherited">Päri</string>
@@ -217,4 +217,23 @@
     <string name="menu_showpass">Näita salasõna</string>
     <string name="error_cancel_by_user">Katkestatud kasutaja poolt.</string>
     <string name="error_driver_required">%1$s draiver on vajalik.</string>
+    <string name="generate_keyfile">Loo võtmefail</string>
+    <string name="nodes">Sõlmed</string>
+    <string name="list_groups_show_number_entries_summary">Näita kirjete arvu grupis</string>
+    <string name="recursive_number_entries_title">Rekursiivne kirjete arv</string>
+    <string name="recursive_number_entries_summary">Näita kirjete arvu grupis ja alamgruppides rekursiivselt</string>
+    <string name="menu_edit">Muuda</string>
+    <string name="menu_copy">Kopeeri</string>
+    <string name="menu_move">Teisalda</string>
+    <string name="menu_lock">Lukusta andmebaas</string>
+    <string name="menu_save_database">Salvesta andmed</string>
+    <string name="menu_merge_database">Mesti andmed</string>
+    <string name="menu_open">Ava</string>
+    <string name="menu_search">Otsi</string>
+    <string name="menu_reload_database">Laadi andmed uuesti</string>
+    <string name="menu_delete">Kustuta</string>
+    <string name="menu_paste">Aseta</string>
+    <string name="menu_cancel">Katkesta</string>
+    <string name="error_unable_merge_database_kdb">Mestimine teise kdb andmebaasifailiga ei õnnestu</string>
+    <string name="error_location_unknown">Andmebaasi asukoht pole teada ja toimingut andmebaasiga ei saa teha.</string>
 </resources>
