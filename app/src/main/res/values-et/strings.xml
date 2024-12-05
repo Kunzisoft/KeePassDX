@@ -371,4 +371,19 @@
     <string name="show_entry_colors_summary">Tausta- ja esiplaani värvid andmete sisestamise ajal</string>
     <string name="hide_expired_entries_title">Peida aegunud kirjed</string>
     <string name="hide_expired_entries_summary">Andmebaasis leiduvad aegunud kirjed jäävad näitamata</string>
+    <string name="auto_focus_search_summary">Andmebaasi avamisel alusta otsinguga</string>
+    <string name="subdomain_search_title">Alamdomeeni otsing</string>
+    <string name="subdomain_search_summary">Otsi võrgudomeene alamdomeeni piiranguga</string>
+    <string name="progress_create">Loome uue salasõnade andmebaasi…</string>
+    <string name="progress_title">Töötleme…</string>
+    <string name="read_only">Kirjutuskaitstud</string>
+    <string name="read_only_warning">Sõltuvalt sinu kasutatavast failihaldurist ei pruugi KeePassDXl olla õigust andmeruumis salvestada.</string>
+    <string name="contains_duplicate_uuid">Salasõnade andmebaasis on topelt-UUIDsd.</string>
+    <string name="contains_duplicate_uuid_procedure">Selle vea saad lahendada luues topelt-UUIDde asemele uued väärtused. Kas jätkame?</string>
+    <string name="search_mode">Otsinguviis</string>
+    <string name="save_mode">Salvestusviis</string>
+    <string name="selection_mode">Valikuviis</string>
+    <string name="registration_mode">Registreerimisviis</string>
+    <string name="invalid_credentials">Salasõna või võtmefaili ei õnnestunud lugeda.</string>
+    <string name="protection">Kaitse</string>
 </resources>
