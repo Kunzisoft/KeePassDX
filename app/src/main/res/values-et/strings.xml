@@ -80,7 +80,7 @@
     <string name="clipboard_error_clear">Ei saanud tühjendada lõikelauda</string>
     <string name="content_description_add_item">Lisa üksikasi</string>
     <string name="content_description_password_checkbox">Salasõna märkeruut</string>
-    <string name="content_description_keyfile_checkbox">Võtmefaili märkruut</string>
+    <string name="content_description_keyfile_checkbox">Võtmefaili märekruut</string>
     <string name="content_description_hardware_key_checkbox">Füüsilise võtme märkruut</string>
     <string name="content_description_credentials_information">Mandaatide info</string>
     <string name="content_description_nav_header">Navigatsiooni päis</string>
@@ -127,9 +127,9 @@
     <string name="error_no_name">Sisesta nimi.</string>
     <string name="error_nokeyfile">Vali võtmefail.</string>
     <string name="error_pass_match">Salasõnad ei klapi.</string>
-    <string name="error_create_database">Andmebaasi faili loomine ei õnnestunud.</string>
+    <string name="error_create_database">Andmebaasifaili loomine ei õnnestunud.</string>
     <string name="entry_url">URL</string>
-    <string name="error_file_not_create">Faili loomine eo õnnestunud</string>
+    <string name="error_file_not_create">Faili loomine ei õnnestunud</string>
     <string name="entry_otp">Ühekordne salasõna</string>
     <string name="clipboard_timeout_summary">Lõikelauale kopeeritud andmete hoidmise aeg (kui sinu seade sellist võimalust toetab)</string>
     <string name="content_description_keyboard_close_fields">Sulge väljad</string>
@@ -158,7 +158,7 @@
     <string name="error_hardware_key_unsupported">Raudvaraline võti pole toetatud.</string>
     <string name="field_name">Välja nimi</string>
     <string name="field_value">Välja väärtus</string>
-    <string name="file_not_found_content">Faili ei õnnestunud leida. Proovi teda avada failibrauseriga.</string>
+    <string name="file_not_found_content">Faili ei õnnestunud leida. Proovi teda avada failihalduriga.</string>
     <string name="file_browser">Failihaldur</string>
     <string name="generate_password">Loo salasõna</string>
     <string name="hint_conf_pass">Kinnita salasõna</string>
@@ -315,7 +315,7 @@
     <string name="version_label">Versioon: %1$s</string>
     <string name="configure">Seadista</string>
     <string name="advanced_unlock_prompt_store_credential_message">Sa pead igal juhul oma salasõnalaeka salasõna meeles pidama - seda ka siis, kui kasutad muid seadmes leiduvaid lukustuse eemaldamise võimalusi.</string>
-    <string name="file_name">Faili nimi</string>
+    <string name="file_name">Failinimi</string>
     <string name="path">Asukoht</string>
     <string name="assign_master_key">Seadista peavõti</string>
     <string name="data">Andmed</string>
