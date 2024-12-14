@@ -286,7 +286,7 @@
 \nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
-    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
+    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuche, die „Arbeitsspeichernutzung“ der Schlüsselableitungsfunktion zu verringern.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
