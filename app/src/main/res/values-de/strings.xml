@@ -69,7 +69,7 @@
     <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
     <string name="error_file_not_create">Datei konnte nicht erstellt werden</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
-    <string name="error_invalid_path">Stelle sicher, dass der Pfad korrekt ist.</string>
+    <string name="error_invalid_path">Bitte sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
     <string name="error_nokeyfile">Schlüsseldatei auswählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicher, um die gesamte Datenbank zu laden.</string>
