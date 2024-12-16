@@ -366,7 +366,7 @@
     <string name="style_name_simple">E thjeshtë</string>
     <string name="style_name_reply">Përgjigju</string>
     <string name="content_description_hardware_key_checkbox">Kutizë kyçi hardware</string>
-    <string name="content_description_repeat_toggle_password_visibility"></string>
+    <string name="content_description_repeat_toggle_password_visibility"/>
     <string name="content_description_entry_foreground_color">Ngjyrë e përparme e zërit</string>
     <string name="content_description_entry_background_color">Ngjyrë sfondi e zërit</string>
     <string name="navigation_drawer_open">Panel lëvizjesh i hapur</string>
@@ -384,7 +384,7 @@
     <string name="menu_form_filling_settings">Plotësim formularësh</string>
     <string name="menu_open_file_read_and_write">E ndryshueshme</string>
     <string name="search_mode">Mënyra kërkim</string>
-    <string name="save_mode"></string>
+    <string name="save_mode"/>
     <string name="remember_keyfile_locations_summary">Ndjek se ku depozitohen kartela kyç</string>
     <string name="remember_hardware_key_title">Mbaj mend kyçe hardware</string>
     <string name="remember_hardware_key_summary">Ndjek kyçet hardware të përdorur</string>
@@ -396,7 +396,7 @@
     <string name="encryption_explanation">Algoritëm fshehtëzimi të dhënash i përdorur për krejt të dhënat</string>
     <string name="rounds_explanation">Më tepër raunde fshehtëzimi furnizojnë mbrojtje më të madhe kundër sulmesh hyrjeje me zor, por mund të ngadalësojnë vërtet ngarkimin dhe ruajtjen e gjërave.</string>
     <string name="parallelism_explanation">Shkallë paralelizmi (d.m.th. numër rrjedhash) të përdorur nga funksionimi i derivimit të kyçeve.</string>
-    <string name="filter"></string>
+    <string name="filter">Filtër</string>
     <string name="sort_db">Në rend natyror</string>
     <string name="warning_database_info_changed_options_read_only">Ringarko bazën e të dhënave me ndryshimet më të reja.</string>
     <string name="list_password_generator_options_title">Shenja fjalëkalimi</string>
@@ -424,18 +424,18 @@
     <string name="contains_duplicate_uuid_procedure">Të zgjidhet problemi duke prodhuar UUID-ra të reja për zëra të përsëdytur, që të vazhdohet?</string>
     <string name="description_app_properties">Veti KeePassDX për administrim të rregullimeve të aplikacionit</string>
     <string name="warning_permanently_delete_nodes">Të fshihen përgjithmonë nyjat e përzgjedhura?</string>
-    <string name="device_credential_unlock_enable_title"></string>
+    <string name="device_credential_unlock_enable_title">Shkyçje kredencialesh pajisjeje</string>
     <string name="device_credential_unlock_enable_summary">Ju lejon të përdorni kredencialet për te pajisja juaj për të hapur bazën e të dhënave</string>
-    <string name="biometric_auto_open_prompt_title"></string>
-    <string name="temp_advanced_unlock_enable_title"></string>
+    <string name="biometric_auto_open_prompt_title"/>
+    <string name="temp_advanced_unlock_enable_title">Shkyçje e përkohshme pajisjeje</string>
     <string name="file_manager_install_description">Që të krijohen, hapen dhe ruhen kartela bazash të dhënash, lypset një përgjegjës kartelash që pranon veprime ACTION_CREATE_DOCUMENT dhe ACTION_OPEN_DOCUMENT.</string>
     <string name="content_description_keyfile_checkbox">Kutizë për kartelë kyçi</string>
-    <string name="content_description_nav_header"></string>
+    <string name="content_description_nav_header"/>
     <string name="navigation_drawer_close">Panel lëvizjesh i mbyllur</string>
-    <string name="searchable"></string>
+    <string name="searchable"/>
     <string name="search_filters">Filtra kërkimesh</string>
-    <string name="type"></string>
-    <string name="seed"></string>
+    <string name="type"/>
+    <string name="seed"/>
     <string name="error_out_of_memory">S’ka kujtesë për të ngarkuar krejt bazën tuaj të të dhënave.</string>
     <string name="error_rounds_too_large">“Raunde shndërrimi” shumë i lartë. Po vihet 2147483648.</string>
     <string name="error_string_key">Çdo varg duhet të ketë një emër fushe.</string>
@@ -453,10 +453,10 @@
     <string name="subdomain_search_summary">Kërko përkatësi web me kufizime për nënpërkatësitë</string>
     <string name="read_only">Mbrojtur nga shkrimi</string>
     <string name="export_app_properties_title">Eksportoni rregullime aplikacioni</string>
-    <string name="advanced_unlock_prompt_store_credential_title"></string>
+    <string name="advanced_unlock_prompt_store_credential_title">Lidhje për te shkyçje pajisjeje</string>
     <string name="encrypted_value_stored">U depozitua fjalëkalim i fshehtëzuar</string>
     <string name="temp_advanced_unlock_timeout_title">Skadim shkyçjeje pajisjeje</string>
-    <string name="enter"></string>
+    <string name="enter"/>
     <string name="education_advanced_unlock_title">Shkyçje baze të dhënash pajisjeje</string>
     <string name="info">Informacion</string>
     <string name="key_derivation_function">Funksion përftimi kyçesh</string>
@@ -489,7 +489,7 @@
     <string name="menu_database_settings_summary">Tejtëdhëna, kosh ricklimesh, gjedhe, historik</string>
     <string name="menu_security_settings_summary">Fshehtëzim, funksion derivimi kyçesh</string>
     <string name="master_key_settings_summary">Ndryshojeni, rinovim</string>
-    <string name="menu_move"></string>
+    <string name="menu_move"/>
     <string name="menu_merge_database">Përzieni të dhëna</string>
     <string name="menu_keystore_remove_key">Fshi kyç shkyçjeje pajisjeje</string>
     <string name="subdomain_search_title">Kërkim nënpërkatësie</string>
@@ -547,12 +547,12 @@
     <string name="clear_clipboard_notification_title">Spastroje gjatë mbylljes</string>
     <string name="device_keyboard_setting_title">Rregullime tastiere pajisjeje</string>
     <string name="keyboard_notification_entry_title">Hollësi njoftimi</string>
-    <string name="keyboard_save_search_info_title"></string>
+    <string name="keyboard_save_search_info_title"/>
     <string name="keyboard_notification_entry_clear_close_title">Spastroje gjatë mbylljes</string>
     <string name="keyboard_entry_timeout_summary">Mbarim kohe për spastrim zëri tastiere</string>
     <string name="keyboard_notification_entry_content_title">%1$s i gatshëm në Magikeyboard</string>
     <string name="keyboard_theme_title">Temë tastiere</string>
-    <string name="keyboard_auto_go_action_title"></string>
+    <string name="keyboard_auto_go_action_title"/>
     <string name="keyboard_key_vibrate_title">Shtypje tastesh me dridhje</string>
     <string name="autofill_save_search_info_title">Ruaj hollësi kërkimi</string>
     <string name="autofill_web_domain_blocklist_summary">Listë bllokimesh që pengon vetëplotësim përkatësish web</string>
@@ -656,4 +656,6 @@
     <string name="settings_database_force_changing_master_key_summary">Kërko doemos ndryshimin e kyçit të përgjithshëm (ditë)</string>
     <string name="autofill_inline_suggestions_summary">Provo të shfaqësh sugjerime vetëplotësimi drejt e nga një tastierë e përputhshme</string>
     <string name="education_advanced_unlock_summary">Lidheni fjalëkalimin tuaj me hollësi biometrike të skanuara, ose kredenciale pajisjeje, për të shkyçur shpejt bazën tuaj të dhënave.</string>
+    <string name="warning_empty_password">Të vazhdohet pa mbrojtje shkyçjeje fjalëkalimesh?</string>
+    <string name="advanced_unlock_prompt_not_initialized">S’arrihet të bëhet gati hapi i shkyçjes së pajisjes.</string>
 </resources>
