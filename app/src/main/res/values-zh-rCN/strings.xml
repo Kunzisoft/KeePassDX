@@ -39,8 +39,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。
-\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft 是一个<strong>不含广告</strong>的<strong>开源软件</strong>。\n它是以 <strong>GPLv3</strong> 许可证依原样提供，不含任何形式的担保。</string>
     <string name="select_database_file">打开现有密码库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -662,7 +661,7 @@
     <string name="error_empty_key">密钥不能为空。</string>
     <string name="corrupted_file">文件损坏。</string>
     <string name="remember_hardware_key_title">记住硬件密钥</string>
-    <string name="remember_hardware_key_summary">保留所用硬件密钥的位置</string>
+    <string name="remember_hardware_key_summary">保留所用硬件密钥的痕迹</string>
     <string name="enable_screenshot_mode_title">截屏模式</string>
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>
