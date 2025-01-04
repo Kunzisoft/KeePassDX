@@ -401,7 +401,7 @@
     <string name="delete_entered_password_title">パスワードの削除</string>
     <string name="delete_entered_password_summary">入力されたパスワードをデータベースへの接続試行後に削除します</string>
     <string name="enable_read_only_title">書き込み禁止</string>
-    <string name="enable_read_only_summary">デフォルトではデータベースを読み取り専用で開きます</string>
+    <string name="enable_read_only_summary">デフォルトでデータベースを読み取り専用として開きます</string>
     <string name="enable_auto_save_database_title">データベースの自動保存</string>
     <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（ [変更可能] モードのとき）</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
