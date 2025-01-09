@@ -546,7 +546,7 @@
     <string name="success_export_app_properties">App-instellingen geëxporteerd</string>
     <string name="error_import_app_properties">Fout bij het importeren van app-instellingen</string>
     <string name="success_import_app_properties">App-instellingen geïmporteerd</string>
-    <string name="description_app_properties">KeePassDX-eigenschappen om app-instellingen te beheren</string>
+    <string name="description_app_properties">KeePassDX properties to manage app settings</string>
     <string name="export_app_properties_summary">Bestand voor export van app-instellingen aanmaken</string>
     <string name="export_app_properties_title">App-instellingen exporteren</string>
     <string name="import_app_properties_summary">Selecteer een bestand om app-instellingen te importeren</string>
