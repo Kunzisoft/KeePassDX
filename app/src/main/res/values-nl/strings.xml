@@ -204,7 +204,7 @@
     <string name="biometric_unlock_enable_title">Ontgrendelen met biometrie</string>
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
-    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot apparaat-ontgrendelingsherkenning verwijderen</string>
+    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot apparaat-ontgrendeling verwijderen</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Dit apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
@@ -495,9 +495,9 @@
     <string name="select_entry">Item selecteren</string>
     <string name="back_to_previous_keyboard">Terug naar vorig toetsenbord</string>
     <string name="custom_fields">Aangepaste velden</string>
-    <string name="advanced_unlock_delete_all_key_warning">Alle coderingssleutels met betrekking tot apparaat-ontgrendelingsherkenning verwijderen\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Alle coderingssleutels met betrekking tot apparaat-ontgrendeling verwijderen?</string>
     <string name="advanced_unlock_timeout">Time-out bij apparaat-ontgrendeling</string>
-    <string name="temp_advanced_unlock_timeout_summary">Duur van apparaat-ontgrendelingsgebruik voordat de inhoud wordt verwijderd</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duur van apparaat-ontgrendeling voordat de inhoud wordt verwijderd</string>
     <string name="temp_advanced_unlock_timeout_title">Vervaltijd voor apparaat-ontgrendeling</string>
     <string name="temp_advanced_unlock_enable_summary">Sla geen versleutelde inhoud op om apparaat-ontgrendeling te gebruiken</string>
     <string name="temp_advanced_unlock_enable_title">Tijdelijke apparaat-ontgrendeling</string>
@@ -512,7 +512,7 @@
     <string name="advanced_unlock_not_recognized">Kan apparaat-ontgrendelingsafdruk niet herkennen</string>
     <string name="advanced_unlock_invalid_key">Kan de apparaat-ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met apparaat-ontgrendelingsgegevens</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Apparaat-ontgrendelingsherkenning</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Apparaat-ontgrendeling</string>
     <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je apparaat-ontgrendelingsherkenning gebruikt.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Koppeling naar Apparaat-ontgrendeling</string>
     <string name="menu_keystore_remove_key">Apparaat-ontgrendelingssleutel verwijderen</string>
