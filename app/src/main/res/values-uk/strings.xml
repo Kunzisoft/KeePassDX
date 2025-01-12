@@ -268,7 +268,7 @@
     <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоб бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">Щоб залишатися вільними та бути завжди активними, ми розраховуємо на вашу <strong>допомогу.</strong></string>
+    <string name="html_text_donation"><strong>Допомагаючи</strong> проєкту <i>(фінансово, кодом, перекладами)</i>, ви допоможете йому продовжувати існувати та процвітати, а також матимете право на процедуру розблокування <strong>теми</strong>.</string>
     <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
@@ -701,4 +701,11 @@
     <string name="style_name_simple">Спрощенна</string>
     <string name="style_name_moon">Місячна</string>
     <string name="warning_database_info_changed_options_read_only">Перезавантажте базу даних з останніми змінами.</string>
+    <string name="generate_keyfile">Згенерувати файл ключа</string>
+    <string name="nodes">Вузли</string>
+    <string name="recursive_number_entries_title">Рекурсивна кількість записів</string>
+    <string name="recursive_number_entries_summary">Рекурсивно обчислює кількість записів у групі</string>
+    <string name="hide_templates_title">Сховати шаблони</string>
+    <string name="hide_templates_summary">Шаблони не показано</string>
+    <string name="warning_large_keyfile">Не рекомендується додавати великий файл ключа, це може завадити створенню бази даних.</string>
 </resources>
