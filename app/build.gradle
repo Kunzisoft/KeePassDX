@@ -5,12 +5,12 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.kunzisoft.keepass'
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode = 133
         versionName = "4.1.1"
         multiDexEnabled true
