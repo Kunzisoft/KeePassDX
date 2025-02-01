@@ -474,7 +474,7 @@
     <string name="settings_database_recommend_changing_master_key_summary">Recomienda cambiar la clave maestra (días)</string>
     <string name="notification">Notificación</string>
     <string name="hide_expired_entries_title">Ocultar las entradas expiradas</string>
-    <string name="upload_attachment">Cargar %1$s</string>
+    <string name="upload_attachment">Subir %1$s</string>
     <string name="education_setup_OTP_summary">Configure la gestión de contraseñas de un solo uso (HOTP / TOTP) para generar un testigo solicitado para la autenticación de dos factores (2FA).</string>
     <string name="education_setup_OTP_title">Configurar contraseña de un solo uso</string>
     <string name="education_advanced_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
