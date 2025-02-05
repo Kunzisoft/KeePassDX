@@ -418,4 +418,15 @@
     <string name="screenshot_mode_banner_text">Ekraanitõmmise režiim</string>
     <string name="error_disallow_no_credentials">Vähemalt üks autentimise vahend peab olema sisestatud.</string>
     <string name="warning_permanently_delete_nodes">Kas kustutame valitud sõlmed jäädavalt?</string>
+    <string name="show_otp_token_title">Näita ühekordse salasõna tunnusluba</string>
+    <string name="show_otp_token_summary">Näitab ühekordse salasõna tunnuslube kirjete loendis</string>
+    <string name="compression">Pakkimine</string>
+    <string name="compression_gzip">Gzip</string>
+    <string name="recycle_bin">Prügikast</string>
+    <string name="templates">Mallid</string>
+    <string name="keyboard">Klahvistik</string>
+    <string name="select_entry">Vali kirje</string>
+    <string name="education_setup_OTP_summary">Ühekordsete salasõnade (HOTP / TOTP) kasutuselevõtmine tunnuslubade loomiseks kaksikautentimise (2FA) jaoks.</string>
+    <string name="error_otp_type">See vorm ei suuda korrektselt tuvastada ühekordse salasõna tüüpi ja seetõttu ja seetõttu ka korrektse tunnusloa loomine ei toimi.</string>
+    <string name="compression_none">Puudub</string>
 </resources>
