@@ -633,7 +633,7 @@
     <string name="word_separator">区切り文字</string>
     <string name="menu_save_copy_to">コピーを保存…</string>
     <string name="consider_chars_filter">対象に加える文字</string>
-    <string name="ignore_chars_filter">使用しない文字</string>
+    <string name="ignore_chars_filter">文字を無視する</string>
     <string name="title_case">語頭を大文字</string>
     <string name="enable_screenshot_mode_summary">サードパーティのアプリでこのアプリのスクリーンショットを撮れるようにします</string>
     <string name="enable_screenshot_mode_title">スクリーンショット モード</string>
