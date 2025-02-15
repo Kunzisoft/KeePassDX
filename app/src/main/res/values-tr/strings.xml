@@ -625,7 +625,7 @@
     <string name="at_least_one_char">Her birinden en az bir karakter</string>
     <string name="exclude_ambiguous_chars">Belirsiz karakterleri hariç tut</string>
     <string name="lower_case">küçük harf</string>
-    <string name="passphrase">Parola</string>
+    <string name="passphrase">Parola cümlesi</string>
     <string name="colorize_password_title">Parolaları renklendir</string>
     <string name="entropy">Entropi: %1$s bit</string>
     <string name="entropy_high">Entropi: Yüksek</string>
