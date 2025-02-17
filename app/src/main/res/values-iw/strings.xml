@@ -521,7 +521,7 @@
     <string name="biometric_security_update_required">דרוש עדכון אבטחה ביומטרי.</string>
     <string name="data">נתונים</string>
     <string name="education_add_attachment_summary">העלה צרופה לרשומה שלך כדי לשמור מידע חיצוני חשוב.</string>
-    <string name="hide_expired_entries_summary">רשומות פגות תוקף לא מוצגות</string>
+    <string name="hide_expired_entries_summary">רשומות פגות תוקף אינן מוצגות</string>
     <string name="hide_broken_locations_summary">הסתר קישורים שבורים ברשימת מסדי הנתונים האחרונים</string>
     <string name="autofill_preference_title">הגדרות מילוי אוטומטי</string>
     <string name="autofill_application_id_blocklist_summary">רשימת אפליקציות חסומות למילוי אוטומטי</string>
@@ -641,4 +641,12 @@
     <string name="export_app_properties_title">יצא הגדרות יישום</string>
     <string name="export_app_properties_summary">צור קובץ לייצוא הגדרות יישום</string>
     <string name="error_export_app_properties">שגיאה במהלך ייצוא הגדרות יישום</string>
+    <string name="html_text_feature_generosity"><strong>הסגנון החזותי</strong> הזה זמין הודות לנדיבות שלך.</string>
+    <string name="html_text_dev_feature_contibute">על ידי <strong>תרומה</strong>,</string>
+    <string name="hide_templates_title">הסתר תבניות</string>
+    <string name="html_text_dev_feature_encourage">אתה מעודד מפתחים ליצור <strong>תכונות חדשות</strong> ול<strong>תקן באגים</strong> לפי דבריך.</string>
+    <string name="hide_templates_summary">תבניות אינן מוצגות</string>
+    <string name="html_text_dev_feature">תכונה זו נמצאת <strong>בפיתוח</strong> ודורשת את <strong>התרומה</strong> שלך כדי להיות זמינה בקרוב.</string>
+    <string name="style_choose_title">ערכת הנושא של היישום</string>
+    <string name="style_choose_summary">ערכת נושא בשימוש ביישום זה</string>
 </resources>
