@@ -649,4 +649,8 @@
     <string name="html_text_dev_feature">תכונה זו נמצאת <strong>בפיתוח</strong> ודורשת את <strong>התרומה</strong> שלך כדי להיות זמינה בקרוב.</string>
     <string name="style_choose_title">ערכת הנושא של היישום</string>
     <string name="style_choose_summary">ערכת נושא בשימוש ביישום זה</string>
+    <string name="generate_keyfile">צור קובץ מפתח</string>
+    <string name="nodes">צמתים</string>
+    <string name="recursive_number_entries_title">מספר רשומות רקורסיבי</string>
+    <string name="recursive_number_entries_summary">מחשב באופן רקורסיבי את מספר הרשומות בקבוצה</string>
 </resources>
