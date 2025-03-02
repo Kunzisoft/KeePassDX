@@ -30,7 +30,7 @@
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Configuració de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
-    <string name="file_manager_install_description">Es requereix un gestor de fitxers que accepti les intencions ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT per a crear, obrir i desar fitxers de base de dades.</string>
+    <string name="file_manager_install_description">Cal crear un gestor de fitxers que accepti les accions intencionals ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT per crear, obrir i desar fitxers de base de dades.</string>
     <string name="clipboard_cleared">Porta-retalls netejat</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls (si el teu dispositiu ho suporta)</string>
@@ -563,7 +563,7 @@
 \nEls grups (carpetes) organitzen entrades a la base de dades.</string>
     <string name="download_attachment">Baixa %1$s</string>
     <string name="download_progression">En curs: %1$d%%</string>
-    <string name="download_complete">S\'ha completat.</string>
+    <string name="download_complete">S\'ha completat!</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extreu la credencial de la base de dades amb les dades de desbloqueig del dispositiu</string>
     <string name="keyboard">Teclat</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -591,7 +591,7 @@
     <string name="remember_keyfile_locations_summary">Fa un seguiment d\'on s\'emmagatzemen els fitxers de claus</string>
     <string name="hide_broken_locations_title">Amaga els enllaços trencats de la base de dades</string>
     <string name="autofill_manual_selection_summary">Mostra l\'opció de permetre que l\'usuari seleccioni l\'entrada de la base de dades</string>
-    <string name="download_canceled">S\'ha cancel·lat.</string>
+    <string name="download_canceled">S\'ha cancel·lat!</string>
     <string name="do_not_kill_app">No matis l\'aplicació…</string>
     <string name="lock_database_screen_off_title">Bloqueig de pantalla</string>
     <string name="at_least_one_char">Com a mínim un caràcter de cada</string>
@@ -660,7 +660,7 @@
     <string name="education_unlock_title">Desbloqueja la base de dades</string>
     <string name="education_setup_OTP_summary">Configureu la gestió de contrasenyes d\'un sol ús (HOTP / TOTP) per generar un testimoni sol·licitat per a l\'autenticació de dos factors (2FA).</string>
     <string name="education_field_copy_title">Copia un camp</string>
-    <string name="html_text_donation">Per tal de mantenir la nostra llibertat i estar sempre actius, comptem amb la seva <strong>aportació. </strong></string>
+    <string name="html_text_donation">Al <strong>contribuir</strong> al projecte <i>(monetàriament, codi, traducció)</i>, l\'ajudareu a continuar vivint i prosperant, i també podreu optar al procediment de desbloqueig del <strong>tema</strong>.</string>
     <string name="upload_attachment">Puja %1$s</string>
     <string name="download_finalization">S\'està finalitzant…</string>
     <string name="entropy">Entropia: %1$s bit</string>
@@ -680,4 +680,20 @@
     <string name="education_read_only_summary">Canvieu el mode inaugural per a la sessió. \n \n\"Escriu-emparat\" impedeix canvis involuntaris a la base de dades. \n\"Modificable\" us permet afegir, eliminar o modificar tots els elements com vulgueu.</string>
     <string name="warning_database_info_changed_options_read_only">Torna a carregar la base de dades amb els darrers canvis.</string>
     <string name="warning_database_notification_permission">El permís de notificació permet mostrar l\'estat de la base de dades i bloquejar-la amb un botó de fàcil accés.\n\nSi no activeu aquest permís, la base de dades oberta en segon pla no serà visible si hi ha una altra aplicació en primer pla.</string>
+    <string name="html_text_buy_pro">En comprar la versió pro, tindreu accés a aquest <strong> estil visual</strong> i sereu ajundant especialment <strong> a la realització de projectes comunitaris.</strong></string>
+    <string name="html_text_dev_feature">Aquesta característica és <strong>en desenvolupament</strong> i requereix que la vostra <strong>contribució</strong> estigui disponible aviat.</string>
+    <string name="style_name_forest">Bosc</string>
+    <string name="style_name_divine">Divina</string>
+    <string name="style_name_classic">Clàssic</string>
+    <string name="style_name_reply">Respondre</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Seguiu el sistema</string>
+    <string name="hide_templates_title">Amaga les plantilles</string>
+    <string name="hide_templates_summary">Les plantilles no són mostrades</string>
+    <string name="html_text_dev_feature_encourage">esteu animant a qui desenvolupa a crear <strong>noves funcions</strong> i a <strong>corregir errors</strong> segons les vostres observacions.</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Lluna</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_light">Clar</string>
+    <string name="style_name_dark">Obscur</string>
 </resources>
