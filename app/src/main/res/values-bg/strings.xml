@@ -36,7 +36,7 @@
     <string name="contribution">Участие</string>
     <string name="entry_UUID">Идентификатор</string>
     <string name="entry_history">История</string>
-    <string name="copy_field">%1$s копие</string>
+    <string name="copy_field">Копирано: %1$s</string>
     <string name="clipboard_error_title">Грешка в клипборда</string>
     <string name="file_manager_install_description">За създаване, отваряне и запазване на файлове на хранилищата е необходимо приложение за управление на файлове, което приема действието ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT.</string>
     <string name="content_description_add_entry">Нов запис</string>
