@@ -151,7 +151,7 @@
     <string name="token">אסימון</string>
     <string name="public_key">מפתח ציבורי</string>
     <string name="private_key">מפתח פרטי</string>
-    <string name="seed">זרע</string>
+    <string name="seed">גרעין</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="secure_note">הערה מאובטחת</string>
     <string name="standard">רגיל</string>
