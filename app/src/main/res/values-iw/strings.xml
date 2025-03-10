@@ -154,7 +154,7 @@
     <string name="seed">זרע</string>
     <string name="international_bank_account_number">IBAN</string>
     <string name="secure_note">הערה מאובטחת</string>
-    <string name="standard">סטנדרטי</string>
+    <string name="standard">רגיל</string>
     <string name="membership">חברות</string>
     <string name="error_otp_digits">אסימון חייב להכיל %1$d עד %2$d ספרות.</string>
     <string name="content_description_database_color">צבע מסד הנתונים</string>
@@ -585,7 +585,7 @@
     <string name="style_name_kunzite">Kunzite</string>
     <string name="style_name_follow_system">עקוב אחרי המערכת</string>
     <string name="warning_database_revoked">סייר קבצים שלל את הגישה לקובץ, סגור את מסד הנתונים ופתח מחדש מהמיקום שלו.</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">בנייה %1$s</string>
     <string name="success_export_app_properties">הגדרות יישום יוצאו</string>
     <string name="at_least_one_char">לפחות תו אחד מכל סוג</string>
     <string name="warning_database_already_opened">מסד נתונים כבר פתוח, סגור אותו תחילה כדי לפתוח את החדש</string>
