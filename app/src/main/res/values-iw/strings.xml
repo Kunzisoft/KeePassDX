@@ -117,7 +117,7 @@
     <string name="rounds">סבבי טרנספורמציה</string>
     <string name="rounds_explanation">סבבי הצפנה נוספים מספקים הגנה גבוהה יותר נגד התקפות כוח גס, אבל יכולות ממש להאט את הטעינה והשמירה.</string>
     <string name="saving_database">שומר מסד נתונים…</string>
-    <string name="space">מקום</string>
+    <string name="space">רווח</string>
     <string name="sort_db">סדר טבעי</string>
     <string name="special">מיוחד</string>
     <string name="underline">קו תחתון</string>
@@ -236,7 +236,7 @@
 \nהוא ניתן כפי שהוא, תחת רישיון &lt;strong&gt;GPLv3&lt;/strong&gt;, ללא כל אחריות.</string>
     <string name="html_about_contribution">בכדי &lt;strong&gt;לשמור על החופש שלנו&lt;/strong&gt;, &lt;strong&gt;לתקן באגים&lt;/strong&gt;, &lt;strong&gt;להוסיף תכונות&lt;/strong&gt; &lt;strong&gt;ולהיות תמיד פעילים&lt;/strong&gt;, אנו סומכים על &lt;strong&gt;תרומתך&lt;/strong&gt;.</string>
     <string name="searchable">ניתן לחיפוש</string>
-    <string name="inherited">לָרֶשֶׁת</string>
+    <string name="inherited">ירושה</string>
     <string name="auto_type_sequence">רצף הקלדה אוטומטית</string>
     <string name="search_filters">מסנני חיפוש</string>
     <string name="case_sensitive">רגיש לאותיות גדולות וקטנות</string>
