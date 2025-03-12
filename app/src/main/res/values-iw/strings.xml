@@ -161,7 +161,7 @@
     <string name="content_description_entry_foreground_color">צבע חזית של רשומה</string>
     <string name="entry_UUID">מזהה ייחודי אוניברסלי (UUID)</string>
     <string name="entry_history">היסטוריה</string>
-    <string name="entry_attachments">קבצים מצורפים</string>
+    <string name="entry_attachments">צרופות</string>
     <string name="holder">מחזיק</string>
     <string name="number">מספר</string>
     <string name="email">דוא\"ל</string>
@@ -259,7 +259,7 @@
     <string name="error_duplicate_file">נתוני הקובץ כבר קיימים.</string>
     <string name="content_description_entry_background_color">צבע רקע של רשומה</string>
     <string name="validate">אימות</string>
-    <string name="entry_add_attachment">צרף קובץ</string>
+    <string name="entry_add_attachment">הוסף צרופה</string>
     <string name="content_description_remove_field">הסר שדה</string>
     <string name="content_description_update_from_list">עדכן</string>
     <string name="waiting_challenge_request">ממתין לבקשת האתגר…</string>
@@ -519,7 +519,7 @@
     <string name="hide_broken_locations_title">הסתר קישורי מסד נתונים שבורים</string>
     <string name="biometric_security_update_required">נדרש עדכון אבטחה ביומטרי.</string>
     <string name="data">נתונים</string>
-    <string name="education_add_attachment_summary">העלה קובץ מצורף לרשומה שלך כדי לשמור נתונים חיצוניים חשובים.</string>
+    <string name="education_add_attachment_summary">העלה צרופה לרשומה שלך כדי לשמור נתונים חיצוניים חשובים.</string>
     <string name="hide_expired_entries_summary">רשומות פגות תוקף אינן מוצגות</string>
     <string name="hide_broken_locations_summary">הסתר קישורים שבורים ברשימת מסדי הנתונים האחרונים</string>
     <string name="autofill_preference_title">הגדרות מילוי אוטומטי</string>
@@ -546,7 +546,7 @@
     <string name="advanced_unlock_tap_delete">הקש כדי למחוק מפתחות של ביטול נעילת מכשיר</string>
     <string name="advanced_unlock_delete_all_key_warning">למחוק את כל מפתחות ההצפנה הקשורים לזיהוי ביטול נעילת מכשיר?</string>
     <string name="database_data_remove_unlinked_attachments_title">הסר נתונים לא מקושרים</string>
-    <string name="database_data_remove_unlinked_attachments_summary">מסיר קבצים מצורפים המוכלים במסד הנתונים אך לא מקושרים לאף רשומה</string>
+    <string name="database_data_remove_unlinked_attachments_summary">מסיר צרופות המוכלות במסד הנתונים אך לא מקושרים לאף רשומה</string>
     <string name="keyboard_change">החלף מקלדת</string>
     <string name="keyboard_previous_database_credentials_title">מסך אישורי מסד נתונים</string>
     <string name="autofill_close_database_title">סגור מסד נתונים</string>
@@ -557,7 +557,7 @@
     <string name="autofill_web_domain_blocklist_summary">רשימת חסימה שמונעת מילוי אוטומטי של דומיינים ברשת</string>
     <string name="autofill_block_restart">אתחל מחדש את היישום המכיל את הטופס על מנת להפעיל את החסימה.</string>
     <string name="autofill_inline_suggestions_keyboard">נוספו הצעות מילוי אוטומטי.</string>
-    <string name="education_add_attachment_title">הוסף קובץ מצורף</string>
+    <string name="education_add_attachment_title">הוסף צרופה</string>
     <string name="style_brightness_title">בהירות ערכת נושא</string>
     <string name="style_brightness_summary">בחר ערכות נושא כהות או בהירות</string>
     <string name="hide_expired_entries_title">הסתר רשומות פגות תוקף</string>
