@@ -221,9 +221,9 @@
     <string name="content_description_add_item">הוסף פריט</string>
     <string name="content_description_add_group">הוסף קבוצה</string>
     <string name="content_description_add_entry">הוסף רשומה</string>
-    <string name="content_description_add_node">הוסף צומת (node)</string>
+    <string name="content_description_add_node">הוסף צומת</string>
     <string name="content_description_open_file">פתח קובץ</string>
-    <string name="content_description_node_children">ילדי צומת (node)</string>
+    <string name="content_description_node_children">ילדי צומת</string>
     <string name="content_description_background">רקע</string>
     <string name="contact">איש קשר</string>
     <string name="contribution">השתתפות</string>
@@ -405,7 +405,7 @@
     <string name="sort_last_modify_time">שינוי</string>
     <string name="encryption_explanation">אלגוריתם הצפנת מסד הנתונים המשמש לכל הנתונים</string>
     <string name="do_not_kill_app">אל תסגור את היישום…</string>
-    <string name="warning_permanently_delete_nodes">למחוק לצמיתות את הצמתים (nodes) שנבחרו?</string>
+    <string name="warning_permanently_delete_nodes">למחוק לצמיתות את הצמתים שנבחרו?</string>
     <string name="clipboard">לוח העתקה</string>
     <string name="database_opened">מסד הנתונים נפתח</string>
     <string name="education_entry_new_field_title">הוסף שדות מותאמים אישית</string>
@@ -534,7 +534,7 @@
     <string name="warning_sure_remove_data">להסיר את הנתונים האלה בכל מקרה?</string>
     <string name="warning_empty_keyfile">זה לא מומלץ להוסיף קובץ מפתח ריק.</string>
     <string name="warning_empty_keyfile_explanation">תוכן קובץ המפתח לעולם לא אמור להשתנות, ועדיף שיכיל נתונים שיוצרו רנדומלית.</string>
-    <string name="warning_empty_recycle_bin">למחוק לצמיתות את כל הצמתים (nodes) מסל המחזור?</string>
+    <string name="warning_empty_recycle_bin">למחוק לצמיתות את כל הצמתים מסל המחזור?</string>
     <string name="advanced_unlock_prompt_extract_credential_title">זיהוי ביטול נעילת מכשיר</string>
     <string name="advanced_unlock_prompt_extract_credential_message">חלץ אישור מסד נתונים עם נתוני ביטול נעילת מכשיר</string>
     <string name="advanced_unlock_invalid_key">לא ניתן לקרוא את מפתח ביטול נעילת המכשיר. נא למחוק אותו ולחזור על התהליך לזיהוי ביטול נעילה.</string>
@@ -649,7 +649,7 @@
     <string name="style_choose_title">ערכת הנושא של היישום</string>
     <string name="style_choose_summary">ערכת נושא בשימוש ביישום</string>
     <string name="generate_keyfile">צור קובץ מפתח</string>
-    <string name="nodes">צמתים (nodes)</string>
+    <string name="nodes">צמתים</string>
     <string name="recursive_number_entries_title">מספר רשומות רקורסיבי</string>
     <string name="recursive_number_entries_summary">מחשב באופן רקורסיבי את מספר הרשומות בקבוצה</string>
     <string name="autofill_manual_selection_summary">הצג אפשרות לאפשר למשתמש לבחור ערך מסד נתונים</string>
