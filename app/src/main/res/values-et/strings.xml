@@ -593,4 +593,12 @@
     <string name="biometric_auto_open_prompt_summary">Kui andmebaas on seadistatud kasutama nutiseadme-põhist lukustuse eemaldamist, siis ava autentimisvaade automaatselt</string>
     <string name="education_field_copy_title">Kopeeri välju</string>
     <string name="education_field_copy_summary">Kopeeritud väljade sisu saad asetada kõikjale.\n\nVäljade täitmiseks kasuta meetodist, mis sulle sobib. Ära unusta kopeeritud saalsõna lõikelaualt kustutada.</string>
+    <string name="unavailable">Pole saadaval</string>
+    <string name="error_challenge_already_requested">Autentimispäring on juba esitatud</string>
+    <string name="error_response_already_provided">Autentimisvastus on juba antud.</string>
+    <string name="error_no_response_from_challenge">Autentimisvastust ei õnnestu autentimispäringust tuletada.</string>
+    <string name="warning_database_notification_permission">Teevituste saatmise õigused võimaldavad sulle kuvada andmebaasi olekut ning lukustada seda lihtsalt ligipääsetvast nupust.\n\nKui sa seda õigust ei anna, siis taustal olev andmebaas pole nähtav, kui mõni muu rakendus on parasjagu esiplaanil.</string>
+    <string name="warning_keyfile_integrity">Kuna Android saab seda faili lennult muuta, siis tema räsiväärtus pole garanteeritud. Korraliku andmetervikluse tagamiseks muuda .bin faili laiendiks.</string>
+    <string name="warning_file_too_big">KeePassi andmebaas peaks sisaldama vaid väikseid manuseid (näiteks PGP võtmefaile).\n\nSelle faili lisamisega võib sinu andmebaas minna väga mahukaks ja sellega väheneb kasutusjõudlus ja -kiirus.</string>
+    <string name="keystore_not_accessible">Võtmehoidla pole korrektselt valmendatud.</string>
 </resources>
