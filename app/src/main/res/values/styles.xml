@@ -76,6 +76,7 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/forest_theme_light_primary</item>
         <item name="android:editTextColor">?attr/colorOnSurface</item>
+        <item name="android:textViewStyle">@style/KeepassDXStyle.TextView</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
@@ -171,6 +172,7 @@
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorPrimary">@color/forest_theme_night_primary</item>
         <item name="android:editTextColor">?attr/colorOnSurface</item>
+        <item name="android:textViewStyle">@style/KeepassDXStyle.TextView</item>
 
         <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
@@ -375,6 +377,10 @@
     </style>
 
     <!-- Text Style -->
+    <style name="KeepassDXStyle.TextView" parent="KeepassDXStyle.TextView.v17"/>
+    <style name="KeepassDXStyle.TextView.v17" parent="KeepassDXStyle.TextView.Base"/>
+    <style name="KeepassDXStyle.TextView.Base" parent="Widget.AppCompat.TextView"/>
+
     <style name="KeepassDXStyle.Text" parent="android:style/TextAppearance">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
