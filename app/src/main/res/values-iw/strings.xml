@@ -139,7 +139,7 @@
     <string name="content_description_passphrase_word_count">מספר מילים של ביטוי סיסמה</string>
     <string name="content_description_keyboard_close_fields">סגור שדות</string>
     <string name="auto_type">הקלדה אוטומטית</string>
-    <string name="wireless">Wi-Fi‮</string>
+    <string name="wireless">Wi-Fi</string>
     <string name="passphrase">ביטוי סיסמה</string>
     <string name="tags">תגים</string>
     <string name="otp_algorithm">אלגוריתם</string>
