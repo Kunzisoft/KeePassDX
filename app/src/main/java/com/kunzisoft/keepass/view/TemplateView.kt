@@ -179,6 +179,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
                         otpElement.type.name,
                         ProtectedString(false, otpElement.token)))
                 }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    textDirection = TEXT_DIRECTION_LTR
+                }
                 mLastOtpTokenView = this
                 mOtpRunnable = Runnable {
                     if (otpElement.shouldRefreshToken()) {
