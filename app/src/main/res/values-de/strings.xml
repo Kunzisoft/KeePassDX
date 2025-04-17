@@ -226,7 +226,7 @@
     <string name="education_create_database_title">Datenbankdatei erstellen</string>
     <string name="education_create_database_summary">Erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
-    <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiter zu verwenden.</string>
+    <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiterzuverwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen, digitale Konten zu verwalten.
 \n
