@@ -83,8 +83,8 @@
     <string name="list_size_summary">Розмір тексту у переліку груп</string>
     <string name="loading_database">Завантаження бази даних…</string>
     <string name="lowercase">Малі літери</string>
-    <string name="hide_password_title">Приховувати паролі</string>
-    <string name="hide_password_summary">Типово приховувати паролі за (***)</string>
+    <string name="hide_password_title">Ховати паролі</string>
+    <string name="hide_password_summary">Типово ховати паролі за (***)</string>
     <string name="about">Про KeePassDX</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
     <string name="settings">Налаштування</string>
@@ -92,7 +92,7 @@
     <string name="menu_delete">Видалити</string>
     <string name="menu_donate">Підтримати</string>
     <string name="menu_edit">Змінити</string>
-    <string name="menu_hide_password">Приховати пароль</string>
+    <string name="menu_hide_password">Сховати пароль</string>
     <string name="menu_lock">Заблокувати базу даних</string>
     <string name="menu_open">Відкрити</string>
     <string name="menu_search">Пошук</string>
@@ -160,8 +160,8 @@
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
     <string name="master_key">Головний ключ</string>
-    <string name="hide_broken_locations_summary">Приховувати пошкоджені посилання до недавніх баз даних</string>
-    <string name="hide_broken_locations_title">Приховувати пошкоджені посилання до баз даних</string>
+    <string name="hide_broken_locations_summary">Ховати пошкоджені посилання до недавніх баз даних</string>
+    <string name="hide_broken_locations_title">Ховати пошкоджені посилання до баз даних</string>
     <string name="show_recent_files_summary">Показувати розташування недавніх баз даних</string>
     <string name="show_recent_files_title">Показувати недавні файли</string>
     <string name="remember_keyfile_locations_summary">Відстеження місця зберігання файлів ключів</string>
@@ -249,7 +249,7 @@
     <string name="content_description_node_children">Дочірні вузли</string>
     <string name="unavailable_feature_hardware">Не вдалося знайти відповідне обладнання.</string>
     <string name="hide_expired_entries_summary">Застарілі записи не показано</string>
-    <string name="hide_expired_entries_title">Приховувати застарілі записи</string>
+    <string name="hide_expired_entries_title">Ховати застарілі записи</string>
     <string name="icon_pack_choose_summary">Набір піктограм застосунку</string>
     <string name="icon_pack_choose_title">Набір піктограм</string>
     <string name="style_choose_summary">Тема застосунку</string>
