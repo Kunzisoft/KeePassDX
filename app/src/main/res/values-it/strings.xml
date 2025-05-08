@@ -63,7 +63,7 @@
     <string name="entry_user_name">Nome utente</string>
     <string name="error_arc4">La codifica a flusso Arcfour non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePassDX non può gestire questo URI.</string>
-    <string name="error_file_not_create">Impossibile creare il file</string>
+    <string name="error_file_not_create">Impossibile creare il file.</string>
     <string name="error_invalid_db">Impossibile leggere il database.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
     <string name="error_no_name">Inserisci un nome.</string>
@@ -488,7 +488,7 @@
     <string name="save_mode">Modalità salvataggio</string>
     <string name="search_mode">Modalità ricerca</string>
     <string name="error_field_name_already_exists">Il nome del campo esiste già.</string>
-    <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura</string>
+    <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura.</string>
     <string name="configure_biometric">Nessuna credenziale biometrica o del dispositivo è registrata.</string>
     <string name="education_advanced_unlock_summary">Collega la password alla tua autenticazione biometrica (o del dispositivo) per sbloccare velocemente il database.</string>
     <string name="education_advanced_unlock_title">Sblocco del database con dispositivo</string>
@@ -544,9 +544,9 @@
     <string name="error_file_to_big">Il file che stai cercando di caricare è troppo grande.</string>
     <string name="error_start_database_action">Si è verificato un errore durante l\'esecuzione di una azione sul database.</string>
     <string name="properties">Proprietà</string>
-    <string name="error_export_app_properties">Errore durante l\'esportazione delle impostazioni dell\'app</string>
+    <string name="error_export_app_properties">Errore durante l\'esportazione delle impostazioni dell\'app.</string>
     <string name="success_export_app_properties">Impostazioni dell\'app esportate</string>
-    <string name="error_import_app_properties">Errore durante l\'importazione delle impostazioni dell\'app</string>
+    <string name="error_import_app_properties">Errore durante l\'importazione delle impostazioni dell\'app.</string>
     <string name="success_import_app_properties">Impostazioni dell\'app importate</string>
     <string name="description_app_properties">Proprietà di KeePassDX per gestire le impostazioni dell\'app</string>
     <string name="export_app_properties_summary">Crea un file in cui esportare le impostazioni dell\'app</string>
@@ -650,7 +650,7 @@
     <string name="corrupted_file">File danneggiato.</string>
     <string name="enable_screenshot_mode_summary">Consenti alle app di terze parti di registrare o acquisire schermate dell\'app</string>
     <string name="error_cancel_by_user">Annullato dall\'utente.</string>
-    <string name="error_unable_merge_database_kdb">Impossibile unire con un file database kdb</string>
+    <string name="error_unable_merge_database_kdb">Impossibile unire con un file database kdb.</string>
     <string name="error_location_unknown">Il percorso del database è sconosciuto, non è possibile eseguire l\'azione sul database.</string>
     <string name="remember_hardware_key_title">Ricorda le chiavi hardware</string>
     <string name="remember_hardware_key_summary">Tiene traccia delle chiavi hardware usate</string>
@@ -660,7 +660,7 @@
     <string name="hardware_key">Chiave hardware</string>
     <string name="error_no_hardware_key">Seleziona una chiave hardware.</string>
     <string name="error_XML_malformed">XML malformato.</string>
-    <string name="error_challenge_already_requested">Verifica già richiesta</string>
+    <string name="error_challenge_already_requested">Verifica già richiesta.</string>
     <string name="error_response_already_provided">Risposta già fornita.</string>
     <string name="error_no_response_from_challenge">Impossibile ottenere una risposta dalla verifica.</string>
     <string name="error_driver_required">È necessario un driver per %1$s.</string>

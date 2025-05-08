@@ -74,7 +74,7 @@
     <string name="file_not_found_content">Nije moguće pronaći datoteku. Pokušajte ponovo da je otvorite iz svog pregledača datoteka.</string>
     <string name="field_value">Vrednost polja</string>
     <string name="field_name">Naziv polja</string>
-    <string name="error_registration_read_only">Čuvanje nove stavke nije dozvoljeno u bazi podataka koja je samo za čitanje</string>
+    <string name="error_registration_read_only">Čuvanje nove stavke nije dozvoljeno u bazi podataka koja je samo za čitanje.</string>
     <string name="error_string_type">Ovaj tekst se ne podudara sa traženom stavkom.</string>
     <string name="error_otp_period">Broj sekundi perioda mora biti u opsegu od %1$d do %2$d.</string>
     <string name="error_otp_digits">Broj cifara tokena mora biti u opsegu od %1$d do %2$d.</string>
@@ -100,7 +100,7 @@
     <string name="error_invalid_OTP">Nevažeća OTP tajna.</string>
     <string name="error_invalid_path">Proverite da li je putanja ispravna.</string>
     <string name="error_invalid_db">Nije moguće pročitati bazu podataka.</string>
-    <string name="error_file_not_create">Nije moguće kreirati datoteku</string>
+    <string name="error_file_not_create">Nije moguće kreirati datoteku.</string>
     <string name="error_can_not_handle_uri">Nije moguće obraditi ovaj URI u keePassDX-u.</string>
     <string name="error_arc4">Archfour šifrovanje nije podržano.</string>
     <string name="entry_user_name">Korisničko ime</string>
@@ -312,7 +312,7 @@
     <string name="bank_name">Ime banke</string>
     <string name="version">Verzija</string>
     <string name="error_remove_file">Došlo je do greške pri uklanjanju podataka iz datoteke.</string>
-    <string name="error_challenge_already_requested">Izazov je već zahtevan</string>
+    <string name="error_challenge_already_requested">Izazov je već zahtevan.</string>
     <string name="error_hardware_key_unsupported">Hardverski ključ nije podržan.</string>
     <string name="error_empty_key">Ključ ne može biti prazan.</string>
     <string name="colorize_password_summary">Obojite znakove lozinke po tipu</string>
@@ -326,7 +326,7 @@
     <string name="rounds_explanation">Dodatne runde šifrovanja pružaju veću zaštitu od napada grube sile, ali zaista mogu usporiti učitavanje i čuvanje.</string>
     <string name="memory_usage_explanation">Količina memorije koju će koristiti funkcija izvođenja ključa.</string>
     <string name="space">Razmak</string>
-    <string name="error_unable_merge_database_kdb">Nije moguće spojiti sa kdb datotekom baze podataka</string>
+    <string name="error_unable_merge_database_kdb">Nije moguće spojiti sa kdb datotekom baze podataka.</string>
     <string name="error_location_unknown">Lokacija baze podataka je nepoznata, radnja baze podataka se ne može izvršiti.</string>
     <string name="corrupted_file">Oštećena datoteka.</string>
     <string name="colorize_password_title">Obojite lozinke</string>
@@ -340,7 +340,7 @@
     <string name="remember_database_locations_title">Zapamtite lokacije baza podataka</string>
     <string name="remember_hardware_key_title">Zapamtite hardverske ključeve</string>
     <string name="remember_hardware_key_summary">Vodi evidenciju o korišćenim hardverskim ključevima</string>
-    <string name="error_import_app_properties">Greška tokom uvoza podešavanja aplikacije</string>
+    <string name="error_import_app_properties">Greška tokom uvoza podešavanja aplikacije.</string>
     <string name="hide_broken_locations_title">Sakrij neispravne veze baze podataka</string>
     <string name="import_app_properties_title">Uvezite podešavanja aplikacije</string>
     <string name="description_app_properties">KeePassDX svojstva za upravljanje podešavanjima aplikacije</string>
@@ -405,7 +405,7 @@
     <string name="subdomain_search_title">Pretraga poddomena</string>
     <string name="progress_create">Pravljenje nove baze podataka…</string>
     <string name="read_only">Zaštićeno od pisanja</string>
-    <string name="error_export_app_properties">Greška tokom izvoza podešavanja aplikacije</string>
+    <string name="error_export_app_properties">Greška tokom izvoza podešavanja aplikacije.</string>
     <string name="contains_duplicate_uuid">Baza podataka sadrži duplirane UUID-ove.</string>
     <string name="contains_duplicate_uuid_procedure">Rešiti problem generisanjem novih UUID-ova za nastavak duplikata?</string>
     <string name="search_mode">Režim pretrage</string>

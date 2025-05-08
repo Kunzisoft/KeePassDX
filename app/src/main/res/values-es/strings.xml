@@ -58,7 +58,7 @@
     <string name="entry_user_name">ID Usuario</string>
     <string name="error_arc4">No se admite el cifrador de flujo Arcfour.</string>
     <string name="error_can_not_handle_uri">KeePassDX no ha podido gestionar este URI.</string>
-    <string name="error_file_not_create">No se ha podido crear el archivo</string>
+    <string name="error_file_not_create">No se ha podido crear el archivo.</string>
     <string name="error_invalid_db">No se ha podido leer la base de datos.</string>
     <string name="error_invalid_path">Asegúrese que la ruta es correcta.</string>
     <string name="error_no_name">Introduzca un nombre.</string>
@@ -469,7 +469,7 @@
     <string name="contains_duplicate_uuid_procedure">¿Solucionar el problema generando nuevos UUID para que los duplicados continúen?</string>
     <string name="menu_keystore_remove_key">Borrar la clave de desbloqueo del dispositivo</string>
     <string name="error_field_name_already_exists">El nombre del campo ya existe.</string>
-    <string name="error_registration_read_only">Guardar un nuevo elemento no está permitido en una base de datos de sólo lectura</string>
+    <string name="error_registration_read_only">Guardar un nuevo elemento no está permitido en una base de datos de sólo lectura.</string>
     <string name="settings_database_recommend_changing_master_key_title">Recomendar renovar</string>
     <string name="max_history_size_summary">Limitar el tamaño del historial por apunte</string>
     <string name="max_history_items_summary">Limitar el número de elementos del historial por apunte</string>
@@ -536,8 +536,8 @@
     <string name="style_brightness_summary">Seleccionar temas oscuros o claros</string>
     <string name="style_brightness_title">Brillo del tema</string>
     <string name="properties">Propiedades</string>
-    <string name="error_import_app_properties">Error al importar la configuración de la aplicación</string>
-    <string name="error_export_app_properties">Error al exportar la configuración de la aplicación</string>
+    <string name="error_import_app_properties">Error al importar la configuración de la aplicación.</string>
+    <string name="error_export_app_properties">Error al exportar la configuración de la aplicación.</string>
     <string name="success_export_app_properties">Exportada la configuración de la aplicación</string>
     <string name="success_import_app_properties">Importada la configuración de la aplicación</string>
     <string name="export_app_properties_summary">Crea un archivo para exportar las propiedades de la aplicación</string>
@@ -646,14 +646,14 @@
     <string name="screenshot_mode_banner_text">Modo captura de pantalla</string>
     <string name="error_hardware_key_unsupported">La llave por hardware no es compatible.</string>
     <string name="html_about_privacy">&lt;strong&gt;No se recupera ningún dato del usuario&lt;/strong&gt;, esta aplicación no se conecta a ningún servidor, funciona solo localmente y respeta plenamente la privacidad de los usuarios.</string>
-    <string name="error_unable_merge_database_kdb">No se puede fusionar con un archivo de base de datos kdb</string>
+    <string name="error_unable_merge_database_kdb">No se puede fusionar con un archivo de base de datos kdb.</string>
     <string name="error_cancel_by_user">Cancelado por el usuario.</string>
     <string name="error_no_response_from_challenge">No se puede obtener la respuesta del desafío.</string>
     <string name="auto_type">Auto-teclear</string>
     <string name="hardware_key">Llave física</string>
     <string name="error_no_hardware_key">Seleccione una llave física.</string>
     <string name="error_XML_malformed">XML incorrecto.</string>
-    <string name="error_challenge_already_requested">Desafío ya solicitado</string>
+    <string name="error_challenge_already_requested">Desafío ya solicitado.</string>
     <string name="error_response_already_provided">Respuesta ya recibida.</string>
     <string name="error_driver_required">Se necesita un controlador para %1$s.</string>
     <string name="error_location_unknown">Se desconoce la ubicación de la base de datos, no puede realizar la acción de base de datos.</string>

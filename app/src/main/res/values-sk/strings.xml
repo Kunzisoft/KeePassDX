@@ -57,7 +57,7 @@
     <string name="entry_user_name">Meno používateľa</string>
     <string name="error_arc4">Arcfour stream šifra nie je podporovaná.</string>
     <string name="error_can_not_handle_uri">KeePassDX nevie použiť túto URI.</string>
-    <string name="error_file_not_create">Nepodarilo sa vytvoriť súbor</string>
+    <string name="error_file_not_create">Nepodarilo sa vytvoriť súbor.</string>
     <string name="error_invalid_db">Nepodarilo sa načítať databázu.</string>
     <string name="error_invalid_path">Uistite sa, že cesta je správna.</string>
     <string name="error_no_name">Vložte meno.</string>
@@ -201,7 +201,7 @@
     <string name="colorize_password_summary">Vyfarbit znaky hesla podľa typu</string>
     <string name="menu_external_icon">Externá ikona</string>
     <string name="remember_database_locations_title">Zapamätať si umiestnenie databáz</string>
-    <string name="error_export_app_properties">Chyba pri exportovaní nastavení aplikácie</string>
+    <string name="error_export_app_properties">Chyba pri exportovaní nastavení aplikácie.</string>
     <string name="memory_usage_explanation">Veľkosť pamäte, ktorú má použiť funkcia odvodenia kľúča.</string>
     <string name="warning_database_already_opened">Databáza je už otvorená, najskôr ju zatvorte, aby ste otvorili novú</string>
     <string name="warning_file_too_big">Databáza KeePass má obsahovať iba malé pomocné súbory (ako sú súbory kľúčov PGP).
@@ -429,7 +429,7 @@
     <string name="error_save_database">Databázu sa nepodarilo uložiť.</string>
     <string name="error_otp_secret_key">Tajný kľúč musí byť vo formáte Base32.</string>
     <string name="error_start_database_action">Pri vykonávaní akcie s databázou sa vyskytla chyba.</string>
-    <string name="error_challenge_already_requested">Výzva už bola vyžiadaná</string>
+    <string name="error_challenge_already_requested">Výzva už bola vyžiadaná.</string>
     <string name="file_not_found_content">Nepodarilo sa nájsť súbor. Skúste ho znova otvoriť z prehliadača súborov.</string>
     <string name="list_entries_show_username_summary">Zobrazuje používateľské mená v zoznamoch záznamov</string>
     <string name="list_groups_show_number_entries_title">Zobraziť počet záznamov</string>
@@ -510,7 +510,7 @@
     <string name="email_address">Email adresa</string>
     <string name="wireless">Wi-Fi</string>
     <string name="ssid">SSID</string>
-    <string name="error_registration_read_only">Ukladanie novej položky nie je povolené v databáze iba na čítanie</string>
+    <string name="error_registration_read_only">Ukladanie novej položky nie je povolené v databáze iba na čítanie.</string>
     <string name="error_field_name_already_exists">Názov poľa už existuje.</string>
     <string name="error_database_uri_null">Identifikátor URI databázy nie je možné získať.</string>
     <string name="error_rebuild_list">Zoznam nie je možné správne vytvoriť.</string>
@@ -577,7 +577,7 @@
     <string name="hide_broken_locations_title">Skryť nefunkčné odkazy na databázu</string>
     <string name="hide_broken_locations_summary">Skryť nefunkčné odkazy v zozname najnovších databáz</string>
     <string name="import_app_properties_title">Importujte nastavenia aplikácie</string>
-    <string name="error_import_app_properties">Chyba pri importovaní nastavení aplikácie</string>
+    <string name="error_import_app_properties">Chyba pri importovaní nastavení aplikácie.</string>
     <string name="export_app_properties_title">Exportujte nastavenia aplikácie</string>
     <string name="export_app_properties_summary">Vytvorte súbor na export nastavení aplikácie</string>
     <string name="sort_title">Nadpis</string>

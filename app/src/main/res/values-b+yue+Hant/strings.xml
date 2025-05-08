@@ -89,7 +89,7 @@
     <string name="entry_otp">OTP</string>
     <string name="error_arc4">唔支援Arcfour stream密碼。</string>
     <string name="error_can_not_handle_uri">KeePassDX 處理唔到呢個網址。</string>
-    <string name="error_file_not_create">新增唔到檔案</string>
+    <string name="error_file_not_create">新增唔到檔案。</string>
     <string name="error_invalid_db">讀取唔到資料庫。</string>
     <string name="error_invalid_path">請確保路徑正確。</string>
     <string name="error_invalid_OTP">無效 OTP 密鑰。</string>

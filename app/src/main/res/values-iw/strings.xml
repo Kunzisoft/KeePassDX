@@ -59,7 +59,7 @@
     <string name="entry_user_name">שם משתמש</string>
     <string name="error_arc4">צופן זרם Arcfour אינו נתמך.</string>
     <string name="error_can_not_handle_uri">KeePassDX לא יכול לטפל ב-URI הזה.</string>
-    <string name="error_file_not_create">לא הצליח ליצור קובץ</string>
+    <string name="error_file_not_create">לא הצליח ליצור קובץ.</string>
     <string name="error_invalid_db">לא ניתן לקרוא את מסד הנתונים.</string>
     <string name="error_invalid_path">ודא שהנתיב נכון.</string>
     <string name="error_no_name">הכנס שם.</string>
@@ -191,20 +191,20 @@
     <string name="error_copy_entry_here">אינך יכול להעתיק ערך כאן.</string>
     <string name="error_otp_counter">המונה חייב להיות בין %1$d ל-%2$d.</string>
     <string name="error_otp_period">טווח הזמן חייב להיות בין %1$d ל-%2$d שניות.</string>
-    <string name="error_registration_read_only">שמירה של פריט חדש אינה מותרת במסד נתונים עם קריאה בלבד</string>
+    <string name="error_registration_read_only">שמירה של פריט חדש אינה מותרת במסד נתונים עם קריאה בלבד.</string>
     <string name="error_string_type">טקסט זה אינו תואם את הפריט המבוקש.</string>
     <string name="error_field_name_already_exists">שם השדה כבר קיים.</string>
     <string name="error_database_uri_null">לא ניתן לאחזר URI של מסד הנתונים.</string>
     <string name="error_rebuild_list">לא ניתן לבנות מחדש את הרשימה כראוי.</string>
     <string name="error_upload_file">אירעה שגיאה בעת העלאת נתוני הקובץ.</string>
     <string name="error_start_database_action">אירעה שגיאה בעת ביצוע פעולה על מסד הנתונים.</string>
-    <string name="error_challenge_already_requested">האתגר כבר התבקש</string>
+    <string name="error_challenge_already_requested">האתגר כבר התבקש.</string>
     <string name="error_response_already_provided">תגובה כבר ניתנה.</string>
     <string name="error_no_response_from_challenge">לא ניתן לקבל את התגובה מהאתגר.</string>
     <string name="error_cancel_by_user">בוטל על ידי המשתמש.</string>
     <string name="error_driver_required">נדרש מנהל התקן עבור %1$s.</string>
     <string name="error_location_unknown">מיקום מסד הנתונים אינו ידוע, לא ניתן לבצע פעולת מסד נתונים.</string>
-    <string name="error_unable_merge_database_kdb">לא ניתן למזג עם קובץ מסד נתונים kdb</string>
+    <string name="error_unable_merge_database_kdb">לא ניתן למזג עם קובץ מסד נתונים kdb.</string>
     <string name="error_hardware_key_unsupported">מפתח פיזי אינו נתמך.</string>
     <string name="error_empty_key">המפתח לא יכול להיות ריק.</string>
     <string name="file_not_found_content">לא ניתן למצוא את הקובץ. נסה לפתוח אותו מחדש מסייר הקבצים שלך.</string>
@@ -580,7 +580,7 @@
     <string name="success_import_app_properties">הגדרות יישום יובאו</string>
     <string name="sort_title">כותרת</string>
     <string name="description_app_properties">מאפייני KeePassDX לניהול הגדרות יישום</string>
-    <string name="error_import_app_properties">שגיאה במהלך יבוא הגדרות יישום</string>
+    <string name="error_import_app_properties">שגיאה במהלך יבוא הגדרות יישום.</string>
     <string name="style_name_divine">שמיימי</string>
     <string name="style_name_classic">קלאסי</string>
     <string name="style_name_kunzite">Kunzite</string>
@@ -640,5 +640,5 @@
     <string name="import_app_properties_title">יבא הגדרות יישום</string>
     <string name="export_app_properties_title">יצא הגדרות יישום</string>
     <string name="export_app_properties_summary">צור קובץ לייצוא הגדרות יישום</string>
-    <string name="error_export_app_properties">שגיאה במהלך ייצוא הגדרות יישום</string>
+    <string name="error_export_app_properties">שגיאה במהלך ייצוא הגדרות יישום.</string>
 </resources>

@@ -150,7 +150,7 @@
     <string name="template">Gjedhe</string>
     <string name="entry_otp">OTP</string>
     <string name="entry_user_name">Emër përdoruesi</string>
-    <string name="error_file_not_create">S’u krijua dot kartelë</string>
+    <string name="error_file_not_create">S’u krijua dot kartelë.</string>
     <string name="error_invalid_db">S’u lexua dot baza e të dhënave.</string>
     <string name="error_invalid_OTP">E fshehtë OTP e pavlefshme.</string>
     <string name="error_no_name">Jepni një emër.</string>
@@ -174,7 +174,7 @@
     <string name="error_remove_file">Ndodhi një gabim teksa hiqeshin të dhëna kartele.</string>
     <string name="error_start_database_action">Ndodhi një gabim teksa kryhej një veprim te baza e të dhënave.</string>
     <string name="error_cancel_by_user">Anuluar nga përdoruesi.</string>
-    <string name="error_unable_merge_database_kdb">S’arrihet të përzihet me një kartelë baze të dhënash kdb</string>
+    <string name="error_unable_merge_database_kdb">S’arrihet të përzihet me një kartelë baze të dhënash kdb.</string>
     <string name="field_name">Emër fushe</string>
     <string name="field_value">Vlerë fushe</string>
     <string name="corrupted_file">Kartelë e dëmtuar.</string>

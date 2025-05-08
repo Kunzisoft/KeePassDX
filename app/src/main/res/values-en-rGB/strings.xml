@@ -99,7 +99,7 @@
     <string name="otp_period">Period (seconds)</string>
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The Arcfour stream cipher is not supported.</string>
-    <string name="error_file_not_create">Could not create file</string>
+    <string name="error_file_not_create">Could not create file.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="entry_expires">Expires</string>
     <string name="expired">Expired</string>
@@ -177,7 +177,7 @@
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
     <string name="error_label_exists">This label already exists.</string>
-    <string name="error_challenge_already_requested">Challenge already requested</string>
+    <string name="error_challenge_already_requested">Challenge already requested.</string>
     <string name="error_response_already_provided">Response already provided.</string>
     <string name="error_no_response_from_challenge">Unable to get the response from the challenge.</string>
     <string name="error_cancel_by_user">Cancelled by user.</string>
@@ -223,7 +223,7 @@
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_string_type">This text does not match the requested item.</string>
-    <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database</string>
+    <string name="error_registration_read_only">Saving a new item is not allowed in a read-only database.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
     <string name="error_database_uri_null">Database URI cannot be retrieved.</string>
     <string name="error_field_name_already_exists">The field name already exists.</string>

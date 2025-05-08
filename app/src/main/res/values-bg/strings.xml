@@ -461,7 +461,7 @@
     <string name="invalid_algorithm">Грешен алгоритъм.</string>
     <string name="description_app_properties">Свойства за управление на настройките на KeePassDX</string>
     <string name="success_export_app_properties">Настройките на приложението са изнесени</string>
-    <string name="error_export_app_properties">Грешка при изнасяне на настройки</string>
+    <string name="error_export_app_properties">Грешка при изнасяне на настройки.</string>
     <string name="error_invalid_OTP">Неприемлива тайна за OTP.</string>
     <string name="error_no_name">Въведете име.</string>
     <string name="hide_broken_locations_summary">Скрива вече несъществуващи хранилища от списъка с последно отваряните</string>
@@ -478,7 +478,7 @@
     <string name="encryption_explanation">Алгоритъм за шифроване на цялата информация</string>
     <string name="memory_usage">Използвана памет</string>
     <string name="error_invalid_path">Уверете се, че пътят е правилен.</string>
-    <string name="error_import_app_properties">Грешка при внасяне на настройки</string>
+    <string name="error_import_app_properties">Грешка при внасяне на настройки.</string>
     <string name="parallelism">Паралелно изпълняване</string>
     <string name="success_import_app_properties">Настройките на приложението са внесени</string>
     <string name="read_only_warning">В зависимост от приложението за управление на файлове, KeePassDX може да няма права да пише в паметта на устройството.</string>
@@ -498,7 +498,7 @@
     <string name="lock_database_screen_off_title">Заключване на екрана</string>
     <string name="database_data_remove_unlinked_attachments_title">Премахване на несвързани данни</string>
     <string name="warning_sure_add_file">Добавяне на файла въпреки това?</string>
-    <string name="error_unable_merge_database_kdb">Не е възможно обединяване с хранилище във формат KBD</string>
+    <string name="error_unable_merge_database_kdb">Не е възможно обединяване с хранилище във формат KBD.</string>
     <string name="memory_usage_explanation">Количество памет, използвана от функцията за извличане на ключове.</string>
     <string name="warning_database_already_opened">Има отворено хранилище, затворете го, за да отворите друго</string>
     <string name="warning_replace_file">При добавяне на този файл ще бъде заменен вече съществуващ.</string>
@@ -571,7 +571,7 @@
     <string name="error_disallow_no_credentials">Трябва да има зададена най-малко една парола.</string>
     <string name="error_pass_match">Паролите се различават.</string>
     <string name="error_string_type">Текстът не съвпада с търсения елемент.</string>
-    <string name="error_registration_read_only">Нов запис не може да бъде добавен в хранилище, отворено само за четене</string>
+    <string name="error_registration_read_only">Нов запис не може да бъде добавен в хранилище, отворено само за четене.</string>
     <string name="error_start_database_action">Възникна грешка при извършване на действие с хранилището.</string>
     <string name="keyboard_entry_timeout_title">Време за изчакване</string>
     <string name="autofill_application_id_blocklist_title">Черен списък на приложения</string>

@@ -57,7 +57,7 @@
     <string name="entry_user_name">Ім\'я користувача</string>
     <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
     <string name="error_can_not_handle_uri">Не вдалось обробити цей URI в KeePassDX.</string>
-    <string name="error_file_not_create">Не вдалося створити нотатку</string>
+    <string name="error_file_not_create">Не вдалося створити нотатку.</string>
     <string name="error_invalid_db">Неможливо прочитати базу даних.</string>
     <string name="error_invalid_path">Переконайтеся у правильності шляху.</string>
     <string name="error_no_name">Введіть назву.</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">Режим реєстрації</string>
     <string name="save_mode">Режим збереження</string>
     <string name="search_mode">Режим пошуку</string>
-    <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
+    <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання.</string>
     <string name="error_field_name_already_exists">Назва поля вже існує.</string>
     <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розпізнаванням розблокування пристрою\?</string>
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
@@ -540,9 +540,9 @@
     <string name="error_remove_file">Сталася помилка під час вилучення даних файлу.</string>
     <string name="error_duplicate_file">Дані файлу вже існують.</string>
     <string name="properties">Властивості</string>
-    <string name="error_export_app_properties">Помилка під час експорту налаштувань застосунку</string>
+    <string name="error_export_app_properties">Помилка під час експорту налаштувань застосунку.</string>
     <string name="success_export_app_properties">Налаштування застосунку експортовано</string>
-    <string name="error_import_app_properties">Помилка під час імпорту налаштувань застосунку</string>
+    <string name="error_import_app_properties">Помилка під час імпорту налаштувань застосунку.</string>
     <string name="success_import_app_properties">Налаштування застосунку імпортовано</string>
     <string name="description_app_properties">Властивості KeePassDX для керування налаштування застосунку</string>
     <string name="export_app_properties_summary">Створити файл для експорту налаштувань застосунку</string>
@@ -649,7 +649,7 @@
     <string name="error_XML_malformed">Хибний XML.</string>
     <string name="error_response_already_provided">Відповідь уже надана.</string>
     <string name="error_driver_required">Вимагається драйвер для %1$s.</string>
-    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з файлом бази даних kdb</string>
+    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з файлом бази даних kdb.</string>
     <string name="remember_hardware_key_title">Пам\'ятати апаратні ключі</string>
     <string name="remember_hardware_key_summary">Пам\'ятати використовувані апаратні ключі</string>
     <string name="enable_screenshot_mode_title">Режим знімка екрана</string>
@@ -659,7 +659,7 @@
     <string name="error_hardware_key_unsupported">Апаратний ключ не підтримується.</string>
     <string name="waiting_challenge_response">Очікування відповіді на виклик…</string>
     <string name="error_no_hardware_key">Виберіть апаратний ключ.</string>
-    <string name="error_challenge_already_requested">Виклик уже запитаний</string>
+    <string name="error_challenge_already_requested">Виклик уже запитаний.</string>
     <string name="error_no_response_from_challenge">Не вдалося отримати відповідь на виклик.</string>
     <string name="error_cancel_by_user">Скасовано користувачем.</string>
     <string name="error_location_unknown">Розташування бази даних невідоме, дія бази даних не може бути виконана.</string>

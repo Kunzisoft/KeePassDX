@@ -59,7 +59,7 @@
     <string name="entry_user_name">Gebruikersnaam</string>
     <string name="error_arc4">De Arcfour stream-versleuteling wordt niet ondersteund.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan deze URI niet verwerken.</string>
-    <string name="error_file_not_create">Bestand is niet aangemaakt</string>
+    <string name="error_file_not_create">Bestand is niet aangemaakt.</string>
     <string name="error_invalid_db">Kan de database niet uitlezen.</string>
     <string name="error_invalid_path">Zorg ervoor dat het pad correct is.</string>
     <string name="error_no_name">Voer een naam in.</string>
@@ -487,7 +487,7 @@
     <string name="registration_mode">Registratiemodus</string>
     <string name="save_mode">Veilige modus</string>
     <string name="search_mode">Zoekmodus</string>
-    <string name="error_registration_read_only">Het opslaan van een nieuw item is niet toegestaan in een alleen-lezen database</string>
+    <string name="error_registration_read_only">Het opslaan van een nieuw item is niet toegestaan in een alleen-lezen database.</string>
     <string name="education_advanced_unlock_summary">Koppel je wachtwoord aan je gescande biometrische gegevens of apparaatreferentie om je database snel te ontgrendelen.</string>
     <string name="education_advanced_unlock_title">Apparaat-ontgrendeling database</string>
     <string name="enter">Enter</string>
@@ -542,9 +542,9 @@
     <string name="error_file_to_big">Het te uploaden bestand is te groot.</string>
     <string name="content_description_otp_information">Eenmalig wachtwoord-informatie</string>
     <string name="properties">Eigenschappen</string>
-    <string name="error_export_app_properties">Fout bij het exporteren van app-instellingen</string>
+    <string name="error_export_app_properties">Fout bij het exporteren van app-instellingen.</string>
     <string name="success_export_app_properties">App-instellingen geëxporteerd</string>
-    <string name="error_import_app_properties">Fout bij het importeren van app-instellingen</string>
+    <string name="error_import_app_properties">Fout bij het importeren van app-instellingen.</string>
     <string name="success_import_app_properties">App-instellingen geïmporteerd</string>
     <string name="description_app_properties">KeePassDX-eigenschappen om app-instellingen te beheren</string>
     <string name="export_app_properties_summary">Bestand voor export van app-instellingen aanmaken</string>
@@ -648,7 +648,7 @@
     <string name="content_description_nav_header">Navigatie-kop</string>
     <string name="hardware_key">Fysieke sleutel</string>
     <string name="error_XML_malformed">Misvormde XML.</string>
-    <string name="error_challenge_already_requested">Reactietest-vraag is al uitgegeven</string>
+    <string name="error_challenge_already_requested">Reactietest-vraag is al uitgegeven.</string>
     <string name="error_response_already_provided">Reactietest-antwoord is al geleverd.</string>
     <string name="error_no_response_from_challenge">Geen antwoord gekregen op de reactietest.</string>
     <string name="error_cancel_by_user">Geannuleerd door gebruiker.</string>
@@ -660,7 +660,7 @@
     <string name="enable_screenshot_mode_summary">Toestaan dat andere apps schermopnames maken van deze app</string>
     <string name="screenshot_mode_banner_text">Schermopname-modus</string>
     <string name="auto_type">Auto-Type</string>
-    <string name="error_unable_merge_database_kdb">Het is niet mogelijk je database samen te voegen met een kdb database</string>
+    <string name="error_unable_merge_database_kdb">Het is niet mogelijk je database samen te voegen met een kdb database.</string>
     <string name="error_no_hardware_key">Kies een fysieke sleutel.</string>
     <string name="remember_hardware_key_summary">Houdt de gebruikte fysieke sleutels bij</string>
     <string name="html_about_privacy">&lt;strong&gt;Er worden geen gebruikersgegevens opgehaald&lt;/strong&gt;, deze applicatie maakt geen verbinding met een server, werkt alleen lokaal en respecteert volledig de privacy van gebruikers.</string>

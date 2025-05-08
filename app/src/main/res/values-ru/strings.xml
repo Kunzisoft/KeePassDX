@@ -61,7 +61,7 @@
     <string name="entry_user_name">Пользователь</string>
     <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
     <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
-    <string name="error_file_not_create">Невозможно создать файл</string>
+    <string name="error_file_not_create">Невозможно создать файл.</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь, что путь указан правильно.</string>
     <string name="error_no_name">Введите название.</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">Режим регистрации</string>
     <string name="save_mode">Режим записи</string>
     <string name="search_mode">Режим поиска</string>
-    <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения</string>
+    <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения.</string>
     <string name="error_field_name_already_exists">Поле с таким названием уже существует.</string>
     <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
@@ -540,9 +540,9 @@
     <string name="error_duplicate_file">Данные файла уже существует.</string>
     <string name="error_remove_file">Ошибка при удалении данных файла.</string>
     <string name="properties">Свойства</string>
-    <string name="error_export_app_properties">Ошибка при экспорте настроек приложения</string>
+    <string name="error_export_app_properties">Ошибка при экспорте настроек приложения.</string>
     <string name="success_export_app_properties">Настройки приложения экспортированы</string>
-    <string name="error_import_app_properties">Ошибка при импорте настроек приложения</string>
+    <string name="error_import_app_properties">Ошибка при импорте настроек приложения.</string>
     <string name="success_import_app_properties">Настройки приложения импортированы</string>
     <string name="description_app_properties">Управление настройками приложения KeePassDX</string>
     <string name="export_app_properties_summary">Создать резервную копию настроек</string>
@@ -650,7 +650,7 @@
     <string name="error_no_hardware_key">Выберите аппаратный ключ.</string>
     <string name="error_cancel_by_user">Отменено пользователем.</string>
     <string name="error_response_already_provided">Ответ уже предоставлен.</string>
-    <string name="error_challenge_already_requested">Вызов уже запрошен</string>
+    <string name="error_challenge_already_requested">Вызов уже запрошен.</string>
     <string name="error_no_response_from_challenge">Невозможно получить ответ на вызов.</string>
     <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb.</string>
     <string name="error_hardware_key_unsupported">Аппаратный ключ не поддерживается.</string>

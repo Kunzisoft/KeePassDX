@@ -61,7 +61,7 @@
     <string name="entry_user_name">Όνομα χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης Arcfour δεν υποστηρίζεται.</string>
     <string name="error_can_not_handle_uri">Το KeePassDX δε μπορεί να χειριστεί αυτή τη διεύθυνση URI.</string>
-    <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου</string>
+    <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου.</string>
     <string name="error_invalid_db">Δεν ήταν δυνατή η ανάγνωση της βάσης δεδομένων.</string>
     <string name="error_invalid_path">Βεβαιωθείτε ότι η διαδρομή είναι σωστή.</string>
     <string name="error_no_name">Εισαγάγετε ένα όνομα.</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">Τρόπος εγγραφής</string>
     <string name="save_mode">Λειτουργία αποθήκευσης</string>
     <string name="search_mode">Λειτουργία αναζήτησης</string>
-    <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
+    <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση.</string>
     <string name="error_field_name_already_exists">Το όνομα πεδίου υπάρχει ήδη.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Σύνδεσμος για ξεκλείδωμα συσκευής</string>
     <string name="advanced_unlock_prompt_store_credential_message">Θα πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήρια της κρύπτης εάν χρησιμοποιείτε την αναγνώριση ξεκλειδώματος συσκευής.</string>
@@ -540,9 +540,9 @@
     <string name="error_remove_file">Παρουσιάστηκε σφάλμα κατά την κατάργηση των δεδομένων αρχείου.</string>
     <string name="error_duplicate_file">Τα δεδομένα αρχείου υπάρχουν ήδη.</string>
     <string name="properties">Ιδιότητες</string>
-    <string name="error_export_app_properties">Σφάλμα κατά την εξαγωγή ρυθμίσεων εφαρμογής</string>
+    <string name="error_export_app_properties">Σφάλμα κατά την εξαγωγή ρυθμίσεων εφαρμογής.</string>
     <string name="success_export_app_properties">Έγινε εξαγωγή ρυθμίσεων εφαρμογής</string>
-    <string name="error_import_app_properties">Σφάλμα κατά την εισαγωγή ρυθμίσεων εφαρμογής</string>
+    <string name="error_import_app_properties">Σφάλμα κατά την εισαγωγή ρυθμίσεων εφαρμογής.</string>
     <string name="success_import_app_properties">Έγινε εισαγωγή ρυθμίσεων εφαρμογής</string>
     <string name="description_app_properties">Ιδιότητες KeePassDX για διαχείριση ρυθμίσεων εφαρμογής</string>
     <string name="export_app_properties_summary">Δημιουργήστε ένα αρχείο για εξαγωγή ρυθμίσεων εφαρμογής</string>
@@ -659,10 +659,10 @@
     <string name="error_no_response_from_challenge">Δεν είναι δυνατή η λήψη της απάντησης από την πρόκληση.</string>
     <string name="enable_screenshot_mode_title">Λειτουργία στιγμιότυπου οθόνης</string>
     <string name="screenshot_mode_banner_text">Λειτουργία στιγμιότυπου οθόνης</string>
-    <string name="error_challenge_already_requested">Η πρόκληση έχει ήδη ζητηθεί</string>
+    <string name="error_challenge_already_requested">Η πρόκληση έχει ήδη ζητηθεί.</string>
     <string name="error_response_already_provided">Η απάντηση έχει ήδη δοθεί.</string>
     <string name="error_location_unknown">Η θέση της βάσης δεδομένων είναι άγνωστη, η ενέργεια της βάσης δεδομένων δεν μπορεί να εκτελεστεί.</string>
-    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση με μια βάση δεδομένων kdb</string>
+    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση με μια βάση δεδομένων kdb.</string>
     <string name="error_empty_key">Το κλειδί δεν μπορεί να είναι κενό.</string>
     <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>

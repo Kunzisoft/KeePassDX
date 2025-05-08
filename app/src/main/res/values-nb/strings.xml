@@ -64,7 +64,7 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">Arcfour-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan ikke håntere denne URI-en.</string>
-    <string name="error_file_not_create">Kunne ikke opprette fil</string>
+    <string name="error_file_not_create">Kunne ikke opprette fil.</string>
     <string name="error_invalid_db">Kunne ikke lese databasen.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
     <string name="error_no_name">Et navn er påkrevd.</string>
@@ -511,9 +511,9 @@
 \nDatabasen din kan bli veldig stor og få redusert ytelse med denne opplastingen.</string>
     <string name="warning_empty_keyfile_explanation">Innholdet i nøkkelfilen bør aldri endre seg, og skal helst inneholde kun tilfeldig generert data.</string>
     <string name="warning_database_revoked">Tilgang til filen ble tilbakekalt av filbehandleren. Lukk databasen og åpne den igjen fra dens posisjon.</string>
-    <string name="error_import_app_properties">Feil under import av appinnstillinger</string>
+    <string name="error_import_app_properties">Feil under import av appinnstillinger.</string>
     <string name="success_export_app_properties">Appinnstillinger er eksportert</string>
-    <string name="error_export_app_properties">Feil under eksport av appinnstillinger</string>
+    <string name="error_export_app_properties">Feil under eksport av appinnstillinger.</string>
     <string name="place_of_issue">Utsteder</string>
     <string name="cryptocurrency">Kryptovaluta-lommebok</string>
     <string name="seed">Utgangspunkt</string>
@@ -646,7 +646,7 @@
     <string name="current_group">Nåværende gruppe</string>
     <string name="case_sensitive">Versalsensitiv</string>
     <string name="regex">Regulært uttrykk</string>
-    <string name="error_challenge_already_requested">Utfordring allerede forespurt</string>
+    <string name="error_challenge_already_requested">Utfordring allerede forespurt.</string>
     <string name="error_response_already_provided">Svar er allerede gitt.</string>
     <string name="error_no_response_from_challenge">Klarer ikke å få svar fra utfordringen.</string>
     <string name="error_cancel_by_user">Kansellert av bruker.</string>
