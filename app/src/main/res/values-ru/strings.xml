@@ -266,7 +266,7 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих других приложений управления паролями, здесь &lt;strong&gt;нет рекламы&lt;/strong&gt;, и оно &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Приложение не собирает ваши личные данные на своих серверах независимо от версии, которую вы используете.</string>
-    <string name="html_text_buy_pro">Купите pro–версию и откройте доступ к этой <strong>теме</strong>. Покупая pro-версию, вы помогаете <strong>разработчикам открытого ПО</strong>.</string>
+    <string name="html_text_buy_pro">Купите pro–версию и откройте доступ к этой <strong>теме</strong>. Покупая pro-версию, вы помогаете <strong>разработчикам открытого ПО</strong></string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
     <string name="html_text_donation">Произведя <strong>вклад</strong> в проект <i>(в денежном выражении, программным кодом или переводом)</i>, вы поможете ему жить и процветать, а также получите право на разблокировку <strong>тем</strong>.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
@@ -652,7 +652,7 @@
     <string name="error_response_already_provided">Ответ уже предоставлен.</string>
     <string name="error_challenge_already_requested">Вызов уже запрошен</string>
     <string name="error_no_response_from_challenge">Невозможно получить ответ на вызов.</string>
-    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb.</string>
+    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb</string>
     <string name="error_hardware_key_unsupported">Аппаратный ключ не поддерживается.</string>
     <string name="error_empty_key">Ключ не может быть пустым.</string>
     <string name="corrupted_file">Файл повреждён.</string>
