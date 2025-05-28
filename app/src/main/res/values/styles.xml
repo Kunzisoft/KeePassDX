@@ -286,7 +286,7 @@
 
     <!-- Dialog -->
     <style name="KeepassDXStyle.Light.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="android:background">?attr/dialogBackgroundColor</item>
+        <item name="android:windowBackground">?attr/dialogBackgroundColor</item>
         <item name="background">?attr/dialogBackgroundColor</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="dialogCornerRadius">@dimen/dialog_radius</item>
@@ -301,7 +301,7 @@
     </style>
 
     <style name="KeepassDXStyle.Night.Dialog" parent="ThemeOverlay.Material3.Dialog.Alert">
-        <item name="android:background">?attr/dialogBackgroundColor</item>
+        <item name="android:windowBackground">?attr/dialogBackgroundColor</item>
         <item name="background">?attr/dialogBackgroundColor</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
         <item name="dialogCornerRadius">@dimen/dialog_radius</item>
