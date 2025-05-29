@@ -1,4 +1,4 @@
- * Correction des themes / Nouvelle interface utilisateur
+* Correction des themes / Nouvelle interface utilisateur
  * Correction des notifications multiples
  * Correction de l'entrée dans la mémoire du Magiclavier
  * Correction de la visibilité de la vue biométrique

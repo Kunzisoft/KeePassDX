@@ -1,4 +1,4 @@
- * Nouveau workflow de base de données avec nouveaux écrans et sélection de dossier
+* Nouveau workflow de base de données avec nouveaux écrans et sélection de dossier
  * Paramètres pour la génération de mots de passe
  * Dialogue d'empreinte digitale pour les explications
  * Paramètre pour désactiver l'empreinte digitale

@@ -1,1 +1,1 @@
- * Correction du bug de fichier de clé #820
+* Correction du bug de fichier de clé #820

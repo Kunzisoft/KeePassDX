@@ -1,4 +1,4 @@
- * Génération de fichier de clé #1290
+* Génération de fichier de clé #1290
  * Cacher les groupes de modèles #1894
  * Somme de comptage de groupes de manière récursive #421
  * Correction des champs date #1695 #1710

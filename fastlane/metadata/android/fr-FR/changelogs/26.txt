@@ -1,4 +1,4 @@
- * Téléchargement des fichiers joints
+* Téléchargement des fichiers joints
  * Changement du texte de format de fichiers
  * Empêche la capture pour tous les écrans
  * Touche "Go" exécutée automatiquement dans Magikeyboard
