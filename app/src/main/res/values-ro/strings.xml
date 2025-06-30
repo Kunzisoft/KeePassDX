@@ -95,7 +95,7 @@
     <string name="entry_user_name">Nume de utilizator</string>
     <string name="error_arc4">Cifrarea fluxului Arcfour nu este acceptată.</string>
     <string name="error_can_not_handle_uri">Nu s-a putut gestiona acest URI în KeePassDX.</string>
-    <string name="error_file_not_create">Nu s-a putut crea fișierul</string>
+    <string name="error_file_not_create">Nu s-a putut crea fișierul.</string>
     <string name="error_invalid_db">Nu s-a putut citi baza de date.</string>
     <string name="error_invalid_path">Asigurați-vă că calea este corectă.</string>
     <string name="error_invalid_OTP">Secret OTP nevalid.</string>
@@ -464,7 +464,7 @@
     <string name="error_otp_type">Tipul de OTP existent nu este recunoscut de acest formular, este posibil ca validarea acestuia să nu mai genereze corect token-ul.</string>
     <string name="error_move_group_here">Nu poți muta grupul aici.</string>
     <string name="error_string_type">Acest text nu se potrivește cu articolul solicitat.</string>
-    <string name="error_registration_read_only">Salvarea unui element nou nu este permisă într-o bază de date numai pentru citire</string>
+    <string name="error_registration_read_only">Salvarea unui element nou nu este permisă într-o bază de date numai pentru citire.</string>
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de acces</string>
@@ -523,11 +523,11 @@
     <string name="error_file_to_big">Fișierul pe care încercați să-o încărcați este prea mare.</string>
     <string name="error_upload_file">A apărut o eroare în timpul încărcării datelor din fișier.</string>
     <string name="error_start_database_action">A apărut o eroare în timpul efectuării unei acțiuni în baza de date.</string>
-    <string name="error_challenge_already_requested">Provocare deja solicitată</string>
+    <string name="error_challenge_already_requested">Provocare deja solicitată.</string>
     <string name="error_no_response_from_challenge">Nu s-a reușit să obțină răspunsul la provocare.</string>
     <string name="error_cancel_by_user">Anulat de utilizator.</string>
     <string name="error_driver_required">Driver-ul pentru %1$s este necesară.</string>
-    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb</string>
+    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb.</string>
     <string name="error_location_unknown">Locația bazei de date este necunoscută, acțiunea bazei de date nu poate fi efectuată.</string>
     <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Reține cheile hardware</string>
@@ -546,8 +546,8 @@
     <string name="configure">Configurează</string>
     <string name="properties">Proprietăți</string>
     <string name="success_export_app_properties">Setările aplicației au fost exportate</string>
-    <string name="error_export_app_properties">Eroare în timpul exportării setărilor aplicației</string>
-    <string name="error_import_app_properties">Eroare în timpul importării setărilor aplicației</string>
+    <string name="error_export_app_properties">Eroare în timpul exportării setărilor aplicației.</string>
+    <string name="error_import_app_properties">Eroare în timpul importării setărilor aplicației.</string>
     <string name="warning_exact_alarm">Nu ați permis aplicației să utilizeze o alarmă exactă. Ca urmare, funcțiile care necesită un cronometru nu se vor face cu o oră exactă.</string>
     <string name="warning_database_info_reloaded">Reîncărcarea bazei de date va șterge datele modificate local.</string>
     <string name="menu_appearance_settings_summary">Teme, culori, atribute</string>

@@ -159,7 +159,7 @@
     <string name="entry_user_name">Tên người dùng</string>
     <string name="error_arc4">Arcfour stream cipher không được hỗ trợ.</string>
     <string name="error_can_not_handle_uri">Không thể xử lý URI này trong KeePassDX.</string>
-    <string name="error_file_not_create">Không thể tạo tệp</string>
+    <string name="error_file_not_create">Không thể tạo tệp.</string>
     <string name="error_invalid_db">Không thể đọc cơ sở dữ liệu.</string>
     <string name="error_invalid_path">Hãy chắc chắn rằng đường dẫn là chính xác.</string>
     <string name="error_invalid_OTP">Mã OTP bí mật không hợp lệ.</string>
@@ -192,7 +192,7 @@
     <string name="error_otp_digits">Mã thông báo phải chứa %1$d đến %2$d chữ số.</string>
     <string name="error_otp_type">Loại OTP hiện tại không được biểu mẫu này nhận dạng, quá trình xác thực của nó có thể không tạo ra mã thông báo chính xác nữa.</string>
     <string name="error_string_type">Văn bản này không khớp với mục được yêu cầu.</string>
-    <string name="error_registration_read_only">Không được phép lưu mục mới trong cơ sở dữ liệu chỉ đọc</string>
+    <string name="error_registration_read_only">Không được phép lưu mục mới trong cơ sở dữ liệu chỉ đọc.</string>
     <string name="error_field_name_already_exists">Tên trường đã tồn tại.</string>
     <string name="error_database_uri_null">Không thể truy xuất URI cơ sở dữ liệu.</string>
     <string name="error_rebuild_list">Không thể xây dựng lại danh sách một cách chính xác.</string>
@@ -201,7 +201,7 @@
     <string name="error_duplicate_file">Dữ liệu tệp đã tồn tại.</string>
     <string name="error_remove_file">Đã xảy ra lỗi khi xóa dữ liệu tệp.</string>
     <string name="error_start_database_action">Đã xảy ra lỗi khi thực hiện một thao tác trên cơ sở dữ liệu.</string>
-    <string name="error_challenge_already_requested">"Thử thách đã được yêu cầu"</string>
+    <string name="error_challenge_already_requested">Thử thách đã được yêu cầu.</string>
     <string name="error_response_already_provided">Phản hồi đã được cung cấp.</string>
     <string name="error_no_response_from_challenge">Không thể nhận được phản hồi từ thử thách.</string>
     <string name="error_cancel_by_user">Đã bị người dùng hủy.</string>
@@ -209,7 +209,7 @@
     <string name="error_unable_merge_database_kdb">Không thể hợp nhất từ cơ sở dữ liệu V1.</string>
     <string name="error_location_unknown">Vị trí cơ sở dữ liệu không xác định, hành động cơ sở dữ liệu không thể được thực hiện.</string>
     <string name="error_hardware_key_unsupported">Khóa phần cứng không được hỗ trợ.</string>
-    <string name="error_empty_key">"Khóa không được để trống."</string>
+    <string name="error_empty_key">Khóa không được để trống.</string>
     <string name="field_name">Tên trường</string>
     <string name="field_value">Giá trị trường</string>
     <string name="file_not_found_content">Không thể tìm thấy tệp. Hãy thử mở lại nó từ trình duyệt tệp của bạn.</string>
@@ -326,9 +326,9 @@
     <string name="export_app_properties_summary">Tạo tệp để xuất thiết đặt ứng dụng</string>
     <string name="description_app_properties">Thuộc tính KeePassDX để quản lý thiết đặt ứng dụng</string>
     <string name="success_import_app_properties">Đã nhập thiết đặt ứng dụng</string>
-    <string name="error_import_app_properties">Lỗi trong quá trình nhập thiết đặt ứng dụng</string>
+    <string name="error_import_app_properties">Lỗi trong quá trình nhập thiết đặt ứng dụng.</string>
     <string name="success_export_app_properties">Đã xuất thiết đặt ứng dụng</string>
-    <string name="error_export_app_properties">Lỗi khi xuất thiết đặt ứng dụng</string>
+    <string name="error_export_app_properties">Lỗi khi xuất thiết đặt ứng dụng.</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Thuật toán mã hóa cơ sở dữ liệu được sử dụng cho tất cả dữ liệu</string>
     <string name="kdf_explanation">Để tạo khóa cho thuật toán mã hóa, khóa chính được chuyển đổi bằng cách sử dụng hàm dẫn xuất khóa ngẫu nhiên.</string>

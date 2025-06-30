@@ -58,7 +58,7 @@
     <string name="entry_user_name">Brugernavn</string>
     <string name="error_arc4">Arcfour stream cipher er ikke understøttet.</string>
     <string name="error_can_not_handle_uri">Kunne ikke håndtere denne URI i KeePassDX.</string>
-    <string name="error_file_not_create">Kunne ikke oprette fil</string>
+    <string name="error_file_not_create">Kunne ikke oprette fil.</string>
     <string name="error_invalid_db">Kunne ikke læse databasen.</string>
     <string name="error_invalid_path">Sørg for, at stien er korrekt.</string>
     <string name="error_no_name">Indtast et navn.</string>
@@ -481,7 +481,7 @@
     <string name="registration_mode">Registreringstilstand</string>
     <string name="save_mode">Gem-tilstand</string>
     <string name="search_mode">Søgetilstand</string>
-    <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database</string>
+    <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database.</string>
     <string name="content_description_credentials_information">Legitimationsoplysninger</string>
     <string name="configure_biometric">Der er ikke tilmeldt biometriske legitimationsoplysninger eller enhedsoplysninger.</string>
     <string name="education_add_attachment_summary">Overfør en vedhæftet fil til posten for at gemme vigtige eksterne data.</string>
@@ -542,9 +542,9 @@
     <string name="temp_advanced_unlock_enable_title">Midlertidig oplåsning af enhed</string>
     <string name="device_credential">Enhedens legitimation</string>
     <string name="properties">Egenskaber</string>
-    <string name="error_export_app_properties">Fejl under eksport af app-indstillinger</string>
+    <string name="error_export_app_properties">Fejl under eksport af app-indstillinger.</string>
     <string name="success_export_app_properties">App-indstillinger eksporteret</string>
-    <string name="error_import_app_properties">Fejl under importering af app-indstillinger</string>
+    <string name="error_import_app_properties">Fejl under importering af app-indstillinger.</string>
     <string name="success_import_app_properties">App-indstillinger importeret</string>
     <string name="description_app_properties">KeePassDX-egenskaber til at administrere app-indstillinger</string>
     <string name="export_app_properties_summary">Opret en fil for at eksportere app-indstillinger</string>
@@ -610,7 +610,7 @@
     <string name="error_location_unknown">Databaseplacering er ukendt, databasehandling kan ikke udføres.</string>
     <string name="error_hardware_key_unsupported">Hardwarenøgle er ikke understøttet.</string>
     <string name="error_empty_key">Nøglen må ikke være tom.</string>
-    <string name="error_challenge_already_requested">Der er allerede anmodet om udfordring</string>
+    <string name="error_challenge_already_requested">Der er allerede anmodet om udfordring.</string>
     <string name="error_no_response_from_challenge">Kan ikke få svaret fra udfordringen.</string>
     <string name="show_otp_token_title">Vis OTP-token</string>
     <string name="remember_hardware_key_title">Husk hardwarenøgler</string>

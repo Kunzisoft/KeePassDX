@@ -67,7 +67,7 @@
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/Arcfour-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
-    <string name="error_file_not_create">Datei konnte nicht erstellt werden</string>
+    <string name="error_file_not_create">Datei konnte nicht erstellt werden.</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Stelle sicher, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
@@ -495,7 +495,7 @@
     <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
-    <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig</string>
+    <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig.</string>
     <string name="autofill_save_search_info_summary">Bei manueller Eintragsauswahl Suchinformationen speichern, um sie später leichter verwenden zu können</string>
     <string name="autofill_ask_to_save_data_summary">Fragen, ob Daten nach Formularausfüllung gespeichert werden sollen</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
@@ -547,9 +547,9 @@
     <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung erzeugt Token möglicherweise nicht mehr korrekt.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
     <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort aus erneut öffnen.</string>
-    <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen</string>
+    <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen.</string>
     <string name="success_export_app_properties">App-Einstellungen exportiert</string>
-    <string name="error_import_app_properties">Fehler beim Importieren der App-Einstellungen</string>
+    <string name="error_import_app_properties">Fehler beim Importieren der App-Einstellungen.</string>
     <string name="success_import_app_properties">App-Einstellungen importiert</string>
     <string name="export_app_properties_summary">Datei zum Exportieren von App-Einstellungen erstellen</string>
     <string name="export_app_properties_title">App-Einstellungen exportieren</string>

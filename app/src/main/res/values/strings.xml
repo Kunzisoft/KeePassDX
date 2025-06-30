@@ -209,7 +209,7 @@
     <string name="error_unable_merge_database_kdb">Unable to merge with a kdb database file.</string>
     <string name="error_location_unknown">Database location is unknown, database action cannot be performed.</string>
     <string name="error_hardware_key_unsupported">Hardware key is not supported.</string>
-    <string name="error_empty_key">"Key cannot be empty."</string>
+    <string name="error_empty_key">Key cannot be empty.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -329,9 +329,9 @@
     <string name="export_app_properties_title">Export app settings</string>
     <string name="export_app_properties_summary">Create a file to export app settings</string>
     <string name="description_app_properties">KeePassDX properties to manage app settings</string>
-    <string name="success_import_app_properties">App settings imported.</string>
+    <string name="success_import_app_properties">App settings imported</string>
     <string name="error_import_app_properties">Error during app settings import.</string>
-    <string name="success_export_app_properties">App settings exported.</string>
+    <string name="success_export_app_properties">App settings exported</string>
     <string name="error_export_app_properties">Error during app settings export.</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Database encryption algorithm used for all data</string>

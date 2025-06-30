@@ -94,7 +94,7 @@
     <string name="error_rounds_too_large">\"Transformasiya mərhələləri\" çox yüksəkdir. 2147483648-ə təyin edin.</string>
     <string name="error_save_database">Malumat bazasını yadda saxlamaq mümkün olmadı.</string>
     <string name="error_otp_secret_key">Məxfi söz Base32 formatında olmalıdır.</string>
-    <string name="error_challenge_already_requested">Doğrulama artıq istənilib</string>
+    <string name="error_challenge_already_requested">Doğrulama artıq istənilib.</string>
     <string name="error_response_already_provided">Artıq cavab verilib.</string>
     <string name="error_location_unknown">Məlumat bazasının yeri məlum deyil, məlumat bazası funksiyası yerinə yetirilə bilməz.</string>
     <string name="error_empty_key">Açar bölməsi boş saxlanıla bilməz.</string>
@@ -183,8 +183,8 @@
     <string name="underline">Altdan xətt</string>
     <string name="uppercase">Böyük hərf</string>
     <string name="warning">Xəbərdarlıq</string>
-    <string name="error_import_app_properties">Tətbiqin parametrlərinin idxalı zamanı xəta baş verdi</string>
-    <string name="error_export_app_properties">Tətbiqin parametrləri idxal edilən zaman xəta baş verdi</string>
+    <string name="error_import_app_properties">Tətbiqin parametrlərinin idxalı zamanı xəta baş verdi.</string>
+    <string name="error_export_app_properties">Tətbiqin parametrləri idxal edilən zaman xəta baş verdi.</string>
     <string name="root">Kök</string>
     <string name="sort_menu">Çeşidlə</string>
     <string name="sort_username">İstifadəçi adı</string>
@@ -415,7 +415,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">İstifadəçi adı</string>
     <string name="error_arc4">Arcfour axın şifrəsi dəstəklənmir.</string>
-    <string name="error_file_not_create">Faylı yaratmaq mümkün olmadə</string>
+    <string name="error_file_not_create">Faylı yaratmaq mümkün olmadə.</string>
     <string name="error_can_not_handle_uri">Bu URİ-nin KeePassDX-də istifadəsi mümkün olmadı.</string>
     <string name="case_sensitive">Böyük/kiçik hərf həssaslığı</string>
     <string name="error_invalid_db">Məlumat bazasını oxumaq mümkün olmadı.</string>
@@ -434,7 +434,7 @@
     <string name="error_otp_digits">Jeton %1$d ilə %2$d arası rəqəmlərdən ibarət olmalıdır.</string>
     <string name="error_otp_type">Mövcud OTP növü bu form tərəfindən tanınmır, onun doğrulaması artıq düzgün şəkildə jeton yaratmaya bilər.</string>
     <string name="error_string_type">Bu mətn istənilən məlumat (fayl) ilə uyğunlaşmır.</string>
-    <string name="error_registration_read_only">Dəyişməz (yalnız oxuna bilən) məlumat bazasında yeni bir məlumatın yadda saxlanılmasına icazə verilmir</string>
+    <string name="error_registration_read_only">Dəyişməz (yalnız oxuna bilən) məlumat bazasında yeni bir məlumatın yadda saxlanılmasına icazə verilmir.</string>
     <string name="error_field_name_already_exists">Sahə (bölmə) adı artıq mövcuddur.</string>
     <string name="error_database_uri_null">Mləlumat bazası URİ-sini geri qaytarmaq olmur.</string>
     <string name="error_rebuild_list">Listi düzgün şəkildə yenidən hazırlamaq mümkün deyil.</string>
@@ -444,7 +444,7 @@
     <string name="error_remove_file">Fayl məlumatlarını silərkən xəta baş verdi.</string>
     <string name="error_start_database_action">Məlumat bazasında prosses həyata keçirilərkən xəta baş verdi.</string>
     <string name="error_no_response_from_challenge">Doğrulama istəyindən cavab almaq mümkün deyil.</string>
-    <string name="error_unable_merge_database_kdb">kdb məlumat bazası faylı ilə birləşdirmə etmək mümkün deyil</string>
+    <string name="error_unable_merge_database_kdb">kdb məlumat bazası faylı ilə birləşdirmə etmək mümkün deyil.</string>
     <string name="invalid_credentials">Şəxsiyyəti təsdiq edən məlumatları oxumaq mümkün olmadı.</string>
     <string name="invalid_algorithm">Yanlış alqoritma.</string>
     <string name="invalid_db_same_uuid">%1$s eyni UUİD dəyərinə sahib %2$s artıq mövcuddur.</string>

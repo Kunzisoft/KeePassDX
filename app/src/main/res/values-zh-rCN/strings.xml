@@ -57,7 +57,7 @@
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持 Arcfour 流式加密。</string>
     <string name="error_can_not_handle_uri">无法在 KeePassDX 中处理此 URI 。</string>
-    <string name="error_file_not_create">无法新建文件</string>
+    <string name="error_file_not_create">无法新建文件。</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径正确。</string>
     <string name="error_no_name">输入名称。</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">注册模式</string>
     <string name="save_mode">保存模式</string>
     <string name="search_mode">搜索模式</string>
-    <string name="error_registration_read_only">只读数据库不允许保存新条目</string>
+    <string name="error_registration_read_only">只读数据库不允许保存新条目。</string>
     <string name="error_field_name_already_exists">字段名已经存在。</string>
     <string name="advanced_unlock_delete_all_key_warning">删除所有与设备解锁识别相关的加密密钥吗？</string>
     <string name="device_credential_unlock_enable_summary">允许您使用设备凭据来打开数据库</string>
@@ -540,9 +540,9 @@
     <string name="error_remove_file">删除文件数据时发生了一个错误。</string>
     <string name="error_duplicate_file">文件数据已存在。</string>
     <string name="properties">属性</string>
-    <string name="error_export_app_properties">导出应用设置期间出错</string>
+    <string name="error_export_app_properties">导出应用设置期间出错。</string>
     <string name="success_export_app_properties">已导出应用设置</string>
-    <string name="error_import_app_properties">导入应用设置期间出错</string>
+    <string name="error_import_app_properties">导入应用设置期间出错。</string>
     <string name="success_import_app_properties">已导入应用设置</string>
     <string name="description_app_properties">管理应用设置的 KeePassDX 配置</string>
     <string name="export_app_properties_summary">创建文件来导出应用设置</string>
@@ -651,11 +651,11 @@
     <string name="hardware_key">硬件密钥</string>
     <string name="error_no_hardware_key">选择硬件密钥。</string>
     <string name="error_XML_malformed">XML 文件畸形。</string>
-    <string name="error_challenge_already_requested">已请求挑战</string>
+    <string name="error_challenge_already_requested">已请求挑战.</string>
     <string name="error_response_already_provided">已提供响应。</string>
     <string name="error_no_response_from_challenge">无法从挑战获取响应。</string>
     <string name="error_cancel_by_user">被用户取消。</string>
-    <string name="error_unable_merge_database_kdb">无法与 kdb 数据库文件合并</string>
+    <string name="error_unable_merge_database_kdb">无法与 kdb 数据库文件合并。</string>
     <string name="error_location_unknown">数据库位置未知，无法进行数据库操作。</string>
     <string name="error_hardware_key_unsupported">不支持的硬件密钥。</string>
     <string name="error_driver_required">%1$s 的驱动是必需的。</string>

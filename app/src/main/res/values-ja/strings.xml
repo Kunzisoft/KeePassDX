@@ -103,7 +103,7 @@
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">Arcfour ストリーム暗号には対応していません。</string>
     <string name="error_can_not_handle_uri">KeePassDX ではこの URI を処理できませんでした。</string>
-    <string name="error_file_not_create">ファイルを作成できませんでした</string>
+    <string name="error_file_not_create">ファイルを作成できませんでした。</string>
     <string name="error_invalid_db">データベースを読み取れませんでした。</string>
     <string name="error_invalid_path">パスが正しいことを確認してください。</string>
     <string name="error_invalid_OTP">無効な OTP シークレットです。</string>
@@ -131,7 +131,7 @@
     <string name="error_otp_period">周期は %1$d 秒から %2$d 秒の間でなければなりません。</string>
     <string name="error_otp_digits">トークンは %1$d 桁から %2$d 桁でなければなりません。</string>
     <string name="error_string_type">このテキストは指定された項目と整合しません。</string>
-    <string name="error_registration_read_only">新しい項目の保存は読み取り専用のデータベースでは許可されていません</string>
+    <string name="error_registration_read_only">新しい項目の保存は読み取り専用のデータベースでは許可されていません。</string>
     <string name="field_name">フィールド名</string>
     <string name="field_value">フィールドの値</string>
     <string name="file_not_found_content">ファイルが見つかりませんでした。ファイル ブラウザから再度開いてみてください。</string>
@@ -534,9 +534,9 @@
     <string name="import_app_properties_summary">アプリ設定をインポートするファイルを選択</string>
     <string name="import_app_properties_title">アプリ設定をインポート</string>
     <string name="properties">プロパティ</string>
-    <string name="error_export_app_properties">アプリ設定のエクスポート中にエラーが発生しました</string>
+    <string name="error_export_app_properties">アプリ設定のエクスポート中にエラーが発生しました。</string>
     <string name="success_export_app_properties">アプリ設定をエクスポートしました</string>
-    <string name="error_import_app_properties">アプリ設定のインポート中にエラーが発生しました</string>
+    <string name="error_import_app_properties">アプリ設定のインポート中にエラーが発生しました。</string>
     <string name="success_import_app_properties">アプリ設定をインポートしました</string>
     <string name="description_app_properties">アプリの設定を管理する KeePassDX のプロパティ</string>
     <string name="export_app_properties_summary">アプリ設定をエクスポートするためのファイルを作成する</string>
@@ -653,7 +653,7 @@
     <string name="error_location_unknown">データベースの場所が不明です。データベースへの操作を実行できません。</string>
     <string name="error_driver_required">%1$s 用のドライバーが必要です。</string>
     <string name="auto_type">自動入力</string>
-    <string name="error_challenge_already_requested">チャレンジはすでにリクエストされています</string>
+    <string name="error_challenge_already_requested">チャレンジはすでにリクエストされています。</string>
     <string name="style_name_classic">クラシック</string>
     <string name="style_name_forest">森</string>
     <string name="style_name_simple">シンプル</string>
@@ -662,7 +662,7 @@
     <string name="waiting_challenge_request">チャレンジリクエストを待っています…</string>
     <string name="error_response_already_provided">回答はすでに提供されています。</string>
     <string name="error_no_response_from_challenge">チャレンジからの応答を取得できません。</string>
-    <string name="error_unable_merge_database_kdb">kdb データベース ファイルとマージできません</string>
+    <string name="error_unable_merge_database_kdb">kdb データベース ファイルとマージできません。</string>
     <string name="menu_advanced_unlock_settings_summary">生体認証、デバイス認証</string>
     <string name="menu_database_settings_summary">メタデータ、ごみ箱、テンプレート、履歴</string>
     <string name="menu_security_settings_summary">暗号化、鍵導出機能</string>

@@ -58,7 +58,7 @@
     <string name="entry_user_name">Nom d’usuari</string>
     <string name="error_arc4">No s’admet el xifratge de flux Arcfour.</string>
     <string name="error_can_not_handle_uri">El KeePassDX no pot gestionar aquest URI.</string>
-    <string name="error_file_not_create">No s’ha pogut crear el fitxer</string>
+    <string name="error_file_not_create">No s’ha pogut crear el fitxer.</string>
     <string name="error_invalid_db">No s’ha pogut llegir la base de dades.</string>
     <string name="error_invalid_path">Assegureu-vos que el camí és correcte.</string>
     <string name="error_no_name">Introduïu-hi un nom.</string>
@@ -283,7 +283,7 @@
     <string name="error_rebuild_list">La llista no s\'ha pogut reconstruir correctament.</string>
     <string name="error_database_uri_null">No es pot recuperar l\'URI de la base de dades.</string>
     <string name="error_field_name_already_exists">El nom del camp ja existeix.</string>
-    <string name="error_registration_read_only">No es permet desar un element nou en una base de dades de només lectura</string>
+    <string name="error_registration_read_only">No es permet desar un element nou en una base de dades de només lectura.</string>
     <string name="error_string_type">Aquest text no coincideix amb l\'element sol·licitat.</string>
     <string name="error_otp_type">L\'OTP existent no està reconegut per aquest formulari, la seva validació ja no pot generar correctament el testimoni.</string>
     <string name="error_create_database_file">No s’ha pogut crear una base de dades amb aquesta contrasenya i fitxer de clau.</string>
@@ -368,7 +368,7 @@
     <string name="navigation_drawer_open">El calaix de navegació està obert</string>
     <string name="max_history_size_summary">Limita la mida de l\'historial per entrada</string>
     <string name="success_export_app_properties">Configuració de l\'aplicació exportada</string>
-    <string name="error_export_app_properties">Error a l\'exportar la configuració de l\'aplicació</string>
+    <string name="error_export_app_properties">Error a l\'exportar la configuració de l\'aplicació.</string>
     <string name="type">Tipus</string>
     <string name="content_description_hardware_key_checkbox">Casella de clau física</string>
     <string name="settings_database_recommend_changing_master_key_title">Recomanar renovació</string>
@@ -380,7 +380,7 @@
     <string name="autofill_close_database_summary">Tanca la base de dades després d\'auto-completar</string>
     <string name="screenshot_mode_banner_text">Mode captura de pantalla</string>
     <string name="application_appearance">Interfície</string>
-    <string name="error_import_app_properties">Error a l\'importar la configuració de l\'aplicació</string>
+    <string name="error_import_app_properties">Error a l\'importar la configuració de l\'aplicació.</string>
     <string name="case_sensitive">Sensible a majúscules i minúscules</string>
     <string name="error_location_unknown">Localització de la base de dades desconeguda, l\'acció no es pot fer.</string>
     <string name="membership">Pertinença</string>
@@ -459,7 +459,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Us haureu de recordar de la credencial principal de la caixa forta en el cas que feu servir el reconeixement del dispositiu pel desbloqueig.</string>
     <string name="secure_note">Nota segura</string>
     <string name="error_file_to_big">El fitxer que esteu intentant pujar és massa gros.</string>
-    <string name="error_challenge_already_requested">El desafiament ja s\'ha sol·licitat</string>
+    <string name="error_challenge_already_requested">El desafiament ja s\'ha sol·licitat.</string>
     <string name="error_cancel_by_user">S\'ha cancel·lat per l\'usuari.</string>
     <string name="error_driver_required">Es requereix un controlador per %1$s.</string>
     <string name="warning_empty_recycle_bin">Voleu suprimir permanentment tots els nodes de la paperera de reciclatge?</string>

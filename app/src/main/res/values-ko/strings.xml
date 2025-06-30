@@ -64,7 +64,7 @@
     <string name="entry_user_name">아이디</string>
     <string name="error_arc4">Arcfour 스트림 암호는 지원되지 않습니다.</string>
     <string name="error_can_not_handle_uri">KeePassDX에서는 이 URI를 처리할 수 없습니다.</string>
-    <string name="error_file_not_create">파일을 생성할 수 없음</string>
+    <string name="error_file_not_create">파일을 생성할 수 없음.</string>
     <string name="error_invalid_db">데이터베이스를 읽을 수 없음.</string>
     <string name="error_invalid_path">경로가 확실한지 확인하십시오.</string>
     <string name="error_no_name">이름을 입력하십시오.</string>
@@ -207,7 +207,7 @@
     <string name="standard">표준</string>
     <string name="template">템플렛</string>
     <string name="entry_otp">OTP</string>
-    <string name="error_registration_read_only">새로운 아이템을 저장하는 것은 읽기 전용 데이터베이스에서 허용되지 않습니다</string>
+    <string name="error_registration_read_only">새로운 아이템을 저장하는 것은 읽기 전용 데이터베이스에서 허용되지 않습니다.</string>
     <string name="error_database_uri_null">데이터베이스 URI를 검색할 수 없습니다.</string>
     <string name="entry_UUID">UUID</string>
     <string name="holder">홀더</string>
@@ -256,7 +256,7 @@
     <string name="success_import_app_properties">앱 속성을 가져왔습니다.</string>
     <string name="kdf_explanation">암호화 알고리즘 용 키를 생성하기 위해, 마스터키는 임의의 솔트(salt) 키 파생 함수를 사용하여 변환됩니다.</string>
     <string name="warning">경고</string>
-    <string name="error_challenge_already_requested">이미 요청된 시도입니다</string>
+    <string name="error_challenge_already_requested">이미 요청된 시도입니다.</string>
     <string name="error_XML_malformed">XML 양식이 틀어짐.</string>
     <string name="error_upload_file">파일 데이터를 업로드하는 중 오류가 발생했습니다.</string>
     <string name="error_response_already_provided">이미 응답했습니다.</string>
@@ -281,7 +281,7 @@
     <string name="selection_mode">선택 모드</string>
     <string name="remember_hardware_key_title">하드웨어 키를 기억</string>
     <string name="export_app_properties_summary">앱 속성을 내보낼 파일을 생성</string>
-    <string name="error_import_app_properties">앱 속성을 가져오던 중 오류 발생</string>
+    <string name="error_import_app_properties">앱 속성을 가져오던 중 오류 발생.</string>
     <string name="contains_duplicate_uuid">데이터베이스가 중복된 UUID를 포함하고 있습니다.</string>
     <string name="remember_database_locations_summary">데이터 베이스가 저장된 곳을 추적</string>
     <string name="remember_keyfile_locations_title">키 파일 위치를 기억</string>
@@ -326,7 +326,7 @@
     <string name="warning_database_link_revoked">파일에 대한 접근이 파일 관리자에 의해 철회되었습니다.</string>
     <string name="hide_broken_locations_title">파손된 데이터페이스 링크를 감춤</string>
     <string name="import_app_properties_title">앱 속성을 가져오기</string>
-    <string name="error_export_app_properties">앱 속성을 내보내던 중 오류 발생</string>
+    <string name="error_export_app_properties">앱 속성을 내보내던 중 오류 발생.</string>
     <string name="rounds">변환 차수</string>
     <string name="parallelism_explanation">키 파생 함수에 사용되는 병렬 처리 수준 (즉, 스레드의 갯수)</string>
     <string name="html_about_privacy">&lt;strong&gt;사용자 데이터를 받아오지 않습니다.&lt;/strong&gt; 어떤 서버에도 연결하지 않고 로컬로만 동작하며 사용자의 사생활(프라이버시)를 최우선시합니다.</string>

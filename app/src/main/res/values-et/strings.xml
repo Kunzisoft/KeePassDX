@@ -129,7 +129,7 @@
     <string name="error_pass_match">Salasõnad ei klapi.</string>
     <string name="error_create_database">Andmebaasi faili loomine ei õnnestunud.</string>
     <string name="entry_url">URL</string>
-    <string name="error_file_not_create">Faili loomine eo õnnestunud</string>
+    <string name="error_file_not_create">Faili loomine eo õnnestunud.</string>
     <string name="entry_otp">Ühekordne salasõna</string>
     <string name="clipboard_timeout_summary">Lõikelauale kopeeritud andmete hoidmise aeg (kui sinu seade sellist võimalust toetab)</string>
     <string name="content_description_keyboard_close_fields">Sulge väljad</string>
@@ -200,7 +200,7 @@
     <string name="hide_password_title">Peida salasõnad</string>
     <string name="hide_password_summary">Vakimisi peida salasõnad (***) taha</string>
     <string name="colorize_password_title">Värvi salasõnad</string>
-    <string name="error_registration_read_only">Uue kirje salvestamine pole võimalik andmebaasis, milles on vaid lugemisõigus</string>
+    <string name="error_registration_read_only">Uue kirje salvestamine pole võimalik andmebaasis, milles on vaid lugemisõigus.</string>
     <string name="error_database_uri_null">Andmebaasi ühtset ressursiidentifikaatorit ei õnnestu laadida.</string>
     <string name="error_rebuild_list">Loendi korrektne uuesti loomine ei õnnestu.</string>
     <string name="invalid_algorithm">Vale algoritm.</string>

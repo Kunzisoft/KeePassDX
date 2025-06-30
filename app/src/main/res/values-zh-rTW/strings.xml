@@ -257,11 +257,11 @@
     <string name="error_database_uri_null">無法取回資料庫 URI。</string>
     <string name="error_disallow_no_credentials">至少需要設置一個憑證。</string>
     <string name="error_duplicate_file">該檔案已存在。</string>
-    <string name="error_export_app_properties">導出應用程式設定時發生錯誤</string>
+    <string name="error_export_app_properties">導出應用程式設定時發生錯誤。</string>
     <string name="error_field_name_already_exists">欄位名已存在。</string>
-    <string name="error_file_not_create">不能創建檔案</string>
+    <string name="error_file_not_create">不能創建檔案。</string>
     <string name="error_file_to_big">嘗試上傳的檔案過大。</string>
-    <string name="error_import_app_properties">導入應用程式設定時發生錯誤</string>
+    <string name="error_import_app_properties">導入應用程式設定時發生錯誤。</string>
     <string name="error_invalid_OTP">無效 OTP 密鑰。</string>
     <string name="error_invalid_db">無法讀取資料庫。</string>
     <string name="error_invalid_path">請確保路徑正確。</string>
@@ -281,7 +281,7 @@
     <string name="error_pass_gen_type">必須至少選擇一個密碼生成類型。</string>
     <string name="error_pass_match">密碼不正確。</string>
     <string name="error_rebuild_list">無法正確地重建列表。</string>
-    <string name="error_registration_read_only">唯讀資料庫不允許保存新條目</string>
+    <string name="error_registration_read_only">唯讀資料庫不允許保存新條目。</string>
     <string name="error_remove_file">刪除檔案資料時發生了一個錯誤。</string>
     <string name="error_rounds_too_large">次數太多，最大設置到 2147483648。</string>
     <string name="error_save_database">無法儲存資料庫。</string>
@@ -649,10 +649,10 @@
     <string name="waiting_challenge_request">正等待開發請求……</string>
     <string name="waiting_challenge_response">正等待Challenge回應……</string>
     <string name="error_XML_malformed">XML格式錯誤。</string>
-    <string name="error_challenge_already_requested">已請求Challenge</string>
+    <string name="error_challenge_already_requested">已請求Challenge。</string>
     <string name="error_no_response_from_challenge">無法從Challenge得到回應。</string>
     <string name="error_driver_required">需要 %1$s 驅動程式。</string>
-    <string name="error_unable_merge_database_kdb">無法與資料庫檔案合井</string>
+    <string name="error_unable_merge_database_kdb">無法與資料庫檔案合井。</string>
     <string name="colorize_password_summary">以色彩分類各密碼字元</string>
     <string name="menu_app_settings_summary">搜尋、鎖定、紀錄、屬性</string>
     <string name="menu_form_filling_settings_summary">鍵盤、自動填入、剪貼簿</string>

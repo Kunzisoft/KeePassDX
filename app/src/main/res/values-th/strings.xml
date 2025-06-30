@@ -249,7 +249,7 @@
     <string name="error_registration_read_only">ไม่อนุญาตให้บันทึกรายการใหม่ในฐานข้อมูลแบบอ่านอย่างเดียว</string>
     <string name="error_response_already_provided">มีการตอบกลับจากคีย์ฮาร์ดแวร์ไปแล้ว</string>
     <string name="error_save_database">ไม่สามารถบันทึกฐานข้อมูล</string>
-    <string name="error_otp_counter">ตัวนับต้องอยู่ระหว่าง %1$d และ %2$d.</string>
+    <string name="error_otp_counter">ตัวนับต้องอยู่ระหว่าง %1$d และ %2$d</string>
     <string name="error_string_type">ข้อความนี้ไม่ตรงกับรายการที่ร้องขอ</string>
     <string name="sort_recycle_bin_bottom">ถังขยะอยู่ด้านล่าง</string>
     <string name="error_challenge_already_requested">ขอการตอบกลับจากคีย์ฮาร์ดแวร์ไปแล้ว</string>
