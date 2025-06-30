@@ -320,7 +320,7 @@
     <string name="keyboard_previous_fill_in_title">Changement précédent</string>
     <string name="keyboard_previous_fill_in_summary">Revenir automatiquement au clavier précédent après avoir exécuté \"Action de touche automatique\"</string>
     <string name="selection_mode">Mode sélection</string>
-    <string name="do_not_kill_app">Ne pas tuer l\'application…</string>
+    <string name="do_not_kill_app">Ne pas fermer l\'application…</string>
     <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verrouiller</string>
     <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>

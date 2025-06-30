@@ -1,4 +1,4 @@
- * Ecrans d'éducation pour apprendre à utiliser l'application
+* Ecrans d'éducation pour apprendre à utiliser l'application
  * Nouveaux designs / thèmes / pack d'icônes
  * Nouvelle police personnalisée pour la visibilité des caractères
  * Nouveaux tris (Par dernier accès / denrière modification)

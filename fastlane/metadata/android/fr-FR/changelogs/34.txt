@@ -1,4 +1,4 @@
- * Partagez un domaine Web pour rechercher automatiquement une entrée
+* Partagez un domaine Web pour rechercher automatiquement une entrée
  * Icône de groupe par défaut pour une nouvelle entrée
  * Meilleure reconnaissance de remplissage automatique
  * Correction de l'entrée non supprimée visuellement dans la recherche

@@ -1,4 +1,4 @@
- * Phrases secrètes #218
+* Phrases secrètes #218
  * Indicateur visuel de la force du mot de passe avec entropie #631 #869 #454 #1270
  * Sauvegarde dynamique de la configuration du générateur de mots de passe #618 #696
  * Ajout des filtres de mots de passe avancés #1052 #448 #983 #271 #539

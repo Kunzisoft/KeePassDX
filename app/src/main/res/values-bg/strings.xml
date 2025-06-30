@@ -36,7 +36,7 @@
     <string name="contribution">Участие</string>
     <string name="entry_UUID">Идентификатор</string>
     <string name="entry_history">История</string>
-    <string name="copy_field">%1$s копие</string>
+    <string name="copy_field">Копирано: %1$s</string>
     <string name="clipboard_error_title">Грешка в клипборда</string>
     <string name="file_manager_install_description">За създаване, отваряне и запазване на файлове на хранилищата е необходимо приложение за управление на файлове, което приема действието ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT.</string>
     <string name="content_description_add_entry">Нов запис</string>
@@ -298,7 +298,7 @@
     <string name="settings_database_force_changing_master_key_title">Принудителна смяна</string>
     <string name="database_name_title">Име на хранилището</string>
     <string name="database_description_title">Описание на хранилището</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_title">Настройки на Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_appearance_category">Външен вид</string>
@@ -456,7 +456,7 @@
     <string name="html_text_dev_feature_upgrade">Не забравяйте да обновявате приложението.</string>
     <string name="html_text_dev_feature_encourage">вие поощрявате разработчиците да добавят &lt;strong&gt;нови възможности&lt;/strong&gt; и да &lt;strong&gt;отстраняват дефекти&lt;/strong&gt; според вашите отзиви.</string>
     <string name="html_text_buy_pro">Купувайки версията Pro ще имате достъп до тази &lt;strong&gt;тема&lt;/strong&gt; и особено ще помогнете за &lt;strong&gt;изпълнението на проекти на общността&lt;/strong&gt;.</string>
-    <string name="html_text_donation">За да развиваме проекта и да запазим неговата независимост се нуждаем от вашата &lt;strong&gt;поддръжка&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Като &lt;strong&gt;допринасяте&lt;/strong&gt; за проекта <i>(финансово, с код или преводи)</i> му помагате да живее и процъвтява, а също получавате процедурата за отключване на &lt;strong&gt;темите&lt;/strong&gt;.</string>
     <string name="hint_keyfile">Файл с ключ</string>
     <string name="invalid_algorithm">Грешен алгоритъм.</string>
     <string name="description_app_properties">Свойства за управление на настройките на KeePassDX</string>
@@ -508,7 +508,7 @@
     <string name="merge_success">Обединяването е завършено</string>
     <string name="configure">Настройка</string>
     <string name="unavailable">Недостъпно</string>
-    <string name="database_opened">Хранилището е отвоерно</string>
+    <string name="database_opened">Хранилището е отключено</string>
     <string name="ask">Питане</string>
     <string name="list_password_generator_options_summary">Задава набора от разрешени знаци за създаване на парола</string>
     <string name="later">По-късно</string>
@@ -680,4 +680,9 @@
     <string name="warning_database_info_changed_options_read_only">Презаредете последните промени в хранилището.</string>
     <string name="generate_keyfile">Създаване на файл с ключ</string>
     <string name="nodes">Възли</string>
+    <string name="recursive_number_entries_summary">Изчислява броя на всички записи в групата</string>
+    <string name="recursive_number_entries_title">Брой на записите</string>
+    <string name="warning_large_keyfile">Не се препоръчва използването на голям файл с ключ, защото може да попречи на отварянето на хранилището.</string>
+    <string name="hide_templates_summary">Шаблоните не се показват</string>
+    <string name="hide_templates_title">Скриване на шаблоните</string>
 </resources>

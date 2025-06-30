@@ -696,4 +696,9 @@
     <string name="style_name_kunzite">Spodumen</string>
     <string name="style_name_dark">Tamna</string>
     <string name="warning_database_info_changed_options_read_only">Ponovo učitaj bazu podataka s najnovijim promjenama.</string>
+    <string name="nodes">Čvorovi</string>
+    <string name="recursive_number_entries_title">Rekurzivni broj unosa</string>
+    <string name="recursive_number_entries_summary">Rekurzivno izračunava broj unosa u grupi</string>
+    <string name="hide_templates_title">Sakrij predloške</string>
+    <string name="hide_templates_summary">Predlošci se ne prikazuju</string>
 </resources>

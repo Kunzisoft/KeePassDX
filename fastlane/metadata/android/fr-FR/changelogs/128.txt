@@ -1,2 +1,2 @@
- * Correction de la reconnaissance de formulaire #1572 #1508
+* Correction de la reconnaissance de formulaire #1572 #1508
  * Rollback de la couleur de mot de passe #1686 #1490

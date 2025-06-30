@@ -1,4 +1,4 @@
- * Remplissage automatique (Android O)
+* Remplissage automatique (Android O)
  * Suppression pour les groupes
  * Nouveau tri avec (Asc / Dsc, Groupes avant ou après)
  * Réglage pour changer la police de champ (monospace pour une meilleure visibilité)

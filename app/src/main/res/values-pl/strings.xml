@@ -51,7 +51,7 @@
     <string name="entry_password">Hasło</string>
     <string name="save">Zapisz</string>
     <string name="entry_title">Tytuł</string>
-    <string name="entry_url">URL</string>
+    <string name="entry_url">Adres URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie Arcfour nie jest wspierane.</string>
     <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePassDX.</string>
@@ -168,13 +168,13 @@
     <string name="sort_last_access_time">Dostęp</string>
     <string name="warning">Ostrzeżenie</string>
     <string name="warning_password_encoding">Unikaj znaków hasła spoza formatu kodowania tekstu w pliku bazy danych (nierozpoznane znaki są konwertowane na tę samą literę).</string>
-    <string name="sort_recycle_bin_bottom">Pokaż Kosz na dole listy</string>
+    <string name="sort_recycle_bin_bottom">Pokaż kosz na dole listy</string>
     <string name="sort_title">Tytuł</string>
     <string name="warning_empty_password">Kontynuować bez ochrony odblokowywania hasłem\?</string>
     <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
-    <string name="sort_groups_before">Pokaż Grupy na górze listy</string>
+    <string name="sort_groups_before">Pokaż grupy na górze listy</string>
     <string name="unavailable">Niedostępne</string>
     <string name="database_history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
@@ -207,7 +207,7 @@
     <string name="path">Ścieżka</string>
     <string name="assign_master_key">Przypisz klucz główny</string>
     <string name="create_keepass_file">Utwórz nowy sejf</string>
-    <string name="recycle_bin_title">Wykorzystaj kosz</string>
+    <string name="recycle_bin_title">Wykorzystanie kosza</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Czcionka pola</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność znaków</string>
