@@ -662,7 +662,7 @@
     <string name="education_donation_summary">ச்திரத்தன்மை, பாதுகாப்பு மற்றும் கூடுதல் அம்சங்களைச் சேர்ப்பதில் அதிகரிக்க உதவுங்கள்.</string>
     <string name="html_text_ad_free">பல கடவுச்சொல் மேலாண்மை பயன்பாடுகளைப் போலன்றி, இது &lt;strong&gt; விளம்பர-இலவச &lt;/strong&gt;, &lt;strong&gt; நகலெடுக்கப்பட்ட லிப்ரே மென்பொருள் &lt;/strong&gt; மற்றும் நீங்கள் எந்த பதிப்பைப் பயன்படுத்தினாலும் அதன் சேவையகங்களில் தனிப்பட்ட தரவை சேகரிக்காது.</string>
     <string name="html_text_feature_generosity">இந்த &lt;strong&gt; விசுவல் பாணி &lt;/strong&gt; உங்கள் தாராள மனப்பான்மைக்கு நன்றி.</string>
-    <string name="html_text_donation">திட்டத்திற்கு <i> (பண ரீதியாக, குறியீடு, மொழிபெயர்ப்பு) </i> க்கு <strong>பங்களிப்பு </strong>மூலம், நீங்கள் தொடர்ந்து வாழவும் வளரவும் உதவுவீர்கள், மேலும் நீங்கள் <strong> கருப்பொருளுக்கும் தகுதி பெறுவீர்கள்</strong> திறத்தல் செயல்முறை.</string>
+    <string name="html_text_donation">திட்டத்திற்கு <strong>பங்களிப்பு </strong>மூலம் <i> (பண ரீதியாக, குறியீடு, மொழிபெயர்ப்பு) </i>, நீங்கள் தொடர்ந்து வாழவும் வளரவும் உதவுவீர்கள், மேலும் நீங்கள் <strong> கருப்பொருளுக்கும்</strong> \u0020தகுதி பெறுவீர்கள்திறத்தல் செயல்முறை.</string>
     <string name="upload_attachment">%1$s ஐ பதிவேற்றவும்</string>
     <string name="download_initialization">தொடங்குதல்…</string>
     <string name="download_progression">செயலில்:%1$d %%</string>
