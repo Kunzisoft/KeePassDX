@@ -221,7 +221,7 @@
     <string name="icon_pack_choose_summary">பயன்பாட்டில் பயன்படுத்தப்படும் படவுரு பேக்</string>
     <string name="hide_templates_title">வார்ப்புருக்கள் மறைக்க</string>
     <string name="hide_templates_summary">வார்ப்புருக்கள் காட்டப்படவில்லை</string>
-    <string name="application">பயன்பாடு</string>
+    <string name="application">செயலி</string>
     <string name="brackets">அடைப்புக்குறிப்புகள்</string>
     <string name="entry_accessed">அணுகப்பட்டது</string>
     <string name="entry_notes">குறிப்புகள்</string>
@@ -337,7 +337,7 @@
     <string name="extended_ASCII">நீட்டிக்கப்பட்ட ASCII</string>
     <string name="allow">இசைவு</string>
     <string name="app_timeout_summary">தரவுத்தளத்தை பூட்டுவதற்கு முன் செயலற்ற நேரம்</string>
-    <string name="app_timeout">நேரம் முடிந்தது</string>
+    <string name="app_timeout">முடிவு நேரம்</string>
     <string name="key_derivation_function">முக்கிய வழித்தோன்றல் செயல்பாடு</string>
     <string name="validate">சரிபார்க்கவும்</string>
     <string name="entry_expires">காலாவதியாகிறது</string>
@@ -662,7 +662,7 @@
     <string name="education_donation_summary">ச்திரத்தன்மை, பாதுகாப்பு மற்றும் கூடுதல் அம்சங்களைச் சேர்ப்பதில் அதிகரிக்க உதவுங்கள்.</string>
     <string name="html_text_ad_free">பல கடவுச்சொல் மேலாண்மை பயன்பாடுகளைப் போலன்றி, இது &lt;strong&gt; விளம்பர-இலவச &lt;/strong&gt;, &lt;strong&gt; நகலெடுக்கப்பட்ட லிப்ரே மென்பொருள் &lt;/strong&gt; மற்றும் நீங்கள் எந்த பதிப்பைப் பயன்படுத்தினாலும் அதன் சேவையகங்களில் தனிப்பட்ட தரவை சேகரிக்காது.</string>
     <string name="html_text_feature_generosity">இந்த &lt;strong&gt; விசுவல் பாணி &lt;/strong&gt; உங்கள் தாராள மனப்பான்மைக்கு நன்றி.</string>
-    <string name="html_text_donation">திட்டத்திற்கு <strong>பங்களிப்பு </strong>மூலம் <i> (பண ரீதியாக, குறியீடு, மொழிபெயர்ப்பு) </i>, நீங்கள் தொடர்ந்து வாழவும் வளரவும் உதவுவீர்கள், மேலும் நீங்கள் <strong> கருப்பொருளுக்கும்</strong> \u0020தகுதி பெறுவீர்கள்திறத்தல் செயல்முறை.</string>
+    <string name="html_text_donation">திட்டத்திற்கு <strong>பங்களிப்பு</strong> மூலம் <i>(பண ரீதியாக, குறியீடு, மொழிபெயர்ப்பு)</i>, நீங்கள் தொடர்ந்து வாழவும் வளரவும் உதவுவீர்கள், மேலும் நீங்கள் <strong>கருப்பொருளுக்கும்</strong> தகுதி பெறுவீர்கள்திறத்தல் செயல்முறை.</string>
     <string name="upload_attachment">%1$s ஐ பதிவேற்றவும்</string>
     <string name="download_initialization">தொடங்குதல்…</string>
     <string name="download_progression">செயலில்:%1$d %%</string>
