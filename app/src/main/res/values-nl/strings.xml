@@ -204,7 +204,7 @@
     <string name="biometric_unlock_enable_title">Ontgrendelen met biometrie</string>
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
-    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot apparaat-ontgrendelingsherkenning verwijderen</string>
+    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot apparaat-ontgrendeling verwijderen</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Dit apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
@@ -272,7 +272,7 @@
     <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht de versie die je gebruikt.</string>
     <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit &lt;strong&gt;visuele thema&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dit &lt;strong&gt;visuele thema&lt;/strong&gt; is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, rekenen we op jouw &lt;strong&gt;bijdrage.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Met een &lt;strong&gt;bijdrage&lt;/strong&gt; <i>(financieel, code, vertaling),</i> help je dit project in het voortbestaan en verdere groei. Bovendien kom je in aanmerking ook de &lt;strong&gt;procedure&lt;/strong&gt; waarmee je de extra thema\'s kunt ontgrendelen.</string>
     <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
@@ -495,9 +495,9 @@
     <string name="select_entry">Item selecteren</string>
     <string name="back_to_previous_keyboard">Terug naar vorig toetsenbord</string>
     <string name="custom_fields">Aangepaste velden</string>
-    <string name="advanced_unlock_delete_all_key_warning">Alle coderingssleutels met betrekking tot apparaat-ontgrendelingsherkenning verwijderen\?</string>
+    <string name="advanced_unlock_delete_all_key_warning">Alle coderingssleutels met betrekking tot apparaat-ontgrendeling verwijderen?</string>
     <string name="advanced_unlock_timeout">Time-out bij apparaat-ontgrendeling</string>
-    <string name="temp_advanced_unlock_timeout_summary">Duur van apparaat-ontgrendelingsgebruik voordat de inhoud wordt verwijderd</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duur van apparaat-ontgrendeling voordat de inhoud wordt verwijderd</string>
     <string name="temp_advanced_unlock_timeout_title">Vervaltijd voor apparaat-ontgrendeling</string>
     <string name="temp_advanced_unlock_enable_summary">Sla geen versleutelde inhoud op om apparaat-ontgrendeling te gebruiken</string>
     <string name="temp_advanced_unlock_enable_title">Tijdelijke apparaat-ontgrendeling</string>
@@ -512,7 +512,7 @@
     <string name="advanced_unlock_not_recognized">Kan apparaat-ontgrendelingsafdruk niet herkennen</string>
     <string name="advanced_unlock_invalid_key">Kan de apparaat-ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met apparaat-ontgrendelingsgegevens</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Apparaat-ontgrendelingsherkenning</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Apparaat-ontgrendeling</string>
     <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je apparaat-ontgrendelingsherkenning gebruikt.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Koppeling naar Apparaat-ontgrendeling</string>
     <string name="menu_keystore_remove_key">Apparaat-ontgrendelingssleutel verwijderen</string>
@@ -546,7 +546,7 @@
     <string name="success_export_app_properties">App-instellingen geëxporteerd</string>
     <string name="error_import_app_properties">Fout bij het importeren van app-instellingen</string>
     <string name="success_import_app_properties">App-instellingen geïmporteerd</string>
-    <string name="description_app_properties">KeePassDX-eigenschappen om app-instellingen te beheren</string>
+    <string name="description_app_properties">KeePassDX properties to manage app settings</string>
     <string name="export_app_properties_summary">Bestand voor export van app-instellingen aanmaken</string>
     <string name="export_app_properties_title">App-instellingen exporteren</string>
     <string name="import_app_properties_summary">Selecteer een bestand om app-instellingen te importeren</string>
@@ -703,4 +703,11 @@
     <string name="style_name_follow_system">Systeem volgen</string>
     <string name="style_name_dark">Donker</string>
     <string name="warning_database_info_changed_options_read_only">Database opnieuw laden met de jongste wijzigingen.</string>
+    <string name="generate_keyfile">Sleutelbestand genereren</string>
+    <string name="nodes">Knooppunten</string>
+    <string name="hide_templates_summary">Sjablonen blijven verborgen</string>
+    <string name="hide_templates_title">Sjablonen verbergen</string>
+    <string name="recursive_number_entries_title">Recursief aantal items</string>
+    <string name="recursive_number_entries_summary">Berekent recursief het aantal items in een groep</string>
+    <string name="warning_large_keyfile">Het is niet verstandig om een groot sleutelbestand toe te voegen, aangezien dit het openen van de database kan belemmeren.</string>
 </resources>

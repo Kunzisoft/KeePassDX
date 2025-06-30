@@ -1,1 +1,1 @@
- * Correction pour augmenter la vitesse d'ouverture de la base de données #1028
+* Correction pour augmenter la vitesse d'ouverture de la base de données #1028

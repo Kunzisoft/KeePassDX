@@ -1,4 +1,4 @@
- * Correction "Sauvegarder comme" en mode lecture seule #1666
+* Correction "Sauvegarder comme" en mode lecture seule #1666
  * Correction du nom d'utilisateur dans la reconnaissance automatique #1665 #530 #1572 #1426 #1523 #1556 #1653 #1658 #1508 #1667
  * Correction de la regex de reconnaissance OTP #1596
  * Changement de couleur de mot passe dynamique #1490

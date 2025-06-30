@@ -281,7 +281,7 @@
     <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt; copyleft lisanslı özgür yazılımdır&lt;/strong&gt; ve hangi sürümü kullanırsanız kullanın, sunucularında kişisel veri toplamaz.</string>
     <string name="html_text_buy_pro">Pro sürümü satın alarak, bu &lt;strong&gt;görsel stile&lt;/strong&gt; erişebilecek ve özellikle &lt;strong&gt;topluluk projelerinin gerçekleştirilmesine yardımcı olacaksınız.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Bu &lt;strong&gt;görsel stil&lt;/strong&gt;, cömertliğiniz sayesinde kullanılabilir.</string>
-    <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için &lt;strong&gt;katkılarınıza&lt;/strong&gt; güveniyoruz</string>
+    <string name="html_text_donation">Projeye <i>(parasal, kod, çeviri)</i> &lt;strong&gt;katkıda bulunarak&lt;/strong&gt;, projenin yaşamaya ve gelişmeye devam etmesine yardımcı olacaksınız ve ayrıca &lt;strong&gt;tema&lt;/strong&gt; kilidini açmaya da hak kazanacaksınız.</string>
     <string name="html_text_dev_feature">Bu özellik &lt;strong&gt;geliştirme aşamasındadır&lt;/strong&gt; ve &lt;strong&gt;katkılarınızın&lt;/strong&gt; yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;Pro&lt;/strong&gt; sürümü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Katkıda&lt;/strong&gt; bulunarak,</string>
@@ -625,7 +625,7 @@
     <string name="at_least_one_char">Her birinden en az bir karakter</string>
     <string name="exclude_ambiguous_chars">Belirsiz karakterleri hariç tut</string>
     <string name="lower_case">küçük harf</string>
-    <string name="passphrase">Parola</string>
+    <string name="passphrase">Parola cümlesi</string>
     <string name="colorize_password_title">Parolaları renklendir</string>
     <string name="entropy">Entropi: %1$s bit</string>
     <string name="entropy_high">Entropi: Yüksek</string>
@@ -696,4 +696,11 @@
     <string name="style_name_moon">Ay</string>
     <string name="style_name_sun">Güneş</string>
     <string name="warning_database_info_changed_options_read_only">Veri tabanını en son değişikliklerle yeniden yükle.</string>
+    <string name="generate_keyfile">Anahtar dosyası oluştur</string>
+    <string name="nodes">Düğümler</string>
+    <string name="recursive_number_entries_title">Yinelenen giriş sayısı</string>
+    <string name="recursive_number_entries_summary">Bir gruptaki girişlerin sayısını yinelemeli olarak hesaplar</string>
+    <string name="warning_large_keyfile">Büyük bir anahtar dosya eklenmesi önerilmez, bu durum veri tabanının açılmasını engelleyebilir.</string>
+    <string name="hide_templates_title">Şablonları gizle</string>
+    <string name="hide_templates_summary">Şablonlar gösterilmiyor</string>
 </resources>

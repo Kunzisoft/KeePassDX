@@ -1,4 +1,4 @@
- * Correction du clavier japonais dans la recherche #1248
+* Correction du clavier japonais dans la recherche #1248
  * Meilleur gestion d'OOM #256
  * Correction des filtres #1249
  * Correction du déverouillage avancé temporaire #1245

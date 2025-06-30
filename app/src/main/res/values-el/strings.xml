@@ -233,7 +233,7 @@
     <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτή είναι &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;, &lt;strong&gt;copylefted libre λογισμικό&lt;/strong&gt; και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές της, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
     <string name="html_text_buy_pro">Με την αγορά της επαγγελματικής έκδοσης, θα έχετε πρόσβαση σε αυτό το &lt;strong&gt;οπτικό στοιχείο&lt;/strong&gt; και θα βοηθήσετε ιδιαίτερα την &lt;strong&gt;υλοποίηση ιδεών της κοινότητας.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Αυτό το &lt;strong&gt;οπτικό στυλ&lt;/strong&gt; είναι διαθέσιμο χάρη στη γενναιοδωρία σας.</string>
-    <string name="html_text_donation">Για να διατηρήσουμε την ελεύθερη έκδοση και να είμαστε πάντα ενεργοί, υπολογίζουμε στην &lt;strong&gt;συνεισφορά σας.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Με τη &lt;strong&gt;συνεισφορά σας&lt;/strong&gt; στο έργο <i>(χρηματικά, κώδικα, μετάφραση)</i>, θα το βοηθήσετε να συνεχίσει να ζει και να ευδοκιμεί και θα είστε επίσης επιλέξιμοι για τη διαδικασία ξεκλειδώματος &lt;strong&gt;θεμάτων &lt;/strong&gt; .</string>
     <string name="html_text_dev_feature">Αυτή η λειτουργία είναι &lt;strong&gt;υπό ανάπτυξη&lt;/strong&gt; και απαιτεί την &lt;strong&gt;συνεισφοράς&lt;/strong&gt; σας για να είναι σύντομα διαθέσιμη.</string>
     <string name="html_text_dev_feature_buy_pro">Με την αγορά της έκδοσης &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Με την &lt;strong&gt;συνεισφορά&lt;/strong&gt; σας,</string>
@@ -701,4 +701,11 @@
     <string name="style_name_kunzite">Κουνζίτης</string>
     <string name="style_name_follow_system">Όπως το σύστημα</string>
     <string name="warning_database_info_changed_options_read_only">Επαναφορτώστε τη βάση δεδομένων με τις τελευταίες αλλαγές.</string>
+    <string name="recursive_number_entries_summary">Υπολογίζει αναδρομικά τον αριθμό των καταχωρήσεων σε μια ομάδα</string>
+    <string name="hide_templates_title">Απόκρυψη προτύπων</string>
+    <string name="generate_keyfile">Δημιουργία αρχείου κλειδιού</string>
+    <string name="nodes">Κόμβοι</string>
+    <string name="warning_large_keyfile">Δεν συνιστάται η προσθήκη μεγάλου αρχείου κλειδιού, αυτό μπορεί να εμποδίσει το άνοιγμα της βάσης δεδομένων.</string>
+    <string name="hide_templates_summary">Τα πρότυπα δεν εμφανίζονται</string>
+    <string name="recursive_number_entries_title">Αναδρομικός αριθμός καταχωρήσεων</string>
 </resources>
