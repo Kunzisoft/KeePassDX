@@ -16,7 +16,7 @@
     <string name="save">சேமி</string>
     <string name="content_description_passphrase_word_count">கடவுச்சொல் சொல் எண்ணிக்கை</string>
     <string name="error_string_key">ஒவ்வொரு சரத்திற்கும் புலத்தின் பெயர் இருக்க வேண்டும்.</string>
-    <string name="error_registration_read_only">புதிய உருப்படியைச் சேமிப்பது படிக்க மட்டுமே தரவுத்தளத்தில் அனுமதிக்கப்படாது</string>
+    <string name="error_registration_read_only">புதிய உருப்படியைச் சேமிப்பது படிக்க மட்டுமே தரவுத்தளத்தில் அனுமதிக்கப்படாது.</string>
     <string name="field_name">புலம் பெயர்</string>
     <string name="menu_form_filling_settings">படிவம் நிரப்புதல்</string>
     <string name="menu_copy">நகலெடு</string>
@@ -106,7 +106,7 @@
     <string name="education_field_copy_title">ஒரு புலத்தை நகலெடுக்கவும்</string>
     <string name="education_field_copy_summary">நகலெடுக்கப்பட்ட புலங்களை எங்கும் ஒட்டலாம்.\n\n நீங்கள் விரும்பும் படிவ நிரப்புதல் முறையைப் பயன்படுத்தவும்.</string>
     <string name="education_sort_summary">உள்ளீடுகள் மற்றும் குழுக்கள் எவ்வாறு வரிசைப்படுத்தப்படுகின்றன என்பதைத் தேர்வுசெய்க.</string>
-    <string name="html_text_buy_pro">புரோ பதிப்பை வாங்குவதன் மூலம், இந்த &lt;strong&gt; விசுவல் பாணி &lt;/strong&gt; க்கான அணுகலை நீங்கள் பெறுவீர்கள், மேலும் நீங்கள் குறிப்பாக &lt;strong&gt; சமூக திட்டங்களை உணர உதவுவீர்கள். &lt;/Strong&gt;</string>
+    <string name="html_text_buy_pro">புரோ பதிப்பை வாங்குவதன் மூலம், இந்த <strong> விசுவல் பாணி </strong> க்கான அணுகலை நீங்கள் பெறுவீர்கள், மேலும் நீங்கள் குறிப்பாக <strong> சமூக திட்டங்களை உணர உதவுவீர்கள்.</strong></string>
     <string name="html_text_dev_feature_thanks">உங்கள் பங்களிப்புக்கு மிக்க நன்றி.</string>
     <string name="html_text_dev_feature_work_hard">இந்த அம்சத்தை விரைவாக வெளியிட நாங்கள் கடுமையாக உழைத்து வருகிறோம்.</string>
     <string name="html_text_dev_feature_upgrade">புதிய பதிப்புகளை நிறுவுவதன் மூலம் உங்கள் பயன்பாட்டை புதுப்பித்த நிலையில் வைத்திருக்க நினைவில் கொள்ளுங்கள்.</string>
@@ -150,7 +150,7 @@
     <string name="version">பதிப்பு</string>
     <string name="entry_otp">OTP</string>
     <string name="entry_url">முகவரி</string>
-    <string name="error_file_not_create">கோப்பை உருவாக்க முடியவில்லை</string>
+    <string name="error_file_not_create">கோப்பை உருவாக்க முடியவில்லை.</string>
     <string name="error_load_database">தரவுத்தளத்தை ஏற்ற முடியவில்லை.</string>
     <string name="error_pass_gen_type">குறைந்தது ஒரு கடவுச்சொல் உருவாக்கும் வகை தேர்ந்தெடுக்கப்பட வேண்டும்.</string>
     <string name="error_label_exists">இந்த சிட்டை ஏற்கனவே உள்ளது.</string>
@@ -192,7 +192,7 @@
     <string name="advanced_unlock_prompt_extract_credential_message">சாதன திறத்தல் தரவுடன் தரவுத்தள நற்சான்றிதழைப் பிரித்தெடுக்கவும்</string>
     <string name="password_size_title">உருவாக்கப்பட்ட கடவுச்சொல் அளவு</string>
     <string name="assign_master_key">ஒரு முதன்மை விசையை ஒதுக்குங்கள்</string>
-    <string name="error_import_app_properties">பயன்பாட்டு அமைப்புகள் இறக்குமதி செய்யும் போது பிழை</string>
+    <string name="error_import_app_properties">பயன்பாட்டு அமைப்புகள் இறக்குமதி செய்யும்போது பிழை.</string>
     <string name="success_export_app_properties">பயன்பாட்டு அமைப்புகள் ஏற்றுமதி செய்யப்பட்டன</string>
     <string name="passphrase">கடவுச்சொல்</string>
     <string name="create_keepass_file">புதிய பெட்டகத்தை உருவாக்கவும்</string>
@@ -269,7 +269,7 @@
     <string name="error_start_database_action">தரவுத்தளத்தில் ஒரு செயலைச் செய்யும்போது பிழை ஏற்பட்டது.</string>
     <string name="error_no_response_from_challenge">சவாலிலிருந்து பதிலைப் பெற முடியவில்லை.</string>
     <string name="error_driver_required">%1$s க்கான இயக்கி தேவை.</string>
-    <string name="error_unable_merge_database_kdb">KDB தரவுத்தள கோப்புடன் ஒன்றிணைக்க முடியவில்லை</string>
+    <string name="error_unable_merge_database_kdb">KDB தரவுத்தள கோப்புடன் ஒன்றிணைக்க முடியவில்லை.</string>
     <string name="error_location_unknown">தரவுத்தள இருப்பிடம் தெரியவில்லை, தரவுத்தள செயலைச் செய்ய முடியாது.</string>
     <string name="error_hardware_key_unsupported">வன்பொருள் விசை ஆதரிக்கப்படவில்லை.</string>
     <string name="error_empty_key">விசை காலியாக இருக்க முடியாது.</string>
@@ -322,7 +322,7 @@
     <string name="export_app_properties_summary">பயன்பாட்டு அமைப்புகளை ஏற்றுமதி செய்ய ஒரு கோப்பை உருவாக்கவும்</string>
     <string name="description_app_properties">பயன்பாட்டு அமைப்புகளை நிர்வகிக்க KeepASSDX பண்புகள்</string>
     <string name="success_import_app_properties">பயன்பாட்டு அமைப்புகள் இறக்குமதி செய்யப்பட்டன</string>
-    <string name="error_export_app_properties">பயன்பாட்டு அமைப்புகள் ஏற்றுமதியின் போது பிழை</string>
+    <string name="error_export_app_properties">பயன்பாட்டு அமைப்புகள் ஏற்றுமதியின்போது பிழை.</string>
     <string name="encryption_explanation">எல்லா தரவிற்கும் பயன்படுத்தப்படும் தரவுத்தள குறியாக்க வழிமுறை</string>
     <string name="kdf_explanation">குறியாக்க வழிமுறைக்கான விசையை உருவாக்க, முதன்மை விசை தோராயமாக உப்பு விசை வழித்தோன்றல் செயல்பாட்டைப் பயன்படுத்தி மாற்றப்படுகிறது.</string>
     <string name="style_name_forest">காடு</string>
@@ -385,7 +385,7 @@
     <string name="generate_keyfile">கீஃபைலை உருவாக்குங்கள்</string>
     <string name="nodes">முனைகள்</string>
     <string name="recursive_number_entries_title">உள்ளீடுகளின் சுழல்நிலை எண்ணிக்கை</string>
-    <string name="recursive_number_entries_summary">ஒரு குழுவில் உள்ளீடுகளின் எண்ணிக்கையை மீண்டும் மீண்டும் கணக்கிடுகிறது</string>
+    <string name="recursive_number_entries_summary">ஒரு குழுவில் உள்ளீடுகளின் எண்ணிக்கையை மறுநிகழ்வு கணக்கிடுகிறது</string>
     <string name="menu_app_settings_summary">தேடல், பூட்டு, வரலாறு, பண்புகள்</string>
     <string name="menu_form_filling_settings_summary">விசைப்பலகை, ஆட்டோஃபில், இடைநிலைப்பலகை</string>
     <string name="menu_empty_recycle_bin">மறுசுழற்சி தொட்டியை வெறுமை செய்யுங்கள்</string>
@@ -398,8 +398,8 @@
     <string name="advanced_unlock_delete_all_key_warning">சாதன திறத்தல் ஏற்பு தொடர்பான அனைத்து குறியாக்க விசைகளையும் நீக்கவா?</string>
     <string name="recycle_bin_title">மறுசுழற்சி பின் பயன்பாடு</string>
     <string name="application_appearance">இடைமுகம்</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="keyboard_name">Magikeyboard</string>
+    <string name="magic_keyboard_title">மாயவிசைப்பலகை</string>
+    <string name="keyboard_name">மாயவிசைப்பலகை</string>
     <string name="keyboard_label">Magikeyboard (keepassdx)</string>
     <string name="keyboard_selection_entry_title">நுழைவு தேர்வு</string>
     <string name="keyboard_notification_entry_title">அறிவிப்பு செய்தி</string>
@@ -439,7 +439,7 @@
     <string name="entry_user_name">பயனர்பெயர்</string>
     <string name="error_arc4">ஆர்க்ஃபோர் ச்ட்ரீம் சைஃபர் ஆதரிக்கப்படவில்லை.</string>
     <string name="error_otp_type">தற்போதுள்ள OTP வகை இந்த படிவத்தால் அங்கீகரிக்கப்படவில்லை, அதன் சரிபார்ப்பு இனி கிள்ளாக்கை சரியாக உருவாக்காது.</string>
-    <string name="error_challenge_already_requested">அறைகூவல் ஏற்கனவே கோரப்பட்டது</string>
+    <string name="error_challenge_already_requested">அறைகூவல் ஏற்கனவே கோரப்பட்டது.</string>
     <string name="error_response_already_provided">பதில் ஏற்கனவே வழங்கப்பட்டுள்ளது.</string>
     <string name="error_cancel_by_user">பயனரால் ரத்து செய்யப்பட்டது.</string>
     <string name="list_entries_show_username_title">பயனர்பெயர்களைக் காட்டு</string>
@@ -662,7 +662,7 @@
     <string name="education_donation_summary">ச்திரத்தன்மை, பாதுகாப்பு மற்றும் கூடுதல் அம்சங்களைச் சேர்ப்பதில் அதிகரிக்க உதவுங்கள்.</string>
     <string name="html_text_ad_free">பல கடவுச்சொல் மேலாண்மை பயன்பாடுகளைப் போலன்றி, இது &lt;strong&gt; விளம்பர-இலவச &lt;/strong&gt;, &lt;strong&gt; நகலெடுக்கப்பட்ட லிப்ரே மென்பொருள் &lt;/strong&gt; மற்றும் நீங்கள் எந்த பதிப்பைப் பயன்படுத்தினாலும் அதன் சேவையகங்களில் தனிப்பட்ட தரவை சேகரிக்காது.</string>
     <string name="html_text_feature_generosity">இந்த &lt;strong&gt; விசுவல் பாணி &lt;/strong&gt; உங்கள் தாராள மனப்பான்மைக்கு நன்றி.</string>
-    <string name="html_text_donation">திட்டத்திற்கு <i> (பண ரீதியாக, குறியீடு, மொழிபெயர்ப்பு) </i> க்கு &lt;strong&gt; பங்களிப்பு &lt;/strong&gt; மூலம், நீங்கள் தொடர்ந்து வாழவும் வளரவும் உதவுவீர்கள், மேலும் நீங்கள் &lt;strong&gt; கருப்பொருளுக்கும் தகுதி பெறுவீர்கள் &lt;/strong&gt; திறத்தல் செயல்முறை.</string>
+    <string name="html_text_donation">திட்டத்திற்கு <i> (பண ரீதியாக, குறியீடு, மொழிபெயர்ப்பு) </i> க்கு <strong>பங்களிப்பு </strong>மூலம், நீங்கள் தொடர்ந்து வாழவும் வளரவும் உதவுவீர்கள், மேலும் நீங்கள் <strong> கருப்பொருளுக்கும் தகுதி பெறுவீர்கள்</strong> திறத்தல் செயல்முறை.</string>
     <string name="upload_attachment">%1$s ஐ பதிவேற்றவும்</string>
     <string name="download_initialization">தொடங்குதல்…</string>
     <string name="download_progression">செயலில்:%1$d %%</string>
