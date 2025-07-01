@@ -1,4 +1,4 @@
-KeePassDX on <b>salasõnalaegas ja -haldur</b>, mis võimaldab <b>muuta krüptitud andmeid ühes failis</b> avatud KeePass formaadis ja <b>täita vorme turvaliselt</b>, ei nõua <b>internetiühendust</b> ning järgib Androidi disainistandardeid. Rakendus on <b>avatud lähtekoodiga ja reklaamivaba</b>.
+KeePassDX on <b>salasõnalaegas ja -haldur</b>, mis võimaldab <b>muuta krüptitud andmeid avatud KeePass vormingus ühes failis</b> ja <b>täita vorme turvaliselt</b>, ei vaja <b>internetiühendust</b> ning järgib Androidi kujundus-standardeid. Rakendus on <b>avatud lähtekoodiga ja reklaamivaba</b>.
 
 <b>Funktsionaaldus</b>
  - Andmebaasi failide, kirjete ja gruppide loomine.
@@ -15,8 +15,8 @@ KeePassDX on <b>salasõnalaegas ja -haldur</b>, mis võimaldab <b>muuta krüptit
  - Täpne seadistuste haldus.
  - Lähtekood on kirjutatud platvormiomases keeltes (Kotlin / Java / JNI / C).
 
-Sa saad annetada või osta pro versiooni, et saada paremat teenust ja kiiret arengut soovitud funktsioonide jaoks: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+Parema teenuse ja kiirema arendustöö huvides saad sa annetada või osta pro versiooni: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 
-Projekt areneb pidevalt. Ära kõhkle kontrollimast järgmiste uuenduste arenduse staatust: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+Projekt areneb pidevalt. Ära kõhkle kontrollimast järgmiste arenduste olekut: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
 
-Probleemide puhul saada teadaandeid siia: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
+Veateated lisa palun siia: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
