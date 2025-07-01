@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.tests.utils
 
-import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 import junit.framework.TestCase
 
@@ -42,5 +41,8 @@ class UriHelperTest: TestCase() {
         assertFalse(expected.inTheSameDomainAs("odomain.org", sameSubDomain = true))
         assertFalse(expected.inTheSameDomainAs("tcp://domain.org", sameSubDomain = true))
         assertFalse(expected.inTheSameDomainAs("dom.org/domain.org", sameSubDomain = true))
+
+        assertFalse(expected.inTheSameDomainAs("https://example.com/domain.org", sameSubDomain = true))
+        assertFalse(expected.inTheSameDomainAs("https://example.com/www.domain.org", sameSubDomain = false))
     }
 }
