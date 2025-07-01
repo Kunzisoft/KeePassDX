@@ -1,5 +1,5 @@
 KeePassDX(4.1.2)
- * Fix URL matching in presence of a path #1940
+ * Fix URL matching in presence of a path #1940 #1946 #2003
 
 KeePassDX(4.1.1)
  * Fix date parser #1933

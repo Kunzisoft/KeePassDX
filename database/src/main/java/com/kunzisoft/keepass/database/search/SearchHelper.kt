@@ -150,11 +150,13 @@ class SearchHelper {
             }
             if (searchParameters.searchInUrls) {
                 if (checkSearchQuery(entry.url, searchParameters) { stringToCheck, word ->
-                    try {
-                        stringToCheck.inTheSameDomainAs(word, sameSubDomain = true)
-                    } catch (e: Exception) {
-                        false
-                    }
+                    if (searchParameters.searchByDomain) {
+                        try {
+                            stringToCheck.inTheSameDomainAs(word, sameSubDomain = true)
+                        } catch (e: Exception) {
+                            false
+                        }
+                    } else null
                 })
                     return true
             }
@@ -186,7 +188,7 @@ class SearchHelper {
         private fun checkSearchQuery(
             stringToCheck: String,
             searchParameters: SearchParameters,
-            specialComparison: ((check: String, word: String) -> Boolean)? = null): Boolean {
+            specialComparison: ((check: String, word: String) -> Boolean?)? = null): Boolean {
             /*
             // TODO Search settings
             var removeAccents = true <- Too much time, to study
@@ -203,13 +205,10 @@ class SearchHelper {
                 }
                 regex.matches(stringToCheck)
             } else {
-                var searchFound = true
-                searchParameters.searchQuery.split(" ").forEach { word ->
-                    searchFound = searchFound
-                            && (specialComparison?.invoke(stringToCheck, word)
-                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive))
+                searchParameters.searchQuery.split(" ").any { word ->
+                    specialComparison?.invoke(stringToCheck, word)
+                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive)
                 }
-                searchFound
             }
         }
     }
