@@ -652,7 +652,7 @@
     <string name="error_response_already_provided">Ответ уже предоставлен.</string>
     <string name="error_challenge_already_requested">Вызов уже запрошен.</string>
     <string name="error_no_response_from_challenge">Невозможно получить ответ на вызов.</string>
-    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb</string>
+    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb.</string>
     <string name="error_hardware_key_unsupported">Аппаратный ключ не поддерживается.</string>
     <string name="error_empty_key">Ключ не может быть пустым.</string>
     <string name="corrupted_file">Файл повреждён.</string>
