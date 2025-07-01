@@ -3,4 +3,5 @@
  * Fix Group notes #2053
  * Fix Dialog background #2005 #2004 (Thx @codokie)
  * Fix OTP code alignment in the main screen #2007 (Thx @ymcx)
+ * RTL layout support #2021 (Thx @codokie)
  * App Metadata to translation #1823
