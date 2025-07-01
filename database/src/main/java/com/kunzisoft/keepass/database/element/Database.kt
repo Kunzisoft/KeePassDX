@@ -38,7 +38,12 @@ import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.database.element.template.TemplateEngine
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.DatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
+import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
+import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_40
@@ -51,11 +56,17 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
-import java.io.*
-import java.util.*
+import com.kunzisoft.keepass.utils.readAllBytes
+import com.kunzisoft.keepass.utils.readBytes4ToUInt
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.InputStream
+import java.io.OutputStream
+import java.util.UUID
 
 
 open class Database {
@@ -875,6 +886,7 @@ open class Database {
 
     fun createVirtualGroupFromSearchInfo(
         searchInfoString: String,
+        searchInfoByDomain: Boolean,
         max: Int = Integer.MAX_VALUE
     ): Group? {
         return mSearchHelper.createVirtualGroupWithSearchResult(this,
@@ -884,6 +896,7 @@ open class Database {
                     searchInUsernames = false
                     searchInPasswords = false
                     searchInUrls = true
+                    searchByDomain = searchInfoByDomain
                     searchInNotes = true
                     searchInOTP = false
                     searchInOther = true

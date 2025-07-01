@@ -41,11 +41,9 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.WebDomain
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
-import com.kunzisoft.keepass.utils.WebDomain
-import java.lang.RuntimeException
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
@@ -126,10 +124,11 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         if (autofillComponent == null) {
             setResult(Activity.RESULT_CANCELED)
             finish()
-        } else if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
-                        PreferencesUtil.applicationIdBlocklist(this))
-                || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
-                        PreferencesUtil.webDomainBlocklist(this))) {
+        } else if (!KeeAutofillService.autofillAllowedFor(
+            applicationId = searchInfo.applicationId,
+            webDomain = searchInfo.webDomain,
+            context = this
+        )) {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
             finish()
@@ -166,10 +165,11 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
     private fun launchRegistration(database: ContextualDatabase?,
                                    searchInfo: SearchInfo,
                                    registerInfo: RegisterInfo?) {
-        if (!KeeAutofillService.autofillAllowedFor(searchInfo.applicationId,
-                        PreferencesUtil.applicationIdBlocklist(this))
-                || !KeeAutofillService.autofillAllowedFor(searchInfo.webDomain,
-                        PreferencesUtil.webDomainBlocklist(this))) {
+        if (KeeAutofillService.autofillAllowedFor(
+                applicationId = searchInfo.applicationId,
+                webDomain = searchInfo.webDomain,
+                context = this
+            )) {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
         } else {

@@ -43,7 +43,7 @@
     <string name="entry_title">العنوان</string>
     <string name="entry_url">رابط</string>
     <string name="entry_user_name">اسم المستخدم</string>
-    <string name="error_file_not_create">تعذر إنشاء الملف</string>
+    <string name="error_file_not_create">تعذر إنشاء الملف.</string>
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
     <string name="error_pass_match">كلمتا السر غير متطابقتين.</string>
@@ -136,14 +136,14 @@
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تمكين خدمة الملء التلقائي.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
-    <string name="file_browser">مدير الملفات</string>
+    <string name="file_browser">مدير الملفات.</string>
     <string name="invalid_credentials">تعذر قراءة الإعتمادات.</string>
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">اعرض اسماء المستخدمين في قوائم المدخلات</string>
-    <string name="hint_generated_password">كلمة السر الموَلدة</string>
-    <string name="hint_keyfile">الملف المفتاحي</string>
+    <string name="hint_generated_password">كلمة السر الموَلدة.</string>
+    <string name="hint_keyfile">الملف المفتاحي.</string>
     <string name="hide_password_title">اخفاء كلمات السر</string>
     <string name="copy_field">نُسخة من %1$s</string>
     <string name="menu_copy">نسخ</string>
@@ -431,7 +431,7 @@
     <string name="email_address">عنوان البريد الإلكتروني</string>
     <string name="ssid">SSID</string>
     <string name="debit_credit_card">بطاقة السحب الفوري / الإئتمان</string>
-    <string name="error_registration_read_only">لا يمكن حفظ عنصر في قاعدة بيانات مفتوحة للقراءة فقط</string>
+    <string name="error_registration_read_only">لا يمكن حفظ عنصر في قاعدة بيانات مفتوحة للقراءة فقط.</string>
     <string name="otp_secret">الرمز السري</string>
     <string name="place_of_issue">مكان المشكلة</string>
     <string name="date_of_issue">تاريخ المشكلة</string>
@@ -463,8 +463,8 @@
     <string name="import_app_properties_summary">اختر ملفًا لاستيراد إعدادات التطبيق</string>
     <string name="export_app_properties_title">صدّر إعدادات التطبيق</string>
     <string name="export_app_properties_summary">أنشئ ملفًا لتصدير إعدادات التطبيق</string>
-    <string name="error_import_app_properties">خطأ أثناء استيراد إعدادات التطبيق</string>
-    <string name="error_export_app_properties">خطأ أثناء تصدير إعدادات التطبيق</string>
+    <string name="error_import_app_properties">خطأ أثناء استيراد إعدادات التطبيق.</string>
+    <string name="error_export_app_properties">خطأ أثناء تصدير إعدادات التطبيق.</string>
     <string name="warning_database_info_changed">غُيِّرت معلومات قاعدة البيانات من خارج هذا التطبيق.</string>
     <string name="warning_database_info_changed_options">ادمج البيانات أو استبدل التعديلات الخارجية بحفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
     <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
@@ -474,7 +474,7 @@
     <string name="keyboard_previous_fill_in_title">العودة إلى الوراء</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>
     <string name="education_advanced_unlock_title">فتح قاعدة بيانات الجهاز</string>
-    <string name="hint_icon_name">اسم الأيقونة</string>
+    <string name="hint_icon_name">اسم الأيقونة.</string>
     <string name="autofill_manual_selection_title">اختيار يدوي</string>
     <string name="description_app_properties">خصائص KeePassDX لإدارة إعدادات التطبيقات</string>
     <string name="warning_empty_recycle_bin">هل تريد حذف جميع العقد نهائيًا من سلة المهملات؟</string>
@@ -616,11 +616,11 @@
     <string name="navigation_drawer_close">درج التنقل مقفول</string>
     <string name="error_XML_malformed">XML تالف.</string>
     <string name="error_otp_type">لم يتم التعرف على نوع OTP الحالي من خلال هذا النموذج، وقد لا يؤدي التحقق من صحته إلى إنشاء الرمز المميز بشكل صحيح.</string>
-    <string name="error_challenge_already_requested">التحدي مطلوب بالفعل</string>
+    <string name="error_challenge_already_requested">التحدي مطلوب بالفعل.</string>
     <string name="error_response_already_provided">تقدم الرد بالفعل.</string>
     <string name="error_no_response_from_challenge">غير قادر على الحصول على رد من التحدي.</string>
     <string name="error_driver_required">مطلوب تعريف لـ%1$s.</string>
-    <string name="error_unable_merge_database_kdb">غير قادر على الدمج مع ملف قاعدة بيانات kdb</string>
+    <string name="error_unable_merge_database_kdb">غير قادر على الدمج مع ملف قاعدة بيانات kdb.</string>
     <string name="error_location_unknown">موقع قاعدة البيانات غير معروف، لا يمكن تنفيذ إجراء قاعدة البيانات.</string>
     <string name="menu_advanced_unlock_settings_summary">القياس الحيوي، بيانات اعتماد الجهاز</string>
     <string name="menu_database_settings_summary">البيانات الوصفية، سلة المحذوفات، القوالب، التاريخ</string>
@@ -682,7 +682,7 @@
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
     <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
-    <string name="html_text_donation">من أجل الحفاظ على حريتنا ولكي نكون نشيطين دائمًا، فإننا نعتمد على &lt;strong&gt; مساهمتك.&lt;/strong&gt;</string>
+    <string name="html_text_donation">من خلال &lt;strong&gt;المساهمة&lt;/strong&gt; في المشروع <i>(مالياً أو برمجياً أو ترجمة)</i>، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح &lt;strong&gt;السمة&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
     <string name="style_name_forest">غابة</string>
     <string name="style_name_simple">بسيط</string>
@@ -696,4 +696,11 @@
     <string name="style_name_kunzite">الكونزيت</string>
     <string name="style_name_follow_system">اتبع النظام</string>
     <string name="style_name_light">فاتح</string>
+    <string name="hide_templates_summary">لا يتم عرض القوالب</string>
+    <string name="generate_keyfile">ولّد ملف المفتاح</string>
+    <string name="nodes">العُقد</string>
+    <string name="recursive_number_entries_title">عدد متكرر من الإدخالات</string>
+    <string name="recursive_number_entries_summary">يحسب بشكل متكرر عدد الإدخالات في المجموعة</string>
+    <string name="warning_large_keyfile">لا يُنصح بإضافة ملف مفتاحي كبير، فقد يؤدي هذا إلى منع فتح قاعدة البيانات.</string>
+    <string name="hide_templates_title">أخفِ القوالب</string>
 </resources>

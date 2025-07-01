@@ -59,7 +59,7 @@
     <string name="entry_user_name">Uživatelské jméno</string>
     <string name="error_arc4">Arcfour proudová šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePassDX nemůže zpracovat toto URI.</string>
-    <string name="error_file_not_create">Soubor se nepodařilo vytvořit</string>
+    <string name="error_file_not_create">Soubor se nepodařilo vytvořit.</string>
     <string name="error_invalid_db">Databázi se nepodařilo přečíst.</string>
     <string name="error_invalid_path">Ujistěte se, že je popis umístění správný.</string>
     <string name="error_no_name">Zadejte název.</string>
@@ -266,7 +266,7 @@
     <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato &lt;strong&gt;bez reklam&lt;/strong&gt;, je &lt;strong&gt;svobodný software pod copyleft licencí&lt;/strong&gt; a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
     <string name="html_text_buy_pro">Zakoupením varianty \"pro\" získáte přístup k tomuto &lt;strong&gt;vizuálnímu stylu&lt;/strong&gt; a hlavně pomůžete &lt;strong&gt;uskutečnění komunitních projektů.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuální styl&lt;/strong&gt; je k dispozici díky vaší štědrosti.</string>
-    <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity počítáme s Vaším &lt;strong&gt;přispěním.&lt;/strong&gt;</string>
+    <string name="html_text_donation">&lt;strong&gt;Přispěním&lt;/strong&gt; projektu <i>(peněžně, kódem, překlady)</i> mu pomůžete žít a prosperovat a dostanete přístup k postupu odemčení &lt;strong&gt;motivů&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Tato funkce je &lt;strong&gt;ve vývoji&lt;/strong&gt; a potřebuje Váš &lt;strong&gt;příspěvek&lt;/strong&gt;, aby byla brzy k dispozici.</string>
     <string name="html_text_dev_feature_buy_pro">Zakoupením &lt;strong&gt;pro&lt;/strong&gt; varianty,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Podpořením vývoje&lt;/strong&gt;,</string>
@@ -487,7 +487,7 @@
     <string name="save_mode">Uložit</string>
     <string name="search_mode">Vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno kolonky již existuje.</string>
-    <string name="error_registration_read_only">Uložení nové položky v režimu databáze pouze pro čtení není dovoleno</string>
+    <string name="error_registration_read_only">Uložení nové položky v režimu databáze pouze pro čtení není dovoleno.</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Vybrat záznam</string>
@@ -539,9 +539,9 @@
     <string name="error_file_to_big">Soubor, který se pokoušíte nahrát, je příliš velký.</string>
     <string name="content_description_otp_information">Info o jednorázovém heslu</string>
     <string name="properties">Vlastnosti</string>
-    <string name="error_export_app_properties">Během exportu nastavení aplikace došlo k chybě</string>
+    <string name="error_export_app_properties">Během exportu nastavení aplikace došlo k chybě.</string>
     <string name="success_export_app_properties">Nastavení aplikace byla exportována</string>
-    <string name="error_import_app_properties">Během importu nastavení aplikace došlo k chybě</string>
+    <string name="error_import_app_properties">Během importu nastavení aplikace došlo k chybě.</string>
     <string name="success_import_app_properties">Nastavení aplikace byla importována</string>
     <string name="description_app_properties">Vlastnosti KeePassDX pro správu aplikačních nastavení</string>
     <string name="export_app_properties_summary">Vytvořte soubor pro export nastavení aplikace</string>
@@ -649,12 +649,12 @@
     <string name="html_about_privacy">&lt;strong&gt;Nenačítají se žádná uživatelská data&lt;/strong&gt;, tato aplikace se nespojuje s žádnými servery, pracuje pouze lokálně a plně respektuje soukromí uživatelů.</string>
     <string name="hardware_key">Hardwarový klíč</string>
     <string name="error_XML_malformed">XML chybný.</string>
-    <string name="error_challenge_already_requested">Výzva byla již vyžádána</string>
+    <string name="error_challenge_already_requested">Výzva byla již vyžádána.</string>
     <string name="error_response_already_provided">Odpověď byla již poskytnuta.</string>
     <string name="error_no_response_from_challenge">Odezvu nelze z výzvy obdržet.</string>
     <string name="error_cancel_by_user">Zrušeno uživatelem.</string>
     <string name="error_driver_required">Ovladač pro %1$s je nutný.</string>
-    <string name="error_unable_merge_database_kdb">Nepodařilo se sloučit s databázovým souborem kdb</string>
+    <string name="error_unable_merge_database_kdb">Nepodařilo se sloučit s databázovým souborem kdb.</string>
     <string name="error_hardware_key_unsupported">Hardwarový klíč není podporován.</string>
     <string name="error_empty_key">Klíč nemůže být prázdný.</string>
     <string name="enable_screenshot_mode_title">Režim screenshotu</string>
@@ -702,4 +702,11 @@
     <string name="style_name_light">Světlý</string>
     <string name="style_name_dark">Tmavý</string>
     <string name="warning_database_info_changed_options_read_only">Znovu načíst databázi s posledními změnami.</string>
+    <string name="nodes">Uzly</string>
+    <string name="generate_keyfile">Vygenerovat klíčový soubor</string>
+    <string name="recursive_number_entries_title">Rekurzivní počet záznamů</string>
+    <string name="recursive_number_entries_summary">Rekurzivně vypočítá počet záznamů ve skupině</string>
+    <string name="warning_large_keyfile">Nedoporučuje se přidávat velký klíčový soubor, mohlo by to zabránit otevření databáze.</string>
+    <string name="hide_templates_title">Skrýt šablony</string>
+    <string name="hide_templates_summary">Šablony nejsou zobrazeny</string>
 </resources>

@@ -146,7 +146,7 @@
     <string name="error_pass_gen_type">Turi būti pasirinktas bent vienas slaptažodžio generavimo tipas.</string>
     <string name="create_keepass_file">Sukurti naują saugyklą</string>
     <string name="content_description_database_color">Duomenų bazės spalva</string>
-    <string name="error_file_not_create">Nepavyko sukurti failo</string>
+    <string name="error_file_not_create">Nepavyko sukurti failo.</string>
     <string name="error_load_database_KDF_memory">Nepavyko įkelti rakto. Pabandykite sumažinti KDF \"Atminties naudojimas\".</string>
     <string name="content_description_entry_icon">Įrašo piktograma</string>
     <string name="content_description_file_information">Failo info</string>
@@ -229,7 +229,7 @@
     <string name="international_bank_account_number">IBAN</string>
     <string name="template">Šablonas</string>
     <string name="place_of_issue">Išdavimo vieta</string>
-    <string name="error_registration_read_only">Įrašyti naują elementą neleidžiama tik skaitymui skirtoje duomenų bazėje</string>
+    <string name="error_registration_read_only">Įrašyti naują elementą neleidžiama tik skaitymui skirtoje duomenų bazėje.</string>
     <string name="error_upload_file">Įkeliant failo duomenis įvyko klaida.</string>
     <string name="content_description_entry_foreground_color">Įrašo pirmojo plano spalva</string>
     <string name="content_description_entry_background_color">Įrašo fono spalva</string>
@@ -331,7 +331,7 @@
     <string name="search_mode">Paieškos režimas</string>
     <string name="save_mode">Įrašymo režimas</string>
     <string name="success_import_app_properties">Programėlės nustatymai importuoti</string>
-    <string name="error_import_app_properties">Įvyko klaida programėlės nustatymų importo metu</string>
+    <string name="error_import_app_properties">Įvyko klaida programėlės nustatymų importo metu.</string>
     <string name="success_export_app_properties">Programėlės nustatymai eksportuoti</string>
     <string name="menu_cancel">Atšaukti</string>
     <string name="menu_save_copy_to">Įrašyti kopiją į …</string>
@@ -345,7 +345,7 @@
     <string name="sort_creation_time">Sukūrimas</string>
     <string name="export_app_properties_summary">Sukurkite failą programėlės nustatymų eksportui</string>
     <string name="description_app_properties">KeePassDX savybės programėlės nustatymams valdyti</string>
-    <string name="error_export_app_properties">Įvyko klaida programėlės nustatymų eksporto metu</string>
+    <string name="error_export_app_properties">Įvyko klaida programėlės nustatymų eksporto metu.</string>
     <string name="memory_usage">Atminties naudojimas</string>
     <string name="recycle_bin_group_title">Šiukšliadėžės grupė</string>
     <string name="menu_master_key_settings">Pagrindinio rakto nustatymai</string>
@@ -372,8 +372,8 @@
     <string name="lock_database_show_button_summary">Naudotojo sąsajoje rodomas užrakto mygtukas</string>
     <string name="advanced_unlock">Įrenginio atrakinimas</string>
     <string name="info">Informacija</string>
-    <string name="error_challenge_already_requested">Iššūkis jau prašytas</string>
-    <string name="error_unable_merge_database_kdb">Neįmanoma apjungti su duomenų baze V1</string>
+    <string name="error_challenge_already_requested">Iššūkis jau prašytas.</string>
+    <string name="error_unable_merge_database_kdb">Neįmanoma apjungti su duomenų baze V1.</string>
     <string name="error_location_unknown">Duomenų bazės vieta nežinoma, duomenų bazės veiksmo atlikti negalima.</string>
     <string name="error_empty_key">Raktas negali būti tuščias.</string>
     <string name="corrupted_file">Sugadintas failas.</string>

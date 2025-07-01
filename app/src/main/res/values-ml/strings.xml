@@ -76,7 +76,7 @@
     <string name="error_save_database">ഡാറ്റാബേസ് സംരക്ഷിക്കാൻ കഴിഞ്ഞില്ല.</string>
     <string name="error_pass_match">പാസ്‌വേഡുകൾ പൊരുത്തപ്പെടുന്നില്ല.</string>
     <string name="error_no_name">ഒരു പേര് നൽകുക.</string>
-    <string name="error_file_not_create">ഫയൽ സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല</string>
+    <string name="error_file_not_create">ഫയൽ സൃഷ്ടിക്കാൻ കഴിഞ്ഞില്ല.</string>
     <string name="error_invalid_db">ഡാറ്റാബേസ് വായിക്കാൻ സാധിച്ചില്ല.</string>
     <string name="entry_user_name">ഉപയോക്തൃനാമം</string>
     <string name="entry_url">URL</string>
@@ -376,7 +376,7 @@
     <string name="warning_empty_recycle_bin">റീസൈക്കിൾ ബിന്നിൽ നിന്ന് എല്ലാ നോഡുകളും ശാശ്വതമായി ഇല്ലാതാക്കണോ\?</string>
     <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
-    <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല</string>
+    <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല.</string>
     <string name="education_advanced_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>
     <string name="select_entry">എൻ‌ട്രി തിരഞ്ഞെടുക്കുക</string>
     <string name="custom_fields">ഇഷ്‌ടാനുസൃത ഫീൽഡുകൾ</string>

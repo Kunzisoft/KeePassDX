@@ -60,7 +60,7 @@
     <string name="entry_user_name">Felhasználónév</string>
     <string name="error_arc4">Az Arcfour adatfolyam-titkosítás nem támogatott.</string>
     <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePassDX-ben.</string>
-    <string name="error_file_not_create">Nem sikerült létrehozni a fájlt</string>
+    <string name="error_file_not_create">Nem sikerült létrehozni a fájlt.</string>
     <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
     <string name="error_invalid_path">Győződjön meg arról, hogy az útvonal helyes.</string>
     <string name="error_no_name">Adjon meg egy nevet.</string>
@@ -287,7 +287,7 @@
     <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
     <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális stílushoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális stílus&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
-    <string name="html_text_donation">Ahhoz, hogy megtartsuk a szabadságunkat, és hogy mindig aktívak lehessünk, számítunk az Ön &lt;strong&gt;támogatására.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Azzal, hogy &lt;strong&gt;hozzájárul&lt;/strong&gt; a projekthez <i>(pénzzel, kóddal, fordítással)</i>, segít abban, hogy a projekt tovább éljen és gyarapodjon, továbbá Ön jogosulttá válik a &lt;strong&gt;téma&lt;/strong&gt; feloldási eljárásra is.</string>
     <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;támogatására&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
     <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
     <string name="html_text_dev_feature_contibute">A &lt;strong&gt;támogatással&lt;/strong&gt;</string>
@@ -458,7 +458,7 @@
     <string name="search_mode">Keresési mód</string>
     <string name="subdomain_search_summary">Webdomainek keresése aldomain megszorításokkal</string>
     <string name="subdomain_search_title">Aldomain keresés</string>
-    <string name="error_registration_read_only">Az új elem mentése nem engedélyezett írásvédett adatbázisban</string>
+    <string name="error_registration_read_only">Az új elem mentése nem engedélyezett írásvédett adatbázisban.</string>
     <string name="error_string_type">A szöveg nem egyezik a kért elemmel.</string>
     <string name="content_description_credentials_information">Hitelesítő adatok információi</string>
     <string name="content_description_add_item">Elem hozzáadása</string>
@@ -512,12 +512,12 @@
     <string name="content_description_entry_background_color">Bejegyzés háttérszíne</string>
     <string name="content_description_entry_foreground_color">Bejegyzés előtérszíne</string>
     <string name="success_import_app_properties">Alkalmazásbeállítások importálva</string>
-    <string name="error_export_app_properties">Hiba történt az alkalmazásbeállítások exportálása során</string>
+    <string name="error_export_app_properties">Hiba történt az alkalmazásbeállítások exportálása során.</string>
     <string name="warning_database_info_changed">Az adatbázisfájlban lévő információkat az alkalmazáson kívülről megváltoztatták.</string>
     <string name="description_app_properties">KeePassDX tulajdonságok az alkalmazásbeállítások kezeléséhez</string>
     <string name="success_export_app_properties">Alkalmazásbeállítások exportálva</string>
     <string name="content_description_database_color">Adatbázis színe</string>
-    <string name="error_import_app_properties">Hiba történt az alkalmazásbeállítások importálása során</string>
+    <string name="error_import_app_properties">Hiba történt az alkalmazásbeállítások importálása során.</string>
     <string name="hint_icon_name">Ikon neve</string>
     <string name="autofill_select_entry">Válasszon bejegyzést…</string>
     <string name="warning_database_info_changed_options">Adatok egyesítése, majd a külső módosítások felülírása az adatbázis mentésével, vagy újratöltés a legfrissebb változtatásokkal.</string>
@@ -605,7 +605,7 @@
     <string name="error_move_group_here">Nem helyezhet át ide csoportot.</string>
     <string name="auto_type">Automatikus bevitel</string>
     <string name="warning_keyfile_integrity">A fájl ujjlenyomata nem garantált, mert az Android menet közben is módosíthatja az adatokat. A helyes integritás-ellenőrzéshez módosítsa a fájlt .bin kiterjesztésűre.</string>
-    <string name="error_challenge_already_requested">A kihívás már kérve volt</string>
+    <string name="error_challenge_already_requested">A kihívás már kérve volt.</string>
     <string name="inherited">Öröklés</string>
     <string name="remember_hardware_key_title">Hardverkulcs megjegyzése</string>
     <string name="consider_chars_filter">Karakterek figyelembe vétele</string>
@@ -704,7 +704,7 @@
     <string name="nodes">Csomópontok</string>
     <string name="recursive_number_entries_title">Rekurzív bejegyzések száma</string>
     <string name="recursive_number_entries_summary">Rekurzívan kiszámítja a csoportban lévő bejegyzések számát</string>
-    <string name="warning_large_keyfile">Nagy méretű kulcsfájl hozzáadása nem ajánlott, mivel ez megakadályozhatja az adatbázis megnyitását.</string>
+    <string name="warning_large_keyfile">Nem ajánlott egy nagy méretű kulcsfájl hozzáadása, mivel ez megakadályozhatja az adatbázis megnyitását.</string>
     <string name="hide_templates_summary">A sablonok nem jelennek meg</string>
     <string name="generate_keyfile">Kulcsfájl előállítása</string>
     <string name="hide_templates_title">Sablonok elrejtése</string>

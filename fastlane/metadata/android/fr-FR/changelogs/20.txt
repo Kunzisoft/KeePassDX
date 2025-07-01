@@ -1,4 +1,4 @@
- * Ajout du bouton de lock toujours visible
+* Ajout du bouton de lock toujours visible
  * Nouveau workflow de connexion
  * Code refactorisé en Kotlin
  * Meilleure implementation des notifications

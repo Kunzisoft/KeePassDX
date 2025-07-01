@@ -30,7 +30,7 @@
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Configuració de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
-    <string name="file_manager_install_description">Es requereix un gestor de fitxers que accepti les intencions ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT per a crear, obrir i desar fitxers de base de dades.</string>
+    <string name="file_manager_install_description">Cal crear un gestor de fitxers que accepti les accions intencionals ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT per crear, obrir i desar fitxers de base de dades.</string>
     <string name="clipboard_cleared">Porta-retalls netejat</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls (si el teu dispositiu ho suporta)</string>
@@ -58,7 +58,7 @@
     <string name="entry_user_name">Nom d’usuari</string>
     <string name="error_arc4">No s’admet el xifratge de flux Arcfour.</string>
     <string name="error_can_not_handle_uri">El KeePassDX no pot gestionar aquest URI.</string>
-    <string name="error_file_not_create">No s’ha pogut crear el fitxer</string>
+    <string name="error_file_not_create">No s’ha pogut crear el fitxer.</string>
     <string name="error_invalid_db">No s’ha pogut llegir la base de dades.</string>
     <string name="error_invalid_path">Assegureu-vos que el camí és correcte.</string>
     <string name="error_no_name">Introduïu-hi un nom.</string>
@@ -283,7 +283,7 @@
     <string name="error_rebuild_list">La llista no s\'ha pogut reconstruir correctament.</string>
     <string name="error_database_uri_null">No es pot recuperar l\'URI de la base de dades.</string>
     <string name="error_field_name_already_exists">El nom del camp ja existeix.</string>
-    <string name="error_registration_read_only">No es permet desar un element nou en una base de dades de només lectura</string>
+    <string name="error_registration_read_only">No es permet desar un element nou en una base de dades de només lectura.</string>
     <string name="error_string_type">Aquest text no coincideix amb l\'element sol·licitat.</string>
     <string name="error_otp_type">L\'OTP existent no està reconegut per aquest formulari, la seva validació ja no pot generar correctament el testimoni.</string>
     <string name="error_create_database_file">No s’ha pogut crear una base de dades amb aquesta contrasenya i fitxer de clau.</string>
@@ -328,7 +328,7 @@
     <string name="icon_pack_choose_title">Paquet d’icones</string>
     <string name="icon_section_custom">Personalitzat</string>
     <string name="template_group_name">Plantilles</string>
-    <string name="error_unable_merge_database_kdb">No es pot fusionar d\'una base de dades V1.</string>
+    <string name="error_unable_merge_database_kdb">No es pot fusionar d\'una base de dades V1</string>
     <string name="auto_type">Auto-Escriptura</string>
     <string name="import_app_properties_title">Importar configuració de l\'aplicació</string>
     <string name="card_verification_value">CVV</string>
@@ -368,7 +368,7 @@
     <string name="navigation_drawer_open">El calaix de navegació està obert</string>
     <string name="max_history_size_summary">Limita la mida de l\'historial per entrada</string>
     <string name="success_export_app_properties">Configuració de l\'aplicació exportada</string>
-    <string name="error_export_app_properties">Error a l\'exportar la configuració de l\'aplicació</string>
+    <string name="error_export_app_properties">Error a l\'exportar la configuració de l\'aplicació.</string>
     <string name="type">Tipus</string>
     <string name="content_description_hardware_key_checkbox">Casella de clau física</string>
     <string name="settings_database_recommend_changing_master_key_title">Recomanar renovació</string>
@@ -380,7 +380,7 @@
     <string name="autofill_close_database_summary">Tanca la base de dades després d\'auto-completar</string>
     <string name="screenshot_mode_banner_text">Mode captura de pantalla</string>
     <string name="application_appearance">Interfície</string>
-    <string name="error_import_app_properties">Error a l\'importar la configuració de l\'aplicació</string>
+    <string name="error_import_app_properties">Error a l\'importar la configuració de l\'aplicació.</string>
     <string name="case_sensitive">Sensible a majúscules i minúscules</string>
     <string name="error_location_unknown">Localització de la base de dades desconeguda, l\'acció no es pot fer.</string>
     <string name="membership">Pertinença</string>
@@ -459,7 +459,7 @@
     <string name="advanced_unlock_prompt_store_credential_message">Us haureu de recordar de la credencial principal de la caixa forta en el cas que feu servir el reconeixement del dispositiu pel desbloqueig.</string>
     <string name="secure_note">Nota segura</string>
     <string name="error_file_to_big">El fitxer que esteu intentant pujar és massa gros.</string>
-    <string name="error_challenge_already_requested">El desafiament ja s\'ha sol·licitat</string>
+    <string name="error_challenge_already_requested">El desafiament ja s\'ha sol·licitat.</string>
     <string name="error_cancel_by_user">S\'ha cancel·lat per l\'usuari.</string>
     <string name="error_driver_required">Es requereix un controlador per %1$s.</string>
     <string name="warning_empty_recycle_bin">Voleu suprimir permanentment tots els nodes de la paperera de reciclatge?</string>
@@ -563,7 +563,7 @@
 \nEls grups (carpetes) organitzen entrades a la base de dades.</string>
     <string name="download_attachment">Baixa %1$s</string>
     <string name="download_progression">En curs: %1$d%%</string>
-    <string name="download_complete">S\'ha completat.</string>
+    <string name="download_complete">S\'ha completat!</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extreu la credencial de la base de dades amb les dades de desbloqueig del dispositiu</string>
     <string name="keyboard">Teclat</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -591,7 +591,7 @@
     <string name="remember_keyfile_locations_summary">Fa un seguiment d\'on s\'emmagatzemen els fitxers de claus</string>
     <string name="hide_broken_locations_title">Amaga els enllaços trencats de la base de dades</string>
     <string name="autofill_manual_selection_summary">Mostra l\'opció de permetre que l\'usuari seleccioni l\'entrada de la base de dades</string>
-    <string name="download_canceled">S\'ha cancel·lat.</string>
+    <string name="download_canceled">S\'ha cancel·lat!</string>
     <string name="do_not_kill_app">No matis l\'aplicació…</string>
     <string name="lock_database_screen_off_title">Bloqueig de pantalla</string>
     <string name="at_least_one_char">Com a mínim un caràcter de cada</string>
@@ -660,8 +660,40 @@
     <string name="education_unlock_title">Desbloqueja la base de dades</string>
     <string name="education_setup_OTP_summary">Configureu la gestió de contrasenyes d\'un sol ús (HOTP / TOTP) per generar un testimoni sol·licitat per a l\'autenticació de dos factors (2FA).</string>
     <string name="education_field_copy_title">Copia un camp</string>
-    <string name="html_text_donation">Per tal de mantenir la nostra llibertat i estar sempre actius, comptem amb la seva &lt;strong&gt;aportació. &lt;/strong&gt;</string>
+    <string name="html_text_donation">Al &lt;strong&gt;contribuir&lt;/strong&gt; al projecte <i>(monetàriament, codi, traducció)</i>, l\'ajudareu a continuar vivint i prosperant, i també podreu optar al procediment de desbloqueig del &lt;strong&gt;tema&lt;/strong&gt;.</string>
     <string name="upload_attachment">Puja %1$s</string>
     <string name="download_finalization">S\'està finalitzant…</string>
     <string name="entropy">Entropia: %1$s bit</string>
+    <string name="warning_exact_alarm">No heu permès que l\'aplicació utilitzi una alarma exacta. Com a resultat, les característiques que requereixen un temporitzador no es faran amb un temps exacte.</string>
+    <string name="warning_keyfile_integrity">El hash del fitxer no està garantit perquè Android pot canviar les seves dades al moment. Canvia l\'extensió del fitxer a .bin per a una integritat correcta.</string>
+    <string name="html_text_ad_free">A diferència de moltes aplicacions de gestió de contrasenyes, aquest un és un &lt;strong&gt;programari sense anuncis&lt;/strong&gt;, &lt;strong&gt; copyleft i lliure&lt;/strong&gt; i no recull dades personals en els seus servidors, no importa quina versió utilitzeu.</string>
+    <string name="education_field_copy_summary">Els camps copiats es poden enganxar en qualsevol lloc.\n\nUtilitza el mètode d\'emplenament de formularis que prefereixis.</string>
+    <string name="generate_keyfile">Genera un fitxer de claus</string>
+    <string name="nodes">Nodes</string>
+    <string name="recursive_number_entries_summary">Calcula recursivament el nombre d\'entrades d\'un grup</string>
+    <string name="warning_large_keyfile">No es recomana afegir un fitxer de claus gran, això pot impedir que s\'obri la base de dades.</string>
+    <string name="education_lock_summary">Bloqueja la base de dades ràpidament, pots configurar l\'aplicació per bloquejar-la al cap d\'un temps, i quan la pantalla s\'apagui.</string>
+    <string name="recursive_number_entries_title">Nombre recursiu d\'entrades</string>
+    <string name="advanced_unlock_keystore_warning">Aquesta característica emmagatzemarà dades de credencials encriptades a l\'espai segur KeyStore del vostre dispositiu.\n\nDepenent de la implementació nativa de l\'API del sistema operatiu, pot no ser completament funcional.\n\nComprova la compatibilitat i seguretat de KeyStore amb el fabricant del teu dispositiu i el creador de la ROM que estàs utilitzant.</string>
+    <string name="kdf_explanation">Per a generar la clau per a l\'algorisme d\'encriptació, la clau mestra es transforma utilitzant una funció de derivació de clau sal aleatòria.</string>
+    <string name="education_validate_entry_summary">Recordeu validar la vostra entrada i desar la vostra base de dades.\n\nSi s\'activa un bloqueig automàtic i t\'oblides que estaves fent una modificació, t\'arrisques a perdre les teves dades.</string>
+    <string name="education_read_only_summary">Canvieu el mode inaugural per a la sessió. \n \n\"Escriu-emparat\" impedeix canvis involuntaris a la base de dades. \n\"Modificable\" us permet afegir, eliminar o modificar tots els elements com vulgueu.</string>
+    <string name="warning_database_info_changed_options_read_only">Torna a carregar la base de dades amb els darrers canvis.</string>
+    <string name="warning_database_notification_permission">El permís de notificació permet mostrar l\'estat de la base de dades i bloquejar-la amb un botó de fàcil accés.\n\nSi no activeu aquest permís, la base de dades oberta en segon pla no serà visible si hi ha una altra aplicació en primer pla.</string>
+    <string name="html_text_buy_pro">En comprar la versió pro, tindreu accés a aquest &lt;strong&gt; estil visual&lt;/strong&gt; i sereu ajundant especialment &lt;strong&gt; a la realització de projectes comunitaris.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">Aquesta característica és &lt;strong&gt;en desenvolupament&lt;/strong&gt; i requereix que la vostra &lt;strong&gt;contribució&lt;/strong&gt; estigui disponible aviat.</string>
+    <string name="style_name_forest">Bosc</string>
+    <string name="style_name_divine">Divina</string>
+    <string name="style_name_classic">Clàssic</string>
+    <string name="style_name_reply">Respondre</string>
+    <string name="style_name_kunzite">Kunzite</string>
+    <string name="style_name_follow_system">Seguiu el sistema</string>
+    <string name="hide_templates_title">Amaga les plantilles</string>
+    <string name="hide_templates_summary">Les plantilles no són mostrades</string>
+    <string name="html_text_dev_feature_encourage">esteu animant a qui desenvolupa a crear &lt;strong&gt;noves funcions&lt;/strong&gt; i a &lt;strong&gt;corregir errors&lt;/strong&gt; segons les vostres observacions.</string>
+    <string name="style_name_simple">Simple</string>
+    <string name="style_name_moon">Lluna</string>
+    <string name="style_name_sun">Sol</string>
+    <string name="style_name_light">Clar</string>
+    <string name="style_name_dark">Obscur</string>
 </resources>

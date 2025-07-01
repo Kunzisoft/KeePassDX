@@ -74,7 +74,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;かつ&lt;strong&gt;広告なし&lt;/strong&gt;です。\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;であり、&lt;strong&gt;広告はありません&lt;/strong&gt;。\n本ソフトウェアは&lt;strong&gt;GPLv3&lt;/strong&gt;ライセンスの下で提供されており、いかなる保証もありません。</string>
     <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="entry_accessed">最終アクセス</string>
     <string name="entry_cancel">キャンセル</string>
@@ -103,7 +103,7 @@
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">Arcfour ストリーム暗号には対応していません。</string>
     <string name="error_can_not_handle_uri">KeePassDX ではこの URI を処理できませんでした。</string>
-    <string name="error_file_not_create">ファイルを作成できませんでした</string>
+    <string name="error_file_not_create">ファイルを作成できませんでした。</string>
     <string name="error_invalid_db">データベースを読み取れませんでした。</string>
     <string name="error_invalid_path">パスが正しいことを確認してください。</string>
     <string name="error_invalid_OTP">無効な OTP シークレットです。</string>
@@ -131,7 +131,7 @@
     <string name="error_otp_period">周期は %1$d 秒から %2$d 秒の間でなければなりません。</string>
     <string name="error_otp_digits">トークンは %1$d 桁から %2$d 桁でなければなりません。</string>
     <string name="error_string_type">このテキストは指定された項目と整合しません。</string>
-    <string name="error_registration_read_only">新しい項目の保存は読み取り専用のデータベースでは許可されていません</string>
+    <string name="error_registration_read_only">新しい項目の保存は読み取り専用のデータベースでは許可されていません。</string>
     <string name="field_name">フィールド名</string>
     <string name="field_value">フィールドの値</string>
     <string name="file_not_found_content">ファイルが見つかりませんでした。ファイル ブラウザから再度開いてみてください。</string>
@@ -262,12 +262,12 @@
     <string name="warning_empty_keyfile">空のキーファイルを追加することは推奨されません。</string>
     <string name="warning_empty_keyfile_explanation">キーファイルの内容は決して変更してはいけません。また万全を期すにはランダムに生成されたデータを含んでいるべきです。</string>
     <string name="version_label">バージョン %1$s</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">ビルド %1$s</string>
     <string name="configure_biometric">生体情報またはデバイス認証情報が未登録です。</string>
     <string name="biometric_security_update_required">生体認証セキュリティの更新が必要です。</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
-    <string name="unavailable">データベースの保存済み認証情報はありません。</string>
+    <string name="unavailable">利用不可</string>
     <string name="database_history">履歴</string>
     <string name="menu_appearance_settings">デザイン</string>
     <string name="biometric">生体認証</string>
@@ -401,7 +401,7 @@
     <string name="delete_entered_password_title">パスワードの削除</string>
     <string name="delete_entered_password_summary">入力されたパスワードをデータベースへの接続試行後に削除します</string>
     <string name="enable_read_only_title">書き込み禁止</string>
-    <string name="enable_read_only_summary">デフォルトではデータベースを読み取り専用で開きます</string>
+    <string name="enable_read_only_summary">デフォルトでデータベースを読み取り専用として開きます</string>
     <string name="enable_auto_save_database_title">データベースの自動保存</string>
     <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（ [変更可能] モードのとき）</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
@@ -445,7 +445,7 @@
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
     <string name="html_text_buy_pro">Pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
-    <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
+    <string name="html_text_donation">&lt;strong&gt;プロジェクトに貢献&lt;/strong&gt;することによって（お金、コード、翻訳など）、プロジェクトは継続して成長することができ、さらに&lt;strong&gt;テーマ&lt;/strong&gt;のアンロック手続きにも参加できるようになります。</string>
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;pro&lt;/strong&gt; バージョンを購入することによる、</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;貢献&lt;/strong&gt;による、</string>
@@ -495,13 +495,13 @@
     <string name="advanced_unlock_invalid_key">デバイスのロック解除キーを読み取ることができません。削除して、ロック解除認識手順を繰り返してください。</string>
     <string name="advanced_unlock_prompt_extract_credential_message">デバイスのロック解除データを使用してデータベースの資格情報を抽出する</string>
     <string name="advanced_unlock_prompt_extract_credential_title">デバイスのロック解除認識</string>
-    <string name="advanced_unlock_prompt_store_credential_message">デバイスのロック解除認識を使用する場合でも、Vault のメイン資格情報を覚えておく必要があります。</string>
+    <string name="advanced_unlock_prompt_store_credential_message">デバイスのロック解除認識を使用する場合でも、保管庫のメイン資格情報を覚えておく必要があります。</string>
     <string name="advanced_unlock_prompt_store_credential_title">デバイスのロック解除のリンク</string>
     <string name="select_entry">エントリーを選択</string>
     <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
     <string name="education_advanced_unlock_title">デバイスデータベースのロック解除</string>
     <string name="advanced_unlock_timeout">デバイスのロック解除タイムアウト</string>
-    <string name="temp_advanced_unlock_timeout_summary">コンテンツを削除するまでのデバイスのロック解除使用期間</string>
+    <string name="temp_advanced_unlock_timeout_summary">デバイスのロック解除使用後、コンテンツが削除されるまでの期間</string>
     <string name="temp_advanced_unlock_timeout_title">デバイスのロック解除の有効期限</string>
     <string name="temp_advanced_unlock_enable_summary">デバイスのロック解除を使用するために暗号化されたコンテンツを保存しないでください</string>
     <string name="temp_advanced_unlock_enable_title">一時的なデバイスロック解除</string>
@@ -534,9 +534,9 @@
     <string name="import_app_properties_summary">アプリ設定をインポートするファイルを選択</string>
     <string name="import_app_properties_title">アプリ設定をインポート</string>
     <string name="properties">プロパティ</string>
-    <string name="error_export_app_properties">アプリ設定のエクスポート中にエラーが発生しました</string>
+    <string name="error_export_app_properties">アプリ設定のエクスポート中にエラーが発生しました。</string>
     <string name="success_export_app_properties">アプリ設定をエクスポートしました</string>
-    <string name="error_import_app_properties">アプリ設定のインポート中にエラーが発生しました</string>
+    <string name="error_import_app_properties">アプリ設定のインポート中にエラーが発生しました。</string>
     <string name="success_import_app_properties">アプリ設定をインポートしました</string>
     <string name="description_app_properties">アプリの設定を管理する KeePassDX のプロパティ</string>
     <string name="export_app_properties_summary">アプリ設定をエクスポートするためのファイルを作成する</string>
@@ -588,16 +588,16 @@
     <string name="menu_merge_database">データベースの統合</string>
     <string name="warning_keyfile_integrity">Android は実行中にデータを変更しうるため、ファイルのハッシュ値は保証されません。整合性を正しく保つにはファイルの拡張子を.binに変更してください。</string>
     <string name="permission">権限</string>
-    <string name="enable_keep_screen_on_title">画面の表示を保つ</string>
-    <string name="enable_keep_screen_on_summary">エントリーを開いているときは画面をオンのままにします</string>
+    <string name="enable_keep_screen_on_title">画面を常にオンにする</string>
+    <string name="enable_keep_screen_on_summary">エントリを閲覧または編集している間、画面をオンに保つ</string>
     <string name="content_description_database_color">データベース カラー</string>
     <string name="content_description_entry_foreground_color">エントリーのフォアグラウンド カラー</string>
     <string name="content_description_entry_background_color">エントリーのバックグラウンド カラー</string>
     <string name="wireless">Wi-Fi</string>
     <string name="warning_database_info_reloaded">データベースを再読込すると、ローカルで変更されたデータは破棄されます。</string>
-    <string name="warning_exact_alarm">アプリに正確なアラームの使用を許可していません。その結果、タイマーを必要とする機能が正確な時間で行われなくなります。</string>
+    <string name="warning_exact_alarm">アプリに正確なアラームの使用を許可していません。そのため、タイマーを必要とする機能は正確な時間で実行されません。</string>
     <string name="show_entry_colors_title">エントリー カラー</string>
-    <string name="show_entry_colors_summary">フォアグラウンド・バックグラウンド カラーをエントリー内に表示します</string>
+    <string name="show_entry_colors_summary">エントリの前景色と背景色を表示する</string>
     <string name="regex">正規表現</string>
     <string name="case_sensitive">ケース・センシティブ</string>
     <string name="content_description_passphrase_word_count">パスフレーズの単語数</string>
@@ -633,7 +633,7 @@
     <string name="word_separator">区切り文字</string>
     <string name="menu_save_copy_to">コピーを保存…</string>
     <string name="consider_chars_filter">対象に加える文字</string>
-    <string name="ignore_chars_filter">使用しない文字</string>
+    <string name="ignore_chars_filter">文字を無視する</string>
     <string name="title_case">語頭を大文字</string>
     <string name="enable_screenshot_mode_summary">サードパーティのアプリでこのアプリのスクリーンショットを撮れるようにします</string>
     <string name="enable_screenshot_mode_title">スクリーンショット モード</string>
@@ -653,7 +653,7 @@
     <string name="error_location_unknown">データベースの場所が不明です。データベースへの操作を実行できません。</string>
     <string name="error_driver_required">%1$s 用のドライバーが必要です。</string>
     <string name="auto_type">自動入力</string>
-    <string name="error_challenge_already_requested">チャレンジはすでにリクエストされています</string>
+    <string name="error_challenge_already_requested">チャレンジはすでにリクエストされています。</string>
     <string name="style_name_classic">クラシック</string>
     <string name="style_name_forest">森</string>
     <string name="style_name_simple">シンプル</string>
@@ -662,11 +662,11 @@
     <string name="waiting_challenge_request">チャレンジリクエストを待っています…</string>
     <string name="error_response_already_provided">回答はすでに提供されています。</string>
     <string name="error_no_response_from_challenge">チャレンジからの応答を取得できません。</string>
-    <string name="error_unable_merge_database_kdb">kdb データベース ファイルとマージできません</string>
+    <string name="error_unable_merge_database_kdb">kdbデータベースファイルとのマージはできません</string>
     <string name="menu_advanced_unlock_settings_summary">生体認証、デバイス認証</string>
     <string name="menu_database_settings_summary">メタデータ、ごみ箱、テンプレート、履歴</string>
-    <string name="menu_security_settings_summary">暗号化、鍵導出機能</string>
-    <string name="master_key_settings_summary">変化、再生</string>
+    <string name="menu_security_settings_summary">暗号化、鍵導出関数</string>
+    <string name="master_key_settings_summary">変更、更新</string>
     <string name="later">後で</string>
     <string name="education_validate_entry_title">エントリを検証する</string>
     <string name="warning_database_info_changed_options_read_only">最新の変更を加えてデータベースを再ロードします。</string>
@@ -683,12 +683,20 @@
     <string name="style_name_light">ライト</string>
     <string name="style_name_sun">サン</string>
     <string name="style_name_reply">返事</string>
-    <string name="info">インフォ</string>
+    <string name="info">情報</string>
     <string name="menu_app_settings_summary">検索、ロック、履歴、プロパティ</string>
-    <string name="menu_form_filling_settings_summary">キーボード、オートフィル、クリップボード</string>
+    <string name="menu_form_filling_settings_summary">キーボード、自動入力、クリップボード</string>
     <string name="warning_copy_permission">クリップボード通知機能を使用するには、通知許可が必要です。</string>
     <string name="unlock_and_link_biometric">デバイスのロック解除リンク</string>
     <string name="education_validate_entry_summary">入力内容を検証し、データベースを保存することを忘れないでください。
 \n
 \n自動ロックがアクティブ化され、変更を行ったことを忘れると、データが失われる恐れがあります。</string>
+    <string name="generate_keyfile">キーファイルを生成</string>
+    <string name="nodes">ノード</string>
+    <string name="recursive_number_entries_title">再帰的なエントリ数</string>
+    <string name="recursive_number_entries_summary">グループ内のエントリ数を再帰的に計算する</string>
+    <string name="warning_large_keyfile">大きなキー ファイルを追加することは推奨されません。これにより、データベースが開けなくなる可能性があります。</string>
+    <string name="style_name_kunzite">クンツァイト</string>
+    <string name="hide_templates_title">テンプレートを非表示にする</string>
+    <string name="hide_templates_summary">テンプレートは表示されません</string>
 </resources>

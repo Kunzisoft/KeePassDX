@@ -1,4 +1,4 @@
- * Ajout des icones customisés #96
+* Ajout des icones customisés #96
  * Thèmes sombres #532 #714
  * Correction de la duplication des binaires #715
  * Correction IconId #901

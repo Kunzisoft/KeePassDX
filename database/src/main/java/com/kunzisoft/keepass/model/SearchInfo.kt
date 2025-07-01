@@ -84,6 +84,10 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 && webScheme == null
                 && otpString == null
     }
+    
+    fun isASearchByDomain(): Boolean {
+        return toString() == webDomain && webDomain != null
+    } 
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

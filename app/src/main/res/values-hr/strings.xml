@@ -228,7 +228,7 @@
     <string name="content_description_node_children">Pod-čvor</string>
     <string name="entry_accessed">Pristupljeno</string>
     <string name="error_arc4">Arcfour šifriranje nije podržano.</string>
-    <string name="error_file_not_create">Nije moguće stvoriti datoteku</string>
+    <string name="error_file_not_create">Nije moguće stvoriti datoteku.</string>
     <string name="error_invalid_db">Nije moguće čitati bazu podataka.</string>
     <string name="error_invalid_path">Provjeri putanju do datoteke.</string>
     <string name="error_invalid_OTP">Neispravna tajna jednokratne lozinke.</string>
@@ -463,7 +463,7 @@
     <string name="content_description_credentials_information">Podaci za prijavu</string>
     <string name="autofill_save_search_info_summary">Pokušaj spremiti podatke prilikom odabira ručnog unosa za jednostavniju buduću upotrebu</string>
     <string name="notification">Obavijest</string>
-    <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka</string>
+    <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka.</string>
     <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
     <string name="show_uuid_summary">Prikazuje UUID povezan s unosom ili grupom</string>
     <string name="show_uuid_title">Prikaži UUID</string>
@@ -535,9 +535,9 @@
     <string name="error_remove_file">Tijekom uklanjanja podataka datoteke došlo je do greške.</string>
     <string name="error_duplicate_file">Podaci datoteke već postoje.</string>
     <string name="properties">Svojstva</string>
-    <string name="error_export_app_properties">Greška tijekom izvoza postavki aplikacije</string>
+    <string name="error_export_app_properties">Greška tijekom izvoza postavki aplikacije.</string>
     <string name="success_export_app_properties">Postavke aplikacije su izvezene</string>
-    <string name="error_import_app_properties">Greška tijekom uvoza postavki aplikacije</string>
+    <string name="error_import_app_properties">Greška tijekom uvoza postavki aplikacije.</string>
     <string name="success_import_app_properties">Postavke aplikacije su uvezene</string>
     <string name="description_app_properties">KeePassDX svojstva za upravljanje postavkama aplikacije</string>
     <string name="export_app_properties_summary">Stvori datoteku za izvoz postavki aplikacije</string>
@@ -640,7 +640,7 @@
     <string name="upper_case">VELIKA SLOVA</string>
     <string name="hardware_key">Hardverski ključ</string>
     <string name="error_no_hardware_key">Odaberi hardverski ključ.</string>
-    <string name="error_unable_merge_database_kdb">Spajanje s kdb datotekom baze podataka nije moguće</string>
+    <string name="error_unable_merge_database_kdb">Spajanje s kdb datotekom baze podataka nije moguće.</string>
     <string name="error_location_unknown">Mjesto baze podataka nije poznato, radnja baze podataka se ne može izvršiti.</string>
     <string name="error_cancel_by_user">Korisnik je prekinuo radnju.</string>
     <string name="error_driver_required">Potreban je pogon za %1$s.</string>
@@ -660,7 +660,7 @@
     <string name="waiting_challenge_response">Čeka se odgovor za izazov …</string>
     <string name="auto_type">Automatski unos</string>
     <string name="waiting_challenge_request">Čeka se zahtjev za izazov …</string>
-    <string name="error_challenge_already_requested">Izazov je već zatražen</string>
+    <string name="error_challenge_already_requested">Izazov je već zatražen.</string>
     <string name="error_response_already_provided">Odgovor je već dat.</string>
     <string name="merge_success">Sjedinjavanje uspješno završeno</string>
     <string name="menu_app_settings_summary">Pretraga, zaključavanje, povijest, svojstva</string>
@@ -696,4 +696,9 @@
     <string name="style_name_kunzite">Spodumen</string>
     <string name="style_name_dark">Tamna</string>
     <string name="warning_database_info_changed_options_read_only">Ponovo učitaj bazu podataka s najnovijim promjenama.</string>
+    <string name="nodes">Čvorovi</string>
+    <string name="recursive_number_entries_title">Rekurzivni broj unosa</string>
+    <string name="recursive_number_entries_summary">Rekurzivno izračunava broj unosa u grupi</string>
+    <string name="hide_templates_title">Sakrij predloške</string>
+    <string name="hide_templates_summary">Predlošci se ne prikazuju</string>
 </resources>

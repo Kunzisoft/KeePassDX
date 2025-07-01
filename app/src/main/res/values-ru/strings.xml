@@ -61,7 +61,7 @@
     <string name="entry_user_name">Пользователь</string>
     <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
     <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
-    <string name="error_file_not_create">Невозможно создать файл</string>
+    <string name="error_file_not_create">Невозможно создать файл.</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь, что путь указан правильно.</string>
     <string name="error_no_name">Введите название.</string>
@@ -266,11 +266,11 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих других приложений управления паролями, здесь &lt;strong&gt;нет рекламы&lt;/strong&gt;, и оно &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Приложение не собирает ваши личные данные на своих серверах независимо от версии, которую вы используете.</string>
-    <string name="html_text_buy_pro">Купите Pro–версию и откройте доступ к этой &lt;strong&gt;теме&lt;/strong&gt;. Покупая Pro-версию, вы помогаете &lt;strong&gt;разработчикам открытого ПО&lt;/strong&gt;.</string>
+    <string name="html_text_buy_pro">Купите про–версию и откройте доступ к этой &lt;strong&gt;теме&lt;/strong&gt;. Покупая про-версию, вы помогаете &lt;strong&gt;разработчикам открытого ПО.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для развития нашего проекта и его независимости нам необходима ваша &lt;strong&gt;поддержка&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Произведя &lt;strong&gt;вклад&lt;/strong&gt; в проект <i>(в денежном выражении, программным кодом или переводом)</i>, вы поможете ему жить и процветать, а также получите право на разблокировку &lt;strong&gt;тем&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
-    <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;Pro&lt;/strong&gt;–версию,</string>
+    <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;про&lt;/strong&gt;–версию,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять &lt;strong&gt;новые возможности&lt;/strong&gt; и &lt;strong&gt;исправлять ошибки&lt;/strong&gt; в соответствии с вашими замечаниями.</string>
     <string name="html_text_dev_feature_thanks">Большое спасибо за поддержку.</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">Режим регистрации</string>
     <string name="save_mode">Режим записи</string>
     <string name="search_mode">Режим поиска</string>
-    <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения</string>
+    <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения.</string>
     <string name="error_field_name_already_exists">Поле с таким названием уже существует.</string>
     <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
@@ -540,9 +540,9 @@
     <string name="error_duplicate_file">Данные файла уже существует.</string>
     <string name="error_remove_file">Ошибка при удалении данных файла.</string>
     <string name="properties">Свойства</string>
-    <string name="error_export_app_properties">Ошибка при экспорте настроек приложения</string>
+    <string name="error_export_app_properties">Ошибка при экспорте настроек приложения.</string>
     <string name="success_export_app_properties">Настройки приложения экспортированы</string>
-    <string name="error_import_app_properties">Ошибка при импорте настроек приложения</string>
+    <string name="error_import_app_properties">Ошибка при импорте настроек приложения.</string>
     <string name="success_import_app_properties">Настройки приложения импортированы</string>
     <string name="description_app_properties">Управление настройками приложения KeePassDX</string>
     <string name="export_app_properties_summary">Создать резервную копию настроек</string>
@@ -650,9 +650,9 @@
     <string name="error_no_hardware_key">Выберите аппаратный ключ.</string>
     <string name="error_cancel_by_user">Отменено пользователем.</string>
     <string name="error_response_already_provided">Ответ уже предоставлен.</string>
-    <string name="error_challenge_already_requested">Вызов уже запрошен</string>
+    <string name="error_challenge_already_requested">Вызов уже запрошен.</string>
     <string name="error_no_response_from_challenge">Невозможно получить ответ на вызов.</string>
-    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb.</string>
+    <string name="error_unable_merge_database_kdb">Невозможно выполнить объединение с базой паролей в формате kdb</string>
     <string name="error_hardware_key_unsupported">Аппаратный ключ не поддерживается.</string>
     <string name="error_empty_key">Ключ не может быть пустым.</string>
     <string name="corrupted_file">Файл повреждён.</string>
@@ -701,4 +701,11 @@
     <string name="style_name_moon">Лунная</string>
     <string name="style_name_follow_system">Как в системе</string>
     <string name="warning_database_info_changed_options_read_only">Перезагрузите базу с последними изменениями.</string>
+    <string name="generate_keyfile">Создание ключевого файла</string>
+    <string name="nodes">Узлы</string>
+    <string name="recursive_number_entries_summary">Подсчитывать количество вложенных записей в группе</string>
+    <string name="recursive_number_entries_title">Рекурсивное количество записей</string>
+    <string name="warning_large_keyfile">Не рекомендуется добавлять большой ключевой файл, это может помешать открытию базы.</string>
+    <string name="hide_templates_title">Скрывать шаблоны</string>
+    <string name="hide_templates_summary">Не показывать шаблоны</string>
 </resources>

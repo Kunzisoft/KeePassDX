@@ -57,7 +57,7 @@
     <string name="entry_user_name">Ім\'я користувача</string>
     <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
     <string name="error_can_not_handle_uri">Не вдалось обробити цей URI в KeePassDX.</string>
-    <string name="error_file_not_create">Не вдалося створити нотатку</string>
+    <string name="error_file_not_create">Не вдалося створити нотатку.</string>
     <string name="error_invalid_db">Неможливо прочитати базу даних.</string>
     <string name="error_invalid_path">Переконайтеся у правильності шляху.</string>
     <string name="error_no_name">Введіть назву.</string>
@@ -83,8 +83,8 @@
     <string name="list_size_summary">Розмір тексту у переліку груп</string>
     <string name="loading_database">Завантаження бази даних…</string>
     <string name="lowercase">Малі літери</string>
-    <string name="hide_password_title">Приховувати паролі</string>
-    <string name="hide_password_summary">Типово приховувати паролі за (***)</string>
+    <string name="hide_password_title">Ховати паролі</string>
+    <string name="hide_password_summary">Типово ховати паролі за (***)</string>
     <string name="about">Про KeePassDX</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
     <string name="settings">Налаштування</string>
@@ -92,7 +92,7 @@
     <string name="menu_delete">Видалити</string>
     <string name="menu_donate">Підтримати</string>
     <string name="menu_edit">Змінити</string>
-    <string name="menu_hide_password">Приховати пароль</string>
+    <string name="menu_hide_password">Сховати пароль</string>
     <string name="menu_lock">Заблокувати базу даних</string>
     <string name="menu_open">Відкрити</string>
     <string name="menu_search">Пошук</string>
@@ -160,8 +160,8 @@
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
     <string name="master_key">Головний ключ</string>
-    <string name="hide_broken_locations_summary">Приховувати пошкоджені посилання до недавніх баз даних</string>
-    <string name="hide_broken_locations_title">Приховувати пошкоджені посилання до баз даних</string>
+    <string name="hide_broken_locations_summary">Ховати пошкоджені посилання до недавніх баз даних</string>
+    <string name="hide_broken_locations_title">Ховати пошкоджені посилання до баз даних</string>
     <string name="show_recent_files_summary">Показувати розташування недавніх баз даних</string>
     <string name="show_recent_files_title">Показувати недавні файли</string>
     <string name="remember_keyfile_locations_summary">Відстеження місця зберігання файлів ключів</string>
@@ -249,7 +249,7 @@
     <string name="content_description_node_children">Дочірні вузли</string>
     <string name="unavailable_feature_hardware">Не вдалося знайти відповідне обладнання.</string>
     <string name="hide_expired_entries_summary">Застарілі записи не показано</string>
-    <string name="hide_expired_entries_title">Приховувати застарілі записи</string>
+    <string name="hide_expired_entries_title">Ховати застарілі записи</string>
     <string name="icon_pack_choose_summary">Набір піктограм застосунку</string>
     <string name="icon_pack_choose_title">Набір піктограм</string>
     <string name="style_choose_summary">Тема застосунку</string>
@@ -268,7 +268,7 @@
     <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоб бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">Щоб залишатися вільними та бути завжди активними, ми розраховуємо на вашу &lt;strong&gt;допомогу.&lt;/strong&gt;</string>
+    <string name="html_text_donation">&lt;strong&gt;Допомагаючи&lt;/strong&gt; проєкту <i>(фінансово, кодом, перекладами)</i>, ви допоможете йому продовжувати існувати та процвітати, а також матимете право на процедуру розблокування &lt;strong&gt;теми&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">Режим реєстрації</string>
     <string name="save_mode">Режим збереження</string>
     <string name="search_mode">Режим пошуку</string>
-    <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання</string>
+    <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання.</string>
     <string name="error_field_name_already_exists">Назва поля вже існує.</string>
     <string name="advanced_unlock_delete_all_key_warning">Видалити всі ключі шифрування, пов’язані з розпізнаванням розблокування пристрою\?</string>
     <string name="device_credential_unlock_enable_summary">Дає змогу використовувати облікові дані пристрою для відкриття бази даних</string>
@@ -540,9 +540,9 @@
     <string name="error_remove_file">Сталася помилка під час вилучення даних файлу.</string>
     <string name="error_duplicate_file">Дані файлу вже існують.</string>
     <string name="properties">Властивості</string>
-    <string name="error_export_app_properties">Помилка під час експорту налаштувань застосунку</string>
+    <string name="error_export_app_properties">Помилка під час експорту налаштувань застосунку.</string>
     <string name="success_export_app_properties">Налаштування застосунку експортовано</string>
-    <string name="error_import_app_properties">Помилка під час імпорту налаштувань застосунку</string>
+    <string name="error_import_app_properties">Помилка під час імпорту налаштувань застосунку.</string>
     <string name="success_import_app_properties">Налаштування застосунку імпортовано</string>
     <string name="description_app_properties">Властивості KeePassDX для керування налаштування застосунку</string>
     <string name="export_app_properties_summary">Створити файл для експорту налаштувань застосунку</string>
@@ -649,7 +649,7 @@
     <string name="error_XML_malformed">Хибний XML.</string>
     <string name="error_response_already_provided">Відповідь уже надана.</string>
     <string name="error_driver_required">Вимагається драйвер для %1$s.</string>
-    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з файлом бази даних kdb</string>
+    <string name="error_unable_merge_database_kdb">Не вдалося об\'єднати з файлом бази даних kdb.</string>
     <string name="remember_hardware_key_title">Пам\'ятати апаратні ключі</string>
     <string name="remember_hardware_key_summary">Пам\'ятати використовувані апаратні ключі</string>
     <string name="enable_screenshot_mode_title">Режим знімка екрана</string>
@@ -659,7 +659,7 @@
     <string name="error_hardware_key_unsupported">Апаратний ключ не підтримується.</string>
     <string name="waiting_challenge_response">Очікування відповіді на виклик…</string>
     <string name="error_no_hardware_key">Виберіть апаратний ключ.</string>
-    <string name="error_challenge_already_requested">Виклик уже запитаний</string>
+    <string name="error_challenge_already_requested">Виклик уже запитаний.</string>
     <string name="error_no_response_from_challenge">Не вдалося отримати відповідь на виклик.</string>
     <string name="error_cancel_by_user">Скасовано користувачем.</string>
     <string name="error_location_unknown">Розташування бази даних невідоме, дія бази даних не може бути виконана.</string>
@@ -701,4 +701,11 @@
     <string name="style_name_simple">Спрощенна</string>
     <string name="style_name_moon">Місячна</string>
     <string name="warning_database_info_changed_options_read_only">Перезавантажте базу даних з останніми змінами.</string>
+    <string name="generate_keyfile">Згенерувати файл ключа</string>
+    <string name="nodes">Вузли</string>
+    <string name="recursive_number_entries_title">Рекурсивна кількість записів</string>
+    <string name="recursive_number_entries_summary">Рекурсивно обчислює кількість записів у групі</string>
+    <string name="hide_templates_title">Сховати шаблони</string>
+    <string name="hide_templates_summary">Шаблони не показано</string>
+    <string name="warning_large_keyfile">Не рекомендується додавати великий файл ключа, це може завадити створенню бази даних.</string>
 </resources>

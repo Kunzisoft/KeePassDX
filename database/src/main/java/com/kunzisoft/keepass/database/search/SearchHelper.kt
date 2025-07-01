@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
 class SearchHelper {
 
@@ -149,14 +150,14 @@ class SearchHelper {
             }
             if (searchParameters.searchInUrls) {
                 if (checkSearchQuery(entry.url, searchParameters) { stringToCheck, word ->
-                        // domain.org
-                        stringToCheck.equals(word, !searchParameters.caseSensitive) ||
-                        // subdomain.domain.org
-                        stringToCheck.endsWith(".$word", !searchParameters.caseSensitive) ||
-                        // https://domain.org
-                        stringToCheck.endsWith("/$word", !searchParameters.caseSensitive)
-                        // Don't allow mydomain.org
-                    })
+                    if (searchParameters.searchByDomain) {
+                        try {
+                            stringToCheck.inTheSameDomainAs(word, sameSubDomain = true)
+                        } catch (e: Exception) {
+                            false
+                        }
+                    } else null
+                })
                     return true
             }
             if (searchParameters.searchInNotes) {
@@ -187,7 +188,7 @@ class SearchHelper {
         private fun checkSearchQuery(
             stringToCheck: String,
             searchParameters: SearchParameters,
-            specialComparison: ((check: String, word: String) -> Boolean)? = null): Boolean {
+            specialComparison: ((check: String, word: String) -> Boolean?)? = null): Boolean {
             /*
             // TODO Search settings
             var removeAccents = true <- Too much time, to study
@@ -204,13 +205,10 @@ class SearchHelper {
                 }
                 regex.matches(stringToCheck)
             } else {
-                var searchFound = true
-                searchParameters.searchQuery.split(" ").forEach { word ->
-                    searchFound = searchFound
-                            && (specialComparison?.invoke(stringToCheck, word)
-                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive))
+                searchParameters.searchQuery.split(" ").any { word ->
+                    specialComparison?.invoke(stringToCheck, word)
+                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive)
                 }
-                searchFound
             }
         }
     }
