@@ -21,12 +21,21 @@ package com.kunzisoft.keepass.autofill
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.CancellationSignal
-import android.service.autofill.*
+import android.service.autofill.AutofillService
+import android.service.autofill.FillCallback
+import android.service.autofill.FillRequest
+import android.service.autofill.FillResponse
+import android.service.autofill.InlinePresentation
+import android.service.autofill.Presentations
+import android.service.autofill.SaveCallback
+import android.service.autofill.SaveInfo
+import android.service.autofill.SaveRequest
 import android.util.Log
 import android.view.autofill.AutofillId
 import android.widget.RemoteViews
@@ -35,6 +44,7 @@ import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AutofillLauncherActivity
+import com.kunzisoft.keepass.autofill.StructureParser.Companion.APPLICATION_ID_POPUP_WINDOW
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -99,8 +109,12 @@ class KeeAutofillService : AutofillService() {
         StructureParser(latestStructure).parse()?.let { parseResult ->
 
             // Build search info only if applicationId or webDomain are not blocked
-            if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                    && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+            if (autofillAllowedFor(
+                    applicationId = parseResult.applicationId,
+                    applicationIdBlocklist = applicationIdBlocklist,
+                    webDomain = parseResult.webDomain,
+                    webDomainBlocklist = webDomainBlocklist)
+                ) {
                 val searchInfo = SearchInfo().apply {
                     applicationId = parseResult.applicationId
                     webDomain = parseResult.webDomain
@@ -258,7 +272,7 @@ class KeeAutofillService : AutofillService() {
                             val inlinePresentationSpecs =
                                 inlineSuggestionsRequest.inlinePresentationSpecs
                             if (inlineSuggestionsRequest.maxSuggestionCount > 0
-                                && inlinePresentationSpecs.size > 0
+                                && inlinePresentationSpecs.isNotEmpty()
                             ) {
                                 val inlinePresentationSpec = inlinePresentationSpecs[0]
 
@@ -274,11 +288,7 @@ class KeeAutofillService : AutofillService() {
                                                 this,
                                                 0,
                                                 Intent(this, AutofillSettingsActivity::class.java),
-                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    PendingIntent.FLAG_IMMUTABLE
-                                                } else {
-                                                    0
-                                                }
+                                                PendingIntent.FLAG_IMMUTABLE
                                             )
                                         ).apply {
                                             setContentDescription(getString(R.string.autofill_sign_in_prompt))
@@ -352,8 +362,12 @@ class KeeAutofillService : AutofillService() {
             val latestStructure = request.fillContexts.last().structure
             StructureParser(latestStructure).parse(true)?.let { parseResult ->
 
-                if (autofillAllowedFor(parseResult.applicationId, applicationIdBlocklist)
-                        && autofillAllowedFor(parseResult.webDomain, webDomainBlocklist)) {
+                if (autofillAllowedFor(
+                        applicationId = parseResult.applicationId,
+                        applicationIdBlocklist = applicationIdBlocklist,
+                        webDomain = parseResult.webDomain,
+                        webDomainBlocklist = webDomainBlocklist)
+                    ) {
                     Log.d(TAG, "autofill onSaveRequest password")
 
                     // Build expiration from date or from year and month
@@ -413,6 +427,28 @@ class KeeAutofillService : AutofillService() {
 
     companion object {
         private val TAG = KeeAutofillService::class.java.name
+
+        fun autofillAllowedFor(applicationId: String?,
+                               webDomain: String?,
+                               context: Context
+        ): Boolean {
+            return autofillAllowedFor(
+                applicationId = applicationId,
+                applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(context),
+                webDomain = webDomain,
+                webDomainBlocklist = PreferencesUtil.webDomainBlocklist(context))
+        }
+
+        fun autofillAllowedFor(applicationId: String?,
+                               applicationIdBlocklist: Set<String>?,
+                               webDomain: String?,
+                               webDomainBlocklist: Set<String>?
+        ): Boolean {
+            return autofillAllowedFor(applicationId, applicationIdBlocklist)
+                    // To prevent unrecognized autofill popup id
+                    && applicationId?.contains(APPLICATION_ID_POPUP_WINDOW) != true
+                    && autofillAllowedFor(webDomain, webDomainBlocklist)
+        }
 
         fun autofillAllowedFor(element: String?, blockList: Set<String>?): Boolean {
             element?.let { elementNotNull ->

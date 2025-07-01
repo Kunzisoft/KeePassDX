@@ -27,8 +27,7 @@ import android.view.autofill.AutofillId
 import android.view.autofill.AutofillValue
 import androidx.annotation.RequiresApi
 import org.joda.time.DateTime
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
 
 /**
@@ -52,7 +51,7 @@ class StructureParser(private val structure: AssistStructure) {
                     applicationId = windowNode.title.toString().split("/")[0]
                     Log.d(TAG, "Autofill applicationId: $applicationId")
 
-                    if (applicationId?.contains("PopupWindow:") == false) {
+                    if (applicationId?.contains(APPLICATION_ID_POPUP_WINDOW) == false) {
                         if (parseViewNode(windowNode.rootViewNode))
                             break@mainLoop
                     }
@@ -583,5 +582,7 @@ class StructureParser(private val structure: AssistStructure) {
 
     companion object {
         private val TAG = StructureParser::class.java.name
+
+        const val APPLICATION_ID_POPUP_WINDOW = "PopupWindow:"
     }
 }

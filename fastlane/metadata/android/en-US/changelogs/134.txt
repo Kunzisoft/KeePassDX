@@ -1,1 +1,5 @@
- * Fix URL matching in presence of a path #1940
+ * Fix URL search #1940 #1946 #2003 #2044
+ * Fix Autofill popup #2054
+ * Fix Dialog background #2005 #2004 (Thx @codokie)
+ * Fix OTP code alignment in the main screen #2007 (Thx @ymcx)
+ * App Metadata to translation #1823
