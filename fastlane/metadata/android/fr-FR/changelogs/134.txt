@@ -3,5 +3,6 @@
  * Correction des notes de groupes #2053
  * Correction du fond de boite de dialogue #2005 #2004 (Thx @codokie)
  * Correction de l'alignement du code OTP dans l'écran principal #2007 (Thx @ymcx)
+ * Correction configuration OTP #2042 #2065 (Thx @Dev-ClayP)
  * Support des vues RTL #2021 (Thx @codokie)
  * Metadonnées de l'app en traduction #1823
