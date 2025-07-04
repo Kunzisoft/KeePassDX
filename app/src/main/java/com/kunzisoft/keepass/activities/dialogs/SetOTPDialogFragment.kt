@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_HOTP_COUNTER
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_DIGITS
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_SECRET
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
@@ -312,8 +313,9 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         // Set secret in OtpElement
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { userString ->   
-                    if (userString.length >= 8) {
+                s?.toString()?.let { userString ->
+
+                    if (userString.length >= MIN_OTP_SECRET) {
                         try {
                             mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
                             otpSecretContainer?.error = null
@@ -321,7 +323,8 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
                             otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
                         }
                     } else {
-                        otpSecretContainer?.error = null
+                        otpSecretContainer?.error = getString(R.string.error_otp_secret_length,
+                            MIN_OTP_SECRET)
                     }
                     mSecretWellFormed = otpSecretContainer?.error == null
                 }

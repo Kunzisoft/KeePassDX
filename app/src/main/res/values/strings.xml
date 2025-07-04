@@ -187,6 +187,7 @@
     <string name="error_create_database_file">Unable to create database with this password and keyfile.</string>
     <string name="error_save_database">Could not save the database.</string>
     <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
+    <string name="error_otp_secret_length">Secret key must be at least %1$d characters.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
