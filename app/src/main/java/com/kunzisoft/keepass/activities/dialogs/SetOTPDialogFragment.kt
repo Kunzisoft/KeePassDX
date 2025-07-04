@@ -224,6 +224,9 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             }
             otpAlgorithmSpinner?.adapter = otpAlgorithmAdapter
 
+            // Ensure that the UX does not prevent user from hiding/unhiding text
+            otpSecretContainer?.errorIconDrawable = null
+
             // Set the default value of OTP element
             upgradeType()
             upgradeTokenType()
@@ -309,12 +312,16 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         // Set secret in OtpElement
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { userString ->
-                    try {
-                        mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
+                s?.toString()?.let { userString ->   
+                    if (userString.length >= 8) {
+                        try {
+                            mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
+                            otpSecretContainer?.error = null
+                        } catch (exception: Exception) {
+                            otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
+                        }
+                    } else {
                         otpSecretContainer?.error = null
-                    } catch (exception: Exception) {
-                        otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
                     }
                     mSecretWellFormed = otpSecretContainer?.error == null
                 }
