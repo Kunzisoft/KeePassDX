@@ -314,7 +314,6 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.let { userString ->
-
                     if (userString.length >= MIN_OTP_SECRET) {
                         try {
                             mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
