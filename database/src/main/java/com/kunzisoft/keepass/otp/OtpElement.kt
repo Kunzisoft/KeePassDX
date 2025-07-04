@@ -216,6 +216,8 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         const val MIN_OTP_DIGITS = 4
         const val MAX_OTP_DIGITS = 18
 
+        const val MIN_OTP_SECRET = 8
+
         fun isValidCounter(counter: Long): Boolean {
             return counter in MIN_HOTP_COUNTER..MAX_HOTP_COUNTER
         }
