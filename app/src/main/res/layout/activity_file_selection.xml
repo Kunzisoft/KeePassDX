@@ -58,6 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_collapseMode="parallax"
+                    android:layoutDirection="ltr"
                     android:layout_gravity="center_horizontal|bottom"
                     android:gravity="center"
                     android:orientation="horizontal"

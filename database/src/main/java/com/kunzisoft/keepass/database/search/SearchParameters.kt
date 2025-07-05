@@ -45,6 +45,7 @@ class SearchParameters() : Parcelable{
     var searchInSearchableGroup = true
     var searchInRecycleBin = false
     var searchInTemplates = false
+    var searchByDomain = false
 
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery

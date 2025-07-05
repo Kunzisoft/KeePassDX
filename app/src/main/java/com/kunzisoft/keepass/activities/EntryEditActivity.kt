@@ -97,7 +97,7 @@ import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.view.updateLockPaddingLeft
+import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
 import java.util.UUID
@@ -503,7 +503,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         // Padding if lock button visible
-        entryEditAddToolBar?.updateLockPaddingLeft()
+        entryEditAddToolBar?.updateLockPaddingStart()
 
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()

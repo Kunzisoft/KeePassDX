@@ -36,7 +36,7 @@
     <string name="contribution">Участие</string>
     <string name="entry_UUID">Идентификатор</string>
     <string name="entry_history">История</string>
-    <string name="copy_field">%1$s копие</string>
+    <string name="copy_field">Копирано: %1$s</string>
     <string name="clipboard_error_title">Грешка в клипборда</string>
     <string name="file_manager_install_description">За създаване, отваряне и запазване на файлове на хранилищата е необходимо приложение за управление на файлове, което приема действието ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT.</string>
     <string name="content_description_add_entry">Нов запис</string>
@@ -298,7 +298,7 @@
     <string name="settings_database_force_changing_master_key_title">Принудителна смяна</string>
     <string name="database_name_title">Име на хранилището</string>
     <string name="database_description_title">Описание на хранилището</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_title">Настройки на Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_appearance_category">Външен вид</string>
@@ -456,12 +456,12 @@
     <string name="html_text_dev_feature_upgrade">Не забравяйте да обновявате приложението.</string>
     <string name="html_text_dev_feature_encourage">вие поощрявате разработчиците да добавят &lt;strong&gt;нови възможности&lt;/strong&gt; и да &lt;strong&gt;отстраняват дефекти&lt;/strong&gt; според вашите отзиви.</string>
     <string name="html_text_buy_pro">Купувайки версията Pro ще имате достъп до тази &lt;strong&gt;тема&lt;/strong&gt; и особено ще помогнете за &lt;strong&gt;изпълнението на проекти на общността&lt;/strong&gt;.</string>
-    <string name="html_text_donation">За да развиваме проекта и да запазим неговата независимост се нуждаем от вашата &lt;strong&gt;поддръжка&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Като &lt;strong&gt;допринасяте&lt;/strong&gt; за проекта <i>(финансово, с код или преводи)</i> му помагате да живее и процъвтява, а също получавате процедурата за отключване на &lt;strong&gt;темите&lt;/strong&gt;.</string>
     <string name="hint_keyfile">Файл с ключ</string>
     <string name="invalid_algorithm">Грешен алгоритъм.</string>
     <string name="description_app_properties">Свойства за управление на настройките на KeePassDX</string>
     <string name="success_export_app_properties">Настройките на приложението са изнесени</string>
-    <string name="error_export_app_properties">Грешка при изнасяне на настройки</string>
+    <string name="error_export_app_properties">Грешка при изнасяне на настройки.</string>
     <string name="error_invalid_OTP">Неприемлива тайна за OTP.</string>
     <string name="error_no_name">Въведете име.</string>
     <string name="hide_broken_locations_summary">Скрива вече несъществуващи хранилища от списъка с последно отваряните</string>
@@ -478,7 +478,7 @@
     <string name="encryption_explanation">Алгоритъм за шифроване на цялата информация</string>
     <string name="memory_usage">Използвана памет</string>
     <string name="error_invalid_path">Уверете се, че пътят е правилен.</string>
-    <string name="error_import_app_properties">Грешка при внасяне на настройки</string>
+    <string name="error_import_app_properties">Грешка при внасяне на настройки.</string>
     <string name="parallelism">Паралелно изпълняване</string>
     <string name="success_import_app_properties">Настройките на приложението са внесени</string>
     <string name="read_only_warning">В зависимост от приложението за управление на файлове, KeePassDX може да няма права да пише в паметта на устройството.</string>
@@ -498,7 +498,7 @@
     <string name="lock_database_screen_off_title">Заключване на екрана</string>
     <string name="database_data_remove_unlinked_attachments_title">Премахване на несвързани данни</string>
     <string name="warning_sure_add_file">Добавяне на файла въпреки това?</string>
-    <string name="error_unable_merge_database_kdb">Не е възможно обединяване с хранилище във формат KBD</string>
+    <string name="error_unable_merge_database_kdb">Не е възможно обединяване с хранилище във формат KBD.</string>
     <string name="memory_usage_explanation">Количество памет, използвана от функцията за извличане на ключове.</string>
     <string name="warning_database_already_opened">Има отворено хранилище, затворете го, за да отворите друго</string>
     <string name="warning_replace_file">При добавяне на този файл ще бъде заменен вече съществуващ.</string>
@@ -508,7 +508,7 @@
     <string name="merge_success">Обединяването е завършено</string>
     <string name="configure">Настройка</string>
     <string name="unavailable">Недостъпно</string>
-    <string name="database_opened">Хранилището е отвоерно</string>
+    <string name="database_opened">Хранилището е отключено</string>
     <string name="ask">Питане</string>
     <string name="list_password_generator_options_summary">Задава набора от разрешени знаци за създаване на парола</string>
     <string name="later">По-късно</string>
@@ -571,7 +571,7 @@
     <string name="error_disallow_no_credentials">Трябва да има зададена най-малко една парола.</string>
     <string name="error_pass_match">Паролите се различават.</string>
     <string name="error_string_type">Текстът не съвпада с търсения елемент.</string>
-    <string name="error_registration_read_only">Нов запис не може да бъде добавен в хранилище, отворено само за четене</string>
+    <string name="error_registration_read_only">Нов запис не може да бъде добавен в хранилище, отворено само за четене.</string>
     <string name="error_start_database_action">Възникна грешка при извършване на действие с хранилището.</string>
     <string name="keyboard_entry_timeout_title">Време за изчакване</string>
     <string name="autofill_application_id_blocklist_title">Черен списък на приложения</string>
@@ -680,4 +680,9 @@
     <string name="warning_database_info_changed_options_read_only">Презаредете последните промени в хранилището.</string>
     <string name="generate_keyfile">Създаване на файл с ключ</string>
     <string name="nodes">Възли</string>
+    <string name="recursive_number_entries_summary">Изчислява броя на всички записи в групата</string>
+    <string name="recursive_number_entries_title">Брой на записите</string>
+    <string name="warning_large_keyfile">Не се препоръчва използването на голям файл с ключ, защото може да попречи на отварянето на хранилището.</string>
+    <string name="hide_templates_summary">Шаблоните не се показват</string>
+    <string name="hide_templates_title">Скриване на шаблоните</string>
 </resources>

@@ -61,7 +61,7 @@
     <string name="entry_user_name">Όνομα χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης Arcfour δεν υποστηρίζεται.</string>
     <string name="error_can_not_handle_uri">Το KeePassDX δε μπορεί να χειριστεί αυτή τη διεύθυνση URI.</string>
-    <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου</string>
+    <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου.</string>
     <string name="error_invalid_db">Δεν ήταν δυνατή η ανάγνωση της βάσης δεδομένων.</string>
     <string name="error_invalid_path">Βεβαιωθείτε ότι η διαδρομή είναι σωστή.</string>
     <string name="error_no_name">Εισαγάγετε ένα όνομα.</string>
@@ -233,7 +233,7 @@
     <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτή είναι &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;, &lt;strong&gt;copylefted libre λογισμικό&lt;/strong&gt; και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές της, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
     <string name="html_text_buy_pro">Με την αγορά της επαγγελματικής έκδοσης, θα έχετε πρόσβαση σε αυτό το &lt;strong&gt;οπτικό στοιχείο&lt;/strong&gt; και θα βοηθήσετε ιδιαίτερα την &lt;strong&gt;υλοποίηση ιδεών της κοινότητας.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Αυτό το &lt;strong&gt;οπτικό στυλ&lt;/strong&gt; είναι διαθέσιμο χάρη στη γενναιοδωρία σας.</string>
-    <string name="html_text_donation">Για να διατηρήσουμε την ελεύθερη έκδοση και να είμαστε πάντα ενεργοί, υπολογίζουμε στην &lt;strong&gt;συνεισφορά σας.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Με τη &lt;strong&gt;συνεισφορά σας&lt;/strong&gt; στο έργο <i>(χρηματικά, κώδικα, μετάφραση)</i>, θα το βοηθήσετε να συνεχίσει να ζει και να ευδοκιμεί και θα είστε επίσης επιλέξιμοι για τη διαδικασία ξεκλειδώματος &lt;strong&gt;θεμάτων &lt;/strong&gt; .</string>
     <string name="html_text_dev_feature">Αυτή η λειτουργία είναι &lt;strong&gt;υπό ανάπτυξη&lt;/strong&gt; και απαιτεί την &lt;strong&gt;συνεισφοράς&lt;/strong&gt; σας για να είναι σύντομα διαθέσιμη.</string>
     <string name="html_text_dev_feature_buy_pro">Με την αγορά της έκδοσης &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Με την &lt;strong&gt;συνεισφορά&lt;/strong&gt; σας,</string>
@@ -485,7 +485,7 @@
     <string name="registration_mode">Τρόπος εγγραφής</string>
     <string name="save_mode">Λειτουργία αποθήκευσης</string>
     <string name="search_mode">Λειτουργία αναζήτησης</string>
-    <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση</string>
+    <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση.</string>
     <string name="error_field_name_already_exists">Το όνομα πεδίου υπάρχει ήδη.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Σύνδεσμος για ξεκλείδωμα συσκευής</string>
     <string name="advanced_unlock_prompt_store_credential_message">Θα πρέπει ακόμα να θυμάστε τα κύρια διαπιστευτήρια της κρύπτης εάν χρησιμοποιείτε την αναγνώριση ξεκλειδώματος συσκευής.</string>
@@ -540,9 +540,9 @@
     <string name="error_remove_file">Παρουσιάστηκε σφάλμα κατά την κατάργηση των δεδομένων αρχείου.</string>
     <string name="error_duplicate_file">Τα δεδομένα αρχείου υπάρχουν ήδη.</string>
     <string name="properties">Ιδιότητες</string>
-    <string name="error_export_app_properties">Σφάλμα κατά την εξαγωγή ρυθμίσεων εφαρμογής</string>
+    <string name="error_export_app_properties">Σφάλμα κατά την εξαγωγή ρυθμίσεων εφαρμογής.</string>
     <string name="success_export_app_properties">Έγινε εξαγωγή ρυθμίσεων εφαρμογής</string>
-    <string name="error_import_app_properties">Σφάλμα κατά την εισαγωγή ρυθμίσεων εφαρμογής</string>
+    <string name="error_import_app_properties">Σφάλμα κατά την εισαγωγή ρυθμίσεων εφαρμογής.</string>
     <string name="success_import_app_properties">Έγινε εισαγωγή ρυθμίσεων εφαρμογής</string>
     <string name="description_app_properties">Ιδιότητες KeePassDX για διαχείριση ρυθμίσεων εφαρμογής</string>
     <string name="export_app_properties_summary">Δημιουργήστε ένα αρχείο για εξαγωγή ρυθμίσεων εφαρμογής</string>
@@ -659,10 +659,10 @@
     <string name="error_no_response_from_challenge">Δεν είναι δυνατή η λήψη της απάντησης από την πρόκληση.</string>
     <string name="enable_screenshot_mode_title">Λειτουργία στιγμιότυπου οθόνης</string>
     <string name="screenshot_mode_banner_text">Λειτουργία στιγμιότυπου οθόνης</string>
-    <string name="error_challenge_already_requested">Η πρόκληση έχει ήδη ζητηθεί</string>
+    <string name="error_challenge_already_requested">Η πρόκληση έχει ήδη ζητηθεί.</string>
     <string name="error_response_already_provided">Η απάντηση έχει ήδη δοθεί.</string>
     <string name="error_location_unknown">Η θέση της βάσης δεδομένων είναι άγνωστη, η ενέργεια της βάσης δεδομένων δεν μπορεί να εκτελεστεί.</string>
-    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση με μια βάση δεδομένων kdb</string>
+    <string name="error_unable_merge_database_kdb">Δεν είναι δυνατή η συγχώνευση με μια βάση δεδομένων kdb.</string>
     <string name="error_empty_key">Το κλειδί δεν μπορεί να είναι κενό.</string>
     <string name="corrupted_file">Κατεστραμμένο αρχείο.</string>
     <string name="html_about_privacy">&lt;strong&gt;Δεν ανακτώνται δεδομένα χρήστη&lt;/strong&gt;, αυτή η εφαρμογή δεν συνδέεται με κανένα διακομιστή, λειτουργεί μόνο τοπικά και σέβεται πλήρως το απόρρητο των χρηστών.</string>
@@ -701,4 +701,11 @@
     <string name="style_name_kunzite">Κουνζίτης</string>
     <string name="style_name_follow_system">Όπως το σύστημα</string>
     <string name="warning_database_info_changed_options_read_only">Επαναφορτώστε τη βάση δεδομένων με τις τελευταίες αλλαγές.</string>
+    <string name="recursive_number_entries_summary">Υπολογίζει αναδρομικά τον αριθμό των καταχωρήσεων σε μια ομάδα</string>
+    <string name="hide_templates_title">Απόκρυψη προτύπων</string>
+    <string name="generate_keyfile">Δημιουργία αρχείου κλειδιού</string>
+    <string name="nodes">Κόμβοι</string>
+    <string name="warning_large_keyfile">Δεν συνιστάται η προσθήκη μεγάλου αρχείου κλειδιού, αυτό μπορεί να εμποδίσει το άνοιγμα της βάσης δεδομένων.</string>
+    <string name="hide_templates_summary">Τα πρότυπα δεν εμφανίζονται</string>
+    <string name="recursive_number_entries_title">Αναδρομικός αριθμός καταχωρήσεων</string>
 </resources>

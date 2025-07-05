@@ -1,3 +1,3 @@
- * Correction de la reconnaissance de formulaire #1508 #1735 #1508 #1790 #1783 #1797 #1801 #1802 #1804 #1665
+* Correction de la reconnaissance de formulaire #1508 #1735 #1508 #1790 #1783 #1797 #1801 #1802 #1804 #1665
  * Correction des traductions #1707 #1683 #1712
  * Mise à jour du vérifieur d'APK #1810

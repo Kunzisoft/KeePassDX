@@ -1,4 +1,4 @@
- * Support du YubiKey challenge-response #8 #137
+* Support du YubiKey challenge-response #8 #137
  * Meilleure gestion des exceptions de sauvegarde #1346
  * Ajout du "Mode Capture d'Ecran" dans les paramètres #459 #1377 #1354 (Thx @GianpaMX)
  * Masquage du texte sensible du presse-papiers #1386

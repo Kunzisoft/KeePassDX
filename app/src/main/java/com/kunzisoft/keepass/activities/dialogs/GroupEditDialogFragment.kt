@@ -248,11 +248,7 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
 
     private fun retrieveGroupInfoFromViews() {
         mGroupInfo.title = nameTextView.text.toString()
-        // Only if there
-        val newNotes = notesTextView.text.toString()
-        if (newNotes.isNotEmpty()) {
-            mGroupInfo.notes = newNotes
-        }
+        mGroupInfo.notes = notesTextView.text?.toString()
         mGroupInfo.expires = expirationView.activation
         mGroupInfo.expiryTime = expirationView.dateTime
         mGroupInfo.searchable = searchableView.getValue()

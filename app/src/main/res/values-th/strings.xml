@@ -94,7 +94,7 @@
     <string name="hardware_key">กุญแจฮาร์ดแวร์</string>
     <string name="loading_database">กำลังโหลดฐานข้อมูล…</string>
     <string name="advanced_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="waiting_challenge_response">กำลังรอการตอบกลับจากกุญแจฮาร์ดแวร์</string>
+    <string name="waiting_challenge_response">กำลังรอการตอบกลับจากกุญแจฮาร์ดแวร์…</string>
     <string name="html_about_licence">แอป KeePassDX © %1$d Kunzisoft เป็นแอป &lt;strong&gt;โอเพนซอร์ซ&lt;/strong&gt; และ &lt;strong&gt;ไม่มีโฆษณา&lt;/strong&gt;.
 \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="ssid">SSID</string>
@@ -249,12 +249,12 @@
     <string name="error_registration_read_only">ไม่อนุญาตให้บันทึกรายการใหม่ในฐานข้อมูลแบบอ่านอย่างเดียว</string>
     <string name="error_response_already_provided">มีการตอบกลับจากคีย์ฮาร์ดแวร์ไปแล้ว</string>
     <string name="error_save_database">ไม่สามารถบันทึกฐานข้อมูล</string>
-    <string name="error_otp_counter">ตัวนับต้องอยู่ระหว่าง %1$d และ %2$d.</string>
+    <string name="error_otp_counter">ตัวนับต้องอยู่ระหว่าง %1$d และ %2$d</string>
     <string name="error_string_type">ข้อความนี้ไม่ตรงกับรายการที่ร้องขอ</string>
     <string name="sort_recycle_bin_bottom">ถังขยะอยู่ด้านล่าง</string>
     <string name="error_challenge_already_requested">ขอการตอบกลับจากคีย์ฮาร์ดแวร์ไปแล้ว</string>
     <string name="error_empty_key">คีย์นี้ไม่สามารถว่างเปล่าได้</string>
-    <string name="error_unable_merge_database_kdb">ไม่สามารถควบรวมจากฐานข้อมูล V1</string>
+    <string name="error_unable_merge_database_kdb">ไม่สามารถควบรวมจากฐานข้อมูลจากไฟล์ kdb ได้</string>
     <string name="error_location_unknown">ไม่ทราบตําแหน่งที่ตั้งฐานข้อมูล ไม่สามารถดําเนินการกับฐานข้อมูลได้</string>
     <string name="show_uuid_title">แสดง UUID</string>
     <string name="list_size_summary">ขนาดข้อความในรายการองค์ประกอบ</string>
@@ -431,7 +431,7 @@
     <string name="warning_database_info_reloaded">การโหลดฐานข้อมูลซ้ำจะลบข้อมูลที่ถูกแก้ไขภายในเครื่อง</string>
     <string name="default_checkbox">ใช้เป็นฐานข้อมูลเรื่มต้น</string>
     <string name="html_about_privacy">&lt;strong&gt;ไม่มีการรวบรวมข้อมูลผู้ใช้งาน&lt;/strong&gt;, แอปพลีเคชั่นนี้ไม่ได้ติดต่อกับเซิฟเวอร์ใดๆ ทำงานเฉพาะในอุปกรณ์เท่านั้น และเคารพความเป็นส่วนตัวของผู้ใช้งานอย่างเต็มที่</string>
-    <string name="entry_created">ถูกสร้าง</string>
+    <string name="entry_created">ถูกสร้างแล้ว</string>
     <string name="date_of_issue">วันที่ออก</string>
     <string name="entry_notes">โน้ต</string>
     <string name="entry_cancel">ยกเลิก</string>
@@ -675,4 +675,9 @@
     <string name="style_name_sun">พระอาทิตย์</string>
     <string name="style_name_follow_system">ตามสีของระบบ</string>
     <string name="style_name_dark">มืด</string>
+    <string name="generate_keyfile">สร้าง keyfile</string>
+    <string name="nodes">โหนด</string>
+    <string name="warning_large_keyfile">ไม่แนะนำให้ใช้ keyfile ขนาดใหญ่ๆ เพราะอาจจะทำให้เปิดฐานข้อมูลรหัสผ่านไม่ได้</string>
+    <string name="hide_templates_title">ซ่อนแม่แบบ</string>
+    <string name="hide_templates_summary">แม่แบบไม่แสดง</string>
 </resources>

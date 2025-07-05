@@ -64,7 +64,7 @@
     <string name="decrypting_db">Se decriptează conținutul bazei de date.…</string>
     <string name="contact">Contact</string>
     <string name="contribution">Contribuție</string>
-    <string name="feedback">Opinii</string>
+    <string name="feedback">Feedback</string>
     <string name="homepage">Pagina principală</string>
     <string name="default_checkbox">Folosiți ca bază de date implicită</string>
     <string name="digits">Cifre</string>
@@ -95,7 +95,7 @@
     <string name="entry_user_name">Nume de utilizator</string>
     <string name="error_arc4">Cifrarea fluxului Arcfour nu este acceptată.</string>
     <string name="error_can_not_handle_uri">Nu s-a putut gestiona acest URI în KeePassDX.</string>
-    <string name="error_file_not_create">Nu s-a putut crea fișierul</string>
+    <string name="error_file_not_create">Nu s-a putut crea fișierul.</string>
     <string name="error_invalid_db">Nu s-a putut citi baza de date.</string>
     <string name="error_invalid_path">Asigurați-vă că calea este corectă.</string>
     <string name="error_invalid_OTP">Secret OTP nevalid.</string>
@@ -178,7 +178,7 @@
     <string name="minus">Mai puțin</string>
     <string name="never">Niciodată</string>
     <string name="no_results">Nu există rezultate de căutare</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open source&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;. \nEste furnizat ca atare, sub licență &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nicio garanție.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open source&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;. \n\nEste furnizat ca atare, sub licență &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nicio garanție.</string>
     <string name="html_about_contribution">Pentru a ne &lt;strong&gt;păstra libertatea&lt;/strong&gt;, &lt;strong&gt;pentru a remedia erori&lt;/strong&gt;, &lt;strong&gt;pentru a adăuga funcții&lt;/strong&gt; și &lt;strong&gt;pentru a fi mereu activi&lt;/strong&gt;, ne bazăm pe &lt;strong&gt;contribuția&lt;/strong&gt; dvs.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
@@ -383,7 +383,7 @@
     <string name="html_text_ad_free">Spre deosebire de multe aplicații de gestionare a parolelor, aceasta este &lt;strong&gt;fără reclame&lt;/strong&gt;, &lt;strong&gt;software liber cu copyleft&lt;/strong&gt; și nu colectează date personale pe serverele sale, indiferent de versiunea pe care o utilizați.</string>
     <string name="html_text_buy_pro">Prin cumpărarea versiunii pro, veți avea acces la acest lucru &lt;strong&gt;stil vizual&lt;/strong&gt; și veți ajuta în special la &lt;strong&gt;realizarea proiectelor comunitare.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Acest &lt;strong&gt; stil vizual &lt;/strong&gt; este disponibil datorită generozității tale.</string>
-    <string name="html_text_donation">Pentru a ne păstra libertatea și pentru a fi mereu activi, ne bazăm pe &lt;strong&gt;contribuția dvs.&lt;/strong&gt;</string>
+    <string name="html_text_donation">strong&gt;Contribuind&lt;/strong&gt; la proiect &lt;i&gt;(financiar, cod, traducere)&lt;/i&gt;, îl veți ajuta să continue să trăiască și să prospere și veți fi, de asemenea, eligibil pentru procedura de deblocare a &lt;strong&gt;temei&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Această caracteristică este &lt;strong&gt; în curs de dezvoltare&lt;/strong&gt; și necesită ca &lt;strong&gt;contribuția&lt;/strong&gt; dvs. să fie disponibilă în curând.</string>
     <string name="html_text_dev_feature_buy_pro">Cumpărând versiunea &lt;strong&gt; pro &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Prin &lt;strong&gt; contribuție &lt;/strong&gt;,</string>
@@ -464,7 +464,7 @@
     <string name="error_otp_type">Tipul de OTP existent nu este recunoscut de acest formular, este posibil ca validarea acestuia să nu mai genereze corect token-ul.</string>
     <string name="error_move_group_here">Nu poți muta grupul aici.</string>
     <string name="error_string_type">Acest text nu se potrivește cu articolul solicitat.</string>
-    <string name="error_registration_read_only">Salvarea unui element nou nu este permisă într-o bază de date numai pentru citire</string>
+    <string name="error_registration_read_only">Salvarea unui element nou nu este permisă într-o bază de date numai pentru citire.</string>
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
     <string name="navigation_drawer_open">Sertar de navigare deschis</string>
     <string name="content_description_passphrase_word_count">Numărul de cuvinte al frazei de acces</string>
@@ -523,11 +523,11 @@
     <string name="error_file_to_big">Fișierul pe care încercați să-o încărcați este prea mare.</string>
     <string name="error_upload_file">A apărut o eroare în timpul încărcării datelor din fișier.</string>
     <string name="error_start_database_action">A apărut o eroare în timpul efectuării unei acțiuni în baza de date.</string>
-    <string name="error_challenge_already_requested">Provocare deja solicitată</string>
+    <string name="error_challenge_already_requested">Provocare deja solicitată.</string>
     <string name="error_no_response_from_challenge">Nu s-a reușit să obțină răspunsul la provocare.</string>
     <string name="error_cancel_by_user">Anulat de utilizator.</string>
     <string name="error_driver_required">Driver-ul pentru %1$s este necesară.</string>
-    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb</string>
+    <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb.</string>
     <string name="error_location_unknown">Locația bazei de date este necunoscută, acțiunea bazei de date nu poate fi efectuată.</string>
     <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Reține cheile hardware</string>
@@ -546,8 +546,8 @@
     <string name="configure">Configurează</string>
     <string name="properties">Proprietăți</string>
     <string name="success_export_app_properties">Setările aplicației au fost exportate</string>
-    <string name="error_export_app_properties">Eroare în timpul exportării setărilor aplicației</string>
-    <string name="error_import_app_properties">Eroare în timpul importării setărilor aplicației</string>
+    <string name="error_export_app_properties">Eroare în timpul exportării setărilor aplicației.</string>
+    <string name="error_import_app_properties">Eroare în timpul importării setărilor aplicației.</string>
     <string name="warning_exact_alarm">Nu ați permis aplicației să utilizeze o alarmă exactă. Ca urmare, funcțiile care necesită un cronometru nu se vor face cu o oră exactă.</string>
     <string name="warning_database_info_reloaded">Reîncărcarea bazei de date va șterge datele modificate local.</string>
     <string name="menu_appearance_settings_summary">Teme, culori, atribute</string>
@@ -695,4 +695,11 @@
     <string name="style_name_kunzite">Kunzită</string>
     <string name="warning_database_info_changed_options_read_only">Reîncarcă baza de date cu noile schimbări.</string>
     <string name="style_name_classic">Clasic</string>
+    <string name="generate_keyfile">Generare fișier cheie</string>
+    <string name="nodes">Noduri</string>
+    <string name="recursive_number_entries_title">Număr recursiv de intrări</string>
+    <string name="recursive_number_entries_summary">Calculează recursiv numărul de intrări într-un grup</string>
+    <string name="warning_large_keyfile">Nu este recomandat să adăugați un fișier cheie mare, acest lucru poate împiedica deschiderea bazei de date.</string>
+    <string name="hide_templates_title">Ascundeți șabloanele</string>
+    <string name="hide_templates_summary">Șabloanele nu sunt afișate</string>
 </resources>

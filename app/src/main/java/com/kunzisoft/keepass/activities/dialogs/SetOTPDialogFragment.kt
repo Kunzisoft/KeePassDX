@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_HOTP_COUNTER
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_DIGITS
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_SECRET
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
@@ -224,6 +225,9 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
             }
             otpAlgorithmSpinner?.adapter = otpAlgorithmAdapter
 
+            // Ensure that the UX does not prevent user from hiding/unhiding text
+            otpSecretContainer?.errorIconDrawable = null
+
             // Set the default value of OTP element
             upgradeType()
             upgradeTokenType()
@@ -310,11 +314,16 @@ class SetOTPDialogFragment : DatabaseDialogFragment() {
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.let { userString ->
-                    try {
-                        mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
-                        otpSecretContainer?.error = null
-                    } catch (exception: Exception) {
-                        otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
+                    if (userString.length >= MIN_OTP_SECRET) {
+                        try {
+                            mOtpElement.setBase32Secret(userString.uppercase(Locale.ENGLISH))
+                            otpSecretContainer?.error = null
+                        } catch (exception: Exception) {
+                            otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
+                        }
+                    } else {
+                        otpSecretContainer?.error = getString(R.string.error_otp_secret_length,
+                            MIN_OTP_SECRET)
                     }
                     mSecretWellFormed = otpSecretContainer?.error == null
                 }

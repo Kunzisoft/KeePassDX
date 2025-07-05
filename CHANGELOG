@@ -1,3 +1,13 @@
+KeePassDX(4.1.2)
+ * Fix URL search #1940 #1946 #2003 #2040 #2044
+ * Fix Autofill popup #2054
+ * Fix Group notes #2053
+ * Fix Dialog background #2005 #2004 (Thx @codokie)
+ * Fix OTP configuration #2042 #2065 (Thx @Dev-ClayP)
+ * Fix small UI elements #1987 #2007 (Thx @ymcx)
+ * RTL layout support #2021 (Thx @codokie)
+ * App Metadata to translation #1823
+
 KeePassDX(4.1.1)
  * Fix date parser #1933
  * Fix domain search #1820 #1936

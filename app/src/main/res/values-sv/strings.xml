@@ -61,7 +61,7 @@
     <string name="entry_user_name">Användarnamn</string>
     <string name="error_arc4">Strömchiffret Arcfour stöds inte.</string>
     <string name="error_can_not_handle_uri">KeePassDX kunde inte hantera denna URI.</string>
-    <string name="error_file_not_create">Kunde inte skapa filen</string>
+    <string name="error_file_not_create">Kunde inte skapa filen.</string>
     <string name="error_invalid_db">Kunde inte läsa databasen.</string>
     <string name="error_invalid_path">Se till att sökvägen är korrekt.</string>
     <string name="error_no_name">Ange ett namn.</string>
@@ -498,7 +498,7 @@
     <string name="token">Bevis</string>
     <string name="secure_note">Säker anteckning</string>
     <string name="error_XML_malformed">XML-filen är felaktig.</string>
-    <string name="error_registration_read_only">Det är inte tillåtet att spara ett nytt objekt i en skrivskyddad databas</string>
+    <string name="error_registration_read_only">Det är inte tillåtet att spara ett nytt objekt i en skrivskyddad databas.</string>
     <string name="error_field_name_already_exists">Fältnamnet finns redan.</string>
     <string name="auto_type">Auto-typ</string>
 </resources>

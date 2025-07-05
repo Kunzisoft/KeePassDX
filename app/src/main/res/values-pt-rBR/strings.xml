@@ -57,7 +57,7 @@
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
-    <string name="error_file_not_create">Não foi possível criar o arquivo</string>
+    <string name="error_file_not_create">Não foi possível criar o arquivo.</string>
     <string name="error_invalid_db">Falha ao ler o banco de dados.</string>
     <string name="error_invalid_path">Certifique-se de que o caminho está correto.</string>
     <string name="error_no_name">Digite um nome.</string>
@@ -264,7 +264,7 @@
     <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;livre de direitos autorais&lt;/strong&gt; e não coleta dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
     <string name="html_text_buy_pro">Ao comprar a versão Pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Ao &lt;strong&gt;contribuir&lt;/strong&gt; com o projeto <i>(monetariamente, código, tradução)</i>, você o ajudará a continuar vivo e a prosperar, e também estará qualificado para o procedimento de desbloqueio do &lt;strong&gt;tema&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
@@ -475,7 +475,7 @@
     <string name="error_rebuild_list">Incapaz de reconstruir corretamente a lista.</string>
     <string name="error_database_uri_null">O URI do banco de dados não pode ser recuperado.</string>
     <string name="error_field_name_already_exists">O nome do campo já existe.</string>
-    <string name="error_registration_read_only">Não é permitido salvar um novo item em um banco de dados somente de leitura</string>
+    <string name="error_registration_read_only">Não é permitido salvar um novo item em um banco de dados somente de leitura.</string>
     <string name="error_otp_type">O tipo de OTP existente não é reconhecido por este formulário, sua validação pode não gerar mais o token corretamente.</string>
     <string name="error_word_reserved">Esta palavra é reservada e não pode ser usada.</string>
     <string name="version">Versão</string>
@@ -525,9 +525,9 @@
     <string name="warning_database_info_changed_options">Mescle os dados, substitua as modificações externas salvando o banco de dados ou recarregue-o com as alterações mais recentes.</string>
     <string name="warning_database_info_changed">As informações contidas em seu arquivo de banco de dados foram modificadas fora do aplicativo.</string>
     <string name="warning_empty_recycle_bin">Deletar permanentemente todos os nós da lixeira\?</string>
-    <string name="error_export_app_properties">Houve um erro durante a exportação das configurações do aplicativo</string>
+    <string name="error_export_app_properties">Houve um erro durante a exportação das configurações do aplicativo.</string>
     <string name="success_export_app_properties">As configurações do aplicativo foram exportadas</string>
-    <string name="error_import_app_properties">Houve um erro durante a importação das configurações do aplicativo</string>
+    <string name="error_import_app_properties">Houve um erro durante a importação das configurações do aplicativo.</string>
     <string name="success_import_app_properties">As configurações do aplicativo foram importadas</string>
     <string name="description_app_properties">Propriedades KeePassDX para gerenciar configurações de aplicativos</string>
     <string name="export_app_properties_summary">Crie um arquivo para exportar as configurações do aplicativo</string>
@@ -648,14 +648,14 @@
     <string name="waiting_challenge_response">Aguardando a resposta do desafio…</string>
     <string name="error_cancel_by_user">Cancelado pelo usuário.</string>
     <string name="error_hardware_key_unsupported">A chave física não é suportada.</string>
-    <string name="error_unable_merge_database_kdb">Não é possível mesclar a partir de um arquivo de banco de dados kbd</string>
+    <string name="error_unable_merge_database_kdb">Não é possível mesclar a partir de um arquivo de banco de dados kbd.</string>
     <string name="error_location_unknown">Localização do banco de dados desconhecida, a ação do banco de dados não pode ser executada.</string>
     <string name="error_empty_key">A chave não pode estar vazia.</string>
     <string name="html_about_privacy">&lt;strong&gt;Nenhum dado do usuário é coletado&lt;/strong&gt;, este aplicativo não se conecta a nenhum servidor, funciona apenas localmente e respeita totalmente a privacidade dos usuários.</string>
     <string name="hardware_key">Chave física</string>
     <string name="error_no_hardware_key">Selecione uma chave física.</string>
     <string name="error_XML_malformed">XML malformado.</string>
-    <string name="error_challenge_already_requested">Desafio já solicitado</string>
+    <string name="error_challenge_already_requested">Desafio já solicitado.</string>
     <string name="error_response_already_provided">Resposta já fornecida.</string>
     <string name="error_no_response_from_challenge">Não foi possível obter a resposta do desafio.</string>
     <string name="error_driver_required">É necessário o driver para %1$s.</string>
@@ -701,4 +701,11 @@
     <string name="style_name_divine">Divino</string>
     <string name="style_name_dark">Escuro</string>
     <string name="warning_database_info_changed_options_read_only">Recarregar o banco de dados com as alterações mais recentes.</string>
+    <string name="generate_keyfile">Gerar arquivo-chave</string>
+    <string name="nodes">Nós</string>
+    <string name="recursive_number_entries_title">Quantidade recursiva de entradas</string>
+    <string name="recursive_number_entries_summary">Calcula recursivamente a quantidade de entradas em um grupo</string>
+    <string name="warning_large_keyfile">Não é recomendável adicionar um arquivo-chave grande, pois isso pode impedir a abertura do banco de dados.</string>
+    <string name="hide_templates_title">Ocultar modelos</string>
+    <string name="hide_templates_summary">Os modelos não são exibidos</string>
 </resources>

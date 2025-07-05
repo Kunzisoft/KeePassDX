@@ -1,4 +1,4 @@
- * MAJ Android API 30 #723
+* MAJ Android API 30 #723
  * Sauvegarde d'id avec le remplissage auto #524
  * Paramètre pour fermer la base après une sélection de remplissage auto #755
  * Paramètre pour changer de clavier quand la base est verouillée #625

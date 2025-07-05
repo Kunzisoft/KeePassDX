@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 15
         targetSdkVersion 34
-        versionCode = 133
-        versionName = "4.1.1"
+        versionCode = 134
+        versionName = "4.1.2"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -91,12 +91,15 @@ android {
     }
 
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+    buildFeatures {
+        buildConfig true
     }
 }
 
@@ -143,5 +146,4 @@ dependencies {
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"
-    androidTestImplementation "androidx.test:rules:$android_test_version"
 }

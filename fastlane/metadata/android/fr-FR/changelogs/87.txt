@@ -1,4 +1,4 @@
- * Ajout / Gestion dynamique des templates #191
+* Ajout / Gestion dynamique des templates #191
  * Sélection manuelle des groupes de la corbeille et des templates #191
  * Paramètres pour afficher les jetons OTP dans la liste #655
  * Correction du délai d'expiration dans les dialogues #716

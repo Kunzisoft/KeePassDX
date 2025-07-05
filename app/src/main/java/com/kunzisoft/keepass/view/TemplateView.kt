@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.view.isVisible
@@ -62,6 +63,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 // Here the value is often empty
 
                 if (field.protectedValue.isProtected) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        textDirection = TEXT_DIRECTION_LTR
+                    }
                     if (mFirstTimeAskAllowCopyProtectedFields) {
                         setCopyButtonState(TextFieldView.ButtonState.DEACTIVATE)
                         setCopyButtonClickListener { _, _ ->
@@ -174,6 +178,9 @@ class TemplateView @JvmOverloads constructor(context: Context,
                     mOnCopyActionClickListener?.invoke(Field(
                         otpElement.type.name,
                         ProtectedString(false, otpElement.token)))
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    textDirection = TEXT_DIRECTION_LTR
                 }
                 mLastOtpTokenView = this
                 mOtpRunnable = Runnable {

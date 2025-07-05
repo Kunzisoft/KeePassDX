@@ -43,6 +43,7 @@
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
         android:largeHeap="true"
         android:resizeableActivity="true"
+        android:supportsRtl="true"
         android:theme="@style/KeepassDXStyle.Night"
         tools:targetApi="s">
         <meta-data

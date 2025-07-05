@@ -1,4 +1,4 @@
- * Paramètre pour la corbeille
+* Paramètre pour la corbeille
  * Correction de bug pour la corbeille
  * Correction TOTP
  * Correction sauvegarde infinie

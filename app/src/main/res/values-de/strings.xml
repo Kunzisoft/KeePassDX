@@ -48,7 +48,7 @@
     <string name="decrypting_db">Datenbankinhalt wird entschlüsselt …</string>
     <string name="default_checkbox">Als Standarddatenbank verwenden</string>
     <string name="digits">Stellen</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;. \nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
     <string name="html_about_contribution">Damit wir &lt;strong&gt;unsere Unabhängigkeit erhalten&lt;/strong&gt;, &lt;strong&gt;Fehler beheben&lt;/strong&gt;, &lt;strong&gt;Funktionen hinzufügen&lt;/strong&gt; und &lt;strong&gt;weiterhin aktiv bleiben&lt;/strong&gt; können, zählen wir auf deinen &lt;strong&gt;Beitrag&lt;/strong&gt;.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
@@ -67,9 +67,9 @@
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/Arcfour-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
-    <string name="error_file_not_create">Datei konnte nicht erstellt werden</string>
+    <string name="error_file_not_create">Datei konnte nicht erstellt werden.</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
-    <string name="error_invalid_path">Stelle sicher, dass der Pfad korrekt ist.</string>
+    <string name="error_invalid_path">Bitte sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
     <string name="error_nokeyfile">Schlüsseldatei auswählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicher, um die gesamte Datenbank zu laden.</string>
@@ -226,7 +226,7 @@
     <string name="education_create_database_title">Datenbankdatei erstellen</string>
     <string name="education_create_database_summary">Erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
-    <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiter zu verwenden.</string>
+    <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiterzuverwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen, digitale Konten zu verwalten.
 \n
@@ -236,7 +236,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Dem Eintrag eigene Felder hinzufügen. Die Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Lassen Sie ein starkes Passwort erstellen, das mit Ihrem Eintrag verbunden wird, legen Sie es einfach anhand von Formularkriterien fest und vergessen Sie nicht, Ihr Passwort zu sichern.</string>
+    <string name="education_generate_password_summary">Ein starkes Passwort, das mit dem Eintrag verbunden wird, kann einfach anhand von Formularkriterien festgelegt werden und bitte nicht vergessen dieses Passwort zu sichern.</string>
     <string name="education_entry_new_field_title">Eigene Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein zusätzliches Feld einfügen, einen Wert hinzufügen und diesen optional schützen.</string>
     <string name="education_unlock_title">Datenbank entsperren</string>
@@ -253,7 +253,7 @@
     <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version man verwendet.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhältst du Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; ist dank deiner Großzügigkeit verfügbar.</string>
-    <string name="html_text_donation">Um unsere Freiheit zu erhalten und stets aktiv zu bleiben, zählen wir auf deinen &lt;strong&gt;Beitrag.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Mit &lt;strong&gt;Beitragen&lt;/strong&gt; zum Projekt <i>(finanziell, Code, Übersetzung)</i> wird sichergestellt, dass es weiterlebt und gedeiht, und außerdem berechtigt das für den Vorgang der &lt;strong&gt;Design&lt;/strong&gt;-Freischaltung.</string>
     <string name="html_text_dev_feature">Diese Funktion ist &lt;strong&gt;in Entwicklung&lt;/strong&gt; und erfordert &lt;strong&gt;deinen Beitrag&lt;/strong&gt;, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der &lt;strong&gt;Pro-Version&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Durch deinen &lt;strong&gt;Beitrag&lt;/strong&gt;,</string>
@@ -286,7 +286,7 @@
 \nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
-    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
+    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Arbeitsspeichernutzung“ der Schlüsselableitungsfunktion zu verringern.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
@@ -437,7 +437,7 @@
     <string name="style_name_kunzite">Kunzit</string>
     <string name="style_name_follow_system">System folgen</string>
     <string name="warning_database_read_only">Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
-    <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu generieren.</string>
+    <string name="education_setup_OTP_summary">Einmal-Passwortverwaltung (HOTP/TOTP) einrichten, um Token für Zwei-Faktor-Authentifizierung (2FA) zu erzeugen.</string>
     <string name="education_setup_OTP_title">OTP einrichten</string>
     <string name="error_create_database">Die Datenbankdatei kann nicht erstellt werden.</string>
     <string name="entry_add_attachment">Anhang hinzufügen</string>
@@ -495,7 +495,7 @@
     <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
-    <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig</string>
+    <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig.</string>
     <string name="autofill_save_search_info_summary">Bei manueller Eintragsauswahl Suchinformationen speichern, um sie später leichter verwenden zu können</string>
     <string name="autofill_ask_to_save_data_summary">Fragen, ob Daten nach Formularausfüllung gespeichert werden sollen</string>
     <string name="autofill_ask_to_save_data_title">Speichern von Daten abfragen</string>
@@ -544,12 +544,12 @@
     <string name="error_upload_file">Beim Hochladen der Datei ist ein Fehler aufgetreten.</string>
     <string name="import_app_properties_title">App-Einstellungen importieren</string>
     <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
-    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung erzeugt Token möglicherweise nicht mehr korrekt.</string>
+    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung kann Token möglicherweise nicht mehr korrekt erzeugen.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
     <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort aus erneut öffnen.</string>
-    <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen</string>
+    <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen.</string>
     <string name="success_export_app_properties">App-Einstellungen exportiert</string>
-    <string name="error_import_app_properties">Fehler beim Importieren der App-Einstellungen</string>
+    <string name="error_import_app_properties">Fehler beim Importieren der App-Einstellungen.</string>
     <string name="success_import_app_properties">App-Einstellungen importiert</string>
     <string name="export_app_properties_summary">Datei zum Exportieren von App-Einstellungen erstellen</string>
     <string name="export_app_properties_title">App-Einstellungen exportieren</string>
@@ -704,4 +704,11 @@
     <string name="style_name_light">Hell</string>
     <string name="style_name_dark">Dunkel</string>
     <string name="warning_database_info_changed_options_read_only">Die Datenbank mit den letzten Änderungen neu laden.</string>
+    <string name="hide_templates_title">Vorlagen ausblenden</string>
+    <string name="hide_templates_summary">Vorlagen sind ausgeblendet</string>
+    <string name="nodes">Knoten</string>
+    <string name="recursive_number_entries_summary">Berechnet rekursiv die Anzahl der Einträge in einer Gruppe</string>
+    <string name="warning_large_keyfile">Es wird nicht empfohlen, eine große Schlüsseldatei hinzuzufügen, da dies das Öffnen der Datenbank verhindern kann.</string>
+    <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
+    <string name="generate_keyfile">Schlüsseldatei generieren</string>
 </resources>

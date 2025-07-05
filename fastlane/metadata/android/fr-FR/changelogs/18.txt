@@ -1,4 +1,4 @@
- * Nouvelles vues pour les bases de données récentes
+* Nouvelles vues pour les bases de données récentes
  * Nouveau dialogue d'informations
  * Champs customisés pour le Magikeyboard
  * Timeout pour le Magikeyboard

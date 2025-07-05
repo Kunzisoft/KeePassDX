@@ -123,8 +123,13 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
                 setMaxChars(templateAttribute.options.getNumberChars())
                 setMaxLines(templateAttribute.options.getNumberLines())
                 setActionClick(templateAttribute, field, this)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    if (field.protectedValue.isProtected) {
+                        textDirection = TEXT_DIRECTION_LTR
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO
+                    }
                 }
             }
         }

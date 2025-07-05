@@ -1,2 +1,2 @@
- * Downgrade vers Android API 29 (crash au démarrage avec l'API 30 sur plusieurs appareils)
+* Downgrade vers Android API 29 (crash au démarrage avec l'API 30 sur plusieurs appareils)
  Désolé pour le désagrément

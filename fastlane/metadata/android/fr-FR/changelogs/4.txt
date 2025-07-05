@@ -1,4 +1,4 @@
- * Affichage uniquement du nom du fichier
+* Affichage uniquement du nom du fichier
  * Paramètre pour le chemin complet
  * Ajout des informations pour chaque fichier de base de données
  * Paramètre pour supprimer les empreintes digitales

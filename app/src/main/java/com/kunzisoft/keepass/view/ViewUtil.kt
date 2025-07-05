@@ -59,6 +59,7 @@ import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
+import androidx.core.view.updatePaddingRelative
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
@@ -225,14 +226,20 @@ fun View.showByFading() {
     }
 }
 
-fun View.updateLockPaddingLeft() {
-    updatePadding(resources.getDimensionPixelSize(
-            if (PreferencesUtil.showLockDatabaseButton(context)) {
-                R.dimen.lock_button_size
-            } else {
-                R.dimen.hidden_lock_button_size
-            }
-    ))
+fun View.updateLockPaddingStart() {
+    resources.getDimensionPixelSize(
+        if (PreferencesUtil.showLockDatabaseButton(context)) {
+            R.dimen.lock_button_size
+        } else {
+            R.dimen.hidden_lock_button_size
+        }
+    ).let { lockPadding ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            updatePaddingRelative(lockPadding)
+        } else {
+            updatePadding(lockPadding)
+        }
+    }
 }
 
 fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {
