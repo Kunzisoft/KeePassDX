@@ -484,7 +484,7 @@
     <string name="configure_biometric">Žádné přihlašovací ani biometrické údaje nejsou registrovány.</string>
     <string name="warning_empty_recycle_bin">Trvale odstranit všechny uzly z koše\?</string>
     <string name="registration_mode">Registrace</string>
-    <string name="save_mode">Uložit</string>
+    <string name="save_mode">Režim výběru</string>
     <string name="search_mode">Vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno kolonky již existuje.</string>
     <string name="error_registration_read_only">Uložení nové položky v režimu databáze pouze pro čtení není dovoleno.</string>
