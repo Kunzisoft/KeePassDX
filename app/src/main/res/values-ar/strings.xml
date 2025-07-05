@@ -136,14 +136,14 @@
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تمكين خدمة الملء التلقائي.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
-    <string name="file_browser">مدير الملفات.</string>
+    <string name="file_browser">مدير الملفات</string>
     <string name="invalid_credentials">تعذر قراءة الإعتمادات.</string>
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">اعرض اسماء المستخدمين في قوائم المدخلات</string>
-    <string name="hint_generated_password">كلمة السر الموَلدة.</string>
-    <string name="hint_keyfile">الملف المفتاحي.</string>
+    <string name="hint_generated_password">كلمة السر مولّدة</string>
+    <string name="hint_keyfile">الملف المفتاحي</string>
     <string name="hide_password_title">اخفاء كلمات السر</string>
     <string name="copy_field">نُسخة من %1$s</string>
     <string name="menu_copy">نسخ</string>
@@ -283,7 +283,7 @@
     <string name="entry_setup_otp">عيّن كلمة مرور لمرة واحدة</string>
     <string name="entry_UUID">UUID</string>
     <string name="html_about_contribution">من أجل &lt;strong&gt;حماية خصوصيتا&lt;/strong&gt;٫&lt;strong&gt; إصلاح العلل&lt;/strong&gt;٫ &lt;strong&gt;إضافة مميزات&lt;/strong&gt; &lt;strong&gt;وجعلنا نشطاء دائما&lt;/strong&gt;٫ نحن نعتمد على &lt;strong&gt;مساهمتك&lt;/strong&gt;.</string>
-    <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>
+    <string name="content_description_keyfile_checkbox">خانة تأشير ملف المفتاح</string>
     <string name="content_description_password_checkbox">خانة تأشير كلمة السر</string>
     <string name="content_description_add_item">أضف عنصر</string>
     <string name="warning_permanently_delete_nodes">حذف العقد المحددة نهائيا؟</string>
@@ -474,7 +474,7 @@
     <string name="keyboard_previous_fill_in_title">العودة إلى الوراء</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>
     <string name="education_advanced_unlock_title">فتح قاعدة بيانات الجهاز</string>
-    <string name="hint_icon_name">اسم الأيقونة.</string>
+    <string name="hint_icon_name">اسم الأيقونة</string>
     <string name="autofill_manual_selection_title">اختيار يدوي</string>
     <string name="description_app_properties">خصائص KeePassDX لإدارة إعدادات التطبيقات</string>
     <string name="warning_empty_recycle_bin">هل تريد حذف جميع العقد نهائيًا من سلة المهملات؟</string>
@@ -682,7 +682,7 @@
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
     <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
-    <string name="html_text_donation">من خلال &lt;strong&gt;المساهمة&lt;/strong&gt; في المشروع <i>(مالياً أو برمجياً أو ترجمة)</i>، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح &lt;strong&gt;السمة&lt;/strong&gt;.</string>
+    <string name="html_text_donation">من خلال <strong>المساهمة</strong> في المشروع <i>(مالياً أو برمجياً أو ترجمة)</i>، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح <strong>السمة</strong>.</string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
     <string name="style_name_forest">غابة</string>
     <string name="style_name_simple">بسيط</string>
