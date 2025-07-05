@@ -1,4 +1,4 @@
- * Fix URL search #1940 #1946 #2003 #2044
+ * Fix URL search #1940 #1946 #2003 #2040 #2044
  * Fix Autofill popup #2054
  * Fix Group notes #2053
  * Fix Dialog background #2005 #2004 (Thx @codokie)
