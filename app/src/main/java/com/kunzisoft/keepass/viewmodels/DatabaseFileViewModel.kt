@@ -51,7 +51,9 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
 
     fun loadDatabaseFile(databaseUri: Uri) {
         mFileDatabaseHistoryAction?.getDatabaseFile(databaseUri) { databaseFileRetrieved ->
-            mDatabaseFileLoaded.value = databaseFileRetrieved
+            databaseFileRetrieved?.let {
+                mDatabaseFileLoaded.value = it
+            }
         }
     }
 }
