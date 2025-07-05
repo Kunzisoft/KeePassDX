@@ -143,7 +143,7 @@
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">اعرض اسماء المستخدمين في قوائم المدخلات</string>
     <string name="hint_generated_password">كلمة السر مولّدة</string>
-    <string name="hint_keyfile">الملف المفتاحي</string>
+    <string name="hint_keyfile">ملف المفتاح</string>
     <string name="hide_password_title">اخفاء كلمات السر</string>
     <string name="copy_field">نُسخة من %1$s</string>
     <string name="menu_copy">نسخ</string>
@@ -293,7 +293,7 @@
     <string name="show_recent_files_summary">أظهر موقع قواعد البيانات الأخيرة</string>
     <string name="show_recent_files_title">أظهر الملفات الأخيرة</string>
     <string name="remember_keyfile_locations_summary">تعقب موقع الملفات المفتاحية لقاعدة البيانات</string>
-    <string name="remember_keyfile_locations_title">تذكر موقع الملف المفتاحي</string>
+    <string name="remember_keyfile_locations_title">تذكر موقع ملف المفتاح</string>
     <string name="remember_database_locations_summary">تعقب موقع قاعدة البيانات</string>
     <string name="remember_database_locations_title">تذكر موقع تخزين قاعدة البيانات</string>
     <string name="contains_duplicate_uuid_procedure">للمتابعة هل تريد حل المشكلة بتوليد UUID للعناصر المكررة ؟</string>
@@ -697,7 +697,7 @@
     <string name="style_name_follow_system">اتبع النظام</string>
     <string name="style_name_light">فاتح</string>
     <string name="hide_templates_summary">لا يتم عرض القوالب</string>
-    <string name="generate_keyfile">ولّد ملف المفتاح</string>
+    <string name="generate_keyfile">ولّد ملف مفتاح</string>
     <string name="nodes">العُقد</string>
     <string name="recursive_number_entries_title">عدد متكرر من الإدخالات</string>
     <string name="recursive_number_entries_summary">يحسب بشكل متكرر عدد الإدخالات في المجموعة</string>
