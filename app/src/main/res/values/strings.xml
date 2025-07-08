@@ -747,6 +747,6 @@
     <string name="passkey_creation_biometric_prompt_negative_button_text">Cancel</string>
     <string name="passkey_creation_description">Save passkey in new entry</string>
     <string name="passkey_update_description">Update passkey in "%1$s"</string>
-    <string name="passkey_usage_unlock_database_message">Please unlock your database</string>
-    <string name="passkey_unknown_username">unknown</string>
+    <string name="passkey_locked_database_description">Select to unlock</string>
+    <string name="passkey_locked_database_account_name">KeePassDX Database Locked</string>
 </resources>

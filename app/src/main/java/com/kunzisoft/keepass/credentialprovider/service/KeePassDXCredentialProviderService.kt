@@ -57,10 +57,9 @@ class KeePassDXCredentialProviderService : CredentialProviderService() {
         callback: OutcomeReceiver<BeginCreateCredentialResponse, CreateCredentialException>,
     ) {
         Log.d(javaClass.simpleName, "onBeginCreateCredentialRequest called")
-        val response: BeginCreateCredentialResponse? = processCreateCredentialRequest(request)
-        if (response != null) {
+        processCreateCredentialRequest(request)?.let { response ->
             callback.onResult(response)
-        } else {
+        } ?: let {
             callback.onError(CreateCredentialUnknownException())
         }
     }
@@ -78,43 +77,49 @@ class KeePassDXCredentialProviderService : CredentialProviderService() {
     }
 
     private fun handleCreatePasskeyQuery(request: BeginCreatePublicKeyCredentialRequest): BeginCreateCredentialResponse {
-        if (mDatabase == null) {
-            // database is locked, a dummy entry is shown.
-            val messageToUnlockDatabase = getString(R.string.passkey_usage_unlock_database_message)
-            val dummyEntryList = listOf(
-                CreateEntry(
-                    getString(R.string.passkey_unknown_username),
-                    IntentHelper.generateUnlockPendingIntent(applicationContext),
-                    messageToUnlockDatabase
-                )
-            )
-            return BeginCreateCredentialResponse(dummyEntryList)
-        }
 
+        val accountName = mDatabase?.name ?: getString(R.string.passkey_locked_database_account_name)
         val createEntries: MutableList<CreateEntry> = mutableListOf()
-        val accountName = mDatabase!!.name
-        val descriptionNewEntry = getString(R.string.passkey_creation_description)
-        val createPendingIntentNewEntry =
-            IntentHelper.generateCreatePendingIntent(applicationContext)!!
-        createEntries.add(
-            CreateEntry(
-                accountName,
-                createPendingIntentNewEntry,
-                descriptionNewEntry
-            )
-        )
 
-        val relyingParty = JsonHelper.parseJsonToCreateOptions(request.requestJson).relyingParty
-        val passkeyList = getCredentialsFromDb(relyingParty, mDatabase!!)
-        for (passkey in passkeyList) {
-            val createPendingIntent =
-                IntentHelper.generateCreatePendingIntent(applicationContext, passkey.nodeId)!!
-            val description = getString(R.string.passkey_update_description, passkey.displayName)
+        mDatabase?.let { database ->
+            // To create a new entry
+            IntentHelper.generateCreatePendingIntent(applicationContext)
+                ?.let { pendingIntentNewEntry ->
+                    createEntries.add(
+                        CreateEntry(
+                            accountName = accountName,
+                            pendingIntent = pendingIntentNewEntry,
+                            description = getString(R.string.passkey_creation_description)
+                        )
+                    )
+                }
+
+            // To select an existing entry
+            for (passkey in getCredentialsFromDb(
+                relyingPartyId = JsonHelper.parseJsonToCreateOptions(request.requestJson).relyingParty,
+                database = database
+            )) {
+                IntentHelper.generateCreatePendingIntent(applicationContext, passkey.nodeId)
+                    ?.let { createPendingIntent ->
+                        createEntries.add(
+                            CreateEntry(
+                                accountName = accountName,
+                                pendingIntent = createPendingIntent,
+                                description = getString(
+                                    R.string.passkey_update_description,
+                                    passkey.displayName
+                                )
+                            )
+                        )
+                    }
+            }
+        } ?: run {
+            // Database is locked, an entry is shown to unlock it
             createEntries.add(
                 CreateEntry(
-                    accountName,
-                    createPendingIntent,
-                    description
+                    accountName = accountName,
+                    pendingIntent = IntentHelper.generateUnlockPendingIntent(applicationContext),
+                    description = getString(R.string.passkey_locked_database_description)
                 )
             )
         }
@@ -128,10 +133,9 @@ class KeePassDXCredentialProviderService : CredentialProviderService() {
         callback: OutcomeReceiver<BeginGetCredentialResponse, GetCredentialException>,
     ) {
         Log.d(javaClass.simpleName, "onBeginGetCredentialRequest called")
-        val response = processGetCredentialsRequest(request)
-        if (response != null) {
+        processGetCredentialsRequest(request)?.let { response ->
             callback.onResult(response)
-        } else {
+        } ?: run {
             callback.onError(GetCredentialUnknownException())
         }
     }
@@ -155,41 +159,43 @@ class KeePassDXCredentialProviderService : CredentialProviderService() {
 
     private fun populatePasskeyData(option: BeginGetPublicKeyCredentialOption): List<CredentialEntry> {
 
-        val relyingParty = JsonHelper.parseJsonToRequestOptions(option.requestJson).relyingParty
-        if (relyingParty.isBlank()) {
-            throw CreateCredentialUnknownException("relying party id is null or blank")
-        }
-
-        if (mDatabase == null) {
-            val unknownUsername = getString(R.string.passkey_unknown_username)
-            val messageToUnlockDatabase = getString(R.string.passkey_usage_unlock_database_message)
-            val unlockPendingIntent = IntentHelper.generateUnlockPendingIntent(applicationContext)
-            val entry = PublicKeyCredentialEntry(
-                context = applicationContext,
-                username = unknownUsername,
-                pendingIntent = unlockPendingIntent,
-                beginGetPublicKeyCredentialOption = option,
-                displayName = messageToUnlockDatabase,
-                lastUsedTime = Instant.now(),
-                isAutoSelectAllowed = true
-            )
-            return listOf(entry)
-        }
-
-        val passkeys = getCredentialsFromDb(relyingParty, mDatabase!!)
-
         val passkeyEntries: MutableList<CredentialEntry> = mutableListOf()
-        for (passkey in passkeys) {
-            val usagePendingIntent =
-                IntentHelper.generateUsagePendingIntent(applicationContext, passkey.nodeId)!!
+
+        mDatabase?.let { database ->
+            // Retrieve passkeys entries from database
+            val relyingParty = JsonHelper.parseJsonToRequestOptions(option.requestJson).relyingParty
+            if (relyingParty.isBlank()) {
+                throw CreateCredentialUnknownException("relying party id is null or blank")
+            }
+            for (passkey in getCredentialsFromDb(
+                relyingPartyId = relyingParty,
+                database = database
+            )) {
+                IntentHelper.generateUsagePendingIntent(applicationContext, passkey.nodeId)
+                    ?.let { usagePendingIntent ->
+                        passkeyEntries.add(
+                            PublicKeyCredentialEntry(
+                                context = applicationContext,
+                                username = passkey.username,
+                                pendingIntent = usagePendingIntent,
+                                beginGetPublicKeyCredentialOption = option,
+                                displayName = passkey.displayName,
+                                isAutoSelectAllowed = false
+                            )
+                        )
+                }
+            }
+        } ?: run {
+            // Database is locked, a public key credential entry is shown to unlock it
             passkeyEntries.add(
                 PublicKeyCredentialEntry(
                     context = applicationContext,
-                    username = passkey.username,
-                    pendingIntent = usagePendingIntent,
+                    username = getString(R.string.passkey_locked_database_account_name),
+                    pendingIntent = IntentHelper.generateUnlockPendingIntent(applicationContext),
                     beginGetPublicKeyCredentialOption = option,
-                    displayName = passkey.displayName,
-                    isAutoSelectAllowed = false
+                    displayName = getString(R.string.passkey_locked_database_description),
+                    lastUsedTime = Instant.now(),
+                    isAutoSelectAllowed = true
                 )
             )
         }
