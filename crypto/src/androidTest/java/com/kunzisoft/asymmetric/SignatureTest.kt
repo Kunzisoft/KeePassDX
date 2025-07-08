@@ -7,7 +7,7 @@ class SignatureTest {
     // All private keys are for testing only.
     // DO NOT USE THEM
 
-    private val es256PemInKeypassXC =
+    private val es256PemInKeePassXC =
         """
             -----BEGIN PRIVATE KEY-----
             MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgaIrmuL+0IpvMpZ4O
@@ -16,7 +16,7 @@ class SignatureTest {
             -----END PRIVATE KEY-----
         """.trimIndent().trim()
 
-    private val es256PemInKeypassDX = """
+    private val es256PemInKeePassDX = """
             -----BEGIN PRIVATE KEY-----
             MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgaIrmuL+0IpvMpZ4O
             8+CpXEzVNoyNkhquyRqD8CtVWDmgCgYIKoZIzj0DAQehRANCAARyucecj8E9YvcA
@@ -27,18 +27,18 @@ class SignatureTest {
 
     @Test
     fun testEC256KeyConversionKeypassXCIn() {
-        val privateKey = Signature.createPrivateKey(es256PemInKeypassXC)
+        val privateKey = Signature.createPrivateKey(es256PemInKeePassXC)
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == es256PemInKeypassDX)
+        assert(pemOut == es256PemInKeePassDX)
     }
 
     @Test
-    fun testEC256KeyConversionKeypassDXIn() {
-        val privateKey = Signature.createPrivateKey(es256PemInKeypassDX)
+    fun testEC256KeyConversionKeePassDXIn() {
+        val privateKey = Signature.createPrivateKey(es256PemInKeePassDX)
         val pemOut = Signature.convertPrivateKeyToPem(privateKey)
 
-        assert(pemOut == es256PemInKeypassDX)
+        assert(pemOut == es256PemInKeePassDX)
     }
 
     @Test
