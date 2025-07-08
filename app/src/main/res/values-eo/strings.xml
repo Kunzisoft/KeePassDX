@@ -88,7 +88,7 @@
     <string name="error_no_name">Tajpu nomon.</string>
     <string name="error_invalid_path">Certigu ke la vojo estas ĝusta.</string>
     <string name="error_invalid_db">Ne povas legi datumbazon.</string>
-    <string name="error_file_not_create">Ne povas krei dosieron</string>
+    <string name="error_file_not_create">Ne povas krei dosieron.</string>
     <string name="entry_user_name">Uzantnomo</string>
     <string name="entry_url">Retadreso</string>
     <string name="entry_title">Titolo</string>

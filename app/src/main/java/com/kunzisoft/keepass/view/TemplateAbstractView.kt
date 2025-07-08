@@ -18,8 +18,14 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.*
+import com.kunzisoft.keepass.database.element.template.Template
+import com.kunzisoft.keepass.database.element.template.TemplateAttribute
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeAction
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeOption
+import com.kunzisoft.keepass.database.element.template.TemplateAttributeType
+import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.element.template.TemplateEngine.Companion.addTemplateDecorator
+import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
@@ -608,9 +614,8 @@ abstract class TemplateAbstractView<
             getViewFieldByName(oldField.name)?.view?.let { viewToReplace ->
                 val oldValue = getCustomField(oldField.name).protectedValue.toString()
 
-                val parentGroup = viewToReplace.parent as ViewGroup
-                val indexInParent = parentGroup.indexOfChild(viewToReplace)
-                parentGroup.removeView(viewToReplace)
+                val parentGroup = viewToReplace.parent as? ViewGroup?
+                parentGroup?.removeView(viewToReplace)
 
                 val newCustomFieldWithValue = if (keepOldValue)
                     Field(newField.name,
@@ -624,7 +629,9 @@ abstract class TemplateAbstractView<
 
                 val newCustomView = buildViewForCustomField(newCustomFieldWithValue)
                 newCustomView?.let {
-                    parentGroup.addView(newCustomView, indexInParent)
+                    parentGroup?.indexOfChild(viewToReplace)?.let { indexInParent ->
+                        parentGroup.addView(newCustomView, indexInParent)
+                    }
                     mViewFields.add(
                         oldPosition,
                         ViewField(

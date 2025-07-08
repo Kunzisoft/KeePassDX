@@ -144,18 +144,18 @@
     <string name="error_rounds_too_large">\"دور تحول\" بیش از حد بالا است. تنظیم به 2147483648.</string>
     <string name="error_pass_match">رمزهای عبور با هم مطابقت نمی کنند.</string>
     <string name="error_disallow_no_credentials">حداقل یک اعتبار نامه باید تعیین شود.</string>
-    <string name="error_pass_gen_type">حداقل یک نوع تولید رمز عبور باید انتخاب شود</string>
+    <string name="error_pass_gen_type">حداقل یک نوع تولید رمز عبور باید انتخاب شود.</string>
     <string name="error_load_database_KDF_memory">نميتونستم کليد رو بار کنم سعی کنید KDF \"استفاده از حافظه\" را پایین بیاورید.</string>
-    <string name="error_load_database">پایگاه داده شما را نمی توان بارگذاری کرد</string>
+    <string name="error_load_database">پایگاه داده شما را نمی توان بارگذاری کرد.</string>
     <string name="error_out_of_memory">هیچ حافظه ای برای بارگذاری کل پایگاه داده خود را.</string>
     <string name="error_nokeyfile">یک فایل کلید را انتخاب کنید.</string>
     <string name="error_no_name">نامی را وارد کنید.</string>
     <string name="error_invalid_OTP">راز OTP نامعتبر.</string>
-    <string name="error_invalid_path">مطمئن شوید که مسیر درست است</string>
+    <string name="error_invalid_path">مطمئن شوید که مسیر درست است.</string>
     <string name="error_invalid_db">نمی توانست پایگاه داده را بخواند.</string>
-    <string name="error_file_not_create">نمی تواند پرونده ایجاد کند</string>
+    <string name="error_file_not_create">نمی تواند پرونده ایجاد کند.</string>
     <string name="error_can_not_handle_uri">نمی تواند این URI در KeePassDX رسیدگی کند.</string>
-    <string name="error_arc4">رمز جریان Arcfour پشتیبانی نمی شود</string>
+    <string name="error_arc4">رمز جریان Arcfour پشتیبانی نمی شود.</string>
     <string name="entry_user_name">نام کاربری</string>
     <string name="entry_url">آدرس</string>
     <string name="entry_otp">otp</string>
@@ -262,9 +262,9 @@
 \n
 \nممکن است پایگاه داده شما بسیار بزرگ شود و با این بارگذاری عملکرد را کاهش دهید.</string>
     <string name="warning_empty_recycle_bin">آیا همه کلید ها از سطل بازیافت به طور دائم حذف می شوند؟</string>
-    <string name="error_export_app_properties">خطا در هنگام صادرات ویژگی های برنامه</string>
+    <string name="error_export_app_properties">خطا در هنگام صادرات ویژگی های برنامه.</string>
     <string name="success_export_app_properties">ویژگی های برنامه صادر شد</string>
-    <string name="error_import_app_properties">خطا در هنگام وارد کردن ویژگی های برنامه</string>
+    <string name="error_import_app_properties">خطا در هنگام وارد کردن ویژگی های برنامه.</string>
     <string name="success_import_app_properties">ویژگی های برنامه وارد شد</string>
     <string name="description_app_properties">ویژگی های KeePassDX برای مدیریت تنظیمات برنامه</string>
     <string name="export_app_properties_summary">یک فایل برای صادر کردن ویژگی های برنامه ایجاد کنید</string>
@@ -285,7 +285,7 @@
     <string name="error_rebuild_list">نمی توان لیست را به درستی بازسازی کرد.</string>
     <string name="error_database_uri_null">URI پایگاه داده بازیابی نمی شود.</string>
     <string name="error_field_name_already_exists">نام فیلد از قبل موجود است.</string>
-    <string name="error_registration_read_only">ذخیره یک مورد جدید در پایگاه داده \"فقط خواندنی\" مجاز نیست</string>
+    <string name="error_registration_read_only">ذخیره یک مورد جدید در پایگاه داده \"فقط خواندنی\" مجاز نیست.</string>
     <string name="error_otp_type">نوع OTP موجود توسط این فرم شناخته نمی شود ، اعتبار آن ممکن است دیگر توکن را به درستی تولید نکند.</string>
     <string name="id_card">ID Card</string>
     <string name="card_verification_value">CVV</string>

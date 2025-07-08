@@ -125,8 +125,7 @@
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
                 android:paddingEnd="4dp"
-                android:paddingRight="4dp"
-                android:paddingVertical="4dp">
+                android:paddingRight="4dp">
 
                 <TextView
                     android:id="@+id/node_otp_token"

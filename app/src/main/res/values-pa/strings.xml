@@ -151,7 +151,7 @@
     <string name="error_invalid_OTP">ਗ਼ਲਤ OTP ਭੇਤ ਹੈ।</string>
     <string name="error_invalid_path">ਪਾਥ ਦੇ ਠੀਕ ਹੋਣ ਨੂੰ ਯਕੀਨੀ ਬਣਾਓ।</string>
     <string name="error_invalid_db">ਡਾਟਾਬੇਸ ਪੜ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਿਆ।</string>
-    <string name="error_file_not_create">ਫ਼ਾਇਲ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ</string>
+    <string name="error_file_not_create">ਫ਼ਾਇਲ ਬਣਾਈ ਨਹੀਂ ਜਾ ਸਕੀ।</string>
     <string name="error_can_not_handle_uri">ਇਹ URI KeePassDX ਵਿੱਚ ਹੈਂਡਲ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।</string>
     <string name="error_arc4">Arcfour ਸਟਰੀਮ ਸੀਫ਼ਰ ਸਹਾਇਕ ਨਹੀਂ ਹੈ।</string>
     <string name="entry_user_name">ਵਰਤੋਂਕਾਰ-ਨਾਂ</string>

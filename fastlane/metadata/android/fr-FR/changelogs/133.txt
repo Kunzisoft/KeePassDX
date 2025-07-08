@@ -1,0 +1,2 @@
+* Correction du parseur de date #1933
+ * Correction de la recherche de domaine #1820 #1936

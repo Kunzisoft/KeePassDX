@@ -28,7 +28,7 @@
     <string name="html_text_dev_feature_contibute">Ao &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature">Esta funcionalidade está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e necessita da sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível brevemente.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Ao &lt;strong&gt;contribuir&lt;/strong&gt; para o projeto <i>(monetariamente, código, tradução)</i>, você o ajudará a continuar a viver e prosperar, e também será elegível para o &lt;strong&gt;tema &lt;/strong&gt; procedimento de desbloqueio.</string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
     <string name="html_text_buy_pro">Ao comprar a versão pro, terá acesso a este &lt;strong&gt;estilo visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realizar projetos comunitários.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">Ao contrário de muitas aplicações de gestão de palavras-passe, esta aplicação &lt;strong&gt;não tem anúncios&lt;/strong&gt;, é &lt;strong&gt;um programa de código-fonte livre&lt;/strong&gt; e não recolhe dados pessoais para os servidores dela, seja qual for a versão que utiliza.</string>
@@ -406,7 +406,7 @@
     <string name="error_nokeyfile">Selecione um ficheiro-chave.</string>
     <string name="error_no_name">Introduza um nome.</string>
     <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>
-    <string name="error_file_not_create">Não foi possível criar o ficheiro</string>
+    <string name="error_file_not_create">Não foi possível criar o ficheiro.</string>
     <string name="error_can_not_handle_uri">Não foi possível processar esta URI no KeePassDX.</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="entry_user_name">Nome de utilizador</string>
@@ -467,7 +467,7 @@
     <string name="error_rebuild_list">Não foi possível reconstruir adequadamente a lista.</string>
     <string name="error_database_uri_null">Não foi possível recuperar o URI da base de dados.</string>
     <string name="error_field_name_already_exists">O nome do campo já existe.</string>
-    <string name="error_registration_read_only">Não é permitido guardar um novo item numa base de dados só de leitura</string>
+    <string name="error_registration_read_only">Não é permitido guardar um novo item numa base de dados só de leitura.</string>
     <string name="export_app_properties_title">Exportar definições da aplicação</string>
     <string name="import_app_properties_summary">Selecionar um ficheiro para importar as definições da aplicação</string>
     <string name="unit_gibibyte">GiB</string>
@@ -526,9 +526,9 @@
     <string name="autofill_select_entry">Selecionar entrada…</string>
     <string name="properties">Propriedades</string>
     <string name="credential_before_click_advanced_unlock_button">Digite a palavra-passe e depois clique neste botão.</string>
-    <string name="error_export_app_properties">Erro durante a exportação das definições da aplicação</string>
+    <string name="error_export_app_properties">Erro durante a exportação das definições da aplicação.</string>
     <string name="success_export_app_properties">Definições da aplicação exportadas</string>
-    <string name="error_import_app_properties">Erro ao importar as propriedades da aplicação</string>
+    <string name="error_import_app_properties">Erro ao importar as propriedades da aplicação.</string>
     <string name="success_import_app_properties">Definições da aplicação importadas</string>
     <string name="description_app_properties">Propriedades do KeePassDX para gerir as configurações da aplicação</string>
     <string name="export_app_properties_summary">Criar um ficheiro para exportar as definições da aplicação</string>
@@ -625,7 +625,7 @@
     <string name="hardware_key">Chave física</string>
     <string name="error_no_hardware_key">Selecione uma chave física.</string>
     <string name="error_XML_malformed">XML malformado.</string>
-    <string name="error_unable_merge_database_kdb">Não é possível fundir com um ficheiro de base de dados kdb</string>
+    <string name="error_unable_merge_database_kdb">Não é possível fundir com um ficheiro de base de dados kdb.</string>
     <string name="error_cancel_by_user">Cancelado pelo utilizador.</string>
     <string name="error_driver_required">É necessário o driver para %1$s.</string>
     <string name="error_location_unknown">A localização da base de dados é desconhecida, a ação da base de dados não pode ser executada.</string>
@@ -633,7 +633,7 @@
     <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
     <string name="error_empty_key">A chave não pode estar vazia.</string>
     <string name="corrupted_file">Ficheiro corrompido.</string>
-    <string name="error_challenge_already_requested">Desafio já solicitado</string>
+    <string name="error_challenge_already_requested">Desafio já solicitado.</string>
     <string name="error_response_already_provided">Resposta já fornecida.</string>
     <string name="error_no_response_from_challenge">Não foi possível obter a resposta do desafio.</string>
     <string name="waiting_challenge_request">À espera do pedido de desafio…</string>
@@ -679,4 +679,11 @@
     <string name="style_name_moon">Lua</string>
     <string name="style_name_reply">Resposta</string>
     <string name="warning_database_info_changed_options_read_only">Recarregar a base de dados com as alterações mais recentes.</string>
+    <string name="recursive_number_entries_title">Número recursivo de entradas</string>
+    <string name="generate_keyfile">Gerar arquivo-chave</string>
+    <string name="nodes">Nós</string>
+    <string name="recursive_number_entries_summary">Calcula recursivamente o número de entradas em um grupo</string>
+    <string name="warning_large_keyfile">Não é recomendado adicionar um arquivo-chave grande, pois isso pode impedir a abertura do banco de dados.</string>
+    <string name="hide_templates_title">Ocultar modelos</string>
+    <string name="hide_templates_summary">Os modelos não são mostrados</string>
 </resources>

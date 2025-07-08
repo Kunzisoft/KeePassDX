@@ -89,7 +89,7 @@
     <string name="error_invalid_OTP">Rahasia OTP tidak valid.</string>
     <string name="error_invalid_path">Pastikan lokasi filenya sudah benar.</string>
     <string name="error_invalid_db">Tidak bisa membaca basis data.</string>
-    <string name="error_file_not_create">Tidak bisa membuat file</string>
+    <string name="error_file_not_create">Tidak bisa membuat file.</string>
     <string name="entry_add_attachment">Tambahkan Lampiran</string>
     <string name="digits">Dijit</string>
     <string name="app_timeout_summary">Waktu idle sebelum mengunci basis data</string>
@@ -313,7 +313,7 @@
     <string name="menu_reload_database">Muat ulang data</string>
     <string name="error_database_uri_null">URI basis data tidak dapat diambil.</string>
     <string name="error_field_name_already_exists">Nama bidang sudah ada.</string>
-    <string name="error_registration_read_only">Menyimpan item baru tidak diperbolehkan dalam basis data hanya-baca</string>
+    <string name="error_registration_read_only">Menyimpan item baru tidak diperbolehkan dalam basis data hanya-baca.</string>
     <string name="error_otp_type">Tipe OTP yang ada tidak dikenali oleh formulir ini, validasinya mungkin tidak lagi menghasilkan token dengan benar.</string>
     <string name="content_description_credentials_information">Info kredensial</string>
     <string name="autofill_inline_suggestions_keyboard">Saran pengisian otomatis ditambahkan.</string>
@@ -400,9 +400,9 @@
     <string name="warning_database_link_revoked">Akses ke berkas dicabut oleh pengelola berkas</string>
     <string name="warning_database_read_only">Berikan akses tulis berkas untuk menyimpan perubahan basis data</string>
     <string name="properties">Setelan</string>
-    <string name="error_export_app_properties">Galat ketika mengekspor pengaturan aplikasi</string>
+    <string name="error_export_app_properties">Galat ketika mengekspor pengaturan aplikasi.</string>
     <string name="success_export_app_properties">Pengaturan aplikasi diekspor</string>
-    <string name="error_import_app_properties">Galat ketika mengimpor pengaturan aplikasi</string>
+    <string name="error_import_app_properties">Galat ketika mengimpor pengaturan aplikasi.</string>
     <string name="success_import_app_properties">Pengaturan aplikasi diimpor</string>
     <string name="description_app_properties">Setelan KeePassDX untuk mengelola pengaturan aplikasi</string>
     <string name="export_app_properties_summary">Buat sebuah berkas untuk mengekspor pengaturan aplikasi</string>
@@ -515,7 +515,7 @@
     <string name="education_donation_summary">Bantu meningkatkan stabilitas, keamanan, dan menambahkan lebih banyak fitur.</string>
     <string name="html_text_ad_free">Tidak seperti banyak aplikasi pengelola kata sandi, ini &lt;strong&gt;bebas iklan&lt;/strong&gt;, &lt;strong&gt;perangkat lunak libre copyleft&lt;/strong&gt;, dan tidak mengumpulkan data pribadi di peladennya, tidak peduli versi apa yang Anda gunakan.</string>
     <string name="html_text_feature_generosity">&lt;strong&gt;Gaya visual&lt;/strong&gt; ini tersedia berkat kemurahan hati Anda.</string>
-    <string name="html_text_donation">Untuk menjaga kebebasan kami dan untuk kami selalu aktif, kami mengandalkan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda.</string>
+    <string name="html_text_donation">Dengan &lt;strong&gt;berkontribusi&lt;strong&gt; kepada proyek &lt;i&gt;(dalam bentuk uang, kode, penerjemahan)&lt;i&gt;, Anda akan membantu proyek tersebut supaya terus hidup dan berkembang, dan Anda juga akan memenuhi syarat untuk prosedur pembukaan kunci &lt;strong&gt;tema&lt;strong&gt;.</string>
     <string name="html_text_dev_feature">Fitur ini &lt;strong&gt;sedang dalam pengembangan&lt;/strong&gt; dan memerlukan &lt;strong&gt;kontribusi&lt;/strong&gt; Anda untuk bisa tersedia segera.</string>
     <string name="show_otp_token_title">Tampilkan Token OTP</string>
     <string name="text_appearance">Teks</string>
@@ -627,12 +627,12 @@
     <string name="hardware_key">Kunci perangkat keras</string>
     <string name="error_no_hardware_key">Pilih sebuah kunci perangkat keras.</string>
     <string name="error_XML_malformed">XML tidak benar.</string>
-    <string name="error_challenge_already_requested">Tantangan sudah diminta</string>
+    <string name="error_challenge_already_requested">Tantangan sudah diminta.</string>
     <string name="error_response_already_provided">Tanggapan sudah disediakan.</string>
     <string name="error_no_response_from_challenge">Tidak bisa mendapatkan tanggapan dari tantangan.</string>
     <string name="error_cancel_by_user">Dibatalkan oleh pengguna.</string>
     <string name="error_driver_required">Driver untuk %1$s dibutuhkan.</string>
-    <string name="error_unable_merge_database_kdb">Tidak dapat menggabungkan dengan berkas basis data kdb</string>
+    <string name="error_unable_merge_database_kdb">Tidak dapat menggabungkan dengan berkas basis data kdb.</string>
     <string name="error_location_unknown">Lokasi basis data tidak diketahui, tindakan basis data tidak dapat dilakukan.</string>
     <string name="error_hardware_key_unsupported">Kunci perangkat keras tidak didukung.</string>
     <string name="error_empty_key">Kunci tidak bisa kosong.</string>
@@ -679,4 +679,11 @@
     <string name="style_name_light">Terang</string>
     <string name="style_name_dark">Gelap</string>
     <string name="warning_database_info_changed_options_read_only">Muat ulang basis data dengan perubahan terkini.</string>
+    <string name="generate_keyfile">Buat berkas kunci</string>
+    <string name="recursive_number_entries_summary">Menghitung jumlah entri dalam suatu grup secara rekursif</string>
+    <string name="hide_templates_summary">Templat tidak ditampilkan</string>
+    <string name="nodes">Titik</string>
+    <string name="recursive_number_entries_title">Jumlah entri rekursif</string>
+    <string name="warning_large_keyfile">Tidak disarankan menambahkan berkas kunci yang besar, ini dapat mencegah pembukaan basis data.</string>
+    <string name="hide_templates_title">Sembunyikan templat</string>
 </resources>

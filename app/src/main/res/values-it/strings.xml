@@ -63,7 +63,7 @@
     <string name="entry_user_name">Nome utente</string>
     <string name="error_arc4">La codifica a flusso Arcfour non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePassDX non può gestire questo URI.</string>
-    <string name="error_file_not_create">Impossibile creare il file</string>
+    <string name="error_file_not_create">Impossibile creare il file.</string>
     <string name="error_invalid_db">Impossibile leggere il database.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
     <string name="error_no_name">Inserisci un nome.</string>
@@ -264,7 +264,7 @@
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
     <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questo &lt;strong&gt;stile visivo&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione dei progetti della comunità.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Questo &lt;strong&gt;stile visivo&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
-    <string name="html_text_donation">Al fine di mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo &lt;strong&gt;contributo.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Se &lt;strong&gt;contribuirai&lt;/strong&gt; al progretto <i>(tramite una donazione, del codice una traduzione)</i>, lo aiuterai a vivere e a prosperare, e avrai a disposizione anche la procedura di sblocco del &lt;strong&gt;tema&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Questa funzione è &lt;strong&gt;in sviluppo&lt;/strong&gt; e richiede il tuo &lt;strong&gt;contributo&lt;/strong&gt; per essere disponibile a breve.</string>
     <string name="html_text_dev_feature_buy_pro">Acquistando la versione &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">
@@ -488,7 +488,7 @@
     <string name="save_mode">Modalità salvataggio</string>
     <string name="search_mode">Modalità ricerca</string>
     <string name="error_field_name_already_exists">Il nome del campo esiste già.</string>
-    <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura</string>
+    <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura.</string>
     <string name="configure_biometric">Nessuna credenziale biometrica o del dispositivo è registrata.</string>
     <string name="education_advanced_unlock_summary">Collega la password alla tua autenticazione biometrica (o del dispositivo) per sbloccare velocemente il database.</string>
     <string name="education_advanced_unlock_title">Sblocco del database con dispositivo</string>
@@ -544,9 +544,9 @@
     <string name="error_file_to_big">Il file che stai cercando di caricare è troppo grande.</string>
     <string name="error_start_database_action">Si è verificato un errore durante l\'esecuzione di una azione sul database.</string>
     <string name="properties">Proprietà</string>
-    <string name="error_export_app_properties">Errore durante l\'esportazione delle impostazioni dell\'app</string>
+    <string name="error_export_app_properties">Errore durante l\'esportazione delle impostazioni dell\'app.</string>
     <string name="success_export_app_properties">Impostazioni dell\'app esportate</string>
-    <string name="error_import_app_properties">Errore durante l\'importazione delle impostazioni dell\'app</string>
+    <string name="error_import_app_properties">Errore durante l\'importazione delle impostazioni dell\'app.</string>
     <string name="success_import_app_properties">Impostazioni dell\'app importate</string>
     <string name="description_app_properties">Proprietà di KeePassDX per gestire le impostazioni dell\'app</string>
     <string name="export_app_properties_summary">Crea un file in cui esportare le impostazioni dell\'app</string>
@@ -650,7 +650,7 @@
     <string name="corrupted_file">File danneggiato.</string>
     <string name="enable_screenshot_mode_summary">Consenti alle app di terze parti di registrare o acquisire schermate dell\'app</string>
     <string name="error_cancel_by_user">Annullato dall\'utente.</string>
-    <string name="error_unable_merge_database_kdb">Impossibile unire con un file database kdb</string>
+    <string name="error_unable_merge_database_kdb">Impossibile unire con un file database kdb.</string>
     <string name="error_location_unknown">Il percorso del database è sconosciuto, non è possibile eseguire l\'azione sul database.</string>
     <string name="remember_hardware_key_title">Ricorda le chiavi hardware</string>
     <string name="remember_hardware_key_summary">Tiene traccia delle chiavi hardware usate</string>
@@ -660,7 +660,7 @@
     <string name="hardware_key">Chiave hardware</string>
     <string name="error_no_hardware_key">Seleziona una chiave hardware.</string>
     <string name="error_XML_malformed">XML malformato.</string>
-    <string name="error_challenge_already_requested">Verifica già richiesta</string>
+    <string name="error_challenge_already_requested">Verifica già richiesta.</string>
     <string name="error_response_already_provided">Risposta già fornita.</string>
     <string name="error_no_response_from_challenge">Impossibile ottenere una risposta dalla verifica.</string>
     <string name="error_driver_required">È necessario un driver per %1$s.</string>
@@ -704,4 +704,11 @@
     <string name="style_name_follow_system">Segui il sistema</string>
     <string name="warning_database_info_changed_options_read_only">Ricarica il database con le ultime modifiche.</string>
     <string name="style_name_reply">Risposta</string>
+    <string name="generate_keyfile">Genera file di chiave</string>
+    <string name="nodes">Nodi</string>
+    <string name="recursive_number_entries_title">Numeri ricorsivi delle voci</string>
+    <string name="warning_large_keyfile">Si sconsiglia l\'aggiunta di un file di chiave pesante, perché potrebbe ostacolare l\'apertura del database.</string>
+    <string name="hide_templates_title">Nascondi template</string>
+    <string name="recursive_number_entries_summary">Calcola in modo ricorsivo il numero di voci in un gruppo</string>
+    <string name="hide_templates_summary">I template non vengono mostrati</string>
 </resources>

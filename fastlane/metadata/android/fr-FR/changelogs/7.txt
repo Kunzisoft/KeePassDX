@@ -1,4 +1,4 @@
- * Reconstruction des Notifications
+* Reconstruction des Notifications
  * Changement des liens en https
  * Ajout de l'ASCII étendu (ñæËÌÂÝÜ...)
  * Mise à jour de la police customisée pour la visibilité

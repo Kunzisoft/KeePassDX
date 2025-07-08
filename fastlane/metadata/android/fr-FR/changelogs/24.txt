@@ -1,4 +1,4 @@
- * Ajout de OTP (TOTP / HOTP)
+* Ajout de OTP (TOTP / HOTP)
  * Ajout de paramètres (Couleurs, Sécurité, Clé maitresse)
  * Affiche l'historique de chaque entrée
  * Auto reparation de la base de données pour même UUID

@@ -51,11 +51,11 @@
     <string name="entry_password">Hasło</string>
     <string name="save">Zapisz</string>
     <string name="entry_title">Tytuł</string>
-    <string name="entry_url">URL</string>
+    <string name="entry_url">Adres URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie Arcfour nie jest wspierane.</string>
     <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePassDX.</string>
-    <string name="error_file_not_create">Nie można utworzyć pliku</string>
+    <string name="error_file_not_create">Nie można utworzyć pliku.</string>
     <string name="error_invalid_db">Nie można odczytać bazy danych.</string>
     <string name="error_invalid_path">Upewnij się, że ścieżka jest prawidłowa.</string>
     <string name="error_no_name">Wpisz nazwę.</string>
@@ -130,8 +130,7 @@
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie udało się wyczyścić schowka</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
-\nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;. \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -169,13 +168,13 @@
     <string name="sort_last_access_time">Dostęp</string>
     <string name="warning">Ostrzeżenie</string>
     <string name="warning_password_encoding">Unikaj znaków hasła spoza formatu kodowania tekstu w pliku bazy danych (nierozpoznane znaki są konwertowane na tę samą literę).</string>
-    <string name="sort_recycle_bin_bottom">Pokaż Kosz na dole listy</string>
+    <string name="sort_recycle_bin_bottom">Pokaż kosz na dole listy</string>
     <string name="sort_title">Tytuł</string>
     <string name="warning_empty_password">Kontynuować bez ochrony odblokowywania hasłem\?</string>
     <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
-    <string name="sort_groups_before">Pokaż Grupy na górze listy</string>
+    <string name="sort_groups_before">Pokaż grupy na górze listy</string>
     <string name="unavailable">Niedostępne</string>
     <string name="database_history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
@@ -200,7 +199,7 @@
     <string name="biometric_unlock_enable_title">Odblokowywanie biometryczne</string>
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
-    <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem odblokowania urządzenia</string>
+    <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem odblokowania urządzenia</string>
     <string name="unavailable_feature_text">Nie można uruchomić tej funkcji.</string>
     <string name="unavailable_feature_version">Urządzenie pracuje na systemie Android %1$s, ale wymaga wersji %2$s lub nowszej.</string>
     <string name="unavailable_feature_hardware">Nie można znaleźć odpowiedniego sprzętu.</string>
@@ -208,7 +207,7 @@
     <string name="path">Ścieżka</string>
     <string name="assign_master_key">Przypisz klucz główny</string>
     <string name="create_keepass_file">Utwórz nowy sejf</string>
-    <string name="recycle_bin_title">Wykorzystaj kosz</string>
+    <string name="recycle_bin_title">Wykorzystanie kosza</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Czcionka pola</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność znaków</string>
@@ -268,7 +267,7 @@
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem objętym klauzulą copyleft&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój &lt;strong&gt;wkład.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Poprzez &lt;strong&gt;wsparcie&lt;/strong&gt; projektu <i>(pieniężne, kodowanie, tłumaczenie)</i> pomożesz mu istnieć i rozwijać się, a także uzyskasz dostęp do procedury odblokowywania &lt;strong&gt;motywów&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Ta funkcja jest &lt;strong&gt;rozwojowa&lt;/strong&gt; i wymaga Twojego &lt;strong&gt;wkładu&lt;/strong&gt;, aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
@@ -408,13 +407,13 @@
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
-    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;naprawiać błędy&lt;/strong&gt;, &lt;strong&gt;dodawać funkcje&lt;/strong&gt; i &lt;strong&gt; być zawsze aktywnym&lt;/strong&gt;, liczymy na Twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;naprawiać błędy&lt;/strong&gt;, &lt;strong&gt;dodawać funkcje&lt;/strong&gt; i &lt;strong&gt; być zawsze aktywnym&lt;/strong&gt;, liczymy na Twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
     <string name="remember_database_locations_title">Zapamiętaj lokalizacje baz danych</string>
     <string name="remember_database_locations_summary">Śledzi, gdzie przechowywane są bazy danych</string>
     <string name="remember_keyfile_locations_title">Zapamiętaj lokalizacje plików kluczy</string>
-    <string name="remember_keyfile_locations_summary">Śledzi, gdzie przechowywane są pliki z kluczami</string>
+    <string name="remember_keyfile_locations_summary">Śledzi, gdzie przechowywane są pliki z kluczami</string>
     <string name="show_recent_files_title">Pokaż ostatnie pliki</string>
     <string name="show_recent_files_summary">Pokaż lokalizacje najnowszych baz danych</string>
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
@@ -428,7 +427,7 @@
     <string name="discard">Odrzuć</string>
     <string name="discard_changes">Odrzucić zmiany\?</string>
     <string name="validate">Walidacja</string>
-    <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
+    <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
     <string name="lock_database_show_button_title">Pokaż przycisk blokady</string>
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
     <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
@@ -438,7 +437,7 @@
     <string name="autofill_application_id_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
     <string name="filter">Filtr</string>
     <string name="subdomain_search_title">Wyszukiwanie subdomen</string>
-    <string name="subdomain_search_summary">Wyszukiwanie domen internetowych z ograniczeniami związanymi z subdomenami</string>
+    <string name="subdomain_search_summary">Wyszukiwanie domen internetowych z ograniczeniami związanymi z subdomenami</string>
     <string name="error_string_type">Ten tekst nie pasuje do żądanej pozycji.</string>
     <string name="content_description_add_item">Dodaj pozycję</string>
     <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie domen internetowych</string>
@@ -485,7 +484,7 @@
     <string name="registration_mode">Tryb rejestracji</string>
     <string name="save_mode">Tryb zapisywania</string>
     <string name="search_mode">Tryb wyszukiwania</string>
-    <string name="error_registration_read_only">Zapisywanie nowego elementu nie jest dozwolone w bazie danych tylko do odczytu</string>
+    <string name="error_registration_read_only">Zapisywanie nowego elementu nie jest dozwolone w bazie danych tylko do odczytu.</string>
     <string name="error_field_name_already_exists">Nazwa pola już istnieje.</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
@@ -540,9 +539,9 @@
     <string name="error_remove_file">Wystąpił błąd podczas usuwania danych z pliku.</string>
     <string name="error_duplicate_file">Dane pliku już istnieją.</string>
     <string name="properties">Właściwości</string>
-    <string name="error_export_app_properties">Błąd podczas eksportowania ustawień aplikacji</string>
+    <string name="error_export_app_properties">Błąd podczas eksportowania ustawień aplikacji.</string>
     <string name="success_export_app_properties">Eksportowano ustawienia aplikacji</string>
-    <string name="error_import_app_properties">Błąd podczas importowania ustawień aplikacji</string>
+    <string name="error_import_app_properties">Błąd podczas importowania ustawień aplikacji.</string>
     <string name="success_import_app_properties">Importowano ustawienia aplikacji</string>
     <string name="description_app_properties">Właściwości KeePassDX do zarządzania ustawieniami aplikacji</string>
     <string name="export_app_properties_summary">Utwórz plik, aby eksportować ustawienia aplikacji</string>
@@ -647,10 +646,10 @@
     <string name="keyboard_previous_search_summary">Automatycznie przełączaj z powrotem do poprzedniej klawiatury na ekranie wyszukiwania</string>
     <string name="waiting_challenge_request">Oczekiwanie na żądanie wyzwania…</string>
     <string name="waiting_challenge_response">Oczekiwanie na odpowiedź na wyzwanie…</string>
-    <string name="error_challenge_already_requested">Wyzwanie już zażądane</string>
+    <string name="error_challenge_already_requested">Wyzwanie już zażądane.</string>
     <string name="error_response_already_provided">Odpowiedź już udzielona.</string>
     <string name="error_cancel_by_user">Anulowano przez użytkownika.</string>
-    <string name="error_unable_merge_database_kdb">Nie można scalić z plikiem bazy danych KDB</string>
+    <string name="error_unable_merge_database_kdb">Nie można scalić z plikiem bazy danych KDB.</string>
     <string name="error_location_unknown">Lokalizacja bazy danych jest nieznana, nie można wykonać działania bazy danych.</string>
     <string name="error_hardware_key_unsupported">Klucz sprzętowy nie jest obsługiwany.</string>
     <string name="error_empty_key">Klucz nie może być pusty.</string>
@@ -666,7 +665,7 @@
     <string name="error_no_hardware_key">Wybierz klucz sprzętowy.</string>
     <string name="error_XML_malformed">Zniekształcony XML.</string>
     <string name="screenshot_mode_banner_text">Tryb zrzutu ekranu</string>
-    <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
+    <string name="html_about_privacy">&lt;strong&gt;Żadne dane użytkownika nie są pobierane&lt;/strong&gt;, ta aplikacja nie łączy się z żadnym serwerem, działa tylko lokalnie i w pełni szanuje prywatność użytkowników.</string>
     <string name="merge_success">Scalanie zostało pomyślnie zakończone</string>
     <string name="info">Informacje</string>
     <string name="menu_app_settings_summary">Wyszukiwanie, blokada, historia, właściwości</string>
@@ -701,4 +700,11 @@
     <string name="style_name_dark">Ciemny</string>
     <string name="style_name_simple">Prosty</string>
     <string name="warning_database_info_changed_options_read_only">Załaduj ponownie bazę danych z najnowszymi zmianami.</string>
+    <string name="nodes">Węzły</string>
+    <string name="warning_large_keyfile">Nie zaleca się dodawania dużego pliku klucza, ponieważ może to uniemożliwić otwarcie bazy danych.</string>
+    <string name="generate_keyfile">Wygeneruj plik klucza</string>
+    <string name="recursive_number_entries_summary">Rekurencyjnie oblicza liczbę wpisów w grupie</string>
+    <string name="recursive_number_entries_title">Rekurencyjna liczba wpisów</string>
+    <string name="hide_templates_title">Ukryj szablony</string>
+    <string name="hide_templates_summary">Szablony nie są wyświetlane</string>
 </resources>

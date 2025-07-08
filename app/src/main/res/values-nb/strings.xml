@@ -64,7 +64,7 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">Arcfour-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan ikke håntere denne URI-en.</string>
-    <string name="error_file_not_create">Kunne ikke opprette fil</string>
+    <string name="error_file_not_create">Kunne ikke opprette fil.</string>
     <string name="error_invalid_db">Kunne ikke lese databasen.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
     <string name="error_no_name">Et navn er påkrevd.</string>
@@ -263,8 +263,7 @@
     <string name="html_text_ad_free">I motsetning til mange passordadministrasjons-apper er denne &lt;strong&gt;annonsefri&lt;/strong&gt;, &lt;strong&gt;copylefted libre-programvare&lt;/strong&gt; og samler ikke inn personlige data på serverne, uansett hvilken versjon du bruker.</string>
     <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil bidra med støtte til &lt;strong&gt; realisering av fellesskaps prosjekter.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stilen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;
-    </string>
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe &lt;strong&gt;pro&lt;/strong&gt;-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å &lt;strong&gt;bidra&lt;/strong&gt;,</string>
@@ -512,9 +511,9 @@
 \nDatabasen din kan bli veldig stor og få redusert ytelse med denne opplastingen.</string>
     <string name="warning_empty_keyfile_explanation">Innholdet i nøkkelfilen bør aldri endre seg, og skal helst inneholde kun tilfeldig generert data.</string>
     <string name="warning_database_revoked">Tilgang til filen ble tilbakekalt av filbehandleren. Lukk databasen og åpne den igjen fra dens posisjon.</string>
-    <string name="error_import_app_properties">Feil under import av appinnstillinger</string>
+    <string name="error_import_app_properties">Feil under import av appinnstillinger.</string>
     <string name="success_export_app_properties">Appinnstillinger er eksportert</string>
-    <string name="error_export_app_properties">Feil under eksport av appinnstillinger</string>
+    <string name="error_export_app_properties">Feil under eksport av appinnstillinger.</string>
     <string name="place_of_issue">Utsteder</string>
     <string name="cryptocurrency">Kryptovaluta-lommebok</string>
     <string name="seed">Utgangspunkt</string>
@@ -647,7 +646,7 @@
     <string name="current_group">Nåværende gruppe</string>
     <string name="case_sensitive">Versalsensitiv</string>
     <string name="regex">Regulært uttrykk</string>
-    <string name="error_challenge_already_requested">Utfordring allerede forespurt</string>
+    <string name="error_challenge_already_requested">Utfordring allerede forespurt.</string>
     <string name="error_response_already_provided">Svar er allerede gitt.</string>
     <string name="error_no_response_from_challenge">Klarer ikke å få svar fra utfordringen.</string>
     <string name="error_cancel_by_user">Kansellert av bruker.</string>

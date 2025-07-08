@@ -113,7 +113,7 @@ import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.view.updateLockPaddingLeft
+import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.Instant
@@ -1130,7 +1130,7 @@ class GroupActivity : DatabaseLockActivity(),
             View.GONE
         }
         // Padding if lock button visible
-        toolbarAction?.updateLockPaddingLeft()
+        toolbarAction?.updateLockPaddingStart()
 
         loadGroup()
     }

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -529,6 +530,9 @@ class NodesAdapter (
         holder?.otpToken?.apply {
             text = otpElement?.tokenString
             setTextSize(mTextSizeUnit, mOtpTokenTextDefaultDimension, mPrefSizeMultiplier)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                textDirection = View.TEXT_DIRECTION_LTR
+            }
         }
         holder?.otpContainer?.setOnClickListener {
             otpElement?.token?.let { token ->

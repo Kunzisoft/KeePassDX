@@ -1,4 +1,4 @@
- * Changement des paramètres Argon2 par défaut #1098
+* Changement des paramètres Argon2 par défaut #1098
  * Ajout & édition du nom d'icone customisé #976
  * Correction des gabarits #1128 #1133 #1138
  * Mise à jour de la liste de compatibilité pour le remplissage automatique #725 #1154

@@ -73,7 +73,7 @@
     <string name="error_copy_group_here">Non pode copiar un grupo aquí.</string>
     <string name="error_create_database">Non foi posíbel crear o ficheiro da base de datos.</string>
     <string name="bank_name">Nome do banco</string>
-    <string name="error_file_not_create">Non foi posíbel crear o ficheiro</string>
+    <string name="error_file_not_create">Non foi posíbel crear o ficheiro.</string>
     <string name="error_no_name">Introduza un nome.</string>
     <string name="error_pass_gen_type">Ten que seleccionar polo menos un tipo de xeración de contrasinal.</string>
     <string name="error_load_database">Non foi posíbel abrir a base de datos.</string>
@@ -234,7 +234,7 @@
     <string name="error_create_database_file">Non foi posíbel crear a base de datos con ese contrasinal e ficheiro clave.</string>
     <string name="error_save_database">Non foi posíbel gardar a base de datos.</string>
     <string name="error_rebuild_list">Non é posíbel reconstruír a lista adecuadamente.</string>
-    <string name="error_challenge_already_requested">Desafío xa solicitado</string>
+    <string name="error_challenge_already_requested">Desafío xa solicitado.</string>
     <string name="error_response_already_provided">Resposta xa obtida.</string>
     <string name="error_no_response_from_challenge">Non foi posíbel obter a resposta do desafío.</string>
     <string name="error_cancel_by_user">Cancelado polo usuario.</string>
@@ -271,7 +271,7 @@
     <string name="error_otp_digits">O token debe ter entre %1$d e %2$d díxitos.</string>
     <string name="error_otp_type">O tipo de OTP existente non é recoñecido por este formulario, é posíbel que a súa validación non poida xerar o token correctamente.</string>
     <string name="field_name">Nome do campo</string>
-    <string name="error_registration_read_only">Gardar un novo elemento non é permitido nunha base de datos de só lectura</string>
+    <string name="error_registration_read_only">Gardar un novo elemento non é permitido nunha base de datos de só lectura.</string>
     <string name="file_not_found_content">Non foi posíbel atopar o ficheiro. Probe a volver abrilo no seu explorador de ficheiros.</string>
     <string name="hint_group_name">Nome do grupo</string>
     <string name="hint_icon_name">Nome do icono</string>
@@ -331,8 +331,8 @@
     <string name="remember_hardware_key_summary">Mantén un rexistro das claves hardware usadas</string>
     <string name="show_recent_files_title">Mostrar ficheiros recentes</string>
     <string name="hide_broken_locations_summary">Ocultar ligazóns rotas na lista de bases de datos recentes</string>
-    <string name="error_import_app_properties">Erro ao importar as propiedades da aplicación</string>
-    <string name="error_export_app_properties">Erro ao exportar as propiedades da aplicación</string>
+    <string name="error_import_app_properties">Erro ao importar as propiedades da aplicación.</string>
+    <string name="error_export_app_properties">Erro ao exportar as propiedades da aplicación.</string>
     <string name="kdf_explanation">Para xerar a clave do algoritmo de cifrado, a clave mestra é transformada usando unha función de derivación de clave cun salto aleatorio.</string>
     <string name="rounds">Rondas de transformación</string>
     <string name="rounds_explanation">Rondas de cifrado adicionais fornecen máis protección contra ataques por forza bruta, mais poden demorar a carga e o gardado.</string>

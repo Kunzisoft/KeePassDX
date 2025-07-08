@@ -39,8 +39,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 旗下的一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。
-\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPLv3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft 是一个&lt;strong&gt;不含广告&lt;/strong&gt;的&lt;strong&gt;开源软件&lt;/strong&gt;。\n它是以 &lt;strong&gt;GPLv3&lt;/strong&gt; 许可证依原样提供，不含任何形式的担保。</string>
     <string name="select_database_file">打开现有密码库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -57,7 +56,7 @@
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持 Arcfour 流式加密。</string>
     <string name="error_can_not_handle_uri">无法在 KeePassDX 中处理此 URI 。</string>
-    <string name="error_file_not_create">无法新建文件</string>
+    <string name="error_file_not_create">无法新建文件。</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径正确。</string>
     <string name="error_no_name">输入名称。</string>
@@ -295,7 +294,7 @@
     <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
-    <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的&lt;strong&gt;捐赠。&lt;/strong&gt;</string>
+    <string name="html_text_donation">通过多方面向本项目&lt;strong&gt;作贡献&lt;/strong&gt;，可以是<i>（财政、代码、翻译等）</i>，你将帮助本项目继续走下去并茁壮成长，并获得&lt;strong&gt;主题&lt;/strong&gt;解锁步骤资格。</string>
     <string name="html_text_dev_feature">此功能目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使该功能很快变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买&lt;strong&gt;专业&lt;/strong&gt;版，</string>
     <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;贡献&lt;/strong&gt;，</string>
@@ -485,7 +484,7 @@
     <string name="registration_mode">注册模式</string>
     <string name="save_mode">保存模式</string>
     <string name="search_mode">搜索模式</string>
-    <string name="error_registration_read_only">只读数据库不允许保存新条目</string>
+    <string name="error_registration_read_only">只读数据库不允许保存新条目。</string>
     <string name="error_field_name_already_exists">字段名已经存在。</string>
     <string name="advanced_unlock_delete_all_key_warning">删除所有与设备解锁识别相关的加密密钥吗？</string>
     <string name="device_credential_unlock_enable_summary">允许您使用设备凭据来打开数据库</string>
@@ -540,9 +539,9 @@
     <string name="error_remove_file">删除文件数据时发生了一个错误。</string>
     <string name="error_duplicate_file">文件数据已存在。</string>
     <string name="properties">属性</string>
-    <string name="error_export_app_properties">导出应用设置期间出错</string>
+    <string name="error_export_app_properties">导出应用设置期间出错。</string>
     <string name="success_export_app_properties">已导出应用设置</string>
-    <string name="error_import_app_properties">导入应用设置期间出错</string>
+    <string name="error_import_app_properties">导入应用设置期间出错。</string>
     <string name="success_import_app_properties">已导入应用设置</string>
     <string name="description_app_properties">管理应用设置的 KeePassDX 配置</string>
     <string name="export_app_properties_summary">创建文件来导出应用设置</string>
@@ -651,18 +650,18 @@
     <string name="hardware_key">硬件密钥</string>
     <string name="error_no_hardware_key">选择硬件密钥。</string>
     <string name="error_XML_malformed">XML 文件畸形。</string>
-    <string name="error_challenge_already_requested">已请求挑战</string>
+    <string name="error_challenge_already_requested">已请求挑战.</string>
     <string name="error_response_already_provided">已提供响应。</string>
     <string name="error_no_response_from_challenge">无法从挑战获取响应。</string>
     <string name="error_cancel_by_user">被用户取消。</string>
-    <string name="error_unable_merge_database_kdb">无法与 kdb 数据库文件合并</string>
+    <string name="error_unable_merge_database_kdb">无法与 kdb 数据库文件合并。</string>
     <string name="error_location_unknown">数据库位置未知，无法进行数据库操作。</string>
     <string name="error_hardware_key_unsupported">不支持的硬件密钥。</string>
     <string name="error_driver_required">%1$s 的驱动是必需的。</string>
     <string name="error_empty_key">密钥不能为空。</string>
     <string name="corrupted_file">文件损坏。</string>
     <string name="remember_hardware_key_title">记住硬件密钥</string>
-    <string name="remember_hardware_key_summary">保留所用硬件密钥的位置</string>
+    <string name="remember_hardware_key_summary">保留所用硬件密钥的痕迹</string>
     <string name="enable_screenshot_mode_title">截屏模式</string>
     <string name="enable_screenshot_mode_summary">允许第三方应用对 KeePassDX 屏幕进行录制或截图</string>
     <string name="screenshot_mode_banner_text">截屏模式</string>
@@ -701,4 +700,11 @@
     <string name="style_name_light">浅色</string>
     <string name="style_name_dark">深色</string>
     <string name="warning_database_info_changed_options_read_only">重新加载数据库最新变化。</string>
+    <string name="recursive_number_entries_summary">递归计算一个组当中的条目数</string>
+    <string name="warning_large_keyfile">不建议添加大的密钥文件，这可能造成数据库打不开。</string>
+    <string name="hide_templates_summary">模板未显示</string>
+    <string name="generate_keyfile">生成密钥文件</string>
+    <string name="hide_templates_title">隐藏模板</string>
+    <string name="nodes">节点</string>
+    <string name="recursive_number_entries_title">条目的递归数</string>
 </resources>

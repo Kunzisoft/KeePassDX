@@ -75,8 +75,7 @@
     <string name="content_description_update_from_list">I-update</string>
     <string name="content_description_keyboard_close_fields">Isara ang mga field</string>
     <string name="select_to_copy">Piliin para kopyahin ang %1$s sa clipboard</string>
-    <string name="html_about_licence">KeePassDX © %1$d Ang Kunzisoft ay &lt;strong&gt;open source&lt;/strong&gt; at &lt;strong&gt;walang advertising&lt;/strong&gt;.
-\nIbinigay ito nang as is, sa ilalim &lt;strong&gt;GPLv3&lt;/strong&gt; na lisensya, nang walang anumang warranty.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Ang Kunzisoft ay &lt;strong&gt;open source&lt;/strong&gt; at &lt;strong&gt;walang advertising&lt;/strong&gt;. \nIbinigay ito nang as is, sa ilalim &lt;strong&gt;GPLv3&lt;/strong&gt; na lisensya, nang walang anumang warranty.</string>
     <string name="html_about_privacy">&lt;strong&gt;Walang user data ay kinukuha&lt;/strong&gt;, ang aplikasyon na ito ay hindi kumokonekta sa anumang server, gumanagana ng lokal at ganap na ginagalang ang pagkapribado ng mga gumagamit.</string>
     <string name="html_about_contribution">Para &lt;strong&gt;panatilihin ang aming kalayaan&lt;/strong&gt;, &lt;strong&gt;ayusin ang mga bug&lt;/strong&gt;, &lt;strong&gt;magdagdag ng mga feature&lt;/strong&gt; at &lt;strong&gt;maging palaging aktibo&lt;/strong&gt;, umaasa kami sa iyong &lt;strong&gt;kontribusyon&lt;/strong&gt;.</string>
     <string name="entry_accessed">Na-access</string>
@@ -102,7 +101,7 @@
     <string name="error_otp_counter">Dapat nasa pagitan ng %1$d at %2$d ang counter.</string>
     <string name="error_otp_period">Dapat nasa pagitan ng %1$d at %2$d na segundo ang period.</string>
     <string name="error_otp_digits">Dapat maglaman ng %1$d hanggang %2$d na digit ang token.</string>
-    <string name="error_registration_read_only">Hindi pinapayagan ang pag-save ng bagong item sa read-only na database</string>
+    <string name="error_registration_read_only">Hindi pinapayagan ang pag-save ng bagong item sa read-only na database.</string>
     <string name="error_no_response_from_challenge">Hindi makuha ang tugon mula sa challenge.</string>
     <string name="error_driver_required">Kinakailangan ang driver para sa %1$s.</string>
     <string name="error_unable_merge_database_kdb">Hindi maisama mula sa database V1.</string>
@@ -159,7 +158,7 @@
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">Hindi sinusuportahan ang Arcfour stream cipher.</string>
     <string name="error_can_not_handle_uri">Hindi ma-handle ang URI na ito sa KeePassDX.</string>
-    <string name="error_file_not_create">Hindi magawa ang file</string>
+    <string name="error_file_not_create">Hindi magawa ang file.</string>
     <string name="error_invalid_db">Hindi mabasa ang database.</string>
     <string name="error_invalid_path">Siguraduhing tama ang path.</string>
     <string name="error_invalid_OTP">Hindi wastong OTP secret.</string>
@@ -194,7 +193,7 @@
     <string name="error_start_database_action">May naganap na error habang nagsasagawa ng pagkilos sa database.</string>
     <string name="error_remove_file">May naganap na error habang tinatanggal ang file data.</string>
     <string name="error_upload_file">May naganap na error habang ina-upload ang file data.</string>
-    <string name="error_challenge_already_requested">Hiniling na ang challenge</string>
+    <string name="error_challenge_already_requested">Hiniling na ang challenge.</string>
     <string name="error_response_already_provided">Ibinigay na ang tugon.</string>
     <string name="error_cancel_by_user">Kinansela ng user.</string>
     <string name="error_hardware_key_unsupported">Hindi sinusuportahan ang hardware key.</string>
@@ -309,6 +308,6 @@
     <string name="remember_database_locations_title">Tandaan ang mga lokasyon ng database</string>
     <string name="description_app_properties">Mga property ng KeePassDX para ipamahala ang mga setting ng app</string>
     <string name="success_import_app_properties">Na-import ang mga setting ng app</string>
-    <string name="error_import_app_properties">Error habang nagi-import ng mga setting ng app</string>
+    <string name="error_import_app_properties">Error habang nagi-import ng mga setting ng app.</string>
     <string name="success_export_app_properties">Na-export ang mga setting ng app</string>
 </resources>

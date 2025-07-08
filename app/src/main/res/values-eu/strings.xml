@@ -62,7 +62,7 @@
     <string name="entry_user_name">Erabiltzaile-izena</string>
     <string name="error_arc4">Ez dago euskarririk Arcfour fluxu-zifraketarako.</string>
     <string name="error_can_not_handle_uri">Ezin izan da KeePassDXen URI hau kudeatu.</string>
-    <string name="error_file_not_create">Ezin izan da fitxategia sortu</string>
+    <string name="error_file_not_create">Ezin izan da fitxategia sortu.</string>
     <string name="error_invalid_db">Ezin izan da datu-basea irakurri.</string>
     <string name="error_invalid_path">Egiaztatu bide-izena zuzena dela.</string>
     <string name="error_no_name">Sartu izena.</string>
@@ -242,7 +242,7 @@
     <string name="error_otp_secret_key">Gako sekretuak Base32 formatuan egon behar du.</string>
     <string name="error_otp_period">Periodoak %1$d eta%2$d segundo bitartekoa izan behar du.</string>
     <string name="error_string_type">Testu hau ez dator bat eskatutako elementuarekin.</string>
-    <string name="error_registration_read_only">Ezin da elementu bat gehitu irakurketa soileko datu-basean</string>
+    <string name="error_registration_read_only">Ezin da elementu bat gehitu irakurketa soileko datu-basean.</string>
     <string name="error_otp_counter">Kontagailuak %1$d eta %2$d artean egon behar du.</string>
     <string name="error_load_database">Ezin izan da datu-basea kargatu.</string>
     <string name="html_about_contribution">&lt;strong&gt; Gure askatasuna mantentzeko &lt;/strong&gt;, &lt;strong&gt;bugak konpontzeko &lt;/strong&gt;, &lt;strong&gt; ezaugarriak konpontzeko &lt;/strong&gt; eta &lt;strong&gt; beti aktibo egoteko&lt;/strong&gt;, zure &lt;strong&gt; ekarpenen&lt;/strong&gt; zain gaude.</string>
@@ -326,7 +326,7 @@
     <string name="error_duplicate_file">Fitxategiko datuak jadanik existitzen dira.</string>
     <string name="error_remove_file">Fitxategiko datuak ezabatzean errorea gertatu da.</string>
     <string name="error_start_database_action">Errorea gertatu da datu-basean akzio bat egitean.</string>
-    <string name="error_challenge_already_requested">Erronka eskatuta dago</string>
+    <string name="error_challenge_already_requested">Erronka eskatuta dago.</string>
     <string name="error_response_already_provided">Jaso da erantzuna.</string>
     <string name="error_no_response_from_challenge">Ezinezkoa da erronkaren erantzuna jasotzea.</string>
     <string name="error_cancel_by_user">Erabiltzaileak bertan behera utzita.</string>
@@ -367,8 +367,8 @@
     <string name="import_app_properties_title">Inportatu aplikazioaren ezarpenak</string>
     <string name="import_app_properties_summary">Hautatu fitxategia aplikazioaren ezarpenak inportatzeko</string>
     <string name="success_import_app_properties">Aplikazioen ezarpenak inportatu dira</string>
-    <string name="error_import_app_properties">Errorea aplikazioaren ezarpenak inportatzean</string>
-    <string name="error_export_app_properties">Errorea aplikazioaren ezarpenak esportatzean</string>
+    <string name="error_import_app_properties">Errorea aplikazioaren ezarpenak inportatzean.</string>
+    <string name="error_export_app_properties">Errorea aplikazioaren ezarpenak esportatzean.</string>
     <string name="memory_usage">Memoria erabilpena</string>
     <string name="parallelism_explanation">Gakoaren eratorpen funtzioak erabilitako paralelismo gradua (adb. hari kopurua).</string>
     <string name="command_execution">Komandoa exekutatzen…</string>

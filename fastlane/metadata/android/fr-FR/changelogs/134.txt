@@ -1,0 +1,8 @@
+ * Correction de la recherche URL #1940 #1946 #2003 #2040 #2044
+ * Correction de la boite de dialogue de remplissage automatique #2054
+ * Correction des notes de groupes #2053
+ * Correction du fond de boite de dialogue #2005 #2004 (Thx @codokie)
+ * Correction configuration OTP #2042 #2065 (Thx @Dev-ClayP)
+ * Correction de petits éléments graphiques #1987 #2007 (Thx @ymcx)
+ * Support des vues RTL #2021 (Thx @codokie)
+ * Metadonnées de l'app en traduction #1823

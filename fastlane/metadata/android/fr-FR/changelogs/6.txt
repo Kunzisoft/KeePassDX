@@ -1,4 +1,4 @@
- * Remplissage automatique (Android O)
+* Remplissage automatique (Android O)
  * Correction du timeout et d'autres bugs
  * Suppression pour les groupes
  * Nouveau tri avec (Asc / Dsc, Groupes avant ou après)

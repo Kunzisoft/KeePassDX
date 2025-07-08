@@ -31,6 +31,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchUsername: CompoundButton
     private var searchPassword: CompoundButton
     private var searchURL: CompoundButton
+    private var searchByURLDomain: Boolean = false
     private var searchExpired: CompoundButton
     private var searchNotes: CompoundButton
     private var searchOther: CompoundButton
@@ -50,6 +51,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 this.searchInUsernames = searchUsername.isChecked
                 this.searchInPasswords = searchPassword.isChecked
                 this.searchInUrls = searchURL.isChecked
+                this.searchByDomain = searchByURLDomain
                 this.searchInExpired = searchExpired.isChecked
                 this.searchInNotes = searchNotes.isChecked
                 this.searchInOther = searchOther.isChecked
@@ -70,6 +72,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchUsername.isChecked = value.searchInUsernames
             searchPassword.isChecked = value.searchInPasswords
             searchURL.isChecked = value.searchInUrls
+            searchByURLDomain = value.searchByDomain
             searchExpired.isChecked = value.searchInExpired
             searchNotes.isChecked = value.searchInNotes
             searchOther.isChecked = value.searchInOther
