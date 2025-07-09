@@ -65,7 +65,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_right_white_24dp"
             app:tint="?attr/colorOnSurface"
-            android:importantForAccessibility="no"
-            tools:targetApi="jelly_bean" />
+            android:importantForAccessibility="no" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
