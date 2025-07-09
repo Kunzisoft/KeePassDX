@@ -67,55 +67,53 @@ object UriUtil {
                                      readOnly: Boolean) {
         try {
             // try to persist read and write permissions
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                contentResolver?.apply {
-                    var readPermissionAllowed = false
-                    var writePermissionAllowed = false
-                    // Check current permissions allowed
-                    persistedUriPermissions.find { uriPermission ->
-                        uriPermission.uri == uri
-                    }?.let { uriPermission ->
-                        Log.d(TAG, "Check URI permission : $uriPermission")
-                        if (uriPermission.isReadPermission) {
-                            readPermissionAllowed = true
-                        }
-                        if (uriPermission.isWritePermission) {
-                            writePermissionAllowed = true
-                        }
+            contentResolver?.apply {
+                var readPermissionAllowed = false
+                var writePermissionAllowed = false
+                // Check current permissions allowed
+                persistedUriPermissions.find { uriPermission ->
+                    uriPermission.uri == uri
+                }?.let { uriPermission ->
+                    Log.d(TAG, "Check URI permission : $uriPermission")
+                    if (uriPermission.isReadPermission) {
+                        readPermissionAllowed = true
                     }
-
-                    // Release permission
-                    if (release) {
-                        if (writePermissionAllowed) {
-                            Log.d(TAG, "Release write permission : $uri")
-                            val removeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            releasePersistableUriPermission(uri, removeFlags)
-                        }
-                        if (readPermissionAllowed) {
-                            Log.d(TAG, "Release read permission $uri")
-                            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                            releasePersistableUriPermission(uri, takeFlags)
-                        }
+                    if (uriPermission.isWritePermission) {
+                        writePermissionAllowed = true
                     }
+                }
 
-                    // Take missing permission
-                    if (!readPermissionAllowed) {
-                        Log.d(TAG, "Take read permission $uri")
+                // Release permission
+                if (release) {
+                    if (writePermissionAllowed) {
+                        Log.d(TAG, "Release write permission : $uri")
+                        val removeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        releasePersistableUriPermission(uri, removeFlags)
+                    }
+                    if (readPermissionAllowed) {
+                        Log.d(TAG, "Release read permission $uri")
                         val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        takePersistableUriPermission(uri, takeFlags)
+                        releasePersistableUriPermission(uri, takeFlags)
                     }
-                    if (readOnly) {
-                        if (writePermissionAllowed) {
-                            Log.d(TAG, "Release write permission $uri")
-                            val removeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            releasePersistableUriPermission(uri, removeFlags)
-                        }
-                    } else {
-                        if (!writePermissionAllowed) {
-                            Log.d(TAG, "Take write permission $uri")
-                            val takeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            takePersistableUriPermission(uri, takeFlags)
-                        }
+                }
+
+                // Take missing permission
+                if (!readPermissionAllowed) {
+                    Log.d(TAG, "Take read permission $uri")
+                    val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    takePersistableUriPermission(uri, takeFlags)
+                }
+                if (readOnly) {
+                    if (writePermissionAllowed) {
+                        Log.d(TAG, "Release write permission $uri")
+                        val removeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        releasePersistableUriPermission(uri, removeFlags)
+                    }
+                } else {
+                    if (!writePermissionAllowed) {
+                        Log.d(TAG, "Take write permission $uri")
+                        val takeFlags: Int = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                        takePersistableUriPermission(uri, takeFlags)
                     }
                 }
             }
