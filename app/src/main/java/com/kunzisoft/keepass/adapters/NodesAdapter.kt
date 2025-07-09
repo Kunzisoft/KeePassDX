@@ -530,9 +530,8 @@ class NodesAdapter (
         holder?.otpToken?.apply {
             text = otpElement?.tokenString
             setTextSize(mTextSizeUnit, mOtpTokenTextDefaultDimension, mPrefSizeMultiplier)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                textDirection = View.TEXT_DIRECTION_LTR
-            }
+            textDirection = View.TEXT_DIRECTION_LTR
+            
         }
         holder?.otpContainer?.setOnClickListener {
             otpElement?.token?.let { token ->
