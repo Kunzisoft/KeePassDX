@@ -167,15 +167,13 @@ object UriUtil {
 
     fun Intent.getUri(key: String): Uri? {
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                val clipData = this.clipData
-                if (clipData != null) {
-                    if (clipData.description.label == key) {
-                        if (clipData.itemCount == 1) {
-                            val clipItem = clipData.getItemAt(0)
-                            if (clipItem != null) {
-                                return clipItem.uri
-                            }
+            val clipData = this.clipData
+            if (clipData != null) {
+                if (clipData.description.label == key) {
+                    if (clipData.itemCount == 1) {
+                        val clipItem = clipData.getItemAt(0)
+                        if (clipItem != null) {
+                            return clipItem.uri
                         }
                     }
                 }
