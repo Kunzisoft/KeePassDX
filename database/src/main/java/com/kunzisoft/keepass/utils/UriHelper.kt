@@ -148,23 +148,6 @@ fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): Pa
         @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
     }
 
-@SuppressLint("InlinedApi")
-fun PackageManager.allowCreateDocumentByStorageAccessFramework(): Boolean {
-    return when {
-        // To check if a custom file manager can manage the ACTION_CREATE_DOCUMENT
-        // queries filter is in Manifest
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT -> {
-            queryIntentActivitiesCompat(
-                Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "application/octet-stream"
-                }, PackageManager.MATCH_DEFAULT_ONLY
-            ).isNotEmpty()
-        }
-        else -> true
-    }
-}
-
 @SuppressLint("QueryPermissionsNeeded")
 private fun PackageManager.queryIntentActivitiesCompat(intent: Intent, flags: Int): List<ResolveInfo> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
