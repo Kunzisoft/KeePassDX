@@ -138,26 +138,24 @@ object UriUtil {
     }
 
     fun Context.releaseAllUnnecessaryPermissionUris() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            applicationContext?.let { appContext ->
-                val fileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(appContext)
-                fileDatabaseHistoryAction.getDatabaseFileList { databaseFileList ->
-                    val listToNotRemove = mutableListOf<Uri>()
-                    databaseFileList.forEach {
-                        it.databaseUri?.let { databaseUri ->
-                            listToNotRemove.add(databaseUri)
-                        }
-                        it.keyFileUri?.let { keyFileUri ->
-                            listToNotRemove.add(keyFileUri)
-                        }
+        applicationContext?.let { appContext ->
+            val fileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(appContext)
+            fileDatabaseHistoryAction.getDatabaseFileList { databaseFileList ->
+                val listToNotRemove = mutableListOf<Uri>()
+                databaseFileList.forEach {
+                    it.databaseUri?.let { databaseUri ->
+                        listToNotRemove.add(databaseUri)
                     }
-                    // Remove URI permission for not database files
-                    val resolver = appContext.contentResolver
-                    resolver.persistedUriPermissions.forEach { uriPermission ->
-                        val uri = uriPermission.uri
-                        if (!listToNotRemove.contains(uri))
-                            resolver.releaseUriPermission(uri)
+                    it.keyFileUri?.let { keyFileUri ->
+                        listToNotRemove.add(keyFileUri)
                     }
+                }
+                // Remove URI permission for not database files
+                val resolver = appContext.contentResolver
+                resolver.persistedUriPermissions.forEach { uriPermission ->
+                    val uri = uriPermission.uri
+                    if (!listToNotRemove.contains(uri))
+                        resolver.releaseUriPermission(uri)
                 }
             }
         }
