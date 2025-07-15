@@ -673,7 +673,7 @@
     <string name="warning_database_notification_permission">通知権限を使用すると、データベースのステータスを表示し、簡単にアクセスできるボタンでロックすることができます。
 \n
 \nこの権限を有効にしないと、別のアプリケーションがフォアグラウンドにある場合、バックグラウンドで開いているデータベースは表示されません。</string>
-    <string name="ask">話す</string>
+    <string name="ask">権限を要求する</string>
     <string name="merge_success">マージが正常に完了しました</string>
     <string name="configure">設定する</string>
     <string name="menu_appearance_settings_summary">テーマ、色、属性</string>
