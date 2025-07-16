@@ -282,7 +282,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                             searchInfo = searchInfo,
                             onItemsFound = { openedDatabase, _ ->
                                 Log.w(TAG, "Passkey found for registration, " +
-                                        "but launch manual registration for overwrite")
+                                        "but launch manual registration for a new entry")
                                 GroupActivity.launchForRegistration(
                                     context = this,
                                     activityResultLauncher = mPasskeyRegistrationActivityResultLauncher,

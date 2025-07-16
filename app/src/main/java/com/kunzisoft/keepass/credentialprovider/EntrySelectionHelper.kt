@@ -152,7 +152,7 @@ object EntrySelectionHelper {
         if (activityResultLauncher == null) {
             intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        context?.startActivity(intent) ?: activityResultLauncher?.launch(intent) ?:
+        activityResultLauncher?.launch(intent) ?: context?.startActivity(intent) ?:
             throw IllegalStateException("At least Context or ActivityResultLauncher must not be null")
     }
 
