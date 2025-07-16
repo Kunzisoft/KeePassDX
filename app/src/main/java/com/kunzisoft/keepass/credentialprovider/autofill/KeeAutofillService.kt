@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.autofill
+package com.kunzisoft.keepass.credentialprovider.autofill
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -43,8 +43,8 @@ import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.AutofillLauncherActivity
-import com.kunzisoft.keepass.autofill.StructureParser.Companion.APPLICATION_ID_POPUP_WINDOW
+import com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity
+import com.kunzisoft.keepass.credentialprovider.autofill.StructureParser.Companion.APPLICATION_ID_POPUP_WINDOW
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -143,25 +143,28 @@ class KeeAutofillService : AutofillService() {
                                 parseResult: StructureParser.Result,
                                 inlineSuggestionsRequest: CompatInlineSuggestionsRequest?,
                                 callback: FillCallback) {
-        SearchHelper.checkAutoSearchInfo(this,
-                database,
-                searchInfo,
-                { openedDatabase, items ->
-                    callback.onSuccess(
-                            AutofillHelper.buildResponse(this, openedDatabase,
-                                    items, parseResult, inlineSuggestionsRequest)
+        SearchHelper.checkAutoSearchInfo(
+            context = this,
+            database = database,
+            searchInfo = searchInfo,
+            onItemsFound = { openedDatabase, items ->
+                callback.onSuccess(
+                    AutofillHelper.buildResponse(
+                        this, openedDatabase,
+                        items, parseResult, inlineSuggestionsRequest
                     )
-                },
-                { openedDatabase ->
-                    // Show UI if no search result
-                    showUIForEntrySelection(parseResult, openedDatabase,
-                            searchInfo, inlineSuggestionsRequest, callback)
-                },
-                {
-                    // Show UI if database not open
-                    showUIForEntrySelection(parseResult, null,
-                            searchInfo, inlineSuggestionsRequest, callback)
-                }
+                )
+            },
+            onItemNotFound = { openedDatabase ->
+                // Show UI if no search result
+                showUIForEntrySelection(parseResult, openedDatabase,
+                        searchInfo, inlineSuggestionsRequest, callback)
+            },
+            onDatabaseClosed = {
+                // Show UI if database not open
+                showUIForEntrySelection(parseResult, null,
+                        searchInfo, inlineSuggestionsRequest, callback)
+            }
         )
     }
 
@@ -385,19 +388,21 @@ class KeeAutofillService : AutofillService() {
 
                     // Show UI to save data
                     val registerInfo = RegisterInfo(
-                            SearchInfo().apply {
-                                applicationId = parseResult.applicationId
-                                webDomain = parseResult.webDomain
-                                webScheme = parseResult.webScheme
-                            },
-                            parseResult.usernameValue?.textValue?.toString(),
-                            parseResult.passwordValue?.textValue?.toString(),
+                        searchInfo = SearchInfo().apply {
+                            applicationId = parseResult.applicationId
+                            webDomain = parseResult.webDomain
+                            webScheme = parseResult.webScheme
+                        },
+                        username = parseResult.usernameValue?.textValue?.toString(),
+                        password = parseResult.passwordValue?.textValue?.toString(),
+                        creditCard =
                             CreditCard(
                                 parseResult.creditCardHolder,
                                 parseResult.creditCardNumber,
                                 expiration,
                                 parseResult.cardVerificationValue
-                            ))
+                            )
+                        )
 
                     // TODO Callback in each activity #765
                     //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

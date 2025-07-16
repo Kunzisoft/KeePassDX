@@ -23,7 +23,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -38,13 +37,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -54,7 +50,7 @@ import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -62,7 +58,7 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService

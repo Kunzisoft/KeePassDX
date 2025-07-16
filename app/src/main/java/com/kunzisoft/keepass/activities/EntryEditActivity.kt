@@ -55,12 +55,15 @@ import com.kunzisoft.keepass.activities.dialogs.FileTooBigDialogFragment.Compani
 import com.kunzisoft.keepass.activities.dialogs.ReplaceFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.fragments.EntryEditFragment
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
-import com.kunzisoft.keepass.autofill.AutofillComponent
-import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -70,7 +73,6 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.EntryAttachmentState
@@ -376,18 +378,25 @@ class EntryEditActivity : DatabaseLockActivity(),
 
             // Don't wait for saving if it's to provide autofill
             mDatabase?.let { database ->
-                EntrySelectionHelper.doSpecialAction(intent,
-                    {},
-                    {},
-                    {},
-                    {
+                EntrySelectionHelper.doSpecialAction(
+                    intent = intent,
+                    defaultAction = {},
+                    searchAction = {},
+                    saveAction = {},
+                    keyboardSelectionAction = {
                         entryValidatedForKeyboardSelection(database, entrySave.newEntry)
                     },
-                    { _, _ ->
+                    autofillSelectionAction = { _, _ ->
                         entryValidatedForAutofillSelection(database, entrySave.newEntry)
                     },
-                    {
+                    autofillRegistrationAction = {
                         entryValidatedForAutofillRegistration(entrySave.newEntry)
+                    },
+                    passkeySelectionAction = {
+                        entryValidatedForPasskeySelection(database, entrySave.newEntry)
+                    },
+                    passkeyRegistrationAction = {
+                        entryValidatedForPasskeyRegistration(database, entrySave.newEntry)
                     }
                 )
             }
@@ -430,25 +439,32 @@ class EntryEditActivity : DatabaseLockActivity(),
                         }
                         if (newNodes.size == 1) {
                             (newNodes[0] as? Entry?)?.let { entry ->
-                                EntrySelectionHelper.doSpecialAction(intent,
-                                    {
+                                EntrySelectionHelper.doSpecialAction(
+                                    intent = intent,
+                                    defaultAction = {
                                         // Finish naturally
                                         finishForEntryResult(entry)
                                     },
-                                    {
+                                    searchAction = {
                                         // Nothing when search retrieved
                                     },
-                                    {
+                                    saveAction = {
                                         entryValidatedForSave(entry)
                                     },
-                                    {
+                                    keyboardSelectionAction = {
                                         entryValidatedForKeyboardSelection(database, entry)
                                     },
-                                    { _, _ ->
+                                    autofillSelectionAction = { _, _ ->
                                         entryValidatedForAutofillSelection(database, entry)
                                     },
-                                    {
+                                    autofillRegistrationAction = {
                                         entryValidatedForAutofillRegistration(entry)
+                                    },
+                                    passkeySelectionAction = {
+                                        entryValidatedForPasskeySelection(database, entry)
+                                    },
+                                    passkeyRegistrationAction = {
+                                        entryValidatedForPasskeyRegistration(database, entry)
                                     }
                                 )
                             }
@@ -488,9 +504,33 @@ class EntryEditActivity : DatabaseLockActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForAutofillRegistration(entry: Entry) {
+    private fun entryValidatedForPasskeySelection(database: ContextualDatabase, entry: Entry) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            this.buildPasskeyResponseAndSetResult(
+                entryInfo = entry.getEntryInfo(database)
+            )
+        }
         onValidateSpecialMode()
-        finishForEntryResult(entry)
+    }
+
+    private fun entryValidatedForAutofillRegistration(entry: Entry) {
+        //if (isIntentSender()) {
+            // TODO Autofill Callback #765
+        //}
+        onValidateSpecialMode()
+        if (!isIntentSender()) {
+            finishForEntryResult(entry)
+        }
+    }
+
+    private fun entryValidatedForPasskeyRegistration(database: ContextualDatabase, entry: Entry) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            this.buildPasskeyResponseAndSetResult(
+                entryInfo = entry.getEntryInfo(database),
+                extras = buildEntryResult(entry) // To update the previous screen
+            )
+        }
+        onValidateSpecialMode()
     }
 
     override fun onResume() {
@@ -742,12 +782,17 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
     }
 
+    private fun buildEntryResult(entry: Entry): Bundle {
+        return Bundle().apply {
+            putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
+        }
+    }
+
     private fun finishForEntryResult(entry: Entry) {
         // Assign entry callback as a result
         try {
-            val bundle = Bundle()
+            val bundle = buildEntryResult(entry)
             val intentEntry = Intent()
-            bundle.putParcelable(ADD_OR_UPDATE_ENTRY_KEY, entry.nodeId)
             intentEntry.putExtras(bundle)
             setResult(Activity.RESULT_OK, intentEntry)
             super.finish()
@@ -892,7 +937,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryEditActivity::class.java)
                     intent.putExtra(KEY_PARENT, groupId)
-                    AutofillHelper.startActivityForAutofillResult(
+                    EntrySelectionHelper.startActivityForAutofillSelectionModeResult(
                         activity,
                         intent,
                         activityResultLauncher,
@@ -904,20 +949,47 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         /**
+         * Launch EntryEditActivity to add a new passkey entry
+         */
+        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+        fun launchForPasskeySelectionResult(context: Context,
+                                            database: ContextualDatabase,
+                                            activityResultLauncher: ActivityResultLauncher<Intent>?,
+                                            groupId: NodeId<*>,
+                                            searchInfo: SearchInfo? = null) {
+            if (database.loaded && !database.isReadOnly) {
+                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
+                    val intent = Intent(context, EntryEditActivity::class.java)
+                    intent.putExtra(KEY_PARENT, groupId)
+                    EntrySelectionHelper.startActivityForPasskeySelectionModeResult(
+                        context,
+                        intent,
+                        activityResultLauncher,
+                        searchInfo
+                    )
+                }
+            }
+        }
+
+        /**
          * Launch EntryEditActivity to register an updated entry (from autofill)
          */
         fun launchToUpdateForRegistration(context: Context,
                                           database: ContextualDatabase,
+                                          activityResultLauncher: ActivityResultLauncher<Intent>?,
                                           entryId: NodeId<UUID>,
-                                          registerInfo: RegisterInfo? = null) {
+                                          registerInfo: RegisterInfo?,
+                                          typeMode: TypeMode) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                     val intent = Intent(context, EntryEditActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
                     EntrySelectionHelper.startActivityForRegistrationModeResult(
                         context,
+                        activityResultLauncher,
                         intent,
-                        registerInfo
+                        registerInfo,
+                        typeMode
                     )
                 }
             }
@@ -928,16 +1000,20 @@ class EntryEditActivity : DatabaseLockActivity(),
          */
         fun launchToCreateForRegistration(context: Context,
                                           database: ContextualDatabase,
+                                          activityResultLauncher: ActivityResultLauncher<Intent>?,
                                           groupId: NodeId<*>,
-                                          registerInfo: RegisterInfo? = null) {
+                                          registerInfo: RegisterInfo? = null,
+                                          typeMode: TypeMode) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                     val intent = Intent(context, EntryEditActivity::class.java)
                     intent.putExtra(KEY_PARENT, groupId)
                     EntrySelectionHelper.startActivityForRegistrationModeResult(
                         context,
+                        activityResultLauncher,
                         intent,
-                        registerInfo
+                        registerInfo,
+                        typeMode
                     )
                 }
             }

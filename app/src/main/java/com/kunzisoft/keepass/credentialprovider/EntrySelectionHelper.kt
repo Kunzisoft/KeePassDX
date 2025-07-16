@@ -17,17 +17,32 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.helpers
+package com.kunzisoft.keepass.credentialprovider
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.os.Build
-import com.kunzisoft.keepass.autofill.AutofillComponent
-import com.kunzisoft.keepass.autofill.AutofillHelper
+import android.util.Log
+import android.widget.RemoteViews
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.addAutofillComponent
+import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.getEnumExtra
+import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.putEnumExtra
 
 object EntrySelectionHelper {
@@ -36,6 +51,33 @@ object EntrySelectionHelper {
     private const val KEY_TYPE_MODE = "com.kunzisoft.keepass.extra.TYPE_MODE"
     private const val KEY_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
     private const val KEY_REGISTER_INFO = "com.kunzisoft.keepass.extra.REGISTER_INFO"
+
+    /**
+     * Utility method to build a registerForActivityResult,
+     * Used recursively, close each activity with return data
+     */
+    fun AppCompatActivity.buildActivityResultLauncher(
+        lockDatabase: Boolean = false,
+        dataTransformation: (data: Intent?) -> Intent? = { it },
+    ): ActivityResultLauncher<Intent> {
+        return this.registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            val resultCode = it.resultCode
+            if (resultCode == Activity.RESULT_OK) {
+                this.setResult(resultCode, dataTransformation(it.data))
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                this.setResult(Activity.RESULT_CANCELED)
+            }
+            this.finish()
+
+            if (lockDatabase && PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
+                // Close the database
+                this.sendBroadcast(Intent(LOCK_ACTION))
+            }
+        }
+    }
 
     fun startActivityForSearchModeResult(context: Context,
                                          intent: Intent,
@@ -66,15 +108,52 @@ object EntrySelectionHelper {
         context.startActivity(intent)
     }
 
-    fun startActivityForRegistrationModeResult(context: Context,
-                                               intent: Intent,
-                                               registerInfo: RegisterInfo?) {
-        addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
-        // At the moment, only autofill for registration
+    /**
+     * Utility method to start an activity with an Autofill for result
+     */
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun startActivityForAutofillSelectionModeResult(
+        context: Context,
+        intent: Intent,
+        activityResultLauncher: ActivityResultLauncher<Intent>?,
+        autofillComponent: AutofillComponent,
+        searchInfo: SearchInfo?
+    ) {
+        addSpecialModeInIntent(intent, SpecialMode.SELECTION)
         addTypeModeInIntent(intent, TypeMode.AUTOFILL)
+        intent.addAutofillComponent(context, autofillComponent)
+        addSearchInfoInIntent(intent, searchInfo)
+        activityResultLauncher?.launch(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+    fun startActivityForPasskeySelectionModeResult(
+        context: Context,
+        intent: Intent,
+        activityResultLauncher: ActivityResultLauncher<Intent>?,
+        searchInfo: SearchInfo?
+    ) {
+        addSpecialModeInIntent(intent, SpecialMode.SELECTION)
+        addTypeModeInIntent(intent, TypeMode.PASSKEY)
+        addSearchInfoInIntent(intent, searchInfo)
+        activityResultLauncher?.launch(intent)
+    }
+
+    fun startActivityForRegistrationModeResult(
+        context: Context?,
+        activityResultLauncher: ActivityResultLauncher<Intent>?,
+        intent: Intent,
+        registerInfo: RegisterInfo?,
+        typeMode: TypeMode
+    ) {
+        addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
+        addTypeModeInIntent(intent, typeMode)
         addRegisterInfoInIntent(intent, registerInfo)
-        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        context.startActivity(intent)
+        if (activityResultLauncher == null) {
+            intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        context?.startActivity(intent) ?: activityResultLauncher?.launch(intent) ?:
+            throw IllegalStateException("At least Context or ActivityResultLauncher must not be null")
     }
 
     fun addSearchInfoInIntent(intent: Intent, searchInfo: SearchInfo?) {
@@ -103,7 +182,12 @@ object EntrySelectionHelper {
     }
 
     fun addSpecialModeInIntent(intent: Intent, specialMode: SpecialMode) {
+        // TODO Replace by Intent.addSpecialMode
         intent.putEnumExtra(KEY_SPECIAL_MODE, specialMode)
+    }
+    fun Intent.addSpecialMode(specialMode: SpecialMode): Intent {
+        this.putEnumExtra(KEY_SPECIAL_MODE, specialMode)
+        return this
     }
 
     fun retrieveSpecialModeFromIntent(intent: Intent): SpecialMode {
@@ -131,6 +215,17 @@ object EntrySelectionHelper {
         intent.removeExtra(KEY_TYPE_MODE)
     }
 
+    /**
+     * Intent sender uses special retains data in callback
+     */
+    fun isIntentSenderMode(specialMode: SpecialMode, typeMode: TypeMode): Boolean {
+        return (specialMode == SpecialMode.SELECTION
+                && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
+                // TODO Autofill Registration callback #765 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                || (specialMode == SpecialMode.REGISTRATION
+                && typeMode == TypeMode.PASSKEY)
+    }
+
     fun doSpecialAction(intent: Intent,
                         defaultAction: () -> Unit,
                         searchAction: (searchInfo: SearchInfo) -> Unit,
@@ -138,7 +233,9 @@ object EntrySelectionHelper {
                         keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
                         autofillSelectionAction: (searchInfo: SearchInfo?,
                                                   autofillComponent: AutofillComponent) -> Unit,
-                        autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit) {
+                        autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit,
+                        passkeySelectionAction: (searchInfo: SearchInfo?) -> Unit,
+                        passkeyRegistrationAction: (registerInfo: RegisterInfo?) -> Unit) {
 
         when (retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
@@ -186,6 +283,7 @@ object EntrySelectionHelper {
                                     defaultAction.invoke()
                             }
                             TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
+                            TypeMode.PASSKEY -> passkeySelectionAction.invoke(searchInfo)
                             else -> {
                                 // In this case, error
                                 removeModesFromIntent(intent)
@@ -202,10 +300,59 @@ object EntrySelectionHelper {
             }
             SpecialMode.REGISTRATION -> {
                 val registerInfo: RegisterInfo? = retrieveRegisterInfoFromIntent(intent)
-                removeModesFromIntent(intent)
-                removeInfoFromIntent(intent)
-                autofillRegistrationAction.invoke(registerInfo)
+                if (!isIntentSenderMode(
+                        specialMode = retrieveSpecialModeFromIntent(intent),
+                        typeMode = retrieveTypeModeFromIntent(intent))
+                    ) {
+                    removeModesFromIntent(intent)
+                    removeInfoFromIntent(intent)
+                }
+                when (retrieveTypeModeFromIntent(intent)) {
+                    TypeMode.AUTOFILL -> {
+                        autofillRegistrationAction.invoke(registerInfo)
+                    }
+                    TypeMode.PASSKEY -> {
+                        passkeyRegistrationAction.invoke(registerInfo)
+                    }
+                    else -> {
+                        // Do other registration type
+                    }
+                }
             }
         }
+    }
+
+    fun performSelection(items: List<EntryInfo>,
+                         actionPopulateCredentialProvider: (entryInfo: EntryInfo) -> Unit,
+                         actionEntrySelection: (autoSearch: Boolean) -> Unit) {
+        if (items.size == 1) {
+            val itemFound = items[0]
+            actionPopulateCredentialProvider.invoke(itemFound)
+        } else if (items.size > 1) {
+            // Select the one we want in the selection
+            actionEntrySelection.invoke(true)
+        } else {
+            // Select an arbitrary one
+            actionEntrySelection.invoke(false)
+        }
+    }
+
+    /**
+     * Method to assign a drawable to a new icon from a database icon
+     */
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun EntryInfo.buildIcon(
+        context: Context,
+        database: ContextualDatabase
+    ): Icon? {
+        try {
+            database.iconDrawableFactory.getBitmapFromIcon(context,
+                this.icon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
+                return Icon.createWithBitmap(bitmap)
+            }
+        } catch (e: Exception) {
+            Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+        }
+        return null
     }
 }

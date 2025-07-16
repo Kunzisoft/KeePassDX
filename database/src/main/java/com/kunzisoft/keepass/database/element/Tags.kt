@@ -49,6 +49,10 @@ class Tags: Parcelable {
         }
     }
 
+    fun contains(tag: String): Boolean {
+        return mTags.contains(tag)
+    }
+
     fun isEmpty(): Boolean {
         return mTags.isEmpty()
     }

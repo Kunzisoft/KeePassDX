@@ -5,9 +5,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.helpers.TypeMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.isIntentSenderMode
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.ToolbarSpecial
@@ -42,18 +43,15 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     /**
      * Intent sender uses special retains data in callback
      */
-    private fun isIntentSender(): Boolean {
-        return (mSpecialMode == SpecialMode.SELECTION
-                && mTypeMode == TypeMode.AUTOFILL)
-                /* TODO Registration callback #765
-                || (mSpecialMode == SpecialMode.REGISTRATION
-                && mTypeMode == TypeMode.AUTOFILL
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                */
+    protected fun isIntentSender(): Boolean {
+        return isIntentSenderMode(mSpecialMode, mTypeMode)
     }
 
     fun onLaunchActivitySpecialMode() {
-        if (!isIntentSender()) {
+        // TODO Verify behavior for Autofill Callback #765
+        if (isIntentSender()) {
+            onValidateSpecialMode()
+        } else {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
             finish()
@@ -136,6 +134,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
                 TypeMode.DEFAULT, // Not important because hidden
                 TypeMode.MAGIKEYBOARD -> R.string.magic_keyboard_title
                 TypeMode.AUTOFILL -> R.string.autofill
+                TypeMode.PASSKEY -> R.string.passkey
             }
             title = getString(selectionModeStringId)
             if (mTypeMode != TypeMode.DEFAULT)

@@ -4,15 +4,19 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.utils.readParcelableCompat
 
-data class RegisterInfo(val searchInfo: SearchInfo,
-                        val username: String?,
-                        val password: String?,
-                        val creditCard: CreditCard?): Parcelable {
+data class RegisterInfo(
+    val searchInfo: SearchInfo,
+    val username: String?,
+    val password: String? = null,
+    val creditCard: CreditCard? = null,
+    val passkey: Passkey? = null
+): Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readParcelableCompat() ?: SearchInfo(),
             parcel.readString() ?: "",
             parcel.readString() ?: "",
+            parcel.readParcelableCompat(),
             parcel.readParcelableCompat()) {
     }
 
@@ -21,6 +25,7 @@ data class RegisterInfo(val searchInfo: SearchInfo,
         parcel.writeString(username)
         parcel.writeString(password)
         parcel.writeParcelable(creditCard, flags)
+        parcel.writeParcelable(passkey, flags)
     }
 
     override fun describeContents(): Int {

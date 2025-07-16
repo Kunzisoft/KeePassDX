@@ -1,12 +1,12 @@
-package com.kunzisoft.keepass.credentialprovider.util
+package com.kunzisoft.keepass.credentialprovider.passkey.util
 
 import android.annotation.SuppressLint
 import androidx.credentials.webauthn.Cbor
 import com.kunzisoft.encrypt.HashManager
-import com.kunzisoft.keepass.credentialprovider.data.PublicKeyCredentialCreationOptions
-import com.kunzisoft.keepass.credentialprovider.data.PublicKeyCredentialRequestOptions
-import com.kunzisoft.keepass.credentialprovider.util.Base64Helper.Companion.b64Decode
-import com.kunzisoft.keepass.credentialprovider.util.Base64Helper.Companion.b64Encode
+import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationOptions
+import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
+import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Decode
+import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -245,7 +245,5 @@ class JsonHelper {
                 keyTypeIdList.distinct()
             )
         }
-
-
     }
 }

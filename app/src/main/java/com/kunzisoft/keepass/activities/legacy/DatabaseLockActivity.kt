@@ -34,8 +34,8 @@ import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.Entry

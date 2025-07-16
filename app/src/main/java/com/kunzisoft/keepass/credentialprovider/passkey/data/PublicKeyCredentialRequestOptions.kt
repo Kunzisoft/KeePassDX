@@ -1,7 +1,6 @@
-package com.kunzisoft.keepass.credentialprovider.data
+package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 data class PublicKeyCredentialRequestOptions(
     val relyingParty: String,
     val challengeString: String
-) {
-}
+)

@@ -32,7 +32,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil

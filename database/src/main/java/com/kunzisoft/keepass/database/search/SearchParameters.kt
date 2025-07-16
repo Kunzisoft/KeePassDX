@@ -37,6 +37,7 @@ class SearchParameters() : Parcelable{
     var searchInExpired = false
     var searchInNotes = true
     var searchInOTP = false
+    var searchInRelyingParty = false
     var searchInOther = true
     var searchInUUIDs = false
     var searchInTags = false

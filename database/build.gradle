@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
 
 android {
     namespace 'com.kunzisoft.keepass.database'

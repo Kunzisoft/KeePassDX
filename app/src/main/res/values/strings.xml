@@ -739,14 +739,12 @@
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
     <string name="hide_templates_title">Hide templates</string>
     <string name="hide_templates_summary">Templates are not shown</string>
-    <string name="passkey_usage_biometric_prompt_title">Confirm passkey usage</string>
-    <string name="passkey_usage_biometric_prompt_subtitle">for %1$s</string>
-    <string name="passkey_usage_biometric_prompt_negative_button_text">Cancel</string>
-    <string name="passkey_creation_biometric_prompt_title">Confirm passkey creation</string>
-    <string name="passkey_creation_biometric_prompt_subtitle">for %1$s</string>
-    <string name="passkey_creation_biometric_prompt_negative_button_text">Cancel</string>
+    <string name="passkey">Passkey</string>
+    <string name="passkey_service_name">KeePassDX Credential Provider</string>
     <string name="passkey_creation_description">Save passkey in new entry</string>
     <string name="passkey_update_description">Update passkey in "%1$s"</string>
+    <string name="passkey_selection_username">No passkey found</string>
+    <string name="passkey_selection_description">Select an existing passkey</string>
+    <string name="passkey_locked_database_username">KeePassDX Database Locked</string>
     <string name="passkey_locked_database_description">Select to unlock</string>
-    <string name="passkey_locked_database_account_name">KeePassDX Database Locked</string>
 </resources>

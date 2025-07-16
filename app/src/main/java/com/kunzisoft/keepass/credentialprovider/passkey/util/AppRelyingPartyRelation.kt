@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.credentialprovider.util
+package com.kunzisoft.keepass.credentialprovider.passkey.util
 
 class AppRelyingPartyRelation {
 

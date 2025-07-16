@@ -161,7 +161,7 @@
         <activity
             android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity
-            android:name="com.kunzisoft.keepass.activities.AutofillLauncherActivity"
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity"
             android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden"
             android:excludeFromRecents="true"/>
@@ -175,7 +175,7 @@
             android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity"
             android:theme="@style/Theme.Transparent" />
         <activity
-            android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity"
             android:theme="@style/Theme.Transparent"
             android:launchMode="singleInstance"
             android:exported="true">
@@ -201,19 +201,13 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.kunzisoft.keepass.credentialprovider.activity.CreatePasskeyActivity"
-            android:label="CreatePasskeyActivity"
-            android:exported="true"
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.PasskeyLauncherActivity"
+            android:theme="@style/Theme.Transparent"
+            android:configChanges="keyboardHidden"
+            android:excludeFromRecents="true"
+            android:exported="false"
             tools:targetApi="upside_down_cake" />
-
-        <activity
-            android:name="com.kunzisoft.keepass.credentialprovider.activity.UsePasskeyActivity"
-            android:label="UsePasskeyActivity"
-            android:exported="true"
-            tools:targetApi="upside_down_cake" />
-
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
             android:foregroundServiceType="dataSync"
@@ -241,7 +235,7 @@
             android:exported="false" />
         <!-- Receiver for Autofill -->
         <service
-            android:name="com.kunzisoft.keepass.autofill.KeeAutofillService"
+            android:name="com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService"
             android:label="@string/autofill_service_name"
             android:exported="true"
             android:permission="android.permission.BIND_AUTOFILL_SERVICE">
@@ -253,7 +247,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.kunzisoft.keepass.magikeyboard.MagikeyboardService"
+            android:name="com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService"
             android:label="@string/keyboard_label"
             android:exported="true"
             android:permission="android.permission.BIND_INPUT_METHOD" >
@@ -263,12 +257,11 @@
                 <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
-
         <service
-            android:name="com.kunzisoft.keepass.credentialprovider.service.KeePassDXCredentialProviderService"
+            android:name="com.kunzisoft.keepass.credentialprovider.passkey.PasskeyProviderService"
             android:enabled="true"
             android:exported="true"
-            android:label="KeePassDX Credential Provider"
+            android:label="@string/passkey_service_name"
             android:icon="@mipmap/ic_launcher"
             android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE"
             tools:targetApi="upside_down_cake">

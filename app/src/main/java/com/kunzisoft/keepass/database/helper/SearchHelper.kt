@@ -43,13 +43,15 @@ object SearchHelper {
     /**
      * Utility method to perform actions if item is found or not after an auto search in [database]
      */
-    fun checkAutoSearchInfo(context: Context,
-                            database: ContextualDatabase?,
-                            searchInfo: SearchInfo?,
-                            onItemsFound: (openedDatabase: ContextualDatabase,
-                                           items: List<EntryInfo>) -> Unit,
-                            onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
-                            onDatabaseClosed: () -> Unit) {
+    fun checkAutoSearchInfo(
+        context: Context,
+        database: ContextualDatabase?,
+        searchInfo: SearchInfo?,
+        onItemsFound: (openedDatabase: ContextualDatabase,
+                       items: List<EntryInfo>) -> Unit,
+        onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
+        onDatabaseClosed: () -> Unit
+    ) {
         if (database == null || !database.loaded) {
             onDatabaseClosed.invoke()
         } else if (TimeoutHelper.checkTime(context)) {
@@ -59,8 +61,7 @@ object SearchHelper {
                 && !searchInfo.containsOnlyNullValues()) {
                 // If search provide results
                 database.createVirtualGroupFromSearchInfo(
-                        searchInfo.toString(),
-                        searchInfo.isASearchByDomain(),
+                        searchInfo,
                         MAX_SEARCH_ENTRY
                 )?.let { searchGroup ->
                     if (searchGroup.numberOfChildEntries > 0) {

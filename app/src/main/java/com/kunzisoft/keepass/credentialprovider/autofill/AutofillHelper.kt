@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.autofill
+package com.kunzisoft.keepass.credentialprovider.autofill
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -40,17 +40,13 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import android.widget.Toast
 import android.widget.inline.InlinePresentationSpec
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.autofill.inline.UiVersions
 import androidx.autofill.inline.v1.InlineSuggestionUi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.AutofillLauncherActivity
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildIcon
+import com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.template.TemplateField
@@ -58,7 +54,6 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlin.math.min
 
@@ -294,23 +289,6 @@ object AutofillHelper {
         return dataset
     }
 
-    /**
-     * Method to assign a drawable to a new icon from a database icon
-     */
-    private fun buildIconFromEntry(context: Context,
-                                   database: ContextualDatabase,
-                                   entryInfo: EntryInfo): Icon? {
-        try {
-            database.iconDrawableFactory.getBitmapFromIcon(context,
-                    entryInfo.icon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
-                return Icon.createWithBitmap(bitmap)
-            }
-        } catch (e: Exception) {
-            Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
-        }
-        return null
-    }
-
     @SuppressLint("RestrictedApi")
     @RequiresApi(Build.VERSION_CODES.R)
     private fun buildInlinePresentationForEntry(context: Context,
@@ -353,7 +331,7 @@ object AutofillHelper {
                             Icon.createWithResource(context, R.mipmap.ic_launcher_round).apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
-                        buildIconFromEntry(context, database, entryInfo)?.let { icon ->
+                        entryInfo.buildIcon(context, database)?.let { icon ->
                             setEndIcon(icon.apply {
                                 setTintBlendMode(BlendMode.DST)
                             })
@@ -534,7 +512,9 @@ object AutofillHelper {
                 StructureParser(structure).parse()?.let { result ->
                     // New Response
                     val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtraCompat<CompatInlineSuggestionsRequest>(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtraCompat<CompatInlineSuggestionsRequest>(
+                            EXTRA_INLINE_SUGGESTIONS_REQUEST
+                        )
                         if (compatInlineSuggestionsRequest != null) {
                             Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
                         }
@@ -558,45 +538,14 @@ object AutofillHelper {
         }
     }
 
-    fun buildActivityResultLauncher(activity: AppCompatActivity,
-                                    lockDatabase: Boolean = false): ActivityResultLauncher<Intent> {
-        return activity.registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            // Utility method to loop and close each activity with return data
-            if (it.resultCode == Activity.RESULT_OK) {
-                activity.setResult(it.resultCode, it.data)
-            }
-            if (it.resultCode == Activity.RESULT_CANCELED) {
-                activity.setResult(Activity.RESULT_CANCELED)
-            }
-            activity.finish()
-
-            if (lockDatabase && PreferencesUtil.isAutofillCloseDatabaseEnable(activity)) {
-                // Close the database
-                activity.sendBroadcast(Intent(LOCK_ACTION))
-            }
-        }
-    }
-
-    /**
-     * Utility method to start an activity with an Autofill for result
-     */
-    fun startActivityForAutofillResult(activity: AppCompatActivity,
-                                       intent: Intent,
-                                       activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                       autofillComponent: AutofillComponent,
-                                       searchInfo: SearchInfo?) {
-        EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.SELECTION)
-        intent.putExtra(EXTRA_ASSIST_STRUCTURE, autofillComponent.assistStructure)
+    fun Intent.addAutofillComponent(context: Context, autofillComponent: AutofillComponent) {
+        this.putExtra(EXTRA_ASSIST_STRUCTURE, autofillComponent.assistStructure)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && PreferencesUtil.isAutofillInlineSuggestionsEnable(activity)) {
+            && PreferencesUtil.isAutofillInlineSuggestionsEnable(context)) {
             autofillComponent.compatInlineSuggestionsRequest?.let {
-                intent.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+                this.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
             }
         }
-        EntrySelectionHelper.addSearchInfoInIntent(intent, searchInfo)
-        activityResultLauncher?.launch(intent)
     }
 
     private val TAG = AutofillHelper::class.java.name

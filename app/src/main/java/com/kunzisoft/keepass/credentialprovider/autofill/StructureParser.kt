@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.kunzisoft.keepass.autofill
+package com.kunzisoft.keepass.credentialprovider.autofill
 
 import android.app.assist.AssistStructure
 import android.os.Build

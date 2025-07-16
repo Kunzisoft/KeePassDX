@@ -18,7 +18,7 @@
  *
  */
 
-package com.kunzisoft.keepass.magikeyboard
+package com.kunzisoft.keepass.credentialprovider.magikeyboard
 
 import android.app.Activity
 import android.content.Context
@@ -41,8 +41,8 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
@@ -341,10 +341,11 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
     }
 
     private fun actionKeyEntry(searchInfo: SearchInfo? = null) {
-        SearchHelper.checkAutoSearchInfo(this,
-            mDatabase,
-            searchInfo,
-            { _, items ->
+        SearchHelper.checkAutoSearchInfo(
+            context = this,
+            database = mDatabase,
+            searchInfo = searchInfo,
+            onItemsFound = { _, items ->
                 performSelection(
                     items,
                     {
@@ -361,11 +362,11 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                     }
                 )
             },
-            {
+            onItemNotFound = {
                 // Select if not found
                 launchEntrySelection(searchInfo)
             },
-            {
+            onDatabaseClosed = {
                 // Select if database not opened
                 removeEntryInfo()
                 launchEntrySelection(searchInfo)
@@ -463,21 +464,18 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
         fun performSelection(items: List<EntryInfo>,
                              actionPopulateKeyboard: (entryInfo: EntryInfo) -> Unit,
                              actionEntrySelection: (autoSearch: Boolean) -> Unit) {
-             if (items.size == 1) {
-                 val itemFound = items[0]
-                if (entryUUID != itemFound.id) {
-                    actionPopulateKeyboard.invoke(itemFound)
-                } else {
-                    // Force selection if magikeyboard already populated
-                    actionEntrySelection.invoke(false)
-                }
-            } else if (items.size > 1) {
-                // Select the one we want in the selection
-                actionEntrySelection.invoke(true)
-            } else {
-                // Select an arbitrary one
-                actionEntrySelection.invoke(false)
-            }
+            EntrySelectionHelper.performSelection(
+                items = items,
+                actionPopulateCredentialProvider = { itemFound ->
+                    if (entryUUID != itemFound.id) {
+                        actionPopulateKeyboard.invoke(itemFound)
+                    } else {
+                        // Force selection if magikeyboard already populated
+                        actionEntrySelection.invoke(false)
+                    }
+                },
+                actionEntrySelection = actionEntrySelection
+            )
         }
 
         fun populateKeyboardAndMoveAppToBackground(activity: Activity,

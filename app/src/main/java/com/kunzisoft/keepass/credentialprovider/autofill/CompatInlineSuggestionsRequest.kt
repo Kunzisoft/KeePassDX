@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.autofill
+package com.kunzisoft.keepass.credentialprovider.autofill
 
 import android.annotation.TargetApi
 import android.os.Build

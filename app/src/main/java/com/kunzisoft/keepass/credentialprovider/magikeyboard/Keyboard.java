@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.kunzisoft.keepass.magikeyboard;
+package com.kunzisoft.keepass.credentialprovider.magikeyboard;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -22,10 +22,15 @@ package com.kunzisoft.keepass.model
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Attachment
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Field
+import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.model.EntryInfoPasskey.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -33,7 +38,8 @@ import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.writeBooleanCompat
-import java.util.*
+import java.util.Locale
+import java.util.UUID
 
 class EntryInfo : NodeInfo {
 
@@ -111,6 +117,14 @@ class EntryInfo : NodeInfo {
             }
         }
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
+    }
+
+    fun addOrReplaceField(field: Field) {
+        customFields.lastOrNull { it.name == field.name }?.let {
+            it.apply {
+                protectedValue = field.protectedValue
+            }
+        } ?: customFields.add(field)
     }
 
     // Return true if modified
@@ -226,6 +240,7 @@ class EntryInfo : NodeInfo {
         }
 
         if (database?.allowEntryCustomFields() == true) {
+            // TODO Move in a dedicated creditcard class
             val creditCard: CreditCard? = registerInfo.creditCard
             creditCard?.cardholder?.let {
                 addUniqueField(Field(TemplateField.LABEL_HOLDER, ProtectedString(false, it)))
@@ -239,6 +254,9 @@ class EntryInfo : NodeInfo {
             }
             creditCard?.cvv?.let {
                 addUniqueField(Field(TemplateField.LABEL_CVV, ProtectedString(true, it)))
+            }
+            registerInfo.passkey?.let {
+                setPasskey(it)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities.helpers
+package com.kunzisoft.keepass.credentialprovider
 
 enum class SpecialMode {
     DEFAULT,

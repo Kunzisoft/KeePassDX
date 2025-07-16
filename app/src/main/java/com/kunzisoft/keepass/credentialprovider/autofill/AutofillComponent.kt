@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.autofill
+package com.kunzisoft.keepass.credentialprovider.autofill
 
 import android.app.assist.AssistStructure
 
