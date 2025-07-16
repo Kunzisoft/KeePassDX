@@ -48,10 +48,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     }
 
     fun onLaunchActivitySpecialMode() {
-        // TODO Verify behavior for Autofill Callback #765
-        if (isIntentSender()) {
-            onValidateSpecialMode()
-        } else {
+        if (!isIntentSender()) {
             EntrySelectionHelper.removeModesFromIntent(intent)
             EntrySelectionHelper.removeInfoFromIntent(intent)
             finish()

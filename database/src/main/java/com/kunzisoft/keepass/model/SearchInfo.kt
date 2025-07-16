@@ -12,6 +12,7 @@ import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 class SearchInfo : ObjectNameResource, Parcelable {
     var manualSelection: Boolean = false
+    var tag: String? = null
     var applicationId: String? = null
         set(value) {
             field = when {
@@ -41,6 +42,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     constructor(toCopy: SearchInfo?) {
         manualSelection = toCopy?.manualSelection ?: manualSelection
+        tag = toCopy?.tag
         applicationId = toCopy?.applicationId
         webDomain = toCopy?.webDomain
         webScheme = toCopy?.webScheme
@@ -50,6 +52,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     private constructor(parcel: Parcel) {
         manualSelection = parcel.readBooleanCompat()
+        val readTag = parcel.readString()
+        tag =  if (readTag.isNullOrEmpty()) null else readTag
         val readAppId = parcel.readString()
         applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
@@ -68,6 +72,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeBooleanCompat(manualSelection)
+        parcel.writeString(tag ?: "")
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")
@@ -85,7 +90,8 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     fun containsOnlyNullValues(): Boolean {
-        return applicationId == null
+        return tag == null
+                && applicationId == null
                 && webDomain == null
                 && webScheme == null
                 && relyingParty == null
@@ -103,11 +109,12 @@ class SearchInfo : ObjectNameResource, Parcelable {
     fun buildSearchParameters(): SearchParameters {
         return SearchParameters().apply {
             if (isAPasskeySearch()) {
-                searchQuery = toString()
+                searchQuery = relyingParty!!
                 searchInTitles = false
                 searchInUsernames = false
                 searchInPasswords = false
                 searchInUrls = false
+                searchByDomain = false
                 searchInNotes = false
                 searchInOTP = false
                 searchInOther = false
@@ -143,6 +150,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         if (other !is SearchInfo) return false
 
         if (manualSelection != other.manualSelection) return false
+        if (tag != other.tag) return false
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
         if (webScheme != other.webScheme) return false
@@ -154,6 +162,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun hashCode(): Int {
         var result = manualSelection.hashCode()
+        result = 31 * result + (tag?.hashCode() ?: 0)
         result = 31 * result + (applicationId?.hashCode() ?: 0)
         result = 31 * result + (webDomain?.hashCode() ?: 0)
         result = 31 * result + (webScheme?.hashCode() ?: 0)
@@ -163,7 +172,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun toString(): String {
-        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: ""
+        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: tag ?: ""
     }
 
     companion object {

@@ -24,6 +24,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
@@ -33,8 +34,8 @@ import androidx.credentials.provider.PendingIntentHandler
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addTypeMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
@@ -66,6 +67,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     private var mUsageParameters: PublicKeyCredentialUsageParameters? = null
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
     private var mPasskey: Passkey? = null
+    private var mSearchInfo: SearchInfo = SearchInfo()
 
     private var mPasskeySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
         this.buildActivityResultLauncher(
@@ -131,24 +133,26 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mSearchInfo = intent.retrieveSearchInfo() ?: mSearchInfo
+    }
+
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         // TODO nodeId Really useful ? checkSecurity(intent, nodeId)
-        EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
-            val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
-            when (specialMode) {
-                SpecialMode.SELECTION -> {
-                    launchSelection(database, searchInfo)
-                }
-                SpecialMode.REGISTRATION -> {
-                    launchRegistration(database, searchInfo)
-                }
-                else -> {
-                    Log.e(TAG, "Passkey launch mode not supported")
-                    setResult(Activity.RESULT_CANCELED)
-                    finish()
-                }
+        when (mSpecialMode) {
+            SpecialMode.SELECTION -> {
+                launchSelection(database, mSearchInfo)
+            }
+            SpecialMode.REGISTRATION -> {
+                launchRegistration(database, mSearchInfo)
+            }
+            else -> {
+                Log.e(TAG, "Passkey launch mode not supported")
+                setResult(Activity.RESULT_CANCELED)
+                finish()
             }
         }
     }
@@ -336,6 +340,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 Math.random().toInt(),
                 Intent(context, PasskeyLauncherActivity::class.java).apply {
                     addSpecialMode(specialMode)
+                    addTypeMode(TypeMode.PASSKEY)
                     searchInfo?.let {
                         putExtra(EXTRA_SEARCH_INFO, searchInfo)
                     }

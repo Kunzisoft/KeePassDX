@@ -170,16 +170,27 @@ class SearchHelper {
                 if (checkSearchQuery(hexString, searchParameters))
                     return true
             }
+            if (searchParameters.searchInOTP) {
+                if(entry.getExtraFields().any { field ->
+                    field.name == OTP_FIELD
+                            && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                })
+                    return true
+            }
+            if (searchParameters.searchInRelyingParty) {
+                if(entry.getExtraFields().any { field ->
+                    field.name == FIELD_RELYING_PARTY
+                            && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                })
+                    return true
+            }
             if (searchParameters.searchInOther) {
-                entry.getExtraFields().forEach { field ->
-                    if ( (field.name != OTP_FIELD && field.name != FIELD_RELYING_PARTY)
-                        || (searchParameters.searchInOTP && field.name == OTP_FIELD)
-                        || (searchParameters.searchInRelyingParty && field.name == FIELD_RELYING_PARTY)
-                        ) {
-                        if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
-                            return true
-                    }
-                }
+                if(entry.getExtraFields().any { field ->
+                    field.name != OTP_FIELD
+                            && field.name != FIELD_RELYING_PARTY
+                            && checkSearchQuery(field.protectedValue.toString(), searchParameters)
+                })
+                    return true
             }
             if (searchParameters.searchInTags) {
                 if (checkSearchQuery(entry.tags.toString(), searchParameters))

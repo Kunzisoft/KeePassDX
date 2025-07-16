@@ -199,7 +199,12 @@ object EntrySelectionHelper {
     }
 
     private fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
+        // TODO Replace by Intent.addTypeMode
         intent.putEnumExtra(KEY_TYPE_MODE, typeMode)
+    }
+    fun Intent.addTypeMode(typeMode: TypeMode): Intent {
+        this.putEnumExtra(KEY_TYPE_MODE, typeMode)
+        return this
     }
 
     fun retrieveTypeModeFromIntent(intent: Intent): TypeMode {
