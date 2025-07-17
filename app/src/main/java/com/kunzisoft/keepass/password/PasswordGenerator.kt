@@ -20,11 +20,14 @@
 package com.kunzisoft.keepass.password
 
 import android.content.res.Resources
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
+import android.text.style.ReplacementSpan
 import com.kunzisoft.keepass.R
 import java.security.SecureRandom
 import java.util.*
@@ -253,8 +256,20 @@ class PasswordGenerator(private val resources: Resources) {
             charSet.toString()
         }
 
+        // span to make a character look like a different one
+        private class CharacterSkinSpan(val color: Int, val replacement: String) : ReplacementSpan() {
+            override fun getSize(paint: Paint, text: CharSequence?, start: Int, end: Int, fm: Paint.FontMetricsInt?): Int {
+                return paint.measureText(replacement).toInt()
+            }
+            override fun draw(canvas: Canvas, text: CharSequence?, start: Int, end: Int, x: Float, top: Int, y: Int, bottom: Int, paint: Paint) {
+                paint.color = color
+                canvas.drawText(replacement, x, y.toFloat(), paint)
+            }
+        }
+
         private fun getStyleForChar(char: Char): android.text.style.CharacterStyle? {
             return when {
+                char == ' '                   -> CharacterSkinSpan(Color.rgb(80, 80, 80), "•") // GRAY "•"
                 DIGIT_CHARS   .contains(char) -> ForegroundColorSpan(Color.rgb(246,  79,  62)) // RED
                 SPECIAL_CHARS .contains(char) -> ForegroundColorSpan(Color.rgb( 39, 166, 228)) // BLUE
                 BRACKET_CHARS .contains(char) -> ForegroundColorSpan(Color.rgb(185,  38, 209)) // PURPLE
