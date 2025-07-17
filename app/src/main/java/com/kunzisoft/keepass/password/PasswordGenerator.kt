@@ -21,10 +21,9 @@ package com.kunzisoft.keepass.password
 
 import android.content.res.Resources
 import android.graphics.Color
-import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
+import android.text.style.CharacterStyle
 import android.text.style.ForegroundColorSpan
 import com.kunzisoft.keepass.R
 import java.security.SecureRandom
@@ -122,7 +121,7 @@ class PasswordGenerator(private val resources: Resources) {
             }
             if (extended) {
                 addFilter(
-                    extendedChars(),
+                    extendedChars,
                     if (atLeastOneFromEach) 1 else 0
                 )
             }
@@ -233,7 +232,7 @@ class PasswordGenerator(private val resources: Resources) {
         private const val AMBIGUOUS_CHARS = "iI|lLoO01"
 
         // From KeePassXC code https://github.com/keepassxreboot/keepassxc/pull/538
-        private fun extendedChars(): String {
+        private val extendedChars = run {
             val charSet = StringBuilder()
             // [U+0080, U+009F] are C1 control characters,
             // U+00A0 is non-breaking space
@@ -251,65 +250,38 @@ class PasswordGenerator(private val resources: Resources) {
                 ++ch
             }
             charSet.append('\u00FF')
-            return charSet.toString()
+            charSet.toString()
         }
 
-        fun colorizedPassword(editable: Editable?) {
-            editable.toString().forEachIndexed { index, char ->
-                colorFromChar(char)?.let { color ->
-                    editable?.setSpan(
-                        ForegroundColorSpan(color),
-                        index,
-                        index + 1,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            }
-        }
-
-        fun getColorizedPassword(password: String): Spannable {
-            val spannableString = SpannableStringBuilder()
-            if (password.isNotEmpty()) {
-                password.forEach { char ->
-                    colorFromChar(char)?.let { color ->
-                        val spannableColorChar = SpannableString(char.toString())
-                        spannableColorChar.setSpan(
-                            ForegroundColorSpan(color),
-                            0,
-                            1,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
-                        spannableString.append(spannableColorChar)
-                    } ?: spannableString.append(char)
-                }
-            }
-            return spannableString
-        }
-
-        private fun colorFromChar(char: Char): Int? {
+        private fun getStyleForChar(char: Char): android.text.style.CharacterStyle? {
             return when {
-                DIGIT_CHARS.contains(char) -> {
-                    // RED
-                    Color.rgb(246, 79, 62)
-                }
-                SPECIAL_CHARS.contains(char) -> {
-                    // Blue
-                    Color.rgb(39, 166, 228)
-                }
-                MINUS_CHAR.contains(char)||
-                        UNDERLINE_CHAR.contains(char)||
-                        BRACKET_CHARS.contains(char) -> {
-                    // Purple
-                    Color.rgb(185, 38, 209)
-                }
-                extendedChars().contains(char) -> {
-                    // Green
-                    Color.rgb(44, 181, 50)
-                }
-                else -> {
-                    null
-                }
+                DIGIT_CHARS   .contains(char) -> ForegroundColorSpan(Color.rgb(246,  79,  62)) // RED
+                SPECIAL_CHARS .contains(char) -> ForegroundColorSpan(Color.rgb( 39, 166, 228)) // BLUE
+                BRACKET_CHARS .contains(char) -> ForegroundColorSpan(Color.rgb(185,  38, 209)) // PURPLE
+                MINUS_CHAR    .contains(char) -> ForegroundColorSpan(Color.rgb(185,  38, 209)) // PURPLE
+                UNDERLINE_CHAR.contains(char) -> ForegroundColorSpan(Color.rgb(185,  38, 209)) // PURPLE
+                extendedChars .contains(char) -> ForegroundColorSpan(Color.rgb( 44, 181,  50)) // GREEN
+                else -> null
             }
         }
+
+        // filter that is called whenever the password text changes to style the new characters
+        val passwordStylingInputFilter = object: android.text.InputFilter {
+            override fun filter(source: CharSequence, start: Int, end: Int, dest: android.text.Spanned, dstart: Int, dend: Int): CharSequence? {
+                // clear existing spans, only use given range
+                val src = source.toString().substring(start, end)
+                val spannable = SpannableString(src)
+
+                // apply styling per character
+                spannable.forEachIndexed { i, char ->
+                    getStyleForChar(char)?.let { charStyle ->
+                        spannable.setSpan(charStyle, i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    }
+                }
+
+                return spannable
+            }
+        }
+
     }
 }

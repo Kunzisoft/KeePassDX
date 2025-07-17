@@ -76,6 +76,7 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
         passwordInputLayout = findViewById(R.id.password_edit_input_layout)
         passwordInputLayout?.hint = mViewHint
         passwordText = findViewById(R.id.password_edit_text)
+        passwordText.filters += PasswordGenerator.passwordStylingInputFilter
         if (mShowPassword) {
             passwordText?.inputType = passwordText.inputType or
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -114,7 +115,6 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
                     it.afterTextChanged(editable)
                 }
                 getEntropyStrength(editable.toString())
-                PasswordGenerator.colorizedPassword(editable)
             }
         }
         passwordText?.addTextChangedListener(mPasswordTextWatcher)

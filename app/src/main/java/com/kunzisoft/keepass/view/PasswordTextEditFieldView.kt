@@ -89,8 +89,8 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
 
         valueView.doAfterTextChanged { editable ->
             getEntropyStrength(editable.toString())
-            PasswordGenerator.colorizedPassword(editable)
         }
+        valueView.filters += PasswordGenerator.passwordStylingInputFilter
 
         addView(mPasswordProgress)
         addView(mPasswordEntropyView)

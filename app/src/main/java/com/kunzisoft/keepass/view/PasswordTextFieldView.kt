@@ -76,6 +76,12 @@ class PasswordTextFieldView @JvmOverloads constructor(context: Context,
             }
         }
 
+    init {
+        if (PreferencesUtil.colorizePassword(context)) {
+            valueView.filters += PasswordGenerator.passwordStylingInputFilter
+        }
+    }
+
     override fun setLabel(@StringRes labelId: Int) {
         label = resources.getString(labelId)
     }
@@ -85,12 +91,7 @@ class PasswordTextFieldView @JvmOverloads constructor(context: Context,
             return valueView.text.toString()
         }
         set(value) {
-            val spannableString =
-                if (PreferencesUtil.colorizePassword(context))
-                    PasswordGenerator.getColorizedPassword(value)
-                else
-                    SpannableString(value)
-            valueView.text = spannableString
+            valueView.text = value
             changeProtectedValueParameters()
         }
 
