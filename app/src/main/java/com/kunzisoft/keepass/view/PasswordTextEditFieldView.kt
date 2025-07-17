@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.os.Build
-import android.text.Spannable
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.TextView
@@ -33,7 +32,6 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordEntropy
 import com.kunzisoft.keepass.password.PasswordGenerator
-import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
 class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
@@ -46,7 +44,6 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
             getEntropyStrength(firstPassword)
         }
     }
-    private var isColorizedPasswordActivated = PreferencesUtil.colorizePassword(context)
 
     private var passwordProgressViewId = ViewCompat.generateViewId()
     private var passwordEntropyViewId = ViewCompat.generateViewId()
@@ -92,8 +89,8 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
 
         valueView.doAfterTextChanged { editable ->
             getEntropyStrength(editable.toString())
-            PasswordGenerator.colorizedPassword(editable)
         }
+        valueView.filters += PasswordGenerator.passwordStylingInputFilter
 
         addView(mPasswordProgress)
         addView(mPasswordEntropyView)
@@ -134,15 +131,6 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
                 }
             }
         }
-    }
-
-    override fun spannableValue(value: String?): Spannable? {
-        if (value == null)
-            return null
-        return if (isColorizedPasswordActivated)
-            PasswordGenerator.getColorizedPassword(value)
-        else
-            super.spannableValue(value)
     }
 
     override var label: String
