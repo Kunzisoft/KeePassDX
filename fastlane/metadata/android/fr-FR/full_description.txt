@@ -2,19 +2,19 @@ KeePassDX est un <b>coffre-fort et un gestionnaire de mots de passe</b> qui perm
 
 <b>Fonctionnalités</b>
 
- - Création de bases de données / entrées et groupes.
- - Support des fichiers .kdb et .kdbx (version 1 à 4) avec algorithme AES - Twofish - ChaCha20 - Argon2.
- - Compatible avec la majorité des programmes alternatifs (KeePass, KeePassXC, KeeWeb, …)
- - Permet la copie rapide de champs et l'ouverture d'URI /URL.
- - Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / …).
- - Gestion des mots de passe à usage unique (One-Time Password HOTP / TOTP) pour l'authentification à deux facteurs (2FA).
- - Material design avec thèmes.
- - Remplissage automatique de champs.
- - Clavier de remplissage de champs.
- - Gabarits dynamiques.
- - Historique de chaque entrée.
- - Gestion précise des paramètres.
- - Code écrit en langages natifs (Kotlin / Java / JNI / C).
+- Création de bases de données / entrées et groupes.
+- Support des fichiers .kdb et .kdbx (version 1 à 4) avec algorithme AES - Twofish - ChaCha20 - Argon2.
+- Compatible avec la majorité des programmes alternatifs (KeePass, KeePassXC, KeeWeb, …)
+- Permet la copie rapide de champs et l'ouverture d'URI /URL.
+- Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / …).
+- Gestion des mots de passe à usage unique (One-Time Password HOTP / TOTP) pour l'authentification à deux facteurs (2FA).
+- Material design avec thèmes.
+- Remplissage automatique de champs.
+- Clavier de remplissage de champs.
+- Gabarits dynamiques.
+- Historique de chaque entrée.
+- Gestion précise des paramètres.
+- Code écrit en langages natifs (Kotlin / Java / JNI / C).
 
 Vous pouvez faire un don ou acheter la version pro pour un meilleur service et un développement rapide des fonctionnalités que vous souhaitez : <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 
