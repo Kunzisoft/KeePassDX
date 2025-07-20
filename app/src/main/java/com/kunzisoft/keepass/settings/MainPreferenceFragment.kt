@@ -119,6 +119,13 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
+        findPreference<Preference>(getString(R.string.settings_sync_key))?.apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.SYNC)
+                false
+            }
+        }
+
         checkDatabaseLoaded()
     }
 

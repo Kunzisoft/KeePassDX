@@ -48,6 +48,16 @@
 	</PreferenceCategory>
 
 	<PreferenceCategory
+		android:title="Sync">
+		<Preference
+			android:key="@string/settings_sync_key"
+			android:title="Sync"
+			android:icon="@drawable/prefs_sync_24dp"
+			android:summary="Back up and restore your database."
+			android:persistent="false" />
+	</PreferenceCategory>
+
+	<PreferenceCategory
 		android:key="@string/settings_database_category_key"
 		android:title="@string/database">
 		<Preference

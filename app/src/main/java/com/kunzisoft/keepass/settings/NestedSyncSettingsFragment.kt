@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2023 The KeepassDX Team
  *
  * This file is part of KeePassDX.
  *
@@ -17,17 +17,19 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.app
+package com.kunzisoft.keepass.settings
 
-import androidx.multidex.MultiDexApplication
-import com.kunzisoft.keepass.activities.stylish.Stylish
+import android.os.Bundle
 
-class App : MultiDexApplication() {
-
-    override fun onCreate() {
-        super.onCreate()
-
-        Stylish.load(this)
-        PRNGFixes.apply()
+class NestedSyncSettingsFragment : NestedSettingsFragment() {
+    override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
+        when (screen) {
+            Screen.SYNC -> {
+                parentFragmentManager.beginTransaction()
+                    .replace(id, SyncPreferenceFragment())
+                    .commit()
+            }
+            else -> {}
+        }
     }
 }

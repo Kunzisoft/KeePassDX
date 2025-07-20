@@ -139,6 +139,11 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
+
+    // Google Drive
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
+    implementation 'com.google.api-client:google-api-client-android:1.32.1'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev136-1.25.0'
     
     // Modules import
     implementation project(path: ':database')

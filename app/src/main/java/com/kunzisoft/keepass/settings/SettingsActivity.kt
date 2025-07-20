@@ -240,7 +240,10 @@ open class SettingsActivity
     }
 
     protected fun setTitle(key: NestedSettingsFragment.Screen) {
-        toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
+        toolbar?.title = when (key) {
+            NestedSettingsFragment.Screen.SYNC -> "Sync"
+            else -> NestedSettingsFragment.retrieveTitle(resources, key)
+        }
     }
 
     /**
@@ -260,6 +263,10 @@ open class SettingsActivity
             }
         else
             replaceFragment(key, reload)
+    }
+
+    fun getDatabase(): ContextualDatabase? {
+        return (application as com.kunzisoft.keepass.application.KeePassDX).getDatabase()
     }
 
     fun importAppProperties() {

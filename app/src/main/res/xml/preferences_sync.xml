@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Google Drive">
+
+        <Preference
+            android:key="google_drive_sign_in"
+            android:title="Sign in to Google Drive"
+            android:summary="Sign in to your Google Drive account to back up and restore your database." />
+
+        <Preference
+            android:key="google_drive_account"
+            android:title="Signed in as"
+            android:summary="Not signed in"
+            android:enabled="false" />
+
+        <Preference
+            android:key="google_drive_sign_out"
+            android:title="Sign out"
+            android:summary="Sign out of your Google Drive account."
+            android:enabled="false" />
+
+        <Preference
+            android:key="google_drive_backup"
+            android:title="Backup now"
+            android:summary="Backup your database to Google Drive."
+            android:enabled="false" />
+
+        <Preference
+            android:key="google_drive_restore"
+            android:title="Restore from Google Drive"
+            android:summary="Restore your database from a Google Drive backup."
+            android:enabled="false" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
