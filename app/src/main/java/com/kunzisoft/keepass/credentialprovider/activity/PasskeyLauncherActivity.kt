@@ -346,7 +346,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                     }
                     addAuthCode(passkeyEntryNodeId)
                 },
-                PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+                PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }
