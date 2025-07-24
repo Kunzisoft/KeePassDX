@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
@@ -17,21 +16,12 @@ class AdvancedUnlockViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(DeviceUnlockUiStates())
     val uiState: StateFlow<DeviceUnlockUiStates> = _uiState
 
-    val onInitAdvancedUnlockModeRequested : LiveData<Void?> get() = _onInitAdvancedUnlockModeRequested
-    private val _onInitAdvancedUnlockModeRequested = SingleLiveEvent<Void?>()
-
-    val onDatabaseFileLoaded : LiveData<Uri?> get() = _onDatabaseFileLoaded
-    private val _onDatabaseFileLoaded = SingleLiveEvent<Uri?>()
-
-    fun initAdvancedUnlockMode() {
-        _onInitAdvancedUnlockModeRequested.call()
-    }
-
-    fun checkUnlockAvailability(conditionToStoreCredentialVerified: Boolean) {
+    fun checkUnlockAvailability(conditionToStoreCredentialVerified: Boolean? = null) {
         _uiState.update { currentState ->
             currentState.copy(
                 onUnlockAvailabilityCheckRequested = true,
                 isConditionToStoreCredentialVerified = conditionToStoreCredentialVerified
+                    ?: _uiState.value.isConditionToStoreCredentialVerified
             )
         }
     }
@@ -45,7 +35,19 @@ class AdvancedUnlockViewModel : ViewModel() {
     }
 
     fun databaseFileLoaded(databaseUri: Uri?) {
-        _onDatabaseFileLoaded.value = databaseUri
+        _uiState.update { currentState ->
+            currentState.copy(
+                databaseFileLoaded = databaseUri
+            )
+        }
+    }
+
+    fun consumeDatabaseFileLoaded() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                databaseFileLoaded = null
+            )
+        }
     }
 
     fun retrieveCredentialForEncryption() {
@@ -106,26 +108,11 @@ class AdvancedUnlockViewModel : ViewModel() {
             )
         }
     }
-
-    fun deleteData() {
-        _uiState.update { currentState ->
-            currentState.copy(
-                initAdvancedUnlockMode = false,
-                databaseFileUri = null,
-                isCredentialRequired = false,
-                credential = null,
-                isConditionToStoreCredentialVerified = false,
-                onUnlockAvailabilityCheckRequested = false,
-                cipherEncryptDatabase = null,
-                cipherDecryptDatabase = null
-            )
-        }
-    }
 }
 
 data class DeviceUnlockUiStates(
     val initAdvancedUnlockMode: Boolean = false,
-    val databaseFileUri: Uri? = null,
+    val databaseFileLoaded: Uri? = null,
     val isCredentialRequired: Boolean = false,
     val credential: ByteArray? = null,
     val isConditionToStoreCredentialVerified: Boolean = false,
@@ -139,9 +126,11 @@ data class DeviceUnlockUiStates(
 
         other as DeviceUnlockUiStates
 
+        if (initAdvancedUnlockMode != other.initAdvancedUnlockMode) return false
         if (isCredentialRequired != other.isCredentialRequired) return false
         if (isConditionToStoreCredentialVerified != other.isConditionToStoreCredentialVerified) return false
         if (onUnlockAvailabilityCheckRequested != other.onUnlockAvailabilityCheckRequested) return false
+        if (databaseFileLoaded != other.databaseFileLoaded) return false
         if (!credential.contentEquals(other.credential)) return false
         if (cipherEncryptDatabase != other.cipherEncryptDatabase) return false
         if (cipherDecryptDatabase != other.cipherDecryptDatabase) return false
@@ -150,9 +139,11 @@ data class DeviceUnlockUiStates(
     }
 
     override fun hashCode(): Int {
-        var result = isCredentialRequired.hashCode()
+        var result = initAdvancedUnlockMode.hashCode()
+        result = 31 * result + isCredentialRequired.hashCode()
         result = 31 * result + isConditionToStoreCredentialVerified.hashCode()
         result = 31 * result + onUnlockAvailabilityCheckRequested.hashCode()
+        result = 31 * result + (databaseFileLoaded?.hashCode() ?: 0)
         result = 31 * result + (credential?.contentHashCode() ?: 0)
         result = 31 * result + (cipherEncryptDatabase?.hashCode() ?: 0)
         result = 31 * result + (cipherDecryptDatabase?.hashCode() ?: 0)

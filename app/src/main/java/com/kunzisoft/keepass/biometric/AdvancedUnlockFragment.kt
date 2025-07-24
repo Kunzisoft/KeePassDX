@@ -128,13 +128,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         super.onCreate(savedInstanceState)
 
         cipherDatabaseAction = CipherDatabaseAction.getInstance(requireContext().applicationContext)
-
-        mAdvancedUnlockViewModel.onInitAdvancedUnlockModeRequested.observe(this) {
-            initAdvancedUnlockMode()
-        }
-        mAdvancedUnlockViewModel.onDatabaseFileLoaded.observe(this) {
-            onDatabaseLoaded(it)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -155,6 +148,11 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mAdvancedUnlockViewModel.uiState.collect { uiState ->
+                    // Database loaded
+                    uiState.databaseFileLoaded?.let { databaseLoaded ->
+                        onDatabaseLoaded(databaseLoaded)
+                        mAdvancedUnlockViewModel.consumeDatabaseFileLoaded()
+                    }
                     // New credential value received
                     uiState.credential?.let {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -188,10 +186,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
             // To get device credential unlock result, only if same database uri
             if (databaseUri != null
                     && mAdvancedUnlockEnabled) {
-                val deviceCredentialAuthSucceeded = mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
-                deviceCredentialAuthSucceeded?.let {
+                mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded?.let { authSucceeded ->
                     if (databaseUri == databaseFileUri) {
-                        if (deviceCredentialAuthSucceeded == true) {
+                        if (authSucceeded) {
                             advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationSucceeded()
                         } else {
                             advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationFailed()
@@ -664,7 +661,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
             disconnect()
             advancedUnlockManager = null
         }
-        mAdvancedUnlockViewModel.deleteData()
         super.onDestroy()
     }
 
