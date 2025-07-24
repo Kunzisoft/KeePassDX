@@ -1,6 +1,7 @@
 KeePassDX es un <b> Administrador de contraseñas seguro </b> que permite editar <b>datos cifrados en un solo archivo</b> en el formato abierto de KeePass permite <b>completar los formularios de manera segura</b>, no requiere<b>conexión a internet</b> e integra los estándares de diseño de Android. La aplicación es <b> de código abierto, sin publicidad</b>.
 
 <b>Funciones</b>
+
 - Crea archivos de bases de datos / entradas y grupos.
 - Compatible con archivos .kdb y .kdbx (versiones 1 a 4) con AES - Twofish - ChaCha20 y el algoritmo Argon2 ..
 - Compatible con la mayoría de programas alternativos (KeePass, KeePassXC, KeeWeb, …). 
@@ -14,8 +15,6 @@ KeePassDX es un <b> Administrador de contraseñas seguro </b> que permite editar
 - Historial de cada entrada.
 - Gestión precisa de configuraciones.
 - Código escrito en lenguajes nativos (Kotlin / Java / JNI / C).
-
-Aquí tienes una traducción natural al español:
 
 > Puedes donar o comprar la versión Pro para obtener un mejor servicio y un desarrollo más rápido de las funciones que deseas:<a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
 
