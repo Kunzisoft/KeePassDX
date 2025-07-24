@@ -118,7 +118,7 @@
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">يجلب مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
-    <string name="html_about_licence">KeePassDX © %1$d كونزيسوفت <strong>مفتوح المصدر</strong> و <strong>بدون إعلانات</strong>. \n يوزع كما هو، دون ضمان، تحت ترخيص <strong>GPLv3</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d كونزيسوفت &lt;strong&gt;مفتوح المصدر&lt;/strong&gt; و &lt;strong&gt;بدون إعلانات&lt;/strong&gt;. \n يوزع كما هو، دون ضمان، تحت ترخيص &lt;strong&gt;GPLv3&lt;/strong&gt;.</string>
     <string name="entry_accessed">وُصِل إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>
@@ -281,7 +281,7 @@
     <string name="otp_counter">العداد</string>
     <string name="entry_setup_otp">عيّن كلمة سر لمرة واحدة</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">لكي <strong>نحافظ على حريتنا</strong>، و<strong>نصلح الأخطاء</strong>، و<strong>نضيف ميزات</strong>، و<strong>نبقى دائمًا نشطين</strong>، فإننا نعتمد على <strong>مساهمتكم</strong>.</string>
+    <string name="html_about_contribution">لكي &lt;strong&gt;نحافظ على حريتنا&lt;/strong&gt;، و&lt;strong&gt;نصلح الأخطاء&lt;/strong&gt;، و&lt;strong&gt;نضيف ميزات&lt;/strong&gt;، و&lt;strong&gt;نبقى دائمًا نشطين&lt;/strong&gt;، فإننا نعتمد على &lt;strong&gt;مساهمتكم&lt;/strong&gt;.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير ملف المفتاح</string>
     <string name="content_description_password_checkbox">خانة تأشير كلمة السر</string>
     <string name="content_description_add_item">أضف عنصر</string>
@@ -679,7 +679,7 @@
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
     <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
-    <string name="html_text_donation">من خلال <strong>المساهمة</strong> في المشروع <i>(مالياً أو برمجياً أو ترجمة)</i>، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح <strong>السمة</strong>.</string>
+    <string name="html_text_donation">من خلال &lt;strong&gt;المساهمة&lt;/strong&gt; في المشروع <i>(مالياً أو برمجياً أو ترجمة)</i>، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح &lt;strong&gt;السمة&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
     <string name="style_name_forest">غابة</string>
     <string name="style_name_simple">بسيط</string>
