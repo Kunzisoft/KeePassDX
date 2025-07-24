@@ -371,7 +371,7 @@
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
     <string name="error_invalid_OTP">Nieprawidłowy klucz OTP.</string>
     <string name="error_disallow_no_credentials">Należy ustawić co najmniej jedno poświadczenie.</string>
-    <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
+    <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
     <string name="error_otp_counter">Licznik musi być między %1$d a %2$d.</string>
     <string name="error_otp_period">Okres musi wynosić od %1$d do %2$d sekund.</string>
     <string name="error_otp_digits">Token musi zawierać cyfry od %1$d do %2$d.</string>
@@ -707,4 +707,5 @@
     <string name="recursive_number_entries_title">Rekurencyjna liczba wpisów</string>
     <string name="hide_templates_title">Ukryj szablony</string>
     <string name="hide_templates_summary">Szablony nie są wyświetlane</string>
+    <string name="error_otp_secret_length">Klucz tajny musi składać się z co najmniej %1$d znaków.</string>
 </resources>
