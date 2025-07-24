@@ -20,14 +20,18 @@
 package com.kunzisoft.keepass.biometric
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
@@ -35,7 +39,9 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
@@ -51,8 +57,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCallback {
-
-    private var mBuilderListener: BuilderListener? = null
 
     private var mAdvancedUnlockEnabled = false
     private var mAutoOpenPromptEnabled = false
@@ -83,6 +87,8 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
 
     // Only keep connection when we request a device credential activity
     private var keepConnection = false
+
+    private var isConditionToStoreCredentialVerified = false
 
     private var mDeviceCredentialResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -115,37 +121,10 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(context)
-        mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(context)
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mBuilderListener = context as BuilderListener
-            }
-        } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString()
-                    + " must implement " + BuilderListener::class.java.name)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         cipherDatabaseAction = CipherDatabaseAction.getInstance(requireContext().applicationContext)
-
-        mAdvancedUnlockViewModel.onInitAdvancedUnlockModeRequested.observe(this) {
-            initAdvancedUnlockMode()
-        }
-
-        mAdvancedUnlockViewModel.onUnlockAvailabilityCheckRequested.observe(this) {
-            checkUnlockAvailability()
-        }
-
-        mAdvancedUnlockViewModel.onDatabaseFileLoaded.observe(this) {
-            onDatabaseLoaded(it)
-        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -162,6 +141,32 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         super.onViewCreated(view, savedInstanceState)
 
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mAdvancedUnlockViewModel.uiState.collect { uiState ->
+                    // Database loaded
+                    uiState.databaseFileLoaded?.let { databaseLoaded ->
+                        onDatabaseLoaded(databaseLoaded)
+                        mAdvancedUnlockViewModel.consumeDatabaseFileLoaded()
+                    }
+                    // New credential value received
+                    uiState.credential?.let {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            advancedUnlockManager?.encryptData(uiState.credential)
+                        }
+                        mAdvancedUnlockViewModel.consumeCredentialForEncryption()
+                    }
+                    // Condition to store credential verified
+                    isConditionToStoreCredentialVerified = uiState.isConditionToStoreCredentialVerified
+                    // Check unlock availability
+                    if (uiState.onUnlockAvailabilityCheckRequested) {
+                        checkUnlockAvailability()
+                        mAdvancedUnlockViewModel.consumeCheckUnlockAvailability()
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -178,10 +183,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
             // To get device credential unlock result, only if same database uri
             if (databaseUri != null
                     && mAdvancedUnlockEnabled) {
-                val deviceCredentialAuthSucceeded = mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded
-                deviceCredentialAuthSucceeded?.let {
+                mAdvancedUnlockViewModel.deviceCredentialAuthSucceeded?.let { authSucceeded ->
                     if (databaseUri == databaseFileUri) {
-                        if (deviceCredentialAuthSucceeded == true) {
+                        if (authSucceeded) {
                             advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationSucceeded()
                         } else {
                             advancedUnlockManager?.advancedUnlockCallback?.onAuthenticationFailed()
@@ -250,7 +254,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         if (advancedUnlockManager?.isKeyManagerInitialized != true) {
             toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
         } else {
-            if (mBuilderListener?.conditionToStoreCredential() == true) {
+            if (isConditionToStoreCredentialVerified) {
                 // listen for encryption
                 toggleMode(Mode.STORE_CREDENTIAL)
             } else {
@@ -261,8 +265,13 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                             // listen for decryption
                             Mode.EXTRACT_CREDENTIAL
                         } else {
-                            // wait for typing
-                            Mode.WAIT_CREDENTIAL
+                            if (isConditionToStoreCredentialVerified) {
+                                // if condition OK, key manager in error
+                                Mode.KEY_MANAGER_UNAVAILABLE
+                            } else {
+                                // wait for typing
+                                Mode.WAIT_CREDENTIAL
+                            }
                         })
                     }
                 }
@@ -523,9 +532,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                 }
                 Mode.STORE_CREDENTIAL -> {
                     // newly store the entered password in encrypted way
-                    mBuilderListener?.retrieveCredentialForEncryption()?.let { credential ->
-                        advancedUnlockManager?.encryptData(credential)
-                    }
+                    mAdvancedUnlockViewModel.retrieveCredentialForEncryption()
                 }
                 Mode.EXTRACT_CREDENTIAL -> {
                     // retrieve the encrypted value from preferences
@@ -545,7 +552,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
 
     override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray) {
         databaseFileUri?.let { databaseUri ->
-            mBuilderListener?.onCredentialEncrypted(
+            mAdvancedUnlockViewModel.onCredentialEncrypted(
                 CipherEncryptDatabase().apply {
                     this.databaseUri = databaseUri
                     this.credentialStorage = credentialDatabaseStorage
@@ -559,7 +566,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
     override fun handleDecryptedResult(decryptedValue: ByteArray) {
         // Load database directly with password retrieve
         databaseFileUri?.let { databaseUri ->
-            mBuilderListener?.onCredentialDecrypted(
+            mAdvancedUnlockViewModel.onCredentialDecrypted(
                 CipherDecryptDatabase().apply {
                     this.databaseUri = databaseUri
                     this.credentialStorage = credentialDatabaseStorage
@@ -630,13 +637,6 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         EXTRACT_CREDENTIAL
     }
 
-    interface BuilderListener {
-        fun retrieveCredentialForEncryption(): ByteArray
-        fun conditionToStoreCredential(): Boolean
-        fun onCredentialEncrypted(cipherEncryptDatabase: CipherEncryptDatabase)
-        fun onCredentialDecrypted(cipherDecryptDatabase: CipherDecryptDatabase)
-    }
-
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!keepConnection) {
@@ -645,13 +645,11 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                 advancedUnlockManager = null
             }
         }
-
         super.onPause()
     }
 
     override fun onDestroyView() {
         mAdvancedUnlockInfoView = null
-
         super.onDestroyView()
     }
 
@@ -659,20 +657,11 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             disconnect()
             advancedUnlockManager = null
-            mBuilderListener = null
         }
-
         super.onDestroy()
     }
 
-    override fun onDetach() {
-        mBuilderListener = null
-
-        super.onDetach()
-    }
-
     companion object {
-
         private val TAG = AdvancedUnlockFragment::class.java.name
     }
 }

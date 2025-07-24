@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.credentialprovider.activity
 
-import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -32,10 +31,10 @@ import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
-import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
@@ -117,7 +116,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 }
                 else -> {
                     // Not an autofill call
-                    setResult(Activity.RESULT_CANCELED)
+                    setResult(RESULT_CANCELED)
                     finish()
                 }
             }
@@ -128,17 +127,13 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                                 autofillComponent: AutofillComponent?,
                                 searchInfo: SearchInfo) {
         if (autofillComponent == null) {
-            setResult(Activity.RESULT_CANCELED)
+            setResult(RESULT_CANCELED)
             finish()
-        } else if (!KeeAutofillService.autofillAllowedFor(
+        } else if (KeeAutofillService.autofillAllowedFor(
             applicationId = searchInfo.applicationId,
             webDomain = searchInfo.webDomain,
             context = this
         )) {
-            showBlockRestartMessage()
-            setResult(Activity.RESULT_CANCELED)
-            finish()
-        } else {
             // If database is open
             SearchHelper.checkAutoSearchInfo(
                 context = this,
@@ -170,6 +165,10 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     )
                 }
             )
+        } else {
+            showBlockRestartMessage()
+            setResult(RESULT_CANCELED)
+            finish()
         }
     }
 
@@ -180,10 +179,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 applicationId = searchInfo.applicationId,
                 webDomain = searchInfo.webDomain,
                 context = this
-            )) {
-            showBlockRestartMessage()
-            setResult(Activity.RESULT_CANCELED)
-        } else {
+        )) {
             val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(
                 context = this,
@@ -227,6 +223,9 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     )
                 }
             )
+        } else {
+            showBlockRestartMessage()
+            setResult(RESULT_CANCELED)
         }
         finish()
     }

@@ -53,9 +53,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
     private var checkboxHardwareView: CompoundButton
     private var hardwareKeySelectionView: HardwareKeySelectionView
 
-    var onPasswordChecked: (CompoundButton.OnCheckedChangeListener)? = null
-    var onKeyFileChecked: (CompoundButton.OnCheckedChangeListener)? = null
-    var onHardwareKeyChecked: (CompoundButton.OnCheckedChangeListener)? = null
+    var onConditionToStoreCredentialChanged: ((CredentialStorage, verified: Boolean) -> Unit)? = null
     var onValidateListener: (() -> Unit)? = null
 
     private var mCredentialStorage: CredentialStorage = CredentialStorage.PASSWORD
@@ -104,7 +102,10 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
         }
 
         checkboxPasswordView.setOnCheckedChangeListener { view, checked ->
-            onPasswordChecked?.onCheckedChanged(view, checked)
+            onConditionToStoreCredentialChanged?.invoke(
+                mCredentialStorage,
+                conditionToStoreCredential()
+            )
         }
         checkboxKeyFileView.setOnCheckedChangeListener { view, checked ->
             if (checked) {
@@ -112,7 +113,10 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                     checkboxKeyFileView.isChecked = false
                 }
             }
-            onKeyFileChecked?.onCheckedChanged(view, checked)
+            onConditionToStoreCredentialChanged?.invoke(
+                mCredentialStorage,
+                conditionToStoreCredential()
+            )
         }
         checkboxHardwareView.setOnCheckedChangeListener { view, checked ->
             if (checked) {
@@ -120,7 +124,10 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                     checkboxHardwareView.isChecked = false
                 }
             }
-            onHardwareKeyChecked?.onCheckedChanged(view, checked)
+            onConditionToStoreCredentialChanged?.invoke(
+                mCredentialStorage,
+                conditionToStoreCredential()
+            )
         }
 
         hardwareKeySelectionView.selectionListener = { _ ->

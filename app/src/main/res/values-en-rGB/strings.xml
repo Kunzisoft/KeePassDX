@@ -33,10 +33,10 @@
     <string name="encryption">Encryption</string>
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
-    <string name="about_description">password</string>
-    <string name="encryption_algorithm">Encryption</string>
+    <string name="about_description">Android implementation of the KeePass password manager</string>
+    <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="app_timeout">Timeout</string>
-    <string name="app_timeout_summary">database</string>
+    <string name="app_timeout_summary">Idle time before locking the database</string>
     <string name="application">App</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>

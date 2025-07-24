@@ -119,7 +119,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
-import org.joda.time.Instant
+import org.joda.time.LocalDateTime
 
 
 class GroupActivity : DatabaseLockActivity(),
@@ -344,7 +344,7 @@ class GroupActivity : DatabaseLockActivity(),
                         mExternalFileHelper?.createDocument(
                             getString(R.string.database_file_name_default) +
                                     "_" +
-                                    Instant.now().toString() +
+                                    LocalDateTime.now().toString() +
                                     mDatabase?.defaultFileExtension)
                     }
                     R.id.menu_lock_all -> {
