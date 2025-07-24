@@ -666,4 +666,5 @@
     <string name="advanced_unlock_keystore_warning">See funktsionaalsus salvestab krüptitud salasõnad ja kasutajanimed sinu nutiseadme turvalises võtmehoidlas.\n\nSõltuvalt sinu nutiseadme operatsioonisüstemi konkreetsest implementatsioonist, ei pruugi see lahendus siiski täismahus toimida.\n\nPalun kontrolli oma seadme võtmehoidla (KeyStore) ühilduvust ja turvalisust tootjalt ja/või tarkvara loojalt.</string>
     <string name="keyboard_previous_fill_in_summary">Peale tegevust „Automaatne võtmetoiming“ lülita automaatselt tagasi eelmisele klahvistikule</string>
     <string name="education_read_only_summary">Saad juhtida sessioonil kasutatavat avamisviisi.\n\n„Kirjutuskaitstud“ tagab, et juhuslike muudatustega ei läheks andmeid kaotsi.\n„Muudetav“ võimaldab sul lisada, kustutada või muuta kõiki andmebaasi kirjeid.</string>
+    <string name="error_otp_secret_length">Salavõti peab olema vähemalt %1$d tähemärki pikk.</string>
 </resources>
