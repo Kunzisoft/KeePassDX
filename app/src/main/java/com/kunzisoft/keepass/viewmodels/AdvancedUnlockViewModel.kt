@@ -13,8 +13,8 @@ class AdvancedUnlockViewModel : ViewModel() {
     var allowAutoOpenBiometricPrompt : Boolean = true
     var deviceCredentialAuthSucceeded: Boolean? = null
 
-    private val _uiState = MutableStateFlow(DeviceUnlockUiStates())
-    val uiState: StateFlow<DeviceUnlockUiStates> = _uiState
+    private val _uiState = MutableStateFlow(DeviceUnlockState())
+    val uiState: StateFlow<DeviceUnlockState> = _uiState
 
     fun checkUnlockAvailability(conditionToStoreCredentialVerified: Boolean? = null) {
         _uiState.update { currentState ->
@@ -110,7 +110,7 @@ class AdvancedUnlockViewModel : ViewModel() {
     }
 }
 
-data class DeviceUnlockUiStates(
+data class DeviceUnlockState(
     val initAdvancedUnlockMode: Boolean = false,
     val databaseFileLoaded: Uri? = null,
     val isCredentialRequired: Boolean = false,
@@ -124,7 +124,7 @@ data class DeviceUnlockUiStates(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DeviceUnlockUiStates
+        other as DeviceUnlockState
 
         if (initAdvancedUnlockMode != other.initAdvancedUnlockMode) return false
         if (isCredentialRequired != other.isCredentialRequired) return false
