@@ -312,9 +312,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_LOAD_TASK -> {
-                // Recheck advanced unlock if error
-                mAdvancedUnlockViewModel.checkUnlockAvailability()
-
                 if (result.isSuccess) {
                     launchGroupActivityIfLoaded(database)
                 } else {
