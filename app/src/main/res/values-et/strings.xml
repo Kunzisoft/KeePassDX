@@ -129,7 +129,7 @@
     <string name="error_pass_match">Salasõnad ei klapi.</string>
     <string name="error_create_database">Andmebaasifaili loomine ei õnnestunud.</string>
     <string name="entry_url">URL</string>
-    <string name="error_file_not_create">Faili loomine ei õnnestunud</string>
+    <string name="error_file_not_create">Faili loomine ei õnnestunud.</string>
     <string name="entry_otp">Ühekordne salasõna</string>
     <string name="clipboard_timeout_summary">Lõikelauale kopeeritud andmete hoidmise aeg (kui sinu seade sellist võimalust toetab)</string>
     <string name="content_description_keyboard_close_fields">Sulge väljad</string>
@@ -234,7 +234,7 @@
     <string name="menu_delete">Kustuta</string>
     <string name="menu_paste">Aseta</string>
     <string name="menu_cancel">Katkesta</string>
-    <string name="error_unable_merge_database_kdb">Mestimine teise kdb andmebaasifailiga ei õnnestu</string>
+    <string name="error_unable_merge_database_kdb">Mestimine teise kdb andmebaasifailiga ei õnnestu.</string>
     <string name="error_location_unknown">Andmebaasi asukoht pole teada ja toimingut andmebaasiga ei saa teha.</string>
     <string name="menu_empty_recycle_bin">Tühjenda prügikast</string>
     <string name="menu_restore_entry_history">Taasta ajalugu</string>
@@ -274,7 +274,7 @@
     <string name="import_app_properties_summary">Rakenduse seadistuste importimiseks vali fail</string>
     <string name="export_app_properties_title">Ekspordi rakenduse seadistused</string>
     <string name="success_export_app_properties">Rakenduse seadistused on eksporditud</string>
-    <string name="error_export_app_properties">Rakenduse seadistuste eksportimisel tekkis viga</string>
+    <string name="error_export_app_properties">Rakenduse seadistuste eksportimisel tekkis viga.</string>
     <string name="root">Juurkaust</string>
     <string name="memory_usage">Mälukasutus</string>
     <string name="error_string_type">See tekst ei vasta päringule.</string>
@@ -295,7 +295,7 @@
     <string name="hide_broken_locations_title">Peida katkised andmebaaside lingid</string>
     <string name="hide_broken_locations_summary">Peida hiljutikasutatud andmebaaside loendist need kirjed, mille lingid enam ei toimi</string>
     <string name="success_import_app_properties">Rakenduse seadistused on imporditud</string>
-    <string name="error_import_app_properties">Viga rakenduse seadistuste importimisel</string>
+    <string name="error_import_app_properties">Viga rakenduse seadistuste importimisel.</string>
     <string name="description_app_properties">KeePassDX võimalused rakenduse seadistuste haldamiseks</string>
     <string name="encryption_explanation">Salasõnalaeka andmebaasi puhul kasutatud krüptoalgoritm</string>
     <string name="kdf_explanation">Krüptoalgoritmi jaoks võtme loomisel peavõtit muudetakse võtetuletusfunktsiooniga, mis kasutab juhuslikke soolaterakesi.</string>
@@ -594,7 +594,7 @@
     <string name="education_field_copy_title">Välja kopeerimine</string>
     <string name="education_field_copy_summary">Kopeeritud väljade sisu saad asetada kõikjale.\n\nVäljade täitmiseks kasuta meetodist, mis sulle sobib. Ära unusta kopeeritud saalsõna lõikelaualt kustutada.</string>
     <string name="unavailable">Pole saadaval</string>
-    <string name="error_challenge_already_requested">Autentimispäring on juba esitatud</string>
+    <string name="error_challenge_already_requested">Autentimispäring on juba esitatud.</string>
     <string name="error_response_already_provided">Autentimisvastus on juba antud.</string>
     <string name="error_no_response_from_challenge">Autentimisvastust ei õnnestu autentimispäringust tuletada.</string>
     <string name="warning_database_notification_permission">Teevituste saatmise õigused võimaldavad sulle kuvada andmebaasi olekut ning lukustada seda lihtsalt ligipääsetvast nupust.\n\nKui sa seda õigust ei anna, siis taustal olev andmebaas pole nähtav, kui mõni muu rakendus on parasjagu esiplaanil.</string>
@@ -662,7 +662,7 @@
     <string name="enter">Sisestusklahv (Enter)</string>
     <string name="education_validate_entry_summary">Ära unusta kirje sisu kontrollida ja salvestada.\n\nKui automaatne lukustus käivitub ja sa unustad, et muutmine oli pooleli, siis võid kaotada oma muudatused.</string>
     <string name="html_text_ad_free">Erinevalt paljudest teistest salasõnahalduritest, on meie oma &lt;strong&gt;reklaamivaba&lt;/strong&gt; ja &lt;strong&gt;avatud lähtekoodiga vaba tarkvara&lt;/strong&gt;, mis ei kogu kasutajate isiklikke andmeid oma serveritesse ja seda kõikide versioonide puhul.</string>
-    <string name="html_text_donation">&lt;strong&gt;Aidates kaasa&lt;/strong&gt; selle projekti tegevusele <i>(rahaliselt, koodi kirjutades või tõlkides)</i> aitad kogu ettevõtmisel areneda ning soovi korral võid kasutada ka &lt;strong&gt;seda kujundust&lt;/strong&gt;.</string>
+    <string name="html_text_donation"><strong>Aidates kaasa</strong> selle projekti tegevusele <i>(rahaliselt, koodi kirjutades või tõlkides)</i>, aitad kogu ettevõtmisel areneda ning soovi korral võid kasutada ka <strong>seda kujundust</strong>.</string>
     <string name="advanced_unlock_keystore_warning">See funktsionaalsus salvestab krüptitud salasõnad ja kasutajanimed sinu nutiseadme turvalises võtmehoidlas.\n\nSõltuvalt sinu nutiseadme operatsioonisüstemi konkreetsest implementatsioonist, ei pruugi see lahendus siiski täismahus toimida.\n\nPalun kontrolli oma seadme võtmehoidla (KeyStore) ühilduvust ja turvalisust tootjalt ja/või tarkvara loojalt.</string>
     <string name="keyboard_previous_fill_in_summary">Peale tegevust „Automaatne võtmetoiming“ lülita automaatselt tagasi eelmisele klahvistikule</string>
     <string name="education_read_only_summary">Saad juhtida sessioonil kasutatavat avamisviisi.\n\n„Kirjutuskaitstud“ tagab, et juhuslike muudatustega ei läheks andmeid kaotsi.\n„Muudetav“ võimaldab sul lisada, kustutada või muuta kõiki andmebaasi kirjeid.</string>

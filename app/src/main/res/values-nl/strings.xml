@@ -204,7 +204,7 @@
     <string name="biometric_unlock_enable_title">Ontgrendelen met biometrie</string>
     <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
-    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot apparaat-ontgrendeling verwijderen</string>
+    <string name="biometric_delete_all_key_summary">Alle coderingssleutels met betrekking tot apparaatontgrendeling verwijderen</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Dit apparaat draait op Android %1$s, maar %2$s of hoger is vereist.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
@@ -272,7 +272,7 @@
     <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht de versie die je gebruikt.</string>
     <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit &lt;strong&gt;visuele thema&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dit &lt;strong&gt;visuele thema&lt;/strong&gt; is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
-    <string name="html_text_donation">Met een &lt;strong&gt;bijdrage&lt;/strong&gt; <i>(financieel, code, vertaling),</i> help je dit project in het voortbestaan en verdere groei. Bovendien kom je in aanmerking ook de &lt;strong&gt;procedure&lt;/strong&gt; waarmee je de extra thema\'s kunt ontgrendelen.</string>
+    <string name="html_text_donation">Door <strong>bij te dragen</strong> aan het project <i>(financieel, code, vertaling)</i>, help je het om te blijven leven en bloeien en kom je bovendien in aanmerking voor het <strong>thema</strong> ontgrendelingsprocedure.</string>
     <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
@@ -342,7 +342,7 @@
     <string name="menu_advanced_unlock_settings">Apparaatontgrendeling</string>
     <string name="biometric">Biometrie</string>
     <string name="biometric_auto_open_prompt_title">Auto-open suggestie</string>
-    <string name="biometric_auto_open_prompt_summary">Automatisch om apparaat-ontgrendeling vragen als een database hiervoor is ingesteld</string>
+    <string name="biometric_auto_open_prompt_summary">Automatisch om apparaatontgrendeling vragen als een database hiervoor is ingesteld</string>
     <string name="enable">Inschakelen</string>
     <string name="disable">Uitschakelen</string>
     <string name="master_key">Hoofdsleutel</string>
@@ -371,7 +371,7 @@
     <string name="contains_duplicate_uuid_procedure">Probleem oplossen door nieuwe UUID\'s te genereren voor de duplicaten\?</string>
     <string name="database_opened">Database geopend</string>
     <string name="clipboard_explanation_summary">Kopieer velden met behulp van het klembord van dit apparaat</string>
-    <string name="advanced_unlock_explanation_summary">Apparaat-ontgrendeling gebruiken om een database eenvoudiger te openen</string>
+    <string name="advanced_unlock_explanation_summary">Apparaatontgrendeling gebruiken om een database eenvoudiger te openen</string>
     <string name="database_data_compression_title">Gegevenscompressie</string>
     <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database</string>
     <string name="max_history_items_title">Maximum aantal</string>
@@ -489,33 +489,33 @@
     <string name="search_mode">Zoekmodus</string>
     <string name="error_registration_read_only">Het opslaan van een nieuw item is niet toegestaan in een alleen-lezen database.</string>
     <string name="education_advanced_unlock_summary">Koppel je wachtwoord aan je gescande biometrische gegevens of apparaatreferentie om je database snel te ontgrendelen.</string>
-    <string name="education_advanced_unlock_title">Apparaat-ontgrendeling database</string>
+    <string name="education_advanced_unlock_title">Ontgrendeling database op apparaat</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Item selecteren</string>
     <string name="back_to_previous_keyboard">Terug naar vorig toetsenbord</string>
     <string name="custom_fields">Aangepaste velden</string>
     <string name="advanced_unlock_delete_all_key_warning">Alle coderingssleutels met betrekking tot apparaat-ontgrendeling verwijderen?</string>
-    <string name="advanced_unlock_timeout">Time-out bij apparaat-ontgrendeling</string>
-    <string name="temp_advanced_unlock_timeout_summary">Duur van apparaat-ontgrendeling voordat de inhoud wordt verwijderd</string>
-    <string name="temp_advanced_unlock_timeout_title">Vervaltijd voor apparaat-ontgrendeling</string>
-    <string name="temp_advanced_unlock_enable_summary">Sla geen versleutelde inhoud op om apparaat-ontgrendeling te gebruiken</string>
-    <string name="temp_advanced_unlock_enable_title">Tijdelijke apparaat-ontgrendeling</string>
+    <string name="advanced_unlock_timeout">Time-out bij apparaatontgrendeling</string>
+    <string name="temp_advanced_unlock_timeout_summary">Duur van apparaatontgrendeling voordat de inhoud wordt verwijderd</string>
+    <string name="temp_advanced_unlock_timeout_title">Vervaltijd voor apparaatontgrendeling</string>
+    <string name="temp_advanced_unlock_enable_summary">Sla geen versleutelde inhoud op om apparaatontgrendeling te gebruiken</string>
+    <string name="temp_advanced_unlock_enable_title">Tijdelijke apparaatontgrendeling</string>
     <string name="device_credential_unlock_enable_summary">Hiermee kan je de referentie van je apparaat gebruiken om de database te openen</string>
     <string name="device_credential_unlock_enable_title">Ontgrendeling met apparaatreferenties</string>
-    <string name="advanced_unlock_tap_delete">Tik om apparaat-ontgrendelingssleutels te verwijderen</string>
+    <string name="advanced_unlock_tap_delete">Tik om sleutels voor apparaatontgrendeling te verwijderen</string>
     <string name="content">Inhoud</string>
     <string name="device_credential">Apparaatreferentie</string>
     <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op deze knop.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Kan apparaat-ontgrendelingsprompt niet initialiseren.</string>
-    <string name="advanced_unlock_scanning_error">Apparaat-ontgrendelingsfout: %1$s</string>
-    <string name="advanced_unlock_not_recognized">Kan apparaat-ontgrendelingsafdruk niet herkennen</string>
-    <string name="advanced_unlock_invalid_key">Kan de apparaat-ontgrendelingssleutel niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Databasegegevens uitpakken met apparaat-ontgrendelingsgegevens</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Apparaat-ontgrendeling</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je apparaat-ontgrendelingsherkenning gebruikt.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Koppeling naar Apparaat-ontgrendeling</string>
-    <string name="menu_keystore_remove_key">Apparaat-ontgrendelingssleutel verwijderen</string>
+    <string name="advanced_unlock_prompt_not_initialized">Kan apparaatontgrendeling niet initialiseren.</string>
+    <string name="advanced_unlock_scanning_error">Fout bij apparaatontgrendeling: %1$s</string>
+    <string name="advanced_unlock_not_recognized">Vingerafdruk niet herkent bij apparaatontgrendeling</string>
+    <string name="advanced_unlock_invalid_key">Kan de sleutel voor apparaatontgrendeling niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
+    <string name="advanced_unlock_prompt_extract_credential_message">Database uitpakken met gegevens voor apparaatontgrendeling</string>
+    <string name="advanced_unlock_prompt_extract_credential_title">Apparaatontgrendeling</string>
+    <string name="advanced_unlock_prompt_store_credential_message">Je moet nog steeds je hoofdwachtwoord onthouden als je apparaatontgrendeling gebruikt.</string>
+    <string name="advanced_unlock_prompt_store_credential_title">Koppeling naar apparaatontgrendeling</string>
+    <string name="menu_keystore_remove_key">Sleutel voor apparaatontgrendeling verwijderen</string>
     <string name="error_field_name_already_exists">De veldnaam bestaat al.</string>
     <string name="unit_gibibyte">GiB</string>
     <string name="unit_mebibyte">MiB</string>
@@ -685,7 +685,7 @@
     <string name="warning_database_notification_permission">Met de meldingstoestemming kunt u de status van de database weergeven en vergrendelen met een gemakkelijk toegankelijke knop.
 \n
 \nAls u deze toestemming niet verleent, is de database die op de achtergrond is geopend niet zichtbaar als er een andere applicatie op de voorgrond staat.</string>
-    <string name="unlock_and_link_biometric">Apparaat-ontgrendelingslink</string>
+    <string name="unlock_and_link_biometric">Koppeling naar apparaatontgrendeling</string>
     <string name="education_validate_entry_summary">Vergeet niet om de invoer te valideren en de database op te slaan.
 \n
 \nWanneer automatische vergrendeling is geactiveerd en u vergeet dat u een wijziging aan het aanbrengen was, dan loopt u het risico gegevens te verliezen.</string>
