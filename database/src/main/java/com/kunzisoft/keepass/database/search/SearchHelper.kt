@@ -124,11 +124,9 @@ class SearchHelper {
          */
         fun searchInEntry(entry: Entry,
                           searchParameters: SearchParameters): Boolean {
-            val searchQuery = searchParameters.searchQuery
-
             // Not found if the search string is empty
-            if (searchQuery.isEmpty())
-                return false
+            if (searchParameters.searchQuery.isEmpty())
+                return searchParameters.allowEmptyQuery
 
             // Exclude entry expired
             if (!searchParameters.searchInExpired) {
@@ -219,10 +217,11 @@ class SearchHelper {
                 }
                 regex.matches(stringToCheck)
             } else {
-                searchParameters.searchQuery.split(" ").any { word ->
-                    specialComparison?.invoke(stringToCheck, word)
-                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive)
-                }
+                specialComparison?.invoke(stringToCheck, searchParameters.searchQuery)
+                    ?: stringToCheck.contains(
+                        searchParameters.searchQuery,
+                        !searchParameters.caseSensitive
+                    )
             }
         }
     }

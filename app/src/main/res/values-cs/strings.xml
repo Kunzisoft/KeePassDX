@@ -266,7 +266,7 @@
     <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel je tato &lt;strong&gt;bez reklam&lt;/strong&gt;, je &lt;strong&gt;svobodný software pod copyleft licencí&lt;/strong&gt; a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
     <string name="html_text_buy_pro">Zakoupením varianty \"pro\" získáte přístup k tomuto &lt;strong&gt;vizuálnímu stylu&lt;/strong&gt; a hlavně pomůžete &lt;strong&gt;uskutečnění komunitních projektů.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuální styl&lt;/strong&gt; je k dispozici díky vaší štědrosti.</string>
-    <string name="html_text_donation">&lt;strong&gt;Přispěním&lt;/strong&gt; projektu <i>(peněžně, kódem, překlady)</i> mu pomůžete žít a prosperovat a dostanete přístup k postupu odemčení &lt;strong&gt;motivů&lt;/strong&gt;.</string>
+    <string name="html_text_donation">&lt;strong&gt;Přispěním&lt;/strong&gt; do projektu <i>(peněžně, kódem, překlady)</i> mu pomůžete žít a prosperovat a dostanete přístup k postupu odemčení &lt;strong&gt;motivů&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Tato funkce je &lt;strong&gt;ve vývoji&lt;/strong&gt; a potřebuje Váš &lt;strong&gt;příspěvek&lt;/strong&gt;, aby byla brzy k dispozici.</string>
     <string name="html_text_dev_feature_buy_pro">Zakoupením &lt;strong&gt;pro&lt;/strong&gt; varianty,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Podpořením vývoje&lt;/strong&gt;,</string>
@@ -484,7 +484,7 @@
     <string name="configure_biometric">Žádné přihlašovací ani biometrické údaje nejsou registrovány.</string>
     <string name="warning_empty_recycle_bin">Trvale odstranit všechny uzly z koše\?</string>
     <string name="registration_mode">Registrace</string>
-    <string name="save_mode">Uložit</string>
+    <string name="save_mode">Režim ukládání</string>
     <string name="search_mode">Vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno kolonky již existuje.</string>
     <string name="error_registration_read_only">Uložení nové položky v režimu databáze pouze pro čtení není dovoleno.</string>

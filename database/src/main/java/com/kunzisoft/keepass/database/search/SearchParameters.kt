@@ -27,6 +27,7 @@ import android.os.Parcelable
  */
 class SearchParameters() : Parcelable{
     var searchQuery: String = ""
+    var allowEmptyQuery = true
     var caseSensitive = false
     var isRegex = false
 
@@ -50,6 +51,7 @@ class SearchParameters() : Parcelable{
 
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
+        allowEmptyQuery = parcel.readByte() != 0.toByte()
         caseSensitive = parcel.readByte() != 0.toByte()
         isRegex = parcel.readByte() != 0.toByte()
         searchInTitles = parcel.readByte() != 0.toByte()
@@ -71,6 +73,7 @@ class SearchParameters() : Parcelable{
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(searchQuery)
+        parcel.writeByte(if (allowEmptyQuery) 1 else 0)
         parcel.writeByte(if (caseSensitive) 1 else 0)
         parcel.writeByte(if (isRegex) 1 else 0)
         parcel.writeByte(if (searchInTitles) 1 else 0)

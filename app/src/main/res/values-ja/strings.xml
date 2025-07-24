@@ -662,7 +662,7 @@
     <string name="waiting_challenge_request">チャレンジリクエストを待っています…</string>
     <string name="error_response_already_provided">回答はすでに提供されています。</string>
     <string name="error_no_response_from_challenge">チャレンジからの応答を取得できません。</string>
-    <string name="error_unable_merge_database_kdb">kdbデータベースファイルとのマージはできません</string>
+    <string name="error_unable_merge_database_kdb">kdbデータベースファイルとのマージはできません。</string>
     <string name="menu_advanced_unlock_settings_summary">生体認証、デバイス認証</string>
     <string name="menu_database_settings_summary">メタデータ、ごみ箱、テンプレート、履歴</string>
     <string name="menu_security_settings_summary">暗号化、鍵導出関数</string>
@@ -673,7 +673,7 @@
     <string name="warning_database_notification_permission">通知権限を使用すると、データベースのステータスを表示し、簡単にアクセスできるボタンでロックすることができます。
 \n
 \nこの権限を有効にしないと、別のアプリケーションがフォアグラウンドにある場合、バックグラウンドで開いているデータベースは表示されません。</string>
-    <string name="ask">話す</string>
+    <string name="ask">権限を要求する</string>
     <string name="merge_success">マージが正常に完了しました</string>
     <string name="configure">設定する</string>
     <string name="menu_appearance_settings_summary">テーマ、色、属性</string>

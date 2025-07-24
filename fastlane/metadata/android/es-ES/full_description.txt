@@ -1,0 +1,23 @@
+KeePassDX es un <b> Administrador de contraseñas seguro </b> que permite editar <b>datos cifrados en un solo archivo</b> en el formato abierto de KeePass permite <b>completar los formularios de manera segura</b>, no requiere<b>conexión a internet</b> e integra los estándares de diseño de Android. La aplicación es <b> de código abierto, sin publicidad</b>.
+
+<b>Funciones</b>
+
+- Crea archivos de bases de datos / entradas y grupos.
+- Compatible con archivos .kdb y .kdbx (versiones 1 a 4) con AES - Twofish - ChaCha20 y el algoritmo Argon2 ..
+- Compatible con la mayoría de programas alternativos (KeePass, KeePassXC, KeeWeb, …). 
+- Permite abrir y copiar campos URI / URL rapidamente.
+- Reconocimiento biometrico para desbloqueo rapido(huella digital/ reconocimiento facial/ …).
+- Gestor de claves de un solo uso(HOTP / TOTP) autentificación de dos factores(2FA).
+- Diseño Material con temas.
+- Autocompletado (Auto-Fill) e integración.
+- Teclado para llenado de campos.
+- Plantillas dinámicas.
+- Historial de cada entrada.
+- Gestión precisa de configuraciones.
+- Código escrito en lenguajes nativos (Kotlin / Java / JNI / C).
+
+> Puedes donar o comprar la versión Pro para obtener un mejor servicio y un desarrollo más rápido de las funciones que deseas:<a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+El proyecto está en constante evolución. No dudes en consultar el estado de desarrollo de las próximas actualizaciones: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Reporta problemas: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

@@ -1,0 +1,23 @@
+تطبيق KeePassDX هو <b>خزنة ومدير كلمات سر</b> يسمح بتحرير <b>البيانات المُعمَّاة في ملف واحد</b> بتنسيق KeePass المفتوح و<b>ملء النماذج بطريقة آمنة</b>، ولا يتطلب <b>اتصالاً بالإنترنت</b> ويتكامل مع معايير تصميم أندرويد. التطبيق <b>مفتوح المصدر، وبدون إعلانات</b>.
+
+<b>الميزات</b>
+
+- إنشاء ملفات/إدخالات وقواعد بيانات ومجموعات.
+- دعم ملفات .kdb و .kdbx (الإصدار 1 إلى 4) باستخدام خوارزميات AES - Twofish - ChaCha20 - Argon2.
+- متوافق مع غالبية البرامج البديلة (KeePass، KeePassXC، KeeWeb، ...).
+- يسمح بفتح ونسخ حقول URI / URL بسرعة.
+- التعرف البيومتري لفتح القفل بسرعة (بصمة الإصبع / فتح الوجه / ...).
+- إدارة كلمات السر لمرة واحدة (HOTP / TOTP) للمصادقة الثنائية (2FA).
+- تصميم Material مع سمات.
+- التعبئة التلقائية والتكامل.
+- لوحة مفاتيح لملء الحقول.
+- قوالب ديناميكية.
+- سجل لكل إدخال.
+- إدارة دقيقة للإعدادات.
+- الرمز مكتوب بلغات أصيلة (Kotlin / Java / JNI / C).
+
+يمكنك التبرع أو شراء الإصدار الاحترافي للحصول على خدمة أفضل وتطوير سريع للميزات التي تريدها: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+المشروع يتطور باستمرار. لا تتردد في التحقق من حالة تطوير التحديثات القادمة: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+أرسل العلل إلى: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

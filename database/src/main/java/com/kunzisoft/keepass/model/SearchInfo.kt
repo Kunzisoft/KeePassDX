@@ -110,6 +110,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         return SearchParameters().apply {
             if (isAPasskeySearch()) {
                 searchQuery = relyingParty!!
+                allowEmptyQuery = false
                 searchInTitles = false
                 searchInUsernames = false
                 searchInPasswords = false
@@ -127,6 +128,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 searchInTemplates = false
             } else {
                 searchQuery = toString()
+                allowEmptyQuery = false
                 searchInTitles = true
                 searchInUsernames = false
                 searchInPasswords = false
