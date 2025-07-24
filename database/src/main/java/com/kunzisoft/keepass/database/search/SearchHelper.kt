@@ -203,14 +203,11 @@ class SearchHelper {
                 }
                 regex.matches(stringToCheck)
             } else {
-                searchParameters.searchQuery.split(" ").any { word ->
-                    if (word.isEmpty()) {
-                        false
-                    } else {
-                        specialComparison?.invoke(stringToCheck, word)
-                            ?: stringToCheck.contains(word, !searchParameters.caseSensitive)
-                    }
-                }
+                specialComparison?.invoke(stringToCheck, searchParameters.searchQuery)
+                    ?: stringToCheck.contains(
+                        searchParameters.searchQuery,
+                        !searchParameters.caseSensitive
+                    )
             }
         }
     }
