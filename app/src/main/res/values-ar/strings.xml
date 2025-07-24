@@ -700,4 +700,5 @@
     <string name="recursive_number_entries_summary">يحسب بشكل متكرر عدد المدخلات في المجموعة</string>
     <string name="warning_large_keyfile">لا يُنصح بإضافة ملف مفتاحي كبير، فقد يؤدي هذا إلى منع فتح قاعدة البيانات.</string>
     <string name="hide_templates_title">أخفِ القوالب</string>
+    <string name="error_otp_secret_length">يجب أن يتكوّن المفتاح السري من %1$d أحرف على الأقل.</string>
 </resources>
