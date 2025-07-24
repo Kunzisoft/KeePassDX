@@ -1,2 +1,3 @@
  * Fix Autofill Registration #2089
  * Fix Biometric errors #2081
+ * Fixed timestamp in copy file #1981 #1983
