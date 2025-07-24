@@ -1,5 +1,6 @@
 KeePassDX(4.1.3)
  * Fix Autofill Registration #2089
+ * Fix Biometric errors #2081
 
 KeePassDX(4.1.2)
  * Fix URL search #1940 #1946 #2003 #2040 #2044

@@ -1,1 +1,2 @@
  * Correction de l'enregistrement pour le remplissage automatique #2089
+ * Correction des erreurs biométriques #2081

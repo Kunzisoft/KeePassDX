@@ -1,1 +1,2 @@
  * Fix Autofill Registration #2089
+ * Fix Biometric errors #2081
