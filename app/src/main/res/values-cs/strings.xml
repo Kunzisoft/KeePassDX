@@ -709,4 +709,5 @@
     <string name="warning_large_keyfile">Nedoporučuje se přidávat velký klíčový soubor, mohlo by to zabránit otevření databáze.</string>
     <string name="hide_templates_title">Skrýt šablony</string>
     <string name="hide_templates_summary">Šablony nejsou zobrazeny</string>
+    <string name="error_otp_secret_length">Tajný klíč musí obsahovat alespoň %1$d znaků.</string>
 </resources>
