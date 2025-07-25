@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 34
         versionCode = 135
         versionName = "4.1.3"

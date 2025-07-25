@@ -28,6 +28,5 @@ class App : MultiDexApplication() {
         super.onCreate()
 
         Stylish.load(this)
-        PRNGFixes.apply()
     }
 }
