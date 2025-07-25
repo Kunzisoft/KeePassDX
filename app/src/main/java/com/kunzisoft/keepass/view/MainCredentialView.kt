@@ -101,13 +101,13 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
             handled
         }
 
-        checkboxPasswordView.setOnCheckedChangeListener { view, checked ->
+        checkboxPasswordView.setOnCheckedChangeListener { _, _ ->
             onConditionToStoreCredentialChanged?.invoke(
                 mCredentialStorage,
                 conditionToStoreCredential()
             )
         }
-        checkboxKeyFileView.setOnCheckedChangeListener { view, checked ->
+        checkboxKeyFileView.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 if (keyFileSelectionView.uri == null) {
                     checkboxKeyFileView.isChecked = false
@@ -118,7 +118,7 @@ class MainCredentialView @JvmOverloads constructor(context: Context,
                 conditionToStoreCredential()
             )
         }
-        checkboxHardwareView.setOnCheckedChangeListener { view, checked ->
+        checkboxHardwareView.setOnCheckedChangeListener { _, checked ->
             if (checked) {
                 if (hardwareKeySelectionView.hardwareKey == null) {
                     checkboxHardwareView.isChecked = false
