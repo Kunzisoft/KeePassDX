@@ -704,6 +704,6 @@
     <string name="recursive_number_entries_title">Nombre d\'entrées récursif</string>
     <string name="recursive_number_entries_summary">Calcule récursivement le nombre d\'entrées dans un groupe</string>
     <string name="warning_large_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé volumineux, car cela pourrait empêcher l\'ouverture de la base de données.</string>
-    <string name="hide_templates_title">Cacher les modèles</string>
-    <string name="hide_templates_summary">Les modèles ne sont pas affichés</string>
+    <string name="hide_templates_title">Cacher les gabarits</string>
+    <string name="hide_templates_summary">Les gabarits ne sont pas affichés</string>
 </resources>

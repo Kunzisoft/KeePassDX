@@ -1,0 +1,23 @@
+KeePassDX on <b>salasõnalaegas ja -haldur</b>, mis võimaldab <b>muuta krüptitud andmeid avatud KeePass vormingus ühes failis</b> ja <b>täita vorme turvaliselt</b>, ei vaja <b>internetiühendust</b> ning järgib Androidi kujundus-standardeid. Rakendus on <b>avatud lähtekoodiga ja reklaamivaba</b>.
+
+<b>Funktsionaaldus</b>
+
+- Andmebaasi failide, kirjete ja gruppide loomine.
+- .kdb ja .kdbx failide tugi (versioonid 1 kuni 4) AES - Twofish - ChaCha20 - Argon2 algoritmidega.
+- Ühildub enamiku alternatiivsete prakendustega (KeePass, KeePassXC, KeeWeb, …).
+- Kiire võrguaadresside (URI / URL) väljade avamine ja kopeerimine.
+- Biomeetriline autentimine kiireks lukustuse eemaldamiseks (sõrmejälg / näotuvastus / …).
+- Ühekordsete slasõnade haldus (HOTP / TOTP) kahefaktorilise autentimise (2FA) jaoks.
+- MD kujunduskeel koos kujundustega.
+- Automaattäide ja lõiming.
+- Klahvistik väljade täitmiseks.
+- Dünaamilised mallid.
+- Iga kirje ajalugu.
+- Täpne seadistuste haldus.
+- Lähtekood on kirjutatud platvormiomases keeltes (Kotlin / Java / JNI / C).
+
+Parema teenuse ja kiirema arendustöö huvides saad sa annetada või osta pro versiooni: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Projekt areneb pidevalt. Ära kõhkle kontrollimast järgmiste arenduste olekut: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Veateated lisa palun siia: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

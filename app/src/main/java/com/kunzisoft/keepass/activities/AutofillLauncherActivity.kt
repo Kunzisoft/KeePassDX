@@ -124,41 +124,41 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         if (autofillComponent == null) {
             setResult(Activity.RESULT_CANCELED)
             finish()
-        } else if (!KeeAutofillService.autofillAllowedFor(
+        } else if (KeeAutofillService.autofillAllowedFor(
             applicationId = searchInfo.applicationId,
             webDomain = searchInfo.webDomain,
             context = this
         )) {
+            // If database is open
+            SearchHelper.checkAutoSearchInfo(this,
+                database,
+                searchInfo,
+                { openedDatabase, items ->
+                    // Items found
+                    AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
+                    finish()
+                },
+                { openedDatabase ->
+                    // Show the database UI to select the entry
+                    GroupActivity.launchForAutofillResult(this,
+                        openedDatabase,
+                        mAutofillActivityResultLauncher,
+                        autofillComponent,
+                        searchInfo,
+                        false)
+                },
+                {
+                    // If database not open
+                    FileDatabaseSelectActivity.launchForAutofillResult(this,
+                        mAutofillActivityResultLauncher,
+                        autofillComponent,
+                        searchInfo)
+                }
+            )
+        } else {
             showBlockRestartMessage()
             setResult(Activity.RESULT_CANCELED)
             finish()
-        } else {
-            // If database is open
-            SearchHelper.checkAutoSearchInfo(this,
-                    database,
-                    searchInfo,
-                    { openedDatabase, items ->
-                        // Items found
-                        AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
-                        finish()
-                    },
-                    { openedDatabase ->
-                        // Show the database UI to select the entry
-                        GroupActivity.launchForAutofillResult(this,
-                            openedDatabase,
-                            mAutofillActivityResultLauncher,
-                            autofillComponent,
-                            searchInfo,
-                            false)
-                    },
-                    {
-                        // If database not open
-                        FileDatabaseSelectActivity.launchForAutofillResult(this,
-                                mAutofillActivityResultLauncher,
-                                autofillComponent,
-                                searchInfo)
-                    }
-            )
         }
     }
 
@@ -169,40 +169,40 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 applicationId = searchInfo.applicationId,
                 webDomain = searchInfo.webDomain,
                 context = this
-            )) {
-            showBlockRestartMessage()
-            setResult(Activity.RESULT_CANCELED)
-        } else {
+        )) {
             val readOnly = database?.isReadOnly != false
             SearchHelper.checkAutoSearchInfo(this,
-                    database,
-                    searchInfo,
-                    { openedDatabase, _ ->
-                        if (!readOnly) {
-                            // Show the database UI to select the entry
-                            GroupActivity.launchForRegistration(this,
-                                openedDatabase,
-                                registerInfo)
-                        } else {
-                            showReadOnlySaveMessage()
-                        }
-                    },
-                    { openedDatabase ->
-                        if (!readOnly) {
-                            // Show the database UI to select the entry
-                            GroupActivity.launchForRegistration(this,
-                                openedDatabase,
-                                registerInfo)
-                        } else {
-                            showReadOnlySaveMessage()
-                        }
-                    },
-                    {
-                        // If database not open
-                        FileDatabaseSelectActivity.launchForRegistration(this,
-                                registerInfo)
+                database,
+                searchInfo,
+                { openedDatabase, _ ->
+                    if (!readOnly) {
+                        // Show the database UI to select the entry
+                        GroupActivity.launchForRegistration(this,
+                            openedDatabase,
+                            registerInfo)
+                    } else {
+                        showReadOnlySaveMessage()
                     }
+                },
+                { openedDatabase ->
+                    if (!readOnly) {
+                        // Show the database UI to select the entry
+                        GroupActivity.launchForRegistration(this,
+                            openedDatabase,
+                            registerInfo)
+                    } else {
+                        showReadOnlySaveMessage()
+                    }
+                },
+                {
+                    // If database not open
+                    FileDatabaseSelectActivity.launchForRegistration(this,
+                        registerInfo)
+                }
             )
+        } else {
+            showBlockRestartMessage()
+            setResult(Activity.RESULT_CANCELED)
         }
         finish()
     }

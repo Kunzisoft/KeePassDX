@@ -1,0 +1,23 @@
+KeePassDX je <b>trezor a správce hesel</b>, který umožňuje upravovat <b>šifrovaná data v jednom souboru</b> v otevřeném formátu KeePass a <b>bezpečně vyplňovat formuláře</b>, <b>nevyžaduje připojení k internetu</b> a integruje standardy designu systému Android. Aplikace je <b>open source a bez reklam</b>.
+
+<b>Funkce</b>
+
+- Vytváření databázových souborů / záznamů a skupin.
+- Podpora souborů .kdb a .kdbx (verze 1 až 4) s algoritmy AES - Twofish - ChaCha20 - Argon2.
+- Kompatibilní s většinou alternativních programů (KeePass, KeePassXC, KeeWeb, …).
+- Umožňuje rychlé otevírání a kopírování polí URI / URL.
+- Biometrické rozpoznávání pro rychlé odemykání (otisk prstu / rozpoznání obličeje / …).
+- Správa jednorázových hesel (HOTP / TOTP) pro dvoufaktorové ověřování (2FA).
+- Material Design s motivy.
+- Automatické vyplňování a integrace.
+- Klávesnice pro vyplňování polí.
+- Dynamické šablony.
+- Historie každého záznamu.
+- Přesná správa nastavení.
+- Kód napsaný v nativních jazycích (Kotlin / Java / JNI / C).
+
+Můžete přispět nebo si koupit profesionální verzi pro lepší služby a rychlejší vývoj funkcí, které si přejete: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Projekt se neustále vyvíjí. Neváhejte zkontrolovat stav vývoje dalších aktualizací: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Problémy hlaste na: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

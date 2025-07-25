@@ -32,7 +32,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -43,6 +42,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -81,10 +83,11 @@ import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
+import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 
 
-class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.BuilderListener {
+class MainCredentialActivity : DatabaseModeActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -166,21 +169,13 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
 
         // Listen password checkbox to init advanced unlock and confirmation button
-        mainCredentialView?.onPasswordChecked =
-            CompoundButton.OnCheckedChangeListener { _, _ ->
-                mAdvancedUnlockViewModel.checkUnlockAvailability()
-                enableConfirmationButton()
-            }
-        mainCredentialView?.onKeyFileChecked =
-            CompoundButton.OnCheckedChangeListener { _, _ ->
-                // TODO mAdvancedUnlockViewModel.checkUnlockAvailability()
-                enableConfirmationButton()
-            }
-        mainCredentialView?.onHardwareKeyChecked =
-            CompoundButton.OnCheckedChangeListener { _, _ ->
-                // TODO mAdvancedUnlockViewModel.checkUnlockAvailability()
-                enableConfirmationButton()
-            }
+        mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
+            mAdvancedUnlockViewModel.checkUnlockAvailability(
+                conditionToStoreCredentialVerified = verified
+            )
+            // TODO Async by ViewModel
+            enableConfirmationButton()
+        }
 
         // Observe if default database
         mDatabaseFileViewModel.isDefaultDatabase.observe(this) { isDefaultDatabase ->
@@ -227,6 +222,27 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
             filenameView?.text = databaseFile?.databaseAlias ?: ""
 
             onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri, hardwareKey)
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mAdvancedUnlockViewModel.uiState.collect { uiState ->
+                    // New value received
+                    if (uiState.isCredentialRequired) {
+                        mAdvancedUnlockViewModel.provideCredentialForEncryption(
+                            getCredentialForEncryption()
+                        )
+                    }
+                    uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
+                        onCredentialEncrypted(cipherEncryptDatabase)
+                        mAdvancedUnlockViewModel.consumeCredentialEncrypted()
+                    }
+                    uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
+                        onCredentialDecrypted(cipherDecryptDatabase)
+                        mAdvancedUnlockViewModel.consumeCredentialDecrypted()
+                    }
+                }
+            }
         }
     }
 
@@ -296,9 +312,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_LOAD_TASK -> {
-                // Recheck advanced unlock if error
-                mAdvancedUnlockViewModel.initAdvancedUnlockMode()
-
                 if (result.isSuccess) {
                     launchGroupActivityIfLoaded(database)
                 } else {
@@ -400,23 +413,6 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
     }
 
-    override fun retrieveCredentialForEncryption(): ByteArray {
-        return mainCredentialView?.retrieveCredentialForStorage(credentialStorageListener)
-            ?: byteArrayOf()
-    }
-
-    override fun conditionToStoreCredential(): Boolean {
-        return mainCredentialView?.conditionToStoreCredential() == true
-    }
-
-    override fun onCredentialEncrypted(cipherEncryptDatabase: CipherEncryptDatabase) {
-        // Load the database if password is registered with biometric
-        loadDatabase(mDatabaseFileUri,
-            mainCredentialView?.getMainCredential(),
-            cipherEncryptDatabase
-        )
-    }
-
     private val credentialStorageListener = object: MainCredentialView.CredentialStorageListener {
         override fun passwordToStore(password: String?): ByteArray? {
             return password?.toByteArray()
@@ -433,7 +429,20 @@ class MainCredentialActivity : DatabaseModeActivity(), AdvancedUnlockFragment.Bu
         }
     }
 
-    override fun onCredentialDecrypted(cipherDecryptDatabase: CipherDecryptDatabase) {
+    private fun getCredentialForEncryption(): ByteArray {
+        return mainCredentialView?.retrieveCredentialForStorage(credentialStorageListener)
+            ?: byteArrayOf()
+    }
+
+    private fun onCredentialEncrypted(cipherEncryptDatabase: CipherEncryptDatabase) {
+        // Load the database if password is registered with biometric
+        loadDatabase(mDatabaseFileUri,
+            mainCredentialView?.getMainCredential(),
+            cipherEncryptDatabase
+        )
+    }
+
+    private fun onCredentialDecrypted(cipherDecryptDatabase: CipherDecryptDatabase) {
         // Load the database if password is retrieve from biometric
         // Retrieve from biometric
         val mainCredential = mainCredentialView?.getMainCredential() ?: MainCredential()

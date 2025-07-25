@@ -24,52 +24,115 @@ import java.util.*
 
 class TemplateBuilder {
 
-    private val urlAttribute = TemplateAttribute(TemplateField.LABEL_URL, TemplateAttributeType.TEXT)
-    private val usernameAttribute = TemplateAttribute(TemplateField.LABEL_USERNAME, TemplateAttributeType.TEXT)
+    private val urlAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_URL,
+        type = TemplateAttributeType.TEXT
+    )
+    private val usernameAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_USERNAME,
+        type = TemplateAttributeType.TEXT
+    )
     private val notesAttribute = TemplateAttribute(
-        TemplateField.LABEL_NOTES,
-        TemplateAttributeType.TEXT,
-        false,
-        TemplateAttributeOption().apply {
+        label = TemplateField.LABEL_NOTES,
+        type = TemplateAttributeType.TEXT,
+        protected = false,
+        options = TemplateAttributeOption().apply {
             setNumberLinesToMany()
-        })
-    private val holderAttribute = TemplateAttribute(TemplateField.LABEL_HOLDER, TemplateAttributeType.TEXT)
-    private val numberAttribute = TemplateAttribute(TemplateField.LABEL_NUMBER, TemplateAttributeType.TEXT)
-    private val cvvAttribute = TemplateAttribute(TemplateField.LABEL_CVV, TemplateAttributeType.TEXT, true)
-    private val pinAttribute = TemplateAttribute(TemplateField.LABEL_PIN, TemplateAttributeType.TEXT, true)
-    private val nameAttribute = TemplateAttribute(TemplateField.LABEL_NAME, TemplateAttributeType.TEXT)
-    private val placeOfIssueAttribute = TemplateAttribute(TemplateField.LABEL_PLACE_OF_ISSUE, TemplateAttributeType.TEXT)
+        }
+    )
+    private val holderAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_HOLDER,
+        type = TemplateAttributeType.TEXT
+    )
+    private val numberAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_NUMBER,
+        type = TemplateAttributeType.TEXT
+    )
+    private val cvvAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_CVV,
+        type = TemplateAttributeType.TEXT,
+        protected = true
+    )
+    private val pinAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_PIN,
+        type = TemplateAttributeType.TEXT,
+        protected = true
+    )
+    private val nameAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_NAME,
+        type = TemplateAttributeType.TEXT
+    )
+    private val placeOfIssueAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_PLACE_OF_ISSUE,
+        type = TemplateAttributeType.TEXT
+    )
     private val dateOfIssueAttribute = TemplateAttribute(
-        TemplateField.LABEL_DATE_OF_ISSUE,
-        TemplateAttributeType.DATETIME,
-        false,
-        TemplateAttributeOption().apply {
+        label = TemplateField.LABEL_DATE_OF_ISSUE,
+        type = TemplateAttributeType.DATETIME,
+        protected = false,
+        options = TemplateAttributeOption().apply {
             setDateFormatToDate()
-        })
+        }
+    )
     private val expirationDateAttribute = TemplateAttribute(
-        TemplateField.LABEL_EXPIRATION,
-        TemplateAttributeType.DATETIME,
-        false,
-        TemplateAttributeOption().apply {
+        label = TemplateField.LABEL_EXPIRATION,
+        type = TemplateAttributeType.DATETIME,
+        protected = false,
+        options = TemplateAttributeOption().apply {
             setDateFormatToDate()
-        })
-    private val emailAddressAttribute = TemplateAttribute(TemplateField.LABEL_EMAIL_ADDRESS, TemplateAttributeType.TEXT)
-    private val passwordAttribute = TemplateAttribute(TemplateField.LABEL_PASSWORD, TemplateAttributeType.TEXT, true)
-    private val ssidAttribute = TemplateAttribute(TemplateField.LABEL_SSID, TemplateAttributeType.TEXT)
+        }
+    )
+    private val emailAddressAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_USERNAME,
+        type = TemplateAttributeType.TEXT,
+        options = TemplateAttributeOption().apply {
+            alias = TemplateField.LABEL_EMAIL_ADDRESS
+        }
+    )
+    private val passwordAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_PASSWORD,
+        type = TemplateAttributeType.TEXT,
+        protected = true
+    )
+    private val ssidAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_SSID,
+        type = TemplateAttributeType.TEXT
+    )
     private val wirelessTypeAttribute = TemplateAttribute(
-        TemplateField.LABEL_TYPE,
-        TemplateAttributeType.LIST,
-        false,
-        TemplateAttributeOption().apply{
+        label = TemplateField.LABEL_TYPE,
+        type = TemplateAttributeType.LIST,
+        protected = false,
+        options = TemplateAttributeOption().apply{
             setListItems("WPA3", "WPA2", "WPA", "WEP")
             default = "WPA2"
-        })
-    private val tokenAttribute = TemplateAttribute(TemplateField.LABEL_TOKEN, TemplateAttributeType.TEXT)
-    private val publicKeyAttribute = TemplateAttribute(TemplateField.LABEL_PUBLIC_KEY, TemplateAttributeType.TEXT)
-    private val privateKeyAttribute = TemplateAttribute(TemplateField.LABEL_PRIVATE_KEY, TemplateAttributeType.TEXT, true)
-    private val seedAttribute = TemplateAttribute(TemplateField.LABEL_SEED, TemplateAttributeType.TEXT, true)
-    private val bicAttribute = TemplateAttribute(TemplateField.LABEL_BIC, TemplateAttributeType.TEXT)
-    private val ibanAttribute = TemplateAttribute(TemplateField.LABEL_IBAN, TemplateAttributeType.TEXT)
+        }
+    )
+    private val tokenAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_TOKEN,
+        type = TemplateAttributeType.TEXT
+    )
+    private val publicKeyAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_PUBLIC_KEY,
+        type = TemplateAttributeType.TEXT
+    )
+    private val privateKeyAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_PRIVATE_KEY,
+        type = TemplateAttributeType.TEXT,
+        protected = true
+    )
+    private val seedAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_SEED,
+        type = TemplateAttributeType.TEXT,
+        protected = true
+    )
+    private val bicAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_BIC,
+        type = TemplateAttributeType.TEXT
+    )
+    private val ibanAttribute = TemplateAttribute(
+        label = TemplateField.LABEL_IBAN,
+        type = TemplateAttributeType.TEXT
+    )
 
     val email: Template
         get() {

@@ -892,6 +892,7 @@ open class Database {
         return mSearchHelper.createVirtualGroupWithSearchResult(this,
                 SearchParameters().apply {
                     searchQuery = searchInfoString
+                    allowEmptyQuery = false
                     searchInTitles = true
                     searchInUsernames = false
                     searchInPasswords = false

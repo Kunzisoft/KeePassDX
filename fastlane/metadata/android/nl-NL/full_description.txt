@@ -1,0 +1,23 @@
+KeePassDX is een <b>wachtwoordkluis en -manager</b> voor het bewerken van <b>versleutelde gegevens in één bestand</b> in het open KeePass-formaat en waarmee je <b>op een veilige manier inlogvelden vult</b>, <b>zonder internetverbinding</b> en geheel volgens de Android ontwerpstandaarden. De app is <b>open source, zonder advertenties</b>.
+
+<b>Functies</b>
+
+- Aanmaken van databasebestanden, -items en -groepen.
+- Ondersteuning voor .kdb en .kdbx bestanden (version 1 t/m 4) met AES - Twofish - ChaCha20 - Argon2 algoritme.
+- Compatibel met de meeste alternatieve programma's (KeePass, KeePassXC, KeeWeb, …).
+- Snel openen en kopiëren van URI / URL-velden.
+- Biometrische herkenning voor snelle ontgrendeling (vingerafdruk / gezichtsherkenning / …).
+- Beheer van eenmalige wachtwoorden (HOTP / TOTP) voor twee-factor-authenticatie (2FA).
+- Material design thema's.
+- Automatisch invullen en integratie.
+- Toestenbord voor invulling van velden.
+- Dynamische sjablonen.
+- Geschiedenis van elke invoer.
+- Nauwkeurig beheer van instellingen.
+- Code geschreven in moderne programmeertalen (Kotlin / Java / JNI / C).
+
+Je kunt doneren of de pro-versie kopen voor betere ondersteuning en een snelle ontwikkeling van de functies die je wilt: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Het project is voortdurend in ontwikkeling. Bekijk gerust de ontwikkelingsstatus van de volgende updates op: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Meld problemen bij: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

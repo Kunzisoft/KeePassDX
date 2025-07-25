@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contact">Контакт</string>
+    <string name="info">Инфо:</string>
+    <string name="contribution">Придонес</string>
+    <string name="feedback">Повратни информации</string>
+    <string name="homepage">Дома</string>
+    <string name="about_description">Имплементација на менаџерот за лозинки KeePass за Android</string>
+    <string name="accept">Прифати</string>
+    <string name="edit_entry">Уреди запис</string>
+    <string name="add_group">Додади група</string>
+    <string name="master_key">Главен клуч</string>
+    <string name="security">Безбедност</string>
+    <string name="encryption">Енкрипција</string>
+    <string name="encryption_algorithm">Енкрипциски алгоритам</string>
+    <string name="key_derivation_function">Функција за изведување на клучеви</string>
+    <string name="app_timeout">Истекување на времето</string>
+    <string name="app_timeout_summary">Време на мирување пред заклучување на базата</string>
+    <string name="application">Апликација</string>
+    <string name="brackets">Загради</string>
+    <string name="extended_ASCII">Проширен ASCII</string>
+    <string name="file_manager_install_description">За креирање, отворање и зачувување на датотеки од базата е потребен менаџер на датотеки што ги прифаќа ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT.</string>
+    <string name="allow">Дозволи</string>
+    <string name="clipboard_cleared">Clipboard исчистенa</string>
+    <string name="clipboard_error_title">Clipboard проблем</string>
+    <string name="clipboard_error">Некои уреди не дозволуваат апликациите да ја користат clipboard.</string>
+    <string name="clipboard_error_clear">Не може да се исчисти clipboard</string>
+    <string name="clipboard_timeout">Clipboard тајмаут</string>
+    <string name="clipboard_timeout_summary">Времетраење на складирањето во clipboard (доколку е поддржано од вашиот уред)</string>
+    <string name="content_description_background">Позадина</string>
+    <string name="content_description_open_file">Отвори датотека</string>
+    <string name="content_description_node_children">Поддеца</string>
+    <string name="content_description_add_node">Додај јазол</string>
+    <string name="content_description_add_entry">Додај запис</string>
+    <string name="content_description_add_group">Додади група</string>
+    <string name="content_description_add_item">Додај ставка</string>
+    <string name="content_description_file_information">Информации за датотеката</string>
+</resources>
