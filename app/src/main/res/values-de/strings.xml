@@ -711,4 +711,5 @@
     <string name="warning_large_keyfile">Es wird nicht empfohlen, eine große Schlüsseldatei hinzuzufügen, da dies das Öffnen der Datenbank verhindern kann.</string>
     <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
+    <string name="error_otp_secret_length">Geheimschlüssel muss mindestens %1$d Zeichen lang sein.</string>
 </resources>
