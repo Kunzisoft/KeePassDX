@@ -708,4 +708,5 @@
     <string name="hide_templates_summary">A sablonok nem jelennek meg</string>
     <string name="generate_keyfile">Kulcsfájl előállítása</string>
     <string name="hide_templates_title">Sablonok elrejtése</string>
+    <string name="error_otp_secret_length">A titkos kulcsnak legalább %1$d karakterből kell állnia.</string>
 </resources>
