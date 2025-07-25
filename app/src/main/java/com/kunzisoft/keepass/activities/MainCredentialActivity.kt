@@ -169,7 +169,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         // Listen password checkbox to init advanced unlock and confirmation button
-        mainCredentialView?.onConditionToStoreCredentialChanged = { credentialStorage, verified ->
+        mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
             mAdvancedUnlockViewModel.checkUnlockAvailability(
                 conditionToStoreCredentialVerified = verified
             )
