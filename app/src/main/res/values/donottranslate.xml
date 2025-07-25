@@ -267,6 +267,7 @@
     <string name="settings_database_key" translatable="false">settings_database_key</string>
     <string name="settings_database_security_key" translatable="false">settings_database_security_key</string>
     <string name="settings_database_credentials_key" translatable="false">settings_database_credentials_key</string>
+    <string name="settings_sync_key" translatable="false">settings_sync_key</string>
 
     <string name="database_category_general_key" translatable="false">database_category_general_key</string>
     <string name="database_name_key" translatable="false">database_name_key</string>
