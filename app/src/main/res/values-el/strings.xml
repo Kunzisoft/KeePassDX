@@ -708,4 +708,5 @@
     <string name="warning_large_keyfile">Δεν συνιστάται η προσθήκη μεγάλου αρχείου κλειδιού, αυτό μπορεί να εμποδίσει το άνοιγμα της βάσης δεδομένων.</string>
     <string name="hide_templates_summary">Τα πρότυπα δεν εμφανίζονται</string>
     <string name="recursive_number_entries_title">Αναδρομικός αριθμός καταχωρήσεων</string>
+    <string name="error_otp_secret_length">Το μυστικό κλειδί πρέπει να έχει τουλάχιστον %1$d χαρακτήρες.</string>
 </resources>
