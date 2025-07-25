@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.text.Editable
 import android.text.InputType
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -78,6 +76,7 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
         passwordInputLayout = findViewById(R.id.password_edit_input_layout)
         passwordInputLayout?.hint = mViewHint
         passwordText = findViewById(R.id.password_edit_text)
+        passwordText.filters += PasswordGenerator.passwordStylingInputFilter
         if (mShowPassword) {
             passwordText?.inputType = passwordText.inputType or
                     InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -116,7 +115,6 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
                     it.afterTextChanged(editable)
                 }
                 getEntropyStrength(editable.toString())
-                PasswordGenerator.colorizedPassword(editable)
             }
         }
         passwordText?.addTextChangedListener(mPasswordTextWatcher)
@@ -146,18 +144,11 @@ class PasswordEditView @JvmOverloads constructor(context: Context,
         mPasswordTextWatchers.remove(textWatcher)
     }
 
-    private fun spannableValue(value: String): Spannable {
-        return if (PreferencesUtil.colorizePassword(context))
-            PasswordGenerator.getColorizedPassword(value)
-        else
-            SpannableString(value)
-    }
-
     var passwordString: String
         get() {
             return passwordText.text.toString()
         }
         set(value) {
-            passwordText.setText(spannableValue(value))
+            passwordText.setText(value)
         }
 }
