@@ -710,4 +710,5 @@
     <string name="recursive_number_entries_title">Recursief aantal items</string>
     <string name="recursive_number_entries_summary">Berekent recursief het aantal items in een groep</string>
     <string name="warning_large_keyfile">Het is niet verstandig om een groot sleutelbestand toe te voegen, aangezien dit het openen van de database kan belemmeren.</string>
+    <string name="error_otp_secret_length">Geheime sleutel moet minimaal %1$d tekens bevatten.</string>
 </resources>
