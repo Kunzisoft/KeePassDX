@@ -2,3 +2,4 @@
  * Correction des erreurs biométriques #2081
  * Correction du timestamp dans le fichier de copie #1981 #1983
  * Correction des gabaris Email #1986
+ * Correction de la recherche #2096

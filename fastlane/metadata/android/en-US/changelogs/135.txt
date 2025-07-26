@@ -2,3 +2,4 @@
  * Fix Biometric errors #2081
  * Fixed timestamp in copy file #1981 #1983
  * Fix Template Email #1986
+ * Fix Search #2096
