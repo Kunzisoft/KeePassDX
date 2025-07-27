@@ -6,6 +6,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 data class DatabaseFile(var databaseUri: Uri? = null,
                         var keyFileUri: Uri? = null,
                         var hardwareKey: HardwareKey? = null,
+                        var readOnly: Boolean? = null,
                         var databaseDecodedPath: String? = null,
                         var databaseAlias: String? = null,
                         var databaseFileExists: Boolean = false,

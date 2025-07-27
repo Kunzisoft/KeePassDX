@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
@@ -196,6 +197,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 View.GONE
             }
             mForceReadOnly = databaseFileNotExists
+
+            // Restore read-only state from database file if not forced
+            if (!mForceReadOnly) {
+                databaseFile?.readOnly?.let { savedReadOnlyState ->
+                    mReadOnly = savedReadOnlyState
+                }
+            }
 
             invalidateOptionsMenu()
 
@@ -694,6 +702,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
             R.id.menu_open_file_read_mode_key -> {
                 mReadOnly = !mReadOnly
                 changeOpenFileReadIcon(item)
+                // Save the read-only state to database
+                mDatabaseFileUri?.let { databaseUri ->
+                    FileDatabaseHistoryAction.getInstance(applicationContext).addOrUpdateDatabaseFile(
+                        DatabaseFile(databaseUri = databaseUri, readOnly = mReadOnly)
+                    )
+                }
             }
             else -> MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }
