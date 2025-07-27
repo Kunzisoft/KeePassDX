@@ -38,6 +38,9 @@ data class FileDatabaseHistoryEntity(
         @ColumnInfo(name = "hardware_key")
             var hardwareKey: String?,
 
+        @ColumnInfo(name = "read_only")
+            var readOnly: Boolean?,
+
         @ColumnInfo(name = "updated")
             val updated: Long
 ) {
