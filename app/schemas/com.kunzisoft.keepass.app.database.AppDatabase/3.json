@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "a20aec7cf09664b1102ec659fa51160a",
+    "entities": [
+      {
+        "tableName": "file_database_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`database_uri` TEXT NOT NULL, `database_alias` TEXT NOT NULL, `keyfile_uri` TEXT, `hardware_key` TEXT, `read_only` INTEGER, `updated` INTEGER NOT NULL, PRIMARY KEY(`database_uri`))",
+        "fields": [
+          {
+            "fieldPath": "databaseUri",
+            "columnName": "database_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "databaseAlias",
+            "columnName": "database_alias",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "keyFileUri",
+            "columnName": "keyfile_uri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "hardwareKey",
+            "columnName": "hardware_key",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "readOnly",
+            "columnName": "read_only",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updated",
+            "columnName": "updated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "database_uri"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "cipher_database",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`database_uri` TEXT NOT NULL, `encrypted_value` TEXT NOT NULL, `specs_parameters` TEXT NOT NULL, PRIMARY KEY(`database_uri`))",
+        "fields": [
+          {
+            "fieldPath": "databaseUri",
+            "columnName": "database_uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "encryptedValue",
+            "columnName": "encrypted_value",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "specParameters",
+            "columnName": "specs_parameters",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "database_uri"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a20aec7cf09664b1102ec659fa51160a')"
+    ]
+  }
+}
