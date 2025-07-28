@@ -215,7 +215,9 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
             passphrase = PassphraseGenerator().generatePassphrase(
                 getWordCount(),
                 getWordSeparator(),
-                getWordCase())
+                getWordCase(),
+                PassphraseGenerator.SeparatorType.CUSTOM_VALUE,
+                1)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a passphrase", e)
         }
