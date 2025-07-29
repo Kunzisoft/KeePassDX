@@ -699,4 +699,5 @@
     <string name="style_name_kunzite">クンツァイト</string>
     <string name="hide_templates_title">テンプレートを非表示にする</string>
     <string name="hide_templates_summary">テンプレートは表示されません</string>
+    <string name="error_otp_secret_length">秘密鍵は少なくとも %1$d 文字以上でないといけません。</string>
 </resources>
