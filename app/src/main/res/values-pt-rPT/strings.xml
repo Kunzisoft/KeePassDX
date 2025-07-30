@@ -708,4 +708,5 @@
     <string name="warning_large_keyfile">Não é recomendado adicionar um ficheiro-chave grande, pois isso pode impedir a abertura do banco de dados.</string>
     <string name="hide_templates_title">Ocultar modelos</string>
     <string name="hide_templates_summary">Os modelos não são mostrados</string>
+    <string name="error_otp_secret_length">Chave secreta deve ter pelo menos %1$d caracteres.</string>
 </resources>
