@@ -263,7 +263,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     GroupActivity.launch(
                         this@FileDatabaseSelectActivity,
                         database,
-                        PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity)
+                        false
                     )
                 }
                 ACTION_DATABASE_LOAD_TASK -> {

@@ -33,11 +33,6 @@
             android:summary="@string/delete_entered_password_summary"
             android:defaultValue="@bool/delete_entered_password_default"/>
         <SwitchPreferenceCompat
-            android:key="@string/enable_read_only_key"
-            android:title="@string/enable_read_only_title"
-            android:summary="@string/enable_read_only_summary"
-            android:defaultValue="@bool/enable_read_only_default"/>
-        <SwitchPreferenceCompat
             android:key="@string/enable_auto_save_database_key"
             android:title="@string/enable_auto_save_database_title"
             android:summary="@string/enable_auto_save_database_summary"
