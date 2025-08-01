@@ -568,8 +568,6 @@
     <string name="allow_no_password_summary">Cho phép nhấn vào nút \"Mở\" nếu không có thông tin xác thực nào được chọn</string>
     <string name="delete_entered_password_title">Xóa mật khẩu</string>
     <string name="delete_entered_password_summary">Xóa mật khẩu đã nhập sau khi cố gắng kết nối với cơ sở dữ liệu</string>
-    <string name="enable_read_only_title">Bảo vệ chống ghi</string>
-    <string name="enable_read_only_summary">Mở cơ sở dữ liệu ở chế độ chỉ đọc theo mặc định</string>
     <string name="enable_auto_save_database_title">Tự động lưu cơ sở dữ liệu</string>
     <string name="enable_auto_save_database_summary">Lưu cơ sở dữ liệu sau mỗi hành động quan trọng (ở chế độ \"Có thể sửa đổi\")</string>
     <string name="enable_keep_screen_on_title">Giữ màn hình luôn bật</string>

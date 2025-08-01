@@ -269,8 +269,6 @@
     <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" se não estiverem selecionadas nenhumas credenciais</string>
     <string name="enable_education_screens_title">Dicas educacionais</string>
     <string name="enable_education_screens_summary">Destacar elementos para saber como a aplicação funciona</string>
-    <string name="enable_read_only_title">Apenas leitura</string>
-    <string name="enable_read_only_summary">Abrir a base de dados com permissão de apenas leitura por predefinição</string>
     <string name="education_read_only_title">Proteger a base de dados contra alterações</string>
     <string name="education_read_only_summary">Altere o modo de abertura para a sessão.
 \n

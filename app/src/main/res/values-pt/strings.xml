@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="enable_read_only_summary">Abrir a base de dados com permissão de apenas leitura por predefinição</string>
-    <string name="enable_read_only_title">Apenas leitura</string>
     <string name="menu_open_file_read_and_write">Alterável</string>
     <string name="menu_file_selection_read_only">Apenas leitura</string>
     <string name="enable_education_screens_summary">Destacar elementos para saber como a aplicação funciona</string>

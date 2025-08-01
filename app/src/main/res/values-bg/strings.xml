@@ -352,7 +352,6 @@
     <string name="keyboard_setting_label">Настройки на Magikeyboard</string>
     <string name="keyboard_selection_entry_title">Избор на записи</string>
     <string name="allow_no_password_title">Разрешаване без главна парола</string>
-    <string name="enable_read_only_title">Само за четене</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_content_title">Записът %1$s е достъпен в Magikeyboard</string>
     <string name="keyboard_notification_entry_content_title_text">Запис</string>
@@ -402,7 +401,6 @@
     <string name="lock_database_show_button_title">Бутон за заключване</string>
     <string name="autofill_explanation_summary">Включете услугата за попълване на формуляри в други приложения</string>
     <string name="properties">Свойства</string>
-    <string name="enable_read_only_summary">По подразбиране отваря хранилището само за четене</string>
     <string name="education_validate_entry_summary">Не забравяйте да потвърдите записа и да го запазите в хранилището.
 \n
 \nАко се задейства автоматичното заключване, а сте направили промени, рискувате загуба на данни.</string>

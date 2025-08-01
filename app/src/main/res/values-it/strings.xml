@@ -222,8 +222,6 @@
     <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che inserisce le tue password e i campi di identità</string>
     <string name="allow_no_password_title">Non consentire chiavi principali</string>
     <string name="allow_no_password_summary">Permetti di toccare il pulsante \"Apri\" se non sono selezionate credenziali</string>
-    <string name="enable_read_only_title">Protetto da scrittura</string>
-    <string name="enable_read_only_summary">Apri il database in sola lettura in modo predefinito</string>
     <string name="enable_education_screens_title">Suggerimenti educativi</string>
     <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
     <string name="reset_education_screens_title">Ripristina i suggerimenti educativi</string>

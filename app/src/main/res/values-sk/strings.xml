@@ -620,8 +620,6 @@
     <string name="allow_no_password_summary">Umožňuje klepnúť na tlačidlo „Otvoriť“, ak nie sú vybraté žiadne poverenia</string>
     <string name="delete_entered_password_title">Vymazať heslo</string>
     <string name="delete_entered_password_summary">Odstráni heslo zadané po pokuse o pripojenie k databáze</string>
-    <string name="enable_read_only_title">Ochrana proti zápisu</string>
-    <string name="enable_read_only_summary">V predvolenom nastavení otvorte databázu len na čítanie</string>
     <string name="enable_keep_screen_on_title">Nechajte obrazovku zapnutú</string>
     <string name="enable_keep_screen_on_summary">Pri sledovaní alebo úprave záznamu ponechať obrazovku zapnutú</string>
     <string name="enable_screenshot_mode_title">Režim snímky obrazovky</string>

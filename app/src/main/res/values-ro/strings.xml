@@ -336,8 +336,6 @@
     <string name="allow_no_password_summary">Permite apăsarea butonului \"Deschidere\" în cazul în care nu sunt selectate credențiale</string>
     <string name="delete_entered_password_title">Ștergere parolă</string>
     <string name="delete_entered_password_summary">Șterge parola introdusă după o încercare de conectare la o bază de date</string>
-    <string name="enable_read_only_title">Protejat la scriere</string>
-    <string name="enable_read_only_summary">Deschideți baza de date numai în citire în mod implicit</string>
     <string name="enable_auto_save_database_title">Salvare automată a bazei de date</string>
     <string name="enable_auto_save_database_summary">Salvați baza de date după fiecare acțiune importantă (în modul \"Modificabil\")</string>
     <string name="enable_education_screens_title">Sugestii educaționale</string>

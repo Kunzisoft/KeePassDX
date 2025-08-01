@@ -556,7 +556,6 @@
     <string name="enable_auto_save_database_title">Gardar base de datos automaticamente</string>
     <string name="enable_keep_screen_on_title">Manter a pantalla acesa</string>
     <string name="allow_no_password_summary">Permitir pulsar o botón \"Abrir\" se non seleccionar ningunha credencial</string>
-    <string name="enable_read_only_title">Só lectura</string>
     <string name="enable_education_screens_summary">Destacar elementos para saber como funciona a aplicación</string>
     <string name="reset_education_screens_text">Suxestións educativas restabelecidas</string>
     <string name="education_create_database_title">Crear o teu arquivo de base de datos</string>
@@ -593,7 +592,6 @@
     <string name="education_entry_new_field_title">Engadir campos personalizados</string>
     <string name="menu_form_filling_settings">Completado de formularios</string>
     <string name="keyboard_notification_entry_content_title">%1$s dispoñíbel no Magikeyboard</string>
-    <string name="enable_read_only_summary">Abrir a base de datos en modo de só lectura por defecto</string>
     <string name="education_setup_OTP_summary">Configure a xestión do contrasinal dun só uso (HOTP / TOTP) para xerar un token solicitado para a autenticación de dous factores (2FA).</string>
     <string name="education_unlock_title">Desbloquee a súa base de datos</string>
     <string name="delete_entered_password_title">Eliminar contrasinal</string>
