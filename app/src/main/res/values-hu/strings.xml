@@ -245,8 +245,6 @@
     <string name="keyboard_key_sound_title">Hang gombnyomáskor</string>
     <string name="allow_no_password_title">Mesterkulcs elhagyásának engedélyezése</string>
     <string name="allow_no_password_summary">A „Megnyitás” gomb engedélyezése, ha nincsenek hitelesítő adatok kiválasztva</string>
-    <string name="enable_read_only_title">Írásvédett</string>
-    <string name="enable_read_only_summary">Az adatbázis megnyitása alapértelmezetten írásvédett módban</string>
     <string name="enable_education_screens_title">Oktatóképernyők</string>
     <string name="enable_education_screens_summary">Elemek kiemelése, hogy megtudja hogyan működik az alkalmazás</string>
     <string name="reset_education_screens_title">Oktatóképernyők visszaállítása</string>

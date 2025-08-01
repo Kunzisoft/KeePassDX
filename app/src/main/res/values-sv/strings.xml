@@ -279,8 +279,6 @@
     <string name="enable_education_screens_summary">Markerar element för att lära dig hur appen fungerar</string>
     <string name="menu_file_selection_read_only">Skrivskyddad</string>
     <string name="menu_open_file_read_and_write">Modifierbar</string>
-    <string name="enable_read_only_title">Skrivskyddad</string>
-    <string name="enable_read_only_summary">Öppna databasen i skrivskyddat läge som standard</string>
     <string name="education_read_only_title">Skrivskydda din databas</string>
     <string name="education_read_only_summary">Ändra öppningsläge för sessionen.
 \n

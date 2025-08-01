@@ -259,8 +259,6 @@
     <string name="enable_education_screens_summary">Επισήμανση στοιχείων για να μάθετε πώς λειτουργεί η εφαρμογή</string>
     <string name="menu_file_selection_read_only">Προστασία εγγραφής</string>
     <string name="menu_open_file_read_and_write">Τροποποιήσιμο</string>
-    <string name="enable_read_only_title">Προστασία Εγγραφής</string>
-    <string name="enable_read_only_summary">Ανοίξτε τη βάση δεδομένων μόνο για ανάγνωση από προεπιλογή</string>
     <string name="education_read_only_title">Προστασία Εγγραφής της βάσης δεδομένων σας</string>
     <string name="education_read_only_summary">Αλλάξτε τη λειτουργία ανοίγματος για το session.
 \n

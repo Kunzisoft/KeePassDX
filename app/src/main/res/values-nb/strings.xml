@@ -218,8 +218,6 @@
     <string name="magic_keyboard_explanation_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillat ingen hovednøkkel</string>
     <string name="allow_no_password_summary">Tillater å trykke på \"Åpne\"-knappen hvis ingen legitimasjon er valgt</string>
-    <string name="enable_read_only_title">Skrivebeskyttet</string>
-    <string name="enable_read_only_summary">Åpne databasen skrivebeskyttet som standard</string>
     <string name="enable_education_screens_title">Lærerike tips</string>
     <string name="enable_education_screens_summary">Fremhev elementer for å finne ut hvordan appen fungerer</string>
     <string name="reset_education_screens_title">Tilbakestill lærerike tips</string>
