@@ -67,8 +67,6 @@
     <bool name="allow_no_password_default" translatable="false">false</bool>
     <string name="delete_entered_password_key" translatable="false">delete_entered_password_key</string>
     <bool name="delete_entered_password_default" translatable="false">true</bool>
-    <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
-    <bool name="enable_read_only_default" translatable="false">false</bool>
     <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
     <string name="enable_keep_screen_on_key" translatable="false">enable_keep_screen_on_key</string>

@@ -26,10 +26,11 @@ import android.content.Context
 import androidx.room.AutoMigration
 
 @Database(
-    version = 2,
+    version = 3,
     entities = [FileDatabaseHistoryEntity::class, CipherDatabaseEntity::class],
     autoMigrations = [
-        AutoMigration (from = 1, to = 2)
+        AutoMigration (from = 1, to = 2),
+        AutoMigration (from = 2, to = 3)
     ]
 )
 abstract class AppDatabase : RoomDatabase() {

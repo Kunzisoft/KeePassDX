@@ -618,12 +618,6 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.allow_no_password_default))
     }
 
-    fun enableReadOnlyDatabase(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.enable_read_only_key),
-            context.resources.getBoolean(R.bool.enable_read_only_default))
-    }
-
     fun deletePasswordAfterConnexionAttempt(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.delete_entered_password_key),
@@ -804,7 +798,6 @@ object PreferencesUtil {
             when (name) {
                 context.getString(R.string.allow_no_password_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.delete_entered_password_key) -> editor.putBoolean(name, value.toBoolean())
-                context.getString(R.string.enable_read_only_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_auto_save_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.enable_keep_screen_on_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.auto_focus_search_key) -> editor.putBoolean(name, value.toBoolean())

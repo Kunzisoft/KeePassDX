@@ -471,8 +471,6 @@
     <string name="menu_database_settings_summary">Metadades, paperera de reciclatge, plantilles, historial</string>
     <string name="encryption_explanation">Algorisme de xifratge de la base de dades utilitzat per a totes les dades</string>
     <string name="delete_entered_password_summary">Suprimeix la contrasenya introduïda després d\'un intent de connexió a una base de dades</string>
-    <string name="enable_read_only_title">Protegit contra l\'escriptura</string>
-    <string name="enable_read_only_summary">Obre la base de dades en mode només de lectura per defecte</string>
     <string name="enable_screenshot_mode_summary">Permet que les aplicacions de tercers gravin o facin captures de pantalla de l\'aplicació</string>
     <string name="enable_education_screens_summary">Ressalta els elements per saber com funciona l\'aplicació</string>
     <string name="reset_education_screens_title">Reinicia els consells educatius</string>

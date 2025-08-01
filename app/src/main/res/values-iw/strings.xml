@@ -334,7 +334,6 @@
     <string name="allow_copy_password_warning">אזהרה: לוח ההעתקה משותף לכל היישומים. אם מידע רגיש יועתק, תוכנות אחרות עשויות לשחזר אותו.</string>
     <string name="disable">השבת</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
-    <string name="enable_read_only_title">מוגן מפני כתיבה</string>
     <string name="keyboard_notification_entry_clear_close_title">נקה בסגירה</string>
     <string name="keyboard_notification_entry_content_title_text">רשומה</string>
     <string name="keyboard_notification_entry_content_title">%1$s זמין ב־Magikeyboard</string>
@@ -469,7 +468,6 @@
     <string name="keyboard_auto_go_action_title">פעולת מקש אוטומטית</string>
     <string name="allow_no_password_title">אפשר עבודה ללא מפתח ראשי</string>
     <string name="allow_no_password_summary">מאפשר הקשה על הכפתור \"פתח\" אם לא נבחרו אישורים</string>
-    <string name="enable_read_only_summary">פתח את מסד הנתונים לקריאה בלבד כברירת מחדל</string>
     <string name="delete_entered_password_title">מחק סיסמה</string>
     <string name="delete_entered_password_summary">מוחק את הסיסמה שהוזנה לאחר ניסיון התחברות למסד נתונים</string>
     <string name="reset_education_screens_summary">הראה שוב את כל המידע הלימודי</string>

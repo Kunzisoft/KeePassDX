@@ -226,8 +226,6 @@
     <string name="magic_keyboard_explanation_summary">Активируйте пользовательскую клавиатуру для простого заполнения паролей и любых идентификаторов</string>
     <string name="allow_no_password_title">Разрешить без главного пароля</string>
     <string name="allow_no_password_summary">Разрешить нажимать кнопку \"Открыть\", если главный пароль не указан</string>
-    <string name="enable_read_only_title">Только чтение</string>
-    <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Обучающие подсказки</string>
     <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
     <string name="reset_education_screens_title">Вернуть обучающие подсказки</string>
