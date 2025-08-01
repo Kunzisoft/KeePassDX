@@ -148,7 +148,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
             savedInstanceState.getBoolean(KEY_READ_ONLY)
         } else {
-            PreferencesUtil.enableReadOnlyDatabase(this)
+            false
         }
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
         mRememberHardwareKey = PreferencesUtil.rememberHardwareKey(this)
