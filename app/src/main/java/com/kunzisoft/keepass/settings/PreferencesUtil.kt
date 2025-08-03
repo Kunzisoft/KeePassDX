@@ -538,6 +538,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))
     }
 
+    fun isPreferAdvancedUnlockPromptEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.prefer_biometric_prompt_key),
+            context.resources.getBoolean(R.bool.prefer_biometric_prompt_default))
+    }
+
     fun getListSort(context: Context): SortNodeEnum {
         try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)

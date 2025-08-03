@@ -105,6 +105,8 @@
     <bool name="device_credential_unlock_enable_default" translatable="false">false</bool>
     <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
     <bool name="biometric_auto_open_prompt_default" translatable="false">true</bool>
+    <string name="prefer_biometric_prompt_key" translatable="false">prefer_biometric_prompt_key</string>
+    <bool name="prefer_biometric_prompt_default" translatable="false">false</bool>
     <string name="temp_advanced_unlock_enable_key" translatable="false">temp_advanced_unlock_enable_key</string>
     <bool name="temp_advanced_unlock_enable_default" translatable="false">false</bool>
     <string name="temp_advanced_unlock_timeout_key" translatable="false">temp_advanced_unlock_timeout_key</string>

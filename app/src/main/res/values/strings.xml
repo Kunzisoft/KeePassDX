@@ -453,6 +453,8 @@
     <string name="device_credential_unlock_enable_summary">Lets you use your device credential to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto-open prompt</string>
     <string name="biometric_auto_open_prompt_summary">Automatically request device unlock if the database is set up to use it</string>
+    <string name="prefer_biometric_prompt_title">Prefer biometric prompt</string>
+    <string name="prefer_biometric_prompt_summary">Show the biometric prompt if auto-open is enabled and biometrics were previously used for unlock</string>
     <string name="temp_advanced_unlock_enable_title">Temp device unlocking</string>
     <string name="temp_advanced_unlock_enable_summary">Do not store any encrypted content to use device unlocking</string>
     <string name="temp_advanced_unlock_timeout_title">Device unlocking expiration</string>

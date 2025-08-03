@@ -60,6 +60,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
 
     private var mAdvancedUnlockEnabled = false
     private var mAutoOpenPromptEnabled = false
+    private var mPreferAdvancedUnlockPrompt = false
 
     private var advancedUnlockManager: AdvancedUnlockManager? = null
     private var biometricMode: Mode = Mode.BIOMETRIC_UNAVAILABLE
@@ -174,6 +175,7 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
         context?.let {
             mAdvancedUnlockEnabled = PreferencesUtil.isAdvancedUnlockEnable(it)
             mAutoOpenPromptEnabled = PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(it)
+            mPreferAdvancedUnlockPrompt = PreferencesUtil.isPreferAdvancedUnlockPromptEnable(it)
         }
         keepConnection = false
     }
@@ -407,7 +409,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                             // Auto open the biometric prompt
                             if (mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt
                                 && mAutoOpenPromptEnabled) {
-                                mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
+                                if (! mPreferAdvancedUnlockPrompt) {
+                                    mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
+                                }
                                 openAdvancedUnlockPrompt(cryptoPrompt)
                             }
                         }
@@ -541,6 +545,9 @@ class AdvancedUnlockFragment: Fragment(), AdvancedUnlockManager.AdvancedUnlockCa
                             cipherDatabase?.encryptedValue?.let { value ->
                                 advancedUnlockManager?.decryptData(value)
                             } ?: deleteEncryptedDatabaseKey()
+                            if (mAutoOpenPromptEnabled && mPreferAdvancedUnlockPrompt) {
+                                mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = true
+                            }
                         }
                     } ?: run {
                         onAuthenticationError(-1, getString(R.string.error_database_uri_null))
