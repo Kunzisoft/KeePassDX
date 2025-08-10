@@ -55,8 +55,8 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.biometric.AdvancedUnlockFragment
-import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
+import com.kunzisoft.keepass.biometric.DeviceUnlockFragment
+import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -81,7 +81,7 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.viewmodels.AdvancedUnlockViewModel
+import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
@@ -98,10 +98,10 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var confirmButtonView: Button? = null
     private var infoContainerView: ViewGroup? = null
     private lateinit var coordinatorLayout: CoordinatorLayout
-    private var advancedUnlockFragment: AdvancedUnlockFragment? = null
+    private var deviceUnlockFragment: DeviceUnlockFragment? = null
 
     private val mDatabaseFileViewModel: DatabaseFileViewModel by viewModels()
-    private val mAdvancedUnlockViewModel: AdvancedUnlockViewModel by viewModels()
+    private val mDeviceUnlockViewModel: DeviceUnlockViewModel by viewModels()
 
     private val mPasswordActivityEducation = PasswordActivityEducation(this)
 
@@ -170,8 +170,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         // Listen password checkbox to init advanced unlock and confirmation button
         mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
-            mAdvancedUnlockViewModel.checkUnlockAvailability(
-                conditionToStoreCredentialVerified = verified
+            mDeviceUnlockViewModel.checkConditionToStoreCredential(
+                condition = verified,
+                databaseFileUri = mDatabaseFileUri
             )
             // TODO Async by ViewModel
             enableConfirmationButton()
@@ -226,20 +227,22 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mAdvancedUnlockViewModel.uiState.collect { uiState ->
+                mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // New value received
-                    if (uiState.isCredentialRequired) {
-                        mAdvancedUnlockViewModel.provideCredentialForEncryption(
-                            getCredentialForEncryption()
-                        )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (uiState.isCredentialRequired) {
+                            mDeviceUnlockViewModel.encryptCredential(
+                                getCredentialForEncryption()
+                            )
+                        }
                     }
                     uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
                         onCredentialEncrypted(cipherEncryptDatabase)
-                        mAdvancedUnlockViewModel.consumeCredentialEncrypted()
+                        mDeviceUnlockViewModel.consumeCredentialEncrypted()
                     }
                     uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
                         onCredentialDecrypted(cipherDecryptDatabase)
-                        mAdvancedUnlockViewModel.consumeCredentialDecrypted()
+                        mDeviceUnlockViewModel.consumeCredentialDecrypted()
                     }
                 }
             }
@@ -250,11 +253,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
         super.onResume()
 
         // Init Biometric elements only if allowed
-        if (PreferencesUtil.isAdvancedUnlockEnable(this)) {
-            advancedUnlockFragment = supportFragmentManager
-                .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? AdvancedUnlockFragment?
-            if (advancedUnlockFragment == null) {
-                advancedUnlockFragment = AdvancedUnlockFragment().also {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            && PreferencesUtil.isAdvancedUnlockEnable(this)) {
+            deviceUnlockFragment = supportFragmentManager
+                .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? DeviceUnlockFragment?
+            if (deviceUnlockFragment == null) {
+                deviceUnlockFragment = DeviceUnlockFragment().also {
                     supportFragmentManager.commit {
                         replace(
                             R.id.fragment_advanced_unlock_container_view,
@@ -276,7 +280,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         // Don't allow auto open prompt if lock become when UI visible
         if (DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true) {
-            mAdvancedUnlockViewModel.allowAutoOpenBiometricPrompt = false
+            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
         }
 
         mDatabaseFileUri?.let { databaseFileUri ->
@@ -494,7 +498,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
             loadDatabase()
         } else {
             // Init Biometric elements
-            mAdvancedUnlockViewModel.databaseFileLoaded(databaseFileUri)
+            mDeviceUnlockViewModel.databaseFileLoaded(databaseFileUri)
         }
 
         enableConfirmationButton()
@@ -654,7 +658,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                     && !readOnlyEducationPerformed) {
-                    val biometricCanAuthenticate = AdvancedUnlockManager.canAuthenticate(this)
+                    val biometricCanAuthenticate = DeviceUnlockManager.canAuthenticate(this)
                     if ((biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                             || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                             && advancedUnlockButton != null) {

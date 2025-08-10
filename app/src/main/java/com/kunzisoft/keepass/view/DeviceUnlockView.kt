@@ -31,9 +31,9 @@ import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
-                                                       attrs: AttributeSet? = null,
-                                                       defStyle: Int = 0)
+class DeviceUnlockView @JvmOverloads constructor(context: Context,
+                                                 attrs: AttributeSet? = null,
+                                                 defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
     private var biometricButtonView: Button? = null
@@ -45,7 +45,7 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         biometricButtonView = findViewById(R.id.biometric_button)
     }
 
-    fun setIconViewClickListener(listener: OnClickListener?) {
+    fun setDeviceUnlockButtonViewClickListener(listener: OnClickListener?) {
         biometricButtonView?.setOnClickListener(listener)
     }
 
@@ -61,8 +61,8 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         title = context.getString(textId)
     }
 
-    fun setMessage(text: CharSequence) {
-        if (text.isNotEmpty())
+    fun setMessage(text: CharSequence?) {
+        if (!text.isNullOrEmpty())
             Toast.makeText(context, text, Toast.LENGTH_LONG).show()
     }
 

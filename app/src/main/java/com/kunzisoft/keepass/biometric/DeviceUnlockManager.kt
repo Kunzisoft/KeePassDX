@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.biometric
 
 import android.app.KeyguardManager
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
@@ -29,110 +28,70 @@ import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.*
-import androidx.biometric.BiometricPrompt
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.security.KeyStore
 import java.security.UnrecoverableKeyException
-import java.util.concurrent.Executors
-import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity) {
+class DeviceUnlockManager(private var appContext: Context) {
 
     private var keyStore: KeyStore? = null
     private var keyGenerator: KeyGenerator? = null
     private var cipher: Cipher? = null
 
-    private var biometricPrompt: BiometricPrompt? = null
-    private var authenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
-        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            advancedUnlockCallback?.onAuthenticationSucceeded()
-        }
-
-        override fun onAuthenticationFailed() {
-            advancedUnlockCallback?.onAuthenticationFailed()
-        }
-
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-            advancedUnlockCallback?.onAuthenticationError(errorCode, errString)
-        }
-    }
-
-    var advancedUnlockCallback: AdvancedUnlockCallback? = null
-
-    private var isKeyManagerInit = false
-
-    private val biometricUnlockEnable = PreferencesUtil.isBiometricUnlockEnable(retrieveContext())
-    private val deviceCredentialUnlockEnable = PreferencesUtil.isDeviceCredentialUnlockEnable(retrieveContext())
-
-    val isKeyManagerInitialized: Boolean
-        get() {
-            if (!isKeyManagerInit) {
-                advancedUnlockCallback?.onGenericException(Exception("Biometric not initialized"))
-            }
-            return isKeyManagerInit
-        }
-
-    private fun isBiometricOperation(): Boolean {
-        return biometricUnlockEnable || isDeviceCredentialBiometricOperation()
-    }
-
-    // Since Android 30, device credential is also a biometric operation
-    private fun isDeviceCredentialOperation(): Boolean {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.R
-                && deviceCredentialUnlockEnable
-    }
-
-    private fun isDeviceCredentialBiometricOperation(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                && deviceCredentialUnlockEnable
-    }
+    private var biometricUnlockEnable = isBiometricUnlockEnable(appContext)
+    private var deviceCredentialUnlockEnable = isDeviceCredentialUnlockEnable(appContext)
 
     init {
-        if (isDeviceSecure(retrieveContext())
-                && (biometricUnlockEnable || deviceCredentialUnlockEnable)) {
-            try {
-                this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
-                this.keyGenerator = KeyGenerator.getInstance(ADVANCED_UNLOCK_KEY_ALGORITHM, ADVANCED_UNLOCK_KEYSTORE)
-                this.cipher = Cipher.getInstance(
+        if (biometricUnlockEnable || deviceCredentialUnlockEnable) {
+            if (isDeviceSecure(appContext)) {
+                try {
+                    this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
+                    this.keyGenerator = KeyGenerator.getInstance(
+                        ADVANCED_UNLOCK_KEY_ALGORITHM,
+                        ADVANCED_UNLOCK_KEYSTORE
+                    )
+                    this.cipher = Cipher.getInstance(
                         ADVANCED_UNLOCK_KEY_ALGORITHM + "/"
                                 + ADVANCED_UNLOCK_BLOCKS_MODES + "/"
-                                + ADVANCED_UNLOCK_ENCRYPTION_PADDING)
-                isKeyManagerInit = (keyStore != null
-                        && keyGenerator != null
-                        && cipher != null)
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to initialize the keystore", e)
-                isKeyManagerInit = false
-                advancedUnlockCallback?.onGenericException(e)
+                                + ADVANCED_UNLOCK_ENCRYPTION_PADDING
+                    )
+                    if (keyStore == null) {
+                        throw SecurityException("Unable to initialize the keystore")
+                    }
+                    if (keyGenerator == null) {
+                        throw SecurityException("Unable to initialize the key generator")
+                    }
+                    if (cipher == null) {
+                        throw SecurityException("Unable to initialize the cipher")
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to initialize the device unlock manager", e)
+                    throw e
+                }
+            } else {
+                throw SecurityException("Device not secure enough")
             }
-        } else {
-            // really not much to do when no fingerprint support found
-            isKeyManagerInit = false
         }
     }
 
     @Synchronized private fun getSecretKey(): SecretKey? {
-        if (!isKeyManagerInitialized) {
-            return null
-        }
         try {
             // Create new key if needed
             keyStore?.let { keyStore ->
                 keyStore.load(null)
-
                 try {
                     if (!keyStore.containsAlias(ADVANCED_UNLOCK_KEYSTORE_KEY)) {
                         // Set the alias of the entry in Android KeyStore where the key will appear
@@ -151,7 +110,7 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                                         }
                                         // To store in the security chip
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-                                            && retrieveContext().packageManager.hasSystemFeature(
+                                            && appContext.packageManager.hasSystemFeature(
                                                 PackageManager.FEATURE_STRONGBOX_KEYSTORE)) {
                                             setIsStrongBoxBacked(true)
                                         }
@@ -161,98 +120,111 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to create a key in keystore", e)
-                    advancedUnlockCallback?.onGenericException(e)
+                    throw e
                 }
-
                 return keyStore.getKey(ADVANCED_UNLOCK_KEYSTORE_KEY, null) as SecretKey?
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to retrieve the key in keystore", e)
-            advancedUnlockCallback?.onGenericException(e)
+            throw e
         }
         return null
     }
 
-    @Synchronized fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,) {
+    @Synchronized fun initEncryptData(
+        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
+    ) {
         initEncryptData(actionIfCypherInit, true)
     }
 
-    @Synchronized private fun initEncryptData(actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
-                                firstLaunch: Boolean) {
-        if (!isKeyManagerInitialized) {
-            return
-        }
+    @Synchronized private fun initEncryptData(
+        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit,
+        firstLaunch: Boolean
+    ) {
         try {
             getSecretKey()?.let { secretKey ->
                 cipher?.let { cipher ->
                     cipher.init(Cipher.ENCRYPT_MODE, secretKey)
-
                     actionIfCypherInit.invoke(
-                            AdvancedUnlockCryptoPrompt(
-                                    cipher,
-                                    R.string.advanced_unlock_prompt_store_credential_title,
-                                    R.string.advanced_unlock_prompt_store_credential_message,
-                                    isDeviceCredentialOperation(), isBiometricOperation())
+                        DeviceUnlockCryptoPrompt(
+                            type = DeviceUnlockCryptoPromptType.CREDENTIAL_ENCRYPTION,
+                            cipher = cipher,
+                            titleId = R.string.advanced_unlock_prompt_store_credential_title,
+                            descriptionId = R.string.advanced_unlock_prompt_store_credential_message,
+                            isDeviceCredentialOperation = isDeviceCredentialOperation(
+                                deviceCredentialUnlockEnable
+                            ),
+                            isBiometricOperation = isBiometricOperation(
+                                biometricUnlockEnable, deviceCredentialUnlockEnable
+                            )
+                        )
                     )
                 }
             }
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
-            advancedUnlockCallback?.onUnrecoverableKeyException(unrecoverableKeyException)
+            throw unrecoverableKeyException
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
             if (firstLaunch) {
-                deleteAllEntryKeysInKeystoreForBiometric(retrieveContext())
+                deleteAllEntryKeysInKeystoreForBiometric(appContext)
                 initEncryptData(actionIfCypherInit, false)
             } else {
-                advancedUnlockCallback?.onInvalidKeyException(invalidKeyException)
+                throw invalidKeyException
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to initialize encrypt data", e)
-            advancedUnlockCallback?.onGenericException(e)
+            throw e
         }
     }
 
-    @Synchronized fun encryptData(value: ByteArray) {
-        if (!isKeyManagerInitialized) {
-            return
-        }
+    @Synchronized fun encryptData(
+        value: ByteArray,
+        handleEncryptedResult: (encryptedValue: ByteArray, ivSpec: ByteArray) -> Unit
+    ) {
         try {
             val encrypted = cipher?.doFinal(value) ?: byteArrayOf()
             // passes updated iv spec on to callback so this can be stored for decryption
             cipher?.parameters?.getParameterSpec(IvParameterSpec::class.java)?.let{ spec ->
-                advancedUnlockCallback?.handleEncryptedResult(encrypted, spec.iv)
+                handleEncryptedResult.invoke(encrypted, spec.iv)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to encrypt data", e)
-            advancedUnlockCallback?.onGenericException(e)
+            throw e
         }
     }
 
-    @Synchronized fun initDecryptData(ivSpecValue: ByteArray,
-                        actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit) {
+    @Synchronized fun initDecryptData(
+        ivSpecValue: ByteArray,
+        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
+    ) {
         initDecryptData(ivSpecValue, actionIfCypherInit, true)
     }
 
-    @Synchronized private fun initDecryptData(ivSpecValue: ByteArray,
-                        actionIfCypherInit: (cryptoPrompt: AdvancedUnlockCryptoPrompt) -> Unit,
-                        firstLaunch: Boolean = true) {
-        if (!isKeyManagerInitialized) {
-            return
-        }
+    @Synchronized private fun initDecryptData(
+        ivSpecValue: ByteArray,
+        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit,
+        firstLaunch: Boolean
+    ) {
         try {
             // important to restore spec here that was used for decryption
             val spec = IvParameterSpec(ivSpecValue)
             getSecretKey()?.let { secretKey ->
                 cipher?.let { cipher ->
                     cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
-
                     actionIfCypherInit.invoke(
-                            AdvancedUnlockCryptoPrompt(
-                                    cipher,
-                                    R.string.advanced_unlock_prompt_extract_credential_title,
-                                    null,
-                                    isDeviceCredentialOperation(), isBiometricOperation())
+                        DeviceUnlockCryptoPrompt(
+                            type = DeviceUnlockCryptoPromptType.CREDENTIAL_DECRYPTION,
+                            cipher = cipher,
+                            titleId = R.string.advanced_unlock_prompt_extract_credential_title,
+                            descriptionId = null,
+                            isDeviceCredentialOperation = isDeviceCredentialOperation(
+                                deviceCredentialUnlockEnable
+                            ),
+                            isBiometricOperation = isBiometricOperation(
+                                biometricUnlockEnable, deviceCredentialUnlockEnable
+                            )
+                        )
                     )
                 }
             }
@@ -262,37 +234,34 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
                 deleteKeystoreKey()
                 initDecryptData(ivSpecValue, actionIfCypherInit, firstLaunch)
             } else {
-                advancedUnlockCallback?.onUnrecoverableKeyException(unrecoverableKeyException)
+                throw unrecoverableKeyException
             }
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize decrypt data", invalidKeyException)
             if (firstLaunch) {
-                deleteAllEntryKeysInKeystoreForBiometric(retrieveContext())
+                deleteAllEntryKeysInKeystoreForBiometric(appContext)
                 initDecryptData(ivSpecValue, actionIfCypherInit, firstLaunch)
             } else {
-                advancedUnlockCallback?.onInvalidKeyException(invalidKeyException)
+                throw invalidKeyException
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to initialize decrypt data", e)
-            advancedUnlockCallback?.onGenericException(e)
+            throw e
         }
     }
 
-    @Synchronized fun decryptData(encryptedValue: ByteArray) {
-        if (!isKeyManagerInitialized) {
-            return
-        }
+    @Synchronized fun decryptData(
+        encryptedValue: ByteArray,
+        handleDecryptedResult: (decryptedValue: ByteArray) -> Unit
+    ) {
         try {
             // actual decryption here
             cipher?.doFinal(encryptedValue)?.let { decrypted ->
-                advancedUnlockCallback?.handleDecryptedResult(decrypted)
+                handleDecryptedResult.invoke(decrypted)
             }
-        } catch (badPaddingException: BadPaddingException) {
-            Log.e(TAG, "Unable to decrypt data", badPaddingException)
-            advancedUnlockCallback?.onInvalidKeyException(badPaddingException)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to decrypt data", e)
-            advancedUnlockCallback?.onGenericException(e)
+            throw e
         }
     }
 
@@ -302,71 +271,13 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
             keyStore?.deleteEntry(ADVANCED_UNLOCK_KEYSTORE_KEY)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to delete entry key in keystore", e)
-            advancedUnlockCallback?.onGenericException(e)
+            throw e
         }
-    }
-
-    @Synchronized fun openAdvancedUnlockPrompt(cryptoPrompt: AdvancedUnlockCryptoPrompt,
-                                 deviceCredentialResultLauncher: ActivityResultLauncher<Intent>
-    ) {
-        // Init advanced unlock prompt
-        if (biometricPrompt == null) {
-            biometricPrompt = BiometricPrompt(retrieveContext(),
-                    Executors.newSingleThreadExecutor(),
-                    authenticationCallback)
-        }
-
-        val promptTitle = retrieveContext().getString(cryptoPrompt.promptTitleId)
-        val promptDescription = cryptoPrompt.promptDescriptionId?.let { descriptionId ->
-            retrieveContext().getString(descriptionId)
-        } ?: ""
-
-        if (cryptoPrompt.isBiometricOperation) {
-            val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
-                setTitle(promptTitle)
-                if (promptDescription.isNotEmpty())
-                    setDescription(promptDescription)
-                setConfirmationRequired(false)
-                if (isDeviceCredentialBiometricOperation()) {
-                    setAllowedAuthenticators(DEVICE_CREDENTIAL)
-                } else {
-                    setNegativeButtonText(retrieveContext().getString(android.R.string.cancel))
-                }
-            }.build()
-            biometricPrompt?.authenticate(
-                    promptInfoExtractCredential,
-                    BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
-        }
-        else if (cryptoPrompt.isDeviceCredentialOperation) {
-            val keyGuardManager = ContextCompat.getSystemService(retrieveContext(), KeyguardManager::class.java)
-            @Suppress("DEPRECATION")
-            deviceCredentialResultLauncher.launch(
-                keyGuardManager?.createConfirmDeviceCredentialIntent(promptTitle, promptDescription)
-            )
-        }
-    }
-
-    @Synchronized fun closeBiometricPrompt() {
-        biometricPrompt?.cancelAuthentication()
-    }
-
-    interface AdvancedUnlockErrorCallback {
-        fun onUnrecoverableKeyException(e: Exception)
-        fun onInvalidKeyException(e: Exception)
-        fun onGenericException(e: Exception)
-    }
-
-    interface AdvancedUnlockCallback : AdvancedUnlockErrorCallback {
-        fun onAuthenticationSucceeded()
-        fun onAuthenticationFailed()
-        fun onAuthenticationError(errorCode: Int, errString: CharSequence)
-        fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray)
-        fun handleDecryptedResult(decryptedValue: ByteArray)
     }
 
     companion object {
 
-        private val TAG = AdvancedUnlockManager::class.java.name
+        private val TAG = DeviceUnlockManager::class.java.name
 
         private const val ADVANCED_UNLOCK_KEYSTORE = "AndroidKeyStore"
         private const val ADVANCED_UNLOCK_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
@@ -445,62 +356,65 @@ class AdvancedUnlockManager(private var retrieveContext: () -> FragmentActivity)
         /**
          * Remove entry key in keystore
          */
-        fun deleteEntryKeyInKeystoreForBiometric(fragmentActivity: FragmentActivity,
-                                                 advancedCallback: AdvancedUnlockErrorCallback) {
-            AdvancedUnlockManager{ fragmentActivity }.apply {
-                advancedUnlockCallback = object : AdvancedUnlockCallback {
-                    override fun onAuthenticationSucceeded() {}
-
-                    override fun onAuthenticationFailed() {}
-
-                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {}
-
-                    override fun handleEncryptedResult(encryptedValue: ByteArray, ivSpec: ByteArray) {}
-
-                    override fun handleDecryptedResult(decryptedValue: ByteArray) {}
-
-                    override fun onUnrecoverableKeyException(e: Exception) {
-                        advancedCallback.onUnrecoverableKeyException(e)
-                    }
-
-                    override fun onInvalidKeyException(e: Exception) {
-                        advancedCallback.onInvalidKeyException(e)
-                    }
-
-                    override fun onGenericException(e: Exception) {
-                        advancedCallback.onGenericException(e)
-                    }
-                }
+        fun deleteEntryKeyInKeystoreForBiometric(
+            appContext: Context
+        ) {
+            DeviceUnlockManager(appContext).apply {
                 deleteKeystoreKey()
             }
         }
 
-        fun deleteAllEntryKeysInKeystoreForBiometric(activity: FragmentActivity) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deleteEntryKeyInKeystoreForBiometric(
-                    activity,
-                    object : AdvancedUnlockErrorCallback {
-                        fun showException(e: Exception) {
-                            Toast.makeText(activity,
-                                activity.getString(R.string.advanced_unlock_scanning_error, e.localizedMessage),
-                                Toast.LENGTH_SHORT).show()
-                        }
-
-                        override fun onUnrecoverableKeyException(e: Exception) {
-                            showException(e)
-                        }
-
-                        override fun onInvalidKeyException(e: Exception) {
-                            showException(e)
-                        }
-
-                        override fun onGenericException(e: Exception) {
-                            showException(e)
-                        }
-                    })
+        fun deleteAllEntryKeysInKeystoreForBiometric(appContext: Context) {
+            try {
+                deleteEntryKeyInKeystoreForBiometric(appContext)
+            } catch (e: Exception) {
+                Toast.makeText(appContext,
+                    appContext.getString(
+                        R.string.advanced_unlock_scanning_error,
+                        e.localizedMessage
+                    ),
+                    Toast.LENGTH_SHORT).show()
+            } finally {
+                CipherDatabaseAction.getInstance(appContext).deleteAll()
             }
-            CipherDatabaseAction.getInstance(activity.applicationContext).deleteAll()
         }
     }
+}
 
+fun isBiometricUnlockEnable(appContext: Context) =
+    PreferencesUtil.isBiometricUnlockEnable(appContext)
+
+fun isDeviceCredentialUnlockEnable(appContext: Context) =
+    PreferencesUtil.isDeviceCredentialUnlockEnable(appContext)
+
+private fun isBiometricOperation(
+    biometricUnlockEnable: Boolean,
+    deviceCredentialUnlockEnable: Boolean
+): Boolean {
+    return biometricUnlockEnable
+            || isDeviceCredentialBiometricOperation(deviceCredentialUnlockEnable)
+}
+
+// Since Android 30, device credential is also a biometric operation
+private fun isDeviceCredentialOperation(
+    deviceCredentialUnlockEnable: Boolean
+): Boolean {
+    return Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+            && deviceCredentialUnlockEnable
+}
+
+private fun isDeviceCredentialBiometricOperation(
+    deviceCredentialUnlockEnable: Boolean
+): Boolean {
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+            && deviceCredentialUnlockEnable
+}
+
+fun isDeviceCredentialBiometricOperation(context: Context?): Boolean {
+    if (context == null) {
+        return false
+    }
+    return isDeviceCredentialBiometricOperation(
+        isDeviceCredentialUnlockEnable(context)
+    )
 }
