@@ -371,7 +371,6 @@ class DeviceUnlockFragment: Fragment() {
                             context.getString(R.string.keystore_not_accessible)
                         ))
                     }
-                    storeCredentialButtonClickListener = null
                 }
             }
         }
@@ -388,7 +387,6 @@ class DeviceUnlockFragment: Fragment() {
                             context.getString(R.string.keystore_not_accessible)
                         ))
                     }
-                    extractCredentialButtonClickListener = null
                 }
             }
         }
