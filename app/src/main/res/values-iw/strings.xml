@@ -539,7 +539,6 @@
     <string name="advanced_unlock_prompt_extract_credential_message">חלץ אישור מסד נתונים עם נתוני ביטול נעילת מכשיר</string>
     <string name="advanced_unlock_invalid_key">לא ניתן לקרוא את מפתח ביטול נעילת המכשיר. נא למחוק אותו ולחזור על התהליך לזיהוי ביטול נעילה.</string>
     <string name="advanced_unlock_not_recognized">לא היה ניתן לזהות טביעת ביטול נעילת מכשיר</string>
-    <string name="advanced_unlock_scanning_error">שגיאת ביטול נעילת מכשיר: %1$s</string>
     <string name="credential_before_click_advanced_unlock_button">הקלד את הסיסמה, ואז לחץ על הכפתור הזה.</string>
     <string name="lock_database_show_button_title">הצג כפתור נעילה</string>
     <string name="lock_database_show_button_summary">הצג את כפתור הנעילה בממשק המשתמש</string>

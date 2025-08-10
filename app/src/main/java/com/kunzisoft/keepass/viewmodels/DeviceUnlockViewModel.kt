@@ -283,7 +283,15 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     fun setException(value: Exception?) {
         _uiState.update { currentState ->
             currentState.copy(
-                error = value
+                exception = value
+            )
+        }
+    }
+
+    fun exceptionShown() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                exception = null
             )
         }
     }
@@ -384,5 +392,5 @@ data class DeviceUnlockState(
     val cipherDecryptDatabase: CipherDecryptDatabase? = null,
     val cryptoPrompt: DeviceUnlockCryptoPrompt? = null,
     val closePromptRequested: Boolean = false,
-    val error: Exception? = null
+    val exception: Exception? = null
 )

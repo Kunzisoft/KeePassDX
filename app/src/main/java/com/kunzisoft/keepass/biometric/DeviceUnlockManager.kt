@@ -369,16 +369,24 @@ class DeviceUnlockManager(private var appContext: Context) {
                 deleteEntryKeyInKeystoreForBiometric(appContext)
             } catch (e: Exception) {
                 Toast.makeText(appContext,
-                    appContext.getString(
-                        R.string.advanced_unlock_scanning_error,
-                        e.localizedMessage
-                    ),
+                    deviceUnlockError(e, appContext),
                     Toast.LENGTH_SHORT).show()
             } finally {
                 CipherDatabaseAction.getInstance(appContext).deleteAll()
             }
         }
     }
+}
+
+fun deviceUnlockError(error: Exception, context: Context): String {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+        && (error is UnrecoverableKeyException
+                || error is KeyPermanentlyInvalidatedException)) {
+        context.getString(R.string.advanced_unlock_invalid_key)
+    } else
+        error.cause?.localizedMessage
+            ?: error.localizedMessage
+            ?: error.toString()
 }
 
 fun isBiometricUnlockEnable(appContext: Context) =

@@ -498,7 +498,6 @@
     <string name="advanced_unlock_prompt_extract_credential_title">Распознавание разблокировки устройства</string>
     <string name="advanced_unlock_prompt_store_credential_message">При использовании разблокировки устройства вам всё равно необходимо помнить основные учётные данные.</string>
     <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства\?</string>
-    <string name="advanced_unlock_scanning_error">Ошибка разблокировки устройства: %1$s</string>
     <string name="advanced_unlock_prompt_store_credential_title">Настройка разблокировки устройства</string>
     <string name="menu_keystore_remove_key">Удалить ключ разблокировки устройства</string>
     <string name="enter">Ввод</string>

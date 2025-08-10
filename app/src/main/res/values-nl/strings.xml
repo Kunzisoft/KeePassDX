@@ -508,7 +508,6 @@
     <string name="device_credential">Apparaatreferentie</string>
     <string name="credential_before_click_advanced_unlock_button">Typ het wachtwoord en klik vervolgens op deze knop.</string>
     <string name="advanced_unlock_prompt_not_initialized">Kan apparaatontgrendeling niet initialiseren.</string>
-    <string name="advanced_unlock_scanning_error">Fout bij apparaatontgrendeling: %1$s</string>
     <string name="advanced_unlock_not_recognized">Vingerafdruk niet herkent bij apparaatontgrendeling</string>
     <string name="advanced_unlock_invalid_key">Kan de sleutel voor apparaatontgrendeling niet lezen. Verwijder deze en herhaal de herkenningsprocedure voor het ontgrendelen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Database uitpakken met gegevens voor apparaatontgrendeling</string>

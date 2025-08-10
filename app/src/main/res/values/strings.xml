@@ -407,7 +407,6 @@
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="advanced_unlock_invalid_key">Cannot read the device unlock key. Please delete it and repeat the unlock recognition procedure.</string>
     <string name="advanced_unlock_not_recognized">Could not recognize device unlock print</string>
-    <string name="advanced_unlock_scanning_error">Device unlock error: %1$s</string>
     <string name="unavailable">Unavailable</string>
     <string name="advanced_unlock_prompt_not_initialized">Unable to initialize device unlock prompt.</string>
     <string name="credential_before_click_advanced_unlock_button">Type in the password, and then click this button.</string>

@@ -537,7 +537,6 @@
     <string name="credential_before_click_advanced_unlock_button">Írja be a jelszót, majd kattintson erre a gombra.</string>
     <string name="temp_advanced_unlock_enable_title">Ideiglenes eszközfeloldás</string>
     <string name="permission">Engedély</string>
-    <string name="advanced_unlock_scanning_error">Eszközfeloldási hiba: %1$s</string>
     <string name="content">Tartalom</string>
     <string name="advanced_unlock_tap_delete">Koppintson az eszközfeloldási kulcsok törléséhez</string>
     <string name="device_credential_unlock_enable_title">Eszköz hitelesítő adataival történő feloldás</string>

@@ -425,7 +425,6 @@
     <string name="advanced_unlock_invalid_key">Non foi posíbel ler a clave de desbloqueo avanzado. Por favor, bórrea e repita o procedemento de recoñecemento do desbloqueo.</string>
     <string name="encrypted_value_stored">Contrasinal cifrado almacenado</string>
     <string name="advanced_unlock_not_recognized">Non foi posíbel recoñecer a pegada do desbloqueo avanzado</string>
-    <string name="advanced_unlock_scanning_error">Erro de desbloqueo avanzado: %1$s</string>
     <string name="autofill_service_name">Servizo de autocompletado do KeePassDX</string>
     <string name="database_history">Historial</string>
     <string name="advanced_unlock_prompt_store_credential_message">Aínda precisa lembrar a súa credencial principal se usar o recoñecemento de desbloqueo avanzado.</string>

@@ -395,7 +395,6 @@
     <string name="configure">Konfigūruoti</string>
     <string name="biometric_security_update_required">Reikalingas biometrinių duomenų saugumo atnaujinimas.</string>
     <string name="advanced_unlock_prompt_store_credential_message">Jei naudojate įrenginio atrakinimo atpažinimą, vis tiek turite prisiminti pagrindinį saugyklos raktą</string>
-    <string name="advanced_unlock_scanning_error">Įrenginio atrakinimo klaida: %1$s</string>
     <string name="database_history">Istorija</string>
     <string name="properties">Nustatymai</string>
     <string name="menu_appearance_settings_summary">Temos, spalvos, atributai</string>

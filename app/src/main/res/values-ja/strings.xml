@@ -491,7 +491,6 @@
     <string name="device_credential">デバイス認証情報</string>
     <string name="credential_before_click_advanced_unlock_button">パスワードを入力し、このボタンをタップします。</string>
     <string name="advanced_unlock_prompt_not_initialized">デバイスのロック解除プロンプトを初期化できません。</string>
-    <string name="advanced_unlock_scanning_error">デバイスのロック解除エラー: %1$s</string>
     <string name="advanced_unlock_invalid_key">デバイスのロック解除キーを読み取ることができません。削除して、ロック解除認識手順を繰り返してください。</string>
     <string name="advanced_unlock_prompt_extract_credential_message">デバイスのロック解除データを使用してデータベースの資格情報を抽出する</string>
     <string name="advanced_unlock_prompt_extract_credential_title">デバイスのロック解除認識</string>

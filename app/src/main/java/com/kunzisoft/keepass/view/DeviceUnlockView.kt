@@ -25,7 +25,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
@@ -60,14 +59,4 @@ class DeviceUnlockView @JvmOverloads constructor(context: Context,
     fun setTitle(@StringRes textId: Int) {
         title = context.getString(textId)
     }
-
-    fun setMessage(text: CharSequence?) {
-        if (!text.isNullOrEmpty())
-            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-    }
-
-    fun setMessage(@StringRes textId: Int) {
-        Toast.makeText(context, textId, Toast.LENGTH_LONG).show()
-    }
-
 }

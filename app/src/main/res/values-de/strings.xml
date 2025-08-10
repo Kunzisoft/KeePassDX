@@ -529,7 +529,6 @@
     <string name="device_credential">Geräteanmeldedaten</string>
     <string name="credential_before_click_advanced_unlock_button">Passwort eingeben und dann diese Taste drücken.</string>
     <string name="advanced_unlock_prompt_not_initialized">Geräteentsperrungsabfrage konnte nicht gestartet werden.</string>
-    <string name="advanced_unlock_scanning_error">Fehler bei Geräteentsperrung: %1$s</string>
     <string name="advanced_unlock_not_recognized">Fingerabdruck für Geräteentsperrung wurde nicht erkannt</string>
     <string name="advanced_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte diesen löschen und den Vorgang zur Entsperr-Erkennung wiederholen.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus Geräteentsperrdaten gewinnen</string>

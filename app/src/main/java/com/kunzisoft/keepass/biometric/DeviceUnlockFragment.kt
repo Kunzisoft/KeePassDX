@@ -25,7 +25,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -52,7 +51,6 @@ import com.kunzisoft.keepass.view.showByFading
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.security.UnrecoverableKeyException
 import java.util.concurrent.Executors
 
 @RequiresApi(Build.VERSION_CODES.M)
@@ -164,8 +162,6 @@ class DeviceUnlockFragment: Fragment() {
                         closeBiometricPrompt()
                         mDeviceUnlockViewModel.biometricPromptClosed()
                     }
-                    // Errors
-                    setAdvancedUnlockedError(uiState.error)
                     // Advanced menu
                     mAllowAdvancedUnlockMenu = uiState.allowAdvancedUnlockMenu
                     activity?.invalidateOptionsMenu()
@@ -249,7 +245,7 @@ class DeviceUnlockFragment: Fragment() {
                 DeviceUnlockMode.EXTRACT_CREDENTIAL -> setExtractCredentialMode()
             }
         } catch (e: Exception) {
-            showGenericException(e)
+            mDeviceUnlockViewModel.setException(e)
         }
     }
 
@@ -297,14 +293,6 @@ class DeviceUnlockFragment: Fragment() {
         }
     }
 
-
-    fun showGenericException(e: Exception) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            val errorMessage = e.cause?.localizedMessage ?: e.localizedMessage ?: ""
-            setAdvancedUnlockedMessageView(errorMessage)
-        }
-    }
-
     private fun setNotAvailableMode() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(false)
@@ -346,7 +334,6 @@ class DeviceUnlockFragment: Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(true)
             setAdvancedUnlockedTitleView(R.string.configure_biometric)
-            setAdvancedUnlockedMessageView("")
             openBiometricSetting()
         }
     }
@@ -363,22 +350,13 @@ class DeviceUnlockFragment: Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(true)
             setAdvancedUnlockedTitleView(R.string.unavailable)
-            setAdvancedUnlockedMessageView("")
             context?.let { context ->
                 mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener {
-                    showError(
-                        BiometricPrompt.ERROR_UNABLE_TO_PROCESS,
+                    mDeviceUnlockViewModel.setException(SecurityException(
                         context.getString(R.string.credential_before_click_advanced_unlock_button)
-                    )
+                    ))
                 }
             }
-        }
-    }
-
-    private fun showError(errorCode: Int, errString: CharSequence) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
-            setAdvancedUnlockedMessageView(errString.toString())
         }
     }
 
@@ -386,14 +364,12 @@ class DeviceUnlockFragment: Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(true)
             setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
-            setAdvancedUnlockedMessageView("")
             context?.let { context ->
                 mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { view ->
                     storeCredentialButtonClickListener?.onClick(view) ?: run {
-                        showError(
-                            BiometricPrompt.ERROR_HW_UNAVAILABLE,
+                        mDeviceUnlockViewModel.setException(SecurityException(
                             context.getString(R.string.keystore_not_accessible)
-                        )
+                        ))
                     }
                     storeCredentialButtonClickListener = null
                 }
@@ -405,14 +381,12 @@ class DeviceUnlockFragment: Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(true)
             setAdvancedUnlockedTitleView(R.string.unlock)
-            setAdvancedUnlockedMessageView("")
             context?.let { context ->
                 mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { view ->
                     extractCredentialButtonClickListener?.onClick(view) ?: run {
-                        showError(
-                            BiometricPrompt.ERROR_HW_UNAVAILABLE,
+                        mDeviceUnlockViewModel.setException(SecurityException(
                             context.getString(R.string.keystore_not_accessible)
-                        )
+                        ))
                     }
                     extractCredentialButtonClickListener = null
                 }
@@ -443,47 +417,25 @@ class DeviceUnlockFragment: Fragment() {
         }
     }
 
-    private fun setAdvancedUnlockedMessageView(textId: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            mDeviceUnlockView?.setMessage(textId)
-        }
-    }
-
-    private fun setAdvancedUnlockedMessageView(text: CharSequence?) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            mDeviceUnlockView?.setMessage(text)
-        }
-    }
-
-    private fun setAdvancedUnlockedError(exception: Exception?) {
-        when (exception) {
-            is UnrecoverableKeyException -> {
-                setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
-            }
-            is KeyPermanentlyInvalidatedException -> {
-                setAdvancedUnlockedMessageView(R.string.advanced_unlock_invalid_key)
-            }
-            else -> {
-                setAdvancedUnlockedMessageView(
-                    exception?.cause?.localizedMessage
-                        ?: exception?.localizedMessage
-                        ?: "")
-            }
-        }
-    }
-
     private fun setAuthenticationError(errorCode: Int, errString: CharSequence) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
-            setAdvancedUnlockedMessageView(errString.toString())
+        Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+        when (errorCode) {
+            BiometricPrompt.ERROR_NEGATIVE_BUTTON ->
+                mDeviceUnlockViewModel.setException(
+                    SecurityException(getString(R.string.error_cancel_by_user))
+                )
+            else ->
+                mDeviceUnlockViewModel.setException(
+                    SecurityException(errString.toString())
+                )
         }
     }
 
     private fun setAuthenticationFailed() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            Log.e(TAG, "Biometric authentication failed, biometric not recognized")
-            setAdvancedUnlockedMessageView(R.string.advanced_unlock_not_recognized)
-        }
+        Log.e(TAG, "Biometric authentication failed, biometric not recognized")
+        mDeviceUnlockViewModel.setException(SecurityException(
+            getString(R.string.advanced_unlock_not_recognized))
+        )
     }
 
     override fun onPause() {

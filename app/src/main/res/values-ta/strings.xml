@@ -176,7 +176,6 @@
     <string name="sort_groups_before">முன் குழுக்கள்</string>
     <string name="warning_no_encryption_key">குறியாக்க விசை இல்லாமல் தொடரவா?</string>
     <string name="warning_permanently_delete_nodes">தேர்ந்தெடுக்கப்பட்ட முனைகளை நிரந்தரமாக நீக்கவா?</string>
-    <string name="advanced_unlock_scanning_error">சாதனம் திறத்தல் பிழை: %1$s</string>
     <string name="device_credential_unlock_enable_summary">தரவுத்தளத்தைத் திறக்க உங்கள் சாதன நற்சான்றிதழைப் பயன்படுத்தலாம்</string>
     <string name="biometric_delete_all_key_title">குறியாக்க விசைகளை நீக்கு</string>
     <string name="biometric_delete_all_key_summary">சாதன திறத்தல் ஏற்பு தொடர்பான அனைத்து குறியாக்க விசைகளையும் நீக்கு</string>

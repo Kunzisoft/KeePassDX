@@ -515,7 +515,6 @@
     <string name="advanced_unlock_prompt_store_credential_title">Collegamento allo sblocco con dispositivo</string>
     <string name="device_credential">Credenziali del dispositivo</string>
     <string name="credential_before_click_advanced_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
-    <string name="advanced_unlock_scanning_error">Errore sblocco con dispositivo: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Riconoscimento sblocco con dispositivo</string>
     <string name="menu_keystore_remove_key">Elimina chiave di sblocco del dispositivo</string>
     <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>

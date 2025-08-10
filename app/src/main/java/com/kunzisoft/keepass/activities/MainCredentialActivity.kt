@@ -57,13 +57,18 @@ import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.DeviceUnlockFragment
 import com.kunzisoft.keepass.biometric.DeviceUnlockManager
+import com.kunzisoft.keepass.biometric.deviceUnlockError
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.model.*
+import com.kunzisoft.keepass.model.CipherDecryptDatabase
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.model.RegisterInfo
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.CIPHER_DATABASE_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
@@ -81,8 +86,8 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
+import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
 
@@ -244,6 +249,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
                         onCredentialDecrypted(cipherDecryptDatabase)
                         mDeviceUnlockViewModel.consumeCredentialDecrypted()
                     }
+                    uiState.exception?.let { error ->
+                        Snackbar.make(
+                            coordinatorLayout,
+                            deviceUnlockError(error, this@MainCredentialActivity),
+                            Snackbar.LENGTH_LONG
+                        ).asError().show()
+                    }
+                    mDeviceUnlockViewModel.exceptionShown()
                 }
             }
         }

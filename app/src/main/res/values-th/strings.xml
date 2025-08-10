@@ -525,7 +525,6 @@
     <string name="advanced_unlock_invalid_key">อ่านกุญแจการปลดล็อกของอุปกรณ์ไม่ได้ โปรดลบข้อมูลออกและเพื่มข้อมูลการปลดล็อกด้วยอุปกรณ์อีกครั้ง</string>
     <string name="advanced_unlock_not_recognized">ไม่รู้จักลายนิ้วมือ</string>
     <string name="advanced_unlock_prompt_extract_credential_message">แยกข้อมูลประจำตัวออกด้วยข้อมูลการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="advanced_unlock_scanning_error">การปลดล็อกด้วยอุปกรณ์ผิดพลาด: %1$s</string>
     <string name="properties">คุณสมบัติ</string>
     <string name="unavailable">ฐานข้อมูลนี้ยังไม่มีข้อมูลการเข้าสูระบบเลย</string>
     <string name="database_history">ประวัติ</string>
