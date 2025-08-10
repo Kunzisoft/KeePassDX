@@ -288,7 +288,6 @@ class DeviceUnlockFragment: Fragment() {
         // Auto open the biometric prompt
         if (mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt
             && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())) {
-            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
             openExtractPrompt(cryptoPrompt)
         }
     }
@@ -418,10 +417,10 @@ class DeviceUnlockFragment: Fragment() {
     private fun setAuthenticationError(errorCode: Int, errString: CharSequence) {
         Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
         when (errorCode) {
-            BiometricPrompt.ERROR_NEGATIVE_BUTTON ->
-                mDeviceUnlockViewModel.setException(
-                    SecurityException(getString(R.string.error_cancel_by_user))
-                )
+            BiometricPrompt.ERROR_NEGATIVE_BUTTON,
+            BiometricPrompt.ERROR_USER_CANCELED -> {
+                // Ignore negative button
+            }
             else ->
                 mDeviceUnlockViewModel.setException(
                     SecurityException(errString.toString())
