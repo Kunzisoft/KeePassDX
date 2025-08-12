@@ -87,28 +87,34 @@ class DeviceUnlockFragment: Fragment() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             // newly store the entered password in encrypted way
             mDeviceUnlockViewModel.retrieveCredentialForEncryption()
+            mBiometricPrompt = null
         }
 
         override fun onAuthenticationFailed() {
             setAuthenticationFailed()
+            mBiometricPrompt = null
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             setAuthenticationError(errorCode, errString)
+            mBiometricPrompt = null
         }
     }
 
     private var extractAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             mDeviceUnlockViewModel.decryptCredential()
+            mBiometricPrompt = null
         }
 
         override fun onAuthenticationFailed() {
             setAuthenticationFailed()
+            mBiometricPrompt = null
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             setAuthenticationError(errorCode, errString)
+            mBiometricPrompt = null
         }
     }
 
@@ -176,23 +182,22 @@ class DeviceUnlockFragment: Fragment() {
         keepConnection = false
     }
 
-    fun openAdvancedUnlockPrompt(
+    fun openDeviceUnlockPrompt(
         cryptoPrompt: DeviceUnlockCryptoPrompt,
         authenticationCallback: BiometricPrompt.AuthenticationCallback
     ) {
-        // Init advanced unlock prompt
-        mBiometricPrompt = BiometricPrompt(
-            this@DeviceUnlockFragment,
-            Executors.newSingleThreadExecutor(),
-            authenticationCallback
-        )
-
         val promptTitle = getString(cryptoPrompt.titleId)
         val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
             getString(descriptionId)
         } ?: ""
 
         if (cryptoPrompt.isBiometricOperation) {
+            // Init advanced unlock prompt
+            mBiometricPrompt = BiometricPrompt(
+                this@DeviceUnlockFragment,
+                Executors.newSingleThreadExecutor(),
+                authenticationCallback
+            )
             val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
                 setTitle(promptTitle)
                 if (promptDescription.isNotEmpty())
@@ -227,6 +232,7 @@ class DeviceUnlockFragment: Fragment() {
 
     fun closeBiometricPrompt() {
         mBiometricPrompt?.cancelAuthentication()
+        mBiometricPrompt = null
     }
 
     private var currentCredentialMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
@@ -250,27 +256,28 @@ class DeviceUnlockFragment: Fragment() {
         }
     }
 
-    private fun manageEncryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        if (cryptoPrompt.isDeviceCredentialOperation) {
-            keepConnection = true
-        }
-        storeCredentialButtonClickListener = View.OnClickListener { _ ->
-            try {
-                openAdvancedUnlockPrompt(
-                    cryptoPrompt,
-                    storeAuthenticationCallback
-                )
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to open encryption prompt", e)
-                storeCredentialButtonClickListener = null
-                setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
-            }
+    private fun openEncryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
+        try {
+            openDeviceUnlockPrompt(
+                cryptoPrompt,
+                storeAuthenticationCallback
+            )
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to open encryption prompt", e)
+            storeCredentialButtonClickListener = null
+            setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
         }
     }
 
-    private fun openExtractPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
+    private fun manageEncryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
+        storeCredentialButtonClickListener = View.OnClickListener { _ ->
+            openEncryptionPrompt(cryptoPrompt)
+        }
+    }
+
+    private fun openDecryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
         try {
-            openAdvancedUnlockPrompt(
+            openDeviceUnlockPrompt(
                 cryptoPrompt,
                 extractAuthenticationCallback
             )
@@ -284,12 +291,12 @@ class DeviceUnlockFragment: Fragment() {
     private fun manageDecryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
         // Set listener to open the biometric dialog and check credential
         extractCredentialButtonClickListener = View.OnClickListener { _ ->
-            openExtractPrompt(cryptoPrompt)
+            openDecryptionPrompt(cryptoPrompt)
         }
         // Auto open the biometric prompt
         if (mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt
             && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())) {
-            openExtractPrompt(cryptoPrompt)
+            openDecryptionPrompt(cryptoPrompt)
         }
     }
 
