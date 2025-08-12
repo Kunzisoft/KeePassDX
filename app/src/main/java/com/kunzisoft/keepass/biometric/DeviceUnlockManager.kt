@@ -134,12 +134,12 @@ class DeviceUnlockManager(private var appContext: Context) {
     @Synchronized fun initEncryptData(
         actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
     ) {
-        initEncryptData(actionIfCypherInit, true)
+        initEncryptData(true, actionIfCypherInit)
     }
 
     @Synchronized private fun initEncryptData(
-        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit,
-        firstLaunch: Boolean
+        firstLaunch: Boolean,
+        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
     ) {
         try {
             getSecretKey()?.let { secretKey ->
@@ -168,7 +168,7 @@ class DeviceUnlockManager(private var appContext: Context) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
             if (firstLaunch) {
                 deleteAllEntryKeysInKeystoreForBiometric(appContext)
-                initEncryptData(actionIfCypherInit, false)
+                initEncryptData(false, actionIfCypherInit)
             } else {
                 throw invalidKeyException
             }
@@ -195,6 +195,13 @@ class DeviceUnlockManager(private var appContext: Context) {
     }
 
     @Synchronized fun initDecryptData(
+        ivSpecValue: ByteArray,
+        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
+    ) {
+        initDecryptData(ivSpecValue, true, actionIfCypherInit)
+    }
+
+    @Synchronized private fun initDecryptData(
         ivSpecValue: ByteArray,
         firstLaunch: Boolean = true,
         actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
