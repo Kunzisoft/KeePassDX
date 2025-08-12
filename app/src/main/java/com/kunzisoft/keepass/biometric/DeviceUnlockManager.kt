@@ -180,6 +180,7 @@ class DeviceUnlockManager(private var appContext: Context) {
 
     @Synchronized fun encryptData(
         value: ByteArray,
+        cipher: Cipher?,
         handleEncryptedResult: (encryptedValue: ByteArray, ivSpec: ByteArray) -> Unit
     ) {
         try {
@@ -252,6 +253,7 @@ class DeviceUnlockManager(private var appContext: Context) {
 
     @Synchronized fun decryptData(
         encryptedValue: ByteArray,
+        cipher: Cipher?,
         handleDecryptedResult: (decryptedValue: ByteArray) -> Unit
     ) {
         try {

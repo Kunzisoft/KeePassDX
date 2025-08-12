@@ -235,9 +235,10 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // New value received
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (uiState.isCredentialRequired) {
+                        uiState.cipherCredentialRequired?.let { cipher ->
                             mDeviceUnlockViewModel.encryptCredential(
-                                getCredentialForEncryption()
+                                credential = getCredentialForEncryption(),
+                                cipher = cipher
                             )
                         }
                     }
@@ -420,7 +421,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
         // Check if database really loaded
         if (database.loaded) {
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
-            mDeviceUnlockViewModel.autoPromptAlreadyShown = false
             GroupActivity.launch(this,
                 database,
                 { onValidateSpecialMode() },

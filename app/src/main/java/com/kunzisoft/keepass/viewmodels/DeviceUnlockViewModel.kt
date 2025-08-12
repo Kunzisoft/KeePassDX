@@ -18,12 +18,11 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import javax.crypto.Cipher
 
 class DeviceUnlockViewModel(application: Application): AndroidViewModel(application) {
 
     var allowAutoOpenBiometricPrompt : Boolean = true
-    var autoPromptAlreadyShown : Boolean = false
-    var deviceCredentialAuthSucceeded: Boolean? = null
 
     private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null
 
@@ -152,40 +151,31 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         // To get device credential unlock result, only if same database uri
         if (databaseUri != null
             && PreferencesUtil.isAdvancedUnlockEnable(getApplication())) {
-            deviceCredentialAuthSucceeded?.let { authSucceeded ->
-                if (databaseUri == this.databaseUri) {
-                    if (authSucceeded) {
-                        retrieveCredentialForEncryption()
-                    }
-                } else {
-                    disconnect()
-                }
-            } ?: run {
-                if (databaseUri != this.databaseUri) {
-                    connect(databaseUri)
-                }
+            if (databaseUri != this.databaseUri) {
+                connect(databaseUri)
             }
         } else {
             disconnect()
         }
-        deviceCredentialAuthSucceeded = null
     }
 
-    fun retrieveCredentialForEncryption() {
+    fun retrieveCredentialForEncryption(cipher: Cipher?) {
         _uiState.update { currentState ->
             currentState.copy(
-                isCredentialRequired = true
+                cipherCredentialRequired = cipher
             )
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun encryptCredential(
-        credential: ByteArray
+        credential: ByteArray,
+        cipher: Cipher?
     ) {
         try {
             deviceUnlockManager?.encryptData(
                 value = credential,
+                cipher = cipher,
                 handleEncryptedResult = { encryptedValue, ivSpec ->
                     databaseUri?.let { databaseUri ->
                         onCredentialEncrypted(
@@ -204,13 +194,13 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
         _uiState.update { currentState ->
             currentState.copy(
-                isCredentialRequired = false
+                cipherCredentialRequired = null
             )
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun decryptCredential() {
+    fun decryptCredential(cipher: Cipher?) {
         // retrieve the encrypted value from preferences
         databaseUri?.let { databaseUri ->
             cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
@@ -218,6 +208,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                     try {
                         deviceUnlockManager?.decryptData(
                             encryptedValue = encryptedCredential,
+                            cipher = cipher,
                             handleDecryptedResult = { decryptedValue ->
                                 // Load database directly with password retrieve
                                 onCredentialDecrypted(
@@ -280,10 +271,28 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
+    fun checkAutoOpenPrompt() {
+        // Auto open the biometric prompt
+        if (allowAutoOpenBiometricPrompt
+            && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication())
+        ) {
+            if (uiState.value.cryptoPrompt != null)
+                showPrompt()
+        }
+    }
+
+    fun showPrompt() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                cryptoPromptState = DeviceUnlockPromptMode.SHOW
+            )
+        }
+    }
+
     fun promptShown() {
         _uiState.update { currentState ->
             currentState.copy(
-                cryptoPrompt = null
+                cryptoPromptState = DeviceUnlockPromptMode.IDLE
             )
         }
     }
@@ -323,6 +332,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                     try {
                         deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
                             onPromptRequested(cryptoPrompt)
+                            checkAutoOpenPrompt()
                         } ?: setException(Exception("AdvancedUnlockManager not initialized"))
                     } catch (e: Exception) {
                         setException(e)
@@ -363,8 +373,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     fun closeBiometricPrompt() {
         _uiState.update { currentState ->
             currentState.copy(
-                cryptoPrompt = null,
-                closePromptRequested = true
+                cryptoPromptState = DeviceUnlockPromptMode.CLOSE
             )
         }
     }
@@ -372,7 +381,8 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     fun biometricPromptClosed() {
         _uiState.update { currentState ->
             currentState.copy(
-                closePromptRequested = false
+                cryptoPrompt = null,
+                cryptoPromptState = DeviceUnlockPromptMode.SHOW
             )
         }
     }
@@ -392,13 +402,17 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 }
 
+enum class DeviceUnlockPromptMode {
+    IDLE, SHOW, CLOSE
+}
+
 data class DeviceUnlockState(
     val deviceUnlockMode: DeviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE,
     val allowAdvancedUnlockMenu: Boolean = false,
-    val isCredentialRequired: Boolean = false,
+    val cipherCredentialRequired: Cipher? = null,
     val cipherEncryptDatabase: CipherEncryptDatabase? = null,
     val cipherDecryptDatabase: CipherDecryptDatabase? = null,
     val cryptoPrompt: DeviceUnlockCryptoPrompt? = null,
-    val closePromptRequested: Boolean = false,
+    val cryptoPromptState: DeviceUnlockPromptMode = DeviceUnlockPromptMode.IDLE,
     val exception: Exception? = null
 )

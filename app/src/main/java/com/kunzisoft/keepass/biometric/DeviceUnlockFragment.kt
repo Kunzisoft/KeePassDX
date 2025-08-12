@@ -44,14 +44,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.DeviceUnlockView
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
+import com.kunzisoft.keepass.viewmodels.DeviceUnlockPromptMode
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
+import javax.crypto.Cipher
 
 @RequiresApi(Build.VERSION_CODES.M)
 class DeviceUnlockFragment: Fragment() {
@@ -65,55 +66,51 @@ class DeviceUnlockFragment: Fragment() {
     // Only to fix multiple fingerprint menu #332
     private var mAllowAdvancedUnlockMenu = false
 
-    // Only keep connection when we request a device credential activity
-    private var keepConnection = false
-
-    private var storeCredentialButtonClickListener: View.OnClickListener? = null
-    private var extractCredentialButtonClickListener: View.OnClickListener? = null
-
-    private var mDeviceCredentialResultLauncher = registerForActivityResult(
+    private var mDeviceCredentialEncryptionResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        // To wait resume
-        if (keepConnection) {
-            mDeviceUnlockViewModel.deviceCredentialAuthSucceeded =
-                result.resultCode == Activity.RESULT_OK
+        if (result.resultCode == Activity.RESULT_OK) {
+            // TODO onEncryptionPromptSucceeded()
+        } else {
+            setAuthenticationFailed()
         }
-        keepConnection = false
     }
 
-    private var storeAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
+    private var mDeviceCredentialDecryptionResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // TODO onDecryptionPromptSucceeded()
+        } else {
+            setAuthenticationFailed()
+        }
+    }
+
+    private var encryptionAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            // newly store the entered password in encrypted way
-            mDeviceUnlockViewModel.retrieveCredentialForEncryption()
-            mBiometricPrompt = null
+            onEncryptionPromptSucceeded(result.cryptoObject?.cipher)
         }
 
         override fun onAuthenticationFailed() {
             setAuthenticationFailed()
-            mBiometricPrompt = null
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             setAuthenticationError(errorCode, errString)
-            mBiometricPrompt = null
         }
     }
 
-    private var extractAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
+    private var decryptionAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            mDeviceUnlockViewModel.decryptCredential()
-            mBiometricPrompt = null
+            onDecryptionPromptSucceeded(result.cryptoObject?.cipher)
         }
 
         override fun onAuthenticationFailed() {
             setAuthenticationFailed()
-            mBiometricPrompt = null
         }
 
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             setAuthenticationError(errorCode, errString)
-            mBiometricPrompt = null
         }
     }
 
@@ -154,19 +151,10 @@ class DeviceUnlockFragment: Fragment() {
                     // Change mode
                     toggleDeviceCredentialMode(uiState.deviceUnlockMode)
                     // Prompt
-                    uiState.cryptoPrompt?.let { prompt ->
-                        mDeviceUnlockViewModel.promptShown()
-                        when (prompt.type) {
-                            DeviceUnlockCryptoPromptType.CREDENTIAL_ENCRYPTION ->
-                                manageEncryptionPrompt(prompt)
-                            DeviceUnlockCryptoPromptType.CREDENTIAL_DECRYPTION ->
-                                manageDecryptionPrompt(prompt)
-                        }
-                    }
-                    if (uiState.closePromptRequested) {
-                        closeBiometricPrompt()
-                        mDeviceUnlockViewModel.biometricPromptClosed()
-                    }
+                    manageDeviceCredentialPrompt(
+                        uiState.cryptoPrompt,
+                        uiState.cryptoPromptState
+                    )
                     // Advanced menu
                     mAllowAdvancedUnlockMenu = uiState.allowAdvancedUnlockMenu
                     activity?.invalidateOptionsMenu()
@@ -178,55 +166,6 @@ class DeviceUnlockFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         mDeviceUnlockViewModel.checkUnlockAvailability()
-        keepConnection = false
-    }
-
-    fun openDeviceUnlockPrompt(
-        cryptoPrompt: DeviceUnlockCryptoPrompt,
-        authenticationCallback: BiometricPrompt.AuthenticationCallback
-    ) {
-        val promptTitle = getString(cryptoPrompt.titleId)
-        val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
-            getString(descriptionId)
-        } ?: ""
-
-        if (cryptoPrompt.isBiometricOperation) {
-            // Init advanced unlock prompt
-            mBiometricPrompt = BiometricPrompt(
-                this@DeviceUnlockFragment,
-                Executors.newSingleThreadExecutor(),
-                authenticationCallback
-            )
-            val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
-                setTitle(promptTitle)
-                if (promptDescription.isNotEmpty())
-                    setDescription(promptDescription)
-                setConfirmationRequired(false)
-                if (isDeviceCredentialBiometricOperation(context)) {
-                    setAllowedAuthenticators(DEVICE_CREDENTIAL)
-                } else {
-                    setNegativeButtonText(getString(android.R.string.cancel))
-                }
-            }.build()
-            mBiometricPrompt?.authenticate(
-                promptInfoExtractCredential,
-                BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
-        }
-        else if (cryptoPrompt.isDeviceCredentialOperation) {
-            context?.let { context ->
-                val keyGuardManager = ContextCompat.getSystemService(
-                    context,
-                    KeyguardManager::class.java
-                )
-                @Suppress("DEPRECATION")
-                mDeviceCredentialResultLauncher.launch(
-                    keyGuardManager?.createConfirmDeviceCredentialIntent(
-                        promptTitle,
-                        promptDescription
-                    )
-                )
-            }
-        }
     }
 
     fun closeBiometricPrompt() {
@@ -255,54 +194,85 @@ class DeviceUnlockFragment: Fragment() {
         }
     }
 
-    private fun openEncryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            try {
-                openDeviceUnlockPrompt(
-                    cryptoPrompt,
-                    storeAuthenticationCallback
-                )
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to open encryption prompt", e)
-                storeCredentialButtonClickListener = null
-                setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
+    private fun manageDeviceCredentialPrompt(
+        cryptoPrompt: DeviceUnlockCryptoPrompt?,
+        state: DeviceUnlockPromptMode
+    ) {
+        cryptoPrompt?.let {
+            // Init advanced unlock prompt
+            mBiometricPrompt = BiometricPrompt(
+                this@DeviceUnlockFragment,
+                Executors.newSingleThreadExecutor(),
+                when (cryptoPrompt.type) {
+                    DeviceUnlockCryptoPromptType.CREDENTIAL_ENCRYPTION ->
+                        encryptionAuthenticationCallback
+
+                    DeviceUnlockCryptoPromptType.CREDENTIAL_DECRYPTION ->
+                        decryptionAuthenticationCallback
+                }
+            )
+            when (state) {
+                DeviceUnlockPromptMode.IDLE -> {}
+                DeviceUnlockPromptMode.SHOW -> {
+                    openPrompt(cryptoPrompt)
+                    mDeviceUnlockViewModel.promptShown()
+                }
+                DeviceUnlockPromptMode.CLOSE -> {
+                    closeBiometricPrompt()
+                    mDeviceUnlockViewModel.biometricPromptClosed()
+                }
             }
         }
     }
 
-    private fun manageEncryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        storeCredentialButtonClickListener = View.OnClickListener { _ ->
-            openEncryptionPrompt(cryptoPrompt)
-        }
-    }
-
-    private fun openDecryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
+    private fun openPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
         lifecycleScope.launch(Dispatchers.Main) {
             try {
-                openDeviceUnlockPrompt(
-                    cryptoPrompt,
-                    extractAuthenticationCallback
-                )
+                val promptTitle = getString(cryptoPrompt.titleId)
+                val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
+                    getString(descriptionId)
+                } ?: ""
+
+                if (cryptoPrompt.isBiometricOperation) {
+                    val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
+                        setTitle(promptTitle)
+                        if (promptDescription.isNotEmpty())
+                            setDescription(promptDescription)
+                        setConfirmationRequired(false)
+                        if (isDeviceCredentialBiometricOperation(context)) {
+                            setAllowedAuthenticators(DEVICE_CREDENTIAL)
+                        } else {
+                            setNegativeButtonText(getString(android.R.string.cancel))
+                        }
+                    }.build()
+                    mBiometricPrompt?.authenticate(
+                        promptInfoExtractCredential,
+                        BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
+                }
+                else if (cryptoPrompt.isDeviceCredentialOperation) {
+                    context?.let { context ->
+                        val keyGuardManager = ContextCompat.getSystemService(
+                            context,
+                            KeyguardManager::class.java
+                        )
+                        @Suppress("DEPRECATION")
+                        when (cryptoPrompt.type) {
+                            DeviceUnlockCryptoPromptType.CREDENTIAL_ENCRYPTION ->
+                                mDeviceCredentialEncryptionResultLauncher
+                            DeviceUnlockCryptoPromptType.CREDENTIAL_DECRYPTION ->
+                                mDeviceCredentialDecryptionResultLauncher
+                        }.launch(
+                            keyGuardManager?.createConfirmDeviceCredentialIntent(
+                                promptTitle,
+                                promptDescription
+                            )
+                        )
+                    }
+                }
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to open decryption prompt", e)
-                extractCredentialButtonClickListener = null
+                Log.e(TAG, "Unable to open prompt", e)
                 setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
             }
-        }
-    }
-
-    private fun manageDecryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        // Set listener to open the biometric dialog and check credential
-        extractCredentialButtonClickListener = View.OnClickListener { _ ->
-            openDecryptionPrompt(cryptoPrompt)
-        }
-        // Auto open the biometric prompt
-        if (mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt
-            && !mDeviceUnlockViewModel.autoPromptAlreadyShown
-            && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())
-        ) {
-            mDeviceUnlockViewModel.autoPromptAlreadyShown = true
-            openDecryptionPrompt(cryptoPrompt)
         }
     }
 
@@ -379,11 +349,7 @@ class DeviceUnlockFragment: Fragment() {
             setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
             context?.let { context ->
                 mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { view ->
-                    storeCredentialButtonClickListener?.onClick(view) ?: run {
-                        mDeviceUnlockViewModel.setException(SecurityException(
-                            context.getString(R.string.keystore_not_accessible)
-                        ))
-                    }
+                    mDeviceUnlockViewModel.showPrompt()
                 }
             }
         }
@@ -395,11 +361,7 @@ class DeviceUnlockFragment: Fragment() {
             setAdvancedUnlockedTitleView(R.string.unlock)
             context?.let { context ->
                 mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { view ->
-                    extractCredentialButtonClickListener?.onClick(view) ?: run {
-                        mDeviceUnlockViewModel.setException(SecurityException(
-                            context.getString(R.string.keystore_not_accessible)
-                        ))
-                    }
+                    mDeviceUnlockViewModel.showPrompt()
                 }
             }
         }
@@ -428,9 +390,21 @@ class DeviceUnlockFragment: Fragment() {
         }
     }
 
+    private fun onDecryptionPromptSucceeded(cipher: Cipher?) {
+        mDeviceUnlockViewModel.decryptCredential(cipher)
+        mBiometricPrompt = null
+    }
+
+    private fun onEncryptionPromptSucceeded(cipher: Cipher?) {
+        mDeviceUnlockViewModel.retrieveCredentialForEncryption(cipher)
+        mBiometricPrompt = null
+    }
+
     private fun setAuthenticationError(errorCode: Int, errString: CharSequence) {
         Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+        mBiometricPrompt = null
         when (errorCode) {
+            BiometricPrompt.ERROR_CANCELED,
             BiometricPrompt.ERROR_NEGATIVE_BUTTON,
             BiometricPrompt.ERROR_USER_CANCELED -> {
                 // Ignore negative button
@@ -444,17 +418,10 @@ class DeviceUnlockFragment: Fragment() {
 
     private fun setAuthenticationFailed() {
         Log.e(TAG, "Biometric authentication failed, biometric not recognized")
+        mBiometricPrompt = null
         mDeviceUnlockViewModel.setException(SecurityException(
             getString(R.string.advanced_unlock_not_recognized))
         )
-    }
-
-    override fun onPause() {
-        if (!keepConnection) {
-            // If close prompt, bug "user not authenticated in Android R"
-            mDeviceUnlockViewModel.disconnect()
-        }
-        super.onPause()
     }
 
     override fun onDestroyView() {
