@@ -256,15 +256,17 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun openEncryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        try {
-            openDeviceUnlockPrompt(
-                cryptoPrompt,
-                storeAuthenticationCallback
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to open encryption prompt", e)
-            storeCredentialButtonClickListener = null
-            setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
+        lifecycleScope.launch(Dispatchers.Main) {
+            try {
+                openDeviceUnlockPrompt(
+                    cryptoPrompt,
+                    storeAuthenticationCallback
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to open encryption prompt", e)
+                storeCredentialButtonClickListener = null
+                setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
+            }
         }
     }
 
@@ -275,15 +277,17 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun openDecryptionPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        try {
-            openDeviceUnlockPrompt(
-                cryptoPrompt,
-                extractAuthenticationCallback
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to open decryption prompt", e)
-            extractCredentialButtonClickListener = null
-            setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
+        lifecycleScope.launch(Dispatchers.Main) {
+            try {
+                openDeviceUnlockPrompt(
+                    cryptoPrompt,
+                    extractAuthenticationCallback
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to open decryption prompt", e)
+                extractCredentialButtonClickListener = null
+                setAdvancedUnlockedTitleView(R.string.advanced_unlock_prompt_not_initialized)
+            }
         }
     }
 
@@ -295,7 +299,8 @@ class DeviceUnlockFragment: Fragment() {
         // Auto open the biometric prompt
         if (mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt
             && !mDeviceUnlockViewModel.autoPromptAlreadyShown
-            && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())) {
+            && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())
+        ) {
             mDeviceUnlockViewModel.autoPromptAlreadyShown = true
             openDecryptionPrompt(cryptoPrompt)
         }
