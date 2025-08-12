@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.update
 class DeviceUnlockViewModel(application: Application): AndroidViewModel(application) {
 
     var allowAutoOpenBiometricPrompt : Boolean = true
+    var autoPromptAlreadyShown : Boolean = false
     var deviceCredentialAuthSucceeded: Boolean? = null
 
     private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null

@@ -74,7 +74,6 @@ class DeviceUnlockFragment: Fragment() {
     private var mDeviceCredentialResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
         // To wait resume
         if (keepConnection) {
             mDeviceUnlockViewModel.deviceCredentialAuthSucceeded =
@@ -295,8 +294,9 @@ class DeviceUnlockFragment: Fragment() {
         }
         // Auto open the biometric prompt
         if (mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt
+            && !mDeviceUnlockViewModel.autoPromptAlreadyShown
             && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())) {
-            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
+            mDeviceUnlockViewModel.autoPromptAlreadyShown = true
             openDecryptionPrompt(cryptoPrompt)
         }
     }

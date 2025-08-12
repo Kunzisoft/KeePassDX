@@ -51,7 +51,7 @@ import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity.Companion.UI_VISIBLE_DURING_LOCK
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -265,6 +265,11 @@ class MainCredentialActivity : DatabaseModeActivity() {
     override fun onResume() {
         super.onResume()
 
+        // Don't allow auto open prompt if lock become when UI visible
+        if (UI_VISIBLE_DURING_LOCK) {
+            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
+        }
+
         // Init Biometric elements only if allowed
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
             && PreferencesUtil.isAdvancedUnlockEnable(this)) {
@@ -289,11 +294,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
         // Back to previous keyboard is setting activated
         if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this@MainCredentialActivity)) {
             sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
-        }
-
-        // Don't allow auto open prompt if lock become when UI visible
-        if (DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true) {
-            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
         }
 
         mDatabaseFileUri?.let { databaseFileUri ->
@@ -420,6 +420,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         // Check if database really loaded
         if (database.loaded) {
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
+            mDeviceUnlockViewModel.autoPromptAlreadyShown = false
             GroupActivity.launch(this,
                 database,
                 { onValidateSpecialMode() },
@@ -541,8 +542,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
     override fun onPause() {
         // Reinit locking activity UI variable
-        DatabaseLockActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
-
+        UI_VISIBLE_DURING_LOCK = false
         super.onPause()
     }
 
