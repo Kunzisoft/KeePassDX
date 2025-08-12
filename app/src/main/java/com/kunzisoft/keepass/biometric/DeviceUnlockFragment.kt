@@ -296,6 +296,7 @@ class DeviceUnlockFragment: Fragment() {
         // Auto open the biometric prompt
         if (mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt
             && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(requireContext())) {
+            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
             openDecryptionPrompt(cryptoPrompt)
         }
     }
