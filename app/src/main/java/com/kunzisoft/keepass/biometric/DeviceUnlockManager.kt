@@ -196,15 +196,8 @@ class DeviceUnlockManager(private var appContext: Context) {
 
     @Synchronized fun initDecryptData(
         ivSpecValue: ByteArray,
+        firstLaunch: Boolean = true,
         actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit
-    ) {
-        initDecryptData(ivSpecValue, actionIfCypherInit, true)
-    }
-
-    @Synchronized private fun initDecryptData(
-        ivSpecValue: ByteArray,
-        actionIfCypherInit: (cryptoPrompt: DeviceUnlockCryptoPrompt) -> Unit,
-        firstLaunch: Boolean
     ) {
         try {
             // important to restore spec here that was used for decryption
@@ -232,7 +225,7 @@ class DeviceUnlockManager(private var appContext: Context) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
             if (firstLaunch) {
                 deleteKeystoreKey()
-                initDecryptData(ivSpecValue, actionIfCypherInit, firstLaunch)
+                initDecryptData(ivSpecValue, false, actionIfCypherInit)
             } else {
                 throw unrecoverableKeyException
             }
@@ -240,7 +233,7 @@ class DeviceUnlockManager(private var appContext: Context) {
             Log.e(TAG, "Unable to initialize decrypt data", invalidKeyException)
             if (firstLaunch) {
                 deleteAllEntryKeysInKeystoreForBiometric(appContext)
-                initDecryptData(ivSpecValue, actionIfCypherInit, firstLaunch)
+                initDecryptData(ivSpecValue, false, actionIfCypherInit)
             } else {
                 throw invalidKeyException
             }
