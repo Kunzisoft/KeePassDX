@@ -45,12 +45,11 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     /**
-     * Check unlock availability and change the current mode depending of device's state
+     * Check unlock availability by verifying device settings and database mode
      */
-    fun checkUnlockAvailability(databaseFileUri: Uri?) {
-        databaseUri = databaseFileUri
+    fun checkUnlockAvailability() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipherDatabase ->
+            cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipherDatabase ->
                 if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
                     // biometric not supported (by API level or hardware) so keep option hidden
                     // or manually disable
@@ -78,6 +77,14 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 }
             }
         }
+    }
+
+    /**
+     * Check unlock availability and change the current mode depending of device's state
+     */
+    fun checkUnlockAvailability(databaseFileUri: Uri?) {
+        databaseUri = databaseFileUri
+        checkUnlockAvailability()
     }
 
     private fun isModeChanging(newMode: DeviceUnlockMode): Boolean {
