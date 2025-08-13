@@ -235,7 +235,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // New value received
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        uiState.cipherCredentialRequired?.let { cipher ->
+                        uiState.credentialRequiredCipher?.let { cipher ->
                             mDeviceUnlockViewModel.encryptCredential(
                                 credential = getCredentialForEncryption(),
                                 cipher = cipher
