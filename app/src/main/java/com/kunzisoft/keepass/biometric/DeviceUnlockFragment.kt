@@ -377,11 +377,6 @@ class DeviceUnlockFragment: Fragment() {
         )
     }
 
-    override fun onPause() {
-        super.onPause()
-        mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = true
-    }
-
     override fun onDestroyView() {
         mDeviceUnlockView = null
         super.onDestroyView()

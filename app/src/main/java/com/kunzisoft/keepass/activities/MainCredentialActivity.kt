@@ -87,6 +87,7 @@ import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
+import com.kunzisoft.keepass.viewmodels.DeviceUnlockState
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
@@ -415,6 +416,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         // Check if database really loaded
         if (database.loaded) {
+            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = true
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
             GroupActivity.launch(this,
                 database,
