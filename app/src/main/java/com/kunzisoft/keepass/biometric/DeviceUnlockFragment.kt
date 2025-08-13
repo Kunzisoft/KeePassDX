@@ -151,9 +151,8 @@ class DeviceUnlockFragment: Fragment() {
         mDeviceUnlockViewModel.checkUnlockAvailability()
     }
 
-    fun destroyBiometricPrompt() {
+    fun cancelBiometricPrompt() {
         mBiometricPrompt?.cancelAuthentication()
-        mBiometricPrompt = null
     }
 
     private var currentCredentialMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
@@ -189,7 +188,7 @@ class DeviceUnlockFragment: Fragment() {
                     mDeviceUnlockViewModel.promptShown()
                 }
                 DeviceUnlockPromptMode.CLOSE -> {
-                    destroyBiometricPrompt()
+                    cancelBiometricPrompt()
                     mDeviceUnlockViewModel.biometricPromptClosed()
                 }
             }
@@ -197,45 +196,43 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun openPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            try {
-                val promptTitle = getString(cryptoPrompt.titleId)
-                val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
-                    getString(descriptionId)
-                } ?: ""
+        try {
+            val promptTitle = getString(cryptoPrompt.titleId)
+            val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
+                getString(descriptionId)
+            } ?: ""
 
-                if (cryptoPrompt.isBiometricOperation) {
-                    mBiometricPrompt?.authenticate(
-                        BiometricPrompt.PromptInfo.Builder().apply {
-                            setTitle(promptTitle)
-                            if (promptDescription.isNotEmpty())
-                                setDescription(promptDescription)
-                            setConfirmationRequired(false)
-                            if (isDeviceCredentialBiometricOperation(context)) {
-                                setAllowedAuthenticators(DEVICE_CREDENTIAL)
-                            } else {
-                                setNegativeButtonText(getString(android.R.string.cancel))
-                            }
-                        }.build(),
-                        BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
-                } else if (cryptoPrompt.isDeviceCredentialOperation) {
-                    context?.let { context ->
-                        @Suppress("DEPRECATION")
-                        mDeviceCredentialResultLauncher?.launch(
-                            ContextCompat.getSystemService(
-                                context,
-                                KeyguardManager::class.java
-                            )?.createConfirmDeviceCredentialIntent(
-                                promptTitle,
-                                promptDescription
-                            )
+            if (cryptoPrompt.isBiometricOperation) {
+                mBiometricPrompt?.authenticate(
+                    BiometricPrompt.PromptInfo.Builder().apply {
+                        setTitle(promptTitle)
+                        if (promptDescription.isNotEmpty())
+                            setDescription(promptDescription)
+                        setConfirmationRequired(false)
+                        if (isDeviceCredentialBiometricOperation(context)) {
+                            setAllowedAuthenticators(DEVICE_CREDENTIAL)
+                        } else {
+                            setNegativeButtonText(getString(android.R.string.cancel))
+                        }
+                    }.build(),
+                    BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
+            } else if (cryptoPrompt.isDeviceCredentialOperation) {
+                context?.let { context ->
+                    @Suppress("DEPRECATION")
+                    mDeviceCredentialResultLauncher?.launch(
+                        ContextCompat.getSystemService(
+                            context,
+                            KeyguardManager::class.java
+                        )?.createConfirmDeviceCredentialIntent(
+                            promptTitle,
+                            promptDescription
                         )
-                    }
+                    )
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to open prompt", e)
-                mDeviceUnlockViewModel.setException(e)
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to open prompt", e)
+            mDeviceUnlockViewModel.setException(e)
         }
     }
 
