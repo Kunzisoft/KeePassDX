@@ -93,26 +93,16 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         checkUnlockAvailability()
     }
 
-    private fun isModeChanging(newMode: DeviceUnlockMode): Boolean {
-        return deviceUnlockMode != newMode
-    }
-
     @RequiresApi(Build.VERSION_CODES.M)
     fun selectMode(containsCipherDatabase: Boolean) {
         try {
             if (isConditionToStoreCredentialVerified) {
-                if (deviceUnlockManager == null
-                    || isModeChanging(DeviceUnlockMode.STORE_CREDENTIAL)) {
-                    deviceUnlockManager = DeviceUnlockManager(getApplication())
-                }
+                deviceUnlockManager = DeviceUnlockManager(getApplication())
                 // listen for encryption
                 changeMode(DeviceUnlockMode.STORE_CREDENTIAL)
                 initEncryptData()
             } else if (containsCipherDatabase) {
-                if (deviceUnlockManager == null
-                    || isModeChanging(DeviceUnlockMode.EXTRACT_CREDENTIAL)) {
-                    deviceUnlockManager = DeviceUnlockManager(getApplication())
-                }
+                deviceUnlockManager = DeviceUnlockManager(getApplication())
                 // biometric available but no stored password found yet for this DB
                 // listen for decryption
                 changeMode(DeviceUnlockMode.EXTRACT_CREDENTIAL)
@@ -377,13 +367,11 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
-        val modeChanged = this.deviceUnlockMode == deviceUnlockMode
         this.deviceUnlockMode = deviceUnlockMode
         cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
             _uiState.update { currentState ->
                 currentState.copy(
                     newDeviceUnlockMode = deviceUnlockMode,
-                    deviceUnlockModeChange = modeChanged,
                     allowAdvancedUnlockMenu = containsCipher
                             && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
                             && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
@@ -444,7 +432,6 @@ enum class DeviceUnlockPromptMode {
 
 data class DeviceUnlockState(
     val newDeviceUnlockMode: DeviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE,
-    val deviceUnlockModeChange: Boolean = true,
     val allowAdvancedUnlockMenu: Boolean = false,
     val credentialRequiredCipher: Cipher? = null,
     val cipherEncryptDatabase: CipherEncryptDatabase? = null,

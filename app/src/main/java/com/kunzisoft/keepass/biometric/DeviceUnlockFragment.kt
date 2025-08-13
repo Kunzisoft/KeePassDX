@@ -133,14 +133,9 @@ class DeviceUnlockFragment: Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // Change mode
-                    toggleDeviceCredentialMode(
-                        uiState.newDeviceUnlockMode,
-                        uiState.deviceUnlockModeChange
-                    )
+                    toggleDeviceCredentialMode(uiState.newDeviceUnlockMode)
                     // Prompt
-                    manageDeviceCredentialPrompt(
-                        uiState.cryptoPromptState
-                    )
+                    manageDeviceCredentialPrompt(uiState.cryptoPromptState)
                     // Advanced menu
                     mAllowAdvancedUnlockMenu = uiState.allowAdvancedUnlockMenu
                     activity?.invalidateOptionsMenu()
@@ -164,21 +159,19 @@ class DeviceUnlockFragment: Fragment() {
         mBiometricPrompt?.cancelAuthentication()
     }
 
-    private fun toggleDeviceCredentialMode(deviceUnlockMode: DeviceUnlockMode, modeChanged: Boolean) {
-        if (modeChanged) {
-            try {
-                when (deviceUnlockMode) {
-                    DeviceUnlockMode.BIOMETRIC_UNAVAILABLE -> setNotAvailableMode()
-                    DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> setSecurityUpdateRequiredMode()
-                    DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> setNotConfiguredMode()
-                    DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE -> setKeyManagerNotAvailableMode()
-                    DeviceUnlockMode.WAIT_CREDENTIAL -> setWaitCredentialMode()
-                    DeviceUnlockMode.STORE_CREDENTIAL -> setStoreCredentialMode()
-                    DeviceUnlockMode.EXTRACT_CREDENTIAL -> setExtractCredentialMode()
-                }
-            } catch (e: Exception) {
-                mDeviceUnlockViewModel.setException(e)
+    private fun toggleDeviceCredentialMode(deviceUnlockMode: DeviceUnlockMode) {
+        try {
+            when (deviceUnlockMode) {
+                DeviceUnlockMode.BIOMETRIC_UNAVAILABLE -> setNotAvailableMode()
+                DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> setSecurityUpdateRequiredMode()
+                DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> setNotConfiguredMode()
+                DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE -> setKeyManagerNotAvailableMode()
+                DeviceUnlockMode.WAIT_CREDENTIAL -> setWaitCredentialMode()
+                DeviceUnlockMode.STORE_CREDENTIAL -> setStoreCredentialMode()
+                DeviceUnlockMode.EXTRACT_CREDENTIAL -> setExtractCredentialMode()
             }
+        } catch (e: Exception) {
+            mDeviceUnlockViewModel.setException(e)
         }
     }
 
