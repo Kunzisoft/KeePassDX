@@ -29,7 +29,7 @@
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
-    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймує дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
+    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
     <string name="clipboard_timeout">Час до очищення буфера обміну</string>
     <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну (якщо підтримується пристроєм)</string>
@@ -617,7 +617,7 @@
     <string name="menu_merge_from">Об\'єднати з …</string>
     <string name="custom_data">Користувацькі дані</string>
     <string name="search_filters">Фільтри пошуку</string>
-    <string name="auto_type_sequence">Послідовність автовведення</string>
+    <string name="auto_type_sequence">Послідовність авто введення</string>
     <string name="menu_save_copy_to">Зберегти копію в …</string>
     <string name="expired">Термін дії завершився</string>
     <string name="warning_database_already_opened">База даних уже відкрита, спочатку закрийте її, щоб відкрити нову</string>
