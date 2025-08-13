@@ -293,15 +293,8 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         autoOpen: Boolean = false
     ) {
         this@DeviceUnlockViewModel.cryptoPrompt = cryptoPrompt
-        _uiState.update { currentState ->
-            currentState.copy(
-                cryptoPromptState = if (
-                    autoOpen
-                    && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication()))
-                        DeviceUnlockPromptMode.SHOW
-                else uiState.value.cryptoPromptState
-            )
-        }
+        if (autoOpen && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication()))
+            showPrompt()
     }
 
     fun showPrompt() {
