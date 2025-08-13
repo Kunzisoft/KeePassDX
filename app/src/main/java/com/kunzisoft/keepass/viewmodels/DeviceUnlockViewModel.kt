@@ -295,20 +295,19 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun onPromptRequested(cryptoPrompt: DeviceUnlockCryptoPrompt) {
+    fun onPromptRequested(
+        cryptoPrompt: DeviceUnlockCryptoPrompt,
+        autoOpen: Boolean = false
+    ) {
         _uiState.update { currentState ->
             currentState.copy(
-                cryptoPrompt = cryptoPrompt
+                cryptoPrompt = cryptoPrompt,
+                cryptoPromptState = if (
+                    autoOpen
+                    && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication()))
+                        DeviceUnlockPromptMode.SHOW
+                else uiState.value.cryptoPromptState
             )
-        }
-    }
-
-    fun checkAutoOpenPrompt() {
-        // Auto open the biometric prompt
-        if (allowAutoOpenBiometricPrompt
-            && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication())
-        ) {
-            showPrompt()
         }
     }
 
@@ -321,6 +320,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun promptShown() {
+        allowAutoOpenBiometricPrompt = false
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.IDLE
@@ -362,8 +362,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 cipherDatabase?.let {
                     try {
                         deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
-                            onPromptRequested(cryptoPrompt)
-                            checkAutoOpenPrompt()
+                            onPromptRequested(cryptoPrompt, autoOpen = allowAutoOpenBiometricPrompt)
                         } ?: setException(Exception("AdvancedUnlockManager not initialized"))
                     } catch (e: Exception) {
                         setException(e)
@@ -445,5 +444,6 @@ data class DeviceUnlockState(
     val cipherDecryptDatabase: CipherDecryptDatabase? = null,
     val cryptoPrompt: DeviceUnlockCryptoPrompt? = null,
     val cryptoPromptState: DeviceUnlockPromptMode = DeviceUnlockPromptMode.IDLE,
+    val autoOpenPrompt: Boolean = false,
     val exception: Exception? = null
 )

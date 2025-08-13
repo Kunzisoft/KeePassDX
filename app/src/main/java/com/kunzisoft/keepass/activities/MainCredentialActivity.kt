@@ -256,8 +256,8 @@ class MainCredentialActivity : DatabaseModeActivity() {
                             deviceUnlockError(error, this@MainCredentialActivity),
                             Snackbar.LENGTH_LONG
                         ).asError().show()
+                        mDeviceUnlockViewModel.exceptionShown()
                     }
-                    mDeviceUnlockViewModel.exceptionShown()
                 }
             }
         }
@@ -265,11 +265,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        // Don't allow auto open prompt if lock become when UI visible
-        if (UI_VISIBLE_DURING_LOCK) {
-            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
-        }
 
         // Init Biometric elements only if allowed
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M

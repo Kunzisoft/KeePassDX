@@ -45,6 +45,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity.Companion.UI_VISIBLE_DURING_LOCK
 import com.kunzisoft.keepass.view.DeviceUnlockView
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
@@ -148,6 +149,12 @@ class DeviceUnlockFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        // Don't allow auto open prompt if lock become when UI visible
+        if (UI_VISIBLE_DURING_LOCK) {
+            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = false
+        }
+
         mDeviceUnlockViewModel.checkUnlockAvailability()
     }
 
@@ -368,6 +375,11 @@ class DeviceUnlockFragment: Fragment() {
         mDeviceUnlockViewModel.setException(
             SecurityException(getString(R.string.advanced_unlock_not_recognized))
         )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = true
     }
 
     override fun onDestroyView() {
