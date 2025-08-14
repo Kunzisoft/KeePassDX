@@ -70,7 +70,7 @@ class DeviceUnlockFragment: Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            mDeviceUnlockViewModel.onAuthenticationSucceeded(result)
+            mDeviceUnlockViewModel.onAuthenticationSucceeded()
         } else {
             setAuthenticationFailed()
         }
@@ -298,10 +298,8 @@ class DeviceUnlockFragment: Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(true)
             setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
-            context?.let { context ->
-                mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { view ->
-                    mDeviceUnlockViewModel.showPrompt()
-                }
+            mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { _ ->
+                mDeviceUnlockViewModel.showPrompt()
             }
         }
     }
@@ -310,10 +308,8 @@ class DeviceUnlockFragment: Fragment() {
         lifecycleScope.launch(Dispatchers.Main) {
             showViews(true)
             setAdvancedUnlockedTitleView(R.string.unlock)
-            context?.let { context ->
-                mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { view ->
-                    mDeviceUnlockViewModel.showPrompt()
-                }
+            mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { _ ->
+                mDeviceUnlockViewModel.showPrompt()
             }
         }
     }

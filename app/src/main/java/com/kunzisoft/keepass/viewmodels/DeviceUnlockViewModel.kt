@@ -152,9 +152,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun onAuthenticationSucceeded(
-        activityResult: ActivityResult
-    ) {
+    fun onAuthenticationSucceeded() {
         cryptoPrompt?.let { prompt ->
             when (prompt.type) {
                 DeviceUnlockCryptoPromptType.CREDENTIAL_ENCRYPTION ->
