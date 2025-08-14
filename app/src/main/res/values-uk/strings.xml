@@ -493,7 +493,6 @@
     <string name="device_credential">Облікові дані пристрою</string>
     <string name="credential_before_click_advanced_unlock_button">Введіть пароль, а потім натисніть цю кнопку.</string>
     <string name="advanced_unlock_prompt_not_initialized">Не вдалося ініціалізувати запит на розблокування пристрою.</string>
-    <string name="advanced_unlock_scanning_error">Помилка розблокування пристрою: %1$s</string>
     <string name="advanced_unlock_not_recognized">Не вдалося розпізнати розблокування пристрою</string>
     <string name="advanced_unlock_invalid_key">Не вдалося розпізнати ключ розблокування пристрою. Видаліть його й повторіть процедуру створення ключа.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Витягування облікових даних бази даних за допомогою даних розблокування пристрою</string>

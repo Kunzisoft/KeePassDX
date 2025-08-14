@@ -489,7 +489,6 @@
     <string name="advanced_unlock_prompt_store_credential_message">Zure kutxa gotorraren pasahitz-nagusia gogoratu behar duzu naiz eta desblokeo aurreratuko ezagutzea erabili arren.</string>
     <string name="encrypted_value_stored">Zifratutako pasahitza gordeta</string>
     <string name="unavailable">Datu-base honek ez du biltegiratuta kredentzialik.</string>
-    <string name="advanced_unlock_scanning_error">Gailuaren desblokeatze errorea: %1$s</string>
     <string name="menu_appearance_settings">Itxura</string>
     <string name="autofill_sign_in_prompt">KeePassDXekin erregistratu</string>
     <string name="autofill_explanation_summary">Gaitu betetze automatikoa beste aplikazioetako formularioak errez betetzeko</string>

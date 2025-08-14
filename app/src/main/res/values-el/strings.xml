@@ -503,7 +503,6 @@
     <string name="credential_before_click_advanced_unlock_button">Πληκτρολογήστε τον κωδικό πρόσβασης, και στη συνέχεια κάντε κλικ αυτό το κουμπί.</string>
     <string name="advanced_unlock_prompt_not_initialized">Δεν είναι δυνατή η προετοιμασία της προτροπής ξεκλειδώματος συσκευής.</string>
     <string name="advanced_unlock_not_recognized">Δεν ήταν δυνατή η αναγνώριση αποτυπώματος ξεκλειδώματος συσκευής</string>
-    <string name="advanced_unlock_scanning_error">Σφάλμα ξεκλειδώματος συσκευής: %1$s</string>
     <string name="advanced_unlock_invalid_key">Δεν είναι δυνατή η ανάγνωση του κλειδιού ξεκλειδώματος της συσκευής. Διαγράψτε το και επαναλάβετε τη διαδικασία αναγνώρισης ξεκλειδώματος.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Εξαγωγή διαπιστευτηρίων βάσης δεδομένων με δεδομένα ξεκλειδώματος συσκευής</string>
     <string name="education_advanced_unlock_summary">Συνδέστε τον κωδικό πρόσβασής σας με το σαρωμένο βιομετρικό ή τα διαπιστευτήρια της συσκευής σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>

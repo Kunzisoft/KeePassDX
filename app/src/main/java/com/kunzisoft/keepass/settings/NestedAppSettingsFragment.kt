@@ -41,7 +41,7 @@ import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
+import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
@@ -251,7 +251,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             val tempAdvancedUnlockPreference: TwoStatePreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
 
             val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                AdvancedUnlockManager.biometricUnlockSupported(activity)
+                DeviceUnlockManager.biometricUnlockSupported(activity)
             } else false
             biometricUnlockEnablePreference?.apply {
                 // False if under Marshmallow
@@ -296,7 +296,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             }
 
             val deviceCredentialUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                AdvancedUnlockManager.deviceCredentialUnlockSupported(activity)
+                DeviceUnlockManager.deviceCredentialUnlockSupported(activity)
             } else false
             deviceCredentialUnlockEnablePreference?.apply {
                 // Biometric unlock already checked
@@ -395,7 +395,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 validate?.invoke()
                 warningAlertDialog?.setOnDismissListener(null)
                 if (deleteKeys && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    AdvancedUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
+                    DeviceUnlockManager.deleteAllEntryKeysInKeystoreForBiometric(activity)
                 }
             }
             .setNegativeButton(resources.getString(android.R.string.cancel)

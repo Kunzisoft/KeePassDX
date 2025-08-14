@@ -507,7 +507,6 @@
     <string name="content">Indhold</string>
     <string name="credential_before_click_advanced_unlock_button">Indtast adgangskoden, og klik derefter på denne knap.</string>
     <string name="advanced_unlock_prompt_not_initialized">Kunne ikke initialisere oplåsningsprompt.</string>
-    <string name="advanced_unlock_scanning_error">Fejl ved oplåsning: %1$s</string>
     <string name="advanced_unlock_not_recognized">Kunne ikke genkende aftryk til oplåsning</string>
     <string name="advanced_unlock_invalid_key">Oplåsningsnøgle kan ikke læses. Slet den og gentag proceduren for genkendelse af oplåsning.</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Enhedsoplåsningsgenkendelse</string>

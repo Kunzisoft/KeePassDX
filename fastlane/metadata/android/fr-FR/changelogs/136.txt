@@ -1,0 +1,3 @@
+ * Correction UnlockManager #2098 #2101
+ * Invite de déverrouillage automatique de l'appareil #2105
+ * Petites corrections ##2066

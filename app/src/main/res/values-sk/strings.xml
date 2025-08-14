@@ -476,7 +476,6 @@
     <string name="style_choose_title">Téma aplikácie</string>
     <string name="protection">Ochrana</string>
     <string name="configure_biometric">Nie sú zaregistrované žiadne biometrické údaje ani poverenia zariadenia.</string>
-    <string name="advanced_unlock_scanning_error">Chyba odomykania zariadenia: %1$s</string>
     <string name="lock">Zamknúť</string>
     <string name="custom_fields">Vlastné polia</string>
     <string name="education_sort_summary">Vyberte spôsob triedenia záznamov a skupín.</string>
