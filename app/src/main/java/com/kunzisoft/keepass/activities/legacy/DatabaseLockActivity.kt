@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel.Companion.isAutoOpenBiometricPromptAllowed
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import java.util.UUID
 
@@ -69,6 +70,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     protected var mDatabaseReadOnly: Boolean = true
     protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
+
+    private var isDatabaseUiVisible: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,7 +191,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                     mLockReceiver = LockReceiver {
                         mDatabase = null
                         closeDatabase(database)
-                        UI_VISIBLE_DURING_LOCK = UI_VISIBLE
+                        // Don't allow auto open prompt if lock become when UI visible
+                        isAutoOpenBiometricPromptAllowed = !isDatabaseUiVisible
                         mExitLock = true
                         closeOptionsMenu()
                         finish()
@@ -417,7 +421,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
         invalidateOptionsMenu()
 
-        UI_VISIBLE = true
+        isDatabaseUiVisible = true
     }
 
     protected fun checkTimeAndLockIfTimeoutOrResetTimeout(action: (() -> Unit)? = null) {
@@ -432,7 +436,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     override fun onPause() {
-        UI_VISIBLE = false
+        isDatabaseUiVisible = false
 
         super.onPause()
 
@@ -483,9 +487,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
         const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
         const val TIMEOUT_ENABLE_KEY_DEFAULT = true
-
-        var UI_VISIBLE: Boolean = false
-        var UI_VISIBLE_DURING_LOCK: Boolean = false
     }
 }
 

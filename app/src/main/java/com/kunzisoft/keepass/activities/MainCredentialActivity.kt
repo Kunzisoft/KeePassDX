@@ -51,7 +51,6 @@ import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity.Companion.UI_VISIBLE_DURING_LOCK
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.autofill.AutofillComponent
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -87,7 +86,6 @@ import com.kunzisoft.keepass.view.MainCredentialView
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
-import com.kunzisoft.keepass.viewmodels.DeviceUnlockState
 import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel
 import kotlinx.coroutines.launch
 import java.io.FileNotFoundException
@@ -416,7 +414,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
         // Check if database really loaded
         if (database.loaded) {
-            mDeviceUnlockViewModel.allowAutoOpenBiometricPrompt = true
             clearCredentialsViews(clearKeyFile = true, clearHardwareKey = true)
             GroupActivity.launch(this,
                 database,
@@ -535,12 +532,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
         if (clearHardwareKey) {
             mainCredentialView?.populateHardwareKeyView(null)
         }
-    }
-
-    override fun onPause() {
-        // Reinit locking activity UI variable
-        UI_VISIBLE_DURING_LOCK = false
-        super.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

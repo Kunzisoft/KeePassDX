@@ -24,9 +24,6 @@ import kotlinx.coroutines.flow.update
 import javax.crypto.Cipher
 
 class DeviceUnlockViewModel(application: Application): AndroidViewModel(application) {
-
-    var allowAutoOpenBiometricPrompt : Boolean = true
-
     private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null
 
     private var isConditionToStoreCredentialVerified: Boolean = false
@@ -306,7 +303,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun promptShown() {
-        allowAutoOpenBiometricPrompt = false
+        isAutoOpenBiometricPromptAllowed = false
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.IDLE
@@ -348,7 +345,10 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 cipherDatabase?.let {
                     try {
                         deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
-                            onPromptRequested(cryptoPrompt, autoOpen = allowAutoOpenBiometricPrompt)
+                            onPromptRequested(
+                                cryptoPrompt,
+                                autoOpen = isAutoOpenBiometricPromptAllowed
+                            )
                         } ?: setException(Exception("AdvancedUnlockManager not initialized"))
                     } catch (e: Exception) {
                         setException(e)
@@ -416,6 +416,10 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             deviceUnlockManager = null
         }
+    }
+
+    companion object {
+        var isAutoOpenBiometricPromptAllowed = true
     }
 }
 
