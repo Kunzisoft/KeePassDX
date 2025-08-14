@@ -499,7 +499,6 @@
     <string name="device_credential">Heslo zařízení</string>
     <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a pak klepněte na toto tlačítko.</string>
     <string name="advanced_unlock_prompt_not_initialized">Nepodařilo se inicializovat nabídku pro odemykání zařízení.</string>
-    <string name="advanced_unlock_scanning_error">Chyba při odemykání zařízení: %1$s</string>
     <string name="advanced_unlock_not_recognized">Otisk pro odemykání zařízení nebyl rozpoznán</string>
     <string name="advanced_unlock_invalid_key">Nepodařilo se načíst klíč odemykání zařízení. Odstraňte ho a opakujte proces rozpoznání odemknutí.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Načíst údaj z databáze pomocí dat odemykání zařízení</string>

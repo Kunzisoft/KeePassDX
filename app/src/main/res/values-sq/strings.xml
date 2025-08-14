@@ -344,7 +344,6 @@
     <string name="show_entry_colors_title">Ngjyra zërash</string>
     <string name="hide_expired_entries_title">Fshihi zërat e skaduar</string>
     <string name="error_XML_malformed">XML e keqformuar.</string>
-    <string name="advanced_unlock_scanning_error">Gabim shkyçjeje pajisjeje: %1$s</string>
     <string name="autofill_block">Blloko vetëplotësim</string>
     <string name="allow_no_password_summary">Lejon prekjen e butoni “Hape”, nëse s’janë përzgjedhur kredenciale</string>
     <string name="about_description">Sendërtim për Android i përgjegjësit KeePass të fjalëkalimeve</string>

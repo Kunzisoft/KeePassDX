@@ -444,7 +444,6 @@
     <string name="device_credential">Credenciales del dispositivo</string>
     <string name="credential_before_click_advanced_unlock_button">Teclee la contraseña y luego pulse sobre este botón.</string>
     <string name="advanced_unlock_prompt_not_initialized">No se puede inicializar el aviso de desbloqueo avanzado.</string>
-    <string name="advanced_unlock_scanning_error">Error de desbloqueo del dispositivo: %1$s</string>
     <string name="advanced_unlock_not_recognized">No se ha podido reconocer la impresión de desbloqueo avanzado</string>
     <string name="advanced_unlock_invalid_key">No se puede leer la clave de desbloqueo del dispositivo. Por favor, bórrala y repite el procedimiento de reconocimiento del desbloqueo.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraer la credencial de la base de datos con los datos de desbloqueo del dispositivo</string>

@@ -400,7 +400,6 @@
     <string name="encrypted_value_stored">Đã lưu trữ mật khẩu được mã hóa</string>
     <string name="advanced_unlock_invalid_key">Không thể đọc được mã mở khóa thiết bị. Vui lòng xóa nó và lặp lại quy trình nhận dạng mở khóa.</string>
     <string name="advanced_unlock_not_recognized">Không thể nhận dạng vân tay mở khóa thiết bị</string>
-    <string name="advanced_unlock_scanning_error">Lỗi mở khóa thiết bị: %1$s</string>
     <string name="unavailable">Không có sẵn</string>
     <string name="advanced_unlock_prompt_not_initialized">Không thể khởi tạo lời nhắc mở khóa thiết bị.</string>
     <string name="credential_before_click_advanced_unlock_button">Nhập mật khẩu rồi nhấp vào nút này.</string>

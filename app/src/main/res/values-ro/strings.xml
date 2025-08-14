@@ -597,7 +597,6 @@
     <string name="warning_copy_permission">Permisiunea de notificare este necesară pentru a utiliza funcția de notificare a clipboardului.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Legătură la deblocarea dispozitivului</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Recunoașterea deblocării dispozitivului</string>
-    <string name="advanced_unlock_scanning_error">Eroare de deblocare a dispozitivului: %1$s</string>
     <string name="unlock_and_link_biometric">Legătură de deblocare a dispozitivului</string>
     <string name="configure_biometric">Nu se înrolează nicio credențială biometrică sau de dispozitiv.</string>
     <string name="autofill_select_entry">Selectați intrarea…</string>

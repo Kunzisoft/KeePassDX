@@ -315,6 +315,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
         launchPasswordActivity(databaseUri, null, null)
         // Delete flickering for kitkat <=
+        @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             overridePendingTransition(0, 0)
     }

@@ -509,7 +509,6 @@
     <string name="device_credential">Identifiant de l\'appareil</string>
     <string name="credential_before_click_advanced_unlock_button">Tapez le mot de passe, puis cliquez sur ce bouton.</string>
     <string name="advanced_unlock_prompt_not_initialized">Impossible d\'initialiser l\'invite de déverrouillage avancé.</string>
-    <string name="advanced_unlock_scanning_error">Erreur de déverrouillage avancé : %1$s</string>
     <string name="advanced_unlock_not_recognized">Impossible de reconnaître l\'empreinte de déverrouillage de l\'appareil</string>
     <string name="advanced_unlock_invalid_key">Impossible de lire la clé de déverrouillage de l\'appareil. Veuillez la supprimer et répéter la procédure de reconnaissance de déverrouillage.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraire les identifiants de la base de données avec des données de déverrouillage de l\'appareil</string>

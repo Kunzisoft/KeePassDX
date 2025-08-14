@@ -199,7 +199,6 @@
     <string name="keystore_not_accessible">Açar ehtiyyatı düzgün formada başladılmadı.</string>
     <string name="advanced_unlock_prompt_store_credential_title">Cihaz kilidini açma linki</string>
     <string name="database_history">Tarixçə</string>
-    <string name="advanced_unlock_scanning_error">Cihaz kilidini açma xətası: %1$s</string>
     <string name="warning_database_info_reloaded">Məlumat bazasını yenidən yükləmək lokal olaraq modifikasiya olunmuş faylları siləcəkdir.</string>
     <string name="warning_database_revoked">Fayla giriş fayl meneceri tərəfindən ləğv edildi, məlumat bazasını bağlayın və onu olduğu yerdən yenidən açın.</string>
     <string name="warning_exact_alarm">Siz tətəbiqin zəngli saatdan istifadə etməsinə icazə verməmisiniz. Nəticədə, taymer tələb edən funksiyalar dəqiq bir zamanda işləməyəckdir.</string>

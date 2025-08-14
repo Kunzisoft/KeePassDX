@@ -1,0 +1,3 @@
+ * Fix UnlockManager #2098 #2101
+ * Auto device unlock prompt #2105
+ * Small fixes ##2066

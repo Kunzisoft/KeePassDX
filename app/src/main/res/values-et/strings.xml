@@ -440,7 +440,6 @@
     <string name="merge_success">Mestimine õnnestus</string>
     <string name="biometric_security_update_required">Vajalik on biomeetrilise turvalisuse uuendus.</string>
     <string name="encrypted_value_stored">Krüptitud salasõna on salvestatud</string>
-    <string name="advanced_unlock_scanning_error">Viga seadme lukustuse eemaldamisel: %1$s</string>
     <string name="advanced_unlock_not_recognized">Ei õnnestunud tuvastada lukustuse eemaldamiseks vajalikku tunnust</string>
     <string name="advanced_unlock_prompt_not_initialized">Seadme lukustuse eemaldamise päringu käivitamine ei õnnestu.</string>
     <string name="biometric">Biomeetriline</string>

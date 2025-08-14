@@ -488,7 +488,6 @@
     <string name="credential_before_click_advanced_unlock_button">Parolayı yazın ve ardından bu düğmeye tıklayın.</string>
     <string name="advanced_unlock_prompt_not_initialized">Cihaz kilit açma istemi başlatılamıyor.</string>
     <string name="unavailable">Kullanım dışı</string>
-    <string name="advanced_unlock_scanning_error">Cihaz kilit açma hatası: %1$s</string>
     <string name="advanced_unlock_not_recognized">Cihaz kilit açma parmak izi tanınamadı</string>
     <string name="advanced_unlock_invalid_key">Cihazın kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma prosedürünü tekrarlayın.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Cihaz kilit açma verileriyle veritabanı kimlik bilgilerini çıkarın</string>

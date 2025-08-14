@@ -5,8 +5,8 @@
     <string name="colorize_password_summary">Colourise password characters by type</string>
     <string name="content_description_entry_background_color">Entry background colour</string>
     <string name="invalid_db_sig">Could not recognise the database format.</string>
-    <string name="advanced_unlock_not_recognized">Could not recognise advanced unlock print</string>
-    <string name="advanced_unlock_prompt_not_initialized">Unable to initialise advanced unlock prompt.</string>
+    <string name="advanced_unlock_not_recognized">Could not recognise device unlock print</string>
+    <string name="advanced_unlock_prompt_not_initialized">Unable to initialise device unlock prompt.</string>
     <string name="download_initialization">Initialising…</string>
     <string name="download_finalization">Finalising…</string>
     <string name="download_canceled">Cancelled!</string>

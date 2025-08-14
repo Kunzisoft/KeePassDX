@@ -582,7 +582,6 @@
     <string name="upper_case">HURUF BESAR</string>
     <string name="title_case">Huruf Judul</string>
     <string name="character_count">Jumlah karakter: %1$d</string>
-    <string name="advanced_unlock_scanning_error">Terjadi kesalahan buka kunci perangkat: %1$s</string>
     <string name="advanced_unlock_prompt_not_initialized">Tidak dapat menginisialisasi perintah buka kunci perangkat.</string>
     <string name="monospace_font_fields_enable_title">Bidang tipe huruf</string>
     <string name="keyboard_save_search_info_title">Simpan info terbagi</string>

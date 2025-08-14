@@ -490,7 +490,6 @@
     <string name="menu_keystore_remove_key">Izbriši ključ za otključavanje uređaja</string>
     <string name="advanced_unlock_prompt_store_credential_title">Poveznica za otključavanje uređaja</string>
     <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor za otključavanje uređaja.</string>
-    <string name="advanced_unlock_scanning_error">Greška otključavanja uređaja: %1$s</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka za otključavanje uređaja</string>
     <string name="advanced_unlock_not_recognized">Nije bilo moguće prepoznati ispis za otključavanje uređaja</string>
     <string name="advanced_unlock_invalid_key">Nije moguće pročitati ključ za otključavanje uređaja. Izbriši ga i ponovi postupak prepoznavanja otključavanja.</string>

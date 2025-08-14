@@ -29,7 +29,7 @@ import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
-import com.kunzisoft.keepass.biometric.AdvancedUnlockManager
+import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
@@ -512,7 +512,7 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
             context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
                 && (if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            AdvancedUnlockManager.biometricUnlockSupported(context)
+            DeviceUnlockManager.biometricUnlockSupported(context)
         } else {
             false
         })

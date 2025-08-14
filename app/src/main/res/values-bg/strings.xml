@@ -536,7 +536,6 @@
     <string name="recycle_bin_title">Използване на кошчето</string>
     <string name="recycle_bin_summary">Премества групите и записите в групата „Кошче“ вместо да ги премахва директно</string>
     <string name="advanced_unlock_prompt_store_credential_title">Отключване с устройството</string>
-    <string name="advanced_unlock_scanning_error">Грешка при отключване на устройството: %1$s</string>
     <string name="advanced_unlock_not_recognized">Не може да бъде разпознато кога устройството е отключено</string>
     <string name="advanced_unlock_prompt_not_initialized">Заявката за отключване не може да бъде подготвена.</string>
     <string name="password_size_summary">Подразбирана дължина на създаваните пароли</string>

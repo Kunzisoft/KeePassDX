@@ -613,7 +613,6 @@
     <string name="configure">Configura</string>
     <string name="biometric_security_update_required">Cal actualitzar la seguretat biomètrica.</string>
     <string name="unlock_and_link_biometric">Enllaç de desbloqueig del dispositiu</string>
-    <string name="advanced_unlock_scanning_error">Error en desbloquejar el dispositiu: %1$s</string>
     <string name="unavailable">No disponible</string>
     <string name="advanced_unlock_prompt_not_initialized">No s\'ha pogut inicialitzar l\'indicador de desbloqueig del dispositiu.</string>
     <string name="credential_before_click_advanced_unlock_button">Escriviu la contrasenya i, a continuació, feu clic en aquest botó.</string>

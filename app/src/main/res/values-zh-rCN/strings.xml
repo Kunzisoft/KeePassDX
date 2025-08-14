@@ -492,7 +492,6 @@
     <string name="device_credential">设备凭据</string>
     <string name="credential_before_click_advanced_unlock_button">输入密码，然后点击这个按钮。</string>
     <string name="advanced_unlock_prompt_not_initialized">无法初始化设备解锁提示。</string>
-    <string name="advanced_unlock_scanning_error">设备解锁出错：%1$s</string>
     <string name="advanced_unlock_not_recognized">无法识别设备解锁印记</string>
     <string name="advanced_unlock_invalid_key">无法读取设备解锁密钥。请删除它，并重复解锁识别步骤。</string>
     <string name="advanced_unlock_prompt_extract_credential_message">用设备解锁数据提取数据库凭据</string>

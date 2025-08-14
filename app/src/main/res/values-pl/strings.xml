@@ -511,7 +511,6 @@
     <string name="advanced_unlock_tap_delete">Stuknij, aby usunąć klucze odblokowywania urządzenia</string>
     <string name="content">Zawartość</string>
     <string name="advanced_unlock_prompt_extract_credential_title">Rozpoznawanie odblokowania urządzenia</string>
-    <string name="advanced_unlock_scanning_error">Błąd odblokowania urządzenia: %1$s</string>
     <string name="error_rebuild_list">Nie można poprawnie odbudować listy.</string>
     <string name="error_database_uri_null">Nie można pobrać identyfikatora URI bazy danych.</string>
     <string name="autofill_inline_suggestions_keyboard">Dodano sugestie autouzupełniania.</string>

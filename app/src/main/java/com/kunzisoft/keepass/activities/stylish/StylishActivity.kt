@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.activities.stylish
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -77,7 +78,18 @@ abstract class StylishActivity : AppCompatActivity() {
             startActivity(intent)
         }
         finish()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        @Suppress("DEPRECATION")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+            overrideActivityTransition(
+                OVERRIDE_TRANSITION_OPEN,
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
+        else
+            overridePendingTransition(
+                android.R.anim.fade_in,
+                android.R.anim.fade_out
+            )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

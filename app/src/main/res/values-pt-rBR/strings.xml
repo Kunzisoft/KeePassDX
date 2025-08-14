@@ -512,7 +512,6 @@
     <string name="properties">Propriedades</string>
     <string name="credential_before_click_advanced_unlock_button">Digite a senha e clique neste botão.</string>
     <string name="advanced_unlock_prompt_not_initialized">Não foi possível inicializar o prompt de desbloqueio do dispositivo.</string>
-    <string name="advanced_unlock_scanning_error">Erro de desbloqueio do dispositivo: %1$s</string>
     <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio</string>
     <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio do dispositivo. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
     <string name="advanced_unlock_prompt_extract_credential_message">Extraia a credencial do banco de dados com os dados de desbloqueio do dispositivo</string>
