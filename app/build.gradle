@@ -151,7 +151,6 @@ dependencies {
 
     // Credentials Provider
     implementation "androidx.credentials:credentials:1.2.2"
-    implementation "androidx.credentials:credentials-play-services-auth:1.2.2"
     
     // Modules import
     implementation project(path: ':database')
