@@ -19,7 +19,10 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-data class PublicKeyCredentialUsageParameters(
-        val publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions,
-        val clientDataResponse: ClientDataResponse
-)
+import org.json.JSONObject
+
+interface AuthenticatorResponse {
+    var clientJson: JSONObject
+
+    fun json(): JSONObject
+}

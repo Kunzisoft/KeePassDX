@@ -23,9 +23,7 @@ import java.security.spec.ECGenParameterSpec
 object Signature {
 
     // see at https://www.iana.org/assignments/cose/cose.xhtml
-
     const val ES256_ALGORITHM: Long = -7
-
     const val RS256_ALGORITHM: Long = -257
     private const val RS256_KEY_SIZE_IN_BITS = 2048
 
@@ -171,6 +169,4 @@ object Signature {
         Log.e(this::class.java.simpleName, "convertPublicKeyToMap: no known key type id found")
         return null
     }
-
-
 }

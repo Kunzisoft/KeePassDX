@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.credentialprovider.passkey.util
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.AssetManager
 import android.os.Build
 import android.os.Bundle
 import android.os.ParcelUuid
@@ -36,11 +37,21 @@ import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
+import androidx.credentials.provider.ProviderCreateCredentialRequest
+import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.asymmetric.Signature
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
+import com.kunzisoft.keepass.credentialprovider.passkey.data.ClientDataDefinedResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.data.ClientDataNotDefinedResponse
+import com.kunzisoft.keepass.credentialprovider.passkey.data.FidoPublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
+import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginHelper.Companion.DEFAULT_PROTOCOL
+import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
+import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginManager.Companion.DEFAULT_PROTOCOL
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.EntryInfoPasskey.getPasskey
 import com.kunzisoft.keepass.model.Passkey
@@ -206,20 +217,18 @@ object PasskeyHelper {
         return chunked(2).map { it.toInt(16).toByte() }.toByteArray()
     }
 
-    fun Intent.retrievePasskeyCreationComponent(): PublicKeyCredentialCreationOptions {
-        val request = PendingIntentHandler.retrieveProviderCreateCredentialRequest(this)
-            ?: throw CreateCredentialUnknownException("could not retrieve request from intent")
+    fun ProviderCreateCredentialRequest.retrievePasskeyCreationComponent(): PublicKeyCredentialCreationOptions {
+        val request = this
         if (request.callingRequest !is CreatePublicKeyCredentialRequest) {
             throw CreateCredentialUnknownException("callingRequest is of wrong type: ${request.callingRequest.type}")
         }
-        return JsonHelper.parseJsonToCreateOptions(
+        return PublicKeyCredentialCreationOptions(
             (request.callingRequest as CreatePublicKeyCredentialRequest).requestJson
         )
     }
 
-    fun Intent.retrievePasskeyUsageComponent(): GetPublicKeyCredentialOption {
-        val request = PendingIntentHandler.retrieveProviderGetCredentialRequest(this)
-            ?: throw CreateCredentialUnknownException("could not retrieve request from intent")
+    fun ProviderGetCredentialRequest.retrievePasskeyUsageComponent(): GetPublicKeyCredentialOption {
+        val request = this
         if (request.credentialOptions.size != 1) {
             throw GetCredentialUnknownException("not exact one credentialOption")
         }
@@ -230,36 +239,31 @@ object PasskeyHelper {
     }
 
     fun retrievePasskeyCreationRequestParameters(
-        creationOptions: PublicKeyCredentialCreationOptions,
-        webOrigin: String?,
-        apkSigningCertificate: ByteArray?,
+        intent: Intent,
+        assetManager: AssetManager,
+        packageName: String?,
         passkeyCreated: (Passkey, PublicKeyCredentialCreationParameters) -> Unit
     ) {
-        val relyingParty = creationOptions.relyingParty
-        val username = creationOptions.username
-        val userHandle = creationOptions.userId
-        val keyTypeIdList = creationOptions.keyTypeIdList
-        val challenge = creationOptions.challenge
+        val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
+        val callingAppInfo = getCredentialRequest?.callingAppInfo
+        val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
+        if (createCredentialRequest == null)
+            throw CreateCredentialUnknownException("could not retrieve request from intent")
+        val creationOptions = createCredentialRequest.retrievePasskeyCreationComponent()
 
-        val isPrivilegedApp =
-            (webOrigin != null && webOrigin == DEFAULT_PROTOCOL + relyingParty)
-        Log.d(this::class.java.simpleName, "isPrivilegedApp = $isPrivilegedApp")
+        val relyingParty = creationOptions.relyingPartyEntity.id
+        val username = creationOptions.userEntity.name
+        val userHandle = creationOptions.userEntity.id
+        val pubKeyCredParams = creationOptions.pubKeyCredParams
 
-        if (!isPrivilegedApp) {
-            val isValid =
-                AppRelyingPartyRelation.isRelationValid(relyingParty, apkSigningCertificate)
-            if (!isValid) {
-                throw CreateCredentialUnknownException(
-                    "could not verify relation between app " +
-                            "and relyingParty $relyingParty"
-                )
-            }
-        }
+        val originManager = OriginManager(callingAppInfo, assetManager, relyingParty)
+        originManager.checkPrivilegedApp()
 
         val credentialId = KeePassDXRandom.generateCredentialId()
 
-        val (keyPair, keyTypeId) = Signature.generateKeyPair(keyTypeIdList)
-            ?: throw CreateCredentialUnknownException("no known public key type found")
+        val (keyPair, keyTypeId) = Signature.generateKeyPair(
+            pubKeyCredParams.map { params -> params.alg }
+        ) ?: throw CreateCredentialUnknownException("no known public key type found")
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
         // create new entry in database
@@ -268,68 +272,51 @@ object PasskeyHelper {
                 username = username,
                 displayName = "$relyingParty (Passkey)",
                 privateKeyPem = privateKeyPem,
-                credentialId = Base64Helper.b64Encode(credentialId),
-                userHandle = Base64Helper.b64Encode(userHandle),
+                credentialId = b64Encode(credentialId),
+                userHandle = b64Encode(userHandle),
                 relyingParty = DEFAULT_PROTOCOL + relyingParty
             ),
             PublicKeyCredentialCreationParameters(
-                relyingParty = relyingParty,
-                challenge = challenge,
+                publicKeyCredentialCreationOptions = creationOptions,
                 credentialId = credentialId,
                 signatureKey = Pair(keyPair, keyTypeId),
-                isPrivilegedApp = isPrivilegedApp
+                clientDataResponse = ClientDataNotDefinedResponse(
+                    type = ClientDataNotDefinedResponse.Type.CREATE,
+                    challenge = creationOptions.challenge,
+                    origin = originManager.origin,
+                    packageName = packageName
+                )
             )
         )
     }
 
     fun buildCreatePublicKeyCredentialResponse(
-        packageName: String?,
         publicKeyCredentialCreationParameters: PublicKeyCredentialCreationParameters
     ): CreatePublicKeyCredentialResponse {
 
         val keyPair = publicKeyCredentialCreationParameters.signatureKey.first
         val keyTypeId = publicKeyCredentialCreationParameters.signatureKey.second
-
-        val publicKeyEncoded = Signature.convertPublicKey(keyPair.public, keyTypeId)
-        val publicKeyMap = Signature.convertPublicKeyToMap(keyPair.public, keyTypeId)
-
-        val authData = JsonHelper.generateAuthDataForCreate(
-            userPresent = true,
-            userVerified = true,
-            backupEligibility = true,
-            backupState = true,
-            rpId = publicKeyCredentialCreationParameters.relyingParty.toByteArray(),
-            credentialId = publicKeyCredentialCreationParameters.credentialId,
-            credentialPublicKey = JsonHelper.generateCborFromMap(publicKeyMap!!)
-        )
-
-        val attestationObject = JsonHelper.generateAttestationObject(authData)
-
-        val clientJson: String
-        if (publicKeyCredentialCreationParameters.isPrivilegedApp) {
-            clientJson = JsonHelper.generateClientDataJsonPrivileged()
-        } else {
-            val origin = DEFAULT_PROTOCOL + publicKeyCredentialCreationParameters.relyingParty
-            clientJson = JsonHelper.generateClientDataJsonNonPrivileged(
-                publicKeyCredentialCreationParameters.challenge,
-                origin,
-                packageName,
-                isCrossOriginAdded = true,
-                isGet = false
-            )
-        }
-
-        val responseJson = JsonHelper.createAuthenticatorAttestationResponseJSON(
-            publicKeyCredentialCreationParameters.credentialId,
-            clientJson,
-            attestationObject,
-            publicKeyEncoded!!,
-            authData,
-            keyTypeId
-        )
-
+        val responseJson = FidoPublicKeyCredential(
+            id = b64Encode(publicKeyCredentialCreationParameters.credentialId),
+            response = AuthenticatorAttestationResponse(
+                requestOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions,
+                credentialId = publicKeyCredentialCreationParameters.credentialId,
+                credentialPublicKey = Cbor().encode(Signature.convertPublicKeyToMap(
+                    publicKeyIn = keyPair.public,
+                    keyTypeId = keyTypeId
+                ) ?: mapOf<Int, Any>()),
+                userPresent = true,
+                userVerified = true,
+                backupEligibility = true,
+                backupState = true,
+                publicKeyTypeId = keyTypeId,
+                publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
+                clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse
+            ),
+            authenticatorAttachment = "platform"
+        ).json()
         // log only the length to prevent logging sensitive information
-        Log.d(javaClass.simpleName, "responseJson with length ${responseJson.length} created")
+        Log.d(javaClass.simpleName, "Json response for key creation")
         return CreatePublicKeyCredentialResponse(responseJson)
     }
 
@@ -338,42 +325,32 @@ object PasskeyHelper {
         intent: Intent,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
-        val callingAppInfo = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)?.callingAppInfo
-        val credentialOption = intent.retrievePasskeyUsageComponent()
+        val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
+        if (getCredentialRequest == null)
+            throw CreateCredentialUnknownException("could not retrieve request from intent")
+        val callingAppInfo = getCredentialRequest.callingAppInfo
+        val credentialOption = getCredentialRequest.retrievePasskeyUsageComponent()
         val clientDataHash = credentialOption.clientDataHash
 
-        val requestOptions = JsonHelper.parseJsonToRequestOptions(credentialOption.requestJson)
+        val requestOptions = PublicKeyCredentialRequestOptions(credentialOption.requestJson)
+        val relyingParty = requestOptions.rpId
 
-        val relyingParty = requestOptions.relyingParty
-        val challenge = Base64Helper.b64Decode(requestOptions.challengeString)
-        val packageName = callingAppInfo?.packageName
-        val webOrigin = OriginHelper.getWebOrigin(callingAppInfo, context.assets)
-
-        val isPrivilegedApp =
-            (webOrigin != null && webOrigin == DEFAULT_PROTOCOL + relyingParty && clientDataHash != null)
-
-        Log.d(javaClass.simpleName, "isPrivilegedApp = $isPrivilegedApp")
-
-        if (!isPrivilegedApp) {
-            if (!AppRelyingPartyRelation.isRelationValid(
-                    relyingParty,
-                    apkSigningCertificate = callingAppInfo?.signingInfo?.apkContentsSigners
-                        ?.getOrNull(0)?.toByteArray()
-                )) {
-                throw CreateCredentialUnknownException(
-                    "could not verify relation between app " +
-                            "and relyingParty $relyingParty"
-                )
-            }
-        }
+        val originManager = OriginManager(callingAppInfo, context.assets, relyingParty)
+        originManager.checkPrivilegedApp(clientDataHash)
 
         result.invoke(
             PublicKeyCredentialUsageParameters(
-                relyingParty = relyingParty,
-                packageName = packageName,
-                clientDataHash = clientDataHash,
-                isPrivilegedApp = isPrivilegedApp,
-                challenge = challenge
+                publicKeyCredentialRequestOptions = requestOptions,
+                clientDataResponse = clientDataHash?.let {
+                    ClientDataDefinedResponse(clientDataHash)
+                } ?: run {
+                    ClientDataNotDefinedResponse(
+                        type = ClientDataNotDefinedResponse.Type.GET,
+                        challenge = requestOptions.challenge,
+                        origin = originManager.origin,
+                        packageName = callingAppInfo.packageName
+                    )
+                }
             )
         )
     }
@@ -382,46 +359,21 @@ object PasskeyHelper {
         usageParameters: PublicKeyCredentialUsageParameters,
         passkey: Passkey
     ): PublicKeyCredential {
-
-        // https://www.w3.org/TR/webauthn-3/#authdata-flags
-        val authenticatorData = JsonHelper.generateAuthDataForUsage(
-            usageParameters.relyingParty.toByteArray(),
-            userPresent = true,
-            userVerified = true,
-            backupEligibility = true,
-            backupState = true
-        )
-
-        val clientDataJson: String
-        val dataToSign: ByteArray
-        if (usageParameters.isPrivilegedApp) {
-            clientDataJson = JsonHelper.generateClientDataJsonPrivileged()
-            dataToSign =
-                JsonHelper.generateDataToSignPrivileged(usageParameters.clientDataHash!!, authenticatorData)
-        } else {
-            val origin = DEFAULT_PROTOCOL + usageParameters.relyingParty
-            clientDataJson = JsonHelper.generateClientDataJsonNonPrivileged(
-                usageParameters.challenge,
-                origin,
-                usageParameters.packageName,
-                isGet = true,
-                isCrossOriginAdded = false
-            )
-            dataToSign =
-                JsonHelper.generateDataTosSignNonPrivileged(clientDataJson, authenticatorData)
-        }
-
-        val signature = Signature.sign(passkey.privateKeyPem, dataToSign)
-            ?: throw GetCredentialUnknownException("signing failed")
-
-        val getCredentialResponse =
-            JsonHelper.generateGetCredentialResponse(
-                clientDataJson.toByteArray(),
-                authenticatorData,
-                signature,
-                passkey.userHandle,
-                passkey.credentialId
-            )
+        val getCredentialResponse = FidoPublicKeyCredential(
+            id = passkey.credentialId,
+            response = AuthenticatorAssertionResponse(
+                requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                userPresent = true,
+                userVerified = true,
+                backupEligibility = true,
+                backupState = true,
+                userHandle = passkey.userHandle,
+                privateKey = passkey.privateKeyPem,
+                clientDataResponse = usageParameters.clientDataResponse
+            ),
+            authenticatorAttachment = "platform"
+        ).json()
+        Log.d(javaClass.simpleName, "Json response for key usage")
         return PublicKeyCredential(getCredentialResponse)
     }
 

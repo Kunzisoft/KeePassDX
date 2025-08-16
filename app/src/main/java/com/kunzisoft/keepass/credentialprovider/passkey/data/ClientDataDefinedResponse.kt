@@ -19,7 +19,19 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-data class PublicKeyCredentialUsageParameters(
-        val publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions,
-        val clientDataResponse: ClientDataResponse
-)
+open class ClientDataDefinedResponse(
+    private val clientDataHash: ByteArray
+): ClientDataResponse {
+
+    override fun hashData(): ByteArray {
+        return clientDataHash
+    }
+
+    override fun buildResponse(): String {
+        return CLIENT_DATA_JSON_PRIVILEGED
+    }
+
+    companion object {
+        private const val CLIENT_DATA_JSON_PRIVILEGED = "<placeholder>"
+    }
+}

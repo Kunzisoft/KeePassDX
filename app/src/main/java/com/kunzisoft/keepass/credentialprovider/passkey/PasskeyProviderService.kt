@@ -46,7 +46,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildIcon
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.activity.PasskeyLauncherActivity
-import com.kunzisoft.keepass.credentialprovider.passkey.util.JsonHelper
+import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationOptions
+import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -117,13 +118,11 @@ class PasskeyProviderService : CredentialProviderService() {
 
         val passkeyEntries: MutableList<CredentialEntry> = mutableListOf()
 
-        val relyingPartyJson = JsonHelper
-            .parseJsonToRequestOptions(option.requestJson)
-            .relyingParty
+        val relyingPartyId = PublicKeyCredentialRequestOptions(option.requestJson).rpId
         val searchInfo = SearchInfo().apply {
-            relyingParty = relyingPartyJson
+            relyingParty = relyingPartyId
         }
-        Log.d(TAG, "Build passkey search for relying party $relyingPartyJson")
+        Log.d(TAG, "Build passkey search for relying party $relyingPartyId")
         SearchHelper.checkAutoSearchInfo(
             context = this,
             database = mDatabase,
@@ -154,7 +153,7 @@ class PasskeyProviderService : CredentialProviderService() {
                 }
             },
             onItemNotFound = { _ ->
-                Log.w(TAG, "No passkey found in the database with this relying party : $relyingPartyJson")
+                Log.w(TAG, "No passkey found in the database with this relying party : $relyingPartyId")
                 Log.d(TAG, "Add pending intent for passkey selection in opened database")
                 PasskeyLauncherActivity.getPendingIntent(
                     context = applicationContext,
@@ -252,11 +251,11 @@ class PasskeyProviderService : CredentialProviderService() {
 
         val accountName = mDatabase?.name ?: getString(R.string.passkey_locked_database_username)
         val createEntries: MutableList<CreateEntry> = mutableListOf()
+        val relyingPartyId = PublicKeyCredentialCreationOptions(request.requestJson).relyingPartyEntity.id
         val searchInfo = SearchInfo().apply {
-            relyingParty = JsonHelper
-                .parseJsonToCreateOptions(request.requestJson)
-                .relyingParty
+            relyingParty = relyingPartyId
         }
+        Log.d(TAG, "Build passkey search for relying party $relyingPartyId")
         SearchHelper.checkAutoSearchInfo(
             context = this,
             database = mDatabase,

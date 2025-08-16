@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-data class PublicKeyCredentialUsageParameters(
-        val publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions,
-        val clientDataResponse: ClientDataResponse
-)
+interface ClientDataResponse {
+    fun hashData(): ByteArray
+    fun buildResponse(): String
+}
