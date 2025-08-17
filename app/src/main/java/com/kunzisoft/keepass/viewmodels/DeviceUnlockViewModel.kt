@@ -89,20 +89,15 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         databaseUri = databaseFileUri
         checkUnlockAvailability()
     }
-
     fun selectMode(containsCipherDatabase: Boolean) {
         try {
             if (isConditionToStoreCredentialVerified) {
-                deviceUnlockManager = DeviceUnlockManager(getApplication())
                 // listen for encryption
                 changeMode(DeviceUnlockMode.STORE_CREDENTIAL)
-                initEncryptData()
             } else if (containsCipherDatabase) {
-                deviceUnlockManager = DeviceUnlockManager(getApplication())
                 // biometric available but no stored password found yet for this DB
                 // listen for decryption
                 changeMode(DeviceUnlockMode.EXTRACT_CREDENTIAL)
-                initDecryptData()
             } else {
                 // wait for typing
                 changeMode(DeviceUnlockMode.WAIT_CREDENTIAL)
@@ -110,6 +105,31 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         } catch (e: Exception) {
             changeMode(DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE)
             setException(e)
+        }
+    }
+
+    private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
+        if (this.deviceUnlockMode != deviceUnlockMode) {
+            this.deviceUnlockMode = deviceUnlockMode
+            when (deviceUnlockMode) {
+                DeviceUnlockMode.STORE_CREDENTIAL -> {
+                    initEncryptData()
+                }
+                DeviceUnlockMode.EXTRACT_CREDENTIAL -> {
+                    initDecryptData()
+                }
+                else -> {}
+            }
+            cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        newDeviceUnlockMode = deviceUnlockMode,
+                        allowAdvancedUnlockMenu = containsCipher
+                                && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
+                                && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
+                    )
+                }
+            }
         }
     }
 
@@ -327,6 +347,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private fun initEncryptData() {
         try {
+            deviceUnlockManager = DeviceUnlockManager(getApplication())
             deviceUnlockManager?.initEncryptData { cryptoPrompt ->
                 onPromptRequested(cryptoPrompt)
             } ?: setException(Exception("AdvancedUnlockManager not initialized"))
@@ -340,6 +361,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
             cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
                 cipherDatabase?.let {
                     try {
+                        deviceUnlockManager = DeviceUnlockManager(getApplication())
                         deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
                             onPromptRequested(
                                 cryptoPrompt,
@@ -352,20 +374,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 } ?: deleteEncryptedDatabaseKey()
             }
         } ?: setException(UnknownDatabaseLocationException())
-    }
-
-    private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
-        this.deviceUnlockMode = deviceUnlockMode
-        cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
-            _uiState.update { currentState ->
-                currentState.copy(
-                    newDeviceUnlockMode = deviceUnlockMode,
-                    allowAdvancedUnlockMenu = containsCipher
-                            && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
-                            && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
-                )
-            }
-        }
     }
 
     fun deleteEncryptedDatabaseKey() {
