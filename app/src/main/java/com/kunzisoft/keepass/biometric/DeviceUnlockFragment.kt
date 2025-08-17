@@ -359,13 +359,18 @@ class DeviceUnlockFragment: Fragment() {
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        cancelBiometricPrompt()
+        mDeviceUnlockViewModel.clear()
+    }
+
     override fun onDestroyView() {
         mDeviceUnlockView = null
         super.onDestroyView()
     }
 
     override fun onDestroy() {
-        cancelBiometricPrompt()
         mDeviceUnlockViewModel.disconnect()
         super.onDestroy()
     }

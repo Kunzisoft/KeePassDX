@@ -109,26 +109,24 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
-        if (this.deviceUnlockMode != deviceUnlockMode) {
-            this.deviceUnlockMode = deviceUnlockMode
-            when (deviceUnlockMode) {
-                DeviceUnlockMode.STORE_CREDENTIAL -> {
-                    initEncryptData()
-                }
-                DeviceUnlockMode.EXTRACT_CREDENTIAL -> {
-                    initDecryptData()
-                }
-                else -> {}
+        this.deviceUnlockMode = deviceUnlockMode
+        when (deviceUnlockMode) {
+            DeviceUnlockMode.STORE_CREDENTIAL -> {
+                initEncryptData()
             }
-            cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
-                _uiState.update { currentState ->
-                    currentState.copy(
-                        newDeviceUnlockMode = deviceUnlockMode,
-                        allowAdvancedUnlockMenu = containsCipher
-                                && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
-                                && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
-                    )
-                }
+            DeviceUnlockMode.EXTRACT_CREDENTIAL -> {
+                initDecryptData()
+            }
+            else -> {}
+        }
+        cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
+            _uiState.update { currentState ->
+                currentState.copy(
+                    newDeviceUnlockMode = deviceUnlockMode,
+                    allowAdvancedUnlockMenu = containsCipher
+                            && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
+                            && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
+                )
             }
         }
     }
@@ -159,6 +157,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         if (uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
             cryptoPromptShowPending = true
         }
+        clear()
         changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
     }
 
@@ -406,10 +405,14 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
+    fun clear() {
         cryptoPrompt = null
         deviceUnlockManager = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        clear()
     }
 
     companion object {
