@@ -23,6 +23,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -192,7 +193,9 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                         mDatabase = null
                         closeDatabase(database)
                         // Don't allow auto open prompt if lock become when UI visible
-                        isAutoOpenBiometricPromptAllowed = !isDatabaseUiVisible
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            isAutoOpenBiometricPromptAllowed = !isDatabaseUiVisible
+                        }
                         mExitLock = true
                         closeOptionsMenu()
                         finish()

@@ -3,7 +3,6 @@ package com.kunzisoft.keepass.viewmodels
 import android.app.Application
 import android.net.Uri
 import android.os.Build
-import androidx.activity.result.ActivityResult
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -23,6 +22,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import javax.crypto.Cipher
 
+
+@RequiresApi(Build.VERSION_CODES.M)
 class DeviceUnlockViewModel(application: Application): AndroidViewModel(application) {
     private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null
 
@@ -33,6 +34,8 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private var deviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
     var cryptoPrompt: DeviceUnlockCryptoPrompt? = null
+    var cryptoPromptShowPending: Boolean = false
+        private set
 
     // TODO Retrieve credential storage from app database
     var credentialDatabaseStorage: CredentialStorage = CredentialStorage.DEFAULT
@@ -51,32 +54,30 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
      * Check unlock availability by verifying device settings and database mode
      */
     fun checkUnlockAvailability() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipherDatabase ->
-                if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
-                    // biometric not supported (by API level or hardware) so keep option hidden
-                    // or manually disable
-                    val biometricCanAuthenticate = DeviceUnlockManager.canAuthenticate(getApplication())
-                    if (!PreferencesUtil.isAdvancedUnlockEnable(getApplication())
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-                        changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
-                    } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
-                        changeMode(DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
-                    } else {
-                        // biometric is available but not configured, show icon but in disabled state with some information
-                        if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-                            changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
-                        } else {
-                            selectMode(containsCipherDatabase)
-                        }
-                    }
-                } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(getApplication())) {
-                    if (DeviceUnlockManager.isDeviceSecure(getApplication())) {
-                        selectMode(containsCipherDatabase)
-                    } else {
+        cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipherDatabase ->
+            if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
+                // biometric not supported (by API level or hardware) so keep option hidden
+                // or manually disable
+                val biometricCanAuthenticate = DeviceUnlockManager.canAuthenticate(getApplication())
+                if (!PreferencesUtil.isAdvancedUnlockEnable(getApplication())
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                    changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
+                } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
+                    changeMode(DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
+                } else {
+                    // biometric is available but not configured, show icon but in disabled state with some information
+                    if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
                         changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                    } else {
+                        selectMode(containsCipherDatabase)
                     }
+                }
+            } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(getApplication())) {
+                if (DeviceUnlockManager.isDeviceSecure(getApplication())) {
+                    selectMode(containsCipherDatabase)
+                } else {
+                    changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                 }
             }
         }
@@ -90,7 +91,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         checkUnlockAvailability()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun selectMode(containsCipherDatabase: Boolean) {
         try {
             if (isConditionToStoreCredentialVerified) {
@@ -133,11 +133,14 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     fun disconnect() {
         this.databaseUri = null
-        closeBiometricPrompt()
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
-        reset()
+        // Reassign prompt state to open again if necessary
+        if (uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
+            cryptoPromptShowPending = true
+        }
+        changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
     }
 
     fun databaseFileLoaded(databaseUri: Uri?) {
@@ -152,7 +155,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun onAuthenticationSucceeded() {
         cryptoPrompt?.let { prompt ->
             when (prompt.type) {
@@ -164,7 +166,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun onAuthenticationSucceeded(
         result: BiometricPrompt.AuthenticationResult
     ) {
@@ -186,7 +187,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun encryptCredential(
         credential: ByteArray,
         cipher: Cipher?
@@ -220,7 +220,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun decryptCredential(cipher: Cipher?) {
         // retrieve the encrypted value from preferences
         databaseUri?.let { databaseUri ->
@@ -294,6 +293,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun showPrompt() {
+        cryptoPromptShowPending = false
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.SHOW
@@ -305,7 +305,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         isAutoOpenBiometricPromptAllowed = false
         _uiState.update { currentState ->
             currentState.copy(
-                cryptoPromptState = DeviceUnlockPromptMode.IDLE
+                cryptoPromptState = DeviceUnlockPromptMode.IDLE_SHOW
             )
         }
     }
@@ -326,7 +326,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initEncryptData() {
         try {
             deviceUnlockManager?.initEncryptData { cryptoPrompt ->
@@ -337,7 +336,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun initDecryptData() {
         databaseUri?.let { databaseUri ->
             cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
@@ -357,7 +355,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         } ?: setException(UnknownDatabaseLocationException())
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
         this.deviceUnlockMode = deviceUnlockMode
         cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
@@ -398,23 +395,14 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         cryptoPrompt = null
         _uiState.update { currentState ->
             currentState.copy(
-                cryptoPromptState = DeviceUnlockPromptMode.IDLE
+                cryptoPromptState = DeviceUnlockPromptMode.IDLE_CLOSE
             )
-        }
-    }
-
-    fun reset() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            deviceUnlockManager = null
-        }
+        deviceUnlockManager = null
     }
 
     companion object {
@@ -423,7 +411,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 }
 
 enum class DeviceUnlockPromptMode {
-    IDLE, SHOW, CLOSE
+    IDLE_CLOSE, IDLE_SHOW, SHOW, CLOSE
 }
 
 data class DeviceUnlockState(
@@ -432,7 +420,7 @@ data class DeviceUnlockState(
     val credentialRequiredCipher: Cipher? = null,
     val cipherEncryptDatabase: CipherEncryptDatabase? = null,
     val cipherDecryptDatabase: CipherDecryptDatabase? = null,
-    val cryptoPromptState: DeviceUnlockPromptMode = DeviceUnlockPromptMode.IDLE,
+    val cryptoPromptState: DeviceUnlockPromptMode = DeviceUnlockPromptMode.IDLE_CLOSE,
     val autoOpenPrompt: Boolean = false,
     val exception: Exception? = null
 )

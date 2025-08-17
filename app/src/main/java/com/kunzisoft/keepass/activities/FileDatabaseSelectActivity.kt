@@ -357,7 +357,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
 
         // Allow auto open biometric prompt
-        isAutoOpenBiometricPromptAllowed = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            isAutoOpenBiometricPromptAllowed = true
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

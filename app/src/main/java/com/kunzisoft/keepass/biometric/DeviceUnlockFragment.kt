@@ -146,6 +146,10 @@ class DeviceUnlockFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         mDeviceUnlockViewModel.checkUnlockAvailability()
+        // Observe only one time to show the prompt
+        if (mDeviceUnlockViewModel.cryptoPromptShowPending) {
+            mDeviceUnlockViewModel.showPrompt()
+        }
     }
 
     fun cancelBiometricPrompt() {
@@ -173,7 +177,6 @@ class DeviceUnlockFragment: Fragment() {
     ) {
         mDeviceUnlockViewModel.cryptoPrompt?.let { prompt ->
             when (state) {
-                DeviceUnlockPromptMode.IDLE -> {}
                 DeviceUnlockPromptMode.SHOW -> {
                     openPrompt(prompt)
                     mDeviceUnlockViewModel.promptShown()
@@ -182,6 +185,7 @@ class DeviceUnlockFragment: Fragment() {
                     cancelBiometricPrompt()
                     mDeviceUnlockViewModel.biometricPromptClosed()
                 }
+                else -> {}
             }
         }
     }
@@ -363,6 +367,7 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     override fun onDestroy() {
+        cancelBiometricPrompt()
         mDeviceUnlockViewModel.disconnect()
         super.onDestroy()
     }
