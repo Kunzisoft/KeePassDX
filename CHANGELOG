@@ -1,4 +1,7 @@
-KeePassDX(4.1.4)
+KeePassDX(4.1.6)
+ * Auto open biometric prompt from database list #2113
+
+KeePassDX(4.1.5)
  * Fix auto prompt #2111
 
 KeePassDX(4.1.4)

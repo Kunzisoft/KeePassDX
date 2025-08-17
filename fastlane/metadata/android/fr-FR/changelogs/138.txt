@@ -1,0 +1,1 @@
+ * Ouverture auto de la prompt biometrique depuis la liste des bases #2113

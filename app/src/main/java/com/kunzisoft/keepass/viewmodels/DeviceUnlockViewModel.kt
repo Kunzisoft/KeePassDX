@@ -133,6 +133,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     fun disconnect() {
         this.databaseUri = null
+        closeBiometricPrompt()
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }

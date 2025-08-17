@@ -75,6 +75,7 @@ import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.DatabaseFilesViewModel
+import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel.Companion.isAutoOpenBiometricPromptAllowed
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : DatabaseModeActivity(),
@@ -354,6 +355,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         } else {
             mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
         }
+
+        // Allow auto open biometric prompt
+        isAutoOpenBiometricPromptAllowed = true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

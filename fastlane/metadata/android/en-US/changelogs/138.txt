@@ -1,0 +1,1 @@
+ * Auto open biometric prompt from database list #2113
