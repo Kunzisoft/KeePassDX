@@ -34,6 +34,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private var deviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
     var cryptoPrompt: DeviceUnlockCryptoPrompt? = null
+    private var cryptoPromptShowPending: Boolean = false
 
     // TODO Retrieve credential storage from app database
     var credentialDatabaseStorage: CredentialStorage = CredentialStorage.DEFAULT
@@ -134,8 +135,10 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
-        // No orientation change Error -28 on some devices
-        closeBiometricPrompt()
+        // Reassign prompt state to open again if necessary
+        if (uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
+            cryptoPromptShowPending = true
+        }
         changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
     }
 
@@ -289,6 +292,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun showPrompt() {
+        cryptoPromptShowPending = false
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.SHOW
@@ -339,7 +343,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                         deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
                             onPromptRequested(
                                 cryptoPrompt,
-                                autoOpen = isAutoOpenBiometricPromptAllowed
+                                autoOpen = isAutoOpenBiometricPromptAllowed || cryptoPromptShowPending
                             )
                         } ?: setException(Exception("AdvancedUnlockManager not initialized"))
                     } catch (e: Exception) {

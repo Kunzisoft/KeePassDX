@@ -74,11 +74,13 @@ class DeviceUnlockFragment: Fragment() {
         } else {
             setAuthenticationFailed()
         }
+        mDeviceUnlockViewModel.biometricPromptClosed()
     }
 
     private var biometricAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             mDeviceUnlockViewModel.onAuthenticationSucceeded(result)
+            mDeviceUnlockViewModel.biometricPromptClosed()
         }
 
         override fun onAuthenticationFailed() {
@@ -343,7 +345,7 @@ class DeviceUnlockFragment: Fragment() {
             BiometricPrompt.ERROR_CANCELED,
             BiometricPrompt.ERROR_NEGATIVE_BUTTON,
             BiometricPrompt.ERROR_USER_CANCELED -> {
-                // Ignore negative button
+                mDeviceUnlockViewModel.biometricPromptClosed()
             }
             else ->
                 mDeviceUnlockViewModel.setException(SecurityException(errString.toString()))
