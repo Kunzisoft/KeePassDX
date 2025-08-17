@@ -391,7 +391,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun biometricPromptClosed() {
-        cryptoPrompt = null
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.IDLE_CLOSE
@@ -401,6 +400,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     override fun onCleared() {
         super.onCleared()
+        cryptoPrompt = null
         deviceUnlockManager = null
     }
 
