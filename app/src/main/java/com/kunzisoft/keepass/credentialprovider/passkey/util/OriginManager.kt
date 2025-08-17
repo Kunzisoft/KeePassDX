@@ -43,24 +43,12 @@ class OriginManager(
         webOrigin = callingAppInfo?.getOrigin(privilegedAllowlist)?.removeSuffix("/")
     }
 
-    private fun isPrivilegedApp(): Boolean {
-        return webOrigin != null
-                && webOrigin == (DEFAULT_PROTOCOL + relyingParty)
-    }
-
     // TODO isPrivileged app
     fun checkPrivilegedApp(
         clientDataHash: ByteArray?
     ) {
-        val isPrivilegedApp = isPrivilegedApp() && clientDataHash != null
-        Log.d(TAG, "isPrivilegedApp = $isPrivilegedApp")
-        if (!isPrivilegedApp) {
-            AppRelyingPartyRelation.isRelationValid(relyingParty, apkSigningCertificate)
-        }
-    }
-
-    fun checkPrivilegedApp() {
-        val isPrivilegedApp = isPrivilegedApp()
+        val isPrivilegedApp = webOrigin != null
+                && webOrigin == (DEFAULT_PROTOCOL + relyingParty) && clientDataHash != null
         Log.d(TAG, "isPrivilegedApp = $isPrivilegedApp")
         if (!isPrivilegedApp) {
             AppRelyingPartyRelation.isRelationValid(relyingParty, apkSigningCertificate)

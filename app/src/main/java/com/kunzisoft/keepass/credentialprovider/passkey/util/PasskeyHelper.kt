@@ -222,8 +222,10 @@ object PasskeyHelper {
         if (request.callingRequest !is CreatePublicKeyCredentialRequest) {
             throw CreateCredentialUnknownException("callingRequest is of wrong type: ${request.callingRequest.type}")
         }
+        val createPublicKeyCredentialRequest = request.callingRequest as CreatePublicKeyCredentialRequest
         return PublicKeyCredentialCreationOptions(
-            (request.callingRequest as CreatePublicKeyCredentialRequest).requestJson
+            requestJson = createPublicKeyCredentialRequest.requestJson,
+            clientDataHash = createPublicKeyCredentialRequest.clientDataHash
         )
     }
 
@@ -255,9 +257,10 @@ object PasskeyHelper {
         val username = creationOptions.userEntity.name
         val userHandle = creationOptions.userEntity.id
         val pubKeyCredParams = creationOptions.pubKeyCredParams
+        val clientDataHash = creationOptions.clientDataHash
 
         val originManager = OriginManager(callingAppInfo, assetManager, relyingParty)
-        originManager.checkPrivilegedApp()
+        originManager.checkPrivilegedApp(clientDataHash)
 
         val credentialId = KeePassDXRandom.generateCredentialId()
 
@@ -280,12 +283,16 @@ object PasskeyHelper {
                 publicKeyCredentialCreationOptions = creationOptions,
                 credentialId = credentialId,
                 signatureKey = Pair(keyPair, keyTypeId),
-                clientDataResponse = ClientDataNotDefinedResponse(
-                    type = ClientDataNotDefinedResponse.Type.CREATE,
-                    challenge = creationOptions.challenge,
-                    origin = originManager.origin,
-                    packageName = packageName
-                )
+                clientDataResponse = clientDataHash?.let {
+                    ClientDataDefinedResponse(clientDataHash)
+                } ?: run {
+                    ClientDataNotDefinedResponse(
+                        type = ClientDataNotDefinedResponse.Type.CREATE,
+                        challenge = creationOptions.challenge,
+                        origin = originManager.origin,
+                        packageName = packageName
+                    )
+                }
             )
         )
     }

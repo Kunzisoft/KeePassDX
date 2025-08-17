@@ -1,17 +1,21 @@
 /*
- * Copyright 2023 The Android Open Source Project
+ * Copyright 2025 Jeremy Jamet / Kunzisoft.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * This file is part of KeePassDX.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
@@ -19,7 +23,10 @@ import android.util.Log
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper
 import org.json.JSONObject
 
-class PublicKeyCredentialCreationOptions(requestJson: String) {
+class PublicKeyCredentialCreationOptions(
+    requestJson: String,
+    var clientDataHash: ByteArray?
+) {
     val json: JSONObject = JSONObject(requestJson)
 
     val relyingPartyEntity: PublicKeyCredentialRpEntity
@@ -60,13 +67,17 @@ class PublicKeyCredentialCreationOptions(requestJson: String) {
         authenticatorSelection = AuthenticatorSelectionCriteria("platform", "required")
         attestation = json.optString("attestation", "none")
 
-        Log.i("WebAuthn", "Challenge $challenge()")
-        Log.i("WebAuthn", "rp $relyingPartyEntity")
-        Log.i("WebAuthn", "user $userEntity")
-        Log.i("WebAuthn", "pubKeyCredParams $pubKeyCredParams")
-        Log.i("WebAuthn", "timeout $timeout")
-        Log.i("WebAuthn", "excludeCredentials $excludeCredentials")
-        Log.i("WebAuthn", "authenticatorSelection $authenticatorSelection")
-        Log.i("WebAuthn", "attestation $attestation")
+        Log.i(TAG, "challenge $challenge()")
+        Log.i(TAG, "rp $relyingPartyEntity")
+        Log.i(TAG, "user $userEntity")
+        Log.i(TAG, "pubKeyCredParams $pubKeyCredParams")
+        Log.i(TAG, "timeout $timeout")
+        Log.i(TAG, "excludeCredentials $excludeCredentials")
+        Log.i(TAG, "authenticatorSelection $authenticatorSelection")
+        Log.i(TAG, "attestation $attestation")
+    }
+
+    companion object {
+        private val TAG = PublicKeyCredentialCreationOptions::class.simpleName
     }
 }
