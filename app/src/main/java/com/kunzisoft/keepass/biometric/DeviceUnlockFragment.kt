@@ -146,10 +146,6 @@ class DeviceUnlockFragment: Fragment() {
     override fun onResume() {
         super.onResume()
         mDeviceUnlockViewModel.checkUnlockAvailability()
-        // Observe only one time to show the prompt
-        if (mDeviceUnlockViewModel.cryptoPromptShowPending) {
-            mDeviceUnlockViewModel.showPrompt()
-        }
     }
 
     fun cancelBiometricPrompt() {
