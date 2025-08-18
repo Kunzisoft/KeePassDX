@@ -38,6 +38,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private var deviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
     var cryptoPrompt: DeviceUnlockCryptoPrompt? = null
+        private set
     private var isAutoOpenBiometricPromptAllowed = true
     private var cryptoPromptShowPending: Boolean = false
 
