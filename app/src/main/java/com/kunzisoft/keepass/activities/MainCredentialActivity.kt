@@ -176,8 +176,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 mDeviceUnlockViewModel.checkConditionToStoreCredential(
-                    condition = verified,
-                    databaseFileUri = mDatabaseFileUri
+                    condition = verified
                 )
             }
             // TODO Async by ViewModel
@@ -509,7 +508,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         } else {
             // Init Biometric elements
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mDeviceUnlockViewModel.databaseFileLoaded(databaseFileUri)
+                mDeviceUnlockViewModel.connect(databaseFileUri)
             }
         }
 

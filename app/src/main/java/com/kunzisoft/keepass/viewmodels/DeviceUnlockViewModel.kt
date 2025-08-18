@@ -57,13 +57,13 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
             }.launchIn(viewModelScope)
     }
 
-    fun checkConditionToStoreCredential(condition: Boolean, databaseFileUri: Uri?) {
+    fun checkConditionToStoreCredential(condition: Boolean) {
         isConditionToStoreCredentialVerified = condition
-        checkUnlockAvailability(databaseFileUri)
+        checkUnlockAvailability()
     }
 
     /**
-     * Check unlock availability by verifying device settings and database mode
+     * Check unlock availability and change the current mode depending of device's state
      */
     fun checkUnlockAvailability() {
         cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipherDatabase ->
@@ -82,12 +82,12 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                     if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
                         changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                     } else {
-                        selectMode(containsCipherDatabase)
+                        changeMode(containsCipherDatabase)
                     }
                 }
             } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(getApplication())) {
                 if (DeviceUnlockManager.isDeviceSecure(getApplication())) {
-                    selectMode(containsCipherDatabase)
+                    changeMode(containsCipherDatabase)
                 } else {
                     changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
                 }
@@ -95,14 +95,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    /**
-     * Check unlock availability and change the current mode depending of device's state
-     */
-    fun checkUnlockAvailability(databaseFileUri: Uri?) {
-        databaseUri = databaseFileUri
-        checkUnlockAvailability()
-    }
-    fun selectMode(containsCipherDatabase: Boolean) {
+    private fun changeMode(containsCipherDatabase: Boolean) {
         try {
             if (isConditionToStoreCredentialVerified) {
                 // listen for encryption
@@ -144,12 +137,12 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun connect(databaseUri: Uri) {
+    private fun connectDatabase(databaseUri: Uri) {
         this.databaseUri = databaseUri
         cipherDatabaseListener = object: CipherDatabaseAction.CipherDatabaseListener {
             override fun onCipherDatabaseCleared() {
                 closeBiometricPrompt()
-                checkUnlockAvailability(databaseUri)
+                checkUnlockAvailability()
             }
         }
         cipherDatabaseAction.apply {
@@ -158,7 +151,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 registerDatabaseListener(it)
             }
         }
-        checkUnlockAvailability(databaseUri)
+        checkUnlockAvailability()
     }
 
     private fun showPendingIfNecessary() {
@@ -178,21 +171,21 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
     }
 
-    fun disconnect() {
-        showPendingIfNecessary()
-        disconnectDatabase()
-    }
-
-    fun databaseFileLoaded(databaseUri: Uri?) {
+    fun connect(databaseUri: Uri?) {
         // To get device credential unlock result, only if same database uri
         if (databaseUri != null
             && PreferencesUtil.isAdvancedUnlockEnable(getApplication())) {
             if (databaseUri != this.databaseUri) {
-                connect(databaseUri)
+                connectDatabase(databaseUri)
             }
         } else {
             disconnectDatabase()
         }
+    }
+
+    fun disconnect() {
+        showPendingIfNecessary()
+        disconnectDatabase()
     }
 
     fun onAuthenticationSucceeded() {
@@ -403,9 +396,9 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         closeBiometricPrompt()
         databaseUri?.let { databaseUri ->
             cipherDatabaseAction.deleteByDatabaseUri(databaseUri) {
-                checkUnlockAvailability(databaseUri)
+                checkUnlockAvailability()
             }
-        } ?: checkUnlockAvailability(null)
+        } ?: checkUnlockAvailability()
         _uiState.update { currentState ->
             currentState.copy(
                 allowAdvancedUnlockMenu = false
