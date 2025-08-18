@@ -23,7 +23,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -54,7 +53,6 @@ import com.kunzisoft.keepass.utils.closeDatabase
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
-import com.kunzisoft.keepass.viewmodels.DeviceUnlockViewModel.Companion.isAutoOpenBiometricPromptAllowed
 import com.kunzisoft.keepass.viewmodels.NodesViewModel
 import java.util.UUID
 
@@ -71,8 +69,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     protected var mDatabaseReadOnly: Boolean = true
     protected var mMergeDataAllowed: Boolean = false
     private var mAutoSaveEnable: Boolean = true
-
-    private var isDatabaseUiVisible: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,10 +188,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                     mLockReceiver = LockReceiver {
                         mDatabase = null
                         closeDatabase(database)
-                        // Don't allow auto open prompt if lock become when UI visible
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            isAutoOpenBiometricPromptAllowed = !isDatabaseUiVisible
-                        }
                         mExitLock = true
                         closeOptionsMenu()
                         finish()
@@ -423,8 +415,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         }
 
         invalidateOptionsMenu()
-
-        isDatabaseUiVisible = true
     }
 
     protected fun checkTimeAndLockIfTimeoutOrResetTimeout(action: (() -> Unit)? = null) {
@@ -439,8 +429,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     override fun onPause() {
-        isDatabaseUiVisible = false
-
         super.onPause()
 
         if (mTimeoutEnable) {

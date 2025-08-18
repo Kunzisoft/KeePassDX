@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.app.AppLifecycleObserver
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.biometric.DeviceUnlockCryptoPrompt
 import com.kunzisoft.keepass.biometric.DeviceUnlockCryptoPromptType
@@ -19,6 +21,8 @@ import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.crypto.Cipher
 
@@ -34,6 +38,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private var deviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
     var cryptoPrompt: DeviceUnlockCryptoPrompt? = null
+    private var isAutoOpenBiometricPromptAllowed = true
     private var cryptoPromptShowPending: Boolean = false
 
     // TODO Retrieve credential storage from app database
@@ -43,6 +48,13 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private val _uiState = MutableStateFlow(DeviceUnlockState())
     val uiState: StateFlow<DeviceUnlockState> = _uiState
+
+    init {
+        AppLifecycleObserver.appJustLaunched
+            .onEach {
+                isAutoOpenBiometricPromptAllowed = true
+            }.launchIn(viewModelScope)
+    }
 
     fun checkConditionToStoreCredential(condition: Boolean, databaseFileUri: Uri?) {
         isConditionToStoreCredentialVerified = condition
@@ -364,7 +376,8 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                         deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
                             onPromptRequested(
                                 cryptoPrompt,
-                                autoOpen = isAutoOpenBiometricPromptAllowed || cryptoPromptShowPending
+                                autoOpen = isAutoOpenBiometricPromptAllowed
+                                        || cryptoPromptShowPending
                             )
                         } ?: setException(Exception("AdvancedUnlockManager not initialized"))
                     } catch (e: Exception) {
@@ -415,10 +428,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     override fun onCleared() {
         super.onCleared()
         clear()
-    }
-
-    companion object {
-        var isAutoOpenBiometricPromptAllowed = true
     }
 }
 
