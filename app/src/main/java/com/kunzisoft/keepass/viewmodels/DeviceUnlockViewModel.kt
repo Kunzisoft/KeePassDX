@@ -153,6 +153,10 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
+        // Reassign prompt state to open again if necessary
+        if (uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
+            cryptoPromptShowPending = true
+        }
         clear()
         changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
     }
@@ -402,10 +406,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun clear(checkOperation: Boolean = false) {
-        // Reassign prompt state to open again if necessary
-        if (uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
-            cryptoPromptShowPending = true
-        }
         if (!checkOperation || cryptoPrompt?.isDeviceCredentialOperation != true) {
             cryptoPrompt = null
             deviceUnlockManager = null
