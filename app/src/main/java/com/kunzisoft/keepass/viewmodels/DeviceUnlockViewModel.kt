@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.viewmodels
 import android.app.Application
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -30,6 +31,7 @@ import javax.crypto.Cipher
 @RequiresApi(Build.VERSION_CODES.M)
 class DeviceUnlockViewModel(application: Application): AndroidViewModel(application) {
     private var cipherDatabaseListener: CipherDatabaseAction.CipherDatabaseListener? = null
+    private var cipherDatabase: CipherEncryptDatabase? = null
 
     private var isConditionToStoreCredentialVerified: Boolean = false
 
@@ -66,41 +68,39 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
      * Check unlock availability and change the current mode depending of device's state
      */
     fun checkUnlockAvailability() {
-        cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipherDatabase ->
-            if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
-                // biometric not supported (by API level or hardware) so keep option hidden
-                // or manually disable
-                val biometricCanAuthenticate = DeviceUnlockManager.canAuthenticate(getApplication())
-                if (!PreferencesUtil.isAdvancedUnlockEnable(getApplication())
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                    || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-                    changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
-                } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
-                    changeMode(DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
-                } else {
-                    // biometric is available but not configured, show icon but in disabled state with some information
-                    if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-                        changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
-                    } else {
-                        changeMode(containsCipherDatabase)
-                    }
-                }
-            } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(getApplication())) {
-                if (DeviceUnlockManager.isDeviceSecure(getApplication())) {
-                    changeMode(containsCipherDatabase)
-                } else {
+        if (PreferencesUtil.isBiometricUnlockEnable(getApplication())) {
+            // biometric not supported (by API level or hardware) so keep option hidden
+            // or manually disable
+            val biometricCanAuthenticate = DeviceUnlockManager.canAuthenticate(getApplication())
+            if (!PreferencesUtil.isAdvancedUnlockEnable(getApplication())
+                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+                changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
+            } else if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED) {
+                changeMode(DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED)
+            } else {
+                // biometric is available but not configured, show icon but in disabled state with some information
+                if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
                     changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
+                } else {
+                    changeMode()
                 }
+            }
+        } else if (PreferencesUtil.isDeviceCredentialUnlockEnable(getApplication())) {
+            if (DeviceUnlockManager.isDeviceSecure(getApplication())) {
+                changeMode()
+            } else {
+                changeMode(DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED)
             }
         }
     }
 
-    private fun changeMode(containsCipherDatabase: Boolean) {
+    private fun changeMode() {
         try {
             if (isConditionToStoreCredentialVerified) {
                 // listen for encryption
                 changeMode(DeviceUnlockMode.STORE_CREDENTIAL)
-            } else if (containsCipherDatabase) {
+            } else if (cipherDatabase != null) {
                 // biometric available but no stored password found yet for this DB
                 // listen for decryption
                 changeMode(DeviceUnlockMode.EXTRACT_CREDENTIAL)
@@ -115,6 +115,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
+        Log.d(TAG, "Change mode to $deviceUnlockMode")
         this.deviceUnlockMode = deviceUnlockMode
         when (deviceUnlockMode) {
             DeviceUnlockMode.STORE_CREDENTIAL -> {
@@ -125,15 +126,13 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
             }
             else -> {}
         }
-        cipherDatabaseAction.containsCipherDatabase(databaseUri) { containsCipher ->
-            _uiState.update { currentState ->
-                currentState.copy(
-                    newDeviceUnlockMode = deviceUnlockMode,
-                    allowAdvancedUnlockMenu = containsCipher
-                            && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
-                            && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
-                )
-            }
+        _uiState.update { currentState ->
+            currentState.copy(
+                newDeviceUnlockMode = deviceUnlockMode,
+                allowAdvancedUnlockMenu = cipherDatabase != null
+                        && deviceUnlockMode != DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
+                        && deviceUnlockMode != DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE
+            )
         }
     }
 
@@ -141,6 +140,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         this.databaseUri = databaseUri
         cipherDatabaseListener = object: CipherDatabaseAction.CipherDatabaseListener {
             override fun onCipherDatabaseCleared() {
+                cipherDatabase = null
                 closeBiometricPrompt()
                 checkUnlockAvailability()
             }
@@ -150,8 +150,14 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
             cipherDatabaseListener?.let {
                 registerDatabaseListener(it)
             }
+            getCipherDatabase(databaseUri) { cipherDatabase ->
+                Log.d(TAG, "Database cipher loaded")
+                cipherDatabase?.let {
+                    this@DeviceUnlockViewModel.cipherDatabase = it
+                    checkUnlockAvailability()
+                } ?: deleteEncryptedDatabaseKey()
+            }
         }
-        checkUnlockAvailability()
     }
 
     private fun showPendingIfNecessary() {
@@ -164,14 +170,16 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private fun disconnectDatabase() {
         this.databaseUri = null
+        this.cipherDatabase = null
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
-        clear()
+        clearPrompt()
         changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
     }
 
     fun connect(databaseUri: Uri?) {
+        Log.d(TAG, "Connect device unlock")
         // To get device credential unlock result, only if same database uri
         if (databaseUri != null
             && PreferencesUtil.isAdvancedUnlockEnable(getApplication())) {
@@ -184,6 +192,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun disconnect() {
+        Log.d(TAG, "Disconnect device unlock")
         showPendingIfNecessary()
         disconnectDatabase()
     }
@@ -224,6 +233,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         credential: ByteArray,
         cipher: Cipher?
     ) {
+        Log.d(TAG, "Encrypt credential")
         try {
             deviceUnlockManager?.encryptData(
                 value = credential,
@@ -238,7 +248,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                                 this.specParameters = ivSpec
                             }
                         )
-                    }
+                    } ?: setException(UnknownDatabaseLocationException())
                 }
             )
         } catch (e: Exception) {
@@ -254,6 +264,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun decryptCredential(cipher: Cipher?) {
+        Log.d(TAG, "Decrypt credential")
         // retrieve the encrypted value from preferences
         databaseUri?.let { databaseUri ->
             cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
@@ -327,6 +338,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun showPrompt() {
+        Log.d(TAG, "Show device unlock prompt")
         AppLifecycleObserver.lockBackgroundEvent = true
         isAutoOpenBiometricPromptAllowed = false
         cryptoPromptShowPending = false
@@ -362,6 +374,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initEncryptData() {
+        Log.d(TAG, "Initialize data encryption")
         try {
             deviceUnlockManager = DeviceUnlockManager(getApplication())
             deviceUnlockManager?.initEncryptData { cryptoPrompt ->
@@ -373,23 +386,20 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initDecryptData() {
-        databaseUri?.let { databaseUri ->
-            cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
-                cipherDatabase?.let {
-                    try {
-                        deviceUnlockManager = DeviceUnlockManager(getApplication())
-                        deviceUnlockManager?.initDecryptData(cipherDatabase.specParameters) { cryptoPrompt ->
-                            onPromptRequested(
-                                cryptoPrompt,
-                                autoOpen = isAutoOpenBiometricPromptAllowed
-                            )
-                        } ?: setException(Exception("AdvancedUnlockManager not initialized"))
-                    } catch (e: Exception) {
-                        setException(e)
-                    }
-                } ?: deleteEncryptedDatabaseKey()
-            }
-        } ?: setException(UnknownDatabaseLocationException())
+        Log.d(TAG, "Initialize data decryption")
+        try {
+            cipherDatabase?.let { cipherDb ->
+                deviceUnlockManager = DeviceUnlockManager(getApplication())
+                deviceUnlockManager?.initDecryptData(cipherDb.specParameters) { cryptoPrompt ->
+                    onPromptRequested(
+                        cryptoPrompt,
+                        autoOpen = isAutoOpenBiometricPromptAllowed
+                    )
+                } ?: setException(Exception("AdvancedUnlockManager not initialized"))
+            } ?: setException(Exception("Cipher database not initialized"))
+        } catch (e: Exception) {
+            setException(e)
+        }
     }
 
     fun deleteEncryptedDatabaseKey() {
@@ -422,16 +432,25 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun clear(checkOperation: Boolean = false) {
-        if (!checkOperation || cryptoPrompt?.isOldCredentialOperation() != true) {
-            cryptoPrompt = null
-            deviceUnlockManager = null
+    private fun clearPrompt() {
+        cryptoPrompt = null
+        deviceUnlockManager = null
+    }
+
+    fun clear() {
+        Log.d(TAG, "Clear device unlock parameters")
+        if (cryptoPrompt?.isOldCredentialOperation() != true) {
+            clearPrompt()
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        clear()
+        clearPrompt()
+    }
+
+    companion object {
+        private val TAG = DeviceUnlockViewModel::class.java.simpleName
     }
 }
 

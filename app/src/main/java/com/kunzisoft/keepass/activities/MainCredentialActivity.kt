@@ -709,6 +709,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mDeviceUnlockViewModel.disconnect()
+        }
+    }
+
     companion object {
 
         private val TAG = MainCredentialActivity::class.java.name
