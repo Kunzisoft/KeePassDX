@@ -3,7 +3,6 @@ package com.kunzisoft.keepass.viewmodels
 import android.app.Application
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -115,7 +114,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
-        Log.d(TAG, "Change mode to $deviceUnlockMode")
         this.deviceUnlockMode = deviceUnlockMode
         when (deviceUnlockMode) {
             DeviceUnlockMode.STORE_CREDENTIAL -> {
@@ -151,7 +149,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 registerDatabaseListener(it)
             }
             getCipherDatabase(databaseUri) { cipherDatabase ->
-                Log.d(TAG, "Database cipher loaded")
                 cipherDatabase?.let {
                     this@DeviceUnlockViewModel.cipherDatabase = it
                     checkUnlockAvailability()
@@ -179,7 +176,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun connect(databaseUri: Uri?) {
-        Log.d(TAG, "Connect device unlock")
         // To get device credential unlock result, only if same database uri
         if (databaseUri != null
             && PreferencesUtil.isAdvancedUnlockEnable(getApplication())) {
@@ -192,7 +188,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun disconnect() {
-        Log.d(TAG, "Disconnect device unlock")
         showPendingIfNecessary()
         disconnectDatabase()
     }
@@ -233,7 +228,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         credential: ByteArray,
         cipher: Cipher?
     ) {
-        Log.d(TAG, "Encrypt credential")
         try {
             deviceUnlockManager?.encryptData(
                 value = credential,
@@ -264,7 +258,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun decryptCredential(cipher: Cipher?) {
-        Log.d(TAG, "Decrypt credential")
         // retrieve the encrypted value from preferences
         databaseUri?.let { databaseUri ->
             cipherDatabaseAction.getCipherDatabase(databaseUri) { cipherDatabase ->
@@ -338,7 +331,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun showPrompt() {
-        Log.d(TAG, "Show device unlock prompt")
         AppLifecycleObserver.lockBackgroundEvent = true
         isAutoOpenBiometricPromptAllowed = false
         cryptoPromptShowPending = false
@@ -374,7 +366,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initEncryptData() {
-        Log.d(TAG, "Initialize data encryption")
         try {
             deviceUnlockManager = DeviceUnlockManager(getApplication())
             deviceUnlockManager?.initEncryptData { cryptoPrompt ->
@@ -386,7 +377,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initDecryptData() {
-        Log.d(TAG, "Initialize data decryption")
         try {
             cipherDatabase?.let { cipherDb ->
                 deviceUnlockManager = DeviceUnlockManager(getApplication())
@@ -438,7 +428,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun clear() {
-        Log.d(TAG, "Clear device unlock parameters")
         if (cryptoPrompt?.isOldCredentialOperation() != true) {
             clearPrompt()
         }
@@ -447,10 +436,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     override fun onCleared() {
         super.onCleared()
         clearPrompt()
-    }
-
-    companion object {
-        private val TAG = DeviceUnlockViewModel::class.java.simpleName
     }
 }
 
