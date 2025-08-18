@@ -341,11 +341,12 @@ class DeviceUnlockFragment: Fragment() {
 
     private fun setAuthenticationError(errorCode: Int, errString: CharSequence) {
         Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+        mDeviceUnlockViewModel.biometricPromptClosed()
         when (errorCode) {
             BiometricPrompt.ERROR_CANCELED,
             BiometricPrompt.ERROR_NEGATIVE_BUTTON,
             BiometricPrompt.ERROR_USER_CANCELED -> {
-                mDeviceUnlockViewModel.biometricPromptClosed()
+                // No operation
             }
             else ->
                 mDeviceUnlockViewModel.setException(SecurityException(errString.toString()))
