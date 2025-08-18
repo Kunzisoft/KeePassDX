@@ -405,9 +405,11 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun clear() {
-        cryptoPrompt = null
-        deviceUnlockManager = null
+    fun clear(checkOperation: Boolean = false) {
+        if (!checkOperation || cryptoPrompt?.isDeviceCredentialOperation != true) {
+            cryptoPrompt = null
+            deviceUnlockManager = null
+        }
     }
 
     override fun onCleared() {

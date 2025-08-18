@@ -131,7 +131,7 @@ class DeviceUnlockFragment: Fragment() {
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // Change mode
                     toggleDeviceCredentialMode(uiState.newDeviceUnlockMode)
@@ -362,7 +362,7 @@ class DeviceUnlockFragment: Fragment() {
     override fun onPause() {
         super.onPause()
         cancelBiometricPrompt()
-        mDeviceUnlockViewModel.clear()
+        mDeviceUnlockViewModel.clear(checkOperation = true)
     }
 
     override fun onDestroyView() {
