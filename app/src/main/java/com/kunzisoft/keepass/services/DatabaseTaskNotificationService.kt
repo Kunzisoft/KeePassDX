@@ -31,7 +31,6 @@ import androidx.annotation.StringRes
 import androidx.media.app.NotificationCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
-import com.kunzisoft.keepass.app.AppLifecycleObserver
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -624,16 +623,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         intent?.removeExtra(NEW_NODES_KEY)
         intent?.removeExtra(OLD_ELEMENT_KEY)
         intent?.removeExtra(NEW_ELEMENT_KEY)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        AppLifecycleObserver.lockBackgroundEvent = true
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        AppLifecycleObserver.lockBackgroundEvent = false
     }
 
     /**

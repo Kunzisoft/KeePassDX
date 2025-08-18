@@ -10,7 +10,11 @@ data class DeviceUnlockCryptoPrompt(
     @StringRes var descriptionId: Int? = null,
     var isDeviceCredentialOperation: Boolean,
     var isBiometricOperation: Boolean
-)
+) {
+    fun isOldCredentialOperation(): Boolean {
+        return !isBiometricOperation && isDeviceCredentialOperation
+    }
+}
 
 enum class DeviceUnlockCryptoPromptType {
     CREDENTIAL_ENCRYPTION, CREDENTIAL_DECRYPTION

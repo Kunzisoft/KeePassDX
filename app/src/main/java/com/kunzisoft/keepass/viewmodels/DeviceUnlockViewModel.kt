@@ -161,17 +161,26 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         checkUnlockAvailability(databaseUri)
     }
 
-    fun disconnect() {
+    private fun showPendingIfNecessary() {
+        // Reassign prompt state to open again if necessary
+        if (cryptoPrompt?.isOldCredentialOperation() != true
+            && uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
+            cryptoPromptShowPending = true
+        }
+    }
+
+    private fun disconnectDatabase() {
         this.databaseUri = null
         cipherDatabaseListener?.let {
             cipherDatabaseAction.unregisterDatabaseListener(it)
         }
-        // Reassign prompt state to open again if necessary
-        if (uiState.value.cryptoPromptState == DeviceUnlockPromptMode.IDLE_SHOW) {
-            cryptoPromptShowPending = true
-        }
         clear()
         changeMode(DeviceUnlockMode.BIOMETRIC_UNAVAILABLE)
+    }
+
+    fun disconnect() {
+        showPendingIfNecessary()
+        disconnectDatabase()
     }
 
     fun databaseFileLoaded(databaseUri: Uri?) {
@@ -182,7 +191,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                 connect(databaseUri)
             }
         } else {
-            disconnect()
+            disconnectDatabase()
         }
     }
 
@@ -319,11 +328,14 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         autoOpen: Boolean = false
     ) {
         this@DeviceUnlockViewModel.cryptoPrompt = cryptoPrompt
-        if (autoOpen && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication()))
+        if (cryptoPromptShowPending
+            || (autoOpen && PreferencesUtil.isAdvancedUnlockPromptAutoOpenEnable(getApplication())))
             showPrompt()
     }
 
     fun showPrompt() {
+        AppLifecycleObserver.lockBackgroundEvent = true
+        isAutoOpenBiometricPromptAllowed = false
         cryptoPromptShowPending = false
         _uiState.update { currentState ->
             currentState.copy(
@@ -333,7 +345,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun promptShown() {
-        isAutoOpenBiometricPromptAllowed = false
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.IDLE_SHOW
@@ -378,7 +389,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                             onPromptRequested(
                                 cryptoPrompt,
                                 autoOpen = isAutoOpenBiometricPromptAllowed
-                                        || cryptoPromptShowPending
                             )
                         } ?: setException(Exception("AdvancedUnlockManager not initialized"))
                     } catch (e: Exception) {
@@ -420,7 +430,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     fun clear(checkOperation: Boolean = false) {
-        if (!checkOperation || cryptoPrompt?.isDeviceCredentialOperation != true) {
+        if (!checkOperation || cryptoPrompt?.isOldCredentialOperation() != true) {
             cryptoPrompt = null
             deviceUnlockManager = null
         }
