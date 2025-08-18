@@ -99,7 +99,7 @@
     <string name="error_invalid_db">Nu s-a putut citi baza de date.</string>
     <string name="error_invalid_path">Asigurați-vă că calea este corectă.</string>
     <string name="error_invalid_OTP">Secret OTP nevalid.</string>
-    <string name="error_no_name">Introduce un nume.</string>
+    <string name="error_no_name">Introduceți un nume.</string>
     <string name="error_nokeyfile">Alege un fisier cheie.</string>
     <string name="error_out_of_memory">Nicio memorie pentru a încărca întreaga dvs. bază de date.</string>
     <string name="error_load_database">Nu s-a putut încărca baza de date.</string>
@@ -107,7 +107,7 @@
     <string name="error_pass_gen_type">Trebuie selectat cel puțin un tip de generare a parolei.</string>
     <string name="error_disallow_no_credentials">Trebuie să setați cel puțin o credențială.</string>
     <string name="error_pass_match">Parolele nu se potrivesc.</string>
-    <string name="error_rounds_too_large">\"Transformările rotunde\" prea sus. Setarea la 2147483648.</string>
+    <string name="error_rounds_too_large">Prea multe runde de transformare. Setare la 2147483648.</string>
     <string name="error_string_key">Fiecare șir trebuie să aibă un nume de câmp.</string>
     <string name="error_wrong_length">Introduceți un număr întreg pozitiv în câmpul \"Lungime\".</string>
     <string name="error_autofill_enable_service">Nu s-a putut activa serviciul de completare automată.</string>
@@ -178,7 +178,7 @@
     <string name="minus">Mai puțin</string>
     <string name="never">Niciodată</string>
     <string name="no_results">Nu există rezultate de căutare</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este &lt;strong&gt;open source&lt;/strong&gt; și &lt;strong&gt;fără reclame&lt;/strong&gt;. \n\nEste furnizat ca atare, sub licență &lt;strong&gt;GPLv3&lt;/strong&gt;, fără nicio garanție.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft este <strong>open source</strong> și <strong>fără reclame</strong>. \nEste furnizat ca atare, sub licență <strong>GPLv3</strong>, fără nicio garanție.</string>
     <string name="html_about_contribution">Pentru a ne &lt;strong&gt;păstra libertatea&lt;/strong&gt;, &lt;strong&gt;pentru a remedia erori&lt;/strong&gt;, &lt;strong&gt;pentru a adăuga funcții&lt;/strong&gt; și &lt;strong&gt;pentru a fi mereu activi&lt;/strong&gt;, ne bazăm pe &lt;strong&gt;contribuția&lt;/strong&gt; dvs.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
@@ -383,7 +383,7 @@
     <string name="html_text_ad_free">Spre deosebire de multe aplicații de gestionare a parolelor, aceasta este &lt;strong&gt;fără reclame&lt;/strong&gt;, &lt;strong&gt;software liber cu copyleft&lt;/strong&gt; și nu colectează date personale pe serverele sale, indiferent de versiunea pe care o utilizați.</string>
     <string name="html_text_buy_pro">Prin cumpărarea versiunii pro, veți avea acces la acest lucru &lt;strong&gt;stil vizual&lt;/strong&gt; și veți ajuta în special la &lt;strong&gt;realizarea proiectelor comunitare.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Acest &lt;strong&gt; stil vizual &lt;/strong&gt; este disponibil datorită generozității tale.</string>
-    <string name="html_text_donation">strong&gt;Contribuind&lt;/strong&gt; la proiect &lt;i&gt;(financiar, cod, traducere)&lt;/i&gt;, îl veți ajuta să continue să trăiască și să prospere și veți fi, de asemenea, eligibil pentru procedura de deblocare a &lt;strong&gt;temei&lt;/strong&gt;.</string>
+    <string name="html_text_donation"><strong>Contribuind</strong> la proiect <i>(financiar, cod, traducere)</i>, îl veți ajuta să continue să trăiască și să prospere și veți fi, de asemenea, eligibil pentru procedura de deblocare a <strong>temelor</strong>.</string>
     <string name="html_text_dev_feature">Această caracteristică este &lt;strong&gt; în curs de dezvoltare&lt;/strong&gt; și necesită ca &lt;strong&gt;contribuția&lt;/strong&gt; dvs. să fie disponibilă în curând.</string>
     <string name="html_text_dev_feature_buy_pro">Cumpărând versiunea &lt;strong&gt; pro &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Prin &lt;strong&gt; contribuție &lt;/strong&gt;,</string>
@@ -462,7 +462,7 @@
     <string name="custom_data">Date personalizate</string>
     <string name="tags">Etichete</string>
     <string name="error_otp_type">Tipul de OTP existent nu este recunoscut de acest formular, este posibil ca validarea acestuia să nu mai genereze corect token-ul.</string>
-    <string name="error_move_group_here">Nu poți muta grupul aici.</string>
+    <string name="error_move_group_here">Nu puteți muta un grup aici.</string>
     <string name="error_string_type">Acest text nu se potrivește cu articolul solicitat.</string>
     <string name="error_registration_read_only">Salvarea unui element nou nu este permisă într-o bază de date numai pentru citire.</string>
     <string name="error_field_name_already_exists">Numele câmpului există deja.</string>
@@ -702,4 +702,5 @@
     <string name="warning_large_keyfile">Nu este recomandat să adăugați un fișier cheie mare, acest lucru poate împiedica deschiderea bazei de date.</string>
     <string name="hide_templates_title">Ascundeți șabloanele</string>
     <string name="hide_templates_summary">Șabloanele nu sunt afișate</string>
+    <string name="error_otp_secret_length">Cheia secretă trebuie să conțină cel puțin %1$d caractere.</string>
 </resources>
