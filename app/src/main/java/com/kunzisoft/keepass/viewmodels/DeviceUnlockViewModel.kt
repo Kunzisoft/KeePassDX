@@ -55,7 +55,9 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         AppLifecycleObserver.appJustLaunched
             .onEach {
                 isAutoOpenBiometricPromptAllowed = true
-            }.launchIn(viewModelScope)
+                checkUnlockAvailability()
+            }
+            .launchIn(viewModelScope)
     }
 
     fun checkConditionToStoreCredential(condition: Boolean) {
