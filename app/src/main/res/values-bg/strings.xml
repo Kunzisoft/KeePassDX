@@ -684,4 +684,5 @@
     <string name="warning_large_keyfile">Не се препоръчва използването на голям файл с ключ, защото може да попречи на отварянето на хранилището.</string>
     <string name="hide_templates_summary">Шаблоните не се показват</string>
     <string name="hide_templates_title">Скриване на шаблоните</string>
+    <string name="error_otp_secret_length">Тайният ключ трябва да бъде най-малко %1$d знаци.</string>
 </resources>

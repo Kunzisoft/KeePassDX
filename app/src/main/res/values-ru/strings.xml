@@ -707,4 +707,5 @@
     <string name="warning_large_keyfile">Не рекомендуется добавлять большой ключевой файл, это может помешать открытию базы.</string>
     <string name="hide_templates_title">Скрывать шаблоны</string>
     <string name="hide_templates_summary">Не показывать шаблоны</string>
+    <string name="error_otp_secret_length">Секретный ключ должен содержать не менее %1$d символов.</string>
 </resources>

@@ -705,4 +705,5 @@
     <string name="warning_large_keyfile">Il n\'est pas recommandé d\'ajouter un fichier clé volumineux, car cela pourrait empêcher l\'ouverture de la base de données.</string>
     <string name="hide_templates_title">Cacher les gabarits</string>
     <string name="hide_templates_summary">Les gabarits ne sont pas affichés</string>
+    <string name="error_otp_secret_length">La clé secrète doit avoir ai moins %1$d caractères.</string>
 </resources>
