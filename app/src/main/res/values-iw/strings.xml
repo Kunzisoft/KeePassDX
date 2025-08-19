@@ -653,7 +653,7 @@
     <string name="recursive_number_entries_summary">מחשב באופן רקורסיבי את מספר הרשומות בקבוצה</string>
     <string name="autofill_manual_selection_summary">הצג אפשרות לאפשר למשתמש לבחור ערך מסד נתונים</string>
     <string name="education_read_only_title">הגן על מסד הנתונים שלך מפני כתיבה</string>
-    <string name="html_text_donation">על ידי &lt;strong&gt;תרומה&lt;/strong&gt; לפרויקט <i>(כספית, קוד, תרגום)</i>, אתה תעזור לו להמשיך לחיות ולשגשג, ואתה גם תהיה זכאי להליך פתיחת &lt;strong&gt;ערכת נושא&lt;/strong&gt;.</string>
+    <string name="html_text_donation">על ידי &lt;strong&gt;תרומה&lt;/strong&gt; לפרויקט &lt;i&gt;(כספית, קוד, תרגום)&lt;/i&gt;, אתה תעזור לו להמשיך לחיות ולשגשג, ואתה גם תהיה זכאי להליך פתיחת &lt;strong&gt;ערכת נושא&lt;/strong&gt;.</string>
     <string name="warning_empty_password">להמשיך ללא הגנת ביטול נעילה באמצעות סיסמה?</string>
     <string name="warning_file_too_big">מסד נתונים של KeePass אמור להכיל רק קבצי שירות קטנים (כגון קבצי מפתח PGP).\n\nמסד הנתונים שלך עשוי להפוך לגדול מאד ולהפחית ביצועים עם העלאה זו.</string>
     <string name="warning_exact_alarm">לא אפשרת ליישום להשתמש בהתראה מדויקת. כתוצאה מכך, התכונות שדורשות קוצב זמן לא יתבצעו עם זמן מדויק.</string>

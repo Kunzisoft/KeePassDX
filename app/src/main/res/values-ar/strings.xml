@@ -669,11 +669,11 @@
     <string name="at_least_one_char">على الأقل حرف واحد من كل منهما</string>
     <string name="html_text_dev_feature_upgrade">تذكر أن تحافظ على تحديث تطبيقك عن طريق تثبيت إصدارات جديدة.</string>
     <string name="download">تثبيت</string>
-    <string name="html_text_ad_free">على عكس العديد من تطبيقات إدارة كلمات السر، هذا التطبيق <strong>خالٍ من الإعلانات</strong>، و<strong>برنامج حر متروك الحقوق</strong> ولا يجمع بيانات شخصية على خوادمه، بغض النظر عن الإصدار الذي تستخدمه.</string>
+    <string name="html_text_ad_free">على عكس العديد من تطبيقات إدارة كلمات السر، هذا التطبيق &lt;strong&gt;خالٍ من الإعلانات&lt;/strong&gt;، و&lt;strong&gt;برنامج حر متروك الحقوق&lt;/strong&gt; ولا يجمع بيانات شخصية على خوادمه، بغض النظر عن الإصدار الذي تستخدمه.</string>
     <string name="download_initialization">جارِ التهيئة…</string>
     <string name="download_progression">قيد التقدم: %1$d%%</string>
     <string name="html_text_buy_pro">بشراء الإصدار الاحترافي، ستتمتع بإمكانية الوصول إلى هذا &lt;strong&gt; النمط المرئي&lt;/strong&gt; وستساعد بشكل خاص في &lt;strong&gt; تنفيذ مشروعات المجتمع. &lt;/strong&gt;</string>
-    <string name="html_text_donation">من خلال &lt;strong&gt;المساهمة&lt;/strong&gt; في المشروع <i>(مالياً أو برمجياً أو ترجمة)</i>، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح &lt;strong&gt;السمة&lt;/strong&gt;.</string>
+    <string name="html_text_donation">من خلال &lt;strong&gt;المساهمة&lt;/strong&gt; في المشروع &lt;i&gt;(مالياً أو برمجياً أو ترجمة)&lt;/i&gt;، ستساعده على الاستمرار في الحياة والازدهار، وستكون مؤهلاً أيضاً لإجراء فتح &lt;strong&gt;السمة&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_encourage">أنت تشجع المطورين على إنشاء &lt;strong&gt; ميزات جديدة&lt;/strong&gt; و &lt;strong&gt; إصلاح الخلل&lt;/strong&gt; وفقًا لملاحظاتك.</string>
     <string name="style_name_forest">غابة</string>
     <string name="style_name_simple">بسيط</string>
