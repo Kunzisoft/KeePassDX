@@ -710,4 +710,5 @@
     <string name="hide_templates_title">Nascondi template</string>
     <string name="recursive_number_entries_summary">Calcola in modo ricorsivo il numero di voci in un gruppo</string>
     <string name="hide_templates_summary">I template non vengono mostrati</string>
+    <string name="error_otp_secret_length">La chiave segreta deve essere lunga almeno %1$d caratteri.</string>
 </resources>

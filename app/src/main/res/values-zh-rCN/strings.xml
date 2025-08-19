@@ -706,4 +706,5 @@
     <string name="hide_templates_title">隐藏模板</string>
     <string name="nodes">节点</string>
     <string name="recursive_number_entries_title">条目的递归数</string>
+    <string name="error_otp_secret_length">密钥长度至少为 %1$d 个字符。</string>
 </resources>

@@ -280,10 +280,7 @@
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Datenbank-Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern.
-\n
-\n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen.
-\nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
+    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. \n \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank. \nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Arbeitsspeichernutzung“ der Schlüsselableitungsfunktion zu verringern.</string>
@@ -710,4 +707,5 @@
     <string name="warning_large_keyfile">Es wird nicht empfohlen, eine große Schlüsseldatei hinzuzufügen, da dies das Öffnen der Datenbank verhindern kann.</string>
     <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
+    <string name="error_otp_secret_length">Geheimschlüssel muss mindestens %1$d Zeichen lang sein.</string>
 </resources>

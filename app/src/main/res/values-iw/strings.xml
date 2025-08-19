@@ -689,4 +689,5 @@
     <string name="education_setup_OTP_summary">הגדר ניהול סיסמה חד-פעמית (HOTP / TOTP) כדי לייצר אסימון המבוקש עבור אימות דו-גורמי (2FA).</string>
     <string name="html_text_buy_pro">על ידי קניית גרסת הפרו, תהיה לך גישה ל&lt;strong&gt;סגנון החזותי&lt;/strong&gt; הזה ותעזור במיוחד עם &lt;strong&gt;ההגשמה של פרויקטים קהילתיים.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_buy_pro">על ידי קניית גרסת ה&lt;strong&gt;פרו&lt;/strong&gt;,</string>
+    <string name="error_otp_secret_length">מפתח סודי חייב להיות לפחות %1$d תווים.</string>
 </resources>
