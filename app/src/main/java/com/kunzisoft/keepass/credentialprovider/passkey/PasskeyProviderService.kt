@@ -96,9 +96,14 @@ class PasskeyProviderService : CredentialProviderService() {
         callback: OutcomeReceiver<BeginGetCredentialResponse, GetCredentialException>,
     ) {
         Log.d(javaClass.simpleName, "onBeginGetCredentialRequest called")
-        processGetCredentialsRequest(request)?.let { response ->
-            callback.onResult(response)
-        } ?: run {
+        try {
+            processGetCredentialsRequest(request)?.let { response ->
+                callback.onResult(response)
+            } ?: run {
+                callback.onError(GetCredentialUnknownException())
+            }
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "onBeginGetCredentialRequest error", e)
             callback.onError(GetCredentialUnknownException())
         }
     }
@@ -210,9 +215,14 @@ class PasskeyProviderService : CredentialProviderService() {
         callback: OutcomeReceiver<BeginCreateCredentialResponse, CreateCredentialException>,
     ) {
         Log.d(javaClass.simpleName, "onBeginCreateCredentialRequest called")
-        processCreateCredentialRequest(request)?.let { response ->
-            callback.onResult(response)
-        } ?: let {
+        try {
+            processCreateCredentialRequest(request)?.let { response ->
+                callback.onResult(response)
+            } ?: let {
+                callback.onError(CreateCredentialUnknownException())
+            }
+        } catch (e: Exception) {
+            Log.e(javaClass.simpleName, "onBeginCreateCredentialRequest error", e)
             callback.onError(CreateCredentialUnknownException())
         }
     }

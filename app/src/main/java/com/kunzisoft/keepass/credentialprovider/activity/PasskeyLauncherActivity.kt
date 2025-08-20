@@ -25,6 +25,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.credentials.GetCredentialResponse
@@ -59,6 +60,7 @@ import com.kunzisoft.keepass.model.EntryInfoPasskey.getPasskey
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import java.io.InvalidObjectException
 import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -140,22 +142,27 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
-        val nodeId = intent.retrieveNodeId()
-        checkSecurity(intent, nodeId)
-        when (mSpecialMode) {
-            SpecialMode.SELECTION -> {
-                launchSelection(database, nodeId, mSearchInfo)
+        try {
+            val nodeId = intent.retrieveNodeId()
+            checkSecurity(intent, nodeId)
+            when (mSpecialMode) {
+                SpecialMode.SELECTION -> {
+                    launchSelection(database, nodeId, mSearchInfo)
+                }
+                SpecialMode.REGISTRATION -> {
+                    // TODO Registration in predefined group
+                    // launchRegistration(database, nodeId, mSearchInfo)
+                    launchRegistration(database, null, mSearchInfo)
+                }
+                else -> {
+                    throw InvalidObjectException("Passkey launch mode not supported")
+                }
             }
-            SpecialMode.REGISTRATION -> {
-                // TODO Registration in predefined group
-                // launchRegistration(database, nodeId, mSearchInfo)
-                launchRegistration(database, null, mSearchInfo)
-            }
-            else -> {
-                Log.e(TAG, "Passkey launch mode not supported")
-                setResult(RESULT_CANCELED)
-                finish()
-            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Passkey launch error", e)
+            Toast.makeText(this, e.localizedMessage, Toast.LENGTH_LONG).show()
+            setResult(RESULT_CANCELED)
+            finish()
         }
     }
 
