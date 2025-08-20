@@ -55,6 +55,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginManager.Compa
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.EntryInfoPasskey.getPasskey
 import com.kunzisoft.keepass.model.Passkey
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.random.KeePassDXRandom
@@ -73,9 +74,11 @@ object PasskeyHelper {
 
     private const val HMAC_TYPE = "HmacSHA256"
 
-    private const val KEY_NODE_ID = "nodeId"
-    private const val KEY_TIMESTAMP = "timestamp"
-    private const val KEY_AUTHENTICATION_CODE = "authenticationCode"
+
+    private const val EXTRA_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
+    private const val EXTRA_NODE_ID = "com.kunzisoft.keepass.extra.nodeId"
+    private const val EXTRA_TIMESTAMP = "com.kunzisoft.keepass.extra.timestamp"
+    private const val EXTRA_AUTHENTICATION_CODE = "com.kunzisoft.keepass.extra.authenticationCode"
 
     private const val SEPARATOR = "_"
 
@@ -117,18 +120,16 @@ object PasskeyHelper {
     }
 
     fun Intent.addAuthCode(passkeyEntryNodeId: UUID? = null) {
-        passkeyEntryNodeId?.let {
-            putExtras(Bundle().apply {
-                val timestamp = Instant.now().epochSecond
-                putParcelable(KEY_NODE_ID, ParcelUuid(passkeyEntryNodeId))
-                putString(KEY_TIMESTAMP, timestamp.toString())
-                putString(
-                    KEY_AUTHENTICATION_CODE, generatedAuthenticationCode(
-                        passkeyEntryNodeId, timestamp
-                    ).toHexString()
-                )
-            })
-        }
+        putExtras(Bundle().apply {
+            val timestamp = Instant.now().epochSecond
+            putString(EXTRA_TIMESTAMP, timestamp.toString())
+            putString(
+                EXTRA_AUTHENTICATION_CODE,
+                generatedAuthenticationCode(
+                    passkeyEntryNodeId, timestamp
+                ).toHexString()
+            )
+        })
     }
 
     fun Intent.retrievePasskey(): Passkey? {
@@ -139,12 +140,28 @@ object PasskeyHelper {
         return this.removeExtra(EXTRA_PASSKEY_ELEMENT)
     }
 
+    fun Intent.addSearchInfo(searchInfo: SearchInfo?) {
+        searchInfo?.let {
+            putExtra(EXTRA_SEARCH_INFO, searchInfo)
+        }
+    }
+
+    fun Intent.retrieveSearchInfo(): SearchInfo? {
+        return this.getParcelableExtraCompat(EXTRA_SEARCH_INFO)
+    }
+
+    fun Intent.addNodeId(nodeId: UUID?) {
+        nodeId?.let {
+            putExtra(EXTRA_NODE_ID, ParcelUuid(nodeId))
+        }
+    }
+
     fun Intent.retrieveNodeId(): UUID? {
-        return getParcelableExtraCompat<ParcelUuid>(KEY_NODE_ID)?.uuid
+        return getParcelableExtraCompat<ParcelUuid>(EXTRA_NODE_ID)?.uuid
     }
 
     fun checkSecurity(intent: Intent, nodeId: UUID?) {
-        val timestampString = intent.getStringExtra(KEY_TIMESTAMP)
+        val timestampString = intent.getStringExtra(EXTRA_TIMESTAMP)
         if (timestampString.isNullOrEmpty())
             throw CreateCredentialUnknownException("Timestamp null")
         if (timestampString.matches(REGEX_TIMESTAMP).not()) {
@@ -155,9 +172,8 @@ object PasskeyHelper {
         if (diff < 0 || diff > MAX_DIFF_IN_SECONDS) {
             throw CreateCredentialUnknownException("Out of time")
         }
-
         verifyAuthenticationCode(
-            intent.getStringExtra(KEY_AUTHENTICATION_CODE),
+            intent.getStringExtra(EXTRA_AUTHENTICATION_CODE),
             generatedAuthenticationCode(nodeId, timestamp)
         )
     }

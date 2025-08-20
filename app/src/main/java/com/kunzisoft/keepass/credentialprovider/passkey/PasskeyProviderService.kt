@@ -137,7 +137,7 @@ class PasskeyProviderService : CredentialProviderService() {
                     PasskeyLauncherActivity.getPendingIntent(
                         context = applicationContext,
                         specialMode = SpecialMode.SELECTION,
-                        passkeyEntryNodeId = passkeyEntry.id
+                        nodeId = passkeyEntry.id
                     )?.let { usagePendingIntent ->
                         val passkey = passkeyEntry.getPasskey()
                         passkeyEntries.add(
