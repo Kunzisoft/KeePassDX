@@ -251,7 +251,10 @@ class PasskeyProviderService : CredentialProviderService() {
 
         val accountName = mDatabase?.name ?: getString(R.string.passkey_locked_database_username)
         val createEntries: MutableList<CreateEntry> = mutableListOf()
-        val relyingPartyId = PublicKeyCredentialCreationOptions(request.requestJson).relyingPartyEntity.id
+        val relyingPartyId = PublicKeyCredentialCreationOptions(
+            requestJson = request.requestJson,
+            clientDataHash = request.clientDataHash
+        ).relyingPartyEntity.id
         val searchInfo = SearchInfo().apply {
             relyingParty = relyingPartyId
         }
