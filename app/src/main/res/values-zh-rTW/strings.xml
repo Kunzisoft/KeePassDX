@@ -280,7 +280,7 @@
     <string name="error_pass_gen_type">必須至少選擇一個密碼生成類型。</string>
     <string name="error_pass_match">密碼不正確。</string>
     <string name="error_rebuild_list">無法正確地重建列表。</string>
-    <string name="error_registration_read_only">唯讀資料庫不允許儲存新項目</string>
+    <string name="error_registration_read_only">唯讀資料庫不允許儲存新項目。</string>
     <string name="error_remove_file">刪除檔案資料時發生了一個錯誤。</string>
     <string name="error_rounds_too_large">次數太多，最大設置到 2147483648。</string>
     <string name="error_save_database">無法儲存資料庫。</string>
@@ -699,4 +699,5 @@
     <string name="nodes">節點</string>
     <string name="recursive_number_entries_summary">遞歸計算群組中的項目數</string>
     <string name="warning_large_keyfile">不建議增加較大的密鑰檔案，這可能會阻止資料庫開啟。</string>
+    <string name="error_otp_secret_length">密鑰必須包含至少%1$d個字元。</string>
 </resources>
