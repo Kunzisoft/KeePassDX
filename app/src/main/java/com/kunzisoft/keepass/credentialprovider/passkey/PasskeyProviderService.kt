@@ -84,6 +84,29 @@ class PasskeyProviderService : CredentialProviderService() {
         super.onDestroy()
     }
 
+    private fun buildPasskeySearchInfo(relyingParty: String): SearchInfo {
+        return SearchInfo().apply {
+            webDomain = relyingParty
+            searchParameters.apply {
+                allowEmptyQuery = false
+                searchInTitles = false
+                searchInUsernames = false
+                searchInPasswords = false
+                searchInUrls = true
+                searchInNotes = false
+                searchInOTP = false
+                searchParameters.searchInRelyingParty = true
+                searchInOther = false
+                searchInUUIDs = false
+                searchInTags = false
+                searchInCurrentGroup = false
+                searchInSearchableGroup = true
+                searchInRecycleBin = false
+                searchInTemplates = false
+            }
+        }
+    }
+
     override fun onBeginGetCredentialRequest(
         request: BeginGetCredentialRequest,
         cancellationSignal: CancellationSignal,
@@ -119,9 +142,7 @@ class PasskeyProviderService : CredentialProviderService() {
         val passkeyEntries: MutableList<CredentialEntry> = mutableListOf()
 
         val relyingPartyId = PublicKeyCredentialRequestOptions(option.requestJson).rpId
-        val searchInfo = SearchInfo().apply {
-            relyingParty = relyingPartyId
-        }
+        val searchInfo = buildPasskeySearchInfo(relyingPartyId)
         Log.d(TAG, "Build passkey search for relying party $relyingPartyId")
         SearchHelper.checkAutoSearchInfo(
             context = this,
@@ -255,9 +276,7 @@ class PasskeyProviderService : CredentialProviderService() {
             requestJson = request.requestJson,
             clientDataHash = request.clientDataHash
         ).relyingPartyEntity.id
-        val searchInfo = SearchInfo().apply {
-            relyingParty = relyingPartyId
-        }
+        val searchInfo = buildPasskeySearchInfo(relyingPartyId)
         Log.d(TAG, "Build passkey search for relying party $relyingPartyId")
         SearchHelper.checkAutoSearchInfo(
             context = this,
