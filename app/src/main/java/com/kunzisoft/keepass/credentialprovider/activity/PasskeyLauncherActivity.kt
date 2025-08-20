@@ -214,7 +214,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                             database = openedDatabase,
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher,
                             searchInfo = null,
-                            autoSearch = true
+                            autoSearch = false
                         )
                     },
                     onDatabaseClosed = {

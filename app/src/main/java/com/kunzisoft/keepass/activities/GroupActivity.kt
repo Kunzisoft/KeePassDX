@@ -1912,7 +1912,8 @@ class GroupActivity : DatabaseLockActivity(),
                                             context = activity,
                                             database = database,
                                             searchInfo = searchInfo,
-                                            activityResultLauncher = activityResultLauncher
+                                            activityResultLauncher = activityResultLauncher,
+                                            autoSearch = true
                                         )
                                         onLaunchActivitySpecialMode()
                                     }

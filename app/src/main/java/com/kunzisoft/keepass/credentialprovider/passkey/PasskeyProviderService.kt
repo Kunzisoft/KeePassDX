@@ -86,24 +86,7 @@ class PasskeyProviderService : CredentialProviderService() {
 
     private fun buildPasskeySearchInfo(relyingParty: String): SearchInfo {
         return SearchInfo().apply {
-            webDomain = relyingParty
-            searchParameters.apply {
-                allowEmptyQuery = false
-                searchInTitles = false
-                searchInUsernames = false
-                searchInPasswords = false
-                searchInUrls = true
-                searchInNotes = false
-                searchInOTP = false
-                searchParameters.searchInRelyingParty = true
-                searchInOther = false
-                searchInUUIDs = false
-                searchInTags = false
-                searchInCurrentGroup = false
-                searchInSearchableGroup = true
-                searchInRecycleBin = false
-                searchInTemplates = false
-            }
+            this.relyingParty = relyingParty
         }
     }
 

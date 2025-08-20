@@ -891,7 +891,7 @@ open class Database {
     ): Group? {
         return mSearchHelper.createVirtualGroupWithSearchResult(
             database = this,
-            searchParameters = searchInfo.searchParameters,
+            searchParameters = searchInfo.buildSearchParameters(),
             fromGroup = null,
             max = max
         )
