@@ -456,7 +456,7 @@
     <string name="html_text_dev_feature_upgrade">Не забравяйте да обновявате приложението.</string>
     <string name="html_text_dev_feature_encourage">вие поощрявате разработчиците да добавят &lt;strong&gt;нови възможности&lt;/strong&gt; и да &lt;strong&gt;отстраняват дефекти&lt;/strong&gt; според вашите отзиви.</string>
     <string name="html_text_buy_pro">Купувайки версията Pro ще имате достъп до тази &lt;strong&gt;тема&lt;/strong&gt; и особено ще помогнете за &lt;strong&gt;изпълнението на проекти на общността&lt;/strong&gt;.</string>
-    <string name="html_text_donation">Като &lt;strong&gt;допринасяте&lt;/strong&gt; за проекта <i>(финансово, с код или преводи)</i> му помагате да живее и процъвтява, а също получавате процедурата за отключване на &lt;strong&gt;темите&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Като &lt;strong&gt;допринасяте&lt;/strong&gt; за проекта &lt;i&gt;(финансово, с код или преводи)&lt;/i&gt; му помагате да живее и процъвтява, а също получавате процедурата за отключване на &lt;strong&gt;темите&lt;/strong&gt;.</string>
     <string name="hint_keyfile">Файл с ключ</string>
     <string name="invalid_algorithm">Грешен алгоритъм.</string>
     <string name="description_app_properties">Свойства за управление на настройките на KeePassDX</string>
@@ -684,4 +684,5 @@
     <string name="warning_large_keyfile">Не се препоръчва използването на голям файл с ключ, защото може да попречи на отварянето на хранилището.</string>
     <string name="hide_templates_summary">Шаблоните не се показват</string>
     <string name="hide_templates_title">Скриване на шаблоните</string>
+    <string name="error_otp_secret_length">Тайният ключ трябва да бъде най-малко %1$d знаци.</string>
 </resources>

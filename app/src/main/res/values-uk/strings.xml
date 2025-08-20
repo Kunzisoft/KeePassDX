@@ -29,7 +29,7 @@
     <string name="application">Застосунок</string>
     <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
-    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймує дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
+    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
     <string name="clipboard_timeout">Час до очищення буфера обміну</string>
     <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну (якщо підтримується пристроєм)</string>
@@ -268,7 +268,7 @@
     <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоб бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">&lt;strong&gt;Допомагаючи&lt;/strong&gt; проєкту <i>(фінансово, кодом, перекладами)</i>, ви допоможете йому продовжувати існувати та процвітати, а також матимете право на процедуру розблокування &lt;strong&gt;теми&lt;/strong&gt;.</string>
+    <string name="html_text_donation">&lt;strong&gt;Допомагаючи&lt;/strong&gt; проєкту &lt;i&gt;(фінансово, кодом, перекладами)&lt;/i&gt;, ви допоможете йому продовжувати існувати та процвітати, а також матимете право на процедуру розблокування &lt;strong&gt;теми&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
@@ -616,7 +616,7 @@
     <string name="menu_merge_from">Об\'єднати з …</string>
     <string name="custom_data">Користувацькі дані</string>
     <string name="search_filters">Фільтри пошуку</string>
-    <string name="auto_type_sequence">Послідовність автовведення</string>
+    <string name="auto_type_sequence">Послідовність авто введення</string>
     <string name="menu_save_copy_to">Зберегти копію в …</string>
     <string name="expired">Термін дії завершився</string>
     <string name="warning_database_already_opened">База даних уже відкрита, спочатку закрийте її, щоб відкрити нову</string>
@@ -707,4 +707,5 @@
     <string name="hide_templates_title">Сховати шаблони</string>
     <string name="hide_templates_summary">Шаблони не показано</string>
     <string name="warning_large_keyfile">Не рекомендується додавати великий файл ключа, це може завадити створенню бази даних.</string>
+    <string name="error_otp_secret_length">Секретний ключ повинен містити не менше %1$d символів.</string>
 </resources>

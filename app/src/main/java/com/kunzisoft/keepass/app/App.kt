@@ -19,15 +19,54 @@
  */
 package com.kunzisoft.keepass.app
 
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.multidex.MultiDexApplication
 import com.kunzisoft.keepass.activities.stylish.Stylish
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
 class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
 
+        ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver)
+
         Stylish.load(this)
         PRNGFixes.apply()
+    }
+}
+
+object AppLifecycleObserver : DefaultLifecycleObserver {
+
+    var isAppInForeground: Boolean = false
+        private set
+
+    var lockBackgroundEvent = false
+
+    private val _appJustLaunched = MutableSharedFlow<Unit>(replay = 0)
+    val appJustLaunched = _appJustLaunched.asSharedFlow()
+
+
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        val wasPreviouslyInBackground = !isAppInForeground
+        isAppInForeground = true
+        if (!lockBackgroundEvent && wasPreviouslyInBackground) {
+            GlobalScope.launch {
+                _appJustLaunched.emit(Unit)
+            }
+        }
+    }
+
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+        isAppInForeground = false
     }
 }

@@ -267,7 +267,7 @@
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem objętym klauzulą copyleft&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Poprzez &lt;strong&gt;wsparcie&lt;/strong&gt; projektu <i>(pieniężne, kodowanie, tłumaczenie)</i> pomożesz mu istnieć i rozwijać się, a także uzyskasz dostęp do procedury odblokowywania &lt;strong&gt;motywów&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Poprzez &lt;strong&gt;wsparcie&lt;/strong&gt; projektu &lt;i&gt;(pieniężne, kodowanie, tłumaczenie)&lt;/i&gt; pomożesz mu istnieć i rozwijać się, a także uzyskasz dostęp do procedury odblokowywania &lt;strong&gt;motywów&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Ta funkcja jest &lt;strong&gt;rozwojowa&lt;/strong&gt; i wymaga Twojego &lt;strong&gt;wkładu&lt;/strong&gt;, aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Przez &lt;strong&gt;przyczynianie się&lt;/strong&gt;,</string>
@@ -371,7 +371,7 @@
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
     <string name="error_invalid_OTP">Nieprawidłowy klucz OTP.</string>
     <string name="error_disallow_no_credentials">Należy ustawić co najmniej jedno poświadczenie.</string>
-    <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
+    <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
     <string name="error_otp_counter">Licznik musi być między %1$d a %2$d.</string>
     <string name="error_otp_period">Okres musi wynosić od %1$d do %2$d sekund.</string>
     <string name="error_otp_digits">Token musi zawierać cyfry od %1$d do %2$d.</string>
@@ -706,4 +706,5 @@
     <string name="recursive_number_entries_title">Rekurencyjna liczba wpisów</string>
     <string name="hide_templates_title">Ukryj szablony</string>
     <string name="hide_templates_summary">Szablony nie są wyświetlane</string>
+    <string name="error_otp_secret_length">Klucz tajny musi składać się z co najmniej %1$d znaków.</string>
 </resources>

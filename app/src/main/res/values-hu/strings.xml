@@ -287,7 +287,7 @@
     <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
     <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális stílushoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális stílus&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
-    <string name="html_text_donation">Azzal, hogy &lt;strong&gt;hozzájárul&lt;/strong&gt; a projekthez <i>(pénzzel, kóddal, fordítással)</i>, segít abban, hogy a projekt tovább éljen és gyarapodjon, továbbá Ön jogosulttá válik a &lt;strong&gt;téma&lt;/strong&gt;feloldásának lehetősége.</string>
+    <string name="html_text_donation">Azzal, hogy &lt;strong&gt;hozzájárul&lt;/strong&gt; a projekthez &lt;i&gt;(pénzzel, kóddal, fordítással)&lt;/i&gt;, segít abban, hogy a projekt tovább éljen és gyarapodjon, továbbá Ön jogosulttá válik a &lt;strong&gt;téma&lt;/strong&gt;feloldásának lehetősége.</string>
     <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;támogatására&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
     <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
     <string name="html_text_dev_feature_contibute">A &lt;strong&gt;támogatással&lt;/strong&gt;</string>
@@ -707,4 +707,5 @@
     <string name="hide_templates_summary">A sablonok nem jelennek meg</string>
     <string name="generate_keyfile">Kulcsfájl előállítása</string>
     <string name="hide_templates_title">Sablonok elrejtése</string>
+    <string name="error_otp_secret_length">A titkos kulcsnak legalább %1$d karakterből kell állnia.</string>
 </resources>

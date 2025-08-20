@@ -294,7 +294,7 @@
     <string name="html_text_ad_free">不同于大多数的密码管理应用，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
-    <string name="html_text_donation">通过多方面向本项目&lt;strong&gt;作贡献&lt;/strong&gt;，可以是<i>（金钱、代码、翻译等）</i>，你将帮助本项目继续走下去并茁壮成长，并获得&lt;strong&gt;主题&lt;/strong&gt;解锁步骤资格。</string>
+    <string name="html_text_donation">通过多方面向本项目&lt;strong&gt;作贡献&lt;/strong&gt;，可以是&lt;i&gt;（金钱、代码、翻译等）&lt;/i&gt;，你将帮助本项目继续走下去并茁壮成长，并获得&lt;strong&gt;主题&lt;/strong&gt;解锁步骤资格。</string>
     <string name="html_text_dev_feature">此功能目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使该功能很快变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买&lt;strong&gt;专业&lt;/strong&gt;版，</string>
     <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;贡献&lt;/strong&gt;，</string>
@@ -706,4 +706,5 @@
     <string name="hide_templates_title">隐藏模板</string>
     <string name="nodes">节点</string>
     <string name="recursive_number_entries_title">条目的递归数</string>
+    <string name="error_otp_secret_length">密钥长度至少为 %1$d 个字符。</string>
 </resources>

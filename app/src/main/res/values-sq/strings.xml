@@ -650,7 +650,7 @@
     <string name="autofill_block_restart">Rinisni aplikacionin që përmban formularin, që të aktivizohet bllokimi.</string>
     <string name="enable_education_screens_summary">Thekso elementë për të mësuar se si funksionon aplikacioni</string>
     <string name="reset_education_screens_summary">Shfaq sërish krejt informacionin edukativ</string>
-    <string name="html_text_donation">Duke &lt;strong&gt;dhënë ndihmesë&lt;/strong&gt; te projekti <i>(financiarisht, kod, përkthim)</i>, do ta ndihmoni të vazhdojë të jetojë dhe të lulëzojë dhe do të mund të përfitoni shkyçje &lt;strong&gt;teme&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Duke &lt;strong&gt;dhënë ndihmesë&lt;/strong&gt; te projekti &lt;i&gt;(financiarisht, kod, përkthim)&lt;/i&gt;, do ta ndihmoni të vazhdojë të jetojë dhe të lulëzojë dhe do të mund të përfitoni shkyçje &lt;strong&gt;teme&lt;/strong&gt;.</string>
     <string name="show_entry_colors_summary">Bën shfaqje ngjyrash të përparme dhe të pasme për një zë</string>
     <string name="settings_database_force_changing_master_key_summary">Kërko doemos ndryshimin e kyçit të përgjithshëm (ditë)</string>
     <string name="autofill_inline_suggestions_summary">Provo të shfaqësh sugjerime vetëplotësimi drejt e nga një tastierë e përputhshme</string>

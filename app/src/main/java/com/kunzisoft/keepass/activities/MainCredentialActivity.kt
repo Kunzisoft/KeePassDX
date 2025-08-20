@@ -173,10 +173,11 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         // Listen password checkbox to init advanced unlock and confirmation button
         mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
-            mDeviceUnlockViewModel.checkConditionToStoreCredential(
-                condition = verified,
-                databaseFileUri = mDatabaseFileUri
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mDeviceUnlockViewModel.checkConditionToStoreCredential(
+                    condition = verified
+                )
+            }
             // TODO Async by ViewModel
             enableConfirmationButton()
         }
@@ -230,31 +231,31 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDeviceUnlockViewModel.uiState.collect { uiState ->
-                    // New value received
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    mDeviceUnlockViewModel.uiState.collect { uiState ->
+                        // New value received
                         uiState.credentialRequiredCipher?.let { cipher ->
                             mDeviceUnlockViewModel.encryptCredential(
                                 credential = getCredentialForEncryption(),
                                 cipher = cipher
                             )
                         }
-                    }
-                    uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
-                        onCredentialEncrypted(cipherEncryptDatabase)
-                        mDeviceUnlockViewModel.consumeCredentialEncrypted()
-                    }
-                    uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
-                        onCredentialDecrypted(cipherDecryptDatabase)
-                        mDeviceUnlockViewModel.consumeCredentialDecrypted()
-                    }
-                    uiState.exception?.let { error ->
-                        Snackbar.make(
-                            coordinatorLayout,
-                            deviceUnlockError(error, this@MainCredentialActivity),
-                            Snackbar.LENGTH_LONG
-                        ).asError().show()
-                        mDeviceUnlockViewModel.exceptionShown()
+                        uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
+                            onCredentialEncrypted(cipherEncryptDatabase)
+                            mDeviceUnlockViewModel.consumeCredentialEncrypted()
+                        }
+                        uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
+                            onCredentialDecrypted(cipherDecryptDatabase)
+                            mDeviceUnlockViewModel.consumeCredentialDecrypted()
+                        }
+                        uiState.exception?.let { error ->
+                            Snackbar.make(
+                                coordinatorLayout,
+                                deviceUnlockError(error, this@MainCredentialActivity),
+                                Snackbar.LENGTH_LONG
+                            ).asError().show()
+                            mDeviceUnlockViewModel.exceptionShown()
+                        }
                     }
                 }
             }
@@ -505,7 +506,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
             loadDatabase()
         } else {
             // Init Biometric elements
-            mDeviceUnlockViewModel.databaseFileLoaded(databaseFileUri)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mDeviceUnlockViewModel.connect(databaseFileUri)
+            }
         }
 
         enableConfirmationButton()
@@ -703,6 +706,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mDeviceUnlockViewModel.disconnect()
+        }
     }
 
     companion object {

@@ -253,7 +253,7 @@
     <string name="html_text_ad_free">Anders als viele Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt;, &lt;strong&gt;freie Copyleft-Software&lt;/strong&gt; und keine persönlichen Daten werden auf Servern gesammelt, egal welche Version man verwendet.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhältst du Zugriff auf diesen &lt;strong&gt;visuellen Stil&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projekte.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; ist dank deiner Großzügigkeit verfügbar.</string>
-    <string name="html_text_donation">Mit &lt;strong&gt;Beitragen&lt;/strong&gt; zum Projekt <i>(finanziell, Code, Übersetzung)</i> wird sichergestellt, dass es weiterlebt und gedeiht, und außerdem berechtigt das für den Vorgang der &lt;strong&gt;Design&lt;/strong&gt;-Freischaltung.</string>
+    <string name="html_text_donation">Mit &lt;strong&gt;Beitragen&lt;/strong&gt; zum Projekt &lt;i&gt;(finanziell, Code, Übersetzung)&lt;/i&gt; wird sichergestellt, dass es weiterlebt und gedeiht, und außerdem berechtigt das für den Vorgang der &lt;strong&gt;Design&lt;/strong&gt;-Freischaltung.</string>
     <string name="html_text_dev_feature">Diese Funktion ist &lt;strong&gt;in Entwicklung&lt;/strong&gt; und erfordert &lt;strong&gt;deinen Beitrag&lt;/strong&gt;, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der &lt;strong&gt;Pro-Version&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Durch deinen &lt;strong&gt;Beitrag&lt;/strong&gt;,</string>
@@ -280,10 +280,7 @@
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Datenbank-Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern.
-\n
-\n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen.
-\nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
+    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. \n \n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank. \nMit „Änderbar“ lässt sich jedes Element frei bearbeiten, hinzufügen oder löschen.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Die Datenbank konnte nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Arbeitsspeichernutzung“ der Schlüsselableitungsfunktion zu verringern.</string>
@@ -710,4 +707,5 @@
     <string name="warning_large_keyfile">Es wird nicht empfohlen, eine große Schlüsseldatei hinzuzufügen, da dies das Öffnen der Datenbank verhindern kann.</string>
     <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
+    <string name="error_otp_secret_length">Geheimschlüssel muss mindestens %1$d Zeichen lang sein.</string>
 </resources>

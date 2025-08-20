@@ -74,11 +74,13 @@ class DeviceUnlockFragment: Fragment() {
         } else {
             setAuthenticationFailed()
         }
+        mDeviceUnlockViewModel.biometricPromptClosed()
     }
 
     private var biometricAuthenticationCallback = object: BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             mDeviceUnlockViewModel.onAuthenticationSucceeded(result)
+            mDeviceUnlockViewModel.biometricPromptClosed()
         }
 
         override fun onAuthenticationFailed() {
@@ -129,7 +131,7 @@ class DeviceUnlockFragment: Fragment() {
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDeviceUnlockViewModel.uiState.collect { uiState ->
                     // Change mode
                     toggleDeviceCredentialMode(uiState.newDeviceUnlockMode)
@@ -173,7 +175,6 @@ class DeviceUnlockFragment: Fragment() {
     ) {
         mDeviceUnlockViewModel.cryptoPrompt?.let { prompt ->
             when (state) {
-                DeviceUnlockPromptMode.IDLE -> {}
                 DeviceUnlockPromptMode.SHOW -> {
                     openPrompt(prompt)
                     mDeviceUnlockViewModel.promptShown()
@@ -182,6 +183,7 @@ class DeviceUnlockFragment: Fragment() {
                     cancelBiometricPrompt()
                     mDeviceUnlockViewModel.biometricPromptClosed()
                 }
+                else -> {}
             }
         }
     }
@@ -338,15 +340,18 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun setAuthenticationError(errorCode: Int, errString: CharSequence) {
-        Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+        mDeviceUnlockViewModel.biometricPromptClosed()
         when (errorCode) {
             BiometricPrompt.ERROR_CANCELED,
             BiometricPrompt.ERROR_NEGATIVE_BUTTON,
             BiometricPrompt.ERROR_USER_CANCELED -> {
-                // Ignore negative button
+                // No operation
+                Log.i(TAG, "$errString")
             }
-            else ->
+            else -> {
+                Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
                 mDeviceUnlockViewModel.setException(SecurityException(errString.toString()))
+            }
         }
     }
 
@@ -357,14 +362,15 @@ class DeviceUnlockFragment: Fragment() {
         )
     }
 
+    override fun onPause() {
+        super.onPause()
+        cancelBiometricPrompt()
+        mDeviceUnlockViewModel.clear()
+    }
+
     override fun onDestroyView() {
         mDeviceUnlockView = null
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        mDeviceUnlockViewModel.disconnect()
-        super.onDestroy()
     }
 
     companion object {

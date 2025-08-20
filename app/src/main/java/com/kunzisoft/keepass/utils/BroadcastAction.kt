@@ -31,6 +31,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.AppLifecycleObserver
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
@@ -105,6 +106,7 @@ class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver() {
                     }
                     LOCK_ACTION -> {
                         lockAction.invoke()
+                        AppLifecycleObserver.lockBackgroundEvent = false
                         if (PreferencesUtil.isKeyboardPreviousLockEnable(context)) {
                             backToPreviousKeyboardAction?.invoke()
                         } else {}

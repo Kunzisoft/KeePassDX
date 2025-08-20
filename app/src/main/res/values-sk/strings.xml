@@ -640,7 +640,7 @@
     <string name="education_lock_summary">Rýchlo uzamknite svoju databázu, aplikáciu môžete nastaviť tak, aby sa po chvíli uzamkla a tiež, keď sa obrazovka vypne.</string>
     <string name="education_sort_title">Radenie položiek</string>
     <string name="education_donation_title">Zapojiť sa</string>
-    <string name="html_text_donation">&lt;strong&gt;Príspevkom&lt;/strong&gt; projektu <i>(peněžně, kódem, překlady)</i> mu pomôžete žiť a prosperovať a dostanete prístup k postupu odomknutia &lt;strong&gt;motívov&lt;/strong&gt;.</string>
+    <string name="html_text_donation">&lt;strong&gt;Príspevkom&lt;/strong&gt; projektu &lt;i&gt;(peněžně, kódem, překlady)&lt;/i&gt; mu pomôžete žiť a prosperovať a dostanete prístup k postupu odomknutia &lt;strong&gt;motívov&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_buy_pro">Zakúpením verzie &lt;strong&gt;pro&lt;/strong&gt;</string>
     <string name="html_text_dev_feature_contibute">Ak &lt;strong&gt;prispejete&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_thanks">Ďakujem pekne za prispevok.</string>

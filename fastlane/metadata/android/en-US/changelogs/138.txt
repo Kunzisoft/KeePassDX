@@ -1,0 +1,3 @@
+ * Auto open biometric prompt from database list #2113
+ * Fix Keystore errors #2114 #2115
+ * Complete biometric refactoring for better compatibility

@@ -249,7 +249,7 @@
     <string name="html_text_ad_free">Ao contrário de muitas aplicações de gestão de palavras-passe, esta aplicação &lt;strong&gt;não tem anúncios&lt;/strong&gt;, é &lt;strong&gt;um programa de código-fonte livre&lt;/strong&gt; e não recolhe dados pessoais para os servidores dela, seja qual for a versão que utiliza.</string>
     <string name="html_text_buy_pro">Ao comprar a versão pro, terá acesso a este &lt;strong&gt;estilo visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realizar projetos comunitários.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Ao &lt;strong&gt;contribuir&lt;/strong&gt; para o projeto <i>(monetariamente, código, tradução)</i>, ajudá-lo-á a continuar a viver e prosperar, e também será elegível para o &lt;strong&gt;tema &lt;/strong&gt; procedimento de desbloqueio.</string>
+    <string name="html_text_donation">Ao &lt;strong&gt;contribuir&lt;/strong&gt; para o projeto &lt;i&gt;(monetariamente, código, tradução)&lt;/i&gt;, ajudá-lo-á a continuar a viver e prosperar, e também será elegível para o &lt;strong&gt;tema &lt;/strong&gt; procedimento de desbloqueio.</string>
     <string name="html_text_dev_feature">Esta funcionalidade está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e necessita da sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível brevemente.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Ao &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
@@ -707,4 +707,5 @@
     <string name="warning_large_keyfile">Não é recomendado adicionar um ficheiro-chave grande, pois isso pode impedir a abertura do banco de dados.</string>
     <string name="hide_templates_title">Ocultar modelos</string>
     <string name="hide_templates_summary">Os modelos não são mostrados</string>
+    <string name="error_otp_secret_length">Chave secreta deve ter pelo menos %1$d caracteres.</string>
 </resources>

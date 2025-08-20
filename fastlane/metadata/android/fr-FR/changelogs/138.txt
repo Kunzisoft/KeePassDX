@@ -1,0 +1,3 @@
+ * Ouverture auto de la prompt biometrique depuis la liste des bases #2113
+ * Correction d'erreurs du Keystore #2114 #2115
+ * Refactoring complet de l'invite biométrique pour une meilleure compatibilité

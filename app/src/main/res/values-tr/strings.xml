@@ -281,7 +281,7 @@
     <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt; copyleft lisanslı özgür yazılımdır&lt;/strong&gt; ve hangi sürümü kullanırsanız kullanın, sunucularında kişisel veri toplamaz.</string>
     <string name="html_text_buy_pro">Pro sürümü satın alarak, bu &lt;strong&gt;görsel stile&lt;/strong&gt; erişebilecek ve özellikle &lt;strong&gt;topluluk projelerinin gerçekleştirilmesine yardımcı olacaksınız.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Bu &lt;strong&gt;görsel stil&lt;/strong&gt;, cömertliğiniz sayesinde kullanılabilir.</string>
-    <string name="html_text_donation">Projeye <i>(parasal, kod, çeviri)</i> &lt;strong&gt;katkıda bulunarak&lt;/strong&gt;, projenin yaşamaya ve gelişmeye devam etmesine yardımcı olacaksınız ve ayrıca &lt;strong&gt;tema&lt;/strong&gt; kilidini açmaya da hak kazanacaksınız.</string>
+    <string name="html_text_donation">Projeye &lt;i&gt;(parasal, kod, çeviri)&lt;/i&gt; &lt;strong&gt;katkıda bulunarak&lt;/strong&gt;, projenin yaşamaya ve gelişmeye devam etmesine yardımcı olacaksınız ve ayrıca &lt;strong&gt;tema&lt;/strong&gt; kilidini açmaya da hak kazanacaksınız.</string>
     <string name="html_text_dev_feature">Bu özellik &lt;strong&gt;geliştirme aşamasındadır&lt;/strong&gt; ve &lt;strong&gt;katkılarınızın&lt;/strong&gt; yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;Pro&lt;/strong&gt; sürümü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Katkıda&lt;/strong&gt; bulunarak,</string>
@@ -702,4 +702,5 @@
     <string name="warning_large_keyfile">Büyük bir anahtar dosya eklenmesi önerilmez, bu durum veri tabanının açılmasını engelleyebilir.</string>
     <string name="hide_templates_title">Şablonları gizle</string>
     <string name="hide_templates_summary">Şablonlar gösterilmiyor</string>
+    <string name="error_otp_secret_length">Gizli anahtar en az %1$d karakter uzunluğunda olmalıdır.</string>
 </resources>

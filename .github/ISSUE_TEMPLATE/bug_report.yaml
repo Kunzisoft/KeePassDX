@@ -1,0 +1,63 @@
+name: Bug Report
+description: Report a bug.
+title: ""
+labels: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check out the [Wiki](https://github.com/Kunzisoft/KeePassDX/wiki) and [existing issues](https://github.com/Kunzisoft/KeePassDX/issues?q=is%3Aissue%20state%3Aopen%20label%3Abug) to see if your problem has already been reported.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I have read the Wiki, searched the open issues, and still think this is a new bug.
+          required: true
+  - type: textarea
+    id: bug
+    attributes:
+      label: "Explain the problem clearly and succinctly:"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Describe what you expected to happen:"
+  - type: input
+    id: app-version
+    attributes:
+      label: "KeePassDX version:"
+    validations:
+      required: true
+  - type: dropdown
+    id: app-build
+    attributes:
+      label: "Build:"
+      multiple: true
+      options:
+        - Free
+        - Libre
+    validations:
+      required: true
+  - type: input
+    id: database-version
+    attributes:
+      label: "Database version:"
+  - type: input
+    id: file-provider
+    attributes:
+      label: "File provider (`content://` URI)"
+  - type: input
+    id: android-version
+    attributes:
+      label: "Android version:"
+  - type: input
+    id: android-device
+    attributes:
+      label: "Android device:"
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional context:"
+
