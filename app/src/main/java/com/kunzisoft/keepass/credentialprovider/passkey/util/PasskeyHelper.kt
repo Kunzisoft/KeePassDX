@@ -51,9 +51,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
-import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginManager.Companion.DEFAULT_PROTOCOL
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.EntryInfoPasskey.getPasskey
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
@@ -101,10 +99,10 @@ object PasskeyHelper {
         extras: Bundle? = null
     ) {
         try {
-            entryInfo.getPasskey()?.let {
+            entryInfo.passkey?.let {
                 val mReplyIntent = Intent()
                 Log.d(javaClass.name, "Success Passkey manual selection")
-                mReplyIntent.putExtra(EXTRA_PASSKEY_ELEMENT, entryInfo.getPasskey())
+                mReplyIntent.putExtra(EXTRA_PASSKEY_ELEMENT, entryInfo.passkey)
                 extras?.let {
                     mReplyIntent.putExtras(it)
                 }
@@ -289,11 +287,10 @@ object PasskeyHelper {
         passkeyCreated.invoke(
             Passkey(
                 username = username,
-                displayName = "$relyingParty (Passkey)",
                 privateKeyPem = privateKeyPem,
                 credentialId = b64Encode(credentialId),
                 userHandle = b64Encode(userHandle),
-                relyingParty = DEFAULT_PROTOCOL + relyingParty
+                relyingParty = relyingParty
             ),
             PublicKeyCredentialCreationParameters(
                 publicKeyCredentialCreationOptions = creationOptions,

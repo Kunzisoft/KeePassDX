@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.model.EntryInfoPasskey.setPasskey
+import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
@@ -55,6 +55,7 @@ class EntryInfo : NodeInfo {
     var attachments: MutableList<Attachment> = mutableListOf()
     var autoType: AutoType = AutoType()
     var otpModel: OtpModel? = null
+    var passkey: Passkey? = null
     var isTemplate: Boolean = false
 
     constructor() : super()
@@ -229,9 +230,7 @@ class EntryInfo : NodeInfo {
     }
 
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
-        registerInfo.searchInfo.let {
-            title = searchInfoToTitle(it)
-        }
+        saveSearchInfo(database, registerInfo.searchInfo)
         registerInfo.username?.let {
             username = it
         }

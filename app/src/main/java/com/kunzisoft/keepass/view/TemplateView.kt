@@ -11,8 +11,11 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateAttribute
 import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.helper.getLocalizedName
+import com.kunzisoft.keepass.database.helper.isPasskeyLabel
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.OtpModel
+import com.kunzisoft.keepass.model.Passkey
+import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 
@@ -52,6 +55,8 @@ class TemplateView @JvmOverloads constructor(context: Context,
         return context?.let {
             (if (TemplateField.isStandardPasswordName(context, templateAttribute.label))
                 PasswordTextFieldView(it)
+            else if (TemplateField.isPasskeyLabel(context, templateAttribute.label))
+                PasskeyTextFieldView(it)
             else TextFieldView(it)).apply {
                 applyFontVisibility(mFontInVisibility)
                 setProtection(field.protectedValue.isProtected, mHideProtectedValue)
@@ -125,20 +130,20 @@ class TemplateView @JvmOverloads constructor(context: Context,
 
     override fun populateViewsWithEntryInfo(showEmptyFields: Boolean): List<ViewField>  {
         val emptyCustomFields = super.populateViewsWithEntryInfo(false)
-
         // Hide empty custom fields
         emptyCustomFields.forEach { customFieldId ->
             customFieldId.view.isVisible = false
         }
-
         removeOtpRunnable()
         mEntryInfo?.let { entryInfo ->
             // Assign specific OTP dynamic view
             entryInfo.otpModel?.let {
                 assignOtp(it)
             }
+            entryInfo.passkey?.let {
+                assignPasskey(it)
+            }
         }
-
         return emptyCustomFields
     }
 
@@ -197,6 +202,22 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 mOnOtpElementUpdated?.invoke(otpElement)
                 post(mOtpRunnable)
             }
+        }
+    }
+
+    private fun getPasskeyView(): PasskeyTextFieldView? {
+        getViewFieldByName(PASSKEY_FIELD)?.let { viewField ->
+            val view = viewField.view
+            if (view is PasskeyTextFieldView)
+                return view
+        }
+        return null
+    }
+
+    private fun assignPasskey(passkey: Passkey) {
+        getPasskeyView()?.apply {
+            relyingParty = passkey.relyingParty
+            username = passkey.username
         }
     }
 

@@ -567,6 +567,13 @@
         <item name="android:paddingEnd">8dp</item>
         <item name="android:textSize">16sp</item>
 	</style>
+    <style name="KeepassDXStyle.TextAppearance.TextNodePrimary" parent="KeepassDXStyle.TextAppearance.TextNode">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.TextNodeSecondary" parent="KeepassDXStyle.TextAppearance.TextNode">
+        <item name="android:textSize">14sp</item>
+    </style>
 
     <!-- Snackbar -->
     <style name="KeepassDXStyle.SnackBar" parent="Widget.Material3.Snackbar">

@@ -48,7 +48,7 @@ class OriginManager(
         clientDataHash: ByteArray?
     ) {
         val isPrivilegedApp = webOrigin != null
-                && webOrigin == (DEFAULT_PROTOCOL + relyingParty) && clientDataHash != null
+                && webOrigin == relyingParty && clientDataHash != null
         Log.d(TAG, "isPrivilegedApp = $isPrivilegedApp")
         if (!isPrivilegedApp) {
             AppRelyingPartyRelation.isRelationValid(relyingParty, apkSigningCertificate)
@@ -57,12 +57,10 @@ class OriginManager(
 
     val origin: String
         get() {
-            return webOrigin ?: (DEFAULT_PROTOCOL + relyingParty)
+            return webOrigin ?: relyingParty
         }
 
     companion object {
         private val TAG = OriginManager::class.simpleName
-        const val DEFAULT_PROTOCOL = "https://"
-
     }
 }

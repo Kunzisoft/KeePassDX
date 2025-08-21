@@ -486,4 +486,25 @@ object OtpEntryFields {
             newCustomFields.add(Field(OTP_TOKEN_FIELD))
         return newCustomFields
     }
+
+    fun searchExcluded(field: Field): Boolean {
+        return when(field.name) {
+            OTP_FIELD -> true
+            TOTP_SEED_FIELD -> true
+            TOTP_SETTING_FIELD -> true
+            HMACOTP_SECRET_FIELD -> true
+            HMACOTP_SECRET_HEX_FIELD -> true
+            HMACOTP_SECRET_BASE32_FIELD -> true
+            HMACOTP_SECRET_BASE64_FIELD -> true
+            HMACOTP_SECRET_COUNTER_FIELD -> true
+            TIMEOTP_SECRET_FIELD -> true
+            TIMEOTP_SECRET_HEX_FIELD -> true
+            TIMEOTP_SECRET_BASE32_FIELD -> true
+            TIMEOTP_SECRET_BASE64_FIELD -> true
+            TIMEOTP_LENGTH_FIELD -> true
+            TIMEOTP_PERIOD_FIELD -> true
+            TIMEOTP_ALGORITHM_FIELD -> true
+            else -> false
+        }
+    }
 }

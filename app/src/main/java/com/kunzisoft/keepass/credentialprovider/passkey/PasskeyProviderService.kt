@@ -51,7 +51,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.helper.SearchHelper
-import com.kunzisoft.keepass.model.EntryInfoPasskey.getPasskey
 import com.kunzisoft.keepass.model.SearchInfo
 import java.time.Instant
 
@@ -86,7 +85,8 @@ class PasskeyProviderService : CredentialProviderService() {
 
     private fun buildPasskeySearchInfo(relyingParty: String): SearchInfo {
         return SearchInfo().apply {
-            this.relyingParty = relyingParty
+            this.webDomain = relyingParty
+            this.isAPasskeySearch = true
         }
     }
 
@@ -144,7 +144,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         specialMode = SpecialMode.SELECTION,
                         nodeId = passkeyEntry.id
                     )?.let { usagePendingIntent ->
-                        val passkey = passkeyEntry.getPasskey()
+                        val passkey = passkeyEntry.passkey
                         passkeyEntries.add(
                             PublicKeyCredentialEntry(
                                 context = applicationContext,
@@ -154,7 +154,7 @@ class PasskeyProviderService : CredentialProviderService() {
                                 } ?: defaultIcon,
                                 pendingIntent = usagePendingIntent,
                                 beginGetPublicKeyCredentialOption = option,
-                                displayName = passkey?.displayName,
+                                displayName = passkeyEntry.getVisualTitle(),
                                 isAutoSelectAllowed = true
                             )
                         )
@@ -299,7 +299,7 @@ class PasskeyProviderService : CredentialProviderService() {
                                     pendingIntent = createPendingIntent,
                                     description = getString(
                                         R.string.passkey_update_description,
-                                        entryInfo.getPasskey()?.displayName
+                                        entryInfo.passkey?.displayName
                                     )
                                 )
                             )

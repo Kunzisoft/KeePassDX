@@ -20,6 +20,7 @@ import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.DataDate
 import com.kunzisoft.keepass.model.DataTime
+import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 
 
@@ -261,6 +262,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
         mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }?.otpModel
+        mEntryInfo?.passkey = PasskeyEntryFields.parseFields { key ->
+            getCustomField(key).protectedValue.toString()
+        }
     }
 
     override fun onRestoreEntryInstanceState(state: SavedState) {

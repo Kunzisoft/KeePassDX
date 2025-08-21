@@ -56,7 +56,6 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
-import com.kunzisoft.keepass.model.EntryInfoPasskey.getPasskey
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -175,7 +174,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
             val passkey = database
                 ?.getEntryById(NodeIdUUID(nodeId))
                 ?.getEntryInfo(database)
-                ?.getPasskey()
+                ?.passkey
                 ?: throw GetCredentialUnknownException("no passkey with nodeId $nodeId found")
 
             val result = Intent()

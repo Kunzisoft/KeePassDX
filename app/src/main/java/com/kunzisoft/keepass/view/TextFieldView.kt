@@ -27,7 +27,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -46,7 +45,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                                               defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
 
-    private var labelViewId = ViewCompat.generateViewId()
+    protected var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
     private var showButtonId = ViewCompat.generateViewId()
     private var copyButtonId = ViewCompat.generateViewId()
