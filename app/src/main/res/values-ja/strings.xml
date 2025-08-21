@@ -445,7 +445,7 @@
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
     <string name="html_text_buy_pro">Pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
-    <string name="html_text_donation">&lt;strong&gt;プロジェクトに貢献&lt;/strong&gt;することによって（お金、コード、翻訳など）、プロジェクトは継続して成長することができ、さらに&lt;strong&gt;テーマ&lt;/strong&gt;のアンロック手続きにも参加できるようになります。</string>
+    <string name="html_text_donation"><strong>プロジェクトに貢献</strong>することによって <i>（お金、コード、翻訳など）</i>、プロジェクトは継続して成長することができ、さらに<strong>テーマ</strong>のアンロック手続きにも参加できるようになります。</string>
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;pro&lt;/strong&gt; バージョンを購入することによる、</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;貢献&lt;/strong&gt;による、</string>
