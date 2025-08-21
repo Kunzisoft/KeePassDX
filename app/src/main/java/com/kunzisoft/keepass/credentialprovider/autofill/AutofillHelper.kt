@@ -258,7 +258,7 @@ object AutofillHelper {
                 }
             }
         }
-        for (field in entryInfo.customFields) {
+        for (field in entryInfo.getCustomFieldsForFilling()) {
             if (field.name == TemplateField.LABEL_HOLDER) {
                 struct.creditCardHolderId?.let { ccNameId ->
                     datasetBuilder.addValueToDatasetBuilder(

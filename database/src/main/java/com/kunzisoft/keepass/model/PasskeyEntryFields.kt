@@ -120,8 +120,12 @@ object PasskeyEntryFields {
         return newCustomFields
     }
 
-    fun searchExcluded(field: Field): Boolean {
-        return when(field.name) {
+    /**
+     * Field ignored for a search or a form filling
+     */
+    fun Field.isPasskeyExclusion(): Boolean {
+        return when(name) {
+            PASSKEY_FIELD -> true
             FIELD_USERNAME -> true
             FIELD_PRIVATE_KEY -> true
             FIELD_CREDENTIAL_ID -> true

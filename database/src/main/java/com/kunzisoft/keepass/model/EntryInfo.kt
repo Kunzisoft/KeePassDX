@@ -30,10 +30,12 @@ import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
 import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOtpExclusion
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
@@ -99,12 +101,11 @@ class EntryInfo : NodeInfo {
         parcel.writeBooleanCompat(isTemplate)
     }
 
-    fun containsCustomFieldsProtected(): Boolean {
-        return customFields.any { it.protectedValue.isProtected }
-    }
-
-    fun containsCustomFieldsNotProtected(): Boolean {
-        return customFields.any { !it.protectedValue.isProtected }
+    fun getCustomFieldsForFilling(): List<Field> {
+        return customFields.filter {
+            !it.isOtpExclusion()
+                    && !it.isPasskeyExclusion()
+        }
     }
 
     fun containsCustomField(label: String): Boolean {

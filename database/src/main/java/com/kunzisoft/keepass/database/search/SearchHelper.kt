@@ -24,10 +24,10 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
-import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOtpExclusion
 import com.kunzisoft.keepass.utils.UuidUtil
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
@@ -186,8 +186,8 @@ class SearchHelper {
             }
             if (searchParameters.searchInOther) {
                 if(entry.getExtraFields().any { field ->
-                    OtpEntryFields.searchExcluded(field)
-                            && PasskeyEntryFields.searchExcluded(field)
+                    field.isOtpExclusion()
+                            && field.isPasskeyExclusion()
                             && checkSearchQuery(field.protectedValue.toString(), searchParameters)
                 })
                     return true

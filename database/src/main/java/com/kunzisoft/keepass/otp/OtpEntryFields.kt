@@ -487,8 +487,11 @@ object OtpEntryFields {
         return newCustomFields
     }
 
-    fun searchExcluded(field: Field): Boolean {
-        return when(field.name) {
+    /**
+     * Field ignored for a search or a form filling
+     */
+    fun Field.isOtpExclusion(): Boolean {
+        return when(name) {
             OTP_FIELD -> true
             TOTP_SEED_FIELD -> true
             TOTP_SETTING_FIELD -> true

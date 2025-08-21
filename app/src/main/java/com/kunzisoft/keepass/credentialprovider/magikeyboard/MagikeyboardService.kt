@@ -41,9 +41,9 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.adapters.FieldsAdapter
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Field
@@ -324,9 +324,9 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 actionGoAutomatically()
             }
             KEY_FIELDS -> {
-                getEntryInfo()?.customFields?.let { customFields ->
+                getEntryInfo()?.getCustomFieldsForFilling()?.let { customFields ->
                     fieldsAdapter?.apply {
-                        setFields(customFields.filter { it.name != OTP_TOKEN_FIELD})
+                        setFields(customFields)
                         notifyDataSetChanged()
                     }
                 }
