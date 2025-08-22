@@ -456,6 +456,7 @@ class NodesAdapter (
                     holder.otpToken?.setTextColor(foregroundColor)
                     holder.otpProgress?.setIndicatorColor(foregroundColor)
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
+                    holder.passkeyIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
                     iconColor = foregroundColor
                 } else {
@@ -464,6 +465,7 @@ class NodesAdapter (
                     holder.otpToken?.setTextColor(mTextColorSecondary)
                     holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
+                    holder.passkeyIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
@@ -472,6 +474,7 @@ class NodesAdapter (
                 holder.otpToken?.setTextColor(mColorOnSecondary)
                 holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
                 holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
+                holder.passkeyIcon?.setColorFilter(mColorOnSecondary)
                 holder.meta.setTextColor(mColorOnSecondary)
             }
 
