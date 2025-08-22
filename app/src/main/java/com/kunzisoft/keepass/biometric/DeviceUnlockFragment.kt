@@ -147,11 +147,6 @@ class DeviceUnlockFragment: Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mDeviceUnlockViewModel.checkUnlockAvailability()
-    }
-
     fun cancelBiometricPrompt() {
         mBiometricPrompt?.cancelAuthentication()
     }

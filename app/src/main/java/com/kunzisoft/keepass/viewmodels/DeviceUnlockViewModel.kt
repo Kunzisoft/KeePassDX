@@ -350,6 +350,9 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         AppLifecycleObserver.lockBackgroundEvent = true
         isAutoOpenBiometricPromptAllowed = false
         cryptoPromptShowPending = false
+        if (cryptoPrompt == null) {
+            checkUnlockAvailability()
+        }
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.SHOW
@@ -382,7 +385,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initEncryptData() {
-        Log.d(TAG, "Init encrypt data")
         try {
             deviceUnlockManager = DeviceUnlockManager(getApplication())
             deviceUnlockManager?.initEncryptData { cryptoPrompt ->
@@ -394,7 +396,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initDecryptData() {
-        Log.d(TAG, "Init decrypt data")
         try {
             cipherDatabase?.let { cipherDb ->
                 deviceUnlockManager = DeviceUnlockManager(getApplication())
