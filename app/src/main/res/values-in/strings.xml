@@ -26,7 +26,7 @@
     <string name="menu_security_settings">Pengaturan Keamanan</string>
     <string name="menu_app_settings">Pengaturan Aplikasi</string>
     <string name="menu_database_settings">Pengaturan Basis Data</string>
-    <string name="menu_advanced_unlock_settings">Membuka kunci perangkat</string>
+    <string name="menu_device_unlock_settings">Membuka kunci perangkat</string>
     <string name="menu_form_filling_settings">Pengisian Formulir</string>
     <string name="settings">Pengaturan</string>
     <string name="copy_field">Salinan dari %1$s</string>
@@ -237,7 +237,7 @@
     <string name="compression">Kompresi</string>
     <string name="other">Lainnya</string>
     <string name="application_appearance">Tampilan</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Tautan ke pembukaan kunci perangkat</string>
+    <string name="device_unlock_prompt_store_credential_title">Tautan ke pembukaan kunci perangkat</string>
     <string name="keystore_not_accessible">Keystore tidak diinisialisasi dengan benar.</string>
     <string name="biometric_security_update_required">Pembaruan keamanan biometrik diperlukan.</string>
     <string name="configure_biometric">Tidak ada kredensial biometrik atau perangkat yang terdaftar.</string>
@@ -248,8 +248,8 @@
 \n
 \nBasis data Anda mungkin menjadi sangat besar dan mengurangi kinerja dengan unggahan ini.</string>
     <string name="warning_empty_recycle_bin">Hapus permanen semua node dari keranjang sampah\?</string>
-    <string name="advanced_unlock_tap_delete">Ketuk untuk menghapus tombol pembuka kunci perangkat</string>
-    <string name="advanced_unlock">Buka kunci perangkat</string>
+    <string name="device_unlock_tap_delete">Ketuk untuk menghapus tombol pembuka kunci perangkat</string>
+    <string name="device_unlock">Buka kunci perangkat</string>
     <string name="content">Konten</string>
     <string name="lock_database_show_button_summary">Tampilkan tombol kunci di antarmuka pengguna</string>
     <string name="lock_database_show_button_title">Tampilkan tombol kunci</string>
@@ -390,8 +390,8 @@
     <string name="education_field_copy_title">Salin bidang</string>
     <string name="education_setup_OTP_title">Atur OTP</string>
     <string name="education_donation_title">Partisipasi</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Pengenalan pembuka kunci perangkat</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Anda masih perlu mengingat kredensial utama vault Anda jika Anda menggunakan pengenalan kunci perangkat.</string>
+    <string name="device_unlock_prompt_extract_credential_title">Pengenalan pembuka kunci perangkat</string>
+    <string name="device_unlock_prompt_store_credential_message">Anda masih perlu mengingat kredensial utama vault Anda jika Anda menggunakan pengenalan kunci perangkat.</string>
     <string name="warning_database_revoked">Akses ke berkas dicabut oleh pengelola berkas, tutup basis data dan buka kembali dari lokasi tempatnya.</string>
     <string name="warning_database_info_changed_options">Gabungkan data, timpa perubahan dengan cara menyimpan basis data atau muat ulang dengan perubahan terbaru.</string>
     <string name="warning_database_info_changed">Informasi yang tersimpan di berkas basis data Anda sudah diubah di luar aplikasi.</string>
@@ -414,13 +414,13 @@
     <string name="device_credential_unlock_enable_title">Membuka kredensial perangkat</string>
     <string name="biometric_unlock_enable_summary">Memperbolehkan Anda memindai biometrik Anda untuk membuka basis data</string>
     <string name="biometric_unlock_enable_title">Membuka kunci biometrik</string>
-    <string name="advanced_unlock_explanation_summary">Gunakan buka kunci perangkat untuk membuka basis data dengan lebih mudah</string>
+    <string name="device_unlock_explanation_summary">Gunakan buka kunci perangkat untuk membuka basis data dengan lebih mudah</string>
     <string name="unavailable">Tidak tersedia</string>
-    <string name="advanced_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci perangkat</string>
-    <string name="advanced_unlock_invalid_key">Tidak dapat membaca kunci pembuka perangkat. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data perangkat</string>
+    <string name="device_unlock_not_recognized">Tidak dapat mengenali cetakan buka kunci perangkat</string>
+    <string name="device_unlock_invalid_key">Tidak dapat membaca kunci pembuka perangkat. Harap hapus dan ulangi prosedur pengenalan buka kunci.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data perangkat</string>
     <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan.</string>
-    <string name="credential_before_click_advanced_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
+    <string name="credential_before_click_device_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
     <string name="autofill_service_name">Isi formulir KeePassDX otomatis</string>
     <string name="autofill_preference_title">Pengaturan isi otomatis</string>
     <string name="set_autofill_service_title">Setel layanan isi otomatis secara default</string>
@@ -462,11 +462,11 @@
     <string name="holder">Penyangga</string>
     <string name="autofill_select_entry">Pilih entri…</string>
     <string name="biometric_auto_open_prompt_summary">Secara otomatis meminta buka kunci perangkat jika basis data diatur menggunakan itu</string>
-    <string name="temp_advanced_unlock_enable_title">Buka kunci perangkat sementara</string>
-    <string name="temp_advanced_unlock_enable_summary">Jangan simpan konten terenkripsi apa pun untuk menggunakan buka kunci perangkat</string>
-    <string name="temp_advanced_unlock_timeout_summary">Durasi penggunaan buka kunci perangkat sebelum menghapus konten tersebut</string>
-    <string name="advanced_unlock_timeout">Batas waktu membuka kunci perangkat</string>
-    <string name="advanced_unlock_delete_all_key_warning">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci perangkat\?</string>
+    <string name="temp_device_unlock_enable_title">Buka kunci perangkat sementara</string>
+    <string name="temp_device_unlock_enable_summary">Jangan simpan konten terenkripsi apa pun untuk menggunakan buka kunci perangkat</string>
+    <string name="temp_device_unlock_timeout_summary">Durasi penggunaan buka kunci perangkat sebelum menghapus konten tersebut</string>
+    <string name="device_unlock_timeout">Batas waktu membuka kunci perangkat</string>
+    <string name="device_unlock_delete_all_key_warning">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci perangkat\?</string>
     <string name="templates_group_enable_title">Penggunaan templat</string>
     <string name="biometric_delete_all_key_summary">Hapus semua kunci enkripsi yang terkait pengenalan buka kunci perangkat</string>
     <string name="max_history_items_summary">Batasi jumlah item riwayat per entri</string>
@@ -480,7 +480,7 @@
     <string name="max_history_size_summary">Batasi ukuran riwayat per entri</string>
     <string name="max_history_size_title">Ukuran maksimum</string>
     <string name="biometric_delete_all_key_title">Hapus kunci enkripsi</string>
-    <string name="temp_advanced_unlock_timeout_title">Kedaluwarsa pembuka kunci perangkat</string>
+    <string name="temp_device_unlock_timeout_title">Kedaluwarsa pembuka kunci perangkat</string>
     <string name="templates_group_enable_summary">Gunakan templat dinamis untuk mengisi bidang entri</string>
     <string name="education_read_only_summary">Ubah mode pembuka untuk sesi.
 \n
@@ -562,8 +562,8 @@
 \n
 \nGrup (~folder) mengatur entri dalam basis data Anda.</string>
     <string name="education_search_summary">Masukkan judul, nama pengguna atau konten bidang lain untuk mengambil kata sandi Anda.</string>
-    <string name="education_advanced_unlock_title">Pembukaan kunci basis data perangkat</string>
-    <string name="education_advanced_unlock_summary">Tautkan kata sandi Anda ke kredensial biometrik atau perangkat yang dipindai untuk membuka kunci basis data Anda dengan cepat.</string>
+    <string name="education_device_unlock_title">Pembukaan kunci basis data perangkat</string>
+    <string name="education_device_unlock_summary">Tautkan kata sandi Anda ke kredensial biometrik atau perangkat yang dipindai untuk membuka kunci basis data Anda dengan cepat.</string>
     <string name="education_entry_new_field_title">Tambahkan bidang kustom</string>
     <string name="education_entry_new_field_summary">Daftarkan bidang tambahan, tambahkan nilai, dan lindungi secara opsional.</string>
     <string name="education_setup_OTP_summary">Siapkan pengelola kata sandi satu kali (HOTP / TOTP) untuk menghasilkan token yang diminta untuk otentikasi dua faktor (2FA).</string>
@@ -582,7 +582,7 @@
     <string name="upper_case">HURUF BESAR</string>
     <string name="title_case">Huruf Judul</string>
     <string name="character_count">Jumlah karakter: %1$d</string>
-    <string name="advanced_unlock_prompt_not_initialized">Tidak dapat menginisialisasi perintah buka kunci perangkat.</string>
+    <string name="device_unlock_prompt_not_initialized">Tidak dapat menginisialisasi perintah buka kunci perangkat.</string>
     <string name="monospace_font_fields_enable_title">Bidang tipe huruf</string>
     <string name="keyboard_save_search_info_title">Simpan info terbagi</string>
     <string name="keyboard_previous_fill_in_title">Ganti kembali</string>
@@ -611,7 +611,7 @@
     <string name="enable_auto_save_database_summary">Simpan basis data setelah setiap tindakan penting (dalam mode \"Bisa dimodifikasi\")</string>
     <string name="custom_data">Data kustom</string>
     <string name="warning_database_already_opened">Sebuah basis data sudah dibuka, tutup terlebih dahulu untuk membuka yang baru</string>
-    <string name="advanced_unlock_keystore_warning">Fitur ini akan menyimpan data kredensial terenkripsi di KeyStore perangkat Anda yang aman.
+    <string name="device_unlock_keystore_warning">Fitur ini akan menyimpan data kredensial terenkripsi di KeyStore perangkat Anda yang aman.
 \n
 \nBergantung pada implementasi API asli dari sistem operasi, mungkin tidak berfungsi penuh.
 \n
@@ -648,7 +648,7 @@
     <string name="info">Info</string>
     <string name="menu_app_settings_summary">Cari, kunci, riwayat, properti</string>
     <string name="menu_form_filling_settings_summary">Papan ketik, isi otomatis, papan klip</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometri, kredensial perangkat</string>
+    <string name="menu_device_unlock_settings_summary">Biometri, kredensial perangkat</string>
     <string name="menu_database_settings_summary">Metadata, tempat sampah, templat, riwayat</string>
     <string name="menu_security_settings_summary">Enkripsi, fungsi derivasi kunci</string>
     <string name="master_key_settings_summary">Perubahan, pembaruan</string>

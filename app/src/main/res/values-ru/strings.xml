@@ -196,7 +196,7 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу через несколько секунд после отключения экрана</string>
-    <string name="advanced_unlock">Разблокировка устройства</string>
+    <string name="device_unlock">Разблокировка устройства</string>
     <string name="biometric_unlock_enable_title">Биометрическая разблокировка</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
@@ -334,7 +334,7 @@
     <string name="content_description_update_from_list">Обновить</string>
     <string name="content_description_keyboard_close_fields">Закрыть поля</string>
     <string name="error_create_database_file">Невозможно создать базу с этим паролем и ключевым файлом.</string>
-    <string name="menu_advanced_unlock_settings">Разблокировка устройства</string>
+    <string name="menu_device_unlock_settings">Разблокировка устройства</string>
     <string name="biometric">Биометрический ключ</string>
     <string name="biometric_auto_open_prompt_title">Автозапрос ключа</string>
     <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать разблокировку устройства, если она установлена для базы</string>
@@ -367,7 +367,7 @@
     <string name="contains_duplicate_uuid_procedure">Исправить проблему путём создания новых UUID для дубликатов и продолжить работу\?</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
-    <string name="advanced_unlock_explanation_summary">Используйте разблокировку устройства для более лёгкого открытия базы</string>
+    <string name="device_unlock_explanation_summary">Используйте разблокировку устройства для более лёгкого открытия базы</string>
     <string name="database_data_compression_title">Сжатие данных</string>
     <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы</string>
     <string name="max_history_items_title">Максимум записей</string>
@@ -490,29 +490,29 @@
     <string name="device_credential_unlock_enable_summary">Позволяет использовать учётные данные вашего устройства для открытия базы</string>
     <string name="device_credential_unlock_enable_title">Разблокировка учётными данными устройства</string>
     <string name="device_credential">Учётные данные устройства</string>
-    <string name="credential_before_click_advanced_unlock_button">Введите пароль и нажмите эту кнопку.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Невозможно инициализировать запрос разблокировки устройства.</string>
-    <string name="advanced_unlock_not_recognized">Невозможно распознать разблокировку устройства</string>
-    <string name="advanced_unlock_invalid_key">Невозможно прочитать ключ разблокировки устройства. Удалите его и повторите процедуру распознавания разблокировки.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием разблокировки устройства</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Распознавание разблокировки устройства</string>
-    <string name="advanced_unlock_prompt_store_credential_message">При использовании разблокировки устройства вам всё равно необходимо помнить основные учётные данные.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства\?</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Настройка разблокировки устройства</string>
+    <string name="credential_before_click_device_unlock_button">Введите пароль и нажмите эту кнопку.</string>
+    <string name="device_unlock_prompt_not_initialized">Невозможно инициализировать запрос разблокировки устройства.</string>
+    <string name="device_unlock_not_recognized">Невозможно распознать разблокировку устройства</string>
+    <string name="device_unlock_invalid_key">Невозможно прочитать ключ разблокировки устройства. Удалите его и повторите процедуру распознавания разблокировки.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Извлекать учётные данные базы с использованием разблокировки устройства</string>
+    <string name="device_unlock_prompt_extract_credential_title">Распознавание разблокировки устройства</string>
+    <string name="device_unlock_prompt_store_credential_message">При использовании разблокировки устройства вам всё равно необходимо помнить основные учётные данные.</string>
+    <string name="device_unlock_delete_all_key_warning">Удалить все ключи шифрования, связанные с распознаванием разблокировки устройства\?</string>
+    <string name="device_unlock_prompt_store_credential_title">Настройка разблокировки устройства</string>
     <string name="menu_keystore_remove_key">Удалить ключ разблокировки устройства</string>
     <string name="enter">Ввод</string>
     <string name="back_to_previous_keyboard">Возврат к предыдущей клавиатуре</string>
     <string name="custom_fields">Пользовательские поля</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Выберите запись</string>
-    <string name="education_advanced_unlock_title">Разблокировка базы устройством</string>
-    <string name="advanced_unlock_timeout">Срок действия разблокировки устройства</string>
-    <string name="education_advanced_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
-    <string name="temp_advanced_unlock_timeout_summary">Продолжительность использования содержимого разблокировки устройства до его удаления</string>
-    <string name="temp_advanced_unlock_timeout_title">Время действия</string>
-    <string name="temp_advanced_unlock_enable_title">Временная разблокировка устройства</string>
-    <string name="temp_advanced_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования разблокировки устройства</string>
-    <string name="advanced_unlock_tap_delete">Нажмите, чтобы удалить ключи разблокировки устройства</string>
+    <string name="education_device_unlock_title">Разблокировка базы устройством</string>
+    <string name="device_unlock_timeout">Срок действия разблокировки устройства</string>
+    <string name="education_device_unlock_summary">Свяжите пароль с отсканированными биометрическими данными или учётными данными устройства, чтобы быстро разблокировать базу.</string>
+    <string name="temp_device_unlock_timeout_summary">Продолжительность использования содержимого разблокировки устройства до его удаления</string>
+    <string name="temp_device_unlock_timeout_title">Время действия</string>
+    <string name="temp_device_unlock_enable_title">Временная разблокировка устройства</string>
+    <string name="temp_device_unlock_enable_summary">Не сохранять зашифрованное содержимое для использования разблокировки устройства</string>
+    <string name="device_unlock_tap_delete">Нажмите, чтобы удалить ключи разблокировки устройства</string>
     <string name="content">Содержимое</string>
     <string name="error_database_uri_null">Невозможно получить URI базы.</string>
     <string name="error_rebuild_list">Невозможно правильно перестроить список.</string>
@@ -620,7 +620,7 @@
     <string name="custom_data">Пользовательские данные</string>
     <string name="expired">Срок действия истёк</string>
     <string name="warning_database_already_opened">База уже открыта, закройте её, прежде чем открыть новую</string>
-    <string name="advanced_unlock_keystore_warning">Эта функция будет хранить зашифрованные учётные данные в безопасном хранилище ключей вашего устройства.
+    <string name="device_unlock_keystore_warning">Эта функция будет хранить зашифрованные учётные данные в безопасном хранилище ключей вашего устройства.
 \n
 \nВ зависимости от конкретной реализации API операционной системы, он может быть не полностью функциональным.
 \n
@@ -672,7 +672,7 @@
     <string name="unlock">Открыть</string>
     <string name="menu_app_settings_summary">Поиск, блокировка, история, настройки</string>
     <string name="menu_form_filling_settings_summary">Клавиатура, автозаполнение, буфер обмена</string>
-    <string name="menu_advanced_unlock_settings_summary">Биометрия, учётные данные устройства</string>
+    <string name="menu_device_unlock_settings_summary">Биометрия, учётные данные устройства</string>
     <string name="menu_database_settings_summary">Метаданные, корзина, шаблоны, история</string>
     <string name="menu_security_settings_summary">Шифрование, функция формирования ключа</string>
     <string name="education_validate_entry_summary">Не забывайте проверять введённые данные и сохранять базу.

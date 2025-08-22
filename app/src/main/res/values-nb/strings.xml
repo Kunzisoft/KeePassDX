@@ -188,7 +188,7 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skjermlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen etter noen sekunder når skjermen er av</string>
-    <string name="advanced_unlock">Lås opp enheten</string>
+    <string name="device_unlock">Lås opp enheten</string>
     <string name="biometric_unlock_enable_title">Skanner etter fingeravtrykk</string>
     <string name="biometric_unlock_enable_summary">Lar deg bruke biometri for å åpne databasen</string>
     <string name="biometric_delete_all_key_title">Slett krypteringsnøkler</string>
@@ -325,7 +325,7 @@
     <string name="content_description_update_from_list">Oppdater</string>
     <string name="content_description_keyboard_close_fields">Lukk felt</string>
     <string name="error_create_database_file">Kan ikke opprette database med dette passordet og nøkkelfilen.</string>
-    <string name="menu_advanced_unlock_settings">Enhetsopplåsing</string>
+    <string name="menu_device_unlock_settings">Enhetsopplåsing</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Skru av</string>
     <string name="content_description_entry_icon">Oppføringsikon</string>
@@ -412,7 +412,7 @@
     <string name="search_mode">Søkemodus</string>
     <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
     <string name="content_description_add_item">Legg til element</string>
-    <string name="education_advanced_unlock_title">Opplåsing av enhetsdatabase</string>
+    <string name="education_device_unlock_title">Opplåsing av enhetsdatabase</string>
     <string name="unit_byte">B</string>
     <string name="show_uuid_summary">Viser UUID-en som er tilknyttet en oppføring eller en gruppe</string>
     <string name="show_uuid_title">Vis UUID</string>
@@ -427,7 +427,7 @@
     <string name="back_to_previous_keyboard">Tilbake til forrige tastatur</string>
     <string name="custom_fields">Egendefinerte felter</string>
     <string name="content">Innhold</string>
-    <string name="advanced_unlock_delete_all_key_warning">Slette alle krypteringsnøkler relatert til enhetsopplåsing?</string>
+    <string name="device_unlock_delete_all_key_warning">Slette alle krypteringsnøkler relatert til enhetsopplåsing?</string>
     <string name="keyboard_change">Bytt tastatur</string>
     <string name="keyboard_previous_lock_title">Lås databasen</string>
     <string name="keyboard_previous_lock_summary">Bytt automatisk tilbake til forrige tastatur etter å ha låst databasen</string>
@@ -437,7 +437,7 @@
     <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
     <string name="autofill_read_only_save">Datalagring er ikke tillatt for en database som er skrivebeskyttet.</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyll er lagt til.</string>
-    <string name="education_advanced_unlock_summary">Koble passordet ditt til den skannede biometriske eller enhetslegitimasjonen for å raskt låse opp databasen din.</string>
+    <string name="education_device_unlock_summary">Koble passordet ditt til den skannede biometriske eller enhetslegitimasjonen for å raskt låse opp databasen din.</string>
     <string name="education_setup_OTP_title">Sett opp OTP</string>
     <string name="download_canceled">Avbrutt!</string>
     <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
@@ -452,13 +452,13 @@
     <string name="device_keyboard_setting_title">Innstillinger for enhetens tastatur</string>
     <string name="notification">Merknad</string>
     <string name="data">Data</string>
-    <string name="advanced_unlock_tap_delete">Trykk for å slette enhetens opplåsingsnøkler</string>
+    <string name="device_unlock_tap_delete">Trykk for å slette enhetens opplåsingsnøkler</string>
     <string name="clipboard_explanation_summary">Kopier inntastingsfelter ved bruk av utklippstavlen på din enhet</string>
     <string name="autofill_preference_title">Autofyllings-innstillinger</string>
     <string name="warning_sure_remove_data">Fjern denne dataen uansett\?</string>
     <string name="warning_permanently_delete_nodes">Slett valgte noder for godt\?</string>
     <string name="templates_group_uuid_title">Malgruppe</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Lenke til opplåsing av enheten</string>
+    <string name="device_unlock_prompt_store_credential_title">Lenke til opplåsing av enheten</string>
     <string name="warning_empty_recycle_bin">Slett alle noder fra papirkurven for godt\?</string>
     <string name="export_app_properties_title">Eksporter appinnstillinger</string>
     <string name="import_app_properties_title">Importer appinnstillinger</string>
@@ -526,25 +526,25 @@
     <string name="error_upload_file">En feil inntraff under opplasting av fildataen.</string>
     <string name="error_remove_file">En feil inntraff under fjerning av fildataen.</string>
     <string name="properties">Egenskaper</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Gjenkjenning av enhetslås</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Pakk ut database-identitetsdetalj med enhetens opplåsningsdata</string>
-    <string name="advanced_unlock_invalid_key">Kan ikke lese enhetens opplåsningsnøkkel. Slett den og gjenta gjenkjenning av opplåsningsprosedyre.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Kan ikke igangsette forespørsel om opplåsing av enheten.</string>
+    <string name="device_unlock_prompt_extract_credential_title">Gjenkjenning av enhetslås</string>
+    <string name="device_unlock_prompt_extract_credential_message">Pakk ut database-identitetsdetalj med enhetens opplåsningsdata</string>
+    <string name="device_unlock_invalid_key">Kan ikke lese enhetens opplåsningsnøkkel. Slett den og gjenta gjenkjenning av opplåsningsprosedyre.</string>
+    <string name="device_unlock_prompt_not_initialized">Kan ikke igangsette forespørsel om opplåsing av enheten.</string>
     <string name="permission">Tilgang</string>
     <string name="biometric_security_update_required">Biometrisk sikkerhetsoppdatering kreves.</string>
     <string name="warning_exact_alarm">Du har ikke tillat programmet å bruke en eksakt alarm. Som resultat vil funksjoner som krever et tidsur ikke gjøres til eksakt tid.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Du må fortsatt huske hovedlegitimasjonen for hvelvet selv om du bruker enhetens opplåsingsgjenkjenning.</string>
-    <string name="advanced_unlock_not_recognized">Kunne ikke gjenkjenne enhetens oppåsningsmetode</string>
-    <string name="credential_before_click_advanced_unlock_button">Skriv inn passordet, og klikk deretter på denne knappen.</string>
+    <string name="device_unlock_prompt_store_credential_message">Du må fortsatt huske hovedlegitimasjonen for hvelvet selv om du bruker enhetens opplåsingsgjenkjenning.</string>
+    <string name="device_unlock_not_recognized">Kunne ikke gjenkjenne enhetens oppåsningsmetode</string>
+    <string name="credential_before_click_device_unlock_button">Skriv inn passordet, og klikk deretter på denne knappen.</string>
     <string name="device_credential">Enhets-identitetsdetalj</string>
     <string name="autofill_select_entry">Velg oppføring …</string>
-    <string name="temp_advanced_unlock_enable_title">Midlertidig enhets opplåsing</string>
-    <string name="temp_advanced_unlock_timeout_title">Utløpsdato for opplåsing av enhet</string>
+    <string name="temp_device_unlock_enable_title">Midlertidig enhets opplåsing</string>
+    <string name="temp_device_unlock_timeout_title">Utløpsdato for opplåsing av enhet</string>
     <string name="device_credential_unlock_enable_summary">Lar deg bruke din enhets-identitetsdetalj for å åpne databasen</string>
-    <string name="temp_advanced_unlock_timeout_summary">Varigheten av enhetens opplåsingsbruk før innholdet blir slettet</string>
-    <string name="advanced_unlock_explanation_summary">Bruk enhetsopplåsing for å åpne en database enklere</string>
+    <string name="temp_device_unlock_timeout_summary">Varigheten av enhetens opplåsingsbruk før innholdet blir slettet</string>
+    <string name="device_unlock_explanation_summary">Bruk enhetsopplåsing for å åpne en database enklere</string>
     <string name="device_credential_unlock_enable_title">Opplåsing av enhetslegitimasjon</string>
-    <string name="advanced_unlock_timeout">Tidsavbrudd for opplåsing av enheten</string>
+    <string name="device_unlock_timeout">Tidsavbrudd for opplåsing av enheten</string>
     <string name="templates_group_enable_title">Mal-bruk</string>
     <string name="database_data_remove_unlinked_attachments_summary">Fjerner vedlegg som er å finne i databasen, men som ikke er lenket til en oppføring</string>
     <string name="keyboard_save_search_info_summary">Prøv å lagre delt informasjon når du foretar en manuell oppføring for enklere fremtidig bruk</string>
@@ -573,7 +573,7 @@
     <string name="subdomain_search_title">Underdomenesøk</string>
     <string name="error_otp_type">Eksisterende OTP-type gjenkjennes ikke av dette skjemaet og valideringen kan derfor ikke lenger generere tokenet.</string>
     <string name="error_start_database_action">En feil inntraff under utføring av en databasehandling.</string>
-    <string name="temp_advanced_unlock_enable_summary">Ikke lagre noe kryptert innhold for å bruke enhets opplåsing</string>
+    <string name="temp_device_unlock_enable_summary">Ikke lagre noe kryptert innhold for å bruke enhets opplåsing</string>
     <string name="subdomain_search_summary">Søk i vev-domener med underdomene-begrensninger</string>
     <string name="max_history_items_summary">Begrens antall historikkelementer per oppføring</string>
     <string name="show_otp_token_summary">Viser OTP-symboler i listen over oppføringer</string>
@@ -604,7 +604,7 @@
     <string name="unlock_and_link_biometric">Enhetsopplåsningskobling</string>
     <string name="unlock">Lås opp</string>
     <string name="keyboard_previous_search_summary">Bytt automatisk tilbake til forrige tastatur på søkeskjermen</string>
-    <string name="advanced_unlock_keystore_warning">Denne funksjonen vil lagre krypterte legitimasjonsdata i den sikre KeyStore på enheten din.
+    <string name="device_unlock_keystore_warning">Denne funksjonen vil lagre krypterte legitimasjonsdata i den sikre KeyStore på enheten din.
 \n
 \nAvhengig av den opprinnelige API-implementeringen av operativsystemet, kan det hende at den ikke fungerer fullt ut.
 \n
@@ -656,7 +656,7 @@
     <string name="passphrase">Passfrase</string>
     <string name="menu_app_settings_summary">Søk, lås, historikk, egenskaper</string>
     <string name="menu_form_filling_settings_summary">Tastatur, autofyll, utklippstavle</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometri, enhetslegitimasjon</string>
+    <string name="menu_device_unlock_settings_summary">Biometri, enhetslegitimasjon</string>
     <string name="menu_database_settings_summary">Metadata, papirkurv, maler, historikk</string>
     <string name="menu_security_settings_summary">Kryptering, nøkkelavledningsfunksjon</string>
     <string name="master_key_settings_summary">Endring, fornyelse</string>

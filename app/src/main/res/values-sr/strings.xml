@@ -279,8 +279,8 @@
     <string name="menu_app_settings_summary">Претрага, закључавање, историја, својства</string>
     <string name="menu_form_filling_settings">Попуњавање обрасца</string>
     <string name="menu_form_filling_settings_summary">Тастатура, аутоматско попуњавање, клипборд</string>
-    <string name="menu_advanced_unlock_settings">Напредно откључавање</string>
-    <string name="menu_advanced_unlock_settings_summary">Биометрија, акредитив уређаја</string>
+    <string name="menu_device_unlock_settings">Напредно откључавање</string>
+    <string name="menu_device_unlock_settings_summary">Биометрија, акредитив уређаја</string>
     <string name="menu_database_settings">Поставке базе података</string>
     <string name="menu_database_settings_summary">Метаподаци, корпа за отпатке, шаблони, историја</string>
     <string name="menu_master_key_settings">Поставке главног кључа</string>

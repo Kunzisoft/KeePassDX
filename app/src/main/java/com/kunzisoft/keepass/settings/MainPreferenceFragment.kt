@@ -84,9 +84,9 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference<Preference>(getString(R.string.settings_advanced_unlock_key))?.apply {
+        findPreference<Preference>(getString(R.string.settings_device_unlock_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.ADVANCED_UNLOCK)
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DEVICE_UNLOCK)
                 false
             }
         }

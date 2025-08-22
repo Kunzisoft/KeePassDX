@@ -192,7 +192,7 @@
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
     <string name="lock_database_screen_off_summary">Blocca il database dopo alcuni secondi quando lo schermo è spento</string>
-    <string name="advanced_unlock">Sblocco con dispositivo</string>
+    <string name="device_unlock">Sblocco con dispositivo</string>
     <string name="biometric_unlock_enable_title">Scansione biometrica</string>
     <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
@@ -339,7 +339,7 @@
     <string name="content_description_background">Sfondo</string>
     <string name="entry_UUID">Identificativo univoco universale</string>
     <string name="error_create_database_file">Impossibile creare un database con questa password e file chiave.</string>
-    <string name="menu_advanced_unlock_settings">Sblocco con dispositivo</string>
+    <string name="menu_device_unlock_settings">Sblocco con dispositivo</string>
     <string name="entry_history">Cronologia</string>
     <string name="entry_setup_otp">Imposta password usa e getta</string>
     <string name="otp_type">Tipo di OTP</string>
@@ -399,7 +399,7 @@
     <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database</string>
     <string name="database_data_compression_title">Compressione dati</string>
     <string name="biometric_auto_open_prompt_summary">Richiedi automaticamente lo sblocco con dispositivo se il database è impostato per usarlo</string>
-    <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco con dispositivo per aprire un database più facilmente</string>
+    <string name="device_unlock_explanation_summary">Utilizza lo sblocco con dispositivo per aprire un database più facilmente</string>
     <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
     <string name="database_opened">Database aperto</string>
     <string name="biometric">Biometrico</string>
@@ -490,32 +490,32 @@
     <string name="error_field_name_already_exists">Il nome del campo esiste già.</string>
     <string name="error_registration_read_only">Il salvataggio di un nuovo elemento non è consentito in un database di sola lettura.</string>
     <string name="configure_biometric">Nessuna credenziale biometrica o del dispositivo è registrata.</string>
-    <string name="education_advanced_unlock_summary">Collega la password alla tua autenticazione biometrica (o del dispositivo) per sbloccare velocemente il database.</string>
-    <string name="education_advanced_unlock_title">Sblocco del database con dispositivo</string>
+    <string name="education_device_unlock_summary">Collega la password alla tua autenticazione biometrica (o del dispositivo) per sbloccare velocemente il database.</string>
+    <string name="education_device_unlock_title">Sblocco del database con dispositivo</string>
     <string name="enter">Invio</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Seleziona voce</string>
     <string name="back_to_previous_keyboard">Torna alla tasitera precedente</string>
     <string name="custom_fields">Campi personalizzati</string>
-    <string name="advanced_unlock_delete_all_key_warning">Vuoi eliminare tutte le chiavi di crittografia relative allo sblocco con dispositivo\?</string>
-    <string name="advanced_unlock_timeout">Scadenza dello sblocco con dispositivo</string>
-    <string name="temp_advanced_unlock_enable_summary">Non salvare alcun contenuto cifrato per usare lo sblocco con dispositivo</string>
-    <string name="temp_advanced_unlock_timeout_summary">Validità dell\'uso dello sblocco con dispositivo prima di eliminarne il contenuto</string>
-    <string name="temp_advanced_unlock_timeout_title">Scadenza dello sblocco con dispositivo</string>
-    <string name="temp_advanced_unlock_enable_title">Sblocco con dispositivo temporaneo</string>
+    <string name="device_unlock_delete_all_key_warning">Vuoi eliminare tutte le chiavi di crittografia relative allo sblocco con dispositivo\?</string>
+    <string name="device_unlock_timeout">Scadenza dello sblocco con dispositivo</string>
+    <string name="temp_device_unlock_enable_summary">Non salvare alcun contenuto cifrato per usare lo sblocco con dispositivo</string>
+    <string name="temp_device_unlock_timeout_summary">Validità dell\'uso dello sblocco con dispositivo prima di eliminarne il contenuto</string>
+    <string name="temp_device_unlock_timeout_title">Scadenza dello sblocco con dispositivo</string>
+    <string name="temp_device_unlock_enable_title">Sblocco con dispositivo temporaneo</string>
     <string name="device_credential_unlock_enable_summary">Permette di usare le credenziali del dispositivo per sbloccare il database</string>
     <string name="device_credential_unlock_enable_title">Sblocco con credenziali del dispositivo</string>
-    <string name="advanced_unlock_tap_delete">Tocca per eliminare le chiavi di sblocco con dispositivo</string>
+    <string name="device_unlock_tap_delete">Tocca per eliminare le chiavi di sblocco con dispositivo</string>
     <string name="content">Contenuto</string>
-    <string name="advanced_unlock_prompt_not_initialized">Impossibile inizializzare la richiesta di sblocco con dispositivo.</string>
-    <string name="advanced_unlock_not_recognized">Non è stato possibile riconoscere l\'impronta di sblocco del dispositivo</string>
-    <string name="advanced_unlock_invalid_key">Non è possibile leggere la chiave di sblocco del dispositivo. Eliminala e ripeti la procedura di riconoscimento dello sblocco.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Estrai le credenziali del database con i dati dello sblocco con dispositivo</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Dovrai comunque ricordare la password principale della cassaforte anche se usi lo sblocco con dispositivo.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Collegamento allo sblocco con dispositivo</string>
+    <string name="device_unlock_prompt_not_initialized">Impossibile inizializzare la richiesta di sblocco con dispositivo.</string>
+    <string name="device_unlock_not_recognized">Non è stato possibile riconoscere l\'impronta di sblocco del dispositivo</string>
+    <string name="device_unlock_invalid_key">Non è possibile leggere la chiave di sblocco del dispositivo. Eliminala e ripeti la procedura di riconoscimento dello sblocco.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Estrai le credenziali del database con i dati dello sblocco con dispositivo</string>
+    <string name="device_unlock_prompt_store_credential_message">Dovrai comunque ricordare la password principale della cassaforte anche se usi lo sblocco con dispositivo.</string>
+    <string name="device_unlock_prompt_store_credential_title">Collegamento allo sblocco con dispositivo</string>
     <string name="device_credential">Credenziali del dispositivo</string>
-    <string name="credential_before_click_advanced_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Riconoscimento sblocco con dispositivo</string>
+    <string name="credential_before_click_device_unlock_button">Inserisci la password, poi clicca questo pulsante.</string>
+    <string name="device_unlock_prompt_extract_credential_title">Riconoscimento sblocco con dispositivo</string>
     <string name="menu_keystore_remove_key">Elimina chiave di sblocco del dispositivo</string>
     <string name="error_rebuild_list">Non è possibile ricostruire la lista correttamente.</string>
     <string name="error_database_uri_null">Non è stato recuperato l\'indirizzo del database.</string>
@@ -627,7 +627,7 @@
     <string name="colorize_password_summary">Colora i tipi di carattere della password</string>
     <string name="warning_database_already_opened">Un database è già aperto, chiudilo prima di aprirne un altro</string>
     <string name="auto_type_sequence">Sequenza di autodigitazione</string>
-    <string name="advanced_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
+    <string name="device_unlock_keystore_warning">Questa funzione memorizzerà le informazioni cifrate di accesso nel KeyStore protetto del dispositivo.
 \n
 \nA seconda di come è stata implementata l\'API nativa del sistema operativo, potrebbe non essere pienamente funzionante.
 \n
@@ -673,7 +673,7 @@
     <string name="info">Info</string>
     <string name="menu_app_settings_summary">Ricerca, blocco, cronologia, proprietà</string>
     <string name="menu_form_filling_settings_summary">Tastiera, riempimento automatico, appunti</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometria, credenziali del dispositivo</string>
+    <string name="menu_device_unlock_settings_summary">Biometria, credenziali del dispositivo</string>
     <string name="menu_database_settings_summary">Metadati, cestino, modelli, cronologia</string>
     <string name="menu_security_settings_summary">Crittografia, funzione di derivazione della chiave</string>
     <string name="master_key_settings_summary">Cambio, rinnovo</string>

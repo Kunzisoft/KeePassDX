@@ -90,7 +90,7 @@
     <string name="menu_master_key_settings">تنظیمات کلید اصلی</string>
     <string name="menu_security_settings">تنظیمات امنیتی</string>
     <string name="menu_database_settings">تنظیمات پایگاه داده</string>
-    <string name="menu_advanced_unlock_settings">باز کردن قفل پیشرفته</string>
+    <string name="menu_device_unlock_settings">باز کردن قفل پیشرفته</string>
     <string name="menu_form_filling_settings">پر کردن فرم</string>
     <string name="menu_app_settings">تنظیمات برنامه</string>
     <string name="settings">تنظیمات</string>
@@ -246,8 +246,8 @@
     <string name="keyboard_previous_database_credentials_title">صفحه اعتبار نامه پایگاه داده</string>
     <string name="biometric_security_update_required">به روز رسانی امنیتی بیومتریک مورد نیاز است.</string>
     <string name="configure_biometric">هیچ بیومتریک یا اعتبار دستگاه ثبت نشده است.</string>
-    <string name="advanced_unlock_tap_delete">برای حذف کلیدهای پیشرفته باز کردن قفل ضربه بزنید</string>
-    <string name="advanced_unlock">باز کردن قفل پیشرفته</string>
+    <string name="device_unlock_tap_delete">برای حذف کلیدهای پیشرفته باز کردن قفل ضربه بزنید</string>
+    <string name="device_unlock">باز کردن قفل پیشرفته</string>
     <string name="content">محتوا</string>
     <string name="warning_database_revoked">دسترسی به پرونده توسط مدیر فایل لغو شده ، پایگاه داده را ببندید و مجدداً از محل آن باز کنید.</string>
     <string name="warning_database_info_changed_options">با ذخیره کردن پایگاه داده ، تغییرات خارجی را بازنویسی کنید یا با جدیدترین تغییرات آن را بارگیری کنید.</string>

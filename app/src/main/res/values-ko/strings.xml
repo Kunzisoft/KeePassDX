@@ -318,7 +318,7 @@
     <string name="show_otp_token_title">OTP 토큰을 표시</string>
     <string name="list_groups_show_number_entries_summary">그룹에 속한 항목수를 표시</string>
     <string name="menu_external_icon">외부 아이콘</string>
-    <string name="menu_advanced_unlock_settings">고급 잠금 해제</string>
+    <string name="menu_device_unlock_settings">고급 잠금 해제</string>
     <string name="search_mode">검색 모드</string>
     <string name="rounds_explanation">추가적인 암호화 차수를 설정함으로써 무차별 대입 공격(brute force attack)에 대한 방어를 강화할 수 있습니다. 대신 읽기/저장시 느려질 수 있습니다.</string>
     <string name="do_not_kill_app">앱을 강제 종료하지 마세요.</string>
@@ -365,7 +365,7 @@
     <string name="properties">속성</string>
     <string name="menu_appearance_settings_summary">테마, 색상, 속성</string>
     <string name="autofill">자동 입력</string>
-    <string name="credential_before_click_advanced_unlock_button">비밀번호 입력 후 이 버튼을 눌러주세요</string>
+    <string name="credential_before_click_device_unlock_button">비밀번호 입력 후 이 버튼을 눌러주세요</string>
     <string name="unavailable">사용할 수 없습니다</string>
     <string name="database_history">기록</string>
     <string name="type">유형</string>
@@ -387,7 +387,7 @@
     <string name="autofill_preference_title">자동 완성 설정</string>
     <string name="set_autofill_service_title">기본 자동완성 서비스 설정</string>
     <string name="lock_database_screen_off_title">화면 꺼짐 시 잠금</string>
-    <string name="advanced_unlock_explanation_summary">기기 잠금 방식을 사용하여 데이터베이스를 더 쉽게 여세요</string>
+    <string name="device_unlock_explanation_summary">기기 잠금 방식을 사용하여 데이터베이스를 더 쉽게 여세요</string>
     <string name="biometric_unlock_enable_title">생체 인식 잠금 해제</string>
     <string name="biometric_unlock_enable_summary">생체 인식을 사용하여 데이터베이스를 열수 있습니다</string>
     <string name="biometric_delete_all_key_title">암호화 키 삭제</string>

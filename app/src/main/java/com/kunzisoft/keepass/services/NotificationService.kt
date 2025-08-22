@@ -105,7 +105,7 @@ abstract class NotificationService : Service() {
                 NotificationServiceType.ATTACHMENT -> FOREGROUND_SERVICE_TYPE_DATA_SYNC
                 NotificationServiceType.CLIPBOARD -> foregroundServiceTimer
                 NotificationServiceType.KEYBOARD -> foregroundServiceTimer
-                NotificationServiceType.ADVANCED_UNLOCK -> foregroundServiceTimer
+                NotificationServiceType.DEVICE_UNLOCK -> foregroundServiceTimer
             }
             startForeground(notificationId, builder.build(), foregroundType)
         } else {

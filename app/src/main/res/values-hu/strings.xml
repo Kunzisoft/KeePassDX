@@ -198,7 +198,7 @@
     <string name="lock">Zárolás</string>
     <string name="lock_database_screen_off_title">Képernyőzár</string>
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása néhány másodperc után, ha a képernyő kikapcsol</string>
-    <string name="advanced_unlock">Eszközfeloldás</string>
+    <string name="device_unlock">Eszközfeloldás</string>
     <string name="biometric_unlock_enable_title">Ujjlenyomat-alapú feloldás</string>
     <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis megnyitásához</string>
     <string name="biometric_delete_all_key_title">Titkosítási kulcsok törlése</string>
@@ -382,7 +382,7 @@
     <string name="max_history_items_title">Maximális szám</string>
     <string name="database_data_compression_summary">Az adattömörítés csökkenti az adatbázis méretét</string>
     <string name="database_data_compression_title">Adattömörítés</string>
-    <string name="advanced_unlock_explanation_summary">Eszközfeloldás használata az adatbázis könnyebb megnyitásához</string>
+    <string name="device_unlock_explanation_summary">Eszközfeloldás használata az adatbázis könnyebb megnyitásához</string>
     <string name="clipboard_explanation_summary">A bejegyzésmezők másolása az eszköz vágólapjának használatával</string>
     <string name="database_opened">Adatbázis megnyitva</string>
     <string name="contains_duplicate_uuid_procedure">Megoldja a problémát azzal, hogy új UUID-t állít elő az ismétlődések számára\?</string>
@@ -412,7 +412,7 @@
     <string name="biometric_auto_open_prompt_summary">Az eszközfeloldás automatikus kérése, ha az adatbázis úgy van beállítva, hogy használja</string>
     <string name="biometric_auto_open_prompt_title">Automatikus megnyitási képernyő</string>
     <string name="biometric">Ujjlenyomat</string>
-    <string name="menu_advanced_unlock_settings">Eszköz feloldása</string>
+    <string name="menu_device_unlock_settings">Eszköz feloldása</string>
     <string name="content_description_keyboard_close_fields">Mezők bezárása</string>
     <string name="content_description_update_from_list">Frissítés</string>
     <string name="list_groups_show_number_entries_summary">A csoportban szereplő bejegyzések számának megjelenítése</string>
@@ -521,31 +521,31 @@
     <string name="hint_icon_name">Ikon neve</string>
     <string name="autofill_select_entry">Válasszon bejegyzést…</string>
     <string name="warning_database_info_changed_options">Adatok egyesítése, majd a külső módosítások felülírása az adatbázis mentésével, vagy újratöltés a legfrissebb változtatásokkal.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Hivatkozás az eszköz feloldásához</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Továbbra is meg kell jegyeznie a széf fő jelszavát, ha az eszköz feloldásfelismerését használja.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Adatbázis hitelesítő adatainak kinyerése az eszköz adatfeloldásával</string>
-    <string name="advanced_unlock_invalid_key">Az eszközfeloldási kulcs nem olvasható. Törölje, és ismételje meg a feloldásfelismerési folyamatot.</string>
-    <string name="advanced_unlock_not_recognized">Az eszközfeloldási ujjlenyomat nem ismerhető fel</string>
-    <string name="advanced_unlock_prompt_not_initialized">Az eszközfeloldási képernyő előkészítése sikertelen.</string>
+    <string name="device_unlock_prompt_store_credential_title">Hivatkozás az eszköz feloldásához</string>
+    <string name="device_unlock_prompt_store_credential_message">Továbbra is meg kell jegyeznie a széf fő jelszavát, ha az eszköz feloldásfelismerését használja.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Adatbázis hitelesítő adatainak kinyerése az eszköz adatfeloldásával</string>
+    <string name="device_unlock_invalid_key">Az eszközfeloldási kulcs nem olvasható. Törölje, és ismételje meg a feloldásfelismerési folyamatot.</string>
+    <string name="device_unlock_not_recognized">Az eszközfeloldási ujjlenyomat nem ismerhető fel</string>
+    <string name="device_unlock_prompt_not_initialized">Az eszközfeloldási képernyő előkészítése sikertelen.</string>
     <string name="properties">Tulajdonságok</string>
     <string name="device_credential">Eszköz hitelesítő adatai</string>
-    <string name="temp_advanced_unlock_enable_summary">Ne tároljon semmilyen titkosított tartalmat az eszközfeloldás használatához</string>
-    <string name="temp_advanced_unlock_timeout_title">Eszközfeloldás lejárati ideje</string>
+    <string name="temp_device_unlock_enable_summary">Ne tároljon semmilyen titkosított tartalmat az eszközfeloldás használatához</string>
+    <string name="temp_device_unlock_timeout_title">Eszközfeloldás lejárati ideje</string>
     <string name="warning_database_revoked">A fájl elérését visszavonta a fájlkezelő, zárja be az adatbázist és nyissa meg újra a helyéről.</string>
     <string name="warning_exact_alarm">Nem engedélyezte az alkalmazásnak, hogy pontos riasztást használjon. Ezért az időzítőt használó funkciók nem a pontos időt fogják használni.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Eszköz feloldásfelismerése</string>
-    <string name="credential_before_click_advanced_unlock_button">Írja be a jelszót, majd kattintson erre a gombra.</string>
-    <string name="temp_advanced_unlock_enable_title">Ideiglenes eszközfeloldás</string>
+    <string name="device_unlock_prompt_extract_credential_title">Eszköz feloldásfelismerése</string>
+    <string name="credential_before_click_device_unlock_button">Írja be a jelszót, majd kattintson erre a gombra.</string>
+    <string name="temp_device_unlock_enable_title">Ideiglenes eszközfeloldás</string>
     <string name="permission">Engedély</string>
     <string name="content">Tartalom</string>
-    <string name="advanced_unlock_tap_delete">Koppintson az eszközfeloldási kulcsok törléséhez</string>
+    <string name="device_unlock_tap_delete">Koppintson az eszközfeloldási kulcsok törléséhez</string>
     <string name="device_credential_unlock_enable_title">Eszköz hitelesítő adataival történő feloldás</string>
     <string name="device_credential_unlock_enable_summary">Lehetővé teszi, hogy az eszköz hitelesítő adataival nyissa meg az adatbázist</string>
     <string name="autofill_application_id_blocklist_title">Letiltott alkalmazások</string>
     <string name="menu_merge_database">Adatok egyesítése</string>
     <string name="autofill_close_database_title">Adatbázis bezárása</string>
-    <string name="temp_advanced_unlock_timeout_summary">Az eszközfeloldás használata ideje, mielőtt a tartalma törölve lesz</string>
-    <string name="advanced_unlock_timeout">Eszközfeloldás időtúllépése</string>
+    <string name="temp_device_unlock_timeout_summary">Az eszközfeloldás használata ideje, mielőtt a tartalma törölve lesz</string>
+    <string name="device_unlock_timeout">Eszközfeloldás időtúllépése</string>
     <string name="templates_group_enable_title">Sablonok használata</string>
     <string name="templates_group_enable_summary">Dinamikus sablonok használata a bejegyzés mezőinek kitöltéséhez</string>
     <string name="templates_group_uuid_title">Sabloncsoport</string>
@@ -579,7 +579,7 @@
     <string name="style_brightness_title">Téma fényereje</string>
     <string name="show_uuid_summary">Megjeleníti a bejegyzéshez vagy csoporthoz tartozó UUID-t</string>
     <string name="show_otp_token_title">OTP token megjelenítése</string>
-    <string name="advanced_unlock_delete_all_key_warning">Törli az összes, az eszközfeloldás-felismeréshez tartozó titkosítási kulcsot\?</string>
+    <string name="device_unlock_delete_all_key_warning">Törli az összes, az eszközfeloldás-felismeréshez tartozó titkosítási kulcsot\?</string>
     <string name="keyboard_save_search_info_summary">A könnyebb jövőbeli használat érdekében próbálja menteni a megosztott információkat a kézi bejegyzéskiválasztásnál</string>
     <string name="custom_fields">Egyéni mezők</string>
     <string name="back_to_previous_keyboard">Vissza az előző billentyűzethez</string>
@@ -590,8 +590,8 @@
     <string name="autofill_application_id_blocklist_summary">Tiltólista, amely megakadályozza az alkalmazások automatikus kitöltését</string>
     <string name="autofill_web_domain_blocklist_title">Letiltott webes domainek</string>
     <string name="autofill_ask_to_save_data_title">Adatok mentésének kérése</string>
-    <string name="education_advanced_unlock_title">Eszközadatbázis feloldása</string>
-    <string name="education_advanced_unlock_summary">A jelszó összekötése a leolvasott biometrikus adatokkal vagy eszköz-hitelesítőadatokkal, hogy gyorsan feloldhassa az adatbázist.</string>
+    <string name="education_device_unlock_title">Eszközadatbázis feloldása</string>
+    <string name="education_device_unlock_summary">A jelszó összekötése a leolvasott biometrikus adatokkal vagy eszköz-hitelesítőadatokkal, hogy gyorsan feloldhassa az adatbázist.</string>
     <string name="show_otp_token_summary">Megjeleníti az OTP tokeneket a bejegyzések között</string>
     <string name="education_add_attachment_title">Melléklet hozzáadása</string>
     <string name="keyboard_previous_database_credentials_summary">Automatikus visszaváltás az előző billentyűzetre az adatbázis-hitelesítőadatok képernyőn</string>
@@ -656,7 +656,7 @@
     <string name="wireless">Wi-Fi</string>
     <string name="error_hardware_key_unsupported">A hardverkulcs nem támogatott.</string>
     <string name="colorize_password_title">Jelszavak színezése</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometrikus adatok, eszköz-hitelesítőadatok</string>
+    <string name="menu_device_unlock_settings_summary">Biometrikus adatok, eszköz-hitelesítőadatok</string>
     <string name="error_XML_malformed">Hibásan formázott XML.</string>
     <string name="remember_hardware_key_summary">Követi a használt hardverkulcsokat</string>
     <string name="warning_database_already_opened">Egy adatbázis már nyitva van, előbb zárja be, hogy újat nyisson meg</string>
@@ -666,7 +666,7 @@
     <string name="warning_database_notification_permission">Az értesítési engedély lehetővé teszi az adatbázis állapotának megjelenítését, és az egyszerű ikonnal történő zárolást.
 \n
 \nHa nem aktiválja az engedélyt, akkor a háttérben nyitott adatbázis nem lesz látható, ha egy másik alkalmazás van előtérben.</string>
-    <string name="advanced_unlock_keystore_warning">A funkció eltárolja a titkosított hitelesítőadatokat az eszköz biztonságos kulcstárában.
+    <string name="device_unlock_keystore_warning">A funkció eltárolja a titkosított hitelesítőadatokat az eszköz biztonságos kulcstárában.
 \n
 \nAz operációs rendszer natív API megvalósításától függően lehet, hogy nem lesz teljes értékű.
 \n
