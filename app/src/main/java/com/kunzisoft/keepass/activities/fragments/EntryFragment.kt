@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.view.TemplateView
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.showByFading
@@ -184,7 +184,7 @@ class EntryFragment: DatabaseFragment() {
         // customDataView.text = entryInfo?.customData?.toString()
 
         // Assign special data
-        uuidReferenceView.text = UuidUtil.toHexString(entryInfo?.id)
+        uuidReferenceView.text = entryInfo?.id?.asHexString()
     }
 
     private fun showClipboardDialog() {

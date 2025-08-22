@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
@@ -155,7 +155,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             searchableView.text = stringFromInheritableBoolean(mGroupInfo.searchable)
             autoTypeView.text = stringFromInheritableBoolean(mGroupInfo.enableAutoType,
                 mGroupInfo.defaultAutoTypeSequence)
-            val uuid = UuidUtil.toHexString(mGroupInfo.id)
+            val uuid = mGroupInfo.id?.asHexString()
             if (uuid == null || uuid.isEmpty()) {
                 uuidContainerView.visibility = View.GONE
             } else {

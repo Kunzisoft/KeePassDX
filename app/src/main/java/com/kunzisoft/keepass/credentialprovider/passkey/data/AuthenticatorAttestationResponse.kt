@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
+import com.kunzisoft.keepass.utils.UUIDUtils.asUUIDBytes
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -59,6 +60,7 @@ class AuthenticatorAttestationResponse(
     }
 
     internal fun defaultAttestationObject(): ByteArray {
+        // https://www.w3.org/TR/webauthn-3/#attestation-object
         val ao = mutableMapOf<String, Any>()
         ao.put("fmt", "none")
         ao.put("attStmt", emptyMap<Any, Any>())
@@ -80,7 +82,7 @@ class AuthenticatorAttestationResponse(
     }
 
     companion object {
-        // TODO Authenticator Attestation Global Unique Identifier
-        private val AAGUID = ByteArray(16) { 0 }
+        // Authenticator Attestation Global Unique Identifier
+        private val AAGUID: ByteArray = "eaecdef2-1c31-5634-8639-f1cbd9c00a08".asUUIDBytes()
     }
 }

@@ -28,7 +28,7 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOtpExclusion
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
 class SearchHelper {
@@ -166,7 +166,7 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUUIDs) {
-                val hexString = UuidUtil.toHexString(entry.nodeId.id) ?: ""
+                val hexString = entry.nodeId.id.asHexString() ?: ""
                 if (checkSearchQuery(hexString, searchParameters))
                     return true
             }
