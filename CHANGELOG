@@ -1,3 +1,6 @@
+KeePassDX(4.1.7)
+ * Fix CipherDatabase for biometric states #2119
+
 KeePassDX(4.1.6)
  * Auto open biometric prompt from database list #2113
  * Fix Keystore errors #2114 #2115
