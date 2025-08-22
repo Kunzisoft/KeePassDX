@@ -350,9 +350,6 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         AppLifecycleObserver.lockBackgroundEvent = true
         isAutoOpenBiometricPromptAllowed = false
         cryptoPromptShowPending = false
-        if (cryptoPrompt == null) {
-            checkUnlockAvailability()
-        }
         _uiState.update { currentState ->
             currentState.copy(
                 cryptoPromptState = DeviceUnlockPromptMode.SHOW
