@@ -418,6 +418,7 @@ class NodesAdapter (
                 }
             }
 
+            // OTP
             val otpElement = entry.getOtpElement()
             holder.otpContainer?.removeCallbacks(holder.otpRunnable)
             if (otpElement != null
@@ -438,7 +439,11 @@ class NodesAdapter (
                 holder.otpContainer?.visibility = View.GONE
             }
             holder.attachmentIcon?.visibility =
-                    if (entry.containsAttachment()) View.VISIBLE else View.GONE
+                if (entry.containsAttachment()) View.VISIBLE else View.GONE
+
+            // Passkey
+            holder.passkeyIcon?.visibility =
+                if (entry.getPasskey() != null) View.VISIBLE else View.GONE
 
             // Assign colors
             assignBackgroundColor(holder.container, entry)
@@ -612,6 +617,7 @@ class NodesAdapter (
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
+        var passkeyIcon: ImageView? = itemView.findViewById(R.id.node_passkey_icon)
     }
 
     companion object {
