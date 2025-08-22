@@ -24,6 +24,10 @@ import java.util.Locale
 import java.util.UUID
 
 object UUIDUtils {
+
+    /**
+     * Specific UUID string format for KeePass database
+     */
     fun UUID.asHexString(): String? {
         try {
             val buf = uuidTo16Bytes(this)
@@ -52,6 +56,10 @@ object UUIDUtils {
         }
     }
 
+    /**
+     * From a specific UUID KeePass database string format,
+     * Note : For a standard UUID string format, use UUID.fromString()
+     */
     fun String.asUUID(): UUID? {
         if (this.length != 32) return null
 
@@ -96,10 +104,6 @@ object UUIDUtils {
             putLong(mostSignificantBits)
             putLong(leastSignificantBits)
         }.array()
-    }
-
-    fun String.asUUIDBytes(): ByteArray {
-        return this.asUUID()?.asBytes() ?: ByteArray(16)
     }
 
     // Use short to represent unsigned byte

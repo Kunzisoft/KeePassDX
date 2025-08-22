@@ -27,11 +27,17 @@ import java.util.UUID
 
 class UUIDTest: TestCase() {
 
-    fun testUUIDString() {
+    fun testUUIDHexString() {
         val randomUUID = UUID.randomUUID()
         val hexStringUUID = randomUUID.asHexString()
         val retrievedUUID = hexStringUUID?.asUUID()
         assertEquals(randomUUID, retrievedUUID)
+    }
+
+    fun testUUIDString() {
+        val staticUUID = "4be0643f-1d98-573b-97cd-ca98a65347dd"
+        val stringUUID = UUID.fromString(staticUUID).asBytes().asUUID().toString()
+        assertEquals(staticUUID, stringUUID)
     }
 
     fun testUUIDBytes() {

@@ -20,9 +20,10 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
-import com.kunzisoft.keepass.utils.UUIDUtils.asUUIDBytes
+import com.kunzisoft.keepass.utils.UUIDUtils.asBytes
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.UUID
 
 class AuthenticatorAttestationResponse(
     private val requestOptions: PublicKeyCredentialCreationOptions,
@@ -83,6 +84,6 @@ class AuthenticatorAttestationResponse(
 
     companion object {
         // Authenticator Attestation Global Unique Identifier
-        private val AAGUID: ByteArray = "eaecdef2-1c31-5634-8639-f1cbd9c00a08".asUUIDBytes()
+        private val AAGUID: ByteArray = UUID.fromString("eaecdef2-1c31-5634-8639-f1cbd9c00a08").asBytes()
     }
 }
