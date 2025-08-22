@@ -178,7 +178,7 @@
 \n
 \n\"Chránené proti zápisu\" zabraňuje neúmyselným zmenám v databáze.
 \n„Modifikovateľné“ vám umožňuje pridať, odstrániť alebo upraviť všetky prvky podľa vášho želania.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Prepojenie s odomykaním zariadenia</string>
+    <string name="device_unlock_prompt_store_credential_title">Prepojenie s odomykaním zariadenia</string>
     <string name="education_donation_summary">Pomôžte zvýšiť stabilitu, bezpečnosť a pridať ďalšie funkcie.</string>
     <string name="database_opened">Databáza otvorená</string>
     <string name="clipboard_notifications_summary">Zobrazovať upozornenia schránky na kopírovanie polí pri prezeraní záznamu</string>
@@ -211,9 +211,9 @@
     <string name="warning_exact_alarm">Aplikácii ste nepovolili používať presný alarm. V dôsledku toho sa funkcie vyžadujúce časovač nebudú vykonávať s presným časom.</string>
     <string name="permission">Povolenie</string>
     <string name="build_label">Zostava %1$s</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Hlavné heslo trezoru si musíte pamätať aj keď použijete rozpoznanie odomykania zariadenia.</string>
-    <string name="advanced_unlock_invalid_key">Nedá sa prečítať kľúč odomykaného zariadenia. Odstráňte ho a zopakujte postup rozpoznávania odomknutia.</string>
-    <string name="advanced_unlock_not_recognized">Nerozpoznaný odtlačok odomykaného zariadenia</string>
+    <string name="device_unlock_prompt_store_credential_message">Hlavné heslo trezoru si musíte pamätať aj keď použijete rozpoznanie odomykania zariadenia.</string>
+    <string name="device_unlock_invalid_key">Nedá sa prečítať kľúč odomykaného zariadenia. Odstráňte ho a zopakujte postup rozpoznávania odomknutia.</string>
+    <string name="device_unlock_not_recognized">Nerozpoznaný odtlačok odomykaného zariadenia</string>
     <string name="device_credential">Heslo zariadenia</string>
     <string name="general">Obecné</string>
     <string name="clipboard">Schránka</string>
@@ -222,14 +222,14 @@
     <string name="clipboard_warning">Ak automatické vymazanie schránky zlyhá, vymažte jej históriu manuálne.</string>
     <string name="lock_database_screen_off_summary">Uzamknite databázu po niekoľkých sekundách, keď je obrazovka vypnutá</string>
     <string name="biometric_unlock_enable_title">Biometrické odomknutie</string>
-    <string name="advanced_unlock_tap_delete">Klepnutím vymažete kľúče odomykania zariadením</string>
-    <string name="advanced_unlock_explanation_summary">Na jednoduchšie otvorenie databázy použite odomykanie zariadením</string>
-    <string name="temp_advanced_unlock_enable_title">Dočasné odomykanie zariadením</string>
-    <string name="temp_advanced_unlock_enable_summary">Neukladať žiadny šifrovaný obsah pri použití odomykania zariadením</string>
-    <string name="temp_advanced_unlock_timeout_title">Vypršanie platnosti odomykania zariadením</string>
-    <string name="temp_advanced_unlock_timeout_summary">Trvanie používania odomykania zariadením pred odstránením jeho obsahu</string>
+    <string name="device_unlock_tap_delete">Klepnutím vymažete kľúče odomykania zariadením</string>
+    <string name="device_unlock_explanation_summary">Na jednoduchšie otvorenie databázy použite odomykanie zariadením</string>
+    <string name="temp_device_unlock_enable_title">Dočasné odomykanie zariadením</string>
+    <string name="temp_device_unlock_enable_summary">Neukladať žiadny šifrovaný obsah pri použití odomykania zariadením</string>
+    <string name="temp_device_unlock_timeout_title">Vypršanie platnosti odomykania zariadením</string>
+    <string name="temp_device_unlock_timeout_summary">Trvanie používania odomykania zariadením pred odstránením jeho obsahu</string>
     <string name="file_name">Názov súboru</string>
-    <string name="advanced_unlock_keystore_warning">Táto funkcia uloží zašifrované údaje v zabezpečenom úložisku kľúčov vášho zariadenia. \n \nV závislosti od implementácie natívneho API operačného systému nemusí byť plne funkčný. \nOverte si kompatibilitu a bezpečnosť úložiska kľúčov u výrobcu vášho zariadenia a tvorcu ROM, ktorý používate.</string>
+    <string name="device_unlock_keystore_warning">Táto funkcia uloží zašifrované údaje v zabezpečenom úložisku kľúčov vášho zariadenia. \n \nV závislosti od implementácie natívneho API operačného systému nemusí byť plne funkčný. \nOverte si kompatibilitu a bezpečnosť úložiska kľúčov u výrobcu vášho zariadenia a tvorcu ROM, ktorý používate.</string>
     <string name="templates_group_enable_title">Použitie šablón</string>
     <string name="templates_group_enable_summary">Na vyplnenie polí záznamu použite dynamické šablóny</string>
     <string name="templates_group_uuid_title">Skupina šablón</string>
@@ -291,9 +291,9 @@
     <string name="password_size_title">Veľkosť vygenerovaného hesla</string>
     <string name="password_size_summary">Nastaví predvolenú veľkosť generovaných hesiel</string>
     <string name="list_password_generator_options_title">Znaky hesla</string>
-    <string name="advanced_unlock_timeout">Časový limit odomknutia zariadením</string>
+    <string name="device_unlock_timeout">Časový limit odomknutia zariadením</string>
     <string name="biometric_delete_all_key_title">Odstráňte šifrovacie kľúče</string>
-    <string name="advanced_unlock_delete_all_key_warning">Odstrániť všetky šifrovacie kľúče súvisiace s rozpoznávaním odomykania zariadením?</string>
+    <string name="device_unlock_delete_all_key_warning">Odstrániť všetky šifrovacie kľúče súvisiace s rozpoznávaním odomykania zariadením?</string>
     <string name="unavailable_feature_text">Túto funkciu sa nepodarilo spustiť.</string>
     <string name="unavailable_feature_version">Zariadenie používa Android %1$s, ale potrebuje %2$s alebo novší.</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Vyžadovať zmenu hlavného kľúča nabudúce (raz)</string>
@@ -306,7 +306,7 @@
     <string name="autofill_read_only_save">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
     <string name="autofill_inline_suggestions_keyboard">Boli pridané návrhy automatického dopĺňania.</string>
     <string name="education_new_node_title">Pridajte položky do databázy</string>
-    <string name="education_advanced_unlock_title">Odomykanie databázy zariadenia</string>
+    <string name="education_device_unlock_title">Odomykanie databázy zariadenia</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuálny štýl&lt;/strong&gt; je dostupný vďaka vašej štedrosti.</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostupných v Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
@@ -359,7 +359,7 @@
     <string name="warning_sure_remove_data">Chcete napriek tomu tieto údaje odstrániť\?</string>
     <string name="warning_database_info_changed">Informácie obsiahnuté vo vašom databázovom súbore boli upravené mimo aplikácie.</string>
     <string name="unavailable">Táto databáza zatiaľ nemá uložené poverenia.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Nepodarilo sa zahájiť výzvu na odomknutie zariadenia.</string>
+    <string name="device_unlock_prompt_not_initialized">Nepodarilo sa zahájiť výzvu na odomknutie zariadenia.</string>
     <string name="content">Obsah</string>
     <string name="database_data_remove_unlinked_attachments_title">Odstráňte neprepojené údaje</string>
     <string name="recycle_bin_title">Použitie koša</string>
@@ -449,7 +449,7 @@
     <string name="warning_database_info_changed_options">Zlúčte údaje, prepíšte externé úpravy uložením databázy alebo ju znova načítajte s najnovšími zmenami.</string>
     <string name="warning_database_info_reloaded">Opätovné načítanie databázy vymaže lokálne upravené údaje.</string>
     <string name="warning_keyfile_integrity">Hash súboru nie je zaručený, pretože Android môže svoje údaje meniť za chodu. Pre správnu integritu zmeňte príponu súboru na .bin.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extrahovať poverenia z databázy pomocou údajov z odomykaného zariadenia</string>
+    <string name="device_unlock_prompt_extract_credential_message">Extrahovať poverenia z databázy pomocou údajov z odomykaného zariadenia</string>
     <string name="lock_database_screen_off_title">Zámok obrazovky</string>
     <string name="lock_database_back_root_title">Stlačte \'Späť\' pre uzamknutie</string>
     <string name="device_credential_unlock_enable_title">Odomykanie heslom zariadenia</string>
@@ -481,7 +481,7 @@
     <string name="education_sort_summary">Vyberte spôsob triedenia záznamov a skupín.</string>
     <string name="icon_pack_choose_title">Balík ikon</string>
     <string name="template_group_name">Šablóny</string>
-    <string name="menu_advanced_unlock_settings">Odomknutie zariadením</string>
+    <string name="menu_device_unlock_settings">Odomknutie zariadením</string>
     <string name="menu_copy">Kopírovať</string>
     <string name="autofill_block_restart">Ak chcete aktivovať blokovanie, reštartujte aplikáciu obsahujúcu formulár.</string>
     <string name="content_description_keyfile_checkbox">Začiarkavacie políčko Keyfile</string>
@@ -527,7 +527,7 @@
     <string name="autofill_sign_in_prompt">Prihláste sa pomocou KeePassDX</string>
     <string name="autofill_select_entry">Vybrať záznam…</string>
     <string name="lock_database_show_button_title">Zobraziť tlačidlo zámku</string>
-    <string name="advanced_unlock">Odomykanie zariadením</string>
+    <string name="device_unlock">Odomykanie zariadením</string>
     <string name="database_data_remove_unlinked_attachments_summary">Odstráni prílohy obsiahnuté v databáze, ktoré nie sú prepojené so záznamom</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Vynútiť obnovenie nabudúce</string>
     <string name="allow_copy_password_summary">Povoliť skopírovanie vstupného hesla a chránených polí do schránky</string>
@@ -590,8 +590,8 @@
     <string name="warning_empty_keyfile_explanation">Obsah súboru keyfile by sa nikdy nemal meniť a v najlepšom prípade by mal obsahovať náhodne generované údaje.</string>
     <string name="path">Cesta</string>
     <string name="merge_success">Zlúčenie bolo úspešne dokončené</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Rozpoznanie odomykania zariadenia</string>
-    <string name="credential_before_click_advanced_unlock_button">Zadajte heslo a potom kliknite na toto tlačidlo.</string>
+    <string name="device_unlock_prompt_extract_credential_title">Rozpoznanie odomykania zariadenia</string>
+    <string name="credential_before_click_device_unlock_button">Zadajte heslo a potom kliknite na toto tlačidlo.</string>
     <string name="properties">Vlastnosti</string>
     <string name="menu_appearance_settings">Vzhľad</string>
     <string name="autofill_explanation_summary">Povoľte automatické dopĺňanie na rýchle vyplnenie formulárov v iných aplikáciách</string>
@@ -631,7 +631,7 @@
     <string name="reset_education_screens_summary">Znova zobraziť všetky vzdelávacie informácie</string>
     <string name="reset_education_screens_text">Vzdelávacie nápovedy boli resetované</string>
     <string name="education_search_title">Vyhľadávajte v záznamoch</string>
-    <string name="education_advanced_unlock_summary">Prepojte svoje heslo s naskenovanými biometrickými údajmi alebo povereniami zariadenia a rýchlo odomknite svoju databázu.</string>
+    <string name="education_device_unlock_summary">Prepojte svoje heslo s naskenovanými biometrickými údajmi alebo povereniami zariadenia a rýchlo odomknite svoju databázu.</string>
     <string name="education_entry_new_field_summary">Zaregistrujte ďalšie pole, pridajte hodnotu a voliteľne ho chráňte.</string>
     <string name="education_field_copy_title">Skopírujte pole</string>
     <string name="education_field_copy_summary">Skopírované polia je možné prilepiť kdekoľvek.
@@ -667,7 +667,7 @@
     <string name="info">Informácie</string>
     <string name="menu_form_filling_settings_summary">Klávesnica, automatické doplnenie, schránka</string>
     <string name="menu_security_settings_summary">Šifrovanie, derivácia kľúčov, funkcie</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometria, prístupové údaje do zariadenia</string>
+    <string name="menu_device_unlock_settings_summary">Biometria, prístupové údaje do zariadenia</string>
     <string name="menu_database_settings_summary">Metadáta, kôš, šablóny, história</string>
     <string name="menu_app_settings_summary">Hľadať, uzamknutie, história, nastavenia</string>
     <string name="generate_keyfile">Vygenerovať súbor s kľúčom</string>

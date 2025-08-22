@@ -66,8 +66,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             Screen.FORM_FILLING -> {
                 onCreateFormFillingPreference(rootKey)
             }
-            Screen.ADVANCED_UNLOCK -> {
-                onCreateAdvancedUnlockPreferences(rootKey)
+            Screen.DEVICE_UNLOCK -> {
+                onCreateDeviceUnlockPreferences(rootKey)
             }
             Screen.APPEARANCE -> {
                 onCreateAppearancePreferences(rootKey)
@@ -240,15 +240,15 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
     }
 
-    private fun onCreateAdvancedUnlockPreferences(rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_advanced_unlock, rootKey)
+    private fun onCreateDeviceUnlockPreferences(rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_device_unlock, rootKey)
 
         activity?.let { activity ->
 
             val biometricUnlockEnablePreference: TwoStatePreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
             val deviceCredentialUnlockEnablePreference: TwoStatePreference? = findPreference(getString(R.string.device_credential_unlock_enable_key))
             val autoOpenPromptPreference: TwoStatePreference? = findPreference(getString(R.string.biometric_auto_open_prompt_key))
-            val tempAdvancedUnlockPreference: TwoStatePreference? = findPreference(getString(R.string.temp_advanced_unlock_enable_key))
+            val tempDeviceUnlockPreference: TwoStatePreference? = findPreference(getString(R.string.temp_device_unlock_enable_key))
 
             val biometricUnlockSupported = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 DeviceUnlockManager.biometricUnlockSupported(activity)
@@ -272,7 +272,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                             warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
                                 biometricUnlockEnablePreference.isChecked = false
                                 autoOpenPromptPreference?.isEnabled = deviceCredentialChecked
-                                tempAdvancedUnlockPreference?.isEnabled = deviceCredentialChecked
+                                tempDeviceUnlockPreference?.isEnabled = deviceCredentialChecked
                             }
                         } else {
                             if (deviceCredentialChecked) {
@@ -286,7 +286,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                 warningMessage(activity, keystoreWarning = true, deleteKeys = false) {
                                     biometricUnlockEnablePreference.isChecked = true
                                     autoOpenPromptPreference?.isEnabled = true
-                                    tempAdvancedUnlockPreference?.isEnabled = true
+                                    tempDeviceUnlockPreference?.isEnabled = true
                                 }
                             }
                         }
@@ -319,7 +319,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                             warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
                                 deviceCredentialUnlockEnablePreference.isChecked = false
                                 autoOpenPromptPreference?.isEnabled = biometricChecked
-                                tempAdvancedUnlockPreference?.isEnabled = biometricChecked
+                                tempDeviceUnlockPreference?.isEnabled = biometricChecked
                             }
                         } else {
                             if (biometricChecked) {
@@ -333,7 +333,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                 warningMessage(activity, keystoreWarning = true, deleteKeys = false) {
                                     deviceCredentialUnlockEnablePreference.isChecked = true
                                     autoOpenPromptPreference?.isEnabled = true
-                                    tempAdvancedUnlockPreference?.isEnabled = true
+                                    tempDeviceUnlockPreference?.isEnabled = true
                                 }
                             }
                         }
@@ -344,13 +344,13 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
             autoOpenPromptPreference?.isEnabled = biometricUnlockEnablePreference?.isChecked == true
                         || deviceCredentialUnlockEnablePreference?.isChecked == true
-            tempAdvancedUnlockPreference?.isEnabled = biometricUnlockEnablePreference?.isChecked == true
+            tempDeviceUnlockPreference?.isEnabled = biometricUnlockEnablePreference?.isChecked == true
                     || deviceCredentialUnlockEnablePreference?.isChecked == true
 
-            tempAdvancedUnlockPreference?.setOnPreferenceClickListener {
-                tempAdvancedUnlockPreference.isChecked = !tempAdvancedUnlockPreference.isChecked
+            tempDeviceUnlockPreference?.setOnPreferenceClickListener {
+                tempDeviceUnlockPreference.isChecked = !tempDeviceUnlockPreference.isChecked
                 warningMessage(activity, keystoreWarning = false, deleteKeys = true) {
-                    tempAdvancedUnlockPreference.isChecked = !tempAdvancedUnlockPreference.isChecked
+                    tempDeviceUnlockPreference.isChecked = !tempDeviceUnlockPreference.isChecked
                 }
                 true
             }
@@ -366,8 +366,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             }
         }
 
-        findPreference<Preference>(getString(R.string.advanced_unlock_explanation_key))?.setOnPreferenceClickListener {
-            context?.openUrl(R.string.advanced_unlock_explanation_url)
+        findPreference<Preference>(getString(R.string.device_unlock_explanation_key))?.setOnPreferenceClickListener {
+            context?.openUrl(R.string.device_unlock_explanation_url)
             false
         }
     }
@@ -378,14 +378,14 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                validate: (()->Unit)? = null) {
         var message = ""
         if (keystoreWarning) {
-            message += resources.getString(R.string.advanced_unlock_prompt_store_credential_message)
-            message += "\n\n" + resources.getString(R.string.advanced_unlock_keystore_warning)
+            message += resources.getString(R.string.device_unlock_prompt_store_credential_message)
+            message += "\n\n" + resources.getString(R.string.device_unlock_keystore_warning)
         }
         if (keystoreWarning && deleteKeys) {
             message += "\n\n"
         }
         if (deleteKeys) {
-            message += resources.getString(R.string.advanced_unlock_delete_all_key_warning)
+            message += resources.getString(R.string.device_unlock_delete_all_key_warning)
         }
         warningAlertDialog = AlertDialog.Builder(activity)
             .setMessage(message)
@@ -509,7 +509,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         when (preference.key) {
             getString(R.string.app_timeout_key),
             getString(R.string.clipboard_timeout_key),
-            getString(R.string.temp_advanced_unlock_timeout_key) -> {
+            getString(R.string.temp_device_unlock_timeout_key) -> {
                 dialogFragment = DurationDialogFragmentCompat.newInstance(preference.key)
             }
             else -> otherDialogFragment = true

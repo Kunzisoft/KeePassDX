@@ -243,8 +243,8 @@
     <string name="menu_app_settings_summary">Paghahanap, lock, history, mga property</string>
     <string name="menu_form_filling_settings">Pagpuno ng form</string>
     <string name="menu_form_filling_settings_summary">Keyboard, pag-autofill, clipboard</string>
-    <string name="menu_advanced_unlock_settings">Pag-unlock gamit ang device</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometry, kredensyal ng device</string>
+    <string name="menu_device_unlock_settings">Pag-unlock gamit ang device</string>
+    <string name="menu_device_unlock_settings_summary">Biometry, kredensyal ng device</string>
     <string name="menu_database_settings">Mga setting ng database</string>
     <string name="menu_database_settings_summary">Metadata, recycle bin, mga template, history</string>
     <string name="menu_security_settings">Mga setting ng seguridad</string>

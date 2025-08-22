@@ -41,7 +41,7 @@
     <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="credentials_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Credentials</string>
     <string name="otp_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/OTP</string>
-    <string name="advanced_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Device-Unlocking</string>
+    <string name="device_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Device-Unlocking</string>
     <string name="magic_keyboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Magikeyboard</string>
     <string name="clipboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Clipboard</string>
     <string name="autofill_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Autofill</string>
@@ -98,17 +98,17 @@
     <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
     <string name="remember_hardware_key_key" translatable="false">remember_hardware_key_key</string>
     <bool name="remember_hardware_key_default" translatable="false">true</bool>
-    <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
+    <string name="device_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
     <string name="device_credential_unlock_enable_key" translatable="false">device_credential_unlock_enable_key</string>
     <bool name="device_credential_unlock_enable_default" translatable="false">false</bool>
     <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
     <bool name="biometric_auto_open_prompt_default" translatable="false">true</bool>
-    <string name="temp_advanced_unlock_enable_key" translatable="false">temp_advanced_unlock_enable_key</string>
-    <bool name="temp_advanced_unlock_enable_default" translatable="false">false</bool>
-    <string name="temp_advanced_unlock_timeout_key" translatable="false">temp_advanced_unlock_timeout_key</string>
-    <string name="temp_advanced_unlock_timeout_default" translatable="false">36000000</string>
+    <string name="temp_device_unlock_enable_key" translatable="false">temp_advanced_unlock_enable_key</string>
+    <bool name="temp_device_unlock_enable_default" translatable="false">false</bool>
+    <string name="temp_device_unlock_timeout_key" translatable="false">temp_advanced_unlock_timeout_key</string>
+    <string name="temp_device_unlock_timeout_default" translatable="false">36000000</string>
     <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
 
     <string name="import_app_properties_key" translatable="false">import_app_properties_key</string>
@@ -174,8 +174,8 @@
     <string-array name="autofill_web_domain_blocklist_default">
     </string-array>
 
-    <!-- Advanced Unlock Settings -->
-    <string name="settings_advanced_unlock_key" translatable="false">settings_advanced_unlock_key</string>
+    <!-- Device Unlock Settings -->
+    <string name="settings_device_unlock_key" translatable="false">settings_advanced_unlock_key</string>
 
     <!-- Appearance Settings -->
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>

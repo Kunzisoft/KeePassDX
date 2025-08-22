@@ -23,15 +23,15 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 
 
-class AdvancedUnlockSettingsActivity : SettingsActivity() {
+class DeviceUnlockSettingsActivity : SettingsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mTimeoutEnable = false
-        setTitle(NestedSettingsFragment.Screen.ADVANCED_UNLOCK)
+        setTitle(NestedSettingsFragment.Screen.DEVICE_UNLOCK)
     }
 
     override fun retrieveMainFragment(): Fragment {
-        return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.ADVANCED_UNLOCK)
+        return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.DEVICE_UNLOCK)
     }
 }

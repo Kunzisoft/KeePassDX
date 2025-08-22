@@ -21,9 +21,9 @@
     <PreferenceCategory
         android:title="@string/general">
         <Preference
-            android:key="@string/advanced_unlock_explanation_key"
+            android:key="@string/device_unlock_explanation_key"
             android:icon="@drawable/prefs_info_24dp"
-            android:summary="@string/advanced_unlock_explanation_summary"/>
+            android:summary="@string/device_unlock_explanation_summary"/>
         <SwitchPreferenceCompat
             android:key="@string/biometric_unlock_enable_key"
             android:title="@string/biometric_unlock_enable_title"
@@ -43,17 +43,17 @@
     <PreferenceCategory
         android:title="@string/content">
         <SwitchPreferenceCompat
-            android:key="@string/temp_advanced_unlock_enable_key"
-            android:title="@string/temp_advanced_unlock_enable_title"
-            android:summary="@string/temp_advanced_unlock_enable_summary"
-            android:defaultValue="@bool/temp_advanced_unlock_enable_default"/>
+            android:key="@string/temp_device_unlock_enable_key"
+            android:title="@string/temp_device_unlock_enable_title"
+            android:summary="@string/temp_device_unlock_enable_summary"
+            android:defaultValue="@bool/temp_device_unlock_enable_default"/>
         <com.kunzisoft.keepass.settings.preference.DurationDialogPreference
-            android:key="@string/temp_advanced_unlock_timeout_key"
-            android:title="@string/temp_advanced_unlock_timeout_title"
-            android:summary="@string/temp_advanced_unlock_timeout_summary"
-            android:dependency="@string/temp_advanced_unlock_enable_key"
-            android:dialogTitle="@string/advanced_unlock_timeout"
-            android:defaultValue="@string/temp_advanced_unlock_timeout_default"/>
+            android:key="@string/temp_device_unlock_timeout_key"
+            android:title="@string/temp_device_unlock_timeout_title"
+            android:summary="@string/temp_device_unlock_timeout_summary"
+            android:dependency="@string/temp_device_unlock_enable_key"
+            android:dialogTitle="@string/device_unlock_timeout"
+            android:defaultValue="@string/temp_device_unlock_timeout_default"/>
         <Preference
             android:key="@string/biometric_delete_all_key_key"
             android:title="@string/biometric_delete_all_key_title"

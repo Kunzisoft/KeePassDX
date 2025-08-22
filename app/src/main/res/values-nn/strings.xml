@@ -246,8 +246,8 @@
     <string name="list_entries_show_username_summary">Vis brukarnamn i oppføringslister</string>
     <string name="list_groups_show_number_entries_title">Vis mengda oppføringar</string>
     <string name="menu_form_filling_settings_summary">Tastatur, autofyll, utklippstavle</string>
-    <string name="menu_advanced_unlock_settings">Einingsopplåsing</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometri, einingslegitimasjon</string>
+    <string name="menu_device_unlock_settings">Einingsopplåsing</string>
+    <string name="menu_device_unlock_settings_summary">Biometri, einingslegitimasjon</string>
     <string name="menu_security_settings_summary">Kryptering, funksjon for nøkkelavleiing</string>
     <string name="menu_paste">Lim inn</string>
     <string name="menu_merge_database">Slå saman data</string>
@@ -263,7 +263,7 @@
     <string name="clipboard">Utklippstavle</string>
     <string name="content">Innhald</string>
     <string name="unlock">Lås opp</string>
-    <string name="advanced_unlock">Lås opp eininga</string>
+    <string name="device_unlock">Lås opp eininga</string>
     <string name="entropy_high">Entropi: Høg</string>
     <string name="entropy_calculate">Entropi: Berekne…</string>
     <string name="entropy">Entropi: %1$s bit</string>

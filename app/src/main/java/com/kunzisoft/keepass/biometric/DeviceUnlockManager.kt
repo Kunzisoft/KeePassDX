@@ -58,15 +58,15 @@ class DeviceUnlockManager(private var appContext: Context) {
         if (biometricUnlockEnable || deviceCredentialUnlockEnable) {
             if (isDeviceSecure(appContext)) {
                 try {
-                    this.keyStore = KeyStore.getInstance(ADVANCED_UNLOCK_KEYSTORE)
+                    this.keyStore = KeyStore.getInstance(DEVICE_UNLOCK_KEYSTORE)
                     this.keyGenerator = KeyGenerator.getInstance(
-                        ADVANCED_UNLOCK_KEY_ALGORITHM,
-                        ADVANCED_UNLOCK_KEYSTORE
+                        DEVICE_UNLOCK_KEY_ALGORITHM,
+                        DEVICE_UNLOCK_KEYSTORE
                     )
                     this.cipher = Cipher.getInstance(
-                        ADVANCED_UNLOCK_KEY_ALGORITHM + "/"
-                                + ADVANCED_UNLOCK_BLOCKS_MODES + "/"
-                                + ADVANCED_UNLOCK_ENCRYPTION_PADDING
+                        DEVICE_UNLOCK_KEY_ALGORITHM + "/"
+                                + DEVICE_UNLOCK_BLOCKS_MODES + "/"
+                                + DEVICE_UNLOCK_ENCRYPTION_PADDING
                     )
                     if (keyStore == null) {
                         throw SecurityException("Unable to initialize the keystore")
@@ -93,15 +93,15 @@ class DeviceUnlockManager(private var appContext: Context) {
             keyStore?.let { keyStore ->
                 keyStore.load(null)
                 try {
-                    if (!keyStore.containsAlias(ADVANCED_UNLOCK_KEYSTORE_KEY)) {
+                    if (!keyStore.containsAlias(DEVICE_UNLOCK_KEYSTORE_KEY)) {
                         // Set the alias of the entry in Android KeyStore where the key will appear
                         // and the constrains (purposes) in the constructor of the Builder
                         keyGenerator?.init(
                                 KeyGenParameterSpec.Builder(
-                                    ADVANCED_UNLOCK_KEYSTORE_KEY,
+                                    DEVICE_UNLOCK_KEYSTORE_KEY,
                                     KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                                    .setBlockModes(ADVANCED_UNLOCK_BLOCKS_MODES)
-                                    .setEncryptionPaddings(ADVANCED_UNLOCK_ENCRYPTION_PADDING)
+                                    .setBlockModes(DEVICE_UNLOCK_BLOCKS_MODES)
+                                    .setEncryptionPaddings(DEVICE_UNLOCK_ENCRYPTION_PADDING)
                                     .apply {
                                         // Require the user to authenticate with a fingerprint to authorize every use
                                         // of the key, don't use it for device credential because it's the user authentication
@@ -122,7 +122,7 @@ class DeviceUnlockManager(private var appContext: Context) {
                     Log.e(TAG, "Unable to create a key in keystore", e)
                     throw e
                 }
-                return keyStore.getKey(ADVANCED_UNLOCK_KEYSTORE_KEY, null) as SecretKey?
+                return keyStore.getKey(DEVICE_UNLOCK_KEYSTORE_KEY, null) as SecretKey?
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to retrieve the key in keystore", e)
@@ -149,8 +149,8 @@ class DeviceUnlockManager(private var appContext: Context) {
                         DeviceUnlockCryptoPrompt(
                             type = DeviceUnlockCryptoPromptType.CREDENTIAL_ENCRYPTION,
                             cipher = cipher,
-                            titleId = R.string.advanced_unlock_prompt_store_credential_title,
-                            descriptionId = R.string.advanced_unlock_prompt_store_credential_message,
+                            titleId = R.string.device_unlock_prompt_store_credential_title,
+                            descriptionId = R.string.device_unlock_prompt_store_credential_message,
                             isDeviceCredentialOperation = isDeviceCredentialOperation(
                                 deviceCredentialUnlockEnable
                             ),
@@ -217,7 +217,7 @@ class DeviceUnlockManager(private var appContext: Context) {
                         DeviceUnlockCryptoPrompt(
                             type = DeviceUnlockCryptoPromptType.CREDENTIAL_DECRYPTION,
                             cipher = cipher,
-                            titleId = R.string.advanced_unlock_prompt_extract_credential_title,
+                            titleId = R.string.device_unlock_prompt_extract_credential_title,
                             descriptionId = null,
                             isDeviceCredentialOperation = isDeviceCredentialOperation(
                                 deviceCredentialUnlockEnable
@@ -270,7 +270,7 @@ class DeviceUnlockManager(private var appContext: Context) {
     @Synchronized fun deleteKeystoreKey() {
         try {
             keyStore?.load(null)
-            keyStore?.deleteEntry(ADVANCED_UNLOCK_KEYSTORE_KEY)
+            keyStore?.deleteEntry(DEVICE_UNLOCK_KEYSTORE_KEY)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to delete entry key in keystore", e)
             throw e
@@ -281,11 +281,11 @@ class DeviceUnlockManager(private var appContext: Context) {
 
         private val TAG = DeviceUnlockManager::class.java.name
 
-        private const val ADVANCED_UNLOCK_KEYSTORE = "AndroidKeyStore"
-        private const val ADVANCED_UNLOCK_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
-        private const val ADVANCED_UNLOCK_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
-        private const val ADVANCED_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
-        private const val ADVANCED_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
+        private const val DEVICE_UNLOCK_KEYSTORE = "AndroidKeyStore"
+        private const val DEVICE_UNLOCK_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
+        private const val DEVICE_UNLOCK_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
+        private const val DEVICE_UNLOCK_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
+        private const val DEVICE_UNLOCK_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
         @RequiresApi(api = Build.VERSION_CODES.M)
         fun canAuthenticate(context: Context): Int {
@@ -384,7 +384,7 @@ fun deviceUnlockError(error: Exception, context: Context): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         && (error is UnrecoverableKeyException
                 || error is KeyPermanentlyInvalidatedException)) {
-        context.getString(R.string.advanced_unlock_invalid_key)
+        context.getString(R.string.device_unlock_invalid_key)
     } else
         error.cause?.localizedMessage
             ?: error.localizedMessage

@@ -90,10 +90,10 @@
     <string name="error_hardware_key_unsupported">ไม่รองรับกุญแจฮาร์ดแวร์</string>
     <string name="create_keepass_file">สร้างคลังรหัสผ่านใหม่</string>
     <string name="configure_biometric">ไม่ได้กำหนดข้อมูลการยืนยันตัวตนหรือไบโอเมตริก</string>
-    <string name="advanced_unlock_prompt_store_credential_message">คุณยังต้องจำข้อมูลรหัสผ่านหลักไว้อยู่ถ้าใช้การปลดล็อกขั้นสูง</string>
+    <string name="device_unlock_prompt_store_credential_message">คุณยังต้องจำข้อมูลรหัสผ่านหลักไว้อยู่ถ้าใช้การปลดล็อกขั้นสูง</string>
     <string name="hardware_key">กุญแจฮาร์ดแวร์</string>
     <string name="loading_database">กำลังโหลดฐานข้อมูล…</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกด้วยอุปกรณ์</string>
+    <string name="device_unlock_prompt_extract_credential_title">เปิดฐานข้อมูลด้วยการปลดล็อกด้วยอุปกรณ์</string>
     <string name="waiting_challenge_response">กำลังรอการตอบกลับจากกุญแจฮาร์ดแวร์…</string>
     <string name="html_about_licence">แอป KeePassDX © %1$d Kunzisoft เป็นแอป &lt;strong&gt;โอเพนซอร์ซ&lt;/strong&gt; และ &lt;strong&gt;ไม่มีโฆษณา&lt;/strong&gt;.
 \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
@@ -166,7 +166,7 @@
     <string name="lock_database_back_root_title">กด \"กลับ\" เพื่อล็อก</string>
     <string name="lock_database_show_button_summary">แสดงปุ่มล็อกในส่วนติดต่อของผู้ใช้</string>
     <string name="content">เนื้อหา</string>
-    <string name="advanced_unlock">การปลดล็อกด้วยอุปกรณ์</string>
+    <string name="device_unlock">การปลดล็อกด้วยอุปกรณ์</string>
     <string name="device_credential_unlock_enable_summary">ให้คุณใช้ข้อมูลประจำตัวของอุปกรณ์เพื่อปลดล็อกฐานข้อมูล</string>
     <string name="monospace_font_fields_enable_title">แบบอักษรในช่องเขตข้อมูล</string>
     <string name="recycle_bin">ถึงขยะ</string>
@@ -273,7 +273,7 @@
     <string name="menu_keystore_remove_key">ลบกุญแจปลดล็อกของอุปกรณ์</string>
     <string name="about">เกี่ยวกับ</string>
     <string name="menu_move">ย้าย</string>
-    <string name="menu_advanced_unlock_settings">การปลดล็อกของอุปกรณ์</string>
+    <string name="menu_device_unlock_settings">การปลดล็อกของอุปกรณ์</string>
     <string name="menu_lock">ล็อกฐานข้อมูล</string>
     <string name="menu_search">ค้นหา</string>
     <string name="menu_delete">ลบ</string>
@@ -361,12 +361,12 @@
     <string name="rounds">รอบการเปลี่ยนรูปแบบ</string>
     <string name="sort_db">เรียงลำดับตามปกติ</string>
     <string name="sort_creation_time">วันที่สร้าง</string>
-    <string name="credential_before_click_advanced_unlock_button">กรอกรหัสผ่าน จากนั้นกดที่ปุ่มนี้</string>
+    <string name="credential_before_click_device_unlock_button">กรอกรหัสผ่าน จากนั้นกดที่ปุ่มนี้</string>
     <string name="lock">ล็อก</string>
     <string name="warning_sure_add_file">เพิ่มไฟล์ต่อไปหรือไม่\?</string>
     <string name="import_app_properties_title">นําเข้าการตั้งค่าของแอป</string>
     <string name="autofill_select_entry">เลือกรายการ</string>
-    <string name="advanced_unlock_prompt_not_initialized">เรื่มต้นการปลดล็อกด้วยอุปกรณ์ไม่ได้</string>
+    <string name="device_unlock_prompt_not_initialized">เรื่มต้นการปลดล็อกด้วยอุปกรณ์ไม่ได้</string>
     <string name="export_app_properties_title">ส่งออกการตั้งค่าของแอป</string>
     <string name="export_app_properties_summary">สร้างไฟล์เพื่อส่งออกการตั้งค่าของแอป</string>
     <string name="lock_database_show_button_title">แสดงปุ่มล็อก</string>
@@ -375,7 +375,7 @@
     <string name="password_size_title">ขนาดรหัสผ่านที่สร้าง</string>
     <string name="list_password_generator_options_title">อักขระรหัสผ่าน</string>
     <string name="clipboard_notifications_title">การแจ้งเตือนคลิปบอร์ด</string>
-    <string name="temp_advanced_unlock_enable_title">การปลดล็อกด้วยอุปกรณ์ชั่วคราว</string>
+    <string name="temp_device_unlock_enable_title">การปลดล็อกด้วยอุปกรณ์ชั่วคราว</string>
     <string name="keyboard_label">เมจิคีย์บอร์ด (KeePassDX)</string>
     <string name="keyboard_setting_label">การตั้งค่า เมจิคีย์บอร์ด</string>
     <string name="keyboard_entry_category">รายการ</string>
@@ -520,11 +520,11 @@
     <string name="warning_keyfile_integrity">ค่าแฮชของไฟล์จะไม่แน่นอนเนี่องจาก Android สามารถเปลี่ยนแปลงข้อมูลในขณะที่ใช้อยู่ได้ เปลี่ยนส่วนขยายไฟล์เป็น .bin เพื่อคงความสมบูรณ์ไว้</string>
     <string name="biometric_security_update_required">จำเป็นต้องอัปเดตการรักษาความปลอดภัยของไบโอเมตริก</string>
     <string name="keystore_not_accessible">Keystore เรื่มทำงานได้ไม่ถูกต้อง</string>
-    <string name="advanced_unlock_prompt_store_credential_title">เชื่อมโยงการปลดล็อกขั้นสูง</string>
+    <string name="device_unlock_prompt_store_credential_title">เชื่อมโยงการปลดล็อกขั้นสูง</string>
     <string name="encrypted_value_stored">เก็บค่ารหัสผ่านที่เข้ารหัสไว้</string>
-    <string name="advanced_unlock_invalid_key">อ่านกุญแจการปลดล็อกของอุปกรณ์ไม่ได้ โปรดลบข้อมูลออกและเพื่มข้อมูลการปลดล็อกด้วยอุปกรณ์อีกครั้ง</string>
-    <string name="advanced_unlock_not_recognized">ไม่รู้จักลายนิ้วมือ</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">แยกข้อมูลประจำตัวออกด้วยข้อมูลการปลดล็อกด้วยอุปกรณ์</string>
+    <string name="device_unlock_invalid_key">อ่านกุญแจการปลดล็อกของอุปกรณ์ไม่ได้ โปรดลบข้อมูลออกและเพื่มข้อมูลการปลดล็อกด้วยอุปกรณ์อีกครั้ง</string>
+    <string name="device_unlock_not_recognized">ไม่รู้จักลายนิ้วมือ</string>
+    <string name="device_unlock_prompt_extract_credential_message">แยกข้อมูลประจำตัวออกด้วยข้อมูลการปลดล็อกด้วยอุปกรณ์</string>
     <string name="properties">คุณสมบัติ</string>
     <string name="unavailable">ฐานข้อมูลนี้ยังไม่มีข้อมูลการเข้าสูระบบเลย</string>
     <string name="database_history">ประวัติ</string>
@@ -544,22 +544,22 @@
     <string name="unavailable_feature_version">อุปกรณ์นี้เป็น Android %1$s, แต่ต้องการ %2$s ขึ้นไป</string>
     <string name="lock_database_screen_off_summary">ล็อกฐานข้อมูลหลังจากปิดหน้าจอในไม่กี่วินาที</string>
     <string name="lock_database_back_root_summary">ล็อกฐานข้อมูลเมื่อผู้ใช้กดปุ่มกลับบนหน้ารายการราก</string>
-    <string name="advanced_unlock_tap_delete">แตะเพื่อลบกุญแจการปลดล็อกด้วนอุปกรณ์</string>
-    <string name="advanced_unlock_explanation_summary">ใช้การปลดล็อกด้วยอุปกรณ์เพื่อปลดล็อกฐานข้อมูลได้ง่ายขึ้น</string>
+    <string name="device_unlock_tap_delete">แตะเพื่อลบกุญแจการปลดล็อกด้วนอุปกรณ์</string>
+    <string name="device_unlock_explanation_summary">ใช้การปลดล็อกด้วยอุปกรณ์เพื่อปลดล็อกฐานข้อมูลได้ง่ายขึ้น</string>
     <string name="biometric_unlock_enable_title">การปลดล็อกด้วยไบโอเมตริก</string>
     <string name="biometric_auto_open_prompt_title">เปิดหน้ายืนยันอัตโนมัติ</string>
     <string name="biometric_auto_open_prompt_summary">เปิดการร้องขอการปลดล็อกด้วยอุปกรณ์หากได้ตั้งค่าฐานข้อมูลไว้แล้ว</string>
-    <string name="temp_advanced_unlock_enable_summary">ไม่เก็บเนื้อหาเข้ารหัสใดๆเพื่อใช้กับการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="temp_advanced_unlock_timeout_title">ระยะหมดอายุของการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="advanced_unlock_timeout">ระยะหมดเวลาของการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="advanced_unlock_delete_all_key_warning">ลบกุญแจเข้ารหัสทั้งหมดที่เกี่ยวข้องกับการปลดล็อกด้วยอุปกรณ์\?</string>
+    <string name="temp_device_unlock_enable_summary">ไม่เก็บเนื้อหาเข้ารหัสใดๆเพื่อใช้กับการปลดล็อกด้วยอุปกรณ์</string>
+    <string name="temp_device_unlock_timeout_title">ระยะหมดอายุของการปลดล็อกด้วยอุปกรณ์</string>
+    <string name="device_unlock_timeout">ระยะหมดเวลาของการปลดล็อกด้วยอุปกรณ์</string>
+    <string name="device_unlock_delete_all_key_warning">ลบกุญแจเข้ารหัสทั้งหมดที่เกี่ยวข้องกับการปลดล็อกด้วยอุปกรณ์\?</string>
     <string name="unavailable_feature_hardware">ไม่พบอุปกรณ์ที่เกี่ยวข้อง</string>
     <string name="biometric_unlock_enable_summary">ให้คุณใช้ไบโอเมตริกเพื่อปลดล็อกฐานข้อมูล</string>
     <string name="device_credential_unlock_enable_title">การปลดล็อกด้วยข้อมูลประจำตัว</string>
-    <string name="temp_advanced_unlock_timeout_summary">ระยะเวลาของการใช้การปลดล็อกด้วยอุปกรณ์ก่อนที่จะลบข้อมูลดังกล่าวออก</string>
+    <string name="temp_device_unlock_timeout_summary">ระยะเวลาของการใช้การปลดล็อกด้วยอุปกรณ์ก่อนที่จะลบข้อมูลดังกล่าวออก</string>
     <string name="biometric_delete_all_key_title">ลบกุญแจเข้ารหัส</string>
     <string name="database_data_compression_title">การบีบอัดข้อมูล</string>
-    <string name="advanced_unlock_keystore_warning">ฟีเจอร์นี่จะเก็บข้อมูลประจำตัวที่เข้ารหัสไว้ที่ KeyStore ที่ปลอดภัยในอุปกรณ์ของคุณ
+    <string name="device_unlock_keystore_warning">ฟีเจอร์นี่จะเก็บข้อมูลประจำตัวที่เข้ารหัสไว้ที่ KeyStore ที่ปลอดภัยในอุปกรณ์ของคุณ
 \n
 \nขึ้นอยู่กับการใช้ Native API โดยระบบปฎิบัติการ มันอาจจะทำงานไม่สมบูรณ์
 \nตรวจสอบความเข้ากันได้และความปลอดภัยของ KeyStore กับผู้ผลิตหรือผู้พัฒนารอมที่คุณใช้อยู่</string>
@@ -628,8 +628,8 @@
     <string name="enable_screenshot_mode_summary">อนุญาตแอปอื่นๆบันทึกหรือถ่ายภาพหน้าจอแอปนี้</string>
     <string name="enable_education_screens_summary">ไฮไลท์องค์ประกอบเพื่อเรียนรู้ว่าแอปใช้ยังไง</string>
     <string name="enable_education_screens_title">คำแนะนำการใช้งาน</string>
-    <string name="education_advanced_unlock_title">การปลดล็อกฐานข้อมูลด้วยอุปกรณ์</string>
-    <string name="education_advanced_unlock_summary">เชื่อมโยงรหัสผ่านกับข้อมูลไบโอเมตริกหรือข้อมูลการเข้าสู่ระบบเพื่อปลดล็อกฐานข้อมูลได้เร็วขึ้น</string>
+    <string name="education_device_unlock_title">การปลดล็อกฐานข้อมูลด้วยอุปกรณ์</string>
+    <string name="education_device_unlock_summary">เชื่อมโยงรหัสผ่านกับข้อมูลไบโอเมตริกหรือข้อมูลการเข้าสู่ระบบเพื่อปลดล็อกฐานข้อมูลได้เร็วขึ้น</string>
     <string name="education_entry_edit_title">แก้ไขรายการ</string>
     <string name="education_entry_edit_summary">แก้ไขรายการด้วยเขตข้อมูลที่กำหนดเอง ข้อมูลสามารถอ้างอิงได้ระหว่างรายการเขตข้อมูลต่างๆ</string>
     <string name="education_entry_new_field_summary">กำหนดช่องเขตข้อมูลเพื่มเติม, เพื่มค่าหรือจะเพื่มการป้องกันให้มันด้วยก็ได้</string>
@@ -659,7 +659,7 @@
     <string name="configure">การกำหนดค่า</string>
     <string name="menu_appearance_settings_summary">ธีม, สี, คุณสมบัติ</string>
     <string name="menu_security_settings_summary">การเข้ารหัส, ฟังก์ชั่นการแลกเปลี่ยนกุญแจ</string>
-    <string name="menu_advanced_unlock_settings_summary">ไบโอเมตริก, ข้อมูลประจำตัวของอุปกรณ์</string>
+    <string name="menu_device_unlock_settings_summary">ไบโอเมตริก, ข้อมูลประจำตัวของอุปกรณ์</string>
     <string name="menu_database_settings_summary">เมตาดาต้า, ถังขยะ, แม่แบบ, ประวัติ</string>
     <string name="menu_app_settings_summary">การค้นหา, การล็อก, ประวัติ, ค่ากำหนด</string>
     <string name="education_validate_entry_summary">พึงระลึกไว้ว่าตรวจสอบข้อมูลรายการและบันทึกฐานข้อมูลไว้ให้ดี

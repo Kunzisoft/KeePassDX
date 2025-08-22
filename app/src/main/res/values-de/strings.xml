@@ -163,7 +163,7 @@
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Diese Funktion konnte nicht gestartet werden.</string>
     <string name="biometric_unlock_enable_summary">Ermöglicht das Scannen biometrischer Merkmale, um die Datenbank zu öffnen</string>
-    <string name="advanced_unlock">Gerät entsperren</string>
+    <string name="device_unlock">Gerät entsperren</string>
     <string name="biometric_unlock_enable_title">Biometrisches Entsperren</string>
     <string name="lock">Sperren</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
@@ -347,7 +347,7 @@
     <string name="content_description_update_from_list">Aktualisieren</string>
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Die Datenbank kann mit diesem Passwort und dieser Schlüsseldatei nicht erstellt werden.</string>
-    <string name="menu_advanced_unlock_settings">Geräteentsperrung</string>
+    <string name="menu_device_unlock_settings">Geräteentsperrung</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
@@ -382,7 +382,7 @@
     <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden, um fortzufahren?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mit der Zwischenablage des Geräts kopieren</string>
-    <string name="advanced_unlock_explanation_summary">Geräteentsperrung verwenden, um eine Datenbank einfacher zu öffnen</string>
+    <string name="device_unlock_explanation_summary">Geräteentsperrung verwenden, um eine Datenbank einfacher zu öffnen</string>
     <string name="database_data_compression_title">Datenkomprimierung</string>
     <string name="database_data_compression_summary">Datenkomprimierung reduziert die Datenbankgröße</string>
     <string name="max_history_items_title">Maximale Anzahl</string>
@@ -502,33 +502,33 @@
     <string name="keyboard_save_search_info_title">Geteilte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten unwiderruflich aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Du musst dich weiterhin an deinen Hauptschlüssel erinnern, wenn du die Geräteentsperrung verwendest.</string>
+    <string name="device_unlock_prompt_store_credential_message">Du musst dich weiterhin an deinen Hauptschlüssel erinnern, wenn du die Geräteentsperrung verwendest.</string>
     <string name="menu_keystore_remove_key">Schlüssel für Geräteentsperrung löschen</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Verknüpfung mit Geräteentsperrung</string>
-    <string name="education_advanced_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
-    <string name="education_advanced_unlock_title">Geräteentsperrung der Datenbank</string>
-    <string name="advanced_unlock_timeout">Zeitlimit für Geräteentsperrung</string>
-    <string name="temp_advanced_unlock_timeout_summary">Dauer der Geräteentsperrung, bis sie zurückgesetzt wird</string>
-    <string name="temp_advanced_unlock_timeout_title">Ablauf der Geräteentsperrung</string>
-    <string name="temp_advanced_unlock_enable_summary">Bei Nutzung der Geräteentsperrung keine verschlüsselten Inhalte speichern</string>
-    <string name="temp_advanced_unlock_enable_title">Zeitlich begrenzte Geräteentsperrung</string>
+    <string name="device_unlock_prompt_store_credential_title">Verknüpfung mit Geräteentsperrung</string>
+    <string name="education_device_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
+    <string name="education_device_unlock_title">Geräteentsperrung der Datenbank</string>
+    <string name="device_unlock_timeout">Zeitlimit für Geräteentsperrung</string>
+    <string name="temp_device_unlock_timeout_summary">Dauer der Geräteentsperrung, bis sie zurückgesetzt wird</string>
+    <string name="temp_device_unlock_timeout_title">Ablauf der Geräteentsperrung</string>
+    <string name="temp_device_unlock_enable_summary">Bei Nutzung der Geräteentsperrung keine verschlüsselten Inhalte speichern</string>
+    <string name="temp_device_unlock_enable_title">Zeitlich begrenzte Geräteentsperrung</string>
     <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit deinen Geräteanmeldedaten</string>
-    <string name="advanced_unlock_tap_delete">Drücken, um alle Geräteentsperrschlüssel zu löschen</string>
+    <string name="device_unlock_tap_delete">Drücken, um alle Geräteentsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Datenbank mit Geräteentsperrdaten öffnen</string>
+    <string name="device_unlock_prompt_extract_credential_title">Datenbank mit Geräteentsperrdaten öffnen</string>
     <string name="enter">Eingabetaste</string>
     <string name="backspace">Rücktaste</string>
     <string name="select_entry">Eintrag auswählen</string>
     <string name="back_to_previous_keyboard">Zurück zur vorherigen Tastatur</string>
     <string name="custom_fields">Benutzerdefinierte Felder</string>
-    <string name="advanced_unlock_delete_all_key_warning">Alle zur Geräteentsperrung zugehörigen Verschlüsselungsschlüssel löschen\?</string>
+    <string name="device_unlock_delete_all_key_warning">Alle zur Geräteentsperrung zugehörigen Verschlüsselungsschlüssel löschen\?</string>
     <string name="device_credential_unlock_enable_title">Entsperrung mit Geräteanmeldedaten</string>
     <string name="device_credential">Geräteanmeldedaten</string>
-    <string name="credential_before_click_advanced_unlock_button">Passwort eingeben und dann diese Taste drücken.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Geräteentsperrungsabfrage konnte nicht gestartet werden.</string>
-    <string name="advanced_unlock_not_recognized">Fingerabdruck für Geräteentsperrung wurde nicht erkannt</string>
-    <string name="advanced_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte diesen löschen und den Vorgang zur Entsperr-Erkennung wiederholen.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus Geräteentsperrdaten gewinnen</string>
+    <string name="credential_before_click_device_unlock_button">Passwort eingeben und dann diese Taste drücken.</string>
+    <string name="device_unlock_prompt_not_initialized">Geräteentsperrungsabfrage konnte nicht gestartet werden.</string>
+    <string name="device_unlock_not_recognized">Fingerabdruck für Geräteentsperrung wurde nicht erkannt</string>
+    <string name="device_unlock_invalid_key">Der Geräteentsperrschlüssel ist nicht lesbar. Bitte diesen löschen und den Vorgang zur Entsperr-Erkennung wiederholen.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Datenbankanmeldedaten aus Geräteentsperrdaten gewinnen</string>
     <string name="error_rebuild_list">Die Liste kann nicht ordnungsgemäß neu erstellt werden.</string>
     <string name="error_database_uri_null">Datenbank-URI kann nicht abgerufen werden.</string>
     <string name="menu_reload_database">Daten neu laden</string>
@@ -629,7 +629,7 @@
     <string name="navigation_drawer_open">Navigationsleiste öffnen</string>
     <string name="expired">Abgelaufen</string>
     <string name="warning_database_already_opened">Eine Datenbank ist bereits geöffnet. Schließe sie, um eine neue zu öffnen</string>
-    <string name="advanced_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
+    <string name="device_unlock_keystore_warning">Diese Funktion speichert verschlüsselte Anmeldedaten im sicheren Schlüsselspeicher dieses Geräts.
 \n
 \nJe nach der internen API-Implementierung des Betriebssystems kann sie eingeschränkt sein.
 \n
@@ -677,7 +677,7 @@
     <string name="html_about_privacy">&lt;strong&gt;Es werden keine Benutzerdaten ausgelesen&lt;/strong&gt;, diese Anwendung stellt keine Verbindung zu einem Server her, arbeitet nur lokal und respektiert vollständig die Privatsphäre der Benutzer.</string>
     <string name="merge_success">Zusammenführung erfolgreich abgeschlossen</string>
     <string name="menu_form_filling_settings_summary">Tastatur, automatisches Ausfüllen, Zwischenablage</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometrie, Geräteanmeldedaten</string>
+    <string name="menu_device_unlock_settings_summary">Biometrie, Geräteanmeldedaten</string>
     <string name="menu_database_settings_summary">Metadaten, Papierkorb, Vorlagen, Verlauf</string>
     <string name="menu_app_settings_summary">Suche, Sperre, Verlauf, Eigenschaften</string>
     <string name="menu_security_settings_summary">Verschlüsselung, Schlüsselableitungsfunktion</string>

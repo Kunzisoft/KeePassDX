@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFra
 abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     enum class Screen {
-        APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY
+        APPLICATION, FORM_FILLING, DEVICE_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY
     }
 
     fun getScreen(): Screen {
@@ -66,7 +66,7 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
             val fragment: NestedSettingsFragment = when (key) {
                 Screen.APPLICATION,
                 Screen.FORM_FILLING,
-                Screen.ADVANCED_UNLOCK,
+                Screen.DEVICE_UNLOCK,
                 Screen.APPEARANCE -> NestedAppSettingsFragment()
                 Screen.DATABASE,
                 Screen.DATABASE_SECURITY,
@@ -83,7 +83,7 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
             return when (key) {
                 Screen.APPLICATION -> resources.getString(R.string.menu_app_settings)
                 Screen.FORM_FILLING -> resources.getString(R.string.menu_form_filling_settings)
-                Screen.ADVANCED_UNLOCK -> resources.getString(R.string.menu_advanced_unlock_settings)
+                Screen.DEVICE_UNLOCK -> resources.getString(R.string.menu_device_unlock_settings)
                 Screen.APPEARANCE -> resources.getString(R.string.menu_appearance_settings)
                 Screen.DATABASE -> resources.getString(R.string.menu_database_settings)
                 Screen.DATABASE_SECURITY -> resources.getString(R.string.menu_security_settings)

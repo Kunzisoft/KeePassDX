@@ -60,7 +60,7 @@
     <string name="menu_form_filling_settings">Izpolnitev obrazca</string>
     <string name="menu_form_filling_settings_summary">Tipkovnica, samodejno izpolnevanje, odložišče</string>
     <string name="settings">Nastavitve</string>
-    <string name="menu_advanced_unlock_settings">Odklepanje naprave</string>
+    <string name="menu_device_unlock_settings">Odklepanje naprave</string>
     <string name="menu_app_settings">Nastavitve aplikacije</string>
     <string name="menu_delete">Izbriši</string>
     <string name="sort_last_access_time">Zadnji dostop</string>

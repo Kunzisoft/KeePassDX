@@ -54,7 +54,7 @@
     <string name="memory_usage">Përdorim kujtese</string>
     <string name="parallelism">Paralelizëm</string>
     <string name="permission">Leje</string>
-    <string name="credential_before_click_advanced_unlock_button">Shtypni fjalëkalimin dhe mandej klikoni mbi këtë buton.</string>
+    <string name="credential_before_click_device_unlock_button">Shtypni fjalëkalimin dhe mandej klikoni mbi këtë buton.</string>
     <string name="biometric">Biometrik</string>
     <string name="biometric_delete_all_key_title">Fshi kyçe fshehtëzimi</string>
     <string name="file_name">Emër kartele</string>
@@ -206,7 +206,7 @@
     <string name="lowercase">Të vogla</string>
     <string name="copy_field">Kopje e %1$s</string>
     <string name="menu_app_settings">Rregullime aplikacioni</string>
-    <string name="menu_advanced_unlock_settings">Shkyçje pajisjeje</string>
+    <string name="menu_device_unlock_settings">Shkyçje pajisjeje</string>
     <string name="menu_security_settings">Rregullime sigurie</string>
     <string name="menu_master_key_settings">Rregullime kyçi të përgjithshëm</string>
     <string name="menu_copy">Kopjoje</string>
@@ -269,7 +269,7 @@
     <string name="lock_database_screen_off_title">Kyçje ekrani</string>
     <string name="lock_database_show_button_title">Shfaq buton kyçjesh</string>
     <string name="content">Lëndë</string>
-    <string name="advanced_unlock">Shkyçje pajisjeje</string>
+    <string name="device_unlock">Shkyçje pajisjeje</string>
     <string name="path">Shteg</string>
     <string name="assign_master_key">Caktoni një kyç të përgjithshëm</string>
     <string name="data">Të dhëna</string>
@@ -350,11 +350,11 @@
     <string name="auto_focus_search_summary">Kërko një kërkim, kur hapet një bazë të dhënash</string>
     <string name="warning_replace_file">Ngarkimi i kësaj kartele do të zëvendësojë atë ekzistuesen.</string>
     <string name="autofill">Vetëplotësoje</string>
-    <string name="advanced_unlock_tap_delete">Prekeni që të fshihen kyçe shkyçjeje pajisjeje</string>
+    <string name="device_unlock_tap_delete">Prekeni që të fshihen kyçe shkyçjeje pajisjeje</string>
     <string name="biometric_unlock_enable_title">Shkyçje biometrike</string>
     <string name="biometric_unlock_enable_summary">Ju lejon të skanoni elementë biometrikë për të hapur bazën e të dhënave</string>
     <string name="biometric_delete_all_key_summary">Fshi krejt kyçet e fshehtëzimit të lidhur me njohje shkyçjesh pajisjesh</string>
-    <string name="advanced_unlock_delete_all_key_warning">Të fshihen krejt kyçet e fshehtëzimit të lidhur me njohje shkyçjesh pajisjesh?</string>
+    <string name="device_unlock_delete_all_key_warning">Të fshihen krejt kyçet e fshehtëzimit të lidhur me njohje shkyçjesh pajisjesh?</string>
     <string name="back_to_previous_keyboard">Mbrapsht te tastiera e mëparshme</string>
     <string name="backspace">Tasti “Backspace”</string>
     <string name="autofill_ask_to_save_data_title">Pyet të ruhen të dhënat</string>
@@ -419,14 +419,14 @@
     <string name="nodes">Nyje</string>
     <string name="list_entries_show_username_summary">Shfaq emra përdoruesish te lista e zërave</string>
     <string name="menu_form_filling_settings_summary">Tastierë, vetëplotësim, e papastër</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometri, kredenciale pajisjeje</string>
+    <string name="menu_device_unlock_settings_summary">Biometri, kredenciale pajisjeje</string>
     <string name="contains_duplicate_uuid_procedure">Të zgjidhet problemi duke prodhuar UUID-ra të reja për zëra të përsëdytur, që të vazhdohet?</string>
     <string name="description_app_properties">Veti KeePassDX për administrim të rregullimeve të aplikacionit</string>
     <string name="warning_permanently_delete_nodes">Të fshihen përgjithmonë nyjat e përzgjedhura?</string>
     <string name="device_credential_unlock_enable_title">Shkyçje kredencialesh pajisjeje</string>
     <string name="device_credential_unlock_enable_summary">Ju lejon të përdorni kredencialet për te pajisja juaj për të hapur bazën e të dhënave</string>
     <string name="biometric_auto_open_prompt_title"/>
-    <string name="temp_advanced_unlock_enable_title">Shkyçje e përkohshme pajisjeje</string>
+    <string name="temp_device_unlock_enable_title">Shkyçje e përkohshme pajisjeje</string>
     <string name="file_manager_install_description">Që të krijohen, hapen dhe ruhen kartela bazash të dhënash, lypset një përgjegjës kartelash që pranon veprime ACTION_CREATE_DOCUMENT dhe ACTION_OPEN_DOCUMENT.</string>
     <string name="content_description_keyfile_checkbox">Kutizë për kartelë kyçi</string>
     <string name="content_description_nav_header"/>
@@ -452,11 +452,11 @@
     <string name="subdomain_search_summary">Kërko përkatësi web me kufizime për nënpërkatësitë</string>
     <string name="read_only">Mbrojtur nga shkrimi</string>
     <string name="export_app_properties_title">Eksportoni rregullime aplikacioni</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Lidhje për te shkyçje pajisjeje</string>
+    <string name="device_unlock_prompt_store_credential_title">Lidhje për te shkyçje pajisjeje</string>
     <string name="encrypted_value_stored">U depozitua fjalëkalim i fshehtëzuar</string>
-    <string name="temp_advanced_unlock_timeout_title">Skadim shkyçjeje pajisjeje</string>
+    <string name="temp_device_unlock_timeout_title">Skadim shkyçjeje pajisjeje</string>
     <string name="enter"/>
-    <string name="education_advanced_unlock_title">Shkyçje baze të dhënash pajisjeje</string>
+    <string name="education_device_unlock_title">Shkyçje baze të dhënash pajisjeje</string>
     <string name="info">Informacion</string>
     <string name="key_derivation_function">Funksion përftimi kyçesh</string>
     <string name="brackets">Kllapa</string>
@@ -518,7 +518,7 @@
     <string name="biometric_security_update_required">Lypset përditësim sigurie biometrike.</string>
     <string name="keystore_not_accessible">Depoja e kyçeve është gatitur si duhet.</string>
     <string name="unlock_and_link_biometric">Lidhje shkyçjeje pajisjeje</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Njohje shkyçjeje pajisjeje</string>
+    <string name="device_unlock_prompt_extract_credential_title">Njohje shkyçjeje pajisjeje</string>
     <string name="menu_appearance_settings_summary">Tema, ngjyra dhe atribute</string>
     <string name="autofill_service_name">Vetëplotësim formularësh me KeePassDX</string>
     <string name="clipboard_notifications_title">Njoftime mbi të papastrën</string>
@@ -526,8 +526,8 @@
     <string name="lock_database_back_root_title">Shtypni “Mbrapsht”, që të kyçet</string>
     <string name="lock_database_back_root_summary">Kyçe bazën e të dhënave, kur përdoruesi klikon butonin “Mbrapsht” te skena e rrënjës</string>
     <string name="lock_database_show_button_summary">Bën shfaqjen të butonit të kyçjeve te ndërfaqja e përdoruesit</string>
-    <string name="advanced_unlock_explanation_summary">Përdorni shkyçjen e pajisjes, për ta hapur më kollaj bazën e të dhënave</string>
-    <string name="advanced_unlock_timeout">Mbarim kohe shkyçjeje pajisjeje</string>
+    <string name="device_unlock_explanation_summary">Përdorni shkyçjen e pajisjes, për ta hapur më kollaj bazën e të dhënave</string>
+    <string name="device_unlock_timeout">Mbarim kohe shkyçjeje pajisjeje</string>
     <string name="unavailable_feature_text">S’u nis dot kjo veçori.</string>
     <string name="unavailable_feature_version">Pajisja xhiron Android %1$s, por duhet %2$s ose i mëvonshëm.</string>
     <string name="database_data_compression_summary">Ngjeshja e të dhënave zvogëlon madhësinë e bazës së të dhënave</string>
@@ -590,7 +590,7 @@
     <string name="entropy_high">Entropi: E lartë</string>
     <string name="style_name_dark">E errët</string>
     <string name="biometric_auto_open_prompt_summary">Kërko automatikisht shkyçje pajisjeje, nëse baza e të dhënave është ujdisur ta përdorë</string>
-    <string name="temp_advanced_unlock_enable_summary">Mos depozito ndonjë lëndë të fshehtëzuar për të përdorur shkyçje pajisjeje</string>
+    <string name="temp_device_unlock_enable_summary">Mos depozito ndonjë lëndë të fshehtëzuar për të përdorur shkyçje pajisjeje</string>
     <string name="keyboard_previous_search_summary">Kthehu automatikisht te tastiera e mëparshme, te skena e kërkimeve</string>
     <string name="keyboard_previous_fill_in_summary">Pas ekzekutimit të “Auto key action”, kthehu automatikisht te tastiera e mëparshme</string>
     <string name="keyboard_previous_lock_summary">Pas kyçjes së bazës së të dhënave, kthehu automatikisht te tastiera e mëparshme</string>
@@ -600,8 +600,8 @@
     <string name="clear_clipboard_notification_summary">Kyçe bazën e të dhënave, kur skadon kohëzgjatja e të papastrës, ose njoftimi është mbyllur pasi filloni ta përdorni</string>
     <string name="keyboard_selection_entry_summary">Kur shihet një zë në KeePassDX, populloje Magikeyboard-in me atë zë</string>
     <string name="html_text_dev_feature_upgrade">Mos harroni ta mbani aplikacionin tuaj të përditësuar, duke instaluar versione të rinj.</string>
-    <string name="advanced_unlock_invalid_key">S’mund të lexohet kyç shkyçjeje pajisjeje. Ju lutemi, fshijeni dhe përsëritni procedurën e njohjes së shkyçjeve.</string>
-    <string name="temp_advanced_unlock_timeout_summary">Kohëzgjatje përdorimi shkyçjeve pajisjeje, para se të fshihet lënda e saj</string>
+    <string name="device_unlock_invalid_key">S’mund të lexohet kyç shkyçjeje pajisjeje. Ju lutemi, fshijeni dhe përsëritni procedurën e njohjes së shkyçjeve.</string>
+    <string name="temp_device_unlock_timeout_summary">Kohëzgjatje përdorimi shkyçjeve pajisjeje, para se të fshihet lënda e saj</string>
     <string name="monospace_font_fields_enable_summary">Ndryshoni lloj shkronjash të përdorura te fusha, për pamje më të mirë të shenjave</string>
     <string name="allow_copy_password_summary">Lejo kopjimin në të papastër të fjalëkalimit të zërit dhe fushave të mbrojtura</string>
     <string name="keyboard_save_search_info_summary">Provo të ruhet informacioni i dhënë, kur bëhet një përzgjedhje dorazi zëri, për përdorim më të kollajtë në të ardhmen</string>
@@ -641,9 +641,9 @@
     <string name="warning_keyfile_integrity">Hashi, ose kartela s’janë të garantuara, ngaqë Android-i mund të ndryshojë të dhënat e saj fluturimthi. Për integritet të saktë, ndryshojeni zgjatimin e kartelës në .bin.</string>
     <string name="warning_database_notification_permission">Leja për njoftime ju lejon të shfaqni gjendjen e bazës së të dhënave dhe ta kyçni me një buton që përdoret kollaj.\n\nNëse s’e aktivizoni këtë leje, baza e të dhënave e hapur në prapaskenë s’do të jetë e dukshme, nëse në paraskenë ka një tjetër aplikacion.</string>
     <string name="warning_copy_permission">Leja për njoftime është e nevojshme për të përdorur veçorinë e njoftimeve mbi të papastrën.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Duhet prapë të mbani mend kredencialet kryesore për kasafortën tuaj, nëse përdorni njohje shkyçjeje pajisjeje.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Përfto kredenciale baze të dhënash me të dhëna shkyçjeje pajisjeje</string>
-    <string name="advanced_unlock_keystore_warning">Kjo veçori do të depozitojë të dhëna të fshehtëzuara kredencialesh te KeyStore e siguruar e pajisjes tuaj.\n\nNë varësi të sendërtimit të API-t nga sistemi operativ, mund të mos jetë plotësisht funksionale.\n\nKontrolloni përputhjen dhe sigurinë e KeyStore-it me prodhuesin e pajisjes tuaj dhe krijuesin e ROM-it që po përdorni.</string>
+    <string name="device_unlock_prompt_store_credential_message">Duhet prapë të mbani mend kredencialet kryesore për kasafortën tuaj, nëse përdorni njohje shkyçjeje pajisjeje.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Përfto kredenciale baze të dhënash me të dhëna shkyçjeje pajisjeje</string>
+    <string name="device_unlock_keystore_warning">Kjo veçori do të depozitojë të dhëna të fshehtëzuara kredencialesh te KeyStore e siguruar e pajisjes tuaj.\n\nNë varësi të sendërtimit të API-t nga sistemi operativ, mund të mos jetë plotësisht funksionale.\n\nKontrolloni përputhjen dhe sigurinë e KeyStore-it me prodhuesin e pajisjes tuaj dhe krijuesin e ROM-it që po përdorni.</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Kërko doemos ndryshimin e kyçit të përgjithshëm herë tjetër (vetëm një herë)</string>
     <string name="magic_keyboard_explanation_summary">Aktivizoni një tastierë vetjake për popullim të fjalëkalimeve tuaj dhe krejt fushat e identitetit</string>
     <string name="keyboard_auto_go_action_summary">Veprim tasti “Go” pas shtypje së një tasti “Fushë”</string>
@@ -654,7 +654,7 @@
     <string name="show_entry_colors_summary">Bën shfaqje ngjyrash të përparme dhe të pasme për një zë</string>
     <string name="settings_database_force_changing_master_key_summary">Kërko doemos ndryshimin e kyçit të përgjithshëm (ditë)</string>
     <string name="autofill_inline_suggestions_summary">Provo të shfaqësh sugjerime vetëplotësimi drejt e nga një tastierë e përputhshme</string>
-    <string name="education_advanced_unlock_summary">Lidheni fjalëkalimin tuaj me hollësi biometrike të skanuara, ose kredenciale pajisjeje, për të shkyçur shpejt bazën tuaj të dhënave.</string>
+    <string name="education_device_unlock_summary">Lidheni fjalëkalimin tuaj me hollësi biometrike të skanuara, ose kredenciale pajisjeje, për të shkyçur shpejt bazën tuaj të dhënave.</string>
     <string name="warning_empty_password">Të vazhdohet pa mbrojtje shkyçjeje fjalëkalimesh?</string>
-    <string name="advanced_unlock_prompt_not_initialized">S’arrihet të bëhet gati hapi i shkyçjes së pajisjes.</string>
+    <string name="device_unlock_prompt_not_initialized">S’arrihet të bëhet gati hapi i shkyçjes së pajisjes.</string>
 </resources>

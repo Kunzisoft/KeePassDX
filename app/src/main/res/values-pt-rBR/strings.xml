@@ -192,7 +192,7 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados após alguns segundos quando a tela for desligada</string>
-    <string name="advanced_unlock">Desbloqueio do dispositivo</string>
+    <string name="device_unlock">Desbloqueio do dispositivo</string>
     <string name="biometric_unlock_enable_title">Desbloqueio biométrico</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
     <string name="biometric_delete_all_key_title">Apague chaves de criptografia</string>
@@ -337,7 +337,7 @@
     <string name="content_description_update_from_list">Atualizar</string>
     <string name="content_description_keyboard_close_fields">Campos fechados</string>
     <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
-    <string name="menu_advanced_unlock_settings">Desbloqueio do dispositivo</string>
+    <string name="menu_device_unlock_settings">Desbloqueio do dispositivo</string>
     <string name="biometric">Biometria</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o prompt</string>
     <string name="biometric_auto_open_prompt_summary">Solicitar automaticamente o desbloqueio do dispositivo se o banco de dados estiver configurado para usá-lo</string>
@@ -369,7 +369,7 @@
     <string name="contains_duplicate_uuid_procedure">Consertar o problema gerando nova UUIDs para duplicatas para continuar\?</string>
     <string name="database_opened">Banco de dados aberto</string>
     <string name="clipboard_explanation_summary">Copie campos de entrada usando a área de transferência do seu dispositivo</string>
-    <string name="advanced_unlock_explanation_summary">Use o desbloqueio do dispositivo para abrir um banco de dados com mais facilidade</string>
+    <string name="device_unlock_explanation_summary">Use o desbloqueio do dispositivo para abrir um banco de dados com mais facilidade</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
     <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados</string>
     <string name="max_history_items_title">Número máximo</string>
@@ -510,14 +510,14 @@
     <string name="content_description_otp_information">Informação de senha de uso único</string>
     <string name="device_credential">Credencial do dispositivo</string>
     <string name="properties">Propriedades</string>
-    <string name="credential_before_click_advanced_unlock_button">Digite a senha e clique neste botão.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Não foi possível inicializar o prompt de desbloqueio do dispositivo.</string>
-    <string name="advanced_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio</string>
-    <string name="advanced_unlock_invalid_key">Não é possível ler a chave de desbloqueio do dispositivo. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extraia a credencial do banco de dados com os dados de desbloqueio do dispositivo</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Reconhecimento de desbloqueio do dispositivo</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Você ainda precisa se lembrar da credencial principal do cofre se usar o reconhecimento de desbloqueio do dispositivo.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Link para desbloqueio do dispositivo</string>
+    <string name="credential_before_click_device_unlock_button">Digite a senha e clique neste botão.</string>
+    <string name="device_unlock_prompt_not_initialized">Não foi possível inicializar o prompt de desbloqueio do dispositivo.</string>
+    <string name="device_unlock_not_recognized">Não foi possível reconhecer a impressão de desbloqueio</string>
+    <string name="device_unlock_invalid_key">Não é possível ler a chave de desbloqueio do dispositivo. Exclua-o e repita o procedimento de reconhecimento de desbloqueio.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Extraia a credencial do banco de dados com os dados de desbloqueio do dispositivo</string>
+    <string name="device_unlock_prompt_extract_credential_title">Reconhecimento de desbloqueio do dispositivo</string>
+    <string name="device_unlock_prompt_store_credential_message">Você ainda precisa se lembrar da credencial principal do cofre se usar o reconhecimento de desbloqueio do dispositivo.</string>
+    <string name="device_unlock_prompt_store_credential_title">Link para desbloqueio do dispositivo</string>
     <string name="biometric_security_update_required">Atualização de segurança biométrica necessária.</string>
     <string name="configure_biometric">Nenhuma credencial biométrica ou de dispositivo está registrada.</string>
     <string name="warning_database_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos, feche o banco de dados e reabra-o de sua localização.</string>
@@ -550,8 +550,8 @@
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
     <string name="download_canceled">Cancelado!</string>
-    <string name="education_advanced_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
-    <string name="education_advanced_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
+    <string name="education_device_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
+    <string name="education_device_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
     <string name="autofill_read_only_save">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
@@ -578,15 +578,15 @@
     <string name="templates_group_uuid_title">Grupo de modelos</string>
     <string name="templates_group_enable_summary">Use modelos dinâmicos para preencher os campos de uma entrada</string>
     <string name="templates_group_enable_title">Uso de modelos</string>
-    <string name="advanced_unlock_delete_all_key_warning">Excluir todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio do dispositivo\?</string>
-    <string name="advanced_unlock_timeout">Tempo limite de desbloqueio do dispositivo</string>
-    <string name="temp_advanced_unlock_timeout_summary">Duração do uso do desbloqueio do dispositivo antes de excluir seu conteúdo</string>
-    <string name="temp_advanced_unlock_timeout_title">Expiração do desbloqueio do dispositivo</string>
-    <string name="temp_advanced_unlock_enable_summary">Não armazene nenhum conteúdo criptografado para usar desbloqueio dispositivo</string>
-    <string name="temp_advanced_unlock_enable_title">Desbloqueio temporário do dispositivo</string>
+    <string name="device_unlock_delete_all_key_warning">Excluir todas as chaves de criptografia relacionadas ao reconhecimento de desbloqueio do dispositivo\?</string>
+    <string name="device_unlock_timeout">Tempo limite de desbloqueio do dispositivo</string>
+    <string name="temp_device_unlock_timeout_summary">Duração do uso do desbloqueio do dispositivo antes de excluir seu conteúdo</string>
+    <string name="temp_device_unlock_timeout_title">Expiração do desbloqueio do dispositivo</string>
+    <string name="temp_device_unlock_enable_summary">Não armazene nenhum conteúdo criptografado para usar desbloqueio dispositivo</string>
+    <string name="temp_device_unlock_enable_title">Desbloqueio temporário do dispositivo</string>
     <string name="device_credential_unlock_enable_summary">Permite que você use a credencial do seu dispositivo para abrir o banco de dados</string>
     <string name="device_credential_unlock_enable_title">Desbloqueio de credencial de dispositivo</string>
-    <string name="advanced_unlock_tap_delete">Toque para excluir as chaves de desbloqueio do dispositivo</string>
+    <string name="device_unlock_tap_delete">Toque para excluir as chaves de desbloqueio do dispositivo</string>
     <string name="content">Conteúdo</string>
     <string name="autofill_select_entry">Selecione a entrada…</string>
     <string name="hint_icon_name">Nome do ícone</string>
@@ -634,7 +634,7 @@
     <string name="entropy">Entropia: %1$s bit</string>
     <string name="entropy_high">Entropia: Alta</string>
     <string name="keyboard_previous_search_summary">Voltar automaticamente para o teclado anterior na tela de pesquisa</string>
-    <string name="advanced_unlock_keystore_warning">Esse recurso armazenará dados de credenciais criptografados no KeyStore seguro do seu dispositivo.
+    <string name="device_unlock_keystore_warning">Esse recurso armazenará dados de credenciais criptografados no KeyStore seguro do seu dispositivo.
 \n
 \nDependendo da implementação da API nativa do sistema operacional, pode não ser totalmente funcional.
 \n
@@ -668,7 +668,7 @@
     <string name="content_description_hardware_key_checkbox">Caixa de verificação da chave física</string>
     <string name="merge_success">Merge concluído com sucesso</string>
     <string name="info">Info</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometria, credencial do dispositivo</string>
+    <string name="menu_device_unlock_settings_summary">Biometria, credencial do dispositivo</string>
     <string name="menu_database_settings_summary">Metadados, lixeira, modelos, histórico</string>
     <string name="menu_security_settings_summary">Criptografia, função de derivação chave</string>
     <string name="master_key_settings_summary">Mudança, renovação</string>

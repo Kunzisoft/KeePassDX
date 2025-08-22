@@ -5,5 +5,5 @@ enum class NotificationServiceType {
     ATTACHMENT,
     CLIPBOARD,
     KEYBOARD,
-    ADVANCED_UNLOCK
+    DEVICE_UNLOCK
 }

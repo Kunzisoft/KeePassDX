@@ -164,7 +164,7 @@
             android:configChanges="keyboardHidden"
             android:excludeFromRecents="true"/>
         <activity
-            android:name="com.kunzisoft.keepass.settings.AdvancedUnlockSettingsActivity" />
+            android:name="com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
         <activity
@@ -221,7 +221,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="com.kunzisoft.keepass.services.AdvancedUnlockNotificationService"
+            android:name="com.kunzisoft.keepass.services.DeviceUnlockNotificationService"
             android:foregroundServiceType="specialUse"
             android:enabled="true"
             android:exported="false" />

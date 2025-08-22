@@ -34,10 +34,10 @@
             android:summary="@string/menu_form_filling_settings_summary"
             android:persistent="false" />
 		<Preference
-			android:key="@string/settings_advanced_unlock_key"
-			android:title="@string/menu_advanced_unlock_settings"
+			android:key="@string/settings_device_unlock_key"
+			android:title="@string/menu_device_unlock_settings"
 			android:icon="@drawable/prefs_fingerprint_24dp"
-			android:summary="@string/menu_advanced_unlock_settings_summary"
+			android:summary="@string/menu_device_unlock_settings_summary"
 			android:persistent="false" />
 		<Preference
 			android:key="@string/settings_appearance_key"

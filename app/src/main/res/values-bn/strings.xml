@@ -188,7 +188,7 @@
     <string name="loading_database">ডাটাবেস লোড হচ্ছে…</string>
     <string name="copy_field">%1$s এর কপি</string>
     <string name="menu_form_filling_settings">ফরম পূরণ</string>
-    <string name="menu_advanced_unlock_settings">উন্নত আনলকিং</string>
+    <string name="menu_device_unlock_settings">উন্নত আনলকিং</string>
     <string name="menu_database_settings">ডাটাবেস সেটিংস</string>
     <string name="menu_security_settings">নিরাপত্তা বিন্যাস</string>
     <string name="menu_master_key_settings">মাস্টার কী সেটিংস</string>

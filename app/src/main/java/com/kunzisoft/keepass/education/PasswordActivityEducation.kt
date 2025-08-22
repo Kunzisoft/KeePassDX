@@ -89,8 +89,8 @@ class PasswordActivityEducation(activity: Activity)
                                             onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
         return checkAndPerformedEducation(isEducationBiometricPerformed(activity),
                 TapTarget.forView(educationView,
-                        activity.getString(R.string.education_advanced_unlock_title),
-                        activity.getString(R.string.education_advanced_unlock_summary))
+                        activity.getString(R.string.education_device_unlock_title),
+                        activity.getString(R.string.education_device_unlock_summary))
                         .outerCircleColorInt(getCircleColor())
                         .outerCircleAlpha(getCircleAlpha())
                         .icon(ContextCompat.getDrawable(activity, R.drawable.ic_fingerprint_24dp))

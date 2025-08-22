@@ -40,7 +40,7 @@
     <string name="menu_master_key_settings">Postavke glavnog ključa</string>
     <string name="menu_security_settings">Bezbednosne postavke</string>
     <string name="menu_database_settings">Postavke baze podataka</string>
-    <string name="menu_advanced_unlock_settings">Napredno otključavanje</string>
+    <string name="menu_device_unlock_settings">Napredno otključavanje</string>
     <string name="menu_form_filling_settings">Popunjavanje obrasca</string>
     <string name="menu_app_settings">Postavke aplikacije</string>
     <string name="settings">Postavke</string>
@@ -196,8 +196,8 @@
     <string name="biometric_auto_open_prompt_title">Automatski otvori biometrijski upit</string>
     <string name="biometric_unlock_enable_summary">Omogućava Vam da skenirate svoju biometriju da biste otvorili bazu podataka</string>
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
-    <string name="advanced_unlock_explanation_summary">Koristite napredno otključavanje kako bi ste lakše otvorili bazu podataka</string>
-    <string name="advanced_unlock">Napredno otključavanje</string>
+    <string name="device_unlock_explanation_summary">Koristite napredno otključavanje kako bi ste lakše otvorili bazu podataka</string>
+    <string name="device_unlock">Napredno otključavanje</string>
     <string name="education_unlock_summary">Unesite lozinku i/ili datoteku ključa da bi ste otključali bazu podataka.
 \n
 \nNapravite rezervnu kopiju datoteke baze podataka na bezbednom mestu nakon svake promene.</string>
@@ -394,7 +394,7 @@
     <string name="error_driver_required">Potreban je drajver za %1$s.</string>
     <string name="menu_app_settings_summary">Pretraga, zaključavanje, istorija, svojstva</string>
     <string name="menu_form_filling_settings_summary">Tastatura, automatsko popunjavanje, klipbord</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometrija, akreditiv uređaja</string>
+    <string name="menu_device_unlock_settings_summary">Biometrija, akreditiv uređaja</string>
     <string name="menu_database_settings_summary">Metapodaci, korpa za otpatke, šabloni, istorija</string>
     <string name="menu_security_settings_summary">Šifrovanje, funkcija izvođenja ključa</string>
     <string name="master_key_settings_summary">Promena, obnova</string>

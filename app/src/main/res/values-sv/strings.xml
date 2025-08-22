@@ -328,11 +328,11 @@
     <string name="list_groups_show_number_entries_title">Visa antal poster</string>
     <string name="list_groups_show_number_entries_summary">Visa antalet poster i en grupp</string>
     <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfil.</string>
-    <string name="menu_advanced_unlock_settings">Enhets upplåsning</string>
+    <string name="menu_device_unlock_settings">Enhets upplåsning</string>
     <string name="unavailable">Den här databasen har inga sparade autentiseringsuppgifter ännu.</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="biometric">Biometrik</string>
-    <string name="advanced_unlock">Avancerad upplåsning</string>
+    <string name="device_unlock">Avancerad upplåsning</string>
     <string name="biometric_unlock_enable_title">Biometrisk upplåsning</string>
     <string name="biometric_unlock_enable_summary">Låter dig skanna din biometrik för att öppna databasen</string>
     <string name="biometric_auto_open_prompt_title">Öppna biometrisk prompt automatiskt</string>
@@ -367,7 +367,7 @@
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
     <string name="clipboard_explanation_summary">Kopiera post-fält med hjälp av enhetens urklipp</string>
-    <string name="advanced_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
+    <string name="device_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek</string>
     <string name="max_history_items_title">Max. historikobjekt</string>
@@ -526,7 +526,7 @@
     <string name="colorize_password_summary">Färglägg lösenordstecken per typ</string>
     <string name="menu_app_settings_summary">Sök, lås, historik, egenskaper</string>
     <string name="menu_form_filling_settings_summary">Tangentbord, autofill, urklipp</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometri, enhetsuppgifter</string>
+    <string name="menu_device_unlock_settings_summary">Biometri, enhetsuppgifter</string>
     <string name="menu_database_settings_summary">Metadata, papperskorg, mallar, historik</string>
     <string name="master_key_settings_summary">Ändra, förnya</string>
     <string name="menu_merge_database">Sammanfoga data</string>

@@ -167,7 +167,7 @@
     <string name="settings">設定</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="menu_form_filling_settings">フォームの入力</string>
-    <string name="menu_advanced_unlock_settings">デバイスのロック解除</string>
+    <string name="menu_device_unlock_settings">デバイスのロック解除</string>
     <string name="menu_database_settings">データベースの設定</string>
     <string name="menu_security_settings">セキュリティの設定</string>
     <string name="menu_master_key_settings">マスターキーの設定</string>
@@ -295,8 +295,8 @@
     <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをタップしたとき、データベースをロックします</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
     <string name="lock_database_show_button_summary">ユーザー インターフェースにロックボタンを表示します</string>
-    <string name="advanced_unlock">デバイスのロック解除</string>
-    <string name="advanced_unlock_explanation_summary">デバイスのロック解除を使用してデータベースをより簡単に開きます</string>
+    <string name="device_unlock">デバイスのロック解除</string>
+    <string name="device_unlock_explanation_summary">デバイスのロック解除を使用してデータベースをより簡単に開きます</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
     <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができるようにします</string>
     <string name="biometric_auto_open_prompt_title">プロンプトを自動で開く</string>
@@ -480,31 +480,31 @@
     <string name="search_mode">検索モード</string>
     <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>
     <string name="menu_keystore_remove_key">デバイスのロック解除キーを削除する</string>
-    <string name="advanced_unlock_not_recognized">デバイスのロック解除を認識できませんでした</string>
+    <string name="device_unlock_not_recognized">デバイスのロック解除を認識できませんでした</string>
     <string name="enter">エンター</string>
     <string name="backspace">バックスペース</string>
     <string name="back_to_previous_keyboard">前のキーボードに戻る</string>
     <string name="custom_fields">カスタム フィールド</string>
-    <string name="advanced_unlock_delete_all_key_warning">デバイスのロック解除認識に関連するすべての暗号化キーを削除しますか?</string>
+    <string name="device_unlock_delete_all_key_warning">デバイスのロック解除認識に関連するすべての暗号化キーを削除しますか?</string>
     <string name="device_credential_unlock_enable_summary">デバイス認証情報を使用してデータベースを開くことができるようにします</string>
     <string name="device_credential_unlock_enable_title">デバイス認証情報によるロック解除</string>
     <string name="device_credential">デバイス認証情報</string>
-    <string name="credential_before_click_advanced_unlock_button">パスワードを入力し、このボタンをタップします。</string>
-    <string name="advanced_unlock_prompt_not_initialized">デバイスのロック解除プロンプトを初期化できません。</string>
-    <string name="advanced_unlock_invalid_key">デバイスのロック解除キーを読み取ることができません。削除して、ロック解除認識手順を繰り返してください。</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">デバイスのロック解除データを使用してデータベースの資格情報を抽出する</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">デバイスのロック解除認識</string>
-    <string name="advanced_unlock_prompt_store_credential_message">デバイスのロック解除認識を使用する場合でも、保管庫のメイン資格情報を覚えておく必要があります。</string>
-    <string name="advanced_unlock_prompt_store_credential_title">デバイスのロック解除のリンク</string>
+    <string name="credential_before_click_device_unlock_button">パスワードを入力し、このボタンをタップします。</string>
+    <string name="device_unlock_prompt_not_initialized">デバイスのロック解除プロンプトを初期化できません。</string>
+    <string name="device_unlock_invalid_key">デバイスのロック解除キーを読み取ることができません。削除して、ロック解除認識手順を繰り返してください。</string>
+    <string name="device_unlock_prompt_extract_credential_message">デバイスのロック解除データを使用してデータベースの資格情報を抽出する</string>
+    <string name="device_unlock_prompt_extract_credential_title">デバイスのロック解除認識</string>
+    <string name="device_unlock_prompt_store_credential_message">デバイスのロック解除認識を使用する場合でも、保管庫のメイン資格情報を覚えておく必要があります。</string>
+    <string name="device_unlock_prompt_store_credential_title">デバイスのロック解除のリンク</string>
     <string name="select_entry">エントリーを選択</string>
-    <string name="education_advanced_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
-    <string name="education_advanced_unlock_title">デバイスデータベースのロック解除</string>
-    <string name="advanced_unlock_timeout">デバイスのロック解除タイムアウト</string>
-    <string name="temp_advanced_unlock_timeout_summary">デバイスのロック解除使用後、コンテンツが削除されるまでの期間</string>
-    <string name="temp_advanced_unlock_timeout_title">デバイスのロック解除の有効期限</string>
-    <string name="temp_advanced_unlock_enable_summary">デバイスのロック解除を使用するために暗号化されたコンテンツを保存しないでください</string>
-    <string name="temp_advanced_unlock_enable_title">一時的なデバイスロック解除</string>
-    <string name="advanced_unlock_tap_delete">タップしてデバイスのロック解除キーを削除します</string>
+    <string name="education_device_unlock_summary">スキャンした生体情報またはデバイス認証情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
+    <string name="education_device_unlock_title">デバイスデータベースのロック解除</string>
+    <string name="device_unlock_timeout">デバイスのロック解除タイムアウト</string>
+    <string name="temp_device_unlock_timeout_summary">デバイスのロック解除使用後、コンテンツが削除されるまでの期間</string>
+    <string name="temp_device_unlock_timeout_title">デバイスのロック解除の有効期限</string>
+    <string name="temp_device_unlock_enable_summary">デバイスのロック解除を使用するために暗号化されたコンテンツを保存しないでください</string>
+    <string name="temp_device_unlock_enable_title">一時的なデバイスロック解除</string>
+    <string name="device_unlock_tap_delete">タップしてデバイスのロック解除キーを削除します</string>
     <string name="content">コンテンツ</string>
     <string name="error_database_uri_null">データベースの URI が取得できません。</string>
     <string name="autofill_inline_suggestions_keyboard">自動入力候補が追加されました。</string>
@@ -615,7 +615,7 @@
     <string name="character_count">文字数：%1$d</string>
     <string name="entropy_high">エントロピー：高</string>
     <string name="warning_database_already_opened">データベースがすでに開いているため、まず閉じてから新しく開き直してください</string>
-    <string name="advanced_unlock_keystore_warning">この機能により、暗号化された認証情報がデバイスの安全なキーストアに保存されます。
+    <string name="device_unlock_keystore_warning">この機能により、暗号化された認証情報がデバイスの安全なキーストアに保存されます。
 \n
 \nオペレーティング システムのネイティブ API 実装によっては、完全に機能しない場合があります。
 \n
@@ -662,7 +662,7 @@
     <string name="error_response_already_provided">回答はすでに提供されています。</string>
     <string name="error_no_response_from_challenge">チャレンジからの応答を取得できません。</string>
     <string name="error_unable_merge_database_kdb">kdbデータベースファイルとのマージはできません。</string>
-    <string name="menu_advanced_unlock_settings_summary">生体認証、デバイス認証</string>
+    <string name="menu_device_unlock_settings_summary">生体認証、デバイス認証</string>
     <string name="menu_database_settings_summary">メタデータ、ごみ箱、テンプレート、履歴</string>
     <string name="menu_security_settings_summary">暗号化、鍵導出関数</string>
     <string name="master_key_settings_summary">変更、更新</string>
