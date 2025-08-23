@@ -98,7 +98,7 @@
     <string name="menu_master_key_settings">ਮਾਸਟਰ ਕੁੰਜੀ ਸੈਟਿੰਗਾਂ</string>
     <string name="menu_security_settings">ਸੁਰੱਖਿਆ ਸੈਟਿੰਗਾਂ</string>
     <string name="menu_database_settings">ਡਾਟਾਬੇਸ ਸੈਟਿੰਗਾਂ</string>
-    <string name="menu_advanced_unlock_settings">ਤਕਨੀਕੀ ਅਣ-ਲਾਕ ਕਰਨਾ</string>
+    <string name="menu_device_unlock_settings">ਤਕਨੀਕੀ ਅਣ-ਲਾਕ ਕਰਨਾ</string>
     <string name="menu_form_filling_settings">ਫਾਰਮ ਭਰਨਾ</string>
     <string name="menu_app_settings">ਐਪ ਸੈਟਿੰਗਾਂ</string>
     <string name="settings">ਸੈਟਿੰਗਾਂ</string>
@@ -260,7 +260,7 @@
     <string name="unavailable_feature_text">ਇਹ ਫੀਚਰ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।</string>
     <string name="biometric_delete_all_key_title">ਇੰਕ੍ਰਿਪਸ਼ਨ ਕੁੰਜੀਆਂ ਹਟਾਓ</string>
     <string name="biometric_unlock_enable_title">ਬਾਇਓਮੈਟਰਿਕ ਅਣ-ਲਾਕ ਕਰਨਾ</string>
-    <string name="advanced_unlock">ਤਕਨੀਕੀ ਅਣ-ਲਾਕ</string>
+    <string name="device_unlock">ਤਕਨੀਕੀ ਅਣ-ਲਾਕ</string>
     <string name="lock_database_show_button_summary">ਵਰਤੋਂਕਾਰ ਇੰਟਰਫੇਸ ਉੱਤੇ ਲਾਕ ਬਟਨ ਦਿਸਦਾ ਹੈ</string>
     <string name="lock_database_show_button_title">ਲਾਕ ਬਟਨ ਵੇਖੋ</string>
     <string name="lock_database_back_root_title">ਲਾਕ ਕਰਨ ਲਈ \'ਪਿੱਛੇ\' ਨੂੰ ਦਬਾਓ</string>
@@ -302,7 +302,7 @@
     <string name="sort_db">ਕੁਦਰਤੀ ਕ੍ਰਮ</string>
     <string name="rounds">ਟਰਾਂਸਫਰਮੇਸ਼ਨ ਰਾਊਂਡ</string>
     <string name="biometric_unlock_enable_summary">ਡਾਟਾਬੇਸ ਖੋਲ੍ਹਣ ਲਈ ਤੁਹਾਨੂੰ ਬਾਇਓਮੈਟਰਿਕ ਸਕੈਨ ਕਰਨ ਦਿੰਦਾ ਹੈ</string>
-    <string name="advanced_unlock_explanation_summary">ਡਾਟਾਬੇਸ ਨੂੰ ਵੱਧ ਸੌਖੇ ਢੰਗ ਨਾਲ ਖੋਲ੍ਹਣ ਲਈ ਤਕਨੀਕੀ ਅਣ-ਲਾਕ ਢੰਗ ਨੂੰ ਵਰਤੋਂ</string>
+    <string name="device_unlock_explanation_summary">ਡਾਟਾਬੇਸ ਨੂੰ ਵੱਧ ਸੌਖੇ ਢੰਗ ਨਾਲ ਖੋਲ੍ਹਣ ਲਈ ਤਕਨੀਕੀ ਅਣ-ਲਾਕ ਢੰਗ ਨੂੰ ਵਰਤੋਂ</string>
     <string name="allow_copy_password_summary">ਐੰਟਰੀ ਪਾਸਵਰਡ ਅਤੇ ਸੁਰੱਖਿਅਤ ਖੇਤਰਾਂ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
     <string name="allow_copy_password_title">ਕਲਿੱਪਬੋਰਡ ਟਰੱਸਟ</string>
     <string name="monospace_font_fields_enable_title">ਖੇਤਰ ਦੇ ਫ਼ੋਂਟ</string>

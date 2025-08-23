@@ -189,7 +189,7 @@
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
     <string name="lock_database_screen_off_summary">Ekran kapandığında birkaç saniye sonra veri tabanını kilitle</string>
-    <string name="advanced_unlock">Cihaz kilidini aç</string>
+    <string name="device_unlock">Cihaz kilidini aç</string>
     <string name="biometric_unlock_enable_title">Biyometrik kilit açma</string>
     <string name="biometric_unlock_enable_summary">Veri tabanını açmak için biyometriklerinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
@@ -329,7 +329,7 @@
     <string name="content_description_update_from_list">Güncelle</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
     <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veri tabanı oluşturulamıyor.</string>
-    <string name="menu_advanced_unlock_settings">Cihaz kilidini aç</string>
+    <string name="menu_device_unlock_settings">Cihaz kilidini aç</string>
     <string name="biometric">Biyometrik</string>
     <string name="biometric_auto_open_prompt_title">Otomatik açma istemi</string>
     <string name="biometric_auto_open_prompt_summary">Veritabanı onu kullanacak şekilde ayarlanmışsa cihazın kilidini otomatik olarak talep et</string>
@@ -361,7 +361,7 @@
     <string name="contains_duplicate_uuid_procedure">Tekrarlananlar için yeni UUID\'ler oluşturarak sorunu çöz ve devam et\?</string>
     <string name="database_opened">Veri tabanı açıldı</string>
     <string name="clipboard_explanation_summary">Aygıtınızın panosunu kullanarak girdi alanlarını kopyalayın</string>
-    <string name="advanced_unlock_explanation_summary">Bir veritabanını daha kolay açmak için cihazın kilidini açmayı kullanın</string>
+    <string name="device_unlock_explanation_summary">Bir veritabanını daha kolay açmak için cihazın kilidini açmayı kullanın</string>
     <string name="database_data_compression_title">Veri sıkıştırma</string>
     <string name="database_data_compression_summary">Veri sıkıştırma veri tabanı boyutunu azaltır</string>
     <string name="max_history_items_title">Azami sayı</string>
@@ -481,33 +481,33 @@
     <string name="search_mode">Arama modu</string>
     <string name="error_registration_read_only">Salt okunur bir veri tabanında yeni bir öge kaydetmeye izin verilmiyor.</string>
     <string name="error_field_name_already_exists">Alan adı zaten var.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Cihaz kilit açma tanımayla ilgili tüm şifreleme anahtarları silinsin mi\?</string>
+    <string name="device_unlock_delete_all_key_warning">Cihaz kilit açma tanımayla ilgili tüm şifreleme anahtarları silinsin mi\?</string>
     <string name="device_credential_unlock_enable_summary">Veri tabanını açmak için aygıt kimlik bilgilerinizi kullanmanıza olanak tanır</string>
     <string name="device_credential_unlock_enable_title">Aygıt kimlik bilgisiyle kilit açma</string>
     <string name="device_credential">Aygıt kimlik bilgileri</string>
-    <string name="credential_before_click_advanced_unlock_button">Parolayı yazın ve ardından bu düğmeye tıklayın.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Cihaz kilit açma istemi başlatılamıyor.</string>
+    <string name="credential_before_click_device_unlock_button">Parolayı yazın ve ardından bu düğmeye tıklayın.</string>
+    <string name="device_unlock_prompt_not_initialized">Cihaz kilit açma istemi başlatılamıyor.</string>
     <string name="unavailable">Kullanım dışı</string>
-    <string name="advanced_unlock_not_recognized">Cihaz kilit açma parmak izi tanınamadı</string>
-    <string name="advanced_unlock_invalid_key">Cihazın kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma prosedürünü tekrarlayın.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Cihaz kilit açma verileriyle veritabanı kimlik bilgilerini çıkarın</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Cihaz kilidini tanıma</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Cihaz kilit açma tanımayı kullanıyorsanız kasa ana kimlik bilgilerinizi yine de hatırlamanız gerekir.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Cihaz kilidini açma bağlantısı</string>
+    <string name="device_unlock_not_recognized">Cihaz kilit açma parmak izi tanınamadı</string>
+    <string name="device_unlock_invalid_key">Cihazın kilit açma anahtarı okunamıyor. Lütfen silin ve kilit açma tanıma prosedürünü tekrarlayın.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Cihaz kilit açma verileriyle veritabanı kimlik bilgilerini çıkarın</string>
+    <string name="device_unlock_prompt_extract_credential_title">Cihaz kilidini tanıma</string>
+    <string name="device_unlock_prompt_store_credential_message">Cihaz kilit açma tanımayı kullanıyorsanız kasa ana kimlik bilgilerinizi yine de hatırlamanız gerekir.</string>
+    <string name="device_unlock_prompt_store_credential_title">Cihaz kilidini açma bağlantısı</string>
     <string name="menu_keystore_remove_key">Cihaz kilit açma anahtarını sil</string>
     <string name="enter">Enter</string>
     <string name="backspace">Backspace</string>
     <string name="select_entry">Girdi seç</string>
     <string name="back_to_previous_keyboard">Önceki klavyeye geri dön</string>
     <string name="custom_fields">Özel alanlar</string>
-    <string name="education_advanced_unlock_summary">Veri tabanınızın kilidini hızlı bir şekilde açmak için parolanızı taranmış biyometrik veya aygıt kimlik bilgilerinize bağlayın.</string>
-    <string name="education_advanced_unlock_title">Cihaz veritabanı kilidini açma</string>
-    <string name="advanced_unlock_timeout">Cihaz kilidini açma zaman aşımı</string>
-    <string name="temp_advanced_unlock_timeout_summary">İçeriğini silmeden önce cihazın kilit açma kullanım süresi</string>
-    <string name="temp_advanced_unlock_timeout_title">Cihaz kilidini açma süresi doldu</string>
-    <string name="temp_advanced_unlock_enable_summary">Cihaz kilidini açmak için şifrelenmiş içerik saklamayın</string>
-    <string name="temp_advanced_unlock_enable_title">Geçici kilit açma</string>
-    <string name="advanced_unlock_tap_delete">Cihaz kilit açma anahtarlarını silmek için dokunun</string>
+    <string name="education_device_unlock_summary">Veri tabanınızın kilidini hızlı bir şekilde açmak için parolanızı taranmış biyometrik veya aygıt kimlik bilgilerinize bağlayın.</string>
+    <string name="education_device_unlock_title">Cihaz veritabanı kilidini açma</string>
+    <string name="device_unlock_timeout">Cihaz kilidini açma zaman aşımı</string>
+    <string name="temp_device_unlock_timeout_summary">İçeriğini silmeden önce cihazın kilit açma kullanım süresi</string>
+    <string name="temp_device_unlock_timeout_title">Cihaz kilidini açma süresi doldu</string>
+    <string name="temp_device_unlock_enable_summary">Cihaz kilidini açmak için şifrelenmiş içerik saklamayın</string>
+    <string name="temp_device_unlock_enable_title">Geçici kilit açma</string>
+    <string name="device_unlock_tap_delete">Cihaz kilit açma anahtarlarını silmek için dokunun</string>
     <string name="content">İçerik</string>
     <string name="error_rebuild_list">Liste düzgün şekilde yeniden oluşturulamıyor.</string>
     <string name="error_database_uri_null">Veri tabanı URI\'si alınamıyor.</string>
@@ -615,7 +615,7 @@
     <string name="menu_save_copy_to">Bir kopyasını şuraya kaydet…</string>
     <string name="expired">Süresi doldu</string>
     <string name="warning_database_already_opened">Bir veri tabanı zaten açık, yenisini açmak için önce onu kapatın</string>
-    <string name="advanced_unlock_keystore_warning">Bu özellik, şifrelenen kimlik bilgilerini aygıtınızın güvenli anahtar deposunda saklayacaktır.
+    <string name="device_unlock_keystore_warning">Bu özellik, şifrelenen kimlik bilgilerini aygıtınızın güvenli anahtar deposunda saklayacaktır.
 \n
 \nİşletim sisteminin yerel API uygulamasına bağlı olarak, tam olarak işlevsel olmayabilir.
 \n
@@ -671,7 +671,7 @@
     <string name="configure">Yapılandır</string>
     <string name="menu_appearance_settings_summary">Temalar, renkler, öznitellikler</string>
     <string name="menu_security_settings_summary">Şifreleme, anahtar türetme işlevi</string>
-    <string name="menu_advanced_unlock_settings_summary">Biyometri, cihaz kimlik bilgisi</string>
+    <string name="menu_device_unlock_settings_summary">Biyometri, cihaz kimlik bilgisi</string>
     <string name="education_validate_entry_summary">Girişinizi doğrulamayı ve veritabanınızı kaydetmeyi unutmayın.
 \n
 \nOtomatik kilitleme etkinleştirilirse ve değişiklik yaptığınızı unutursanız verilerinizi kaybetme riskiyle karşı karşıya kalırsınız.</string>

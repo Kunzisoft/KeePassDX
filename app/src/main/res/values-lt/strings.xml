@@ -187,7 +187,7 @@
     <string name="creating_database">Kuriama duomenų bazė…</string>
     <string name="copy_field">%1$s kopija</string>
     <string name="menu_form_filling_settings">Formų pildymas</string>
-    <string name="menu_advanced_unlock_settings">Įrenginio atrakinimas</string>
+    <string name="menu_device_unlock_settings">Įrenginio atrakinimas</string>
     <string name="menu_security_settings">Saugumo nustatymai</string>
     <string name="read_only_warning">Priklausomai nuo jūsų failų tvarkyklės, KeePassDX gali būti neleidžiama rašyti į jūsų saugyklą.</string>
     <string name="remember_hardware_key_title">Prisiminti aparatinės įrangos raktus</string>
@@ -350,7 +350,7 @@
     <string name="recycle_bin_group_title">Šiukšliadėžės grupė</string>
     <string name="menu_master_key_settings">Pagrindinio rakto nustatymai</string>
     <string name="permission">Leidimas</string>
-    <string name="credential_before_click_advanced_unlock_button">Įveskite slaptažodį ir spustelėkite šį mygtuką.</string>
+    <string name="credential_before_click_device_unlock_button">Įveskite slaptažodį ir spustelėkite šį mygtuką.</string>
     <string name="warning_sure_add_file">Ar vis tiek įkelti failą?</string>
     <string name="file_name">Failo pavadinimas</string>
     <string name="hint_icon_name">Ikonos pavadinimas</string>
@@ -370,7 +370,7 @@
     <string name="autofill_explanation_summary">Įgalinkite automatinį pildymą, kad galėtumėte greitai užpildyti formas kitose programose</string>
     <string name="lock_database_back_root_title">Paspauskite \"Atgal\", kad užrakintumėte</string>
     <string name="lock_database_show_button_summary">Naudotojo sąsajoje rodomas užrakto mygtukas</string>
-    <string name="advanced_unlock">Įrenginio atrakinimas</string>
+    <string name="device_unlock">Įrenginio atrakinimas</string>
     <string name="info">Informacija</string>
     <string name="error_challenge_already_requested">Iššūkis jau prašytas.</string>
     <string name="error_unable_merge_database_kdb">Neįmanoma apjungti su duomenų baze V1.</string>
@@ -394,7 +394,7 @@
     <string name="merge_success">Apjungimas sėkmingai įvykdytas</string>
     <string name="configure">Konfigūruoti</string>
     <string name="biometric_security_update_required">Reikalingas biometrinių duomenų saugumo atnaujinimas.</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Jei naudojate įrenginio atrakinimo atpažinimą, vis tiek turite prisiminti pagrindinį saugyklos raktą</string>
+    <string name="device_unlock_prompt_store_credential_message">Jei naudojate įrenginio atrakinimo atpažinimą, vis tiek turite prisiminti pagrindinį saugyklos raktą</string>
     <string name="database_history">Istorija</string>
     <string name="properties">Nustatymai</string>
     <string name="menu_appearance_settings_summary">Temos, spalvos, atributai</string>
@@ -431,7 +431,7 @@
     <string name="lock_database_screen_off_summary">Užrakinti saugyklą po kelių sekundžių nuo ekranas išjungimo</string>
     <string name="biometric_unlock_enable_summary">Leidžia nuskaityti biometrinius duomenis tam, kad atverti saugyklą</string>
     <string name="recycle_bin_title">Šiukšliadėžės naudojimas</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Įrenginio atrakinimo atpažinimas</string>
+    <string name="device_unlock_prompt_extract_credential_title">Įrenginio atrakinimo atpažinimas</string>
     <string name="lock_database_show_button_title">Rodyti užrakto mygtuką</string>
     <string name="content">Turinys</string>
 </resources>

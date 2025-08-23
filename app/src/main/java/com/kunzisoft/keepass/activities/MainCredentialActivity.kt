@@ -74,7 +74,7 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
-import com.kunzisoft.keepass.settings.AdvancedUnlockSettingsActivity
+import com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity
 import com.kunzisoft.keepass.settings.AppearanceSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -98,7 +98,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var toolbar: Toolbar? = null
     private var filenameView: TextView? = null
     private var logotypeButton: View? = null
-    private var advancedUnlockButton: View? = null
+    private var deviceUnlockButton: View? = null
     private var mainCredentialView: MainCredentialView? = null
     private var confirmButtonView: Button? = null
     private var infoContainerView: ViewGroup? = null
@@ -137,7 +137,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         filenameView = findViewById(R.id.filename)
         logotypeButton = findViewById(R.id.activity_password_logotype)
-        advancedUnlockButton = findViewById(R.id.fragment_advanced_unlock_container_view)
+        deviceUnlockButton = findViewById(R.id.fragment_device_unlock_container_view)
         mainCredentialView = findViewById(R.id.activity_password_credentials)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         infoContainerView = findViewById(R.id.activity_password_info_container)
@@ -267,14 +267,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         // Init Biometric elements only if allowed
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-            && PreferencesUtil.isAdvancedUnlockEnable(this)) {
+            && PreferencesUtil.isDeviceUnlockEnable(this)) {
             deviceUnlockFragment = supportFragmentManager
                 .findFragmentByTag(UNLOCK_FRAGMENT_TAG) as? DeviceUnlockFragment?
             if (deviceUnlockFragment == null) {
                 deviceUnlockFragment = DeviceUnlockFragment().also {
                     supportFragmentManager.commit {
                         replace(
-                            R.id.fragment_advanced_unlock_container_view,
+                            R.id.fragment_device_unlock_container_view,
                             it,
                             UNLOCK_FRAGMENT_TAG
                         )
@@ -664,14 +664,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
                     val biometricCanAuthenticate = DeviceUnlockManager.canAuthenticate(this)
                     if ((biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
                             || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
-                            && advancedUnlockButton != null) {
+                            && deviceUnlockButton != null) {
                         mPasswordActivityEducation.checkAndPerformedBiometricEducation(
-                            advancedUnlockButton!!,
+                            deviceUnlockButton!!,
                             {
                                 startActivity(
                                     Intent(
                                         this,
-                                        AdvancedUnlockSettingsActivity::class.java
+                                        DeviceUnlockSettingsActivity::class.java
                                     )
                                 )
                             },

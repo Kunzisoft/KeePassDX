@@ -283,7 +283,7 @@
     <string name="menu_copy">Kopioi</string>
     <string name="menu_master_key_settings">Pääavainasetukset</string>
     <string name="menu_security_settings">Turvallisuusasetukset</string>
-    <string name="menu_advanced_unlock_settings">Edistynyt lukituksen avaaminen</string>
+    <string name="menu_device_unlock_settings">Edistynyt lukituksen avaaminen</string>
     <string name="menu_form_filling_settings">Lomakkeen täyttö</string>
     <string name="copy_field">Kopio %1$s:sta</string>
     <string name="creating_database">Luodaan tietokantaa…</string>
@@ -412,7 +412,7 @@
     <string name="warning_empty_keyfile">Tyhjän avaintiedoston lisääminen ei ole suositeltavaa.</string>
     <string name="menu_app_settings_summary">Haku, lukitus, historia, oninaisuudet</string>
     <string name="menu_form_filling_settings_summary">Näppäimistö, automaattinen täyttö, leikepöytä</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometria, laitevaltuutus</string>
+    <string name="menu_device_unlock_settings_summary">Biometria, laitevaltuutus</string>
     <string name="menu_database_settings_summary">Metadata, roskakori, pohjat, historia</string>
     <string name="menu_security_settings_summary">Salaus, avaimen johtamisfunktio</string>
     <string name="master_key_settings_summary">Muutos, uudistus</string>

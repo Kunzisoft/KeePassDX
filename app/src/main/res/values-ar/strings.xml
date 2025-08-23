@@ -184,7 +184,7 @@
     <string name="path">مسار</string>
     <string name="database_history">تأريخ</string>
     <string name="clipboard_notifications_summary">أظهر اشعارات الحافظة لنسخ الحقول عند عرض مدخل</string>
-    <string name="advanced_unlock">فتح الجهاز</string>
+    <string name="device_unlock">فتح الجهاز</string>
     <string name="biometric_unlock_enable_title">فحص البصمة</string>
     <string name="biometric_unlock_enable_summary">يتيح لك مسح بياناتك الحيوية لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>
@@ -260,7 +260,7 @@
     <string name="content_description_update_from_list">حدِّث</string>
     <string name="content_description_keyboard_close_fields">أغلق الحقول</string>
     <string name="error_create_database_file">تعذر إنشاء قاعدة بيانات بكلمة السر وملف المفتاح الحاليين.</string>
-    <string name="menu_advanced_unlock_settings">فك قفل الجهاز</string>
+    <string name="menu_device_unlock_settings">فك قفل الجهاز</string>
     <string name="entry_attachments">مرفقات</string>
     <string name="entry_history">التاريخ</string>
     <string name="entry_add_attachment">أضف مرفقًا</string>
@@ -334,7 +334,7 @@
     <string name="data">البيانات</string>
     <string name="unavailable_feature_hardware">تعذر العثور على ماسح البصمة.</string>
     <string name="biometric_delete_all_key_summary">احذف كل مفاتيح التعمية المرتبطة بفتح الجهاز</string>
-    <string name="advanced_unlock_explanation_summary">استخدم إلغاء القفل الجهاز لفتح قاعدة البيانات بسهولة</string>
+    <string name="device_unlock_explanation_summary">استخدم إلغاء القفل الجهاز لفتح قاعدة البيانات بسهولة</string>
     <string name="lock_database_show_button_summary">يعرض زر القَفل في الواجهة</string>
     <string name="lock_database_show_button_title">أظهر زر القفل</string>
     <string name="lock_database_back_root_summary">قفل قاعدة البيانات عند النقر على زر الرجوع في الشاشة الرئيسية</string>
@@ -343,7 +343,7 @@
     <string name="database_opened">قاعدة البيانات مفتوحة</string>
     <string name="autofill_preference_title">إعدادات الملء التلقائي</string>
     <string name="education_entry_edit_title">عدّل المدخل</string>
-    <string name="education_advanced_unlock_summary">اربط كلمة سر ببياناتك البيومترية الممسوحة ضوئيًا أو بيانات اعتماد جهازك لفتح قفل قاعدة بياناتك بسرعة.</string>
+    <string name="education_device_unlock_summary">اربط كلمة سر ببياناتك البيومترية الممسوحة ضوئيًا أو بيانات اعتماد جهازك لفتح قفل قاعدة بياناتك بسرعة.</string>
     <string name="education_search_summary">لإيجاد كلمة السر، أدخل العنوان أو اسم المستخدم أو محتوى أحد الحقول.</string>
     <string name="education_new_node_summary">المدخلات لإدارة معرفاتك الرقمية.
 \n
@@ -463,13 +463,13 @@
     <string name="error_export_app_properties">خطأ أثناء تصدير إعدادات التطبيق.</string>
     <string name="warning_database_info_changed">غُيِّرت معلومات قاعدة البيانات من خارج هذا التطبيق.</string>
     <string name="warning_database_info_changed_options">ادمج البيانات أو استبدل التعديلات الخارجية بحفظ قاعدة البيانات أو أعد تحميلها لجلب آخر التغييرات.</string>
-    <string name="credential_before_click_advanced_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
+    <string name="credential_before_click_device_unlock_button">اكتب كلمة السر، وأنقر هذا الزر.</string>
     <string name="device_credential">بيانات الاعتماد للجهاز</string>
-    <string name="advanced_unlock_tap_delete">انقر لحذف مفاتيح فتح الجهاز</string>
+    <string name="device_unlock_tap_delete">انقر لحذف مفاتيح فتح الجهاز</string>
     <string name="keyboard_auto_go_action_title">إجراء اللمس التلقائي</string>
     <string name="keyboard_previous_fill_in_title">العودة إلى الوراء</string>
     <string name="keyboard_previous_lock_title">اقفل قاعدة البيانات</string>
-    <string name="education_advanced_unlock_title">فتح قاعدة بيانات الجهاز</string>
+    <string name="education_device_unlock_title">فتح قاعدة بيانات الجهاز</string>
     <string name="hint_icon_name">اسم الأيقونة</string>
     <string name="autofill_manual_selection_title">اختيار يدوي</string>
     <string name="description_app_properties">خصائص KeePassDX لإدارة إعدادات التطبيقات</string>
@@ -506,14 +506,14 @@
     <string name="autofill_close_database_summary">أغلق قاعدة البيانات بعد الملء التلقائي</string>
     <string name="autofill_ask_to_save_data_summary">اسأل عن حفظ البيانات عند ملئك لنموذج</string>
     <string name="templates_group_uuid_title">مجموعة القوالب</string>
-    <string name="advanced_unlock_timeout">انتهت مهلة فتح الجهاز</string>
-    <string name="temp_advanced_unlock_timeout_summary">مهلة استخدام فتح الجهاز قبل حذف محتواها</string>
-    <string name="advanced_unlock_delete_all_key_warning">أتريد حذف كل مفاتيح التعمية المرتبطة بفتح الجهاز؟</string>
+    <string name="device_unlock_timeout">انتهت مهلة فتح الجهاز</string>
+    <string name="temp_device_unlock_timeout_summary">مهلة استخدام فتح الجهاز قبل حذف محتواها</string>
+    <string name="device_unlock_delete_all_key_warning">أتريد حذف كل مفاتيح التعمية المرتبطة بفتح الجهاز؟</string>
     <string name="templates">القوالب</string>
     <string name="templates_group_enable_title">استخدام القوالب</string>
     <string name="notification">الإشعارات</string>
-    <string name="temp_advanced_unlock_enable_summary">لا تقم بتخزين أي محتوى مشفر لاستخدام إلغاء قفل الجهاز</string>
-    <string name="temp_advanced_unlock_timeout_title">انتهاء صلاحية فتح الحهاز</string>
+    <string name="temp_device_unlock_enable_summary">لا تقم بتخزين أي محتوى مشفر لاستخدام إلغاء قفل الجهاز</string>
+    <string name="temp_device_unlock_timeout_title">انتهاء صلاحية فتح الحهاز</string>
     <string name="hide_expired_entries_title">أخفِ المدخلات منتهية الصلاحية</string>
     <string name="content_description_hardware_key_checkbox">خانة إختيار مفتاح العتاد</string>
     <string name="content_description_passphrase_word_count">عدد عبارات السر</string>
@@ -521,10 +521,10 @@
     <string name="passphrase">عبارة السر</string>
     <string name="colorize_password_title">لوّن كلمات السر</string>
     <string name="permission">الإذن</string>
-    <string name="advanced_unlock_prompt_not_initialized">تعذر تهيئة موجه إلغاء قفل الجهاز.</string>
+    <string name="device_unlock_prompt_not_initialized">تعذر تهيئة موجه إلغاء قفل الجهاز.</string>
     <string name="biometric_security_update_required">مطلوب تحديث أمان المقاييس الحيوية.</string>
-    <string name="advanced_unlock_not_recognized">تعذر التعرف على طباعة فتح الجهاز</string>
-    <string name="temp_advanced_unlock_enable_title">فتح جهاز مؤقت</string>
+    <string name="device_unlock_not_recognized">تعذر التعرف على طباعة فتح الجهاز</string>
+    <string name="temp_device_unlock_enable_title">فتح جهاز مؤقت</string>
     <string name="autofill_inline_suggestions_title">اقتراحات مضمنة</string>
     <string name="education_setup_OTP_summary">أعِدّ إدارة كلمات السر لمرة واحدة (HOTP / TOTP) لإنشاء رمز مميز مطلوب لاستيثاق الثنائي (2FA).</string>
     <string name="education_field_copy_summary">يمكن لصق الحقول المنسوخة في أي مكان.
@@ -594,7 +594,7 @@
     <string name="html_text_dev_feature_buy_pro">بشراء الإصدار &lt;strong&gt; pro &lt;/strong&gt;،</string>
     <string name="auto_type">كتابة تلقائيًا</string>
     <string name="hardware_key">مفتاح العتاد</string>
-    <string name="advanced_unlock_prompt_store_credential_title">رابط لفتح الجهاز</string>
+    <string name="device_unlock_prompt_store_credential_title">رابط لفتح الجهاز</string>
     <string name="backspace">فراغ للخلف</string>
     <string name="enter">دخول</string>
     <string name="education_sort_summary">اختر كيفية فرز المدخلات والمجموعات.</string>
@@ -618,7 +618,7 @@
     <string name="error_driver_required">مطلوب تعريف لـ%1$s.</string>
     <string name="error_unable_merge_database_kdb">غير قادر على الدمج مع ملف قاعدة بيانات kdb.</string>
     <string name="error_location_unknown">موقع قاعدة البيانات غير معروف، لا يمكن تنفيذ إجراء قاعدة البيانات.</string>
-    <string name="menu_advanced_unlock_settings_summary">القياس الحيوي، بيانات اعتماد الجهاز</string>
+    <string name="menu_device_unlock_settings_summary">القياس الحيوي، بيانات اعتماد الجهاز</string>
     <string name="menu_database_settings_summary">البيانات الوصفية، سلة المحذوفات، القوالب، التاريخ</string>
     <string name="menu_security_settings_summary">التشفير، وظيفة اشتقاق المفتاح</string>
     <string name="error_hardware_key_unsupported">مفتاح العتاد غير مدعوم.</string>
@@ -635,16 +635,16 @@
 \nإذا لم تنشط هذا الإذن، فلن تكون قاعدة البيانات المفتوحة في الخلفية مرئية إذا كان هناك تطبيق آخر في المقدمة.</string>
     <string name="warning_copy_permission">مطلوب إذن الإشعار لاستخدام ميزة إشعار الحافظة.</string>
     <string name="merge_success">اكتمل الدمج بنجاح</string>
-    <string name="advanced_unlock_prompt_store_credential_message">ما زلت بحاجة إلى تذكر بيانات الاعتماد الرئيسية في مخزنك إذا كنت تستخدم التعرّف على فتح الجهاز.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">التعرف على فتح الجهاز</string>
+    <string name="device_unlock_prompt_store_credential_message">ما زلت بحاجة إلى تذكر بيانات الاعتماد الرئيسية في مخزنك إذا كنت تستخدم التعرّف على فتح الجهاز.</string>
+    <string name="device_unlock_prompt_extract_credential_title">التعرف على فتح الجهاز</string>
     <string name="later">لاحقًا</string>
     <string name="configure">تضبيط</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">استخراج بيانات اعتماد قاعدة البيانات مع بيانات فتح الجهاز</string>
+    <string name="device_unlock_prompt_extract_credential_message">استخراج بيانات اعتماد قاعدة البيانات مع بيانات فتح الجهاز</string>
     <string name="ask">إسأل</string>
     <string name="configure_biometric">لم تسجل بيانات اعتماد المقاييس الحيوية أو الجهاز.</string>
     <string name="show_uuid_title">أظهر \"المعرّف العام المميز\" UUID</string>
     <string name="unlock_and_link_biometric">رابط فتح الجهاز</string>
-    <string name="advanced_unlock_invalid_key">لا يمكن قراءة مفتاح فتح الجهاز. يرجى حذفه وتكرار إجراء التعرف على الفتح.</string>
+    <string name="device_unlock_invalid_key">لا يمكن قراءة مفتاح فتح الجهاز. يرجى حذفه وتكرار إجراء التعرف على الفتح.</string>
     <string name="menu_appearance_settings_summary">المظاهر والألوان والسمات</string>
     <string name="autofill_explanation_summary">تمكين الملء التلقائي لملء النماذج بسرعة في التطبيقات الأخرى</string>
     <string name="device_credential_unlock_enable_summary">يتيح لك استخدام بيانات اعتماد جهازك لفتح قاعدة البيانات</string>
@@ -652,7 +652,7 @@
     <string name="unlock">فتح</string>
     <string name="menu_app_settings_summary">البحث، القفل، التاريخ، الخصائص</string>
     <string name="menu_form_filling_settings_summary">لوحة المفاتيح، الملء التلقائي، الحافظة</string>
-    <string name="advanced_unlock_keystore_warning">ستقوم هذه الميزة بتخزين بيانات الاعتماد المشفرة في KeyStore الآمن بجهازك.
+    <string name="device_unlock_keystore_warning">ستقوم هذه الميزة بتخزين بيانات الاعتماد المشفرة في KeyStore الآمن بجهازك.
 \n
 \nاعتمادًا على تطبيق API الأصلي لنظام التشغيل، قد لا يعمل بكامل طاقته.
 \n

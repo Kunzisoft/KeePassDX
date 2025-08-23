@@ -194,7 +194,7 @@
     <string name="lock">Zamknout</string>
     <string name="lock_database_screen_off_title">Zámek obrazovky</string>
     <string name="lock_database_screen_off_summary">Několik vteřin po zhasnutí obrazovky uzamknout databázi</string>
-    <string name="advanced_unlock">Odemykání zařízení</string>
+    <string name="device_unlock">Odemykání zařízení</string>
     <string name="biometric_unlock_enable_title">Biometrické odemknutí</string>
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním biometrického údaje</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
@@ -333,7 +333,7 @@
     <string name="content_description_update_from_list">Aktualizovat</string>
     <string name="content_description_keyboard_close_fields">Zavřít kolonky</string>
     <string name="error_create_database_file">Nepodařilo se vytvořit databázi s tímto heslem a souborem klíče.</string>
-    <string name="menu_advanced_unlock_settings">Odemknutí zařízení</string>
+    <string name="menu_device_unlock_settings">Odemknutí zařízení</string>
     <string name="biometric">Biometrika</string>
     <string name="biometric_auto_open_prompt_title">Automaticky otevřít pobídku</string>
     <string name="biometric_auto_open_prompt_summary">Automaticky žádat odemykání zařízení, je-li databáze nastavena k jejímu použití</string>
@@ -365,7 +365,7 @@
     <string name="contains_duplicate_uuid_procedure">Opravit chybu založením nového UUID pro duplikáty a pokračovat\?</string>
     <string name="database_opened">Databáze otevřena</string>
     <string name="clipboard_explanation_summary">Kopírovat kolonky záznamů pomocí schránky Vašeho zařízení</string>
-    <string name="advanced_unlock_explanation_summary">Pro snadnější otevření databáze použít odemykání zařízení</string>
+    <string name="device_unlock_explanation_summary">Pro snadnější otevření databáze použít odemykání zařízení</string>
     <string name="database_data_compression_title">Komprese dat</string>
     <string name="database_data_compression_summary">Komprese dat snižuje velikost databáze</string>
     <string name="max_history_items_title">Maximální počet</string>
@@ -493,27 +493,27 @@
     <string name="select_entry">Vybrat záznam</string>
     <string name="back_to_previous_keyboard">Zpět na předchozí klávesnici</string>
     <string name="custom_fields">Vlastní kolonky</string>
-    <string name="advanced_unlock_delete_all_key_warning">Odstranit všechny šifrovací klíče související s rozpoznáním odemykání zařízení\?</string>
+    <string name="device_unlock_delete_all_key_warning">Odstranit všechny šifrovací klíče související s rozpoznáním odemykání zařízení\?</string>
     <string name="device_credential_unlock_enable_summary">Dovolí pro otevření databáze použít heslo Vašeho zařízení</string>
     <string name="device_credential_unlock_enable_title">Odemknutí heslem zařízení</string>
     <string name="device_credential">Heslo zařízení</string>
-    <string name="credential_before_click_advanced_unlock_button">Zadejte heslo a pak klepněte na toto tlačítko.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Nepodařilo se inicializovat nabídku pro odemykání zařízení.</string>
-    <string name="advanced_unlock_not_recognized">Otisk pro odemykání zařízení nebyl rozpoznán</string>
-    <string name="advanced_unlock_invalid_key">Nepodařilo se načíst klíč odemykání zařízení. Odstraňte ho a opakujte proces rozpoznání odemknutí.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Načíst údaj z databáze pomocí dat odemykání zařízení</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Rozpoznání odemykání zařízení</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Pokud použijete rozpoznání odemykání zařízení, musíte si i nadále pamatovat hlavní heslo trezoru.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Propojit s odemykáním zařízení</string>
+    <string name="credential_before_click_device_unlock_button">Zadejte heslo a pak klepněte na toto tlačítko.</string>
+    <string name="device_unlock_prompt_not_initialized">Nepodařilo se inicializovat nabídku pro odemykání zařízení.</string>
+    <string name="device_unlock_not_recognized">Otisk pro odemykání zařízení nebyl rozpoznán</string>
+    <string name="device_unlock_invalid_key">Nepodařilo se načíst klíč odemykání zařízení. Odstraňte ho a opakujte proces rozpoznání odemknutí.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Načíst údaj z databáze pomocí dat odemykání zařízení</string>
+    <string name="device_unlock_prompt_extract_credential_title">Rozpoznání odemykání zařízení</string>
+    <string name="device_unlock_prompt_store_credential_message">Pokud použijete rozpoznání odemykání zařízení, musíte si i nadále pamatovat hlavní heslo trezoru.</string>
+    <string name="device_unlock_prompt_store_credential_title">Propojit s odemykáním zařízení</string>
     <string name="menu_keystore_remove_key">Smazat klíč odemknutí zařízení</string>
-    <string name="education_advanced_unlock_title">Odemykání databáze zařízením</string>
-    <string name="advanced_unlock_timeout">Časový limit odemykání zařízení</string>
-    <string name="temp_advanced_unlock_timeout_summary">Trvání použití odemykání zařízení, než bude obsah smazán</string>
-    <string name="temp_advanced_unlock_enable_summary">Za účelem odemykání zařízení neukládat žádný šifrovaný obsah</string>
-    <string name="temp_advanced_unlock_enable_title">Dočasné odemykání zařízení</string>
-    <string name="advanced_unlock_tap_delete">Klepněte pro odstranění klíčů odemykání zařízení</string>
-    <string name="education_advanced_unlock_summary">Abyste rychle odemknuli databázi, propojte své heslo s naskenovanou biometrikou nebo údaji zámku zařízení.</string>
-    <string name="temp_advanced_unlock_timeout_title">Vypršení odemykání zařízení</string>
+    <string name="education_device_unlock_title">Odemykání databáze zařízením</string>
+    <string name="device_unlock_timeout">Časový limit odemykání zařízení</string>
+    <string name="temp_device_unlock_timeout_summary">Trvání použití odemykání zařízení, než bude obsah smazán</string>
+    <string name="temp_device_unlock_enable_summary">Za účelem odemykání zařízení neukládat žádný šifrovaný obsah</string>
+    <string name="temp_device_unlock_enable_title">Dočasné odemykání zařízení</string>
+    <string name="device_unlock_tap_delete">Klepněte pro odstranění klíčů odemykání zařízení</string>
+    <string name="education_device_unlock_summary">Abyste rychle odemknuli databázi, propojte své heslo s naskenovanou biometrikou nebo údaji zámku zařízení.</string>
+    <string name="temp_device_unlock_timeout_title">Vypršení odemykání zařízení</string>
     <string name="content">Obsah</string>
     <string name="error_rebuild_list">Seznam nelze řádně sestavit.</string>
     <string name="error_database_uri_null">URI databáze nelze načíst.</string>
@@ -624,7 +624,7 @@
     <string name="colorize_password_title">Zabarvit hesla</string>
     <string name="colorize_password_summary">Zabarvit znaky hesla podle typu</string>
     <string name="warning_database_already_opened">Databáze je již otevřená, zavřete ji, než otevřete jinou</string>
-    <string name="advanced_unlock_keystore_warning">Tato funkce uloží přihlašovací údaje v bezpečném úložišti klíčů Vašeho zařízení.
+    <string name="device_unlock_keystore_warning">Tato funkce uloží přihlašovací údaje v bezpečném úložišti klíčů Vašeho zařízení.
 \n
 \nV závislosti na implementaci nativního API operačního systému nemusí být plně funkční.
 \n
@@ -671,7 +671,7 @@
     <string name="info">Informace</string>
     <string name="menu_app_settings_summary">Vyhledávání, uzamčení, historie, vlastnosti</string>
     <string name="menu_form_filling_settings_summary">Klávesnice, automatické vyplnění, schránka</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometrie, údaje zařízení</string>
+    <string name="menu_device_unlock_settings_summary">Biometrie, údaje zařízení</string>
     <string name="menu_database_settings_summary">Metadata, koš, šablony, historie</string>
     <string name="menu_security_settings_summary">Šifrování, funkce derivace klíče</string>
     <string name="master_key_settings_summary">Změna, obnovení</string>

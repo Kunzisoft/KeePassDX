@@ -179,7 +179,7 @@
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
     <string name="lock_database_screen_off_summary">Verrouille la base de données après quelques secondes une fois l’écran éteint</string>
-    <string name="advanced_unlock">Déverrouillage avancé</string>
+    <string name="device_unlock">Déverrouillage avancé</string>
     <string name="biometric_unlock_enable_title">Déverrouillage biométrique</string>
     <string name="biometric_unlock_enable_summary">Permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
     <string name="biometric_delete_all_key_title">Supprimer les clés de chiffrement</string>
@@ -353,7 +353,7 @@
     <string name="content_description_update_from_list">Mise à jour</string>
     <string name="content_description_keyboard_close_fields">Fermer les champs</string>
     <string name="error_create_database_file">Impossible de créer une base de données avec ce mot de passe et ce fichier clé.</string>
-    <string name="menu_advanced_unlock_settings">Déverrouillage de l\'appareil</string>
+    <string name="menu_device_unlock_settings">Déverrouillage de l\'appareil</string>
     <string name="enable">Activer</string>
     <string name="disable">Désactiver</string>
     <string name="biometric">Biométrie</string>
@@ -389,7 +389,7 @@
     <string name="contains_duplicate_uuid_procedure">Résoudre le problème en générant de nouveaux UUID pour les doublons et continuer \?</string>
     <string name="database_opened">Base de données ouverte</string>
     <string name="clipboard_explanation_summary">Copier les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
-    <string name="advanced_unlock_explanation_summary">Utiliser le déverrouillage de l\'appareil pour ouvrir plus facilement une base de données</string>
+    <string name="device_unlock_explanation_summary">Utiliser le déverrouillage de l\'appareil pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données</string>
     <string name="max_history_items_title">Nombre maximum</string>
@@ -503,32 +503,32 @@
     <string name="search_mode">Mode recherche</string>
     <string name="error_registration_read_only">L’enregistrement d’un nouvel élément n’est pas autorisé dans une base de données en lecture seule.</string>
     <string name="error_field_name_already_exists">Le nom du champ existe déjà.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Supprimer toutes les clés de chiffrement liées à la reconnaissance de déverrouillage de l\'appareil \?</string>
+    <string name="device_unlock_delete_all_key_warning">Supprimer toutes les clés de chiffrement liées à la reconnaissance de déverrouillage de l\'appareil \?</string>
     <string name="device_credential_unlock_enable_summary">Vous permet d\'utiliser les informations d\'identification de votre appareil pour ouvrir la base de données</string>
     <string name="device_credential_unlock_enable_title">Déverrouillage par identifiants de l\'appareil</string>
     <string name="device_credential">Identifiant de l\'appareil</string>
-    <string name="credential_before_click_advanced_unlock_button">Tapez le mot de passe, puis cliquez sur ce bouton.</string>
-    <string name="advanced_unlock_prompt_not_initialized">Impossible d\'initialiser l\'invite de déverrouillage avancé.</string>
-    <string name="advanced_unlock_not_recognized">Impossible de reconnaître l\'empreinte de déverrouillage de l\'appareil</string>
-    <string name="advanced_unlock_invalid_key">Impossible de lire la clé de déverrouillage de l\'appareil. Veuillez la supprimer et répéter la procédure de reconnaissance de déverrouillage.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Extraire les identifiants de la base de données avec des données de déverrouillage de l\'appareil</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Reconnaissance du déverrouillage de l\'appareil</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Vous devez toujours vous souvenir de l\'identifiant principal du coffre-fort si vous utilisez le déverrouillage de l\'appareil.</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Liaison vers le déverrouillage de l\'appareil</string>
+    <string name="credential_before_click_device_unlock_button">Tapez le mot de passe, puis cliquez sur ce bouton.</string>
+    <string name="device_unlock_prompt_not_initialized">Impossible d\'initialiser l\'invite de déverrouillage avancé.</string>
+    <string name="device_unlock_not_recognized">Impossible de reconnaître l\'empreinte de déverrouillage de l\'appareil</string>
+    <string name="device_unlock_invalid_key">Impossible de lire la clé de déverrouillage de l\'appareil. Veuillez la supprimer et répéter la procédure de reconnaissance de déverrouillage.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Extraire les identifiants de la base de données avec des données de déverrouillage de l\'appareil</string>
+    <string name="device_unlock_prompt_extract_credential_title">Reconnaissance du déverrouillage de l\'appareil</string>
+    <string name="device_unlock_prompt_store_credential_message">Vous devez toujours vous souvenir de l\'identifiant principal du coffre-fort si vous utilisez le déverrouillage de l\'appareil.</string>
+    <string name="device_unlock_prompt_store_credential_title">Liaison vers le déverrouillage de l\'appareil</string>
     <string name="menu_keystore_remove_key">Supprimer la clé de déverrouillage avancée</string>
     <string name="enter">Entrer</string>
     <string name="backspace">Retour arrière</string>
     <string name="select_entry">Sélection d\'une entrée</string>
     <string name="back_to_previous_keyboard">Retour au clavier précédent</string>
     <string name="custom_fields">Champs customisés</string>
-    <string name="education_advanced_unlock_summary">Lier votre mot de passe à vos informations d\'identification biométriques ou de périphérique scannées pour déverrouiller rapidement votre base de données.</string>
-    <string name="education_advanced_unlock_title">Déverrouillage avancé de la base de données</string>
-    <string name="advanced_unlock_timeout">Délai du déverrouillage de l\'appareil</string>
-    <string name="temp_advanced_unlock_timeout_summary">Durée d\'utilisation du déverrouillage de l\'appareil avant de supprimer son contenu</string>
-    <string name="temp_advanced_unlock_timeout_title">Expiration du déverrouillage de l\'appareil</string>
-    <string name="temp_advanced_unlock_enable_summary">Ne stocker aucun contenu crypté pour utiliser le déverrouillage de l\'appareil</string>
-    <string name="temp_advanced_unlock_enable_title">Déverrouillage de l\'appareil temporaire</string>
-    <string name="advanced_unlock_tap_delete">Appuyez pour supprimer les clés de déverrouillage de l\'appareil</string>
+    <string name="education_device_unlock_summary">Lier votre mot de passe à vos informations d\'identification biométriques ou de périphérique scannées pour déverrouiller rapidement votre base de données.</string>
+    <string name="education_device_unlock_title">Déverrouillage avancé de la base de données</string>
+    <string name="device_unlock_timeout">Délai du déverrouillage de l\'appareil</string>
+    <string name="temp_device_unlock_timeout_summary">Durée d\'utilisation du déverrouillage de l\'appareil avant de supprimer son contenu</string>
+    <string name="temp_device_unlock_timeout_title">Expiration du déverrouillage de l\'appareil</string>
+    <string name="temp_device_unlock_enable_summary">Ne stocker aucun contenu crypté pour utiliser le déverrouillage de l\'appareil</string>
+    <string name="temp_device_unlock_enable_title">Déverrouillage de l\'appareil temporaire</string>
+    <string name="device_unlock_tap_delete">Appuyez pour supprimer les clés de déverrouillage de l\'appareil</string>
     <string name="content">Contenu</string>
     <string name="error_rebuild_list">Impossible de reconstruire correctement la liste.</string>
     <string name="error_database_uri_null">L\'URI de la base de données ne peut pas être récupéré.</string>
@@ -635,7 +635,7 @@
     <string name="case_sensitive">Sensible à la casse</string>
     <string name="expired">Expiré</string>
     <string name="warning_database_already_opened">Une base de données est déjà ouverte, fermez-la d\'abord pour ouvrir la nouvelle base</string>
-    <string name="advanced_unlock_keystore_warning">Cette fonction permet de stocker des données d\'identification chiffrées dans le KeyStore sécurisé de votre appareil.
+    <string name="device_unlock_keystore_warning">Cette fonction permet de stocker des données d\'identification chiffrées dans le KeyStore sécurisé de votre appareil.
 \n
 \nSelon l\'implémentation de l\'API native du système d\'exploitation, il se peut qu\'elle ne soit pas entièrement fonctionnelle.
 \n
@@ -686,7 +686,7 @@
     <string name="menu_app_settings_summary">Recherche, verrouillage, historique, propriétés</string>
     <string name="menu_form_filling_settings_summary">Clavier, remplissage automatique, presse-papiers</string>
     <string name="master_key_settings_summary">Changement, renouvellement</string>
-    <string name="menu_advanced_unlock_settings_summary">Biométrie, identifiant de l\'appareil</string>
+    <string name="menu_device_unlock_settings_summary">Biométrie, identifiant de l\'appareil</string>
     <string name="unlock_and_link_biometric">Liaison avec déverouillage de l\'appareil</string>
     <string name="unlock">Déverrouiller</string>
     <string name="configure">Configurer</string>

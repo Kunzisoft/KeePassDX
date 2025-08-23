@@ -64,7 +64,7 @@ class DeviceUnlockFragment: Fragment() {
     private var mBiometricPrompt: BiometricPrompt? = null
 
     // Only to fix multiple fingerprint menu #332
-    private var mAllowAdvancedUnlockMenu = false
+    private var mAllowDeviceUnlockMenu = false
 
     private var mDeviceCredentialResultLauncher: ActivityResultLauncher<Intent>? = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -95,8 +95,8 @@ class DeviceUnlockFragment: Fragment() {
     private val menuProvider: MenuProvider = object: MenuProvider {
         override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
             // biometric menu
-            if (mAllowAdvancedUnlockMenu)
-                menuInflater.inflate(R.menu.advanced_unlock, menu)
+            if (mAllowDeviceUnlockMenu)
+                menuInflater.inflate(R.menu.device_unlock, menu)
         }
 
         override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -111,9 +111,9 @@ class DeviceUnlockFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val rootView = inflater.inflate(R.layout.fragment_advanced_unlock, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_device_unlock, container, false)
 
-        mDeviceUnlockView = rootView.findViewById(R.id.advanced_unlock_view)
+        mDeviceUnlockView = rootView.findViewById(R.id.device_unlock_view)
 
         return rootView
     }
@@ -138,35 +138,34 @@ class DeviceUnlockFragment: Fragment() {
                     // Prompt
                     manageDeviceCredentialPrompt(uiState.cryptoPromptState)
                     // Advanced menu
-                    mAllowAdvancedUnlockMenu = uiState.allowAdvancedUnlockMenu
+                    mAllowDeviceUnlockMenu = uiState.allowDeviceUnlockMenu
                     activity?.invalidateOptionsMenu()
                 }
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        mDeviceUnlockViewModel.checkUnlockAvailability()
-    }
-
     fun cancelBiometricPrompt() {
-        mBiometricPrompt?.cancelAuthentication()
+        lifecycleScope.launch(Dispatchers.Main) {
+            mBiometricPrompt?.cancelAuthentication()
+        }
     }
 
     private fun toggleDeviceCredentialMode(deviceUnlockMode: DeviceUnlockMode) {
-        try {
-            when (deviceUnlockMode) {
-                DeviceUnlockMode.BIOMETRIC_UNAVAILABLE -> setNotAvailableMode()
-                DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> setSecurityUpdateRequiredMode()
-                DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> setNotConfiguredMode()
-                DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE -> setKeyManagerNotAvailableMode()
-                DeviceUnlockMode.WAIT_CREDENTIAL -> setWaitCredentialMode()
-                DeviceUnlockMode.STORE_CREDENTIAL -> setStoreCredentialMode()
-                DeviceUnlockMode.EXTRACT_CREDENTIAL -> setExtractCredentialMode()
+        lifecycleScope.launch(Dispatchers.Main) {
+            try {
+                when (deviceUnlockMode) {
+                    DeviceUnlockMode.BIOMETRIC_UNAVAILABLE -> setNotAvailableMode()
+                    DeviceUnlockMode.BIOMETRIC_SECURITY_UPDATE_REQUIRED -> setSecurityUpdateRequiredMode()
+                    DeviceUnlockMode.DEVICE_CREDENTIAL_OR_BIOMETRIC_NOT_CONFIGURED -> setNotConfiguredMode()
+                    DeviceUnlockMode.KEY_MANAGER_UNAVAILABLE -> setKeyManagerNotAvailableMode()
+                    DeviceUnlockMode.WAIT_CREDENTIAL -> setWaitCredentialMode()
+                    DeviceUnlockMode.STORE_CREDENTIAL -> setStoreCredentialMode()
+                    DeviceUnlockMode.EXTRACT_CREDENTIAL -> setExtractCredentialMode()
+                }
+            } catch (e: Exception) {
+                mDeviceUnlockViewModel.setException(e)
             }
-        } catch (e: Exception) {
-            mDeviceUnlockViewModel.setException(e)
         }
     }
 
@@ -189,51 +188,52 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun openPrompt(cryptoPrompt: DeviceUnlockCryptoPrompt) {
-        try {
-            val promptTitle = getString(cryptoPrompt.titleId)
-            val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
-                getString(descriptionId)
-            } ?: ""
+        lifecycleScope.launch(Dispatchers.Main) {
+            try {
+                val promptTitle = getString(cryptoPrompt.titleId)
+                val promptDescription = cryptoPrompt.descriptionId?.let { descriptionId ->
+                    getString(descriptionId)
+                } ?: ""
 
-            if (cryptoPrompt.isBiometricOperation) {
-                mBiometricPrompt?.authenticate(
-                    BiometricPrompt.PromptInfo.Builder().apply {
-                        setTitle(promptTitle)
-                        if (promptDescription.isNotEmpty())
-                            setDescription(promptDescription)
-                        setConfirmationRequired(false)
-                        if (isDeviceCredentialBiometricOperation(context)) {
-                            setAllowedAuthenticators(DEVICE_CREDENTIAL)
-                        } else {
-                            setNegativeButtonText(getString(android.R.string.cancel))
-                        }
-                    }.build(),
-                    BiometricPrompt.CryptoObject(cryptoPrompt.cipher))
-            } else if (cryptoPrompt.isDeviceCredentialOperation) {
-                context?.let { context ->
-                    @Suppress("DEPRECATION")
-                    mDeviceCredentialResultLauncher?.launch(
-                        ContextCompat.getSystemService(
-                            context,
-                            KeyguardManager::class.java
-                        )?.createConfirmDeviceCredentialIntent(
-                            promptTitle,
-                            promptDescription
-                        )
+                if (cryptoPrompt.isBiometricOperation) {
+                    mBiometricPrompt?.authenticate(
+                        BiometricPrompt.PromptInfo.Builder().apply {
+                            setTitle(promptTitle)
+                            if (promptDescription.isNotEmpty())
+                                setDescription(promptDescription)
+                            setConfirmationRequired(false)
+                            if (isDeviceCredentialBiometricOperation(context)) {
+                                setAllowedAuthenticators(DEVICE_CREDENTIAL)
+                            } else {
+                                setNegativeButtonText(getString(android.R.string.cancel))
+                            }
+                        }.build(),
+                        BiometricPrompt.CryptoObject(cryptoPrompt.cipher)
                     )
+                } else if (cryptoPrompt.isDeviceCredentialOperation) {
+                    context?.let { context ->
+                        @Suppress("DEPRECATION")
+                        mDeviceCredentialResultLauncher?.launch(
+                            ContextCompat.getSystemService(
+                                context,
+                                KeyguardManager::class.java
+                            )?.createConfirmDeviceCredentialIntent(
+                                promptTitle,
+                                promptDescription
+                            )
+                        )
+                    }
                 }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to open prompt", e)
+                mDeviceUnlockViewModel.setException(e)
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to open prompt", e)
-            mDeviceUnlockViewModel.setException(e)
         }
     }
 
     private fun setNotAvailableMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(false)
-            mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener(null)
-        }
+        showViews(false)
+        mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener(null)
     }
 
     private fun openBiometricSetting() {
@@ -259,60 +259,48 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun setSecurityUpdateRequiredMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(true)
-            setAdvancedUnlockedTitleView(R.string.biometric_security_update_required)
-            openBiometricSetting()
-        }
+        showViews(true)
+        setDeviceUnlockedTitleView(R.string.biometric_security_update_required)
+        openBiometricSetting()
     }
 
     private fun setNotConfiguredMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(true)
-            setAdvancedUnlockedTitleView(R.string.configure_biometric)
-            openBiometricSetting()
-        }
+        showViews(true)
+        setDeviceUnlockedTitleView(R.string.configure_biometric)
+        openBiometricSetting()
     }
 
     private fun setKeyManagerNotAvailableMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(true)
-            setAdvancedUnlockedTitleView(R.string.keystore_not_accessible)
-            openBiometricSetting()
-        }
+        showViews(true)
+        setDeviceUnlockedTitleView(R.string.keystore_not_accessible)
+        openBiometricSetting()
     }
 
     private fun setWaitCredentialMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(true)
-            setAdvancedUnlockedTitleView(R.string.unavailable)
-            context?.let { context ->
-                mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener {
-                    mDeviceUnlockViewModel.setException(SecurityException(
-                        context.getString(R.string.credential_before_click_advanced_unlock_button)
-                    ))
-                }
+        showViews(true)
+        setDeviceUnlockedTitleView(R.string.unavailable)
+        context?.let { context ->
+            mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener {
+                mDeviceUnlockViewModel.setException(SecurityException(
+                    context.getString(R.string.credential_before_click_device_unlock_button)
+                ))
             }
         }
     }
 
     private fun setStoreCredentialMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(true)
-            setAdvancedUnlockedTitleView(R.string.unlock_and_link_biometric)
-            mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { _ ->
-                mDeviceUnlockViewModel.showPrompt()
-            }
+        showViews(true)
+        setDeviceUnlockedTitleView(R.string.unlock_and_link_biometric)
+        mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { _ ->
+            mDeviceUnlockViewModel.showPrompt()
         }
     }
 
     private fun setExtractCredentialMode() {
-        lifecycleScope.launch(Dispatchers.Main) {
-            showViews(true)
-            setAdvancedUnlockedTitleView(R.string.unlock)
-            mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { _ ->
-                mDeviceUnlockViewModel.showPrompt()
-            }
+        showViews(true)
+        setDeviceUnlockedTitleView(R.string.unlock)
+        mDeviceUnlockView?.setDeviceUnlockButtonViewClickListener { _ ->
+            mDeviceUnlockViewModel.showPrompt()
         }
     }
 
@@ -321,22 +309,18 @@ class DeviceUnlockFragment: Fragment() {
     }
 
     private fun showViews(show: Boolean) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            if (show) {
-                if (mDeviceUnlockView?.visibility != View.VISIBLE)
-                    mDeviceUnlockView?.showByFading()
-            }
-            else {
-                if (mDeviceUnlockView?.visibility == View.VISIBLE)
-                    mDeviceUnlockView?.hideByFading()
-            }
+        if (show) {
+            if (mDeviceUnlockView?.visibility != View.VISIBLE)
+                mDeviceUnlockView?.showByFading()
+        }
+        else {
+            if (mDeviceUnlockView?.visibility == View.VISIBLE)
+                mDeviceUnlockView?.hideByFading()
         }
     }
 
-    private fun setAdvancedUnlockedTitleView(textId: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            mDeviceUnlockView?.setTitle(textId)
-        }
+    private fun setDeviceUnlockedTitleView(textId: Int) {
+        mDeviceUnlockView?.setTitle(textId)
     }
 
     private fun setAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -358,7 +342,7 @@ class DeviceUnlockFragment: Fragment() {
     private fun setAuthenticationFailed() {
         Log.e(TAG, "Biometric authentication failed, biometric not recognized")
         mDeviceUnlockViewModel.setException(
-            SecurityException(getString(R.string.advanced_unlock_not_recognized))
+            SecurityException(getString(R.string.device_unlock_not_recognized))
         )
     }
 

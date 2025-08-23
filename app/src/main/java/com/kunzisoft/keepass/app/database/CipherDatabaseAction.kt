@@ -28,9 +28,10 @@ import android.os.IBinder
 import android.util.Base64
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.kunzisoft.keepass.database.element.binary.BinaryData.Companion.BASE64_FLAG
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
-import com.kunzisoft.keepass.services.AdvancedUnlockNotificationService
+import com.kunzisoft.keepass.services.DeviceUnlockNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.IOActionTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
@@ -43,19 +44,19 @@ class CipherDatabaseAction(context: Context) {
         AppDatabase.getDatabase(applicationContext).cipherDatabaseDao()
 
     // Temp DAO to easily remove content if object no longer in memory
-    private var useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
+    private var useTempDao = PreferencesUtil.isTempDeviceUnlockEnable(applicationContext)
 
-    private var mBinder: AdvancedUnlockNotificationService.AdvancedUnlockBinder? = null
+    private var mBinder: DeviceUnlockNotificationService.DeviceUnlockBinder? = null
     private var mServiceConnection: ServiceConnection? = null
 
     private var mDatabaseListeners = LinkedList<CipherDatabaseListener>()
-    private var mAdvancedUnlockBroadcastReceiver = AdvancedUnlockNotificationService.AdvancedUnlockReceiver {
+    private var mDeviceUnlockBroadcastReceiver = DeviceUnlockNotificationService.DeviceUnlockReceiver {
         deleteAll()
         removeAllDataAndDetach()
     }
 
-    fun reloadPreferences() {
-        useTempDao = PreferencesUtil.isTempAdvancedUnlockEnable(applicationContext)
+    private fun reloadPreferences() {
+        useTempDao = PreferencesUtil.isTempDeviceUnlockEnable(applicationContext)
     }
 
     @Synchronized
@@ -70,15 +71,15 @@ class CipherDatabaseAction(context: Context) {
 
     @Synchronized
     private fun attachService(performedAction: () -> Unit) {
-        ContextCompat.registerReceiver(applicationContext, mAdvancedUnlockBroadcastReceiver,
+        ContextCompat.registerReceiver(applicationContext, mDeviceUnlockBroadcastReceiver,
             IntentFilter().apply {
-                addAction(AdvancedUnlockNotificationService.REMOVE_ADVANCED_UNLOCK_KEY_ACTION)
+                addAction(DeviceUnlockNotificationService.REMOVE_DEVICE_UNLOCK_KEY_ACTION)
             }, ContextCompat.RECEIVER_EXPORTED
         )
 
         mServiceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
-                mBinder = (serviceBinder as AdvancedUnlockNotificationService.AdvancedUnlockBinder)
+                mBinder = (serviceBinder as DeviceUnlockNotificationService.DeviceUnlockBinder)
                 performedAction.invoke()
             }
 
@@ -87,7 +88,7 @@ class CipherDatabaseAction(context: Context) {
             }
         }
         try {
-            AdvancedUnlockNotificationService.bindService(applicationContext,
+            DeviceUnlockNotificationService.bindService(applicationContext,
                     mServiceConnection!!,
                 Context.BIND_AUTO_CREATE)
         } catch (e: Exception) {
@@ -99,11 +100,11 @@ class CipherDatabaseAction(context: Context) {
     @Synchronized
     private fun detachService() {
         try {
-            applicationContext.unregisterReceiver(mAdvancedUnlockBroadcastReceiver)
+            applicationContext.unregisterReceiver(mDeviceUnlockBroadcastReceiver)
         } catch (_: Exception) {}
 
         mServiceConnection?.let {
-            AdvancedUnlockNotificationService.unbindService(applicationContext, it)
+            DeviceUnlockNotificationService.unbindService(applicationContext, it)
         }
     }
 
@@ -123,23 +124,27 @@ class CipherDatabaseAction(context: Context) {
     private fun onClear() {
         mBinder = null
         mServiceConnection = null
-        mDatabaseListeners.forEach {
-            it.onCipherDatabaseCleared()
+        mDatabaseListeners.forEach { listener ->
+            listener.onCipherDatabaseCleared()
         }
     }
 
     interface CipherDatabaseListener {
+        fun onCipherDatabaseRetrieved(databaseUri: Uri, cipherDatabase: CipherEncryptDatabase?)
+        fun onCipherDatabaseAddedOrUpdated(cipherDatabase: CipherEncryptDatabase)
+        fun onCipherDatabaseDeleted(databaseUri: Uri)
+        fun onAllCipherDatabasesDeleted()
         fun onCipherDatabaseCleared()
     }
 
     fun getCipherDatabase(databaseUri: Uri,
-                          cipherDatabaseResultListener: (CipherEncryptDatabase?) -> Unit) {
+                          cipherDatabaseResultListener: ((CipherEncryptDatabase?) -> Unit)? = null) {
         if (useTempDao) {
             serviceActionTask {
                 var cipherDatabase: CipherEncryptDatabase? = null
                 mBinder?.getCipherDatabase(databaseUri)?.let { cipherDatabaseEntity ->
                     cipherDatabase = CipherEncryptDatabase().apply {
-                        this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
+                        this.databaseUri = cipherDatabaseEntity.databaseUri.toUri()
                         this.encryptedValue = Base64.decode(
                             cipherDatabaseEntity.encryptedValue,
                             BASE64_FLAG
@@ -150,7 +155,11 @@ class CipherDatabaseAction(context: Context) {
                         )
                     }
                 }
-                cipherDatabaseResultListener.invoke(cipherDatabase)
+                cipherDatabaseResultListener?.invoke(cipherDatabase) ?: run {
+                    mDatabaseListeners.forEach { listener ->
+                        listener.onCipherDatabaseRetrieved(databaseUri, cipherDatabase)
+                    }
+                }
             }
         } else {
             IOActionTask(
@@ -158,7 +167,7 @@ class CipherDatabaseAction(context: Context) {
                     cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
                         ?.let { cipherDatabaseEntity ->
                             CipherEncryptDatabase().apply {
-                                this.databaseUri = Uri.parse(cipherDatabaseEntity.databaseUri)
+                                this.databaseUri = cipherDatabaseEntity.databaseUri.toUri()
                                 this.encryptedValue = Base64.decode(
                                     cipherDatabaseEntity.encryptedValue,
                                     Base64.NO_WRAP
@@ -170,14 +179,18 @@ class CipherDatabaseAction(context: Context) {
                             }
                         }
                 },
-                {
-                    cipherDatabaseResultListener.invoke(it)
+                { cipherDatabase ->
+                    cipherDatabaseResultListener?.invoke(cipherDatabase) ?: run {
+                        mDatabaseListeners.forEach { listener ->
+                            listener.onCipherDatabaseRetrieved(databaseUri, cipherDatabase)
+                        }
+                    }
                 }
             ).execute()
         }
     }
 
-    fun containsCipherDatabase(databaseUri: Uri?,
+    private fun containsCipherDatabase(databaseUri: Uri?,
                                contains: (Boolean) -> Unit) {
         if (databaseUri == null) {
             contains.invoke(false)
@@ -210,7 +223,11 @@ class CipherDatabaseAction(context: Context) {
                 // The only case to create service (not needed to get an info)
                 serviceActionTask(true) {
                     mBinder?.addOrUpdateCipherDatabase(cipherDatabaseEntity)
-                    cipherDatabaseResultListener?.invoke()
+                    cipherDatabaseResultListener?.invoke() ?: run {
+                        mDatabaseListeners.forEach { listener ->
+                            listener.onCipherDatabaseAddedOrUpdated(cipherEncryptDatabase)
+                        }
+                    }
                 }
             } else {
                 IOActionTask(
@@ -225,7 +242,11 @@ class CipherDatabaseAction(context: Context) {
                         }
                     },
                     {
-                        cipherDatabaseResultListener?.invoke()
+                        cipherDatabaseResultListener?.invoke() ?: run {
+                            mDatabaseListeners.forEach { listener ->
+                                listener.onCipherDatabaseAddedOrUpdated(cipherEncryptDatabase)
+                            }
+                        }
                     }
                 ).execute()
             }
@@ -237,7 +258,11 @@ class CipherDatabaseAction(context: Context) {
         if (useTempDao) {
             serviceActionTask {
                 mBinder?.deleteByDatabaseUri(databaseUri)
-                cipherDatabaseResultListener?.invoke()
+                cipherDatabaseResultListener?.invoke() ?: run {
+                    mDatabaseListeners.forEach { listener ->
+                        listener.onCipherDatabaseDeleted(databaseUri)
+                    }
+                }
             }
         } else {
             IOActionTask(
@@ -245,10 +270,15 @@ class CipherDatabaseAction(context: Context) {
                     cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
                 },
                 {
-                    cipherDatabaseResultListener?.invoke()
+                    cipherDatabaseResultListener?.invoke() ?: run {
+                        mDatabaseListeners.forEach { listener ->
+                            listener.onCipherDatabaseDeleted(databaseUri)
+                        }
+                    }
                 }
             ).execute()
         }
+        reloadPreferences()
     }
 
     fun deleteAll() {
@@ -263,8 +293,12 @@ class CipherDatabaseAction(context: Context) {
                 cipherDatabaseDao.deleteAll()
             }
         ).execute()
+        mDatabaseListeners.forEach { listener ->
+            listener.onAllCipherDatabasesDeleted()
+        }
         // Unbind
         removeAllDataAndDetach()
+        reloadPreferences()
     }
 
     companion object : SingletonHolderParameter<CipherDatabaseAction, Context>(::CipherDatabaseAction) {

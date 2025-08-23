@@ -118,7 +118,7 @@
     <string name="settings">Postavke</string>
     <string name="menu_app_settings">Postavke aplikacije</string>
     <string name="menu_form_filling_settings">Ispunjavanje obrasca</string>
-    <string name="menu_advanced_unlock_settings">Otključavanje uređaja</string>
+    <string name="menu_device_unlock_settings">Otključavanje uređaja</string>
     <string name="menu_database_settings">Postavke baze podataka</string>
     <string name="menu_security_settings">Postavke sigurnosti</string>
     <string name="menu_master_key_settings">Postavke glavnog ključa</string>
@@ -187,8 +187,8 @@
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbriši njegovu povijest ručno.</string>
     <string name="lock_database_screen_off_summary">Zaključaj bazu podataka nakon par sekundi kad se ekran ugasi</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
-    <string name="advanced_unlock">Otključavanje uređaja</string>
-    <string name="advanced_unlock_explanation_summary">Koristi otključavanje uređaja za jednostavnije otvaranje baze podataka</string>
+    <string name="device_unlock">Otključavanje uređaja</string>
+    <string name="device_unlock_explanation_summary">Koristi otključavanje uređaja za jednostavnije otvaranje baze podataka</string>
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
@@ -384,7 +384,7 @@
     <string name="education_entry_new_field_title">Dodaj prilagođena polja</string>
     <string name="education_lock_summary">Zaključaj bazu podataka brzo, aplikaciju možeš postaviti tako da bazu nakon nekog vremena zaključa i kad se ekran isključi.</string>
     <string name="show_recent_files_summary">Prikaži mjesto nedavnih baza podataka</string>
-    <string name="education_advanced_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom ili podacima za prijavu uređaja.</string>
+    <string name="education_device_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom ili podacima za prijavu uređaja.</string>
     <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj&lt;strong&gt;doprinos.&lt;/strong&gt;</string>
     <string name="kdf_explanation">Za stvaranje ključa za algoritam šifriranja, glavni ključ se transformira pomoću funkcije za generiranje ključeva koja sadrži slučajnu komponentu.</string>
     <string name="lock_database_back_root_summary">Zaključaj bazu podataka kad korisnik pritisne gumb za natrag na glavnom ekranu</string>
@@ -483,16 +483,16 @@
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>
-    <string name="advanced_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s prepoznavanjem otključavanja uređaja\?</string>
-    <string name="credential_before_click_advanced_unlock_button">Upiši lozinku, zatim pritisni ovaj gumb.</string>
-    <string name="advanced_unlock_prompt_extract_credential_title">Prepoznavanje otključavanja uređaja</string>
-    <string name="advanced_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje otključavanja uređaja morat ćeš i dalje znati tvoj glavni podatak za prijavu za trezor.</string>
+    <string name="device_unlock_delete_all_key_warning">Izbrisati sve ključeve šifriranja povezane s prepoznavanjem otključavanja uređaja\?</string>
+    <string name="credential_before_click_device_unlock_button">Upiši lozinku, zatim pritisni ovaj gumb.</string>
+    <string name="device_unlock_prompt_extract_credential_title">Prepoznavanje otključavanja uređaja</string>
+    <string name="device_unlock_prompt_store_credential_message">Ako koristiš prepoznavanje otključavanja uređaja morat ćeš i dalje znati tvoj glavni podatak za prijavu za trezor.</string>
     <string name="menu_keystore_remove_key">Izbriši ključ za otključavanje uređaja</string>
-    <string name="advanced_unlock_prompt_store_credential_title">Poveznica za otključavanje uređaja</string>
-    <string name="advanced_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor za otključavanje uređaja.</string>
-    <string name="advanced_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka za otključavanje uređaja</string>
-    <string name="advanced_unlock_not_recognized">Nije bilo moguće prepoznati ispis za otključavanje uređaja</string>
-    <string name="advanced_unlock_invalid_key">Nije moguće pročitati ključ za otključavanje uređaja. Izbriši ga i ponovi postupak prepoznavanja otključavanja.</string>
+    <string name="device_unlock_prompt_store_credential_title">Poveznica za otključavanje uređaja</string>
+    <string name="device_unlock_prompt_not_initialized">Nije moguće pokrenuti prozor za otključavanje uređaja.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Izdvoji podatake za prijavu na bazu podataka pomoću podataka za otključavanje uređaja</string>
+    <string name="device_unlock_not_recognized">Nije bilo moguće prepoznati ispis za otključavanje uređaja</string>
+    <string name="device_unlock_invalid_key">Nije moguće pročitati ključ za otključavanje uređaja. Izbriši ga i ponovi postupak prepoznavanja otključavanja.</string>
     <string name="enter">Tipka Enter</string>
     <string name="backspace">Tipka Backspace</string>
     <string name="select_entry">Odaberi unos</string>
@@ -501,14 +501,14 @@
     <string name="device_credential_unlock_enable_summary">Omogućuje otvaranje baze podataka pomoću podataka za prijavu</string>
     <string name="device_credential_unlock_enable_title">Otključavanje s podacima za prijavu uređaja</string>
     <string name="device_credential">Podaci za prijavu uređaja</string>
-    <string name="advanced_unlock_tap_delete">Dodirni za brisanje ključeva za otključavanje uređaja</string>
-    <string name="education_advanced_unlock_title">Otključavanje uređaja baze podataka</string>
-    <string name="advanced_unlock_timeout">Vremensko ograničenje otključavanja uređaja</string>
-    <string name="temp_advanced_unlock_timeout_summary">Trajanje korištenja otključavanja uređaja prije brisanja njegovog sadržaja</string>
-    <string name="temp_advanced_unlock_timeout_title">Istek otključavanja uređaja</string>
-    <string name="temp_advanced_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za otključavanje uređaja</string>
+    <string name="device_unlock_tap_delete">Dodirni za brisanje ključeva za otključavanje uređaja</string>
+    <string name="education_device_unlock_title">Otključavanje uređaja baze podataka</string>
+    <string name="device_unlock_timeout">Vremensko ograničenje otključavanja uređaja</string>
+    <string name="temp_device_unlock_timeout_summary">Trajanje korištenja otključavanja uređaja prije brisanja njegovog sadržaja</string>
+    <string name="temp_device_unlock_timeout_title">Istek otključavanja uređaja</string>
+    <string name="temp_device_unlock_enable_summary">Nemoj spremati šifrirani sadržaj za otključavanje uređaja</string>
     <string name="content">Sadržaj</string>
-    <string name="temp_advanced_unlock_enable_title">Privremeno otključavanje uređaja</string>
+    <string name="temp_device_unlock_enable_title">Privremeno otključavanje uređaja</string>
     <string name="error_rebuild_list">Nije moguće ispravno obnoviti popis.</string>
     <string name="error_database_uri_null">URI baze podataka nije moguće dobiti.</string>
     <string name="autofill_inline_suggestions_title">Umetnuti prijedlozi</string>
@@ -613,7 +613,7 @@
     <string name="menu_save_copy_to">Spremi kopiju u …</string>
     <string name="navigation_drawer_open">Ploča navigacije otvorena</string>
     <string name="navigation_drawer_close">Ploča navigacije zatvorena</string>
-    <string name="advanced_unlock_keystore_warning">Ova će funckija spremiti šifrirane podatke za prijavu u sigurni KeyStore tvog uređaja.
+    <string name="device_unlock_keystore_warning">Ova će funckija spremiti šifrirane podatke za prijavu u sigurni KeyStore tvog uređaja.
 \n
 \nOvisno o izvornoj API implementaciji operacijskog sustava, funcionalsnost možda neće biti potpuna.
 \n
@@ -676,7 +676,7 @@
     <string name="unlock_and_link_biometric">Poveznica za otključavanje uređaja</string>
     <string name="menu_appearance_settings_summary">Teme, boje, atributi</string>
     <string name="unlock">Otključaj</string>
-    <string name="menu_advanced_unlock_settings_summary">Biometrija, podatak za prijavu uređaja</string>
+    <string name="menu_device_unlock_settings_summary">Biometrija, podatak za prijavu uređaja</string>
     <string name="info">Informacije</string>
     <string name="master_key_settings_summary">Promjena, obnova</string>
     <string name="education_validate_entry_title">Potvrdi unos</string>

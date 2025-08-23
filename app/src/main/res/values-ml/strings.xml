@@ -235,7 +235,7 @@
     <string name="education_donation_title">പങ്കെടുക്കുക</string>
     <string name="uppercase">വലിയക്ഷരം</string>
     <string name="text_appearance">വാചകം</string>
-    <string name="advanced_unlock">വിപുലമായ അൺലോക്ക്</string>
+    <string name="device_unlock">വിപുലമായ അൺലോക്ക്</string>
     <string name="compression_none">ഒന്നുമില്ല</string>
     <string name="style_choose_summary">അപ്ലിക്കേഷനിൽ ഉപയോഗിക്കുന്ന തീം</string>
     <string name="disable">പ്രവർത്തനരഹിതമാക്കുക</string>
@@ -263,7 +263,7 @@
     <string name="menu_paste">പേസ്റ്റ്</string>
     <string name="keyboard_key_sound_title">കേൾക്കാവുന്ന കീപ്രസ്സ്</string>
     <string name="download_initialization">സമാരംഭിക്കുന്നു. . .</string>
-    <string name="menu_advanced_unlock_settings">വിപുലമായ അൺലോക്ക്</string>
+    <string name="menu_device_unlock_settings">വിപുലമായ അൺലോക്ക്</string>
     <string name="allow_no_password_title">മാസ്റ്റർ കീകളൊന്നും അനുവദിക്കരുത്</string>
     <string name="device_keyboard_setting_title">ഉപകരണ കീബോർഡ് ക്രമീകരണങ്ങൾ</string>
     <string name="menu_empty_recycle_bin">റീസൈക്കിൾ ബിൻ ശൂന്യമാക്കുക</string>
@@ -334,7 +334,7 @@
     <string name="database_data_compression_title">ഡാറ്റ കംപ്രഷൻ</string>
     <string name="unavailable_feature_hardware">അനുബന്ധ ഹാർഡ്‌വെയർ കണ്ടെത്താൻ കഴിഞ്ഞില്ല.</string>
     <string name="biometric_unlock_enable_title">ബയോമെട്രിക് അൺലോക്കിംഗ്</string>
-    <string name="advanced_unlock_explanation_summary">ഒരു ഡാറ്റാബേസ് കൂടുതൽ എളുപ്പത്തിൽ തുറക്കാൻ വിപുലമായ അൺലോക്കിംഗ് ഉപയോഗിക്കുക</string>
+    <string name="device_unlock_explanation_summary">ഒരു ഡാറ്റാബേസ് കൂടുതൽ എളുപ്പത്തിൽ തുറക്കാൻ വിപുലമായ അൺലോക്കിംഗ് ഉപയോഗിക്കുക</string>
     <string name="lock_database_show_button_summary">ഉപയോക്തൃ ഇന്റർഫേസിൽ ലോക്ക് ബട്ടൺ പ്രദർശിപ്പിക്കുക</string>
     <string name="clipboard_explanation_summary">നിങ്ങളുടെ ഉപകരണത്തിന്റെ ക്ലിപ്പ്ബോർഡ് ഉപയോഗിച്ച് എൻട്രി ഫീൽഡുകൾ പകർത്തുക</string>
     <string name="list_password_generator_options_title">പാസ്‌വേഡ് പ്രതീകങ്ങൾ</string>
@@ -377,7 +377,7 @@
     <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
     <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല.</string>
-    <string name="education_advanced_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>
+    <string name="education_device_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>
     <string name="select_entry">എൻ‌ട്രി തിരഞ്ഞെടുക്കുക</string>
     <string name="custom_fields">ഇഷ്‌ടാനുസൃത ഫീൽഡുകൾ</string>
     <string name="keyboard_keys_category">കീകൾ</string>
