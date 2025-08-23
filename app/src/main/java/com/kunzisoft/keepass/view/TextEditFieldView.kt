@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.text.InputFilter
 import android.text.InputType
-import android.text.Spannable
-import android.text.SpannableString
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -126,16 +124,12 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
             buildViews()
         }
 
-    protected open fun spannableValue(value: String?): Spannable? {
-        return SpannableString(value)
-    }
-
     override var value: String
         get() {
             return valueView.text?.toString() ?: ""
         }
         set(value) {
-            valueView.setText(spannableValue(value))
+            valueView.setText(value)
         }
 
     override var default: String = ""
