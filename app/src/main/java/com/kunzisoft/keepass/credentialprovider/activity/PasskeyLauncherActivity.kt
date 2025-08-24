@@ -342,7 +342,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         ): PendingIntent? {
             return PendingIntent.getActivity(
                 context,
-                Math.random().toInt(),
+                (Math.random() * Integer.MAX_VALUE).toInt(),
                 Intent(context, PasskeyLauncherActivity::class.java).apply {
                     addSpecialMode(specialMode)
                     addTypeMode(TypeMode.PASSKEY)
