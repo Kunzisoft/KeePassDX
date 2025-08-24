@@ -257,7 +257,6 @@ object PasskeyHelper {
     fun retrievePasskeyCreationRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
-        packageName: String?,
         passkeyCreated: (Passkey, PublicKeyCredentialCreationParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -303,7 +302,7 @@ object PasskeyHelper {
                         type = ClientDataNotDefinedResponse.Type.CREATE,
                         challenge = creationOptions.challenge,
                         origin = originManager.origin,
-                        packageName = packageName
+                        packageName = callingAppInfo?.packageName
                     )
                 }
             )

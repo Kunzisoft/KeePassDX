@@ -268,7 +268,6 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         retrievePasskeyCreationRequestParameters(
             intent = intent,
             assetManager = assets,
-            packageName = packageName,
             passkeyCreated = { passkey, publicKeyCredentialParameters ->
                 // Save the requested parameters
                 mPasskey = passkey
