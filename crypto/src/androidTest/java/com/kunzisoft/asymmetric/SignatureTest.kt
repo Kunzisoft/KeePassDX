@@ -1,12 +1,19 @@
 package com.kunzisoft.asymmetric
 
+import org.bouncycastle.jcajce.provider.asymmetric.edec.BCEdDSAPrivateKey
+import org.bouncycastle.jcajce.provider.asymmetric.edec.BCXDHPrivateKey
 import org.junit.Test
+import java.io.File
+import java.io.FileWriter
+import kotlin.io.path.Path
 
 class SignatureTest {
 
     // All private keys are for testing only.
     // DO NOT USE THEM
 
+
+    // region ES256
     private val es256PemInKeePassXC =
         """
             -----BEGIN PRIVATE KEY-----
@@ -48,9 +55,13 @@ class SignatureTest {
 
         assert(keyTypeId == Signature.ES256_ALGORITHM)
         assert(privateKeyPem.contains("-----BEGIN PRIVATE KEY-----", true))
-        assert(privateKeyPem.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
+        assert( privateKeyPem.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
 
     }
+
+    // endregion
+
+    // region RSA
 
     private val rsa256PemIn = """
         -----BEGIN PRIVATE KEY-----
@@ -99,4 +110,58 @@ class SignatureTest {
         assert(keyTypeId == Signature.RS256_ALGORITHM)
         assert(privateKeyPem.contains("-----BEGIN PRIVATE KEY-----", true))
     }
+    // endregion
+
+    // region ED25519
+
+    private val ed25519PemInShort = """
+        -----BEGIN PRIVATE KEY-----
+        MC4CAQAwBQYDK2VwBCIEILBoCo4+IXxIuwN36/oaEsPgbe6WYJcV9YW+xnprDF4H
+        -----END PRIVATE KEY-----
+    """.trimIndent()
+
+    private val ed25519PemInLong =  """
+        -----BEGIN PRIVATE KEY-----
+        MFECAQEwBQYDK2VwBCIEIESP8edVGbqoR/pKNmy7j7FV8Y68zrIi/5VEuAJ281K6
+        gSEAyJU1wQNaJUeyxPcWjN7xZKZUhCRoIFS/MQvbdd4QE7Q=
+        -----END PRIVATE KEY-----
+    """.trimIndent()
+
+    private val ed25519PemOut = """
+        -----BEGIN PRIVATE KEY-----
+        MC4CAQAwBQYDK2VwBCIEIESP8edVGbqoR/pKNmy7j7FV8Y68zrIi/5VEuAJ281K6
+        -----END PRIVATE KEY-----
+    """.trimIndent()
+
+    @Test
+    fun testEd25519KeyConverionShortIn() {
+        val privateKey = Signature.createPrivateKey(ed25519PemInShort)
+        val pemOut = Signature.convertPrivateKeyToPem(privateKey)
+
+        assert(pemOut == ed25519PemInShort)
+    }
+
+    @Test
+    fun testEd25519KeyConverionLongIn() {
+        val privateKey = Signature.createPrivateKey(ed25519PemInLong)
+        val pemOut = Signature.convertPrivateKeyToPem(privateKey)
+
+        assert(pemOut == ed25519PemOut)
+    }
+
+    @Test
+    fun testEd25519KeyGenAndConversion() {
+        val (keyPair, keyTypeId) = Signature.generateKeyPair(listOf(Signature.ED_DSA_ALGORITHM))!!
+        val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
+
+        assert(keyTypeId == Signature.ED_DSA_ALGORITHM)
+        assert(privateKeyPem.contains("-----BEGIN PRIVATE KEY-----", true))
+        assert(privateKeyPem.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
+    }
+
+
+
+
+    // endregion
+
 }
