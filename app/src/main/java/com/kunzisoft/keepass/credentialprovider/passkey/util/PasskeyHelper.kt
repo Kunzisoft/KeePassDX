@@ -223,13 +223,6 @@ object PasskeyHelper {
         return key
     }
 
-    private fun String.decodeHexToByteArray(): ByteArray {
-        if (length % 2 != 0) {
-            throw IllegalArgumentException("Must have an even length")
-        }
-        return chunked(2).map { it.toInt(16).toByte() }.toByteArray()
-    }
-
     fun ProviderCreateCredentialRequest.retrievePasskeyCreationComponent(): PublicKeyCredentialCreationOptions {
         val request = this
         if (request.callingRequest !is CreatePublicKeyCredentialRequest) {
