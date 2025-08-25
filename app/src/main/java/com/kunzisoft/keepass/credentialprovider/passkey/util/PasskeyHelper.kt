@@ -307,7 +307,8 @@ object PasskeyHelper {
                         clientDataResponse = ClientDataBuildResponse(
                             type = ClientDataBuildResponse.Type.CREATE,
                             challenge = creationOptions.challenge,
-                            origin = origin
+                            origin = origin,
+                            crossOrigin = false // TODO should always be false?
                         )
                     )
                 )
@@ -332,8 +333,8 @@ object PasskeyHelper {
                 ) ?: mapOf<Int, Any>()),
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = true,
-                backupState = true,
+                backupEligibility = false, // TODO should always be false?
+                backupState = false, // TODO should always be false?
                 publicKeyTypeId = keyTypeId,
                 publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
                 clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse
@@ -382,7 +383,8 @@ object PasskeyHelper {
                         clientDataResponse = ClientDataBuildResponse(
                             type = ClientDataBuildResponse.Type.GET,
                             challenge = requestOptions.challenge,
-                            origin = origin
+                            origin = origin,
+                            crossOrigin = false // TODO should always be false?
                         )
                     )
                 )
@@ -400,8 +402,8 @@ object PasskeyHelper {
                 requestOptions = usageParameters.publicKeyCredentialRequestOptions,
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = true,
-                backupState = true,
+                backupEligibility = false, // TODO should always be false?
+                backupState = false, // TODO should always be false?
                 userHandle = passkey.userHandle,
                 privateKey = passkey.privateKeyPem,
                 clientDataResponse = usageParameters.clientDataResponse
