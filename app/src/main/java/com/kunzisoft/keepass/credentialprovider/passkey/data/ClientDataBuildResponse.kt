@@ -23,13 +23,12 @@ import com.kunzisoft.encrypt.HashManager
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
 import org.json.JSONObject
 
-open class ClientDataNotDefinedResponse(
+open class ClientDataBuildResponse(
     type: Type,
     challenge: ByteArray,
     origin: String,
     crossOrigin: Boolean? = null,
     topOrigin: String? = null,
-    packageName: String?
 ): AuthenticatorResponse, ClientDataResponse {
     override var clientJson = JSONObject()
 
@@ -43,9 +42,6 @@ open class ClientDataNotDefinedResponse(
         }
         topOrigin?.let {
             clientJson.put("topOrigin", it)
-        }
-        packageName?.let {
-            clientJson.put("androidPackageName", packageName)
         }
     }
 

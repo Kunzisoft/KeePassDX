@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.util
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.res.AssetManager
 import android.os.Build
@@ -43,8 +42,8 @@ import com.kunzisoft.asymmetric.Signature
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
+import com.kunzisoft.keepass.credentialprovider.passkey.data.ClientDataBuildResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.ClientDataDefinedResponse
-import com.kunzisoft.keepass.credentialprovider.passkey.data.ClientDataNotDefinedResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.FidoPublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
@@ -259,11 +258,10 @@ object PasskeyHelper {
         assetManager: AssetManager,
         passkeyCreated: (Passkey, PublicKeyCredentialCreationParameters) -> Unit
     ) {
-        val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
-        val callingAppInfo = getCredentialRequest?.callingAppInfo
         val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
         if (createCredentialRequest == null)
             throw CreateCredentialUnknownException("could not retrieve request from intent")
+        val callingAppInfo = createCredentialRequest.callingAppInfo
         val creationOptions = createCredentialRequest.retrievePasskeyCreationComponent()
 
         val relyingParty = creationOptions.relyingPartyEntity.id
@@ -272,9 +270,6 @@ object PasskeyHelper {
         val pubKeyCredParams = creationOptions.pubKeyCredParams
         val clientDataHash = creationOptions.clientDataHash
 
-        val originManager = OriginManager(callingAppInfo, assetManager, relyingParty)
-        originManager.checkPrivilegedApp(clientDataHash)
-
         val credentialId = KeePassDXRandom.generateCredentialId()
 
         val (keyPair, keyTypeId) = Signature.generateKeyPair(
@@ -282,30 +277,48 @@ object PasskeyHelper {
         ) ?: throw CreateCredentialUnknownException("no known public key type found")
         val privateKeyPem = Signature.convertPrivateKeyToPem(keyPair.private)
 
+        // Create the passkey element
+        val passkey = Passkey(
+            username = username,
+            privateKeyPem = privateKeyPem,
+            credentialId = b64Encode(credentialId),
+            userHandle = b64Encode(userHandle),
+            relyingParty = relyingParty
+        )
+
         // create new entry in database
-        passkeyCreated.invoke(
-            Passkey(
-                username = username,
-                privateKeyPem = privateKeyPem,
-                credentialId = b64Encode(credentialId),
-                userHandle = b64Encode(userHandle),
-                relyingParty = relyingParty
-            ),
-            PublicKeyCredentialCreationParameters(
-                publicKeyCredentialCreationOptions = creationOptions,
-                credentialId = credentialId,
-                signatureKey = Pair(keyPair, keyTypeId),
-                clientDataResponse = clientDataHash?.let {
-                    ClientDataDefinedResponse(clientDataHash)
-                } ?: run {
-                    ClientDataNotDefinedResponse(
-                        type = ClientDataNotDefinedResponse.Type.CREATE,
-                        challenge = creationOptions.challenge,
-                        origin = originManager.origin,
-                        packageName = callingAppInfo?.packageName
+        OriginManager(
+            providedClientDataHash = clientDataHash,
+            callingAppInfo = callingAppInfo,
+            assets = assetManager
+        ).getOriginAtCreation(
+            onOriginRetrieved = { origin, clientDataHash ->
+                passkeyCreated.invoke(
+                    passkey,
+                    PublicKeyCredentialCreationParameters(
+                        publicKeyCredentialCreationOptions = creationOptions,
+                        credentialId = credentialId,
+                        signatureKey = Pair(keyPair, keyTypeId),
+                        clientDataResponse = ClientDataDefinedResponse(clientDataHash)
                     )
-                }
-            )
+                )
+            },
+            onOriginCreated = { origin, signingInfo ->
+                // TODO store signature
+                passkeyCreated.invoke(
+                    passkey,
+                    PublicKeyCredentialCreationParameters(
+                        publicKeyCredentialCreationOptions = creationOptions,
+                        credentialId = credentialId,
+                        signatureKey = Pair(keyPair, keyTypeId),
+                        clientDataResponse = ClientDataBuildResponse(
+                            type = ClientDataBuildResponse.Type.CREATE,
+                            challenge = creationOptions.challenge,
+                            origin = origin
+                        )
+                    )
+                )
+            }
         )
     }
 
@@ -340,8 +353,8 @@ object PasskeyHelper {
     }
 
     fun retrievePasskeyUsageRequestParameters(
-        context: Context,
         intent: Intent,
+        assetManager: AssetManager,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -354,23 +367,33 @@ object PasskeyHelper {
         val requestOptions = PublicKeyCredentialRequestOptions(credentialOption.requestJson)
         val relyingParty = requestOptions.rpId
 
-        val originManager = OriginManager(callingAppInfo, context.assets, relyingParty)
-        originManager.checkPrivilegedApp(clientDataHash)
-
-        result.invoke(
-            PublicKeyCredentialUsageParameters(
-                publicKeyCredentialRequestOptions = requestOptions,
-                clientDataResponse = clientDataHash?.let {
-                    ClientDataDefinedResponse(clientDataHash)
-                } ?: run {
-                    ClientDataNotDefinedResponse(
-                        type = ClientDataNotDefinedResponse.Type.GET,
-                        challenge = requestOptions.challenge,
-                        origin = originManager.origin,
-                        packageName = callingAppInfo.packageName
+        OriginManager(
+            providedClientDataHash = clientDataHash,
+            callingAppInfo = callingAppInfo,
+            assets = assetManager
+        ).getOriginAtUsage(
+            storedPackageName = null, // TODO Retrieved package name and signature
+            storedSignature = null,
+            onOriginRetrieved = { origin, clientDataHash ->
+                result.invoke(
+                    PublicKeyCredentialUsageParameters(
+                        publicKeyCredentialRequestOptions = requestOptions,
+                        clientDataResponse = ClientDataDefinedResponse(clientDataHash)
                     )
-                }
-            )
+                )
+            },
+            onOriginCreated = { origin ->
+                result.invoke(
+                    PublicKeyCredentialUsageParameters(
+                        publicKeyCredentialRequestOptions = requestOptions,
+                        clientDataResponse = ClientDataBuildResponse(
+                            type = ClientDataBuildResponse.Type.GET,
+                            challenge = requestOptions.challenge,
+                            origin = origin
+                        )
+                    )
+                )
+            }
         )
     }
 

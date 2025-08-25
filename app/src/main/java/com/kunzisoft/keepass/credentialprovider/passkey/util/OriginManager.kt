@@ -19,46 +19,91 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.util
 
+import android.content.pm.SigningInfo
 import android.content.res.AssetManager
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.credentials.provider.CallingAppInfo
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.P)
 class OriginManager(
-    callingAppInfo: CallingAppInfo?,
-    assets: AssetManager,
-    private val relyingParty: String
+    private val providedClientDataHash: ByteArray?,
+    private val callingAppInfo: CallingAppInfo?,
+    private val assets: AssetManager
 ) {
-    private val webOrigin: String?
-    private val apkSigningCertificate: ByteArray? = callingAppInfo?.signingInfo?.apkContentsSigners
-        ?.getOrNull(0)?.toByteArray()
 
-    init {
-        val privilegedAllowlist = assets.open("trustedPackages.json").bufferedReader().use {
-            it.readText()
-        }
-        // for trusted browsers like Chrome and Firefox
-        webOrigin = callingAppInfo?.getOrigin(privilegedAllowlist)?.removeSuffix("/")
-    }
-
-    // TODO isPrivileged app
-    fun checkPrivilegedApp(
-        clientDataHash: ByteArray?
+    fun getOriginAtCreation(
+        onOriginRetrieved: (origin: String, clientDataHash: ByteArray) -> Unit,
+        onOriginCreated: (origin: String, signingInfo: SigningInfo) -> Unit
     ) {
-        val isPrivilegedApp = webOrigin != null
-                && webOrigin == relyingParty && clientDataHash != null
-        Log.d(TAG, "isPrivilegedApp = $isPrivilegedApp")
-        if (!isPrivilegedApp) {
-            AppRelyingPartyRelation.isRelationValid(relyingParty, apkSigningCertificate)
+        getOrigin(
+            onOriginRetrieved = { callOrigin, clientDataHash ->
+                onOriginRetrieved(callOrigin, clientDataHash)
+            },
+            onOriginNotRetrieved = { packageName, signingInfo ->
+                // Create a new Android Origin and prepare the signature app storage
+                onOriginCreated(buildAndroidOrigin(packageName), signingInfo)
+            }
+        )
+    }
+
+    fun getOriginAtUsage(
+        storedPackageName: String?,
+        storedSignature: SigningInfo?,
+        onOriginRetrieved: (origin: String, clientDataHash: ByteArray) -> Unit,
+        onOriginCreated: (origin: String) -> Unit
+    ) {
+        getOrigin(
+            onOriginRetrieved = { callOrigin, clientDataHash ->
+                onOriginRetrieved(callOrigin, clientDataHash)
+            },
+            onOriginNotRetrieved = { packageName, signingInfo ->
+                // Verify the app signature to retrieve the origin
+                // TODO if (packageName == storedPackageName
+                //    && signingInfo == storedSignature) {
+                    onOriginCreated(buildAndroidOrigin(packageName))
+                //} else {
+                //    throw SecurityException("Android Origin cannot be retrieved, wrong signature")
+                //}
+            }
+        )
+    }
+
+    private fun getOrigin(
+        onOriginRetrieved: (callOrigin: String, clientDataHash: ByteArray) -> Unit,
+        onOriginNotRetrieved: (packageName: String, signingInfo: SigningInfo) -> Unit
+    ) {
+        if (callingAppInfo == null) {
+            throw SecurityException("Calling app info cannot be retrieved")
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            var callOrigin: String?
+            val privilegedAllowlist = assets.open("trustedPackages.json").bufferedReader().use {
+                it.readText()
+            }
+            // for trusted browsers like Chrome and Firefox
+            callOrigin = callingAppInfo.getOrigin(privilegedAllowlist)?.removeSuffix("/")
+            withContext(Dispatchers.Main) {
+                if (callOrigin != null && providedClientDataHash != null) {
+                    Log.d(TAG, "Origin $callOrigin retrieved from callingAppInfo")
+                    onOriginRetrieved(callOrigin, providedClientDataHash)
+                } else {
+                    onOriginNotRetrieved(callingAppInfo.packageName, callingAppInfo.signingInfo)
+                }
+            }
         }
     }
 
-    val origin: String
-        get() {
-            return webOrigin ?: relyingParty
-        }
+    private fun buildAndroidOrigin(packageName: String): String {
+        val packageOrigin = "android://${packageName}"
+        Log.d(TAG, "Origin $packageOrigin retrieved from package name")
+        return packageOrigin
+    }
 
     companion object {
         private val TAG = OriginManager::class.simpleName
