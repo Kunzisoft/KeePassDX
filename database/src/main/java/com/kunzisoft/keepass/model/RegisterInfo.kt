@@ -6,19 +6,21 @@ import com.kunzisoft.keepass.utils.readParcelableCompat
 
 data class RegisterInfo(
     val searchInfo: SearchInfo,
-    val username: String?,
+    val username: String? = null,
     val password: String? = null,
     val creditCard: CreditCard? = null,
-    val passkey: Passkey? = null
+    val passkey: Passkey? = null,
+    val originApp: OriginApp? = null
 ): Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readParcelableCompat() ?: SearchInfo(),
-            parcel.readString() ?: "",
-            parcel.readString() ?: "",
-            parcel.readParcelableCompat(),
-            parcel.readParcelableCompat()) {
-    }
+        searchInfo = parcel.readParcelableCompat() ?: SearchInfo(),
+        username = parcel.readString() ?: "",
+        password = parcel.readString() ?: "",
+        creditCard = parcel.readParcelableCompat(),
+        passkey = parcel.readParcelableCompat(),
+        originApp = parcel.readParcelableCompat()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeParcelable(searchInfo, flags)
@@ -26,6 +28,7 @@ data class RegisterInfo(
         parcel.writeString(password)
         parcel.writeParcelable(creditCard, flags)
         parcel.writeParcelable(passkey, flags)
+        parcel.writeParcelable(originApp, flags)
     }
 
     override fun describeContents(): Int {

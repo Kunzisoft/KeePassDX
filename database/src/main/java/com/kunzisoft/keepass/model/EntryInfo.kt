@@ -24,18 +24,19 @@ import android.os.ParcelUuid
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
-import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.database.element.template.TemplateField
+import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
+import com.kunzisoft.keepass.model.OriginAppEntryField.setApplicationId
+import com.kunzisoft.keepass.model.OriginAppEntryField.setOriginApp
+import com.kunzisoft.keepass.model.OriginAppEntryField.setWebDomain
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
 import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
-import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import com.kunzisoft.keepass.otp.OtpEntryFields.isOtpExclusion
+import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
 import com.kunzisoft.keepass.utils.readParcelableCompat
@@ -58,6 +59,7 @@ class EntryInfo : NodeInfo {
     var autoType: AutoType = AutoType()
     var otpModel: OtpModel? = null
     var passkey: Passkey? = null
+    var originApp: OriginApp? = null
     var isTemplate: Boolean = false
 
     constructor() : super()
@@ -77,6 +79,8 @@ class EntryInfo : NodeInfo {
         parcel.readListCompat(attachments)
         autoType = parcel.readParcelableCompat() ?: autoType
         otpModel = parcel.readParcelableCompat() ?: otpModel
+        passkey = parcel.readParcelableCompat() ?: passkey
+        originApp = parcel.readParcelableCompat() ?: originApp
         isTemplate = parcel.readBooleanCompat()
     }
 
@@ -98,6 +102,8 @@ class EntryInfo : NodeInfo {
         parcel.writeList(attachments)
         parcel.writeParcelable(autoType, flags)
         parcel.writeParcelable(otpModel, flags)
+        parcel.writeParcelable(passkey, flags)
+        parcel.writeParcelable(originApp, flags)
         parcel.writeBooleanCompat(isTemplate)
     }
 
@@ -121,6 +127,9 @@ class EntryInfo : NodeInfo {
         return customFields.lastOrNull { it.name == label }?.protectedValue?.toString() ?: ""
     }
 
+    /**
+     * Add a field to the custom fields list, replace if name already exists
+     */
     fun addOrReplaceField(field: Field) {
         customFields.lastOrNull { it.name == field.name }?.let {
             it.apply {
@@ -129,136 +138,90 @@ class EntryInfo : NodeInfo {
         } ?: customFields.add(field)
     }
 
-    // Return true if modified
-    private fun addUniqueField(field: Field, number: Int = 0) {
-        var sameName = false
-        var sameValue = false
-        val suffix = if (number > 0) "_$number" else ""
-        customFields.forEach { currentField ->
-            // Not write the same data again
-            if (currentField.protectedValue.stringValue == field.protectedValue.stringValue) {
-                sameValue = true
-                return
-            }
-            // Same name but new value, create a new suffix
-            if (currentField.name == field.name + suffix) {
-                sameName = true
-                addUniqueField(field, number + 1)
-                return
-            }
-        }
-        if (!sameName && !sameValue)
-            (customFields as ArrayList<Field>).add(Field(field.name + suffix, field.protectedValue))
+    /**
+     * Create a field name suffix depending on the field position
+     */
+    private fun suffixFieldNamePosition(position: Int): String {
+        return if (position > 0) "_$position" else ""
     }
 
-    private fun containsDomainOrApplicationId(search: String): Boolean {
-        if (url.contains(search))
-            return true
-        return customFields.find {
-            it.protectedValue.stringValue.contains(search)
-        } != null
+    /**
+     * Add a field to the custom fields list with a suffix position,
+     * replace if name already exists
+     */
+    fun addOrReplaceFieldWithSuffix(field: Field, position: Int) {
+        addOrReplaceField(Field(
+            field.name + suffixFieldNamePosition(position),
+            field.protectedValue)
+        )
+    }
+
+    /**
+     * Add an unique field to the custom fields list with a suffix
+     * if name already exists and value not the same
+     * @param field the field to add
+     * @param position the number to add to the suffix
+     * @return the increment number and the custom field created
+     */
+    fun addUniqueField(field: Field, position: Int = 0): Pair<Int, Field> {
+        val suffix = suffixFieldNamePosition(position)
+        if (customFields.any { currentField -> currentField.name == field.name + suffix }) {
+            val fieldFound = customFields.find {
+                it.name == field.name + suffix
+                        && it.protectedValue.stringValue == field.protectedValue.stringValue
+            }
+            return if (fieldFound != null) {
+                Pair(position, fieldFound)
+            } else {
+                addUniqueField(field, position + 1)
+            }
+        } else {
+            val field = Field(field.name + suffix, field.protectedValue)
+            customFields.add(field)
+            return Pair(position, field)
+        }
     }
 
     /**
      * Add searchInfo to current EntryInfo, return true if new data, false if no modification
      */
-    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo): Boolean {
-        var modification = false
+    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
         searchInfo.otpString?.let { otpString ->
-            // Replace the OTP field
-            OtpEntryFields.parseOTPUri(otpString)?.let { otpElement ->
-                if (title.isEmpty())
-                    title = otpElement.issuer
-                if (username.isEmpty())
-                    username = otpElement.name
-                // Add OTP field
-                val mutableCustomFields = customFields as ArrayList<Field>
-                val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
-                if (mutableCustomFields.contains(otpField)) {
-                    mutableCustomFields.remove(otpField)
-                }
-                mutableCustomFields.add(otpField)
-                modification = true
-            }
+            setOtp(otpString)
         } ?: searchInfo.webDomain?.let { webDomain ->
-            // If unable to save web domain in custom field or URL not populated, save in URL
-            val scheme = searchInfo.webScheme
-            val webScheme = if (scheme.isNullOrEmpty()) "https" else scheme
-            val webDomainToStore = "$webScheme://$webDomain"
-            if (!containsDomainOrApplicationId(webDomain)) {
-                if (database?.allowEntryCustomFields() != true || url.isEmpty()) {
-                    url = webDomainToStore
-                } else {
-                    // Save web domain in custom field
-                    addUniqueField(
-                        Field(
-                            WEB_DOMAIN_FIELD_NAME,
-                            ProtectedString(false, webDomainToStore)
-                        ),
-                        1 // Start to one because URL is a standard field name
-                    )
-                }
-                modification = true
-            }
+            setWebDomain(
+                webDomain,
+                searchInfo.webScheme,
+                database?.allowEntryCustomFields() == true
+            )
         } ?: searchInfo.applicationId?.let { applicationId ->
-            // Save application id in custom field
-            if (database?.allowEntryCustomFields() == true) {
-                if (!containsDomainOrApplicationId(applicationId)) {
-                    addUniqueField(
-                        Field(
-                            APPLICATION_ID_FIELD_NAME,
-                            ProtectedString(false, applicationId)
-                        )
-                    )
-                    modification = true
-                }
-            }
+            setApplicationId(applicationId)
         }
         if (title.isEmpty()) {
-            title = searchInfoToTitle(searchInfo)
+            title = searchInfo.toTitle()
         }
-        return modification
     }
 
     /**
      * Capitalize and remove suffix of web domain to create a title
      */
-    private fun searchInfoToTitle(searchInfo: SearchInfo): String {
-        val webDomain = searchInfo.webDomain
+    fun SearchInfo.toTitle(): String {
+        val webDomain = this.webDomain
         return webDomain?.substring(0, webDomain.lastIndexOf('.'))?.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-        } ?: searchInfo.toString()
+        } ?: this.toString()
     }
 
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
         saveSearchInfo(database, registerInfo.searchInfo)
-        registerInfo.username?.let {
-            username = it
-        }
-        registerInfo.password?.let {
-            password = it
-        }
-
-        if (database?.allowEntryCustomFields() == true) {
-            // TODO Move in a dedicated creditcard class
-            val creditCard: CreditCard? = registerInfo.creditCard
-            creditCard?.cardholder?.let {
-                addUniqueField(Field(TemplateField.LABEL_HOLDER, ProtectedString(false, it)))
-            }
-            creditCard?.expiration?.let {
-                expires = true
-                expiryTime = DateInstant(creditCard.expiration.toInstant())
-            }
-            creditCard?.number?.let {
-                addUniqueField(Field(TemplateField.LABEL_NUMBER, ProtectedString(false, it)))
-            }
-            creditCard?.cvv?.let {
-                addUniqueField(Field(TemplateField.LABEL_CVV, ProtectedString(true, it)))
-            }
-            registerInfo.passkey?.let {
-                setPasskey(it)
-            }
-        }
+        registerInfo.username?.let { username = it }
+        registerInfo.password?.let { password = it }
+        setCreditCard(registerInfo.creditCard)
+        setPasskey(registerInfo.passkey)
+        setOriginApp(
+            registerInfo.originApp,
+            database?.allowEntryCustomFields() == true
+        )
     }
 
     fun getVisualTitle(): String {
@@ -286,6 +249,8 @@ class EntryInfo : NodeInfo {
         if (attachments != other.attachments) return false
         if (autoType != other.autoType) return false
         if (otpModel != other.otpModel) return false
+        if (passkey != other.passkey) return false
+        if (originApp != other.originApp) return false
         if (isTemplate != other.isTemplate) return false
 
         return true
@@ -305,15 +270,14 @@ class EntryInfo : NodeInfo {
         result = 31 * result + attachments.hashCode()
         result = 31 * result + autoType.hashCode()
         result = 31 * result + (otpModel?.hashCode() ?: 0)
+        result = 31 * result + (passkey?.hashCode() ?: 0)
+        result = 31 * result + (originApp?.hashCode() ?: 0)
         result = 31 * result + isTemplate.hashCode()
         return result
     }
 
 
     companion object {
-
-        const val WEB_DOMAIN_FIELD_NAME = "URL"
-        const val APPLICATION_ID_FIELD_NAME = "AndroidApp"
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {

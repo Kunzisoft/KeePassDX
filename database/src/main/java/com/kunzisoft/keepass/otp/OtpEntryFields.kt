@@ -24,6 +24,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.TokenCalculator.HOTP_INITIAL_COUNTER
 import com.kunzisoft.keepass.otp.TokenCalculator.HashAlgorithm
 import com.kunzisoft.keepass.otp.TokenCalculator.OTP_DEFAULT_DIGITS
@@ -432,6 +433,25 @@ object OtpEntryFields {
     fun buildOtpField(otpElement: OtpElement, title: String? = null, username: String? = null): Field {
         return Field(OTP_FIELD, ProtectedString(true,
                 buildOtpUri(otpElement, title, username).toString()))
+    }
+
+    fun EntryInfo.setOtp(otpString: String): Boolean {
+        // Replace the OTP field
+        parseOTPUri(otpString)?.let { otpElement ->
+            if (title.isEmpty())
+                title = otpElement.issuer
+            if (username.isEmpty())
+                username = otpElement.name
+            // Add OTP field
+            val mutableCustomFields = customFields as ArrayList<Field>
+            val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
+            if (mutableCustomFields.contains(otpField)) {
+                mutableCustomFields.remove(otpField)
+            }
+            mutableCustomFields.add(otpField)
+            return true
+        }
+        return false
     }
 
     /**

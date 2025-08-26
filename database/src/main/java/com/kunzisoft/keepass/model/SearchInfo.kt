@@ -35,6 +35,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         get() {
             return if (webDomain == null) null else field
         }
+    var relyingParty: String? = null
     var otpString: String? = null
 
     constructor()
@@ -45,19 +46,22 @@ class SearchInfo : ObjectNameResource, Parcelable {
         applicationId = toCopy?.applicationId
         webDomain = toCopy?.webDomain
         webScheme = toCopy?.webScheme
+        relyingParty = toCopy?.relyingParty
         otpString = toCopy?.otpString
     }
 
     private constructor(parcel: Parcel) {
         manualSelection = parcel.readBooleanCompat()
         val readTag = parcel.readString()
-        tag =  if (readTag.isNullOrEmpty()) null else readTag
+        tag = if (readTag.isNullOrEmpty()) null else readTag
         val readAppId = parcel.readString()
-        applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
+        applicationId = if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
         webDomain = if (readDomain.isNullOrEmpty()) null else readDomain
         val readScheme = parcel.readString()
         webScheme = if (readScheme.isNullOrEmpty()) null else readScheme
+        val readRelyingParty = parcel.readString()
+        relyingParty = if (readRelyingParty.isNullOrEmpty()) null else readRelyingParty
         val readOtp = parcel.readString()
         otpString = if (readOtp.isNullOrEmpty()) null else readOtp
     }
@@ -72,6 +76,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")
+        parcel.writeString(relyingParty ?: "")
         parcel.writeString(otpString ?: "")
     }
 
@@ -89,6 +94,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 && applicationId == null
                 && webDomain == null
                 && webScheme == null
+                && relyingParty == null
                 && otpString == null
     }
     
@@ -98,9 +104,11 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     var isAPasskeySearch: Boolean = false
 
+    var query: String? = null
+
     fun buildSearchParameters(): SearchParameters {
         return SearchParameters().apply {
-            searchQuery = this@SearchInfo.toString()
+            searchQuery = query ?: this@SearchInfo.toString()
             allowEmptyQuery = false
             searchInTitles = !isAPasskeySearch
             searchInUsernames = false
@@ -129,6 +137,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
         if (webScheme != other.webScheme) return false
+        if (relyingParty != other.relyingParty) return false
         if (otpString != other.otpString) return false
 
         return true
@@ -140,12 +149,13 @@ class SearchInfo : ObjectNameResource, Parcelable {
         result = 31 * result + (applicationId?.hashCode() ?: 0)
         result = 31 * result + (webDomain?.hashCode() ?: 0)
         result = 31 * result + (webScheme?.hashCode() ?: 0)
+        result = 31 * result + (relyingParty?.hashCode() ?: 0)
         result = 31 * result + (otpString?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return otpString ?: webDomain ?: applicationId ?: tag ?: ""
+        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: tag ?: ""
     }
 
     companion object {

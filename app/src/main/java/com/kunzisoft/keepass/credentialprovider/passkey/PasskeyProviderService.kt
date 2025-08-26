@@ -85,8 +85,9 @@ class PasskeyProviderService : CredentialProviderService() {
 
     private fun buildPasskeySearchInfo(relyingParty: String): SearchInfo {
         return SearchInfo().apply {
-            this.webDomain = relyingParty
+            this.relyingParty = relyingParty
             this.isAPasskeySearch = true
+            this.query = relyingParty
         }
     }
 
@@ -142,7 +143,8 @@ class PasskeyProviderService : CredentialProviderService() {
                     PasskeyLauncherActivity.getPendingIntent(
                         context = applicationContext,
                         specialMode = SpecialMode.SELECTION,
-                        nodeId = passkeyEntry.id
+                        nodeId = passkeyEntry.id,
+                        originApp = passkeyEntry.originApp
                     )?.let { usagePendingIntent ->
                         val passkey = passkeyEntry.passkey
                         passkeyEntries.add(

@@ -63,15 +63,17 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.MainCredentialDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.fragments.GroupFragment
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -85,8 +87,6 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
-import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.model.DataTime
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -1046,11 +1046,10 @@ class GroupActivity : DatabaseLockActivity(),
             raw = true,
             removeTemplateConfiguration = false
         )
-        val modification = entryInfo.saveSearchInfo(database, searchInfo)
+        // TODO Transform SearchInfo in RegisterInfo
+        entryInfo.saveSearchInfo(database, searchInfo)
         newEntry.setEntryInfo(database, entryInfo)
-        if (modification) {
-            updateEntry(entry, newEntry)
-        }
+        updateEntry(entry, newEntry)
     }
 
     private fun finishNodeAction() {

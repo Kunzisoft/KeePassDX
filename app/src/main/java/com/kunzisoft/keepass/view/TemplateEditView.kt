@@ -20,6 +20,7 @@ import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.DataDate
 import com.kunzisoft.keepass.model.DataTime
+import com.kunzisoft.keepass.model.OriginAppEntryField
 import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 
@@ -263,6 +264,9 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
             getCustomField(key).protectedValue.toString()
         }?.otpModel
         mEntryInfo?.passkey = PasskeyEntryFields.parseFields { key ->
+            getCustomField(key).protectedValue.toString()
+        }
+        mEntryInfo?.originApp = OriginAppEntryField.parseFields { key ->
             getCustomField(key).protectedValue.toString()
         }
     }

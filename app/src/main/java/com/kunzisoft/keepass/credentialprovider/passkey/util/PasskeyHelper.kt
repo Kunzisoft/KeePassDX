@@ -51,6 +51,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.OriginApp
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
@@ -73,6 +74,7 @@ object PasskeyHelper {
 
 
     private const val EXTRA_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
+    private const val EXTRA_ORIGIN_APP_INFO = "com.kunzisoft.keepass.extra.ORIGIN_INFO"
     private const val EXTRA_NODE_ID = "com.kunzisoft.keepass.extra.nodeId"
     private const val EXTRA_TIMESTAMP = "com.kunzisoft.keepass.extra.timestamp"
     private const val EXTRA_AUTHENTICATION_CODE = "com.kunzisoft.keepass.extra.authenticationCode"
@@ -145,6 +147,16 @@ object PasskeyHelper {
 
     fun Intent.retrieveSearchInfo(): SearchInfo? {
         return this.getParcelableExtraCompat(EXTRA_SEARCH_INFO)
+    }
+
+    fun Intent.addOriginAppInfo(originApp: OriginApp?) {
+        originApp?.let {
+            putExtra(EXTRA_ORIGIN_APP_INFO, originApp)
+        }
+    }
+
+    fun Intent.retrieveOriginAppInfo(): OriginApp? {
+        return this.getParcelableExtraCompat(EXTRA_ORIGIN_APP_INFO)
     }
 
     fun Intent.addNodeId(nodeId: UUID?) {
@@ -246,10 +258,10 @@ object PasskeyHelper {
         return request.credentialOptions[0] as GetPublicKeyCredentialOption
     }
 
-    fun retrievePasskeyCreationRequestParameters(
+    suspend fun retrievePasskeyCreationRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
-        passkeyCreated: (Passkey, PublicKeyCredentialCreationParameters) -> Unit
+        passkeyCreated: (Passkey, OriginApp?, PublicKeyCredentialCreationParameters) -> Unit
     ) {
         val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
         if (createCredentialRequest == null)
@@ -285,9 +297,10 @@ object PasskeyHelper {
             callingAppInfo = callingAppInfo,
             assets = assetManager
         ).getOriginAtCreation(
-            onOriginRetrieved = { origin, clientDataHash ->
+            onOriginRetrieved = { appInfoToStore, clientDataHash ->
                 passkeyCreated.invoke(
                     passkey,
+                    appInfoToStore,
                     PublicKeyCredentialCreationParameters(
                         publicKeyCredentialCreationOptions = creationOptions,
                         credentialId = credentialId,
@@ -296,10 +309,10 @@ object PasskeyHelper {
                     )
                 )
             },
-            onOriginCreated = { origin, signingInfo ->
-                // TODO store signature
+            onOriginCreated = { appInfoToStore, origin ->
                 passkeyCreated.invoke(
                     passkey,
+                    appInfoToStore,
                     PublicKeyCredentialCreationParameters(
                         publicKeyCredentialCreationOptions = creationOptions,
                         credentialId = credentialId,
@@ -346,9 +359,10 @@ object PasskeyHelper {
         return CreatePublicKeyCredentialResponse(responseJson)
     }
 
-    fun retrievePasskeyUsageRequestParameters(
+    suspend fun retrievePasskeyUsageRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
+        originApp: OriginApp?,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -359,16 +373,14 @@ object PasskeyHelper {
         val clientDataHash = credentialOption.clientDataHash
 
         val requestOptions = PublicKeyCredentialRequestOptions(credentialOption.requestJson)
-        val relyingParty = requestOptions.rpId
 
         OriginManager(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
             assets = assetManager
         ).getOriginAtUsage(
-            storedPackageName = null, // TODO Retrieved package name and signature
-            storedSignature = null,
-            onOriginRetrieved = { origin, clientDataHash ->
+            appInfoStored = originApp,
+            onOriginRetrieved = { clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
                         publicKeyCredentialRequestOptions = requestOptions,

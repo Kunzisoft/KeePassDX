@@ -34,6 +34,8 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.OriginApp
+import com.kunzisoft.keepass.model.OriginAppEntryField
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpElement
@@ -365,6 +367,15 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return null
     }
 
+    fun getOriginApp(): OriginApp? {
+        entryKDBX?.let {
+            return OriginAppEntryField.parseFields { key ->
+                it.getFieldValue(key)?.toString()
+            }
+        }
+        return null
+    }
+
     fun startToManageFieldReferences(database: DatabaseKDBX) {
         entryKDBX?.startToManageFieldReferences(database)
     }
@@ -483,6 +494,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.otpModel = getOtpElement()?.otpModel
             // Add Passkey
             entryInfo.passkey = getPasskey()
+            entryInfo.originApp = getOriginApp()
             if (!raw) {
                 // Replace parameter fields by generated OTP fields
                 entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)

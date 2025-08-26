@@ -40,38 +40,40 @@ object PasskeyEntryFields {
         )
     }
 
-    fun EntryInfo.setPasskey(passkey: Passkey) {
-        tags.put(PASSKEY_TAG)
-        addOrReplaceField(
-            Field(
-                FIELD_USERNAME,
-                ProtectedString(enableProtection = false, passkey.username)
+    fun EntryInfo.setPasskey(passkey: Passkey?) {
+        if (passkey != null) {
+            tags.put(PASSKEY_TAG)
+            addOrReplaceField(
+                Field(
+                    FIELD_USERNAME,
+                    ProtectedString(enableProtection = false, passkey.username)
+                )
             )
-        )
-        addOrReplaceField(
-            Field(
-                FIELD_PRIVATE_KEY,
-                ProtectedString(enableProtection = true, passkey.privateKeyPem)
+            addOrReplaceField(
+                Field(
+                    FIELD_PRIVATE_KEY,
+                    ProtectedString(enableProtection = true, passkey.privateKeyPem)
+                )
             )
-        )
-        addOrReplaceField(
-            Field(
-                FIELD_CREDENTIAL_ID,
-                ProtectedString(enableProtection = true, passkey.credentialId)
+            addOrReplaceField(
+                Field(
+                    FIELD_CREDENTIAL_ID,
+                    ProtectedString(enableProtection = true, passkey.credentialId)
+                )
             )
-        )
-        addOrReplaceField(
-            Field(
-                FIELD_USER_HANDLE,
-                ProtectedString(enableProtection = true, passkey.userHandle)
+            addOrReplaceField(
+                Field(
+                    FIELD_USER_HANDLE,
+                    ProtectedString(enableProtection = true, passkey.userHandle)
+                )
             )
-        )
-        addOrReplaceField(
-            Field(
-                FIELD_RELYING_PARTY,
-                ProtectedString(enableProtection = false, passkey.relyingParty)
+            addOrReplaceField(
+                Field(
+                    FIELD_RELYING_PARTY,
+                    ProtectedString(enableProtection = false, passkey.relyingParty)
+                )
             )
-        )
+        }
     }
 
     /**
