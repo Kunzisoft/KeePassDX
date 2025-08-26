@@ -100,7 +100,7 @@ class OriginManager(
     }
 
     private fun buildAndroidOrigin(packageName: String): String {
-        val packageOrigin = "android://${packageName}"
+        val packageOrigin = "androidapp://${packageName}"
         Log.d(TAG, "Origin $packageOrigin retrieved from package name")
         return packageOrigin
     }
