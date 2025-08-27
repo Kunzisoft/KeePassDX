@@ -36,7 +36,7 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.OriginAppEntryField.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.model.AppOriginEntryField.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
 

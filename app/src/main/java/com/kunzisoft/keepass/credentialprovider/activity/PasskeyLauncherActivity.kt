@@ -23,7 +23,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -42,16 +41,18 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
+import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginManager.Companion.checkInAppOrigin
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAuthCode
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addNodeId
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addOriginAppInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildCreatePublicKeyCredentialResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyPublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.checkSecurity
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removeAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveNodeId
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveOriginAppInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskey
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
@@ -59,13 +60,13 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
-import com.kunzisoft.keepass.model.OriginApp
+import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.io.InvalidObjectException
 import java.util.UUID
 
@@ -75,34 +76,49 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     private var mUsageParameters: PublicKeyCredentialUsageParameters? = null
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
     private var mPasskey: Passkey? = null
-    private var mSearchInfo: SearchInfo = SearchInfo()
-    private var mOriginApp: OriginApp = OriginApp()
 
     private var mPasskeySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
         this.buildActivityResultLauncher(
             lockDatabase = true,
             dataTransformation = { intent ->
-                Log.d(TAG, "Passkey selection result")
-                val passkey = intent?.retrievePasskey()
-                intent?.removePasskey()
                 // Build a new formatted response from the selection response
                 val responseIntent = Intent()
-                passkey?.let {
-                    mUsageParameters?.let { usageParameters ->
-                        PendingIntentHandler.setGetCredentialResponse(
-                            responseIntent,
-                            GetCredentialResponse(
-                                buildPasskeyPublicKeyCredential(
-                                    usageParameters = usageParameters,
-                                    passkey = passkey
-                                )
+                try {
+                    Log.d(TAG, "Passkey selection result")
+                    val passkey = intent?.retrievePasskey()
+                    val appOrigin = intent?.retrieveAppOrigin()
+                    intent?.removePasskey()
+                    intent?.removeAppOrigin()
+                    passkey?.let {
+                        mUsageParameters?.let { usageParameters ->
+                            // Check verified origin
+                            usageParameters.androidApp.checkInAppOrigin(
+                                appOrigin = appOrigin,
+                                onOriginChecked = {
+                                    usageParameters.androidAppVerified = true
+                                    PendingIntentHandler.setGetCredentialResponse(
+                                        responseIntent,
+                                        GetCredentialResponse(
+                                            buildPasskeyPublicKeyCredential(
+                                                usageParameters = usageParameters,
+                                                passkey = passkey
+                                            )
+                                        )
+                                    )
+                                },
+                                onOriginNotChecked = {
+                                    throw SecurityException("Wrong signature for ${usageParameters.androidApp.id}")
+                                }
                             )
-                        )
+                        } ?: run {
+                            throw IOException("Usage parameters is null")
+                        }
                     } ?: run {
-                        Log.e(TAG, "Unable to return passkey, usage parameters are empty")
+                        throw IOException("Passkey is null")
                     }
-                } ?: run {
-                    Log.e(TAG, "Unable to get the passkey for response")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to create selection response for passkey", e)
+                    showError(e)
                 }
                 // Return the response
                 responseIntent
@@ -113,21 +129,29 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         this.buildActivityResultLauncher(
             lockDatabase = true,
             dataTransformation = { intent ->
-                Log.d(TAG, "Passkey registration result")
-                val passkey = intent?.retrievePasskey()
-                intent?.removePasskey()
                 // Build a new formatted response from the creation response
                 val responseIntent = Intent()
-                // If registered passkey is the same as the one we want to validate,
-                if (mPasskey == passkey) {
-                    mCreationParameters?.let {
-                        PendingIntentHandler.setCreateCredentialResponse(
-                            intent = responseIntent,
-                            response = buildCreatePublicKeyCredentialResponse(
-                                publicKeyCredentialCreationParameters = it
+                try {
+                    Log.d(TAG, "Passkey registration result")
+                    val passkey = intent?.retrievePasskey()
+                    intent?.removePasskey()
+                    intent?.removeAppOrigin()
+                    // If registered passkey is the same as the one we want to validate,
+                    if (mPasskey == passkey) {
+                        mCreationParameters?.let {
+                            PendingIntentHandler.setCreateCredentialResponse(
+                                intent = responseIntent,
+                                response = buildCreatePublicKeyCredentialResponse(
+                                    publicKeyCredentialCreationParameters = it
+                                )
                             )
-                        )
+                        }
+                    } else {
+                        throw SecurityException("Passkey was modified before registration")
                     }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Unable to create registration response for passkey", e)
+                    showError(e)
                 }
                 responseIntent
             }
@@ -141,31 +165,27 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mSearchInfo = intent.retrieveSearchInfo() ?: mSearchInfo
-        mOriginApp = intent.retrieveOriginAppInfo() ?: mOriginApp
-    }
-
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         lifecycleScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Passkey launch error", e)
-            Toast.makeText(this, e.localizedMessage, Toast.LENGTH_LONG).show()
+            showError(e)
             setResult(RESULT_CANCELED)
             finish()
         }) {
+            val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
+            val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin()
             val nodeId = intent.retrieveNodeId()
             checkSecurity(intent, nodeId)
             when (mSpecialMode) {
                 SpecialMode.SELECTION -> {
-                    launchSelection(database, nodeId, mSearchInfo, mOriginApp)
+                    launchSelection(database, nodeId, searchInfo, appOrigin)
                 }
                 SpecialMode.REGISTRATION -> {
                     // TODO Registration in predefined group
                     // launchRegistration(database, nodeId, mSearchInfo)
-                    launchRegistration(database, null, mSearchInfo)
+                    launchRegistration(database, null, searchInfo)
                 }
                 else -> {
                     throw InvalidObjectException("Passkey launch mode not supported")
@@ -209,14 +229,17 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         database: ContextualDatabase?,
         nodeId: UUID?,
         searchInfo: SearchInfo?,
-        originApp: OriginApp?
+        appOrigin: AppOrigin?
     ) {
         Log.d(TAG, "Launch passkey selection")
-        retrievePasskeyUsageRequestParameters(intent, assets, originApp) { usageParameters ->
+        retrievePasskeyUsageRequestParameters(intent, assets, appOrigin) { usageParameters ->
             // Save the requested parameters
             mUsageParameters = usageParameters
             // Manage the passkey to use
             nodeId?.let { nodeId ->
+                if (usageParameters.androidAppVerified.not()) {
+                    throw SecurityException("Wrong signature for ${usageParameters.androidApp.id}")
+                }
                 autoSelectPasskeyAndSetResult(database, nodeId)
             } ?: run {
                 SearchHelper.checkAutoSearchInfo(
@@ -290,7 +313,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 val registerInfo = RegisterInfo(
                     searchInfo = searchInfo,
                     passkey = passkey,
-                    originApp = appInfoToStore
+                    appOrigin = appInfoToStore
                 )
                 // If nodeId already provided
                 nodeId?.let { nodeId ->
@@ -336,6 +359,10 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         )
     }
 
+    private fun showError(e: Throwable) {
+        Toast.makeText(this, e.localizedMessage, Toast.LENGTH_LONG).show()
+    }
+
     companion object {
         private val TAG = PasskeyLauncherActivity::class.java.name
 
@@ -352,7 +379,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
             context: Context,
             specialMode: SpecialMode,
             searchInfo: SearchInfo? = null,
-            originApp: OriginApp? = null,
+            appOrigin: AppOrigin? = null,
             nodeId: UUID? = null
         ): PendingIntent? {
             return PendingIntent.getActivity(
@@ -362,7 +389,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                     addSpecialMode(specialMode)
                     addTypeMode(TypeMode.PASSKEY)
                     addSearchInfo(searchInfo)
-                    addOriginAppInfo(originApp)
+                    addAppOrigin(appOrigin)
                     addNodeId(nodeId)
                     addAuthCode(nodeId)
                 },

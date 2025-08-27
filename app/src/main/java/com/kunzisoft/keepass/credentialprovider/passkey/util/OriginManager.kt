@@ -25,7 +25,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.credentials.provider.CallingAppInfo
 import com.kunzisoft.encrypt.HashManager.getApplicationSignatures
-import com.kunzisoft.keepass.model.OriginApp
+import com.kunzisoft.keepass.model.AppIdentifier
+import com.kunzisoft.keepass.model.AppOrigin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -37,47 +38,62 @@ class OriginManager(
 ) {
 
     suspend fun getOriginAtCreation(
-        onOriginRetrieved: (appInfoToStore: OriginApp, clientDataHash: ByteArray) -> Unit,
-        onOriginCreated: (appInfoToStore: OriginApp, origin: String) -> Unit
+        onOriginRetrieved: (appInfoToStore: AppOrigin, clientDataHash: ByteArray) -> Unit,
+        onOriginCreated: (appInfoToStore: AppOrigin, origin: String) -> Unit
     ) {
         getOrigin(
-            onOriginRetrieved = { callOrigin, clientDataHash ->
-                onOriginRetrieved(OriginApp(webDomain = callOrigin), clientDataHash)
+            onOriginRetrieved = { appIdentifier, callOrigin, clientDataHash ->
+                onOriginRetrieved(
+                    AppOrigin().apply {
+                        addIdentifier(appIdentifier)
+                        addWebDomain(callOrigin)
+                    },
+                    clientDataHash
+                )
             },
-            onOriginNotRetrieved = { storeAppInfo ->
+            onOriginNotRetrieved = { appIdentifier ->
                 // Create a new Android Origin and prepare the signature app storage
                 onOriginCreated(
-                    storeAppInfo,
-                    buildAndroidOrigin(storeAppInfo.appId)
+                    AppOrigin().apply { addIdentifier(appIdentifier) },
+                    appIdentifier.buildAndroidOrigin()
                 )
             }
         )
     }
 
+    /**
+     * Retrieve the Android origin from an [AppOrigin],
+     * call [onOriginRetrieved] if the origin is already calculated by the system
+     * call [onOriginCreated] if the origin was created manually, origin is verified if present in the KeePass database
+     */
     suspend fun getOriginAtUsage(
-        appInfoStored: OriginApp?,
-        onOriginRetrieved: (clientDataHash: ByteArray) -> Unit,
-        onOriginCreated: (origin: String) -> Unit
+        appOrigin: AppOrigin?,
+        onOriginRetrieved: (appIdentifier: AppIdentifier, clientDataHash: ByteArray) -> Unit,
+        onOriginCreated: (appIdentifier: AppIdentifier, origin: String, originVerified: Boolean) -> Unit
     ) {
         getOrigin(
-            onOriginRetrieved = { origin, clientDataHash ->
-                onOriginRetrieved(clientDataHash)
+            onOriginRetrieved = { appIdentifier, origin, clientDataHash ->
+                onOriginRetrieved(appIdentifier, clientDataHash)
             },
-            onOriginNotRetrieved = { appInfoCalled ->
+            onOriginNotRetrieved = { appIdentifierToCheck ->
                 // Verify the app signature to retrieve the origin
-                if (appInfoCalled.appId == appInfoStored?.appId
-                    && appInfoCalled.appSignature == appInfoStored?.appSignature) {
-                    onOriginCreated(buildAndroidOrigin(appInfoCalled.appId))
-                } else {
-                    throw SecurityException("Wrong signature for ${appInfoCalled.appId}, ${appInfoCalled.appSignature} retrieved but ${appInfoStored?.appSignature} expected")
-                }
+                val androidOrigin = appIdentifierToCheck.buildAndroidOrigin()
+                appIdentifierToCheck.checkInAppOrigin(
+                    appOrigin = appOrigin,
+                    onOriginChecked = {
+                        onOriginCreated(appIdentifierToCheck, androidOrigin, true)
+                    },
+                    onOriginNotChecked = {
+                        onOriginCreated(appIdentifierToCheck, androidOrigin, false)
+                    }
+                )
             }
         )
     }
 
     private suspend fun getOrigin(
-        onOriginRetrieved: (origin: String, clientDataHash: ByteArray) -> Unit,
-        onOriginNotRetrieved: (appInfoRetrieved: OriginApp) -> Unit
+        onOriginRetrieved: (appInfoRetrieved: AppIdentifier, origin: String, clientDataHash: ByteArray) -> Unit,
+        onOriginNotRetrieved: (appInfoRetrieved: AppIdentifier) -> Unit
     ) {
         if (callingAppInfo == null) {
             throw SecurityException("Calling app info cannot be retrieved")
@@ -89,34 +105,60 @@ class OriginManager(
             }
             // for trusted browsers like Chrome and Firefox
             callOrigin = callingAppInfo.getOrigin(privilegedAllowlist)?.removeSuffix("/")
+            val appIdentifier = AppIdentifier(
+                id = callingAppInfo.packageName,
+                signature = callingAppInfo.signingInfo
+                    .getApplicationSignatures()
+            )
             withContext(Dispatchers.Main) {
                 if (callOrigin != null && providedClientDataHash != null) {
                     Log.d(TAG, "Origin $callOrigin retrieved from callingAppInfo")
-                    onOriginRetrieved(callOrigin, providedClientDataHash)
+                        onOriginRetrieved(appIdentifier, callOrigin, providedClientDataHash)
                 } else {
-                    onOriginNotRetrieved(
-                        OriginApp(
-                            appId = callingAppInfo.packageName,
-                            appSignature = callingAppInfo.signingInfo.getApplicationSignatures()
-                        )
-                    )
+                        onOriginNotRetrieved(appIdentifier)
                 }
             }
         }
     }
 
-    /**
-     * Builds an Android Origin from a package name.
-     */
-    private fun buildAndroidOrigin(packageName: String?): String {
-        if (packageName.isNullOrEmpty())
-            throw SecurityException("Package name cannot be empty")
-        val packageOrigin = "androidapp://${packageName}"
-        Log.d(TAG, "Origin $packageOrigin retrieved from package name")
-        return packageOrigin
-    }
-
     companion object {
         private val TAG = OriginManager::class.simpleName
+
+        /**
+         * Verify that the application signature is contained in the [appOrigin]
+         */
+        fun AppIdentifier.checkInAppOrigin(
+            appOrigin: AppOrigin?,
+            onOriginChecked: (origin: String) -> Unit,
+            onOriginNotChecked: () -> Unit
+        ) {
+            // Verify the app signature to retrieve the origin
+            val appIdentifierStored = appOrigin?.appIdentifiers?.filter {
+                it.id == this.id
+            }
+            if (appIdentifierStored?.any { it.signature == this.signature } == true) {
+                onOriginChecked(this.buildAndroidOrigin())
+            } else {
+                onOriginNotChecked()
+            }
+        }
+
+        /**
+         * Builds an Android Origin from a AppIdentifier
+         */
+        fun AppIdentifier.buildAndroidOrigin(): String {
+            return buildAndroidOrigin(this.id)
+        }
+
+        /**
+         * Builds an Android Origin from a package name.
+         */
+        private fun buildAndroidOrigin(packageName: String?): String {
+            if (packageName.isNullOrEmpty())
+                throw SecurityException("Package name cannot be empty")
+            val packageOrigin = "androidapp://${packageName}"
+            Log.d(TAG, "Origin $packageOrigin retrieved from package name")
+            return packageOrigin
+        }
     }
 }

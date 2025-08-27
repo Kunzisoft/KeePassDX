@@ -20,7 +20,7 @@ import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.database.helper.isStandardPasswordName
 import com.kunzisoft.keepass.model.DataDate
 import com.kunzisoft.keepass.model.DataTime
-import com.kunzisoft.keepass.model.OriginAppEntryField
+import com.kunzisoft.keepass.model.AppOriginEntryField
 import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpEntryFields
 
@@ -260,15 +260,12 @@ class TemplateEditView @JvmOverloads constructor(context: Context,
     override fun populateEntryInfoWithViews(templateFieldNotEmpty: Boolean,
                                             retrieveDefaultValues: Boolean) {
         super.populateEntryInfoWithViews(templateFieldNotEmpty, retrieveDefaultValues)
-        mEntryInfo?.otpModel = OtpEntryFields.parseFields { key ->
-            getCustomField(key).protectedValue.toString()
-        }?.otpModel
-        mEntryInfo?.passkey = PasskeyEntryFields.parseFields { key ->
-            getCustomField(key).protectedValue.toString()
+        val getField: (id: String) -> String? = { key ->
+            getCustomFieldOrNull(key)?.protectedValue?.stringValue
         }
-        mEntryInfo?.originApp = OriginAppEntryField.parseFields { key ->
-            getCustomField(key).protectedValue.toString()
-        }
+        mEntryInfo?.otpModel = OtpEntryFields.parseFields(getField)?.otpModel
+        mEntryInfo?.passkey = PasskeyEntryFields.parseFields(getField)
+        mEntryInfo?.appOrigin = AppOriginEntryField.parseFields(getField)
     }
 
     override fun onRestoreEntryInstanceState(state: SavedState) {

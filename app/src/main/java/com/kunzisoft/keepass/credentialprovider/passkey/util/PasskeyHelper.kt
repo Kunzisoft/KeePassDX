@@ -50,8 +50,8 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
+import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.model.OriginApp
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
@@ -68,13 +68,13 @@ import javax.crypto.SecretKey
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 object PasskeyHelper {
 
-    private const val EXTRA_PASSKEY_ELEMENT = "com.kunzisoft.keepass.passkey.extra.EXTRA_PASSKEY_ELEMENT"
+    private const val EXTRA_PASSKEY = "com.kunzisoft.keepass.passkey.extra.passkey"
 
     private const val HMAC_TYPE = "HmacSHA256"
 
 
-    private const val EXTRA_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
-    private const val EXTRA_ORIGIN_APP_INFO = "com.kunzisoft.keepass.extra.ORIGIN_INFO"
+    private const val EXTRA_SEARCH_INFO = "com.kunzisoft.keepass.extra.searchInfo"
+    private const val EXTRA_APP_ORIGIN = "com.kunzisoft.keepass.extra.appOrigin"
     private const val EXTRA_NODE_ID = "com.kunzisoft.keepass.extra.nodeId"
     private const val EXTRA_TIMESTAMP = "com.kunzisoft.keepass.extra.timestamp"
     private const val EXTRA_AUTHENTICATION_CODE = "com.kunzisoft.keepass.extra.authenticationCode"
@@ -103,7 +103,8 @@ object PasskeyHelper {
             entryInfo.passkey?.let {
                 val mReplyIntent = Intent()
                 Log.d(javaClass.name, "Success Passkey manual selection")
-                mReplyIntent.putExtra(EXTRA_PASSKEY_ELEMENT, entryInfo.passkey)
+                mReplyIntent.putExtra(EXTRA_PASSKEY, entryInfo.passkey)
+                mReplyIntent.putExtra(EXTRA_APP_ORIGIN, entryInfo.appOrigin)
                 extras?.let {
                     mReplyIntent.putExtras(it)
                 }
@@ -132,11 +133,11 @@ object PasskeyHelper {
     }
 
     fun Intent.retrievePasskey(): Passkey? {
-        return this.getParcelableExtraCompat(EXTRA_PASSKEY_ELEMENT)
+        return this.getParcelableExtraCompat(EXTRA_PASSKEY)
     }
 
     fun Intent.removePasskey() {
-        return this.removeExtra(EXTRA_PASSKEY_ELEMENT)
+        return this.removeExtra(EXTRA_PASSKEY)
     }
 
     fun Intent.addSearchInfo(searchInfo: SearchInfo?) {
@@ -149,14 +150,18 @@ object PasskeyHelper {
         return this.getParcelableExtraCompat(EXTRA_SEARCH_INFO)
     }
 
-    fun Intent.addOriginAppInfo(originApp: OriginApp?) {
-        originApp?.let {
-            putExtra(EXTRA_ORIGIN_APP_INFO, originApp)
+    fun Intent.addAppOrigin(appOrigin: AppOrigin?) {
+        appOrigin?.let {
+            putExtra(EXTRA_APP_ORIGIN, appOrigin)
         }
     }
 
-    fun Intent.retrieveOriginAppInfo(): OriginApp? {
-        return this.getParcelableExtraCompat(EXTRA_ORIGIN_APP_INFO)
+    fun Intent.retrieveAppOrigin(): AppOrigin? {
+        return this.getParcelableExtraCompat(EXTRA_APP_ORIGIN)
+    }
+
+    fun Intent.removeAppOrigin() {
+        return this.removeExtra(EXTRA_APP_ORIGIN)
     }
 
     fun Intent.addNodeId(nodeId: UUID?) {
@@ -261,7 +266,7 @@ object PasskeyHelper {
     suspend fun retrievePasskeyCreationRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
-        passkeyCreated: (Passkey, OriginApp?, PublicKeyCredentialCreationParameters) -> Unit
+        passkeyCreated: (Passkey, AppOrigin?, PublicKeyCredentialCreationParameters) -> Unit
     ) {
         val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
         if (createCredentialRequest == null)
@@ -362,7 +367,7 @@ object PasskeyHelper {
     suspend fun retrievePasskeyUsageRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
-        originApp: OriginApp?,
+        appOrigin: AppOrigin?,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -379,16 +384,18 @@ object PasskeyHelper {
             callingAppInfo = callingAppInfo,
             assets = assetManager
         ).getOriginAtUsage(
-            appInfoStored = originApp,
-            onOriginRetrieved = { clientDataHash ->
+            appOrigin = appOrigin,
+            onOriginRetrieved = { appIdentifier, clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
                         publicKeyCredentialRequestOptions = requestOptions,
-                        clientDataResponse = ClientDataDefinedResponse(clientDataHash)
+                        clientDataResponse = ClientDataDefinedResponse(clientDataHash),
+                        androidApp = appIdentifier,
+                        androidAppVerified = true
                     )
                 )
             },
-            onOriginCreated = { origin ->
+            onOriginCreated = { appIdentifier, origin, verified ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
                         publicKeyCredentialRequestOptions = requestOptions,
@@ -397,7 +404,9 @@ object PasskeyHelper {
                             challenge = requestOptions.challenge,
                             origin = origin,
                             crossOrigin = false // TODO should always be false?
-                        )
+                        ),
+                        androidApp = appIdentifier,
+                        androidAppVerified = verified
                     )
                 )
             }

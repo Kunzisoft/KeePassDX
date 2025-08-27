@@ -144,7 +144,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         context = applicationContext,
                         specialMode = SpecialMode.SELECTION,
                         nodeId = passkeyEntry.id,
-                        originApp = passkeyEntry.originApp
+                        appOrigin = passkeyEntry.appOrigin
                     )?.let { usagePendingIntent ->
                         val passkey = passkeyEntry.passkey
                         passkeyEntries.add(

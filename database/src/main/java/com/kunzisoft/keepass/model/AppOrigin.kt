@@ -23,8 +23,39 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class OriginApp(
-    val appId: String? = null,
-    val appSignature: String? = null,
-    val webDomain: String? = null
+data class AppOrigin(
+    val appIdentifiers: MutableList<AppIdentifier> = mutableListOf(),
+    val webDomains: MutableList<String> = mutableListOf()
+) : Parcelable {
+
+    fun addIdentifier(appIdentifier: AppIdentifier) {
+        appIdentifiers.add(appIdentifier)
+    }
+
+    fun addWebDomain(webDomain: String) {
+        this.webDomains.add(webDomain)
+    }
+
+    fun removeAppElement(appIdentifier: AppIdentifier) {
+        appIdentifiers.remove(appIdentifier)
+    }
+
+    fun removeWebDomain(webDomain: String) {
+        this.webDomains.remove(webDomain)
+    }
+
+    fun clear() {
+        appIdentifiers.clear()
+        webDomains.clear()
+    }
+
+    fun isEmpty(): Boolean {
+        return appIdentifiers.isEmpty() && webDomains.isEmpty()
+    }
+}
+
+@Parcelize
+data class AppIdentifier(
+    val id: String,
+    val signature: String? = null,
 ) : Parcelable

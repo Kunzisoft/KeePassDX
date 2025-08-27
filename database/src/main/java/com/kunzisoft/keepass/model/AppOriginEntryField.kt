@@ -21,25 +21,51 @@ package com.kunzisoft.keepass.model
 
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.EntryInfo.Companion.suffixFieldNamePosition
 
-object OriginAppEntryField {
+object AppOriginEntryField {
 
     const val WEB_DOMAIN_FIELD_NAME = "URL"
     const val APPLICATION_ID_FIELD_NAME = "AndroidApp"
     const val APPLICATION_SIGNATURE_FIELD_NAME = "AndroidApp Signature"
 
     /**
-     * Parse fields of an entry to retrieve a an OriginApp
+     * Parse fields of an entry to retrieve a an AppOrigin
      */
-    fun parseFields(getField: (id: String) -> String?): OriginApp {
-        val appIdField = getField(APPLICATION_ID_FIELD_NAME)
-        val appSignatureField = getField(APPLICATION_SIGNATURE_FIELD_NAME)
-        val webDomainField = getField(WEB_DOMAIN_FIELD_NAME)
-        return OriginApp(
-            appId = appIdField,
-            appSignature = appSignatureField,
-            webDomain = webDomainField
-        )
+    fun parseFields(getField: (id: String) -> String?): AppOrigin {
+        val appOrigin = AppOrigin()
+        // Get Application identifiers
+        generateSequence(0) { it + 1 }
+            .map { position ->
+                val appId = getField(APPLICATION_ID_FIELD_NAME + suffixFieldNamePosition(position))
+                val appSignature = getField(APPLICATION_SIGNATURE_FIELD_NAME + suffixFieldNamePosition(position))
+                // Pair them up, if appId is null, we stop
+                if (appId != null) {
+                    appId to (appSignature ?: "")
+                } else {
+                    // Stop
+                    null
+                }
+            }.takeWhile { it != null }
+            .forEach { pair ->
+                appOrigin.addIdentifier(
+                    AppIdentifier(pair!!.first, pair.second)
+                )
+            }
+        // Get Domains
+        var domainFieldPosition = 0
+        while (true) {
+            val domainKey = WEB_DOMAIN_FIELD_NAME + suffixFieldNamePosition(domainFieldPosition)
+            val domainValue = getField(domainKey)
+            if (domainValue != null) {
+                appOrigin.addWebDomain(domainValue)
+                domainFieldPosition++
+            } else {
+                break // No more domain found
+            }
+        }
+
+        return appOrigin
     }
 
     /**
@@ -102,10 +128,16 @@ object OriginAppEntryField {
         }
     }
 
-    fun EntryInfo.setOriginApp(originApp: OriginApp?, customFieldsAllowed: Boolean) {
-        if (originApp != null) {
-            setApplicationId(originApp.appId, originApp.appSignature)
-            setWebDomain(originApp.webDomain, null, customFieldsAllowed)
+    /**
+     * Assign an AppOrigin to an EntryInfo,
+     * Only if [customFieldsAllowed] is true
+     */
+    fun EntryInfo.setAppOrigin(appOrigin: AppOrigin?, customFieldsAllowed: Boolean) {
+        appOrigin?.appIdentifiers?.forEach { appIdentifier ->
+            setApplicationId(appIdentifier.id, appIdentifier.signature)
+        }
+        appOrigin?.webDomains?.forEach { webDomain ->
+            setWebDomain(webDomain, null, customFieldsAllowed)
         }
     }
 }

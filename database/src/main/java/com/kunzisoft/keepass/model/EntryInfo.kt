@@ -27,10 +27,10 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
+import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
+import com.kunzisoft.keepass.model.AppOriginEntryField.setApplicationId
+import com.kunzisoft.keepass.model.AppOriginEntryField.setWebDomain
 import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
-import com.kunzisoft.keepass.model.OriginAppEntryField.setApplicationId
-import com.kunzisoft.keepass.model.OriginAppEntryField.setOriginApp
-import com.kunzisoft.keepass.model.OriginAppEntryField.setWebDomain
 import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
 import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
@@ -59,7 +59,7 @@ class EntryInfo : NodeInfo {
     var autoType: AutoType = AutoType()
     var otpModel: OtpModel? = null
     var passkey: Passkey? = null
-    var originApp: OriginApp? = null
+    var appOrigin: AppOrigin? = null
     var isTemplate: Boolean = false
 
     constructor() : super()
@@ -80,7 +80,7 @@ class EntryInfo : NodeInfo {
         autoType = parcel.readParcelableCompat() ?: autoType
         otpModel = parcel.readParcelableCompat() ?: otpModel
         passkey = parcel.readParcelableCompat() ?: passkey
-        originApp = parcel.readParcelableCompat() ?: originApp
+        appOrigin = parcel.readParcelableCompat() ?: appOrigin
         isTemplate = parcel.readBooleanCompat()
     }
 
@@ -103,7 +103,7 @@ class EntryInfo : NodeInfo {
         parcel.writeParcelable(autoType, flags)
         parcel.writeParcelable(otpModel, flags)
         parcel.writeParcelable(passkey, flags)
-        parcel.writeParcelable(originApp, flags)
+        parcel.writeParcelable(appOrigin, flags)
         parcel.writeBooleanCompat(isTemplate)
     }
 
@@ -136,13 +136,6 @@ class EntryInfo : NodeInfo {
                 protectedValue = field.protectedValue
             }
         } ?: customFields.add(field)
-    }
-
-    /**
-     * Create a field name suffix depending on the field position
-     */
-    private fun suffixFieldNamePosition(position: Int): String {
-        return if (position > 0) "_$position" else ""
     }
 
     /**
@@ -218,8 +211,8 @@ class EntryInfo : NodeInfo {
         registerInfo.password?.let { password = it }
         setCreditCard(registerInfo.creditCard)
         setPasskey(registerInfo.passkey)
-        setOriginApp(
-            registerInfo.originApp,
+        setAppOrigin(
+            registerInfo.appOrigin,
             database?.allowEntryCustomFields() == true
         )
     }
@@ -250,7 +243,7 @@ class EntryInfo : NodeInfo {
         if (autoType != other.autoType) return false
         if (otpModel != other.otpModel) return false
         if (passkey != other.passkey) return false
-        if (originApp != other.originApp) return false
+        if (appOrigin != other.appOrigin) return false
         if (isTemplate != other.isTemplate) return false
 
         return true
@@ -271,13 +264,20 @@ class EntryInfo : NodeInfo {
         result = 31 * result + autoType.hashCode()
         result = 31 * result + (otpModel?.hashCode() ?: 0)
         result = 31 * result + (passkey?.hashCode() ?: 0)
-        result = 31 * result + (originApp?.hashCode() ?: 0)
+        result = 31 * result + (appOrigin?.hashCode() ?: 0)
         result = 31 * result + isTemplate.hashCode()
         return result
     }
 
 
     companion object {
+
+        /**
+         * Create a field name suffix depending on the field position
+         */
+        fun suffixFieldNamePosition(position: Int): String {
+            return if (position > 0) "_$position" else ""
+        }
 
         @JvmField
         val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {

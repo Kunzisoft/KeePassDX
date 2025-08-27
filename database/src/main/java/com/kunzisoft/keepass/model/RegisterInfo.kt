@@ -10,7 +10,7 @@ data class RegisterInfo(
     val password: String? = null,
     val creditCard: CreditCard? = null,
     val passkey: Passkey? = null,
-    val originApp: OriginApp? = null
+    val appOrigin: AppOrigin? = null
 ): Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -19,7 +19,7 @@ data class RegisterInfo(
         password = parcel.readString() ?: "",
         creditCard = parcel.readParcelableCompat(),
         passkey = parcel.readParcelableCompat(),
-        originApp = parcel.readParcelableCompat()
+        appOrigin = parcel.readParcelableCompat()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -28,7 +28,7 @@ data class RegisterInfo(
         parcel.writeString(password)
         parcel.writeParcelable(creditCard, flags)
         parcel.writeParcelable(passkey, flags)
-        parcel.writeParcelable(originApp, flags)
+        parcel.writeParcelable(appOrigin, flags)
     }
 
     override fun describeContents(): Int {
