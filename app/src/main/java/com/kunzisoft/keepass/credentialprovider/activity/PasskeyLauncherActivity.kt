@@ -92,24 +92,35 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                     passkey?.let {
                         mUsageParameters?.let { usageParameters ->
                             // Check verified origin
-                            usageParameters.androidApp.checkInAppOrigin(
-                                appOrigin = appOrigin,
-                                onOriginChecked = {
-                                    usageParameters.androidAppVerified = true
-                                    PendingIntentHandler.setGetCredentialResponse(
-                                        responseIntent,
-                                        GetCredentialResponse(
-                                            buildPasskeyPublicKeyCredential(
-                                                usageParameters = usageParameters,
-                                                passkey = passkey
-                                            )
+                            if (usageParameters.androidAppVerified) {
+                                PendingIntentHandler.setGetCredentialResponse(
+                                    responseIntent,
+                                    GetCredentialResponse(
+                                        buildPasskeyPublicKeyCredential(
+                                            usageParameters = usageParameters,
+                                            passkey = passkey
                                         )
                                     )
-                                },
-                                onOriginNotChecked = {
-                                    throw SecurityException("Wrong signature for ${usageParameters.androidApp.id}")
-                                }
-                            )
+                                )
+                            } else {
+                                usageParameters.androidApp.checkInAppOrigin(
+                                    appOrigin = appOrigin,
+                                    onOriginChecked = {
+                                        PendingIntentHandler.setGetCredentialResponse(
+                                            responseIntent,
+                                            GetCredentialResponse(
+                                                buildPasskeyPublicKeyCredential(
+                                                    usageParameters = usageParameters,
+                                                    passkey = passkey
+                                                )
+                                            )
+                                        )
+                                    },
+                                    onOriginNotChecked = {
+                                        throw SecurityException("Wrong signature for ${usageParameters.androidApp.id}")
+                                    }
+                                )
+                            }
                         } ?: run {
                             throw IOException("Usage parameters is null")
                         }

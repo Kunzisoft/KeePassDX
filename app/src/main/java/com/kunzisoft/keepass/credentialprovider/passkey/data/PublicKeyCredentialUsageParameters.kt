@@ -25,5 +25,5 @@ data class PublicKeyCredentialUsageParameters(
         val publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions,
         val clientDataResponse: ClientDataResponse,
         val androidApp: AppIdentifier,
-        var androidAppVerified: Boolean
+        val androidAppVerified: Boolean
 )

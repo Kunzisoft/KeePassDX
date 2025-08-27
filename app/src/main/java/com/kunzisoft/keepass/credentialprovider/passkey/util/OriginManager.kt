@@ -45,7 +45,7 @@ class OriginManager(
             onOriginRetrieved = { appIdentifier, callOrigin, clientDataHash ->
                 onOriginRetrieved(
                     AppOrigin().apply {
-                        addIdentifier(appIdentifier)
+                        // Do not store Web Browser AppId -> addIdentifier(appIdentifier)
                         addWebDomain(callOrigin)
                     },
                     clientDataHash
