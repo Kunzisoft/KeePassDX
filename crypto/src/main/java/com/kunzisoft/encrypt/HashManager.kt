@@ -19,6 +19,11 @@
  */
 package com.kunzisoft.encrypt
 
+import android.content.pm.Signature
+import android.content.pm.SigningInfo
+import android.os.Build
+import android.util.AndroidException
+import android.util.Log
 import org.bouncycastle.crypto.engines.ChaCha7539Engine
 import org.bouncycastle.crypto.engines.Salsa20Engine
 import org.bouncycastle.crypto.params.KeyParameter
@@ -26,8 +31,13 @@ import org.bouncycastle.crypto.params.ParametersWithIV
 import java.io.IOException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
+import java.util.Locale
 
 object HashManager {
+
+    private val TAG = HashManager::class.simpleName
 
     fun getHash256(): MessageDigest {
         val messageDigest: MessageDigest
@@ -106,5 +116,78 @@ object HashManager {
         cipher.init(true, ivParam)
 
         return StreamCipher(cipher)
+    }
+
+    private const val SIGNATURE_DELIMITER = "##SIG##"
+
+    /**
+     * Converts a Signature object into its SHA-256 fingerprint string.
+     * The fingerprint is typically represented as uppercase hex characters separated by colons.
+     */
+    private fun signatureToSha256Fingerprint(signature: Signature): String? {
+        return try {
+            val certificateFactory = CertificateFactory.getInstance("X.509")
+            val x509Certificate = certificateFactory.generateCertificate(
+                signature.toByteArray().inputStream()
+            ) as X509Certificate
+
+            val messageDigest = MessageDigest.getInstance("SHA-256")
+            val digest = messageDigest.digest(x509Certificate.encoded)
+
+            // Format as colon-separated HEX uppercase string
+            digest.joinToString(separator = ":") { byte -> "%02X".format(byte) }
+                .uppercase(Locale.US)
+        } catch (e: Exception) {
+            Log.e("SigningInfoUtil", "Error converting signature to SHA-256 fingerprint", e)
+            null
+        }
+    }
+
+    /**
+     * Retrieves all relevant SHA-256 signature fingerprints for a given package.
+     *
+     * @param signingInfo The SigningInfo object to retrieve the strings signatures
+     * @return A List of SHA-256 fingerprint strings, or null if an error occurs or no signatures are found.
+     */
+    fun getAllSignatures(signingInfo: SigningInfo?): List<String>? {
+        try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
+                throw AndroidException("API level ${Build.VERSION.SDK_INT} not supported")
+            val signatures = mutableSetOf<String>()
+            if (signingInfo != null) {
+                // Includes past and current keys if rotation occurred. This is generally preferred.
+                signingInfo.signingCertificateHistory?.forEach { signature ->
+                    signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
+                }
+                // If only one signer and history is empty (e.g. new app), this might be needed.
+                // Or if multiple signers are explicitly used for the APK content.
+                if (signingInfo.hasMultipleSigners()) {
+                    signingInfo.apkContentsSigners?.forEach { signature ->
+                        signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
+                    }
+                } else { // Fallback for single signer if history was somehow null/empty
+                    signingInfo.signingCertificateHistory?.firstOrNull()?.let {
+                        signatureToSha256Fingerprint(it)?.let { fp -> signatures.add(fp) }
+                    }
+                }
+            }
+            return if (signatures.isEmpty()) null else signatures.toList()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting signatures", e)
+            return null
+        }
+    }
+
+    /**
+     * Combines a list of signature into a single string for database storage.
+     *
+     * @return A single string with fingerprints joined by a delimiter, or null if the input list is null or empty.
+     */
+    fun SigningInfo.getApplicationSignatures(): String? {
+        val fingerprints = getAllSignatures(this)
+        if (fingerprints.isNullOrEmpty()) {
+            return null
+        }
+        return fingerprints.joinToString(SIGNATURE_DELIMITER)
     }
 }

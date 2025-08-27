@@ -1,17 +1,11 @@
 package com.kunzisoft.asymmetric
 
-import org.bouncycastle.jcajce.provider.asymmetric.edec.BCEdDSAPrivateKey
-import org.bouncycastle.jcajce.provider.asymmetric.edec.BCXDHPrivateKey
 import org.junit.Test
-import java.io.File
-import java.io.FileWriter
-import kotlin.io.path.Path
 
 class SignatureTest {
 
     // All private keys are for testing only.
     // DO NOT USE THEM
-
 
     // region ES256
     private val es256PemInKeePassXC =
@@ -159,9 +153,5 @@ class SignatureTest {
         assert(privateKeyPem.contains("-----BEGIN EC PRIVATE KEY-----", true).not())
     }
 
-
-
-
     // endregion
-
 }
