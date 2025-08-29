@@ -1,3 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="contact">Сувязь</string>
+    <string name="info">Інфармацыя</string>
+    <string name="contribution">Ахвяраваць</string>
+    <string name="feedback">Зваротная сувязь</string>
+    <string name="homepage">Хатняя старонка</string>
+    <string name="about_description">Рэалізацыя менеджара пароляў KeePass для Android.</string>
+    <string name="accept">Ухваліць</string>
+    <string name="add_entry">Дадаць запіс</string>
+    <string name="edit_entry">Рэдагаваць запіс</string>
+    <string name="add_group">Дадаць групу</string>
+    <string name="master_key">Галоўны ключ</string>
+    <string name="security">Бяспека</string>
+    <string name="encryption">Шыфраванне</string>
+    <string name="encryption_algorithm">Алгарытм шыфравання</string>
+    <string name="key_derivation_function">Функцыя вываду ключа</string>
+    <string name="app_timeout">Таймаўт</string>
+    <string name="app_timeout_summary">Час прастою перад блакіроўкай базы дадзеных</string>
+    <string name="application">Праграма</string>
+    <string name="extended_ASCII">Пашыраны ASCII</string>
+    <string name="file_manager_install_description">Для стварэння, адкрыцця і захавання файлаў базы дадзеных патрабуецца файлавы менеджар, які прымае дзеянні ACTION_CREATE_DOCUMENT і ACTION_OPEN_DOCUMENT.</string>
+    <string name="allow">Дазволіць</string>
+    <string name="clipboard_cleared">Буфер абмену ачышчаны</string>
+    <string name="clipboard_error_title">Памылка буфера абмену</string>
+    <string name="clipboard_error">Некаторыя прылады не дазваляюць праграмам выкарыстоўваць буфер абмену.</string>
+    <string name="clipboard_error_clear">Не атрымалася ачысціць буфер абмену</string>
+    <string name="clipboard_timeout">Час чакання буфера абмену</string>
+    <string name="clipboard_timeout_summary">Працягласць захоўвання ў буферы абмену (калі падтрымліваецца вашай прыладай)</string>
+    <string name="content_description_open_file">Адкрыць файл</string>
+    <string name="content_description_add_node">Дадаць вузел</string>
+    <string name="content_description_add_entry">Дадаць запіс</string>
+    <string name="content_description_add_group">Дадаць групу</string>
+    <string name="content_description_add_item">Дадаць элемент</string>
+    <string name="content_description_file_information">Інфармацыя пра файл</string>
+    <string name="content_description_credentials_information">Інфармацыя аб паўнамоцтвах</string>
+    <string name="content_description_otp_information">One-time password info</string>
 </resources>
