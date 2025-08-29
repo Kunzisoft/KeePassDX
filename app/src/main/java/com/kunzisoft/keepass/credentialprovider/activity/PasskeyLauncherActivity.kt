@@ -41,7 +41,6 @@ import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginManager.Companion.checkInAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAuthCode
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addNodeId
@@ -49,6 +48,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addSe
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildCreatePublicKeyCredentialResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyPublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.checkSecurity
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.getVerifiedClientDataResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removeAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveAppOrigin
@@ -92,35 +92,25 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                     passkey?.let {
                         mUsageParameters?.let { usageParameters ->
                             // Check verified origin
-                            if (usageParameters.androidAppVerified) {
-                                PendingIntentHandler.setGetCredentialResponse(
-                                    responseIntent,
-                                    GetCredentialResponse(
-                                        buildPasskeyPublicKeyCredential(
-                                            usageParameters = usageParameters,
-                                            passkey = passkey
-                                        )
-                                    )
-                                )
-                            } else {
-                                usageParameters.androidApp.checkInAppOrigin(
-                                    appOrigin = appOrigin,
-                                    onOriginChecked = {
-                                        PendingIntentHandler.setGetCredentialResponse(
-                                            responseIntent,
-                                            GetCredentialResponse(
-                                                buildPasskeyPublicKeyCredential(
-                                                    usageParameters = usageParameters,
-                                                    passkey = passkey
-                                                )
+                            getVerifiedClientDataResponse(
+                                usageParameters = usageParameters,
+                                appOrigin = appOrigin,
+                                onOriginChecked = { clientDataResponse ->
+                                    PendingIntentHandler.setGetCredentialResponse(
+                                        responseIntent,
+                                        GetCredentialResponse(
+                                            buildPasskeyPublicKeyCredential(
+                                                requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                                                clientDataResponse = clientDataResponse,
+                                                passkey = passkey
                                             )
                                         )
-                                    },
-                                    onOriginNotChecked = {
-                                        throw SecurityException("Wrong signature for ${usageParameters.androidApp.id}")
-                                    }
-                                )
-                            }
+                                    )
+                                },
+                                onOriginNotChecked = {
+                                    throw SecurityException("Wrong signature for ${usageParameters.androidApp.id}")
+                                }
+                            )
                         } ?: run {
                             throw IOException("Usage parameters is null")
                         }
@@ -215,14 +205,15 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 ?.getEntryById(NodeIdUUID(nodeId))
                 ?.getEntryInfo(database)
                 ?.passkey
-                ?: throw GetCredentialUnknownException("no passkey with nodeId $nodeId found")
+                ?: throw GetCredentialUnknownException("No passkey with nodeId $nodeId found")
 
             val result = Intent()
             PendingIntentHandler.setGetCredentialResponse(
                 result,
                 GetCredentialResponse(
                     buildPasskeyPublicKeyCredential(
-                        usageParameters = usageParameters,
+                        requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                        clientDataResponse = usageParameters.clientDataResponse,
                         passkey = passkey
                     )
                 )
@@ -243,7 +234,11 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         appOrigin: AppOrigin?
     ) {
         Log.d(TAG, "Launch passkey selection")
-        retrievePasskeyUsageRequestParameters(intent, assets, appOrigin) { usageParameters ->
+        retrievePasskeyUsageRequestParameters(
+            intent = intent,
+            assetManager = assets,
+            appOrigin = appOrigin
+        ) { usageParameters ->
             // Save the requested parameters
             mUsageParameters = usageParameters
             // Manage the passkey to use

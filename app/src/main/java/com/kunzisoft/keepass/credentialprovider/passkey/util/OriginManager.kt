@@ -30,6 +30,9 @@ import com.kunzisoft.keepass.model.AppOrigin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Utility class to manage the origin of credential provider applications
+ */
 @RequiresApi(Build.VERSION_CODES.P)
 class OriginManager(
     private val providedClientDataHash: ByteArray?,
@@ -37,6 +40,11 @@ class OriginManager(
     private val assets: AssetManager
 ) {
 
+    /**
+     * Retrieves the Android origin to be stored in the database,
+     * call [onOriginRetrieved] if the origin is already calculated by the system
+     * call [onOriginCreated] if the origin was created manually, origin is verified if present in the KeePass database
+     */
     suspend fun getOriginAtCreation(
         onOriginRetrieved: (appInfoToStore: AppOrigin, clientDataHash: ByteArray) -> Unit,
         onOriginCreated: (appInfoToStore: AppOrigin, origin: String) -> Unit
@@ -62,9 +70,9 @@ class OriginManager(
     }
 
     /**
-     * Retrieve the Android origin from an [AppOrigin],
-     * call [onOriginRetrieved] if the origin is already calculated by the system
-     * call [onOriginCreated] if the origin was created manually, origin is verified if present in the KeePass database
+     * Retrieves the origin to verify usage,
+     * calls [onOriginRetrieved] if the origin is already calculated by the system
+     * calls [onOriginCreated] if the origin was created manually, origin is verified if present in the KeePass database
      */
     suspend fun getOriginAtUsage(
         appOrigin: AppOrigin?,
@@ -91,6 +99,12 @@ class OriginManager(
         )
     }
 
+    /**
+     * Utility method to retrieve the origin asynchronously,
+     * checks for the presence of the application in the privilege list of the trustedPackages.json file,
+     * call [onOriginRetrieved] if the origin is already calculated by the system and in the privileged list
+     * call [onOriginNotRetrieved] if the origin is not retrieved from the system
+     */
     private suspend fun getOrigin(
         onOriginRetrieved: (appInfoRetrieved: AppIdentifier, origin: String, clientDataHash: ByteArray) -> Unit,
         onOriginNotRetrieved: (appInfoRetrieved: AppIdentifier) -> Unit
@@ -113,9 +127,9 @@ class OriginManager(
             withContext(Dispatchers.Main) {
                 if (callOrigin != null && providedClientDataHash != null) {
                     Log.d(TAG, "Origin $callOrigin retrieved from callingAppInfo")
-                        onOriginRetrieved(appIdentifier, callOrigin, providedClientDataHash)
+                    onOriginRetrieved(appIdentifier, callOrigin, providedClientDataHash)
                 } else {
-                        onOriginNotRetrieved(appIdentifier)
+                    onOriginNotRetrieved(appIdentifier)
                 }
             }
         }

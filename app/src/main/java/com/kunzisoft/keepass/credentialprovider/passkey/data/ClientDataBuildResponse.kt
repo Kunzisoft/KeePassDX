@@ -27,7 +27,7 @@ open class ClientDataBuildResponse(
     type: Type,
     challenge: ByteArray,
     origin: String,
-    crossOrigin: Boolean? = null,
+    crossOrigin: Boolean? = false,
     topOrigin: String? = null,
 ): AuthenticatorResponse, ClientDataResponse {
     override var clientJson = JSONObject()
