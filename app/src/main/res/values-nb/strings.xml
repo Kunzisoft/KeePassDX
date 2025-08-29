@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Tilbakemelding</string>
     <string name="homepage">Hjemmeside</string>
-    <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
+    <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren.</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
     <string name="edit_entry">Rediger oppføring</string>
