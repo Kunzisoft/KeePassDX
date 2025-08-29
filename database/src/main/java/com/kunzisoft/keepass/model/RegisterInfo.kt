@@ -1,7 +1,9 @@
 package com.kunzisoft.keepass.model
 
+import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.readParcelableCompat
 
 data class RegisterInfo(
@@ -11,12 +13,12 @@ data class RegisterInfo(
     val creditCard: CreditCard? = null,
     val passkey: Passkey? = null,
     val appOrigin: AppOrigin? = null
-): Parcelable {
+) : ObjectNameResource, Parcelable {
 
     constructor(parcel: Parcel) : this(
         searchInfo = parcel.readParcelableCompat() ?: SearchInfo(),
-        username = parcel.readString() ?: "",
-        password = parcel.readString() ?: "",
+        username = parcel.readString(),
+        password = parcel.readString(),
         creditCard = parcel.readParcelableCompat(),
         passkey = parcel.readParcelableCompat(),
         appOrigin = parcel.readParcelableCompat()
@@ -33,6 +35,20 @@ data class RegisterInfo(
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    override fun getName(resources: Resources): String {
+        return username
+            ?: passkey?.relyingParty
+            ?: appOrigin?.toName()
+            ?: searchInfo.getName(resources)
+    }
+
+    override fun toString(): String {
+        return username
+            ?: passkey?.relyingParty
+            ?: appOrigin?.toName()
+            ?: searchInfo.toString()
     }
 
     companion object CREATOR : Parcelable.Creator<RegisterInfo> {

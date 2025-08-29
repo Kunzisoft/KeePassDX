@@ -9,6 +9,7 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.isIntentSenderMode
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.ToolbarSpecial
@@ -113,7 +114,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
         mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
         mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
-        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)?.searchInfo
+        val registerInfo: RegisterInfo? = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        val searchInfo: SearchInfo? = registerInfo?.searchInfo
                 ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
 
         // To show the selection mode
@@ -137,7 +139,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             if (mTypeMode != TypeMode.DEFAULT)
                 title = "$title (${getString(typeModeStringId)})"
             // Populate subtitle
-            subtitle = searchInfo?.getName(resources)
+            subtitle = registerInfo?.getName(resources) ?: searchInfo?.getName(resources)
 
             // Show the toolbar or not
             visible = when (mSpecialMode) {

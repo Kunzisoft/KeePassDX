@@ -176,7 +176,16 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add searchInfo to current EntryInfo, return true if new data, false if no modification
+     * Capitalize and remove suffix of a title
+     */
+    fun String.toTitle(): String {
+        return this.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+        }
+    }
+
+    /**
+     * Add searchInfo to current EntryInfo
      */
     fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
         searchInfo.otpString?.let { otpString ->
@@ -191,20 +200,13 @@ class EntryInfo : NodeInfo {
             setApplicationId(applicationId)
         }
         if (title.isEmpty()) {
-            title = searchInfo.toTitle()
+            title = searchInfo.toString().toTitle()
         }
     }
 
     /**
-     * Capitalize and remove suffix of web domain to create a title
+     * Add registerInfo to current EntryInfo
      */
-    fun SearchInfo.toTitle(): String {
-        val webDomain = this.webDomain
-        return webDomain?.substring(0, webDomain.lastIndexOf('.'))?.replaceFirstChar {
-            if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-        } ?: this.toString()
-    }
-
     fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
         saveSearchInfo(database, registerInfo.searchInfo)
         registerInfo.username?.let { username = it }
@@ -215,6 +217,9 @@ class EntryInfo : NodeInfo {
             registerInfo.appOrigin,
             database?.allowEntryCustomFields() == true
         )
+        if (title.isEmpty()) {
+            title = registerInfo.toString().toTitle()
+        }
     }
 
     fun getVisualTitle(): String {

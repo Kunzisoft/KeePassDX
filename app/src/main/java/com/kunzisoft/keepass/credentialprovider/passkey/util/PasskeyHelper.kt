@@ -51,11 +51,11 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
-import com.kunzisoft.keepass.credentialprovider.passkey.util.OriginManager.Companion.checkInAppOrigin
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.Verification
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.random.KeePassDXRandom
@@ -364,7 +364,8 @@ object PasskeyHelper {
         OriginManager(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
-            assets = assetManager
+            assets = assetManager,
+            relyingParty = relyingParty
         ).getOriginAtCreation(
             onOriginRetrieved = { appInfoToStore, clientDataHash ->
                 passkeyCreated.invoke(
@@ -441,7 +442,7 @@ object PasskeyHelper {
     suspend fun retrievePasskeyUsageRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
-        appOrigin: AppOrigin?,
+        appOrigin: AppOrigin,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -456,30 +457,32 @@ object PasskeyHelper {
         OriginManager(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
-            assets = assetManager
+            assets = assetManager,
+            relyingParty = requestOptions.rpId
         ).getOriginAtUsage(
             appOrigin = appOrigin,
-            onOriginRetrieved = { appIdentifier, clientDataHash ->
+            onOriginRetrieved = { androidOrigin, webOrigin, clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
                         publicKeyCredentialRequestOptions = requestOptions,
                         clientDataResponse = ClientDataDefinedResponse(clientDataHash),
-                        androidApp = appIdentifier,
-                        androidAppVerified = true
+                        androidOrigin = androidOrigin,
+                        webOrigin = webOrigin
                     )
                 )
             },
-            onOriginCreated = { appIdentifier, origin, verified ->
+            onOriginCreated = { androidOrigin, webOrigin ->
+                // By default we crate an usage parameter with Android origin
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
                         publicKeyCredentialRequestOptions = requestOptions,
                         clientDataResponse = ClientDataBuildResponse(
                             type = ClientDataBuildResponse.Type.GET,
                             challenge = requestOptions.challenge,
-                            origin = origin
+                            origin = androidOrigin.toAndroidOrigin()
                         ),
-                        androidApp = appIdentifier,
-                        androidAppVerified = verified
+                        androidOrigin = androidOrigin,
+                        webOrigin = webOrigin
                     )
                 )
             }
@@ -518,30 +521,35 @@ object PasskeyHelper {
      * Verify that the application signature is contained in the [appOrigin]
      * or that the webDomain contains the origin
      */
-    fun getVerifiedClientDataResponse(
+    fun getVerifiedGETClientDataResponse(
         usageParameters: PublicKeyCredentialUsageParameters,
-        appOrigin: AppOrigin?,
-        onOriginChecked: (clientDataResponse: ClientDataResponse) -> Unit,
-        onOriginNotChecked: () -> Unit
-    ) {
-        if (usageParameters.androidAppVerified) {
-            onOriginChecked(usageParameters.clientDataResponse)
+        appOrigin: AppOrigin
+    ): ClientDataResponse {
+        val appToCheck = usageParameters.androidOrigin
+        val webToCheck = usageParameters.webOrigin
+        if (appToCheck.verification == Verification.AUTOMATICALLY_VERIFIED) {
+            return usageParameters.clientDataResponse
         } else {
-            usageParameters.androidApp.checkInAppOrigin(
-                appOrigin = appOrigin,
-                onOriginChecked = { origin ->
-                    // Origin checked by Android app signature
-                    onOriginChecked(
-                        ClientDataBuildResponse(
-                            type = ClientDataBuildResponse.Type.GET,
-                            challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
-                            origin = origin
-                        )
+            if (appOrigin.containsVerifiedAndroidOrigin(appToCheck)) {
+                if (webToCheck.verification.verified
+                    || appOrigin.containsVerifiedWebOrigin(webToCheck)) {
+                    // Origin checked by URL
+                    return ClientDataBuildResponse(
+                        type = ClientDataBuildResponse.Type.GET,
+                        challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
+                        origin = webToCheck.toWebOrigin()
                     )
-                },
-                onOriginNotChecked
-            )
+                }
+                // Origin checked by Android app signature
+                return ClientDataBuildResponse(
+                    type = ClientDataBuildResponse.Type.GET,
+                    challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
+                    origin = appOrigin.firstVerifiedWebOrigin()?.toWebOrigin()
+                        ?: appToCheck.toAndroidOrigin()
+                )
+            } else {
+                throw SecurityException("Wrong signature for ${appToCheck.packageName}")
+            }
         }
     }
-
 }

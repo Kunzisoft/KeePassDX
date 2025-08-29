@@ -24,38 +24,96 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class AppOrigin(
-    val appIdentifiers: MutableList<AppIdentifier> = mutableListOf(),
-    val webDomains: MutableList<String> = mutableListOf()
+    val androidOrigins: MutableList<AndroidOrigin> = mutableListOf(),
+    val webOrigins: MutableList<WebOrigin> = mutableListOf()
 ) : Parcelable {
 
-    fun addIdentifier(appIdentifier: AppIdentifier) {
-        appIdentifiers.add(appIdentifier)
+    fun addAndroidOrigin(androidOrigin: AndroidOrigin) {
+        androidOrigins.add(androidOrigin)
     }
 
-    fun addWebDomain(webDomain: String) {
-        this.webDomains.add(webDomain)
+    fun addWebOrigin(webOrigin: WebOrigin) {
+        this.webOrigins.add(webOrigin)
     }
 
-    fun removeAppElement(appIdentifier: AppIdentifier) {
-        appIdentifiers.remove(appIdentifier)
+    fun containsVerifiedAndroidOrigin(androidOrigin: AndroidOrigin): Boolean {
+        return androidOrigins.any {
+            it.packageName == androidOrigin.packageName
+                    && it.signature == androidOrigin.signature
+                    && it.verification.verified
+        }
     }
 
-    fun removeWebDomain(webDomain: String) {
-        this.webDomains.remove(webDomain)
+    fun containsVerifiedWebOrigin(webOrigin: WebOrigin): Boolean {
+        return this.webOrigins.any {
+            it.origin == webOrigin.origin
+                    && it.verification.verified
+        }
+    }
+
+    fun firstVerifiedWebOrigin(): WebOrigin? {
+        return webOrigins.first {
+            it.verification.verified
+        }
     }
 
     fun clear() {
-        appIdentifiers.clear()
-        webDomains.clear()
+        androidOrigins.clear()
+        webOrigins.clear()
     }
 
     fun isEmpty(): Boolean {
-        return appIdentifiers.isEmpty() && webDomains.isEmpty()
+        return androidOrigins.isEmpty() && webOrigins.isEmpty()
+    }
+
+    fun toName(): String? {
+        return if (androidOrigins.isNotEmpty()) {
+            androidOrigins.first().packageName
+        } else if (webOrigins.isNotEmpty()){
+            webOrigins.first().origin
+        } else null
+    }
+}
+
+enum class Verification {
+    MANUALLY_VERIFIED, AUTOMATICALLY_VERIFIED, NOT_VERIFIED;
+
+    val verified: Boolean
+        get() = this == MANUALLY_VERIFIED || this == AUTOMATICALLY_VERIFIED
+}
+
+@Parcelize
+data class AndroidOrigin(
+    val packageName: String,
+    val signature: String? = null,
+    val verification: Verification = Verification.AUTOMATICALLY_VERIFIED,
+) : Parcelable {
+
+    fun toAndroidOrigin(): String {
+        return "androidapp://${packageName}"
     }
 }
 
 @Parcelize
-data class AppIdentifier(
-    val id: String,
-    val signature: String? = null,
-) : Parcelable
+data class WebOrigin(
+    val origin: String,
+    val assetLinks: String? = null,
+    val verification: Verification = Verification.AUTOMATICALLY_VERIFIED,
+) : Parcelable {
+
+    fun toWebOrigin(): String {
+        return origin
+    }
+
+    fun defaultAssetLinks(): String {
+        return "${origin}/.well-known/assetlinks.json"
+    }
+
+    companion object {
+        const val RELYING_PARTY_DEFAULT_PROTOCOL = "https"
+        fun fromRelyingParty(relyingParty: String, verification: Verification): WebOrigin = WebOrigin(
+            origin ="$RELYING_PARTY_DEFAULT_PROTOCOL://$relyingParty",
+            verification = verification
+        )
+    }
+}

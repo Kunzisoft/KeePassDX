@@ -48,8 +48,8 @@ object AppOriginEntryField {
                 }
             }.takeWhile { it != null }
             .forEach { pair ->
-                appOrigin.addIdentifier(
-                    AppIdentifier(pair!!.first, pair.second)
+                appOrigin.addAndroidOrigin(
+                    AndroidOrigin(pair!!.first, pair.second)
                 )
             }
         // Get Domains
@@ -58,7 +58,7 @@ object AppOriginEntryField {
             val domainKey = WEB_DOMAIN_FIELD_NAME + suffixFieldNamePosition(domainFieldPosition)
             val domainValue = getField(domainKey)
             if (domainValue != null) {
-                appOrigin.addWebDomain(domainValue)
+                appOrigin.addWebOrigin(WebOrigin(origin = domainValue))
                 domainFieldPosition++
             } else {
                 break // No more domain found
@@ -137,11 +137,12 @@ object AppOriginEntryField {
      * Only if [customFieldsAllowed] is true
      */
     fun EntryInfo.setAppOrigin(appOrigin: AppOrigin?, customFieldsAllowed: Boolean) {
-        appOrigin?.appIdentifiers?.forEach { appIdentifier ->
-            setApplicationId(appIdentifier.id, appIdentifier.signature)
+        appOrigin?.androidOrigins?.forEach { appIdentifier ->
+            setApplicationId(appIdentifier.packageName, appIdentifier.signature)
         }
-        appOrigin?.webDomains?.forEach { webDomain ->
-            setWebDomain(webDomain, null, customFieldsAllowed)
+        appOrigin?.webOrigins?.forEach { webOrigin ->
+            if (webOrigin.verification.verified)
+                setWebDomain(webOrigin.origin, null, customFieldsAllowed)
         }
     }
 }

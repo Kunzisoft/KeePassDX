@@ -19,11 +19,12 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-import com.kunzisoft.keepass.model.AppIdentifier
+import com.kunzisoft.keepass.model.AndroidOrigin
+import com.kunzisoft.keepass.model.WebOrigin
 
 data class PublicKeyCredentialUsageParameters(
         val publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions,
         val clientDataResponse: ClientDataResponse,
-        val androidApp: AppIdentifier,
-        val androidAppVerified: Boolean
+        val androidOrigin: AndroidOrigin,
+        val webOrigin: WebOrigin,
 )
