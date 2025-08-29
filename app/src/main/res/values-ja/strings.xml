@@ -21,7 +21,7 @@
     <string name="contribution">貢献</string>
     <string name="feedback">フィードバック</string>
     <string name="homepage">ホームページ</string>
-    <string name="about_description">KeePass パスワード マネージャーの Android 実装</string>
+    <string name="about_description">KeePassパスワードマネージャーのAndroid実装版。</string>
     <string name="accept">承認</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="edit_entry">エントリーを編集</string>
