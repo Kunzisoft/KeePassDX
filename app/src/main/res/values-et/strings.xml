@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="homepage">Meie veebisait</string>
-    <string name="about_description">KeePassi salasõnahalduri Androidi variant</string>
+    <string name="about_description">KeePassi salasõnahalduri variant Androidile.</string>
     <string name="contact">Meie kontaktid</string>
     <string name="info">Teave</string>
     <string name="accept">Nõustu</string>
@@ -84,7 +84,7 @@
     <string name="content_description_hardware_key_checkbox">Füüsilise võtme märkruut</string>
     <string name="content_description_credentials_information">Mandaatide info</string>
     <string name="content_description_nav_header">Navigatsiooni päis</string>
-    <string name="retrieving_db_key">Laadime andmebaasi võtme…</string>
+    <string name="retrieving_db_key">Laadin andmebaasi võtit…</string>
     <string name="content_description_passphrase_word_count">Sõnu salafraasis</string>
     <string name="default_checkbox">Kasuta vaikeandmebaasina</string>
     <string name="entry_accessed">Viimati kasutatud</string>
@@ -128,7 +128,7 @@
     <string name="error_nokeyfile">Vali võtmefail.</string>
     <string name="error_pass_match">Salasõnad ei klapi.</string>
     <string name="error_create_database">Andmebaasifaili loomine ei õnnestunud.</string>
-    <string name="entry_url">URL</string>
+    <string name="entry_url">Võrguaadress</string>
     <string name="error_file_not_create">Faili loomine ei õnnestunud.</string>
     <string name="entry_otp">Ühekordne salasõna</string>
     <string name="clipboard_timeout_summary">Lõikelauale kopeeritud andmete hoidmise aeg (kui sinu seade sellist võimalust toetab)</string>
@@ -245,7 +245,7 @@
     <string name="list_size_title">Loendite suurus</string>
     <string name="list_size_summary">Teksti suurus loendites</string>
     <string name="creating_database">Loome salasõnade andmebaasi…</string>
-    <string name="loading_database">Laadime salasõnade andmebaasi…</string>
+    <string name="loading_database">Laadin salasõnade andmebaasi…</string>
     <string name="lowercase">väiketähed</string>
     <string name="about">Rakenduse teave</string>
     <string name="menu_change_key_settings">Muuda peavõtit</string>
