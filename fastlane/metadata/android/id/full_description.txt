@@ -1,0 +1,23 @@
+KeePassDX adalah <b>pengaman dan pengelola kata sandi</b> yang memungkinkan pengeditan <b>data terenkripsi dalam satu berkas</b> dalam format KeePass terbuka dan <b>pengisian formulir dengan cara yang aman</b>, tidak memerlukan <b>koneksi internet</b>, dan mengintegrasikan standar desain Android. Aplikasi ini <b>sumber terbuka, tanpa iklan</b>.
+
+<b>Fitur</b>
+
+- Membuat berkas/entri dan grup basis data.
+- Mendukung berkas .kdb dan .kdbx (versi 1 hingga 4) dengan algoritma AES - Twofish - ChaCha20 - Argon2.
+- Kompatibel dengan sebagian besar program alternatif (KeePass, KeePassXC, KeeWeb, dll.).
+- Memungkinkan pembukaan dan penyalinan kolom URI/URL dengan cepat.
+- Pengenalan biometrik untuk pembukaan kunci cepat (sidik jari/pembuka kunci wajah/ dll.).
+- Manajemen kata sandi satu kali (HOTP/TOTP) untuk autentikasi dua faktor (2FA).
+- Desain Material dengan tema.
+- Isi-Otomatis dan integrasi.
+- Papan ketik untuk mengisi kolom.
+- Templat dinamis.
+- Riwayat setiap entri.
+- Manajemen pengaturan yang presisi.
+- Kode ditulis dalam bahasa asli (Kotlin/Java/JNI/C).
+
+Anda dapat berdonasi atau membeli versi pro untuk layanan yang lebih baik dan pengembangan fitur yang Anda inginkan dengan cepat: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Proyek ini terus berkembang. Jangan ragu untuk memeriksa status pengembangan pembaruan berikutnya: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Kirimkan masalah ke: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
