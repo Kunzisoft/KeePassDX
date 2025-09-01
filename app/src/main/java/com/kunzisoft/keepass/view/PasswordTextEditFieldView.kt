@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.os.Build
 import android.text.Spannable
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -104,18 +103,14 @@ class PasswordTextEditFieldView @JvmOverloads constructor(context: Context,
             id = passwordProgressViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 it.addRule(LEFT_OF, actionImageButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it.addRule(START_OF, actionImageButtonId)
-                }
+                it.addRule(START_OF, actionImageButtonId)
             }
         }
         mPasswordEntropyView.apply {
             id = passwordEntropyViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 it.addRule(ALIGN_RIGHT, passwordProgressViewId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it.addRule(ALIGN_END, passwordProgressViewId)
-                }
+                it.addRule(ALIGN_END, passwordProgressViewId)
             }
         }
     }
