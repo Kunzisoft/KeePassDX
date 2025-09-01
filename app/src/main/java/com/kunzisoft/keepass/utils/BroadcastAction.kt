@@ -77,23 +77,15 @@ class LockReceiver(private var lockAction: () -> Unit) : BroadcastReceiver() {
                             // Launch the effective action after a small time
                             val first: Long = System.currentTimeMillis() + context.getString(R.string.timeout_screen_off).toLong()
                             (context.getSystemService(ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                                        && !alarmManager.canScheduleExactAlarms()) {
-                                        alarmManager.set(
-                                            AlarmManager.RTC_WAKEUP,
-                                            first,
-                                            lockPendingIntent
-                                        )
-                                    } else {
-                                        alarmManager.setExact(
-                                            AlarmManager.RTC_WAKEUP,
-                                            first,
-                                            lockPendingIntent
-                                        )
-                                    }
-                                } else {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                                    && !alarmManager.canScheduleExactAlarms()) {
                                     alarmManager.set(
+                                        AlarmManager.RTC_WAKEUP,
+                                        first,
+                                        lockPendingIntent
+                                    )
+                                } else {
+                                    alarmManager.setExact(
                                         AlarmManager.RTC_WAKEUP,
                                         first,
                                         lockPendingIntent

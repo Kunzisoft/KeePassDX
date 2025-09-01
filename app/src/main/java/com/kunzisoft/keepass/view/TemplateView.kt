@@ -68,9 +68,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                 // Here the value is often empty
 
                 if (field.protectedValue.isProtected) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        textDirection = TEXT_DIRECTION_LTR
-                    }
+                    textDirection = TEXT_DIRECTION_LTR
                     if (mFirstTimeAskAllowCopyProtectedFields) {
                         setCopyButtonState(TextFieldView.ButtonState.DEACTIVATE)
                         setCopyButtonClickListener { _, _ ->
@@ -184,9 +182,7 @@ class TemplateView @JvmOverloads constructor(context: Context,
                         otpElement.type.name,
                         ProtectedString(false, otpElement.token)))
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    textDirection = TEXT_DIRECTION_LTR
-                }
+                textDirection = TEXT_DIRECTION_LTR
                 mLastOtpTokenView = this
                 mOtpRunnable = Runnable {
                     if (otpElement.shouldRefreshToken()) {

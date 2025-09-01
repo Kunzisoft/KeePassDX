@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.DeviceUnlockFragment
 import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.biometric.deviceUnlockError
@@ -67,6 +68,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -74,8 +76,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
-import com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity
 import com.kunzisoft.keepass.settings.AppearanceSettingsActivity
+import com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
@@ -146,7 +148,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mReadOnly = if (savedInstanceState != null && savedInstanceState.containsKey(KEY_READ_ONLY)) {
             savedInstanceState.getBoolean(KEY_READ_ONLY)
         } else {
-            PreferencesUtil.enableReadOnlyDatabase(this)
+            false
         }
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
         mRememberHardwareKey = PreferencesUtil.rememberHardwareKey(this)
@@ -201,6 +203,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 View.GONE
             }
             mForceReadOnly = databaseFileNotExists
+
+            // Restore read-only state from database file if not forced
+            if (!mForceReadOnly) {
+                databaseFile?.readOnly?.let { savedReadOnlyState ->
+                    mReadOnly = savedReadOnlyState
+                }
+            }
 
             invalidateOptionsMenu()
 
@@ -701,6 +710,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
             R.id.menu_open_file_read_mode_key -> {
                 mReadOnly = !mReadOnly
                 changeOpenFileReadIcon(item)
+                // Save the read-only state to database
+                mDatabaseFileUri?.let { databaseUri ->
+                    FileDatabaseHistoryAction.getInstance(applicationContext).addOrUpdateDatabaseFile(
+                        DatabaseFile(databaseUri = databaseUri, readOnly = mReadOnly)
+                    )
+                }
             }
             else -> MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }

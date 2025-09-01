@@ -531,7 +531,6 @@
     <string name="autofill_inline_suggestions_keyboard">Automaattäite soovitused on lisatud.</string>
     <string name="autofill_read_only_save">Kui andmebaas on avatud ainult lugemiseks, siis andmete salvestamine pole võimalik.</string>
     <string name="delete_entered_password_summary">Kustutab salasõna, mis oli kasutusel andmebaasiga ühenduse loomise ajal</string>
-    <string name="enable_read_only_summary">Vaikimisi ava andmebaas vaid lugemiseks</string>
     <string name="enable_screenshot_mode_summary">Luba teistel rakendusel teha sellest rakendusest ekraanitõmmist või salvestada tema ekraanivaadet</string>
     <string name="autofill_close_database_title">Sulge andmebaas</string>
     <string name="autofill_close_database_summary">Peale automaattäite kasutamist sulega andmebaas</string>
@@ -547,7 +546,6 @@
     <string name="allow_no_password_title">Ära kasuta peavõtit</string>
     <string name="allow_no_password_summary">Kui kasutajanimi või salasõna pole valitud, siis võimaldab klõpsida „Ava“ nuppu</string>
     <string name="delete_entered_password_title">Kustuta salasõna</string>
-    <string name="enable_read_only_title">Kirjutuskaitstud</string>
     <string name="enable_screenshot_mode_title">Ekraanitõmmiste lubamine</string>
     <string name="enable_education_screens_title">Koolitusvihjed</string>
     <string name="enable_education_screens_summary">Õppimaks, kuidas rakendus toimib, tõsta esile kasutajaliidese elemente</string>

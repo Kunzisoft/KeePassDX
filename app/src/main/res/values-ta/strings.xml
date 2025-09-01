@@ -647,8 +647,6 @@
     <string name="autofill_web_domain_blocklist_summary">வலை களங்களை தானாக நிரப்புவதைத் தடுக்கும் பிளாக்லிச்ட்</string>
     <string name="autofill_read_only_save">படிக்க மட்டும் திறக்கப்பட்ட தரவுத்தளத்திற்கு தரவு சேமிப்பு அனுமதிக்கப்படவில்லை.</string>
     <string name="autofill_inline_suggestions_keyboard">ஆட்டோஃபில் பரிந்துரைகள் சேர்க்கப்பட்டன.</string>
-    <string name="enable_read_only_title">எழுது பாதுகாக்கப்பட்ட</string>
-    <string name="enable_read_only_summary">இயல்பாகவே தரவுத்தளத்தை படிக்க மட்டுமே திறக்கவும்</string>
     <string name="education_new_node_summary">உங்கள் டிசிட்டல் அடையாளங்களை நிர்வகிக்க உள்ளீடுகள் உதவுகின்றன.\n\n குழுக்கள் (~ கோப்புறைகள்) உங்கள் தரவுத்தளத்தில் உள்ளீடுகளை ஒழுங்கமைக்கின்றன.</string>
     <string name="education_search_title">உள்ளீடுகள் மூலம் தேடுங்கள்</string>
     <string name="education_generate_password_summary">உங்கள் நுழைவுடன் தொடர்புபடுத்த ஒரு வலுவான கடவுச்சொல்லை உருவாக்குங்கள், படிவத்தின் அளவுகோல்களின்படி அதை எளிதாக வரையறுக்கவும், பாதுகாப்பான கடவுச்சொல்லை மறந்துவிடாதீர்கள்.</string>

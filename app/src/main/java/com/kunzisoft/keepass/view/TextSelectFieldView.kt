@@ -10,7 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.BaseAdapter
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
@@ -51,9 +56,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
             importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
-        }
+        importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
         val drawable = ContextCompat.getDrawable(context, R.drawable.ic_arrow_down_white_24dp)
             ?.apply {
                 mutate().colorFilter = BlendModeColorFilterCompat
@@ -65,14 +68,12 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             drawable,
             null
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            setCompoundDrawablesRelativeWithIntrinsicBounds(
-                null,
-                null,
-                drawable,
-                null
-            )
-        }
+        setCompoundDrawablesRelativeWithIntrinsicBounds(
+            null,
+            null,
+            drawable,
+            null
+        )
         isFocusable = false
         inputType = InputType.TYPE_NULL
         maxLines = 1
@@ -94,9 +95,7 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.addRule(ALIGN_PARENT_END)
-            }
+            it.addRule(ALIGN_PARENT_END)
         }
         visibility = View.GONE
         contentDescription = context.getString(R.string.menu_edit)
@@ -132,18 +131,14 @@ class TextSelectFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, actionImageButtonId)
-                }
+                it?.addRule(START_OF, actionImageButtonId)
             }
         }
         valueSpinnerView.apply {
             id = valueViewId
             layoutParams = (layoutParams as LayoutParams?).also {
                 it?.addRule(LEFT_OF, actionImageButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it?.addRule(START_OF, actionImageButtonId)
-                }
+                it?.addRule(START_OF, actionImageButtonId)
                 it?.addRule(BELOW, labelViewId)
             }
         }

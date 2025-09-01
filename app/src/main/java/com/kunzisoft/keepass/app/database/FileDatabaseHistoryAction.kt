@@ -49,6 +49,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     databaseUri,
                     fileDatabaseHistoryEntity?.keyFileUri?.parseUri(),
                     HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity?.hardwareKey),
+                    fileDatabaseHistoryEntity?.readOnly,
                     fileDatabaseHistoryEntity?.databaseUri?.decodeUri(),
                     fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias
                         ?: ""),
@@ -99,6 +100,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                 fileDatabaseHistoryEntity.databaseUri.parseUri(),
                                 fileDatabaseHistoryEntity.keyFileUri?.parseUri(),
                                 HardwareKey.getHardwareKeyFromString(fileDatabaseHistoryEntity.hardwareKey),
+                                fileDatabaseHistoryEntity.readOnly,
                                 fileDatabaseHistoryEntity.databaseUri.decodeUri(),
                                 fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
                                 fileDatabaseInfo.exists,
@@ -147,6 +149,8 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                 ?: "",
                             databaseFileToAddOrUpdate.keyFileUri?.toString(),
                             databaseFileToAddOrUpdate.hardwareKey?.value,
+                            databaseFileToAddOrUpdate.readOnly
+                                ?: fileDatabaseHistoryRetrieve?.readOnly,
                             System.currentTimeMillis()
                         )
 
@@ -168,6 +172,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                         fileDatabaseHistory.databaseUri.parseUri(),
                         fileDatabaseHistory.keyFileUri?.parseUri(),
                         HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                        fileDatabaseHistory.readOnly,
                         fileDatabaseHistory.databaseUri.decodeUri(),
                         fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistory.databaseAlias),
                         fileDatabaseInfo.exists,
@@ -195,6 +200,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                                     fileDatabaseHistory.databaseUri.parseUri(),
                                     fileDatabaseHistory.keyFileUri?.parseUri(),
                                     HardwareKey.getHardwareKeyFromString(fileDatabaseHistory.hardwareKey),
+                                    fileDatabaseHistory.readOnly,
                                     fileDatabaseHistory.databaseUri.decodeUri(),
                                     databaseFileToDelete.databaseAlias
                                 )
