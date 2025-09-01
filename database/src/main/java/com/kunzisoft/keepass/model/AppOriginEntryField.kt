@@ -33,7 +33,7 @@ object AppOriginEntryField {
      * Parse fields of an entry to retrieve a an AppOrigin
      */
     fun parseFields(getField: (id: String) -> String?): AppOrigin {
-        val appOrigin = AppOrigin()
+        val appOrigin = AppOrigin(verified = true)
         // Get Application identifiers
         generateSequence(0) { it + 1 }
             .map { position ->
@@ -141,8 +141,7 @@ object AppOriginEntryField {
             setApplicationId(appIdentifier.packageName, appIdentifier.fingerprint)
         }
         appOrigin?.webOrigins?.forEach { webOrigin ->
-            if (webOrigin.verified)
-                setWebDomain(webOrigin.origin, null, customFieldsAllowed)
+            setWebDomain(webOrigin.origin, null, customFieldsAllowed)
         }
     }
 }

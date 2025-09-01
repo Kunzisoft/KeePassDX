@@ -170,7 +170,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
             finish()
         }) {
             val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
-            val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin()
+            val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin(verified = false)
             val nodeId = intent.retrieveNodeId()
             checkSecurity(intent, nodeId)
             when (mSpecialMode) {

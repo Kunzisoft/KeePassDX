@@ -35,11 +35,13 @@ import androidx.credentials.GetPublicKeyCredentialOption
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.exceptions.GetCredentialUnknownException
+import androidx.credentials.provider.CallingAppInfo
 import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderCreateCredentialRequest
 import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.asymmetric.Signature
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
+import com.kunzisoft.encrypt.HashManager.getApplicationFingerprints
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -51,13 +53,17 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
+import com.kunzisoft.keepass.model.AndroidOrigin
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.WebOrigin
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.random.KeePassDXRandom
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.time.Instant
@@ -321,6 +327,59 @@ object PasskeyHelper {
     }
 
     /**
+     * Utility method to retrieve the origin asynchronously,
+     * checks for the presence of the application in the privilege list of the trustedPackages.json file,
+     * call [onOriginRetrieved] if the origin is already calculated by the system and in the privileged list, return the clientDataHash
+     * call [onOriginNotRetrieved] if the origin is not retrieved from the system, return a new Android Origin
+     */
+    suspend fun getOrigin(
+        providedClientDataHash: ByteArray?,
+        callingAppInfo: CallingAppInfo?,
+        assets: AssetManager,
+        relyingParty: String,
+        onOriginRetrieved: (appOrigin: AppOrigin, clientDataHash: ByteArray) -> Unit,
+        onOriginNotRetrieved: (appOrigin: AppOrigin, androidOriginString: String) -> Unit
+    ) {
+        if (callingAppInfo == null) {
+            throw SecurityException("Calling app info cannot be retrieved")
+        }
+        withContext(Dispatchers.IO) {
+            var callOrigin: String?
+            val privilegedAllowlist = assets.open("trustedPackages.json").bufferedReader().use {
+                it.readText()
+            }
+            // for trusted browsers like Chrome and Firefox
+            callOrigin = callingAppInfo.getOrigin(privilegedAllowlist)?.removeSuffix("/")
+            val androidOrigin = AndroidOrigin(
+                packageName = callingAppInfo.packageName,
+                fingerprint = callingAppInfo.signingInfo.getApplicationFingerprints()
+            )
+            val webOrigin = WebOrigin.fromRelyingParty(
+                relyingParty = relyingParty
+            )
+            // Check if the webDomain is validated for the
+            withContext(Dispatchers.Main) {
+                if (callOrigin != null && providedClientDataHash != null) {
+                    // Origin already defined by the system
+                    Log.d(javaClass.simpleName, "Origin $callOrigin retrieved from callingAppInfo")
+                    onOriginRetrieved(
+                        AppOrigin.fromOrigin(callOrigin, androidOrigin, verified = true),
+                        providedClientDataHash
+                    )
+                } else {
+                    // Add Android origin by default
+                    onOriginNotRetrieved(
+                        AppOrigin(verified = false).apply {
+                            addAndroidOrigin(androidOrigin)
+                        },
+                        androidOrigin.toAndroidOrigin()
+                    )
+                }
+            }
+        }
+    }
+
+    /**
      * Utility method to create a passkey and the associated creation request parameters
      * [intent] allows to retrieve the request
      * [assetManager] has been transferred to the origin manager to manage package verification files
@@ -360,12 +419,11 @@ object PasskeyHelper {
         )
 
         // create new entry in database
-        OriginManager(
+        getOrigin(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
             assets = assetManager,
-            relyingParty = relyingParty
-        ).getOriginAtCreation(
+            relyingParty = relyingParty,
             onOriginRetrieved = { appInfoToStore, clientDataHash ->
                 passkeyCreated.invoke(
                     passkey,
@@ -378,7 +436,7 @@ object PasskeyHelper {
                     )
                 )
             },
-            onOriginCreated = { appInfoToStore, origin ->
+            onOriginNotRetrieved = { appInfoToStore, origin ->
                 passkeyCreated.invoke(
                     passkey,
                     appInfoToStore,
@@ -451,12 +509,11 @@ object PasskeyHelper {
 
         val requestOptions = PublicKeyCredentialRequestOptions(credentialOption.requestJson)
 
-        OriginManager(
+        getOrigin(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
             assets = assetManager,
-            relyingParty = requestOptions.rpId
-        ).getOriginAtUsage(
+            relyingParty = requestOptions.rpId,
             onOriginRetrieved = { appOrigin, clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
@@ -466,7 +523,7 @@ object PasskeyHelper {
                     )
                 )
             },
-            onOriginCreated = { appOrigin ->
+            onOriginNotRetrieved = { appOrigin, androidOriginString ->
                 // By default we crate an usage parameter with Android origin
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
@@ -474,7 +531,7 @@ object PasskeyHelper {
                         clientDataResponse = ClientDataBuildResponse(
                             type = ClientDataBuildResponse.Type.GET,
                             challenge = requestOptions.challenge,
-                            origin = appOrigin.toAppOrigin()
+                            origin = androidOriginString
                         ),
                         appOrigin = appOrigin
                     )
@@ -522,7 +579,7 @@ object PasskeyHelper {
         return if (appToCheck.verified) {
             usageParameters.clientDataResponse
         } else {
-            appOrigin.checkAppOrigin(appToCheck)?.let { origin ->
+            appToCheck.checkAppOrigin(appOrigin)?.let { origin ->
                 // Origin checked by Android app signature
                 ClientDataBuildResponse(
                     type = ClientDataBuildResponse.Type.GET,
