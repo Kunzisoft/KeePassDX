@@ -476,8 +476,8 @@ object PasskeyHelper {
                 ) ?: mapOf<Int, Any>()),
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = false,
-                backupState = false,
+                backupEligibility = BACKUP_ELIGIBILITY,
+                backupState = false, // TODO Setting to add a backup manually #2135
                 publicKeyTypeId = keyTypeId,
                 publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
                 clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse
@@ -555,8 +555,8 @@ object PasskeyHelper {
                 requestOptions = requestOptions,
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = false,
-                backupState = false,
+                backupEligibility = BACKUP_ELIGIBILITY,
+                backupState = false, // TODO Setting to add a backup manually #2135
                 userHandle = passkey.userHandle,
                 privateKey = passkey.privateKeyPem,
                 clientDataResponse = clientDataResponse
@@ -587,4 +587,6 @@ object PasskeyHelper {
             )
         }
     }
+
+    private const val BACKUP_ELIGIBILITY = true
 }
