@@ -42,9 +42,9 @@ data class AppOrigin(
 
     /**
      * Verify the app origin by comparing it to the list of android origins,
-     * return the first verified origin or null if none is found
+     * return the first verified origin or throw an exception if none is found
      */
-    fun checkAppOrigin(compare: AppOrigin): String? {
+    fun checkAppOrigin(compare: AppOrigin): String {
         return androidOrigins.firstOrNull { androidOrigin ->
             compare.androidOrigins.any {
                 it.packageName == androidOrigin.packageName
@@ -55,7 +55,7 @@ data class AppOrigin(
                 packageName = it.packageName,
                 fingerprint = it.fingerprint
             ).toAndroidOrigin()
-        }
+        } ?: throw SecurityException("Wrong signature for ${toName()}")
     }
 
     fun clear() {

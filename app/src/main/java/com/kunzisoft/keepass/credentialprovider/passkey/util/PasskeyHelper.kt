@@ -579,14 +579,12 @@ object PasskeyHelper {
         return if (appToCheck.verified) {
             usageParameters.clientDataResponse
         } else {
-            appToCheck.checkAppOrigin(appOrigin)?.let { origin ->
-                // Origin checked by Android app signature
-                ClientDataBuildResponse(
-                    type = ClientDataBuildResponse.Type.GET,
-                    challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
-                    origin = origin
-                )
-            } ?: throw SecurityException("Wrong signature for $appToCheck")
+            // Origin checked by Android app signature
+            ClientDataBuildResponse(
+                type = ClientDataBuildResponse.Type.GET,
+                challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
+                origin = appToCheck.checkAppOrigin(appOrigin)
+            )
         }
     }
 }
