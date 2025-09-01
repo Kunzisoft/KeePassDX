@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import android.util.Log
-import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper
+import com.kunzisoft.encrypt.Base64Helper
 import org.json.JSONObject
 
 class PublicKeyCredentialCreationOptions(

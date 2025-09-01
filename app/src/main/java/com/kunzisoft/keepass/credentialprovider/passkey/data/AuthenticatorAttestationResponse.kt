@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
+import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import com.kunzisoft.keepass.utils.UUIDUtils.asBytes
 import org.json.JSONArray
 import org.json.JSONObject

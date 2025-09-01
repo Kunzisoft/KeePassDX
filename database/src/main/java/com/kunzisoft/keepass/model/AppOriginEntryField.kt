@@ -138,10 +138,10 @@ object AppOriginEntryField {
      */
     fun EntryInfo.setAppOrigin(appOrigin: AppOrigin?, customFieldsAllowed: Boolean) {
         appOrigin?.androidOrigins?.forEach { appIdentifier ->
-            setApplicationId(appIdentifier.packageName, appIdentifier.signature)
+            setApplicationId(appIdentifier.packageName, appIdentifier.fingerprint)
         }
         appOrigin?.webOrigins?.forEach { webOrigin ->
-            if (webOrigin.verification.verified)
+            if (webOrigin.verified)
                 setWebDomain(webOrigin.origin, null, customFieldsAllowed)
         }
     }

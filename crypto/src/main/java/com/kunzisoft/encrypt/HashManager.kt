@@ -118,7 +118,7 @@ object HashManager {
         return StreamCipher(cipher)
     }
 
-    private const val SIGNATURE_DELIMITER = "##SIG##"
+    const val SIGNATURE_DELIMITER = "##SIG##"
 
     /**
      * Converts a Signature object into its SHA-256 fingerprint string.
@@ -149,7 +149,7 @@ object HashManager {
      * @param signingInfo The SigningInfo object to retrieve the strings signatures
      * @return A List of SHA-256 fingerprint strings, or null if an error occurs or no signatures are found.
      */
-    fun getAllSignatures(signingInfo: SigningInfo?): List<String>? {
+    fun getAllFingerprints(signingInfo: SigningInfo?): List<String>? {
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
                 throw AndroidException("API level ${Build.VERSION.SDK_INT} not supported")
@@ -181,13 +181,51 @@ object HashManager {
     /**
      * Combines a list of signature into a single string for database storage.
      *
-     * @return A single string with fingerprints joined by a delimiter, or null if the input list is null or empty.
+     * @return A single string with fingerprints joined by a ##SIG## delimiter,
+     * or null if the input list is null or empty.
      */
-    fun SigningInfo.getApplicationSignatures(): String? {
-        val fingerprints = getAllSignatures(this)
+    fun SigningInfo.getApplicationFingerprints(): String? {
+        val fingerprints = getAllFingerprints(this)
         if (fingerprints.isNullOrEmpty()) {
             return null
         }
         return fingerprints.joinToString(SIGNATURE_DELIMITER)
+    }
+
+    /**
+     * Transforms a colon-separated hex fingerprint string into a URL-safe,
+     * padding-removed Base64 string, mimicking the Python behavior:
+     * base64.urlsafe_b64encode(binascii.a2b_hex(fingerprint.replace(':', ''))).decode('utf8').replace('=', '')
+     *
+     * Only check the first footprint if there are several delimited by ##SIG##.
+     *
+     * @param fingerprint The colon-separated hex fingerprint string (e.g., "91:F7:CB:...").
+     * @return The Android App Origin string.
+     * @throws IllegalArgumentException if the hex string (after removing colons) has an odd length
+     *         or contains non-hex characters.
+     */
+    fun fingerprintToUrlSafeBase64(fingerprint: String): String {
+        val firstFingerprint = fingerprint.split(SIGNATURE_DELIMITER).firstOrNull()?.trim()
+        if (firstFingerprint.isNullOrEmpty()) {
+            throw IllegalArgumentException("Invalid fingerprint $fingerprint")
+        }
+        val hexStringNoColons = fingerprint.replace(":", "")
+        if (hexStringNoColons.length % 2 != 0) {
+            throw IllegalArgumentException("Hex string must have an even number of characters: $hexStringNoColons")
+        }
+        if (hexStringNoColons.length != 64) {
+            throw IllegalArgumentException("Expected a 64-character hex string for a SHA-256 hash, but got ${hexStringNoColons.length} characters.")
+        }
+        val hashBytes = ByteArray(hexStringNoColons.length / 2)
+        for (i in hashBytes.indices) {
+            try {
+                val index = i * 2
+                val byteValue = hexStringNoColons.substring(index, index + 2).toInt(16)
+                hashBytes[i] = byteValue.toByte()
+            } catch (e: NumberFormatException) {
+                throw IllegalArgumentException("Invalid hex character in fingerprint: $hexStringNoColons", e)
+            }
+        }
+        return Base64Helper.b64Encode(hashBytes)
     }
 }

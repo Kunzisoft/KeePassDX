@@ -24,10 +24,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.credentials.provider.CallingAppInfo
-import com.kunzisoft.encrypt.HashManager.getApplicationSignatures
+import com.kunzisoft.encrypt.HashManager.getApplicationFingerprints
 import com.kunzisoft.keepass.model.AndroidOrigin
 import com.kunzisoft.keepass.model.AppOrigin
-import com.kunzisoft.keepass.model.Verification
 import com.kunzisoft.keepass.model.WebOrigin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -81,27 +80,26 @@ class OriginManager(
      * calls [onOriginCreated] if the origin was created manually, origin is verified if present in the KeePass database
      */
     suspend fun getOriginAtUsage(
-        appOrigin: AppOrigin,
-        onOriginRetrieved: (androidOrigin: AndroidOrigin, webOrigin: WebOrigin, clientDataHash: ByteArray) -> Unit,
-        onOriginCreated: (androidOrigin: AndroidOrigin, webOrigin: WebOrigin) -> Unit
+        onOriginRetrieved: (appOrigin: AppOrigin, clientDataHash: ByteArray) -> Unit,
+        onOriginCreated: (appOrigin: AppOrigin) -> Unit
     ) {
         getOrigin(
             onOriginRetrieved = { androidOrigin, webOrigin, origin, clientDataHash ->
-                onOriginRetrieved(androidOrigin, webOrigin, clientDataHash)
+                onOriginRetrieved(
+                    AppOrigin().apply {
+                        addAndroidOrigin(androidOrigin)
+                        addWebOrigin(webOrigin)
+                    },
+                    clientDataHash
+                )
             },
-            onOriginNotRetrieved = { appIdentifierToCheck, webOrigin ->
+            onOriginNotRetrieved = { androidOrigin, webOrigin ->
                 // Check the app signature in the appOrigin, webOrigin cannot be checked now
                 onOriginCreated(
-                    AndroidOrigin(
-                        packageName = appIdentifierToCheck.packageName,
-                        signature = appIdentifierToCheck.signature,
-                        verification =
-                            if (appOrigin.containsVerifiedAndroidOrigin(appIdentifierToCheck))
-                                Verification.MANUALLY_VERIFIED
-                            else
-                                Verification.NOT_VERIFIED
-                    ),
-                    webOrigin
+                    AppOrigin().apply {
+                        addAndroidOrigin(androidOrigin)
+                        addWebOrigin(webOrigin)
+                    }
                 )
             }
         )
@@ -129,23 +127,27 @@ class OriginManager(
             callOrigin = callingAppInfo.getOrigin(privilegedAllowlist)?.removeSuffix("/")
             val androidOrigin = AndroidOrigin(
                 packageName = callingAppInfo.packageName,
-                signature = callingAppInfo.signingInfo
-                    .getApplicationSignatures(),
-                verification = Verification.NOT_VERIFIED
+                fingerprint = callingAppInfo.signingInfo.getApplicationFingerprints(),
+                verified = false
+            )
+            val webOrigin = WebOrigin.fromRelyingParty(
+                relyingParty = relyingParty,
+                verified = false
             )
             // Check if the webDomain is validated for the
             withContext(Dispatchers.Main) {
                 if (callOrigin != null && providedClientDataHash != null) {
                     Log.d(TAG, "Origin $callOrigin retrieved from callingAppInfo")
+                    // TODO verified callOrigin
                     onOriginRetrieved(
                         AndroidOrigin(
                             packageName = androidOrigin.packageName,
-                            signature = androidOrigin.signature,
-                            verification = Verification.AUTOMATICALLY_VERIFIED
+                            fingerprint = androidOrigin.fingerprint,
+                            verified = true
                         ),
-                        WebOrigin.fromRelyingParty(
-                            relyingParty = relyingParty,
-                            verification = Verification.AUTOMATICALLY_VERIFIED
+                        WebOrigin(
+                            origin = webOrigin.origin,
+                            verified = true
                         ),
                         callOrigin,
                         providedClientDataHash
@@ -153,10 +155,7 @@ class OriginManager(
                 } else {
                     onOriginNotRetrieved(
                         androidOrigin,
-                        WebOrigin.fromRelyingParty(
-                            relyingParty = relyingParty,
-                            verification = Verification.NOT_VERIFIED
-                        )
+                        webOrigin
                     )
                 }
             }

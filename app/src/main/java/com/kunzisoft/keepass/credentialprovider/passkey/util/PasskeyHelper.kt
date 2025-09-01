@@ -39,6 +39,7 @@ import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderCreateCredentialRequest
 import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.asymmetric.Signature
+import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -50,12 +51,10 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.Verification
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.random.KeePassDXRandom
@@ -436,13 +435,11 @@ object PasskeyHelper {
      * Utility method to use a passkey and create the associated usage request parameters
      * [intent] allows to retrieve the request
      * [assetManager] has been transferred to the origin manager to manage package verification files
-     * [appOrigin] retrieves the origin params stored in an entry, which may be null if not found or if the database is closed.
      * [result] is called asynchronously after the creation of PublicKeyCredentialUsageParameters, the origin associated with it may or may not be verified
      */
     suspend fun retrievePasskeyUsageRequestParameters(
         intent: Intent,
         assetManager: AssetManager,
-        appOrigin: AppOrigin,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -460,18 +457,16 @@ object PasskeyHelper {
             assets = assetManager,
             relyingParty = requestOptions.rpId
         ).getOriginAtUsage(
-            appOrigin = appOrigin,
-            onOriginRetrieved = { androidOrigin, webOrigin, clientDataHash ->
+            onOriginRetrieved = { appOrigin, clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
                         publicKeyCredentialRequestOptions = requestOptions,
                         clientDataResponse = ClientDataDefinedResponse(clientDataHash),
-                        androidOrigin = androidOrigin,
-                        webOrigin = webOrigin
+                        appOrigin = appOrigin
                     )
                 )
             },
-            onOriginCreated = { androidOrigin, webOrigin ->
+            onOriginCreated = { appOrigin ->
                 // By default we crate an usage parameter with Android origin
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
@@ -479,10 +474,9 @@ object PasskeyHelper {
                         clientDataResponse = ClientDataBuildResponse(
                             type = ClientDataBuildResponse.Type.GET,
                             challenge = requestOptions.challenge,
-                            origin = androidOrigin.toAndroidOrigin()
+                            origin = appOrigin.toAppOrigin()
                         ),
-                        androidOrigin = androidOrigin,
-                        webOrigin = webOrigin
+                        appOrigin = appOrigin
                     )
                 )
             }
@@ -519,37 +513,23 @@ object PasskeyHelper {
 
     /**
      * Verify that the application signature is contained in the [appOrigin]
-     * or that the webDomain contains the origin
      */
     fun getVerifiedGETClientDataResponse(
         usageParameters: PublicKeyCredentialUsageParameters,
         appOrigin: AppOrigin
     ): ClientDataResponse {
-        val appToCheck = usageParameters.androidOrigin
-        val webToCheck = usageParameters.webOrigin
-        if (appToCheck.verification == Verification.AUTOMATICALLY_VERIFIED) {
-            return usageParameters.clientDataResponse
+        val appToCheck = usageParameters.appOrigin
+        return if (appToCheck.verified) {
+            usageParameters.clientDataResponse
         } else {
-            if (appOrigin.containsVerifiedAndroidOrigin(appToCheck)) {
-                if (webToCheck.verification.verified
-                    || appOrigin.containsVerifiedWebOrigin(webToCheck)) {
-                    // Origin checked by URL
-                    return ClientDataBuildResponse(
-                        type = ClientDataBuildResponse.Type.GET,
-                        challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
-                        origin = webToCheck.toWebOrigin()
-                    )
-                }
+            appOrigin.checkAppOrigin(appToCheck)?.let { origin ->
                 // Origin checked by Android app signature
-                return ClientDataBuildResponse(
+                ClientDataBuildResponse(
                     type = ClientDataBuildResponse.Type.GET,
                     challenge = usageParameters.publicKeyCredentialRequestOptions.challenge,
-                    origin = appOrigin.firstVerifiedWebOrigin()?.toWebOrigin()
-                        ?: appToCheck.toAndroidOrigin()
+                    origin = origin
                 )
-            } else {
-                throw SecurityException("Wrong signature for ${appToCheck.packageName}")
-            }
+            } ?: throw SecurityException("Wrong signature for $appToCheck")
         }
     }
 }

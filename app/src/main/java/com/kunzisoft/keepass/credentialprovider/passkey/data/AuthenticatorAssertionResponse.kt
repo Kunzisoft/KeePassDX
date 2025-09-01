@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.credentialprovider.passkey.data
 
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import com.kunzisoft.asymmetric.Signature
-import com.kunzisoft.keepass.credentialprovider.passkey.util.Base64Helper.Companion.b64Encode
+import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import org.json.JSONObject
 
 class AuthenticatorAssertionResponse(

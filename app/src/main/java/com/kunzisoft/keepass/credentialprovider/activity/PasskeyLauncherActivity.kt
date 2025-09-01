@@ -234,8 +234,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         Log.d(TAG, "Launch passkey selection")
         retrievePasskeyUsageRequestParameters(
             intent = intent,
-            assetManager = assets,
-            appOrigin = appOrigin,
+            assetManager = assets
         ) { usageParameters ->
             // Save the requested parameters
             mUsageParameters = usageParameters

@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.model
 
 import android.os.Parcelable
+import com.kunzisoft.encrypt.HashManager.fingerprintToUrlSafeBase64
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -36,44 +37,22 @@ data class AppOrigin(
         this.webOrigins.add(webOrigin)
     }
 
-    fun containsVerifiedAndroidOrigin(androidOrigin: AndroidOrigin): Boolean {
-        return androidOrigins.any {
-            it.packageName == androidOrigin.packageName
-                    && it.signature == androidOrigin.signature
-                    && it.verification.verified
-        }
-    }
+    val verified: Boolean
+        get() = androidOrigins.any { it.verified }
 
-    fun getFirstAndroidOrigin(): AndroidOrigin? {
-        return androidOrigins.firstOrNull()
-    }
-
-    fun containsVerifiedWebOrigin(webOrigin: WebOrigin): Boolean {
-        return this.webOrigins.any {
-            it.origin == webOrigin.origin
-                    && it.verification.verified
-        }
-    }
-
-    fun containsUnverifiedWebOrigin(): Boolean {
-        return this.webOrigins.any {
-            it.verification.verified.not()
-        }
-    }
-
-    fun firstVerifiedWebOrigin(): WebOrigin? {
-        return webOrigins.first {
-            it.verification.verified
-        }
-    }
-
-    fun getFirstWebOrigin(): WebOrigin? {
-        return webOrigins.firstOrNull()
-    }
-
-    fun firstUnverifiedOrigin(): WebOrigin? {
-        return webOrigins.first {
-            it.verification.verified.not()
+    /**
+     * Verify the app origin by comparing it to the list of android origins,
+     * return the first verified origin or null if none is found
+     */
+    fun checkAppOrigin(appToCheck: AppOrigin): String? {
+        return androidOrigins.firstOrNull { androidOrigin ->
+            appToCheck.androidOrigins.any {
+                it.packageName == androidOrigin.packageName
+                        && it.fingerprint == androidOrigin.fingerprint
+            }
+        }?.let {
+            AndroidOrigin(it.packageName, it.fingerprint, true)
+                .toAndroidOrigin()
         }
     }
 
@@ -86,6 +65,11 @@ data class AppOrigin(
         return androidOrigins.isEmpty() && webOrigins.isEmpty()
     }
 
+    fun toAppOrigin(): String {
+        return androidOrigins.firstOrNull()?.toAndroidOrigin()
+            ?: throw SecurityException("No app origin found")
+    }
+
     fun toName(): String? {
         return if (androidOrigins.isNotEmpty()) {
             androidOrigins.first().packageName
@@ -95,29 +79,36 @@ data class AppOrigin(
     }
 }
 
-enum class Verification {
-    MANUALLY_VERIFIED, AUTOMATICALLY_VERIFIED, NOT_VERIFIED;
-
-    val verified: Boolean
-        get() = this == MANUALLY_VERIFIED || this == AUTOMATICALLY_VERIFIED
-}
-
 @Parcelize
 data class AndroidOrigin(
     val packageName: String,
-    val signature: String? = null,
-    val verification: Verification = Verification.AUTOMATICALLY_VERIFIED,
+    val fingerprint: String?,
+    val verified: Boolean = true
 ) : Parcelable {
 
+    /**
+     * Creates an Android App Origin string of the form "android:apk-key-hash:<base64_urlsafe_hash>"
+     * from a colon-separated hex fingerprint string.
+     *
+     * The input fingerprint is assumed to be the SHA-256 hash of the app's signing certificate.
+     *
+     * @param fingerprint The colon-separated hex fingerprint string (e.g., "91:F7:CB:...").
+     * @return The Android App Origin string.
+     * @throws IllegalArgumentException if the hex string (after removing colons) has an odd length
+     *         or contains non-hex characters.
+     */
     fun toAndroidOrigin(): String {
-        return "android:apk-key-hash:${packageName}"
+        if (fingerprint == null) {
+            throw IllegalArgumentException("Fingerprint $fingerprint cannot be null")
+        }
+        return "android:apk-key-hash:${fingerprintToUrlSafeBase64(fingerprint)}"
     }
 }
 
 @Parcelize
 data class WebOrigin(
     val origin: String,
-    val verification: Verification = Verification.AUTOMATICALLY_VERIFIED,
+    val verified: Boolean = true,
 ) : Parcelable {
 
     fun toWebOrigin(): String {
@@ -130,9 +121,9 @@ data class WebOrigin(
 
     companion object {
         const val RELYING_PARTY_DEFAULT_PROTOCOL = "https"
-        fun fromRelyingParty(relyingParty: String, verification: Verification): WebOrigin = WebOrigin(
+        fun fromRelyingParty(relyingParty: String, verified: Boolean): WebOrigin = WebOrigin(
             origin ="$RELYING_PARTY_DEFAULT_PROTOCOL://$relyingParty",
-            verification = verification
+            verified = verified
         )
     }
 }
