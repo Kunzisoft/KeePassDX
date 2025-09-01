@@ -67,6 +67,7 @@ import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.CipherDecryptDatabase
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
+import com.kunzisoft.keepass.model.DatabaseFile
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
