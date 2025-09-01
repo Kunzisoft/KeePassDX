@@ -51,9 +51,7 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
             imeOptions = EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING
             importantForAutofill = IMPORTANT_FOR_AUTOFILL_NO
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
-        }
+        importantForAccessibility = IMPORTANT_FOR_ACCESSIBILITY_NO
         maxLines = 1
     }
     private var actionImageButton = AppCompatImageButton(
@@ -70,11 +68,9 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
                     resources.displayMetrics
             ).toInt()
             it.addRule(ALIGN_PARENT_RIGHT)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.addRule(ALIGN_PARENT_END)
-            }
+            it.addRule(ALIGN_PARENT_END)
         }
-        visibility = View.GONE
+        visibility = GONE
         contentDescription = context.getString(R.string.menu_edit)
     }
 
@@ -91,9 +87,7 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 it.addRule(LEFT_OF, actionImageButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it.addRule(START_OF, actionImageButtonId)
-                }
+                it.addRule(START_OF, actionImageButtonId)
             }
         }
         valueView.apply {
@@ -192,7 +186,7 @@ open class TextEditFieldView @JvmOverloads constructor(context: Context,
             actionImageButton.setImageDrawable(ContextCompat.getDrawable(context, it))
         }
         actionImageButton.setOnClickListener(onActionClickListener)
-        actionImageButton.visibility = if (onActionClickListener == null) View.GONE else View.VISIBLE
+        actionImageButton.visibility = if (onActionClickListener == null) GONE else VISIBLE
     }
 
     override var isFieldVisible: Boolean
