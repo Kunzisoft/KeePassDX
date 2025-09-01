@@ -44,6 +44,10 @@ data class AppOrigin(
         }
     }
 
+    fun getFirstAndroidOrigin(): AndroidOrigin? {
+        return androidOrigins.firstOrNull()
+    }
+
     fun containsVerifiedWebOrigin(webOrigin: WebOrigin): Boolean {
         return this.webOrigins.any {
             it.origin == webOrigin.origin
@@ -51,9 +55,25 @@ data class AppOrigin(
         }
     }
 
+    fun containsUnverifiedWebOrigin(): Boolean {
+        return this.webOrigins.any {
+            it.verification.verified.not()
+        }
+    }
+
     fun firstVerifiedWebOrigin(): WebOrigin? {
         return webOrigins.first {
             it.verification.verified
+        }
+    }
+
+    fun getFirstWebOrigin(): WebOrigin? {
+        return webOrigins.firstOrNull()
+    }
+
+    fun firstUnverifiedOrigin(): WebOrigin? {
+        return webOrigins.first {
+            it.verification.verified.not()
         }
     }
 
@@ -90,14 +110,13 @@ data class AndroidOrigin(
 ) : Parcelable {
 
     fun toAndroidOrigin(): String {
-        return "androidapp://${packageName}"
+        return "android:apk-key-hash:${packageName}"
     }
 }
 
 @Parcelize
 data class WebOrigin(
     val origin: String,
-    val assetLinks: String? = null,
     val verification: Verification = Verification.AUTOMATICALLY_VERIFIED,
 ) : Parcelable {
 
