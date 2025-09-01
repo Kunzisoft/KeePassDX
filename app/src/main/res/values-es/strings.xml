@@ -271,8 +271,6 @@
     <string name="allow_no_password_summary">Permite pulsar el botón \"Abrir\" si no son seleccionadas las credenciales</string>
     <string name="enable_education_screens_title">Consejos educativos</string>
     <string name="enable_education_screens_summary">Destaca los elementos para aprender cómo funciona la aplicación</string>
-    <string name="enable_read_only_title">Protegida contra escritura</string>
-    <string name="enable_read_only_summary">Abre la base de datos como solo lectura por defecto</string>
     <string name="education_read_only_title">Proteja la base de datos contra escritura</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>

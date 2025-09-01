@@ -554,7 +554,6 @@
     <string name="allow_no_password_title">Izinkan tidak ada kunci utama</string>
     <string name="allow_no_password_summary">Memungkinkan mengetuk tombol \"Buka\" jika tidak ada kredensial yang dipilih</string>
     <string name="delete_entered_password_summary">Menghapus kata sandi yang dimasukkan setelah upaya koneksi ke basis data</string>
-    <string name="enable_read_only_summary">Buka basis data baca-saja secara baku</string>
     <string name="enable_keep_screen_on_title">Biarkan layar nyala</string>
     <string name="enable_education_screens_summary">Sorot elemen untuk mempelajari cara kerja aplikasi</string>
     <string name="education_create_database_summary">Buat file pengelola kata sandi pertama Anda.</string>
@@ -618,7 +617,6 @@
 \nPeriksa kompatibilitas dan keamanan KeyStore dengan produsen perangkat Anda dan pembuat ROM yang Anda gunakan.</string>
     <string name="education_read_only_title">Lindungi basis data Anda dari penulisan</string>
     <string name="keyboard_save_search_info_summary">Coba simpan informasi terbagi ketika membuat sebuah pilihan entri manual untuk penggunaan mudah di waktu mendatang</string>
-    <string name="enable_read_only_title">Terlindungi-tulis</string>
     <string name="enable_keep_screen_on_summary">Jaga layar tetap menyala saat melihat atau menyunting sebuah entri</string>
     <string name="content_description_hardware_key_checkbox">Kotak centang kunci perangkat keras</string>
     <string name="waiting_challenge_request">Menunggu untuk permintaan tantangan…</string>

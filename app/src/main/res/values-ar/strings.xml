@@ -213,8 +213,6 @@
     <string name="keyboard_key_vibrate_title">إهتزاز عند اللمس</string>
     <string name="keyboard_key_sound_title">صوت عند اللمس</string>
     <string name="allow_no_password_title">اسمح بدون المفتاح الرئيسي</string>
-    <string name="enable_read_only_title">محمي من التعديل</string>
-    <string name="enable_read_only_summary">افتح قاعدة البيانات في وضع القراءة افتراضيا</string>
     <string name="enable_education_screens_title">تلميحات تعليمية</string>
     <string name="reset_education_screens_summary">أعد عرض كل المعلومات التعليمية</string>
     <string name="reset_education_screens_text">إعادة تعيين الشاشات التلميحات</string>

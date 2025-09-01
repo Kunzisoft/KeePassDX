@@ -283,8 +283,6 @@
     <string name="allow_no_password_summary">Autorise l’appui du bouton \"Ouvrir\" si aucun identifiant n’est sélectionné</string>
     <string name="menu_file_selection_read_only">Protéger en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
-    <string name="enable_read_only_title">Protéger en écriture</string>
-    <string name="enable_read_only_summary">Ouvre la base de données en lecture seule par défaut</string>
     <string name="education_read_only_title">Protégez en écriture votre base de données</string>
     <string name="education_read_only_summary">Changez le mode d’ouverture pour la session.
 \n

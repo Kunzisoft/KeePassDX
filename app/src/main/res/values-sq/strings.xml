@@ -555,7 +555,6 @@
     <string name="keyboard_key_vibrate_title">Shtypje tastesh me dridhje</string>
     <string name="autofill_save_search_info_title">Ruaj hollësi kërkimi</string>
     <string name="autofill_web_domain_blocklist_summary">Listë bllokimesh që pengon vetëplotësim përkatësish web</string>
-    <string name="enable_read_only_title">Mbrojtur nga shkrimi</string>
     <string name="enable_keep_screen_on_title">Mbaje ekranin ndezur</string>
     <string name="enable_education_screens_title">Ndihmëza edukative</string>
     <string name="education_search_summary">Jepni titull, emër përdoruesi, ose lëndë fushash të tjera, për të marrë fjalëkalimet tuaja.</string>
@@ -610,7 +609,6 @@
     <string name="autofill_manual_selection_summary">Shfaq mundësi për ta lënë përdoruesin të përzgjedhë zë baze të dhënash</string>
     <string name="autofill_save_search_info_summary">Provo të ruash informacion, kur bëhet një përzgjedhje dorazi e zërit, për përdorim më të kollajtë në të ardhmen</string>
     <string name="autofill_read_only_save">S’lejohet ruajtje të dhënash për një bazë të dhënash të hapur vetëm-për-lexim.</string>
-    <string name="enable_read_only_summary">Si parazgjedhje, bazën e të dhënave hape si vetëm-për-lexim</string>
     <string name="enable_auto_save_database_summary">Ruaje bazën e të dhënave pas çdo veprimi të rëndësishëm (nën mënyrën “E ndryshueshme”)</string>
     <string name="enable_keep_screen_on_summary">Mbaje hapur ekranin, kur shihet ose përpunohet një zë</string>
     <string name="enable_screenshot_mode_summary">Lejo aplikacione palësh të treta të regjistrojnë, ose bëjnë foto ekrani të aplikacionit</string>

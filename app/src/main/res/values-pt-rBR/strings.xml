@@ -222,8 +222,6 @@
     <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
     <string name="allow_no_password_title">Permitir chave-mestra vazia</string>
     <string name="allow_no_password_summary">Permite tocar no botão \"Abrir\" mesmo se nenhuma credencial for selecionada</string>
-    <string name="enable_read_only_title">Somente leitura</string>
-    <string name="enable_read_only_summary">Abre o banco de dados no modo somente leitura por padrão</string>
     <string name="enable_education_screens_title">Dicas educacionais</string>
     <string name="enable_education_screens_summary">Destaque os elementos para aprender como o aplicativo funciona</string>
     <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
