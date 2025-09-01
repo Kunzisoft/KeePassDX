@@ -604,16 +604,12 @@ class EntryEditActivity : DatabaseLockActivity(),
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_attachment)?.apply {
-            // Attachment not compatible below KitKat
             isEnabled = !mIsTemplate
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
         menu?.findItem(R.id.menu_add_otp)?.apply {
-            // OTP not compatible below KitKat
             isEnabled = mAllowOTP
                     && !mIsTemplate
-                    && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
             isVisible = isEnabled
         }
         return super.onPrepareOptionsMenu(menu)
