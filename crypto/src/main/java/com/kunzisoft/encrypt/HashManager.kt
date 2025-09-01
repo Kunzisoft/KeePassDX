@@ -209,7 +209,7 @@ object HashManager {
         if (firstFingerprint.isNullOrEmpty()) {
             throw IllegalArgumentException("Invalid fingerprint $fingerprint")
         }
-        val hexStringNoColons = fingerprint.replace(":", "")
+        val hexStringNoColons = firstFingerprint.replace(":", "")
         if (hexStringNoColons.length % 2 != 0) {
             throw IllegalArgumentException("Hex string must have an even number of characters: $hexStringNoColons")
         }
