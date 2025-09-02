@@ -187,7 +187,7 @@
     <string name="autofill">Automatisch aanvullen</string>
     <string name="autofill_service_name">KeePassDX dienst automatisch aanvullen</string>
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
-    <string name="set_autofill_service_title">Dienst automatisch aanvullen</string>
+    <string name="set_credential_provider_service_title">Dienst automatisch aanvullen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>
     <string name="password_size_title">Gegenereerde wachtwoordlengte</string>
     <string name="password_size_summary">Stel de standaardlengte van gegenereerde wachtwoorden in</string>

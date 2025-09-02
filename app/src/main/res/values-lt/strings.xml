@@ -361,7 +361,7 @@
     <string name="warning_keyfile_integrity">Failo \"hash\" reikšmė nėra garantuota, nes \"Android\" gali keisti jo duomenis. Norėdami užtikrinti teisingą vientisumą, pakeiskite failo plėtinį į .bin.</string>
     <string name="configure_biometric">Biometriniai duomenys ar prietaiso įgaliojimai neįrašomi.</string>
     <string name="autofill_preference_title">Automatinio pildymo nustatymai</string>
-    <string name="set_autofill_service_title">Nustatyti numatytąją automatinio pildymo paslaugą</string>
+    <string name="set_credential_provider_service_title">Nustatyti numatytąją automatinio pildymo paslaugą</string>
     <string name="lock_database_screen_off_title">Ekrano užraktas</string>
     <string name="biometric_unlock_enable_title">Biometrinis atrakinimas</string>
     <string name="show_uuid_title">Rodyti UUID</string>

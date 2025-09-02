@@ -328,10 +328,15 @@ object PasskeyHelper {
         return request.credentialOptions[0] as GetPublicKeyCredentialOption
     }
 
-    private fun getOriginFromPrivilegedAllowList(
+    /**
+     * Get the origin from a privileged allow list,
+     * [fileName] is the name of the file in assets containing the origin list as JSON
+     */
+    private fun getOriginFromPrivilegedAllowListFile(
         callingAppInfo: CallingAppInfo,
         assets: AssetManager,
-        fileName: String): String? {
+        fileName: String
+    ): String? {
         val privilegedAllowList = assets.open(fileName).bufferedReader().use {
             it.readText()
         }
@@ -339,8 +344,38 @@ object PasskeyHelper {
     }
 
     /**
+     * Get the origin from the predefined privileged allow lists
+     */
+    private fun getOriginFromPrivilegedAllowLists(
+        callingAppInfo: CallingAppInfo,
+        assets: AssetManager
+    ): String? {
+        return try {
+            // TODO add the manual privileged apps
+            // Check the community apps first
+            getOriginFromPrivilegedAllowListFile(
+                callingAppInfo = callingAppInfo,
+                assets = assets,
+                fileName = FILE_NAME_PRIVILEGED_APPS_COMMUNITY
+            )
+        } catch (e: Exception) {
+            // Then the Google list if allowed
+            if (BuildConfig.CLOSED_STORE) {
+                // http://www.gstatic.com/gpm-passkeys-privileged-apps/apps.json
+                getOriginFromPrivilegedAllowListFile(
+                    callingAppInfo = callingAppInfo,
+                    assets = assets,
+                    fileName = FILE_NAME_PRIVILEGED_APPS_GOOGLE
+                )
+            } else {
+                throw e
+            }
+        }
+    }
+
+    /**
      * Utility method to retrieve the origin asynchronously,
-     * checks for the presence of the application in the privilege list of the fido2_privileged_google.json file,
+     * checks for the presence of the application in the privilege list of the passkeys_privileged_apps_google.json file,
      * call [onOriginRetrieved] if the origin is already calculated by the system and in the privileged list, return the clientDataHash
      * call [onOriginNotRetrieved] if the origin is not retrieved from the system, return a new Android Origin
      */
@@ -357,32 +392,15 @@ object PasskeyHelper {
         withContext(Dispatchers.IO) {
 
             // For trusted browsers like Chrome and Firefox
-            // Check the community apps first
-            val callOrigin = try {
-                getOriginFromPrivilegedAllowList(
-                    callingAppInfo,
-                    assets,
-                    "fido2_privileged_community.json"
-                )
-            } catch (e: Exception) {
-                // Then the Google list if allowed
-                if (BuildConfig.CLOSED_STORE) {
-                    getOriginFromPrivilegedAllowList(
-                        callingAppInfo,
-                        assets,
-                        "fido2_privileged_google.json"
-                    )
-                } else {
-                    throw e
-                }
-            }
+            val callOrigin = getOriginFromPrivilegedAllowLists(callingAppInfo, assets)
 
+            // Build the default Android origin
             val androidOrigin = AndroidOrigin(
                 packageName = callingAppInfo.packageName,
                 fingerprint = callingAppInfo.signingInfo.getApplicationFingerprints()
             )
 
-            // Check if the webDomain is validated for the
+            // Check if the webDomain is validated by the system
             withContext(Dispatchers.Main) {
                 if (callOrigin != null && providedClientDataHash != null) {
                     // Origin already defined by the system
@@ -624,4 +642,7 @@ object PasskeyHelper {
     }
 
     private const val BACKUP_ELIGIBILITY = true
+
+    private const val FILE_NAME_PRIVILEGED_APPS_COMMUNITY = "passkeys_privileged_apps_community.json"
+    private const val FILE_NAME_PRIVILEGED_APPS_GOOGLE = "passkeys_privileged_apps_google.json"
 }

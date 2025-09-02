@@ -169,7 +169,7 @@
     <string name="autofill">Αυτόματη συμπλήρωση</string>
     <string name="autofill_service_name">Μορφή KeePassDX αυτόματης συμπλήρωσης</string>
     <string name="autofill_sign_in_prompt">Συνδεθείτε με το KeePassDX</string>
-    <string name="set_autofill_service_title">Ορίστε την προεπιλεγμένη υπηρεσία αυτόματης συμπλήρωσης</string>
+    <string name="set_credential_provider_service_title">Ορίστε την προεπιλεγμένη υπηρεσία αυτόματης συμπλήρωσης</string>
     <string name="password_size_title">Παραγόμενο μέγεθος κωδικού πρόσβασης</string>
     <string name="password_size_summary">Ορίστε το προεπιλεγμένο μέγεθος των παραγόμενων κωδικών πρόσβασης</string>
     <string name="list_password_generator_options_title">Χαρακτήρες Κωδικού Πρόσβασης</string>

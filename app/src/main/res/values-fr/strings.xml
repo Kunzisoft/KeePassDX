@@ -165,7 +165,7 @@
     <string name="autofill">Remplissage automatique</string>
     <string name="autofill_service_name">Remplissage automatique des formulaires KeePassDX</string>
     <string name="autofill_sign_in_prompt">Se connecter avec KeePassDX</string>
-    <string name="set_autofill_service_title">Définir le service de remplissage automatique par défaut</string>
+    <string name="set_credential_provider_service_title">Définir le service de remplissage automatique par défaut</string>
     <string name="autofill_explanation_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
     <string name="autofill_select_entry">Sélectionner une entrée…</string>
     <string name="password_size_title">Taille du mot de passe généré</string>

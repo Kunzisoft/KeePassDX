@@ -33,8 +33,8 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
-import com.kunzisoft.keepass.utils.WebDomain
 import com.kunzisoft.keepass.utils.getParcelableCompat
 
 /**
@@ -109,7 +109,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             this.otpString = otpString
         }
 
-        WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+        AppUtil.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
             searchInfo.webDomain = concreteWebDomain
             launch(database, searchInfo)
         }

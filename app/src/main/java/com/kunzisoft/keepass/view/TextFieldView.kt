@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.os.Build
 import android.text.InputFilter
 import android.text.util.Linkify
 import android.util.AttributeSet
@@ -37,7 +36,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.AppOriginEntryField.APPLICATION_ID_FIELD_NAME
-import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
+import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
 
 
 open class TextFieldView @JvmOverloads constructor(context: Context,

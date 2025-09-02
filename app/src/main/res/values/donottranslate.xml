@@ -126,11 +126,14 @@
     <bool name="clear_clipboard_notification_default" translatable="false">false</bool>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="clipboard_timeout_default" translatable="false">20000</string>
-    <string name="autofill_key" translatable="false">autofill_key</string>
+    <string name="credential_provider_key" translatable="false">credential_provider_key</string>
+    <string name="settings_credential_provider_enable_key" translatable="false">settings_credential_provider_enable_key</string>
+    <bool name="settings_credential_provider_enable_default" translatable="false">false</bool>
     <string name="autofill_explanation_key" translatable="false">autofill_explanation_key</string>
-    <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
-    <bool name="settings_autofill_enable_default" translatable="false">false</bool>
     <string name="settings_autofill_key" translatable="false">settings_autofill_key</string>
+    <string name="passkeys_explanation_key" translatable="false">passkeys_explanation_key</string>
+    <string name="settings_passkeys_key" translatable="false">settings_passkeys_key</string>
+    <string name="passkeys_privileged_apps_key" translatable="false">passkeys_privileged_apps_key</string>
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
     <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>

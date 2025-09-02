@@ -28,7 +28,7 @@ import android.view.MenuItem
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.settings.SettingsActivity
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 
 object MenuUtil {
@@ -40,9 +40,6 @@ object MenuUtil {
             menu.findItem(R.id.menu_contribute)?.isVisible = false
     }
 
-    /*
-     * @param checkLock Check the time lock before launch settings in LockingActivity
-     */
     fun onDefaultMenuOptionsItemSelected(activity: Activity,
                                          item: MenuItem,
                                          timeoutEnable: Boolean = false) {

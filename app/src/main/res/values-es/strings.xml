@@ -172,7 +172,7 @@
     <string name="autofill">Autocompletado</string>
     <string name="autofill_service_name">Autocompletado de formularios de KeePassDX</string>
     <string name="autofill_sign_in_prompt">Iniciar sesión con KeePassDX</string>
-    <string name="set_autofill_service_title">Establecer servicio de autocompletado por defecto</string>
+    <string name="set_credential_provider_service_title">Establecer servicio de autocompletado por defecto</string>
     <string name="password_size_title">Tamaño de la contraseña generada</string>
     <string name="password_size_summary">Establece el tamaño predeterminado de las contraseñas generadas</string>
     <string name="list_password_generator_options_title">Caracteres de contraseña</string>

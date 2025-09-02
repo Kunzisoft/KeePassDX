@@ -180,7 +180,7 @@
     <string name="autofill">Autoudfyld</string>
     <string name="autofill_service_name">KeePassDX formularudfyldning</string>
     <string name="autofill_sign_in_prompt">Log ind med KeePassDX</string>
-    <string name="set_autofill_service_title">Indstil standard autoudfyldningstjeneste</string>
+    <string name="set_credential_provider_service_title">Indstil standard autoudfyldningstjeneste</string>
     <string name="autofill_explanation_summary">Aktiver autofyldning for hurtigt at udfylde formularer i andre apps</string>
     <string name="password_size_title">Genereret adgangskodelængde</string>
     <string name="password_size_summary">Angiver standardlængden for genererede adgangskoder</string>

@@ -414,7 +414,7 @@
     <string name="autofill_sign_in_prompt">התחבר עם KeePassDX</string>
     <string name="general">כללי</string>
     <string name="autofill_explanation_summary">הפעל מילוי אוטומטי כדי למלא במהירות טפסים ביישומים אחרים</string>
-    <string name="set_autofill_service_title">הגדר שירות מילוי אוטומטי ברירת מחדל</string>
+    <string name="set_credential_provider_service_title">הגדר שירות מילוי אוטומטי ברירת מחדל</string>
     <string name="password_size_title">גודל סיסמה שנוצרה</string>
     <string name="password_size_summary">מגדיר גודל ברירת המחדל של הסיסמאות שנוצרו</string>
     <string name="list_password_generator_options_title">תווי סיסמה</string>

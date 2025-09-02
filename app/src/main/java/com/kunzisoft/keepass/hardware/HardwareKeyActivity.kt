@@ -14,7 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
+import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
 
 /**
  * Special activity to deal with hardware key drivers,

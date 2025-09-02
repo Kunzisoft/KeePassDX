@@ -288,7 +288,7 @@
     <string name="read_only">Само за четене</string>
     <string name="contains_duplicate_uuid">Хранилището съдържа повтарящ се идентификатор.</string>
     <string name="biometric">Биометричен ключ</string>
-    <string name="set_autofill_service_title">Задаване на подразбирана услуга за автоматично попълване</string>
+    <string name="set_credential_provider_service_title">Задаване на подразбирана услуга за автоматично попълване</string>
     <string name="password_size_title">Дължина на създаваните пароли</string>
     <string name="lock_database_back_root_title">Заключване при „Назад“</string>
     <string name="content">Съдържание</string>

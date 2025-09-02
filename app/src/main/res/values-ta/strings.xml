@@ -73,7 +73,7 @@
     <string name="biometric_security_update_required">பயோமெட்ரிக் பாதுகாப்பு புதுப்பிப்பு தேவை.</string>
     <string name="keystore_not_accessible">கீச்டோர் சரியாக துவக்கப்படவில்லை.</string>
     <string name="menu_appearance_settings">தோற்றம்</string>
-    <string name="set_autofill_service_title">இயல்புநிலை ஆட்டோஃபில் சேவையை அமைக்கவும்</string>
+    <string name="set_credential_provider_service_title">இயல்புநிலை ஆட்டோஃபில் சேவையை அமைக்கவும்</string>
     <string name="autofill_preference_title">ஆட்டோஃபில் அமைப்புகள்</string>
     <string name="lock_database_screen_off_title">திரை பூட்டு</string>
     <string name="content">உள்ளடக்கம்</string>

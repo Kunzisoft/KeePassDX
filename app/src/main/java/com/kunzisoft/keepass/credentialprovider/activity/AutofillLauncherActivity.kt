@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.utils.WebDomain
+import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 
@@ -79,7 +79,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         }
                         // Build search param
                         bundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
-                            WebDomain.getConcreteWebDomain(
+                            AppUtil.getConcreteWebDomain(
                                 this,
                                 searchInfo.webDomain
                             ) { concreteWebDomain ->
@@ -109,7 +109,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         KEY_REGISTER_INFO
                     )
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    WebDomain.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                    AppUtil.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
                         launchRegistration(database, searchInfo, registerInfo)
                     }

@@ -167,7 +167,7 @@
     <string name="general">عام</string>
     <string name="autofill">الملء التلقائي</string>
     <string name="autofill_sign_in_prompt">سجل باستخدام KeePassDX</string>
-    <string name="set_autofill_service_title">تعيين خدمة الملأ التلقائي الافتراضية</string>
+    <string name="set_credential_provider_service_title">تعيين خدمة الملأ التلقائي الافتراضية</string>
     <string name="password_size_title">حجم كلمة السر المولدة</string>
     <string name="password_size_summary">تعيين الحجم الافتراضي لكلمات السر المولدة</string>
     <string name="list_password_generator_options_title">محارف كلمة السر</string>

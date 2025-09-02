@@ -570,7 +570,7 @@
     <string name="style_brightness_summary">Përzgjidhni tema të çelëta ose të errëta</string>
     <string name="icon_pack_choose_summary">Paketë ikonash të përdorura te aplikacioni</string>
     <string name="hide_expired_entries_summary">Zërat e skaduar nuk shfaqen</string>
-    <string name="set_autofill_service_title">Caktoni shërbim parazgjedhje vetëplotësimesh</string>
+    <string name="set_credential_provider_service_title">Caktoni shërbim parazgjedhje vetëplotësimesh</string>
     <string name="autofill_explanation_summary">Aktivizoni vetëplotësimet, për të plotësuar shpejt formularë në aplikacione të tjerë</string>
     <string name="autofill_preference_title">Rregullime vetëplotësimi</string>
     <string name="password_size_summary">Cakton madhësinë parazgjedhje për fjalëkalimet e prodhuar</string>

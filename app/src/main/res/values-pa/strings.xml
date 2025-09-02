@@ -266,7 +266,7 @@
     <string name="lock_database_back_root_title">ਲਾਕ ਕਰਨ ਲਈ \'ਪਿੱਛੇ\' ਨੂੰ ਦਬਾਓ</string>
     <string name="lock_database_screen_off_summary">ਜਦੋਂ ਸਕਰੀਨ ਬੰਦ ਹੋ ਜਾਵੇ ਤਾਂ ਡਾਟਾਬੇਸ ਨੂੰ ਲਾਕ ਕਰੋ</string>
     <string name="clipboard_notifications_title">ਕਲਿੱਪਬੋਰਡ ਨੋਟੀਫਿਕੇਸ਼ਨ</string>
-    <string name="set_autofill_service_title">ਮੂਲ ਆਪੇ-ਭਰਨ ਸੇਵਾ ਵਜੋਂ ਸੈੱਟ ਕਰੋ</string>
+    <string name="set_credential_provider_service_title">ਮੂਲ ਆਪੇ-ਭਰਨ ਸੇਵਾ ਵਜੋਂ ਸੈੱਟ ਕਰੋ</string>
     <string name="configure_biometric">ਕੋਈ ਬਾਇਓਮੈਟਰਿਕ ਜਾਂ ਡਿਵਾਈਸ ਸਨਦ ਦਾਖਲ ਨਹੀਂ ਕੀਤੀ ਹੈ।</string>
     <string name="warning_sure_remove_data">ਇਹ ਡਾਟਾ ਕਿਵੇਂ ਵੀ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="warning_sure_add_file">ਕਿਵੇਂ ਵੀ ਫ਼ਾਇਲ ਜੋੜਨੀ ਹੈ\?</string>

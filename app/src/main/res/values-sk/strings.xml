@@ -595,7 +595,7 @@
     <string name="properties">Vlastnosti</string>
     <string name="menu_appearance_settings">Vzhľad</string>
     <string name="autofill_explanation_summary">Povoľte automatické dopĺňanie na rýchle vyplnenie formulárov v iných aplikáciách</string>
-    <string name="set_autofill_service_title">Nastavte predvolenú službu automatického dopĺňania</string>
+    <string name="set_credential_provider_service_title">Nastavte predvolenú službu automatického dopĺňania</string>
     <string name="list_password_generator_options_summary">Nastavte povolené znaky generátora hesiel</string>
     <string name="biometric_unlock_enable_summary">Umožňuje vám skenovať biometrické údaje a otvoriť databázu</string>
     <string name="max_history_items_title">Maximálny počet</string>

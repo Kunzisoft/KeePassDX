@@ -410,7 +410,7 @@
     <string name="waiting_challenge_response">Esperant la resposta de desafiament…</string>
     <string name="bank_name">Nom del banc</string>
     <string name="wireless">Wi-Fi</string>
-    <string name="set_autofill_service_title">Estableix el servei d\'emplenament automàtic predeterminat</string>
+    <string name="set_credential_provider_service_title">Estableix el servei d\'emplenament automàtic predeterminat</string>
     <string name="compression">Compressió</string>
     <string name="id_card">Targeta d\'identificació</string>
     <string name="error_hardware_key_unsupported">Clau física no suportada.</string>

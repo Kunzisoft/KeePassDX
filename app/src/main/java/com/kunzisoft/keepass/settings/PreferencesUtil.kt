@@ -35,8 +35,8 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import java.util.Properties
 
 object PreferencesUtil {
@@ -821,7 +821,7 @@ object PreferencesUtil {
                 context.getString(R.string.clipboard_notifications_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.clear_clipboard_notification_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.clipboard_timeout_key) -> editor.putString(name, value.toLong().toString())
-                context.getString(R.string.settings_autofill_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.settings_credential_provider_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_notification_entry_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())

@@ -197,7 +197,7 @@
     <string name="autofill">Automatisches Ausfüllen</string>
     <string name="autofill_service_name">KeePassDX Auto-Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
-    <string name="set_autofill_service_title">Standard-Autofill-Service festlegen</string>
+    <string name="set_credential_provider_service_title">Standard-Autofill-Service festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare in anderen Apps schnell auszufüllen</string>
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>

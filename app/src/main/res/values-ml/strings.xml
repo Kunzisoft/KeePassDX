@@ -339,7 +339,7 @@
     <string name="clipboard_explanation_summary">നിങ്ങളുടെ ഉപകരണത്തിന്റെ ക്ലിപ്പ്ബോർഡ് ഉപയോഗിച്ച് എൻട്രി ഫീൽഡുകൾ പകർത്തുക</string>
     <string name="list_password_generator_options_title">പാസ്‌വേഡ് പ്രതീകങ്ങൾ</string>
     <string name="password_size_summary">സൃഷ്ടിച്ച പാസ്‌വേഡുകളുടെ സ്ഥിരസ്ഥിതി വലുപ്പം സജ്ജമാക്കുക</string>
-    <string name="set_autofill_service_title">സ്ഥിരസ്ഥിതി ഓട്ടോഫിൽ സേവനം സജ്ജമാക്കുക</string>
+    <string name="set_credential_provider_service_title">സ്ഥിരസ്ഥിതി ഓട്ടോഫിൽ സേവനം സജ്ജമാക്കുക</string>
     <string name="autofill_explanation_summary">മറ്റ് അപ്ലിക്കേഷനുകളിൽ ഫോമുകൾ വേഗത്തിൽ പൂരിപ്പിക്കുന്നതിന് ഓട്ടോഫില്ലിംഗ് പ്രവർത്തനക്ഷമമാക്കുക</string>
     <string name="keystore_not_accessible">കീസ്റ്റോർ ശരിയായി സമാരംഭിച്ചിട്ടില്ല.</string>
     <string name="sort_recycle_bin_bottom">റീസൈക്കിൾ ബിൻ ചുവടെയുണ്ട്</string>

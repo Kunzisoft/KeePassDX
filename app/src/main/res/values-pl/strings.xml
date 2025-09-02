@@ -182,7 +182,7 @@
     <string name="autofill">Wypełnij automatycznie</string>
     <string name="autofill_service_name">Autouzupełnianie formularzy KeePassDX</string>
     <string name="autofill_sign_in_prompt">Zaloguj się za pomocą KeePassDX</string>
-    <string name="set_autofill_service_title">Ustaw domyślną usługę autouzupełniania</string>
+    <string name="set_credential_provider_service_title">Ustaw domyślną usługę autouzupełniania</string>
     <string name="autofill_explanation_summary">Włącz autouzupełnianie, aby móc szybko wypełniać formularze w innych aplikacjach</string>
     <string name="password_size_title">Wygenerowany rozmiar hasła</string>
     <string name="password_size_summary">Ustawia domyślny rozmiar wygenerowanych haseł</string>

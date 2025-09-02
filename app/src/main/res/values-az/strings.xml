@@ -518,7 +518,7 @@
     <string name="device_unlock_prompt_not_initialized">Cihaz kilid açma istəyini başlatmaq mümkün deyil.</string>
     <string name="autofill_explanation_summary">Digər tətbiqlərdə formları (anket) daha sürətli doldurmaq üçün avtomatik doldurma funksiyasını aktiv edin</string>
     <string name="autofill_select_entry">Şifrə seç .…</string>
-    <string name="set_autofill_service_title">Standart avtomatik doldurma xidmətini təyin edin</string>
+    <string name="set_credential_provider_service_title">Standart avtomatik doldurma xidmətini təyin edin</string>
     <string name="autofill_preference_title">Avtomatik doldurmanın parametrləri</string>
     <string name="password_size_title">Yaradılan şifrə həcmi</string>
     <string name="password_size_summary">Yaradılan şifrələrin standart həcmini təyin edər</string>

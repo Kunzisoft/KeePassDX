@@ -119,6 +119,10 @@ data class AndroidOrigin(
         }
         return "android:apk-key-hash:${fingerprintToUrlSafeBase64(fingerprint)}"
     }
+
+    override fun toString(): String {
+        return "$packageName (${fingerprint})"
+    }
 }
 
 @Parcelize
@@ -132,6 +136,10 @@ data class WebOrigin(
 
     fun defaultAssetLinks(): String {
         return "${origin}/.well-known/assetlinks.json"
+    }
+
+    override fun toString(): String {
+        return origin
     }
 
     companion object {

@@ -501,7 +501,7 @@
     <string name="select_entry">選擇條目</string>
     <string name="select_to_copy">複製%1$s到剪貼簿</string>
     <string name="selection_mode">選擇模式</string>
-    <string name="set_autofill_service_title">設置為預設的填充服務</string>
+    <string name="set_credential_provider_service_title">設置為預設的填充服務</string>
     <string name="settings">設定</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">下次強制更改主密鑰（一次）</string>
     <string name="settings_database_force_changing_master_key_next_time_title">下次強制更換</string>

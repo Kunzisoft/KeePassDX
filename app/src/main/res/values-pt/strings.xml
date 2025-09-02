@@ -91,7 +91,7 @@
     <string name="list_password_generator_options_title">Caracteres das palavras-passe</string>
     <string name="password_size_summary">Define o tamanho predefinido para as palavras-passe geradas</string>
     <string name="password_size_title">Tamanho da palavra-passe gerada</string>
-    <string name="set_autofill_service_title">Definir como serviço de preenchimento automático predefinido</string>
+    <string name="set_credential_provider_service_title">Definir como serviço de preenchimento automático predefinido</string>
     <string name="autofill_sign_in_prompt">Iniciar sessão com KeePassDX</string>
     <string name="autofill_service_name">Serviço de preenchimento automático do KeePassDX</string>
     <string name="autofill">Preenchimento automático</string>

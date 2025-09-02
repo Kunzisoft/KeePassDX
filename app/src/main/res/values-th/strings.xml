@@ -529,7 +529,7 @@
     <string name="database_history">ประวัติ</string>
     <string name="import_app_properties_summary">เลือกไฟล์ที่จะนําเข้าการตั้งค่าของแอป</string>
     <string name="success_import_app_properties">นำเข้าการตั้งค่าแอปแล้ว</string>
-    <string name="set_autofill_service_title">ตั่งค่าเป็นบริการกรอกข้อมูลอัตโนมัติเรื่มต้น</string>
+    <string name="set_credential_provider_service_title">ตั่งค่าเป็นบริการกรอกข้อมูลอัตโนมัติเรื่มต้น</string>
     <string name="error_export_app_properties">เกิดข้อผิดพลาดระหว่างการส่งออกการตั้งค่าของแอป</string>
     <string name="menu_appearance_settings">ลักษณะ</string>
     <string name="biometric">ไบโอเมตริก</string>

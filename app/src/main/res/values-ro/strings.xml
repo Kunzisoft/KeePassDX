@@ -240,7 +240,7 @@
     <string name="autofill_service_name">Completarea automată cu KeePassDX</string>
     <string name="autofill_sign_in_prompt">Conectați-vă cu KeePassDX</string>
     <string name="autofill_explanation_summary">Activați completarea automată pentru a completa rapid formulare în alte aplicații</string>
-    <string name="set_autofill_service_title">Setați serviciul implicit de autocompletare</string>
+    <string name="set_credential_provider_service_title">Setați serviciul implicit de autocompletare</string>
     <string name="password_size_title">Dimensiunea parolei generate</string>
     <string name="password_size_summary">Setează dimensiunea implicită a parolelor generate</string>
     <string name="list_password_generator_options_title">Caractere parolă</string>

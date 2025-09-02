@@ -237,7 +237,7 @@
     <string name="kdf_explanation">Pääavain muunnetaan käyttäen satunnaista suolattua avaimen johtamisfunktiota, jotta salausalgoritmin avain voidaan generoida.</string>
     <string name="encryption_explanation">Salasanatietokannan salausalgoritmi, jota käytetään kaikelle datalle.</string>
     <string name="password_size_title">Generoidun salasanan pituus</string>
-    <string name="set_autofill_service_title">Aseta oletus automaattiselle täytölle</string>
+    <string name="set_credential_provider_service_title">Aseta oletus automaattiselle täytölle</string>
     <string name="autofill_sign_in_prompt">Kirjaudu sisään KeePassDX:llä</string>
     <string name="autofill_service_name">KeePassDX:n automaattinen täyttö</string>
     <string name="autofill">Automaattinen täyttö</string>

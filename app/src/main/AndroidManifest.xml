@@ -160,19 +160,21 @@
         <activity
             android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity
-            android:name="com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity"
-            android:theme="@style/Theme.Transparent"
-            android:configChanges="keyboardHidden"
-            android:excludeFromRecents="true"/>
-        <activity
             android:name="com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
+        <activity
+            android:name="com.kunzisoft.keepass.settings.PasskeysSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.settings.AppearanceSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity"
             android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity"
+            android:theme="@style/Theme.Transparent"
+            android:configChanges="keyboardHidden"
+            android:excludeFromRecents="true"/>
         <activity
             android:name="com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity"
             android:theme="@style/Theme.Transparent"

@@ -29,7 +29,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
@@ -40,15 +44,15 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_OTP_DIGITS
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_HOTP_COUNTER
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_DIGITS
-import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_SECRET
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.getParcelableCompat
-import java.util.*
+import java.util.Locale
 
 class SetOTPDialogFragment : DatabaseDialogFragment() {
 

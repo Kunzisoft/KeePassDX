@@ -575,7 +575,7 @@
     <string name="warning_database_revoked">Fitxategirako atzipena baliogabetu du fitxategi kudeatzaileak, itxi datu-basea eta berriro ireki ezazu bere lokalizaziotik.</string>
     <string name="device_unlock_prompt_store_credential_title">Gailuaren desblokeorako esteka</string>
     <string name="device_unlock_prompt_not_initialized">Ezin izan da hasieratu gailuaren desblokeatze menua.</string>
-    <string name="set_autofill_service_title">Lehenetsi betetze automatiko zerbitzua</string>
+    <string name="set_credential_provider_service_title">Lehenetsi betetze automatiko zerbitzua</string>
     <string name="content">Edukia</string>
     <string name="education_device_unlock_title">Datu-basearen desblokeatze automatikoa</string>
     <string name="screenshot_mode_banner_text">Pantaila-argazki modua</string>
