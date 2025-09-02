@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
-import android.util.Log
 import com.kunzisoft.encrypt.Base64Helper
 import org.json.JSONObject
 
@@ -66,15 +65,6 @@ class PublicKeyCredentialCreationOptions(
         excludeCredentials = emptyList()
         authenticatorSelection = AuthenticatorSelectionCriteria("platform", "required")
         attestation = json.optString("attestation", "none")
-
-        Log.i(TAG, "challenge $challenge()")
-        Log.i(TAG, "rp $relyingPartyEntity")
-        Log.i(TAG, "user $userEntity")
-        Log.i(TAG, "pubKeyCredParams $pubKeyCredParams")
-        Log.i(TAG, "timeout $timeout")
-        Log.i(TAG, "excludeCredentials $excludeCredentials")
-        Log.i(TAG, "authenticatorSelection $authenticatorSelection")
-        Log.i(TAG, "attestation $attestation")
     }
 
     companion object {

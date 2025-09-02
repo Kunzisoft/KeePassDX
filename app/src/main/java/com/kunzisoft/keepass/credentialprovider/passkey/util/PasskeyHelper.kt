@@ -39,9 +39,9 @@ import androidx.credentials.provider.CallingAppInfo
 import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderCreateCredentialRequest
 import androidx.credentials.provider.ProviderGetCredentialRequest
-import com.kunzisoft.asymmetric.Signature
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import com.kunzisoft.encrypt.HashManager.getApplicationFingerprints
+import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -61,11 +61,11 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.WebOrigin
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
-import com.kunzisoft.random.KeePassDXRandom
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.security.KeyStore
 import java.security.MessageDigest
+import java.security.SecureRandom
 import java.time.Instant
 import java.util.UUID
 import javax.crypto.KeyGenerator
@@ -103,6 +103,8 @@ object PasskeyHelper {
     private val REGEX_AUTHENTICATION_CODE = "[A-F0-9]{64}".toRegex() // 256 bits = 64 hex chars
 
     private const val MAX_DIFF_IN_SECONDS = 60
+
+    private val internalSecureRandom: SecureRandom = SecureRandom()
 
     /**
      * Build the Passkey response for one entry
@@ -380,6 +382,17 @@ object PasskeyHelper {
     }
 
     /**
+     * Generate a credential id randomly
+     */
+    private fun generateCredentialId(): ByteArray {
+        // see https://w3c.github.io/webauthn/#credential-id
+        val size = 16
+        val credentialId = ByteArray(size)
+        internalSecureRandom.nextBytes(credentialId)
+        return credentialId
+    }
+
+    /**
      * Utility method to create a passkey and the associated creation request parameters
      * [intent] allows to retrieve the request
      * [assetManager] has been transferred to the origin manager to manage package verification files
@@ -402,7 +415,7 @@ object PasskeyHelper {
         val pubKeyCredParams = creationOptions.pubKeyCredParams
         val clientDataHash = creationOptions.clientDataHash
 
-        val credentialId = KeePassDXRandom.generateCredentialId()
+        val credentialId = generateCredentialId()
 
         val (keyPair, keyTypeId) = Signature.generateKeyPair(
             pubKeyCredParams.map { params -> params.alg }
@@ -470,7 +483,8 @@ object PasskeyHelper {
             response = AuthenticatorAttestationResponse(
                 requestOptions = publicKeyCredentialCreationParameters.publicKeyCredentialCreationOptions,
                 credentialId = publicKeyCredentialCreationParameters.credentialId,
-                credentialPublicKey = Cbor().encode(Signature.convertPublicKeyToMap(
+                credentialPublicKey = Cbor().encode(
+                    Signature.convertPublicKeyToMap(
                     publicKeyIn = keyPair.public,
                     keyTypeId = keyTypeId
                 ) ?: mapOf<Int, Any>()),

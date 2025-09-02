@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.view.isVisible

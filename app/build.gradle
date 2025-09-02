@@ -107,7 +107,8 @@ android {
     }
 
     packaging {
-        resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF") // necessary for bcpkix-jdk18on in crypto
+        // Bouncy castle bug https://github.com/bcgit/bc-java/issues/1685
+        resources.pickFirsts.add('META-INF/versions/9/OSGI-INF/MANIFEST.MF')
     }
 }
 

@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.utils.DataByte
 
 open class InputSizePreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,
-                                                         defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
+                                                         defStyleAttr: Int = R.attr.dialogPreferenceStyle,
                                                          defStyleRes: Int = defStyleAttr)
     : InputNumberPreference(context, attrs, defStyleAttr, defStyleRes) {
 

@@ -45,9 +45,8 @@
         android:resizeableActivity="true"
         android:supportsRtl="true"
         android:theme="@style/KeepassDXStyle.Night"
-        tools:targetApi="tiramisu"
-        android:enableOnBackInvokedCallback="true">
-
+        tools:targetApi="s"
+        tools:ignore="CredentialDependency">
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="${googleAndroidBackupAPIKey}" />
@@ -198,7 +197,7 @@
             android:label="@string/keyboard_setting_label"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
         <activity

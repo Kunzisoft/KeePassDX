@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 
 open class InputKdfNumberPreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,
-                                                         defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
+                                                         defStyleAttr: Int = R.attr.dialogPreferenceStyle,
                                                          defStyleRes: Int = defStyleAttr)
     : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 

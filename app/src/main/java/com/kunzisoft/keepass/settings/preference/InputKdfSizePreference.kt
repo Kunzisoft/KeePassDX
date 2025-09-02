@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.utils.DataByte
 
 class InputKdfSizePreference @JvmOverloads constructor(context: Context,
                                                        attrs: AttributeSet? = null,
-                                                       defStyleAttr: Int = PreferenceConstant.R_ATTR_DIALOG_PREFERENCE_STYLE,
+                                                       defStyleAttr: Int = R.attr.dialogPreferenceStyle,
                                                        defStyleRes: Int = defStyleAttr)
     : InputKdfNumberPreference(context, attrs, defStyleAttr, defStyleRes) {
 
