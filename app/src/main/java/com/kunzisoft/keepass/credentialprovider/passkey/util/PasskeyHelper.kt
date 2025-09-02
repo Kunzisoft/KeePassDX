@@ -40,8 +40,8 @@ import androidx.credentials.provider.PendingIntentHandler
 import androidx.credentials.provider.ProviderCreateCredentialRequest
 import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
-import com.kunzisoft.encrypt.HashManager.getApplicationFingerprints
 import com.kunzisoft.encrypt.Signature
+import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -58,7 +58,6 @@ import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.model.WebOrigin
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlinx.coroutines.Dispatchers
@@ -271,7 +270,7 @@ object PasskeyHelper {
         keyStore.load(null)
         val hmacKey = try {
             keyStore.getKey(NAME_OF_HMAC_KEY, null) as SecretKey
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             // key not found
             generateKey()
         }
@@ -338,7 +337,6 @@ object PasskeyHelper {
         providedClientDataHash: ByteArray?,
         callingAppInfo: CallingAppInfo?,
         assets: AssetManager,
-        relyingParty: String,
         onOriginRetrieved: (appOrigin: AppOrigin, clientDataHash: ByteArray) -> Unit,
         onOriginNotRetrieved: (appOrigin: AppOrigin, androidOriginString: String) -> Unit
     ) {
@@ -355,9 +353,6 @@ object PasskeyHelper {
             val androidOrigin = AndroidOrigin(
                 packageName = callingAppInfo.packageName,
                 fingerprint = callingAppInfo.signingInfo.getApplicationFingerprints()
-            )
-            val webOrigin = WebOrigin.fromRelyingParty(
-                relyingParty = relyingParty
             )
             // Check if the webDomain is validated for the
             withContext(Dispatchers.Main) {
@@ -436,7 +431,6 @@ object PasskeyHelper {
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
             assets = assetManager,
-            relyingParty = relyingParty,
             onOriginRetrieved = { appInfoToStore, clientDataHash ->
                 passkeyCreated.invoke(
                     passkey,
@@ -527,7 +521,6 @@ object PasskeyHelper {
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
             assets = assetManager,
-            relyingParty = requestOptions.rpId,
             onOriginRetrieved = { appOrigin, clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(

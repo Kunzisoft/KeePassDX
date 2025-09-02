@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcelable
 import android.util.Log
-import com.kunzisoft.encrypt.HashManager.fingerprintToUrlSafeBase64
+import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
 import com.kunzisoft.keepass.model.WebOrigin.Companion.RELYING_PARTY_DEFAULT_PROTOCOL
 import kotlinx.parcelize.Parcelize
 

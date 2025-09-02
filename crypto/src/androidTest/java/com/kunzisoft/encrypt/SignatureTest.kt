@@ -1,6 +1,6 @@
 package com.kunzisoft.encrypt
 
-import com.kunzisoft.encrypt.HashManager.fingerprintToUrlSafeBase64
+import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
 import org.junit.Assert
 import org.junit.Test
 
