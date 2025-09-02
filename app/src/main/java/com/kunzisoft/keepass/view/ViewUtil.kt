@@ -58,7 +58,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import androidx.core.view.updatePaddingRelative
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -118,7 +117,7 @@ fun TextView.customLink(listener: (View) -> Unit) {
 fun Snackbar.asError(): Snackbar {
     this.view.apply {
         setBackgroundColor(Color.RED)
-        findViewById<TextView>(com.google.android.material.R.id.snackbar_text).setTextColor(Color.WHITE)
+        findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
     }
     return this
 }
@@ -311,7 +310,7 @@ fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, appl
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
         if (applyToStatusBar) {
-            obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorSurface)).apply {
+            obtainStyledAttributes(intArrayOf(R.attr.colorSurface)).apply {
                 window.statusBarColor = getColor(0, Color.GRAY)
                 recycle()
             }

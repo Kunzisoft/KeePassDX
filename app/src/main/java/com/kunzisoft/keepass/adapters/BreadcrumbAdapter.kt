@@ -43,7 +43,7 @@ class BreadcrumbAdapter(val context: Context, val database: Database?)
         mShowUUID = PreferencesUtil.showUUID(context)
 
         // Retrieve the color to tint the icon
-        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(com.google.android.material.R.attr.colorOnSurface))
+        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.colorOnSurface))
         mIconColor = taIconColor.getColor(0, Color.WHITE)
         taIconColor.recycle()
     }

@@ -154,7 +154,7 @@ abstract class TemplateAbstractView<
             // Build each section
             template.sections.forEach { templateSection ->
 
-                val sectionView = SectionView(context, null, com.google.android.material.R.attr.cardViewStyle)
+                val sectionView = SectionView(context, null, R.attr.cardViewStyle)
 
                 // Build each attribute
                 templateSection.attributes.forEach { templateAttribute ->
