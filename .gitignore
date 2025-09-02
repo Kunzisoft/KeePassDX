@@ -19,6 +19,9 @@ bin/
 gen/
 out/
 
+# Kotlin folder
+.kotlin/
+
 # Gradle files
 .gradle/
 build/

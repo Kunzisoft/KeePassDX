@@ -27,7 +27,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -37,7 +36,7 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.EntryInfo.Companion.APPLICATION_ID_FIELD_NAME
+import com.kunzisoft.keepass.model.AppOriginEntryField.APPLICATION_ID_FIELD_NAME
 import com.kunzisoft.keepass.utils.UriUtil.openExternalApp
 
 
@@ -46,7 +45,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                                               defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle), GenericTextFieldView {
 
-    private var labelViewId = ViewCompat.generateViewId()
+    protected var labelViewId = ViewCompat.generateViewId()
     private var valueViewId = ViewCompat.generateViewId()
     private var showButtonId = ViewCompat.generateViewId()
     private var copyButtonId = ViewCompat.generateViewId()

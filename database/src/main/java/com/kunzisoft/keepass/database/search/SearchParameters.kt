@@ -38,6 +38,7 @@ class SearchParameters() : Parcelable{
     var searchInExpired = false
     var searchInNotes = true
     var searchInOTP = false
+    var searchInRelyingParty = false
     var searchInOther = true
     var searchInUUIDs = false
     var searchInTags = false
@@ -60,6 +61,7 @@ class SearchParameters() : Parcelable{
         searchInExpired = parcel.readByte() != 0.toByte()
         searchInNotes = parcel.readByte() != 0.toByte()
         searchInOTP = parcel.readByte() != 0.toByte()
+        searchInRelyingParty = parcel.readByte() != 0.toByte()
         searchInOther = parcel.readByte() != 0.toByte()
         searchInUUIDs = parcel.readByte() != 0.toByte()
         searchInTags = parcel.readByte() != 0.toByte()
@@ -81,6 +83,7 @@ class SearchParameters() : Parcelable{
         parcel.writeByte(if (searchInExpired) 1 else 0)
         parcel.writeByte(if (searchInNotes) 1 else 0)
         parcel.writeByte(if (searchInOTP) 1 else 0)
+        parcel.writeByte(if (searchInRelyingParty) 1 else 0)
         parcel.writeByte(if (searchInOther) 1 else 0)
         parcel.writeByte(if (searchInUUIDs) 1 else 0)
         parcel.writeByte(if (searchInTags) 1 else 0)

@@ -35,6 +35,10 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig true
+    }
+
     dependenciesInfo {
         // Disables dependency metadata when building APKs.
         includeInApk = false
@@ -101,6 +105,10 @@ android {
     buildFeatures {
         buildConfig true
     }
+
+    packaging {
+        resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF") // necessary for bcpkix-jdk18on in crypto
+    }
 }
 
 def room_version = "2.5.1"
@@ -140,6 +148,9 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
+
+    // Credentials Provider
+    implementation "androidx.credentials:credentials:1.2.2"
     
     // Modules import
     implementation project(path: ':database')

@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.readBooleanCompat
@@ -11,6 +12,7 @@ import com.kunzisoft.keepass.utils.writeBooleanCompat
 
 class SearchInfo : ObjectNameResource, Parcelable {
     var manualSelection: Boolean = false
+    var tag: String? = null
     var applicationId: String? = null
         set(value) {
             field = when {
@@ -33,26 +35,33 @@ class SearchInfo : ObjectNameResource, Parcelable {
         get() {
             return if (webDomain == null) null else field
         }
+    var relyingParty: String? = null
     var otpString: String? = null
 
     constructor()
 
     constructor(toCopy: SearchInfo?) {
         manualSelection = toCopy?.manualSelection ?: manualSelection
+        tag = toCopy?.tag
         applicationId = toCopy?.applicationId
         webDomain = toCopy?.webDomain
         webScheme = toCopy?.webScheme
+        relyingParty = toCopy?.relyingParty
         otpString = toCopy?.otpString
     }
 
     private constructor(parcel: Parcel) {
         manualSelection = parcel.readBooleanCompat()
+        val readTag = parcel.readString()
+        tag = if (readTag.isNullOrEmpty()) null else readTag
         val readAppId = parcel.readString()
-        applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
+        applicationId = if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
         webDomain = if (readDomain.isNullOrEmpty()) null else readDomain
         val readScheme = parcel.readString()
         webScheme = if (readScheme.isNullOrEmpty()) null else readScheme
+        val readRelyingParty = parcel.readString()
+        relyingParty = if (readRelyingParty.isNullOrEmpty()) null else readRelyingParty
         val readOtp = parcel.readString()
         otpString = if (readOtp.isNullOrEmpty()) null else readOtp
     }
@@ -63,9 +72,11 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeBooleanCompat(manualSelection)
+        parcel.writeString(tag ?: "")
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
         parcel.writeString(webScheme ?: "")
+        parcel.writeString(relyingParty ?: "")
         parcel.writeString(otpString ?: "")
     }
 
@@ -79,24 +90,54 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     fun containsOnlyNullValues(): Boolean {
-        return applicationId == null
+        return tag == null
+                && applicationId == null
                 && webDomain == null
                 && webScheme == null
+                && relyingParty == null
                 && otpString == null
     }
     
-    fun isASearchByDomain(): Boolean {
+    private fun isADomainSearch(): Boolean {
         return toString() == webDomain && webDomain != null
-    } 
+    }
+
+    var isAPasskeySearch: Boolean = false
+
+    var query: String? = null
+
+    fun buildSearchParameters(): SearchParameters {
+        return SearchParameters().apply {
+            searchQuery = query ?: this@SearchInfo.toString()
+            allowEmptyQuery = false
+            searchInTitles = !isAPasskeySearch
+            searchInUsernames = false
+            searchInPasswords = false
+            searchInUrls = !isAPasskeySearch
+            searchByDomain = isADomainSearch()
+            searchInNotes = false
+            searchInOTP = false
+            searchInOther = true
+            searchInUUIDs = false
+            searchInTags = false
+            searchInRelyingParty = isAPasskeySearch
+            searchInCurrentGroup = false
+            searchInSearchableGroup = true
+            searchInRecycleBin = false
+            searchInTemplates = false
+        }
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is SearchInfo) return false
 
         if (manualSelection != other.manualSelection) return false
+        if (tag != other.tag) return false
         if (applicationId != other.applicationId) return false
         if (webDomain != other.webDomain) return false
         if (webScheme != other.webScheme) return false
+        if (relyingParty != other.relyingParty) return false
         if (otpString != other.otpString) return false
 
         return true
@@ -104,15 +145,17 @@ class SearchInfo : ObjectNameResource, Parcelable {
 
     override fun hashCode(): Int {
         var result = manualSelection.hashCode()
+        result = 31 * result + (tag?.hashCode() ?: 0)
         result = 31 * result + (applicationId?.hashCode() ?: 0)
         result = 31 * result + (webDomain?.hashCode() ?: 0)
         result = 31 * result + (webScheme?.hashCode() ?: 0)
+        result = 31 * result + (relyingParty?.hashCode() ?: 0)
         result = 31 * result + (otpString?.hashCode() ?: 0)
         return result
     }
 
     override fun toString(): String {
-        return otpString ?: webDomain ?: applicationId ?: ""
+        return otpString ?: webDomain ?: applicationId ?: relyingParty ?: tag ?: ""
     }
 
     companion object {

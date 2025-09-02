@@ -24,8 +24,11 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOtpExclusion
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
 class SearchHelper {
@@ -163,18 +166,31 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUUIDs) {
-                val hexString = UuidUtil.toHexString(entry.nodeId.id) ?: ""
+                val hexString = entry.nodeId.id.asHexString() ?: ""
                 if (checkSearchQuery(hexString, searchParameters))
                     return true
             }
+            if (searchParameters.searchInOTP) {
+                if(entry.getExtraFields().any { field ->
+                    field.name == OTP_FIELD
+                            && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                })
+                    return true
+            }
+            if (searchParameters.searchInRelyingParty) {
+                if(entry.getExtraFields().any { field ->
+                    field.name == FIELD_RELYING_PARTY
+                            && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                })
+                    return true
+            }
             if (searchParameters.searchInOther) {
-                entry.getExtraFields().forEach { field ->
-                    if (field.name != OTP_FIELD
-                            || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
-                        if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
-                            return true
-                    }
-                }
+                if(entry.getExtraFields().any { field ->
+                    field.isOtpExclusion()
+                            && field.isPasskeyExclusion()
+                            && checkSearchQuery(field.protectedValue.toString(), searchParameters)
+                })
+                    return true
             }
             if (searchParameters.searchInTags) {
                 if (checkSearchQuery(entry.tags.toString(), searchParameters))

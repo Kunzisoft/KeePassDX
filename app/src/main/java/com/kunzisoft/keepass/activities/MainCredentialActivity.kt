@@ -48,16 +48,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.autofill.AutofillComponent
-import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.DeviceUnlockFragment
 import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.biometric.deviceUnlockError
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -75,8 +76,8 @@ import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.MAIN_CREDENTIAL_KEY
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
-import com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity
 import com.kunzisoft.keepass.settings.AppearanceSettingsActivity
+import com.kunzisoft.keepass.settings.DeviceUnlockSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.BACK_PREVIOUS_KEYBOARD_ACTION
@@ -122,10 +123,8 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
 
-    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            AutofillHelper.buildActivityResultLauncher(this)
-        else null
+    private var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.buildActivityResultLauncher()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -430,7 +429,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() },
-                mAutofillActivityResultLauncher
+                mCredentialActivityResultLauncher
             )
         }
     }
@@ -845,14 +844,14 @@ class MainCredentialActivity : DatabaseModeActivity() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Throws(FileNotFoundException::class)
         fun launchForAutofillResult(activity: AppCompatActivity,
+                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     databaseFile: Uri,
                                     keyFile: Uri?,
                                     hardwareKey: HardwareKey?,
-                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
-                AutofillHelper.startActivityForAutofillResult(
+                EntrySelectionHelper.startActivityForAutofillSelectionModeResult(
                         activity,
                         intent,
                         activityResultLauncher,
@@ -863,19 +862,49 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         /*
          * -------------------------
+         * 		Passkey Launch
+         * -------------------------
+         */
+        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+        @Throws(FileNotFoundException::class)
+        fun launchForPasskeyResult(activity: Activity,
+                                   activityResultLauncher: ActivityResultLauncher<Intent>?,
+                                   databaseFile: Uri,
+                                   keyFile: Uri?,
+                                   hardwareKey: HardwareKey?,
+                                   searchInfo: SearchInfo?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
+                EntrySelectionHelper.startActivityForPasskeySelectionModeResult(
+                    activity,
+                    intent,
+                    activityResultLauncher,
+                    searchInfo
+                )
+            }
+        }
+
+        /*
+         * -------------------------
          * 		Registration Launch
          * -------------------------
          */
-        fun launchForRegistration(activity: Activity,
-                                  databaseFile: Uri,
-                                  keyFile: Uri?,
-                                  hardwareKey: HardwareKey?,
-                                  registerInfo: RegisterInfo?) {
+        fun launchForRegistration(
+            activity: Activity,
+            activityResultLauncher: ActivityResultLauncher<Intent>?,
+            databaseFile: Uri,
+            keyFile: Uri?,
+            hardwareKey: HardwareKey?,
+            typeMode: TypeMode,
+            registerInfo: RegisterInfo?
+        ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 EntrySelectionHelper.startActivityForRegistrationModeResult(
-                        activity,
-                        intent,
-                        registerInfo)
+                    context = activity,
+                    activityResultLauncher = activityResultLauncher,
+                    intent = intent,
+                    typeMode = typeMode,
+                    registerInfo = registerInfo
+                )
             }
         }
 
@@ -891,74 +920,104 @@ class MainCredentialActivity : DatabaseModeActivity() {
                    fileNoFoundAction: (exception: FileNotFoundException) -> Unit,
                    onCancelSpecialMode: () -> Unit,
                    onLaunchActivitySpecialMode: () -> Unit,
-                   autofillActivityResultLauncher: ActivityResultLauncher<Intent>?) {
+                   activityResultLauncher: ActivityResultLauncher<Intent>?) {
 
             try {
-                EntrySelectionHelper.doSpecialAction(activity.intent,
-                        {
-                            launch(
-                                activity,
-                                databaseUri,
-                                keyFile,
-                                hardwareKey
-                            )
-                        },
-                        { searchInfo -> // Search Action
-                            launchForSearchResult(
-                                activity,
-                                databaseUri,
-                                keyFile,
-                                hardwareKey,
-                                searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo -> // Save Action
-                            launchForSaveResult(
-                                activity,
-                                databaseUri,
-                                keyFile,
-                                hardwareKey,
-                                searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo -> // Keyboard Selection Action
-                            launchForKeyboardResult(
-                                activity,
-                                databaseUri,
-                                keyFile,
-                                hardwareKey,
-                                searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        },
-                        { searchInfo, autofillComponent -> // Autofill Selection Action
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                launchForAutofillResult(
-                                    activity,
-                                    databaseUri,
-                                    keyFile,
-                                    hardwareKey,
-                                    autofillActivityResultLauncher,
-                                    autofillComponent,
-                                    searchInfo
-                                )
-                                onLaunchActivitySpecialMode()
-                            } else {
-                                onCancelSpecialMode()
-                            }
-                        },
-                        { registerInfo -> // Registration Action
-                            launchForRegistration(
-                                activity,
-                                databaseUri,
-                                keyFile,
-                                hardwareKey,
-                                registerInfo
+                EntrySelectionHelper.doSpecialAction(
+                    intent = activity.intent,
+                    defaultAction = {
+                        launch(
+                            activity = activity,
+                            databaseFile = databaseUri,
+                            keyFile = keyFile,
+                            hardwareKey = hardwareKey
+                        )
+                    },
+                    searchAction = { searchInfo ->
+                        launchForSearchResult(
+                            activity = activity,
+                            databaseFile = databaseUri,
+                            keyFile = keyFile,
+                            hardwareKey = hardwareKey,
+                            searchInfo = searchInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    },
+                    saveAction = { searchInfo ->
+                        launchForSaveResult(
+                            activity = activity,
+                            databaseFile = databaseUri,
+                            keyFile = keyFile,
+                            hardwareKey = hardwareKey,
+                            searchInfo = searchInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    },
+                    keyboardSelectionAction = { searchInfo ->
+                        launchForKeyboardResult(
+                            activity = activity,
+                            databaseFile = databaseUri,
+                            keyFile = keyFile,
+                            hardwareKey = hardwareKey,
+                            searchInfo = searchInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    },
+                    autofillSelectionAction = { searchInfo, autofillComponent ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            launchForAutofillResult(
+                                activity = activity,
+                                activityResultLauncher = activityResultLauncher,
+                                databaseFile = databaseUri,
+                                keyFile = keyFile,
+                                hardwareKey = hardwareKey,
+                                autofillComponent = autofillComponent,
+                                searchInfo = searchInfo
                             )
                             onLaunchActivitySpecialMode()
+                        } else {
+                            onCancelSpecialMode()
                         }
+                    },
+                    autofillRegistrationAction = { registerInfo ->
+                        launchForRegistration(
+                            activity = activity,
+                            activityResultLauncher = activityResultLauncher,
+                            databaseFile = databaseUri,
+                            keyFile = keyFile,
+                            hardwareKey = hardwareKey,
+                            typeMode = TypeMode.AUTOFILL,
+                            registerInfo = registerInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    },
+                    passkeySelectionAction = { searchInfo ->
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                            launchForPasskeyResult(
+                                activity = activity,
+                                activityResultLauncher = activityResultLauncher,
+                                databaseFile = databaseUri,
+                                keyFile = keyFile,
+                                hardwareKey = hardwareKey,
+                                searchInfo = searchInfo
+                            )
+                            onLaunchActivitySpecialMode()
+                        } else {
+                            onCancelSpecialMode()
+                        }
+                    },
+                    passkeyRegistrationAction = { registerInfo ->
+                        launchForRegistration(
+                            activity = activity,
+                            activityResultLauncher = activityResultLauncher,
+                            databaseFile = databaseUri,
+                            keyFile = keyFile,
+                            hardwareKey = hardwareKey,
+                            typeMode = TypeMode.PASSKEY,
+                            registerInfo = registerInfo
+                        )
+                        onLaunchActivitySpecialMode()
+                    }
                 )
             } catch (e: FileNotFoundException) {
                 fileNoFoundAction(e)

@@ -174,7 +174,8 @@ class EntryEditViewModel: NodeEditViewModel() {
                 // Load entry info
                 entry.getEntryInfo(database, true).let { tempEntryInfo ->
                     // Retrieve data from registration
-                    (registerInfo?.searchInfo ?: searchInfo)?.let { tempSearchInfo ->
+                    // TODO only save registration
+                    searchInfo?.let { tempSearchInfo ->
                         tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
                     }
                     registerInfo?.let { regInfo ->

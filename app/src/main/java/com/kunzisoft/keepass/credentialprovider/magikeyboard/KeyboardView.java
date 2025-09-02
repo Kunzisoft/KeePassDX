@@ -14,14 +14,14 @@
  * the License.
  */
 
-package com.kunzisoft.keepass.magikeyboard;
+package com.kunzisoft.keepass.credentialprovider.magikeyboard;
 
-import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_BACK_KEYBOARD;
-import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_CHANGE_KEYBOARD;
-import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_ENTRY;
-import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_ENTRY_ALT;
-import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_OTP;
-import static com.kunzisoft.keepass.magikeyboard.MagikeyboardService.KEY_OTP_ALT;
+import static com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.KEY_BACK_KEYBOARD;
+import static com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.KEY_CHANGE_KEYBOARD;
+import static com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.KEY_ENTRY;
+import static com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.KEY_ENTRY_ALT;
+import static com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.KEY_OTP;
+import static com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService.KEY_OTP_ALT;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -52,7 +52,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.magikeyboard.Keyboard.Key;
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.Keyboard.Key;
 
 import java.util.Arrays;
 import java.util.HashMap;

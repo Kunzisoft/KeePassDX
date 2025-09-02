@@ -22,7 +22,8 @@ package com.kunzisoft.keepass.database.element.entry
 import android.util.Log
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
+import com.kunzisoft.keepass.utils.UUIDUtils.asUUID
 import java.util.concurrent.ConcurrentHashMap
 
 class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
@@ -79,7 +80,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
                         'A' -> entryFound?.decodeUrlKey(newRecursionLevel)
                         'P' -> entryFound?.decodePasswordKey(newRecursionLevel)
                         'N' -> entryFound?.decodeNotesKey(newRecursionLevel)
-                        'I' -> UuidUtil.toHexString(entryFound?.nodeId?.id)
+                        'I' -> entryFound?.nodeId?.id?.asHexString()
                         else -> null
                     }
                     refsCache[fullReference] = data
@@ -127,7 +128,7 @@ class FieldReferencesEngine(private val mDatabase: DatabaseKDBX) {
             'P' -> mDatabase.getEntryByPassword(searchQuery, recursionLevel)
             'N' -> mDatabase.getEntryByNotes(searchQuery, recursionLevel)
             'I' -> {
-                UuidUtil.fromHexString(searchQuery)?.let { uuid ->
+                searchQuery.asUUID()?.let { uuid ->
                     mDatabase.getEntryById(NodeIdUUID(uuid))
                 }
             }

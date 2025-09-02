@@ -55,6 +55,7 @@ import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
@@ -885,29 +886,15 @@ open class Database {
     }
 
     fun createVirtualGroupFromSearchInfo(
-        searchInfoString: String,
-        searchInfoByDomain: Boolean,
+        searchInfo: SearchInfo,
         max: Int = Integer.MAX_VALUE
     ): Group? {
-        return mSearchHelper.createVirtualGroupWithSearchResult(this,
-                SearchParameters().apply {
-                    searchQuery = searchInfoString
-                    allowEmptyQuery = false
-                    searchInTitles = true
-                    searchInUsernames = false
-                    searchInPasswords = false
-                    searchInUrls = true
-                    searchByDomain = searchInfoByDomain
-                    searchInNotes = true
-                    searchInOTP = false
-                    searchInOther = true
-                    searchInUUIDs = false
-                    searchInTags = false
-                    searchInCurrentGroup = false
-                    searchInSearchableGroup = true
-                    searchInRecycleBin = false
-                    searchInTemplates = false
-                }, null, max)
+        return mSearchHelper.createVirtualGroupWithSearchResult(
+            database = this,
+            searchParameters = searchInfo.buildSearchParameters(),
+            fromGroup = null,
+            max = max
+        )
     }
 
     val tagPool: Tags

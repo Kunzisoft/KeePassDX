@@ -5,14 +5,14 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.getBinaryDir
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 
-abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
+abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
 
     protected val mDatabaseViewModel: DatabaseViewModel by viewModels()
     protected var mDatabaseTaskProvider: DatabaseTaskProvider? = null
@@ -77,7 +77,13 @@ abstract class DatabaseActivity: StylishActivity(), DatabaseRetrieval {
         cipherEncryptDatabase: CipherEncryptDatabase?,
         fixDuplicateUuid: Boolean
     ) {
-        mDatabaseTaskProvider?.startDatabaseLoad(databaseUri, mainCredential, readOnly, cipherEncryptDatabase, fixDuplicateUuid)
+        mDatabaseTaskProvider?.startDatabaseLoad(
+            databaseUri,
+            mainCredential,
+            readOnly,
+            cipherEncryptDatabase,
+            fixDuplicateUuid
+        )
     }
 
     protected fun closeDatabase() {

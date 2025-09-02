@@ -24,7 +24,33 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.template.TemplateEngine
 import com.kunzisoft.keepass.database.element.template.TemplateField
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
+import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
+import com.kunzisoft.keepass.database.exception.CorruptedDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseInputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.database.exception.EmptyKeyDatabaseException
+import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
+import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
+import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
+import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
+import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
+import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
+import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
+import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
+import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
+import com.kunzisoft.keepass.database.exception.VersionDatabaseException
+import com.kunzisoft.keepass.database.exception.XMLMalformedDatabaseException
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_CREDENTIAL_ID
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_PRIVATE_KEY
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_RELYING_PARTY
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USERNAME
+import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USER_HANDLE
+import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
 
 fun DatabaseException.getLocalizedMessage(resources: Resources): String? =
     when (this) {
@@ -61,6 +87,11 @@ fun CompressionAlgorithm.getLocalizedName(resources: Resources): String {
 fun TemplateField.isStandardPasswordName(context: Context, name: String): Boolean {
     return name.equals(LABEL_PASSWORD, true)
             || name == getLocalizedName(context, LABEL_PASSWORD)
+}
+
+fun TemplateField.isPasskeyLabel(context: Context, name: String): Boolean {
+    return name.equals(PASSKEY_FIELD, true)
+            || name == getLocalizedName(context, PASSKEY_FIELD)
 }
 
 fun TemplateField.getLocalizedName(context: Context?, name: String): String {
@@ -106,6 +137,13 @@ fun TemplateField.getLocalizedName(context: Context?, name: String): String {
         LABEL_IBAN.equals(name, true) -> context.getString(R.string.international_bank_account_number)
         LABEL_SECURE_NOTE.equals(name, true) -> context.getString(R.string.secure_note)
         LABEL_MEMBERSHIP.equals(name, true) -> context.getString(R.string.membership)
+
+        PASSKEY_FIELD.equals(name, true) -> context.getString(R.string.passkey)
+        FIELD_USERNAME.equals(name, true) -> context.getString(R.string.passkey_username)
+        FIELD_PRIVATE_KEY.equals(name, true) -> context.getString(R.string.passkey_private_key)
+        FIELD_CREDENTIAL_ID.equals(name, true) -> context.getString(R.string.passkey_credential_id)
+        FIELD_USER_HANDLE.equals(name, true) -> context.getString(R.string.passkey_user_handle)
+        FIELD_RELYING_PARTY.equals(name, true) -> context.getString(R.string.passkey_relying_party)
 
         else -> name
     }

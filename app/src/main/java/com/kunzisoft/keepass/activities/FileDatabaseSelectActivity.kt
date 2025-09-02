@@ -44,15 +44,16 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetMainCredentialDialogFragment
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.activities.helpers.setOpenDocumentClickListener
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.autofill.AutofillComponent
-import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
+import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
@@ -98,10 +99,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var mAutofillActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-            AutofillHelper.buildActivityResultLauncher(this)
-        else null
+    private var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.buildActivityResultLauncher()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -298,7 +297,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() },
-                mAutofillActivityResultLauncher)
+                mCredentialActivityResultLauncher)
     }
 
     private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
@@ -308,7 +307,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() },
-                mAutofillActivityResultLauncher)
+                mCredentialActivityResultLauncher)
         }
     }
 
@@ -487,7 +486,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                                     activityResultLauncher: ActivityResultLauncher<Intent>?,
                                     autofillComponent: AutofillComponent,
                                     searchInfo: SearchInfo? = null) {
-            AutofillHelper.startActivityForAutofillResult(activity,
+            EntrySelectionHelper.startActivityForAutofillSelectionModeResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
                     activityResultLauncher,
                     autofillComponent,
@@ -496,14 +495,37 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
         /*
          * -------------------------
+         * 		Passkey Launch
+         * -------------------------
+         */
+        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+        fun launchForPasskeySelectionResult(activity: Activity,
+                                            activityResultLauncher: ActivityResultLauncher<Intent>?,
+                                            searchInfo: SearchInfo? = null) {
+            EntrySelectionHelper.startActivityForPasskeySelectionModeResult(
+                activity,
+                Intent(activity, FileDatabaseSelectActivity::class.java),
+                activityResultLauncher,
+                searchInfo
+            )
+        }
+
+        /*
+         * -------------------------
          * 		Registration Launch
          * -------------------------
          */
         fun launchForRegistration(context: Context,
-                                  registerInfo: RegisterInfo? = null) {
-            EntrySelectionHelper.startActivityForRegistrationModeResult(context,
-                    Intent(context, FileDatabaseSelectActivity::class.java),
-                    registerInfo)
+                                  activityResultLauncher: ActivityResultLauncher<Intent>?,
+                                  registerInfo: RegisterInfo? = null,
+                                  typeMode: TypeMode) {
+            EntrySelectionHelper.startActivityForRegistrationModeResult(
+                context,
+                activityResultLauncher,
+                Intent(context, FileDatabaseSelectActivity::class.java),
+                registerInfo,
+                typeMode
+            )
         }
     }
 }

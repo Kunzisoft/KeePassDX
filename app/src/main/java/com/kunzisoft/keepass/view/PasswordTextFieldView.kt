@@ -34,9 +34,9 @@ import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 
-class PasswordTextFieldView @JvmOverloads constructor(context: Context,
-                                                      attrs: AttributeSet? = null,
-                                                      defStyle: Int = 0)
+open class PasswordTextFieldView @JvmOverloads constructor(context: Context,
+                                                           attrs: AttributeSet? = null,
+                                                           defStyle: Int = 0)
     : TextFieldView(context, attrs, defStyle) {
 
     private var mPasswordEntropyCalculator: PasswordEntropy = PasswordEntropy {
@@ -45,7 +45,7 @@ class PasswordTextFieldView @JvmOverloads constructor(context: Context,
         }
     }
 
-    private var indicatorDrawable = ContextCompat.getDrawable(
+    protected var indicatorDrawable = ContextCompat.getDrawable(
         context,
         R.drawable.ic_shield_white_24dp
     )?.apply {
@@ -98,7 +98,7 @@ class PasswordTextFieldView @JvmOverloads constructor(context: Context,
         value = resources.getString(valueId)
     }
 
-    private fun getEntropyStrength(passwordText: String) {
+    protected open fun getEntropyStrength(passwordText: String) {
         mPasswordEntropyCalculator.getEntropyStrength(passwordText) { entropyStrength ->
             labelView.apply {
                 post {

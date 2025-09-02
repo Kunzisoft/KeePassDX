@@ -24,6 +24,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.otp.TokenCalculator.HOTP_INITIAL_COUNTER
 import com.kunzisoft.keepass.otp.TokenCalculator.HashAlgorithm
 import com.kunzisoft.keepass.otp.TokenCalculator.OTP_DEFAULT_DIGITS
@@ -434,6 +435,25 @@ object OtpEntryFields {
                 buildOtpUri(otpElement, title, username).toString()))
     }
 
+    fun EntryInfo.setOtp(otpString: String): Boolean {
+        // Replace the OTP field
+        parseOTPUri(otpString)?.let { otpElement ->
+            if (title.isEmpty())
+                title = otpElement.issuer
+            if (username.isEmpty())
+                username = otpElement.name
+            // Add OTP field
+            val mutableCustomFields = customFields as ArrayList<Field>
+            val otpField = OtpEntryFields.buildOtpField(otpElement, null, null)
+            if (mutableCustomFields.contains(otpField)) {
+                mutableCustomFields.remove(otpField)
+            }
+            mutableCustomFields.add(otpField)
+            return true
+        }
+        return false
+    }
+
     /**
      * Build new generated fields in a new list from [fieldsToParse] in parameter,
      * Remove parameters fields use to generate auto fields
@@ -485,5 +505,29 @@ object OtpEntryFields {
         )
             newCustomFields.add(Field(OTP_TOKEN_FIELD))
         return newCustomFields
+    }
+
+    /**
+     * Field ignored for a search or a form filling
+     */
+    fun Field.isOtpExclusion(): Boolean {
+        return when(name) {
+            OTP_FIELD -> true
+            TOTP_SEED_FIELD -> true
+            TOTP_SETTING_FIELD -> true
+            HMACOTP_SECRET_FIELD -> true
+            HMACOTP_SECRET_HEX_FIELD -> true
+            HMACOTP_SECRET_BASE32_FIELD -> true
+            HMACOTP_SECRET_BASE64_FIELD -> true
+            HMACOTP_SECRET_COUNTER_FIELD -> true
+            TIMEOTP_SECRET_FIELD -> true
+            TIMEOTP_SECRET_HEX_FIELD -> true
+            TIMEOTP_SECRET_BASE32_FIELD -> true
+            TIMEOTP_SECRET_BASE64_FIELD -> true
+            TIMEOTP_LENGTH_FIELD -> true
+            TIMEOTP_PERIOD_FIELD -> true
+            TIMEOTP_ALGORITHM_FIELD -> true
+            else -> false
+        }
     }
 }

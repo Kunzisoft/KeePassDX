@@ -736,4 +736,17 @@
     <string name="hide_expired_entries_summary">Expired entries are not shown</string>
     <string name="hide_templates_title">Hide templates</string>
     <string name="hide_templates_summary">Templates are not shown</string>
+    <string name="passkey">Passkey</string>
+    <string name="passkey_service_name">KeePassDX Credential Provider</string>
+    <string name="passkey_creation_description">Save passkey in new entry</string>
+    <string name="passkey_update_description">Update passkey in "%1$s"</string>
+    <string name="passkey_selection_username">No passkey found</string>
+    <string name="passkey_selection_description">Select an existing passkey</string>
+    <string name="passkey_locked_database_username">KeePassDX Database Locked</string>
+    <string name="passkey_locked_database_description">Select to unlock</string>
+    <string name="passkey_username">Passkey Username</string>
+    <string name="passkey_private_key">Passkey Private Key</string>
+    <string name="passkey_credential_id">Passkey Credential Id</string>
+    <string name="passkey_user_handle">Passkey User Handle</string>
+    <string name="passkey_relying_party">Passkey Relying Party</string>
 </resources>
