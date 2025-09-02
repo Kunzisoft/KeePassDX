@@ -42,6 +42,7 @@ import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -327,9 +328,19 @@ object PasskeyHelper {
         return request.credentialOptions[0] as GetPublicKeyCredentialOption
     }
 
+    private fun getOriginFromPrivilegedAllowList(
+        callingAppInfo: CallingAppInfo,
+        assets: AssetManager,
+        fileName: String): String? {
+        val privilegedAllowList = assets.open(fileName).bufferedReader().use {
+            it.readText()
+        }
+        return callingAppInfo.getOrigin(privilegedAllowList)?.removeSuffix("/")
+    }
+
     /**
      * Utility method to retrieve the origin asynchronously,
-     * checks for the presence of the application in the privilege list of the trustedPackages.json file,
+     * checks for the presence of the application in the privilege list of the fido2_privileged_google.json file,
      * call [onOriginRetrieved] if the origin is already calculated by the system and in the privileged list, return the clientDataHash
      * call [onOriginNotRetrieved] if the origin is not retrieved from the system, return a new Android Origin
      */
@@ -344,16 +355,33 @@ object PasskeyHelper {
             throw SecurityException("Calling app info cannot be retrieved")
         }
         withContext(Dispatchers.IO) {
-            var callOrigin: String?
-            val privilegedAllowlist = assets.open("trustedPackages.json").bufferedReader().use {
-                it.readText()
+
+            // For trusted browsers like Chrome and Firefox
+            // Check the community apps first
+            val callOrigin = try {
+                getOriginFromPrivilegedAllowList(
+                    callingAppInfo,
+                    assets,
+                    "fido2_privileged_community.json"
+                )
+            } catch (e: Exception) {
+                // Then the Google list if allowed
+                if (BuildConfig.CLOSED_STORE) {
+                    getOriginFromPrivilegedAllowList(
+                        callingAppInfo,
+                        assets,
+                        "fido2_privileged_google.json"
+                    )
+                } else {
+                    throw e
+                }
             }
-            // for trusted browsers like Chrome and Firefox
-            callOrigin = callingAppInfo.getOrigin(privilegedAllowlist)?.removeSuffix("/")
+
             val androidOrigin = AndroidOrigin(
                 packageName = callingAppInfo.packageName,
                 fingerprint = callingAppInfo.signingInfo.getApplicationFingerprints()
             )
+
             // Check if the webDomain is validated for the
             withContext(Dispatchers.Main) {
                 if (callOrigin != null && providedClientDataHash != null) {
