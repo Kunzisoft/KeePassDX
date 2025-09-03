@@ -32,7 +32,11 @@ class ListSelectionItemAdapter<T>()
 
     private val itemList: MutableList<T> = ArrayList()
     var selectedItem: T? = null
-        private set
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     var itemSelectedCallback: ItemSelectedCallback<T>? = null
 

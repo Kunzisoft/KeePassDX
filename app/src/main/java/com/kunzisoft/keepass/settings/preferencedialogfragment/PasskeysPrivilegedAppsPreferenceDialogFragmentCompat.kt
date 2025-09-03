@@ -53,7 +53,10 @@ class PasskeysPrivilegedAppsPreferenceDialogFragmentCompat
                     when(uiState) {
                         is PasskeysPrivilegedAppsViewModel.UiState.Loading -> {}
                         is PasskeysPrivilegedAppsViewModel.UiState.OnPrivilegedAppsToSelectRetrieved -> {
-                            mAdapter.setItems(uiState.privilegedApps)
+                            mAdapter.apply {
+                                setItems(uiState.privilegedApps)
+                                selectedItem = uiState.selected.firstOrNull()
+                            }
                         }
                     }
                 }
