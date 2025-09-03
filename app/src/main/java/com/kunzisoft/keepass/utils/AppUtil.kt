@@ -8,11 +8,11 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
-import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
+import com.kunzisoft.encrypt.Signature.getAllFingerprints
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.model.AndroidOrigin
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineScope
@@ -103,9 +103,9 @@ object AppUtil {
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
-    fun getInstalledBrowsersWithSignatures(context: Context): List<AndroidOrigin> {
+    fun getInstalledBrowsersWithSignatures(context: Context): List<AndroidPrivilegedApp> {
         val packageManager = context.packageManager
-        val browserList = mutableListOf<AndroidOrigin>()
+        val browserList = mutableListOf<AndroidPrivilegedApp>()
 
         // Create a generic web intent
         val intent = Intent(Intent.ACTION_VIEW)
@@ -132,9 +132,9 @@ object AppUtil {
                         packageName,
                         PackageManager.GET_SIGNING_CERTIFICATES
                     )
-                    val signatureFingerprints = packageInfo.signingInfo.getApplicationFingerprints()
+                    val signatureFingerprints = packageInfo.signingInfo.getAllFingerprints()
                     signatureFingerprints?.let {
-                        browserList.add(AndroidOrigin(packageName, signatureFingerprints))
+                        browserList.add(AndroidPrivilegedApp(packageName, signatureFingerprints))
                         processedPackageNames.add(packageName)
                     }
                 } catch (e: Exception) {

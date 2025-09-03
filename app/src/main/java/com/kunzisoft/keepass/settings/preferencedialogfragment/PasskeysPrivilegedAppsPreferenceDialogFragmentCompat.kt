@@ -23,39 +23,55 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.AndroidOrigin
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListSelectionItemAdapter
-import com.kunzisoft.keepass.utils.AppUtil.getInstalledBrowsersWithSignatures
+import com.kunzisoft.keepass.settings.preferencedialogfragment.viewmodel.PasskeysPrivilegedAppsViewModel
+import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasskeysPrivilegedAppsPreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat() {
-    private var mAdapter = ListSelectionItemAdapter<AndroidOrigin>()
-    private var mListBrowsers: List<AndroidOrigin> = mutableListOf()
+
+    private var mAdapter = ListSelectionItemAdapter<AndroidPrivilegedApp>()
+    private val passkeysPrivilegedAppsViewModel : PasskeysPrivilegedAppsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mListBrowsers = getInstalledBrowsersWithSignatures(requireContext())
-        // TODO filter with current privileged apps
+
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                passkeysPrivilegedAppsViewModel.retrievePrivilegedAppsToSelect()
+
+                passkeysPrivilegedAppsViewModel.uiState.collect { uiState ->
+                    when(uiState) {
+                        is PasskeysPrivilegedAppsViewModel.UiState.Loading -> {}
+                        is PasskeysPrivilegedAppsViewModel.UiState.OnPrivilegedAppsToSelectRetrieved -> {
+                            mAdapter.setItems(uiState.privilegedApps)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
         view.findViewById<RecyclerView>(R.id.pref_dialog_list).apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = mAdapter.apply {
-                setItems(mListBrowsers)
-            }
+            adapter = mAdapter
         }
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            // TODO Save selected item in JSON
-            mAdapter.selectedItem
+            passkeysPrivilegedAppsViewModel.saveSelectedPrivilegedApp(mAdapter.selectedItem)
         }
     }
 

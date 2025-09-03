@@ -1,3 +1,22 @@
+/*
+ * Copyright 2025 Cali-95 modified by Jeremy Jamet / Kunzisoft
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.encrypt
 
 import android.content.pm.SigningInfo
@@ -272,32 +291,29 @@ object Signature {
     /**
      * Retrieves all relevant SHA-256 signature fingerprints for a given package.
      *
-     * @param signingInfo The SigningInfo object to retrieve the strings signatures
      * @return A List of SHA-256 fingerprint strings, or null if an error occurs or no signatures are found.
      */
-    fun getAllFingerprints(signingInfo: SigningInfo?): List<String>? {
+    fun SigningInfo.getAllFingerprints(): Set<String>? {
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P)
                 throw AndroidException("API level ${Build.VERSION.SDK_INT} not supported")
             val signatures = mutableSetOf<String>()
-            if (signingInfo != null) {
-                // Includes past and current keys if rotation occurred. This is generally preferred.
-                signingInfo.signingCertificateHistory?.forEach { signature ->
+            // Includes past and current keys if rotation occurred. This is generally preferred.
+            signingCertificateHistory?.forEach { signature ->
+                signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
+            }
+            // If only one signer and history is empty (e.g. new app), this might be needed.
+            // Or if multiple signers are explicitly used for the APK content.
+            if (hasMultipleSigners()) {
+                apkContentsSigners?.forEach { signature ->
                     signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
                 }
-                // If only one signer and history is empty (e.g. new app), this might be needed.
-                // Or if multiple signers are explicitly used for the APK content.
-                if (signingInfo.hasMultipleSigners()) {
-                    signingInfo.apkContentsSigners?.forEach { signature ->
-                        signatureToSha256Fingerprint(signature)?.let { signatures.add(it) }
-                    }
-                } else { // Fallback for single signer if history was somehow null/empty
-                    signingInfo.signingCertificateHistory?.firstOrNull()?.let {
-                        signatureToSha256Fingerprint(it)?.let { fp -> signatures.add(fp) }
-                    }
+            } else { // Fallback for single signer if history was somehow null/empty
+                signingCertificateHistory?.firstOrNull()?.let {
+                    signatureToSha256Fingerprint(it)?.let { fp -> signatures.add(fp) }
                 }
             }
-            return if (signatures.isEmpty()) null else signatures.toList()
+            return if (signatures.isEmpty()) null else signatures
         } catch (e: Exception) {
             Log.e(Signature::class.java.simpleName, "Error getting signatures", e)
             return null
@@ -305,17 +321,24 @@ object Signature {
     }
 
     /**
-     * Combines a list of signature into a single string for database storage.
+     * Combines a list of signatures into a single string for database storage.
      *
      * @return A single string with fingerprints joined by a ##SIG## delimiter,
      * or null if the input list is null or empty.
      */
     fun SigningInfo.getApplicationFingerprints(): String? {
-        val fingerprints = getAllFingerprints(this)
+        val fingerprints = getAllFingerprints()
         if (fingerprints.isNullOrEmpty()) {
             return null
         }
-        return fingerprints.joinToString(SIGNATURE_DELIMITER)
+        return fingerprints.singleLineFingerprints()
+    }
+
+    /**
+     * Combines a set of signatures into a single string for database storage.
+     */
+    fun Set<String>.singleLineFingerprints(): String? {
+        return this.joinToString(SIGNATURE_DELIMITER)
     }
 
     /**

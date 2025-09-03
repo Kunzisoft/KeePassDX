@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.credentialprovider.passkey.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import android.content.res.AssetManager
 import android.os.Build
 import android.os.Bundle
 import android.os.ParcelUuid
@@ -42,7 +42,6 @@ import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
-import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -54,6 +53,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.getOriginFromPrivilegedAllowLists
 import com.kunzisoft.keepass.model.AndroidOrigin
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
@@ -329,60 +329,19 @@ object PasskeyHelper {
     }
 
     /**
-     * Get the origin from a privileged allow list,
-     * [fileName] is the name of the file in assets containing the origin list as JSON
-     */
-    private fun getOriginFromPrivilegedAllowListFile(
-        callingAppInfo: CallingAppInfo,
-        assets: AssetManager,
-        fileName: String
-    ): String? {
-        val privilegedAllowList = assets.open(fileName).bufferedReader().use {
-            it.readText()
-        }
-        return callingAppInfo.getOrigin(privilegedAllowList)?.removeSuffix("/")
-    }
-
-    /**
-     * Get the origin from the predefined privileged allow lists
-     */
-    private fun getOriginFromPrivilegedAllowLists(
-        callingAppInfo: CallingAppInfo,
-        assets: AssetManager
-    ): String? {
-        return try {
-            // TODO add the manual privileged apps
-            // Check the community apps first
-            getOriginFromPrivilegedAllowListFile(
-                callingAppInfo = callingAppInfo,
-                assets = assets,
-                fileName = FILE_NAME_PRIVILEGED_APPS_COMMUNITY
-            )
-        } catch (e: Exception) {
-            // Then the Google list if allowed
-            if (BuildConfig.CLOSED_STORE) {
-                // http://www.gstatic.com/gpm-passkeys-privileged-apps/apps.json
-                getOriginFromPrivilegedAllowListFile(
-                    callingAppInfo = callingAppInfo,
-                    assets = assets,
-                    fileName = FILE_NAME_PRIVILEGED_APPS_GOOGLE
-                )
-            } else {
-                throw e
-            }
-        }
-    }
-
-    /**
      * Utility method to retrieve the origin asynchronously,
-     * checks for the presence of the application in the privilege list of the passkeys_privileged_apps_google.json file,
+     * checks for the presence of the application in the privilege lists
+     *
+     * @param providedClientDataHash Client data hash precalculated by the system
+     * @param callingAppInfo CallingAppInfo to verify and retrieve the specific Origin
+     * @param context Context for file operations.
      * call [onOriginRetrieved] if the origin is already calculated by the system and in the privileged list, return the clientDataHash
      * call [onOriginNotRetrieved] if the origin is not retrieved from the system, return a new Android Origin
      */
     suspend fun getOrigin(
         providedClientDataHash: ByteArray?,
         callingAppInfo: CallingAppInfo?,
-        assets: AssetManager,
+        context: Context,
         onOriginRetrieved: (appOrigin: AppOrigin, clientDataHash: ByteArray) -> Unit,
         onOriginNotRetrieved: (appOrigin: AppOrigin, androidOriginString: String) -> Unit
     ) {
@@ -392,7 +351,7 @@ object PasskeyHelper {
         withContext(Dispatchers.IO) {
 
             // For trusted browsers like Chrome and Firefox
-            val callOrigin = getOriginFromPrivilegedAllowLists(callingAppInfo, assets)
+            val callOrigin = getOriginFromPrivilegedAllowLists(callingAppInfo, context)
 
             // Build the default Android origin
             val androidOrigin = AndroidOrigin(
@@ -436,12 +395,12 @@ object PasskeyHelper {
     /**
      * Utility method to create a passkey and the associated creation request parameters
      * [intent] allows to retrieve the request
-     * [assetManager] has been transferred to the origin manager to manage package verification files
+     * [context] context to manage package verification files
      * [passkeyCreated] is called asynchronously when the passkey has been created
      */
     suspend fun retrievePasskeyCreationRequestParameters(
         intent: Intent,
-        assetManager: AssetManager,
+        context: Context,
         passkeyCreated: (Passkey, AppOrigin?, PublicKeyCredentialCreationParameters) -> Unit
     ) {
         val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
@@ -476,7 +435,7 @@ object PasskeyHelper {
         getOrigin(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
-            assets = assetManager,
+            context = context,
             onOriginRetrieved = { appInfoToStore, clientDataHash ->
                 passkeyCreated.invoke(
                     passkey,
@@ -546,12 +505,12 @@ object PasskeyHelper {
     /**
      * Utility method to use a passkey and create the associated usage request parameters
      * [intent] allows to retrieve the request
-     * [assetManager] has been transferred to the origin manager to manage package verification files
+     * [context] context to manage package verification files
      * [result] is called asynchronously after the creation of PublicKeyCredentialUsageParameters, the origin associated with it may or may not be verified
      */
     suspend fun retrievePasskeyUsageRequestParameters(
         intent: Intent,
-        assetManager: AssetManager,
+        context: Context,
         result: (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
@@ -566,7 +525,7 @@ object PasskeyHelper {
         getOrigin(
             providedClientDataHash = clientDataHash,
             callingAppInfo = callingAppInfo,
-            assets = assetManager,
+            context = context,
             onOriginRetrieved = { appOrigin, clientDataHash ->
                 result.invoke(
                     PublicKeyCredentialUsageParameters(
@@ -642,7 +601,4 @@ object PasskeyHelper {
     }
 
     private const val BACKUP_ELIGIBILITY = true
-
-    private const val FILE_NAME_PRIVILEGED_APPS_COMMUNITY = "passkeys_privileged_apps_community.json"
-    private const val FILE_NAME_PRIVILEGED_APPS_GOOGLE = "passkeys_privileged_apps_google.json"
 }

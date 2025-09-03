@@ -25,6 +25,10 @@ import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
 import com.kunzisoft.keepass.model.WebOrigin.Companion.RELYING_PARTY_DEFAULT_PROTOCOL
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Represents an Android app origin by a list of [AndroidOrigin] and a list of [WebOrigin].
+ * If at least one [AndroidOrigin] is verified, the [verified] flag is set to true.
+ */
 @Parcelize
 data class AppOrigin(
     val verified: Boolean,
@@ -96,6 +100,10 @@ data class AppOrigin(
     }
 }
 
+/**
+ * Represents an Android app origin, the [packageName] is the applicationId of the app
+ * and the [fingerprint] is the
+ */
 @Parcelize
 data class AndroidOrigin(
     val packageName: String,

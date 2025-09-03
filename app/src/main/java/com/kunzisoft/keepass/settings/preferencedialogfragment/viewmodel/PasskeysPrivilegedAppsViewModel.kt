@@ -1,0 +1,52 @@
+package com.kunzisoft.keepass.settings.preferencedialogfragment.viewmodel
+
+import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.deletePrivilegedAppsFile
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.retrieveAllPrivilegedApps
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
+import com.kunzisoft.keepass.utils.AppUtil.getInstalledBrowsersWithSignatures
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
+class PasskeysPrivilegedAppsViewModel(application: Application): AndroidViewModel(application) {
+
+    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState: StateFlow<UiState> = _uiState
+
+    fun retrievePrivilegedAppsToSelect() {
+        viewModelScope.launch {
+            val privilegedApps = retrieveAllPrivilegedApps(getApplication())
+            val privilegedAppsToSelect = getInstalledBrowsersWithSignatures(getApplication())
+                .filter {
+                    privilegedApps.none { privilegedApp ->
+                        privilegedApp.packageName == it.packageName
+                            && privilegedApp.fingerprints.any {
+                                fingerprint -> fingerprint in it.fingerprints
+                            }
+                    }
+                }
+            _uiState.value = UiState.OnPrivilegedAppsToSelectRetrieved(privilegedAppsToSelect)
+        }
+    }
+
+    fun saveSelectedPrivilegedApp(privilegedApp: AndroidPrivilegedApp?) {
+        viewModelScope.launch {
+            privilegedApp?.let {
+                saveCustomPrivilegedApps(getApplication(), listOf(privilegedApp))
+            } ?: deletePrivilegedAppsFile(getApplication())
+        }
+    }
+
+    sealed class UiState {
+
+        object Loading : UiState()
+        data class OnPrivilegedAppsToSelectRetrieved(val privilegedApps: List<AndroidPrivilegedApp>) : UiState()
+    }
+}
