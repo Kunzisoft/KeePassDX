@@ -192,6 +192,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             false
         }
 
+        findPreference<Preference>(getString(R.string.passkeys_explanation_key))?.setOnPreferenceClickListener {
+            context?.openUrl(R.string.passkeys_explanation_url)
+            false
+        }
+
+        findPreference<Preference>(getString(R.string.settings_passkeys_key))?.setOnPreferenceClickListener {
+            startActivity(Intent(context, PasskeysSettingsActivity::class.java))
+            false
+        }
+
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
             context?.openUrl(R.string.autofill_explanation_url)
             false
@@ -199,11 +209,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
             startActivity(Intent(context, AutofillSettingsActivity::class.java))
-            false
-        }
-
-        findPreference<Preference>(getString(R.string.settings_passkeys_key))?.setOnPreferenceClickListener {
-            startActivity(Intent(context, PasskeysSettingsActivity::class.java))
             false
         }
 
