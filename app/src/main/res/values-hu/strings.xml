@@ -183,7 +183,6 @@
     <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>
-    <string name="autofill_service_name">KeePassDX űrlapkitöltés</string>
     <string name="autofill_sign_in_prompt">Bejelentkezés a KeePassDX-szel</string>
     <string name="set_credential_provider_service_title">Alapértelmezett automatikus kitöltési szolgáltatás beállítása</string>
     <string name="autofill_explanation_summary">Automatikus kitöltés engedélyezése az űrlapok gyors kitöltéséhez más alkalmazásokban</string>

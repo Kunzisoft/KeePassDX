@@ -411,7 +411,6 @@
     <string name="device_credential">Thông tin xác thực thiết bị</string>
     <string name="general">Tổng quan</string>
     <string name="autofill">Tự động điền</string>
-    <string name="autofill_service_name">Tự động điền biểu mẫu KeePassDX</string>
     <string name="autofill_sign_in_prompt">Đăng nhập bằng KeePassDX</string>
     <string name="autofill_explanation_summary">Bật tính năng tự động điền để nhanh chóng điền vào biểu mẫu trong các ứng dụng khác</string>
     <string name="autofill_select_entry">Chọn mục…</string>

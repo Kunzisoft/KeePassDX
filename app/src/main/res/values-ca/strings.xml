@@ -595,7 +595,6 @@
     <string name="at_least_one_char">Com a mínim un caràcter de cada</string>
     <string name="show_entry_colors_summary">Mostra els colors de primer pla i de fons per a una entrada</string>
     <string name="keystore_not_accessible">El magatzem de claus no està correctament inicialitzat.</string>
-    <string name="autofill_service_name">Emplenament automàtic de formularis de KeePassDX</string>
     <string name="show_otp_token_summary">Mostra els testimonis OTP a la llista d\'entrades</string>
     <string name="show_uuid_summary">Mostra l\'UUID enllaçat a una entrada o un grup</string>
     <string name="menu_app_settings_summary">Cerca, bloqueja, historial, propietats</string>

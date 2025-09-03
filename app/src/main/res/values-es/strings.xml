@@ -170,7 +170,6 @@
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletado</string>
-    <string name="autofill_service_name">Autocompletado de formularios de KeePassDX</string>
     <string name="autofill_sign_in_prompt">Iniciar sesión con KeePassDX</string>
     <string name="set_credential_provider_service_title">Establecer servicio de autocompletado por defecto</string>
     <string name="password_size_title">Tamaño de la contraseña generada</string>

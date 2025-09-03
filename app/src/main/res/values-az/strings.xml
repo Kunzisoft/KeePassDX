@@ -221,7 +221,6 @@
     <string name="device_credential">Cihazın şəxsiyyətini təsdiq edən məlumatları</string>
     <string name="general">Ümumi</string>
     <string name="autofill">Avtomatik doldurma</string>
-    <string name="autofill_service_name">KeePassDX avtomatik doldurma formu</string>
     <string name="autofill_sign_in_prompt">KeePassDX ile giriş edin</string>
     <string name="education_entry_new_field_title">Xüsusi bölmələr əlavə edin</string>
     <string name="education_add_attachment_title">Qoşma əlavə edin</string>

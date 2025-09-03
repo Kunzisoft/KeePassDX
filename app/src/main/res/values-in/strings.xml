@@ -421,7 +421,6 @@
     <string name="device_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data perangkat</string>
     <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan.</string>
     <string name="credential_before_click_device_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
-    <string name="autofill_service_name">Isi formulir KeePassDX otomatis</string>
     <string name="autofill_preference_title">Pengaturan isi otomatis</string>
     <string name="set_credential_provider_service_title">Setel layanan isi otomatis secara default</string>
     <string name="autofill_explanation_summary">Aktifkan pengisian otomatis untuk mengisi formulir dengan cepat di aplikasi lain</string>

@@ -397,7 +397,6 @@
     <string name="set_credential_provider_service_title">Встановити типовою службою автозаповнення</string>
     <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидкого заповнення форм в інших застосунках</string>
     <string name="autofill_sign_in_prompt">Увійти за допомогою KeePassDX</string>
-    <string name="autofill_service_name">Автозаповнення форм KeePassDX</string>
     <string name="autofill">Автозаповнення</string>
     <string name="general">Загальні</string>
     <string name="biometric">Біометричний ключ</string>

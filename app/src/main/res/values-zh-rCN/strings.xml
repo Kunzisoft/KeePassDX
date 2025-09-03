@@ -173,7 +173,6 @@
     <string name="menu_appearance_settings">外观</string>
     <string name="general">常规</string>
     <string name="autofill">自动填充</string>
-    <string name="autofill_service_name">KeePassDX 自动填充</string>
     <string name="autofill_sign_in_prompt">使用 KeePassDX 登录</string>
     <string name="clipboard">剪贴板</string>
     <string name="clipboard_notifications_title">剪贴板通知</string>

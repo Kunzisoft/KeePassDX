@@ -646,7 +646,6 @@
     <string name="menu_appearance_settings_summary">المظاهر والألوان والسمات</string>
     <string name="autofill_explanation_summary">تمكين الملء التلقائي لملء النماذج بسرعة في التطبيقات الأخرى</string>
     <string name="device_credential_unlock_enable_summary">يتيح لك استخدام بيانات اعتماد جهازك لفتح قاعدة البيانات</string>
-    <string name="autofill_service_name">KeePassDX نموذج الملء التلقائي</string>
     <string name="unlock">فتح</string>
     <string name="menu_app_settings_summary">البحث، القفل، التاريخ، الخصائص</string>
     <string name="menu_form_filling_settings_summary">لوحة المفاتيح، الملء التلقائي، الحافظة</string>

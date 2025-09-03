@@ -179,7 +179,6 @@
     <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>
     <string name="autofill">Samovyplnění</string>
-    <string name="autofill_service_name">KeePassDX samovyplnění formulářů</string>
     <string name="autofill_sign_in_prompt">Přihlásit se s KeePassDX</string>
     <string name="set_credential_provider_service_title">Nastavit výchozí službu samovyplnění</string>
     <string name="autofill_explanation_summary">Zapnout samovyplnění formulářů za účelem rychlého vyplnění v ostatních aplikacích</string>

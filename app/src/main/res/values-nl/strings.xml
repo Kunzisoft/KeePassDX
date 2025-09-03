@@ -185,7 +185,6 @@
     <string name="menu_appearance_settings">Uiterlijk</string>
     <string name="general">Algemeen</string>
     <string name="autofill">Automatisch aanvullen</string>
-    <string name="autofill_service_name">KeePassDX dienst automatisch aanvullen</string>
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
     <string name="set_credential_provider_service_title">Dienst automatisch aanvullen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>

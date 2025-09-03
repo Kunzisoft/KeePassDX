@@ -536,7 +536,6 @@
     <string name="device_credential">ข้อมูลยืนยันตัวตนของอุปกรณ์</string>
     <string name="general">ทั่วไป</string>
     <string name="autofill">การกรอกอัตโนมัติ</string>
-    <string name="autofill_service_name">การกรอกข้อมูลอัตโนมัติของ KeePassDX</string>
     <string name="autofill_explanation_summary">เปิดการกรอกข้อมูลอัตโนมัติเพื่อกรอกข้อมูลในแอปอื่นได้อย่างรวดเร็ว</string>
     <string name="password_size_summary">ตั้งขนาดรหัสผ่านที่สร้างเรื่มต้น</string>
     <string name="lock_database_screen_off_title">หน้าจอล็อก</string>

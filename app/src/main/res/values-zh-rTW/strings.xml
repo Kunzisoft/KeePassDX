@@ -64,7 +64,6 @@
     <string name="autofill_save_search_info_summary">進行手動輸入選擇時嘗試儲存搜尋信息，以便將來使用</string>
     <string name="autofill_save_search_info_title">保存搜尋資訊</string>
     <string name="autofill_select_entry">選擇項目…</string>
-    <string name="autofill_service_name">KeePassDX 自動填入</string>
     <string name="autofill_sign_in_prompt">用 KeePassDX 登入</string>
     <string name="autofill_web_domain_blocklist_summary">禁止在下列域名中自動填充憑證</string>
     <string name="autofill_web_domain_blocklist_title">網域名稱黑名單</string>

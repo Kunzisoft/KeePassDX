@@ -621,7 +621,6 @@
     <string name="device_credential">Gailuaren kredentzialak</string>
     <string name="general">Orokor</string>
     <string name="autofill">Betetze automatikoa</string>
-    <string name="autofill_service_name">KeePassDX formularioen betetze automatikoa</string>
     <string name="autofill_select_entry">Hautatu sarrera…</string>
     <string name="education_field_copy_title">Kopiatu eremu bat</string>
     <string name="education_field_copy_summary">Kopiatutako eremuak edonon itsats daitezke.

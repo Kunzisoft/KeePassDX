@@ -167,7 +167,6 @@
     <string name="encrypted_value_stored">Ο Κρυπτογραφημένος κωδικός έχει αποθηκευτεί</string>
     <string name="general">Γενικά</string>
     <string name="autofill">Αυτόματη συμπλήρωση</string>
-    <string name="autofill_service_name">Μορφή KeePassDX αυτόματης συμπλήρωσης</string>
     <string name="autofill_sign_in_prompt">Συνδεθείτε με το KeePassDX</string>
     <string name="set_credential_provider_service_title">Ορίστε την προεπιλεγμένη υπηρεσία αυτόματης συμπλήρωσης</string>
     <string name="password_size_title">Παραγόμενο μέγεθος κωδικού πρόσβασης</string>

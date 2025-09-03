@@ -241,7 +241,6 @@
     <string name="menu_master_key_settings">Настройки на главната парола</string>
     <string name="file_browser">Управление на файлове</string>
     <string name="generate_password">Създаване на парола</string>
-    <string name="autofill_service_name">Услуга за автоматично попълване на KeePassDX</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Изисква смяна на главната парола следващия път (веднъж)</string>
     <string name="filter">Филтър</string>
     <string name="sort_db">Естествен ред</string>

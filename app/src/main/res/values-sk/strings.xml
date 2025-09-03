@@ -523,7 +523,6 @@
     <string name="warning_empty_password">Pokračovať bez ochrany heslom\?</string>
     <string name="warning_empty_keyfile">Neodporúča sa pridávať prázdny súbor keyfile.</string>
     <string name="autofill">Automatické doplnenie</string>
-    <string name="autofill_service_name">Automatické dopĺňanie formulárov KeePassDX</string>
     <string name="autofill_sign_in_prompt">Prihláste sa pomocou KeePassDX</string>
     <string name="autofill_select_entry">Vybrať záznam…</string>
     <string name="lock_database_show_button_title">Zobraziť tlačidlo zámku</string>

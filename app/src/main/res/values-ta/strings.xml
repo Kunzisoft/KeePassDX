@@ -476,7 +476,6 @@
     <string name="credential_before_click_device_unlock_button">கடவுச்சொல்லை தட்டச்சு செய்து, பின்னர் இந்த பொத்தானைக் சொடுக்கு செய்க.</string>
     <string name="properties">பண்புகள்</string>
     <string name="menu_appearance_settings_summary">கருப்பொருள்கள், வண்ணங்கள், பண்புக்கூறுகள்</string>
-    <string name="autofill_service_name">கீப்அச்.டி.எக்ச் படிவம் ஆட்டோஃபில்லிங்</string>
     <string name="autofill_sign_in_prompt">கீப்ஆச்டிசுடன் உள்நுழைக</string>
     <string name="list_password_generator_options_title">கடவுச்சொல் எழுத்துக்கள்</string>
     <string name="lock_database_screen_off_summary">திரை முடக்கப்பட்டவுடன் சில நொடிகளுக்குப் பிறகு தரவுத்தளத்தைப் பூட்டவும்</string>

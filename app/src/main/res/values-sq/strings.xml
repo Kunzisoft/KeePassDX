@@ -520,7 +520,6 @@
     <string name="unlock_and_link_biometric">Lidhje shkyçjeje pajisjeje</string>
     <string name="device_unlock_prompt_extract_credential_title">Njohje shkyçjeje pajisjeje</string>
     <string name="menu_appearance_settings_summary">Tema, ngjyra dhe atribute</string>
-    <string name="autofill_service_name">Vetëplotësim formularësh me KeePassDX</string>
     <string name="clipboard_notifications_title">Njoftime mbi të papastrën</string>
     <string name="clipboard_notifications_summary">Shfaq njoftime të papastre te fusha kopjimi, kur shihet një zë</string>
     <string name="lock_database_back_root_title">Shtypni “Mbrapsht”, që të kyçet</string>

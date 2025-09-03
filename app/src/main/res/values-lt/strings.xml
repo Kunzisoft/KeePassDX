@@ -400,7 +400,6 @@
     <string name="menu_appearance_settings_summary">Temos, spalvos, atributai</string>
     <string name="general">Bendri</string>
     <string name="autofill">Automatinis pildymas</string>
-    <string name="autofill_service_name">\"KeePassDX\" formų automatinis pildymas</string>
     <string name="autofill_sign_in_prompt">Prisijunkti naudojant \"KeePassDX</string>
     <string name="password_size_summary">Nustato numatytąjį generuojamų slaptažodžių ilgį</string>
     <string name="password_size_title">Generuojamo slaptažodžio ilgis</string>

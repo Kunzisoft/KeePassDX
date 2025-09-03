@@ -373,7 +373,6 @@
     <string name="menu_device_unlock_settings_summary">ביומטרי, אישור מכשיר</string>
     <string name="menu_database_settings_summary">מטא-נתונים, סל מחזור, תבניות, היסטוריה</string>
     <string name="sort_last_access_time">גישה</string>
-    <string name="autofill_service_name">מילוי טפסים אוטומטי של KeePassDX</string>
     <string name="clipboard_notifications_summary">הצג התראות לוח העתקה כדי להעתיק שדות בעת צפייה ברשומה</string>
     <string name="assign_master_key">הקצה מפתח ראשי</string>
     <string name="contains_duplicate_uuid_procedure">האם לפתור את הבעיה על ידי יצירת מזהים ייחודיים אוניברסליים עבור כפילויות כדי להמשיך?</string>

@@ -181,7 +181,6 @@
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
-    <string name="autofill_service_name">Служба автозаполнения KeePassDX</string>
     <string name="autofill_sign_in_prompt">Войти с помощью KeePassDX</string>
     <string name="autofill_explanation_summary">Включите службу для быстрого заполнения форм в других приложениях</string>
     <string name="set_credential_provider_service_title">Использовать службу автозаполнения</string>

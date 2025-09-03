@@ -93,7 +93,6 @@
     <string name="password_size_title">Tamanho da palavra-passe gerada</string>
     <string name="set_credential_provider_service_title">Definir como serviço de preenchimento automático predefinido</string>
     <string name="autofill_sign_in_prompt">Iniciar sessão com KeePassDX</string>
-    <string name="autofill_service_name">Serviço de preenchimento automático do KeePassDX</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="general">Geral</string>
     <string name="encrypted_value_stored">Palavra-passe encriptada armazenada</string>

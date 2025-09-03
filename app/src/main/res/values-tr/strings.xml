@@ -174,7 +174,6 @@
     <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>
     <string name="autofill">Otomatik Doldurma</string>
-    <string name="autofill_service_name">KeePassDX formu otomatik doldurma</string>
     <string name="autofill_sign_in_prompt">KeePassDX ile giriş yap</string>
     <string name="set_credential_provider_service_title">Öntanımlı otomatik doldurma hizmetini ayarla</string>
     <string name="autofill_explanation_summary">Diğer uygulamalardaki formları hızlı doldurmak için otomatik doldurmayı etkinleştirin</string>

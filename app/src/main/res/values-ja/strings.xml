@@ -273,7 +273,6 @@
     <string name="biometric">生体認証</string>
     <string name="general">全般</string>
     <string name="autofill">自動入力</string>
-    <string name="autofill_service_name">KeePassDX フォーム自動入力</string>
     <string name="autofill_sign_in_prompt">KeePassDX でログイン</string>
     <string name="autofill_explanation_summary">自動入力を有効にして、他のアプリ内のフォームにすばやく入力します</string>
     <string name="set_credential_provider_service_title">デフォルトの自動入力サービスに設定</string>

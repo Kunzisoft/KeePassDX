@@ -471,7 +471,6 @@
     <string name="allow_copy_password_warning">Hoiatus: süsteemiülene lõikelaud on kõikide rakenduste kasutuses. Kui sa kopeerid sinna delikaatseid andmeid, siis muu tarkvara võib seda seal näha. Kui sa kasutad KDE Connecti või muud lõikelaua jagamise teenust, siis sõltuvalt seadistustest võivad need delikaatsed andmed olla nähtavad ka muudes seadmetes.</string>
     <string name="warning_database_revoked">Failihaldur on blokeerinud ligipääsu failile. Sulge andmebaas ja ava ta uuesti oma asukohast.</string>
     <string name="autofill_sign_in_prompt">Logi sisse KeePassDX abil</string>
-    <string name="autofill_service_name">KeePassDXi automaattäite teenus</string>
     <string name="autofill_explanation_summary">Täitmaks andmevorme teistes rakenduses, luba automaattäite teenus</string>
     <string name="autofill_select_entry">Vali kirje…</string>
     <string name="set_credential_provider_service_title">Vali vaikimisi kasutatav automaattäite teenus</string>
