@@ -27,10 +27,12 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
 import androidx.lifecycle.lifecycleScope
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
@@ -57,6 +59,8 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveSearchInfo
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
+import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -160,32 +164,88 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
+    private fun cancelRequest() {
+        setResult(RESULT_CANCELED)
+        finish()
+    }
+
+    private fun cancelRequest(e: Throwable) {
+        Log.e(TAG, "Passkey launch error", e)
+        showError(e)
+        cancelRequest()
+    }
+
+    /**
+     * Launch the main action to manage Passkey
+     */
+    private suspend fun launchPasskeyAction(database: ContextualDatabase?) {
+        val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
+        val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin(verified = false)
+        val nodeId = intent.retrieveNodeId()
+        checkSecurity(intent, nodeId)
+        when (mSpecialMode) {
+            SpecialMode.SELECTION -> {
+                launchSelection(database, nodeId, searchInfo, appOrigin)
+            }
+            SpecialMode.REGISTRATION -> {
+                // TODO Registration in predefined group
+                // launchRegistration(database, nodeId, mSearchInfo)
+                launchRegistration(database, null, searchInfo)
+            }
+            else -> {
+                throw InvalidObjectException("Passkey launch mode not supported")
+            }
+        }
+    }
+
+    /**
+     * Display a dialog that asks the user to add an app to the list of privileged apps.
+     */
+    private fun showAppPrivilegedDialog(e: PrivilegedAllowLists.PrivilegedException) {
+        Log.w(javaClass.simpleName, "No privileged apps file found")
+        AlertDialog.Builder(this@PasskeyLauncherActivity).apply {
+            setTitle(getString(R.string.passkeys_privileged_apps_ask_title))
+            setMessage(StringBuilder()
+                .append(
+                    getString(
+                    R.string.passkeys_privileged_apps_ask_message,
+                    e.temptingApp.toString()
+                    )
+                )
+                .append("\n\n")
+                .append(getString(R.string.passkeys_privileged_apps_explanation))
+                .toString()
+            )
+            setPositiveButton(android.R.string.ok) { _, _ ->
+                lifecycleScope.launch(CoroutineExceptionHandler { _, e ->
+                    cancelRequest(e)
+                }) {
+                    saveCustomPrivilegedApps(
+                        context = application,
+                        privilegedApps = listOf(e.temptingApp)
+                    )
+                    launchPasskeyAction(mDatabase)
+                }
+            }
+            setNegativeButton(android.R.string.cancel) { _, _ ->
+                cancelRequest()
+            }
+            setOnCancelListener {
+                cancelRequest()
+            }
+        }.create().show()
+    }
+
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
         lifecycleScope.launch(CoroutineExceptionHandler { _, e ->
-            Log.e(TAG, "Passkey launch error", e)
-            showError(e)
-            setResult(RESULT_CANCELED)
-            finish()
-        }) {
-            val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
-            val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin(verified = false)
-            val nodeId = intent.retrieveNodeId()
-            checkSecurity(intent, nodeId)
-            when (mSpecialMode) {
-                SpecialMode.SELECTION -> {
-                    launchSelection(database, nodeId, searchInfo, appOrigin)
-                }
-                SpecialMode.REGISTRATION -> {
-                    // TODO Registration in predefined group
-                    // launchRegistration(database, nodeId, mSearchInfo)
-                    launchRegistration(database, null, searchInfo)
-                }
-                else -> {
-                    throw InvalidObjectException("Passkey launch mode not supported")
-                }
+            when (e) {
+                is PrivilegedAllowLists.PrivilegedException -> showAppPrivilegedDialog(e)
+                else -> cancelRequest(e)
             }
+        }) {
+            launchPasskeyAction(database)
         }
     }
 

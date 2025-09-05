@@ -66,6 +66,7 @@ class PasskeysPrivilegedAppsPreferenceDialogFragmentCompat
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
+        setExplanationText(R.string.passkeys_privileged_apps_explanation)
         view.findViewById<RecyclerView>(R.id.pref_dialog_list).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = mAdapter

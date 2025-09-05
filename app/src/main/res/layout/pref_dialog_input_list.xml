@@ -33,7 +33,7 @@
 		android:layout_width="0dp"
 		android:gravity="center"
 		android:layout_marginBottom="8dp"
-		style="@style/KeepassDXStyle.SubTitle"/>
+		style="@style/KeepassDXStyle.Text.Preferences.Explanation"/>
 
 	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"

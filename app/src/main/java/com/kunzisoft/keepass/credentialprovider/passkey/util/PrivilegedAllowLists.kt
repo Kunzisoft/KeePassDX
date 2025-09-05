@@ -22,10 +22,12 @@ package com.kunzisoft.keepass.credentialprovider.passkey.util
 import android.content.Context
 import android.util.Log
 import androidx.credentials.provider.CallingAppInfo
+import com.kunzisoft.encrypt.Signature.getAllFingerprints
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import org.json.JSONObject
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.InputStream
 
 object PrivilegedAllowLists {
@@ -67,30 +69,44 @@ object PrivilegedAllowLists {
         context: Context
     ): String? {
         return try {
-            try {
-                // Check the custom apps first
-                getOriginFromPrivilegedAllowListStream(
-                    callingAppInfo = callingAppInfo,
-                    File(context.filesDir, FILE_NAME_PRIVILEGED_APPS_CUSTOM)
-                        .inputStream()
-                )
-            } catch (_: Exception) {
-                // Then the community apps list
-                getOriginFromPrivilegedAllowListStream(
-                    callingAppInfo = callingAppInfo,
-                    inputStream = context.assets.open(FILE_NAME_PRIVILEGED_APPS_COMMUNITY)
-                )
-            }
+            // Check the custom apps first
+            getOriginFromPrivilegedAllowListStream(
+                callingAppInfo = callingAppInfo,
+                File(context.filesDir, FILE_NAME_PRIVILEGED_APPS_CUSTOM)
+                    .inputStream()
+            )
         } catch (e: Exception) {
             // Then the Google list if allowed
             if (BuildConfig.CLOSED_STORE) {
-                // http://www.gstatic.com/gpm-passkeys-privileged-apps/apps.json
-                getOriginFromPrivilegedAllowListStream(
-                    callingAppInfo = callingAppInfo,
-                    inputStream = context.assets.open(FILE_NAME_PRIVILEGED_APPS_GOOGLE)
-                )
+                try {
+                    // Check the Google list if allowed
+                    // http://www.gstatic.com/gpm-passkeys-privileged-apps/apps.json
+                    getOriginFromPrivilegedAllowListStream(
+                        callingAppInfo = callingAppInfo,
+                        inputStream = context.assets.open(FILE_NAME_PRIVILEGED_APPS_GOOGLE)
+                    )
+                } catch (_: Exception) {
+                    // Then the community apps list
+                    getOriginFromPrivilegedAllowListStream(
+                        callingAppInfo = callingAppInfo,
+                        inputStream = context.assets.open(FILE_NAME_PRIVILEGED_APPS_COMMUNITY)
+                    )
+                }
             } else {
-                throw e
+                when (e) {
+                    is FileNotFoundException -> {
+                        val attemptApp = AndroidPrivilegedApp(
+                            packageName = callingAppInfo.packageName,
+                            fingerprints = callingAppInfo.signingInfo
+                                .getAllFingerprints() ?: emptySet()
+                        )
+                        throw PrivilegedException(
+                            temptingApp = attemptApp,
+                            message = "$attemptApp is not in the allow list"
+                        )
+                    }
+                    else -> throw e
+                }
             }
         }
     }
@@ -203,4 +219,9 @@ object PrivilegedAllowLists {
             false
         }
     }
+
+    class PrivilegedException(
+        val temptingApp: AndroidPrivilegedApp,
+        message: String
+    ) : Exception(message)
 }
