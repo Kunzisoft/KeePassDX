@@ -1,0 +1,23 @@
+KeePassDX je <b>trezor i upravljač za lozinke</b> koji omogućuje uređivanje <b>šifriranih podataka u jednoj datoteci</b> u otvorenom KeePass formatu i <b>sigurno automatsko ispunjavanje obrazaca</b>, <b>ne zahtijeva internetsku vezu</b> i pridržava se Android dizajnerskih smjernica. Aplikacija je <b>otvorenog koda i bez oglasa</b>.
+
+<b>Funkcije</b>
+
+- Stvaranje baza podataka, unosa i grupa.
+- Podrška za .kdb i .kdbx datoteke (verzije 1 do 4) uz algoritme AES – Twofish – ChaCha20 – Argon2.
+- Kompatibilnost s većinom alternativnih programa (KeePass, KeePassXC, KeeWeb, …).
+- Brzo otvaranje i kopiranje URI / URL polja.
+- Biometrijsko prepoznavanje za brzo otključavanje (otisak prsta / prepoznavanje lica / …).
+- Upravljanje jednokratnim lozinkama (HOTP / TOTP) za dvofaktorsku autentifikaciju (2FA).
+- Material dizajn s temama.
+- Automatsko ispunjavanje i integracija.
+- Tipkovnica za ispunjavanje polja.
+- Dinamički predlošci.
+- Povijest svakog unosa.
+- Precizno upravljanje postavkama.
+- Kod napisan u izvornim jezicima (Kotlin / Java / JNI / C).
+
+Doniraj ili kupi Pro verziju za bolju uslugu i brži razvoj željenih funkcija: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Projekt se neprestano razvija. Slobodno provjeri stanje razvoja sljedećih verzija: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Prijavi probleme na: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
