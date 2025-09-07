@@ -30,8 +30,8 @@ import com.kunzisoft.keepass.R
 class ListSelectionItemAdapter<T>()
     : RecyclerView.Adapter<ListSelectionItemAdapter.SelectionViewHolder>() {
 
-    private val itemList: MutableList<T> = ArrayList()
-    var selectedItem: T? = null
+    private val itemList: MutableList<T> = mutableListOf()
+    var selectedItems: MutableList<T> = mutableListOf()
         @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
@@ -50,12 +50,15 @@ class ListSelectionItemAdapter<T>()
         val item = itemList[position]
 
         holder.container.apply {
-            isSelected = item == selectedItem
+            isSelected = selectedItems.contains(item)
         }
         holder.textView.apply {
             text = item.toString()
             setOnClickListener {
-                selectedItem = if (item == selectedItem) null else item
+                if (selectedItems.contains(item))
+                    selectedItems.remove(item)
+                else
+                    selectedItems.add(item)
                 itemSelectedCallback?.onItemSelected(item)
                 notifyDataSetChanged()
             }

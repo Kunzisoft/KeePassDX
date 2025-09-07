@@ -41,11 +41,12 @@ class PasskeysPrivilegedAppsViewModel(application: Application): AndroidViewMode
         }
     }
 
-    fun saveSelectedPrivilegedApp(privilegedApp: AndroidPrivilegedApp?) {
+    fun saveSelectedPrivilegedApp(privilegedApps: List<AndroidPrivilegedApp>) {
         viewModelScope.launch {
-            privilegedApp?.let {
-                saveCustomPrivilegedApps(getApplication(), listOf(privilegedApp))
-            } ?: deletePrivilegedAppsFile(getApplication())
+            if (privilegedApps.isNotEmpty())
+                saveCustomPrivilegedApps(getApplication(), privilegedApps)
+            else
+                deletePrivilegedAppsFile(getApplication())
         }
     }
 

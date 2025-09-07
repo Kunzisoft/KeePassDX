@@ -55,7 +55,7 @@ class PasskeysPrivilegedAppsPreferenceDialogFragmentCompat
                         is PasskeysPrivilegedAppsViewModel.UiState.OnPrivilegedAppsToSelectRetrieved -> {
                             mAdapter.apply {
                                 setItems(uiState.privilegedApps)
-                                selectedItem = uiState.selected.firstOrNull()
+                                selectedItems = uiState.selected.toMutableList()
                             }
                         }
                     }
@@ -75,7 +75,7 @@ class PasskeysPrivilegedAppsPreferenceDialogFragmentCompat
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            passkeysPrivilegedAppsViewModel.saveSelectedPrivilegedApp(mAdapter.selectedItem)
+            passkeysPrivilegedAppsViewModel.saveSelectedPrivilegedApp(mAdapter.selectedItems)
         }
     }
 
