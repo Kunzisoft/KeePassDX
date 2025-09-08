@@ -135,7 +135,6 @@ dependencies {
     implementation "com.splitwise:tokenautocomplete:4.0.0-beta05"
     // Database
     implementation "androidx.room:room-runtime:$room_version"
-    implementation project(':crypto')
     kapt "androidx.room:room-compiler:$room_version"
     // Autofill
     implementation "androidx.autofill:autofill:1.1.0"
