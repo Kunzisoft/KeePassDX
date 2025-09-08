@@ -374,7 +374,7 @@ object PasskeyHelper {
                         AppOrigin(verified = false).apply {
                             addAndroidOrigin(androidOrigin)
                         },
-                        androidOrigin.toAndroidOrigin()
+                        androidOrigin.toOriginValue()
                     )
                 }
             }

@@ -82,21 +82,16 @@ object AppOriginEntryField {
     fun EntryInfo.setWebDomain(webDomain: String?, scheme: String?, customFieldsAllowed: Boolean) {
         // If unable to save web domain in custom field or URL not populated, save in URL
         webDomain?.let {
-            val webScheme = if (scheme.isNullOrEmpty()) "https" else scheme
-            val webDomainToStore = if (webDomain.contains("://")) {
-                webDomain
-            } else {
-                "$webScheme://$webDomain"
-            }
+            val webOrigin = WebOrigin.fromDomain(webDomain, scheme).toOriginValue()
             if (!containsDomainOrApplicationId(webDomain)) {
                 if (!customFieldsAllowed || url.isEmpty()) {
-                    url = webDomainToStore
+                    url = webOrigin
                 } else {
                     // Save web domain in custom field
                     addUniqueField(
                         Field(
                             WEB_DOMAIN_FIELD_NAME,
-                            ProtectedString(false, webDomainToStore)
+                            ProtectedString(false, webOrigin)
                         ),
                         1 // Start to one because URL is a standard field name
                     )

@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.model
 import android.os.Parcelable
 import android.util.Log
 import com.kunzisoft.encrypt.Signature.fingerprintToUrlSafeBase64
-import com.kunzisoft.keepass.model.WebOrigin.Companion.RELYING_PARTY_DEFAULT_PROTOCOL
+import com.kunzisoft.keepass.model.WebOrigin.Companion.WEB_ORIGIN_DEFAULT_SCHEME
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -58,7 +58,7 @@ data class AppOrigin(
             AndroidOrigin(
                 packageName = it.packageName,
                 fingerprint = it.fingerprint
-            ).toAndroidOrigin()
+            ).toOriginValue()
         } ?: throw SecurityException("Wrong signature for ${toName()}")
     }
 
@@ -85,7 +85,7 @@ data class AppOrigin(
 
         fun fromOrigin(origin: String, androidOrigin: AndroidOrigin, verified: Boolean): AppOrigin {
             val appOrigin = AppOrigin(verified)
-            if (origin.startsWith(RELYING_PARTY_DEFAULT_PROTOCOL)) {
+            if (origin.startsWith(WEB_ORIGIN_DEFAULT_SCHEME)) {
                 appOrigin.apply {
                     addWebOrigin(WebOrigin(origin))
                 }
@@ -121,7 +121,7 @@ data class AndroidOrigin(
      * @throws IllegalArgumentException if the hex string (after removing colons) has an odd length
      *         or contains non-hex characters.
      */
-    fun toAndroidOrigin(): String {
+    fun toOriginValue(): String {
         if (fingerprint == null) {
             throw IllegalArgumentException("Fingerprint $fingerprint cannot be null")
         }
@@ -138,7 +138,7 @@ data class WebOrigin(
     val origin: String
 ) : Parcelable {
 
-    fun toWebOrigin(): String {
+    fun toOriginValue(): String {
         return origin
     }
 
@@ -151,9 +151,16 @@ data class WebOrigin(
     }
 
     companion object {
-        const val RELYING_PARTY_DEFAULT_PROTOCOL = "https"
-        fun fromRelyingParty(relyingParty: String): WebOrigin = WebOrigin(
-            origin ="$RELYING_PARTY_DEFAULT_PROTOCOL://$relyingParty"
-        )
+        const val WEB_ORIGIN_DEFAULT_SCHEME = "https"
+        const val WEB_ORIGIN_SCHEME_SEPARATOR = "://"
+
+        fun fromDomain(domain: String, scheme: String? = null): WebOrigin {
+            return if (domain.contains(WEB_ORIGIN_SCHEME_SEPARATOR)) {
+                WebOrigin(domain)
+            } else {
+                val webScheme = if (scheme.isNullOrEmpty()) WEB_ORIGIN_DEFAULT_SCHEME else scheme
+                WebOrigin("$webScheme$WEB_ORIGIN_SCHEME_SEPARATOR$domain")
+            }
+        }
     }
 }
