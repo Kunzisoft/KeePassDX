@@ -109,7 +109,7 @@ object AppUtil {
 
         // Create a generic web intent
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = "http://www.example.com".toUri() // Dummy URL
+        intent.data = context.getString(R.string.homepage_url).toUri()
 
         // Query for apps that can handle this intent
         val resolveInfoList: List<ResolveInfo> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
