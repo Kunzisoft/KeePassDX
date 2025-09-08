@@ -21,7 +21,7 @@
 --><resources>
     <string name="feedback">Commenti</string>
     <string name="homepage">Pagina web</string>
-    <string name="about_description">Implementazione Android del gestore password KeePass</string>
+    <string name="about_description">Implementazione Android del gestore password KeePass.</string>
     <string name="accept">Accetto</string>
     <string name="add_entry">Aggiungi elemento</string>
     <string name="add_group">Aggiungi gruppo</string>

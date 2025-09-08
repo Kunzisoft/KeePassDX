@@ -19,7 +19,7 @@
     Czech translation by Jan Vaněk
 --><resources>
     <string name="homepage">Domovská stránka</string>
-    <string name="about_description">Implementace správce hesel KeePass pro Android</string>
+    <string name="about_description">Implementace správce hesel KeePass pro Android.</string>
     <string name="accept">Přijmout</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
