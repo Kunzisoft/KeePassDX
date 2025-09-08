@@ -43,6 +43,8 @@ object PasskeyEntryFields {
     fun EntryInfo.setPasskey(passkey: Passkey?) {
         if (passkey != null) {
             tags.put(PASSKEY_TAG)
+            if (this.username.isEmpty())
+                this.username = passkey.username
             addOrReplaceField(
                 Field(
                     FIELD_USERNAME,
