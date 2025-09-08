@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Visszajelzés</string>
     <string name="homepage">Honlap</string>
-    <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
+    <string name="about_description">A KeePass jelszókezelő androidos megvalósítása.</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
     <string name="add_group">Csoport hozzáadása</string>

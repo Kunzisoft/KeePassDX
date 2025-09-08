@@ -21,7 +21,7 @@
 --><resources>
     <string name="feedback">Feedback</string>
     <string name="homepage">Startpagina</string>
-    <string name="about_description">Android-implementatie van KeePass-wachtwoordmanager</string>
+    <string name="about_description">Android-implementatie van de KeePass-wachtwoordmanager.</string>
     <string name="accept">Accepteren</string>
     <string name="add_entry">Item toevoegen</string>
     <string name="add_group">Groep toevoegen</string>

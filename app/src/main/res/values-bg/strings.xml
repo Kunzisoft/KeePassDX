@@ -22,7 +22,7 @@
     <string name="clipboard_timeout_summary">Продължителност на съхранение в клипборда (ако се поддържа от вашето устройство)</string>
     <string name="clipboard_error">Някои устройства не позволяват на приложенията да използват клипборда.</string>
     <string name="entry_title">Заглавие</string>
-    <string name="about_description">Версия за Андроид на приложението за управление на пароли KeePass</string>
+    <string name="about_description">Разработка за Андроид на приложението за управление на пароли KeePass.</string>
     <string name="save">Запазване</string>
     <string name="entry_confpassword">Потвърждаване на парола</string>
     <string name="key_derivation_function">Функция за извличане на ключ</string>

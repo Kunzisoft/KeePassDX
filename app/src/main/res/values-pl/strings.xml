@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Zgłoś błąd lub sugestię</string>
     <string name="homepage">Strona główna</string>
-    <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android</string>
+    <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android.</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
