@@ -618,11 +618,7 @@
     <string name="menu_save_copy_to">Zapisz kopię w …</string>
     <string name="expired">Wygasłe</string>
     <string name="warning_database_already_opened">Baza danych jest już otwarta, należy ją najpierw zamknąć, aby otworzyć nową</string>
-    <string name="device_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia.
-\n
-\nW zależności od konkretnej implementacji interfejsu API systemu operacyjnego, może nie być w pełni funkcjonalna.
-\n
-\nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
+    <string name="device_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia. \n \nMoże nie być w pełni funkcjonalna w zależności od konkretnej implementacji interfejsu API systemu operacyjnego. \n \nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
     <string name="passphrase">Fraza hasła</string>
     <string name="colorize_password_summary">Koloruj znaki hasła według typu</string>
     <string name="keyboard_previous_search_title">Ekran wyszukiwania</string>
