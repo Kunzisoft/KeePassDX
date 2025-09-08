@@ -164,7 +164,8 @@
         <activity
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
         <activity
-            android:name="com.kunzisoft.keepass.settings.PasskeysSettingsActivity" />
+            android:name="com.kunzisoft.keepass.settings.PasskeysSettingsActivity"
+            tools:targetApi="34" />
         <activity
             android:name="com.kunzisoft.keepass.settings.AppearanceSettingsActivity" />
         <activity
