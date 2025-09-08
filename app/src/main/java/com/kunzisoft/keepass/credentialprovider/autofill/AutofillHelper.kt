@@ -316,11 +316,7 @@ object AutofillHelper {
                     context,
                     0,
                     Intent(context, AutofillSettingsActivity::class.java),
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        PendingIntent.FLAG_IMMUTABLE
-                    } else {
-                        0
-                    }
+                    PendingIntent.FLAG_IMMUTABLE
                 )
                 return InlinePresentation(
                     InlineSuggestionUi.newContentBuilder(pendingIntent).apply {

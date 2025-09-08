@@ -201,7 +201,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             false
         }
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             findPreference<Preference>(getString(R.string.passkeys_explanation_key))?.setOnPreferenceClickListener {
                 context?.openUrl(R.string.passkeys_explanation_url)
@@ -214,14 +213,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             }
         }
 
-        findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
-            context?.openUrl(R.string.autofill_explanation_url)
-            false
-        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
+                context?.openUrl(R.string.autofill_explanation_url)
+                false
+            }
 
-        findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
-            startActivity(Intent(context, AutofillSettingsActivity::class.java))
-            false
+            findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
+                startActivity(Intent(context, AutofillSettingsActivity::class.java))
+                false
+            }
         }
 
         findPreference<Preference>(getString(R.string.clipboard_notifications_key))?.setOnPreferenceChangeListener { _, newValue ->
