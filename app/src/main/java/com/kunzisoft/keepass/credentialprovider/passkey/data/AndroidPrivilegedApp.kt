@@ -52,6 +52,9 @@ data class AndroidPrivilegedApp(
         private const val USER_BUILD_TYPE = "userdebug"
         private const val APPS_KEY = "apps"
 
+        /**
+         * Extracts a list of AndroidPrivilegedApp objects from a JSONObject.
+         */
         @JvmStatic
         fun extractPrivilegedApps(jsonObject: JSONObject): List<AndroidPrivilegedApp> {
             val apps = mutableListOf<AndroidPrivilegedApp>()

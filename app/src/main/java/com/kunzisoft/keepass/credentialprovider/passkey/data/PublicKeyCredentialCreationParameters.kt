@@ -23,7 +23,29 @@ import java.security.KeyPair
 
 data class PublicKeyCredentialCreationParameters(
         val publicKeyCredentialCreationOptions: PublicKeyCredentialCreationOptions,
-        val credentialId: ByteArray, // TODO Equals Hashcode
+        val credentialId: ByteArray,
         val signatureKey: Pair<KeyPair, Long>,
         val clientDataResponse: ClientDataResponse
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PublicKeyCredentialCreationParameters
+
+        if (publicKeyCredentialCreationOptions != other.publicKeyCredentialCreationOptions) return false
+        if (!credentialId.contentEquals(other.credentialId)) return false
+        if (signatureKey != other.signatureKey) return false
+        if (clientDataResponse != other.clientDataResponse) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = publicKeyCredentialCreationOptions.hashCode()
+        result = 31 * result + credentialId.contentHashCode()
+        result = 31 * result + signatureKey.hashCode()
+        result = 31 * result + clientDataResponse.hashCode()
+        return result
+    }
+}
