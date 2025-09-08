@@ -119,6 +119,15 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                // Hide Passkeys settings if needed
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    findPreference<Preference>(getString(R.string.passkeys_explanation_key))
+                        ?.isVisible = false
+                    findPreference<Preference>(getString(R.string.settings_passkeys_key))
+                        ?.isVisible = false
+                }
+
                 val autoFillEnablePreference: TwoStatePreference? = findPreference(getString(R.string.settings_credential_provider_enable_key))
                 activity.getSystemService(AutofillManager::class.java)?.let { autofillManager ->
                     if (autofillManager.hasEnabledAutofillServices())
@@ -192,14 +201,17 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             false
         }
 
-        findPreference<Preference>(getString(R.string.passkeys_explanation_key))?.setOnPreferenceClickListener {
-            context?.openUrl(R.string.passkeys_explanation_url)
-            false
-        }
 
-        findPreference<Preference>(getString(R.string.settings_passkeys_key))?.setOnPreferenceClickListener {
-            startActivity(Intent(context, PasskeysSettingsActivity::class.java))
-            false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            findPreference<Preference>(getString(R.string.passkeys_explanation_key))?.setOnPreferenceClickListener {
+                context?.openUrl(R.string.passkeys_explanation_url)
+                false
+            }
+
+            findPreference<Preference>(getString(R.string.settings_passkeys_key))?.setOnPreferenceClickListener {
+                startActivity(Intent(context, PasskeysSettingsActivity::class.java))
+                false
+            }
         }
 
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {

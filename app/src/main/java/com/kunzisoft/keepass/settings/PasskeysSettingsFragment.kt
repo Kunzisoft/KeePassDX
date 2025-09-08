@@ -21,12 +21,14 @@ package com.kunzisoft.keepass.settings
 
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.preferencedialogfragment.PasskeysPrivilegedAppsPreferenceDialogFragmentCompat
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasskeysSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -34,24 +36,21 @@ class PasskeysSettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences_passkeys, rootKey)
     }
 
+    @Suppress("DEPRECATION")
     override fun onDisplayPreferenceDialog(preference: Preference) {
-        var otherDialogFragment = false
-
         var dialogFragment: DialogFragment? = null
 
         when (preference.key) {
             getString(R.string.passkeys_privileged_apps_key) -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                    dialogFragment = PasskeysPrivilegedAppsPreferenceDialogFragmentCompat.newInstance(preference.key)
-                }
+                dialogFragment = PasskeysPrivilegedAppsPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
-            else -> otherDialogFragment = true
+            else -> {}
         }
 
         if (dialogFragment != null) {
             dialogFragment.setTargetFragment(this, 0)
             dialogFragment.show(parentFragmentManager, TAG_PASSKEYS_PREF_FRAGMENT)
-        } else if (otherDialogFragment) {
+        } else {
             super.onDisplayPreferenceDialog(preference)
         }
     }

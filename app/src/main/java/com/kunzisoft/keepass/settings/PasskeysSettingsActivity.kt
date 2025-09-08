@@ -19,9 +19,12 @@
  */
 package com.kunzisoft.keepass.settings
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasskeysSettingsActivity : ExternalSettingsActivity() {
 
     override fun retrieveTitle(): Int {
