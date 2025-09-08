@@ -423,7 +423,7 @@
     <string name="passkeys_explanation_summary">Configure Passkeys for fast and secure passwordless login</string>
     <string name="passkeys_preference_title">Passkeys settings</string>
     <string name="passkeys_privileged_apps_title">Privileged apps</string>
-    <string name="passkeys_privileged_apps_summary">Add a browser to the list of privileged apps</string>
+    <string name="passkeys_privileged_apps_summary">Manage browsers in the custom list of privileged apps</string>
     <string name="passkeys_privileged_apps_explanation">WARNING : A privileged app acts as a gateway to retrieve the origin of an authentication. Ensure its legitimacy to avoid security issues.</string>
     <string name="passkeys_privileged_apps_ask_title">App not recognized</string>
     <string name="passkeys_privileged_apps_ask_message">%1$s attempts to perform a Passkey action.\n\nWould you like to add it to the list of privileged apps?</string>
