@@ -79,19 +79,6 @@ object PasskeyEntryFields {
     }
 
     /**
-     * Build Passkey field from a Passkey
-     */
-    fun buildPasskeyField(passkey: Passkey): Field {
-        return Field(
-            name = PASSKEY_FIELD,
-            value = ProtectedString(
-                enableProtection = false,
-                string = passkey.relyingParty
-            )
-        )
-    }
-
-    /**
      * Build new generated fields in a new list from [fieldsToParse] in parameter,
      * Remove parameters fields use to generate auto fields
      */
