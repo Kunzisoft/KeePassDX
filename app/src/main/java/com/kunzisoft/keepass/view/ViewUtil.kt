@@ -304,6 +304,7 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
     invalidate()
 }
 
+@Suppress("DEPRECATION")
 fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, applyWindowInsets: () -> Unit) {
     // Only in portrait
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
