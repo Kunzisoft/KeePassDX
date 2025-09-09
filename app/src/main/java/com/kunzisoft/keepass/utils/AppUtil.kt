@@ -132,7 +132,7 @@ object AppUtil {
                         packageName,
                         PackageManager.GET_SIGNING_CERTIFICATES
                     )
-                    val signatureFingerprints = packageInfo.signingInfo.getAllFingerprints()
+                    val signatureFingerprints = packageInfo.signingInfo?.getAllFingerprints()
                     signatureFingerprints?.let {
                         browserList.add(AndroidPrivilegedApp(packageName, signatureFingerprints))
                         processedPackageNames.add(packageName)
