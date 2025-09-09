@@ -380,7 +380,7 @@ class DeviceUnlockManager(private var appContext: Context) {
     }
 }
 
-fun deviceUnlockError(error: Exception, context: Context): String {
+fun deviceUnlockError(error: Throwable, context: Context): String {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         && (error is UnrecoverableKeyException
                 || error is KeyPermanentlyInvalidatedException)) {
