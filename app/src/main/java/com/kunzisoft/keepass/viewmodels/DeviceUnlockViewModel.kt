@@ -20,11 +20,14 @@ import com.kunzisoft.keepass.model.CipherDecryptDatabase
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.CredentialStorage
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.crypto.Cipher
 
 
@@ -36,6 +39,8 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
 
     private var deviceUnlockManager: DeviceUnlockManager? = null
     private var databaseUri: Uri? = null
+
+    private var mCipherJob: Job? = null
 
     private var deviceUnlockMode = DeviceUnlockMode.BIOMETRIC_UNAVAILABLE
     var cryptoPrompt: DeviceUnlockCryptoPrompt? = null
@@ -93,6 +98,18 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
             }
             .launchIn(viewModelScope)
         cipherDatabaseAction.registerDatabaseListener(cipherDatabaseListener)
+    }
+
+    private fun cancelAndLaunchCipherJob(
+        coroutineExceptionHandler: CoroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
+            setException(e)
+        },
+        block: suspend () -> Unit
+    ) {
+        mCipherJob?.cancel()
+        mCipherJob = viewModelScope.launch(coroutineExceptionHandler) {
+            block()
+        }
     }
 
     fun checkConditionToStoreCredential(condition: Boolean) {
@@ -153,12 +170,8 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     private fun changeMode(deviceUnlockMode: DeviceUnlockMode) {
         this.deviceUnlockMode = deviceUnlockMode
         when (deviceUnlockMode) {
-            DeviceUnlockMode.STORE_CREDENTIAL -> {
-                initEncryptData()
-            }
-            DeviceUnlockMode.EXTRACT_CREDENTIAL -> {
-                initDecryptData()
-            }
+            DeviceUnlockMode.STORE_CREDENTIAL -> initEncryptData()
+            DeviceUnlockMode.EXTRACT_CREDENTIAL -> initDecryptData()
             else -> {}
         }
         _uiState.update { currentState ->
@@ -246,7 +259,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         credential: ByteArray,
         cipher: Cipher?
     ) {
-        try {
+        cancelAndLaunchCipherJob {
             deviceUnlockManager?.encryptData(
                 value = credential,
                 cipher = cipher,
@@ -260,26 +273,23 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                                 this.specParameters = ivSpec
                             }
                         )
-                    } ?: setException(UnknownDatabaseLocationException())
+                    } ?: throw UnknownDatabaseLocationException()
                 }
             )
-        } catch (e: Exception) {
-            setException(e)
-        } finally {
-            // Reinit credential storage request
-            _uiState.update { currentState ->
-                currentState.copy(
-                    credentialRequiredCipher = null
-                )
-            }
+        }
+        // Reinit credential storage request
+        _uiState.update { currentState ->
+            currentState.copy(
+                credentialRequiredCipher = null
+            )
         }
     }
 
     fun decryptCredential(cipher: Cipher?) {
         // retrieve the encrypted value from preferences
-        databaseUri?.let { databaseUri ->
-            cipherDatabase?.encryptedValue?.let { encryptedCredential ->
-                try {
+        cancelAndLaunchCipherJob {
+            databaseUri?.let { databaseUri ->
+                cipherDatabase?.encryptedValue?.let { encryptedCredential ->
                     deviceUnlockManager?.decryptData(
                         encryptedValue = encryptedCredential,
                         cipher = cipher,
@@ -295,12 +305,10 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
                             cipherDatabaseAction.resetCipherParameters(databaseUri)
                         }
                     )
-                } catch (e: Exception) {
-                    setException(e)
-                }
-            } ?: deleteEncryptedDatabaseKey()
-        } ?: run {
-            setException(UnknownDatabaseLocationException())
+                } ?: deleteEncryptedDatabaseKey()
+            } ?: run {
+                throw UnknownDatabaseLocationException()
+            }
         }
     }
 
@@ -368,7 +376,7 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
         }
     }
 
-    fun setException(value: Exception?) {
+    fun setException(value: Throwable?) {
         _uiState.update { currentState ->
             currentState.copy(
                 exception = value
@@ -385,29 +393,25 @@ class DeviceUnlockViewModel(application: Application): AndroidViewModel(applicat
     }
 
     private fun initEncryptData() {
-        try {
+        cancelAndLaunchCipherJob {
             deviceUnlockManager = DeviceUnlockManager(getApplication())
             deviceUnlockManager?.initEncryptData { cryptoPrompt ->
                 onPromptRequested(cryptoPrompt)
-            } ?: setException(Exception("Device unlock manager not initialized"))
-        } catch (e: Exception) {
-            setException(e)
+            } ?: throw Exception("Device unlock manager not initialized")
         }
     }
 
     private fun initDecryptData() {
-        try {
+        cancelAndLaunchCipherJob {
             cipherDatabase?.let { cipherDb ->
-                deviceUnlockManager = DeviceUnlockManager(getApplication())
-                deviceUnlockManager?.initDecryptData(cipherDb.specParameters) { cryptoPrompt ->
-                    onPromptRequested(
-                        cryptoPrompt,
-                        autoOpen = isAutoOpenBiometricPromptAllowed
-                    )
-                } ?: setException(Exception("Device unlock manager not initialized"))
-            } ?: setException(Exception("Cipher database not initialized"))
-        } catch (e: Exception) {
-            setException(e)
+                    deviceUnlockManager = DeviceUnlockManager(getApplication())
+                    deviceUnlockManager?.initDecryptData(cipherDb.specParameters) { cryptoPrompt ->
+                        onPromptRequested(
+                            cryptoPrompt,
+                            autoOpen = isAutoOpenBiometricPromptAllowed
+                        )
+                    } ?: throw Exception("Device unlock manager not initialized")
+            } ?: throw Exception("Cipher database not initialized")
         }
     }
 
@@ -475,5 +479,5 @@ data class DeviceUnlockState(
     val cipherDecryptDatabase: CipherDecryptDatabase? = null,
     val cryptoPromptState: DeviceUnlockPromptMode = DeviceUnlockPromptMode.IDLE_CLOSE,
     val autoOpenPrompt: Boolean = false,
-    val exception: Exception? = null
+    val exception: Throwable? = null
 )
