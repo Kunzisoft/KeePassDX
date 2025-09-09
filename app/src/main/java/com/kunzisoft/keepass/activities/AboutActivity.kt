@@ -57,7 +57,7 @@ class AboutActivity : StylishActivity() {
         var version: String
         var build: String
         try {
-            version = packageManager.getPackageInfoCompat(packageName).versionName
+            version = packageManager.getPackageInfoCompat(packageName).versionName ?: ""
             build = BuildConfig.BUILD_VERSION
         } catch (e: NameNotFoundException) {
             Log.w(javaClass.simpleName, "Unable to get the app or the build version", e)

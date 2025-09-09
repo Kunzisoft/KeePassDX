@@ -4,11 +4,11 @@ apply plugin: 'kotlin-parcelize'
 
 android {
     namespace 'com.kunzisoft.keepass.database'
-    compileSdkVersion 34
+    compileSdkVersion 36
 
     defaultConfig {
         minSdkVersion 19
-        targetSdk 34
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

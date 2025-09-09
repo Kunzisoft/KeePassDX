@@ -1457,7 +1457,8 @@ class GroupActivity : DatabaseLockActivity(),
                     }
                     else -> {
                         // Load the previous group
-                        loadMainGroup(mPreviousGroupsIds.removeLast())
+                        loadMainGroup(mPreviousGroupsIds
+                            .removeAt(mPreviousGroupsIds.lastIndex))
                     }
                 }
             }
