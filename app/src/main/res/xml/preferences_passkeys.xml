@@ -24,14 +24,17 @@
             android:key="@string/passkeys_privileged_apps_key"
             android:title="@string/passkeys_privileged_apps_title"
             android:summary="@string/passkeys_privileged_apps_summary"/>
-        <!--
-        // TODO Backup state #2135
+        <SwitchPreferenceCompat
+            android:key="@string/passkeys_backup_eligibility_key"
+            android:title="@string/passkeys_backup_eligibility_title"
+            android:summary="@string/passkeys_backup_eligibility_summary"
+            android:defaultValue="@bool/passkeys_backup_eligibility_default"/>
         <SwitchPreferenceCompat
             android:key="@string/passkeys_backup_state_key"
+            android:dependency="@string/passkeys_backup_eligibility_key"
             android:title="@string/passkeys_backup_state_title"
             android:summary="@string/passkeys_backup_state_summary"
             android:defaultValue="@bool/passkeys_backup_state_default"/>
-         -->
     </PreferenceCategory>
     <!--
     // TODO Passkeys default group #2123

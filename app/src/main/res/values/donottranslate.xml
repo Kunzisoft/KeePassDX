@@ -135,6 +135,10 @@
     <string name="passkeys_explanation_key" translatable="false">passkeys_explanation_key</string>
     <string name="settings_passkeys_key" translatable="false">settings_passkeys_key</string>
     <string name="passkeys_privileged_apps_key" translatable="false">passkeys_privileged_apps_key</string>
+    <string name="passkeys_backup_eligibility_key" translatable="false">passkeys_backup_eligibility_key</string>
+    <bool name="passkeys_backup_eligibility_default" translatable="false">true</bool>
+    <string name="passkeys_backup_state_key" translatable="false">passkeys_backup_state_key</string>
+    <bool name="passkeys_backup_state_default" translatable="false">false</bool>
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
     <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>

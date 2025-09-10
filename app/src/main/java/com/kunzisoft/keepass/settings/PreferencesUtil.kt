@@ -686,6 +686,18 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
     }
 
+    fun isPasskeyBackupEligibilityEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_backup_eligibility_key),
+            context.resources.getBoolean(R.bool.passkeys_backup_eligibility_default))
+    }
+
+    fun isPasskeyBackupStateEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_backup_state_key),
+            context.resources.getBoolean(R.bool.passkeys_backup_state_default))
+    }
+
     fun isAutofillCloseDatabaseEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_close_database_key),

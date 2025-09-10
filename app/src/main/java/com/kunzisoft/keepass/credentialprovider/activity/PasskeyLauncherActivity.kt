@@ -68,6 +68,7 @@ import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -80,6 +81,9 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     private var mUsageParameters: PublicKeyCredentialUsageParameters? = null
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
     private var mPasskey: Passkey? = null
+
+    private val mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(this)
+    private val mBackupState = PreferencesUtil.isPasskeyBackupStateEnable(this)
 
     private var mPasskeySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
         this.buildActivityResultLauncher(
@@ -108,7 +112,9 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                                         usageParameters = usageParameters,
                                         appOrigin = appOrigin
                                     ),
-                                    passkey = passkey
+                                    passkey = passkey,
+                                    backupEligibility = mBackupEligibility,
+                                    backupState = mBackupState
                                 )
                             )
                         )
@@ -141,7 +147,9 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                             PendingIntentHandler.setCreateCredentialResponse(
                                 intent = responseIntent,
                                 response = buildCreatePublicKeyCredentialResponse(
-                                    publicKeyCredentialCreationParameters = it
+                                    publicKeyCredentialCreationParameters = it,
+                                    backupEligibility = mBackupEligibility,
+                                    backupState = mBackupState
                                 )
                             )
                         }
@@ -272,7 +280,9 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                             usageParameters = usageParameters,
                             appOrigin = appOrigin
                         ),
-                        passkey = passkey
+                        passkey = passkey,
+                        backupEligibility = mBackupEligibility,
+                        backupState = mBackupState
                     )
                 )
             )

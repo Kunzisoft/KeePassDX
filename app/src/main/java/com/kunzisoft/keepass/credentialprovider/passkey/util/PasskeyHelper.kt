@@ -472,7 +472,9 @@ object PasskeyHelper {
      * by calling this method the user is always recognized as present and verified
      */
     fun buildCreatePublicKeyCredentialResponse(
-        publicKeyCredentialCreationParameters: PublicKeyCredentialCreationParameters
+        publicKeyCredentialCreationParameters: PublicKeyCredentialCreationParameters,
+        backupEligibility: Boolean,
+        backupState: Boolean
     ): CreatePublicKeyCredentialResponse {
 
         val keyPair = publicKeyCredentialCreationParameters.signatureKey.first
@@ -489,8 +491,8 @@ object PasskeyHelper {
                 ) ?: mapOf<Int, Any>()),
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = BACKUP_ELIGIBILITY,
-                backupState = false, // TODO Setting to add a backup manually #2135
+                backupEligibility = backupEligibility,
+                backupState = backupState,
                 publicKeyTypeId = keyTypeId,
                 publicKeyCbor = Signature.convertPublicKey(keyPair.public, keyTypeId)!!,
                 clientDataResponse = publicKeyCredentialCreationParameters.clientDataResponse
@@ -559,7 +561,9 @@ object PasskeyHelper {
     fun buildPasskeyPublicKeyCredential(
         requestOptions: PublicKeyCredentialRequestOptions,
         clientDataResponse: ClientDataResponse,
-        passkey: Passkey
+        passkey: Passkey,
+        backupEligibility: Boolean,
+        backupState: Boolean
     ): PublicKeyCredential {
         val getCredentialResponse = FidoPublicKeyCredential(
             id = passkey.credentialId,
@@ -567,8 +571,8 @@ object PasskeyHelper {
                 requestOptions = requestOptions,
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = BACKUP_ELIGIBILITY,
-                backupState = false, // TODO Setting to add a backup manually #2135
+                backupEligibility = backupEligibility,
+                backupState = backupState,
                 userHandle = passkey.userHandle,
                 privateKey = passkey.privateKeyPem,
                 clientDataResponse = clientDataResponse
@@ -599,6 +603,4 @@ object PasskeyHelper {
             )
         }
     }
-
-    private const val BACKUP_ELIGIBILITY = true
 }

@@ -427,6 +427,10 @@
     <string name="passkeys_privileged_apps_explanation">WARNING : A privileged app acts as a gateway to retrieve the origin of an authentication. Ensure its legitimacy to avoid security issues.</string>
     <string name="passkeys_privileged_apps_ask_title">App not recognized</string>
     <string name="passkeys_privileged_apps_ask_message">%1$s attempts to perform a Passkey action.\n\nWould you like to add it to the list of privileged apps?</string>
+    <string name="passkeys_backup_eligibility_title">Backup Eligibility</string>
+    <string name="passkeys_backup_eligibility_summary">Determine at creation time whether the public key credential source is allowed to be backed up</string>
+    <string name="passkeys_backup_state_title">Backup State</string>
+    <string name="passkeys_backup_state_summary">Indicate that credentials are backed up and protected against the loss of a single device</string>
     <string name="autofill">Autofill</string>
     <string name="credential_provider_service_subtitle">Passkeys, Autofill credential provider</string>
     <string name="autofill_sign_in_prompt">Sign in with KeePassDX</string>
