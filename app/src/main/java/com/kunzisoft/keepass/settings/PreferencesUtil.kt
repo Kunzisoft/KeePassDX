@@ -693,6 +693,8 @@ object PreferencesUtil {
     }
 
     fun isPasskeyBackupStateEnable(context: Context): Boolean {
+        if (!isPasskeyBackupEligibilityEnable(context))
+            return false
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.passkeys_backup_state_key),
             context.resources.getBoolean(R.bool.passkeys_backup_state_default))

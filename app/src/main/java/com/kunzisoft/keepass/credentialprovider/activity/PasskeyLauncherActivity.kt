@@ -23,6 +23,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -82,8 +83,8 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
     private var mPasskey: Passkey? = null
 
-    private val mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(this)
-    private val mBackupState = PreferencesUtil.isPasskeyBackupStateEnable(this)
+    private var mBackupEligibility: Boolean = true
+    private var mBackupState: Boolean = false
 
     private var mPasskeySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
         this.buildActivityResultLauncher(
@@ -170,6 +171,12 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
 
     override fun finishActivityIfReloadRequested(): Boolean {
         return false
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(applicationContext)
+        mBackupState = PreferencesUtil.isPasskeyBackupStateEnable(applicationContext)
     }
 
     private fun cancelRequest() {
