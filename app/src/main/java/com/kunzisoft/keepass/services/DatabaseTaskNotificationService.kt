@@ -218,7 +218,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
                     // Call listener to indicate a change in database info
-                    if (!mSaveState) {
+                    if (!mSaveState && previousDatabaseInfo != null) {
                         mDatabaseInfoListeners.forEach { listener ->
                             listener.onDatabaseInfoChanged(
                                 previousDatabaseInfo,
