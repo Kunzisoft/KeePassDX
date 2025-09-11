@@ -92,7 +92,7 @@ inline fun <reified T : Parcelable> Parcel.readParcelableCompat(): T? = when {
 
 fun <T> Parcel.readParcelableCompat(clazz: Class<T>): T? = when {
     SDK_INT >= 33 -> readParcelable(clazz.classLoader, clazz)
-    else -> @Suppress("DEPRECATION") readParcelable(clazz.classLoader) as? T
+    else -> @Suppress("DEPRECATION", "UNCHECKED_CAST") (readParcelable(clazz.classLoader) as? T)
 }
 
 inline fun <reified T : Serializable> Parcel.readSerializableCompat(): T? = when {
