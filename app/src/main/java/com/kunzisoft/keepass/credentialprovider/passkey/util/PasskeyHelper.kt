@@ -59,6 +59,7 @@ import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlinx.coroutines.Dispatchers
@@ -351,7 +352,17 @@ object PasskeyHelper {
         withContext(Dispatchers.IO) {
 
             // For trusted browsers like Chrome and Firefox
-            val callOrigin = getOriginFromPrivilegedAllowLists(callingAppInfo, context)
+            val callOrigin = try {
+                getOriginFromPrivilegedAllowLists(callingAppInfo, context)
+            } catch (e: Exception) {
+                // Throw the Privileged Exception only if it's a browser
+                if (e is PrivilegedAllowLists.PrivilegedException
+                    && AppUtil.getInstalledBrowsersWithSignatures(context).any {
+                        it.packageName == e.temptingApp.packageName
+                    }
+                ) throw e
+                null
+            }
 
             // Build the default Android origin
             val androidOrigin = AndroidOrigin(
