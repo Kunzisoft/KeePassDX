@@ -1,0 +1,6 @@
+ * Updated to API 35 minimum SDK 19 #2073 #2138 #2067 #2133 #1687 (Thx @Dev-ClayP)
+ * Remember last read-only state #2099 #2100 (Thx @rmacklin)
+ * Fix merge deletion #1516
+ * Fix space in search #175
+ * Fix deletable recycle bin #2163
+ * Small fixes
