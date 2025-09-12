@@ -755,7 +755,7 @@
     <string name="passkey_update_description">Update passkey in "%1$s"</string>
     <string name="passkey_selection_username">No passkey found</string>
     <string name="passkey_selection_description">Select an existing passkey</string>
-    <string name="passkey_locked_database_username">KeePassDX Database Locked</string>
+    <string name="passkey_database_username">KeePassDX Database</string>
     <string name="passkey_locked_database_description">Select to unlock</string>
     <string name="passkey_username">Passkey Username</string>
     <string name="passkey_private_key">Passkey Private Key</string>

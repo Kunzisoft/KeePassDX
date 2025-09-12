@@ -174,7 +174,7 @@ class PasskeyProviderService : CredentialProviderService() {
                     passkeyEntries.add(
                         PublicKeyCredentialEntry(
                             context = applicationContext,
-                            username = getString(R.string.passkey_locked_database_username),
+                            username = getString(R.string.passkey_database_username),
                             displayName = getString(R.string.passkey_selection_description),
                             icon = defaultIcon,
                             pendingIntent = pendingIntent,
@@ -196,7 +196,7 @@ class PasskeyProviderService : CredentialProviderService() {
                     passkeyEntries.add(
                         PublicKeyCredentialEntry(
                             context = applicationContext,
-                            username = getString(R.string.passkey_locked_database_username),
+                            username = getString(R.string.passkey_database_username),
                             displayName = getString(R.string.passkey_locked_database_description),
                             icon = defaultIcon,
                             pendingIntent = pendingIntent,
@@ -265,7 +265,7 @@ class PasskeyProviderService : CredentialProviderService() {
 
     private fun handleCreatePasskeyQuery(request: BeginCreatePublicKeyCredentialRequest): BeginCreateCredentialResponse {
 
-        val accountName = mDatabase?.name ?: getString(R.string.passkey_locked_database_username)
+        val accountName = mDatabase?.name ?: getString(R.string.passkey_database_username)
         val createEntries: MutableList<CreateEntry> = mutableListOf()
         val relyingPartyId = PublicKeyCredentialCreationOptions(
             requestJson = request.requestJson,
