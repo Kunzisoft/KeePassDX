@@ -942,7 +942,6 @@ class GroupActivity : DatabaseLockActivity(),
                     passkeySelectionAction = { searchInfo ->
                         if (!database.isReadOnly
                             && searchInfo != null
-                        // TODO Passkey setting && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
                         ) {
                             updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
                         }

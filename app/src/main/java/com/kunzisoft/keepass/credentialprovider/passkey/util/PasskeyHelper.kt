@@ -28,6 +28,7 @@ import android.os.ParcelUuid
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.credentials.CreatePublicKeyCredentialRequest
 import androidx.credentials.CreatePublicKeyCredentialResponse
@@ -42,6 +43,7 @@ import androidx.credentials.provider.ProviderGetCredentialRequest
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
 import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.encrypt.Signature.getApplicationFingerprints
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAssertionResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AuthenticatorAttestationResponse
 import com.kunzisoft.keepass.credentialprovider.passkey.data.Cbor
@@ -64,6 +66,7 @@ import com.kunzisoft.keepass.utils.StringUtil.toHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.IOException
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -125,11 +128,15 @@ object PasskeyHelper {
                 }
                 setResult(Activity.RESULT_OK, mReplyIntent)
             } ?: run {
-                Log.w(javaClass.name, "Failed Passkey manual selection")
-                setResult(Activity.RESULT_CANCELED)
+                throw IOException("No passkey found")
             }
         } catch (e: Exception) {
-            Log.e(javaClass.name, "Cant add passkey entry as result", e)
+            Log.e(javaClass.name, "Unable to add the passkey as result", e)
+            Toast.makeText(
+                this,
+                getString(R.string.error_passkey_result),
+                Toast.LENGTH_SHORT
+            ).show()
             setResult(Activity.RESULT_CANCELED)
         }
     }
