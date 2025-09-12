@@ -154,7 +154,7 @@ class SearchHelper {
                     if (searchParameters.searchByDomain) {
                         try {
                             stringToCheck.inTheSameDomainAs(word, sameSubDomain = true)
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             false
                         }
                     } else null
@@ -220,10 +220,18 @@ class SearchHelper {
                 regex.matches(stringToCheck)
             } else {
                 specialComparison?.invoke(stringToCheck, searchParameters.searchQuery)
-                    ?: stringToCheck.contains(
-                        searchParameters.searchQuery,
-                        !searchParameters.caseSensitive
-                    )
+                    ?: run {
+                        // Search with space separator #175
+                        var searchFound = true
+                        searchParameters.searchQuery.split(" ").forEach { word ->
+                            searchFound = searchFound
+                                    && stringToCheck.contains(
+                                word,
+                                !searchParameters.caseSensitive
+                                    )
+                        }
+                        searchFound
+                    }
             }
         }
     }

@@ -1,7 +1,12 @@
 KeePassDX(4.2.0)
- * Updated to API 35 minimum SDK 19 #2073 #2138 #2067 #2133 (Thx @Dev-ClayP)
  * Passkeys management #1421 #2097 (Thx @cali-95)
+
+KeePassDX(4.1.8)
+ * Updated to API 35 minimum SDK 19 #2073 #2138 #2067 #2133 #1687 (Thx @Dev-ClayP)
  * Remember last read-only state #2099 #2100 (Thx @rmacklin)
+ * Fix merge deletion #1516
+ * Fix space in search #175
+ * Fix deletable recycle bin #2163
  * Small fixes
 
 KeePassDX(4.1.7)

@@ -178,19 +178,12 @@ class SortDialogFragment : DatabaseDialogFragment() {
 
         fun getInstance(sortNodeEnum: SortNodeEnum,
                         ascending: Boolean,
-                        groupsBefore: Boolean): SortDialogFragment {
-            val bundle = buildBundle(sortNodeEnum, ascending, groupsBefore)
-            val fragment = SortDialogFragment()
-            fragment.arguments = bundle
-            return fragment
-        }
-
-        fun getInstance(sortNodeEnum: SortNodeEnum,
-                        ascending: Boolean,
                         groupsBefore: Boolean,
-                        recycleBinBottom: Boolean): SortDialogFragment {
+                        recycleBinBottom: Boolean?): SortDialogFragment {
             val bundle = buildBundle(sortNodeEnum, ascending, groupsBefore)
-            bundle.putBoolean(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY, recycleBinBottom)
+            recycleBinBottom?.let {
+                bundle.putBoolean(SORT_RECYCLE_BIN_BOTTOM_BUNDLE_KEY, recycleBinBottom)
+            }
             val fragment = SortDialogFragment()
             fragment.arguments = bundle
             return fragment

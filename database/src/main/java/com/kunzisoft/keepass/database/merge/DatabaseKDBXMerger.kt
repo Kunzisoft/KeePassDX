@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.merge
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.CustomData
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -32,9 +33,10 @@ import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.utils.readAllBytes
 import java.io.IOException
-import java.util.*
+import java.util.UUID
 
 class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
 
@@ -180,7 +182,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
     }
 
     /**
-     * Merge a KDB> database in a KDBX database,
+     * Merge a KDBX database in a KDBX database,
      * Try to take into account the modification date of each element
      * To make a merge as accurate as possible
      */
@@ -302,29 +304,110 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
         }
 
         // Manage deleted objects
-        databaseToMerge.deletedObjects.forEach { deletedObject ->
-            val deletedObjectId = deletedObject.uuid
-            val databaseEntry = database.getEntryById(deletedObjectId)
-            val databaseGroup = database.getGroupById(deletedObjectId)
-            val databaseIcon = database.iconsManager.getIcon(deletedObjectId)
-            val databaseIconModificationTime = databaseIcon?.lastModificationTime
-            if (databaseEntry != null
-                && deletedObject.deletionTime.isAfter(databaseEntry.lastModificationTime)) {
-                database.removeEntryFrom(databaseEntry, databaseEntry.parent)
-            }
-            if (databaseGroup != null
-                && deletedObject.deletionTime.isAfter(databaseGroup.lastModificationTime)) {
-                database.removeGroupFrom(databaseGroup, databaseGroup.parent)
-            }
-            if (databaseIcon != null
-                && (
-                    databaseIconModificationTime == null
-                    || (deletedObject.deletionTime.isAfter(databaseIconModificationTime))
-                    )
-            ) {
-                database.removeCustomIcon(deletedObjectId)
-            }
+        val deletedObjects = databaseToMerge.deletedObjects
+        deletedObjects.forEach { deletedObject ->
+            deleteEntry(deletedObject)
+            deleteGroup(deletedObject, deletedObjects)
+            deleteIcon(deletedObject)
             // Attachments are removed and optimized during the database save
+        }
+    }
+
+    /**
+     * Delete an entry from the database with the [deletedEntry] id
+     */
+    private fun deleteEntry(deletedEntry: DeletedObject) {
+        val databaseEntry = database.getEntryById(deletedEntry.uuid)
+        if (databaseEntry != null
+            && deletedEntry.deletionTime.isAfter(databaseEntry.lastModificationTime)) {
+            database.removeEntryFrom(databaseEntry, databaseEntry.parent)
+        }
+    }
+
+    /**
+     * Check whether a node is in the list of deleted objects
+     */
+    private fun Set<DeletedObject>.containsNode(node: NodeVersioned<UUID, GroupKDBX, EntryKDBX>): Boolean {
+        return this.any { it.uuid == node.nodeId.id }
+    }
+
+    /**
+     * Check whether a node is not in the list of deleted objects
+     */
+    private fun Set<DeletedObject>.notContainsNode(node: NodeVersioned<UUID, GroupKDBX, EntryKDBX>): Boolean {
+        return !this.containsNode(node)
+    }
+
+    /**
+     * Get the first parent not deleted
+     */
+    private fun firstNotDeletedParent(
+        node: NodeVersioned<UUID, GroupKDBX, EntryKDBX>,
+        deletedObjects: Set<DeletedObject>
+    ): GroupKDBX? {
+        var parent = node.parent
+        while (parent != null && deletedObjects.containsNode(parent)) {
+            parent = node.parent
+        }
+        return parent
+    }
+
+    /**
+     * Delete a group from the database with the [deletedGroup] id
+     * Recursively check whether a group to be deleted contains a node not to be deleted with [deletedObjects]
+     * and move it to the first parent that has not been deleted.
+     */
+    private fun deleteGroup(deletedGroup: DeletedObject, deletedObjects: Set<DeletedObject>) {
+        val databaseGroup = database.getGroupById(deletedGroup.uuid)
+        if (databaseGroup != null
+            && deletedGroup.deletionTime.isAfter(databaseGroup.lastModificationTime)) {
+            // Must be in dedicated list to prevent modification collision
+            val entriesToMove = mutableListOf<EntryKDBX>()
+            databaseGroup.getChildEntries().forEach { child ->
+                // If the child entry is not a deleted object,
+                if (deletedObjects.notContainsNode(child)) {
+                    entriesToMove.add(child)
+                }
+            }
+            val groupsToMove = mutableListOf<GroupKDBX>()
+            databaseGroup.getChildGroups().forEach { child ->
+                // Move the group to the first parent not deleted
+                // the deleted objects will take care of remove it later
+                groupsToMove.add(child)
+            }
+            // For each node to move, move it
+            // try to move the child entry in the first parent not deleted
+            entriesToMove.forEach { child ->
+                database.removeEntryFrom(child, child.parent)
+                database.addEntryTo(
+                    child,
+                    firstNotDeletedParent(databaseGroup, deletedObjects)
+                )
+            }
+            groupsToMove.forEach { child ->
+                database.removeGroupFrom(child, child.parent)
+                database.addGroupTo(
+                    child,
+                    firstNotDeletedParent(databaseGroup, deletedObjects)
+                )
+            }
+            // Then delete the group
+            database.removeGroupFrom(databaseGroup, databaseGroup.parent)
+        }
+    }
+
+    /**
+     * Delete an icon from the database with the [deletedIcon] id
+     */
+    private fun deleteIcon(deletedIcon: DeletedObject) {
+        val deletedObjectId = deletedIcon.uuid
+        val databaseIcon = database.iconsManager.getIcon(deletedObjectId)
+        val databaseIconModificationTime = databaseIcon?.lastModificationTime
+        if (databaseIcon != null
+            && (databaseIconModificationTime == null
+                    || (deletedIcon.deletionTime.isAfter(databaseIconModificationTime)))
+        ) {
+            database.removeCustomIcon(deletedObjectId)
         }
     }
 

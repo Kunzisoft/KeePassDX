@@ -43,6 +43,7 @@ import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
@@ -108,7 +109,11 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var deviceUnlockFragment: DeviceUnlockFragment? = null
 
     private val mDatabaseFileViewModel: DatabaseFileViewModel by viewModels()
-    private val mDeviceUnlockViewModel: DeviceUnlockViewModel by viewModels()
+    private val mDeviceUnlockViewModel: DeviceUnlockViewModel? by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ViewModelProvider(this)[DeviceUnlockViewModel::class.java]
+        } else null
+    }
 
     private val mPasswordActivityEducation = PasswordActivityEducation(this)
 
@@ -176,7 +181,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         // Listen password checkbox to init advanced unlock and confirmation button
         mainCredentialView?.onConditionToStoreCredentialChanged = { _, verified ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mDeviceUnlockViewModel.checkConditionToStoreCredential(
+                mDeviceUnlockViewModel?.checkConditionToStoreCredential(
                     condition = verified
                 )
             }
@@ -241,29 +246,31 @@ class MainCredentialActivity : DatabaseModeActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    mDeviceUnlockViewModel.uiState.collect { uiState ->
-                        // New value received
-                        uiState.credentialRequiredCipher?.let { cipher ->
-                            mDeviceUnlockViewModel.encryptCredential(
-                                credential = getCredentialForEncryption(),
-                                cipher = cipher
-                            )
-                        }
-                        uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
-                            onCredentialEncrypted(cipherEncryptDatabase)
-                            mDeviceUnlockViewModel.consumeCredentialEncrypted()
-                        }
-                        uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
-                            onCredentialDecrypted(cipherDecryptDatabase)
-                            mDeviceUnlockViewModel.consumeCredentialDecrypted()
-                        }
-                        uiState.exception?.let { error ->
-                            Snackbar.make(
-                                coordinatorLayout,
-                                deviceUnlockError(error, this@MainCredentialActivity),
-                                Snackbar.LENGTH_LONG
-                            ).asError().show()
-                            mDeviceUnlockViewModel.exceptionShown()
+                    mDeviceUnlockViewModel?.let { deviceUnlockViewModel ->
+                        deviceUnlockViewModel.uiState.collect { uiState ->
+                            // New value received
+                            uiState.credentialRequiredCipher?.let { cipher ->
+                                deviceUnlockViewModel.encryptCredential(
+                                    credential = getCredentialForEncryption(),
+                                    cipher = cipher
+                                )
+                            }
+                            uiState.cipherEncryptDatabase?.let { cipherEncryptDatabase ->
+                                onCredentialEncrypted(cipherEncryptDatabase)
+                                deviceUnlockViewModel.consumeCredentialEncrypted()
+                            }
+                            uiState.cipherDecryptDatabase?.let { cipherDecryptDatabase ->
+                                onCredentialDecrypted(cipherDecryptDatabase)
+                                deviceUnlockViewModel.consumeCredentialDecrypted()
+                            }
+                            uiState.exception?.let { error ->
+                                Snackbar.make(
+                                    coordinatorLayout,
+                                    deviceUnlockError(error, this@MainCredentialActivity),
+                                    Snackbar.LENGTH_LONG
+                                ).asError().show()
+                                deviceUnlockViewModel.exceptionShown()
+                            }
                         }
                     }
                 }
@@ -516,7 +523,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
         } else {
             // Init Biometric elements
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mDeviceUnlockViewModel.connect(databaseFileUri)
+                mDeviceUnlockViewModel?.connect(databaseFileUri)
             }
         }
 
@@ -660,7 +667,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
                         try {
                             menu.findItem(R.id.menu_open_file_read_mode_key)
                         } catch (e: Exception) {
-                            Log.e(TAG, "Unable to find read mode menu")
+                            Log.e(TAG, "Unable to find read mode menu", e)
                         }
                         performedNextEducation(menu)
                     },
@@ -689,7 +696,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
                             })
                     }
                 }
-            } catch (ignored: Exception) {}
+            } catch (_: Exception) {}
         }
     }
 
@@ -726,7 +733,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
     override fun onDestroy() {
         super.onDestroy()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mDeviceUnlockViewModel.disconnect()
+            mDeviceUnlockViewModel?.disconnect()
         }
     }
 

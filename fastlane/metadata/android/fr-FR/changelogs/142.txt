@@ -1,0 +1,2 @@
+ * Gestion des Passkeys #1421 #2097 (Thx @cali-95)
+ * Petites corrections
