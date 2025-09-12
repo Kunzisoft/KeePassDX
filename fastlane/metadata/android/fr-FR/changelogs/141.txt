@@ -1,0 +1,6 @@
+ * Mise à jour vers API 35 minimum SDK 19 #2073 #2138 #2067 #2133 #1687 (Thx @Dev-ClayP)
+ * Sauvegarde du dernier état lecture seule #2099 #2100 (Thx @rmacklin)
+ * Correction de la suppression lors d'un merge #1516
+ * Correction des espaces dans la recherche #175
+ * Correction de la poubelle supprimable #2163
+ * Petites corrections
