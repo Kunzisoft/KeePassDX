@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_description">Android implementacija KeePass upravljača lozinki</string>
+    <string name="about_description">Android implementacija KeePass upravljača lozinki.</string>
     <string name="accept">Prihvati</string>
     <string name="add_entry">Dodaj unos</string>
     <string name="edit_entry">Uredi unos</string>
@@ -187,7 +187,7 @@
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbriši njegovu povijest ručno.</string>
     <string name="lock_database_screen_off_summary">Zaključaj bazu podataka nakon par sekundi kad se ekran ugasi</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
-    <string name="device_unlock">Otključavanje uređaja</string>
+    <string name="device_unlock">Otključaj uređaj</string>
     <string name="device_unlock_explanation_summary">Koristi otključavanje uređaja za jednostavnije otvaranje baze podataka</string>
     <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
@@ -310,8 +310,6 @@
     <string name="allow_no_password_summary">Dozvoljava dodir gumba „Otvori”, ako nisu odabrani nikoji podaci za prijavu</string>
     <string name="delete_entered_password_title">Izbriši lozinku</string>
     <string name="delete_entered_password_summary">Briše upisanu lozinku nakon pokušaja povezivanja s bazom podataka</string>
-    <string name="enable_read_only_title">Zaštićeno od pisanja</string>
-    <string name="enable_read_only_summary">Standardno otvori bazu podataka u zaštićenom stanju</string>
     <string name="enable_auto_save_database_title">Automatski spremi bazu podataka</string>
     <string name="enable_auto_save_database_summary">Automatski spremi bazu podataka nakon svake važne radnje (samo u modusu „Promjenjivo”)</string>
     <string name="enable_education_screens_title">Edukativne poruke</string>
@@ -385,7 +383,7 @@
     <string name="education_lock_summary">Zaključaj bazu podataka brzo, aplikaciju možeš postaviti tako da bazu nakon nekog vremena zaključa i kad se ekran isključi.</string>
     <string name="show_recent_files_summary">Prikaži mjesto nedavnih baza podataka</string>
     <string name="education_device_unlock_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom ili podacima za prijavu uređaja.</string>
-    <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj&lt;strong&gt;doprinos.&lt;/strong&gt;</string>
+    <string name="html_text_donation">&lt;strong&gt;Doprinosom&lt;/strong&gt; projektu &lt;i&gt;(novčano, kodom, prijevodom)&lt;/i&gt; pomažeš mu da živi i napreduje, a također stječeš pravo na postupak otključavanja &lt;strong&gt;tema&lt;/strong&gt;.&lt;/strong&gt;</string>
     <string name="kdf_explanation">Za stvaranje ključa za algoritam šifriranja, glavni ključ se transformira pomoću funkcije za generiranje ključeva koja sadrži slučajnu komponentu.</string>
     <string name="lock_database_back_root_summary">Zaključaj bazu podataka kad korisnik pritisne gumb za natrag na glavnom ekranu</string>
     <string name="hide_broken_locations_title">Sakrij pokvarene poveznice baze podataka</string>
@@ -700,4 +698,7 @@
     <string name="recursive_number_entries_summary">Rekurzivno izračunava broj unosa u grupi</string>
     <string name="hide_templates_title">Sakrij predloške</string>
     <string name="hide_templates_summary">Predlošci se ne prikazuju</string>
+    <string name="error_otp_secret_length">Tajni ključ mora sadržati barem %1$d znakova.</string>
+    <string name="generate_keyfile">Generiraj datoteku ključeva</string>
+    <string name="warning_large_keyfile">Ne preporučuje se dodavanje velike datoteke ključeva, jer to može spriječiti otvaranje baze podataka.</string>
 </resources>

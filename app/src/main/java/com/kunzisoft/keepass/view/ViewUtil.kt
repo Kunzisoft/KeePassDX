@@ -234,11 +234,7 @@ fun View.updateLockPaddingStart() {
             R.dimen.hidden_lock_button_size
         }
     ).let { lockPadding ->
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            updatePaddingRelative(lockPadding)
-        } else {
-            updatePadding(lockPadding)
-        }
+        updatePaddingRelative(lockPadding)
     }
 }
 
@@ -308,6 +304,7 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
     invalidate()
 }
 
+@Suppress("DEPRECATION")
 fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, applyWindowInsets: () -> Unit) {
     // Only in portrait
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1

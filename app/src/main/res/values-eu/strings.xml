@@ -397,7 +397,6 @@
     <string name="memory_usage_explanation">Gakoaren eratorpen funtzioak erabiliko duen memoria kopurua.</string>
     <string name="autofill_ask_to_save_data_summary">Datuak gordetzeko eskatu formulario bat betetzean</string>
     <string name="education_select_database_summary">Ireki zure aurreko datu-base fitxategia zure fitxategi kudeatzailetik erabiltzen jarraitzeko.</string>
-    <string name="enable_read_only_title">Idazketaren aurka babestuta</string>
     <string name="autofill_application_id_blocklist_title">Aplikazioen blokeo zerrenda</string>
     <string name="keyboard_previous_fill_in_title">Tekla automatikoaren akzioa</string>
     <string name="keyboard_previous_database_credentials_summary">Aldatu automatikoki aurreko teklatura datu-basearen kredentzialen pantailan</string>
@@ -478,7 +477,6 @@
     <string name="kdf_explanation">Zifraketa algoritmorako gakoa sortzeko, gako nagusia itxuraldatu egiten da eratorpen funtzio eta ausazko gatz baten bidez.</string>
     <string name="keyboard_previous_search_title">Bilaketa pantaila</string>
     <string name="autofill_manual_selection_summary">Erabiltzaileari datu-baseko sarrera hautatzeko aukera erakutsi</string>
-    <string name="enable_read_only_summary">Lehenetsi irakurketa soilerako datu-basea irekitzea</string>
     <string name="reset_education_screens_title">Berrezarri hezkuntza-pistak</string>
     <string name="education_new_node_summary">Sarrerek zure identitate digitalak administratzen laguntzen dute.
 \n

@@ -358,78 +358,41 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
         val imageView = imageViewRef.get() ?: return
 
         isViewTranslateAnimationRunning = true
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            imageView.run {
-                val translationY = if (velY > 0) {
-                    originalViewBounds.top + height - top
-                } else {
-                    originalViewBounds.top - height - top
-                }
-                animate()
-                        .setDuration(dismissAnimationDuration)
-                        .setInterpolator(dismissAnimationInterpolator)
-                        .translationY(translationY.toFloat())
-                        .setUpdateListener {
-                            val amount = calcTranslationAmount()
-                            changeBackgroundAlpha(amount)
-                            onViewTranslateListener?.onViewTranslate(imageView, amount)
-                        }
-                        .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(p0: Animator) {
-
-                            }
-
-                            override fun onAnimationEnd(p0: Animator) {
-                                isViewTranslateAnimationRunning = false
-                                onViewTranslateListener?.onDismiss(imageView)
-                                cleanup()
-                            }
-
-                            override fun onAnimationCancel(p0: Animator) {
-                                isViewTranslateAnimationRunning = false
-                            }
-
-                            override fun onAnimationRepeat(p0: Animator) {
-                                // no op
-                            }
-                        })
-            }
-        } else {
-            ObjectAnimator.ofFloat(imageView, View.TRANSLATION_Y, if (velY > 0) {
-                originalViewBounds.top + imageView.height - imageView.top
+        
+        imageView.run {
+            val translationY = if (velY > 0) {
+                originalViewBounds.top + height - top
             } else {
-                originalViewBounds.top - imageView.height - imageView.top
-            }.toFloat()).apply {
-                duration = dismissAnimationDuration
-                interpolator = dismissAnimationInterpolator
-                addUpdateListener {
-                    val amount = calcTranslationAmount()
-                    changeBackgroundAlpha(amount)
-                    onViewTranslateListener?.onViewTranslate(imageView, amount)
-                }
-                addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator) {
-                        // no op
-                    }
-
-                    override fun onAnimationEnd(p0: Animator) {
-                        isViewTranslateAnimationRunning = false
-                        onViewTranslateListener?.onDismiss(imageView)
-                        cleanup()
-                    }
-
-                    override fun onAnimationCancel(p0: Animator) {
-                        isViewTranslateAnimationRunning = false
-                    }
-
-                    override fun onAnimationRepeat(p0: Animator) {
-                        // no op
-                    }
-                })
-                start()
+                originalViewBounds.top - height - top
             }
+            animate()
+                    .setDuration(dismissAnimationDuration)
+                    .setInterpolator(dismissAnimationInterpolator)
+                    .translationY(translationY.toFloat())
+                    .setUpdateListener {
+                        val amount = calcTranslationAmount()
+                        changeBackgroundAlpha(amount)
+                        onViewTranslateListener?.onViewTranslate(imageView, amount)
+                    }
+                    .setListener(object : Animator.AnimatorListener {
+                        override fun onAnimationStart(p0: Animator) {
+
+                        }
+
+                        override fun onAnimationEnd(p0: Animator) {
+                            isViewTranslateAnimationRunning = false
+                            onViewTranslateListener?.onDismiss(imageView)
+                            cleanup()
+                        }
+
+                        override fun onAnimationCancel(p0: Animator) {
+                            isViewTranslateAnimationRunning = false
+                        }
+
+                        override fun onAnimationRepeat(p0: Animator) {
+                            // no op
+                        }
+                    })
         }
     }
 
@@ -657,137 +620,76 @@ class Loupe(imageView: ImageView, container: ViewGroup) : View.OnTouchListener,
 
     private fun restoreViewTransform() {
         val imageView = imageViewRef.get() ?: return
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            imageView.run {
-                animate()
-                        .setDuration(restoreAnimationDuration)
-                        .setInterpolator(restoreAnimationInterpolator)
-                        .translationY((originalViewBounds.top - top).toFloat())
-                        .setUpdateListener {
-                            val amount = calcTranslationAmount()
-                            changeBackgroundAlpha(amount)
-                            onViewTranslateListener?.onViewTranslate(this, amount)
+        imageView.run {
+            animate()
+                    .setDuration(restoreAnimationDuration)
+                    .setInterpolator(restoreAnimationInterpolator)
+                    .translationY((originalViewBounds.top - top).toFloat())
+                    .setUpdateListener {
+                        val amount = calcTranslationAmount()
+                        changeBackgroundAlpha(amount)
+                        onViewTranslateListener?.onViewTranslate(this, amount)
+                    }
+                    .setListener(object : Animator.AnimatorListener {
+                        override fun onAnimationStart(p0: Animator) {
+                            // no op
                         }
-                        .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(p0: Animator) {
-                                // no op
-                            }
 
-                            override fun onAnimationEnd(p0: Animator) {
-                                onViewTranslateListener?.onRestore(imageView)
-                            }
+                        override fun onAnimationEnd(p0: Animator) {
+                            onViewTranslateListener?.onRestore(imageView)
+                        }
 
-                            override fun onAnimationCancel(p0: Animator) {
-                                // no op
-                            }
+                        override fun onAnimationCancel(p0: Animator) {
+                            // no op
+                        }
 
-                            override fun onAnimationRepeat(p0: Animator) {
-                                // no op
-                            }
-                        })
-            }
-        } else {
-            ObjectAnimator.ofFloat(imageView, View.TRANSLATION_Y, (originalViewBounds.top - imageView.top).toFloat()).apply {
-                duration = restoreAnimationDuration
-                interpolator = restoreAnimationInterpolator
-                addUpdateListener {
-                    val amount = calcTranslationAmount()
-                    changeBackgroundAlpha(amount)
-                    onViewTranslateListener?.onViewTranslate(imageView, amount)
-                }
-                addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator) {
-                        // no op
-                    }
-
-                    override fun onAnimationEnd(p0: Animator) {
-                        onViewTranslateListener?.onRestore(imageView)
-                    }
-
-                    override fun onAnimationCancel(p0: Animator) {
-                        // no op
-                    }
-
-                    override fun onAnimationRepeat(p0: Animator) {
-                        // no op
-                    }
-                })
-                start()
-            }
+                        override fun onAnimationRepeat(p0: Animator) {
+                            // no op
+                        }
+                    })
         }
+        
     }
 
     private fun startDragToDismissAnimation() {
         val imageView = imageViewRef.get() ?: return
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            imageView.run {
-                val translationY = if (y - initialY > 0) {
-                    originalViewBounds.top + height - top
-                } else {
-                    originalViewBounds.top - height - top
-                }
-                animate()
-                        .setDuration(dismissAnimationDuration)
-                        .setInterpolator(AccelerateDecelerateInterpolator())
-                        .translationY(translationY.toFloat())
-                        .setUpdateListener {
-                            val amount = calcTranslationAmount()
-                            changeBackgroundAlpha(amount)
-                            onViewTranslateListener?.onViewTranslate(this, amount)
+        
+        imageView.run {
+            val translationY = if (y - initialY > 0) {
+                originalViewBounds.top + height - top
+            } else {
+                originalViewBounds.top - height - top
+            }
+            animate()
+                    .setDuration(dismissAnimationDuration)
+                    .setInterpolator(AccelerateDecelerateInterpolator())
+                    .translationY(translationY.toFloat())
+                    .setUpdateListener {
+                        val amount = calcTranslationAmount()
+                        changeBackgroundAlpha(amount)
+                        onViewTranslateListener?.onViewTranslate(this, amount)
+                    }
+                    .setListener(object : Animator.AnimatorListener {
+                        override fun onAnimationStart(p0: Animator) {
+                            isViewTranslateAnimationRunning = true
                         }
-                        .setListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(p0: Animator) {
-                                isViewTranslateAnimationRunning = true
-                            }
 
-                            override fun onAnimationEnd(p0: Animator) {
-                                isViewTranslateAnimationRunning = false
-                                onViewTranslateListener?.onDismiss(imageView)
-                                cleanup()
-                            }
+                        override fun onAnimationEnd(p0: Animator) {
+                            isViewTranslateAnimationRunning = false
+                            onViewTranslateListener?.onDismiss(imageView)
+                            cleanup()
+                        }
 
-                            override fun onAnimationCancel(p0: Animator) {
-                                isViewTranslateAnimationRunning = false
-                            }
+                        override fun onAnimationCancel(p0: Animator) {
+                            isViewTranslateAnimationRunning = false
+                        }
 
-                            override fun onAnimationRepeat(p0: Animator) {
-                                // no op
-                            }
-                        })
-            }
-        } else {
-            ObjectAnimator.ofFloat(imageView, View.TRANSLATION_Y, imageView.translationY).apply {
-                duration = dismissAnimationDuration
-                interpolator = AccelerateDecelerateInterpolator()
-                addUpdateListener {
-                    val amount = calcTranslationAmount()
-                    changeBackgroundAlpha(amount)
-                    onViewTranslateListener?.onViewTranslate(imageView, amount)
-                }
-                addListener(object : Animator.AnimatorListener {
-                    override fun onAnimationStart(p0: Animator) {
-                        isViewTranslateAnimationRunning = true
-                    }
-
-                    override fun onAnimationEnd(p0: Animator) {
-                        isViewTranslateAnimationRunning = false
-                        onViewTranslateListener?.onDismiss(imageView)
-                        cleanup()
-                    }
-
-                    override fun onAnimationCancel(p0: Animator) {
-                        isViewTranslateAnimationRunning = false
-                    }
-
-                    override fun onAnimationRepeat(p0: Animator) {
-                        // no op
-                    }
-                })
-                start()
-            }
+                        override fun onAnimationRepeat(p0: Animator) {
+                            // no op
+                        }
+                    })
         }
+        
     }
 
     private fun processFlingToDismiss(velocityY: Float) {

@@ -22,7 +22,7 @@
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
     <string name="homepage">Homepage</string>
-    <string name="about_description">Android implementation of the KeePass password manager</string>
+    <string name="about_description">Android implementation of the KeePass password manager.</string>
     <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
     <string name="edit_entry">Edit entry</string>
@@ -575,8 +575,6 @@
     <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt to a database</string>
-    <string name="enable_read_only_title">Write-protected</string>
-    <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
     <string name="enable_keep_screen_on_title">Keep screen on</string>

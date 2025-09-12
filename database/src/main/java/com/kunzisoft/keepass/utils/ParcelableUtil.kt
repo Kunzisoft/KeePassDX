@@ -92,7 +92,7 @@ inline fun <reified T : Parcelable> Parcel.readParcelableCompat(): T? = when {
 
 fun <T> Parcel.readParcelableCompat(clazz: Class<T>): T? = when {
     SDK_INT >= 33 -> readParcelable(clazz.classLoader, clazz)
-    else -> @Suppress("DEPRECATION") readParcelable(clazz.classLoader) as? T
+    else -> @Suppress("DEPRECATION", "UNCHECKED_CAST") (readParcelable(clazz.classLoader) as? T)
 }
 
 inline fun <reified T : Serializable> Parcel.readSerializableCompat(): T? = when {
@@ -120,19 +120,19 @@ fun <K : Parcelable, V : Parcelable> Parcel.writeParcelableMap(map: Map<K, V>, f
 inline fun <reified K : Parcelable, reified V : Parcelable> Parcel.readParcelableMap(): Map<K, V> {
     val size = readInt()
     val map = HashMap<K, V>(size)
-    for (i in 0 until size) {
+    (0 until size).forEach { i ->
         val key: K? = try {
             when {
                 SDK_INT >= 33 -> readParcelable(K::class.java.classLoader, K::class.java)
                 else -> @Suppress("DEPRECATION") readParcelable(K::class.java.classLoader)
             }
-        } catch (e: Exception) { null }
+        } catch (_: Exception) { null }
         val value: V? = try {
             when {
                 SDK_INT >= 33 -> readParcelable(V::class.java.classLoader, V::class.java)
                 else -> @Suppress("DEPRECATION") readParcelable(V::class.java.classLoader)
             }
-        } catch (e: Exception) { null }
+        } catch (_: Exception) { null }
         if (key != null && value != null)
             map[key] = value
     }
@@ -152,14 +152,14 @@ fun <V : Parcelable> Parcel.writeStringParcelableMap(map: HashMap<String, V>, fl
 inline fun <reified V : Parcelable> Parcel.readStringParcelableMap(): LinkedHashMap<String, V> {
     val size = readInt()
     val map = LinkedHashMap<String, V>(size)
-    for (i in 0 until size) {
+    (0 until size).forEach { i ->
         val key: String? = readString()
         val value: V? = try {
             when {
                 SDK_INT >= 33 -> readParcelable(V::class.java.classLoader, V::class.java)
                 else -> @Suppress("DEPRECATION") readParcelable(V::class.java.classLoader)
             }
-        } catch (e: Exception) { null }
+        } catch (_: Exception) { null }
         if (key != null && value != null)
             map[key] = value
     }
@@ -179,7 +179,7 @@ fun Parcel.writeStringIntMap(map: LinkedHashMap<String, Int>) {
 fun Parcel.readStringIntMap(): LinkedHashMap<String, Int> {
     val size = readInt()
     val map = LinkedHashMap<String, Int>(size)
-    for (i in 0 until size) {
+    (0 until size).forEach { i ->
         val key: String? = readString()
         val value: Int = readInt()
         if (key != null)
@@ -201,7 +201,7 @@ fun Parcel.writeStringStringMap(map: MutableMap<String, String>) {
 fun Parcel.readStringStringMap(): LinkedHashMap<String, String> {
     val size = readInt()
     val map = LinkedHashMap<String, String>(size)
-    for (i in 0 until size) {
+    (0 until size).forEach { i ->
         val key: String? = readString()
         val value: String? = readString()
         if (key != null && value != null)

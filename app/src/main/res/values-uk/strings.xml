@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Відгук</string>
     <string name="homepage">Домівка</string>
-    <string name="about_description">KeePassDX є Android-версією менеджера паролів KeePass</string>
+    <string name="about_description">KeePassDX — Android-версія менеджера паролів KeePass.</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
@@ -314,8 +314,6 @@
     <string name="enable_education_screens_summary">Виділяти елементи, щоб дізнатися, як працює застосунок</string>
     <string name="enable_education_screens_title">Навчальні підказки</string>
     <string name="enable_auto_save_database_title">Автозбереження бази даних</string>
-    <string name="enable_read_only_summary">Типово відкривати базу даних лише для читання</string>
-    <string name="enable_read_only_title">Захист від запису</string>
     <string name="delete_entered_password_summary">Видаляти пароль, введений після спроби з\'єднання з базою даних</string>
     <string name="delete_entered_password_title">Видаляти пароль</string>
     <string name="allow_no_password_summary">Дозволяє натискання «Відкрити», якщо не вибрано головний пароль</string>

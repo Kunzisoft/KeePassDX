@@ -5,14 +5,14 @@ apply plugin: 'kotlin-kapt'
 
 android {
     namespace 'com.kunzisoft.keepass'
-    compileSdkVersion 34
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
-        minSdkVersion 15
-        targetSdkVersion 34
-        versionCode = 139
-        versionName = "4.1.7"
+        minSdkVersion 19
+        targetSdkVersion 35
+        versionCode = 141
+        versionName = "4.1.8"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"

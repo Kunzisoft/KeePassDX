@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Tilbakemelding</string>
     <string name="homepage">Hjemmeside</string>
-    <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
+    <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren.</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
     <string name="edit_entry">Rediger oppføring</string>
@@ -90,7 +90,7 @@
     <string name="hint_length">Lengde</string>
     <string name="hint_pass">Passord</string>
     <string name="password">Passord</string>
-    <string name="invalid_credentials">Kunne ikke lese legitimasjonen.</string>
+    <string name="invalid_credentials">Kunne ikke lese autentiseringsopplysningene.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Fremmed databaseformat.</string>
     <string name="keyfile_is_empty">Nøkkelfilen er tom.</string>
@@ -168,7 +168,7 @@
     <string name="warning_no_encryption_key">Ønsker du å fortsette uten en krypteringsnøkkel\?</string>
     <string name="version_label">Versjon %1$s</string>
     <string name="encrypted_value_stored">Kryptert passord lagret</string>
-    <string name="unavailable">Denne databasen har ikke et passord enda.</string>
+    <string name="unavailable">Utilgjengelig</string>
     <string name="database_history">Historikk</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
@@ -200,8 +200,8 @@
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøkkel</string>
     <string name="create_keepass_file">Opprett nytt hvelv</string>
-    <string name="recycle_bin_title">Papirkurv bruk</string>
-    <string name="recycle_bin_summary">Flytter grupper og oppføringer til \"Papirkurv\"-gruppen før sletting</string>
+    <string name="recycle_bin_title">Papirkurvbruk</string>
+    <string name="recycle_bin_summary">Flytter grupper og oppføringer til «Papirkurv»-gruppen før sletting</string>
     <string name="monospace_font_fields_enable_title">Felt-skrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="allow_copy_password_title">Kopi av passord</string>
@@ -218,8 +218,6 @@
     <string name="magic_keyboard_explanation_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillat ingen hovednøkkel</string>
     <string name="allow_no_password_summary">Tillater å trykke på \"Åpne\"-knappen hvis ingen legitimasjon er valgt</string>
-    <string name="enable_read_only_title">Skrivebeskyttet</string>
-    <string name="enable_read_only_summary">Åpne databasen skrivebeskyttet som standard</string>
     <string name="enable_education_screens_title">Lærerike tips</string>
     <string name="enable_education_screens_summary">Fremhev elementer for å finne ut hvordan appen fungerer</string>
     <string name="reset_education_screens_title">Tilbakestill lærerike tips</string>
@@ -246,14 +244,9 @@
 \n
 \nHusk å lagre en kopi av din .kdbx-fil på et trygt sted etter hver endring.</string>
     <string name="education_read_only_title">Skrivebeskytt databasen din</string>
-    <string name="education_read_only_summary">Endre åpningsmodus for økten.
-\n
-\nI skrivebeskyttet modus, kan du forhindre utilsiktede endringer i databasen.
-\n
-\nI skrivemodus, kan du legge til, slette eller endre alle elementene.</string>
+    <string name="education_read_only_summary">Endre åpningsmodus for sesjonen. \n \n«Skrivebeskyttet» hindrer utilsiktede endringer i databasen. \n«Modifiserbar» lar deg endre, slette eller modifisere alle elementene etter eget ønske.</string>
     <string name="education_field_copy_title">Kopier et felt</string>
-    <string name="education_field_copy_summary">Kopier et felt for å lime det inn der du ønsker.
-\nBruk den skjemautfyllingsmetoden du foretrekker.</string>
+    <string name="education_field_copy_summary">Kopierte felt kan limes inn hvorsomhelst.\n\nBruk den utfyllingsmetoden du foretrekker.</string>
     <string name="education_lock_title">Lås databasen</string>
     <string name="education_lock_summary">Lås din database raskt. Du kan sette opp programmet slik at det låser den etter en stund, og når skjermen slår seg av.</string>
     <string name="education_sort_title">Sorter elementer</string>
@@ -263,7 +256,7 @@
     <string name="html_text_ad_free">I motsetning til mange passordadministrasjons-apper er denne &lt;strong&gt;annonsefri&lt;/strong&gt;, &lt;strong&gt;copylefted libre-programvare&lt;/strong&gt; og samler ikke inn personlige data på serverne, uansett hvilken versjon du bruker.</string>
     <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil bidra med støtte til &lt;strong&gt; realisering av fellesskaps prosjekter.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stilen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
+    <string name="html_text_donation">Ved å &lt;strong&gt;bidra&lt;/strong&gt; til prosjektet &lt;i&gt;(med penger, kode eller oversettelser)&lt;/i&gt;, bidrar du til å holde prosjektet gående og trivende, og du vil også kunne få mulighet til å låse opp &lt;strong&gt;drakter&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe &lt;strong&gt;pro&lt;/strong&gt;-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å &lt;strong&gt;bidra&lt;/strong&gt;,</string>
@@ -334,7 +327,7 @@
     <string name="entry_history">Historikk</string>
     <string name="entry_setup_otp">Sett opp engangspassord</string>
     <string name="otp_type">OTP-type</string>
-    <string name="otp_secret">Hemmelig</string>
+    <string name="otp_secret">Hemmelighet</string>
     <string name="otp_period">Periode (sekunder)</string>
     <string name="otp_counter">Teller</string>
     <string name="otp_digits">Siffer</string>
@@ -345,7 +338,7 @@
     <string name="error_otp_period">Periode må være mellom %1$d og %2$d sekunder.</string>
     <string name="database_opened">Database åpnet</string>
     <string name="menu_save_database">Lagre data</string>
-    <string name="content_description_password_checkbox">Passord avkrysningsrute</string>
+    <string name="content_description_password_checkbox">Passordsavkryssningsboks</string>
     <string name="content_description_keyfile_checkbox">Avkrysningsrute for nøkkelfil</string>
     <string name="biometric">Biometrisk</string>
     <string name="error_disallow_no_credentials">Minst én identitetsdetalj må angis.</string>
@@ -355,7 +348,7 @@
     <string name="invalid_db_same_uuid">%1$s med samme UUID %2$s finnes allerede.</string>
     <string name="creating_database">Oppretter database…</string>
     <string name="menu_security_settings">Sikkerhetsinnstillinger</string>
-    <string name="menu_master_key_settings">Hovednøkkel innstillinger</string>
+    <string name="menu_master_key_settings">Innstillinger for hovednøkkel</string>
     <string name="contains_duplicate_uuid">Databasen inneholder dupliserte UUID-er.</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reduserer databasens størrelse</string>
@@ -411,7 +404,7 @@
     <string name="save_mode">Lagringsmodus</string>
     <string name="search_mode">Søkemodus</string>
     <string name="error_field_name_already_exists">Feltnavnet finnes allerede.</string>
-    <string name="content_description_add_item">Legg til element</string>
+    <string name="content_description_add_item">Legg til ny</string>
     <string name="education_device_unlock_title">Opplåsing av enhetsdatabase</string>
     <string name="unit_byte">B</string>
     <string name="show_uuid_summary">Viser UUID-en som er tilknyttet en oppføring eller en gruppe</string>
@@ -445,7 +438,7 @@
     <string name="content_description_repeat_toggle_password_visibility">Gjenta for å skifte passordsynlighet</string>
     <string name="icon_section_custom">Egendefinert</string>
     <string name="icon_section_standard">Forvalg</string>
-    <string name="style_brightness_summary">Velg et lyst eller mørkt tema</string>
+    <string name="style_brightness_summary">Velg en lys eller mørk drakt</string>
     <string name="style_brightness_title">Draktlysstyrke</string>
     <string name="backspace">Rettetast</string>
     <string name="keyboard_save_search_info_title">Lagre delt info</string>
@@ -520,7 +513,7 @@
     <string name="secure_note">Sikkehetsnotis</string>
     <string name="standard">Standard</string>
     <string name="bank_identifier_code">SWIFT/BIC</string>
-    <string name="error_registration_read_only">Å lagre et nytt element tillates ikke i skrivebeskyttet database.</string>
+    <string name="error_registration_read_only">Å lagre et nytt element tillates ikke i en skrivebeskyttet database.</string>
     <string name="error_database_uri_null">Database-URI kan ikke innhentes.</string>
     <string name="error_rebuild_list">Kunne ikke gjenoppbygge listen på riktig måte.</string>
     <string name="error_upload_file">En feil inntraff under opplasting av fildataen.</string>
@@ -617,7 +610,7 @@
     <string name="expired">Utløpt</string>
     <string name="hardware_key">Maskinvarenøkkel</string>
     <string name="error_no_hardware_key">Velg en maskinvarenøkkel.</string>
-    <string name="error_unable_merge_database_kdb">Kan ikke slå sammen fra en V1 database.</string>
+    <string name="error_unable_merge_database_kdb">Kan ikke slå sammen med en kdb-databasefil.</string>
     <string name="error_location_unknown">Databaseplasseringen er ukjent, databasehandlingen kan ikke utføres.</string>
     <string name="remember_hardware_key_summary">Holder styr på maskinvarenøklene som brukes</string>
     <string name="exclude_ambiguous_chars">Ekskluder tvetydige tegn</string>
@@ -670,7 +663,7 @@
     <string name="ask">Spør</string>
     <string name="merge_success">Sammenslåingen er fullført</string>
     <string name="configure">Konfigurer</string>
-    <string name="menu_appearance_settings_summary">Temaer, farger, attributter</string>
+    <string name="menu_appearance_settings_summary">Drakter, farger, attributter</string>
     <string name="enable_screenshot_mode_title">Skjermbilde-modus</string>
     <string name="consider_chars_filter">Vurder karakterer</string>
     <string name="entropy_calculate">Entropi: Beregn…</string>
@@ -685,7 +678,7 @@
     <string name="entropy_high">Entropi: Høy</string>
     <string name="lower_case">små bokstaver</string>
     <string name="upper_case">STORE BOKSTAVER</string>
-    <string name="style_name_divine">Divine</string>
+    <string name="style_name_divine">Gudommelig</string>
     <string name="style_name_classic">Classic</string>
     <string name="style_name_simple">Enkel</string>
     <string name="style_name_moon">Moon</string>
@@ -695,4 +688,12 @@
     <string name="style_name_follow_system">Følg systemet</string>
     <string name="style_name_light">Lyst</string>
     <string name="style_name_dark">Mørkt</string>
+    <string name="error_otp_secret_length">Den hemmelige nøkkelen må være minst %1$d tegn.</string>
+    <string name="generate_keyfile">Generer nøkkelfil</string>
+    <string name="nodes">Noder</string>
+    <string name="recursive_number_entries_title">Rekursivt antall oppføringer</string>
+    <string name="recursive_number_entries_summary">Regner ut antallet oppføringer i en gruppe rekursivt</string>
+    <string name="warning_large_keyfile">Det anbefales ikke å legge til en stor nøkkelfil, siden dette kan hindre databasen i å åpnes.</string>
+    <string name="hide_templates_title">Skjul maler</string>
+    <string name="hide_templates_summary">Maler vises ikke</string>
 </resources>

@@ -12,6 +12,7 @@ import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_NONE
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import android.util.TypedValue
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -156,11 +157,21 @@ abstract class NotificationService : Service() {
         mReset = true
     }
 
-    override fun onDestroy() {
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        super.onTimeout(startId, fgsType)
+        Log.e(javaClass::class.simpleName, "The service took too long to execute")
+        cancelNotification()
+        stopSelf()
+    }
+
+    protected fun cancelNotification() {
         mTimerJob?.cancel()
         mTimerJob = null
         notificationManager?.cancel(notificationId)
+    }
 
+    override fun onDestroy() {
+        cancelNotification()
         super.onDestroy()
     }
 

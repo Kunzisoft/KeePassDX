@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Zgłoś błąd lub sugestię</string>
     <string name="homepage">Strona główna</string>
-    <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android</string>
+    <string name="about_description">Implementacja menedżera haseł KeePass w systemie Android.</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
@@ -225,8 +225,6 @@
     <string name="magic_keyboard_explanation_summary">Aktywuj niestandardową klawiaturę wypełniającą hasła i wszystkie pola tożsamości</string>
     <string name="allow_no_password_title">Zezwalaj na brak klucza głównego</string>
     <string name="allow_no_password_summary">Umożliwia naciśnięcie przycisku \"Otwórz\", jeśli nie wybrano żadnych poświadczeń</string>
-    <string name="enable_read_only_title">Ochrona przed zapisem</string>
-    <string name="enable_read_only_summary">Domyślnie otwarte bazy danych są tylko do odczytu</string>
     <string name="enable_education_screens_title">Wskazówki edukacyjne</string>
     <string name="enable_education_screens_summary">Podświetl elementy, aby dowiedzieć się, jak działa aplikacja</string>
     <string name="reset_education_screens_title">Zresetuj wskazówki edukacyjne</string>

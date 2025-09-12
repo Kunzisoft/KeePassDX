@@ -416,7 +416,6 @@
     <string name="autofill_inline_suggestions_title">การแนะนำแบบอินไลน์</string>
     <string name="autofill_ask_to_save_data_title">ถามเพื่อบันทึกข้อมูล</string>
     <string name="autofill_block">บล็อกการกรอกอัตโนมัติ</string>
-    <string name="enable_read_only_title">ป้องกันการเขียน</string>
     <string name="reset_education_screens_title">รีเซ็ทคำแนะนำการใช้งาน</string>
     <string name="reset_education_screens_summary">แสดงคำแนะนำการใช้งานอีกครั้ง</string>
     <string name="html_text_dev_feature_contibute">โดยการ&lt;strong&gt;ร่วมแก้ไข&lt;/strong&gt;</string>
@@ -620,7 +619,6 @@
     <string name="allow_no_password_title">อนุญาตให้ไม่มีรหัสผ่านหลัก</string>
     <string name="allow_no_password_summary">อนุญาตให้แตะปุ่ม \"เปิด\" เมื่อไม่มีข้อมูลประจำตัวถูกเลือก</string>
     <string name="delete_entered_password_summary">ลบรหัสผ่านที่ป้อนแล้วหลังจากพยายามเชื่อมต่อที่ฐานข้อมูล</string>
-    <string name="enable_read_only_summary">เปิดฐานข้อมูลแบบอ่านอย่างเดียวเป็นค่าเรื่มต้น</string>
     <string name="reset_education_screens_text">คำแนะนำการใช้งานถูกรีเซ็ทแล้ว</string>
     <string name="icon_pack_choose_title">ชุดไอคอน</string>
     <string name="enable_auto_save_database_summary">บันทึกฐานข้อมูลหลังจากการกระทำที่สำคัญ(ในโหมด\"แก้ไขได้\")</string>

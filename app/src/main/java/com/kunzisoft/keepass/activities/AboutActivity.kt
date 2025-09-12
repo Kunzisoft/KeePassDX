@@ -58,7 +58,7 @@ class AboutActivity : StylishActivity() {
         var version: String
         var build: String
         try {
-            version = packageManager.getPackageInfoCompat(packageName).versionName
+            version = packageManager.getPackageInfoCompat(packageName).versionName ?: ""
             build = BuildConfig.BUILD_VERSION
         } catch (e: NameNotFoundException) {
             Log.w(javaClass.simpleName, "Unable to get the app or the build version", e)
@@ -78,9 +78,8 @@ class AboutActivity : StylishActivity() {
             movementMethod = LinkMovementMethod.getInstance()
             text = HtmlCompat.fromHtml(getString(R.string.html_about_licence, DateTime().year),
                     HtmlCompat.FROM_HTML_MODE_LEGACY)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                textDirection = View.TEXT_DIRECTION_ANY_RTL
-            }
+            textDirection = View.TEXT_DIRECTION_ANY_RTL
+            
         }
 
         findViewById<TextView>(R.id.activity_about_privacy_text).apply {

@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
-    <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
+    <string name="about_description">Android 平台 KeePass 密码管理器实现。</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加分组</string>
@@ -190,8 +190,6 @@
     <string name="other">其他</string>
     <string name="keyboard">键盘</string>
     <string name="magic_keyboard_title">魔法键盘</string>
-    <string name="enable_read_only_title">写入保护（只读模式）</string>
-    <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
     <string name="contribute">贡献</string>
     <string name="style_choose_summary">应用中使用的主题</string>

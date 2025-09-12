@@ -63,13 +63,12 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                 4f,
                 resources.displayMetrics
             ).toInt()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.marginStart = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    4f,
-                    resources.displayMetrics
-                ).toInt()
-            }
+            it.marginStart = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                4f,
+                resources.displayMetrics
+            ).toInt()
+            
         }
     }
     protected val valueView = AppCompatTextView(context).apply {
@@ -88,13 +87,11 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
                 8f,
                 resources.displayMetrics
             ).toInt()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                it.marginStart = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP,
-                    8f,
-                    resources.displayMetrics
-                ).toInt()
-            }
+            it.marginStart = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8f,
+                resources.displayMetrics
+            ).toInt()
         }
         setTextIsSelectable(true)
     }
@@ -128,9 +125,7 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             id = copyButtonId
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 it.addRule(ALIGN_PARENT_RIGHT)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it.addRule(ALIGN_PARENT_END)
-                }
+                it.addRule(ALIGN_PARENT_END)
             }
         }
         showButton.apply {
@@ -138,14 +133,14 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 if (copyButton.isVisible) {
                     it.addRule(LEFT_OF, copyButtonId)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        it.addRule(START_OF, copyButtonId)
-                    }
+                    
+                    it.addRule(START_OF, copyButtonId)
+                    
                 } else {
                     it.addRule(ALIGN_PARENT_RIGHT)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        it.addRule(ALIGN_PARENT_END)
-                    }
+                    
+                    it.addRule(ALIGN_PARENT_END)
+                    
                 }
             }
         }
@@ -153,18 +148,14 @@ open class TextFieldView @JvmOverloads constructor(context: Context,
             id = labelViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 it.addRule(LEFT_OF, showButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it.addRule(START_OF, showButtonId)
-                }
+                it.addRule(START_OF, showButtonId)
             }
         }
         valueView.apply {
             id = valueViewId
             layoutParams = (layoutParams as LayoutParams?)?.also {
                 it.addRule(LEFT_OF, showButtonId)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    it.addRule(START_OF, showButtonId)
-                }
+                it.addRule(START_OF, showButtonId)
                 it.addRule(BELOW, labelViewId)
             }
         }

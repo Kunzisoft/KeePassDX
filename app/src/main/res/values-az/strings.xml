@@ -349,7 +349,6 @@
     <string name="autofill_save_search_info_title">Axtarış məlumatlarını yadda saxla</string>
     <string name="autofill_inline_suggestions_keyboard">Avtomatik doldurma təklifləri əlavə edildi.</string>
     <string name="allow_no_password_title">Ana açar olmamasına icazə ver</string>
-    <string name="enable_read_only_summary">Məlumat bazasını standart olaraq yazma-qorumalı (dəyişməz) aç</string>
     <string name="enable_auto_save_database_title">Məlumat bazasını avtomatik olaraq yadda saxla</string>
     <string name="reset_education_screens_summary">Bütün təlim məlumatlarını yenidən göstər</string>
     <string name="reset_education_screens_text">Təlim ipuclarını sıfırlamaq</string>
@@ -572,7 +571,6 @@
     <string name="allow_no_password_summary">Əgər şəxsiyyəti təsdiq edən məlumatlar seçilməyibsə, \"Aç\" düyməsinin sıxılmasına icazə ver</string>
     <string name="delete_entered_password_title">Şifrəni sil</string>
     <string name="delete_entered_password_summary">Məlumat bazasına bağlantı cəhdindən sonra daxil edilmiş şifrəni sil</string>
-    <string name="enable_read_only_title">Yazma qorumalı</string>
     <string name="enable_auto_save_database_summary">Hər önəmli prossesdən sonra məlumat bazasını yadda saxla (\"Modifikasiya edilə bilən\" modda keçərlidir)</string>
     <string name="enable_keep_screen_on_title">Ekranı açıq saxla</string>
     <string name="enable_keep_screen_on_summary">Şifrəyə baxarkən və ya redaktə edərkən ekranı açıq saxla</string>

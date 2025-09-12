@@ -70,7 +70,6 @@ import com.kunzisoft.keepass.utils.MagikeyboardUtil
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
-import com.kunzisoft.keepass.utils.allowCreateDocumentByStorageAccessFramework
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
@@ -263,7 +262,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     GroupActivity.launch(
                         this@FileDatabaseSelectActivity,
                         database,
-                        PreferencesUtil.enableReadOnlyDatabase(this@FileDatabaseSelectActivity)
+                        false
                     )
                 }
                 ACTION_DATABASE_LOAD_TASK -> {
@@ -330,13 +329,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         // Show open and create button or special mode
         when (mSpecialMode) {
             SpecialMode.DEFAULT -> {
-                if (packageManager.allowCreateDocumentByStorageAccessFramework()) {
-                    // There is an activity which can handle this intent.
-                    createDatabaseButtonView?.visibility = View.VISIBLE
-                } else{
-                    // No Activity found that can handle this intent.
-                    createDatabaseButtonView?.visibility = View.GONE
-                }
+                createDatabaseButtonView?.visibility = View.VISIBLE
             }
             else -> {
                 // Disable create button if in selection mode or request for autofill

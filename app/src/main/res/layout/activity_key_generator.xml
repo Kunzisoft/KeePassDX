@@ -19,11 +19,12 @@
 -->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
     android:id="@+id/key_generator_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:filterTouchesWhenObscured="true">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/key_generator_coordinator"

@@ -38,7 +38,6 @@ class App : MultiDexApplication() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifecycleObserver)
 
         Stylish.load(this)
-        PRNGFixes.apply()
     }
 }
 

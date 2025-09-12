@@ -21,7 +21,7 @@
 --><resources>
     <string name="feedback">Feedback</string>
     <string name="homepage">Startpagina</string>
-    <string name="about_description">Android-implementatie van KeePass-wachtwoordmanager</string>
+    <string name="about_description">Android-implementatie van de KeePass-wachtwoordmanager.</string>
     <string name="accept">Accepteren</string>
     <string name="add_entry">Item toevoegen</string>
     <string name="add_group">Groep toevoegen</string>
@@ -230,8 +230,6 @@
     <string name="magic_keyboard_explanation_summary">Activeer een aangepast toetsenbord dat je wachtwoorden en identiteitsvelden vult</string>
     <string name="allow_no_password_title">Geen hoofdwachtwoord toestaan</string>
     <string name="allow_no_password_summary">Schakel de knop \"Openen\" in als er geen referenties zijn geselecteerd</string>
-    <string name="enable_read_only_title">Alleen-lezen</string>
-    <string name="enable_read_only_summary">Open de database standaard alleen-lezen</string>
     <string name="enable_education_screens_title">Informatieve tips</string>
     <string name="enable_education_screens_summary">Markeer elementen om te leren hoe de app werkt</string>
     <string name="reset_education_screens_title">Informatieve tips opnieuw instellen</string>

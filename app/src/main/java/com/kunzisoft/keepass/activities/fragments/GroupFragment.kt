@@ -76,9 +76,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
     private var specialMode: SpecialMode = SpecialMode.DEFAULT
 
-    private var mRecycleBinEnable: Boolean = false
-    private var mRecycleBin: Group? = null
-
     private var mRecycleViewScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -102,21 +99,14 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                 R.id.menu_sort -> {
                     context?.let { context ->
                         val sortDialogFragment: SortDialogFragment =
-                            if (mRecycleBinEnable) {
-                                SortDialogFragment.getInstance(
-                                    PreferencesUtil.getListSort(context),
-                                    PreferencesUtil.getAscendingSort(context),
-                                    PreferencesUtil.getGroupsBeforeSort(context),
+                            SortDialogFragment.getInstance(
+                                PreferencesUtil.getListSort(context),
+                                PreferencesUtil.getAscendingSort(context),
+                                PreferencesUtil.getGroupsBeforeSort(context),
+                                if (mDatabase?.isRecycleBinEnabled == true) {
                                     PreferencesUtil.getRecycleBinBottomSort(context)
-                                )
-                            } else {
-                                SortDialogFragment.getInstance(
-                                    PreferencesUtil.getListSort(context),
-                                    PreferencesUtil.getAscendingSort(context),
-                                    PreferencesUtil.getGroupsBeforeSort(context)
-                                )
-                            }
-
+                                } else null
+                            )
                         sortDialogFragment.show(childFragmentManager, "sortDialog")
                     }
                     true
@@ -165,9 +155,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        mRecycleBinEnable = database?.isRecycleBinEnabled == true
-        mRecycleBin = database?.recycleBin
-
         context?.let { context ->
             database?.let { database ->
                 mAdapter = NodesAdapter(context, database).apply {
@@ -312,6 +299,11 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
+    private fun containsRecycleBin(nodes: List<Node>): Boolean {
+        return mDatabase?.isRecycleBinEnabled == true
+                && nodes.any { it == mDatabase?.recycleBin }
+    }
+
     fun actionNodesCallback(database: ContextualDatabase,
                             nodes: List<Node>,
                             menuListener: NodesActionMenuListener?,
@@ -336,8 +328,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     // Open and Edit for a single item
                     if (nodes.size == 1) {
                         // Edition
-                        if (database.isReadOnly
-                                || (mRecycleBinEnable && nodes[0] == mRecycleBin)) {
+                        if (database.isReadOnly || containsRecycleBin(nodes)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
                     } else {
@@ -357,8 +348,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     }
 
                     // Deletion
-                    if (database.isReadOnly
-                            || (mRecycleBinEnable && nodes.any { it == mRecycleBin })) {
+                    if (database.isReadOnly || containsRecycleBin(nodes)) {
                         menu?.removeItem(R.id.menu_delete)
                     }
                 }

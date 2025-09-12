@@ -236,8 +236,6 @@
     <string name="keyboard_key_sound_title">Tuşa basıldığında ses çıkar</string>
     <string name="allow_no_password_title">Ana anahtar olmamasına izin ver</string>
     <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesine dokunmaya izin verir</string>
-    <string name="enable_read_only_title">Yazma korumalı</string>
-    <string name="enable_read_only_summary">Veri tabanını öntanımlı olarak salt okunur aç</string>
     <string name="enable_education_screens_title">Eğitim ipuçları</string>
     <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için ögeleri vurgulayın</string>
     <string name="reset_education_screens_title">Eğitici ipuçlarını sıfırla</string>

@@ -19,7 +19,7 @@
     Czech translation by Jan Vaněk
 --><resources>
     <string name="homepage">Domovská stránka</string>
-    <string name="about_description">Implementace správce hesel KeePass pro Android</string>
+    <string name="about_description">Implementace správce hesel KeePass pro Android.</string>
     <string name="accept">Přijmout</string>
     <string name="add_entry">Přidat záznam</string>
     <string name="add_group">Přidat skupinu</string>
@@ -224,8 +224,6 @@
     <string name="magic_keyboard_explanation_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky identity</string>
     <string name="allow_no_password_title">Umožnit bez hlavního klíče</string>
     <string name="allow_no_password_summary">Povolit klepnutí na \"Otevřít\", i když není vybráno žádné heslo</string>
-    <string name="enable_read_only_title">Chráněno před zápisem</string>
-    <string name="enable_read_only_summary">Ve výchozím stavu otevřít databázi pouze pro čtení</string>
     <string name="enable_education_screens_title">Vzdělávací nápovědy</string>
     <string name="enable_education_screens_summary">Zvýraznit prvky k pochopení práce s aplikací</string>
     <string name="reset_education_screens_title">Nastavit vzdělávací nápovědy do výchozího stavu</string>

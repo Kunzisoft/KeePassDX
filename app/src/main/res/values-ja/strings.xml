@@ -21,7 +21,7 @@
     <string name="contribution">貢献</string>
     <string name="feedback">フィードバック</string>
     <string name="homepage">ホームページ</string>
-    <string name="about_description">KeePass パスワード マネージャーの Android 実装</string>
+    <string name="about_description">KeePassパスワードマネージャーのAndroid実装版。</string>
     <string name="accept">承認</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="edit_entry">エントリーを編集</string>
@@ -400,8 +400,6 @@
     <string name="allow_no_password_summary">認証情報が選択されていない場合でも、[開く] ボタンのタップを許可します</string>
     <string name="delete_entered_password_title">パスワードの削除</string>
     <string name="delete_entered_password_summary">入力されたパスワードをデータベースへの接続試行後に削除します</string>
-    <string name="enable_read_only_title">書き込み禁止</string>
-    <string name="enable_read_only_summary">デフォルトでデータベースを読み取り専用として開きます</string>
     <string name="enable_auto_save_database_title">データベースの自動保存</string>
     <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（ [変更可能] モードのとき）</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
@@ -445,7 +443,7 @@
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
     <string name="html_text_buy_pro">Pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
     <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
-    <string name="html_text_donation">&lt;strong&gt;プロジェクトに貢献&lt;/strong&gt;することによって（お金、コード、翻訳など）、プロジェクトは継続して成長することができ、さらに&lt;strong&gt;テーマ&lt;/strong&gt;のアンロック手続きにも参加できるようになります。</string>
+    <string name="html_text_donation">&lt;strong&gt;プロジェクトに貢献&lt;/strong&gt;することによって &lt;i&gt;（お金、コード、翻訳など）&lt;/i&gt;、プロジェクトは継続して成長することができ、さらに&lt;strong&gt;テーマ&lt;/strong&gt;のアンロック手続きにも参加できるようになります。</string>
     <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
     <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;pro&lt;/strong&gt; バージョンを購入することによる、</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;貢献&lt;/strong&gt;による、</string>

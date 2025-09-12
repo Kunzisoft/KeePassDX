@@ -59,9 +59,9 @@ object SearchHelper {
                 && !searchInfo.containsOnlyNullValues()) {
                 // If search provide results
                 database.createVirtualGroupFromSearchInfo(
-                        searchInfo.toString(),
-                        searchInfo.isASearchByDomain(),
-                        MAX_SEARCH_ENTRY
+                        searchInfoString = searchInfo.toString(),
+                        searchInfoByDomain = searchInfo.isASearchByDomain(),
+                        max = MAX_SEARCH_ENTRY
                 )?.let { searchGroup ->
                     if (searchGroup.numberOfChildEntries > 0) {
                         searchWithoutUI = true
