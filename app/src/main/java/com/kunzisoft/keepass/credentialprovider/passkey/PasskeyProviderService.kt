@@ -50,8 +50,11 @@ import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredential
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialRequestOptions
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.view.toastError
+import java.io.IOException
 import java.time.Instant
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
@@ -218,18 +221,15 @@ class PasskeyProviderService : CredentialProviderService() {
     ) {
         Log.d(javaClass.simpleName, "onBeginCreateCredentialRequest called")
         try {
-            processCreateCredentialRequest(request)?.let { response ->
-                callback.onResult(response)
-            } ?: let {
-                callback.onError(CreateCredentialUnknownException())
-            }
+            callback.onResult(processCreateCredentialRequest(request))
         } catch (e: Exception) {
             Log.e(javaClass.simpleName, "onBeginCreateCredentialRequest error", e)
-            callback.onError(CreateCredentialUnknownException())
+            toastError(e)
+            callback.onError(CreateCredentialUnknownException(e.localizedMessage))
         }
     }
 
-    private fun processCreateCredentialRequest(request: BeginCreateCredentialRequest): BeginCreateCredentialResponse? {
+    private fun processCreateCredentialRequest(request: BeginCreateCredentialRequest): BeginCreateCredentialResponse {
         when (request) {
             is BeginCreatePublicKeyCredentialRequest -> {
                 // Request is passkey type
@@ -237,8 +237,7 @@ class PasskeyProviderService : CredentialProviderService() {
             }
         }
         // request type not supported
-        Log.w(javaClass.simpleName, "unknown type of BeginCreateCredentialRequest")
-        return null
+        throw IOException("unknown type of BeginCreateCredentialRequest")
     }
 
     private fun MutableList<CreateEntry>.addPendingIntentCreationNewEntry(
@@ -279,9 +278,7 @@ class PasskeyProviderService : CredentialProviderService() {
             searchInfo = searchInfo,
             onItemsFound = { database, items ->
                 if (database.isReadOnly) {
-                    throw CreateCredentialUnknownException(
-                        "Unable to register or overwrite a passkey in a database that is read only"
-                    )
+                    throw RegisterInReadOnlyDatabaseException()
                 } else {
                     // To create a new entry
                     createEntries.addPendingIntentCreationNewEntry(accountName, searchInfo)
@@ -312,9 +309,7 @@ class PasskeyProviderService : CredentialProviderService() {
             onItemNotFound = { database ->
                 // To create a new entry
                 if (database.isReadOnly) {
-                    throw CreateCredentialUnknownException(
-                        "Unable to register a new passkey in a database that is read only"
-                    )
+                    throw RegisterInReadOnlyDatabaseException()
                 } else {
                     createEntries.addPendingIntentCreationNewEntry(accountName, searchInfo)
                 }

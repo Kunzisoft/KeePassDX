@@ -612,7 +612,7 @@
     <string name="autofill_application_id_blocklist_summary">รายการที่บล็อกเพื่อกันไม่ให้กรอกข้อมูลในแอปอัตโนมัติ</string>
     <string name="autofill_web_domain_blocklist_summary">รายการที่บล็อกเพื่อกันไม่ให้กรอกข้อมูลในเว็บอัตโนมัติ</string>
     <string name="biometric_delete_all_key_summary">ลบกุญแจเข้ารหัสทั้งหมดที่เกี่ยวข้องกับการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="autofill_read_only_save">การบันทึกฐานข้อมูลไม่อนุญาตสำหรับฐานข้อมูลที่อ่านอย่างเดียว</string>
+    <string name="error_save_read_only">การบันทึกฐานข้อมูลไม่อนุญาตสำหรับฐานข้อมูลที่อ่านอย่างเดียว</string>
     <string name="autofill_block_restart">เปิดแอปที่แบบฟอร์มนั้นขั้นมาใหม่เพื่อใช้งานการบล็อก</string>
     <string name="autofill_inline_suggestions_keyboard">เพื่มการแนะนำการกรอกอัตโนมัติ</string>
     <string name="allow_no_password_title">อนุญาตให้ไม่มีรหัสผ่านหลัก</string>

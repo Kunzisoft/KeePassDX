@@ -472,7 +472,7 @@
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>
     <string name="show_uuid_title">UUID を表示</string>
     <string name="show_uuid_summary">エントリーやグループにリンクされた UUID を表示します</string>
-    <string name="autofill_read_only_save">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
+    <string name="error_save_read_only">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
     <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>

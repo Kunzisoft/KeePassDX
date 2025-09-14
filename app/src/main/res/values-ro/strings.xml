@@ -661,7 +661,7 @@
     <string name="autofill_inline_suggestions_title">Sugestii în linie</string>
     <string name="autofill_ask_to_save_data_summary">Solicitați salvarea datelor atunci când se finalizează completarea unui formular</string>
     <string name="autofill_block_restart">Reporniți aplicația care conține formularul pentru a activa blocarea.</string>
-    <string name="autofill_read_only_save">Salvarea datelor nu este permisă pentru o bază de date deschisă ca fiind doar pentru citire.</string>
+    <string name="error_save_read_only">Salvarea datelor nu este permisă pentru o bază de date deschisă ca fiind doar pentru citire.</string>
     <string name="education_validate_entry_summary">Nu uitați să validați datele introduse și să salvați baza de date.
 \n
 \nDacă este activată o blocare automată și uitați că ați făcut o modificare, riscați să vă pierdeți datele.</string>

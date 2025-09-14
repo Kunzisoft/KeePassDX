@@ -41,12 +41,14 @@ import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
 import com.kunzisoft.keepass.credentialprovider.autofill.CompatInlineSuggestionsRequest
 import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.view.toastError
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
@@ -236,7 +238,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
     }
 
     private fun showReadOnlySaveMessage() {
-        Toast.makeText(this.applicationContext, R.string.autofill_read_only_save, Toast.LENGTH_LONG).show()
+        toastError(RegisterInReadOnlyDatabaseException())
     }
 
     companion object {

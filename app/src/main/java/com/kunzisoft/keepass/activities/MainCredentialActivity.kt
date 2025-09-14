@@ -576,9 +576,9 @@ class MainCredentialActivity : DatabaseModeActivity() {
                 mSpecialMode == SpecialMode.SAVE
                 || mSpecialMode == SpecialMode.REGISTRATION)
         ) {
-            Log.e(TAG, getString(R.string.autofill_read_only_save))
+            Log.e(TAG, getString(R.string.error_save_read_only))
             Snackbar.make(coordinatorLayout,
-                    R.string.autofill_read_only_save,
+                    R.string.error_save_read_only,
                     Snackbar.LENGTH_LONG).asError().show()
         } else {
             databaseFileUri?.let { databaseUri ->

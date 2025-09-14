@@ -564,7 +564,7 @@
     <string name="autofill_web_domain_blocklist_summary">Tiltólista, amely megakadályozza a webes domainek automatikus kitöltését</string>
     <string name="autofill_block">Automatikus kitöltés letiltása</string>
     <string name="autofill_block_restart">Indítsa újra az űrlapot tartalmazó alkalmazást a tiltás aktiválásához.</string>
-    <string name="autofill_read_only_save">Az adatmentés nem engedélyezett, mert az adatbázis írásvédettként van megnyitva.</string>
+    <string name="error_save_read_only">Az adatmentés nem engedélyezett, mert az adatbázis írásvédettként van megnyitva.</string>
     <string name="autofill_inline_suggestions_keyboard">Automatikus kitöltési javaslatok hozzáadva.</string>
     <string name="education_add_attachment_summary">Töltsön fel egy mellékletet a bejegyzéséhez, hogy mentse a fontos külső adatokat.</string>
     <string name="download_canceled">Megszakítva!</string>

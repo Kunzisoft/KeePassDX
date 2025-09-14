@@ -303,7 +303,7 @@
     <string name="autofill_save_search_info_summary">Pokúste sa uložiť informácie o vyhľadávaní pri ručnom výbere pre jednoduchšie budúce použitie</string>
     <string name="autofill_ask_to_save_data_title">Požiadajte o uloženie údajov</string>
     <string name="autofill_ask_to_save_data_summary">Po vyplnení formulára požiadajte o uloženie údajov</string>
-    <string name="autofill_read_only_save">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
+    <string name="error_save_read_only">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
     <string name="autofill_inline_suggestions_keyboard">Boli pridané návrhy automatického dopĺňania.</string>
     <string name="education_new_node_title">Pridajte položky do databázy</string>
     <string name="education_device_unlock_title">Odomykanie databázy zariadenia</string>

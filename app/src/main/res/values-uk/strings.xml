@@ -464,7 +464,7 @@
     <string name="database_data_remove_unlinked_attachments_summary">Вилучає вкладення, що містяться в базі даних, але не пов’язані з записом</string>
     <string name="show_uuid_summary">Показ пов\'язаного з записом чи групою UUID</string>
     <string name="show_uuid_title">Показувати UUID</string>
-    <string name="autofill_read_only_save">Збереження даних заборонено для бази даних, відкритої лише для читання.</string>
+    <string name="error_save_read_only">Збереження даних заборонено для бази даних, відкритої лише для читання.</string>
     <string name="autofill_ask_to_save_data_summary">Запитувати зберігати дані після заповнення форми</string>
     <string name="autofill_ask_to_save_data_title">Запит збереження даних</string>
     <string name="autofill_save_search_info_summary">Намагатися зберегти подробиці пошуку під час вибору запису вручну для простішого користування в подальшому</string>

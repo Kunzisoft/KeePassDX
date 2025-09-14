@@ -84,6 +84,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
@@ -116,6 +117,7 @@ import com.kunzisoft.keepass.view.applyWindowInsets
 import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
+import com.kunzisoft.keepass.view.toastError
 import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
@@ -1767,12 +1769,7 @@ class GroupActivity : DatabaseLockActivity(),
                             )
                             onLaunchActivitySpecialMode()
                         } else {
-                            Toast.makeText(
-                                activity.applicationContext,
-                                R.string.autofill_read_only_save,
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
+                            activity.toastError(RegisterInReadOnlyDatabaseException())
                             onCancelSpecialMode()
                         }
                     }
@@ -1884,10 +1881,7 @@ class GroupActivity : DatabaseLockActivity(),
                             }
                         )
                     } else {
-                        Toast.makeText(activity.applicationContext,
-                                R.string.autofill_read_only_save,
-                                Toast.LENGTH_LONG)
-                                .show()
+                        activity.toastError(RegisterInReadOnlyDatabaseException())
                         onCancelSpecialMode()
                     }
                 },
@@ -1949,10 +1943,7 @@ class GroupActivity : DatabaseLockActivity(),
                         )
                         onLaunchActivitySpecialMode()
                     } else {
-                        Toast.makeText(activity.applicationContext,
-                            R.string.autofill_read_only_save,
-                            Toast.LENGTH_LONG)
-                            .show()
+                        activity.toastError(RegisterInReadOnlyDatabaseException())
                         onCancelSpecialMode()
                     }
                 }

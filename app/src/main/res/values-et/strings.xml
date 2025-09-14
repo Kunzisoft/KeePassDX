@@ -528,7 +528,7 @@
     <string name="autofill_application_id_blocklist_title">Keelatud rakenduste loend</string>
     <string name="autofill_block_restart">Keelamise jõustamiseks käivita antud sisendvormiga rakendus uuesti.</string>
     <string name="autofill_inline_suggestions_keyboard">Automaattäite soovitused on lisatud.</string>
-    <string name="autofill_read_only_save">Kui andmebaas on avatud ainult lugemiseks, siis andmete salvestamine pole võimalik.</string>
+    <string name="error_save_read_only">Kui andmebaas on avatud ainult lugemiseks, siis andmete salvestamine pole võimalik.</string>
     <string name="delete_entered_password_summary">Kustutab salasõna, mis oli kasutusel andmebaasiga ühenduse loomise ajal</string>
     <string name="enable_screenshot_mode_summary">Luba teistel rakendusel teha sellest rakendusest ekraanitõmmist või salvestada tema ekraanivaadet</string>
     <string name="autofill_close_database_title">Sulge andmebaas</string>

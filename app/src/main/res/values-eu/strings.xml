@@ -273,7 +273,7 @@
     <string name="autofill_inline_suggestions_title">Lerroko iradokizuna</string>
     <string name="autofill_manual_selection_title">Eskuzko hautatzea</string>
     <string name="autofill_inline_suggestions_summary">Betetze automatikorako gomendioak erakusten saiatzen da teklatu bateragarri baten bidez</string>
-    <string name="autofill_read_only_save">Ezin dira datuak gorde irakurketarako soilik irekitako datu-base batean.</string>
+    <string name="error_save_read_only">Ezin dira datuak gorde irakurketarako soilik irekitako datu-base batean.</string>
     <string name="autofill_block_restart">Berrabiarazi formularioa duen aplikazioa blokeoa aktibatzeko.</string>
     <string name="delete_entered_password_title">Ezabatu pasahitza</string>
     <string name="allow_no_password_summary">Baimendu \"Ireki\" botoia sakatzea kredentzialak hautatu gabe</string>

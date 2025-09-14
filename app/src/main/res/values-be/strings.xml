@@ -549,7 +549,7 @@
     <string name="autofill_web_domain_blocklist_summary">Чорны спіс, які перашкаджае аўтазапаўненню вэб-даменаў</string>
     <string name="autofill_block">Заблакаваць аўтазапаўненне</string>
     <string name="autofill_block_restart">Перазапусціце праграму, якая змяшчае форму, каб актываваць блакаванне.</string>
-    <string name="autofill_read_only_save">Захаванне дадзеных недапушчальна для базы дадзеных, адкрытай толькі для чытання.</string>
+    <string name="error_save_read_only">Захаванне дадзеных недапушчальна для базы дадзеных, адкрытай толькі для чытання.</string>
     <string name="autofill_inline_suggestions_keyboard">Прапановы аўтазапаўнення дададзены.</string>
     <string name="allow_no_password_title">Дазволіць без галоўнага ключа</string>
     <string name="allow_no_password_summary">Дазваляе націснуць кнопку Адкрыць, калі не выбраны ўліковыя дадзеныя</string>

@@ -30,12 +30,14 @@ import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.AppUtil
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import com.kunzisoft.keepass.utils.getParcelableCompat
+import com.kunzisoft.keepass.view.toastError
 
 /**
  * Activity to search or select entry in database,
@@ -138,10 +140,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             false
                         )
                     } else {
-                        Toast.makeText(applicationContext,
-                                R.string.autofill_read_only_save,
-                                Toast.LENGTH_LONG)
-                                .show()
+                        toastError(RegisterInReadOnlyDatabaseException())
                     }
                 } else if (searchShareForMagikeyboard) {
                     MagikeyboardService.performSelection(
@@ -182,10 +181,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             false
                         )
                     } else {
-                        Toast.makeText(applicationContext,
-                                R.string.autofill_read_only_save,
-                                Toast.LENGTH_LONG)
-                                .show()
+                        toastError(RegisterInReadOnlyDatabaseException())
                     }
                 } else if (searchShareForMagikeyboard) {
                     GroupActivity.launchForKeyboardSelectionResult(

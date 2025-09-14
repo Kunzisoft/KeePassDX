@@ -466,7 +466,7 @@
     <string name="database_data_remove_unlinked_attachments_summary">Verwijdert bijlagen die in de database staan, maar niet aan een item zijn gekoppeld</string>
     <string name="show_uuid_summary">Toont de UUID die is gekoppeld aan een item of een groep</string>
     <string name="show_uuid_title">UUID tonen</string>
-    <string name="autofill_read_only_save">Het opslaan van gegevens is niet toegestaan voor een database die is geopend als alleen-lezen.</string>
+    <string name="error_save_read_only">Het opslaan van gegevens is niet toegestaan voor een database die is geopend als alleen-lezen.</string>
     <string name="autofill_ask_to_save_data_summary">Vraag om gegevens op te slaan wanneer het invullen van een formulier is voltooid</string>
     <string name="autofill_ask_to_save_data_title">Vragen om gegevens op te slaan</string>
     <string name="autofill_save_search_info_summary">Probeer zoekinformatie op te slaan bij het maken van een handmatige invoerselectie voor eenvoudiger toekomstig gebruik</string>

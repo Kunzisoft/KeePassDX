@@ -427,7 +427,7 @@
     <string name="autofill_save_search_info_summary">Prøv å lagre søkeinformasjon når du velger manuell inntasting for enklere fremtidig bruk</string>
     <string name="autofill_block">Blokker autofyll</string>
     <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
-    <string name="autofill_read_only_save">Datalagring er ikke tillatt for en database som er skrivebeskyttet.</string>
+    <string name="error_save_read_only">Datalagring er ikke tillatt for en database som er skrivebeskyttet.</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyll er lagt til.</string>
     <string name="education_device_unlock_summary">Koble passordet ditt til den skannede biometriske eller enhetslegitimasjonen for å raskt låse opp databasen din.</string>
     <string name="education_setup_OTP_title">Sett opp OTP</string>

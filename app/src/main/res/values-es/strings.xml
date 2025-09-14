@@ -473,7 +473,7 @@
     <string name="education_setup_OTP_title">Establecer contraseña de un solo uso</string>
     <string name="education_device_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
     <string name="education_device_unlock_title">Desbloqueo de la base de datos de los dispositivos</string>
-    <string name="autofill_read_only_save">No se permite guardar datos en una base de datos abierta como de solo lectura.</string>
+    <string name="error_save_read_only">No se permite guardar datos en una base de datos abierta como de solo lectura.</string>
     <string name="autofill_block_restart">Reinicia la aplicación que contiene el formulario para activar el bloqueo.</string>
     <string name="autofill_web_domain_blocklist_summary">Lista de dominios web en los que se impide el autocompletado</string>
     <string name="autofill_web_domain_blocklist_title">Lista de bloqueo de dominios web</string>

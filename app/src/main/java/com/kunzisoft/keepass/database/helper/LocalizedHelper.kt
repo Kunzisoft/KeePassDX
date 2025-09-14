@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.database.element.template.TemplateField
 import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.CorruptedDatabaseException
-import com.kunzisoft.keepass.database.exception.DatabaseException
 import com.kunzisoft.keepass.database.exception.DatabaseInputException
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -37,10 +36,12 @@ import com.kunzisoft.keepass.database.exception.HardwareKeyDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidAlgorithmDatabaseException
 import com.kunzisoft.keepass.database.exception.InvalidCredentialsDatabaseException
 import com.kunzisoft.keepass.database.exception.KDFMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.LocalizedException
 import com.kunzisoft.keepass.database.exception.MergeDatabaseKDBException
 import com.kunzisoft.keepass.database.exception.MoveEntryDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 import com.kunzisoft.keepass.database.exception.NoMemoryDatabaseException
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.exception.UnknownDatabaseLocationException
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
@@ -52,12 +53,13 @@ import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USERNAME
 import com.kunzisoft.keepass.model.PasskeyEntryFields.FIELD_USER_HANDLE
 import com.kunzisoft.keepass.model.PasskeyEntryFields.PASSKEY_FIELD
 
-fun DatabaseException.getLocalizedMessage(resources: Resources): String? =
+fun LocalizedException.getLocalizedMessage(resources: Resources): String? =
     when (this) {
         is FileNotFoundDatabaseException -> resources.getString(R.string.file_not_found_content)
         is CorruptedDatabaseException -> resources.getString(R.string.corrupted_file)
         is InvalidAlgorithmDatabaseException -> resources.getString(R.string.invalid_algorithm)
         is UnknownDatabaseLocationException -> resources.getString(R.string.error_location_unknown)
+        is RegisterInReadOnlyDatabaseException -> resources.getString(R.string.error_save_read_only)
         is HardwareKeyDatabaseException -> resources.getString(R.string.error_hardware_key_unsupported)
         is EmptyKeyDatabaseException -> resources.getString(R.string.error_empty_key)
         is SignatureDatabaseException -> resources.getString(R.string.invalid_db_sig)

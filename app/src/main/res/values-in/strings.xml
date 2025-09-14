@@ -549,7 +549,7 @@
     <string name="keyboard_previous_fill_in_summary">Secara otomatis beralih kembali ke keyboard sebelumnya setelah menjalankan \"Tindakan tombol otomatis\"</string>
     <string name="keyboard_previous_database_credentials_summary">Secara otomatis beralih kembali ke keyboard sebelumnya di layar kredensial basis data</string>
     <string name="autofill_manual_selection_summary">Tampilkan opsi untuk memungkinkan pengguna memilih entri basis data</string>
-    <string name="autofill_read_only_save">Penyimpanan data tidak diperbolehkan untuk basis data yang dibuka sebagai baca-saja.</string>
+    <string name="error_save_read_only">Penyimpanan data tidak diperbolehkan untuk basis data yang dibuka sebagai baca-saja.</string>
     <string name="allow_no_password_title">Izinkan tidak ada kunci utama</string>
     <string name="allow_no_password_summary">Memungkinkan mengetuk tombol \"Buka\" jika tidak ada kredensial yang dipilih</string>
     <string name="delete_entered_password_summary">Menghapus kata sandi yang dimasukkan setelah upaya koneksi ke basis data</string>

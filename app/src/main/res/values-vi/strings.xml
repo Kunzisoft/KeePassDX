@@ -561,7 +561,7 @@
     <string name="autofill_web_domain_blocklist_summary">Danh sách chặn ngăn việc tự động điền tên miền web</string>
     <string name="autofill_block">Chặn tính năng tự động điền</string>
     <string name="autofill_block_restart">Khởi động lại ứng dụng chứa biểu mẫu để kích hoạt tính năng chặn.</string>
-    <string name="autofill_read_only_save">Không cho phép lưu dữ liệu đối với cơ sở dữ liệu được mở ở dạng chỉ đọc.</string>
+    <string name="error_save_read_only">Không cho phép lưu dữ liệu đối với cơ sở dữ liệu được mở ở dạng chỉ đọc.</string>
     <string name="autofill_inline_suggestions_keyboard">Đã thêm đề xuất tự động điền.</string>
     <string name="allow_no_password_title">Không cho phép khóa chính</string>
     <string name="allow_no_password_summary">Cho phép nhấn vào nút \"Mở\" nếu không có thông tin xác thực nào được chọn</string>

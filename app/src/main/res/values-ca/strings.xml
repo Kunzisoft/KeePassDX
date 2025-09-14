@@ -643,7 +643,7 @@
     <string name="keyboard_previous_lock_summary">Torna automàticament al teclat anterior després de bloquejar la base de dades</string>
     <string name="select_entry">Selecciona una entrada</string>
     <string name="autofill_ask_to_save_data_summary">Demana desar les dades quan es completi l\'emplenament d\'un formulari</string>
-    <string name="autofill_read_only_save">No es permet desar dades en una base de dades oberta en mode només de lectura.</string>
+    <string name="error_save_read_only">No es permet desar dades en una base de dades oberta en mode només de lectura.</string>
     <string name="reset_education_screens_summary">Torna a mostrar tota la informació educativa</string>
     <string name="reset_education_screens_text">Reinicialitza els consells educatius</string>
     <string name="education_select_database_title">Obre una base de dades existent</string>

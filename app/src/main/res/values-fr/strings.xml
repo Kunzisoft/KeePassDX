@@ -481,7 +481,7 @@
     <string name="data">Données</string>
     <string name="show_uuid_summary">Affiche l’UUID lié à une entrée ou un groupe</string>
     <string name="show_uuid_title">Afficher l’UUID</string>
-    <string name="autofill_read_only_save">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
+    <string name="error_save_read_only">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
     <string name="autofill_ask_to_save_data_summary">Demande de sauvegarde des données à la fin du remplissage d\'un formulaire</string>
     <string name="autofill_ask_to_save_data_title">Demander à enregistrer des données</string>
     <string name="autofill_save_search_info_summary">Essaye d’enregistrer les informations de recherche lors de la sélection manuelle d’une entrée pour faciliter les utilisations futures</string>

@@ -566,7 +566,7 @@
     <string name="autofill_web_domain_blocklist_summary">Veb domenlərin avtomatik olaraq doldurulmasını əngəlləyən bloklama siyahısı</string>
     <string name="autofill_block">Avtomatik doldurmanı blokla</string>
     <string name="autofill_block_restart">Bloklamanı aktiv etmək üçün anketin daxil olduğu tətbiqi yenidən başladın.</string>
-    <string name="autofill_read_only_save">Yazma-qorumalı (dəyişməz) olaraq açılan məlumat bazasında yeni məlumatları yadda saxlamağa icazə verilmir.</string>
+    <string name="error_save_read_only">Yazma-qorumalı (dəyişməz) olaraq açılan məlumat bazasında yeni məlumatları yadda saxlamağa icazə verilmir.</string>
     <string name="allow_no_password_summary">Əgər şəxsiyyəti təsdiq edən məlumatlar seçilməyibsə, \"Aç\" düyməsinin sıxılmasına icazə ver</string>
     <string name="delete_entered_password_title">Şifrəni sil</string>
     <string name="delete_entered_password_summary">Məlumat bazasına bağlantı cəhdindən sonra daxil edilmiş şifrəni sil</string>

@@ -505,7 +505,7 @@
     <string name="upload_attachment">העלה %1$s</string>
     <string name="download_canceled">בוטל!</string>
     <string name="unit_byte">B</string>
-    <string name="autofill_read_only_save">שמירת נתונים אינה מורשת עבור מסד נתונים שנפתח לקריאה בלבד.</string>
+    <string name="error_save_read_only">שמירת נתונים אינה מורשת עבור מסד נתונים שנפתח לקריאה בלבד.</string>
     <string name="enter">Enter</string>
     <string name="autofill_block">חסום מילוי אוטומטי</string>
     <string name="warning_replace_file">העלאת קובץ זה תחליף את הקובץ הקיים.</string>

@@ -467,7 +467,7 @@
     <string name="content_description_credentials_information">Info credenziali</string>
     <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce o a un gruppo</string>
     <string name="show_uuid_title">Mostra UUID</string>
-    <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
+    <string name="error_save_read_only">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
     <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando l\'immissione dei dati in un form viene completata</string>
     <string name="autofill_ask_to_save_data_title">Chiedi di salvare i dati</string>
     <string name="autofill_save_search_info_summary">Provare a salvare le informazioni di ricerca quando viene selezionato manualmente un elemento per facilitarne gli utilizzi futuri</string>

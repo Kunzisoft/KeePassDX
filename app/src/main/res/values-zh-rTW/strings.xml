@@ -60,7 +60,7 @@
     <string name="autofill_manual_selection_summary">顯示選項讓用戶選擇資料庫條目</string>
     <string name="autofill_manual_selection_title">手動選擇</string>
     <string name="autofill_preference_title">自動填入設定</string>
-    <string name="autofill_read_only_save">以唯讀方式開啟的資料庫不允許保存資料。</string>
+    <string name="error_save_read_only">以唯讀方式開啟的資料庫不允許保存資料。</string>
     <string name="autofill_save_search_info_summary">進行手動輸入選擇時嘗試儲存搜尋信息，以便將來使用</string>
     <string name="autofill_save_search_info_title">保存搜尋資訊</string>
     <string name="autofill_select_entry">選擇項目…</string>

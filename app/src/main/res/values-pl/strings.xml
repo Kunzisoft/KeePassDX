@@ -463,7 +463,7 @@
     <string name="content_description_credentials_information">Informacje o poświadczeniach</string>
     <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem lub grupą</string>
     <string name="show_uuid_title">Pokaż UUID</string>
-    <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej tylko do odczytu.</string>
+    <string name="error_save_read_only">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej tylko do odczytu.</string>
     <string name="autofill_ask_to_save_data_summary">Pytaj o zapisanie danych po zakończeniu wypełniania formularza</string>
     <string name="autofill_ask_to_save_data_title">Pytaj o zapisanie danych</string>
     <string name="autofill_save_search_info_summary">Staraj się zapisywać informacje wyszukiwania podczas dokonywania ręcznego wyboru wpisu, aby ułatwić sobie przyszłe użycie</string>

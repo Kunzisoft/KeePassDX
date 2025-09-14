@@ -461,7 +461,7 @@
     <string name="autofill_save_search_info_summary">Pokušaj spremiti podatke prilikom odabira ručnog unosa za jednostavniju buduću upotrebu</string>
     <string name="notification">Obavijest</string>
     <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka.</string>
-    <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
+    <string name="error_save_read_only">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
     <string name="show_uuid_summary">Prikazuje UUID povezan s unosom ili grupom</string>
     <string name="show_uuid_title">Prikaži UUID</string>
     <string name="autofill_ask_to_save_data_summary">Zatraži spremanje podataka kad se obrazac ispuni</string>

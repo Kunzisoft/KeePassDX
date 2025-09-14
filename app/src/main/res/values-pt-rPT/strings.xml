@@ -503,7 +503,7 @@
     <string name="education_device_unlock_summary">Ligue a sua palavra-passe às suas credenciais biométricas ou do dispositivo para desbloquear rapidamente a sua base de dados.</string>
     <string name="education_device_unlock_title">Desbloqueio da base de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Adicionadas sugestões de preenchimento automático.</string>
-    <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
+    <string name="error_save_read_only">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Pedir para guardar dados</string>
     <string name="autofill_save_search_info_summary">Tentar guardar as informações de pesquisas ao fazer uma seleção de entrada manual para facilitar utilizações posteriores</string>

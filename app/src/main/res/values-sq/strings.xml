@@ -607,7 +607,7 @@
     <string name="keyboard_previous_database_credentials_summary">Kthehu automatikisht te tastiera e mëparshme, te skena e kredencialeve për bazën e të dhënave</string>
     <string name="autofill_manual_selection_summary">Shfaq mundësi për ta lënë përdoruesin të përzgjedhë zë baze të dhënash</string>
     <string name="autofill_save_search_info_summary">Provo të ruash informacion, kur bëhet një përzgjedhje dorazi e zërit, për përdorim më të kollajtë në të ardhmen</string>
-    <string name="autofill_read_only_save">S’lejohet ruajtje të dhënash për një bazë të dhënash të hapur vetëm-për-lexim.</string>
+    <string name="error_save_read_only">S’lejohet ruajtje të dhënash për një bazë të dhënash të hapur vetëm-për-lexim.</string>
     <string name="enable_auto_save_database_summary">Ruaje bazën e të dhënave pas çdo veprimi të rëndësishëm (nën mënyrën “E ndryshueshme”)</string>
     <string name="enable_keep_screen_on_summary">Mbaje hapur ekranin, kur shihet ose përpunohet një zë</string>
     <string name="enable_screenshot_mode_summary">Lejo aplikacione palësh të treta të regjistrojnë, ose bëjnë foto ekrani të aplikacionit</string>

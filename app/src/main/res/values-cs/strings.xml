@@ -465,7 +465,7 @@
     <string name="education_add_attachment_summary">Nahrát přílohu k záznamu pro uložení důležitých externích dat.</string>
     <string name="show_uuid_summary">Ukáže UUID propojené se záznamem nebo skupinou</string>
     <string name="show_uuid_title">Ukázat UUID</string>
-    <string name="autofill_read_only_save">Uložení dat není povoleno, je-li databáze v režimu pouze pro čtení.</string>
+    <string name="error_save_read_only">Uložení dat není povoleno, je-li databáze v režimu pouze pro čtení.</string>
     <string name="autofill_ask_to_save_data_summary">Po dokončení vyplnění formuláře se tázat na uložení dat</string>
     <string name="autofill_ask_to_save_data_title">Tázat se před uložením</string>
     <string name="autofill_save_search_info_summary">Pokusit se uložit údaje hledání pro příští použití, vybíráte-li záznam manuálně</string>

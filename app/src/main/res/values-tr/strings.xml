@@ -458,7 +458,7 @@
     <string name="database_data_remove_unlinked_attachments_summary">Veri tabanında bulunan ancak bir girdiye bağlı olmayan ekleri kaldırır</string>
     <string name="show_uuid_summary">Bir girdiye veya gruba bağlı UUID\'yi görüntüler</string>
     <string name="show_uuid_title">UUID\'yi göster</string>
-    <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
+    <string name="error_save_read_only">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
     <string name="autofill_ask_to_save_data_summary">Form doldurma işlemi tamamlandığında verileri kaydetmek için sor</string>
     <string name="autofill_ask_to_save_data_title">Verileri kaydetmek için sor</string>
     <string name="autofill_save_search_info_summary">Gelecekteki daha kolay kullanımlar için el ile giriş seçimi yaparken arama bilgilerini kaydetmeyi deneyin</string>

@@ -571,7 +571,7 @@
     <string name="error_start_database_action">Възникна грешка при извършване на действие с хранилището.</string>
     <string name="keyboard_entry_timeout_title">Време за изчакване</string>
     <string name="autofill_application_id_blocklist_title">Черен списък на приложения</string>
-    <string name="autofill_read_only_save">В хранилище, отворено само за четене не могат да бъдат запазвани промени.</string>
+    <string name="error_save_read_only">В хранилище, отворено само за четене не могат да бъдат запазвани промени.</string>
     <string name="error_move_group_here">Група не може да бъде преместена тук.</string>
     <string name="keyboard_notification_entry_clear_close_title">Изчистване при затваряне</string>
     <string name="autofill_save_search_info_summary">При ръчен избор на запис прави опит за запазване на информация от търсене за по-лесно бъдещо използване</string>

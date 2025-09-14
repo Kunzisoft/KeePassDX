@@ -451,7 +451,7 @@
     <string name="show_uuid_title">Vis UUID</string>
     <string name="upload_attachment">Overfør %1$s</string>
     <string name="education_add_attachment_title">Vedhæft fil</string>
-    <string name="autofill_read_only_save">Det er ikke tilladt at gemme data i en database, der er åbnet som skrivebeskyttet.</string>
+    <string name="error_save_read_only">Det er ikke tilladt at gemme data i en database, der er åbnet som skrivebeskyttet.</string>
     <string name="autofill_ask_to_save_data_summary">Spørg om du vil gemme data, når en formular er udfyldt</string>
     <string name="autofill_ask_to_save_data_title">Spørg om du vil gemme data</string>
     <string name="autofill_save_search_info_title">Gem søgeoplysninger</string>
