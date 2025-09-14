@@ -58,12 +58,17 @@ object Signature {
 
     const val ED_DSA_ALGORITHM: Long = -8
 
+    private const val BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
+    private const val BEGIN_PRIVATE_KEY_LINE_BREAK = "$BEGIN_PRIVATE_KEY\n"
+    private const val END_PRIVATE_KEY = "-----END PRIVATE KEY-----"
+    private const val  END_PRIVATE_KEY_LINE_BREAK = "\n$END_PRIVATE_KEY"
+
     init {
         Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
         Security.addProvider(BouncyCastleProvider())
     }
 
-    fun sign(privateKeyPem: String, message: ByteArray): ByteArray? {
+    fun sign(privateKeyPem: String, message: ByteArray): ByteArray {
         val privateKey = createPrivateKey(privateKeyPem)
         val algorithmKey = privateKey.algorithm
         val algorithmSignature = when (algorithmKey) {
@@ -71,22 +76,30 @@ object Signature {
             "ECDSA" -> "SHA256withECDSA"
             "RSA" -> "SHA256withRSA"
             "Ed25519" -> "Ed25519"
-            else -> null
+            else -> throw SecurityException("$algorithmKey algorithm is unknown")
         }
-        if (algorithmSignature == null) {
-            Log.e(this::class.java.simpleName, "sign: the algorithm $algorithmKey is unknown")
-            return null
-        }
-        val sig = Signature.getInstance(algorithmSignature, BouncyCastleProvider.PROVIDER_NAME)
+        val sig = Signature.getInstance(
+            algorithmSignature,
+            BouncyCastleProvider.PROVIDER_NAME
+        )
         sig.initSign(privateKey)
         sig.update(message)
         return sig.sign()
     }
 
     fun createPrivateKey(privateKeyPem: String): PrivateKey {
-        val targetReader = StringReader(privateKeyPem)
+        var privateKeyString = privateKeyPem
+        if (privateKeyPem.startsWith(BEGIN_PRIVATE_KEY_LINE_BREAK).not()) {
+            privateKeyString = privateKeyString.removePrefix(BEGIN_PRIVATE_KEY)
+            privateKeyString = "$BEGIN_PRIVATE_KEY_LINE_BREAK$privateKeyString"
+        }
+        if (privateKeyPem.endsWith(END_PRIVATE_KEY_LINE_BREAK).not()) {
+            privateKeyString = privateKeyString.removeSuffix(END_PRIVATE_KEY)
+            privateKeyString += END_PRIVATE_KEY_LINE_BREAK
+        }
+        val targetReader = StringReader(privateKeyString)
         val pemParser = PEMParser(targetReader)
-        val privateKeyInfo = pemParser.readObject() as PrivateKeyInfo
+        val privateKeyInfo = pemParser.readObject() as? PrivateKeyInfo?
         val privateKey = JcaPEMKeyConverter().getPrivateKey(privateKeyInfo)
         pemParser.close()
         targetReader.close()

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.credentialprovider.passkey.data
 
+import android.util.Log
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import com.kunzisoft.encrypt.Signature
 import com.kunzisoft.encrypt.Base64Helper.Companion.b64Encode
@@ -46,8 +47,12 @@ class AuthenticatorAssertionResponse(
     private var signature: ByteArray = byteArrayOf()
 
     init {
-        signature = Signature.sign(privateKey, dataToSign())
-            ?: throw GetCredentialUnknownException("signing failed")
+        try {
+            signature = Signature.sign(privateKey, dataToSign())
+        } catch (e: Exception) {
+            Log.e(this::class.java.simpleName, "Unable to sign: ${e.message}")
+            throw GetCredentialUnknownException("Signing failed")
+        }
     }
 
     private fun dataToSign(): ByteArray {
