@@ -424,9 +424,12 @@
     <string name="passkeys_preference_title">Passkeys settings</string>
     <string name="passkeys_privileged_apps_title">Privileged apps</string>
     <string name="passkeys_privileged_apps_summary">Manage browsers in the custom list of privileged apps</string>
-    <string name="passkeys_privileged_apps_explanation">WARNING : A privileged app acts as a gateway to retrieve the origin of an authentication. Ensure its legitimacy to avoid security issues.</string>
+    <string name="passkeys_privileged_apps_explanation">WARNING: A privileged app acts as a gateway to retrieve the origin of an authentication. Ensure its legitimacy to avoid security issues.</string>
     <string name="passkeys_privileged_apps_ask_title">App not recognized</string>
-    <string name="passkeys_privileged_apps_ask_message">%1$s attempts to perform a Passkey action.\n\nWould you like to add it to the list of privileged apps?</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s attempts to perform a Passkey action.\n\nAdd it to the list of privileged apps?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Signature missing</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">WARNING: The passkey was created from another client or the signature has been deleted. Ensure the app you want to authenticate is part of the same service and is legitimate to avoid security issues.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s with an unknown signature attempts to authenticate with an existing passkey.\n\nAdd app signature to passkey entry?</string>
     <string name="passkeys_backup_eligibility_title">Backup Eligibility</string>
     <string name="passkeys_backup_eligibility_summary">Determine at creation time whether the public key credential source is allowed to be backed up</string>
     <string name="passkeys_backup_state_title">Backup State</string>

@@ -53,6 +53,28 @@ object EntrySelectionHelper {
     private const val KEY_REGISTER_INFO = "com.kunzisoft.keepass.extra.REGISTER_INFO"
 
     /**
+     * Finish the activity by passing the result code and by locking the database if necessary
+     */
+    fun Activity.setActivityResult(
+        lockDatabase: Boolean = false,
+        resultCode: Int,
+        data: Intent? = null,
+    ) {
+        when (resultCode) {
+            Activity.RESULT_OK ->
+                this.setResult(resultCode, data)
+            Activity.RESULT_CANCELED ->
+                this.setResult(resultCode)
+        }
+        this.finish()
+
+        if (lockDatabase && PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
+            // Close the database
+            this.sendBroadcast(Intent(LOCK_ACTION))
+        }
+    }
+
+    /**
      * Utility method to build a registerForActivityResult,
      * Used recursively, close each activity with return data
      */
@@ -63,19 +85,11 @@ object EntrySelectionHelper {
         return this.registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) {
-            val resultCode = it.resultCode
-            if (resultCode == Activity.RESULT_OK) {
-                this.setResult(resultCode, dataTransformation(it.data))
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                this.setResult(Activity.RESULT_CANCELED)
-            }
-            this.finish()
-
-            if (lockDatabase && PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
-                // Close the database
-                this.sendBroadcast(Intent(LOCK_ACTION))
-            }
+            setActivityResult(
+                lockDatabase,
+                it.resultCode,
+                dataTransformation(it.data)
+            )
         }
     }
 

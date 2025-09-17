@@ -27,12 +27,16 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
@@ -40,8 +44,10 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addTypeMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialCreationParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.data.PublicKeyCredentialUsageParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAppOrigin
@@ -62,6 +68,7 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
+import com.kunzisoft.keepass.credentialprovider.viewmodel.PasskeyLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
@@ -69,6 +76,7 @@ import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.SignatureNotFoundException
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -79,6 +87,7 @@ import java.util.UUID
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 class PasskeyLauncherActivity : DatabaseModeActivity() {
 
+    private val passkeyLauncherViewModel: PasskeyLauncherViewModel by viewModels()
     private var mUsageParameters: PublicKeyCredentialUsageParameters? = null
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
     private var mPasskey: Passkey? = null
@@ -87,49 +96,69 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     private var mBackupState: Boolean = false
 
     private var mPasskeySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher(
-            lockDatabase = true,
-            dataTransformation = { intent ->
-                // Build a new formatted response from the selection response
-                val responseIntent = Intent()
-                try {
-                    Log.d(TAG, "Passkey selection result")
-                    if (intent == null)
-                        throw IOException("Intent is null")
-                    val passkey = intent.retrievePasskey()
-                        ?: throw IOException("Passkey is null")
-                    val appOrigin = intent.retrieveAppOrigin()
-                        ?: throw IOException("App origin is null")
-                    intent.removePasskey()
-                    intent.removeAppOrigin()
-                    mUsageParameters?.let { usageParameters ->
-                        // Check verified origin
-                        PendingIntentHandler.setGetCredentialResponse(
-                            responseIntent,
-                            GetCredentialResponse(
-                                buildPasskeyPublicKeyCredential(
-                                    requestOptions = usageParameters.publicKeyCredentialRequestOptions,
-                                    clientDataResponse = getVerifiedGETClientDataResponse(
-                                        usageParameters = usageParameters,
-                                        appOrigin = appOrigin
-                                    ),
-                                    passkey = passkey,
-                                    backupEligibility = mBackupEligibility,
-                                    backupState = mBackupState
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val intent = it.data
+            val resultCode = it.resultCode
+            // Build a new formatted response from the selection response
+            val responseIntent = Intent()
+            when (resultCode) {
+                RESULT_OK -> {
+                    try {
+                        Log.d(TAG, "Passkey selection result")
+                        if (intent == null)
+                            throw IOException("Intent is null")
+                        val passkey = intent.retrievePasskey()
+                            ?: throw IOException("Passkey is null")
+                        val appOrigin = intent.retrieveAppOrigin()
+                            ?: throw IOException("App origin is null")
+                        intent.removePasskey()
+                        intent.removeAppOrigin()
+                        mUsageParameters?.let { usageParameters ->
+                            // Check verified origin
+                            PendingIntentHandler.setGetCredentialResponse(
+                                responseIntent,
+                                GetCredentialResponse(
+                                    buildPasskeyPublicKeyCredential(
+                                        requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                                        clientDataResponse = getVerifiedGETClientDataResponse(
+                                            usageParameters = usageParameters,
+                                            appOrigin = appOrigin
+                                        ),
+                                        passkey = passkey,
+                                        backupEligibility = mBackupEligibility,
+                                        backupState = mBackupState
+                                    )
                                 )
                             )
+                        } ?: run {
+                            throw IOException("Usage parameters is null")
+                        }
+                        setActivityResult(
+                            lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                            resultCode = RESULT_OK,
+                            data = responseIntent
                         )
-                    } ?: run {
-                        throw IOException("Usage parameters is null")
+                    } catch (e: SignatureNotFoundException) {
+                        passkeyLauncherViewModel.showAppSignatureDialog(e.temptingApp)
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Unable to create selection response for passkey", e)
+                        showError(e)
+                        setActivityResult(
+                            lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                            resultCode = RESULT_CANCELED
+                        )
                     }
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to create selection response for passkey", e)
-                    showError(e)
                 }
-                // Return the response
-                responseIntent
+                RESULT_CANCELED -> {
+                    setActivityResult(
+                        lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                        resultCode = RESULT_CANCELED
+                    )
+                }
             }
-        )
+            // Remove the launcher register
+            passkeyLauncherViewModel.isResultLauncherRegistered = false
+        }
 
     private var mPasskeyRegistrationActivityResultLauncher: ActivityResultLauncher<Intent>? =
         this.buildActivityResultLauncher(
@@ -177,6 +206,24 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         super.onCreate(savedInstanceState)
         mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(applicationContext)
         mBackupState = PreferencesUtil.isPasskeyBackupStateEnable(applicationContext)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                passkeyLauncherViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is PasskeyLauncherViewModel.UIState.Loading -> {
+                            // Nothing to do
+                        }
+                        is PasskeyLauncherViewModel.UIState.ShowAppPrivilegedDialog -> {
+                            showAppPrivilegedDialog(uiState.temptingApp)
+                        }
+                        is PasskeyLauncherViewModel.UIState.ShowAppSignatureDialog -> {
+                            showAppSignatureDialog( uiState.temptingApp)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun cancelRequest() {
@@ -194,6 +241,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
      * Launch the main action to manage Passkey
      */
     private suspend fun launchPasskeyAction(database: ContextualDatabase?) {
+        passkeyLauncherViewModel.isResultLauncherRegistered = true
         val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
         val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin(verified = false)
         val nodeId = intent.retrieveNodeId()
@@ -216,7 +264,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
     /**
      * Display a dialog that asks the user to add an app to the list of privileged apps.
      */
-    private fun showAppPrivilegedDialog(e: PrivilegedAllowLists.PrivilegedException) {
+    private fun showAppPrivilegedDialog(temptingApp: AndroidPrivilegedApp) {
         Log.w(javaClass.simpleName, "No privileged apps file found")
         AlertDialog.Builder(this@PasskeyLauncherActivity).apply {
             setTitle(getString(R.string.passkeys_privileged_apps_ask_title))
@@ -224,7 +272,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 .append(
                     getString(
                     R.string.passkeys_privileged_apps_ask_message,
-                    e.temptingApp.toString()
+                    temptingApp.toString()
                     )
                 )
                 .append("\n\n")
@@ -237,7 +285,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 }) {
                     saveCustomPrivilegedApps(
                         context = application,
-                        privilegedApps = listOf(e.temptingApp)
+                        privilegedApps = listOf(temptingApp)
                     )
                     launchPasskeyAction(mDatabase)
                 }
@@ -251,16 +299,63 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         }.create().show()
     }
 
+    /**
+     * Display a dialog that asks the user to add an app signature in an existing passkey
+     */
+    private fun showAppSignatureDialog(appOrigin: AppOrigin) {
+        AlertDialog.Builder(this@PasskeyLauncherActivity).apply {
+            setTitle(getString(R.string.passkeys_missing_signature_app_ask_title))
+            setMessage(StringBuilder()
+                .append(
+                    getString(
+                        R.string.passkeys_missing_signature_app_ask_message,
+                        appOrigin.toName()
+                    )
+                )
+                .append("\n\n")
+                .append(getString(R.string.passkeys_missing_signature_app_ask_explanation))
+                .toString()
+            )
+            setPositiveButton(android.R.string.ok) { _, _ ->
+                lifecycleScope.launch(CoroutineExceptionHandler { _, e ->
+                    cancelRequest(e)
+                }) {
+                    // TODO
+                    setActivityResult(
+                        lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                        resultCode = RESULT_OK
+                    )
+                }
+            }
+            setNegativeButton(android.R.string.cancel) { _, _ ->
+                setActivityResult(
+                    lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                    resultCode = RESULT_CANCELED
+                )
+            }
+            setOnCancelListener {
+                setActivityResult(
+                    lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                    resultCode = RESULT_CANCELED
+                )
+            }
+        }.create().show()
+    }
+
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
 
-        lifecycleScope.launch(CoroutineExceptionHandler { _, e ->
-            when (e) {
-                is PrivilegedAllowLists.PrivilegedException -> showAppPrivilegedDialog(e)
-                else -> cancelRequest(e)
+        if (passkeyLauncherViewModel.isResultLauncherRegistered.not()) {
+            lifecycleScope.launch(CoroutineExceptionHandler { _, e ->
+                when (e) {
+                    is PrivilegedAllowLists.PrivilegedException -> {
+                        passkeyLauncherViewModel.showAppPrivilegedDialog(e.temptingApp)
+                    }
+                    else -> cancelRequest(e)
+                }
+            }) {
+                launchPasskeyAction(database)
             }
-        }) {
-            launchPasskeyAction(database)
         }
     }
 
@@ -278,27 +373,36 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 ?: throw GetCredentialUnknownException("No passkey with nodeId $nodeId found")
 
             val result = Intent()
-            PendingIntentHandler.setGetCredentialResponse(
-                result,
-                GetCredentialResponse(
-                    buildPasskeyPublicKeyCredential(
-                        requestOptions = usageParameters.publicKeyCredentialRequestOptions,
-                        clientDataResponse = getVerifiedGETClientDataResponse(
-                            usageParameters = usageParameters,
-                            appOrigin = appOrigin
-                        ),
-                        passkey = passkey,
-                        backupEligibility = mBackupEligibility,
-                        backupState = mBackupState
+            try {
+                PendingIntentHandler.setGetCredentialResponse(
+                    result,
+                    GetCredentialResponse(
+                        buildPasskeyPublicKeyCredential(
+                            requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                            clientDataResponse = getVerifiedGETClientDataResponse(
+                                usageParameters = usageParameters,
+                                appOrigin = appOrigin
+                            ),
+                            passkey = passkey,
+                            backupEligibility = mBackupEligibility,
+                            backupState = mBackupState
+                        )
                     )
                 )
-            )
-            setResult(RESULT_OK, result)
-            finish()
+                setActivityResult(
+                    lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                    resultCode = RESULT_OK,
+                    data = result
+                )
+            } catch (e: SignatureNotFoundException) {
+                passkeyLauncherViewModel.showAppSignatureDialog(e.temptingApp)
+            }
         } ?: run {
             Log.e(TAG, "Unable to auto select passkey, usage parameters are empty")
-            setResult(RESULT_CANCELED)
-            finish()
+            setActivityResult(
+                lockDatabase = passkeyLauncherViewModel.lockDatabase,
+                resultCode = RESULT_CANCELED
+            )
         }
     }
 

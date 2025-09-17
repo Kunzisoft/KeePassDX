@@ -49,6 +49,9 @@ data class AppOrigin(
      * return the first verified origin or throw an exception if none is found
      */
     fun checkAppOrigin(compare: AppOrigin): String {
+        if (compare.androidOrigins.isNotEmpty()) {
+            throw SignatureNotFoundException(this, "Android origin not found")
+        }
         return androidOrigins.firstOrNull { androidOrigin ->
             compare.androidOrigins.any {
                 it.packageName == androidOrigin.packageName
@@ -99,6 +102,14 @@ data class AppOrigin(
         }
     }
 }
+
+/**
+ * Exception indicating that no signature is present for the Android origin
+ */
+class SignatureNotFoundException(
+    val temptingApp: AppOrigin,
+    message: String
+) : Exception(message)
 
 /**
  * Represents an Android app origin, the [packageName] is the applicationId of the app
