@@ -45,11 +45,18 @@ data class AppOrigin(
     }
 
     /**
+     * Determine whether at least one signature is present in the Android origins
+     */
+    fun containsAndroidOriginSignature(): Boolean {
+        return androidOrigins.any { !it.fingerprint.isNullOrEmpty() }
+    }
+
+    /**
      * Verify the app origin by comparing it to the list of android origins,
      * return the first verified origin or throw an exception if none is found
      */
     fun checkAppOrigin(compare: AppOrigin): String {
-        if (compare.androidOrigins.isNotEmpty()) {
+        if (compare.containsAndroidOriginSignature().not()) {
             throw SignatureNotFoundException(this, "Android origin not found")
         }
         return androidOrigins.firstOrNull { androidOrigin ->
