@@ -118,11 +118,12 @@ object PasskeyHelper {
         extras: Bundle? = null
     ) {
         try {
-            entryInfo.passkey?.let {
+            entryInfo.passkey?.let { passkey ->
                 val mReplyIntent = Intent()
                 Log.d(javaClass.name, "Success Passkey manual selection")
-                mReplyIntent.putExtra(EXTRA_PASSKEY, entryInfo.passkey)
-                mReplyIntent.putExtra(EXTRA_APP_ORIGIN, entryInfo.appOrigin)
+                mReplyIntent.addPasskey(passkey)
+                mReplyIntent.addAppOrigin(entryInfo.appOrigin)
+                mReplyIntent.addNodeId(entryInfo.id)
                 extras?.let {
                     mReplyIntent.putExtras(it)
                 }
@@ -155,6 +156,15 @@ object PasskeyHelper {
                 ).toHexString()
             )
         })
+    }
+
+    /**
+     * Add the passkey to the intent
+     */
+    fun Intent.addPasskey(passkey: Passkey?) {
+        passkey?.let {
+            putExtra(EXTRA_PASSKEY, passkey)
+        }
     }
 
     /**

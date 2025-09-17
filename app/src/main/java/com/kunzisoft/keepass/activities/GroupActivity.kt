@@ -39,7 +39,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -93,8 +92,7 @@ import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -700,9 +698,7 @@ class GroupActivity : DatabaseLockActivity(),
 
         var entry: Entry? = null
         try {
-            result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
-                entry = getListNodesFromBundle(database, newNodesBundle)[0] as Entry
-            }
+            entry = result.data?.getNewEntry(database)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to retrieve entry action for selection", e)
         }

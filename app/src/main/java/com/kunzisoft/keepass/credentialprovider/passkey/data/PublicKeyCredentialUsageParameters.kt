@@ -24,5 +24,5 @@ import com.kunzisoft.keepass.model.AppOrigin
 data class PublicKeyCredentialUsageParameters(
         val publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions,
         val clientDataResponse: ClientDataResponse,
-        val appOrigin: AppOrigin
+        var appOrigin: AppOrigin
 )

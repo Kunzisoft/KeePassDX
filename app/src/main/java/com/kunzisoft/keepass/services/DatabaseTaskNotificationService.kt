@@ -1385,6 +1385,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             return nodesAction
         }
 
+        fun Bundle.getNewEntry(database: ContextualDatabase): Entry? {
+            getBundle(NEW_NODES_KEY)
+                ?.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)
+                ?.get(0)?.let {
+                return database.getEntryById(it)
+            }
+            return null
+        }
+
         fun getBundleFromListNodes(nodes: List<Node>): Bundle {
             val groupsId = mutableListOf<NodeId<*>>()
             val entriesId = mutableListOf<NodeId<UUID>>()

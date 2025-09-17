@@ -213,13 +213,17 @@ class EntryInfo : NodeInfo {
         registerInfo.password?.let { password = it }
         setCreditCard(registerInfo.creditCard)
         setPasskey(registerInfo.passkey)
-        setAppOrigin(
-            registerInfo.appOrigin,
-            database?.allowEntryCustomFields() == true
-        )
+        saveAppOrigin(database, registerInfo.appOrigin)
         if (title.isEmpty()) {
             title = registerInfo.toString().toTitle()
         }
+    }
+
+    /**
+     * Add AppOrigin
+     */
+    fun saveAppOrigin(database: Database?, appOrigin: AppOrigin?) {
+        setAppOrigin(appOrigin, database?.allowEntryCustomFields() == true)
     }
 
     fun getVisualTitle(): String {

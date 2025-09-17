@@ -89,6 +89,14 @@ data class AppOrigin(
         } else null
     }
 
+    override fun toString(): String {
+        return if (androidOrigins.isNotEmpty()) {
+            androidOrigins.first().toString()
+        } else if (webOrigins.isNotEmpty()) {
+            webOrigins.first().toString()
+        } else super.toString()
+    }
+
     companion object {
 
         private val TAG = AppOrigin::class.java.simpleName

@@ -25,7 +25,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -35,7 +35,7 @@ import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
-import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addTypeMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
@@ -50,11 +50,14 @@ import com.kunzisoft.keepass.credentialprovider.viewmodel.PasskeyLauncherViewMod
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.view.toastError
 import kotlinx.coroutines.launch
 import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-class PasskeyLauncherActivity : DatabaseModeActivity() {
+class PasskeyLauncherActivity : DatabaseLockActivity() {
 
     private val passkeyLauncherViewModel: PasskeyLauncherViewModel by viewModels()
 
@@ -67,12 +70,16 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
         this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             passkeyLauncherViewModel.manageRegistrationResult(it)
         }
-    
+
     override fun applyCustomStyle(): Boolean {
         return false
     }
 
     override fun finishActivityIfReloadRequested(): Boolean {
+        return false
+    }
+
+    override fun finishActivityIfDatabaseNotLoaded(): Boolean {
         return false
     }
 
@@ -89,14 +96,13 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                     }
                     is PasskeyLauncherViewModel.UIState.ShowAppPrivilegedDialog -> {
                         showAppPrivilegedDialog(
-                            database = uiState.database,
                             temptingApp = uiState.temptingApp
                         )
                     }
                     is PasskeyLauncherViewModel.UIState.ShowAppSignatureDialog -> {
                         showAppSignatureDialog(
-                            database = uiState.database,
-                            temptingApp = uiState.temptingApp
+                            temptingApp = uiState.temptingApp,
+                            nodeId = uiState.nodeId
                         )
                     }
                     is PasskeyLauncherViewModel.UIState.SetActivityResult -> {
@@ -107,7 +113,8 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                         )
                     }
                     is PasskeyLauncherViewModel.UIState.ShowError -> {
-                        showError(uiState.error)
+                        toastError(uiState.error)
+                        passkeyLauncherViewModel.cancelResult()
                     }
                     is PasskeyLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
                         GroupActivity.launchForPasskeySelectionResult(
@@ -142,6 +149,9 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                             typeMode = uiState.typeMode
                         )
                     }
+                    is PasskeyLauncherViewModel.UIState.UpdateEntry -> {
+                        updateEntry(uiState.oldEntry, uiState.newEntry)
+                    }
                 }
             }
         }
@@ -149,14 +159,30 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
-        passkeyLauncherViewModel.onDatabaseRetrieved(intent, mSpecialMode, database)
+        passkeyLauncherViewModel.launchPasskeyActionIfNeeded(intent, mSpecialMode, database)
+    }
+
+    override fun onDatabaseActionFinished(
+        database: ContextualDatabase,
+        actionTask: String,
+        result: ActionRunnable.Result
+    ) {
+        super.onDatabaseActionFinished(database, actionTask, result)
+        when (actionTask) {
+            ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                passkeyLauncherViewModel.autoSelectPasskey(result, database)
+            }
+        }
+    }
+
+    override fun viewToInvalidateTimeout(): View? {
+        return null
     }
 
     /**
      * Display a dialog that asks the user to add an app to the list of privileged apps.
      */
     private fun showAppPrivilegedDialog(
-        database: ContextualDatabase,
         temptingApp: AndroidPrivilegedApp
     ) {
         Log.w(javaClass.simpleName, "No privileged apps file found")
@@ -177,7 +203,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 passkeyLauncherViewModel.saveCustomPrivilegedApp(
                     intent = intent,
                     specialMode = mSpecialMode,
-                    database = database,
+                    database = mDatabase,
                     temptingApp = temptingApp
                 )
             }
@@ -194,8 +220,8 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
      * Display a dialog that asks the user to add an app signature in an existing passkey
      */
     private fun showAppSignatureDialog(
-        database: ContextualDatabase,
-        temptingApp: AppOrigin
+        temptingApp: AppOrigin,
+        nodeId: UUID
     ) {
         AlertDialog.Builder(this@PasskeyLauncherActivity).apply {
             setTitle(getString(R.string.passkeys_missing_signature_app_ask_title))
@@ -203,7 +229,7 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 .append(
                     getString(
                         R.string.passkeys_missing_signature_app_ask_message,
-                        temptingApp.toName()
+                        temptingApp.toString()
                     )
                 )
                 .append("\n\n")
@@ -212,10 +238,9 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
             )
             setPositiveButton(android.R.string.ok) { _, _ ->
                 passkeyLauncherViewModel.saveAppSignature(
-                    intent = intent,
-                    specialMode = mSpecialMode,
-                    database = database,
-                    temptingApp = temptingApp
+                    database = mDatabase,
+                    temptingApp = temptingApp,
+                    nodeId = nodeId
                 )
             }
             setNegativeButton(android.R.string.cancel) { _, _ ->
@@ -225,11 +250,6 @@ class PasskeyLauncherActivity : DatabaseModeActivity() {
                 passkeyLauncherViewModel.cancelResult()
             }
         }.create().show()
-    }
-
-    private fun showError(e: Throwable) {
-        Log.e(TAG, "Passkey launch error", e)
-        Toast.makeText(this, e.localizedMessage, Toast.LENGTH_LONG).show()
     }
 
     companion object {

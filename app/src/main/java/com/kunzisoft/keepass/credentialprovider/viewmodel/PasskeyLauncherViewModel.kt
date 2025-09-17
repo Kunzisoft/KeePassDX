@@ -33,14 +33,18 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retri
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.Passkey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.SignatureNotFoundException
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.ActionRunnable
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -63,7 +67,6 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
     private var mLockDatabase: Boolean = true
 
     private var isResultLauncherRegistered: Boolean = false
-    private var currentDatabase: ContextualDatabase? = null
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = _uiState
@@ -74,31 +77,31 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
     }
 
     fun showAppPrivilegedDialog(
-        database: ContextualDatabase,
         temptingApp: AndroidPrivilegedApp
     ) {
-        _uiState.value = UIState.ShowAppPrivilegedDialog(database, temptingApp)
+        _uiState.value = UIState.ShowAppPrivilegedDialog(temptingApp)
     }
 
     fun showAppSignatureDialog(
-        database: ContextualDatabase,
-        temptingApp: AppOrigin
+        temptingApp: AppOrigin,
+        nodeId: UUID
     ) {
-        _uiState.value = UIState.ShowAppSignatureDialog(database, temptingApp)
+        _uiState.value = UIState.ShowAppSignatureDialog(temptingApp, nodeId)
     }
 
     fun showError(error: Throwable) {
+        Log.e(TAG, "Error on passkey launch", error)
         _uiState.value = UIState.ShowError(error)
     }
 
     fun saveCustomPrivilegedApp(
         intent: Intent,
         specialMode: SpecialMode,
-        database: ContextualDatabase,
+        database: ContextualDatabase?,
         temptingApp: AndroidPrivilegedApp
     ) {
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
-            cancelResult()
+            showError(e)
         }) {
             saveCustomPrivilegedApps(
                 context = getApplication(),
@@ -113,20 +116,39 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
     }
 
     fun saveAppSignature(
-        intent: Intent,
-        specialMode: SpecialMode,
-        database: ContextualDatabase,
-        temptingApp: AppOrigin
+        database: ContextualDatabase?,
+        temptingApp: AppOrigin,
+        nodeId: UUID
     ) {
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
-            cancelResult()
+            showError(e)
         }) {
-            // TODO Save app signature
+            // Update the entry with app signature
+            val entry = database
+                ?.getEntryById(NodeIdUUID(nodeId))
+                ?: throw GetCredentialUnknownException(
+                    "No passkey with nodeId $nodeId found"
+                )
+            if (database.isReadOnly)
+                throw RegisterInReadOnlyDatabaseException()
+            val newEntry = Entry(entry)
+            val entryInfo = newEntry.getEntryInfo(
+                database,
+                raw = true,
+                removeTemplateConfiguration = false
+            )
+            entryInfo.saveAppOrigin(database, temptingApp)
+            newEntry.setEntryInfo(database, entryInfo)
+            _uiState.value = UIState.UpdateEntry(
+                oldEntry = entry,
+                newEntry = newEntry
+            )
         }
     }
 
     fun setResult(intent: Intent) {
-        currentDatabase = null
+        // Remove the launcher register
+        isResultLauncherRegistered = false
         _uiState.value = UIState.SetActivityResult(
             lockDatabase = mLockDatabase,
             resultCode = RESULT_OK,
@@ -135,26 +157,25 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
     }
 
     fun cancelResult() {
-        currentDatabase = null
+        isResultLauncherRegistered = false
         _uiState.value = UIState.SetActivityResult(
             lockDatabase = mLockDatabase,
             resultCode = RESULT_CANCELED
         )
     }
 
-    fun onDatabaseRetrieved(
+    fun launchPasskeyActionIfNeeded(
         intent: Intent,
         specialMode: SpecialMode,
         database: ContextualDatabase?
     ) {
-        currentDatabase = database
         if (isResultLauncherRegistered.not()) {
+            isResultLauncherRegistered = true
             viewModelScope.launch(CoroutineExceptionHandler { _, e ->
-                if (e is PrivilegedAllowLists.PrivilegedException && database != null) {
-                    showAppPrivilegedDialog(database, e.temptingApp)
+                if (e is PrivilegedAllowLists.PrivilegedException) {
+                    showAppPrivilegedDialog(e.temptingApp)
                 } else {
                     showError(e)
-                    cancelResult()
                 }
             }) {
                 launchPasskeyAction(intent, specialMode, database)
@@ -170,7 +191,6 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
         specialMode: SpecialMode,
         database: ContextualDatabase?
     ) {
-        isResultLauncherRegistered = true
         val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
         val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin(verified = false)
         val nodeId = intent.retrieveNodeId()
@@ -257,6 +277,27 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
+    fun autoSelectPasskey(
+        result: ActionRunnable.Result,
+        database: ContextualDatabase
+    ) {
+        viewModelScope.launch(CoroutineExceptionHandler { _, e ->
+            showError(e)
+        }) {
+            if (result.isSuccess) {
+                val entry = result.data?.getNewEntry(database)
+                    ?: throw IOException("No passkey entry found")
+                autoSelectPasskeyAndSetResult(
+                    database = database,
+                    nodeId = entry.nodeId.id,
+                    appOrigin = entry.getAppOrigin()
+                        ?: throw IOException("No App origin found")
+                )
+            } else throw result.exception
+                ?: IOException("Unable to auto select passkey")
+        }
+    }
+
     private fun autoSelectPasskeyAndSetResult(
         database: ContextualDatabase?,
         nodeId: UUID,
@@ -268,7 +309,7 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                 ?.getEntryById(NodeIdUUID(nodeId))
                 ?.getEntryInfo(database)
                 ?.passkey
-                ?: throw GetCredentialUnknownException(
+                ?: throw IOException(
                     "No passkey with nodeId $nodeId found"
                 )
             // Build the response
@@ -292,7 +333,7 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                 setResult(result)
             } catch (e: SignatureNotFoundException) {
                 // Request the dialog if signature exception
-                showAppSignatureDialog(database, e.temptingApp)
+                showAppSignatureDialog(e.temptingApp, nodeId)
             }
         } ?: throw IOException("Usage parameters is null")
     }
@@ -337,21 +378,18 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                     }
                     setResult(responseIntent)
                 } catch (e: SignatureNotFoundException) {
-                    currentDatabase?.let {
-                        showAppSignatureDialog(it, e.temptingApp)
-                    }
+                    intent?.retrieveNodeId()?.let { nodeId ->
+                        showAppSignatureDialog(e.temptingApp, nodeId)
+                    } ?: cancelResult()
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to create selection response for passkey", e)
                     showError(e)
-                    cancelResult()
                 }
             }
             RESULT_CANCELED -> {
                 cancelResult()
             }
         }
-        // Remove the launcher register
-        isResultLauncherRegistered = false
     }
 
     // -------------
@@ -474,12 +512,11 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
     sealed class UIState {
         object Loading : UIState()
         data class ShowAppPrivilegedDialog(
-            val database: ContextualDatabase,
             val temptingApp: AndroidPrivilegedApp
         ): UIState()
         data class ShowAppSignatureDialog(
-            val database: ContextualDatabase,
-            val temptingApp: AppOrigin
+            val temptingApp: AppOrigin,
+            val nodeId: UUID
         ): UIState()
         data class LaunchGroupActivityForSelection(
             val database: ContextualDatabase
@@ -503,6 +540,10 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
         ): UIState()
         data class ShowError(
             val error: Throwable
+        ): UIState()
+        data class UpdateEntry(
+            val oldEntry: Entry,
+            val newEntry: Entry
         ): UIState()
     }
 

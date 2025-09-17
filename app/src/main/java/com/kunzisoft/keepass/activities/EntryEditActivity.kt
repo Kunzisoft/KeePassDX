@@ -69,7 +69,6 @@ import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Field
-import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.template.Template
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
@@ -81,9 +80,9 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.getNewEntry
 import com.kunzisoft.keepass.services.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -433,41 +432,35 @@ class EntryEditActivity : DatabaseLockActivity(),
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
                 try {
                     if (result.isSuccess) {
-                        var newNodes: List<Node> = ArrayList()
-                        result.data?.getBundle(DatabaseTaskNotificationService.NEW_NODES_KEY)?.let { newNodesBundle ->
-                            newNodes = DatabaseTaskNotificationService.getListNodesFromBundle(database, newNodesBundle)
-                        }
-                        if (newNodes.size == 1) {
-                            (newNodes[0] as? Entry?)?.let { entry ->
-                                EntrySelectionHelper.doSpecialAction(
-                                    intent = intent,
-                                    defaultAction = {
-                                        // Finish naturally
-                                        finishForEntryResult(entry)
-                                    },
-                                    searchAction = {
-                                        // Nothing when search retrieved
-                                    },
-                                    saveAction = {
-                                        entryValidatedForSave(entry)
-                                    },
-                                    keyboardSelectionAction = {
-                                        entryValidatedForKeyboardSelection(database, entry)
-                                    },
-                                    autofillSelectionAction = { _, _ ->
-                                        entryValidatedForAutofillSelection(database, entry)
-                                    },
-                                    autofillRegistrationAction = {
-                                        entryValidatedForAutofillRegistration(entry)
-                                    },
-                                    passkeySelectionAction = {
-                                        entryValidatedForPasskeySelection(database, entry)
-                                    },
-                                    passkeyRegistrationAction = {
-                                        entryValidatedForPasskeyRegistration(database, entry)
-                                    }
-                                )
-                            }
+                        result.data?.getNewEntry(database)?.let { entry ->
+                            EntrySelectionHelper.doSpecialAction(
+                                intent = intent,
+                                defaultAction = {
+                                    // Finish naturally
+                                    finishForEntryResult(entry)
+                                },
+                                searchAction = {
+                                    // Nothing when search retrieved
+                                },
+                                saveAction = {
+                                    entryValidatedForSave(entry)
+                                },
+                                keyboardSelectionAction = {
+                                    entryValidatedForKeyboardSelection(database, entry)
+                                },
+                                autofillSelectionAction = { _, _ ->
+                                    entryValidatedForAutofillSelection(database, entry)
+                                },
+                                autofillRegistrationAction = {
+                                    entryValidatedForAutofillRegistration(entry)
+                                },
+                                passkeySelectionAction = {
+                                    entryValidatedForPasskeySelection(database, entry)
+                                },
+                                passkeyRegistrationAction = {
+                                    entryValidatedForPasskeyRegistration(database, entry)
+                                }
+                            )
                         }
                     }
                 } catch (e: Exception) {
