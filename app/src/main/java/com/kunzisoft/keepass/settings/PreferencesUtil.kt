@@ -692,6 +692,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.passkeys_backup_eligibility_default))
     }
 
+    fun isPasskeyAutoSelectEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_auto_select_key),
+            context.resources.getBoolean(R.bool.passkeys_auto_select_default))
+    }
+
     fun isPasskeyBackupStateEnable(context: Context): Boolean {
         if (!isPasskeyBackupEligibilityEnable(context))
             return false

@@ -25,6 +25,11 @@
             android:title="@string/passkeys_privileged_apps_title"
             android:summary="@string/passkeys_privileged_apps_summary"/>
         <SwitchPreferenceCompat
+            android:key="@string/passkeys_auto_select_key"
+            android:title="@string/passkeys_auto_select_title"
+            android:summary="@string/passkeys_auto_select_summary"
+            android:defaultValue="@bool/passkeys_auto_select_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/passkeys_backup_eligibility_key"
             android:title="@string/passkeys_backup_eligibility_title"
             android:summary="@string/passkeys_backup_eligibility_summary"

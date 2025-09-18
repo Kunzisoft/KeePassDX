@@ -430,6 +430,8 @@
     <string name="passkeys_missing_signature_app_ask_title">Signature missing</string>
     <string name="passkeys_missing_signature_app_ask_explanation">WARNING: The passkey was created from another client or the signature has been deleted. Ensure the app you want to authenticate is part of the same service and is legitimate to avoid security issues.</string>
     <string name="passkeys_missing_signature_app_ask_message">%1$s is unrecognised and attempts to authenticate with an existing passkey.\n\nAdd app signature to passkey entry?</string>
+    <string name="passkeys_auto_select_title">Auto select</string>
+    <string name="passkeys_auto_select_summary">Auto select if only one entry and the database is open, only if the requesting app is compatible</string>
     <string name="passkeys_backup_eligibility_title">Backup Eligibility</string>
     <string name="passkeys_backup_eligibility_summary">Determine at creation time whether the public key credential source is allowed to be backed up</string>
     <string name="passkeys_backup_state_title">Backup State</string>

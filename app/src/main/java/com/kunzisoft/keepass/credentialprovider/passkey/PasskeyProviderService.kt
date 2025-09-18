@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.database.DatabaseTaskProvider
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil.isPasskeyAutoSelectEnable
 import com.kunzisoft.keepass.view.toastError
 import java.io.IOException
 import java.time.Instant
@@ -63,6 +64,7 @@ class PasskeyProviderService : CredentialProviderService() {
     private var mDatabaseTaskProvider: DatabaseTaskProvider? = null
     private var mDatabase: ContextualDatabase? = null
     private lateinit var defaultIcon: Icon
+    private var isAutoSelectAllowed: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
@@ -79,6 +81,8 @@ class PasskeyProviderService : CredentialProviderService() {
         ).apply {
             setTintBlendMode(BlendMode.DST)
         }
+
+        isAutoSelectAllowed = isPasskeyAutoSelectEnable(this)
     }
 
     override fun onDestroy() {
@@ -160,7 +164,7 @@ class PasskeyProviderService : CredentialProviderService() {
                                 pendingIntent = usagePendingIntent,
                                 beginGetPublicKeyCredentialOption = option,
                                 displayName = passkeyEntry.getVisualTitle(),
-                                isAutoSelectAllowed = true
+                                isAutoSelectAllowed = isAutoSelectAllowed
                             )
                         )
                     }
@@ -183,7 +187,7 @@ class PasskeyProviderService : CredentialProviderService() {
                             pendingIntent = pendingIntent,
                             beginGetPublicKeyCredentialOption = option,
                             lastUsedTime = Instant.now(),
-                            isAutoSelectAllowed = false
+                            isAutoSelectAllowed = isAutoSelectAllowed
                         )
                     )
                 }
@@ -205,7 +209,7 @@ class PasskeyProviderService : CredentialProviderService() {
                             pendingIntent = pendingIntent,
                             beginGetPublicKeyCredentialOption = option,
                             lastUsedTime = Instant.now(),
-                            isAutoSelectAllowed = true
+                            isAutoSelectAllowed = isAutoSelectAllowed
                         )
                     )
                 }
