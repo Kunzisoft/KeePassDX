@@ -360,8 +360,8 @@ object PasskeyHelper {
         providedClientDataHash: ByteArray?,
         callingAppInfo: CallingAppInfo?,
         context: Context,
-        onOriginRetrieved: (appOrigin: AppOrigin, clientDataHash: ByteArray) -> Unit,
-        onOriginNotRetrieved: (appOrigin: AppOrigin, androidOriginString: String) -> Unit
+        onOriginRetrieved: suspend (appOrigin: AppOrigin, clientDataHash: ByteArray) -> Unit,
+        onOriginNotRetrieved: suspend (appOrigin: AppOrigin, androidOriginString: String) -> Unit
     ) {
         if (callingAppInfo == null) {
             throw SecurityException("Calling app info cannot be retrieved")
@@ -429,7 +429,7 @@ object PasskeyHelper {
     suspend fun retrievePasskeyCreationRequestParameters(
         intent: Intent,
         context: Context,
-        passkeyCreated: (Passkey, AppOrigin?, PublicKeyCredentialCreationParameters) -> Unit
+        passkeyCreated: suspend (Passkey, AppOrigin?, PublicKeyCredentialCreationParameters) -> Unit
     ) {
         val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
         if (createCredentialRequest == null)
@@ -541,7 +541,7 @@ object PasskeyHelper {
     suspend fun retrievePasskeyUsageRequestParameters(
         intent: Intent,
         context: Context,
-        result: (PublicKeyCredentialUsageParameters) -> Unit
+        result: suspend (PublicKeyCredentialUsageParameters) -> Unit
     ) {
         val getCredentialRequest = PendingIntentHandler.retrieveProviderGetCredentialRequest(intent)
         if (getCredentialRequest == null)

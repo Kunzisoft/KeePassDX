@@ -298,102 +298,112 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
-    private fun autoSelectPasskeyAndSetResult(
+    private suspend fun autoSelectPasskeyAndSetResult(
         database: ContextualDatabase?,
         nodeId: UUID,
         appOrigin: AppOrigin
     ) {
-        mUsageParameters?.let { usageParameters ->
-            // To get the passkey from the database
-            val passkey = database
-                ?.getEntryById(NodeIdUUID(nodeId))
-                ?.getEntryInfo(database)
-                ?.passkey
-                ?: throw IOException(
-                    "No passkey with nodeId $nodeId found"
-                )
-            // Build the response
-            val result = Intent()
-            try {
-                PendingIntentHandler.setGetCredentialResponse(
-                    result,
-                    GetCredentialResponse(
-                        buildPasskeyPublicKeyCredential(
-                            requestOptions = usageParameters.publicKeyCredentialRequestOptions,
-                            clientDataResponse = getVerifiedGETClientDataResponse(
-                                usageParameters = usageParameters,
-                                appOrigin = appOrigin
-                            ),
-                            passkey = passkey,
-                            backupEligibility = mBackupEligibility,
-                            backupState = mBackupState
+        withContext(Dispatchers.IO) {
+            mUsageParameters?.let { usageParameters ->
+                // To get the passkey from the database
+                val passkey = database
+                    ?.getEntryById(NodeIdUUID(nodeId))
+                    ?.getEntryInfo(database)
+                    ?.passkey
+                    ?: throw IOException(
+                        "No passkey with nodeId $nodeId found"
+                    )
+                // Build the response
+                val result = Intent()
+                try {
+                    PendingIntentHandler.setGetCredentialResponse(
+                        result,
+                        GetCredentialResponse(
+                            buildPasskeyPublicKeyCredential(
+                                requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                                clientDataResponse = getVerifiedGETClientDataResponse(
+                                    usageParameters = usageParameters,
+                                    appOrigin = appOrigin
+                                ),
+                                passkey = passkey,
+                                backupEligibility = mBackupEligibility,
+                                backupState = mBackupState
+                            )
                         )
                     )
-                )
-                setResult(result)
-            } catch (e: SignatureNotFoundException) {
-                // Request the dialog if signature exception
-                showAppSignatureDialog(e.temptingApp, nodeId)
-            }
-        } ?: throw IOException("Usage parameters is null")
+                    setResult(result)
+                } catch (e: SignatureNotFoundException) {
+                    // Request the dialog if signature exception
+                    showAppSignatureDialog(e.temptingApp, nodeId)
+                }
+            } ?: throw IOException("Usage parameters is null")
+        }
     }
 
     fun manageSelectionResult(
         activityResult: ActivityResult
     ) {
         val intent = activityResult.data
-        // Build a new formatted response from the selection response
-        val responseIntent = Intent()
-        when (activityResult.resultCode) {
-            RESULT_OK -> {
-                try {
-                    Log.d(TAG, "Passkey selection result")
-                    if (intent == null)
-                        throw IOException("Intent is null")
-                    val passkey = intent.retrievePasskey()
-                        ?: throw IOException("Passkey is null")
-                    val appOrigin = intent.retrieveAppOrigin()
-                        ?: throw IOException("App origin is null")
-                    intent.removePasskey()
-                    intent.removeAppOrigin()
-                    mUsageParameters?.let { usageParameters ->
-                        // Check verified origin
-                        PendingIntentHandler.setGetCredentialResponse(
-                            responseIntent,
-                            GetCredentialResponse(
-                                buildPasskeyPublicKeyCredential(
-                                    requestOptions = usageParameters.publicKeyCredentialRequestOptions,
-                                    clientDataResponse = getVerifiedGETClientDataResponse(
-                                        usageParameters = usageParameters,
-                                        appOrigin = appOrigin
-                                    ),
-                                    passkey = passkey,
-                                    backupEligibility = mBackupEligibility,
-                                    backupState = mBackupState
+        viewModelScope.launch(CoroutineExceptionHandler { _, e ->
+            Log.e(TAG, "Unable to create selection response for passkey", e)
+            if (e is SignatureNotFoundException) {
+                intent?.retrieveNodeId()?.let { nodeId ->
+                    showAppSignatureDialog(e.temptingApp, nodeId)
+                } ?: cancelResult()
+            } else {
+                showError(e)
+            }
+        }) {
+            // Build a new formatted response from the selection response
+            val responseIntent = Intent()
+            when (activityResult.resultCode) {
+                RESULT_OK -> {
+                    withContext(Dispatchers.IO) {
+                        Log.d(TAG, "Passkey selection result")
+                        if (intent == null)
+                            throw IOException("Intent is null")
+                        val passkey = intent.retrievePasskey()
+                            ?: throw IOException("Passkey is null")
+                        val appOrigin = intent.retrieveAppOrigin()
+                            ?: throw IOException("App origin is null")
+                        intent.removePasskey()
+                        intent.removeAppOrigin()
+                        mUsageParameters?.let { usageParameters ->
+                            // Check verified origin
+                            PendingIntentHandler.setGetCredentialResponse(
+                                responseIntent,
+                                GetCredentialResponse(
+                                    buildPasskeyPublicKeyCredential(
+                                        requestOptions = usageParameters.publicKeyCredentialRequestOptions,
+                                        clientDataResponse = getVerifiedGETClientDataResponse(
+                                            usageParameters = usageParameters,
+                                            appOrigin = appOrigin
+                                        ),
+                                        passkey = passkey,
+                                        backupEligibility = mBackupEligibility,
+                                        backupState = mBackupState
+                                    )
                                 )
                             )
-                        )
-                    } ?: run {
-                        throw IOException("Usage parameters is null")
+                        } ?: run {
+                            throw IOException("Usage parameters is null")
+                        }
+                        withContext(Dispatchers.Main) {
+                            setResult(responseIntent)
+                        }
                     }
-                    setResult(responseIntent)
-                } catch (e: SignatureNotFoundException) {
-                    intent?.retrieveNodeId()?.let { nodeId ->
-                        showAppSignatureDialog(e.temptingApp, nodeId)
-                    } ?: cancelResult()
-                } catch (e: Exception) {
-                    Log.e(TAG, "Unable to create selection response for passkey", e)
-                    showError(e)
                 }
-            }
-            RESULT_CANCELED -> {
-                cancelResult()
+                RESULT_CANCELED -> {
+                    withContext(Dispatchers.Main) {
+                        cancelResult()
+                    }
+                }
             }
         }
     }
 
     // -------------
-    //  Registation
+    //  Registration
     // -------------
 
     private suspend fun launchRegistration(
@@ -459,54 +469,75 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
-    private fun autoRegisterPasskeyAndSetResult(
+    private suspend fun autoRegisterPasskeyAndSetResult(
         database: ContextualDatabase?,
         nodeId: UUID,
         passkey: Passkey
     ) {
-        // TODO Overwrite and Register in a predefined group
-        mCreationParameters?.let { creationParameters ->
-            // To set the passkey to the database
-            setResult(Intent())
-        } ?: run {
-            Log.e(TAG, "Unable to auto select passkey, usage parameters are empty")
-            cancelResult()
+        withContext(Dispatchers.IO) {
+            mCreationParameters?.let { creationParameters ->
+                // To set the passkey to the database
+                // TODO Overwrite and Register in a predefined group
+                withContext(Dispatchers.Main) {
+                    setResult(Intent())
+                }
+            } ?: run {
+                withContext(Dispatchers.Main) {
+                    Log.e(TAG, "Unable to auto select passkey, usage parameters are empty")
+                    cancelResult()
+                }
+            }
         }
     }
 
     fun manageRegistrationResult(activityResult: ActivityResult) {
         val intent = activityResult.data
-        // Build a new formatted response from the creation response
-        val responseIntent = Intent()
-        try {
-            Log.d(TAG, "Passkey registration result")
-            val passkey = intent?.retrievePasskey()
-            intent?.removePasskey()
-            intent?.removeAppOrigin()
-            // If registered passkey is the same as the one we want to validate,
-            if (mPasskey == passkey) {
-                mCreationParameters?.let {
-                    PendingIntentHandler.setCreateCredentialResponse(
-                        intent = responseIntent,
-                        response = buildCreatePublicKeyCredentialResponse(
-                            publicKeyCredentialCreationParameters = it,
-                            backupEligibility = mBackupEligibility,
-                            backupState = mBackupState
-                        )
-                    )
-                }
-            } else {
-                throw SecurityException("Passkey was modified before registration")
-            }
-        } catch (e: Exception) {
+        viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create registration response for passkey", e)
-            _uiState.value = UIState.ShowError(e)
+            if (e is SignatureNotFoundException) {
+                intent?.retrieveNodeId()?.let { nodeId ->
+                    showAppSignatureDialog(e.temptingApp, nodeId)
+                } ?: cancelResult()
+            } else {
+                showError(e)
+            }
+        }) {
+            // Build a new formatted response from the creation response
+            val responseIntent = Intent()
+            when (activityResult.resultCode) {
+                RESULT_OK -> {
+                    withContext(Dispatchers.IO) {
+                        Log.d(TAG, "Passkey registration result")
+                        val passkey = intent?.retrievePasskey()
+                        intent?.removePasskey()
+                        intent?.removeAppOrigin()
+                        // If registered passkey is the same as the one we want to validate,
+                        if (mPasskey == passkey) {
+                            mCreationParameters?.let {
+                                PendingIntentHandler.setCreateCredentialResponse(
+                                    intent = responseIntent,
+                                    response = buildCreatePublicKeyCredentialResponse(
+                                        publicKeyCredentialCreationParameters = it,
+                                        backupEligibility = mBackupEligibility,
+                                        backupState = mBackupState
+                                    )
+                                )
+                            }
+                        } else {
+                            throw SecurityException("Passkey was modified before registration")
+                        }
+                        withContext(Dispatchers.Main) {
+                            setResult(responseIntent)
+                        }
+                    }
+                }
+                RESULT_CANCELED -> {
+                    withContext(Dispatchers.Main) {
+                        cancelResult()
+                    }
+                }
+            }
         }
-        _uiState.value = UIState.SetActivityResult(
-            lockDatabase = mLockDatabase,
-            resultCode = activityResult.resultCode,
-            data = responseIntent
-        )
     }
 
     sealed class UIState {
