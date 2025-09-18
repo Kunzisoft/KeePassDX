@@ -1,2 +1,6 @@
  * Gestion des Passkeys #1421 #2097 (Thx @cali-95)
- * Petites corrections
+ * Confirmation de l'usage de passkey #2165
+ * Dialogue pour gérer les signatures manquantes #2152 #2155 #2161 #2160
+ * Capture des erreurs #2159
+ * Changement des paramètres Backup Eligibility & Backup State #2135 #2150
+ * Petites corrections #2157 #2164
