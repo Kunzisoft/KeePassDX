@@ -18,6 +18,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 object AppUtil {
@@ -82,22 +83,31 @@ object AppUtil {
     /**
      * Get the concrete web domain AKA without sub domain if needed
      */
-    fun getConcreteWebDomain(context: Context,
-                             webDomain: String?,
-                             concreteWebDomain: (String?) -> Unit) {
-        CoroutineScope(Dispatchers.Main).launch {
-            if (webDomain != null) {
+    fun SearchInfo.getConcreteWebDomain(
+        context: Context,
+        concreteWebDomain: (String?) -> Unit
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val domain = webDomain
+            if (domain != null) {
                 // Warning, web domain can contains IP, don't crop in this case
-                if (PreferencesUtil.searchSubdomains(context)
-                    || Regex(SearchInfo.WEB_IP_REGEX).matches(webDomain)) {
-                    concreteWebDomain.invoke(webDomain)
+                if (PreferencesUtil.searchSubDomains(context)
+                    || Regex(SearchInfo.WEB_IP_REGEX).matches(domain)) {
+                    withContext(Dispatchers.Main) {
+                        concreteWebDomain.invoke(webDomain)
+                    }
                 } else {
                     val publicSuffixList = PublicSuffixList(context)
-                    concreteWebDomain.invoke(publicSuffixList
-                        .getPublicSuffixPlusOne(webDomain).await())
+                    val publicSuffix = publicSuffixList
+                        .getPublicSuffixPlusOne(domain).await()
+                    withContext(Dispatchers.Main) {
+                        concreteWebDomain.invoke(publicSuffix)
+                    }
                 }
             } else {
-                concreteWebDomain.invoke(null)
+                withContext(Dispatchers.Main) {
+                    concreteWebDomain.invoke(null)
+                }
             }
         }
     }

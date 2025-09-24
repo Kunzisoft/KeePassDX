@@ -53,7 +53,7 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.AppUtil
+import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
 import org.joda.time.DateTime
 
 
@@ -120,7 +120,7 @@ class KeeAutofillService : AutofillService() {
                     webDomain = parseResult.webDomain
                     webScheme = parseResult.webScheme
                 }
-                AppUtil.getConcreteWebDomain(this, searchInfo.webDomain) { webDomainWithoutSubDomain ->
+                searchInfo.getConcreteWebDomain(this) { webDomainWithoutSubDomain ->
                     searchInfo.webDomain = webDomainWithoutSubDomain
                     val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                             && autofillInlineSuggestionsEnabled) {

@@ -39,7 +39,7 @@ object OtpEntryFields {
     private val TAG = OtpEntryFields::class.java.name
 
     // Field from KeePassXC
-    const val OTP_FIELD = "otp"
+    private const val OTP_FIELD = "otp"
 
     // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
     private const val OTP_SCHEME = "otpauth"
@@ -508,9 +508,9 @@ object OtpEntryFields {
     }
 
     /**
-     * Field ignored for a search or a form filling
+     * Detect if the current field is an OTP
      */
-    fun Field.isOtpExclusion(): Boolean {
+    fun Field.isOTP(): Boolean {
         return when(name) {
             OTP_FIELD -> true
             TOTP_SEED_FIELD -> true
@@ -529,5 +529,12 @@ object OtpEntryFields {
             TIMEOTP_ALGORITHM_FIELD -> true
             else -> false
         }
+    }
+
+    /**
+     * Detect if the current field is an OTP URI
+     */
+    fun Field.isOTPURIField(): Boolean {
+        return name == OTP_FIELD
     }
 }

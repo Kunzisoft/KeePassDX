@@ -93,8 +93,6 @@ class PasskeyProviderService : CredentialProviderService() {
     private fun buildPasskeySearchInfo(relyingParty: String): SearchInfo {
         return SearchInfo().apply {
             this.relyingParty = relyingParty
-            this.isAPasskeySearch = true
-            this.query = relyingParty
         }
     }
 

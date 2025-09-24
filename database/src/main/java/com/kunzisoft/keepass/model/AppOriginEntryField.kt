@@ -139,4 +139,25 @@ object AppOriginEntryField {
             setWebDomain(webOrigin.origin, null, customFieldsAllowed)
         }
     }
+
+    /**
+     * Detect if the current field is an application id
+     */
+    fun Field.isAppId(): Boolean {
+        return this.name.startsWith(APPLICATION_ID_FIELD_NAME)
+    }
+
+    /**
+     * Detect if the current field is an application id signature
+     */
+    fun Field.isAppIdSignature(): Boolean {
+        return this.name.startsWith(APPLICATION_SIGNATURE_FIELD_NAME)
+    }
+
+    /**
+     * Detect if the current field is a web domain
+     */
+    fun Field.isWebDomain(): Boolean {
+        return this.name.startsWith(WEB_DOMAIN_FIELD_NAME)
+    }
 }

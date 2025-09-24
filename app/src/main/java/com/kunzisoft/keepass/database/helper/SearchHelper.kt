@@ -21,8 +21,10 @@ package com.kunzisoft.keepass.database.helper
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil.searchSubDomains
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 object SearchHelper {
@@ -61,8 +63,28 @@ object SearchHelper {
                 && !searchInfo.containsOnlyNullValues()) {
                 // If search provide results
                 database.createVirtualGroupFromSearchInfo(
-                        searchInfo,
-                        MAX_SEARCH_ENTRY
+                    searchParameters = SearchParameters().apply {
+                        searchQuery = searchInfo.toString()
+                        allowEmptyQuery = false
+                        searchInTitles = false
+                        searchInUsernames = false
+                        searchInPasswords = false
+                        searchInAppIds = searchInfo.isAppIdSearch
+                        searchInUrls = searchInfo.isDomainSearch
+                        searchByDomain = true
+                        searchBySubDomain = searchSubDomains(context)
+                        searchInRelyingParty = searchInfo.isPasskeySearch
+                        searchInNotes = false
+                        searchInOTP = searchInfo.isOTPSearch
+                        searchInOther = false
+                        searchInUUIDs = false
+                        searchInTags = searchInfo.isTagSearch
+                        searchInCurrentGroup = false
+                        searchInSearchableGroup = true
+                        searchInRecycleBin = false
+                        searchInTemplates = false
+                    },
+                    max = MAX_SEARCH_ENTRY
                 )?.let { searchGroup ->
                     if (searchGroup.numberOfChildEntries > 0) {
                         searchWithoutUI = true

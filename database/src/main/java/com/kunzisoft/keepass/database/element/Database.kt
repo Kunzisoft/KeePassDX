@@ -55,7 +55,6 @@ import com.kunzisoft.keepass.database.merge.DatabaseKDBXMerger
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
@@ -886,12 +885,12 @@ open class Database {
     }
 
     fun createVirtualGroupFromSearchInfo(
-        searchInfo: SearchInfo,
+        searchParameters: SearchParameters,
         max: Int = Integer.MAX_VALUE
     ): Group? {
         return mSearchHelper.createVirtualGroupWithSearchResult(
             database = this,
-            searchParameters = searchInfo.buildSearchParameters(),
+            searchParameters = searchParameters,
             fromGroup = null,
             max = max
         )

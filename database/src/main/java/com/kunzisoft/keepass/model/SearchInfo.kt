@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.utils.ObjectNameResource
 import com.kunzisoft.keepass.utils.readBooleanCompat
@@ -97,36 +96,26 @@ class SearchInfo : ObjectNameResource, Parcelable {
                 && relyingParty == null
                 && otpString == null
     }
-    
-    private fun isADomainSearch(): Boolean {
-        return toString() == webDomain && webDomain != null
-    }
 
-    var isAPasskeySearch: Boolean = false
+    var isTagSearch: Boolean = false
+        get() = tag != null
+        private set
 
-    var query: String? = null
+    var isAppIdSearch: Boolean = false
+        get() = applicationId != null
+        private set
 
-    fun buildSearchParameters(): SearchParameters {
-        return SearchParameters().apply {
-            searchQuery = query ?: this@SearchInfo.toString()
-            allowEmptyQuery = false
-            searchInTitles = !isAPasskeySearch
-            searchInUsernames = false
-            searchInPasswords = false
-            searchInUrls = !isAPasskeySearch
-            searchByDomain = isADomainSearch()
-            searchInNotes = false
-            searchInOTP = false
-            searchInOther = true
-            searchInUUIDs = false
-            searchInTags = false
-            searchInRelyingParty = isAPasskeySearch
-            searchInCurrentGroup = false
-            searchInSearchableGroup = true
-            searchInRecycleBin = false
-            searchInTemplates = false
-        }
-    }
+    var isDomainSearch: Boolean = false
+        get() = webDomain != null
+        private set
+
+    var isPasskeySearch: Boolean = false
+        get() = relyingParty != null
+        private set
+
+    var isOTPSearch: Boolean = false
+        get() = otpString != null
+        private set
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

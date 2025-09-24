@@ -31,11 +31,11 @@ import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField.setApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setWebDomain
 import com.kunzisoft.keepass.model.CreditCardEntryFields.setCreditCard
-import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskeyExclusion
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
 import com.kunzisoft.keepass.model.PasskeyEntryFields.setPasskey
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
-import com.kunzisoft.keepass.otp.OtpEntryFields.isOtpExclusion
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
 import com.kunzisoft.keepass.otp.OtpEntryFields.setOtp
 import com.kunzisoft.keepass.utils.readBooleanCompat
 import com.kunzisoft.keepass.utils.readListCompat
@@ -109,8 +109,7 @@ class EntryInfo : NodeInfo {
 
     fun getCustomFieldsForFilling(): List<Field> {
         return customFields.filter {
-            !it.isOtpExclusion()
-                    && !it.isPasskeyExclusion()
+            !it.isOTP() && !it.isPasskey()
         }
     }
 

@@ -1,2 +1,3 @@
  * Passkeys management #1421 (Thx @cali-95)
+ * Search settings #2112 #2181
  * Small fixes #2171 #2150 #2159

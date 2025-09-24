@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseExcept
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.utils.AppUtil
+import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.toastError
@@ -81,10 +81,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         }
                         // Build search param
                         bundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
-                            AppUtil.getConcreteWebDomain(
-                                this,
-                                searchInfo.webDomain
-                            ) { concreteWebDomain ->
+                            searchInfo.getConcreteWebDomain(this) { concreteWebDomain ->
                                 // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
                                 val assistStructure = AutofillHelper
                                     .retrieveAutofillComponent(intent)
@@ -111,7 +108,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         KEY_REGISTER_INFO
                     )
                     val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    AppUtil.getConcreteWebDomain(this, searchInfo.webDomain) { concreteWebDomain ->
+                    searchInfo.getConcreteWebDomain(this) { concreteWebDomain ->
                         searchInfo.webDomain = concreteWebDomain
                         launchRegistration(database, searchInfo, registerInfo)
                     }

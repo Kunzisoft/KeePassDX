@@ -819,6 +819,7 @@ class GroupActivity : DatabaseLockActivity(),
             searchFiltersView?.setNumbers(group.numberOfChildEntries)
             searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: "")
             searchFiltersView?.availableOther(mDatabase?.allowEntryCustomFields() ?: false)
+            searchFiltersView?.availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
             searchFiltersView?.availableTags(mDatabase?.allowTags() ?: false)
             searchFiltersView?.enableTags(mDatabase?.tagPool?.isNotEmpty() ?: false)
             searchFiltersView?.availableSearchableGroup(mDatabase?.allowCustomSearchableGroup() ?: false)
@@ -1273,7 +1274,7 @@ class GroupActivity : DatabaseLockActivity(),
             searchView = it.actionView as SearchView?
             searchView?.apply {
                 setOnQueryTextFocusChangeListener(mOnSearchTextFocusChangeListener)
-                val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
+                val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager?
                 (searchManager?.getSearchableInfo(
                     ComponentName(this@GroupActivity, GroupActivity::class.java)
                 ))?.let { searchableInfo ->

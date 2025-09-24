@@ -108,7 +108,7 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.auto_focus_search_default))
     }
 
-    fun searchSubdomains(context: Context): Boolean {
+    fun searchSubDomains(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.subdomain_search_key),
             context.resources.getBoolean(R.bool.subdomain_search_default))
@@ -352,6 +352,8 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.search_option_username_default))
             searchInPasswords = prefs.getBoolean(context.getString(R.string.search_option_password_key),
                 context.resources.getBoolean(R.bool.search_option_password_default))
+            searchInAppIds = prefs.getBoolean(context.getString(R.string.search_option_application_id_key),
+                context.resources.getBoolean(R.bool.search_option_application_id_default))
             searchInUrls = prefs.getBoolean(context.getString(R.string.search_option_url_key),
                 context.resources.getBoolean(R.bool.search_option_url_default))
             searchInExpired = prefs.getBoolean(context.getString(R.string.search_option_expired_key),
@@ -389,6 +391,8 @@ object PreferencesUtil {
                 searchParameters.searchInUsernames)
             putBoolean(context.getString(R.string.search_option_password_key),
                 searchParameters.searchInPasswords)
+            putBoolean(context.getString(R.string.search_option_application_id_key),
+                searchParameters.searchInAppIds)
             putBoolean(context.getString(R.string.search_option_url_key),
                 searchParameters.searchInUrls)
             putBoolean(context.getString(R.string.search_option_expired_key),

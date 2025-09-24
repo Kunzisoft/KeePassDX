@@ -247,6 +247,8 @@
     <bool name="search_option_username_default" translatable="false">true</bool>
     <string name="search_option_password_key" translatable="false">search_option_password_key</string>
     <bool name="search_option_password_default" translatable="false">false</bool>
+    <string name="search_option_application_id_key" translatable="false">search_option_application_id_key</string>
+    <bool name="search_option_application_id_default" translatable="false">false</bool>
     <string name="search_option_url_key" translatable="false">search_option_url_key</string>
     <bool name="search_option_url_default" translatable="false">true</bool>
     <string name="search_option_expired_key" translatable="false">search_option_expired_key</string>

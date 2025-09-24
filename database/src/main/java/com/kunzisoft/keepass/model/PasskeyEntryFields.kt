@@ -112,9 +112,9 @@ object PasskeyEntryFields {
     }
 
     /**
-     * Field ignored for a search or a form filling
+     * Detect if the current field is a Passkey
      */
-    fun Field.isPasskeyExclusion(): Boolean {
+    fun Field.isPasskey(): Boolean {
         return when(name) {
             PASSKEY_FIELD -> true
             FIELD_USERNAME -> true
@@ -124,5 +124,12 @@ object PasskeyEntryFields {
             FIELD_RELYING_PARTY -> true
             else -> false
         }
+    }
+
+    /**
+     * Detect if the current field is a Passkey relying party
+     */
+    fun Field.isRelyingParty(): Boolean {
+        return name == FIELD_RELYING_PARTY
     }
 }

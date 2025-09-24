@@ -110,6 +110,7 @@
     <string name="auto_type_sequence">Auto-Type sequence</string>
     <string name="entry_not_found">Could not find entry data.</string>
     <string name="entry_password">Password</string>
+    <string name="entry_application_id">App Id</string>
     <string name="tags">Tags</string>
     <string name="custom_data">Custom data</string>
     <string name="save">Save</string>
