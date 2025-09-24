@@ -1,1 +1,1 @@
-Secure open-source password safe and manager
+Manage Passkey / Password in a local and open-source vault
