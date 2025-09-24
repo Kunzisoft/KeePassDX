@@ -383,7 +383,6 @@
     <string name="search_mode">Otsinguviis</string>
     <string name="save_mode">Salvestusviis</string>
     <string name="selection_mode">Valikuviis</string>
-    <string name="registration_mode">Registreerimisviis</string>
     <string name="invalid_credentials">Salasõna või võtmefaili ei õnnestunud lugeda.</string>
     <string name="protection">Kaitse</string>
     <string name="underline">Allajoonitud</string>

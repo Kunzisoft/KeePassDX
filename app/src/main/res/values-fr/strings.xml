@@ -495,7 +495,6 @@
     <string name="notification">Notification</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
     <string name="warning_empty_recycle_bin">Supprimer définitivement tous les nœuds de la corbeille \?</string>
-    <string name="registration_mode">Mode enregistrement</string>
     <string name="save_mode">Mode sauvegarde</string>
     <string name="search_mode">Mode recherche</string>
     <string name="error_registration_read_only">L’enregistrement d’un nouvel élément n’est pas autorisé dans une base de données en lecture seule.</string>

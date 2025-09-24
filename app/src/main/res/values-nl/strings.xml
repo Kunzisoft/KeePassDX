@@ -481,7 +481,6 @@
     <string name="biometric_security_update_required">Biometrische beveiligingsupdate vereist.</string>
     <string name="configure_biometric">Geen biometrische gegevens of apparaatgegevens geregistreerd.</string>
     <string name="warning_empty_recycle_bin">Alles definitief uit de prullenbak verwijderen\?</string>
-    <string name="registration_mode">Registratiemodus</string>
     <string name="save_mode">Veilige modus</string>
     <string name="search_mode">Zoekmodus</string>
     <string name="error_registration_read_only">Het opslaan van een nieuw item is niet toegestaan in een alleen-lezen database.</string>

@@ -324,7 +324,6 @@
     <string name="contains_duplicate_uuid">A base de datos contén UUIDs duplicados.</string>
     <string name="contains_duplicate_uuid_procedure">Resolver o problema xerando novas UUIDs para que os duplicados continúen\?</string>
     <string name="selection_mode">Modo de selección</string>
-    <string name="registration_mode">Modo de rexistro</string>
     <string name="remember_database_locations_title">Lembrar localización das bases de datos</string>
     <string name="remember_keyfile_locations_summary">Mantén un rexistro de onde son almacenados os ficheiros clave</string>
     <string name="remember_hardware_key_title">Lembrar claves hardware</string>

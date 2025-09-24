@@ -347,7 +347,6 @@
     <string name="place_of_issue">Lloc d\'expedició</string>
     <string name="style_brightness_summary">Escull tema clar o fosc</string>
     <string name="hardware_key">Clau física</string>
-    <string name="registration_mode">Mode de registre</string>
     <string name="ignore_chars_filter">Ignora caràcters</string>
     <string name="ask">Pregunta</string>
     <string name="searchable">Cercable</string>

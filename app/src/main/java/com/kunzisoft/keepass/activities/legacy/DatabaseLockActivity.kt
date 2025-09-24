@@ -392,10 +392,8 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     private fun checkRegister() {
-        // If in ave or registration mode, don't allow read only
-        if ((mSpecialMode == SpecialMode.SAVE
-                    || mSpecialMode == SpecialMode.REGISTRATION)
-            && mDatabaseReadOnly) {
+        // If in registration mode, don't allow read only
+        if (mSpecialMode == SpecialMode.REGISTRATION && mDatabaseReadOnly) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
             EntrySelectionHelper.removeModesFromIntent(intent)
             finish()

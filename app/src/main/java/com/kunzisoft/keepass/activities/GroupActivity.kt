@@ -500,12 +500,14 @@ class GroupActivity : DatabaseLockActivity(),
                         searchAction = {
                             // Search not used
                         },
-                        saveAction = { searchInfo ->
-                            EntryEditActivity.launchToCreateForSave(
+                        registrationAction = { registerInfo ->
+                            EntryEditActivity.launchToCreateForRegistration(
                                 context = this@GroupActivity,
                                 database = database,
+                                activityResultLauncher = null,
                                 groupId = currentGroup.nodeId,
-                                searchInfo = searchInfo
+                                registerInfo = registerInfo,
+                                typeMode = TypeMode.DEFAULT
                             )
                             onLaunchActivitySpecialMode()
                         },
@@ -714,7 +716,7 @@ class GroupActivity : DatabaseLockActivity(),
                         searchAction = {
                             // Search not used
                         },
-                        saveAction = {
+                        registrationAction = {
                             // Save not used
                         },
                         keyboardSelectionAction = {
@@ -739,7 +741,7 @@ class GroupActivity : DatabaseLockActivity(),
                             }
                         },
                         passkeyRegistrationAction = {
-                            // TODO Passkey Registration
+                            // Not use
                         }
                     )
                 }
@@ -897,9 +899,15 @@ class GroupActivity : DatabaseLockActivity(),
                     searchAction = {
                         // Nothing here, a search is simply performed
                     },
-                    saveAction = { searchInfo ->
+                    registrationAction = { registerInfo ->
                         if (!database.isReadOnly) {
-                            entrySelectedForSave(database, entryVersioned, searchInfo)
+                            entrySelectedForRegistration(
+                                database = database,
+                                entry = entryVersioned,
+                                activityResultLauncher = null,
+                                registerInfo = registerInfo,
+                                typeMode = TypeMode.DEFAULT
+                            )
                             loadGroup()
                         } else
                             finish()
@@ -909,7 +917,11 @@ class GroupActivity : DatabaseLockActivity(),
                             && searchInfo != null
                             && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
                         ) {
-                            updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
+                            updateEntryWithRegisterInfo(
+                                database,
+                                entryVersioned,
+                                searchInfo.toRegisterInfo()
+                            )
                         }
                         entrySelectedForKeyboardSelection(database, entryVersioned)
                         loadGroup()
@@ -919,7 +931,11 @@ class GroupActivity : DatabaseLockActivity(),
                             && searchInfo != null
                             && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
                         ) {
-                            updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
+                            updateEntryWithRegisterInfo(
+                                database,
+                                entryVersioned,
+                                searchInfo.toRegisterInfo()
+                            )
                         }
                         entrySelectedForAutofillSelection(database, entryVersioned)
                         loadGroup()
@@ -938,11 +954,6 @@ class GroupActivity : DatabaseLockActivity(),
                             finish()
                     },
                     passkeySelectionAction = { searchInfo ->
-                        if (!database.isReadOnly
-                            && searchInfo != null
-                        ) {
-                            updateEntryWithSearchInfo(database, entryVersioned, searchInfo)
-                        }
                         entrySelectedForPasskeySelection(database, entryVersioned)
                         loadGroup()
                     },
@@ -964,18 +975,6 @@ class GroupActivity : DatabaseLockActivity(),
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
-    }
-
-    private fun entrySelectedForSave(database: ContextualDatabase, entry: Entry, searchInfo: SearchInfo) {
-        removeSearch()
-        // Save to update the entry
-        EntryEditActivity.launchToUpdateForSave(
-            this@GroupActivity,
-            database,
-            entry.nodeId,
-            searchInfo
-        )
-        onLaunchActivitySpecialMode()
     }
 
     private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
@@ -1032,10 +1031,10 @@ class GroupActivity : DatabaseLockActivity(),
         onLaunchActivitySpecialMode()
     }
 
-    private fun updateEntryWithSearchInfo(
+    private fun updateEntryWithRegisterInfo(
         database: ContextualDatabase,
         entry: Entry,
-        searchInfo: SearchInfo
+        registerInfo: RegisterInfo
     ) {
         val newEntry = Entry(entry)
         val entryInfo = newEntry.getEntryInfo(
@@ -1043,8 +1042,7 @@ class GroupActivity : DatabaseLockActivity(),
             raw = true,
             removeTemplateConfiguration = false
         )
-        // TODO Transform SearchInfo in RegisterInfo
-        entryInfo.saveSearchInfo(database, searchInfo)
+        entryInfo.saveRegisterInfo(database, registerInfo)
         newEntry.setEntryInfo(database, entryInfo)
         updateEntry(entry, newEntry)
     }
@@ -1605,27 +1603,6 @@ class GroupActivity : DatabaseLockActivity(),
 
         /*
          * -------------------------
-         * 		Search save Launch
-         * -------------------------
-         */
-        fun launchForSaveResult(context: Context,
-                                database: ContextualDatabase,
-                                searchInfo: SearchInfo,
-                                autoSearch: Boolean = false) {
-            if (database.loaded && !database.isReadOnly) {
-                checkTimeAndBuildIntent(context, null) { intent ->
-                    intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                    EntrySelectionHelper.startActivityForSaveModeResult(
-                        context,
-                        intent,
-                        searchInfo
-                    )
-                }
-            }
-        }
-
-        /*
-         * -------------------------
          * 		Keyboard Launch
          * -------------------------
          */
@@ -1753,15 +1730,16 @@ class GroupActivity : DatabaseLockActivity(),
                         onCancelSpecialMode()
                     }
                 },
-                saveAction = { searchInfo ->
+                registrationAction = { registerInfo ->
                     // Save info
                     if (database.loaded) {
                         if (!database.isReadOnly) {
-                            launchForSaveResult(
-                                activity,
-                                database,
-                                searchInfo,
-                                false
+                            launchForRegistration(
+                                context = activity,
+                                activityResultLauncher = null,
+                                database = database,
+                                registerInfo = registerInfo,
+                                typeMode = TypeMode.DEFAULT
                             )
                             onLaunchActivitySpecialMode()
                         } else {

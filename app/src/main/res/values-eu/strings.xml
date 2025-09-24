@@ -355,7 +355,6 @@
     <string name="read_only_warning">Zure fitxategi nabigatzailearen arabera, KeePassDXek ez du baimenduta datuak idaztea.</string>
     <string name="save_mode">Gorde modua</string>
     <string name="selection_mode">Hautaketa modua</string>
-    <string name="registration_mode">Erregistro-modua</string>
     <string name="remember_database_locations_title">Gogoratu datu-baseen kokalekuak</string>
     <string name="remember_database_locations_summary">Erregistratu datu-baseen kokapenak</string>
     <string name="remember_keyfile_locations_title">Gogoratu fitxategi-gakoen kokapenak</string>

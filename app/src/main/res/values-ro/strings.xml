@@ -526,7 +526,6 @@
     <string name="error_driver_required">Driver-ul pentru %1$s este necesară.</string>
     <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb.</string>
     <string name="error_location_unknown">Locația bazei de date este necunoscută, acțiunea bazei de date nu poate fi efectuată.</string>
-    <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Reține cheile hardware</string>
     <string name="remember_hardware_key_summary">Păstrează evidența cheilor hardware utilizate</string>
     <string name="import_app_properties_summary">Selectați un fișier pentru a importa setările aplicației</string>

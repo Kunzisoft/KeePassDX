@@ -479,7 +479,6 @@
     <string name="notification">Уведомление</string>
     <string name="biometric_security_update_required">Требуется обновление биометрической системы безопасности.</string>
     <string name="warning_empty_recycle_bin">Удалить всё содержимое корзины безвозвратно\?</string>
-    <string name="registration_mode">Режим регистрации</string>
     <string name="save_mode">Режим записи</string>
     <string name="search_mode">Режим поиска</string>
     <string name="error_registration_read_only">Сохранение новых записей невозможно, т.к. база открыта только для чтения.</string>

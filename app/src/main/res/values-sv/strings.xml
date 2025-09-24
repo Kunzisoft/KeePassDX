@@ -535,7 +535,6 @@
     <string name="subdomain_search_title">Subdomänsök</string>
     <string name="subdomain_search_summary">Sök webbdomän med subdomänbegränsning</string>
     <string name="search_mode">Sökläge</string>
-    <string name="registration_mode">Registreringsläge</string>
     <string name="remember_hardware_key_title">Kom ihåg hårdvarunycklar</string>
     <string name="remember_hardware_key_summary">Kom ihåg hårdvarunycklar som används</string>
     <string name="import_app_properties_title">Importera appinställningar</string>

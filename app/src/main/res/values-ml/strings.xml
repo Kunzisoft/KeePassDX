@@ -373,7 +373,6 @@
     <string name="keyboard_save_search_info_title">പങ്കിട്ട വിവരം സംരക്ഷിക്കുക</string>
     <string name="clipboard_notifications_title">ക്ലിപ്ബോർഡ് അറിയിപ്പുകൾ</string>
     <string name="warning_empty_recycle_bin">റീസൈക്കിൾ ബിന്നിൽ നിന്ന് എല്ലാ നോഡുകളും ശാശ്വതമായി ഇല്ലാതാക്കണോ\?</string>
-    <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
     <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല.</string>
     <string name="education_device_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>

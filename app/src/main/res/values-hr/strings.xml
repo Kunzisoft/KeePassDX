@@ -476,7 +476,6 @@
     <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
     <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>
     <string name="configure_biometric">Ne postoji biometrijski ključ niti podaci za prijavu uređaja.</string>
-    <string name="registration_mode">Modus registracije</string>
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>

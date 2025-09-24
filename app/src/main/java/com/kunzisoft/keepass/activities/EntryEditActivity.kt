@@ -206,8 +206,8 @@ class EntryEditActivity : DatabaseLockActivity(),
             mDatabase,
             entryId,
             parentId,
-            EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent),
-            EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+            EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)?.toRegisterInfo()
         )
 
         // To retrieve attachment
@@ -381,7 +381,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                     intent = intent,
                     defaultAction = {},
                     searchAction = {},
-                    saveAction = {},
+                    registrationAction = {},
                     keyboardSelectionAction = {
                         entryValidatedForKeyboardSelection(database, entrySave.newEntry)
                     },
@@ -442,7 +442,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 searchAction = {
                                     // Nothing when search retrieved
                                 },
-                                saveAction = {
+                                registrationAction = {
                                     entryValidatedForSave(entry)
                                 },
                                 keyboardSelectionAction = {
@@ -783,7 +783,7 @@ class EntryEditActivity : DatabaseLockActivity(),
             val bundle = buildEntryResult(entry)
             val intentEntry = Intent()
             intentEntry.putExtras(bundle)
-            setResult(Activity.RESULT_OK, intentEntry)
+            setResult(RESULT_OK, intentEntry)
             super.finish()
         } catch (e: Exception) {
             // Exception when parcelable can't be done
@@ -803,7 +803,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         fun registerForEntryResult(fragment: Fragment,
                                    entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
             return fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
+                if (result.resultCode == RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
                         result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
                     )
@@ -816,7 +816,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         fun registerForEntryResult(activity: FragmentActivity,
                                    entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
+                if (result.resultCode == RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
                         result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
                     )
@@ -854,40 +854,6 @@ class EntryEditActivity : DatabaseLockActivity(),
                     val intent = Intent(activity, EntryEditActivity::class.java)
                     intent.putExtra(KEY_PARENT, groupId)
                     activityResultLauncher.launch(intent)
-                }
-            }
-        }
-
-        fun launchToUpdateForSave(context: Context,
-                                  database: ContextualDatabase,
-                                  entryId: NodeId<UUID>,
-                                  searchInfo: SearchInfo) {
-            if (database.loaded && !database.isReadOnly) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                    val intent = Intent(context, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_ENTRY, entryId)
-                    EntrySelectionHelper.startActivityForSaveModeResult(
-                        context,
-                        intent,
-                        searchInfo
-                    )
-                }
-            }
-        }
-
-        fun launchToCreateForSave(context: Context,
-                                  database: ContextualDatabase,
-                                  groupId: NodeId<*>,
-                                  searchInfo: SearchInfo) {
-            if (database.loaded && !database.isReadOnly) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                    val intent = Intent(context, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_PARENT, groupId)
-                    EntrySelectionHelper.startActivityForSaveModeResult(
-                        context,
-                        intent,
-                        searchInfo
-                    )
                 }
             }
         }

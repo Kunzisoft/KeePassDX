@@ -455,7 +455,6 @@
     <string name="warning_database_info_changed_options">Unir os dados, substituir as alterações externas guardado a base de dados ou recarregá-los com as últimas alterações.</string>
     <string name="warning_database_info_changed">A informação contida no seu ficheiro da base de dados foi alterada fora da aplicação.</string>
     <string name="warning_empty_recycle_bin">Eliminar permanentemente todos os nós do caixote da reciclagem\?</string>
-    <string name="registration_mode">Modo de registo</string>
     <string name="save_mode">Modo de guardar</string>
     <string name="search_mode">Modo de pesquisa</string>
     <string name="menu_keystore_remove_key">Eliminar a chave de desbloqueio do dispositivo</string>

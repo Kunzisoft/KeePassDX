@@ -158,6 +158,10 @@ class SearchInfo : ObjectNameResource, Parcelable {
         return otpString ?: webDomain ?: applicationId ?: relyingParty ?: tag ?: ""
     }
 
+    fun toRegisterInfo(): RegisterInfo {
+        return RegisterInfo(this)
+    }
+
     companion object {
         // https://gist.github.com/rishabhmhjn/8663966
         const val APPLICATION_ID_REGEX = "^(?:[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)(?:\\.[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)+\$"

@@ -450,7 +450,6 @@
 \nA feltöltéstől az adatbázis nagyon nagyra nőhet, és csökkenhet a teljesítmény.</string>
     <string name="warning_empty_recycle_bin">Végleg törli az összes csomópontot a kukából\?</string>
     <string name="filter">Szűrő</string>
-    <string name="registration_mode">Regisztrációs mód</string>
     <string name="save_mode">Mentési mód</string>
     <string name="search_mode">Keresési mód</string>
     <string name="subdomain_search_summary">Webdomainek keresése aldomain megszorításokkal</string>

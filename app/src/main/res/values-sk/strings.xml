@@ -514,7 +514,6 @@
     <string name="copy_field">Kópia %1$s</string>
     <string name="menu_security_settings">Bezpečnostné nastavenia</string>
     <string name="menu_cancel">Zrušiť</string>
-    <string name="registration_mode">Režim registrácie</string>
     <string name="show_recent_files_summary">Zobraziť umiestnenie nedávnych databáz</string>
     <string name="show_recent_files_title">Zobraziť posledné súbory</string>
     <string name="encryption_explanation">Algoritmus šifrovania databázy používaný pre všetky údaje</string>

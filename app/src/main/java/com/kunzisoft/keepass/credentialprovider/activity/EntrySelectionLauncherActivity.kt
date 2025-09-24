@@ -22,12 +22,11 @@ package com.kunzisoft.keepass.credentialprovider.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.net.toUri
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
@@ -88,7 +87,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                         if (OtpEntryFields.isOTPUri(extra))
                             otpString = extra
                     }
-                    launchSelection(database, sharedWebDomain, otpString)
+                    launchSelection(database, null, otpString)
                 }
                 else -> {
                     if (database != null) {
@@ -133,11 +132,12 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                 // Items found
                 if (searchInfo.otpString != null) {
                     if (!readOnly) {
-                        GroupActivity.launchForSaveResult(
-                            this,
-                            openedDatabase,
-                            searchInfo,
-                            false
+                        GroupActivity.launchForRegistration(
+                            context = this,
+                            activityResultLauncher = null,
+                            database = openedDatabase,
+                            registerInfo = searchInfo.toRegisterInfo(),
+                            typeMode = TypeMode.DEFAULT
                         )
                     } else {
                         toastError(RegisterInReadOnlyDatabaseException())
@@ -174,11 +174,12 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                 // Show the database UI to select the entry
                 if (searchInfo.otpString != null) {
                     if (!readOnly) {
-                        GroupActivity.launchForSaveResult(
-                            this,
-                            openedDatabase,
-                            searchInfo,
-                            false
+                        GroupActivity.launchForRegistration(
+                            context = this,
+                            activityResultLauncher = null,
+                            database = openedDatabase,
+                            registerInfo = searchInfo.toRegisterInfo(),
+                            typeMode = TypeMode.DEFAULT
                         )
                     } else {
                         toastError(RegisterInReadOnlyDatabaseException())
@@ -202,9 +203,11 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
             onDatabaseClosed = {
                 // If database not open
                 if (searchInfo.otpString != null) {
-                    FileDatabaseSelectActivity.launchForSaveResult(
-                        this,
-                        searchInfo
+                    FileDatabaseSelectActivity.launchForRegistration(
+                        context = this,
+                        activityResultLauncher = null,
+                        registerInfo = searchInfo.toRegisterInfo(),
+                        typeMode = TypeMode.DEFAULT
                     )
                 } else if (searchShareForMagikeyboard) {
                     FileDatabaseSelectActivity.launchForKeyboardSelectionResult(

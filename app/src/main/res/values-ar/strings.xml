@@ -452,7 +452,6 @@
     <string name="menu_form_filling_settings">ملء النموذج</string>
     <string name="menu_reload_database">أعد تحميل البيانات</string>
     <string name="menu_external_icon">أيقونة خارجية</string>
-    <string name="registration_mode">وضع التسجيل</string>
     <string name="import_app_properties_title">استورد خصائص التطبيق</string>
     <string name="import_app_properties_summary">اختر ملفًا لاستيراد إعدادات التطبيق</string>
     <string name="export_app_properties_title">صدّر إعدادات التطبيق</string>

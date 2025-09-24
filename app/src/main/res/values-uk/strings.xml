@@ -479,7 +479,6 @@
     <string name="biometric_security_update_required">Необхідно оновити біометричний захист.</string>
     <string name="configure_biometric">Біометричних чи облікових даних пристрою не зареєстровано.</string>
     <string name="warning_empty_recycle_bin">Видалити всі вузли з кошика остаточно\?</string>
-    <string name="registration_mode">Режим реєстрації</string>
     <string name="save_mode">Режим збереження</string>
     <string name="search_mode">Режим пошуку</string>
     <string name="error_registration_read_only">Збереження нового елемента заборонено в базі даних лише для читання.</string>

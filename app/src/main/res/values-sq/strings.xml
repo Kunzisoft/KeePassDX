@@ -234,7 +234,6 @@
     <string name="protection">Mbrojtje</string>
     <string name="contains_duplicate_uuid">Baza e të dhënave përmban UUID-ra të përsëdytur.</string>
     <string name="selection_mode">Mënyrë përzgjedhjeje</string>
-    <string name="registration_mode">Mënyrë regjistrimi</string>
     <string name="remember_database_locations_title">Mbaj mend vendndodhje bazash të dhënash</string>
     <string name="remember_keyfile_locations_title">Mbaj mend vendndodhje kartelash kyçesh</string>
     <string name="show_recent_files_title">Shfaq kartelë të freskëta</string>

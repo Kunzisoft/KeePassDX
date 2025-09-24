@@ -16,7 +16,6 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
-import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.utils.IOActionTask
@@ -28,7 +27,6 @@ class EntryEditViewModel: NodeEditViewModel() {
     private var mEntryId: NodeId<UUID>? = null
     private var mParentId: NodeId<*>? = null
     private var mRegisterInfo: RegisterInfo? = null
-    private var mSearchInfo: SearchInfo? = null
     private var mParent: Group? = null
     private var mEntry: Entry? = null
     private var mIsTemplate: Boolean = false
@@ -74,18 +72,18 @@ class EntryEditViewModel: NodeEditViewModel() {
     private val _onBinaryPreviewLoaded = SingleLiveEvent<AttachmentPosition>()
 
     fun loadDatabase(database: ContextualDatabase?) {
-        loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo, mSearchInfo)
+        loadTemplateEntry(database, mEntryId, mParentId, mRegisterInfo)
     }
 
-    fun loadTemplateEntry(database: ContextualDatabase?,
-                          entryId: NodeId<UUID>?,
-                          parentId: NodeId<*>?,
-                          registerInfo: RegisterInfo?,
-                          searchInfo: SearchInfo?) {
+    fun loadTemplateEntry(
+        database: ContextualDatabase?,
+        entryId: NodeId<UUID>?,
+        parentId: NodeId<*>?,
+        registerInfo: RegisterInfo?
+    ) {
         this.mEntryId = entryId
         this.mParentId = parentId
         this.mRegisterInfo = registerInfo
-        this.mSearchInfo = searchInfo
 
         database?.let {
             mEntryId?.let {
@@ -105,8 +103,7 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 database,
                                 entry,
                                 mIsTemplate,
-                                registerInfo,
-                                searchInfo
+                                registerInfo
                             )
                         }
                     },
@@ -145,8 +142,7 @@ class EntryEditViewModel: NodeEditViewModel() {
                                 database,
                                 mEntry,
                                 mIsTemplate,
-                                registerInfo,
-                                searchInfo
+                                registerInfo
                             )
                         }
                     },
@@ -159,11 +155,12 @@ class EntryEditViewModel: NodeEditViewModel() {
         }
     }
 
-    private fun decodeTemplateEntry(database: ContextualDatabase,
-                                    entry: Entry?,
-                                    isTemplate: Boolean,
-                                    registerInfo: RegisterInfo?,
-                                    searchInfo: SearchInfo?): TemplatesEntry {
+    private fun decodeTemplateEntry(
+        database: ContextualDatabase,
+        entry: Entry?,
+        isTemplate: Boolean,
+        registerInfo: RegisterInfo?
+    ): TemplatesEntry {
         val templates = database.getTemplates(isTemplate)
         val entryTemplate = entry?.let { database.getTemplate(it) }
                 ?: Template.STANDARD
@@ -174,10 +171,6 @@ class EntryEditViewModel: NodeEditViewModel() {
                 // Load entry info
                 entry.getEntryInfo(database, true).let { tempEntryInfo ->
                     // Retrieve data from registration
-                    // TODO only save registration
-                    searchInfo?.let { tempSearchInfo ->
-                        tempEntryInfo.saveSearchInfo(database, tempSearchInfo)
-                    }
                     registerInfo?.let { regInfo ->
                         tempEntryInfo.saveRegisterInfo(database, regInfo)
                     }

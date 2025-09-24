@@ -300,7 +300,6 @@
     <string name="contains_duplicate_uuid">ฐานข้อมูลมี UUID ที่ซ้ำกัน</string>
     <string name="contains_duplicate_uuid_procedure">แก้ปัญหาด้วยการสร้าง UUID ใหม่เพื่อรายการที่ซ้ํากัน ดําเนินการต่อหรือไม่\?</string>
     <string name="remember_keyfile_locations_summary">ติดตามตำแหน่งที่เก็บ keyfile</string>
-    <string name="registration_mode">โหมดการลงทะเบียน</string>
     <string name="remember_database_locations_summary">ติดตามตำแหน่งที่เก็บฐานข้อมูล</string>
     <string name="remember_keyfile_locations_title">จดจำตำแหน่ง keyfile</string>
     <string name="remember_hardware_key_title">จดจําคีย์ฮาร์ดแวร์</string>

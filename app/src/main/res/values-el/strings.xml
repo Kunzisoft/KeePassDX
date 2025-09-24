@@ -479,7 +479,6 @@
     <string name="biometric_security_update_required">Απαιτείται ενημέρωση βιομετρικής ασφάλειας.</string>
     <string name="configure_biometric">Κανένα πιστοποιητικό βιομετρίας ή συσκευής δεν είναι εγγεγραμμένο.</string>
     <string name="warning_empty_recycle_bin">Να διαγραφούν οριστικά όλοι οι κόμβοι από τον κάδο ανακύκλωσης;</string>
-    <string name="registration_mode">Τρόπος εγγραφής</string>
     <string name="save_mode">Λειτουργία αποθήκευσης</string>
     <string name="search_mode">Λειτουργία αναζήτησης</string>
     <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση.</string>

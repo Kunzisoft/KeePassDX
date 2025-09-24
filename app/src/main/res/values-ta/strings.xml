@@ -414,7 +414,6 @@
     <string name="exclude_ambiguous_chars">தெளிவற்ற கதாபாத்திரங்களை விலக்கவும்</string>
     <string name="word_separator">பிரிப்பான்</string>
     <string name="screenshot_mode_banner_text">திரைக்காட்சி பயன்முறை</string>
-    <string name="registration_mode">பதிவு முறை</string>
     <string name="warning_database_info_reloaded">தரவுத்தளத்தை மீண்டும் ஏற்றுவது உள்நாட்டில் மாற்றியமைக்கப்பட்ட தரவை நீக்கும்.</string>
     <string name="disable">முடக்கு</string>
     <string name="autofill_close_database_title">தரவுத்தளத்தை மூடு</string>

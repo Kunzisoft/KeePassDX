@@ -102,16 +102,6 @@ object EntrySelectionHelper {
         context.startActivity(intent)
     }
 
-    fun startActivityForSaveModeResult(context: Context,
-                                             intent: Intent,
-                                             searchInfo: SearchInfo) {
-        addSpecialModeInIntent(intent, SpecialMode.SAVE)
-        addTypeModeInIntent(intent, TypeMode.DEFAULT)
-        addSearchInfoInIntent(intent, searchInfo)
-        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        context.startActivity(intent)
-    }
-
     fun startActivityForKeyboardSelectionModeResult(context: Context,
                                                     intent: Intent,
                                                     searchInfo: SearchInfo?) {
@@ -245,16 +235,18 @@ object EntrySelectionHelper {
                 && typeMode == TypeMode.PASSKEY)
     }
 
-    fun doSpecialAction(intent: Intent,
-                        defaultAction: () -> Unit,
-                        searchAction: (searchInfo: SearchInfo) -> Unit,
-                        saveAction: (searchInfo: SearchInfo) -> Unit,
-                        keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
-                        autofillSelectionAction: (searchInfo: SearchInfo?,
-                                                  autofillComponent: AutofillComponent) -> Unit,
-                        autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit,
-                        passkeySelectionAction: (searchInfo: SearchInfo?) -> Unit,
-                        passkeyRegistrationAction: (registerInfo: RegisterInfo?) -> Unit) {
+    fun doSpecialAction(
+        intent: Intent,
+        defaultAction: () -> Unit,
+        searchAction: (searchInfo: SearchInfo) -> Unit,
+        registrationAction: (registerInfo: RegisterInfo?) -> Unit,
+        keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
+        autofillSelectionAction: (searchInfo: SearchInfo?,
+                                  autofillComponent: AutofillComponent) -> Unit,
+        autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit,
+        passkeySelectionAction: (searchInfo: SearchInfo?) -> Unit,
+        passkeyRegistrationAction: (registerInfo: RegisterInfo?) -> Unit
+    ) {
 
         when (retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
@@ -268,16 +260,6 @@ object EntrySelectionHelper {
                 removeInfoFromIntent(intent)
                 if (searchInfo != null)
                     searchAction.invoke(searchInfo)
-                else {
-                    defaultAction.invoke()
-                }
-            }
-            SpecialMode.SAVE -> {
-                val searchInfo = retrieveSearchInfoFromIntent(intent)
-                removeModesFromIntent(intent)
-                removeInfoFromIntent(intent)
-                if (searchInfo != null)
-                    saveAction.invoke(searchInfo)
                 else {
                     defaultAction.invoke()
                 }
@@ -334,7 +316,11 @@ object EntrySelectionHelper {
                         passkeyRegistrationAction.invoke(registerInfo)
                     }
                     else -> {
-                        // Do other registration type
+                        if (registerInfo != null)
+                            registrationAction.invoke(registerInfo)
+                        else {
+                            defaultAction.invoke()
+                        }
                     }
                 }
             }

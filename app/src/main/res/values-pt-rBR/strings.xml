@@ -530,7 +530,6 @@
     <string name="export_app_properties_title">Exportar as configurações do aplicativo</string>
     <string name="import_app_properties_summary">Selecione um arquivo para importar as configurações do aplicativo</string>
     <string name="import_app_properties_title">Importar as configurações do aplicativo</string>
-    <string name="registration_mode">Modo registro</string>
     <string name="save_mode">Modo salvar</string>
     <string name="search_mode">Modo busca</string>
     <string name="menu_external_icon">Ícone externo</string>

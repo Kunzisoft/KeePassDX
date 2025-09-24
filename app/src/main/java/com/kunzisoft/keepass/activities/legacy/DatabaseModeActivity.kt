@@ -125,9 +125,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             val selectionModeStringId = when (mSpecialMode) {
                 SpecialMode.DEFAULT, // Not important because hidden
                 SpecialMode.SEARCH -> R.string.search_mode
-                SpecialMode.SAVE -> R.string.save_mode
                 SpecialMode.SELECTION -> R.string.selection_mode
-                SpecialMode.REGISTRATION -> R.string.registration_mode
+                SpecialMode.REGISTRATION -> R.string.save_mode // Save is registration mode
             }
             val typeModeStringId = when (mTypeMode) {
                 TypeMode.DEFAULT, // Not important because hidden
@@ -145,7 +144,6 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             visible = when (mSpecialMode) {
                 SpecialMode.DEFAULT -> false
                 SpecialMode.SEARCH -> true
-                SpecialMode.SAVE -> true
                 SpecialMode.SELECTION -> true
                 SpecialMode.REGISTRATION -> true
             }

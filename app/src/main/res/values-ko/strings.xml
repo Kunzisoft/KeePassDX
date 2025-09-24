@@ -344,7 +344,6 @@
     <string name="menu_merge_from">... 로부터 병합</string>
     <string name="menu_save_copy_to">... 에 복사본 저장</string>
     <string name="menu_keystore_remove_key">고급 잠금 해제 키를 삭제</string>
-    <string name="registration_mode">등록 모드</string>
     <string name="sort_last_access_time">접근</string>
     <string name="invalid_db_same_uuid">%1$s 와 동일한 UUID %2$s 가 이미 존재합니다.</string>
     <string name="underline">밑줄</string>

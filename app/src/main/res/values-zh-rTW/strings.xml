@@ -476,7 +476,6 @@
     <string name="recycle_bin_group_title">回收桶（組)</string>
     <string name="recycle_bin_summary">刪除群組和項目前先移至回收桶</string>
     <string name="recycle_bin_title">回收桶使用情況</string>
-    <string name="registration_mode">註冊模式</string>
     <string name="remember_database_locations_summary">跟蹤資料庫的存儲位置</string>
     <string name="remember_database_locations_title">記住所有資料庫的位置</string>
     <string name="remember_keyfile_locations_summary">追蹤密鑰檔案位置</string>

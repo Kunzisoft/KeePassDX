@@ -431,7 +431,6 @@
     <string name="warning_large_keyfile">Ei ole suositeltavaa lisätä suurta avantiedostos, sillä se voi estää tietokantaa avautumasta.</string>
     <string name="warning_empty_keyfile_explanation">Avaintiedoston sisältöä ei tulisi koskaan muuttaa, ja parhaassa tapauksessa sen tulisi sisältää satunnaisesti tuotettua tietoa.</string>
     <string name="save_mode">Tallennustila</string>
-    <string name="registration_mode">Rekisteröintitila</string>
     <string name="export_app_properties_summary">Luo tiedosto, johon sovellusasetukset viedään</string>
     <string name="export_app_properties_title">Vie sovellusasetukset</string>
     <string name="description_app_properties">KeePassDX ominaisuudet sovellusasetusten hallintaan</string>

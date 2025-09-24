@@ -478,7 +478,6 @@
     <string name="biometric_security_update_required">需要生物识别安全更新。</string>
     <string name="configure_biometric">未登记生物识别或设备凭证。</string>
     <string name="warning_empty_recycle_bin">从回收站永久删除所有节点？</string>
-    <string name="registration_mode">注册模式</string>
     <string name="save_mode">保存模式</string>
     <string name="search_mode">搜索模式</string>
     <string name="error_registration_read_only">只读数据库不允许保存新条目。</string>

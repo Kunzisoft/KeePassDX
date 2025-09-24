@@ -486,7 +486,6 @@
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrische Sicherheitsaktualisierung erforderlich.</string>
     <string name="configure_biometric">Es sind weder Biometrie- noch Geräteanmeldedaten registriert.</string>
-    <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig.</string>

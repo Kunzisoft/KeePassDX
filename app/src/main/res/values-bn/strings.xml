@@ -209,7 +209,6 @@
     <string name="search_mode">অনুসন্ধান মোড</string>
     <string name="save_mode">সেভ মোড</string>
     <string name="selection_mode">নির্বাচন মোড</string>
-    <string name="registration_mode">রেজিস্ট্রেশন মোড</string>
     <string name="remember_keyfile_locations_summary">কী ফাইলগুলি কোথায় সংরক্ষণ করা হয় তা ট্র্যাক রাখে</string>
     <string name="show_recent_files_title">সাম্প্রতিক ফাইল দেখান</string>
     <string name="show_recent_files_summary">সাম্প্রতিক ডাটাবেসের অবস্থান দেখান</string>

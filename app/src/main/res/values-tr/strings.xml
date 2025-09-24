@@ -473,7 +473,6 @@
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
     <string name="configure_biometric">Biyometrik bilgiler veya aygıt kimlik doğrulama bilgileri kaydedilmedi.</string>
     <string name="warning_empty_recycle_bin">Geri dönüşüm kutusundaki tüm düğümler kalıcı olarak silinsin mi\?</string>
-    <string name="registration_mode">Kayıt modu</string>
     <string name="save_mode">Kaydetme modu</string>
     <string name="search_mode">Arama modu</string>
     <string name="error_registration_read_only">Salt okunur bir veri tabanında yeni bir öge kaydetmeye izin verilmiyor.</string>

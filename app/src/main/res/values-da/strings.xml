@@ -475,7 +475,6 @@
 \n
 \nDatabasen kan blive meget stor og reducere ydeevnen med denne overførelse.</string>
     <string name="warning_empty_recycle_bin">Slet alle noder permanent fra papirkurven\?</string>
-    <string name="registration_mode">Registreringstilstand</string>
     <string name="save_mode">Gem-tilstand</string>
     <string name="search_mode">Søgetilstand</string>
     <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database.</string>

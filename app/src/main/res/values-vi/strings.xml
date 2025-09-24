@@ -309,7 +309,6 @@
     <string name="search_mode">Chế độ tìm kiếm</string>
     <string name="save_mode">Chế độ lưu</string>
     <string name="selection_mode">Chế độ lựa chọn</string>
-    <string name="registration_mode">Chế độ đăng ký</string>
     <string name="remember_database_locations_title">Ghi nhớ vị trí cơ sở dữ liệu</string>
     <string name="remember_database_locations_summary">Theo dõi nơi cơ sở dữ liệu được lưu trữ</string>
     <string name="remember_keyfile_locations_title">Ghi nhớ vị trí của tệp khóa</string>

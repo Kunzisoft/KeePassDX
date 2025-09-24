@@ -481,7 +481,6 @@
     <string name="notification">Notifica</string>
     <string name="biometric_security_update_required">È necessario un aggiornamento della sicurezza biometrica.</string>
     <string name="warning_empty_recycle_bin">Eliminare definitivamente tutti i nodi dal cestino\?</string>
-    <string name="registration_mode">Modalità registrazione</string>
     <string name="save_mode">Modalità salvataggio</string>
     <string name="search_mode">Modalità ricerca</string>
     <string name="error_field_name_already_exists">Il nome del campo esiste già.</string>

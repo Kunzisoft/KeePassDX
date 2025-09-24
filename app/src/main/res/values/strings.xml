@@ -314,7 +314,6 @@
     <string name="search_mode">Search mode</string>
     <string name="save_mode">Save mode</string>
     <string name="selection_mode">Selection mode</string>
-    <string name="registration_mode">Registration mode</string>
     <string name="remember_database_locations_title">Remember databases locations</string>
     <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
     <string name="remember_keyfile_locations_title">Remember keyfile locations</string>

@@ -208,7 +208,6 @@
     <string name="contains_duplicate_uuid">データベースには重複する UUID が含まれています。</string>
     <string name="contains_duplicate_uuid_procedure">重複したエントリーに対する新しい UUID を生成して、問題を解決し続行しますか？</string>
     <string name="selection_mode">選択モード</string>
-    <string name="registration_mode">登録モード</string>
     <string name="remember_database_locations_title">データベースの場所を記憶</string>
     <string name="remember_database_locations_summary">データベースの保存先を保持します</string>
     <string name="remember_keyfile_locations_title">キーファイルの場所を記憶</string>

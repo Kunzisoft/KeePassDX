@@ -296,7 +296,6 @@
     <string name="search_mode">Рэжым пошуку</string>
     <string name="save_mode">Рэжым захавання</string>
     <string name="selection_mode">Рэжым выбару</string>
-    <string name="registration_mode">Рэжым рэгістрацыі</string>
     <string name="remember_database_locations_title">Запамінаць размяшчэнне баз дадзеных</string>
     <string name="remember_database_locations_summary">Адсочвае, дзе захоўваюцца базы дадзеных</string>
     <string name="remember_keyfile_locations_title">Запамінаць размяшчэнне файлаў ключоў</string>

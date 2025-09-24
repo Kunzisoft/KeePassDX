@@ -462,7 +462,6 @@
     <string name="error_invalid_OTP">Неприемлива тайна за OTP.</string>
     <string name="error_no_name">Въведете име.</string>
     <string name="hide_broken_locations_summary">Скрива вече несъществуващи хранилища от списъка с последно отваряните</string>
-    <string name="registration_mode">Режим регистрация</string>
     <string name="remember_database_locations_title">Запомняне използваните хранилища</string>
     <string name="show_recent_files_title">Показване на последните хранилища</string>
     <string name="search_mode">Режим търсене</string>

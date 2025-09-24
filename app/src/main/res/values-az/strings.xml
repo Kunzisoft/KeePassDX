@@ -485,7 +485,6 @@
     <string name="search_mode">Axtarış modu</string>
     <string name="save_mode">Yadda saxlama modu</string>
     <string name="selection_mode">Seçim modu</string>
-    <string name="registration_mode">Qeydiyyat modu</string>
     <string name="remember_database_locations_title">Məlumat bazalarının yerlərini xatırlayın</string>
     <string name="remember_database_locations_summary">Məlumat bazalarının harada saxlanıldığını izlə</string>
     <string name="remember_hardware_key_summary">Aparat-təchizat açarlarının harada istifadə olunduğunu izlə</string>

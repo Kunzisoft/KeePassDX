@@ -572,10 +572,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
             clearCredentialsViews()
         }
 
-        if (mReadOnly && (
-                mSpecialMode == SpecialMode.SAVE
-                || mSpecialMode == SpecialMode.REGISTRATION)
-        ) {
+        if (mReadOnly && mSpecialMode == SpecialMode.REGISTRATION) {
             Log.e(TAG, getString(R.string.error_save_read_only))
             Snackbar.make(coordinatorLayout,
                     R.string.error_save_read_only,
@@ -804,26 +801,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         /*
          * -------------------------
-         * 		Save Launch
-         * -------------------------
-         */
-
-        @Throws(FileNotFoundException::class)
-        fun launchForSaveResult(activity: Activity,
-                                databaseFile: Uri,
-                                keyFile: Uri?,
-                                hardwareKey: HardwareKey?,
-                                searchInfo: SearchInfo) {
-            buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
-                EntrySelectionHelper.startActivityForSaveModeResult(
-                        activity,
-                        intent,
-                        searchInfo)
-            }
-        }
-
-        /*
-         * -------------------------
          * 		Keyboard Launch
          * -------------------------
          */
@@ -950,13 +927,15 @@ class MainCredentialActivity : DatabaseModeActivity() {
                         )
                         onLaunchActivitySpecialMode()
                     },
-                    saveAction = { searchInfo ->
-                        launchForSaveResult(
+                    registrationAction = { registerInfo ->
+                        launchForRegistration(
                             activity = activity,
+                            activityResultLauncher = activityResultLauncher,
                             databaseFile = databaseUri,
                             keyFile = keyFile,
                             hardwareKey = hardwareKey,
-                            searchInfo = searchInfo
+                            typeMode = TypeMode.DEFAULT,
+                            registerInfo = registerInfo
                         )
                         onLaunchActivitySpecialMode()
                     },

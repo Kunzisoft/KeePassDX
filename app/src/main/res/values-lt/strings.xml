@@ -306,7 +306,6 @@
     <string name="subdomain_search_title">Subdomeno paieška</string>
     <string name="subdomain_search_summary">Ieškoti žiniatinklio domenuose su subdomenų apribojimais</string>
     <string name="contains_duplicate_uuid">Duomenų bazėje yra pasikartojančių UUID.</string>
-    <string name="registration_mode">Registracijos režimas</string>
     <string name="show_recent_files_title">Rodyti naujausius failus</string>
     <string name="show_recent_files_summary">Rodyti paskutinių duomenų bazių vietas</string>
     <string name="memory_usage_explanation">Atminties kiekis, kurį turi naudoti rakto išvedimo funkcija.</string>

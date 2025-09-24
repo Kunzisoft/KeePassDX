@@ -306,7 +306,6 @@
     <string name="memory_usage_explanation">Jumlah memori yang akan digunakan oleh fungsi derivasi kunci.</string>
     <string name="rounds_explanation">Putaran enkripsi tambahan memberikan perlindungan yang lebih tinggi terhadap serangan brute force, akan tetapi dapat memperlambat pemuatan dan penyimpanan.</string>
     <string name="kdf_explanation">Untuk menghasilkan kunci untuk algoritma enkripsi, kunci master diubah menggunakan fungsi derivasi randomly salted key.</string>
-    <string name="registration_mode">Mode pendaftaran</string>
     <string name="save_mode">Mode simpan</string>
     <string name="search_mode">Mode pencarian</string>
     <string name="menu_keystore_remove_key">Menghapus kunci buka kunci perangkat</string>

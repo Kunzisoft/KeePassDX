@@ -480,7 +480,6 @@
     <string name="biometric_security_update_required">Vyžadována aktualizace biometrického zabezpečení.</string>
     <string name="configure_biometric">Žádné přihlašovací ani biometrické údaje nejsou registrovány.</string>
     <string name="warning_empty_recycle_bin">Trvale odstranit všechny uzly z koše\?</string>
-    <string name="registration_mode">Registrace</string>
     <string name="save_mode">Režim ukládání</string>
     <string name="search_mode">Vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno kolonky již existuje.</string>

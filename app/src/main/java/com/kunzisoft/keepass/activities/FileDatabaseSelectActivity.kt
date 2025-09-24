@@ -451,19 +451,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
         /*
          * -------------------------
-         * 		Save Launch
-         * -------------------------
-         */
-
-        fun launchForSaveResult(context: Context,
-                                searchInfo: SearchInfo) {
-            EntrySelectionHelper.startActivityForSaveModeResult(context,
-                    Intent(context, FileDatabaseSelectActivity::class.java),
-                    searchInfo)
-        }
-
-        /*
-         * -------------------------
          * 		Keyboard Launch
          * -------------------------
          */

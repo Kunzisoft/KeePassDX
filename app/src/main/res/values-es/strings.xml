@@ -452,7 +452,6 @@
     <string name="configure_biometric">No se ha inscrito ninguna credencial biométrica o del dispositivo.</string>
     <string name="warning_empty_keyfile_explanation">El contenido del archivo de clave nunca debe modificarse y, en el mejor de los casos, debe contener datos generados al azar.</string>
     <string name="warning_empty_recycle_bin">¿Borrar permanentemente todos los nodos de la papelera de reciclaje\?</string>
-    <string name="registration_mode">Modo de registro</string>
     <string name="save_mode">Modo de guardado</string>
     <string name="search_mode">Modo de búsqueda</string>
     <string name="contains_duplicate_uuid_procedure">¿Solucionar el problema generando nuevos UUID para que los duplicados continúen?</string>

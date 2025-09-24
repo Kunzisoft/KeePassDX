@@ -478,7 +478,6 @@
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
     <string name="configure_biometric">Nie zarejestrowano żadnych danych biometrycznych ani danych urządzenia.</string>
     <string name="warning_empty_recycle_bin">Trwale usunąć wszystkie węzły z kosza\?</string>
-    <string name="registration_mode">Tryb rejestracji</string>
     <string name="save_mode">Tryb zapisywania</string>
     <string name="search_mode">Tryb wyszukiwania</string>
     <string name="error_registration_read_only">Zapisywanie nowego elementu nie jest dozwolone w bazie danych tylko do odczytu.</string>

@@ -187,7 +187,7 @@ class EntryInfo : NodeInfo {
     /**
      * Add searchInfo to current EntryInfo
      */
-    fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
+    private fun saveSearchInfo(database: Database?, searchInfo: SearchInfo) {
         searchInfo.otpString?.let { otpString ->
             setOtp(otpString)
         } ?: searchInfo.webDomain?.let { webDomain ->

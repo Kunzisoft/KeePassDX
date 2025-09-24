@@ -316,7 +316,6 @@
     <string name="invalid_db_same_uuid">%1$s עם אותו UUID %2$s כבר קיים.</string>
     <string name="master_key_settings_summary">שינוי, חידוש</string>
     <string name="info">מידע</string>
-    <string name="registration_mode">מצב הרשמה</string>
     <string name="menu_form_filling_settings_summary">מקלדת, מילוי אוטומטי, לוח העתקה</string>
     <string name="search_mode">מצב חיפוש</string>
     <string name="remember_database_locations_title">זכור מיקומי מסדי הנתונים</string>
