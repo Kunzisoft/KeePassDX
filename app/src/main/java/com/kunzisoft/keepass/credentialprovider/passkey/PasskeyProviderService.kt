@@ -267,8 +267,11 @@ class PasskeyProviderService : CredentialProviderService() {
     }
 
     private fun handleCreatePasskeyQuery(request: BeginCreatePublicKeyCredentialRequest): BeginCreateCredentialResponse {
-
-        val accountName = mDatabase?.name ?: getString(R.string.passkey_database_username)
+        val databaseName = mDatabase?.name
+        val accountName =
+            if (databaseName?.isBlank() != false)
+                getString(R.string.passkey_database_username)
+            else databaseName
         val createEntries: MutableList<CreateEntry> = mutableListOf()
         val relyingPartyId = PublicKeyCredentialCreationOptions(
             requestJson = request.requestJson,
