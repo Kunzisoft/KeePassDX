@@ -413,7 +413,7 @@
     <string name="database_history">History</string>
     <string name="properties">Properties</string>
     <string name="menu_appearance_settings">Appearance</string>
-    <string name="menu_appearance_settings_summary">Themes, colors, attributes</string>
+    <string name="menu_appearance_settings_summary">Themes, colors, icons, fonts, attributes</string>
     <string name="biometric">Biometric</string>
     <string name="device_credential">Device credential</string>
     <string name="general">General</string>
