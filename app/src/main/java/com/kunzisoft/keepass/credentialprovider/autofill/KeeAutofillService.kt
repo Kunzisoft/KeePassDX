@@ -395,14 +395,15 @@ class KeeAutofillService : AutofillService() {
                         },
                         username = parseResult.usernameValue?.textValue?.toString(),
                         password = parseResult.passwordValue?.textValue?.toString(),
-                        creditCard =
+                        creditCard = parseResult.creditCardNumber?.let { cardNumber ->
                             CreditCard(
                                 parseResult.creditCardHolder,
-                                parseResult.creditCardNumber,
+                                cardNumber,
                                 expiration,
                                 parseResult.cardVerificationValue
                             )
-                        )
+                        }
+                    )
 
                     // TODO Callback in each activity #765
                     //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
