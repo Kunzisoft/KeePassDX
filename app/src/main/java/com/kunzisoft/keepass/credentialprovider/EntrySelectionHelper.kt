@@ -56,6 +56,7 @@ object EntrySelectionHelper {
      * Finish the activity by passing the result code and by locking the database if necessary
      */
     fun Activity.setActivityResult(
+        typeMode: TypeMode,
         lockDatabase: Boolean = false,
         resultCode: Int,
         data: Intent? = null,
@@ -68,9 +69,15 @@ object EntrySelectionHelper {
         }
         this.finish()
 
-        if (lockDatabase && PreferencesUtil.isAutofillCloseDatabaseEnable(this)) {
-            // Close the database
-            this.sendBroadcast(Intent(LOCK_ACTION))
+        if (lockDatabase) {
+            when (typeMode) {
+                TypeMode.DEFAULT -> // Close the database
+                    this.sendBroadcast(Intent(LOCK_ACTION))
+                TypeMode.MAGIKEYBOARD -> { }
+                TypeMode.AUTOFILL -> if (PreferencesUtil.isAutofillCloseDatabaseEnable(this))
+                    this.sendBroadcast(Intent(LOCK_ACTION))
+                TypeMode.PASSKEY -> { }
+            }
         }
     }
 
@@ -79,6 +86,7 @@ object EntrySelectionHelper {
      * Used recursively, close each activity with return data
      */
     fun AppCompatActivity.buildActivityResultLauncher(
+        typeMode: TypeMode,
         lockDatabase: Boolean = false,
         dataTransformation: (data: Intent?) -> Intent? = { it },
     ): ActivityResultLauncher<Intent> {
@@ -86,6 +94,7 @@ object EntrySelectionHelper {
             ActivityResultContracts.StartActivityForResult()
         ) {
             setActivityResult(
+                typeMode,
                 lockDatabase,
                 it.resultCode,
                 dataTransformation(it.data)

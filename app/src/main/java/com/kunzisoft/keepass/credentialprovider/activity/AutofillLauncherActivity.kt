@@ -53,8 +53,8 @@ import com.kunzisoft.keepass.view.toastError
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
 
-    private var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher(lockDatabase = true)
+    override var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.buildActivityResultLauncher(typeMode = TypeMode.AUTOFILL, lockDatabase = true)
 
     override fun applyCustomStyle(): Boolean {
         return false

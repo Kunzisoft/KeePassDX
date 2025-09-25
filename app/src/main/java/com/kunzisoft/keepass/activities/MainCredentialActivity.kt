@@ -128,9 +128,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
 
-    private var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

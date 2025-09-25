@@ -107,6 +107,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                     }
                     is PasskeyLauncherViewModel.UIState.SetActivityResult -> {
                         setActivityResult(
+                            typeMode = TypeMode.PASSKEY,
                             lockDatabase = uiState.lockDatabase,
                             resultCode = uiState.resultCode,
                             data = uiState.data

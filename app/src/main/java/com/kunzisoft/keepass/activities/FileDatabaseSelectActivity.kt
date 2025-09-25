@@ -99,9 +99,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
-    private var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

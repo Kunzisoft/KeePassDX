@@ -1,11 +1,14 @@
 package com.kunzisoft.keepass.activities.legacy
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.isIntentSenderMode
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
@@ -21,9 +24,12 @@ import com.kunzisoft.keepass.view.ToolbarSpecial
 abstract class DatabaseModeActivity : DatabaseActivity() {
 
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
-    private var mTypeMode: TypeMode = TypeMode.DEFAULT
+    protected var mTypeMode: TypeMode = TypeMode.DEFAULT
 
     private var mToolbarSpecial: ToolbarSpecial? = null
+
+    protected open var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.buildActivityResultLauncher(mTypeMode)
 
     open fun onDatabaseBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)

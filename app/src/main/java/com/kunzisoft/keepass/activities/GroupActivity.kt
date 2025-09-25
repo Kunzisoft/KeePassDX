@@ -267,9 +267,6 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupEditViewModel.selectIcon(icon)
     }
 
-    private var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
