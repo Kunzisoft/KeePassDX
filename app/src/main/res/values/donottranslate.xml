@@ -174,7 +174,7 @@
     <string name="autofill_save_search_info_key" translatable="false">autofill_save_search_info_key</string>
     <bool name="autofill_save_search_info_default" translatable="false">true</bool>
     <string name="autofill_ask_to_save_data_key" translatable="false">autofill_ask_to_save_data_key</string>
-    <bool name="autofill_ask_to_save_data_default" translatable="false">true</bool>
+    <bool name="autofill_ask_to_save_data_default" translatable="false">false</bool>
     <string name="autofill_application_id_blocklist_key" translatable="false">autofill_application_id_blocklist_key</string>
     <string-array name="autofill_application_id_blocklist_default">
     </string-array>
