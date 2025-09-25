@@ -303,74 +303,29 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     )
                     onLaunchActivitySpecialMode()
                 },
-                registrationAction = { registerInfo ->
-                    MainCredentialActivity.launchForRegistration(
-                        activity = this,
-                        activityResultLauncher = mCredentialActivityResultLauncher,
-                        databaseFile = databaseUri,
-                        keyFile = keyFile,
-                        hardwareKey = hardwareKey,
-                        typeMode = TypeMode.DEFAULT,
-                        registerInfo = registerInfo
-                    )
-                    onLaunchActivitySpecialMode()
-                },
-                keyboardSelectionAction = { searchInfo ->
+                selectionAction = { intentSenderMode, typeMode, searchInfo, autofillComponent ->
                     MainCredentialActivity.launchForSelection(
                         activity = this,
+                        activityResultLauncher = if (intentSenderMode)
+                            mCredentialActivityResultLauncher else null,
                         databaseFile = databaseUri,
                         keyFile = keyFile,
                         hardwareKey = hardwareKey,
-                        typeMode = TypeMode.MAGIKEYBOARD,
-                        searchInfo = searchInfo
-                    )
-                    onLaunchActivitySpecialMode()
-                },
-                autofillSelectionAction = { searchInfo, autofillComponent ->
-                    MainCredentialActivity.launchForSelection(
-                        activity = this,
-                        activityResultLauncher = mCredentialActivityResultLauncher,
-                        databaseFile = databaseUri,
-                        keyFile = keyFile,
-                        hardwareKey = hardwareKey,
-                        typeMode = TypeMode.AUTOFILL,
+                        typeMode = typeMode,
                         searchInfo = searchInfo,
                         autofillComponent = autofillComponent,
                     )
                     onLaunchActivitySpecialMode()
                 },
-                autofillRegistrationAction = { registerInfo ->
+                registrationAction = { intentSenderMode, typeMode, registerInfo ->
                     MainCredentialActivity.launchForRegistration(
                         activity = this,
-                        activityResultLauncher = mCredentialActivityResultLauncher,
+                        activityResultLauncher = if (intentSenderMode)
+                            mCredentialActivityResultLauncher else null,
                         databaseFile = databaseUri,
                         keyFile = keyFile,
                         hardwareKey = hardwareKey,
-                        typeMode = TypeMode.AUTOFILL,
-                        registerInfo = registerInfo
-                    )
-                    onLaunchActivitySpecialMode()
-                },
-                passkeySelectionAction = { searchInfo ->
-                    MainCredentialActivity.launchForSelection(
-                        activity = this,
-                        activityResultLauncher = mCredentialActivityResultLauncher,
-                        databaseFile = databaseUri,
-                        keyFile = keyFile,
-                        hardwareKey = hardwareKey,
-                        typeMode = TypeMode.PASSKEY,
-                        searchInfo = searchInfo
-                    )
-                    onLaunchActivitySpecialMode()
-                },
-                passkeyRegistrationAction = { registerInfo ->
-                    MainCredentialActivity.launchForRegistration(
-                        activity = this,
-                        activityResultLauncher = mCredentialActivityResultLauncher,
-                        databaseFile = databaseUri,
-                        keyFile = keyFile,
-                        hardwareKey = hardwareKey,
-                        typeMode = TypeMode.PASSKEY,
+                        typeMode = typeMode,
                         registerInfo = registerInfo
                     )
                     onLaunchActivitySpecialMode()

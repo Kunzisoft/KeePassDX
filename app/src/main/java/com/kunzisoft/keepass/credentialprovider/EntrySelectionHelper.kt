@@ -74,9 +74,9 @@ object EntrySelectionHelper {
                 TypeMode.DEFAULT -> // Close the database
                     this.sendBroadcast(Intent(LOCK_ACTION))
                 TypeMode.MAGIKEYBOARD -> { }
+                TypeMode.PASSKEY -> { }
                 TypeMode.AUTOFILL -> if (PreferencesUtil.isAutofillCloseDatabaseEnable(this))
                     this.sendBroadcast(Intent(LOCK_ACTION))
-                TypeMode.PASSKEY -> { }
             }
         }
     }
@@ -230,16 +230,19 @@ object EntrySelectionHelper {
         intent: Intent,
         defaultAction: () -> Unit,
         searchAction: (searchInfo: SearchInfo) -> Unit,
-        registrationAction: (registerInfo: RegisterInfo?) -> Unit,
-        keyboardSelectionAction: (searchInfo: SearchInfo?) -> Unit,
-        autofillSelectionAction: (searchInfo: SearchInfo?,
-                                  autofillComponent: AutofillComponent) -> Unit,
-        autofillRegistrationAction: (registerInfo: RegisterInfo?) -> Unit,
-        passkeySelectionAction: (searchInfo: SearchInfo?) -> Unit,
-        passkeyRegistrationAction: (registerInfo: RegisterInfo?) -> Unit
+        selectionAction: (
+            intentSenderMode: Boolean,
+            typeMode: TypeMode,
+            searchInfo: SearchInfo?,
+            autofillComponent: AutofillComponent?
+        ) -> Unit,
+        registrationAction: (
+            intentSenderMode: Boolean,
+            typeMode: TypeMode,
+            registerInfo: RegisterInfo?
+        ) -> Unit
     ) {
-
-        when (retrieveSpecialModeFromIntent(intent)) {
+        when (val specialMode = retrieveSpecialModeFromIntent(intent)) {
             SpecialMode.DEFAULT -> {
                 removeModesFromIntent(intent)
                 removeInfoFromIntent(intent)
@@ -260,13 +263,18 @@ object EntrySelectionHelper {
                 var autofillComponentInit = false
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     AutofillHelper.retrieveAutofillComponent(intent)?.let { autofillComponent ->
-                        autofillSelectionAction.invoke(searchInfo, autofillComponent)
+                        selectionAction.invoke(
+                            isIntentSenderMode(specialMode,  TypeMode.AUTOFILL),
+                            TypeMode.AUTOFILL,
+                            searchInfo,
+                            autofillComponent
+                        )
                         autofillComponentInit = true
                     }
                 }
                 if (!autofillComponentInit) {
                     if (intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) != null) {
-                        when (retrieveTypeModeFromIntent(intent)) {
+                        when (val typeMode = retrieveTypeModeFromIntent(intent)) {
                             TypeMode.DEFAULT -> {
                                 removeModesFromIntent(intent)
                                 if (searchInfo != null)
@@ -274,10 +282,20 @@ object EntrySelectionHelper {
                                 else
                                     defaultAction.invoke()
                             }
-                            TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
+                            TypeMode.MAGIKEYBOARD -> selectionAction.invoke(
+                                isIntentSenderMode(specialMode, typeMode),
+                                typeMode,
+                                searchInfo,
+                                null
+                            )
                             TypeMode.PASSKEY ->
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                                    passkeySelectionAction.invoke(searchInfo)
+                                    selectionAction.invoke(
+                                        isIntentSenderMode(specialMode, typeMode),
+                                        typeMode,
+                                        searchInfo,
+                                        null
+                                    )
                                 } else
                                     defaultAction.invoke()
                             else -> {
@@ -296,27 +314,20 @@ object EntrySelectionHelper {
             }
             SpecialMode.REGISTRATION -> {
                 val registerInfo: RegisterInfo? = retrieveRegisterInfoFromIntent(intent)
-                if (!isIntentSenderMode(
-                        specialMode = retrieveSpecialModeFromIntent(intent),
-                        typeMode = retrieveTypeModeFromIntent(intent))
-                    ) {
+                val typeMode = retrieveTypeModeFromIntent(intent)
+                val intentSenderMode = isIntentSenderMode(specialMode, typeMode)
+                if (!intentSenderMode) {
                     removeModesFromIntent(intent)
                     removeInfoFromIntent(intent)
                 }
-                when (retrieveTypeModeFromIntent(intent)) {
-                    TypeMode.AUTOFILL -> {
-                        autofillRegistrationAction.invoke(registerInfo)
-                    }
-                    TypeMode.PASSKEY -> {
-                        passkeyRegistrationAction.invoke(registerInfo)
-                    }
-                    else -> {
-                        if (registerInfo != null)
-                            registrationAction.invoke(registerInfo)
-                        else {
-                            defaultAction.invoke()
-                        }
-                    }
+                if (registerInfo != null)
+                    registrationAction.invoke(
+                        intentSenderMode,
+                        typeMode,
+                        registerInfo
+                    )
+                else {
+                    defaultAction.invoke()
                 }
             }
         }

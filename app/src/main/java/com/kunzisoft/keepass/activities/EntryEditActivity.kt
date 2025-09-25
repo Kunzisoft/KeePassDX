@@ -378,21 +378,26 @@ class EntryEditActivity : DatabaseLockActivity(),
                     intent = intent,
                     defaultAction = {},
                     searchAction = {},
-                    registrationAction = {},
-                    keyboardSelectionAction = {
-                        entryValidatedForKeyboardSelection(database, entrySave.newEntry)
+                    selectionAction = { intentSender, typeMode, searchInfo, autofillComponent ->
+                        when(typeMode) {
+                            TypeMode.DEFAULT -> {}
+                            TypeMode.MAGIKEYBOARD ->
+                                entryValidatedForKeyboardSelection(database, entrySave.newEntry)
+                            TypeMode.PASSKEY ->
+                                entryValidatedForPasskeySelection(database, entrySave.newEntry)
+                            TypeMode.AUTOFILL ->
+                                entryValidatedForAutofillSelection(database, entrySave.newEntry)
+                        }
                     },
-                    autofillSelectionAction = { _, _ ->
-                        entryValidatedForAutofillSelection(database, entrySave.newEntry)
-                    },
-                    autofillRegistrationAction = {
-                        entryValidatedForAutofillRegistration(entrySave.newEntry)
-                    },
-                    passkeySelectionAction = {
-                        entryValidatedForPasskeySelection(database, entrySave.newEntry)
-                    },
-                    passkeyRegistrationAction = {
-                        entryValidatedForPasskeyRegistration(database, entrySave.newEntry)
+                    registrationAction = { intentSender, typeMode, registerInfo ->
+                        when(typeMode) {
+                            TypeMode.DEFAULT -> {}
+                            TypeMode.MAGIKEYBOARD -> {}
+                            TypeMode.PASSKEY ->
+                                entryValidatedForPasskeyRegistration(database, entrySave.newEntry)
+                            TypeMode.AUTOFILL ->
+                                entryValidatedForAutofillRegistration(entrySave.newEntry)
+                        }
                     }
                 )
             }
@@ -439,23 +444,27 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 searchAction = {
                                     // Nothing when search retrieved
                                 },
-                                registrationAction = {
-                                    entryValidatedForSave(entry)
+                                selectionAction = { intentSender, typeMode, searchInfo, autofillComponent ->
+                                    when(typeMode) {
+                                        TypeMode.DEFAULT -> {}
+                                        TypeMode.MAGIKEYBOARD ->
+                                            entryValidatedForKeyboardSelection(database, entry)
+                                        TypeMode.PASSKEY ->
+                                            entryValidatedForPasskeySelection(database, entry)
+                                        TypeMode.AUTOFILL ->
+                                            entryValidatedForAutofillSelection(database, entry)
+                                    }
                                 },
-                                keyboardSelectionAction = {
-                                    entryValidatedForKeyboardSelection(database, entry)
-                                },
-                                autofillSelectionAction = { _, _ ->
-                                    entryValidatedForAutofillSelection(database, entry)
-                                },
-                                autofillRegistrationAction = {
-                                    entryValidatedForAutofillRegistration(entry)
-                                },
-                                passkeySelectionAction = {
-                                    entryValidatedForPasskeySelection(database, entry)
-                                },
-                                passkeyRegistrationAction = {
-                                    entryValidatedForPasskeyRegistration(database, entry)
+                                registrationAction = { _, typeMode, _ ->
+                                    when(typeMode) {
+                                        TypeMode.DEFAULT ->
+                                            entryValidatedForSave(entry)
+                                        TypeMode.MAGIKEYBOARD -> {}
+                                        TypeMode.PASSKEY ->
+                                            entryValidatedForPasskeyRegistration(database, entry)
+                                        TypeMode.AUTOFILL ->
+                                            entryValidatedForAutofillRegistration(entry)
+                                    }
                                 }
                             )
                         }
