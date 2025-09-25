@@ -305,11 +305,11 @@ class EntryActivity : DatabaseLockActivity() {
         mEntryViewModel.historySelected.observe(this) { historySelected ->
             mDatabase?.let { database ->
                 launch(
-                    this,
-                    database,
-                    historySelected.nodeId,
-                    historySelected.historyPosition,
-                    mEntryActivityResultLauncher
+                    activity = this,
+                    database = database,
+                    entryId = historySelected.nodeId,
+                    historyPosition = historySelected.historyPosition,
+                    activityResultLauncher = mEntryActivityResultLauncher
                 )
             }
         }
@@ -471,11 +471,12 @@ class EntryActivity : DatabaseLockActivity() {
             R.id.menu_edit -> {
                 mDatabase?.let { database ->
                     mMainEntryId?.let { entryId ->
-                        EntryEditActivity.launchToUpdate(
-                            this,
-                            database,
-                            entryId,
-                            mEntryActivityResultLauncher
+                        EntryEditActivity.launch(
+                            activity = this,
+                            database = database,
+                            registrationType = EntryEditActivity.RegistrationType.UPDATE,
+                            nodeId = entryId,
+                            activityResultLauncher = mEntryActivityResultLauncher
                         )
                     }
                 }
@@ -527,34 +528,22 @@ class EntryActivity : DatabaseLockActivity() {
         const val ENTRY_FRAGMENT_TAG = "ENTRY_FRAGMENT_TAG"
 
         /**
-         * Open standard Entry activity
+         * Open standard or history Entry activity
          */
-        fun launch(activity: Activity,
-                   database: ContextualDatabase,
-                   entryId: NodeId<UUID>,
-                   activityResultLauncher: ActivityResultLauncher<Intent>) {
+        fun launch(
+            activity: Activity,
+            database: ContextualDatabase,
+            entryId: NodeId<UUID>,
+            historyPosition: Int? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>
+        ) {
             if (database.loaded) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
-                    activityResultLauncher.launch(intent)
-                }
-            }
-        }
-
-        /**
-         * Open history Entry activity
-         */
-        fun launch(activity: Activity,
-                   database: ContextualDatabase,
-                   entryId: NodeId<UUID>,
-                   historyPosition: Int,
-                   activityResultLauncher: ActivityResultLauncher<Intent>) {
-            if (database.loaded) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                    val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra(KEY_ENTRY, entryId)
-                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                    historyPosition?.let {
+                        intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                    }
                     activityResultLauncher.launch(intent)
                 }
             }

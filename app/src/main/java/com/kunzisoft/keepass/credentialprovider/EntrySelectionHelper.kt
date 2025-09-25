@@ -102,58 +102,41 @@ object EntrySelectionHelper {
         }
     }
 
-    fun startActivityForSearchModeResult(context: Context,
-                                         intent: Intent,
-                                         searchInfo: SearchInfo) {
+    fun startActivityForSearchModeResult(
+        context: Context,
+        intent: Intent,
+        searchInfo: SearchInfo
+    ) {
         addSpecialModeInIntent(intent, SpecialMode.SEARCH)
         addSearchInfoInIntent(intent, searchInfo)
         intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
     }
 
-    fun startActivityForKeyboardSelectionModeResult(context: Context,
-                                                    intent: Intent,
-                                                    searchInfo: SearchInfo?) {
-        addSpecialModeInIntent(intent, SpecialMode.SELECTION)
-        addTypeModeInIntent(intent, TypeMode.MAGIKEYBOARD)
-        addSearchInfoInIntent(intent, searchInfo)
-        intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        context.startActivity(intent)
-    }
-
-    /**
-     * Utility method to start an activity with an Autofill for result
-     */
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun startActivityForAutofillSelectionModeResult(
+    fun startActivityForSelectionModeResult(
         context: Context,
         intent: Intent,
-        activityResultLauncher: ActivityResultLauncher<Intent>?,
-        autofillComponent: AutofillComponent,
-        searchInfo: SearchInfo?
+        typeMode: TypeMode,
+        searchInfo: SearchInfo?,
+        autofillComponent: AutofillComponent? = null,
+        activityResultLauncher: ActivityResultLauncher<Intent>? = null,
     ) {
         addSpecialModeInIntent(intent, SpecialMode.SELECTION)
-        addTypeModeInIntent(intent, TypeMode.AUTOFILL)
-        intent.addAutofillComponent(context, autofillComponent)
+        addTypeModeInIntent(intent, typeMode)
         addSearchInfoInIntent(intent, searchInfo)
-        activityResultLauncher?.launch(intent)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-    fun startActivityForPasskeySelectionModeResult(
-        context: Context,
-        intent: Intent,
-        activityResultLauncher: ActivityResultLauncher<Intent>?,
-        searchInfo: SearchInfo?
-    ) {
-        addSpecialModeInIntent(intent, SpecialMode.SELECTION)
-        addTypeModeInIntent(intent, TypeMode.PASSKEY)
-        addSearchInfoInIntent(intent, searchInfo)
-        activityResultLauncher?.launch(intent)
+        autofillComponent?.let {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                intent.addAutofillComponent(context, autofillComponent)
+            }
+        }
+        if (activityResultLauncher == null) {
+            intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        activityResultLauncher?.launch(intent) ?: context.startActivity(intent)
     }
 
     fun startActivityForRegistrationModeResult(
-        context: Context?,
+        context: Context,
         activityResultLauncher: ActivityResultLauncher<Intent>?,
         intent: Intent,
         registerInfo: RegisterInfo?,
@@ -165,8 +148,7 @@ object EntrySelectionHelper {
         if (activityResultLauncher == null) {
             intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        activityResultLauncher?.launch(intent) ?: context?.startActivity(intent) ?:
-            throw IllegalStateException("At least Context or ActivityResultLauncher must not be null")
+        activityResultLauncher?.launch(intent) ?: context.startActivity(intent)
     }
 
     fun addSearchInfoInIntent(intent: Intent, searchInfo: SearchInfo?) {
@@ -293,7 +275,11 @@ object EntrySelectionHelper {
                                     defaultAction.invoke()
                             }
                             TypeMode.MAGIKEYBOARD -> keyboardSelectionAction.invoke(searchInfo)
-                            TypeMode.PASSKEY -> passkeySelectionAction.invoke(searchInfo)
+                            TypeMode.PASSKEY ->
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                    passkeySelectionAction.invoke(searchInfo)
+                                } else
+                                    defaultAction.invoke()
                             else -> {
                                 // In this case, error
                                 removeModesFromIntent(intent)

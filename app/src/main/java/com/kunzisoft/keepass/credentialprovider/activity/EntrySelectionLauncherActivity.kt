@@ -152,11 +152,12 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             )
                         },
                         { autoSearch ->
-                            GroupActivity.launchForKeyboardSelectionResult(
-                                this,
-                                openedDatabase,
-                                searchInfo,
-                                autoSearch
+                            GroupActivity.launchForSelection(
+                                context = this,
+                                database = openedDatabase,
+                                typeMode = TypeMode.MAGIKEYBOARD,
+                                searchInfo = searchInfo,
+                                autoSearch = autoSearch
                             )
                         }
                     )
@@ -184,11 +185,12 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                         toastError(RegisterInReadOnlyDatabaseException())
                     }
                 } else if (searchShareForMagikeyboard) {
-                    GroupActivity.launchForKeyboardSelectionResult(
-                        this,
-                        openedDatabase,
-                        searchInfo,
-                        false
+                    GroupActivity.launchForSelection(
+                        context = this,
+                        database = openedDatabase,
+                        typeMode = TypeMode.MAGIKEYBOARD,
+                        searchInfo = searchInfo,
+                        autoSearch = false
                     )
                 } else {
                     GroupActivity.launchForSearchResult(
@@ -209,9 +211,10 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                         typeMode = TypeMode.DEFAULT
                     )
                 } else if (searchShareForMagikeyboard) {
-                    FileDatabaseSelectActivity.launchForKeyboardSelectionResult(
-                        this,
-                        searchInfo
+                    FileDatabaseSelectActivity.launchForSelection(
+                        activity = this,
+                        typeMode = TypeMode.MAGIKEYBOARD,
+                        searchInfo = searchInfo
                     )
                 } else {
                     FileDatabaseSelectActivity.launchForSearchResult(

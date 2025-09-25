@@ -118,9 +118,10 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                         passkeyLauncherViewModel.cancelResult()
                     }
                     is PasskeyLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
-                        GroupActivity.launchForPasskeySelectionResult(
+                        GroupActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             database = uiState.database,
+                            typeMode = TypeMode.PASSKEY,
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher,
                             searchInfo = null,
                             autoSearch = false
@@ -136,8 +137,9 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                         )
                     }
                     is PasskeyLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
-                        FileDatabaseSelectActivity.launchForPasskeySelectionResult(
+                        FileDatabaseSelectActivity.launchForSelection(
                             activity = this@PasskeyLauncherActivity,
+                            typeMode = TypeMode.PASSKEY,
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher,
                             searchInfo = uiState.searchInfo,
                         )

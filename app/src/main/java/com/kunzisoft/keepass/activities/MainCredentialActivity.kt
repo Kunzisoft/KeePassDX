@@ -36,7 +36,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
@@ -56,7 +55,6 @@ import com.kunzisoft.keepass.biometric.DeviceUnlockFragment
 import com.kunzisoft.keepass.biometric.DeviceUnlockManager
 import com.kunzisoft.keepass.biometric.deviceUnlockError
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
@@ -746,11 +744,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
-        private fun buildAndLaunchIntent(activity: Activity,
-                                         databaseFile: Uri,
-                                         keyFile: Uri?,
-                                         hardwareKey: HardwareKey?,
-                                         intentBuildLauncher: (Intent) -> Unit) {
+        private fun buildAndLaunchIntent(
+            activity: Activity,
+            databaseFile: Uri,
+            keyFile: Uri?,
+            hardwareKey: HardwareKey?,
+            intentBuildLauncher: (Intent) -> Unit
+        ) {
             val intent = Intent(activity, MainCredentialActivity::class.java)
             intent.putExtra(KEY_FILENAME, databaseFile)
             if (keyFile != null)
@@ -767,10 +767,12 @@ class MainCredentialActivity : DatabaseModeActivity() {
          */
 
         @Throws(FileNotFoundException::class)
-        fun launch(activity: Activity,
-                   databaseFile: Uri,
-                   keyFile: Uri?,
-                   hardwareKey: HardwareKey?) {
+        fun launch(
+            activity: Activity,
+            databaseFile: Uri,
+            keyFile: Uri?,
+            hardwareKey: HardwareKey?
+        ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 activity.startActivity(intent)
             }
@@ -783,92 +785,58 @@ class MainCredentialActivity : DatabaseModeActivity() {
          */
 
         @Throws(FileNotFoundException::class)
-        fun launchForSearchResult(activity: Activity,
-                                  databaseFile: Uri,
-                                  keyFile: Uri?,
-                                  hardwareKey: HardwareKey?,
-                                  searchInfo: SearchInfo) {
+        fun launchForSearchResult(
+            activity: Activity,
+            databaseFile: Uri,
+            keyFile: Uri?,
+            hardwareKey: HardwareKey?,
+            searchInfo: SearchInfo
+        ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 EntrySelectionHelper.startActivityForSearchModeResult(
-                        activity,
-                        intent,
-                        searchInfo)
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Keyboard Launch
-         * -------------------------
-         */
-
-        @Throws(FileNotFoundException::class)
-        fun launchForKeyboardResult(activity: Activity,
-                                    databaseFile: Uri,
-                                    keyFile: Uri?,
-                                    hardwareKey: HardwareKey?,
-                                    searchInfo: SearchInfo?) {
-            buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
-                EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
-                        activity,
-                        intent,
-                        searchInfo)
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Autofill Launch
-         * -------------------------
-         */
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Throws(FileNotFoundException::class)
-        fun launchForAutofillResult(activity: AppCompatActivity,
-                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                    databaseFile: Uri,
-                                    keyFile: Uri?,
-                                    hardwareKey: HardwareKey?,
-                                    autofillComponent: AutofillComponent,
-                                    searchInfo: SearchInfo?) {
-            buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
-                EntrySelectionHelper.startActivityForAutofillSelectionModeResult(
-                        activity,
-                        intent,
-                        activityResultLauncher,
-                        autofillComponent,
-                        searchInfo)
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Passkey Launch
-         * -------------------------
-         */
-        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-        @Throws(FileNotFoundException::class)
-        fun launchForPasskeyResult(activity: Activity,
-                                   activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                   databaseFile: Uri,
-                                   keyFile: Uri?,
-                                   hardwareKey: HardwareKey?,
-                                   searchInfo: SearchInfo?) {
-            buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
-                EntrySelectionHelper.startActivityForPasskeySelectionModeResult(
-                    activity,
-                    intent,
-                    activityResultLauncher,
-                    searchInfo
+                    context = activity,
+                    intent = intent,
+                    searchInfo = searchInfo
                 )
             }
         }
 
         /*
          * -------------------------
-         * 		Registration Launch
+         * 		Selection Launch
          * -------------------------
          */
+
+        @Throws(FileNotFoundException::class)
+        fun launchForSelection(
+            activity: AppCompatActivity,
+            databaseFile: Uri,
+            keyFile: Uri?,
+            hardwareKey: HardwareKey?,
+            typeMode: TypeMode,
+            searchInfo: SearchInfo?,
+            autofillComponent: AutofillComponent? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+        ) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
+                EntrySelectionHelper.startActivityForSelectionModeResult(
+                    context = activity,
+                    intent = intent,
+                    typeMode = typeMode,
+                    searchInfo = searchInfo,
+                    autofillComponent = autofillComponent,
+                    activityResultLauncher = activityResultLauncher
+                )
+            }
+        }
+
+        /*
+         * -------------------------
+         *      Registration Launch
+         * -------------------------
+         */
+
+        @Throws(FileNotFoundException::class)
         fun launchForRegistration(
             activity: Activity,
             activityResultLauncher: ActivityResultLauncher<Intent>?,
@@ -886,124 +854,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
                     typeMode = typeMode,
                     registerInfo = registerInfo
                 )
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Global Launch
-         * -------------------------
-         */
-        fun launch(activity: AppCompatActivity,
-                   databaseUri: Uri,
-                   keyFile: Uri?,
-                   hardwareKey: HardwareKey?,
-                   fileNoFoundAction: (exception: FileNotFoundException) -> Unit,
-                   onCancelSpecialMode: () -> Unit,
-                   onLaunchActivitySpecialMode: () -> Unit,
-                   activityResultLauncher: ActivityResultLauncher<Intent>?) {
-
-            try {
-                EntrySelectionHelper.doSpecialAction(
-                    intent = activity.intent,
-                    defaultAction = {
-                        launch(
-                            activity = activity,
-                            databaseFile = databaseUri,
-                            keyFile = keyFile,
-                            hardwareKey = hardwareKey
-                        )
-                    },
-                    searchAction = { searchInfo ->
-                        launchForSearchResult(
-                            activity = activity,
-                            databaseFile = databaseUri,
-                            keyFile = keyFile,
-                            hardwareKey = hardwareKey,
-                            searchInfo = searchInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    },
-                    registrationAction = { registerInfo ->
-                        launchForRegistration(
-                            activity = activity,
-                            activityResultLauncher = activityResultLauncher,
-                            databaseFile = databaseUri,
-                            keyFile = keyFile,
-                            hardwareKey = hardwareKey,
-                            typeMode = TypeMode.DEFAULT,
-                            registerInfo = registerInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    },
-                    keyboardSelectionAction = { searchInfo ->
-                        launchForKeyboardResult(
-                            activity = activity,
-                            databaseFile = databaseUri,
-                            keyFile = keyFile,
-                            hardwareKey = hardwareKey,
-                            searchInfo = searchInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    },
-                    autofillSelectionAction = { searchInfo, autofillComponent ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            launchForAutofillResult(
-                                activity = activity,
-                                activityResultLauncher = activityResultLauncher,
-                                databaseFile = databaseUri,
-                                keyFile = keyFile,
-                                hardwareKey = hardwareKey,
-                                autofillComponent = autofillComponent,
-                                searchInfo = searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        } else {
-                            onCancelSpecialMode()
-                        }
-                    },
-                    autofillRegistrationAction = { registerInfo ->
-                        launchForRegistration(
-                            activity = activity,
-                            activityResultLauncher = activityResultLauncher,
-                            databaseFile = databaseUri,
-                            keyFile = keyFile,
-                            hardwareKey = hardwareKey,
-                            typeMode = TypeMode.AUTOFILL,
-                            registerInfo = registerInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    },
-                    passkeySelectionAction = { searchInfo ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                            launchForPasskeyResult(
-                                activity = activity,
-                                activityResultLauncher = activityResultLauncher,
-                                databaseFile = databaseUri,
-                                keyFile = keyFile,
-                                hardwareKey = hardwareKey,
-                                searchInfo = searchInfo
-                            )
-                            onLaunchActivitySpecialMode()
-                        } else {
-                            onCancelSpecialMode()
-                        }
-                    },
-                    passkeyRegistrationAction = { registerInfo ->
-                        launchForRegistration(
-                            activity = activity,
-                            activityResultLauncher = activityResultLauncher,
-                            databaseFile = databaseUri,
-                            keyFile = keyFile,
-                            hardwareKey = hardwareKey,
-                            typeMode = TypeMode.PASSKEY,
-                            registerInfo = registerInfo
-                        )
-                        onLaunchActivitySpecialMode()
-                    }
-                )
-            } catch (e: FileNotFoundException) {
-                fileNoFoundAction(e)
             }
         }
     }

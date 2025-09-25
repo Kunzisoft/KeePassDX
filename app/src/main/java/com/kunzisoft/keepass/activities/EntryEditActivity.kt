@@ -36,13 +36,10 @@ import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -791,6 +788,10 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
     }
 
+    enum class RegistrationType {
+        UPDATE, CREATE
+    }
+
     companion object {
 
         private val TAG = EntryEditActivity::class.java.name
@@ -800,21 +801,10 @@ class EntryEditActivity : DatabaseLockActivity(),
         const val KEY_PARENT = "parent"
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
 
-        fun registerForEntryResult(fragment: Fragment,
-                                   entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
-            return fragment.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    entryAddedOrUpdatedListener.invoke(
-                        result.data?.getParcelableExtraCompat(ADD_OR_UPDATE_ENTRY_KEY)
-                    )
-                } else {
-                    entryAddedOrUpdatedListener.invoke(null)
-                }
-            }
-        }
-
-        fun registerForEntryResult(activity: FragmentActivity,
-                                   entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit): ActivityResultLauncher<Intent> {
+        fun registerForEntryResult(
+            activity: FragmentActivity,
+            entryAddedOrUpdatedListener: (NodeId<UUID>?) -> Unit
+        ): ActivityResultLauncher<Intent> {
             return activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     entryAddedOrUpdatedListener.invoke(
@@ -827,142 +817,74 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
 
         /**
-         * Launch EntryEditActivity to update an existing entry by his [entryId]
+         * Launch EntryEditActivity to update an existing entry or to add a new entry in an existing group
          */
-        fun launchToUpdate(activity: Activity,
-                           database: ContextualDatabase,
-                           entryId: NodeId<UUID>,
-                           activityResultLauncher: ActivityResultLauncher<Intent>) {
+        fun launch(
+            activity: Activity,
+            database: ContextualDatabase,
+            registrationType: RegistrationType,
+            nodeId: NodeId<*>,
+            activityResultLauncher: ActivityResultLauncher<Intent>
+        ) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_ENTRY, entryId)
+                    when (registrationType) {
+                        RegistrationType.UPDATE -> intent.putExtra(KEY_ENTRY, nodeId)
+                        RegistrationType.CREATE -> intent.putExtra(KEY_PARENT, nodeId)
+                    }
                     activityResultLauncher.launch(intent)
                 }
             }
         }
 
         /**
-         * Launch EntryEditActivity to add a new entry in an existent group
+         * Launch EntryEditActivity to add a new entry in special selection
          */
-        fun launchToCreate(activity: Activity,
-                           database: ContextualDatabase,
-                           groupId: NodeId<*>,
-                           activityResultLauncher: ActivityResultLauncher<Intent>) {
-            if (database.loaded && !database.isReadOnly) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                    val intent = Intent(activity, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_PARENT, groupId)
-                    activityResultLauncher.launch(intent)
-                }
-            }
-        }
-
-        /**
-         * Launch EntryEditActivity to add a new entry in keyboard selection
-         */
-        fun launchForKeyboardSelectionResult(context: Context,
-                                             database: ContextualDatabase,
-                                             groupId: NodeId<*>,
-                                             searchInfo: SearchInfo? = null) {
+        fun launchForSelection(
+            context: Context,
+            database: ContextualDatabase,
+            typeMode: TypeMode,
+            groupId: NodeId<*>,
+            searchInfo: SearchInfo? = null,
+            autofillComponent: AutofillComponent? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+        ) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                     val intent = Intent(context, EntryEditActivity::class.java)
                     intent.putExtra(KEY_PARENT, groupId)
-                    EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(
-                        context,
-                        intent,
-                        searchInfo
+                    EntrySelectionHelper.startActivityForSelectionModeResult(
+                        context = context,
+                        intent = intent,
+                        typeMode = typeMode,
+                        searchInfo = searchInfo,
+                        autofillComponent = autofillComponent,
+                        activityResultLauncher = activityResultLauncher
                     )
                 }
             }
         }
 
         /**
-         * Launch EntryEditActivity to add a new entry in autofill selection
+         * Launch EntryEditActivity to update an updated entry or register a new entry (from autofill)
          */
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: AppCompatActivity,
-                                    database: ContextualDatabase,
-                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                    autofillComponent: AutofillComponent,
-                                    groupId: NodeId<*>,
-                                    searchInfo: SearchInfo? = null) {
-            if (database.loaded && !database.isReadOnly) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                    val intent = Intent(activity, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_PARENT, groupId)
-                    EntrySelectionHelper.startActivityForAutofillSelectionModeResult(
-                        activity,
-                        intent,
-                        activityResultLauncher,
-                        autofillComponent,
-                        searchInfo
-                    )
-                }
-            }
-        }
-
-        /**
-         * Launch EntryEditActivity to add a new passkey entry
-         */
-        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-        fun launchForPasskeySelectionResult(context: Context,
-                                            database: ContextualDatabase,
-                                            activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                            groupId: NodeId<*>,
-                                            searchInfo: SearchInfo? = null) {
+        fun launchForRegistration(
+            context: Context,
+            database: ContextualDatabase,
+            nodeId: NodeId<*>,
+            registerInfo: RegisterInfo? = null,
+            typeMode: TypeMode,
+            registrationType: RegistrationType,
+            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+        ) {
             if (database.loaded && !database.isReadOnly) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
                     val intent = Intent(context, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_PARENT, groupId)
-                    EntrySelectionHelper.startActivityForPasskeySelectionModeResult(
-                        context,
-                        intent,
-                        activityResultLauncher,
-                        searchInfo
-                    )
-                }
-            }
-        }
-
-        /**
-         * Launch EntryEditActivity to register an updated entry (from autofill)
-         */
-        fun launchToUpdateForRegistration(context: Context,
-                                          database: ContextualDatabase,
-                                          activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                          entryId: NodeId<UUID>,
-                                          registerInfo: RegisterInfo?,
-                                          typeMode: TypeMode) {
-            if (database.loaded && !database.isReadOnly) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                    val intent = Intent(context, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_ENTRY, entryId)
-                    EntrySelectionHelper.startActivityForRegistrationModeResult(
-                        context,
-                        activityResultLauncher,
-                        intent,
-                        registerInfo,
-                        typeMode
-                    )
-                }
-            }
-        }
-
-        /**
-         * Launch EntryEditActivity to register a new entry (from autofill)
-         */
-        fun launchToCreateForRegistration(context: Context,
-                                          database: ContextualDatabase,
-                                          activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                          groupId: NodeId<*>,
-                                          registerInfo: RegisterInfo? = null,
-                                          typeMode: TypeMode) {
-            if (database.loaded && !database.isReadOnly) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(context)) {
-                    val intent = Intent(context, EntryEditActivity::class.java)
-                    intent.putExtra(KEY_PARENT, groupId)
+                    when (registrationType) {
+                        RegistrationType.UPDATE -> intent.putExtra(KEY_ENTRY, nodeId)
+                        RegistrationType.CREATE -> intent.putExtra(KEY_PARENT, nodeId)
+                    }
                     EntrySelectionHelper.startActivityForRegistrationModeResult(
                         context,
                         activityResultLauncher,

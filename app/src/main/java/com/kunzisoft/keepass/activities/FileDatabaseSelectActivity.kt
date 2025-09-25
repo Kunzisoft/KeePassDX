@@ -33,8 +33,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
@@ -50,7 +48,6 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
@@ -128,7 +125,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         mExternalFileHelper = ExternalFileHelper(this)
         mExternalFileHelper?.buildOpenDocument { uri ->
             uri?.let {
-                launchPasswordActivityWithPath(uri)
+                launchMainCredentialActivityWithPath(uri)
             }
         }
         mExternalFileHelper?.buildCreateDocument("application/x-keepass") { databaseFileCreatedUri ->
@@ -157,7 +154,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryOpenListener { fileDatabaseHistoryEntityToOpen ->
             fileDatabaseHistoryEntityToOpen.databaseUri?.let { databaseFileUri ->
-                launchPasswordActivity(
+                launchMainCredentialActivity(
                     databaseFileUri,
                     fileDatabaseHistoryEntityToOpen.keyFileUri,
                     fileDatabaseHistoryEntityToOpen.hardwareKey
@@ -176,7 +173,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
         // Load default database the first time
         databaseFilesViewModel.doForDefaultDatabase { databaseFileUri ->
-            launchPasswordActivityWithPath(databaseFileUri)
+            launchMainCredentialActivityWithPath(databaseFileUri)
         }
 
         // Retrieve the database URI provided by file manager after an orientation change
@@ -284,17 +281,104 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         Snackbar.make(coordinatorLayout, error, Snackbar.LENGTH_LONG).asError().show()
     }
 
-    private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?, hardwareKey: HardwareKey?) {
-        MainCredentialActivity.launch(this,
-                databaseUri,
-                keyFile,
-                hardwareKey,
-                { exception ->
-                    fileNoFoundAction(exception)
+    private fun launchMainCredentialActivity(databaseUri: Uri, keyFile: Uri?, hardwareKey: HardwareKey?) {
+        try {
+            EntrySelectionHelper.doSpecialAction(
+                intent = this.intent,
+                defaultAction = {
+                    MainCredentialActivity.launch(
+                        activity = this,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey
+                    )
                 },
-                { onCancelSpecialMode() },
-                { onLaunchActivitySpecialMode() },
-                mCredentialActivityResultLauncher)
+                searchAction = { searchInfo ->
+                    MainCredentialActivity.launchForSearchResult(
+                        activity = this,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        searchInfo = searchInfo
+                    )
+                    onLaunchActivitySpecialMode()
+                },
+                registrationAction = { registerInfo ->
+                    MainCredentialActivity.launchForRegistration(
+                        activity = this,
+                        activityResultLauncher = mCredentialActivityResultLauncher,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        typeMode = TypeMode.DEFAULT,
+                        registerInfo = registerInfo
+                    )
+                    onLaunchActivitySpecialMode()
+                },
+                keyboardSelectionAction = { searchInfo ->
+                    MainCredentialActivity.launchForSelection(
+                        activity = this,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        typeMode = TypeMode.MAGIKEYBOARD,
+                        searchInfo = searchInfo
+                    )
+                    onLaunchActivitySpecialMode()
+                },
+                autofillSelectionAction = { searchInfo, autofillComponent ->
+                    MainCredentialActivity.launchForSelection(
+                        activity = this,
+                        activityResultLauncher = mCredentialActivityResultLauncher,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        typeMode = TypeMode.AUTOFILL,
+                        searchInfo = searchInfo,
+                        autofillComponent = autofillComponent,
+                    )
+                    onLaunchActivitySpecialMode()
+                },
+                autofillRegistrationAction = { registerInfo ->
+                    MainCredentialActivity.launchForRegistration(
+                        activity = this,
+                        activityResultLauncher = mCredentialActivityResultLauncher,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        typeMode = TypeMode.AUTOFILL,
+                        registerInfo = registerInfo
+                    )
+                    onLaunchActivitySpecialMode()
+                },
+                passkeySelectionAction = { searchInfo ->
+                    MainCredentialActivity.launchForSelection(
+                        activity = this,
+                        activityResultLauncher = mCredentialActivityResultLauncher,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        typeMode = TypeMode.PASSKEY,
+                        searchInfo = searchInfo
+                    )
+                    onLaunchActivitySpecialMode()
+                },
+                passkeyRegistrationAction = { registerInfo ->
+                    MainCredentialActivity.launchForRegistration(
+                        activity = this,
+                        activityResultLauncher = mCredentialActivityResultLauncher,
+                        databaseFile = databaseUri,
+                        keyFile = keyFile,
+                        hardwareKey = hardwareKey,
+                        typeMode = TypeMode.PASSKEY,
+                        registerInfo = registerInfo
+                    )
+                    onLaunchActivitySpecialMode()
+                }
+            )
+        } catch (e: FileNotFoundException) {
+            fileNoFoundAction(e)
+        }
     }
 
     private fun launchGroupActivityIfLoaded(database: ContextualDatabase) {
@@ -308,8 +392,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
     }
 
-    private fun launchPasswordActivityWithPath(databaseUri: Uri) {
-        launchPasswordActivity(databaseUri, null, null)
+    private fun launchMainCredentialActivityWithPath(databaseUri: Uri) {
+        launchMainCredentialActivity(databaseUri, null, null)
         // Delete flickering for kitkat <=
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
@@ -439,58 +523,37 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          * -------------------------
          */
 
-        fun launchForSearchResult(context: Context,
-                                  searchInfo: SearchInfo) {
-            EntrySelectionHelper.startActivityForSearchModeResult(context,
-                    Intent(context, FileDatabaseSelectActivity::class.java),
-                    searchInfo)
+        fun launchForSearchResult(
+            context: Context,
+            searchInfo: SearchInfo
+        ) {
+            EntrySelectionHelper.startActivityForSearchModeResult(
+                context = context,
+                intent = Intent(context, FileDatabaseSelectActivity::class.java),
+                searchInfo = searchInfo
+            )
         }
 
         /*
          * -------------------------
-         * 		Keyboard Launch
+         * 		Selection Launch
          * -------------------------
          */
 
-        fun launchForKeyboardSelectionResult(activity: Activity,
-                                             searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForKeyboardSelectionModeResult(activity,
-                    Intent(activity, FileDatabaseSelectActivity::class.java),
-                    searchInfo)
-        }
-
-        /*
-         * -------------------------
-         * 		Autofill Launch
-         * -------------------------
-         */
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: AppCompatActivity,
-                                    activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                    autofillComponent: AutofillComponent,
-                                    searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForAutofillSelectionModeResult(activity,
-                    Intent(activity, FileDatabaseSelectActivity::class.java),
-                    activityResultLauncher,
-                    autofillComponent,
-                    searchInfo)
-        }
-
-        /*
-         * -------------------------
-         * 		Passkey Launch
-         * -------------------------
-         */
-        @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-        fun launchForPasskeySelectionResult(activity: Activity,
-                                            activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                            searchInfo: SearchInfo? = null) {
-            EntrySelectionHelper.startActivityForPasskeySelectionModeResult(
-                activity,
-                Intent(activity, FileDatabaseSelectActivity::class.java),
-                activityResultLauncher,
-                searchInfo
+        fun launchForSelection(
+            activity: Activity,
+            typeMode: TypeMode,
+            searchInfo: SearchInfo? = null,
+            autofillComponent: AutofillComponent? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+        ) {
+            EntrySelectionHelper.startActivityForSelectionModeResult(
+                context = activity,
+                intent = Intent(activity, FileDatabaseSelectActivity::class.java),
+                searchInfo = searchInfo,
+                typeMode = typeMode,
+                autofillComponent = autofillComponent,
+                activityResultLauncher = activityResultLauncher
             )
         }
 
@@ -499,16 +562,18 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          * 		Registration Launch
          * -------------------------
          */
-        fun launchForRegistration(context: Context,
-                                  activityResultLauncher: ActivityResultLauncher<Intent>?,
-                                  registerInfo: RegisterInfo? = null,
-                                  typeMode: TypeMode) {
+        fun launchForRegistration(
+            context: Context,
+            activityResultLauncher: ActivityResultLauncher<Intent>?,
+            registerInfo: RegisterInfo? = null,
+            typeMode: TypeMode
+        ) {
             EntrySelectionHelper.startActivityForRegistrationModeResult(
-                context,
-                activityResultLauncher,
-                Intent(context, FileDatabaseSelectActivity::class.java),
-                registerInfo,
-                typeMode
+                context = context,
+                activityResultLauncher = activityResultLauncher,
+                intent = Intent(context, FileDatabaseSelectActivity::class.java),
+                registerInfo = registerInfo,
+                typeMode = typeMode
             )
         }
     }

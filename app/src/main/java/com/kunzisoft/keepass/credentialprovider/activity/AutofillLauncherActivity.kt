@@ -145,22 +145,24 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 },
                 onItemNotFound = { openedDatabase ->
                     // Show the database UI to select the entry
-                    GroupActivity.launchForAutofillSelectionResult(
-                        this,
-                        openedDatabase,
-                        mCredentialActivityResultLauncher,
-                        autofillComponent,
-                        searchInfo,
-                        false
+                    GroupActivity.launchForSelection(
+                        context = this,
+                        database = openedDatabase,
+                        typeMode = TypeMode.AUTOFILL,
+                        searchInfo = searchInfo,
+                        autoSearch = false,
+                        autofillComponent = autofillComponent,
+                        activityResultLauncher = mCredentialActivityResultLauncher,
                     )
                 },
                 onDatabaseClosed = {
                     // If database not open
-                    FileDatabaseSelectActivity.launchForAutofillResult(
-                        this,
-                        mCredentialActivityResultLauncher,
-                        autofillComponent,
-                        searchInfo
+                    FileDatabaseSelectActivity.launchForSelection(
+                        activity = this,
+                        typeMode = TypeMode.AUTOFILL,
+                        searchInfo = searchInfo,
+                        autofillComponent = autofillComponent,
+                        activityResultLauncher = mCredentialActivityResultLauncher
                     )
                 }
             )
