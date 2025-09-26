@@ -34,7 +34,7 @@ import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
@@ -395,7 +395,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         // If in registration mode, don't allow read only
         if (mSpecialMode == SpecialMode.REGISTRATION && mDatabaseReadOnly) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
-            EntrySelectionHelper.removeModesFromIntent(intent)
+            intent.removeModes()
             finish()
         }
     }

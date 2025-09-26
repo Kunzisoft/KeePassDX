@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.credentialprovider.autofill
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.PendingIntent
 import android.app.assist.AssistStructure
 import android.content.Context
@@ -38,7 +37,6 @@ import android.view.autofill.AutofillId
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
-import android.widget.Toast
 import android.widget.inline.InlinePresentationSpec
 import androidx.annotation.RequiresApi
 import androidx.autofill.inline.UiVersions
@@ -54,21 +52,32 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import java.io.IOException
 import kotlin.math.min
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 object AutofillHelper {
 
-    private const val EXTRA_ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
+    private const val EXTRA_BASE_STRUCTURE = "com.kunzisoft.keepass.autofill.BASE_STRUCTURE"
     private const val EXTRA_INLINE_SUGGESTIONS_REQUEST = "com.kunzisoft.keepass.autofill.INLINE_SUGGESTIONS_REQUEST"
 
-    fun retrieveAutofillComponent(intent: Intent?): AutofillComponent? {
-        intent?.getParcelableExtraCompat<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { assistStructure ->
+    fun Intent.addAutofillComponent(autofillComponent: AutofillComponent) {
+        this.putExtra(EXTRA_BASE_STRUCTURE, autofillComponent.assistStructure)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            autofillComponent.compatInlineSuggestionsRequest?.let {
+                this.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+            }
+        }
+    }
+
+    fun Intent.retrieveAutofillComponent(): AutofillComponent? {
+        getParcelableExtraCompat<AssistStructure>(EXTRA_BASE_STRUCTURE)?.let { assistStructure ->
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 AutofillComponent(assistStructure,
-                        intent.getParcelableExtraCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+                        getParcelableExtraCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST))
             } else {
                 AutofillComponent(assistStructure, null)
             }
@@ -127,11 +136,13 @@ object AutofillHelper {
         return this
     }
 
-    private fun buildDatasetForEntry(context: Context,
-                                     database: ContextualDatabase,
-                                     entryInfo: EntryInfo,
-                                     struct: StructureParser.Result,
-                                     inlinePresentation: InlinePresentation?): Dataset {
+    private fun buildDatasetForEntry(
+        context: Context,
+        database: ContextualDatabase,
+        entryInfo: EntryInfo,
+        struct: StructureParser.Result,
+        inlinePresentation: InlinePresentation?
+    ): Dataset {
         val remoteViews: RemoteViews = newRemoteViews(context, database, makeEntryTitle(entryInfo), entryInfo.icon)
 
         val datasetBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -291,11 +302,13 @@ object AutofillHelper {
 
     @SuppressLint("RestrictedApi")
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun buildInlinePresentationForEntry(context: Context,
-                                                database: ContextualDatabase,
-                                                compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest,
-                                                positionItem: Int,
-                                                entryInfo: EntryInfo): InlinePresentation? {
+    private fun buildInlinePresentationForEntry(
+        context: Context,
+        database: ContextualDatabase,
+        compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest,
+        positionItem: Int,
+        entryInfo: EntryInfo
+    ): InlinePresentation? {
         compatInlineSuggestionsRequest.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
             val inlinePresentationSpecs = inlineSuggestionsRequest.inlinePresentationSpecs
             val maxSuggestion = inlineSuggestionsRequest.maxSuggestionCount
@@ -341,9 +354,11 @@ object AutofillHelper {
 
     @RequiresApi(Build.VERSION_CODES.R)
     @SuppressLint("RestrictedApi")
-    private fun buildInlinePresentationForManualSelection(context: Context,
-                                                          inlinePresentationSpec: InlinePresentationSpec,
-                                                          pendingIntent: PendingIntent): InlinePresentation? {
+    private fun buildInlinePresentationForManualSelection(
+        context: Context,
+        inlinePresentationSpec: InlinePresentationSpec,
+        pendingIntent: PendingIntent
+    ): InlinePresentation? {
         // Make sure that the IME spec claims support for v1 UI template.
         val imeStyle = inlinePresentationSpec.style
         if (!UiVersions.getVersions(imeStyle).contains(UiVersions.INLINE_UI_VERSION_1))
@@ -360,11 +375,14 @@ object AutofillHelper {
                 }.build().slice, inlinePresentationSpec, false)
     }
 
-    fun buildResponse(context: Context,
-                      database: ContextualDatabase,
-                      entriesInfo: List<EntryInfo>,
-                      parseResult: StructureParser.Result,
-                      compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest?): FillResponse? {
+    fun buildResponse(
+        context: Context,
+        database: ContextualDatabase,
+        entriesInfo: List<EntryInfo>,
+        parseResult: StructureParser.Result,
+        concreteWebDomain: String?,
+        autofillComponent: AutofillComponent
+    ): FillResponse? {
         val responseBuilder = FillResponse.Builder()
         // Add Header
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -385,7 +403,8 @@ object AutofillHelper {
         // Add inline suggestion for new IME and dataset
         var numberInlineSuggestions = 0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
+            autofillComponent.compatInlineSuggestionsRequest
+                ?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
                 numberInlineSuggestions = minOf(inlineSuggestionsRequest.maxSuggestionCount, entriesInfo.size)
                 if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
                     if (entriesInfo.size >= inlineSuggestionsRequest.maxSuggestionCount) {
@@ -401,21 +420,27 @@ object AutofillHelper {
                 var inlinePresentation: InlinePresentation? = null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
                     && numberInlineSuggestions > 0
-                    && compatInlineSuggestionsRequest != null) {
+                    && autofillComponent.compatInlineSuggestionsRequest != null) {
                     inlinePresentation = buildInlinePresentationForEntry(
                         context,
                         database,
-                        compatInlineSuggestionsRequest,
+                        autofillComponent.compatInlineSuggestionsRequest,
                         numberInlineSuggestions--,
                         entry
                     )
                 }
                 // Create dataset for each entry
                 responseBuilder.addDataset(
-                    buildDatasetForEntry(context, database, entry, parseResult, inlinePresentation)
+                    buildDatasetForEntry(
+                        context = context,
+                        database = database,
+                        entryInfo = entry,
+                        struct = parseResult,
+                        inlinePresentation = inlinePresentation
+                    )
                 )
             } catch (e: Exception) {
-                Log.e(TAG, "Unable to add dataset")
+                Log.e(TAG, "Unable to add dataset", e)
             }
         }
 
@@ -423,25 +448,32 @@ object AutofillHelper {
         if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
             val searchInfo = SearchInfo().apply {
                 applicationId = parseResult.applicationId
-                webDomain = parseResult.webDomain
+                webDomain = concreteWebDomain
                 webScheme = parseResult.webScheme
                 manualSelection = true
             }
-            val manualSelectionView = RemoteViews(context.packageName, R.layout.item_autofill_select_entry)
-            AutofillLauncherActivity.getPendingIntentForSelection(context,
-                    searchInfo, compatInlineSuggestionsRequest)?.let { pendingIntent ->
+            val manualSelectionView = RemoteViews(
+                context.packageName,
+                R.layout.item_autofill_select_entry
+            )
+            AutofillLauncherActivity.getPendingIntentForSelection(
+                context,
+                searchInfo,
+                autofillComponent
+            )?.let { pendingIntent ->
 
                 var inlinePresentation: InlinePresentation? = null
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    compatInlineSuggestionsRequest?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
-                        val inlinePresentationSpec =
-                            inlineSuggestionsRequest.inlinePresentationSpecs[0]
-                        inlinePresentation = buildInlinePresentationForManualSelection(
-                            context,
-                            inlinePresentationSpec,
-                            pendingIntent
-                        )
-                    }
+                    autofillComponent.compatInlineSuggestionsRequest
+                        ?.inlineSuggestionsRequest?.let { inlineSuggestionsRequest ->
+                            val inlinePresentationSpec =
+                                inlineSuggestionsRequest.inlinePresentationSpecs[0]
+                            inlinePresentation = buildInlinePresentationForManualSelection(
+                                context,
+                                inlinePresentationSpec,
+                                pendingIntent
+                            )
+                        }
                 }
 
                 val datasetBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -486,61 +518,34 @@ object AutofillHelper {
     }
 
     /**
-     * Build the Autofill response for one entry
+     * Build the Autofill response
      */
-    fun buildResponseAndSetResult(activity: Activity,
-                                  database: ContextualDatabase,
-                                  entryInfo: EntryInfo) {
-        buildResponseAndSetResult(activity, database, ArrayList<EntryInfo>().apply { add(entryInfo) })
-    }
-
-    /**
-     * Build the Autofill response for many entry
-     */
-    fun buildResponseAndSetResult(activity: Activity,
-                                  database: ContextualDatabase,
-                                  entriesInfo: List<EntryInfo>) {
+    fun buildResponse(
+        context: Context,
+        autofillComponent: AutofillComponent,
+        database: ContextualDatabase,
+        entriesInfo: List<EntryInfo>,
+        onIntentCreated: suspend (Intent) -> Unit
+    ) {
         if (entriesInfo.isEmpty()) {
-            activity.setResult(Activity.RESULT_CANCELED)
+            throw IOException("No entries found")
         } else {
-            var setResultOk = false
-            activity.intent?.getParcelableExtraCompat<AssistStructure>(EXTRA_ASSIST_STRUCTURE)?.let { structure ->
-                StructureParser(structure).parse()?.let { result ->
+            StructureParser(autofillComponent.assistStructure).parse()?.let { result ->
+                getConcreteWebDomain(context, result.webDomain) { concreteWebDomain ->
                     // New Response
-                    val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        val compatInlineSuggestionsRequest = activity.intent?.getParcelableExtraCompat<CompatInlineSuggestionsRequest>(
-                            EXTRA_INLINE_SUGGESTIONS_REQUEST
+                    onIntentCreated(Intent().putExtra(
+                        AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                        buildResponse(
+                            context = context,
+                            database = database,
+                            entriesInfo = entriesInfo,
+                            parseResult = result,
+                            concreteWebDomain = concreteWebDomain,
+                            autofillComponent = autofillComponent
                         )
-                        if (compatInlineSuggestionsRequest != null) {
-                            Toast.makeText(activity.applicationContext, R.string.autofill_inline_suggestions_keyboard, Toast.LENGTH_SHORT).show()
-                        }
-                        buildResponse(activity, database, entriesInfo, result, compatInlineSuggestionsRequest)
-                    } else {
-                        buildResponse(activity, database, entriesInfo, result, null)
-                    }
-                    val mReplyIntent = Intent()
-                    Log.d(activity.javaClass.name, "Success Autofill auth.")
-                    mReplyIntent.putExtra(
-                            AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                            response)
-                    setResultOk = true
-                    activity.setResult(Activity.RESULT_OK, mReplyIntent)
+                    ))
                 }
-            }
-            if (!setResultOk) {
-                Log.w(activity.javaClass.name, "Failed Autofill auth.")
-                activity.setResult(Activity.RESULT_CANCELED)
-            }
-        }
-    }
-
-    fun Intent.addAutofillComponent(context: Context, autofillComponent: AutofillComponent) {
-        this.putExtra(EXTRA_ASSIST_STRUCTURE, autofillComponent.assistStructure)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-            && PreferencesUtil.isAutofillInlineSuggestionsEnable(context)) {
-            autofillComponent.compatInlineSuggestionsRequest?.let {
-                this.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
-            }
+            } ?: throw IOException("Unable to parse the structure")
         }
     }
 

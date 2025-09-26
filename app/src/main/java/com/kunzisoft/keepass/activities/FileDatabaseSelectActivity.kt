@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
@@ -303,7 +302,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                     )
                     onLaunchActivitySpecialMode()
                 },
-                selectionAction = { intentSenderMode, typeMode, searchInfo, autofillComponent ->
+                selectionAction = { intentSenderMode, typeMode, searchInfo ->
                     MainCredentialActivity.launchForSelection(
                         activity = this,
                         activityResultLauncher = if (intentSenderMode)
@@ -312,8 +311,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                         keyFile = keyFile,
                         hardwareKey = hardwareKey,
                         typeMode = typeMode,
-                        searchInfo = searchInfo,
-                        autofillComponent = autofillComponent,
+                        searchInfo = searchInfo
                     )
                     onLaunchActivitySpecialMode()
                 },
@@ -496,18 +494,16 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          */
 
         fun launchForSelection(
-            activity: Activity,
+            context: Context,
             typeMode: TypeMode,
             searchInfo: SearchInfo? = null,
-            autofillComponent: AutofillComponent? = null,
             activityResultLauncher: ActivityResultLauncher<Intent>? = null,
         ) {
             EntrySelectionHelper.startActivityForSelectionModeResult(
-                context = activity,
-                intent = Intent(activity, FileDatabaseSelectActivity::class.java),
+                context = context,
+                intent = Intent(context, FileDatabaseSelectActivity::class.java),
                 searchInfo = searchInfo,
                 typeMode = typeMode,
-                autofillComponent = autofillComponent,
                 activityResultLauncher = activityResultLauncher
             )
         }

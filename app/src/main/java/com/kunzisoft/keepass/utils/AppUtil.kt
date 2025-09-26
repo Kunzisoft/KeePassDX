@@ -23,6 +23,10 @@ import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 object AppUtil {
 
+    fun randomRequestCode(): Int {
+        return (Math.random() * Integer.MAX_VALUE).toInt()
+    }
+
     fun Context.isExternalAppInstalled(packageName: String, showError: Boolean = true): Boolean {
         try {
             this.applicationContext.packageManager.getPackageInfoCompat(
@@ -83,9 +87,10 @@ object AppUtil {
     /**
      * Get the concrete web domain AKA without sub domain if needed
      */
-    fun SearchInfo.getConcreteWebDomain(
+    fun getConcreteWebDomain(
         context: Context,
-        concreteWebDomain: (String?) -> Unit
+        webDomain: String?,
+        concreteWebDomain: suspend (String?) -> Unit
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             val domain = webDomain

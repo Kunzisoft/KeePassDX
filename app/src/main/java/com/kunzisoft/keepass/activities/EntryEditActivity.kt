@@ -56,9 +56,10 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TemplatesSelectorAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildSpecialModeResponseAndSetResult
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveRegisterInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.TypeMode
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -203,8 +204,8 @@ class EntryEditActivity : DatabaseLockActivity(),
             mDatabase,
             entryId,
             parentId,
-            EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
-                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)?.toRegisterInfo()
+            intent.retrieveRegisterInfo()
+                ?: intent.retrieveSearchInfo()?.toRegisterInfo()
         )
 
         // To retrieve attachment
@@ -378,7 +379,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                     intent = intent,
                     defaultAction = {},
                     searchAction = {},
-                    selectionAction = { intentSender, typeMode, searchInfo, autofillComponent ->
+                    selectionAction = { intentSender, typeMode, searchInfo ->
                         when(typeMode) {
                             TypeMode.DEFAULT -> {}
                             TypeMode.MAGIKEYBOARD ->
@@ -396,7 +397,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                             TypeMode.PASSKEY ->
                                 entryValidatedForPasskeyRegistration(database, entrySave.newEntry)
                             TypeMode.AUTOFILL ->
-                                entryValidatedForAutofillRegistration(entrySave.newEntry)
+                                entryValidatedForAutofillRegistration(database, entrySave.newEntry)
                         }
                     }
                 )
@@ -444,7 +445,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                                 searchAction = {
                                     // Nothing when search retrieved
                                 },
-                                selectionAction = { intentSender, typeMode, searchInfo, autofillComponent ->
+                                selectionAction = { intentSender, typeMode, searchInfo ->
                                     when(typeMode) {
                                         TypeMode.DEFAULT -> {}
                                         TypeMode.MAGIKEYBOARD ->
@@ -463,7 +464,7 @@ class EntryEditActivity : DatabaseLockActivity(),
                                         TypeMode.PASSKEY ->
                                             entryValidatedForPasskeyRegistration(database, entry)
                                         TypeMode.AUTOFILL ->
-                                            entryValidatedForAutofillRegistration(entry)
+                                            entryValidatedForAutofillRegistration(database, entry)
                                     }
                                 }
                             )
@@ -496,9 +497,10 @@ class EntryEditActivity : DatabaseLockActivity(),
     private fun entryValidatedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.buildResponseAndSetResult(this@EntryEditActivity,
-                    database,
-                    entry.getEntryInfo(database))
+            this.buildSpecialModeResponseAndSetResult(
+                entryInfo = entry.getEntryInfo(database),
+                extras = buildEntryResult(entry)
+            )
         }
         onValidateSpecialMode()
     }
@@ -506,20 +508,21 @@ class EntryEditActivity : DatabaseLockActivity(),
     private fun entryValidatedForPasskeySelection(database: ContextualDatabase, entry: Entry) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             this.buildPasskeyResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database)
+                entryInfo = entry.getEntryInfo(database),
+                extras = buildEntryResult(entry)
             )
         }
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForAutofillRegistration(entry: Entry) {
-        //if (isIntentSender()) {
-            // TODO Autofill Callback #765
-        //}
-        onValidateSpecialMode()
-        if (!isIntentSender()) {
-            finishForEntryResult(entry)
+    private fun entryValidatedForAutofillRegistration(database: ContextualDatabase, entry: Entry) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.buildSpecialModeResponseAndSetResult(
+                entryInfo = entry.getEntryInfo(database),
+                extras = buildEntryResult(entry)
+            )
         }
+        onValidateSpecialMode()
     }
 
     private fun entryValidatedForPasskeyRegistration(database: ContextualDatabase, entry: Entry) {
@@ -856,7 +859,6 @@ class EntryEditActivity : DatabaseLockActivity(),
             typeMode: TypeMode,
             groupId: NodeId<*>,
             searchInfo: SearchInfo? = null,
-            autofillComponent: AutofillComponent? = null,
             activityResultLauncher: ActivityResultLauncher<Intent>? = null,
         ) {
             if (database.loaded && !database.isReadOnly) {
@@ -868,7 +870,6 @@ class EntryEditActivity : DatabaseLockActivity(),
                         intent = intent,
                         typeMode = typeMode,
                         searchInfo = searchInfo,
-                        autofillComponent = autofillComponent,
                         activityResultLauncher = activityResultLauncher
                     )
                 }

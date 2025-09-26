@@ -27,34 +27,46 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addRegisterInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
-import com.kunzisoft.keepass.credentialprovider.autofill.CompatInlineSuggestionsRequest
-import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.addAutofillComponent
+import com.kunzisoft.keepass.credentialprovider.viewmodel.AutofillLauncherViewModel
+import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
-import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
-import com.kunzisoft.keepass.utils.getParcelableCompat
-import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.view.toastError
+import kotlinx.coroutines.launch
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : DatabaseModeActivity() {
 
-    override var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher(typeMode = TypeMode.AUTOFILL, lockDatabase = true)
+    private val autofillLauncherViewModel: AutofillLauncherViewModel by viewModels()
+
+    private var mAutofillSelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            autofillLauncherViewModel.manageSelectionResult(it)
+        }
+
+    private var mAutofillRegistrationActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            autofillLauncherViewModel.manageRegistrationResult(it)
+        }
 
     override fun applyCustomStyle(): Boolean {
         return false
@@ -64,176 +76,103 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         return true
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-
-        // Retrieve selection mode
-        EntrySelectionHelper.retrieveSpecialModeFromIntent(intent).let { specialMode ->
-            when (specialMode) {
-                SpecialMode.SELECTION -> {
-                    intent.getBundleExtra(KEY_SELECTION_BUNDLE)?.let { bundle ->
-                        // To pass extra inline request
-                        var compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            compatInlineSuggestionsRequest = bundle.getParcelableCompat(
-                                KEY_INLINE_SUGGESTION
-                            )
-                        }
-                        // Build search param
-                        bundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { searchInfo ->
-                            searchInfo.getConcreteWebDomain(this) { concreteWebDomain ->
-                                // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
-                                val assistStructure = AutofillHelper
-                                    .retrieveAutofillComponent(intent)
-                                    ?.assistStructure
-                                val newAutofillComponent = if (assistStructure != null) {
-                                    AutofillComponent(
-                                        assistStructure,
-                                        compatInlineSuggestionsRequest
-                                    )
-                                } else {
-                                    null
-                                }
-                                searchInfo.webDomain = concreteWebDomain
-                                launchSelection(database, newAutofillComponent, searchInfo)
-                            }
-                        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            // Retrieve the UI
+            autofillLauncherViewModel.credentialUiState.collect { uiState ->
+                when (uiState) {
+                    is CredentialLauncherViewModel.UIState.Loading -> {}
+                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
+                        GroupActivity.launchForSelection(
+                            context = this@AutofillLauncherActivity,
+                            database = uiState.database,
+                            searchInfo = uiState.searchInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = mAutofillSelectionActivityResultLauncher,
+                        )
                     }
-                    // Remove bundle
-                    intent.removeExtra(KEY_SELECTION_BUNDLE)
-                }
-                SpecialMode.REGISTRATION -> {
-                    // To register info
-                    val registerInfo = intent.getParcelableExtraCompat<RegisterInfo>(
-                        KEY_REGISTER_INFO
-                    )
-                    val searchInfo = SearchInfo(registerInfo?.searchInfo)
-                    searchInfo.getConcreteWebDomain(this) { concreteWebDomain ->
-                        searchInfo.webDomain = concreteWebDomain
-                        launchRegistration(database, searchInfo, registerInfo)
+                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
+                        GroupActivity.launchForRegistration(
+                            context = this@AutofillLauncherActivity,
+                            database = uiState.database,
+                            registerInfo = uiState.registerInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = mAutofillRegistrationActivityResultLauncher
+                        )
+                    }
+                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
+                        FileDatabaseSelectActivity.launchForSelection(
+                            context = this@AutofillLauncherActivity,
+                            searchInfo = uiState.searchInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = mAutofillSelectionActivityResultLauncher
+                        )
+                    }
+                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
+                        FileDatabaseSelectActivity.launchForRegistration(
+                            context = this@AutofillLauncherActivity,
+                            registerInfo = uiState.registerInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = mAutofillRegistrationActivityResultLauncher,
+                        )
+                    }
+                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
+                        setActivityResult(
+                            typeMode = TypeMode.AUTOFILL,
+                            lockDatabase = uiState.lockDatabase,
+                            resultCode = uiState.resultCode,
+                            data = uiState.data
+                        )
+                    }
+                    is CredentialLauncherViewModel.UIState.ShowError -> {
+                        toastError(uiState.error)
+                        autofillLauncherViewModel.cancelResult()
                     }
                 }
-                else -> {
-                    // Not an autofill call
-                    setResult(RESULT_CANCELED)
-                    finish()
+            }
+        }
+        lifecycleScope.launch {
+            // Initialize the parameters
+            autofillLauncherViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    AutofillLauncherViewModel.UIState.Loading -> {}
+                    is AutofillLauncherViewModel.UIState.ShowBlockRestartMessage -> {
+                        showBlockRestartMessage()
+                        autofillLauncherViewModel.cancelResult()
+                    }
+                    is AutofillLauncherViewModel.UIState.ShowReadOnlyMessage -> {
+                        showReadOnlySaveMessage()
+                        autofillLauncherViewModel.cancelResult()
+                    }
+                    is AutofillLauncherViewModel.UIState.ShowAutofillSuggestionMessage -> {
+                        showAutofillSuggestionMessage()
+                    }
                 }
             }
         }
     }
 
-    private fun launchSelection(database: ContextualDatabase?,
-                                autofillComponent: AutofillComponent?,
-                                searchInfo: SearchInfo) {
-        if (autofillComponent == null) {
-            setResult(RESULT_CANCELED)
-            finish()
-        } else if (KeeAutofillService.autofillAllowedFor(
-            applicationId = searchInfo.applicationId,
-            webDomain = searchInfo.webDomain,
-            context = this
-        )) {
-            // If database is open
-            SearchHelper.checkAutoSearchInfo(
-                context = this,
-                database = database,
-                searchInfo = searchInfo,
-                onItemsFound = { openedDatabase, items ->
-                    // Items found
-                    AutofillHelper.buildResponseAndSetResult(this, openedDatabase, items)
-                    finish()
-                },
-                onItemNotFound = { openedDatabase ->
-                    // Show the database UI to select the entry
-                    GroupActivity.launchForSelection(
-                        context = this,
-                        database = openedDatabase,
-                        typeMode = TypeMode.AUTOFILL,
-                        searchInfo = searchInfo,
-                        autoSearch = false,
-                        autofillComponent = autofillComponent,
-                        activityResultLauncher = mCredentialActivityResultLauncher,
-                    )
-                },
-                onDatabaseClosed = {
-                    // If database not open
-                    FileDatabaseSelectActivity.launchForSelection(
-                        activity = this,
-                        typeMode = TypeMode.AUTOFILL,
-                        searchInfo = searchInfo,
-                        autofillComponent = autofillComponent,
-                        activityResultLauncher = mCredentialActivityResultLauncher
-                    )
-                }
-            )
-        } else {
-            showBlockRestartMessage()
-            setResult(RESULT_CANCELED)
-            finish()
-        }
-    }
-
-    private fun launchRegistration(database: ContextualDatabase?,
-                                   searchInfo: SearchInfo,
-                                   registerInfo: RegisterInfo?) {
-        if (KeeAutofillService.autofillAllowedFor(
-                applicationId = searchInfo.applicationId,
-                webDomain = searchInfo.webDomain,
-                context = this
-        )) {
-            val readOnly = database?.isReadOnly != false
-            SearchHelper.checkAutoSearchInfo(
-                context = this,
-                database = database,
-                searchInfo = searchInfo,
-                onItemsFound = { openedDatabase, _ ->
-                    if (!readOnly) {
-                        // Show the database UI to select the entry
-                        GroupActivity.launchForRegistration(
-                            context = this,
-                            activityResultLauncher = null, // TODO Autofill result launcher #765
-                            database = openedDatabase,
-                            registerInfo = registerInfo,
-                            typeMode = TypeMode.AUTOFILL
-                        )
-                    } else {
-                        showReadOnlySaveMessage()
-                    }
-                },
-                onItemNotFound = { openedDatabase ->
-                    if (!readOnly) {
-                        // Show the database UI to select the entry
-                        GroupActivity.launchForRegistration(
-                            context = this,
-                            activityResultLauncher = null, // TODO Autofill result launcher #765
-                            database = openedDatabase,
-                            registerInfo = registerInfo,
-                            typeMode = TypeMode.AUTOFILL
-                        )
-                    } else {
-                        showReadOnlySaveMessage()
-                    }
-                },
-                onDatabaseClosed = {
-                    // If database not open
-                    FileDatabaseSelectActivity.launchForRegistration(
-                        context = this,
-                        activityResultLauncher = null, // TODO Autofill result launcher #765
-                        registerInfo = registerInfo,
-                        typeMode = TypeMode.AUTOFILL
-                    )
-                }
-            )
-        } else {
-            showBlockRestartMessage()
-            setResult(RESULT_CANCELED)
-        }
-        finish()
+    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+        super.onDatabaseRetrieved(database)
+        autofillLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
     }
 
     private fun showBlockRestartMessage() {
         // If item not allowed, show a toast
-        Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+        Toast.makeText(
+            applicationContext,
+            R.string.autofill_block_restart,
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun showAutofillSuggestionMessage() {
+        Toast.makeText(
+            applicationContext,
+            R.string.autofill_inline_suggestions_keyboard,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun showReadOnlySaveMessage() {
@@ -244,27 +183,21 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
         private val TAG = AutofillLauncherActivity::class.java.name
 
-        private const val KEY_SELECTION_BUNDLE = "KEY_SELECTION_BUNDLE"
-        private const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
-        private const val KEY_INLINE_SUGGESTION = "KEY_INLINE_SUGGESTION"
-
-        private const val KEY_REGISTER_INFO = "KEY_REGISTER_INFO"
-
-        fun getPendingIntentForSelection(context: Context,
-                                         searchInfo: SearchInfo? = null,
-                                         compatInlineSuggestionsRequest: CompatInlineSuggestionsRequest? = null): PendingIntent? {
+        fun getPendingIntentForSelection(
+            context: Context,
+            searchInfo: SearchInfo? = null,
+            autofillComponent: AutofillComponent
+        ): PendingIntent? {
             try {
                 return PendingIntent.getActivity(
-                    context, 0,
+                    context,
+                    randomRequestCode(),
                     // Doesn't work with direct extra Parcelable (don't know why?)
                     // Wrap into a bundle to bypass the problem
                     Intent(context, AutofillLauncherActivity::class.java).apply {
-                        putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
-                            putParcelable(KEY_SEARCH_INFO, searchInfo)
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                                putParcelable(KEY_INLINE_SUGGESTION, compatInlineSuggestionsRequest)
-                            }
-                        })
+                        addSpecialMode(SpecialMode.SELECTION)
+                        addSearchInfo(searchInfo)
+                        addAutofillComponent(autofillComponent)
                     },
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
@@ -278,14 +211,17 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             }
         }
 
-        fun getPendingIntentForRegistration(context: Context,
-                                            registerInfo: RegisterInfo): PendingIntent? {
+        fun getPendingIntentForRegistration(
+            context: Context,
+            registerInfo: RegisterInfo
+        ): PendingIntent? {
             try {
                 return PendingIntent.getActivity(
-                    context, 0,
+                    context,
+                    randomRequestCode(),
                     Intent(context, AutofillLauncherActivity::class.java).apply {
-                        EntrySelectionHelper.addSpecialModeInIntent(this, SpecialMode.REGISTRATION)
-                        putExtra(KEY_REGISTER_INFO, registerInfo)
+                        addSpecialMode(SpecialMode.REGISTRATION)
+                        addRegisterInfo(registerInfo)
                     },
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
@@ -299,11 +235,13 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             }
         }
 
-        fun launchForRegistration(context: Context,
-                                  registerInfo: RegisterInfo) {
+        fun launchForRegistration(
+            context: Context,
+            registerInfo: RegisterInfo
+        ) {
             val intent = Intent(context, AutofillLauncherActivity::class.java)
-            EntrySelectionHelper.addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
-            intent.putExtra(KEY_REGISTER_INFO, registerInfo)
+            intent.addSpecialMode(SpecialMode.REGISTRATION)
+            intent.addRegisterInfo(registerInfo)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }

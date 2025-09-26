@@ -36,9 +36,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
-import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.adapters.NodesAdapter
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
@@ -248,7 +248,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         mNodesRecyclerView?.addOnScrollListener(mRecycleViewScrollListener)
         activity?.intent?.let {
-            specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
+            specialMode = it.retrieveSpecialMode()
         }
     }
 

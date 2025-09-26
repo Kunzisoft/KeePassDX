@@ -39,7 +39,7 @@ inline fun <reified T : Serializable> Intent.getSerializableExtraCompat(key: Str
     else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
 }
 
-inline fun <reified E : Parcelable> Intent.putParcelableList(key: String?, list: MutableList<E>) {
+inline fun <reified E : Parcelable> Intent.putParcelableList(key: String?, list: List<E>) {
     putExtra(key, list.toTypedArray())
 }
 

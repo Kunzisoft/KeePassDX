@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
 import com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider
@@ -484,7 +485,7 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             // Populate Magikeyboard with entry
             addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
             // Consume the selection mode
-            EntrySelectionHelper.removeModesFromIntent(activity.intent)
+            activity.intent.removeModes()
             activity.moveTaskToBack(true)
         }
     }

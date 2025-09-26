@@ -57,7 +57,6 @@ import com.kunzisoft.keepass.biometric.deviceUnlockError
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
@@ -815,7 +814,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
             hardwareKey: HardwareKey?,
             typeMode: TypeMode,
             searchInfo: SearchInfo?,
-            autofillComponent: AutofillComponent? = null,
             activityResultLauncher: ActivityResultLauncher<Intent>? = null,
         ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
@@ -824,7 +822,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
                     intent = intent,
                     typeMode = typeMode,
                     searchInfo = searchInfo,
-                    autofillComponent = autofillComponent,
                     activityResultLauncher = activityResultLauncher
                 )
             }

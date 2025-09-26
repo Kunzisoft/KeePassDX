@@ -105,12 +105,11 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                                 sharedWebDomain: String?,
                                 otpString: String?) {
         // Build domain search param
-        val searchInfo = SearchInfo().apply {
-            this.webDomain = sharedWebDomain
-            this.otpString = otpString
-        }
-        searchInfo.getConcreteWebDomain(this) { concreteWebDomain ->
-            searchInfo.webDomain = concreteWebDomain
+        getConcreteWebDomain(this, sharedWebDomain) { concreteWebDomain ->
+            val searchInfo = SearchInfo().apply {
+                this.webDomain = concreteWebDomain
+                this.otpString = otpString
+            }
             launch(database, searchInfo)
         }
     }
@@ -212,7 +211,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                     )
                 } else if (searchShareForMagikeyboard) {
                     FileDatabaseSelectActivity.launchForSelection(
-                        activity = this,
+                        context = this,
                         typeMode = TypeMode.MAGIKEYBOARD,
                         searchInfo = searchInfo
                     )

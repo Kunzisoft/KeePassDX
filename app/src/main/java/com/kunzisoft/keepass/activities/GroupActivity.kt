@@ -64,10 +64,13 @@ import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.BreadcrumbAdapter
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildSpecialModeResponseAndSetResult
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -495,14 +498,13 @@ class GroupActivity : DatabaseLockActivity(),
                         searchAction = {
                             // Search not used
                         },
-                        selectionAction = { intentSenderMode, typeMode, searchInfo, autofillComponent ->
+                        selectionAction = { intentSenderMode, typeMode, searchInfo ->
                             EntryEditActivity.launchForSelection(
                                 context = this@GroupActivity,
                                 database = database,
                                 typeMode = typeMode,
                                 groupId = currentGroup.nodeId,
                                 searchInfo = searchInfo,
-                                autofillComponent = autofillComponent,
                                 activityResultLauncher = if (intentSenderMode)
                                     mCredentialActivityResultLauncher else null
                             )
@@ -666,7 +668,7 @@ class GroupActivity : DatabaseLockActivity(),
                         searchAction = {
                             // Search not used
                         },
-                        selectionAction = { intentSenderMode, typeMode, searchInfo, autofillComponent ->
+                        selectionAction = { intentSenderMode, typeMode, searchInfo ->
                             when (typeMode) {
                                 TypeMode.DEFAULT -> {}
                                 TypeMode.MAGIKEYBOARD -> entry?.let {
@@ -700,7 +702,7 @@ class GroupActivity : DatabaseLockActivity(),
      */
     private fun transformSearchInfoIntent(intent: Intent) {
         // To relaunch the activity as ACTION_SEARCH
-        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        val searchInfo: SearchInfo? = intent.retrieveSearchInfo()
         val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (searchInfo != null && autoSearch) {
@@ -840,7 +842,7 @@ class GroupActivity : DatabaseLockActivity(),
                     searchAction = {
                         // Nothing here, a search is simply performed
                     },
-                    selectionAction = { intentSenderMode, typeMode, searchInfo, autofillComponent ->
+                    selectionAction = { intentSenderMode, typeMode, searchInfo ->
                         when (typeMode) {
                             TypeMode.DEFAULT -> {}
                             TypeMode.MAGIKEYBOARD -> {
@@ -910,11 +912,7 @@ class GroupActivity : DatabaseLockActivity(),
         removeSearch()
         // Build response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.buildResponseAndSetResult(
-                this,
-                database,
-                entry.getEntryInfo(database)
-            )
+            this.buildSpecialModeResponseAndSetResult(entry.getEntryInfo(database))
         }
         onValidateSpecialMode()
     }
@@ -1381,8 +1379,8 @@ class GroupActivity : DatabaseLockActivity(),
             // Else in root, lock if needed
             else {
                 removeSearch()
-                EntrySelectionHelper.removeModesFromIntent(intent)
-                EntrySelectionHelper.removeInfoFromIntent(intent)
+                intent.removeModes()
+                intent.removeInfo()
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
                 } else {
@@ -1513,10 +1511,7 @@ class GroupActivity : DatabaseLockActivity(),
             if (database.loaded) {
                 checkTimeAndBuildIntent(context, null) { intent ->
                     intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
-                    EntrySelectionHelper.addSearchInfoInIntent(
-                        intent,
-                        searchInfo
-                    )
+                    intent.addSearchInfo(searchInfo)
                     context.startActivity(intent)
                 }
             }
@@ -1528,7 +1523,6 @@ class GroupActivity : DatabaseLockActivity(),
             typeMode: TypeMode,
             searchInfo: SearchInfo? = null,
             autoSearch: Boolean = false,
-            autofillComponent: AutofillComponent? = null,
             activityResultLauncher: ActivityResultLauncher<Intent>? = null,
         ) {
             if (database.loaded) {
@@ -1539,7 +1533,6 @@ class GroupActivity : DatabaseLockActivity(),
                         intent = intent,
                         typeMode = typeMode,
                         searchInfo = searchInfo,
-                        autofillComponent = autofillComponent,
                         activityResultLauncher = activityResultLauncher
                     )
                 }
@@ -1608,7 +1601,7 @@ class GroupActivity : DatabaseLockActivity(),
                         onCancelSpecialMode()
                     }
                 },
-                selectionAction = { intentSenderMode, typeMode, searchInfo, autofillComponent ->
+                selectionAction = { intentSenderMode, typeMode, searchInfo ->
                     SearchHelper.checkAutoSearchInfo(
                         context = activity,
                         database = database,
@@ -1644,7 +1637,9 @@ class GroupActivity : DatabaseLockActivity(),
                                     EntrySelectionHelper.performSelection(
                                         items = items,
                                         actionPopulateCredentialProvider = { entryInfo ->
-                                            activity.buildPasskeyResponseAndSetResult(entryInfo)
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                                activity.buildPasskeyResponseAndSetResult(entryInfo)
+                                            }
                                             onValidateSpecialMode()
                                         },
                                         actionEntrySelection = {
@@ -1662,7 +1657,7 @@ class GroupActivity : DatabaseLockActivity(),
                                 }
                                 TypeMode.AUTOFILL -> {
                                     // Response is build
-                                    AutofillHelper.buildResponseAndSetResult(activity, openedDatabase, items)
+                                    activity.buildSpecialModeResponseAndSetResult(items)
                                     onValidateSpecialMode()
                                 }
                             }
@@ -1675,7 +1670,6 @@ class GroupActivity : DatabaseLockActivity(),
                                 typeMode = typeMode,
                                 searchInfo = searchInfo,
                                 autoSearch = false,
-                                autofillComponent = autofillComponent,
                                 activityResultLauncher = if (intentSenderMode)
                                     activityResultLauncher else null
                             )

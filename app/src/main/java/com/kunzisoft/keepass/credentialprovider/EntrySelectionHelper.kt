@@ -24,6 +24,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.os.Bundle
+import android.os.ParcelUuid
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.activity.result.ActivityResultLauncher
@@ -32,9 +34,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
-import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.addAutofillComponent
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -43,7 +42,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.getEnumExtra
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
+import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putEnumExtra
+import com.kunzisoft.keepass.utils.putParcelableList
+import java.util.UUID
 
 object EntrySelectionHelper {
 
@@ -51,6 +53,8 @@ object EntrySelectionHelper {
     private const val KEY_TYPE_MODE = "com.kunzisoft.keepass.extra.TYPE_MODE"
     private const val KEY_SEARCH_INFO = "com.kunzisoft.keepass.extra.SEARCH_INFO"
     private const val KEY_REGISTER_INFO = "com.kunzisoft.keepass.extra.REGISTER_INFO"
+    private const val EXTRA_NODES_IDS = "com.kunzisoft.keepass.extra.NODES_IDS"
+    private const val EXTRA_NODE_ID = "com.kunzisoft.keepass.extra.NODE_ID"
 
     /**
      * Finish the activity by passing the result code and by locking the database if necessary
@@ -107,8 +111,8 @@ object EntrySelectionHelper {
         intent: Intent,
         searchInfo: SearchInfo
     ) {
-        addSpecialModeInIntent(intent, SpecialMode.SEARCH)
-        addSearchInfoInIntent(intent, searchInfo)
+        intent.addSpecialMode(SpecialMode.SEARCH)
+        intent.addSearchInfo(searchInfo)
         intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
     }
@@ -118,17 +122,11 @@ object EntrySelectionHelper {
         intent: Intent,
         typeMode: TypeMode,
         searchInfo: SearchInfo?,
-        autofillComponent: AutofillComponent? = null,
         activityResultLauncher: ActivityResultLauncher<Intent>? = null,
     ) {
-        addSpecialModeInIntent(intent, SpecialMode.SELECTION)
-        addTypeModeInIntent(intent, typeMode)
-        addSearchInfoInIntent(intent, searchInfo)
-        autofillComponent?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                intent.addAutofillComponent(context, autofillComponent)
-            }
-        }
+        intent.addSpecialMode(SpecialMode.SELECTION)
+        intent.addTypeMode(typeMode)
+        intent.addSearchInfo(searchInfo)
         if (activityResultLauncher == null) {
             intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -142,77 +140,123 @@ object EntrySelectionHelper {
         registerInfo: RegisterInfo?,
         typeMode: TypeMode
     ) {
-        addSpecialModeInIntent(intent, SpecialMode.REGISTRATION)
-        addTypeModeInIntent(intent, typeMode)
-        addRegisterInfoInIntent(intent, registerInfo)
+        intent.addSpecialMode(SpecialMode.REGISTRATION)
+        intent.addTypeMode(typeMode)
+        intent.addRegisterInfo(registerInfo)
         if (activityResultLauncher == null) {
             intent.flags = intent.flags or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         activityResultLauncher?.launch(intent) ?: context.startActivity(intent)
     }
 
-    fun addSearchInfoInIntent(intent: Intent, searchInfo: SearchInfo?) {
+    /**
+     * Build the special mode response for internal entry selection for one entry
+     */
+    fun Activity.buildSpecialModeResponseAndSetResult(
+        entryInfo: EntryInfo,
+        extras: Bundle? = null
+    ) {
+        this.buildSpecialModeResponseAndSetResult(listOf(entryInfo), extras)
+    }
+
+    /**
+     * Build the special mode response for internal entry selection for multiple entries
+     */
+    fun Activity.buildSpecialModeResponseAndSetResult(
+        entriesInfo: List<EntryInfo>,
+        extras: Bundle? = null
+    ) {
+        try {
+            val mReplyIntent = Intent()
+            Log.d(javaClass.name, "Success special mode manual selection")
+            mReplyIntent.addNodesIds(entriesInfo.map { it.id })
+            extras?.let {
+                mReplyIntent.putExtras(it)
+            }
+            setResult(Activity.RESULT_OK, mReplyIntent)
+        } catch (e: Exception) {
+            Log.e(javaClass.name, "Unable to add the result", e)
+            setResult(Activity.RESULT_CANCELED)
+        }
+    }
+
+    fun Intent.addSearchInfo(searchInfo: SearchInfo?): Intent {
         searchInfo?.let {
-            intent.putExtra(KEY_SEARCH_INFO, it)
+            putExtra(KEY_SEARCH_INFO, it)
         }
+        return this
     }
 
-    fun retrieveSearchInfoFromIntent(intent: Intent): SearchInfo? {
-        return intent.getParcelableExtraCompat(KEY_SEARCH_INFO)
+    fun Intent.retrieveSearchInfo(): SearchInfo? {
+        return getParcelableExtraCompat(KEY_SEARCH_INFO)
     }
 
-    private fun addRegisterInfoInIntent(intent: Intent, registerInfo: RegisterInfo?) {
+    fun Intent.addRegisterInfo(registerInfo: RegisterInfo?): Intent {
         registerInfo?.let {
-            intent.putExtra(KEY_REGISTER_INFO, it)
+            putExtra(KEY_REGISTER_INFO, it)
         }
+        return this
     }
 
-    fun retrieveRegisterInfoFromIntent(intent: Intent): RegisterInfo? {
-        return intent.getParcelableExtraCompat(KEY_REGISTER_INFO)
+    fun Intent.retrieveRegisterInfo(): RegisterInfo? {
+        return getParcelableExtraCompat(KEY_REGISTER_INFO)
     }
 
-    fun removeInfoFromIntent(intent: Intent) {
-        intent.removeExtra(KEY_SEARCH_INFO)
-        intent.removeExtra(KEY_REGISTER_INFO)
+    fun Intent.removeInfo() {
+        removeExtra(KEY_SEARCH_INFO)
+        removeExtra(KEY_REGISTER_INFO)
     }
 
-    fun addSpecialModeInIntent(intent: Intent, specialMode: SpecialMode) {
-        // TODO Replace by Intent.addSpecialMode
-        intent.putEnumExtra(KEY_SPECIAL_MODE, specialMode)
-    }
     fun Intent.addSpecialMode(specialMode: SpecialMode): Intent {
         this.putEnumExtra(KEY_SPECIAL_MODE, specialMode)
         return this
     }
 
-    fun retrieveSpecialModeFromIntent(intent: Intent): SpecialMode {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (AutofillHelper.retrieveAutofillComponent(intent) != null)
-                return SpecialMode.SELECTION
-        }
-        return intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
+    fun Intent.retrieveSpecialMode(): SpecialMode {
+        return getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
     }
 
-    private fun addTypeModeInIntent(intent: Intent, typeMode: TypeMode) {
-        // TODO Replace by Intent.addTypeMode
-        intent.putEnumExtra(KEY_TYPE_MODE, typeMode)
-    }
     fun Intent.addTypeMode(typeMode: TypeMode): Intent {
         this.putEnumExtra(KEY_TYPE_MODE, typeMode)
         return this
     }
 
-    fun retrieveTypeModeFromIntent(intent: Intent): TypeMode {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            if (AutofillHelper.retrieveAutofillComponent(intent) != null)
-                return TypeMode.AUTOFILL
-        }
-        return intent.getEnumExtra<TypeMode>(KEY_TYPE_MODE) ?: TypeMode.DEFAULT
+    fun Intent.retrieveTypeMode(): TypeMode {
+        return getEnumExtra<TypeMode>(KEY_TYPE_MODE) ?: TypeMode.DEFAULT
     }
 
-    fun removeModesFromIntent(intent: Intent) {
-        intent.removeExtra(KEY_SPECIAL_MODE)
-        intent.removeExtra(KEY_TYPE_MODE)
+    fun Intent.removeModes() {
+        removeExtra(KEY_SPECIAL_MODE)
+        removeExtra(KEY_TYPE_MODE)
+    }
+
+    fun Intent.addNodesIds(nodesIds: List<UUID>): Intent {
+        this.putParcelableList(EXTRA_NODES_IDS, nodesIds.map { ParcelUuid(it) })
+        return this
+    }
+
+    fun Intent.retrieveNodesIds(): List<UUID>? {
+        return getParcelableList<ParcelUuid>(EXTRA_NODES_IDS)?.map { it.uuid }
+    }
+
+    fun Intent.removeNodesIds() {
+        removeExtra(EXTRA_NODES_IDS)
+    }
+
+    /**
+     * Add the node id to the intent
+     */
+    fun Intent.addNodeId(nodeId: UUID?) {
+        nodeId?.let {
+            putExtra(EXTRA_NODE_ID, ParcelUuid(nodeId))
+        }
+    }
+
+    /**
+     * Retrieve the node id from the intent
+     */
+    fun Intent.retrieveNodeId(): UUID? {
+        return getParcelableExtraCompat<ParcelUuid>(EXTRA_NODE_ID)?.uuid
     }
 
     /**
@@ -221,9 +265,8 @@ object EntrySelectionHelper {
     fun isIntentSenderMode(specialMode: SpecialMode, typeMode: TypeMode): Boolean {
         return (specialMode == SpecialMode.SELECTION
                 && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
-                // TODO Autofill Registration callback #765 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
                 || (specialMode == SpecialMode.REGISTRATION
-                && typeMode == TypeMode.PASSKEY)
+                && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
     }
 
     fun doSpecialAction(
@@ -233,8 +276,7 @@ object EntrySelectionHelper {
         selectionAction: (
             intentSenderMode: Boolean,
             typeMode: TypeMode,
-            searchInfo: SearchInfo?,
-            autofillComponent: AutofillComponent?
+            searchInfo: SearchInfo?
         ) -> Unit,
         registrationAction: (
             intentSenderMode: Boolean,
@@ -242,16 +284,16 @@ object EntrySelectionHelper {
             registerInfo: RegisterInfo?
         ) -> Unit
     ) {
-        when (val specialMode = retrieveSpecialModeFromIntent(intent)) {
+        when (val specialMode = intent.retrieveSpecialMode()) {
             SpecialMode.DEFAULT -> {
-                removeModesFromIntent(intent)
-                removeInfoFromIntent(intent)
+                intent.removeModes()
+                intent.removeInfo()
                 defaultAction.invoke()
             }
             SpecialMode.SEARCH -> {
-                val searchInfo = retrieveSearchInfoFromIntent(intent)
-                removeModesFromIntent(intent)
-                removeInfoFromIntent(intent)
+                val searchInfo = intent.retrieveSearchInfo()
+                intent.removeModes()
+                intent.removeInfo()
                 if (searchInfo != null)
                     searchAction.invoke(searchInfo)
                 else {
@@ -259,66 +301,55 @@ object EntrySelectionHelper {
                 }
             }
             SpecialMode.SELECTION -> {
-                val searchInfo: SearchInfo? = retrieveSearchInfoFromIntent(intent)
-                var autofillComponentInit = false
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    AutofillHelper.retrieveAutofillComponent(intent)?.let { autofillComponent ->
-                        selectionAction.invoke(
-                            isIntentSenderMode(specialMode,  TypeMode.AUTOFILL),
-                            TypeMode.AUTOFILL,
-                            searchInfo,
-                            autofillComponent
-                        )
-                        autofillComponentInit = true
-                    }
-                }
-                if (!autofillComponentInit) {
-                    if (intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) != null) {
-                        when (val typeMode = retrieveTypeModeFromIntent(intent)) {
-                            TypeMode.DEFAULT -> {
-                                removeModesFromIntent(intent)
-                                if (searchInfo != null)
-                                    searchAction.invoke(searchInfo)
-                                else
-                                    defaultAction.invoke()
-                            }
-                            TypeMode.MAGIKEYBOARD -> selectionAction.invoke(
-                                isIntentSenderMode(specialMode, typeMode),
-                                typeMode,
-                                searchInfo,
-                                null
-                            )
-                            TypeMode.PASSKEY ->
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                                    selectionAction.invoke(
-                                        isIntentSenderMode(specialMode, typeMode),
-                                        typeMode,
-                                        searchInfo,
-                                        null
-                                    )
-                                } else
-                                    defaultAction.invoke()
-                            else -> {
-                                // In this case, error
-                                removeModesFromIntent(intent)
-                                removeInfoFromIntent(intent)
-                            }
+                val searchInfo: SearchInfo? = intent.retrieveSearchInfo()
+                if (intent.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) != null) {
+                    when (val typeMode = intent.retrieveTypeMode()) {
+                        TypeMode.DEFAULT -> {
+                            intent.removeModes()
+                            if (searchInfo != null)
+                                searchAction.invoke(searchInfo)
+                            else
+                                defaultAction.invoke()
                         }
-                    } else {
-                        if (searchInfo != null)
-                            searchAction.invoke(searchInfo)
-                        else
-                            defaultAction.invoke()
+                        TypeMode.MAGIKEYBOARD -> selectionAction.invoke(
+                            isIntentSenderMode(specialMode, typeMode),
+                            typeMode,
+                            searchInfo
+                        )
+                        TypeMode.PASSKEY ->
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                selectionAction.invoke(
+                                    isIntentSenderMode(specialMode, typeMode),
+                                    typeMode,
+                                    searchInfo
+                                )
+                            } else
+                                defaultAction.invoke()
+                        TypeMode.AUTOFILL -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                selectionAction.invoke(
+                                    isIntentSenderMode(specialMode, typeMode),
+                                    typeMode,
+                                    searchInfo
+                                )
+                            } else
+                                defaultAction.invoke()
+                        }
                     }
+                } else {
+                    if (searchInfo != null)
+                        searchAction.invoke(searchInfo)
+                    else
+                        defaultAction.invoke()
                 }
             }
             SpecialMode.REGISTRATION -> {
-                val registerInfo: RegisterInfo? = retrieveRegisterInfoFromIntent(intent)
-                val typeMode = retrieveTypeModeFromIntent(intent)
+                val registerInfo: RegisterInfo? = intent.retrieveRegisterInfo()
+                val typeMode = intent.retrieveTypeMode()
                 val intentSenderMode = isIntentSenderMode(specialMode, typeMode)
                 if (!intentSenderMode) {
-                    removeModesFromIntent(intent)
-                    removeInfoFromIntent(intent)
+                    intent.removeModes()
+                    intent.removeInfo()
                 }
                 if (registerInfo != null)
                     registrationAction.invoke(

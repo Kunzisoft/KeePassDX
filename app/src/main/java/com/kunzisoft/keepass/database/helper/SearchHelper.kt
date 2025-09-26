@@ -54,6 +54,7 @@ object SearchHelper {
         onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
         onDatabaseClosed: () -> Unit
     ) {
+        // TODO suspend
         if (database == null || !database.loaded) {
             onDatabaseClosed.invoke()
         } else if (TimeoutHelper.checkTime(context)) {

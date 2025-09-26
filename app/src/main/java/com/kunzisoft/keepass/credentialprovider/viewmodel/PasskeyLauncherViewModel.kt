@@ -13,6 +13,8 @@ import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveNodeId
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
@@ -25,11 +27,9 @@ import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.getVe
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removeAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.removePasskey
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveAppOrigin
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveNodeId
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskey
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyCreationRequestParameters
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrievePasskeyUsageRequestParameters
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PrivilegedAllowLists.saveCustomPrivilegedApps
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -261,14 +261,17 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                                         "launch manual selection in opened database"
                             )
                             _uiState.value = UIState.LaunchGroupActivityForSelection(
-                                database = openedDatabase
+                                database = openedDatabase,
+                                searchInfo = searchInfo,
+                                typeMode = TypeMode.PASSKEY
                             )
                         },
                         onDatabaseClosed = {
                             Log.d(TAG, "Manual passkey selection in closed database")
                             _uiState.value =
                                 UIState.LaunchFileDatabaseSelectActivityForSelection(
-                                    searchInfo = searchInfo
+                                    searchInfo = searchInfo,
+                                    typeMode = TypeMode.PASSKEY
                                 )
                         }
                     )
@@ -550,7 +553,9 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
             val nodeId: UUID
         ): UIState()
         data class LaunchGroupActivityForSelection(
-            val database: ContextualDatabase
+            val database: ContextualDatabase,
+            val searchInfo: SearchInfo?,
+            val typeMode: TypeMode
         ): UIState()
         data class LaunchGroupActivityForRegistration(
             val database: ContextualDatabase,
@@ -558,7 +563,8 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
             val typeMode: TypeMode
         ): UIState()
         data class LaunchFileDatabaseSelectActivityForSelection(
-            val searchInfo: SearchInfo
+            val searchInfo: SearchInfo,
+            val typeMode: TypeMode
         ): UIState()
         data class LaunchFileDatabaseSelectActivityForRegistration(
             val registerInfo: RegisterInfo,

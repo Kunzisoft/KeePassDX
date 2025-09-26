@@ -7,9 +7,14 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.isIntentSenderMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveRegisterInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveTypeMode
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -56,8 +61,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
     fun onLaunchActivitySpecialMode() {
         if (!isIntentSender()) {
-            EntrySelectionHelper.removeModesFromIntent(intent)
-            EntrySelectionHelper.removeInfoFromIntent(intent)
+            intent.removeModes()
+            intent.removeInfo()
             finish()
         }
     }
@@ -66,8 +71,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
         if (isIntentSender()) {
             super.finish()
         } else {
-            EntrySelectionHelper.removeModesFromIntent(intent)
-            EntrySelectionHelper.removeInfoFromIntent(intent)
+            intent.removeModes()
+            intent.removeInfo()
             if (mSpecialMode != SpecialMode.DEFAULT) {
                 backToTheMainAppAndFinish()
             }
@@ -79,8 +84,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             // To get the app caller, only for IntentSender
             onRegularBackPressed()
         } else {
-            EntrySelectionHelper.removeModesFromIntent(intent)
-            EntrySelectionHelper.removeInfoFromIntent(intent)
+            intent.removeModes()
+            intent.removeInfo()
             if (mSpecialMode != SpecialMode.DEFAULT) {
                 backToTheMainAppAndFinish()
             }
@@ -111,18 +116,18 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             }
         })
 
-        mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
-        mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
+        mSpecialMode = intent.retrieveSpecialMode()
+        mTypeMode = intent.retrieveTypeMode()
     }
 
     override fun onResume() {
         super.onResume()
 
-        mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
-        mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
-        val registerInfo: RegisterInfo? = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)
+        mSpecialMode = intent.retrieveSpecialMode()
+        mTypeMode = intent.retrieveTypeMode()
+        val registerInfo: RegisterInfo? = intent.retrieveRegisterInfo()
         val searchInfo: SearchInfo? = registerInfo?.searchInfo
-                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+                ?: intent.retrieveSearchInfo()
 
         // To show the selection mode
         mToolbarSpecial = findViewById(R.id.special_mode_view)

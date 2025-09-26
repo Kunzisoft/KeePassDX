@@ -36,6 +36,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addNodeId
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addTypeMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
@@ -44,14 +46,13 @@ import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAuthCode
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addNodeId
-import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.viewmodel.PasskeyLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.AppOrigin
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.view.toastError
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -121,10 +122,9 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                         GroupActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             database = uiState.database,
-                            typeMode = TypeMode.PASSKEY,
+                            typeMode = uiState.typeMode,
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher,
-                            searchInfo = null,
-                            autoSearch = false
+                            searchInfo = uiState.searchInfo
                         )
                     }
                     is PasskeyLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
@@ -138,8 +138,8 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                     }
                     is PasskeyLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
                         FileDatabaseSelectActivity.launchForSelection(
-                            activity = this@PasskeyLauncherActivity,
-                            typeMode = TypeMode.PASSKEY,
+                            context = this@PasskeyLauncherActivity,
+                            typeMode = uiState.typeMode,
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher,
                             searchInfo = uiState.searchInfo,
                         )
@@ -276,7 +276,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
         ): PendingIntent? {
             return PendingIntent.getActivity(
                 context,
-                (Math.random() * Integer.MAX_VALUE).toInt(),
+                randomRequestCode(),
                 Intent(context, PasskeyLauncherActivity::class.java).apply {
                     addSpecialMode(specialMode)
                     addTypeMode(TypeMode.PASSKEY)
