@@ -105,8 +105,6 @@ class PasskeyProviderService : CredentialProviderService() {
         try {
             processGetCredentialsRequest(request)?.let { response ->
                 callback.onResult(response)
-            } ?: run {
-                callback.onError(GetCredentialUnknownException())
             }
         } catch (e: Exception) {
             Log.e(javaClass.simpleName, "onBeginGetCredentialRequest error", e)
@@ -116,7 +114,6 @@ class PasskeyProviderService : CredentialProviderService() {
 
     private fun processGetCredentialsRequest(request: BeginGetCredentialRequest): BeginGetCredentialResponse? {
         val credentialEntries: MutableList<CredentialEntry> = mutableListOf()
-
         for (option in request.beginGetCredentialOptions) {
             when (option) {
                 is BeginGetPublicKeyCredentialOption -> {
@@ -127,8 +124,7 @@ class PasskeyProviderService : CredentialProviderService() {
                 }
             }
         }
-        Log.w(javaClass.simpleName, "unknown beginGetCredentialOption")
-        return null
+        throw IOException("unknown type of beginGetCredentialOption")
     }
 
     private fun populatePasskeyData(
@@ -247,9 +243,11 @@ class PasskeyProviderService : CredentialProviderService() {
                 // Request is passkey type
                 handleCreatePasskeyQuery(request, callback)
             }
+            else -> {
+                // request type not supported
+                throw IOException("unknown type of BeginCreateCredentialRequest")
+            }
         }
-        // request type not supported
-        throw IOException("unknown type of BeginCreateCredentialRequest")
     }
 
     private fun MutableList<CreateEntry>.addPendingIntentCreationNewEntry(
