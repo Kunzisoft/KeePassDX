@@ -26,6 +26,11 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil.searchSubDomains
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 object SearchHelper {
 
@@ -43,6 +48,35 @@ object SearchHelper {
     }
 
     /**
+     * Get the concrete web domain AKA without sub domain if needed
+     */
+    private fun getConcreteWebDomain(
+        context: Context,
+        webDomain: String?,
+        concreteWebDomain: (String?) -> Unit
+    ) {
+        val domain = webDomain
+        if (domain != null) {
+            // Warning, web domain can contains IP, don't crop in this case
+            if (searchSubDomains(context)
+                || Regex(SearchInfo.WEB_IP_REGEX).matches(domain)) {
+                concreteWebDomain.invoke(webDomain)
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val publicSuffixList = PublicSuffixList(context)
+                    val publicSuffix = publicSuffixList
+                        .getPublicSuffixPlusOne(domain).await()
+                    withContext(Dispatchers.Main) {
+                        concreteWebDomain.invoke(publicSuffix)
+                    }
+                }
+            }
+        } else {
+            concreteWebDomain.invoke(null)
+        }
+    }
+
+    /**
      * Utility method to perform actions if item is found or not after an auto search in [database]
      */
     fun checkAutoSearchInfo(
@@ -54,49 +88,57 @@ object SearchHelper {
         onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
         onDatabaseClosed: () -> Unit
     ) {
-        // TODO suspend
+        // Do not place coroutine at start, bug in Passkey implementation
         if (database == null || !database.loaded) {
             onDatabaseClosed.invoke()
         } else if (TimeoutHelper.checkTime(context)) {
-            var searchWithoutUI = false
             if (searchInfo != null
                 && !searchInfo.manualSelection
-                && !searchInfo.containsOnlyNullValues()) {
-                // If search provide results
-                database.createVirtualGroupFromSearchInfo(
-                    searchParameters = SearchParameters().apply {
-                        searchQuery = searchInfo.toString()
-                        allowEmptyQuery = false
-                        searchInTitles = false
-                        searchInUsernames = false
-                        searchInPasswords = false
-                        searchInAppIds = searchInfo.isAppIdSearch
-                        searchInUrls = searchInfo.isDomainSearch
-                        searchByDomain = true
-                        searchBySubDomain = searchSubDomains(context)
-                        searchInRelyingParty = searchInfo.isPasskeySearch
-                        searchInNotes = false
-                        searchInOTP = searchInfo.isOTPSearch
-                        searchInOther = false
-                        searchInUUIDs = false
-                        searchInTags = searchInfo.isTagSearch
-                        searchInCurrentGroup = false
-                        searchInSearchableGroup = true
-                        searchInRecycleBin = false
-                        searchInTemplates = false
-                    },
-                    max = MAX_SEARCH_ENTRY
-                )?.let { searchGroup ->
-                    if (searchGroup.numberOfChildEntries > 0) {
-                        searchWithoutUI = true
-                        onItemsFound.invoke(database,
-                                searchGroup.getChildEntriesInfo(database))
-                    }
+                && !searchInfo.containsOnlyNullValues()
+            ) {
+                getConcreteWebDomain(
+                    context,
+                    searchInfo.webDomain
+                ) { concreteDomain ->
+                    var query = searchInfo.toString()
+                    if (searchInfo.isDomainSearch && concreteDomain != null)
+                        query = concreteDomain
+                    // If search provide results
+                    database.createVirtualGroupFromSearchInfo(
+                        searchParameters = SearchParameters().apply {
+                            searchQuery = query
+                            allowEmptyQuery = false
+                            searchInTitles = false
+                            searchInUsernames = false
+                            searchInPasswords = false
+                            searchInAppIds = searchInfo.isAppIdSearch
+                            searchInUrls = searchInfo.isDomainSearch
+                            searchByDomain = true
+                            searchBySubDomain = searchSubDomains(context)
+                            searchInRelyingParty = searchInfo.isPasskeySearch
+                            searchInNotes = false
+                            searchInOTP = searchInfo.isOTPSearch
+                            searchInOther = false
+                            searchInUUIDs = false
+                            searchInTags = searchInfo.isTagSearch
+                            searchInCurrentGroup = false
+                            searchInSearchableGroup = true
+                            searchInRecycleBin = false
+                            searchInTemplates = false
+                        },
+                        max = MAX_SEARCH_ENTRY
+                    )?.let { searchGroup ->
+                        if (searchGroup.numberOfChildEntries > 0) {
+                            onItemsFound.invoke(
+                                database,
+                                searchGroup.getChildEntriesInfo(database)
+                            )
+                        } else
+                            onItemNotFound.invoke(database)
+                    } ?: onItemNotFound.invoke(database)
                 }
-            }
-            if (!searchWithoutUI) {
+            } else
                 onItemNotFound.invoke(database)
-            }
         }
     }
 }

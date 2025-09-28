@@ -120,9 +120,9 @@ class PasskeyProviderService : CredentialProviderService() {
         for (option in request.beginGetCredentialOptions) {
             when (option) {
                 is BeginGetPublicKeyCredentialOption -> {
-                    credentialEntries.addAll(
-                        populatePasskeyData(option)
-                    )
+                    populatePasskeyData(option) { listCredentials ->
+                        credentialEntries.addAll(listCredentials)
+                    }
                     return BeginGetCredentialResponse(credentialEntries)
                 }
             }
@@ -131,7 +131,10 @@ class PasskeyProviderService : CredentialProviderService() {
         return null
     }
 
-    private fun populatePasskeyData(option: BeginGetPublicKeyCredentialOption): List<CredentialEntry> {
+    private fun populatePasskeyData(
+        option: BeginGetPublicKeyCredentialOption,
+        callback: (List<CredentialEntry>) -> Unit
+    ) {
 
         val passkeyEntries: MutableList<CredentialEntry> = mutableListOf()
 
@@ -167,6 +170,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         )
                     }
                 }
+                callback(passkeyEntries)
             },
             onItemNotFound = { _ ->
                 Log.w(TAG, "No passkey found in the database with this relying party : $relyingPartyId")
@@ -189,6 +193,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         )
                     )
                 }
+                callback(passkeyEntries)
             },
             onDatabaseClosed = {
                 Log.d(TAG, "Add pending intent for passkey selection in closed database")
@@ -211,9 +216,9 @@ class PasskeyProviderService : CredentialProviderService() {
                         )
                     )
                 }
+                callback(passkeyEntries)
             }
         )
-        return passkeyEntries
     }
 
     override fun onBeginCreateCredentialRequest(
@@ -223,7 +228,9 @@ class PasskeyProviderService : CredentialProviderService() {
     ) {
         Log.d(javaClass.simpleName, "onBeginCreateCredentialRequest called")
         try {
-            callback.onResult(processCreateCredentialRequest(request))
+            processCreateCredentialRequest(request) {
+                callback.onResult(BeginCreateCredentialResponse(it))
+            }
         } catch (e: Exception) {
             Log.e(javaClass.simpleName, "onBeginCreateCredentialRequest error", e)
             toastError(e)
@@ -231,11 +238,14 @@ class PasskeyProviderService : CredentialProviderService() {
         }
     }
 
-    private fun processCreateCredentialRequest(request: BeginCreateCredentialRequest): BeginCreateCredentialResponse {
+    private fun processCreateCredentialRequest(
+        request: BeginCreateCredentialRequest,
+        callback: (List<CreateEntry>) -> Unit
+    ) {
         when (request) {
             is BeginCreatePublicKeyCredentialRequest -> {
                 // Request is passkey type
-                return handleCreatePasskeyQuery(request)
+                handleCreatePasskeyQuery(request, callback)
             }
         }
         // request type not supported
@@ -264,7 +274,10 @@ class PasskeyProviderService : CredentialProviderService() {
         }
     }
 
-    private fun handleCreatePasskeyQuery(request: BeginCreatePublicKeyCredentialRequest): BeginCreateCredentialResponse {
+    private fun handleCreatePasskeyQuery(
+        request: BeginCreatePublicKeyCredentialRequest,
+        callback: (List<CreateEntry>) -> Unit
+    ) {
         val databaseName = mDatabase?.name
         val accountName =
             if (databaseName?.isBlank() != false)
@@ -310,6 +323,7 @@ class PasskeyProviderService : CredentialProviderService() {
                         }
                     }*/
                 }
+                callback(createEntries)
             },
             onItemNotFound = { database ->
                 // To create a new entry
@@ -318,6 +332,7 @@ class PasskeyProviderService : CredentialProviderService() {
                 } else {
                     createEntries.addPendingIntentCreationNewEntry(accountName, searchInfo)
                 }
+                callback(createEntries)
             },
             onDatabaseClosed = {
                 // Launch the passkey launcher activity to open the database
@@ -335,10 +350,9 @@ class PasskeyProviderService : CredentialProviderService() {
                         )
                     )
                 }
+                callback(createEntries)
             }
         )
-
-        return BeginCreateCredentialResponse(createEntries)
     }
 
     override fun onClearCredentialStateRequest(

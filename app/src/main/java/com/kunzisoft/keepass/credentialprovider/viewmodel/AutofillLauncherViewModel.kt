@@ -179,13 +179,13 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                                 .getEntryById(NodeIdUUID(nodeId))
                                 ?.getEntryInfo(database)
                         }
-                        AutofillHelper.buildResponse(
-                            context = getApplication(),
-                            autofillComponent = autofillComponent,
-                            database = database,
-                            entriesInfo = entries
-                        ) { intent ->
-                            withContext(Dispatchers.Main) {
+                        withContext(Dispatchers.Main) {
+                            AutofillHelper.buildResponse(
+                                context = getApplication(),
+                                autofillComponent = autofillComponent,
+                                database = database,
+                                entriesInfo = entries
+                            ) { intent ->
                                 setResult(intent)
                             }
                         }
@@ -262,7 +262,6 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
     fun manageRegistrationResult(
         activityResult: ActivityResult
     ) {
-        val intent = activityResult.data
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create registration response for autofill", e)
             showError(e)
@@ -270,12 +269,9 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
             val responseIntent = Intent()
             when (activityResult.resultCode) {
                 RESULT_OK -> {
-                    withContext(Dispatchers.IO) {
-                        Log.d(TAG, "Autofill registration result")
-                        // TODO Result
-                        withContext(Dispatchers.Main) {
-                            setResult(responseIntent)
-                        }
+                    Log.d(TAG, "Autofill registration result")
+                    withContext(Dispatchers.Main) {
+                        setResult(responseIntent)
                     }
                 }
                 RESULT_CANCELED -> {

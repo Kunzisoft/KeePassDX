@@ -58,6 +58,10 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         mDatabase = database
     }
 
+    open fun onExceptionOccurred(e: Throwable) {
+        showError(e)
+    }
+
     fun launchActionIfNeeded(
         intent: Intent,
         specialMode: SpecialMode,
@@ -67,7 +71,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         if (isResultLauncherRegistered.not()) {
             isResultLauncherRegistered = true
             viewModelScope.launch(CoroutineExceptionHandler { _, e ->
-                showError(e)
+                onExceptionOccurred(e)
             }) {
                 launchAction(intent, specialMode, database)
             }

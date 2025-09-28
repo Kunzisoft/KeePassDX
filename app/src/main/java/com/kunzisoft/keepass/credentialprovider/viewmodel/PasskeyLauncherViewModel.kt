@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
@@ -56,7 +55,7 @@ import java.io.InvalidObjectException
 import java.util.UUID
 
 @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
-class PasskeyLauncherViewModel(application: Application): AndroidViewModel(application) {
+class PasskeyLauncherViewModel(application: Application): CredentialLauncherViewModel(application) {
 
     private var mUsageParameters: PublicKeyCredentialUsageParameters? = null
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
@@ -64,12 +63,9 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
 
     private var mBackupEligibility: Boolean = true
     private var mBackupState: Boolean = false
-    private var mLockDatabase: Boolean = true
 
-    private var isResultLauncherRegistered: Boolean = false
-
-    private val _uiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = _uiState
+    private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
+    val uiState: StateFlow<UIState> = mUiState
 
     fun initialize() {
         mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(getApplication())
@@ -79,19 +75,14 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
     fun showAppPrivilegedDialog(
         temptingApp: AndroidPrivilegedApp
     ) {
-        _uiState.value = UIState.ShowAppPrivilegedDialog(temptingApp)
+        mUiState.value = UIState.ShowAppPrivilegedDialog(temptingApp)
     }
 
     fun showAppSignatureDialog(
         temptingApp: AppOrigin,
         nodeId: UUID
     ) {
-        _uiState.value = UIState.ShowAppSignatureDialog(temptingApp, nodeId)
-    }
-
-    fun showError(error: Throwable) {
-        Log.e(TAG, "Error on passkey launch", error)
-        _uiState.value = UIState.ShowError(error)
+        mUiState.value = UIState.ShowAppSignatureDialog(temptingApp, nodeId)
     }
 
     fun saveCustomPrivilegedApp(
@@ -107,7 +98,7 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                 context = getApplication(),
                 privilegedApps = listOf(temptingApp)
             )
-            launchPasskeyAction(
+            launchAction(
                 intent = intent,
                 specialMode = specialMode,
                 database = database
@@ -139,54 +130,22 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
             )
             entryInfo.saveAppOrigin(database, temptingApp)
             newEntry.setEntryInfo(database, entryInfo)
-            _uiState.value = UIState.UpdateEntry(
+            mUiState.value = UIState.UpdateEntry(
                 oldEntry = entry,
                 newEntry = newEntry
             )
         }
     }
 
-    fun setResult(intent: Intent) {
-        // Remove the launcher register
-        isResultLauncherRegistered = false
-        _uiState.value = UIState.SetActivityResult(
-            lockDatabase = mLockDatabase,
-            resultCode = RESULT_OK,
-            data = intent
-        )
-    }
-
-    fun cancelResult() {
-        isResultLauncherRegistered = false
-        _uiState.value = UIState.SetActivityResult(
-            lockDatabase = mLockDatabase,
-            resultCode = RESULT_CANCELED
-        )
-    }
-
-    fun launchPasskeyActionIfNeeded(
-        intent: Intent,
-        specialMode: SpecialMode,
-        database: ContextualDatabase?
-    ) {
-        if (isResultLauncherRegistered.not()) {
-            isResultLauncherRegistered = true
-            viewModelScope.launch(CoroutineExceptionHandler { _, e ->
-                if (e is PrivilegedAllowLists.PrivilegedException) {
-                    showAppPrivilegedDialog(e.temptingApp)
-                } else {
-                    showError(e)
-                }
-            }) {
-                launchPasskeyAction(intent, specialMode, database)
-            }
+    override fun onExceptionOccurred(e: Throwable) {
+        if (e is PrivilegedAllowLists.PrivilegedException) {
+            showAppPrivilegedDialog(e.temptingApp)
+        } else {
+            super.onExceptionOccurred(e)
         }
     }
 
-    /**
-     * Launch the main action to manage Passkey
-     */
-    private suspend fun launchPasskeyAction(
+    override suspend fun launchAction(
         intent: Intent,
         specialMode: SpecialMode,
         database: ContextualDatabase?
@@ -260,16 +219,17 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                                 TAG, "No Passkey found for selection," +
                                         "launch manual selection in opened database"
                             )
-                            _uiState.value = UIState.LaunchGroupActivityForSelection(
-                                database = openedDatabase,
-                                searchInfo = searchInfo,
-                                typeMode = TypeMode.PASSKEY
-                            )
+                            mCredentialUiState.value =
+                                CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection(
+                                    database = openedDatabase,
+                                    searchInfo = searchInfo,
+                                    typeMode = TypeMode.PASSKEY
+                                )
                         },
                         onDatabaseClosed = {
                             Log.d(TAG, "Manual passkey selection in closed database")
-                            _uiState.value =
-                                UIState.LaunchFileDatabaseSelectActivityForSelection(
+                            mCredentialUiState.value =
+                                CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection(
                                     searchInfo = searchInfo,
                                     typeMode = TypeMode.PASSKEY
                                 )
@@ -443,24 +403,26 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
                                     TAG, "Passkey found for registration, " +
                                             "but launch manual registration for a new entry"
                                 )
-                                _uiState.value = UIState.LaunchGroupActivityForRegistration(
-                                    database = openedDatabase,
-                                    registerInfo = registerInfo,
-                                    typeMode = TypeMode.PASSKEY
-                                )
+                                mCredentialUiState.value =
+                                    CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration(
+                                        database = openedDatabase,
+                                        registerInfo = registerInfo,
+                                        typeMode = TypeMode.PASSKEY
+                                    )
                             },
                             onItemNotFound = { openedDatabase ->
                                 Log.d(TAG, "Launch new manual registration in opened database")
-                                _uiState.value = UIState.LaunchGroupActivityForRegistration(
-                                    database = openedDatabase,
-                                    registerInfo = registerInfo,
-                                    typeMode = TypeMode.PASSKEY
-                                )
+                                mCredentialUiState.value =
+                                    CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration(
+                                        database = openedDatabase,
+                                        registerInfo = registerInfo,
+                                        typeMode = TypeMode.PASSKEY
+                                    )
                             },
                             onDatabaseClosed = {
                                 Log.d(TAG, "Manual passkey registration in closed database")
-                                _uiState.value =
-                                    UIState.LaunchFileDatabaseSelectActivityForRegistration(
+                                mCredentialUiState.value =
+                                    CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration(
                                         registerInfo = registerInfo,
                                         typeMode = TypeMode.PASSKEY
                                     )
@@ -551,32 +513,6 @@ class PasskeyLauncherViewModel(application: Application): AndroidViewModel(appli
         data class ShowAppSignatureDialog(
             val temptingApp: AppOrigin,
             val nodeId: UUID
-        ): UIState()
-        data class LaunchGroupActivityForSelection(
-            val database: ContextualDatabase,
-            val searchInfo: SearchInfo?,
-            val typeMode: TypeMode
-        ): UIState()
-        data class LaunchGroupActivityForRegistration(
-            val database: ContextualDatabase,
-            val registerInfo: RegisterInfo,
-            val typeMode: TypeMode
-        ): UIState()
-        data class LaunchFileDatabaseSelectActivityForSelection(
-            val searchInfo: SearchInfo,
-            val typeMode: TypeMode
-        ): UIState()
-        data class LaunchFileDatabaseSelectActivityForRegistration(
-            val registerInfo: RegisterInfo,
-            val typeMode: TypeMode
-        ): UIState()
-        data class SetActivityResult(
-            val lockDatabase: Boolean,
-            val resultCode: Int,
-            val data: Intent? = null
-        ): UIState()
-        data class ShowError(
-            val error: Throwable
         ): UIState()
         data class UpdateEntry(
             val oldEntry: Entry,

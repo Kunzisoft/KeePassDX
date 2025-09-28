@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseExcept
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.otp.OtpEntryFields
-import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.toastError
@@ -105,13 +104,11 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                                 sharedWebDomain: String?,
                                 otpString: String?) {
         // Build domain search param
-        getConcreteWebDomain(this, sharedWebDomain) { concreteWebDomain ->
-            val searchInfo = SearchInfo().apply {
-                this.webDomain = concreteWebDomain
-                this.otpString = otpString
-            }
-            launch(database, searchInfo)
+        val searchInfo = SearchInfo().apply {
+            this.webDomain = sharedWebDomain
+            this.otpString = otpString
         }
+        launch(database, searchInfo)
     }
 
     private fun launch(database: ContextualDatabase?,

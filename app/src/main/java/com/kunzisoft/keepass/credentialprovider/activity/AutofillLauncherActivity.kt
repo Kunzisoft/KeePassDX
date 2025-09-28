@@ -79,6 +79,25 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
+            // Initialize the parameters
+            autofillLauncherViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    AutofillLauncherViewModel.UIState.Loading -> {}
+                    is AutofillLauncherViewModel.UIState.ShowBlockRestartMessage -> {
+                        showBlockRestartMessage()
+                        autofillLauncherViewModel.cancelResult()
+                    }
+                    is AutofillLauncherViewModel.UIState.ShowReadOnlyMessage -> {
+                        showReadOnlySaveMessage()
+                        autofillLauncherViewModel.cancelResult()
+                    }
+                    is AutofillLauncherViewModel.UIState.ShowAutofillSuggestionMessage -> {
+                        showAutofillSuggestionMessage()
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
             // Retrieve the UI
             autofillLauncherViewModel.credentialUiState.collect { uiState ->
                 when (uiState) {
@@ -128,25 +147,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     is CredentialLauncherViewModel.UIState.ShowError -> {
                         toastError(uiState.error)
                         autofillLauncherViewModel.cancelResult()
-                    }
-                }
-            }
-        }
-        lifecycleScope.launch {
-            // Initialize the parameters
-            autofillLauncherViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    AutofillLauncherViewModel.UIState.Loading -> {}
-                    is AutofillLauncherViewModel.UIState.ShowBlockRestartMessage -> {
-                        showBlockRestartMessage()
-                        autofillLauncherViewModel.cancelResult()
-                    }
-                    is AutofillLauncherViewModel.UIState.ShowReadOnlyMessage -> {
-                        showReadOnlySaveMessage()
-                        autofillLauncherViewModel.cancelResult()
-                    }
-                    is AutofillLauncherViewModel.UIState.ShowAutofillSuggestionMessage -> {
-                        showAutofillSuggestionMessage()
                     }
                 }
             }

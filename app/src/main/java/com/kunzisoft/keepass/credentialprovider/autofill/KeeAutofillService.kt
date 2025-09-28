@@ -53,7 +53,6 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
 import org.joda.time.DateTime
 
 
@@ -116,66 +115,49 @@ class KeeAutofillService : AutofillService() {
                     webDomain = parseResult.webDomain,
                     webDomainBlocklist = webDomainBlocklist)
                 ) {
-                getConcreteWebDomain(this, parseResult.webDomain) { webDomainWithoutSubDomain ->
-                    val searchInfo = SearchInfo().apply {
-                        applicationId = parseResult.applicationId
-                        webDomain = webDomainWithoutSubDomain
-                        webScheme = parseResult.webScheme
-                    }
-                    val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
-                            && autofillInlineSuggestionsEnabled) {
-                        CompatInlineSuggestionsRequest(request)
-                    } else {
-                        null
-                    }
-                    launchSelection(mDatabase,
-                        searchInfo,
-                        parseResult,
-                        AutofillComponent(
-                            latestStructure,
-                            inlineSuggestionsRequest
-                        ),
-                        callback
-                    )
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.webDomain
+                    webScheme = parseResult.webScheme
                 }
+                val inlineSuggestionsRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+                        && autofillInlineSuggestionsEnabled) {
+                    CompatInlineSuggestionsRequest(request)
+                } else {
+                    null
+                }
+                val autofillComponent = AutofillComponent(
+                    latestStructure,
+                    inlineSuggestionsRequest
+                )
+                SearchHelper.checkAutoSearchInfo(
+                    context = this,
+                    database = mDatabase,
+                    searchInfo = searchInfo,
+                    onItemsFound = { openedDatabase, items ->
+                        callback.onSuccess(
+                            AutofillHelper.buildResponse(
+                                context = this,
+                                database = openedDatabase,
+                                entriesInfo = items,
+                                parseResult = parseResult,
+                                autofillComponent = autofillComponent
+                            )
+                        )
+                    },
+                    onItemNotFound = { openedDatabase ->
+                        // Show UI if no search result
+                        showUIForEntrySelection(parseResult, openedDatabase,
+                            searchInfo, autofillComponent, callback)
+                    },
+                    onDatabaseClosed = {
+                        // Show UI if database not open
+                        showUIForEntrySelection(parseResult, null,
+                            searchInfo, autofillComponent, callback)
+                    }
+                )
             }
         }
-    }
-
-    private fun launchSelection(
-        database: ContextualDatabase?,
-        searchInfo: SearchInfo,
-        parseResult: StructureParser.Result,
-        autofillComponent: AutofillComponent,
-        callback: FillCallback
-    ) {
-        SearchHelper.checkAutoSearchInfo(
-            context = this,
-            database = database,
-            searchInfo = searchInfo,
-            onItemsFound = { openedDatabase, items ->
-                callback.onSuccess(
-                    AutofillHelper.buildResponse(
-                        context = this,
-                        database = openedDatabase,
-                        entriesInfo = items,
-                        parseResult = parseResult,
-                        concreteWebDomain = searchInfo.webDomain,
-                        autofillComponent = autofillComponent
-                    )
-                )
-            },
-            onItemNotFound = { openedDatabase ->
-                // Show UI if no search result
-                showUIForEntrySelection(parseResult, openedDatabase,
-                        searchInfo, autofillComponent, callback)
-            },
-            onDatabaseClosed = {
-                // Show UI if database not open
-                showUIForEntrySelection(parseResult, null,
-                        searchInfo, autofillComponent, callback)
-            }
-        )
     }
 
     @SuppressLint("RestrictedApi")
@@ -377,7 +359,7 @@ class KeeAutofillService : AutofillService() {
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
         var success = false
-        if (askToSaveData) {
+        if (askToSaveData && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val latestStructure = request.fillContexts.last().structure
             StructureParser(latestStructure).parse(true)?.let { parseResult ->
 
@@ -403,39 +385,31 @@ class KeeAutofillService : AutofillService() {
                     }
 
                     // Show UI to save data
-                    getConcreteWebDomain(applicationContext, parseResult.webDomain) { concreteWebDomain ->
-                        val searchInfo = SearchInfo().apply {
-                            applicationId = parseResult.applicationId
-                            webDomain = concreteWebDomain
-                            webScheme = parseResult.webScheme
+                    val searchInfo = SearchInfo().apply {
+                        applicationId = parseResult.applicationId
+                        webDomain = parseResult.webDomain
+                        webScheme = parseResult.webScheme
+                    }
+                    val registerInfo = RegisterInfo(
+                        searchInfo = searchInfo,
+                        username = parseResult.usernameValue?.textValue?.toString(),
+                        password = parseResult.passwordValue?.textValue?.toString(),
+                        creditCard = parseResult.creditCardNumber?.let { cardNumber ->
+                            CreditCard(
+                                parseResult.creditCardHolder,
+                                cardNumber,
+                                expiration,
+                                parseResult.cardVerificationValue
+                            )
                         }
-                        val registerInfo = RegisterInfo(
-                            searchInfo = searchInfo,
-                            username = parseResult.usernameValue?.textValue?.toString(),
-                            password = parseResult.passwordValue?.textValue?.toString(),
-                            creditCard = parseResult.creditCardNumber?.let { cardNumber ->
-                                CreditCard(
-                                    parseResult.creditCardHolder,
-                                    cardNumber,
-                                    expiration,
-                                    parseResult.cardVerificationValue
-                                )
-                            }
-                        )
+                    )
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                            // TODO Test pending intent
-                            AutofillLauncherActivity.getPendingIntentForRegistration(
-                                this,
-                                registerInfo
-                            )?.intentSender?.let { intentSender ->
-                                callback.onSuccess(intentSender)
-                            } ?: callback.onFailure("Unable to launch registration")
-                        } else {
-                            AutofillLauncherActivity.launchForRegistration(this, registerInfo)
-                            success = true
-                            callback.onSuccess()
-                        }
+                    AutofillLauncherActivity.getPendingIntentForRegistration(
+                        this,
+                        registerInfo
+                    )?.intentSender?.let { intentSender ->
+                        success = true
+                        callback.onSuccess(intentSender)
                     }
                 }
             }

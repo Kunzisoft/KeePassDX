@@ -52,7 +52,6 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.AppUtil.getConcreteWebDomain
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import java.io.IOException
 import kotlin.math.min
@@ -380,7 +379,6 @@ object AutofillHelper {
         database: ContextualDatabase,
         entriesInfo: List<EntryInfo>,
         parseResult: StructureParser.Result,
-        concreteWebDomain: String?,
         autofillComponent: AutofillComponent
     ): FillResponse? {
         val responseBuilder = FillResponse.Builder()
@@ -448,7 +446,7 @@ object AutofillHelper {
         if (PreferencesUtil.isAutofillManualSelectionEnable(context)) {
             val searchInfo = SearchInfo().apply {
                 applicationId = parseResult.applicationId
-                webDomain = concreteWebDomain
+                webDomain = parseResult.webDomain
                 webScheme = parseResult.webScheme
                 manualSelection = true
             }
@@ -525,26 +523,23 @@ object AutofillHelper {
         autofillComponent: AutofillComponent,
         database: ContextualDatabase,
         entriesInfo: List<EntryInfo>,
-        onIntentCreated: suspend (Intent) -> Unit
+        onIntentCreated: (Intent) -> Unit
     ) {
         if (entriesInfo.isEmpty()) {
             throw IOException("No entries found")
         } else {
             StructureParser(autofillComponent.assistStructure).parse()?.let { result ->
-                getConcreteWebDomain(context, result.webDomain) { concreteWebDomain ->
-                    // New Response
-                    onIntentCreated(Intent().putExtra(
-                        AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                        buildResponse(
-                            context = context,
-                            database = database,
-                            entriesInfo = entriesInfo,
-                            parseResult = result,
-                            concreteWebDomain = concreteWebDomain,
-                            autofillComponent = autofillComponent
-                        )
-                    ))
-                }
+                // New Response
+                onIntentCreated(Intent().putExtra(
+                    AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                    buildResponse(
+                        context = context,
+                        database = database,
+                        entriesInfo = entriesInfo,
+                        parseResult = result,
+                        autofillComponent = autofillComponent
+                    )
+                ))
             } ?: throw IOException("Unable to parse the structure")
         }
     }

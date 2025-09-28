@@ -41,6 +41,11 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             autofillInlineSuggestionsPreference?.isVisible = false
         }
+
+        val autofillAskSaveDataPreference: TwoStatePreference? = findPreference(getString(R.string.autofill_ask_to_save_data_key))
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            autofillAskSaveDataPreference?.isVisible = false
+        }
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {

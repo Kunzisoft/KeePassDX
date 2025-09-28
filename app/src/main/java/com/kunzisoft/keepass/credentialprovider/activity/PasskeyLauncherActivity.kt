@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAppOrigin
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.addAuthCode
+import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.PasskeyLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.AppOrigin
@@ -106,7 +107,17 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             nodeId = uiState.nodeId
                         )
                     }
-                    is PasskeyLauncherViewModel.UIState.SetActivityResult -> {
+                    is PasskeyLauncherViewModel.UIState.UpdateEntry -> {
+                        updateEntry(uiState.oldEntry, uiState.newEntry)
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            passkeyLauncherViewModel.credentialUiState.collect { uiState ->
+                when (uiState) {
+                    is CredentialLauncherViewModel.UIState.Loading -> {}
+                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
                         setActivityResult(
                             typeMode = TypeMode.PASSKEY,
                             lockDatabase = uiState.lockDatabase,
@@ -114,11 +125,11 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             data = uiState.data
                         )
                     }
-                    is PasskeyLauncherViewModel.UIState.ShowError -> {
+                    is CredentialLauncherViewModel.UIState.ShowError -> {
                         toastError(uiState.error)
                         passkeyLauncherViewModel.cancelResult()
                     }
-                    is PasskeyLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
+                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
                         GroupActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             database = uiState.database,
@@ -127,7 +138,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             searchInfo = uiState.searchInfo
                         )
                     }
-                    is PasskeyLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
+                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
                         GroupActivity.launchForRegistration(
                             context = this@PasskeyLauncherActivity,
                             activityResultLauncher = mPasskeyRegistrationActivityResultLauncher,
@@ -136,7 +147,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             typeMode = uiState.typeMode
                         )
                     }
-                    is PasskeyLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
+                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
                         FileDatabaseSelectActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             typeMode = uiState.typeMode,
@@ -144,16 +155,13 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             searchInfo = uiState.searchInfo,
                         )
                     }
-                    is PasskeyLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
+                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
                         FileDatabaseSelectActivity.launchForRegistration(
                             context = this@PasskeyLauncherActivity,
                             activityResultLauncher = mPasskeyRegistrationActivityResultLauncher,
                             registerInfo = uiState.registerInfo,
                             typeMode = uiState.typeMode
                         )
-                    }
-                    is PasskeyLauncherViewModel.UIState.UpdateEntry -> {
-                        updateEntry(uiState.oldEntry, uiState.newEntry)
                     }
                 }
             }
@@ -162,7 +170,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
-        passkeyLauncherViewModel.launchPasskeyActionIfNeeded(intent, mSpecialMode, database)
+        passkeyLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
     }
 
     override fun onDatabaseActionFinished(

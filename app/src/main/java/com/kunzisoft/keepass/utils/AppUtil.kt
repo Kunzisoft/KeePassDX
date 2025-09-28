@@ -13,13 +13,6 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.credentialprovider.passkey.data.AndroidPrivilegedApp
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 object AppUtil {
 
@@ -82,39 +75,6 @@ object AppUtil {
         return (Education.isEducationScreenReclickedPerformed(this)
                 || isExternalAppInstalled(this.getString(R.string.keepro_app_id), false)
                 )
-    }
-
-    /**
-     * Get the concrete web domain AKA without sub domain if needed
-     */
-    fun getConcreteWebDomain(
-        context: Context,
-        webDomain: String?,
-        concreteWebDomain: suspend (String?) -> Unit
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val domain = webDomain
-            if (domain != null) {
-                // Warning, web domain can contains IP, don't crop in this case
-                if (PreferencesUtil.searchSubDomains(context)
-                    || Regex(SearchInfo.WEB_IP_REGEX).matches(domain)) {
-                    withContext(Dispatchers.Main) {
-                        concreteWebDomain.invoke(webDomain)
-                    }
-                } else {
-                    val publicSuffixList = PublicSuffixList(context)
-                    val publicSuffix = publicSuffixList
-                        .getPublicSuffixPlusOne(domain).await()
-                    withContext(Dispatchers.Main) {
-                        concreteWebDomain.invoke(publicSuffix)
-                    }
-                }
-            } else {
-                withContext(Dispatchers.Main) {
-                    concreteWebDomain.invoke(null)
-                }
-            }
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.P)
