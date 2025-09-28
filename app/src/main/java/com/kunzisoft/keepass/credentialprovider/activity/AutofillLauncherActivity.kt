@@ -234,16 +234,5 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                 return null
             }
         }
-
-        fun launchForRegistration(
-            context: Context,
-            registerInfo: RegisterInfo
-        ) {
-            val intent = Intent(context, AutofillLauncherActivity::class.java)
-            intent.addSpecialMode(SpecialMode.REGISTRATION)
-            intent.addRegisterInfo(registerInfo)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        }
     }
 }

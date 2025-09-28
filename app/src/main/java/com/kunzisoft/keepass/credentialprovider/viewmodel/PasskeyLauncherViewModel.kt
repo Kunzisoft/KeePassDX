@@ -303,9 +303,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         }
     }
 
-    fun manageSelectionResult(
-        activityResult: ActivityResult
-    ) {
+    override fun manageSelectionResult(activityResult: ActivityResult) {
         val intent = activityResult.data
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create selection response for passkey", e)
@@ -455,7 +453,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         }
     }
 
-    fun manageRegistrationResult(activityResult: ActivityResult) {
+    override fun manageRegistrationResult(activityResult: ActivityResult) {
         val intent = activityResult.data
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create registration response for passkey", e)

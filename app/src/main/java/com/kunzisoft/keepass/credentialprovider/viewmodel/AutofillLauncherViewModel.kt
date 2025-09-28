@@ -144,11 +144,18 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
         }
     }
 
-    fun manageSelectionResult(activityResult: ActivityResult) {
-        mSelectionResult = activityResult
+    override fun manageSelectionResult(activityResult: ActivityResult) {
         // Waiting for the database if needed
-        mDatabase?.let { database ->
-            manageSelectionResult(database, activityResult)
+        when (activityResult.resultCode) {
+            RESULT_OK -> {
+                mSelectionResult = activityResult
+                mDatabase?.let { database ->
+                    manageSelectionResult(database, activityResult)
+                }
+            }
+            RESULT_CANCELED -> {
+                cancelResult()
+            }
         }
     }
 
@@ -259,9 +266,8 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
         }
     }
 
-    fun manageRegistrationResult(
-        activityResult: ActivityResult
-    ) {
+    override fun manageRegistrationResult(activityResult: ActivityResult) {
+        isResultLauncherRegistered = false
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create registration response for autofill", e)
             showError(e)

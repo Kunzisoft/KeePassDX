@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.app.Application
 import android.content.Intent
 import android.util.Log
+import androidx.activity.result.ActivityResult
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
@@ -57,6 +58,10 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
     open fun onDatabaseRetrieved(database: ContextualDatabase?) {
         mDatabase = database
     }
+
+    abstract fun manageSelectionResult(activityResult: ActivityResult)
+
+    abstract fun manageRegistrationResult(activityResult: ActivityResult)
 
     open fun onExceptionOccurred(e: Throwable) {
         showError(e)
