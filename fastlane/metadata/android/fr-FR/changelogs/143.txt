@@ -1,3 +1,4 @@
  * Gestion de Passkeys #1421 (Thx @cali-95)
  * Paramètres de recherche #2112 #2181
+ * Refonte du remplissage automatique #765
  * Petites corrections #2171 #2150 #2159
