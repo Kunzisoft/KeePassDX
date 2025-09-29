@@ -43,7 +43,7 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:maxLongVersionCode="10000000000" />
     <compatibility-package
         android:name="com.android.chrome"
-        android:maxLongVersionCode="10000000000" />
+        android:maxLongVersionCode="711900039" />
     <compatibility-package
         android:name="com.android.htmlviewer"
         android:maxLongVersionCode="10000000000" />
@@ -70,7 +70,7 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:maxLongVersionCode="10000000000" />
     <compatibility-package
         android:name="com.chrome.beta"
-        android:maxLongVersionCode="10000000000" />
+        android:maxLongVersionCode="711900039" />
     <compatibility-package
         android:name="com.cookiegames.smartcookie"
         android:maxLongVersionCode="10000000000" />

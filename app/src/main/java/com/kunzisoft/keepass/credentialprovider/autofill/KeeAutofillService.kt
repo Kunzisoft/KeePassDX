@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import org.joda.time.DateTime
 
 
@@ -287,7 +288,7 @@ class KeeAutofillService : AutofillService() {
                                         InlineSuggestionUi.newContentBuilder(
                                             PendingIntent.getActivity(
                                                 this,
-                                                0,
+                                                randomRequestCode(),
                                                 Intent(this, AutofillSettingsActivity::class.java),
                                                 PendingIntent.FLAG_IMMUTABLE
                                             )

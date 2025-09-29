@@ -362,8 +362,8 @@ class StructureParser(private val structure: AssistStructure) {
                 if (result?.passwordId == null) {
                     usernameIdCandidate = autofillId
                     usernameValueCandidate = node.autofillValue
+                    Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
                 }
-                Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
             }
             inputIsVariationType(inputType,
                 InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) -> {

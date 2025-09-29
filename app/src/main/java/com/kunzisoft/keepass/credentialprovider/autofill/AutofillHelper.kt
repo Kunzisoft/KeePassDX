@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import java.io.IOException
 import kotlin.math.min
@@ -326,7 +327,7 @@ object AutofillHelper {
                 // Build the content for IME UI
                 val pendingIntent = PendingIntent.getActivity(
                     context,
-                    0,
+                    randomRequestCode(),
                     Intent(context, AutofillSettingsActivity::class.java),
                     PendingIntent.FLAG_IMMUTABLE
                 )
