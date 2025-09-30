@@ -508,10 +508,11 @@ class MainCredentialActivity : DatabaseModeActivity() {
         val password = intent.getStringExtra(KEY_PASSWORD)
         // Consume the intent extra password
         intent.removeExtra(KEY_PASSWORD)
-        val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
         if (password != null) {
             mainCredentialView?.populatePasswordTextView(password)
         }
+        val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
+        intent.removeExtra(KEY_LAUNCH_IMMEDIATELY)
         if (launchImmediately) {
             loadDatabase()
         } else {
