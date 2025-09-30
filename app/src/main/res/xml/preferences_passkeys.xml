@@ -24,7 +24,7 @@
             android:key="@string/passkeys_close_database_key"
             android:title="@string/passkeys_close_database_title"
             android:summary="@string/passkeys_close_database_summary"
-            android:defaultValue="@bool/autofill_close_database_default"/>
+            android:defaultValue="@bool/passkeys_close_database_default"/>
         <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
             android:key="@string/passkeys_privileged_apps_key"
             android:title="@string/passkeys_privileged_apps_title"
