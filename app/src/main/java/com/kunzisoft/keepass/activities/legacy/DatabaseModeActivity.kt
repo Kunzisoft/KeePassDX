@@ -34,7 +34,7 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     private var mToolbarSpecial: ToolbarSpecial? = null
 
     protected open var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher(mTypeMode)
+        this.buildActivityResultLauncher()
 
     open fun onDatabaseBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)

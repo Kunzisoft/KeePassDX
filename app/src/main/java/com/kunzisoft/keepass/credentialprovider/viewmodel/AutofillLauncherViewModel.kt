@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,8 +40,14 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
     private var mAutofillComponent: AutofillComponent? = null
     private var mSelectionResult: ActivityResult? = null
 
+    private var mLockDatabaseAfterSelection: Boolean = false
+
     private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
     val uiState: StateFlow<UIState> = mUiState
+
+    fun initialize() {
+        mLockDatabaseAfterSelection = PreferencesUtil.isAutofillCloseDatabaseEnable(getApplication())
+    }
 
     override fun onResult() {
         super.onResult()
@@ -117,7 +124,7 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                             database = openedDatabase,
                             entriesInfo = items
                         ) { intent ->
-                            setResult(intent)
+                            setResult(intent, lockDatabase = mLockDatabaseAfterSelection)
                         }
                     },
                     onItemNotFound = { openedDatabase ->
@@ -193,7 +200,7 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                                 database = database,
                                 entriesInfo = entries
                             ) { intent ->
-                                setResult(intent)
+                                setResult(intent, lockDatabase = mLockDatabaseAfterSelection)
                             }
                         }
                     }

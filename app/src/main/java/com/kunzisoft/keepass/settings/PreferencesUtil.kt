@@ -690,6 +690,12 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
     }
 
+    fun isPasskeyCloseDatabaseEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_close_database_key),
+            context.resources.getBoolean(R.bool.passkeys_close_database_default))
+    }
+
     fun isPasskeyBackupEligibilityEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.passkeys_backup_eligibility_key),
@@ -858,6 +864,10 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_previous_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_fill_in_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_lock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_close_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_auto_select_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_backup_eligibility_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_backup_state_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_manual_selection_key) -> editor.putBoolean(name, value.toBoolean())

@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 abstract class CredentialLauncherViewModel(application: Application): AndroidViewModel(application) {
 
     protected var mDatabase: ContextualDatabase? = null
-    protected var mLockDatabase: Boolean = true
 
     protected var isResultLauncherRegistered: Boolean = false
 
@@ -37,20 +36,20 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         isResultLauncherRegistered = false
     }
 
-    fun setResult(intent: Intent) {
+    fun setResult(intent: Intent, lockDatabase: Boolean = false) {
         // Remove the launcher register
         onResult()
         mCredentialUiState.value = UIState.SetActivityResult(
-            lockDatabase = mLockDatabase,
+            lockDatabase = lockDatabase,
             resultCode = RESULT_OK,
             data = intent
         )
     }
 
-    fun cancelResult() {
+    fun cancelResult(lockDatabase: Boolean = false) {
         onResult()
         mCredentialUiState.value = UIState.SetActivityResult(
-            lockDatabase = mLockDatabase,
+            lockDatabase = lockDatabase,
             resultCode = RESULT_CANCELED
         )
     }

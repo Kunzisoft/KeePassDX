@@ -61,6 +61,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     private var mCreationParameters: PublicKeyCredentialCreationParameters? = null
     private var mPasskey: Passkey? = null
 
+    private var mLockDatabaseAfterSelection: Boolean = false
     private var mBackupEligibility: Boolean = true
     private var mBackupState: Boolean = false
 
@@ -68,6 +69,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
     val uiState: StateFlow<UIState> = mUiState
 
     fun initialize() {
+        mLockDatabaseAfterSelection = PreferencesUtil.isPasskeyCloseDatabaseEnable(getApplication())
         mBackupEligibility = PreferencesUtil.isPasskeyBackupEligibilityEnable(getApplication())
         mBackupState = PreferencesUtil.isPasskeyBackupStateEnable(getApplication())
     }
@@ -294,7 +296,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                             )
                         )
                     )
-                    setResult(result)
+                    setResult(result, lockDatabase = mLockDatabaseAfterSelection)
                 } catch (e: SignatureNotFoundException) {
                     // Request the dialog if signature exception
                     showAppSignatureDialog(e.temptingApp, nodeId)
@@ -350,7 +352,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                             throw IOException("Usage parameters is null")
                         }
                         withContext(Dispatchers.Main) {
-                            setResult(responseIntent)
+                            setResult(responseIntent, lockDatabase = mLockDatabaseAfterSelection)
                         }
                     }
                 }

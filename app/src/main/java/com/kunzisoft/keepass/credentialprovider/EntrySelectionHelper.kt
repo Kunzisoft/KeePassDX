@@ -38,7 +38,6 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.getEnumExtra
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
@@ -60,10 +59,9 @@ object EntrySelectionHelper {
      * Finish the activity by passing the result code and by locking the database if necessary
      */
     fun Activity.setActivityResult(
-        typeMode: TypeMode,
         lockDatabase: Boolean = false,
         resultCode: Int,
-        data: Intent? = null,
+        data: Intent? = null
     ) {
         when (resultCode) {
             Activity.RESULT_OK ->
@@ -74,14 +72,8 @@ object EntrySelectionHelper {
         this.finish()
 
         if (lockDatabase) {
-            when (typeMode) {
-                TypeMode.DEFAULT -> // Close the database
-                    this.sendBroadcast(Intent(LOCK_ACTION))
-                TypeMode.MAGIKEYBOARD -> { }
-                TypeMode.PASSKEY -> { }
-                TypeMode.AUTOFILL -> if (PreferencesUtil.isAutofillCloseDatabaseEnable(this))
-                    this.sendBroadcast(Intent(LOCK_ACTION))
-            }
+            // Close the database
+            this.sendBroadcast(Intent(LOCK_ACTION))
         }
     }
 
@@ -90,7 +82,6 @@ object EntrySelectionHelper {
      * Used recursively, close each activity with return data
      */
     fun AppCompatActivity.buildActivityResultLauncher(
-        typeMode: TypeMode,
         lockDatabase: Boolean = false,
         dataTransformation: (data: Intent?) -> Intent? = { it },
     ): ActivityResultLauncher<Intent> {
@@ -98,7 +89,6 @@ object EntrySelectionHelper {
             ActivityResultContracts.StartActivityForResult()
         ) {
             setActivityResult(
-                typeMode,
                 lockDatabase,
                 it.resultCode,
                 dataTransformation(it.data)

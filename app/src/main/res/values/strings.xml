@@ -422,6 +422,8 @@
     <string name="passkeys">Passkeys</string>
     <string name="passkeys_explanation_summary">Configure Passkeys for fast and secure passwordless login</string>
     <string name="passkeys_preference_title">Passkeys settings</string>
+    <string name="passkeys_close_database_title">Close database</string>
+    <string name="passkeys_close_database_summary">Close the database after a passkey selection</string>
     <string name="passkeys_privileged_apps_title">Privileged apps</string>
     <string name="passkeys_privileged_apps_summary">Manage browsers in the custom list of privileged apps</string>
     <string name="passkeys_privileged_apps_explanation">WARNING: A privileged app acts as a gateway to retrieve the origin of an authentication. Ensure its legitimacy to avoid security issues.</string>

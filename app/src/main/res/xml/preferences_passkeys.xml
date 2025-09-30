@@ -20,6 +20,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/general">
+        <SwitchPreferenceCompat
+            android:key="@string/passkeys_close_database_key"
+            android:title="@string/passkeys_close_database_title"
+            android:summary="@string/passkeys_close_database_summary"
+            android:defaultValue="@bool/autofill_close_database_default"/>
         <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
             android:key="@string/passkeys_privileged_apps_key"
             android:title="@string/passkeys_privileged_apps_title"
@@ -29,6 +34,9 @@
             android:title="@string/passkeys_auto_select_title"
             android:summary="@string/passkeys_auto_select_summary"
             android:defaultValue="@bool/passkeys_auto_select_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/database">
         <SwitchPreferenceCompat
             android:key="@string/passkeys_backup_eligibility_key"
             android:title="@string/passkeys_backup_eligibility_title"

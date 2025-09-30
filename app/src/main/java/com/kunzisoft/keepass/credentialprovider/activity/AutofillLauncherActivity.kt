@@ -40,7 +40,6 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchIn
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
-import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.addAutofillComponent
 import com.kunzisoft.keepass.credentialprovider.viewmodel.AutofillLauncherViewModel
@@ -78,6 +77,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        autofillLauncherViewModel.initialize()
         lifecycleScope.launch {
             // Initialize the parameters
             autofillLauncherViewModel.uiState.collect { uiState ->
@@ -138,7 +138,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     }
                     is CredentialLauncherViewModel.UIState.SetActivityResult -> {
                         setActivityResult(
-                            typeMode = TypeMode.AUTOFILL,
                             lockDatabase = uiState.lockDatabase,
                             resultCode = uiState.resultCode,
                             data = uiState.data
