@@ -385,9 +385,9 @@ class EntryEditActivity : DatabaseLockActivity(),
                             TypeMode.MAGIKEYBOARD ->
                                 entryValidatedForKeyboardSelection(database, entrySave.newEntry)
                             TypeMode.PASSKEY ->
-                                entryValidatedForPasskeySelection(database, entrySave.newEntry)
+                                entryValidatedForPasskey(database, entrySave.newEntry)
                             TypeMode.AUTOFILL ->
-                                entryValidatedForAutofillSelection(database, entrySave.newEntry)
+                                entryValidatedForAutofill(database, entrySave.newEntry)
                         }
                     },
                     registrationAction = { intentSender, typeMode, registerInfo ->
@@ -395,9 +395,9 @@ class EntryEditActivity : DatabaseLockActivity(),
                             TypeMode.DEFAULT -> {}
                             TypeMode.MAGIKEYBOARD -> {}
                             TypeMode.PASSKEY ->
-                                entryValidatedForPasskeyRegistration(database, entrySave.newEntry)
+                                entryValidatedForPasskey(database, entrySave.newEntry)
                             TypeMode.AUTOFILL ->
-                                entryValidatedForAutofillRegistration(database, entrySave.newEntry)
+                                entryValidatedForAutofill(database, entrySave.newEntry)
                         }
                     }
                 )
@@ -451,9 +451,9 @@ class EntryEditActivity : DatabaseLockActivity(),
                                         TypeMode.MAGIKEYBOARD ->
                                             entryValidatedForKeyboardSelection(database, entry)
                                         TypeMode.PASSKEY ->
-                                            entryValidatedForPasskeySelection(database, entry)
+                                            entryValidatedForPasskey(database, entry)
                                         TypeMode.AUTOFILL ->
-                                            entryValidatedForAutofillSelection(database, entry)
+                                            entryValidatedForAutofill(database, entry)
                                     }
                                 },
                                 registrationAction = { _, typeMode, _ ->
@@ -462,9 +462,9 @@ class EntryEditActivity : DatabaseLockActivity(),
                                             entryValidatedForSave(entry)
                                         TypeMode.MAGIKEYBOARD -> {}
                                         TypeMode.PASSKEY ->
-                                            entryValidatedForPasskeyRegistration(database, entry)
+                                            entryValidatedForPasskey(database, entry)
                                         TypeMode.AUTOFILL ->
-                                            entryValidatedForAutofillRegistration(database, entry)
+                                            entryValidatedForAutofill(database, entry)
                                     }
                                 }
                             )
@@ -494,7 +494,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         finishForEntryResult(entry)
     }
 
-    private fun entryValidatedForAutofillSelection(database: ContextualDatabase, entry: Entry) {
+    private fun entryValidatedForAutofill(database: ContextualDatabase, entry: Entry) {
         // Build Autofill response with the entry selected
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.buildSpecialModeResponseAndSetResult(
@@ -505,27 +505,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         onValidateSpecialMode()
     }
 
-    private fun entryValidatedForPasskeySelection(database: ContextualDatabase, entry: Entry) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            this.buildPasskeyResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database),
-                extras = buildEntryResult(entry)
-            )
-        }
-        onValidateSpecialMode()
-    }
-
-    private fun entryValidatedForAutofillRegistration(database: ContextualDatabase, entry: Entry) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            this.buildSpecialModeResponseAndSetResult(
-                entryInfo = entry.getEntryInfo(database),
-                extras = buildEntryResult(entry)
-            )
-        }
-        onValidateSpecialMode()
-    }
-
-    private fun entryValidatedForPasskeyRegistration(database: ContextualDatabase, entry: Entry) {
+    private fun entryValidatedForPasskey(database: ContextualDatabase, entry: Entry) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             this.buildPasskeyResponseAndSetResult(
                 entryInfo = entry.getEntryInfo(database),

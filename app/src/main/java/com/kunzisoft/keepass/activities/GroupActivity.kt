@@ -1546,10 +1546,10 @@ class GroupActivity : DatabaseLockActivity(),
          */
         fun launchForRegistration(
             context: Context,
-            activityResultLauncher: ActivityResultLauncher<Intent>?,
             database: ContextualDatabase,
+            typeMode: TypeMode,
             registerInfo: RegisterInfo? = null,
-            typeMode: TypeMode
+            activityResultLauncher: ActivityResultLauncher<Intent>?,
         ) {
             if (database.loaded && !database.isReadOnly) {
                 checkTimeAndBuildIntent(context, null) { intent ->

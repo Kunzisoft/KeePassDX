@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -341,7 +340,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                 { onValidateSpecialMode() },
                 { onCancelSpecialMode() },
                 { onLaunchActivitySpecialMode() },
-                mCredentialActivityResultLauncher)
+                mCredentialActivityResultLauncher
+            )
         }
     }
 
@@ -515,9 +515,9 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          */
         fun launchForRegistration(
             context: Context,
-            activityResultLauncher: ActivityResultLauncher<Intent>?,
+            typeMode: TypeMode,
             registerInfo: RegisterInfo? = null,
-            typeMode: TypeMode
+            activityResultLauncher: ActivityResultLauncher<Intent>?,
         ) {
             EntrySelectionHelper.startActivityForRegistrationModeResult(
                 context = context,

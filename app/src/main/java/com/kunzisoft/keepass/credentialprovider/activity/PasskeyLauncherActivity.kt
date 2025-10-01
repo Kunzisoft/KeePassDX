@@ -133,33 +133,33 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             context = this@PasskeyLauncherActivity,
                             database = uiState.database,
                             typeMode = uiState.typeMode,
-                            activityResultLauncher = mPasskeySelectionActivityResultLauncher,
-                            searchInfo = uiState.searchInfo
+                            searchInfo = uiState.searchInfo,
+                            activityResultLauncher = mPasskeySelectionActivityResultLauncher
                         )
                     }
                     is CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
                         GroupActivity.launchForRegistration(
                             context = this@PasskeyLauncherActivity,
-                            activityResultLauncher = mPasskeyRegistrationActivityResultLauncher,
                             database = uiState.database,
+                            typeMode = uiState.typeMode,
                             registerInfo = uiState.registerInfo,
-                            typeMode = uiState.typeMode
+                            activityResultLauncher = mPasskeyRegistrationActivityResultLauncher
                         )
                     }
                     is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
                         FileDatabaseSelectActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             typeMode = uiState.typeMode,
-                            activityResultLauncher = mPasskeySelectionActivityResultLauncher,
                             searchInfo = uiState.searchInfo,
+                            activityResultLauncher = mPasskeySelectionActivityResultLauncher
                         )
                     }
                     is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
                         FileDatabaseSelectActivity.launchForRegistration(
                             context = this@PasskeyLauncherActivity,
-                            activityResultLauncher = mPasskeyRegistrationActivityResultLauncher,
+                            typeMode = uiState.typeMode,
                             registerInfo = uiState.registerInfo,
-                            typeMode = uiState.typeMode
+                            activityResultLauncher = mPasskeyRegistrationActivityResultLauncher,
                         )
                     }
                 }
