@@ -1,1 +1,1 @@
-KeePassDX - FOSS Administrador de contraseñas
+KeePassDX - Contraseñas FOSS
