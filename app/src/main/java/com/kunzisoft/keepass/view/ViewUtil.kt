@@ -24,7 +24,6 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
@@ -58,7 +57,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import androidx.core.view.updatePaddingRelative
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
@@ -66,6 +64,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.helper.getLocalizedMessage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import java.util.EnumSet
 
 
 /**
@@ -306,9 +305,7 @@ fun CollapsingToolbarLayout.changeTitleColor(color: Int) {
 
 @Suppress("DEPRECATION")
 fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, applyWindowInsets: () -> Unit) {
-    // Only in portrait
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1
-        && resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.navigationBarColor = ContextCompat.getColor(this, R.color.surface_selector)
         if (applyToStatusBar) {
@@ -324,7 +321,7 @@ fun Activity.setTransparentNavigationBar(applyToStatusBar: Boolean = false, appl
 /**
  * Apply a margin to a view to fix the window inset
  */
-fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.BOTTOM) {
+fun View.applyWindowInsets(positions: EnumSet<WindowInsetPosition>) {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
         var consumed = false
 
@@ -340,52 +337,78 @@ fun View.applyWindowInsets(position: WindowInsetPosition = WindowInsetPosition.B
             }
         }
 
-        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-        when (position) {
-            WindowInsetPosition.TOP -> {
-                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
-                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        topMargin = insets.top
+        val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()
+                or WindowInsetsCompat.Type.displayCutout()
+                or WindowInsetsCompat.Type.ime())
+
+        val isRtl = layoutDirection == View.LAYOUT_DIRECTION_RTL
+
+        val wantTopMargins = positions.contains(WindowInsetPosition.TOP_MARGINS)
+        val wantBottomMargins = positions.contains(WindowInsetPosition.BOTTOM_MARGINS)
+        val wantStartMargins = positions.contains(WindowInsetPosition.START_MARGINS)
+        val wantEndMargins = positions.contains(WindowInsetPosition.END_MARGINS)
+
+        if (view.layoutParams is ViewGroup.MarginLayoutParams
+                && (wantTopMargins || wantBottomMargins || wantStartMargins || wantEndMargins)) {
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                if (wantTopMargins) {
+                    topMargin = insets.top
+                }
+                if (wantBottomMargins) {
+                    bottomMargin = insets.bottom
+                }
+                if (wantStartMargins) {
+                    if (isRtl) {
+                        rightMargin = insets.right
+                    } else {
+                        leftMargin = insets.left
                     }
                 }
-            }
-            WindowInsetPosition.LEGIT_TOP -> {
-                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
-                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        topMargin = 0
-                    }
-                }
-            }
-            WindowInsetPosition.BOTTOM -> {
-                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
-                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = insets.bottom
-                    }
-                }
-            }
-            WindowInsetPosition.BOTTOM_IME -> {
-                val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
-                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        bottomMargin = if (imeHeight > 1) 0 else insets.bottom
-                    }
-                }
-            }
-            WindowInsetPosition.TOP_BOTTOM_IME -> {
-                val imeHeight = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-                if (view.layoutParams is ViewGroup.MarginLayoutParams) {
-                    view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-                        topMargin = insets.top
-                        bottomMargin = if (imeHeight > 1) imeHeight else 0
+                if (wantEndMargins) {
+                    if (isRtl) {
+                        leftMargin = insets.left
+                    } else {
+                        rightMargin = insets.right
                     }
                 }
             }
         }
+
+        val wantTopPadding = positions.contains(WindowInsetPosition.TOP_PADDING)
+        val wantBottomPadding = positions.contains(WindowInsetPosition.BOTTOM_PADDING)
+        val wantStartPadding = positions.contains(WindowInsetPosition.START_PADDING)
+        val wantEndPadding = positions.contains(WindowInsetPosition.END_PADDING)
+
+        if (wantTopPadding || wantBottomPadding || wantStartPadding || wantEndPadding) {
+            val topPadding = if (wantTopPadding) insets.top else 0
+            val bottomPadding = if (wantBottomPadding) insets.bottom else 0
+            var leftPadding = 0
+            var rightPadding = 0
+
+            if (wantStartPadding) {
+                if (isRtl) {
+                    rightPadding = insets.right
+                } else {
+                    leftPadding = insets.left
+                }
+            }
+            if (wantEndPadding) {
+                if (isRtl) {
+                    leftPadding = insets.left
+                } else {
+                    rightPadding = insets.right
+                }
+            }
+
+            setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
+        }
+
         // If any of the children consumed the insets, return an appropriate value
         if (consumed) WindowInsetsCompat.CONSUMED else windowInsets
     }
 }
 
 enum class WindowInsetPosition {
-    TOP, BOTTOM, LEGIT_TOP, BOTTOM_IME, TOP_BOTTOM_IME
+    TOP_MARGINS, BOTTOM_MARGINS, START_MARGINS, END_MARGINS,
+    TOP_PADDING, BOTTOM_PADDING, START_PADDING, END_PADDING,
 }

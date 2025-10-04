@@ -70,8 +70,12 @@ open class SettingsActivity
         // To apply navigation bar with background color
         /* TODO Settings nav bar
         setTransparentNavigationBar {
-            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+            coordinatorLayout?.applyWindowInsets(EnumSet.of(
+                WindowInsetPosition.TOP_MARGINS,
+                WindowInsetPosition.BOTTOM_MARGINS,
+                WindowInsetPosition.START_MARGINS,
+                WindowInsetPosition.END_MARGINS,
+            ))
         }*/
 
         mExternalFileHelper = ExternalFileHelper(this)
