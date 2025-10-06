@@ -1,0 +1,3 @@
+ * Correction de l'interface en paysage #2198 #2200 (@chenxiaolong)
+ * Correction du démarrage en boucle et de l'écran clignotant #2201
+ * Petites corrections

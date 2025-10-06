@@ -1,0 +1,3 @@
+ * Fix landscape UI #2198 #2200 (@chenxiaolong)
+ * Fix start loop and flash screen #2201
+ * Small fixes

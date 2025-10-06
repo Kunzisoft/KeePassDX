@@ -75,7 +75,7 @@
     <string name="content_description_update_from_list">I-update</string>
     <string name="content_description_keyboard_close_fields">Isara ang mga field</string>
     <string name="select_to_copy">Piliin para kopyahin ang %1$s sa clipboard</string>
-    <string name="html_about_licence">KeePassDX © %1$d Ang Kunzisoft ay &lt;strong&gt;open source&lt;/strong&gt; at &lt;strong&gt;walang advertising&lt;/strong&gt;. \nIbinigay ito nang as is, sa ilalim &lt;strong&gt;GPLv3&lt;/strong&gt; na lisensya, nang walang anumang warranty.</string>
+    <string name="html_about_licence">Ang KeePassDX © Kunzisoft ay open source at walang kasamang patalastas.\nIbinibigay ito nang buo sa ilalim ng lisensiyang GPLv3, nang walang anumang garantiya.</string>
     <string name="html_about_privacy">&lt;strong&gt;Walang user data ay kinukuha&lt;/strong&gt;, ang aplikasyon na ito ay hindi kumokonekta sa anumang server, gumanagana ng lokal at ganap na ginagalang ang pagkapribado ng mga gumagamit.</string>
     <string name="html_about_contribution">Para &lt;strong&gt;panatilihin ang aming kalayaan&lt;/strong&gt;, &lt;strong&gt;ayusin ang mga bug&lt;/strong&gt;, &lt;strong&gt;magdagdag ng mga feature&lt;/strong&gt; at &lt;strong&gt;maging palaging aktibo&lt;/strong&gt;, umaasa kami sa iyong &lt;strong&gt;kontribusyon&lt;/strong&gt;.</string>
     <string name="entry_accessed">Na-access</string>

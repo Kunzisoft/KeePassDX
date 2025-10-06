@@ -1,4 +1,4 @@
-KeePassDX es un <b> Administrador de contraseñas seguro </b> que permite editar <b>datos cifrados en un solo archivo</b> en el formato abierto de KeePass permite <b>completar los formularios de manera segura</b>, no requiere<b>conexión a internet</b> e integra los estándares de diseño de Android. La aplicación es <b> de código abierto, sin publicidad</b>.
+KeePassDX es un <b>gestor y almacén de contraseñas</b> que permite editar <b>datos cifrados en un único archivo</b> en formato KeePass abierto y <b>rellenar formularios de forma segura</b>, no requiere <b>conexión a Internet</b> e integra los estándares de diseño de Android. La aplicación es <b>de código abierto y sin publicidad</b>.
 
 <b>Funciones</b>
 
