@@ -666,7 +666,7 @@
     <string name="ask">Zapytaj</string>
     <string name="configure">Skonfiguruj</string>
     <string name="unlock_and_link_biometric">Łącze do odblokowania urządzenia</string>
-    <string name="menu_appearance_settings_summary">Motywy, kolory, atrybuty</string>
+    <string name="menu_appearance_settings_summary">Motywy, kolory, ikony, czcionki, atrybuty</string>
     <string name="unlock">Odblokuj</string>
     <string name="education_validate_entry_title">Sprawdź poprawność wpisu</string>
     <string name="menu_device_unlock_settings_summary">Biometria, poświadczenie urządzenia</string>
