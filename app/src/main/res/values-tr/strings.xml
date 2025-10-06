@@ -667,7 +667,7 @@
     <string name="ask">Sor</string>
     <string name="menu_form_filling_settings_summary">Klavye, otomatik doldur, pano</string>
     <string name="configure">Yapılandır</string>
-    <string name="menu_appearance_settings_summary">Temalar, renkler, öznitellikler</string>
+    <string name="menu_appearance_settings_summary">Temalar, renkler, simgeler, yazı tipleri, öznitellikler</string>
     <string name="menu_security_settings_summary">Şifreleme, anahtar türetme işlevi</string>
     <string name="menu_device_unlock_settings_summary">Biyometri, cihaz kimlik bilgisi</string>
     <string name="education_validate_entry_summary">Girişinizi doğrulamayı ve veritabanınızı kaydetmeyi unutmayın.
