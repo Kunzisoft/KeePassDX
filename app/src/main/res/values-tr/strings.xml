@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Geri bildirim</string>
     <string name="homepage">Ana Sayfa</string>
-    <string name="about_description">KeePass Parola Yöneticisi\'nin Android uygulama uyarlaması</string>
+    <string name="about_description">KeePass Parola Yöneticisi\'nin Android uygulama uyarlaması.</string>
     <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi ekle</string>
     <string name="edit_entry">Girdi düzenle</string>

@@ -45,6 +45,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowInsetsCompat
@@ -120,6 +121,7 @@ import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.GroupEditViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import org.joda.time.LocalDateTime
+import java.util.EnumSet
 
 
 class GroupActivity : DatabaseLockActivity(),
@@ -134,6 +136,7 @@ class GroupActivity : DatabaseLockActivity(),
     private var header: ViewGroup? = null
     private var footer: ViewGroup? = null
     private var drawerLayout: DrawerLayout? = null
+    private var constraintLayout: ConstraintLayout? = null
     private var databaseNavView: NavigationDatabaseView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var coordinatorError: CoordinatorLayout? = null
@@ -277,6 +280,7 @@ class GroupActivity : DatabaseLockActivity(),
         header = findViewById(R.id.activity_group_header)
         footer = findViewById(R.id.activity_group_footer)
         drawerLayout = findViewById(R.id.drawer_layout)
+        constraintLayout = findViewById(R.id.activity_group_container_view)
         databaseNavView = findViewById(R.id.database_nav_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         coordinatorError = findViewById(R.id.error_coordinator)
@@ -294,8 +298,19 @@ class GroupActivity : DatabaseLockActivity(),
 
         // To apply fit window with transparency
         setTransparentNavigationBar(applyToStatusBar = true) {
-            drawerLayout?.applyWindowInsets(WindowInsetPosition.TOP_BOTTOM_IME)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM_IME)
+            constraintLayout?.applyWindowInsets(EnumSet.of(
+                WindowInsetPosition.TOP_MARGINS,
+                WindowInsetPosition.BOTTOM_MARGINS,
+                WindowInsetPosition.START_MARGINS,
+                WindowInsetPosition.END_MARGINS,
+            ))
+            // The background of the drawer is meant to overlap system bars, so use padding
+            databaseNavView?.applyWindowInsets(EnumSet.of(
+                WindowInsetPosition.TOP_PADDING,
+                WindowInsetPosition.BOTTOM_PADDING,
+                // Only on the start side, since the drawer is anchored to one side of the screen
+                WindowInsetPosition.START_PADDING,
+            ))
         }
 
         lockView?.setOnClickListener {

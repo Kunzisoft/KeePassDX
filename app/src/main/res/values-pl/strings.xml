@@ -24,12 +24,12 @@
     <string name="add_entry">Dodaj wpis</string>
     <string name="add_group">Dodaj grupę</string>
     <string name="encryption_algorithm">Algorytm szyfrowania</string>
-    <string name="app_timeout">Koniec czasu</string>
+    <string name="app_timeout">Limit czasu</string>
     <string name="app_timeout_summary">Czas bezczynności przed zablokowaniem bazy danych</string>
     <string name="application">Aplikacja</string>
     <string name="menu_app_settings">Ustawienia ogólne</string>
     <string name="brackets">Nawiasy</string>
-    <string name="file_manager_install_description">Do tworzenia, otwierania i zapisywania plików bazy danych potrzebny jest menedżer plików, który akceptuje działanie Intent Action ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
+    <string name="file_manager_install_description">Do tworzenia, otwierania i zapisywania plików bazy danych wymagany jest menedżer plików akceptujący zamierzone działania ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Schowek został wyczyszczony</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
     <string name="clipboard_timeout_summary">Czas przechowywania w schowku (jeśli jest obsługiwany przez urządzenie)</string>
@@ -60,11 +60,11 @@
     <string name="error_invalid_path">Upewnij się, że ścieżka jest prawidłowa.</string>
     <string name="error_no_name">Wpisz nazwę.</string>
     <string name="error_nokeyfile">Wybierz plik klucza.</string>
-    <string name="error_out_of_memory">W urządzeniu zabrakło pamięci do załadowania całej bazy danych.</string>
+    <string name="error_out_of_memory">Brak pamięci na załadowanie całej bazy danych.</string>
     <string name="error_pass_gen_type">Należy wybrać co najmniej jeden rodzaj generowania hasła.</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
-    <string name="error_rounds_too_large">\"Rundy szyfrowania\" są zbyt wysokie. Ustaw na 2147483648.</string>
-    <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu \"Długość\".</string>
+    <string name="error_rounds_too_large">„Rundy transformacji” są zbyt wysokie. Ustaw na 2147483648.</string>
+    <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu „Długość”.</string>
     <string name="file_browser">Menedżer plików</string>
     <string name="generate_password">Generuj hasło</string>
     <string name="hint_conf_pass">Potwierdź hasło</string>
@@ -77,8 +77,8 @@
     <string name="invalid_credentials">Nie można odczytać uwierzytelnień.</string>
     <string name="invalid_db_sig">Nie można rozpoznać formatu bazy danych.</string>
     <string name="length">Długość</string>
-    <string name="list_size_title">Wielkość listy grup</string>
-    <string name="list_size_summary">Wielkość tekstu w liście grup</string>
+    <string name="list_size_title">Rozmiar elementów listy</string>
+    <string name="list_size_summary">Rozmiar tekstu na liście elementów</string>
     <string name="loading_database">Wczytywanie bazy danych…</string>
     <string name="lowercase">Małe litery</string>
     <string name="hide_password_title">Ukryj hasła</string>
@@ -103,7 +103,7 @@
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
     <string name="content_description_remove_from_list">Usuń</string>
-    <string name="root">Root</string>
+    <string name="root">Główny</string>
     <string name="rounds">Rundy szyfrowania</string>
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
     <string name="saving_database">Zapisywanie bazy danych…</string>
@@ -133,7 +133,7 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;. \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
-    <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
+    <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć „Użycie pamięci” KDF.</string>
     <string name="error_string_key">Każdy ciąg musi mieć nazwę pola.</string>
     <string name="error_autofill_enable_service">Nie można włączyć usługi autouzupełniania.</string>
     <string name="field_name">Nazwa pola</string>
@@ -149,8 +149,8 @@
     <string name="menu_move">Przenieś</string>
     <string name="menu_paste">Wklej</string>
     <string name="menu_cancel">Anuluj</string>
-    <string name="menu_file_selection_read_only">Chroniony przed zapisem</string>
-    <string name="menu_open_file_read_and_write">Modyfikowalne</string>
+    <string name="menu_file_selection_read_only">Ochrona przed zapisem</string>
+    <string name="menu_open_file_read_and_write">Modyfikowalny</string>
     <string name="protection">Ochrona</string>
     <string name="read_only">Ochrona przed zapisem</string>
     <string name="read_only_warning">KeePassDX potrzebuje uprawnień do zapisu, aby mógł modyfikować bazę danych.</string>
@@ -207,12 +207,12 @@
     <string name="assign_master_key">Przypisz klucz główny</string>
     <string name="create_keepass_file">Utwórz nowy sejf</string>
     <string name="recycle_bin_title">Wykorzystanie kosza</string>
-    <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
+    <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy „Kosz” przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Czcionka pola</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność znaków</string>
     <string name="allow_copy_password_title">Ochrona schowka</string>
     <string name="allow_copy_password_summary">Zezwalanie na kopiowanie hasła wejściowego i chronionych pól do schowka</string>
-    <string name="allow_copy_password_warning">Ostrzeżenie: Schowek jest współużytkowany przez wszystkie aplikacje. Jeśli poufne dane są kopiowane, inne oprogramowanie może je odzyskać.</string>
+    <string name="allow_copy_password_warning">Ostrzeżenie: schowek jest współużytkowany przez wszystkie aplikacje. Jeśli poufne dane są kopiowane, inne oprogramowanie może je odzyskać.</string>
     <string name="database_name_title">Nazwa bazy danych</string>
     <string name="database_description_title">Opis bazy danych</string>
     <string name="database_version_title">Wersja bazy danych</string>
@@ -223,7 +223,7 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktywuj niestandardową klawiaturę wypełniającą hasła i wszystkie pola tożsamości</string>
     <string name="allow_no_password_title">Zezwalaj na brak klucza głównego</string>
-    <string name="allow_no_password_summary">Umożliwia naciśnięcie przycisku \"Otwórz\", jeśli nie wybrano żadnych poświadczeń</string>
+    <string name="allow_no_password_summary">Umożliwia naciśnięcie przycisku „Otwórz”, jeśli nie wybrano żadnych poświadczeń</string>
     <string name="enable_education_screens_title">Wskazówki edukacyjne</string>
     <string name="enable_education_screens_summary">Podświetl elementy, aby dowiedzieć się, jak działa aplikacja</string>
     <string name="reset_education_screens_title">Zresetuj wskazówki edukacyjne</string>
@@ -247,10 +247,7 @@
     <string name="education_entry_new_field_summary">Zarejestruj dodatkowe pole, dodaj wartość i opcjonalnie chroń je.</string>
     <string name="education_unlock_title">Odblokuj swoją bazę danych</string>
     <string name="education_read_only_title">Zapisz ochronę swojej bazy danych</string>
-    <string name="education_read_only_summary">Zmień tryb otwierania sesji.
-\n
-\n\"Ochrona przed zapisem\" zapobiega niezamierzonych zmian w bazie danych.
-\n\"Modyfikowalne\" pozwala dodawać, usuwać lub modyfikować wszystkie elementy, jak chcesz.</string>
+    <string name="education_read_only_summary">Zmień tryb otwierania sesji. \n \n„Ochrona przed zapisem” zapobiega niezamierzonym zmianom w bazie danych. \n„Modyfikowalny” pozwala dodawać, usuwać lub modyfikować wszystkie elementy według uznania.</string>
     <string name="education_field_copy_title">Skopiuj pole</string>
     <string name="education_field_copy_summary">Skopiowane pola można wkleić w dowolnym miejscu.
 \n
@@ -294,17 +291,17 @@
     <string name="keyboard_notification_entry_clear_close_summary">Zamknij bazę danych podczas zamykania powiadomienia</string>
     <string name="keyboard_appearance_category">Wygląd</string>
     <string name="keyboard_theme_title">Motyw klawiatury</string>
-    <string name="keyboard_keys_category">Klawiatura</string>
-    <string name="keyboard_key_vibrate_title">Wibracja po naciśnięciu klawisza</string>
-    <string name="keyboard_key_sound_title">Dźwięk przy naciśnięciu</string>
-    <string name="do_not_kill_app">Nie zabijaj aplikacji…</string>
-    <string name="lock_database_back_root_title">Wciśnij \'Powrót\', aby zablokować</string>
-    <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk \"Wstecz\" na ekranie głównym</string>
+    <string name="keyboard_keys_category">Klawisze</string>
+    <string name="keyboard_key_vibrate_title">Wibracje przy naciskaniu klawiszy</string>
+    <string name="keyboard_key_sound_title">Dźwięk przy naciskaniu klawiszy</string>
+    <string name="do_not_kill_app">Nie zamykaj aplikacji…</string>
+    <string name="lock_database_back_root_title">Naciśnij „Wstecz”, aby zablokować</string>
+    <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk „Wstecz” na ekranie głównym</string>
     <string name="clear_clipboard_notification_title">Wyczyść po zamknięciu</string>
     <string name="clear_clipboard_notification_summary">Blokowanie bazy danych po wygaśnięciu czasu trwania schowka lub zamknięciu powiadomienia po rozpoczęciu korzystania z niej</string>
     <string name="recycle_bin">Kosz</string>
     <string name="keyboard_selection_entry_title">Wybór wpisu</string>
-    <string name="keyboard_selection_entry_summary">Podczas przeglądania wpisu w KeePassDX zapełnij Magikeyboard tym wpisem</string>
+    <string name="keyboard_selection_entry_summary">Podczas przeglądania wpisu w KeePassDX zapełnij Magikeyboard tym wpisem</string>
     <string name="delete_entered_password_title">Usuń hasło</string>
     <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia z bazą danych</string>
     <string name="content_description_open_file">Otwórz plik</string>
@@ -366,7 +363,7 @@
     <string name="compression_none">Żadna</string>
     <string name="compression_gzip">Gzip</string>
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
-    <string name="error_invalid_OTP">Nieprawidłowy klucz OTP.</string>
+    <string name="error_invalid_OTP">Nieprawidłowy klucz tajny OTP.</string>
     <string name="error_disallow_no_credentials">Należy ustawić co najmniej jedno poświadczenie.</string>
     <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
     <string name="error_otp_counter">Licznik musi być między %1$d a %2$d.</string>
@@ -390,11 +387,11 @@
     <string name="keystore_not_accessible">Magazyn kluczy nie został poprawnie zainicjowany.</string>
     <string name="recycle_bin_group_title">Kosz grupy</string>
     <string name="enable_auto_save_database_title">Automatycznie zapisuj bazę danych</string>
-    <string name="enable_auto_save_database_summary">Zapisz bazę danych po każdym ważnym działaniu (w trybie „Modyfikowalnym”)</string>
+    <string name="enable_auto_save_database_summary">Zapisz bazę danych po każdym ważnym działaniu (w trybie „Modyfikowalny”)</string>
     <string name="entry_attachments">Załączniki</string>
     <string name="menu_restore_entry_history">Przywróć historię</string>
     <string name="menu_delete_entry_history">Usuń historię</string>
-    <string name="keyboard_auto_go_action_title">Automatyczne działanie klucza</string>
+    <string name="keyboard_auto_go_action_title">Automatyczna akcja klawiszy</string>
     <string name="keyboard_auto_go_action_summary">Akcja klawisza „Idź” po naciśnięciu klawisza „Pole”</string>
     <string name="download_attachment">Pobierz %1$s</string>
     <string name="download_initialization">Inicjowanie…</string>
@@ -427,7 +424,7 @@
     <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
     <string name="lock_database_show_button_title">Pokaż przycisk blokady</string>
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
-    <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
+    <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżer plików</string>
     <string name="error_label_exists">Ta etykieta już istnieje.</string>
     <string name="autofill_block_restart">Zrestartuj aplikację zawierającą formularz, aby aktywować blokadę.</string>
     <string name="autofill_block">Blokowanie autouzupełniania</string>
@@ -440,9 +437,9 @@
     <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie domen internetowych</string>
     <string name="autofill_web_domain_blocklist_title">Lista zablokowanych domen internetowych</string>
     <string name="autofill_application_id_blocklist_title">Lista zablokowanych aplikacji</string>
-    <string name="keyboard_previous_fill_in_summary">Automatycznie przełącz się z powrotem na poprzednią klawiaturę po wykonaniu automatycznej akcji klawiszy</string>
-    <string name="keyboard_previous_fill_in_title">Przełącz się z powrotem</string>
-    <string name="keyboard_previous_database_credentials_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury na ekranie poświadczeń bazy danych</string>
+    <string name="keyboard_previous_fill_in_summary">Automatycznie przełącz z powrotem do poprzedniej klawiatury po wykonaniu automatycznej akcji klawiszy</string>
+    <string name="keyboard_previous_fill_in_title">Przełącz z powrotem</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatycznie przełącz z powrotem do poprzedniej klawiatury na ekranie poświadczeń bazy danych</string>
     <string name="keyboard_previous_database_credentials_title">Ekran poświadczeń bazy danych</string>
     <string name="keyboard_change">Przełącz klawiaturę</string>
     <string name="upload_attachment">Prześlij %1$s</string>
@@ -450,9 +447,7 @@
     <string name="education_add_attachment_title">Dodaj załącznik</string>
     <string name="warning_sure_add_file">Czy mimo to dodać plik\?</string>
     <string name="warning_replace_file">Przesłanie tego pliku spowoduje zastąpienie istniejącego.</string>
-    <string name="warning_file_too_big">Baza danych KeePass powinna zawierać tylko małe pliki narzędziowe (takie jak pliki kluczy PGP).
-\n
-\nTwoja baza danych może stać się bardzo duża i zmniejszyć wydajność dzięki temu wgrywaniu danych.</string>
+    <string name="warning_file_too_big">Baza danych KeePass powinna zawierać tylko małe pliki narzędziowe (takie jak pliki kluczy PGP). \n \nTwoja baza danych może stać się bardzo duża i obniżyć wydajność w wyniku tego przesyłania.</string>
     <string name="database_data_remove_unlinked_attachments_summary">Usuwa załączniki znajdujące się w bazie danych, ale niepowiązane z danym wpisem</string>
     <string name="database_data_remove_unlinked_attachments_title">Usuń niepołączone dane</string>
     <string name="data">Dane</string>
@@ -470,7 +465,7 @@
     <string name="autofill_save_search_info_title">Zapisz informacje wyszukiwania</string>
     <string name="autofill_close_database_summary">Zamknij bazę danych po wybraniu autouzupełniania</string>
     <string name="autofill_close_database_title">Zamknij bazę danych</string>
-    <string name="keyboard_previous_lock_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury po zablokowaniu bazy danych</string>
+    <string name="keyboard_previous_lock_summary">Automatycznie przełącz z powrotem do poprzedniej klawiatury po zablokowaniu bazy danych</string>
     <string name="keyboard_previous_lock_title">Zablokuj bazę danych</string>
     <string name="keyboard_save_search_info_summary">Staraj się zapisywać udostępnione informacje podczas dokonywania ręcznego wyboru wpisu, aby ułatwić sobie przyszłe użycie</string>
     <string name="keyboard_save_search_info_title">Zapisz udostępnione informacje</string>
@@ -616,17 +611,13 @@
     <string name="menu_save_copy_to">Zapisz kopię w …</string>
     <string name="expired">Wygasłe</string>
     <string name="warning_database_already_opened">Baza danych jest już otwarta, należy ją najpierw zamknąć, aby otworzyć nową</string>
-    <string name="device_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia.
-\n
-\nW zależności od konkretnej implementacji interfejsu API systemu operacyjnego, może nie być w pełni funkcjonalna.
-\n
-\nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
+    <string name="device_unlock_keystore_warning">Ta funkcja umożliwia przechowywanie zaszyfrowanych danych uwierzytelniających w bezpiecznym magazynie kluczy urządzenia. \n \nMoże nie być w pełni funkcjonalna w zależności od konkretnej implementacji interfejsu API systemu operacyjnego. \n \nSprawdź kompatybilność i bezpieczeństwo magazynu kluczy u producenta urządzenia i twórcy używanego ROM-u.</string>
     <string name="passphrase">Fraza hasła</string>
     <string name="colorize_password_summary">Koloruj znaki hasła według typu</string>
     <string name="keyboard_previous_search_title">Ekran wyszukiwania</string>
     <string name="entropy">Entropia: %1$s bitowa</string>
-    <string name="entropy_high">Entropia: Wysoka</string>
-    <string name="entropy_calculate">Entropia: Oblicz…</string>
+    <string name="entropy_high">Entropia: wysoka</string>
+    <string name="entropy_calculate">Entropia: oblicz…</string>
     <string name="at_least_one_char">Co najmniej po jednym znaku z każdego</string>
     <string name="exclude_ambiguous_chars">Wyklucz niejednoznaczne znaki</string>
     <string name="consider_chars_filter">Rozważ znaki</string>
@@ -638,7 +629,7 @@
     <string name="content_description_passphrase_word_count">Liczba słów frazy hasła</string>
     <string name="ignore_chars_filter">Ignoruj znaki</string>
     <string name="colorize_password_title">Koloruj hasła</string>
-    <string name="keyboard_previous_search_summary">Automatycznie przełączaj z powrotem do poprzedniej klawiatury na ekranie wyszukiwania</string>
+    <string name="keyboard_previous_search_summary">Automatycznie przełącz z powrotem do poprzedniej klawiatury na ekranie wyszukiwania</string>
     <string name="waiting_challenge_request">Oczekiwanie na żądanie wyzwania…</string>
     <string name="waiting_challenge_response">Oczekiwanie na odpowiedź na wyzwanie…</string>
     <string name="error_challenge_already_requested">Wyzwanie już zażądane.</string>
@@ -698,7 +689,7 @@
     <string name="nodes">Węzły</string>
     <string name="warning_large_keyfile">Nie zaleca się dodawania dużego pliku klucza, ponieważ może to uniemożliwić otwarcie bazy danych.</string>
     <string name="generate_keyfile">Wygeneruj plik klucza</string>
-    <string name="recursive_number_entries_summary">Rekurencyjnie oblicza liczbę wpisów w grupie</string>
+    <string name="recursive_number_entries_summary">Rekurencyjnie oblicza liczbę wpisów w grupie</string>
     <string name="recursive_number_entries_title">Rekurencyjna liczba wpisów</string>
     <string name="hide_templates_title">Ukryj szablony</string>
     <string name="hide_templates_summary">Szablony nie są wyświetlane</string>

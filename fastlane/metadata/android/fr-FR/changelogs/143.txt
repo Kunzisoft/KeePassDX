@@ -1,5 +1,3 @@
- * Gestion de Passkeys #1421 (Thx @cali-95)
- * Paramètres de recherche #2112 #2181
- * Paramètre de fermeture de la base après une sélection de Passkey #2187
- * Refonte du remplissage automatique #765
- * Petites corrections #2171 #2150 #2159
+ * Correction de l'interface en paysage #2198 #2200 (@chenxiaolong)
+ * Correction du démarrage en boucle et de l'écran clignotant #2201
+ * Petites corrections

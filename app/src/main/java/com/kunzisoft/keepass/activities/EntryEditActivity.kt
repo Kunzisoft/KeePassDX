@@ -99,6 +99,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import java.util.EnumSet
 import java.util.UUID
 
 class EntryEditActivity : DatabaseLockActivity(),
@@ -179,8 +180,12 @@ class EntryEditActivity : DatabaseLockActivity(),
 
         // To apply fit window with transparency
         setTransparentNavigationBar(applyToStatusBar = true) {
-            container?.applyWindowInsets(WindowInsetPosition.TOP_BOTTOM_IME)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM_IME)
+            container?.applyWindowInsets(EnumSet.of(
+                WindowInsetPosition.TOP_MARGINS,
+                WindowInsetPosition.BOTTOM_MARGINS,
+                WindowInsetPosition.START_MARGINS,
+                WindowInsetPosition.END_MARGINS,
+            ))
         }
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))

@@ -304,10 +304,6 @@ class MainCredentialActivity : DatabaseModeActivity() {
         mDatabaseFileUri?.let { databaseFileUri ->
             mDatabaseFileViewModel.loadDatabaseFile(databaseFileUri)
         }
-
-        mDatabase?.let { database ->
-            launchGroupActivityIfLoaded(database)
-        }
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {

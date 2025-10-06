@@ -1,0 +1,23 @@
+KeePassDX, açık KeePass biçiminde <b>tek bir dosyada şifreli verileri</b> düzenlemeye ve <b>formları güvenli bir şekilde doldurmaya</b> olanak tanıyan bir <b>şifre kasası ve yöneticisi</b> olup, <b>internet bağlantısı gerektirmez</b> ve Android tasarım standartlarını takip eder. Uygulama <b>açık kaynaklıdır ve reklam içermez</b>.
+
+<b>Özellikler</b>
+
+- Veri tabanı dosyaları / girdileri ve grupları oluşturun.
+- AES - Twofish - ChaCha20 - Argon2 algoritması ile .kdb ve .kdbx dosyaları (sürüm 1 ile 4 arası) desteği.
+- Birçok farklı programla uyumludur (KeePass, KeePassXC, KeeWeb, …).
+- URI / URL alanlarını hızlı bir şekilde açma ve kopyalama imkanı.
+- Hızlı kilit açma için biyometrik tanıma (parmak izi / yüz tanıma / …).
+- İki aşamalı kimlik doğrulama (2FA) için tek kullanımlık şifre yönetimi (HOTP / TOTP).
+- Temalı Material tasarımı.
+- Otomatik doldurma ve bütünleşme.
+- Alan doldurma klavyesi.
+- Değişken şablonlar.
+- Her girdinin geçmişi.
+- Ayarların hassas yönetimi.
+- Yerel dillerde (Kotlin / Java / JNI / C) yazılmış kod.
+
+Daha iyi hizmet ve istediğiniz özelliklerin hızlı bir şekilde geliştirilmesi için bağış yapabilir veya pro sürümü satın alabilirsiniz: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Proje sürekli gelişmektedir. Bir sonraki güncellemelerin geliştirme durumuna bakmaktan çekinmeyin: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Sorunlarınızı şu adrese gönderin: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

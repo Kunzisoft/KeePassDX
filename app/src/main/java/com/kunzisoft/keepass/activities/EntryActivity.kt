@@ -79,11 +79,13 @@ import com.kunzisoft.keepass.view.hideByFading
 import com.kunzisoft.keepass.view.setTransparentNavigationBar
 import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.viewmodels.EntryViewModel
+import java.util.EnumSet
 import java.util.UUID
 
 class EntryActivity : DatabaseLockActivity() {
 
     private var footer: ViewGroup? = null
+    private var container: View? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var appBarLayout: AppBarLayout? = null
@@ -135,6 +137,7 @@ class EntryActivity : DatabaseLockActivity() {
 
         // Get views
         footer = findViewById(R.id.activity_entry_footer)
+        container = findViewById(R.id.activity_entry_container)
         coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         appBarLayout = findViewById(R.id.app_bar)
@@ -150,8 +153,12 @@ class EntryActivity : DatabaseLockActivity() {
         setTransparentNavigationBar {
             // To fix margin with API 27
             ViewCompat.setOnApplyWindowInsetsListener(collapsingToolbarLayout!!, null)
-            coordinatorLayout?.applyWindowInsets(WindowInsetPosition.TOP)
-            footer?.applyWindowInsets(WindowInsetPosition.BOTTOM)
+            container?.applyWindowInsets(EnumSet.of(
+                WindowInsetPosition.TOP_MARGINS,
+                WindowInsetPosition.BOTTOM_MARGINS,
+                WindowInsetPosition.START_MARGINS,
+                WindowInsetPosition.END_MARGINS,
+            ))
         }
 
         // Empty title

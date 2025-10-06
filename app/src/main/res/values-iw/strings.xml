@@ -20,7 +20,7 @@
 --><resources>
     <string name="feedback">משוב</string>
     <string name="homepage">דף הבית</string>
-    <string name="about_description">מימוש אנדרואיד של מנהל הסיסמאות KeePass</string>
+    <string name="about_description">מימוש אנדרואיד של מנהל הסיסמאות KeePass.</string>
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
     <string name="add_group">הוסף קבוצה</string>

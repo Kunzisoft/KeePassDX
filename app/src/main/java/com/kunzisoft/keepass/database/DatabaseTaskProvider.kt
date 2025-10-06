@@ -260,6 +260,7 @@ class DatabaseTaskProvider(
     }
 
     private fun initServiceConnection() {
+        stopDialog()
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {
                 override fun onBindingDied(name: ComponentName?) {
