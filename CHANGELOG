@@ -1,3 +1,8 @@
+KeePassDX(4.1.9)
+ * Fix landscape UI #2198 (@chenxiaolong)
+ * Fix start loop and flash screen #2201
+ * Small fixes
+
 KeePassDX(4.1.8)
  * Updated to API 35 minimum SDK 19 #2073 #2138 #2067 #2133 #1687 (Thx @Dev-ClayP)
  * Remember last read-only state #2099 #2100 (Thx @rmacklin)
