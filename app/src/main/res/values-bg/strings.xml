@@ -232,7 +232,7 @@
     <string name="auto_focus_search_title">Бързо търсене</string>
     <string name="subdomain_search_title">Търсене на поддомейни</string>
     <string name="menu_delete">Изтриване</string>
-    <string name="menu_appearance_settings_summary">Теми, цветове, атрибути</string>
+    <string name="menu_appearance_settings_summary">Теми, цветове, икони, шрифтове, атрибути</string>
     <string name="download_initialization">Подготвяне…</string>
     <string name="content_description_entry_background_color">Цвят на фона на запис</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft е приложение с &lt;strong&gt;отворен код&lt;/strong&gt; и &lt;strong&gt;без реклами&lt;/strong&gt;. \nРазпространява се под лиценза &lt;strong&gt;GPLv3&lt;/strong&gt; без каквато и да е гаранция.</string>
