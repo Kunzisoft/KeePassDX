@@ -673,7 +673,7 @@
     <string name="later">以后再说</string>
     <string name="configure">配置</string>
     <string name="unlock_and_link_biometric">设备解锁链接</string>
-    <string name="menu_appearance_settings_summary">主题、颜色、属性</string>
+    <string name="menu_appearance_settings_summary">主题、颜色、图标、字体、属性</string>
     <string name="unlock">解锁</string>
     <string name="education_validate_entry_title">验证条目</string>
     <string name="info">信息</string>
