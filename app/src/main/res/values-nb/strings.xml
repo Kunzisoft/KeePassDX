@@ -663,7 +663,7 @@
     <string name="ask">Spør</string>
     <string name="merge_success">Sammenslåingen er fullført</string>
     <string name="configure">Konfigurer</string>
-    <string name="menu_appearance_settings_summary">Drakter, farger, attributter</string>
+    <string name="menu_appearance_settings_summary">Drakter, farger, ikoner, skrifttyper, attributter</string>
     <string name="enable_screenshot_mode_title">Skjermbilde-modus</string>
     <string name="consider_chars_filter">Vurder karakterer</string>
     <string name="entropy_calculate">Entropi: Beregn…</string>
