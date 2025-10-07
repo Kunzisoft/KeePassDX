@@ -41,6 +41,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -99,6 +102,7 @@ import com.kunzisoft.keepass.view.showActionErrorIfNeeded
 import com.kunzisoft.keepass.view.updateLockPaddingStart
 import com.kunzisoft.keepass.viewmodels.ColorPickerViewModel
 import com.kunzisoft.keepass.viewmodels.EntryEditViewModel
+import kotlinx.coroutines.launch
 import java.util.EnumSet
 import java.util.UUID
 
@@ -153,9 +157,6 @@ class EntryEditActivity : DatabaseLockActivity(),
             performedNextEducation()
         }
     }
-
-    // To ask data lost only one time
-    private var backPressedAlreadyApproved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -408,6 +409,31 @@ class EntryEditActivity : DatabaseLockActivity(),
                 )
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mEntryEditViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        EntryEditViewModel.UIState.Loading -> {}
+                        EntryEditViewModel.UIState.ShowOverwriteMessage -> {
+                            if (mEntryEditViewModel.warningOverwriteDataAlreadyApproved.not()) {
+                                AlertDialog.Builder(this@EntryEditActivity)
+                                    .setTitle(R.string.warning_overwrite_data_title)
+                                    .setMessage(R.string.warning_overwrite_data_description)
+                                    .setNegativeButton(android.R.string.cancel) { _, _ ->
+                                        mEntryEditViewModel.backPressedAlreadyApproved = true
+                                        onCancelSpecialMode()
+                                    }
+                                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                                        mEntryEditViewModel.warningOverwriteDataAlreadyApproved = true
+                                    }
+                                    .create().show()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun viewToInvalidateTimeout(): View? {
@@ -422,7 +448,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         super.onDatabaseRetrieved(database)
         mAllowCustomFields = database?.allowEntryCustomFields() == true
         mAllowOTP = database?.allowOTP == true
-        mEntryEditViewModel.loadDatabase(database)
+        mEntryEditViewModel.loadTemplateEntry(database)
         mTemplatesSelectorAdapter?.apply {
             iconDrawableFactory = mDatabase?.iconDrawableFactory
             notifyDataSetChanged()
@@ -751,13 +777,13 @@ class EntryEditActivity : DatabaseLockActivity(),
     }
 
     private fun onApprovedBackPressed(approved: () -> Unit) {
-        if (!backPressedAlreadyApproved) {
+        if (mEntryEditViewModel.backPressedAlreadyApproved.not()) {
             AlertDialog.Builder(this)
                     .setMessage(R.string.discard_changes)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(R.string.discard) { _, _ ->
                         mAttachmentFileBinderManager?.stopUploadAllAttachments()
-                        backPressedAlreadyApproved = true
+                        mEntryEditViewModel.backPressedAlreadyApproved = true
                         approved.invoke()
                     }.create().show()
         } else {

@@ -40,8 +40,24 @@ object PasskeyEntryFields {
         )
     }
 
-    fun EntryInfo.setPasskey(passkey: Passkey?) {
+    fun EntryInfo.containsPasskey(): Boolean {
+        return this.tags.contains(PASSKEY_TAG)
+                || this.containsCustomField(FIELD_USERNAME)
+                || this.containsCustomField(FIELD_PRIVATE_KEY)
+                || this.containsCustomField(FIELD_CREDENTIAL_ID)
+                || this.containsCustomField(FIELD_USER_HANDLE)
+                || this.containsCustomField(FIELD_RELYING_PARTY)
+    }
+
+    /**
+     * Set a passkey in an entry,
+     * return true if data has been overwritten
+     */
+    fun EntryInfo.setPasskey(passkey: Passkey?): Boolean {
+        var overwrite = false
         if (passkey != null) {
+            if (containsPasskey())
+                overwrite = true
             tags.put(PASSKEY_TAG)
             if (this.username.isEmpty())
                 this.username = passkey.username
@@ -76,6 +92,7 @@ object PasskeyEntryFields {
                 )
             )
         }
+        return overwrite
     }
 
     /**
@@ -132,4 +149,6 @@ object PasskeyEntryFields {
     fun Field.isRelyingParty(): Boolean {
         return name == FIELD_RELYING_PARTY
     }
+
+    class AlreadyExistPasskey(): SecurityException("Entry already contains a passkey")
 }

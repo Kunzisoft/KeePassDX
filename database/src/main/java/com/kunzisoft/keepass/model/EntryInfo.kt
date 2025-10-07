@@ -204,18 +204,20 @@ class EntryInfo : NodeInfo {
     }
 
     /**
-     * Add registerInfo to current EntryInfo
+     * Add registerInfo to current EntryInfo,
+     * return true if data has been overwrite
      */
-    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo) {
+    fun saveRegisterInfo(database: Database?, registerInfo: RegisterInfo): Boolean {
         saveSearchInfo(database, registerInfo.searchInfo)
         registerInfo.username?.let { username = it }
         registerInfo.password?.let { password = it }
         setCreditCard(registerInfo.creditCard)
-        setPasskey(registerInfo.passkey)
+        val dataOverwrite: Boolean = setPasskey(registerInfo.passkey)
         saveAppOrigin(database, registerInfo.appOrigin)
         if (title.isEmpty()) {
             title = registerInfo.toString().toTitle()
         }
+        return dataOverwrite
     }
 
     /**
