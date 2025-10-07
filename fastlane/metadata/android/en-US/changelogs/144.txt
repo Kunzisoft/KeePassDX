@@ -2,4 +2,4 @@
  * Search settings #2112 #2181
  * Setting to close database after a Passkey selection #2187
  * Autofill refactoring #765
- * Small fixes #2171 #2150 #2159
+ * Small fixes #2171 #2150 #2159 #2122

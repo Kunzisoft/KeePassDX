@@ -2,4 +2,4 @@
  * Paramètres de recherche #2112 #2181
  * Paramètre de fermeture de la base après une sélection de Passkey #2187
  * Refonte du remplissage automatique #765
- * Petites corrections #2171 #2150 #2159
+ * Petites corrections #2171 #2150 #2159 #2122
