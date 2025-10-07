@@ -404,7 +404,7 @@
     <string name="database_history">Ajalugu</string>
     <string name="properties">Omadused</string>
     <string name="menu_appearance_settings">Välimus</string>
-    <string name="menu_appearance_settings_summary">Välimus, värvid, omadused</string>
+    <string name="menu_appearance_settings_summary">Välimus, värvid, ikoonid, kirjatüübid, omadused</string>
     <string name="html_text_dev_feature_upgrade">Ära unusta paigaldada viimaseid versioone ja tagada, et rakendus on alati uuendatud.</string>
     <string name="at_least_one_char">Vähemalt üks tähemärk igast</string>
     <string name="exclude_ambiguous_chars">Välista mitmetähenduslikud tähemärgid</string>
