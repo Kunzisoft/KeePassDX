@@ -149,6 +149,4 @@ object PasskeyEntryFields {
     fun Field.isRelyingParty(): Boolean {
         return name == FIELD_RELYING_PARTY
     }
-
-    class AlreadyExistPasskey(): SecurityException("Entry already contains a passkey")
 }
