@@ -681,7 +681,7 @@
     <string name="ask">Zeptat se</string>
     <string name="configure">Nastavit</string>
     <string name="unlock_and_link_biometric">Propojení s odemykáním zařízení</string>
-    <string name="menu_appearance_settings_summary">Motivy, barvy, atributy</string>
+    <string name="menu_appearance_settings_summary">Motivy, barvy, ikony, písma, atributy</string>
     <string name="unlock">Odemknout</string>
     <string name="education_validate_entry_title">Ověřit vstup</string>
     <string name="education_validate_entry_summary">Nezapomeňte ověřit svůj vstup a uložit databázi.
