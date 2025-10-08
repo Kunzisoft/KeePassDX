@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildActivityResultLauncher
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.isIntentSenderMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
@@ -15,6 +15,7 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveReg
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveTypeMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.TypeMode
 import com.kunzisoft.keepass.model.RegisterInfo
@@ -33,8 +34,20 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
 
     private var mToolbarSpecial: ToolbarSpecial? = null
 
+    /**
+     * Utility activity result launcher,
+     * Used recursively, close each activity with return data
+     */
     protected open var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
-        this.buildActivityResultLauncher()
+        registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        setActivityResult(
+            lockDatabase = false,
+            resultCode = it.resultCode,
+            data = it.data
+        )
+    }
 
     open fun onDatabaseBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)

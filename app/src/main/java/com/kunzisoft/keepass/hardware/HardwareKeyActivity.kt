@@ -24,7 +24,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
 
     // To manage hardware key challenge response
     private val resultCallback = ActivityResultCallback<ActivityResult> { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val challengeResponse: ByteArray? = result.data?.getByteArrayExtra(HARDWARE_KEY_RESPONSE_KEY)
             Log.d(TAG, "Response form challenge")
             mDatabaseTaskProvider?.startChallengeResponded(challengeResponse ?: ByteArray(0))

@@ -29,9 +29,7 @@ import android.os.ParcelUuid
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -74,25 +72,6 @@ object EntrySelectionHelper {
         if (lockDatabase) {
             // Close the database
             this.sendBroadcast(Intent(LOCK_ACTION))
-        }
-    }
-
-    /**
-     * Utility method to build a registerForActivityResult,
-     * Used recursively, close each activity with return data
-     */
-    fun AppCompatActivity.buildActivityResultLauncher(
-        lockDatabase: Boolean = false,
-        dataTransformation: (data: Intent?) -> Intent? = { it },
-    ): ActivityResultLauncher<Intent> {
-        return this.registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            setActivityResult(
-                lockDatabase,
-                it.resultCode,
-                dataTransformation(it.data)
-            )
         }
     }
 

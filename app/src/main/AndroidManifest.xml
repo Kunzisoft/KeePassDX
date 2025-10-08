@@ -179,7 +179,8 @@
             android:name="com.kunzisoft.keepass.settings.AppearanceSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity"
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.Transparent"
+            android:exported="false" />
         <activity
             android:name="com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity"
             android:theme="@style/Theme.Transparent"
