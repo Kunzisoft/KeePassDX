@@ -23,18 +23,19 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import kotlinx.coroutines.launch
 
 class MainPreferenceFragment : PreferenceFragmentCompat() {
 
     private var mCallback: Callback? = null
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabaseLoaded: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,19 +52,26 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
         super.onDetach()
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
-            mDatabaseLoaded = database?.loaded == true
-            checkDatabaseLoaded()
+        lifecycleScope.launch {
+            // Initialize the parameters
+            mDatabaseViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is DatabaseViewModel.UIState.Loading -> {}
+                    is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
+                        checkDatabaseLoaded(uiState.database?.loaded == true)
+                    }
+                }
+            }
         }
         super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun checkDatabaseLoaded() {
+    private fun checkDatabaseLoaded(isDatabaseLoaded: Boolean) {
         findPreference<Preference>(getString(R.string.settings_database_key))
-            ?.isEnabled = mDatabaseLoaded
+            ?.isEnabled = isDatabaseLoaded
 
         findPreference<PreferenceCategory>(getString(R.string.settings_database_category_key))
-            ?.isVisible = mDatabaseLoaded
+            ?.isVisible = isDatabaseLoaded
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -119,7 +127,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        checkDatabaseLoaded()
+        checkDatabaseLoaded(mDatabaseViewModel.database?.loaded == true)
     }
 
     interface Callback {

@@ -22,6 +22,9 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -32,13 +35,13 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import kotlinx.coroutines.launch
 
 abstract class DatabaseSavePreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat(), DatabaseRetrieval {
 
     private var mDatabaseAutoSaveEnable = true
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: ContextualDatabase? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -47,18 +50,19 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mDatabaseViewModel.database.observe(this) { database ->
-            onDatabaseRetrieved(database)
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is DatabaseViewModel.UIState.Loading -> {}
+                        is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
+                            onDatabaseRetrieved(uiState.database)
+                        }
+                    }
+                }
+            }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        onDatabaseRetrieved(mDatabase)
-    }
-
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        this.mDatabase = database
     }
 
     override fun onDatabaseActionFinished(
@@ -70,7 +74,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        onDialogClosed(mDatabase, positiveResult)
+        onDialogClosed(mDatabaseViewModel.database, positiveResult)
     }
 
     open fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

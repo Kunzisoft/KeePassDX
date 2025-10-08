@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
@@ -9,11 +8,16 @@ import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class DatabaseViewModel: ViewModel() {
 
-    val database : LiveData<ContextualDatabase?> get() = _database
-    private val _database = MutableLiveData<ContextualDatabase?>()
+    var database: ContextualDatabase? = null
+        private set
+
+    private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
+    val uiState: StateFlow<UIState> = mUiState
 
     val actionFinished : LiveData<ActionResult> get() = _actionFinished
     private val _actionFinished = SingleLiveEvent<ActionResult>()
@@ -74,7 +78,8 @@ class DatabaseViewModel: ViewModel() {
 
 
     fun defineDatabase(database: ContextualDatabase?) {
-        this._database.value = database
+        this.database = database
+        this.mUiState.value = UIState.OnDatabaseRetrieved(database)
     }
 
     fun onActionFinished(database: ContextualDatabase,
@@ -182,6 +187,13 @@ class DatabaseViewModel: ViewModel() {
                         newValue: Long,
                         save: Boolean) {
         _saveParallelism.value = SuperLong(oldValue, newValue, save)
+    }
+
+    sealed class UIState {
+        object Loading: UIState()
+        data class OnDatabaseRetrieved(
+            val database: ContextualDatabase?
+        ): UIState()
     }
 
     data class ActionResult(val database: ContextualDatabase,

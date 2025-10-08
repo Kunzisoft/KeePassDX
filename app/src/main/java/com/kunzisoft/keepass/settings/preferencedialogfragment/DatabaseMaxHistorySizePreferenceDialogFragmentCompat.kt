@@ -35,7 +35,6 @@ class DatabaseMaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePrefere
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.historyMaxSize?.let { maxItemsDatabase ->
             dataByte = DataByte(maxItemsDatabase, DataByte.ByteFormat.BYTE)
                 .toBetterByteFormat()

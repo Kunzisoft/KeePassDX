@@ -96,8 +96,6 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-
         database?.let {
             var initColor = it.customColor
             if (initColor != null) {

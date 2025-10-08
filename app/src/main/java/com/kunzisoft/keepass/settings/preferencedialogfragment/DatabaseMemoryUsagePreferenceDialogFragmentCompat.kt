@@ -35,7 +35,6 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.let {
             val memoryBytes = database.memoryUsage
             dataByte = DataByte(memoryBytes, DataByte.ByteFormat.BYTE)

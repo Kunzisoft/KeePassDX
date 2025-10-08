@@ -49,7 +49,6 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.let {
             mGroupTemplates = database.templatesGroup
             mGroupsAdapter?.setItems(database.getAllGroupsWithoutRoot(), mGroupTemplates)

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -12,19 +13,25 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import kotlinx.coroutines.launch
 
 abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: ContextualDatabase? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mDatabaseViewModel.database.observe(this) { database ->
-            this.mDatabase = database
-            resetAppTimeoutOnTouchOrFocus()
-            onDatabaseRetrieved(database)
+        lifecycleScope.launch {
+            // Initialize the parameters
+            mDatabaseViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is DatabaseViewModel.UIState.Loading -> {}
+                    is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
+                        resetAppTimeoutOnTouchOrFocus()
+                        onDatabaseRetrieved(uiState.database)
+                    }
+                }
+            }
         }
 
         mDatabaseViewModel.actionFinished.observe(this) { result ->
@@ -67,7 +74,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
     fun resetAppTimeout() {
         context?.let {
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(it,
-                mDatabase?.loaded ?: false)
+                mDatabaseViewModel.database?.loaded ?: false)
         }
     }
 
@@ -80,7 +87,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
             context?.let {
                 dialog?.window?.decorView?.resetAppTimeoutWhenViewTouchedOrFocused(
                     it,
-                    mDatabase?.loaded
+                    mDatabaseViewModel.database?.loaded
                 )
             }
         }

@@ -52,7 +52,6 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.let {
             algorithmSelected = database.encryptionAlgorithm
             mEncryptionAlgorithmAdapter?.setItems(database.availableEncryptionAlgorithms, algorithmSelected)

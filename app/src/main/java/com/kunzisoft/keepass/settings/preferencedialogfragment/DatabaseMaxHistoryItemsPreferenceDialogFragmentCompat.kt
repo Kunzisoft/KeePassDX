@@ -32,7 +32,6 @@ class DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePrefer
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.historyMaxItems?.let { maxItemsDatabase ->
             inputText = maxItemsDatabase.toString()
             setSwitchAction({ isChecked ->

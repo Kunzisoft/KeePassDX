@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
+import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.LinkedList
 
@@ -60,6 +61,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var mLayoutManager: LinearLayoutManager? = null
     private var mAdapter: NodesAdapter? = null
 
+    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private val mGroupViewModel: GroupViewModel by activityViewModels()
 
     private var mCurrentGroup: Group? = null
@@ -103,7 +105,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                                 PreferencesUtil.getListSort(context),
                                 PreferencesUtil.getAscendingSort(context),
                                 PreferencesUtil.getGroupsBeforeSort(context),
-                                if (mDatabase?.isRecycleBinEnabled == true) {
+                                if (mDatabaseViewModel.database?.isRecycleBinEnabled == true) {
                                     PreferencesUtil.getRecycleBinBottomSort(context)
                                 } else null
                             )
@@ -300,8 +302,9 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     }
 
     private fun containsRecycleBin(nodes: List<Node>): Boolean {
-        return mDatabase?.isRecycleBinEnabled == true
-                && nodes.any { it == mDatabase?.recycleBin }
+        val database = mDatabaseViewModel.database
+        return database?.isRecycleBinEnabled == true
+                && nodes.any { it == database.recycleBin }
     }
 
     fun actionNodesCallback(database: ContextualDatabase,

@@ -25,7 +25,6 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         inputText = database?.name ?: ""
     }
 

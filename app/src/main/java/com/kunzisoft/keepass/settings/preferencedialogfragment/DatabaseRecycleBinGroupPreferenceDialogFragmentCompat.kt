@@ -49,7 +49,6 @@ class DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.let {
             mGroupRecycleBin = database.recycleBin
             mGroupsAdapter?.setItems(database.getAllGroupsWithoutRoot(), mGroupRecycleBin)

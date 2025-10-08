@@ -55,7 +55,6 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         database?.let {
             kdfEngineSelected = database.kdfEngine
             mKdfAdapter?.setItems(database.availableKdfEngines, kdfEngineSelected)

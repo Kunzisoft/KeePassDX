@@ -51,7 +51,6 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         setExplanationText(R.string.database_data_compression_summary)
 
         mRecyclerView?.adapter = mCompressionAdapter

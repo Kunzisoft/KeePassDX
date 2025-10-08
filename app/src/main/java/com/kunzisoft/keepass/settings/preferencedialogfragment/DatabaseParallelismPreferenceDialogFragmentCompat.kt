@@ -32,7 +32,6 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         inputText = database?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
     }
 
