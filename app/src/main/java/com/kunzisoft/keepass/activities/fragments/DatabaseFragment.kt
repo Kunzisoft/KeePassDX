@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -20,20 +22,25 @@ abstract class DatabaseFragment : Fragment(), DatabaseRetrieval {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        lifecycleScope.launch {
-            // Initialize the parameters
-            mDatabaseViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is DatabaseViewModel.UIState.Loading -> {}
-                    is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
-                        onDatabaseRetrieved(uiState.database)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mDatabaseViewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is DatabaseViewModel.UIState.Loading -> {}
+                        is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
+                            onDatabaseRetrieved(uiState.database)
+                        }
+                        is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
+                            onDatabaseActionFinished(
+                                uiState.database,
+                                uiState.actionTask,
+                                uiState.result
+                            )
+                        }
+                        else -> {}
                     }
                 }
             }
-        }
-
-        mDatabaseViewModel.actionFinished.observe(viewLifecycleOwner) { result ->
-            onDatabaseActionFinished(result.database, result.actionTask, result.result)
         }
     }
 

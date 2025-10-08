@@ -30,12 +30,16 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
                         resetAppTimeoutOnTouchOrFocus()
                         onDatabaseRetrieved(uiState.database)
                     }
+                    is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
+                        onDatabaseActionFinished(
+                            uiState.database,
+                            uiState.actionTask,
+                            uiState.result
+                        )
+                    }
+                    else -> {}
                 }
             }
-        }
-
-        mDatabaseViewModel.actionFinished.observe(this) { result ->
-            onDatabaseActionFinished(result.database, result.actionTask, result.result)
         }
     }
 

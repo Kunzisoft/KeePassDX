@@ -21,7 +21,12 @@ package com.kunzisoft.keepass.settings
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.DialogFragment
@@ -40,10 +45,29 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.helper.*
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.settings.preference.*
-import com.kunzisoft.keepass.settings.preferencedialogfragment.*
+import com.kunzisoft.keepass.settings.preference.DialogColorPreference
+import com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
+import com.kunzisoft.keepass.settings.preference.InputKdfNumberPreference
+import com.kunzisoft.keepass.settings.preference.InputKdfSizePreference
+import com.kunzisoft.keepass.settings.preference.InputNumberPreference
+import com.kunzisoft.keepass.settings.preference.InputTextPreference
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseColorPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDataCompressionPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDefaultUsernamePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDescriptionPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseMaxHistorySizePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseMemoryUsagePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseNamePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseParallelismPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRoundsPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseTemplatesGroupPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getSerializableCompat
@@ -131,12 +155,16 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                         )
                         onDatabaseRetrieved(uiState.database)
                     }
+                    is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
+                        onDatabaseActionFinished(
+                            uiState.database,
+                            uiState.actionTask,
+                            uiState.result
+                        )
+                    }
+                    else -> {}
                 }
             }
-        }
-
-        mDatabaseViewModel.actionFinished.observe(viewLifecycleOwner) {
-            onDatabaseActionFinished(it.database, it.actionTask, it.result)
         }
     }
 

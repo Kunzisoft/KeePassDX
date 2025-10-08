@@ -192,7 +192,7 @@ open class SettingsActivity
     }
 
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        assignPassword(mainCredential)
+        assignMainCredential(mainCredential)
     }
 
     override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}

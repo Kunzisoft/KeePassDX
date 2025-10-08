@@ -60,6 +60,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
                     is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
                         checkDatabaseLoaded(uiState.database?.loaded == true)
                     }
+                    else -> {}
                 }
             }
         }

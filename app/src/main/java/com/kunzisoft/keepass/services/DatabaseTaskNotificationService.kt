@@ -176,7 +176,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             progressMessage: ProgressMessage
         )
         fun onActionStopped(
-            database: ContextualDatabase
+            database: ContextualDatabase? = null
         )
         fun onActionFinished(
             database: ContextualDatabase,

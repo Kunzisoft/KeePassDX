@@ -27,10 +27,10 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         if (result.resultCode == RESULT_OK) {
             val challengeResponse: ByteArray? = result.data?.getByteArrayExtra(HARDWARE_KEY_RESPONSE_KEY)
             Log.d(TAG, "Response form challenge")
-            mDatabaseTaskProvider?.startChallengeResponded(challengeResponse ?: ByteArray(0))
+            mDatabaseViewModel.onChallengeResponded(challengeResponse)
         } else {
             Log.e(TAG, "Response from challenge error")
-            mDatabaseTaskProvider?.startChallengeResponded(ByteArray(0))
+            mDatabaseViewModel.onChallengeResponded(null)
         }
         finish()
     }
@@ -49,13 +49,11 @@ class HardwareKeyActivity: DatabaseModeActivity(){
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-
         val hardwareKey = HardwareKey.getHardwareKeyFromString(
             intent.getStringExtra(DATA_HARDWARE_KEY)
         )
         if (isHardwareKeyAvailable(this, hardwareKey, true) {
-                mDatabaseTaskProvider?.startChallengeResponded(ByteArray(0))
+                mDatabaseViewModel.onChallengeResponded(null)
             }) {
             when (hardwareKey) {
                 /*

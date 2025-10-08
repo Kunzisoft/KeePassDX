@@ -587,7 +587,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
                                                   readOnly: Boolean,
                                                   cipherEncryptDatabase: CipherEncryptDatabase?,
                                                   fixDuplicateUUID: Boolean) {
-        loadDatabase(
+        mDatabaseViewModel.loadDatabase(
             databaseUri,
             mainCredential,
             readOnly,

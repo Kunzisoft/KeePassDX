@@ -59,6 +59,14 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
                         is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
                             onDatabaseRetrieved(uiState.database)
                         }
+                        is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
+                            onDatabaseActionFinished(
+                                uiState.database,
+                                uiState.actionTask,
+                                uiState.result
+                            )
+                        }
+                        else -> {}
                     }
                 }
             }
@@ -81,8 +89,10 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
         // To inherit to save element in database
     }
 
-    protected fun saveColor(oldColor: Int?,
-                            newColor: Int?) {
+    protected fun saveColor(
+        oldColor: Int?,
+        newColor: Int?
+    ) {
         val oldColorString = if (oldColor != null)
                 ChromaUtil.getFormattedColorString(oldColor, false)
             else
@@ -91,77 +101,158 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
             ChromaUtil.getFormattedColorString(newColor, false)
         else
             ""
-        mDatabaseViewModel.saveColor(oldColorString, newColorString, mDatabaseAutoSaveEnable)
+        mDatabaseViewModel.saveColor(
+            oldColorString,
+            newColorString,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveCompression(oldCompression: CompressionAlgorithm,
-                                  newCompression: CompressionAlgorithm
+    protected fun saveCompression(
+        oldCompression: CompressionAlgorithm,
+        newCompression: CompressionAlgorithm
     ) {
-        mDatabaseViewModel.saveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
+        mDatabaseViewModel.saveCompression(
+            oldCompression,
+            newCompression,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveDefaultUsername(oldUsername: String,
-                                      newUsername: String) {
-        mDatabaseViewModel.saveDefaultUsername(oldUsername, newUsername, mDatabaseAutoSaveEnable)
+    protected fun saveDefaultUsername(
+        oldUsername: String,
+        newUsername: String
+    ) {
+        mDatabaseViewModel.saveDefaultUsername(
+            oldUsername,
+            newUsername,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveDescription(oldDescription: String,
-                                  newDescription: String) {
-        mDatabaseViewModel.saveDescription(oldDescription, newDescription, mDatabaseAutoSaveEnable)
+    protected fun saveDescription(
+        oldDescription: String,
+        newDescription: String
+    ) {
+        mDatabaseViewModel.saveDescription(
+            oldDescription,
+            newDescription,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveEncryption(oldEncryption: EncryptionAlgorithm,
-                                 newEncryptionAlgorithm: EncryptionAlgorithm) {
-        mDatabaseViewModel.saveEncryption(oldEncryption, newEncryptionAlgorithm, mDatabaseAutoSaveEnable)
+    protected fun saveEncryption(
+        oldEncryption: EncryptionAlgorithm,
+        newEncryptionAlgorithm: EncryptionAlgorithm
+    ) {
+        mDatabaseViewModel.saveEncryption(
+            oldEncryption,
+            newEncryptionAlgorithm,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveKeyDerivation(oldKeyDerivation: KdfEngine,
-                                    newKeyDerivation: KdfEngine) {
-        mDatabaseViewModel.saveKeyDerivation(oldKeyDerivation, newKeyDerivation, mDatabaseAutoSaveEnable)
+    protected fun saveKeyDerivation(
+        oldKeyDerivation: KdfEngine,
+        newKeyDerivation: KdfEngine
+    ) {
+        mDatabaseViewModel.saveKeyDerivation(
+            oldKeyDerivation,
+            newKeyDerivation,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveName(oldName: String,
-                           newName: String) {
-        mDatabaseViewModel.saveName(oldName, newName, mDatabaseAutoSaveEnable)
+    protected fun saveName(
+        oldName: String,
+        newName: String
+    ) {
+        mDatabaseViewModel.saveName(
+            oldName,
+            newName,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveRecycleBin(oldGroup: Group?,
-                                 newGroup: Group?) {
-        mDatabaseViewModel.saveRecycleBin(oldGroup, newGroup, mDatabaseAutoSaveEnable)
+    protected fun saveRecycleBin(
+        oldGroup: Group?,
+        newGroup: Group?
+    ) {
+        mDatabaseViewModel.saveRecycleBin(
+            oldGroup,
+            newGroup,
+            mDatabaseAutoSaveEnable
+        )
     }
 
     protected fun removeUnlinkedData() {
         mDatabaseViewModel.removeUnlinkedData(mDatabaseAutoSaveEnable)
     }
 
-    protected fun saveTemplatesGroup(oldGroup: Group?,
-                                     newGroup: Group?) {
-        mDatabaseViewModel.saveTemplatesGroup(oldGroup, newGroup, mDatabaseAutoSaveEnable)
+    protected fun saveTemplatesGroup(
+        oldGroup: Group?,
+        newGroup: Group?
+    ) {
+        mDatabaseViewModel.saveTemplatesGroup(
+            oldGroup,
+            newGroup,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveMaxHistoryItems(oldNumber: Int,
-                                      newNumber: Int) {
-        mDatabaseViewModel.saveMaxHistoryItems(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    protected fun saveMaxHistoryItems(
+        oldNumber: Int,
+        newNumber: Int
+    ) {
+        mDatabaseViewModel.saveMaxHistoryItems(
+            oldNumber,
+            newNumber,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveMaxHistorySize(oldNumber: Long,
-                                     newNumber: Long) {
-        mDatabaseViewModel.saveMaxHistorySize(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    protected fun saveMaxHistorySize(
+        oldNumber: Long,
+        newNumber: Long
+    ) {
+        mDatabaseViewModel.saveMaxHistorySize(
+            oldNumber,
+            newNumber,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveMemoryUsage(oldNumber: Long,
-                                  newNumber: Long) {
-        mDatabaseViewModel.saveMemoryUsage(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    protected fun saveMemoryUsage(
+        oldNumber: Long,
+        newNumber: Long
+    ) {
+        mDatabaseViewModel.saveMemoryUsage(
+            oldNumber,
+            newNumber,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveParallelism(oldNumber: Long,
-                                  newNumber: Long) {
-        mDatabaseViewModel.saveParallelism(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    protected fun saveParallelism(
+        oldNumber: Long,
+        newNumber: Long
+    ) {
+        mDatabaseViewModel.saveParallelism(
+            oldNumber,
+            newNumber,
+            mDatabaseAutoSaveEnable
+        )
     }
 
-    protected fun saveIterations(oldNumber: Long,
-                                 newNumber: Long) {
-        mDatabaseViewModel.saveIterations(oldNumber, newNumber, mDatabaseAutoSaveEnable)
+    protected fun saveIterations(
+        oldNumber: Long,
+        newNumber: Long
+    ) {
+        mDatabaseViewModel.saveIterations(
+            oldNumber,
+            newNumber,
+            mDatabaseAutoSaveEnable
+        )
     }
 
     companion object {

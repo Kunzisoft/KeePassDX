@@ -217,7 +217,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
         if (database != null) {
             launchGroupActivityIfLoaded(database)
         }
@@ -228,8 +227,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         actionTask: String,
         result: ActionRunnable.Result
     ) {
-        super.onDatabaseActionFinished(database, actionTask, result)
-
         if (result.isSuccess) {
             // Update list
             when (actionTask) {
@@ -392,7 +389,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         try {
             mDatabaseFileUri?.let { databaseUri ->
                 // Create the new database
-                createDatabase(databaseUri, mainCredential)
+                mDatabaseViewModel.createDatabase(databaseUri, mainCredential)
             }
         } catch (e: Exception) {
             val error = getString(R.string.error_create_database_file)
