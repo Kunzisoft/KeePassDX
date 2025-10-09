@@ -21,13 +21,15 @@ package com.kunzisoft.keepass.settings
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.launch
 
@@ -36,6 +38,8 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
     private var mCallback: Callback? = null
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    private val mDatabase: ContextualDatabase?
+        get() = mDatabaseViewModel.database
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -51,20 +55,16 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
         mCallback = null
         super.onDetach()
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         lifecycleScope.launch {
-            // Initialize the parameters
-            mDatabaseViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is DatabaseViewModel.UIState.Loading -> {}
-                    is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
-                        checkDatabaseLoaded(uiState.database?.loaded == true)
-                    }
-                    else -> {}
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    checkDatabaseLoaded(database?.loaded == true)
                 }
             }
         }
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun checkDatabaseLoaded(isDatabaseLoaded: Boolean) {
@@ -128,7 +128,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        checkDatabaseLoaded(mDatabaseViewModel.database?.loaded == true)
+        checkDatabaseLoaded(mDatabase?.loaded == true)
     }
 
     interface Callback {

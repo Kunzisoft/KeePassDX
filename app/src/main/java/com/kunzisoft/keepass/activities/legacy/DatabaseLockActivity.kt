@@ -96,7 +96,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         // End activity if database not loaded
-        if (finishActivityIfDatabaseNotLoaded() && (database == null || !database.loaded)) {
+        if (finishActivityIfDatabaseNotLoaded() && (database != null && !database.loaded)) {
             finish()
         }
 

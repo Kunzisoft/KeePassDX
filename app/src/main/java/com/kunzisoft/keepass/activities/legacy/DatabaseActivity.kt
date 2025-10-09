@@ -57,20 +57,16 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mDatabaseViewModel.uiState.collect { uiState ->
+                mDatabaseViewModel.actionState.collect { uiState ->
                     when (uiState) {
-                        is DatabaseViewModel.UIState.Loading -> {}
-                        is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
-                            onDatabaseRetrieved(uiState.database)
-                        }
-
-                        is DatabaseViewModel.UIState.OnDatabaseReloaded -> {
+                        is DatabaseViewModel.ActionState.Loading -> {}
+                        is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
                             if (finishActivityIfReloadRequested()) {
                                 finish()
                             }
                         }
 
-                        is DatabaseViewModel.UIState.OnDatabaseInfoChanged -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
                             showDatabaseChangedDialog(
                                 uiState.previousDatabaseInfo,
                                 uiState.newDatabaseInfo,
@@ -78,29 +74,29 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                             )
                         }
 
-                        is DatabaseViewModel.UIState.OnDatabaseActionRequested -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
                             startDatabasePermissionService(
                                 uiState.bundle,
                                 uiState.actionTask
                             )
                         }
 
-                        is DatabaseViewModel.UIState.OnDatabaseActionStarted -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
                             if (showDatabaseDialog())
                                 startDialog(uiState.progressMessage)
                         }
 
-                        is DatabaseViewModel.UIState.OnDatabaseActionUpdated -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
                             if (showDatabaseDialog())
                                 updateDialog(uiState.progressMessage)
                         }
 
-                        is DatabaseViewModel.UIState.OnDatabaseActionStopped -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
                             // Remove the progress task
                             stopDialog()
                         }
 
-                        is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
                             onDatabaseActionFinished(
                                 uiState.database,
                                 uiState.actionTask,
@@ -109,6 +105,13 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                             stopDialog()
                         }
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    onDatabaseRetrieved(database)
                 }
             }
         }

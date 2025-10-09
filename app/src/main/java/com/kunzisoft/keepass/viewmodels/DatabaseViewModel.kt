@@ -12,6 +12,7 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -26,11 +27,14 @@ import java.util.UUID
 
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
-    var database: ContextualDatabase? = null
-        private set
+    private val mDatabaseState = MutableStateFlow<ContextualDatabase?>(null)
+    val databaseState: StateFlow<ContextualDatabase?> = mDatabaseState
 
-    private val mUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val uiState: StateFlow<UIState> = mUiState
+    val database: ContextualDatabase?
+        get() = databaseState.value
+
+    private val mActionState = MutableStateFlow<ActionState>(ActionState.Loading)
+    val actionState: StateFlow<ActionState> = mActionState
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(
         context = application
@@ -40,15 +44,15 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.onDatabaseRetrieved = { databaseRetrieved ->
             val databaseWasReloaded = databaseRetrieved?.wasReloaded == true
             if (databaseWasReloaded) {
-                mUiState.value = UIState.OnDatabaseReloaded
+                mActionState.value = ActionState.OnDatabaseReloaded
             }
             if (database == null || database != databaseRetrieved || databaseWasReloaded) {
                 databaseRetrieved?.wasReloaded = false
-                defineDatabase(databaseRetrieved)
+                mDatabaseState.value = databaseRetrieved
             }
         }
         mDatabaseTaskProvider.onStartActionRequested = { bundle, actionTask ->
-            mUiState.value = UIState.OnDatabaseActionRequested(bundle, actionTask)
+            mActionState.value = ActionState.OnDatabaseActionRequested(bundle, actionTask)
         }
         mDatabaseTaskProvider.databaseInfoListener = object : DatabaseTaskNotificationService.DatabaseInfoListener {
             override fun onDatabaseInfoChanged(
@@ -56,7 +60,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                 newDatabaseInfo: SnapFileDatabaseInfo,
                 readOnlyDatabase: Boolean
             ) {
-                mUiState.value = UIState.OnDatabaseInfoChanged(
+                mActionState.value = ActionState.OnDatabaseInfoChanged(
                     previousDatabaseInfo,
                     newDatabaseInfo,
                     readOnlyDatabase
@@ -68,18 +72,18 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                 database: ContextualDatabase,
                 progressMessage: ProgressMessage
             ) {
-                mUiState.value = UIState.OnDatabaseActionStarted(database, progressMessage)
+                mActionState.value = ActionState.OnDatabaseActionStarted(database, progressMessage)
             }
 
             override fun onActionUpdated(
                 database: ContextualDatabase,
                 progressMessage: ProgressMessage
             ) {
-                mUiState.value = UIState.OnDatabaseActionUpdated(database, progressMessage)
+                mActionState.value = ActionState.OnDatabaseActionUpdated(database, progressMessage)
             }
 
             override fun onActionStopped(database: ContextualDatabase?) {
-                mUiState.value = UIState.OnDatabaseActionStopped(database)
+                mActionState.value = ActionState.OnDatabaseActionStopped(database)
             }
 
             override fun onActionFinished(
@@ -87,7 +91,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
                 actionTask: String,
                 result: ActionRunnable.Result
             ) {
-                mUiState.value = UIState.OnDatabaseActionFinished(database, actionTask, result)
+                mActionState.value = ActionState.OnDatabaseActionFinished(database, actionTask, result)
             }
         }
 
@@ -97,11 +101,6 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     /*
      * Main database actions
      */
-
-    private fun defineDatabase(database: ContextualDatabase?) {
-        this.database = database
-        this.mUiState.value = UIState.OnDatabaseRetrieved(database)
-    }
 
     fun loadDatabase(
         databaseUri: Uri,
@@ -156,7 +155,9 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     fun closeDatabase() {
-        database?.clearAndClose(getApplication<Application>().getBinaryDir())
+        database?.clearAndClose(
+            filesDirectory = getApplication<Application>().getBinaryDir()
+        )
     }
 
     fun onDatabaseChangeValidated() {
@@ -271,6 +272,14 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
             nodes,
             save
         )
+    }
+
+    /*
+     * Attributes
+     */
+
+    fun buildNewAttachment(): BinaryData? {
+        return database?.buildNewBinaryAttachment()
     }
 
     /*
@@ -466,36 +475,33 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         mDatabaseTaskProvider.destroy()
     }
 
-    sealed class UIState {
-        object Loading: UIState()
-        data class OnDatabaseRetrieved(
-            val database: ContextualDatabase?
-        ): UIState()
-        object OnDatabaseReloaded: UIState()
+    sealed class ActionState {
+        object Loading: ActionState()
+        object OnDatabaseReloaded: ActionState()
         data class OnDatabaseActionRequested(
             val bundle: Bundle? = null,
             val actionTask: String
-        ): UIState()
+        ): ActionState()
         data class OnDatabaseInfoChanged(
             val previousDatabaseInfo: SnapFileDatabaseInfo,
             val newDatabaseInfo: SnapFileDatabaseInfo,
             val readOnlyDatabase: Boolean
-        ): UIState()
+        ): ActionState()
         data class OnDatabaseActionStarted(
-            val database: ContextualDatabase,
+            var database: ContextualDatabase,
             val progressMessage: ProgressMessage
-        ): UIState()
+        ): ActionState()
         data class OnDatabaseActionUpdated(
-            val database: ContextualDatabase,
+            var database: ContextualDatabase,
             val progressMessage: ProgressMessage
-        ): UIState()
+        ): ActionState()
         data class OnDatabaseActionStopped(
-            val database: ContextualDatabase?
-        ): UIState()
+            var database: ContextualDatabase?
+        ): ActionState()
         data class OnDatabaseActionFinished(
-            val database: ContextualDatabase,
+            var database: ContextualDatabase,
             val actionTask: String,
             val result: ActionRunnable.Result
-        ): UIState()
+        ): ActionState()
     }
 }

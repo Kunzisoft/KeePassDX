@@ -31,7 +31,9 @@ import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
@@ -77,6 +79,8 @@ import kotlinx.coroutines.launch
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    private val mDatabase: ContextualDatabase?
+        get() = mDatabaseViewModel.database
     private var mDatabaseReadOnly: Boolean = false
     private var mMergeDataAllowed: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
@@ -139,38 +143,50 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mDatabaseViewModel.actionState.collect { uiState ->
+                    when (uiState) {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                            onDatabaseActionFinished(
+                                uiState.database,
+                                uiState.actionTask,
+                                uiState.result
+                            )
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    onDatabaseRetrieved(database)
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
-
-        lifecycleScope.launch {
-            mDatabaseViewModel.uiState.collect { uiState ->
-                when (uiState) {
-                    is DatabaseViewModel.UIState.Loading -> {}
-                    is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
-                        view.resetAppTimeoutWhenViewTouchedOrFocused(
-                            context = requireContext(),
-                            databaseLoaded = uiState.database?.loaded
-                        )
-                        onDatabaseRetrieved(uiState.database)
-                    }
-                    is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
-                        onDatabaseActionFinished(
-                            uiState.database,
-                            uiState.actionTask,
-                            uiState.result
-                        )
-                    }
-                    else -> {}
-                }
+        viewLifecycleOwner.lifecycleScope.launch {
+            mDatabaseViewModel.databaseState.collect { database ->
+                view.resetAppTimeoutWhenViewTouchedOrFocused(
+                    context = requireContext(),
+                    databaseLoaded = database?.loaded
+                )
             }
         }
     }
 
     override fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?) {
         mScreen = screen
-        val database = mDatabaseViewModel.database
+        val database = mDatabase
         // Load the preferences from an XML resource
         when (screen) {
             Screen.DATABASE -> {

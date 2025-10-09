@@ -47,7 +47,6 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.KeyboardUtil.hideKeyboard
-import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import com.kunzisoft.keepass.viewmodels.GroupViewModel
 import java.util.LinkedList
 
@@ -61,7 +60,6 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
     private var mLayoutManager: LinearLayoutManager? = null
     private var mAdapter: NodesAdapter? = null
 
-    private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
     private val mGroupViewModel: GroupViewModel by activityViewModels()
 
     private var mCurrentGroup: Group? = null
@@ -105,7 +103,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                                 PreferencesUtil.getListSort(context),
                                 PreferencesUtil.getAscendingSort(context),
                                 PreferencesUtil.getGroupsBeforeSort(context),
-                                if (mDatabaseViewModel.database?.isRecycleBinEnabled == true) {
+                                if (mDatabase?.isRecycleBinEnabled == true) {
                                     PreferencesUtil.getRecycleBinBottomSort(context)
                                 } else null
                             )
@@ -301,8 +299,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    private fun containsRecycleBin(nodes: List<Node>): Boolean {
-        val database = mDatabaseViewModel.database
+    private fun containsRecycleBin(database: ContextualDatabase?, nodes: List<Node>): Boolean {
         return database?.isRecycleBinEnabled == true
                 && nodes.any { it == database.recycleBin }
     }
@@ -331,7 +328,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     // Open and Edit for a single item
                     if (nodes.size == 1) {
                         // Edition
-                        if (database.isReadOnly || containsRecycleBin(nodes)) {
+                        if (database.isReadOnly || containsRecycleBin(database, nodes)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
                     } else {
@@ -351,7 +348,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     }
 
                     // Deletion
-                    if (database.isReadOnly || containsRecycleBin(nodes)) {
+                    if (database.isReadOnly || containsRecycleBin(database, nodes)) {
                         menu?.removeItem(R.id.menu_delete)
                     }
                 }

@@ -42,6 +42,8 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
 
     private var mDatabaseAutoSaveEnable = true
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
+    protected val mDatabase: ContextualDatabase?
+        get() = mDatabaseViewModel.database
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,24 +52,27 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                mDatabaseViewModel.uiState.collect { uiState ->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mDatabaseViewModel.actionState.collect { uiState ->
                     when (uiState) {
-                        is DatabaseViewModel.UIState.Loading -> {}
-                        is DatabaseViewModel.UIState.OnDatabaseRetrieved -> {
-                            onDatabaseRetrieved(uiState.database)
-                        }
-                        is DatabaseViewModel.UIState.OnDatabaseActionFinished -> {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
                             onDatabaseActionFinished(
                                 uiState.database,
                                 uiState.actionTask,
                                 uiState.result
                             )
                         }
+
                         else -> {}
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    onDatabaseRetrieved(database)
                 }
             }
         }
@@ -82,7 +87,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        onDialogClosed(mDatabaseViewModel.database, positiveResult)
+        onDialogClosed(mDatabase, positiveResult)
     }
 
     open fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

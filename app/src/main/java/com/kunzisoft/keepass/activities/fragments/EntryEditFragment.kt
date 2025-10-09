@@ -230,7 +230,7 @@ class EntryEditFragment: DatabaseFragment() {
             val attachmentToUploadUri = it.attachmentToUploadUri
             val fileName = it.fileName
 
-            buildNewBinaryAttachment()?.let { binaryAttachment ->
+            mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
                 val entryAttachment = Attachment(fileName, binaryAttachment)
                 // Ask to replace the current attachment
                 if ((!mAllowMultipleAttachments
