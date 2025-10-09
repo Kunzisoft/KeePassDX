@@ -36,7 +36,6 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
                                 uiState.result
                             )
                         }
-
                         else -> {}
                     }
                 }

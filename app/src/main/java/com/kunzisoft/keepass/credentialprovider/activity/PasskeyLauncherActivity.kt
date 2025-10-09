@@ -169,7 +169,9 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
 
     override fun onDatabaseRetrieved(database: ContextualDatabase?) {
         super.onDatabaseRetrieved(database)
-        passkeyLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
+        if (database != null) {
+            passkeyLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
+        }
     }
 
     override fun onDatabaseActionFinished(
