@@ -24,8 +24,8 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 
 class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        inputText = database?.defaultUsername?: ""
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        inputText = database.defaultUsername
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

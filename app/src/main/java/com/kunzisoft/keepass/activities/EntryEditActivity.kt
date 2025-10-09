@@ -444,13 +444,13 @@ class EntryEditActivity : DatabaseLockActivity(),
         return true
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
-        mAllowCustomFields = database?.allowEntryCustomFields() == true
-        mAllowOTP = database?.allowOTP == true
+        mAllowCustomFields = database.allowEntryCustomFields() == true
+        mAllowOTP = database.allowOTP == true
         mEntryEditViewModel.loadTemplateEntry(database)
         mTemplatesSelectorAdapter?.apply {
-            iconDrawableFactory = mDatabase?.iconDrawableFactory
+            iconDrawableFactory = database.iconDrawableFactory
             notifyDataSetChanged()
         }
     }

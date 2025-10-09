@@ -38,7 +38,6 @@ import java.io.IOException
 class AutofillLauncherViewModel(application: Application): CredentialLauncherViewModel(application) {
 
     private var mAutofillComponent: AutofillComponent? = null
-    private var mSelectionResult: ActivityResult? = null
 
     private var mLockDatabaseAfterSelection: Boolean = false
 
@@ -52,16 +51,6 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
     override fun onResult() {
         super.onResult()
         mAutofillComponent = null
-        mSelectionResult = null
-    }
-
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        if (database != null) {
-            mSelectionResult?.let { selectionResult ->
-                manageSelectionResult(database, selectionResult)
-            }
-        }
     }
 
     override suspend fun launchAction(
@@ -151,26 +140,11 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
         }
     }
 
-    override fun manageSelectionResult(activityResult: ActivityResult) {
-        // Waiting for the database if needed
-        when (activityResult.resultCode) {
-            RESULT_OK -> {
-                mSelectionResult = activityResult
-                mDatabase?.let { database ->
-                    manageSelectionResult(database, activityResult)
-                }
-            }
-            RESULT_CANCELED -> {
-                cancelResult()
-            }
-        }
-    }
-
-    private fun manageSelectionResult(
+    override fun manageSelectionResult(
         database: ContextualDatabase,
         activityResult: ActivityResult
     ) {
-        mSelectionResult = null
+        super.manageSelectionResult(database, activityResult)
         val intent = activityResult.data
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create selection response for autofill", e)

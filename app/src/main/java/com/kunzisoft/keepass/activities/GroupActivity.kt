@@ -578,7 +578,7 @@ class GroupActivity : DatabaseLockActivity(),
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
 
         mBreadcrumbAdapter = BreadcrumbAdapter(this, database).apply {
@@ -618,18 +618,16 @@ class GroupActivity : DatabaseLockActivity(),
             adapter = mBreadcrumbAdapter
         }
 
-        mGroupEditViewModel.setGroupNamesNotAllowed(database?.groupNamesNotAllowed)
+        mGroupEditViewModel.setGroupNamesNotAllowed(database.groupNamesNotAllowed)
 
         mRecyclingBinEnabled = !mDatabaseReadOnly
-                && database?.isRecycleBinEnabled == true
+                && database.isRecycleBinEnabled == true
 
-        mRootGroup = database?.rootGroup
+        mRootGroup = database.rootGroup
         loadGroup()
 
         // Update view
-        database?.let {
-            mBreadcrumbAdapter?.iconDrawableFactory = it.iconDrawableFactory
-        }
+        mBreadcrumbAdapter?.iconDrawableFactory = database.iconDrawableFactory
         refreshDatabaseViews()
         invalidateOptionsMenu()
     }

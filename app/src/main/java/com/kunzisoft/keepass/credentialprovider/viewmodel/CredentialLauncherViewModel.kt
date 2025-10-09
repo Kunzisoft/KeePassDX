@@ -23,6 +23,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
     protected var mDatabase: ContextualDatabase? = null
 
     protected var isResultLauncherRegistered: Boolean = false
+    private var mSelectionResult: ActivityResult? = null
 
     protected val mCredentialUiState = MutableStateFlow<UIState>(UIState.Loading)
     val credentialUiState: StateFlow<UIState> = mCredentialUiState
@@ -34,6 +35,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
 
     open fun onResult() {
         isResultLauncherRegistered = false
+        mSelectionResult = null
     }
 
     fun setResult(intent: Intent, lockDatabase: Boolean = false) {
@@ -54,11 +56,31 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         )
     }
 
-    open fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    private fun onDatabaseRetrieved(database: ContextualDatabase) {
         mDatabase = database
+        mSelectionResult?.let { selectionResult ->
+            manageSelectionResult(database, selectionResult)
+        }
     }
 
-    abstract fun manageSelectionResult(activityResult: ActivityResult)
+    fun manageSelectionResult(activityResult: ActivityResult) {
+        // Waiting for the database if needed
+        when (activityResult.resultCode) {
+            RESULT_OK -> {
+                mSelectionResult = activityResult
+                mDatabase?.let { database ->
+                    manageSelectionResult(database, activityResult)
+                }
+            }
+            RESULT_CANCELED -> {
+                cancelResult()
+            }
+        }
+    }
+
+    open fun manageSelectionResult(database: ContextualDatabase, activityResult: ActivityResult) {
+        mSelectionResult = null
+    }
 
     abstract fun manageRegistrationResult(activityResult: ActivityResult)
 
@@ -66,12 +88,14 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         showError(e)
     }
 
-    fun launchActionIfNeeded(
+    open fun launchActionIfNeeded(
         intent: Intent,
         specialMode: SpecialMode,
         database: ContextualDatabase?
     ) {
-        onDatabaseRetrieved(database)
+        database?.let {
+            onDatabaseRetrieved(database)
+        }
         if (isResultLauncherRegistered.not()) {
             isResultLauncherRegistered = true
             viewModelScope.launch(CoroutineExceptionHandler { _, e ->

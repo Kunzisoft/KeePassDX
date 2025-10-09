@@ -90,48 +90,41 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         mExitLock = false
     }
 
-    open fun finishActivityIfDatabaseNotLoaded(): Boolean {
-        return true
-    }
-
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // End activity if database not loaded
-        if (finishActivityIfDatabaseNotLoaded() && (database != null && !database.loaded)) {
+        if (database.loaded.not())
             finish()
-        }
 
         // Focus view to reinitialize timeout,
         // view is not necessary loaded so retry later in resume
         viewToInvalidateTimeout()
-            ?.resetAppTimeoutWhenViewTouchedOrFocused(this, database?.loaded)
+            ?.resetAppTimeoutWhenViewTouchedOrFocused(this, database.loaded)
 
-        database?.let {
-            // check timeout
-            if (mTimeoutEnable) {
-                if (mLockReceiver == null) {
-                    mLockReceiver = LockReceiver {
-                        closeDatabase(database)
-                        mExitLock = true
-                        closeOptionsMenu()
-                        finish()
-                    }
-                    registerLockReceiver(mLockReceiver)
+        // check timeout
+        if (mTimeoutEnable) {
+            if (mLockReceiver == null) {
+                mLockReceiver = LockReceiver {
+                    closeDatabase(database)
+                    mExitLock = true
+                    closeOptionsMenu()
+                    finish()
                 }
-
-                // After the first creation
-                // or If simply swipe with another application
-                // If the time is out -> close the Activity
-                TimeoutHelper.checkTimeAndLockIfTimeout(this)
-                // If onCreate already record time
-                if (!mExitLock)
-                    TimeoutHelper.recordTime(this, database.loaded)
+                registerLockReceiver(mLockReceiver)
             }
 
-            mDatabaseReadOnly = database.isReadOnly
-            mMergeDataAllowed = database.isMergeDataAllowed()
-
-            checkRegister()
+            // After the first creation
+            // or If simply swipe with another application
+            // If the time is out -> close the Activity
+            TimeoutHelper.checkTimeAndLockIfTimeout(this)
+            // If onCreate already record time
+            if (!mExitLock)
+                TimeoutHelper.recordTime(this, database.loaded)
         }
+
+        mDatabaseReadOnly = database.isReadOnly
+        mMergeDataAllowed = database.isMergeDataAllowed()
+
+        checkRegister()
     }
 
     override fun finish() {

@@ -44,7 +44,9 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    onDatabaseRetrieved(database)
+                    database?.let {
+                        onDatabaseRetrieved(database)
+                    }
                 }
             }
         }
@@ -70,7 +72,7 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
         resetAppTimeoutOnTouchOrFocus()
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // Can be overridden by a subclass
     }
 

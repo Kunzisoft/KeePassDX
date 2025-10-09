@@ -152,8 +152,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
+    override fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
+        super.onUnknownDatabaseRetrieved(database)
         autofillLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
     }
 

@@ -133,7 +133,7 @@ class EntryFragment: DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         context?.let { context ->
             attachmentsAdapter = EntryAttachmentsItemsAdapter(context)
             attachmentsAdapter?.database = database

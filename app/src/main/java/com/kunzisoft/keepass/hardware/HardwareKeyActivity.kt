@@ -48,7 +48,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         return false
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         val hardwareKey = HardwareKey.getHardwareKeyFromString(
             intent.getStringExtra(DATA_HARDWARE_KEY)
         )

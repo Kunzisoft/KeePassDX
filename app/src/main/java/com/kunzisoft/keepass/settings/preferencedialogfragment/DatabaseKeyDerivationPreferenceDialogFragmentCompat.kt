@@ -54,11 +54,12 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        database?.let {
-            kdfEngineSelected = database.kdfEngine
-            mKdfAdapter?.setItems(database.availableKdfEngines, kdfEngineSelected)
-        }
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        kdfEngineSelected = database.kdfEngine
+        mKdfAdapter?.setItems(
+            items = database.availableKdfEngines,
+            itemUsed = kdfEngineSelected
+        )
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

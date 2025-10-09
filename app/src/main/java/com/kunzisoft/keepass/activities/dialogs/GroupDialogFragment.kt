@@ -62,14 +62,14 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var uuidContainerView: ViewGroup
     private lateinit var uuidReferenceView: TextView
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            database.iconDrawableFactory.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconView, mGroupInfo.icon)
 
-        if (database?.allowCustomSearchableGroup() == true) {
+        if (database.allowCustomSearchableGroup()) {
             searchableLabelView.visibility = View.VISIBLE
             searchableView.visibility = View.VISIBLE
         } else {

@@ -81,10 +81,6 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
         return false
     }
 
-    override fun finishActivityIfDatabaseNotLoaded(): Boolean {
-        return false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -167,11 +163,9 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        if (database != null) {
-            passkeyLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
-        }
+    override fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
+        super.onUnknownDatabaseRetrieved(database)
+        passkeyLauncherViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
     }
 
     override fun onDatabaseActionFinished(

@@ -99,11 +99,11 @@ class PasskeyProviderService : CredentialProviderService() {
     override fun onBeginGetCredentialRequest(
         request: BeginGetCredentialRequest,
         cancellationSignal: CancellationSignal,
-        callback: OutcomeReceiver<BeginGetCredentialResponse, GetCredentialException>,
+        callback: OutcomeReceiver<BeginGetCredentialResponse, GetCredentialException>
     ) {
         Log.d(javaClass.simpleName, "onBeginGetCredentialRequest called")
         try {
-            processGetCredentialsRequest(request)?.let { response ->
+            processGetCredentialsRequest(request) { response ->
                 callback.onResult(response)
             }
         } catch (e: Exception) {
@@ -112,19 +112,24 @@ class PasskeyProviderService : CredentialProviderService() {
         }
     }
 
-    private fun processGetCredentialsRequest(request: BeginGetCredentialRequest): BeginGetCredentialResponse? {
-        val credentialEntries: MutableList<CredentialEntry> = mutableListOf()
+    private fun processGetCredentialsRequest(
+        request: BeginGetCredentialRequest,
+        callback: (BeginGetCredentialResponse?) -> Unit
+    ) {
+        var knownOption = false
         for (option in request.beginGetCredentialOptions) {
             when (option) {
                 is BeginGetPublicKeyCredentialOption -> {
+                    knownOption = true
                     populatePasskeyData(option) { listCredentials ->
-                        credentialEntries.addAll(listCredentials)
+                        callback(BeginGetCredentialResponse(listCredentials))
                     }
-                    return BeginGetCredentialResponse(credentialEntries)
                 }
             }
         }
-        throw IOException("unknown type of beginGetCredentialOption")
+        if (knownOption.not()) {
+            throw IOException("unknown type of beginGetCredentialOption")
+        }
     }
 
     private fun populatePasskeyData(

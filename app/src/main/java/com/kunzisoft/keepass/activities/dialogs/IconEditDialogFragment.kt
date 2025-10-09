@@ -45,10 +45,10 @@ class IconEditDialogFragment : DatabaseDialogFragment() {
 
     private var mCustomIcon: IconImageCustom? = null
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon)
+            database.iconDrawableFactory.assignDatabaseIcon(imageView, icon)
         }
         mCustomIcon?.let { customIcon ->
             populateViewsWithCustomIcon(customIcon)

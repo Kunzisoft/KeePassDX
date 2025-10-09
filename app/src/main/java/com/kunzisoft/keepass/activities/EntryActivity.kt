@@ -330,9 +330,8 @@ class EntryActivity : DatabaseLockActivity() {
         return coordinatorLayout
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
-
         mEntryViewModel.loadDatabase(database)
     }
 

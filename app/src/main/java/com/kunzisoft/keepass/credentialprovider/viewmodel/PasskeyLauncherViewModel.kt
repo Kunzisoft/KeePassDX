@@ -147,6 +147,17 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         }
     }
 
+    override fun launchActionIfNeeded(
+        intent: Intent,
+        specialMode: SpecialMode,
+        database: ContextualDatabase?
+    ) {
+        // Launch with database when a nodeId is present
+        if (database != null || intent.retrieveNodeId() == null) {
+            super.launchActionIfNeeded(intent, specialMode, database)
+        }
+    }
+
     override suspend fun launchAction(
         intent: Intent,
         specialMode: SpecialMode,
@@ -305,7 +316,11 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         }
     }
 
-    override fun manageSelectionResult(activityResult: ActivityResult) {
+    override fun manageSelectionResult(
+        database: ContextualDatabase,
+        activityResult: ActivityResult
+    ) {
+        super.manageSelectionResult(database, activityResult)
         val intent = activityResult.data
         viewModelScope.launch(CoroutineExceptionHandler { _, e ->
             Log.e(TAG, "Unable to create selection response for passkey", e)

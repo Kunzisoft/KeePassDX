@@ -107,7 +107,7 @@ class KeyGeneratorFragment : DatabaseFragment() {
         super.onDestroyView()
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // Nothing here
     }
 

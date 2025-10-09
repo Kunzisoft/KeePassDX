@@ -216,10 +216,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        if (database != null) {
-            launchGroupActivityIfLoaded(database)
-        }
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        launchGroupActivityIfLoaded(database)
     }
 
     override fun onDatabaseActionFinished(

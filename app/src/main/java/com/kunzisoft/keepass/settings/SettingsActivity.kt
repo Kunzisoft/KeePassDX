@@ -159,10 +159,6 @@ open class SettingsActivity
         return coordinatorLayout
     }
 
-    override fun finishActivityIfDatabaseNotLoaded(): Boolean {
-        return false
-    }
-
     override fun onDatabaseActionFinished(
         database: ContextualDatabase,
         actionTask: String,

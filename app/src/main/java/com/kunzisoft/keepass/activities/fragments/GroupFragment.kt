@@ -154,46 +154,44 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onDetach()
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         context?.let { context ->
-            database?.let { database ->
-                mAdapter = NodesAdapter(context, database).apply {
-                    setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                        override fun onNodeClick(database: ContextualDatabase, node: Node) {
-                            if (nodeActionSelectionMode) {
-                                if (listActionNodes.contains(node)) {
-                                    // Remove selected item if already selected
-                                    listActionNodes.remove(node)
-                                } else {
-                                    // Add selected item if not already selected
-                                    listActionNodes.add(node)
-                                }
-                                nodeClickListener?.onNodeSelected(database, listActionNodes)
-                                setActionNodes(listActionNodes)
-                                notifyNodeChanged(node)
+            mAdapter = NodesAdapter(context, database).apply {
+                setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
+                    override fun onNodeClick(database: ContextualDatabase, node: Node) {
+                        if (nodeActionSelectionMode) {
+                            if (listActionNodes.contains(node)) {
+                                // Remove selected item if already selected
+                                listActionNodes.remove(node)
                             } else {
-                                nodeClickListener?.onNodeClick(database, node)
+                                // Add selected item if not already selected
+                                listActionNodes.add(node)
                             }
+                            nodeClickListener?.onNodeSelected(database, listActionNodes)
+                            setActionNodes(listActionNodes)
+                            notifyNodeChanged(node)
+                        } else {
+                            nodeClickListener?.onNodeClick(database, node)
                         }
+                    }
 
-                        override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
-                            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-                                // Select the first item after a long click
-                                if (!listActionNodes.contains(node))
-                                    listActionNodes.add(node)
+                    override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
+                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                            // Select the first item after a long click
+                            if (!listActionNodes.contains(node))
+                                listActionNodes.add(node)
 
-                                nodeClickListener?.onNodeSelected(database, listActionNodes)
+                            nodeClickListener?.onNodeSelected(database, listActionNodes)
 
-                                setActionNodes(listActionNodes)
-                                notifyNodeChanged(node)
-                                activity?.hideKeyboard()
-                            }
-                            return true
+                            setActionNodes(listActionNodes)
+                            notifyNodeChanged(node)
+                            activity?.hideKeyboard()
                         }
-                    })
-                }
-                mNodesRecyclerView?.adapter = mAdapter
+                        return true
+                    }
+                })
             }
+            mNodesRecyclerView?.adapter = mAdapter
         }
     }
 

@@ -165,7 +165,9 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    onDatabaseRetrieved(database)
+                    database?.let {
+                        onDatabaseRetrieved(database)
+                    }
                 }
             }
         }
@@ -221,28 +223,26 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         mDatabaseViewModel.reloadDatabase(false)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        mDatabaseReadOnly = database?.isReadOnly == true
-        mMergeDataAllowed = database?.isMergeDataAllowed() == true
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        mDatabaseReadOnly = database.isReadOnly
+        mMergeDataAllowed = database.isMergeDataAllowed()
 
-        database?.let {
-            if (it.loaded) {
-                when (mScreen) {
-                    Screen.DATABASE -> {
-                        onCreateDatabasePreference(it)
-                    }
-                    Screen.DATABASE_SECURITY -> {
-                        onCreateDatabaseSecurityPreference(it)
-                    }
-                    Screen.DATABASE_MASTER_KEY -> {
-                        onCreateDatabaseMasterKeyPreference(it)
-                    }
-                    else -> {
-                    }
+        if (database.loaded) {
+            when (mScreen) {
+                Screen.DATABASE -> {
+                    onCreateDatabasePreference(database)
                 }
-            } else {
-                Log.e(javaClass.name, "Database isn't ready")
+                Screen.DATABASE_SECURITY -> {
+                    onCreateDatabaseSecurityPreference(database)
+                }
+                Screen.DATABASE_MASTER_KEY -> {
+                    onCreateDatabaseMasterKeyPreference(database)
+                }
+                else -> {
+                }
             }
+        } else {
+            Log.e(javaClass.name, "Database isn't ready")
         }
     }
 

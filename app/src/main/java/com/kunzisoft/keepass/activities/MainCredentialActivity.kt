@@ -306,20 +306,18 @@ class MainCredentialActivity : DatabaseModeActivity() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
-        if (database != null) {
-            // Trying to load another database
-            if (mDatabaseFileUri != null
-                && database.fileUri != null
-                && mDatabaseFileUri != database.fileUri) {
-                Toast.makeText(this,
-                    R.string.warning_database_already_opened,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            launchGroupActivityIfLoaded(database)
+        // Trying to load another database
+        if (mDatabaseFileUri != null
+            && database.fileUri != null
+            && mDatabaseFileUri != database.fileUri) {
+            Toast.makeText(this,
+                R.string.warning_database_already_opened,
+                Toast.LENGTH_LONG
+            ).show()
         }
+        launchGroupActivityIfLoaded(database)
     }
 
     override fun onDatabaseActionFinished(

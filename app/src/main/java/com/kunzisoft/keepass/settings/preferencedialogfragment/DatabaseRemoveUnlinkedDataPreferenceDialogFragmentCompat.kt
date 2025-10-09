@@ -46,7 +46,7 @@ class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePre
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {}
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {}
 
     companion object {
 

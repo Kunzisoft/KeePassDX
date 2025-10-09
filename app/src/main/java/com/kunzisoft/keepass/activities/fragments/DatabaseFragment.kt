@@ -43,7 +43,9 @@ abstract class DatabaseFragment : Fragment(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    onDatabaseRetrieved(database)
+                    database?.let {
+                        onDatabaseRetrieved(database)
+                    }
                 }
             }
         }

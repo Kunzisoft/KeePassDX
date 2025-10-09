@@ -111,13 +111,24 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    onDatabaseRetrieved(database)
+                    // Nullable function
+                    onUnknownDatabaseRetrieved(database)
+                    database?.let {
+                        onDatabaseRetrieved(database)
+                    }
                 }
             }
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    /**
+     * Nullable function to retrieve a database
+     */
+    open fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
+        // optional method implementation
+    }
+
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // optional method implementation
     }
 

@@ -51,8 +51,8 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
         return false
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
+    override fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
+        super.onUnknownDatabaseRetrieved(database)
 
         val keySelectionBundle = intent.getBundleExtra(KEY_SELECTION_BUNDLE)
         if (keySelectionBundle != null) {

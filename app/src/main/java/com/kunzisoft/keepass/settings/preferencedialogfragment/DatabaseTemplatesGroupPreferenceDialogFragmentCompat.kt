@@ -48,11 +48,9 @@ class DatabaseTemplatesGroupPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        database?.let {
-            mGroupTemplates = database.templatesGroup
-            mGroupsAdapter?.setItems(database.getAllGroupsWithoutRoot(), mGroupTemplates)
-        }
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        mGroupTemplates = database.templatesGroup
+        mGroupsAdapter?.setItems(database.getAllGroupsWithoutRoot(), mGroupTemplates)
     }
 
     override fun onItemSelected(item: Group) {
