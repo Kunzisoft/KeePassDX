@@ -31,6 +31,7 @@ import android.widget.RemoteViews
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.IconCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.model.EntryInfo
@@ -359,7 +360,7 @@ object EntrySelectionHelper {
         try {
             database.iconDrawableFactory.getBitmapFromIcon(context,
                 this.icon, ContextCompat.getColor(context, R.color.green))?.let { bitmap ->
-                return Icon.createWithBitmap(bitmap)
+                return IconCompat.createWithBitmap(bitmap).toIcon(context)
             }
         } catch (e: Exception) {
             Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
