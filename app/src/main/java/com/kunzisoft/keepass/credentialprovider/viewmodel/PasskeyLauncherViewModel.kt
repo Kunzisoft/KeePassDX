@@ -12,6 +12,8 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialUnknownException
 import androidx.credentials.provider.PendingIntentHandler
 import androidx.lifecycle.viewModelScope
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveNodeId
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
@@ -166,6 +168,9 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         val searchInfo = intent.retrieveSearchInfo() ?: SearchInfo()
         val appOrigin = intent.retrieveAppOrigin() ?: AppOrigin(verified = false)
         val nodeId = intent.retrieveNodeId()
+        intent.removeInfo()
+        intent.removeAppOrigin()
+        intent.removeNodeId()
         checkSecurity(intent, nodeId)
         when (specialMode) {
             SpecialMode.SELECTION -> {

@@ -229,6 +229,10 @@ object EntrySelectionHelper {
         return getParcelableExtraCompat<ParcelUuid>(EXTRA_NODE_ID)?.uuid
     }
 
+    fun Intent.removeNodeId() {
+        removeExtra(EXTRA_NODE_ID)
+    }
+
     /**
      * Intent sender uses special retains data in callback
      */
