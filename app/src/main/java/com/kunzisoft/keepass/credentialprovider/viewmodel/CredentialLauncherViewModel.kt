@@ -93,7 +93,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         specialMode: SpecialMode,
         database: ContextualDatabase?
     ) {
-        database?.let {
+        if (database != null && database.loaded) {
             onDatabaseRetrieved(database)
         }
         if (isResultLauncherRegistered.not()) {

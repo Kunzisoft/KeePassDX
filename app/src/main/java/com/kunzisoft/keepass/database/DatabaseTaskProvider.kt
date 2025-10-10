@@ -37,7 +37,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.RECEIVER_NOT_EXPORTED
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
@@ -104,24 +103,12 @@ class DatabaseTaskProvider(
 
     private var serviceConnection: ServiceConnection? = null
 
-    private var intentDatabaseTask: Intent = Intent(
-        context.applicationContext,
-        DatabaseTaskNotificationService::class.java
-    )
-
     fun destroy() {
         this.onDatabaseRetrieved = null
         this.databaseTaskBroadcastReceiver = null
         this.mBinder = null
         this.serviceConnection = null
     }
-
-    private val mActionDatabaseListener =
-        object : DatabaseChangedDialogFragment.ActionDatabaseChangedListener {
-            override fun onDatabaseChangeValidated() {
-                mBinder?.getService()?.saveDatabaseInfo()
-            }
-        }
 
     fun onDatabaseChangeValidated() {
         mBinder?.getService()?.saveDatabaseInfo()
@@ -139,10 +126,12 @@ class DatabaseTaskProvider(
             serviceConnection = object : ServiceConnection {
                 override fun onBindingDied(name: ComponentName?) {
                     actionTaskListener?.onActionStopped()
+                    onDatabaseRetrieved?.invoke(null)
                 }
 
                 override fun onNullBinding(name: ComponentName?) {
                     actionTaskListener?.onActionStopped()
+                    onDatabaseRetrieved?.invoke(null)
                 }
 
                 override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
@@ -181,13 +170,17 @@ class DatabaseTaskProvider(
             service?.removeDatabaseFileInfoListener(infoListener)
         }
         service?.removeDatabaseListener(databaseListener)
+        onDatabaseRetrieved?.invoke(null)
     }
 
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
             context.bindService(
-                intentDatabaseTask,
+                Intent(
+                    context.applicationContext,
+                    DatabaseTaskNotificationService::class.java
+                ),
                 it,
                 BIND_AUTO_CREATE or BIND_IMPORTANT or BIND_ABOVE_CLIENT
             )

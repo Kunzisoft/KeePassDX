@@ -20,7 +20,6 @@ import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.getBinaryDir
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.util.UUID
@@ -152,12 +151,6 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         ) {
             mDatabaseTaskProvider.startDatabaseReload(fixDuplicateUuid)
         }
-    }
-
-    fun closeDatabase() {
-        database?.clearAndClose(
-            filesDirectory = getApplication<Application>().getBinaryDir()
-        )
     }
 
     fun onDatabaseChangeValidated() {

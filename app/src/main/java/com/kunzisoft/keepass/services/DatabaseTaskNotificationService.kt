@@ -676,6 +676,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     override fun actionOnLock() {
         if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
+            // Remove the database during the lock
+            // And notify each subscriber
+            mDatabase = null
+            mDatabaseListeners.forEach { listener ->
+                listener.onDatabaseRetrieved(null)
+            }
             // Remove the lock timer (no more needed if it exists)
             TimeoutHelper.cancelLockTimer(this)
             // Service is stopped after receive the broadcast

@@ -365,10 +365,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             }
         }
 
-        mDatabase?.let { database ->
-            launchGroupActivityIfLoaded(database)
-        }
-
         // Show recent files if allowed
         if (PreferencesUtil.showRecentFiles(this@FileDatabaseSelectActivity)) {
             databaseFilesViewModel.loadListOfDatabases()

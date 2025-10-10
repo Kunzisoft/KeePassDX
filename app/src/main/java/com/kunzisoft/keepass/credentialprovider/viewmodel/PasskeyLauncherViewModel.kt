@@ -155,7 +155,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
         database: ContextualDatabase?
     ) {
         // Launch with database when a nodeId is present
-        if (database != null || intent.retrieveNodeId() == null) {
+        if ((database != null && database.loaded) || intent.retrieveNodeId() == null) {
             super.launchActionIfNeeded(intent, specialMode, database)
         }
     }
