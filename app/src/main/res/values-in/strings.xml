@@ -661,7 +661,7 @@
     <string name="education_validate_entry_summary">Ingat untuk memvalidasi entri Anda dan simpan basis data Anda.
 \n
 \nJika penguncian otomatis diaktifkan dan Anda lupa bahwa Anda sedang membuat perubahan, Anda berisiko kehilangan data Anda.</string>
-    <string name="menu_appearance_settings_summary">Tema, warna, atribut</string>
+    <string name="menu_appearance_settings_summary">Tema, warna, ikon, fon, atribut</string>
     <string name="unlock">Buka kunci</string>
     <string name="education_validate_entry_title">Validasi entri</string>
     <string name="style_name_moon">Bulan</string>
