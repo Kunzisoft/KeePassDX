@@ -3,4 +3,4 @@
  * Paramètre de fermeture de la base après une sélection de Passkey #2187
  * Mise en garde lors de l'écrasement d'un Passkey existant #21124
  * Refonte du remplissage automatique #765 #2196
- * Petites corrections #2171 #2150 #2159 #2122 #2180
+ * Petites corrections #2171 #2150 #2159 #2122 #2180 #2209

@@ -461,6 +461,7 @@ class EntryEditActivity : DatabaseLockActivity(),
         result: ActionRunnable.Result
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
+        mEntryEditViewModel.unlockAction()
         when (actionTask) {
             ACTION_DATABASE_CREATE_ENTRY_TASK,
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {

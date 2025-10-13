@@ -39,6 +39,9 @@ class EntryEditViewModel: NodeEditViewModel() {
     var backPressedAlreadyApproved = false
     var warningOverwriteDataAlreadyApproved = false
 
+    // Useful to not relaunch a current action
+    private var actionLocked: Boolean = false
+
     val templatesEntry : LiveData<TemplatesEntry?> get() = _templatesEntry
     private val _templatesEntry = MutableLiveData<TemplatesEntry?>()
 
@@ -213,45 +216,52 @@ class EntryEditViewModel: NodeEditViewModel() {
         _requestEntryInfoUpdate.value = EntryUpdate(database, mEntry, mParent)
     }
 
+    fun unlockAction() {
+        actionLocked = false
+    }
+
     fun saveEntryInfo(database: ContextualDatabase?, entry: Entry?, parent: Group?, entryInfo: EntryInfo) {
-        IOActionTask(
-            scope = viewModelScope,
-            action = {
-                removeTempAttachmentsNotCompleted(entryInfo)
-                entry?.let { oldEntry ->
-                    // Create a clone
-                    var newEntry = Entry(oldEntry)
+        if (actionLocked.not()) {
+            actionLocked = true
+            IOActionTask(
+                scope = viewModelScope,
+                action = {
+                    removeTempAttachmentsNotCompleted(entryInfo)
+                    entry?.let { oldEntry ->
+                        // Create a clone
+                        var newEntry = Entry(oldEntry)
 
-                    // Build info
-                    newEntry.setEntryInfo(database, entryInfo)
+                        // Build info
+                        newEntry.setEntryInfo(database, entryInfo)
 
-                    // Encode entry properties for template
-                    _onTemplateChanged.value?.let { template ->
-                        newEntry =
-                            database?.encodeEntryWithTemplateConfiguration(newEntry, template)
-                                ?: newEntry
-                    }
+                        // Encode entry properties for template
+                        _onTemplateChanged.value?.let { template ->
+                            newEntry =
+                                database?.encodeEntryWithTemplateConfiguration(newEntry, template)
+                                    ?: newEntry
+                        }
 
-                    // Delete temp attachment if not used
-                    mTempAttachments.forEach { tempAttachmentState ->
-                        val tempAttachment = tempAttachmentState.attachment
-                        database?.attachmentPool?.let { binaryPool ->
-                            if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
-                                database.removeAttachmentIfNotUsed(tempAttachment)
+                        // Delete temp attachment if not used
+                        mTempAttachments.forEach { tempAttachmentState ->
+                            val tempAttachment = tempAttachmentState.attachment
+                            database?.attachmentPool?.let { binaryPool ->
+                                if (!newEntry.getAttachments(binaryPool).contains(tempAttachment)) {
+                                    database.removeAttachmentIfNotUsed(tempAttachment)
+                                }
                             }
                         }
-                    }
 
-                    // Return entry to save
-                    EntrySave(oldEntry, newEntry, parent)
+                        // Return entry to save
+                        EntrySave(oldEntry, newEntry, parent)
+                    }
+                },
+                onActionComplete = { entrySave ->
+                    entrySave?.let {
+                        _onEntrySaved.value = it
+                    }
                 }
-            },
-            onActionComplete = { entrySave ->
-                entrySave?.let {
-                    _onEntrySaved.value = it
-                }
-            }
-        ).execute()
+            ).execute()
+        }
     }
 
     private fun removeTempAttachmentsNotCompleted(entryInfo: EntryInfo) {
