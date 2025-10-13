@@ -26,9 +26,7 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
         val hardwareKey = HardwareKey.Companion.getHardwareKeyFromString(
             intent.getStringExtra(DATA_HARDWARE_KEY)
         )
-        if (isHardwareKeyAvailable(getApplication(), hardwareKey, true) {
-            mUiState.value = UIState.OnChallengeResponded(null)
-        }) {
+        if (isHardwareKeyAvailable(getApplication(), hardwareKey)) {
             when (hardwareKey) {
                 /*
                 HardwareKey.FIDO2_SECRET -> {
@@ -43,6 +41,8 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
                     UIState.OnChallengeResponded(null)
                 }
             }
+        } else {
+            mUiState.value = UIState.ShowHardwareKeyDriverNeeded(hardwareKey)
         }
     }
 
@@ -77,6 +77,9 @@ class HardwareKeyLauncherViewModel(application: Application): CredentialLauncher
 
     sealed class UIState {
         object Loading : UIState()
+        data class ShowHardwareKeyDriverNeeded(
+            val hardwareKey: HardwareKey?
+        ): UIState()
         data class LaunchChallengeActivityForResponse(
             val challenge: ByteArray?,
         ): UIState() {

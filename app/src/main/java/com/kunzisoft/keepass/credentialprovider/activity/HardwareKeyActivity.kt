@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.credentialprovider.activity
 
-import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -17,6 +16,7 @@ import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherVie
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.Companion.addSeed
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.Companion.buildHardwareKeyChallenge
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.Companion.isYubikeyDriverAvailable
+import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.UIState
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -51,14 +51,23 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         lifecycleScope.launch {
             mHardwareKeyLauncherViewModel.uiState.collect { uiState ->
                 when (uiState) {
-                    is HardwareKeyLauncherViewModel.UIState.Loading -> {}
-                    is HardwareKeyLauncherViewModel.UIState.LaunchChallengeActivityForResponse -> {
+                    is UIState.Loading -> {}
+                    is UIState.ShowHardwareKeyDriverNeeded -> {
+                        showHardwareKeyDriverNeeded(
+                            this@HardwareKeyActivity,
+                            uiState.hardwareKey
+                        ) {
+                            mDatabaseViewModel.onChallengeResponded(null)
+                            finish()
+                        }
+                    }
+                    is UIState.LaunchChallengeActivityForResponse -> {
                         // Send to the driver
                         activityResultLauncher.launch(
                             buildHardwareKeyChallenge(uiState.challenge)
                         )
                     }
-                    is HardwareKeyLauncherViewModel.UIState.OnChallengeResponded -> {
+                    is UIState.OnChallengeResponded -> {
                         mDatabaseViewModel.onChallengeResponded(uiState.response)
                     }
                 }
@@ -84,6 +93,27 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         }
     }
 
+    private fun showHardwareKeyDriverNeeded(
+        context: Context,
+        hardwareKey: HardwareKey?,
+        onDialogDismissed: DialogInterface.OnDismissListener
+    ) {
+        val builder = AlertDialog.Builder(context)
+        builder
+            .setMessage(
+                context.getString(R.string.error_driver_required, hardwareKey.toString())
+            )
+            .setPositiveButton(R.string.download) { _, _ ->
+                context.openExternalApp(
+                    context.getString(R.string.key_driver_app_id),
+                    context.getString(R.string.key_driver_url)
+                )
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ -> }
+            .setOnDismissListener(onDialogDismissed)
+        builder.create().show()
+    }
+
     companion object {
         private val TAG = HardwareKeyActivity::class.java.simpleName
 
@@ -104,9 +134,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
 
         fun isHardwareKeyAvailable(
             context: Context,
-            hardwareKey: HardwareKey?,
-            showDialog: Boolean = true,
-            onDialogDismissed: DialogInterface.OnDismissListener? = null
+            hardwareKey: HardwareKey?
         ): Boolean {
             if (hardwareKey == null)
                 return false
@@ -114,46 +142,14 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                 /*
                 HardwareKey.FIDO2_SECRET -> {
                     // TODO FIDO2 under development
-                    if (showDialog)
-                        UnderDevelopmentFeatureDialogFragment()
-                            .show(activity.supportFragmentManager, "underDevFeatureDialog")
                     false
                 }
                 */
                 HardwareKey.CHALLENGE_RESPONSE_YUBIKEY -> {
                     // Check available intent
-                    // TODO Dialog
-                    val yubikeyDriverAvailable = isYubikeyDriverAvailable(context)
-                    if (showDialog && !yubikeyDriverAvailable && context is Activity) {
-                        showHardwareKeyDriverNeeded(context, hardwareKey) {
-                            onDialogDismissed?.onDismiss(it)
-                            context.finish()
-                        }
-                    }
-                    yubikeyDriverAvailable
+                    isYubikeyDriverAvailable(context)
                 }
             }
-        }
-
-        private fun showHardwareKeyDriverNeeded(
-            context: Context,
-            hardwareKey: HardwareKey,
-            onDialogDismissed: DialogInterface.OnDismissListener
-        ) {
-            val builder = AlertDialog.Builder(context)
-            builder
-                .setMessage(
-                    context.getString(R.string.error_driver_required, hardwareKey.toString())
-                )
-                .setPositiveButton(R.string.download) { _, _ ->
-                    context.openExternalApp(
-                        context.getString(R.string.key_driver_app_id),
-                        context.getString(R.string.key_driver_url)
-                    )
-                }
-                .setNegativeButton(android.R.string.cancel) { _, _ -> }
-                .setOnDismissListener(onDialogDismissed)
-            builder.create().show()
         }
     }
 }
