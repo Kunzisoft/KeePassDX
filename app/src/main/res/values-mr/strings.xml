@@ -6,7 +6,12 @@
     <string name="contact">संपर्क</string>
     <string name="accept">स्वीकार करा</string>
     <string name="about_description">किपास सांकेतांक व्यवस्थापनाचे अँड्रॉइड अंतर्भूतीकरण</string>
-    <string name="master_key">राणी चावी</string>
+    <string name="master_key">मास्टर की</string>
     <string name="add_group">गट जोडा</string>
     <string name="security">सुरक्षा</string>
+    <string name="info">माहिती</string>
+    <string name="add_entry">नोंद जोडा</string>
+    <string name="edit_entry">नोंद संपादित करा</string>
+    <string name="encryption">एन्क्रिप्शन</string>
+    <string name="encryption_algorithm">एन्क्रिप्शन अल्गोरिदम</string>
 </resources>
