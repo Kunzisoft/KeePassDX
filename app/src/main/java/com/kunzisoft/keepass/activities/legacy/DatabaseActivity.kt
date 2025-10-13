@@ -67,11 +67,13 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                         }
 
                         is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
-                            showDatabaseChangedDialog(
-                                uiState.previousDatabaseInfo,
-                                uiState.newDatabaseInfo,
-                                uiState.readOnlyDatabase
-                            )
+                            if (manageDatabaseInfo()) {
+                                showDatabaseChangedDialog(
+                                    uiState.previousDatabaseInfo,
+                                    uiState.newDatabaseInfo,
+                                    uiState.readOnlyDatabase
+                                )
+                            }
                         }
 
                         is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
@@ -131,6 +133,8 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // optional method implementation
     }
+
+    open fun manageDatabaseInfo(): Boolean  = true
 
     override fun onDatabaseActionFinished(
         database: ContextualDatabase,

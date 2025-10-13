@@ -37,13 +37,11 @@ class HardwareKeyActivity: DatabaseModeActivity(){
             mHardwareKeyLauncherViewModel.manageSelectionResult(it)
         }
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
+    override fun applyCustomStyle(): Boolean  = false
 
-    override fun showDatabaseDialog(): Boolean {
-        return false
-    }
+    override fun showDatabaseDialog(): Boolean = false
+
+    override fun manageDatabaseInfo(): Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
