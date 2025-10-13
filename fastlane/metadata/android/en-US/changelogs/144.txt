@@ -2,5 +2,5 @@
  * Search settings #2112 #2181
  * Setting to close database after a Passkey selection #2187
  * Warning when overwriting existing Passkey #2124
- * Autofill refactoring #765
+ * Autofill refactoring #765 #2196
  * Small fixes #2171 #2150 #2159 #2122 #2180

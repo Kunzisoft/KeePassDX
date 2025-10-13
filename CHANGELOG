@@ -5,7 +5,7 @@ KeePassDX(4.2.0)
  * Capture error #2159
  * Change Passkey Backup Eligibility & Backup State #2135 #2150
  * Search settings #2112 #2181 #2187
- * Autofill refactoring #765
+ * Autofill refactoring #765 #2196
  * Small fixes #2157 #2164 #2171 #2122 #2180
 
 KeePassDX(4.1.9)
