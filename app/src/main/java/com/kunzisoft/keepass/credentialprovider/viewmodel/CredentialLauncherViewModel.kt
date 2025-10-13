@@ -82,7 +82,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         mSelectionResult = null
     }
 
-    abstract fun manageRegistrationResult(activityResult: ActivityResult)
+    open fun manageRegistrationResult(activityResult: ActivityResult) {}
 
     open fun onExceptionOccurred(e: Throwable) {
         showError(e)
@@ -93,7 +93,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         specialMode: SpecialMode,
         database: ContextualDatabase?
     ) {
-        if (database != null && database.loaded) {
+        if (database != null) {
             onDatabaseRetrieved(database)
         }
         if (isResultLauncherRegistered.not()) {

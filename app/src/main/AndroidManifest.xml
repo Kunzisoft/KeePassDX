@@ -178,19 +178,22 @@
         <activity
             android:name="com.kunzisoft.keepass.settings.AppearanceSettingsActivity" />
         <activity
-            android:name="com.kunzisoft.keepass.hardware.HardwareKeyActivity"
+            android:name="com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity"
             android:theme="@style/Theme.Transparent"
-            android:exported="false" />
+            android:exported="false"
+            android:excludeFromRecents="true" />
         <activity
             android:name="com.kunzisoft.keepass.credentialprovider.activity.AutofillLauncherActivity"
             android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden"
-            android:excludeFromRecents="true"/>
+            android:exported="false"
+            android:excludeFromRecents="true" />
         <activity
             android:name="com.kunzisoft.keepass.credentialprovider.activity.EntrySelectionLauncherActivity"
             android:theme="@style/Theme.Transparent"
             android:launchMode="singleInstance"
-            android:exported="true">
+            android:exported="true"
+            android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -209,8 +212,8 @@
             android:name="com.kunzisoft.keepass.credentialprovider.activity.PasskeyLauncherActivity"
             android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden"
-            android:excludeFromRecents="true"
             android:exported="false"
+            android:excludeFromRecents="true"
             tools:targetApi="upside_down_cake" />
         <service
             android:name="com.kunzisoft.keepass.services.DatabaseTaskNotificationService"
