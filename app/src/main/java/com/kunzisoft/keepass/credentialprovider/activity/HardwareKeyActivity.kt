@@ -19,7 +19,6 @@ import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherVie
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.UIState
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
 import kotlinx.coroutines.launch
@@ -84,11 +83,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         result: ActionRunnable.Result
     ) {
         super.onDatabaseActionFinished(database, actionTask, result)
-        when (actionTask) {
-            ACTION_DATABASE_LOAD_TASK -> {
-                finish()
-            }
-        }
+        finish()
     }
 
     private fun showHardwareKeyDriverNeeded(

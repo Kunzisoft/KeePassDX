@@ -378,36 +378,6 @@ class EntryEditActivity : DatabaseLockActivity(),
             } ?: run {
                 updateEntry(entrySave.oldEntry, entrySave.newEntry)
             }
-
-            // Don't wait for saving if it's to provide autofill
-            mDatabase?.let { database ->
-                EntrySelectionHelper.doSpecialAction(
-                    intent = intent,
-                    defaultAction = {},
-                    searchAction = {},
-                    selectionAction = { intentSender, typeMode, searchInfo ->
-                        when(typeMode) {
-                            TypeMode.DEFAULT -> {}
-                            TypeMode.MAGIKEYBOARD ->
-                                entryValidatedForKeyboardSelection(database, entrySave.newEntry)
-                            TypeMode.PASSKEY ->
-                                entryValidatedForPasskey(database, entrySave.newEntry)
-                            TypeMode.AUTOFILL ->
-                                entryValidatedForAutofill(database, entrySave.newEntry)
-                        }
-                    },
-                    registrationAction = { intentSender, typeMode, registerInfo ->
-                        when(typeMode) {
-                            TypeMode.DEFAULT -> {}
-                            TypeMode.MAGIKEYBOARD -> {}
-                            TypeMode.PASSKEY ->
-                                entryValidatedForPasskey(database, entrySave.newEntry)
-                            TypeMode.AUTOFILL ->
-                                entryValidatedForAutofill(database, entrySave.newEntry)
-                        }
-                    }
-                )
-            }
         }
 
         lifecycleScope.launch {
