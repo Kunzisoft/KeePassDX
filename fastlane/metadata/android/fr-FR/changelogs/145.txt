@@ -1,1 +1,2 @@
- * Gestion de Passkeys #1421 (Thx @cali-95)
+ * Gestion de Passkeys #1421
+ * Ajout des flags KPEX_PASSKEY_FLAG_BE et KPEX_PASSKEY_FLAG_BS #2212

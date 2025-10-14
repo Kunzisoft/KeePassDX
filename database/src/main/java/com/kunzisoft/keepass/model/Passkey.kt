@@ -28,5 +28,32 @@ data class Passkey(
     val privateKeyPem: String,
     val credentialId: String,
     val userHandle: String,
-    val relyingParty: String
-): Parcelable
+    val relyingParty: String,
+    val backupEligibility: Boolean?,
+    val backupState: Boolean?
+): Parcelable {
+    // Do not compare BE and BS because are modifiable by the user
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Passkey
+
+        if (username != other.username) return false
+        if (privateKeyPem != other.privateKeyPem) return false
+        if (credentialId != other.credentialId) return false
+        if (userHandle != other.userHandle) return false
+        if (relyingParty != other.relyingParty) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = username.hashCode()
+        result = 31 * result + privateKeyPem.hashCode()
+        result = 31 * result + credentialId.hashCode()
+        result = 31 * result + userHandle.hashCode()
+        result = 31 * result + relyingParty.hashCode()
+        return result
+    }
+}

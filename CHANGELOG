@@ -3,7 +3,7 @@ KeePassDX(4.2.0)
  * Confirm usage of passkey #2165 #2124
  * Dialog to manage missing signature #2152 #2155 #2161 #2160
  * Capture error #2159
- * Change Passkey Backup Eligibility & Backup State #2135 #2150
+ * Change Passkey Backup Eligibility & Backup State #2135 #2150 #2212
  * Search settings #2112 #2181 #2187
  * Autofill refactoring #765 #2196
  * Small fixes #2157 #2164 #2171 #2122 #2180 #2209

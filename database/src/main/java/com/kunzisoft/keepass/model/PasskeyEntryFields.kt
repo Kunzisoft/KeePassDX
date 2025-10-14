@@ -2,6 +2,8 @@ package com.kunzisoft.keepass.model
 
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.security.ProtectedString.Companion.toBooleanCompat
+import com.kunzisoft.keepass.database.element.security.ProtectedString.Companion.toFieldValue
 
 object PasskeyEntryFields {
 
@@ -12,6 +14,8 @@ object PasskeyEntryFields {
     const val FIELD_CREDENTIAL_ID = "KPEX_PASSKEY_CREDENTIAL_ID"
     const val FIELD_USER_HANDLE = "KPEX_PASSKEY_USER_HANDLE"
     const val FIELD_RELYING_PARTY = "KPEX_PASSKEY_RELYING_PARTY"
+    const val FIELD_FLAG_BE = "KPEX_PASSKEY_FLAG_BE"
+    const val FIELD_FLAG_BS = "KPEX_PASSKEY_FLAG_BS"
 
     const val PASSKEY_FIELD = "Passkey"
     const val PASSKEY_TAG = "Passkey"
@@ -20,11 +24,14 @@ object PasskeyEntryFields {
      * Parse fields of an entry to retrieve a Passkey
      */
     fun parseFields(getField: (id: String) -> String?): Passkey? {
-        val usernameField = getField(FIELD_USERNAME)
-        val privateKeyField = getField(FIELD_PRIVATE_KEY)
-        val credentialIdField = getField(FIELD_CREDENTIAL_ID)
-        val userHandleField = getField(FIELD_USER_HANDLE)
-        val relyingPartyField = getField(FIELD_RELYING_PARTY)
+        val usernameField: String? = getField(FIELD_USERNAME)
+        val privateKeyField: String? = getField(FIELD_PRIVATE_KEY)
+        val credentialIdField: String? = getField(FIELD_CREDENTIAL_ID)
+        val userHandleField: String? = getField(FIELD_USER_HANDLE)
+        val relyingPartyField: String? = getField(FIELD_RELYING_PARTY)
+        // Optional fields
+        val backupEligibilityField: Boolean? = getField(FIELD_FLAG_BE)?.toBooleanCompat()
+        val backupStateField: Boolean? = getField(FIELD_FLAG_BS)?.toBooleanCompat()
         if (usernameField == null
             || privateKeyField == null
             || credentialIdField == null
@@ -36,7 +43,9 @@ object PasskeyEntryFields {
             privateKeyPem = privateKeyField,
             credentialId = credentialIdField,
             userHandle = userHandleField,
-            relyingParty = relyingPartyField
+            relyingParty = relyingPartyField,
+            backupEligibility = backupEligibilityField,
+            backupState = backupStateField
         )
     }
 
@@ -91,6 +100,24 @@ object PasskeyEntryFields {
                     ProtectedString(enableProtection = false, passkey.relyingParty)
                 )
             )
+            passkey.backupEligibility?.let { backupEligibility ->
+                addOrReplaceField(
+                    Field(
+                        FIELD_FLAG_BE,
+                        ProtectedString(enableProtection = false,
+                            backupEligibility.toFieldValue())
+                    )
+                )
+            }
+            passkey.backupState?.let { backupState ->
+                addOrReplaceField(
+                    Field(
+                        FIELD_FLAG_BS,
+                        ProtectedString(enableProtection = false,
+                            backupState.toFieldValue())
+                    )
+                )
+            }
         }
         return overwrite
     }
@@ -107,17 +134,23 @@ object PasskeyEntryFields {
         val credentialIdField = Field(FIELD_CREDENTIAL_ID)
         val userHandleField = Field(FIELD_USER_HANDLE)
         val relyingPartyField = Field(FIELD_RELYING_PARTY)
+        val backupEligibilityField = Field(FIELD_FLAG_BE)
+        val backupStateField = Field(FIELD_FLAG_BS)
         newCustomFields.remove(usernameField)
         newCustomFields.remove(privateKeyField)
         newCustomFields.remove(credentialIdField)
         newCustomFields.remove(userHandleField)
         newCustomFields.remove(relyingPartyField)
-        // Empty auto generated OTP Token field
+        newCustomFields.remove(backupEligibilityField)
+        newCustomFields.remove(backupStateField)
+        // Empty auto generated Passkey field
         if (fieldsToParse.contains(usernameField)
             || fieldsToParse.contains(privateKeyField)
             || fieldsToParse.contains(credentialIdField)
             || fieldsToParse.contains(userHandleField)
             || fieldsToParse.contains(relyingPartyField)
+            || fieldsToParse.contains(backupEligibilityField)
+            || fieldsToParse.contains(backupStateField)
         )
             newCustomFields.add(
                 Field(

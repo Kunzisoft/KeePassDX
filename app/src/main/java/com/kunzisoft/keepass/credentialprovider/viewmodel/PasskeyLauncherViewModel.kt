@@ -307,8 +307,8 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                                     appOrigin = appOrigin
                                 ),
                                 passkey = passkey,
-                                backupEligibility = mBackupEligibility,
-                                backupState = mBackupState
+                                defaultBackupEligibility = mBackupEligibility,
+                                defaultBackupState = mBackupState
                             )
                         )
                     )
@@ -363,8 +363,8 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                                             appOrigin = appOrigin
                                         ),
                                         passkey = passkey,
-                                        backupEligibility = mBackupEligibility,
-                                        backupState = mBackupState
+                                        defaultBackupEligibility = mBackupEligibility,
+                                        defaultBackupState = mBackupState
                                     )
                                 )
                             )
@@ -400,6 +400,8 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
             retrievePasskeyCreationRequestParameters(
                 intent = intent,
                 context = getApplication(),
+                defaultBackupEligibility = mBackupEligibility,
+                defaultBackupState = mBackupState,
                 passkeyCreated = { passkey, appInfoToStore, publicKeyCredentialParameters ->
                     // Save the requested parameters
                     mPasskey = passkey
@@ -503,8 +505,10 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                                     intent = responseIntent,
                                     response = buildCreatePublicKeyCredentialResponse(
                                         publicKeyCredentialCreationParameters = it,
-                                        backupEligibility = mBackupEligibility,
-                                        backupState = mBackupState
+                                        backupEligibility = passkey?.backupEligibility
+                                            ?: mBackupEligibility,
+                                        backupState = passkey?.backupState
+                                            ?: mBackupState
                                     )
                                 )
                             }

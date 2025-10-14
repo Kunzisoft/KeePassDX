@@ -771,5 +771,7 @@
     <string name="passkey_credential_id">Passkey Credential Id</string>
     <string name="passkey_user_handle">Passkey User Handle</string>
     <string name="passkey_relying_party">Passkey Relying Party</string>
+    <string name="passkey_backup_eligibility">Passkey Backup Eligibility</string>
+    <string name="passkey_backup_state">Passkey Backup State</string>
     <string name="error_passkey_result">Unable to return the passkey</string>
 </resources>

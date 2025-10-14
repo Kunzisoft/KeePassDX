@@ -388,11 +388,15 @@ object PasskeyHelper {
      * Utility method to create a passkey and the associated creation request parameters
      * [intent] allows to retrieve the request
      * [context] context to manage package verification files
+     * [defaultBackupEligibility] the default backup eligibility to add the the passkey entry
+     * [defaultBackupState] the default backup state to add the the passkey entry
      * [passkeyCreated] is called asynchronously when the passkey has been created
      */
     suspend fun retrievePasskeyCreationRequestParameters(
         intent: Intent,
         context: Context,
+        defaultBackupEligibility: Boolean?,
+        defaultBackupState: Boolean?,
         passkeyCreated: suspend (Passkey, AppOrigin?, PublicKeyCredentialCreationParameters) -> Unit
     ) {
         val createCredentialRequest = PendingIntentHandler.retrieveProviderCreateCredentialRequest(intent)
@@ -420,7 +424,9 @@ object PasskeyHelper {
             privateKeyPem = privateKeyPem,
             credentialId = b64Encode(credentialId),
             userHandle = b64Encode(userHandle),
-            relyingParty = relyingParty
+            relyingParty = relyingParty,
+            backupEligibility = defaultBackupEligibility,
+            backupState = defaultBackupState
         )
 
         // create new entry in database
@@ -554,8 +560,8 @@ object PasskeyHelper {
         requestOptions: PublicKeyCredentialRequestOptions,
         clientDataResponse: ClientDataResponse,
         passkey: Passkey,
-        backupEligibility: Boolean,
-        backupState: Boolean
+        defaultBackupEligibility: Boolean,
+        defaultBackupState: Boolean
     ): PublicKeyCredential {
         val getCredentialResponse = FidoPublicKeyCredential(
             id = passkey.credentialId,
@@ -563,8 +569,8 @@ object PasskeyHelper {
                 requestOptions = requestOptions,
                 userPresent = true,
                 userVerified = true,
-                backupEligibility = backupEligibility,
-                backupState = backupState,
+                backupEligibility = passkey.backupEligibility ?: defaultBackupEligibility,
+                backupState = passkey.backupState ?: defaultBackupState,
                 userHandle = passkey.userHandle,
                 privateKey = passkey.privateKeyPem,
                 clientDataResponse = clientDataResponse
