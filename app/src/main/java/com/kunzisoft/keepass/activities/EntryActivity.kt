@@ -520,7 +520,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Transit data in previous Activity after an update
         Intent().apply {
             putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mMainEntryId)
-            setResult(Activity.RESULT_OK, this)
+            setResult(RESULT_OK, this)
         }
         super.finish()
     }

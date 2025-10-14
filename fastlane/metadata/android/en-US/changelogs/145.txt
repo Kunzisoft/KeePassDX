@@ -1,2 +1,3 @@
  * Passkeys management #1421
  * Add KPEX_PASSKEY_FLAG_BE and KPEX_PASSKEY_FLAG_BS flags #2212
+ * Small fixes #2214

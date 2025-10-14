@@ -892,7 +892,6 @@ class GroupActivity : DatabaseLockActivity(),
                     },
                     registrationAction = { intentSenderMode, typeMode, registerInfo ->
                         if (!database.isReadOnly) {
-                            // TODO Ask to overwrite data
                             entrySelectedForRegistration(
                                 database = database,
                                 entry = entryVersioned,

@@ -176,7 +176,8 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
         super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
-                passkeyLauncherViewModel.autoSelectPasskey(result, database)
+                // TODO When auto save is enabled, WARNING filter by the calling activity
+                // passkeyLauncherViewModel.autoSelectPasskey(result, database)
             }
         }
     }
