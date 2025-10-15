@@ -241,6 +241,8 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                 )
                 .append("\n\n")
                 .append(getString(R.string.passkeys_missing_signature_app_ask_explanation))
+                .append("\n\n")
+                .append(getString(R.string.passkeys_missing_signature_app_ask_question))
                 .toString()
             )
             setPositiveButton(android.R.string.ok) { _, _ ->

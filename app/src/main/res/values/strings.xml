@@ -432,8 +432,9 @@
     <string name="passkeys_privileged_apps_ask_title">App not recognized</string>
     <string name="passkeys_privileged_apps_ask_message">%1$s attempts to perform a Passkey action.\n\nAdd it to the list of privileged apps?</string>
     <string name="passkeys_missing_signature_app_ask_title">Signature missing</string>
-    <string name="passkeys_missing_signature_app_ask_explanation">WARNING: The passkey was created from another client or the signature has been deleted. Ensure the app you want to authenticate is part of the same service and is legitimate to avoid security issues.</string>
-    <string name="passkeys_missing_signature_app_ask_message">%1$s is unrecognised and attempts to authenticate with an existing passkey.\n\nAdd app signature to passkey entry?</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">WARNING: The passkey was created from another client or the signature has been deleted. Ensure the app you want to authenticate is part of the same service and is legitimate to avoid security issues.\nIf the app is a browser, do not add its signature to the entry, but to the list of privileged apps in the settings.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s is unrecognised and attempts to authenticate with an existing passkey.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Add app signature to passkey entry?</string>
     <string name="passkeys_auto_select_title">Auto select</string>
     <string name="passkeys_auto_select_summary">Auto select if only one entry and the database is open, only if the requesting app is compatible</string>
     <string name="passkeys_backup_eligibility_title">Backup Eligibility</string>
