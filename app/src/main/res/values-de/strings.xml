@@ -704,4 +704,5 @@
     <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
     <string name="error_otp_secret_length">Geheimschlüssel muss mindestens %1$d Zeichen lang sein.</string>
+    <string name="entry_application_id">App-ID</string>
 </resources>
