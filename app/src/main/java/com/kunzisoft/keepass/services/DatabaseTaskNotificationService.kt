@@ -716,9 +716,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             notifyProgressMessage()
             HardwareKeyActivity
                 .launchHardwareKeyActivity(
-                    this@DatabaseTaskNotificationService,
-                    hardwareKey,
-                    seed
+                    context = this@DatabaseTaskNotificationService,
+                    hardwareKey = hardwareKey,
+                    seed = seed
                 )
             // Wait the response
             mProgressMessage.apply {

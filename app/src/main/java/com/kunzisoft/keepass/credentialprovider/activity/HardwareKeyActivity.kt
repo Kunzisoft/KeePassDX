@@ -141,7 +141,7 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     context,
                     HardwareKeyActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK
                 addHardwareKey(hardwareKey)
                 addSeed(seed)
             })
