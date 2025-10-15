@@ -1,1 +1,1 @@
-Bezpieczny, otwartoźródłowy sejf i menedżer haseł
+Zarządzaj kluczami dostępu i hasłami w lokalnym i otwartoźródłowy sejfie
