@@ -1,0 +1,8 @@
+ * Passkeys management #1421 #2097 (@cali-95)
+ * Confirm usage of passkey #2165 #2124
+ * Dialog to manage missing signature #2152 #2155 #2161 #2160
+ * Capture error #2159 #2215
+ * Change Passkey Backup Eligibility & Backup State #2135 #2150 #2212
+ * Search settings #2112 #2181 #2187 #2204
+ * Autofill refactoring #765 #2196
+ * Small fixes #2157 #2164 #2171 #2122 #2180 #2209 #2214

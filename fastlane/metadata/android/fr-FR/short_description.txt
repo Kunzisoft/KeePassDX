@@ -1,1 +1,1 @@
-Coffre-fort et gestionnaire de mots de passe open source sécurisé
+Gestion de vos passkeys / mots de passe dans un coffre-fort local et open-source

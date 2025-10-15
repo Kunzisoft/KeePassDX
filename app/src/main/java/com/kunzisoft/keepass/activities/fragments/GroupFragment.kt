@@ -36,9 +36,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.adapters.NodesAdapter
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
@@ -154,46 +154,44 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         super.onDetach()
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         context?.let { context ->
-            database?.let { database ->
-                mAdapter = NodesAdapter(context, database).apply {
-                    setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
-                        override fun onNodeClick(database: ContextualDatabase, node: Node) {
-                            if (nodeActionSelectionMode) {
-                                if (listActionNodes.contains(node)) {
-                                    // Remove selected item if already selected
-                                    listActionNodes.remove(node)
-                                } else {
-                                    // Add selected item if not already selected
-                                    listActionNodes.add(node)
-                                }
-                                nodeClickListener?.onNodeSelected(database, listActionNodes)
-                                setActionNodes(listActionNodes)
-                                notifyNodeChanged(node)
+            mAdapter = NodesAdapter(context, database).apply {
+                setOnNodeClickListener(object : NodesAdapter.NodeClickCallback {
+                    override fun onNodeClick(database: ContextualDatabase, node: Node) {
+                        if (nodeActionSelectionMode) {
+                            if (listActionNodes.contains(node)) {
+                                // Remove selected item if already selected
+                                listActionNodes.remove(node)
                             } else {
-                                nodeClickListener?.onNodeClick(database, node)
+                                // Add selected item if not already selected
+                                listActionNodes.add(node)
                             }
+                            nodeClickListener?.onNodeSelected(database, listActionNodes)
+                            setActionNodes(listActionNodes)
+                            notifyNodeChanged(node)
+                        } else {
+                            nodeClickListener?.onNodeClick(database, node)
                         }
+                    }
 
-                        override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
-                            if (nodeActionPasteMode == PasteMode.UNDEFINED) {
-                                // Select the first item after a long click
-                                if (!listActionNodes.contains(node))
-                                    listActionNodes.add(node)
+                    override fun onNodeLongClick(database: ContextualDatabase, node: Node): Boolean {
+                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                            // Select the first item after a long click
+                            if (!listActionNodes.contains(node))
+                                listActionNodes.add(node)
 
-                                nodeClickListener?.onNodeSelected(database, listActionNodes)
+                            nodeClickListener?.onNodeSelected(database, listActionNodes)
 
-                                setActionNodes(listActionNodes)
-                                notifyNodeChanged(node)
-                                activity?.hideKeyboard()
-                            }
-                            return true
+                            setActionNodes(listActionNodes)
+                            notifyNodeChanged(node)
+                            activity?.hideKeyboard()
                         }
-                    })
-                }
-                mNodesRecyclerView?.adapter = mAdapter
+                        return true
+                    }
+                })
             }
+            mNodesRecyclerView?.adapter = mAdapter
         }
     }
 
@@ -248,7 +246,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
 
         mNodesRecyclerView?.addOnScrollListener(mRecycleViewScrollListener)
         activity?.intent?.let {
-            specialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(it)
+            specialMode = it.retrieveSpecialMode()
         }
     }
 
@@ -299,9 +297,9 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
         }
     }
 
-    private fun containsRecycleBin(nodes: List<Node>): Boolean {
-        return mDatabase?.isRecycleBinEnabled == true
-                && nodes.any { it == mDatabase?.recycleBin }
+    private fun containsRecycleBin(database: ContextualDatabase?, nodes: List<Node>): Boolean {
+        return database?.isRecycleBinEnabled == true
+                && nodes.any { it == database.recycleBin }
     }
 
     fun actionNodesCallback(database: ContextualDatabase,
@@ -328,7 +326,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     // Open and Edit for a single item
                     if (nodes.size == 1) {
                         // Edition
-                        if (database.isReadOnly || containsRecycleBin(nodes)) {
+                        if (database.isReadOnly || containsRecycleBin(database, nodes)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
                     } else {
@@ -348,7 +346,7 @@ class GroupFragment : DatabaseFragment(), SortDialogFragment.SortSelectionListen
                     }
 
                     // Deletion
-                    if (database.isReadOnly || containsRecycleBin(nodes)) {
+                    if (database.isReadOnly || containsRecycleBin(database, nodes)) {
                         menu?.removeItem(R.id.menu_delete)
                     }
                 }

@@ -281,7 +281,6 @@
     <string name="error_string_type">ഈ വാചകം അഭ്യർത്ഥിച്ച ഇനവുമായി പൊരുത്തപ്പെടുന്നില്ല.</string>
     <string name="error_otp_counter">%1$dന്റെയും %2$dന്റെയും ഇടയിൽ ആയിരിക്കണം കൌണ്ടർ.</string>
     <string name="file_manager_install_description">ഉദ്ദേശിക്കുന്ന പ്രവര്‍ത്തനം സ്വീകരിക്കുന്ന ഒരു ഫയല്‍ മാനേജര്‍. ഡാറ്റാബേസ് ഫയലുകള്‍ നിര്‍മ്മിക്കാനും തുറക്കാനും സൂക്ഷിക്കാനും ACTION_CREATE_DOCUMENT നോടൊപ്പം ACTION_OPEN_DOCUMENT കൂടെ ആവശ്യമുണ്ട്.</string>
-    <string name="autofill_service_name">KeePassDX ഫോം ഓട്ടോഫില്ലിംഗ്</string>
     <string name="biometric">ബയോമെട്രിക്</string>
     <string name="unavailable">ഈ ഡാറ്റാബേസിൽ ഇതുവരെ ക്രെഡൻഷ്യൽ സംഭരിച്ചിട്ടില്ല.</string>
     <string name="warning_sure_add_file">എന്തായാലും ഫയൽ ചേർക്കണോ\?</string>
@@ -339,7 +338,7 @@
     <string name="clipboard_explanation_summary">നിങ്ങളുടെ ഉപകരണത്തിന്റെ ക്ലിപ്പ്ബോർഡ് ഉപയോഗിച്ച് എൻട്രി ഫീൽഡുകൾ പകർത്തുക</string>
     <string name="list_password_generator_options_title">പാസ്‌വേഡ് പ്രതീകങ്ങൾ</string>
     <string name="password_size_summary">സൃഷ്ടിച്ച പാസ്‌വേഡുകളുടെ സ്ഥിരസ്ഥിതി വലുപ്പം സജ്ജമാക്കുക</string>
-    <string name="set_autofill_service_title">സ്ഥിരസ്ഥിതി ഓട്ടോഫിൽ സേവനം സജ്ജമാക്കുക</string>
+    <string name="set_credential_provider_service_title">സ്ഥിരസ്ഥിതി ഓട്ടോഫിൽ സേവനം സജ്ജമാക്കുക</string>
     <string name="autofill_explanation_summary">മറ്റ് അപ്ലിക്കേഷനുകളിൽ ഫോമുകൾ വേഗത്തിൽ പൂരിപ്പിക്കുന്നതിന് ഓട്ടോഫില്ലിംഗ് പ്രവർത്തനക്ഷമമാക്കുക</string>
     <string name="keystore_not_accessible">കീസ്റ്റോർ ശരിയായി സമാരംഭിച്ചിട്ടില്ല.</string>
     <string name="sort_recycle_bin_bottom">റീസൈക്കിൾ ബിൻ ചുവടെയുണ്ട്</string>
@@ -374,7 +373,6 @@
     <string name="keyboard_save_search_info_title">പങ്കിട്ട വിവരം സംരക്ഷിക്കുക</string>
     <string name="clipboard_notifications_title">ക്ലിപ്ബോർഡ് അറിയിപ്പുകൾ</string>
     <string name="warning_empty_recycle_bin">റീസൈക്കിൾ ബിന്നിൽ നിന്ന് എല്ലാ നോഡുകളും ശാശ്വതമായി ഇല്ലാതാക്കണോ\?</string>
-    <string name="registration_mode">രജിസ്ട്രേഷൻ മോഡ്</string>
     <string name="search_mode">തിരയൽ മോഡ്</string>
     <string name="error_registration_read_only">read-only ഡാറ്റാബേസിൽ പുതിയ ഒരു ഇനം സംരക്ഷിക്കാൻ കഴിയില്ല.</string>
     <string name="education_device_unlock_title">വിപുലമായ ഡാറ്റാബേസ് അൺലോക്ക്</string>

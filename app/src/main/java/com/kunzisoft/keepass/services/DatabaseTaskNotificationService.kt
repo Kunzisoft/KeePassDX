@@ -61,13 +61,14 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
-import com.kunzisoft.keepass.hardware.HardwareKeyActivity
+import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import com.kunzisoft.keepass.utils.LOCK_ACTION
@@ -175,7 +176,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             progressMessage: ProgressMessage
         )
         fun onActionStopped(
-            database: ContextualDatabase
+            database: ContextualDatabase? = null
         )
         fun onActionFinished(
             database: ContextualDatabase,
@@ -218,7 +219,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     Log.i(TAG, "Database file modified " +
                             "$previousDatabaseInfo != $lastFileDatabaseInfo ")
                     // Call listener to indicate a change in database info
-                    if (!mSaveState && previousDatabaseInfo != null) {
+                    if (!mSaveState) {
                         mDatabaseInfoListeners.forEach { listener ->
                             listener.onDatabaseInfoChanged(
                                 previousDatabaseInfo,
@@ -550,7 +551,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     // Build Intents for notification action
                     val pendingDatabaseIntent = PendingIntent.getActivity(
                         this,
-                        0,
+                        randomRequestCode(),
                         Intent(this, GroupActivity::class.java),
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
@@ -675,6 +676,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     override fun actionOnLock() {
         if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
+            // Remove the database during the lock
+            // And notify each subscriber
+            mDatabase = null
+            mDatabaseListeners.forEach { listener ->
+                listener.onDatabaseRetrieved(null)
+            }
             // Remove the lock timer (no more needed if it exists)
             TimeoutHelper.cancelLockTimer(this)
             // Service is stopped after receive the broadcast
@@ -709,9 +716,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             notifyProgressMessage()
             HardwareKeyActivity
                 .launchHardwareKeyActivity(
-                    this@DatabaseTaskNotificationService,
-                    hardwareKey,
-                    seed
+                    context = this@DatabaseTaskNotificationService,
+                    hardwareKey = hardwareKey,
+                    seed = seed
                 )
             // Wait the response
             mProgressMessage.apply {
@@ -1383,6 +1390,15 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 }
             }
             return nodesAction
+        }
+
+        fun Bundle.getNewEntry(database: ContextualDatabase): Entry? {
+            getBundle(NEW_NODES_KEY)
+                ?.getParcelableList<NodeId<UUID>>(ENTRIES_ID_KEY)
+                ?.get(0)?.let {
+                return database.getEntryById(it)
+            }
+            return null
         }
 
         fun getBundleFromListNodes(nodes: List<Node>): Bundle {

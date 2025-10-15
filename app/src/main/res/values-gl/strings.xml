@@ -324,7 +324,6 @@
     <string name="contains_duplicate_uuid">A base de datos contén UUIDs duplicados.</string>
     <string name="contains_duplicate_uuid_procedure">Resolver o problema xerando novas UUIDs para que os duplicados continúen\?</string>
     <string name="selection_mode">Modo de selección</string>
-    <string name="registration_mode">Modo de rexistro</string>
     <string name="remember_database_locations_title">Lembrar localización das bases de datos</string>
     <string name="remember_keyfile_locations_summary">Mantén un rexistro de onde son almacenados os ficheiros clave</string>
     <string name="remember_hardware_key_title">Lembrar claves hardware</string>
@@ -373,7 +372,7 @@
     <string name="biometric">Biométrico</string>
     <string name="autofill_explanation_summary">Habilite o servizo para autocompletar rapidamente os formularios de outras aplicacións</string>
     <string name="clipboard_notifications_title">Notificacións do portapapeis</string>
-    <string name="set_autofill_service_title">Estabelecer o servizo de autocompletado predefinido</string>
+    <string name="set_credential_provider_service_title">Estabelecer o servizo de autocompletado predefinido</string>
     <string name="lock_database_back_root_summary">Bloquear a base de datos cando o usuario faga click no botón de volver á pantalla principal</string>
     <string name="lock_database_show_button_title">Mostrar botón de bloqueo</string>
     <string name="clipboard_notifications_summary">Mostrar notificacións do portapapeis ao visualizar unha entrada</string>
@@ -425,7 +424,6 @@
     <string name="device_unlock_invalid_key">Non foi posíbel ler a clave de desbloqueo avanzado. Por favor, bórrea e repita o procedemento de recoñecemento do desbloqueo.</string>
     <string name="encrypted_value_stored">Contrasinal cifrado almacenado</string>
     <string name="device_unlock_not_recognized">Non foi posíbel recoñecer a pegada do desbloqueo avanzado</string>
-    <string name="autofill_service_name">Servizo de autocompletado do KeePassDX</string>
     <string name="database_history">Historial</string>
     <string name="device_unlock_prompt_store_credential_message">Aínda precisa lembrar a súa credencial principal se usar o recoñecemento de desbloqueo avanzado.</string>
     <string name="temp_device_unlock_enable_title">Desbloqueo avanzado temporal</string>
@@ -547,7 +545,7 @@
     <string name="keyboard_selection_entry_summary">Ao ver unha entrada en KeePassDX, completar con esta o Magikeyboard</string>
     <string name="keyboard_previous_lock_summary">Mudar automaticamente ao teclado previo despois de bloquear a base de datos</string>
     <string name="autofill_ask_to_save_data_title">Pedir para gardar datos</string>
-    <string name="autofill_read_only_save">Non é posíbel gardar nunha base datos aberta en modo só lectura.</string>
+    <string name="error_save_read_only">Non é posíbel gardar nunha base datos aberta en modo só lectura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para gardar datos cando terminar de autocompletar un formulario</string>
     <string name="delete_entered_password_summary">Borrar o contrasinal introducido após un intento de conexión a unha base de datos</string>
     <string name="reset_education_screens_title">Restabelecer suxestións educativas</string>

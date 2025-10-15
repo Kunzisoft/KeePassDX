@@ -336,7 +336,6 @@
     <string name="menu_keystore_remove_key">Izbrišite ključ za otključavanje uređaja</string>
     <string name="subdomain_search_summary">Pretražujte veb domene sa ograničenjima poddomena</string>
     <string name="export_app_properties_title">Izvezite podešavanja aplikacije</string>
-    <string name="registration_mode">Režim registracije</string>
     <string name="remember_database_locations_title">Zapamtite lokacije baza podataka</string>
     <string name="remember_hardware_key_title">Zapamtite hardverske ključeve</string>
     <string name="remember_hardware_key_summary">Vodi evidenciju o korišćenim hardverskim ključevima</string>

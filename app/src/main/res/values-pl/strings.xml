@@ -180,9 +180,8 @@
     <string name="menu_appearance_settings">Wygląd</string>
     <string name="general">Ogólne</string>
     <string name="autofill">Wypełnij automatycznie</string>
-    <string name="autofill_service_name">Autouzupełnianie formularzy KeePassDX</string>
     <string name="autofill_sign_in_prompt">Zaloguj się za pomocą KeePassDX</string>
-    <string name="set_autofill_service_title">Ustaw domyślną usługę autouzupełniania</string>
+    <string name="set_credential_provider_service_title">Ustaw domyślną usługę autouzupełniania</string>
     <string name="autofill_explanation_summary">Włącz autouzupełnianie, aby móc szybko wypełniać formularze w innych aplikacjach</string>
     <string name="password_size_title">Wygenerowany rozmiar hasła</string>
     <string name="password_size_summary">Ustawia domyślny rozmiar wygenerowanych haseł</string>
@@ -459,7 +458,7 @@
     <string name="content_description_credentials_information">Informacje o poświadczeniach</string>
     <string name="show_uuid_summary">Wyświetla identyfikator UUID powiązany z wpisem lub grupą</string>
     <string name="show_uuid_title">Pokaż UUID</string>
-    <string name="autofill_read_only_save">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej tylko do odczytu.</string>
+    <string name="error_save_read_only">Zapisywanie danych nie jest dozwolone dla bazy danych otwartej tylko do odczytu.</string>
     <string name="autofill_ask_to_save_data_summary">Pytaj o zapisanie danych po zakończeniu wypełniania formularza</string>
     <string name="autofill_ask_to_save_data_title">Pytaj o zapisanie danych</string>
     <string name="autofill_save_search_info_summary">Staraj się zapisywać informacje wyszukiwania podczas dokonywania ręcznego wyboru wpisu, aby ułatwić sobie przyszłe użycie</string>
@@ -474,7 +473,6 @@
     <string name="biometric_security_update_required">Wymagana aktualizacja zabezpieczeń biometrycznych.</string>
     <string name="configure_biometric">Nie zarejestrowano żadnych danych biometrycznych ani danych urządzenia.</string>
     <string name="warning_empty_recycle_bin">Trwale usunąć wszystkie węzły z kosza\?</string>
-    <string name="registration_mode">Tryb rejestracji</string>
     <string name="save_mode">Tryb zapisywania</string>
     <string name="search_mode">Tryb wyszukiwania</string>
     <string name="error_registration_read_only">Zapisywanie nowego elementu nie jest dozwolone w bazie danych tylko do odczytu.</string>

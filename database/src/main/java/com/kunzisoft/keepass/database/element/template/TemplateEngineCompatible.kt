@@ -24,7 +24,8 @@ import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
+import com.kunzisoft.keepass.utils.UUIDUtils.asUUID
 
 class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database) {
 
@@ -33,7 +34,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
     }
 
     override fun getTemplate(entryKDBX: EntryKDBX): Template? {
-        UuidUtil.fromHexString(entryKDBX.getCustomFieldValue(TEMPLATE_ENTRY_UUID))?.let { templateUUID ->
+        entryKDBX.getCustomFieldValue(TEMPLATE_ENTRY_UUID).asUUID()?.let { templateUUID ->
             return getTemplateByCache(templateUUID)
         }
         return null
@@ -48,7 +49,7 @@ class TemplateEngineCompatible(database: DatabaseKDBX): TemplateEngine(database)
     }
 
     private fun getTemplateUUIDField(template: Template): Field? {
-        UuidUtil.toHexString(template.uuid)?.let { uuidString ->
+        template.uuid.asHexString()?.let { uuidString ->
             return Field(TEMPLATE_ENTRY_UUID,
                 ProtectedString(false, uuidString))
         }

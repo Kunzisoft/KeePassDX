@@ -300,7 +300,6 @@
     <string name="contains_duplicate_uuid">ฐานข้อมูลมี UUID ที่ซ้ำกัน</string>
     <string name="contains_duplicate_uuid_procedure">แก้ปัญหาด้วยการสร้าง UUID ใหม่เพื่อรายการที่ซ้ํากัน ดําเนินการต่อหรือไม่\?</string>
     <string name="remember_keyfile_locations_summary">ติดตามตำแหน่งที่เก็บ keyfile</string>
-    <string name="registration_mode">โหมดการลงทะเบียน</string>
     <string name="remember_database_locations_summary">ติดตามตำแหน่งที่เก็บฐานข้อมูล</string>
     <string name="remember_keyfile_locations_title">จดจำตำแหน่ง keyfile</string>
     <string name="remember_hardware_key_title">จดจําคีย์ฮาร์ดแวร์</string>
@@ -529,14 +528,13 @@
     <string name="database_history">ประวัติ</string>
     <string name="import_app_properties_summary">เลือกไฟล์ที่จะนําเข้าการตั้งค่าของแอป</string>
     <string name="success_import_app_properties">นำเข้าการตั้งค่าแอปแล้ว</string>
-    <string name="set_autofill_service_title">ตั่งค่าเป็นบริการกรอกข้อมูลอัตโนมัติเรื่มต้น</string>
+    <string name="set_credential_provider_service_title">ตั่งค่าเป็นบริการกรอกข้อมูลอัตโนมัติเรื่มต้น</string>
     <string name="error_export_app_properties">เกิดข้อผิดพลาดระหว่างการส่งออกการตั้งค่าของแอป</string>
     <string name="menu_appearance_settings">ลักษณะ</string>
     <string name="biometric">ไบโอเมตริก</string>
     <string name="device_credential">ข้อมูลยืนยันตัวตนของอุปกรณ์</string>
     <string name="general">ทั่วไป</string>
     <string name="autofill">การกรอกอัตโนมัติ</string>
-    <string name="autofill_service_name">การกรอกข้อมูลอัตโนมัติของ KeePassDX</string>
     <string name="autofill_explanation_summary">เปิดการกรอกข้อมูลอัตโนมัติเพื่อกรอกข้อมูลในแอปอื่นได้อย่างรวดเร็ว</string>
     <string name="password_size_summary">ตั้งขนาดรหัสผ่านที่สร้างเรื่มต้น</string>
     <string name="lock_database_screen_off_title">หน้าจอล็อก</string>
@@ -613,7 +611,7 @@
     <string name="autofill_application_id_blocklist_summary">รายการที่บล็อกเพื่อกันไม่ให้กรอกข้อมูลในแอปอัตโนมัติ</string>
     <string name="autofill_web_domain_blocklist_summary">รายการที่บล็อกเพื่อกันไม่ให้กรอกข้อมูลในเว็บอัตโนมัติ</string>
     <string name="biometric_delete_all_key_summary">ลบกุญแจเข้ารหัสทั้งหมดที่เกี่ยวข้องกับการปลดล็อกด้วยอุปกรณ์</string>
-    <string name="autofill_read_only_save">การบันทึกฐานข้อมูลไม่อนุญาตสำหรับฐานข้อมูลที่อ่านอย่างเดียว</string>
+    <string name="error_save_read_only">การบันทึกฐานข้อมูลไม่อนุญาตสำหรับฐานข้อมูลที่อ่านอย่างเดียว</string>
     <string name="autofill_block_restart">เปิดแอปที่แบบฟอร์มนั้นขั้นมาใหม่เพื่อใช้งานการบล็อก</string>
     <string name="autofill_inline_suggestions_keyboard">เพื่มการแนะนำการกรอกอัตโนมัติ</string>
     <string name="allow_no_password_title">อนุญาตให้ไม่มีรหัสผ่านหลัก</string>

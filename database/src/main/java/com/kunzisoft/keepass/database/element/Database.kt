@@ -885,29 +885,15 @@ open class Database {
     }
 
     fun createVirtualGroupFromSearchInfo(
-        searchInfoString: String,
-        searchInfoByDomain: Boolean,
+        searchParameters: SearchParameters,
         max: Int = Integer.MAX_VALUE
     ): Group? {
-        return mSearchHelper.createVirtualGroupWithSearchResult(this,
-                SearchParameters().apply {
-                    searchQuery = searchInfoString
-                    allowEmptyQuery = false
-                    searchInTitles = true
-                    searchInUsernames = false
-                    searchInPasswords = false
-                    searchInUrls = true
-                    searchByDomain = searchInfoByDomain
-                    searchInNotes = true
-                    searchInOTP = false
-                    searchInOther = true
-                    searchInUUIDs = false
-                    searchInTags = false
-                    searchInCurrentGroup = false
-                    searchInSearchableGroup = true
-                    searchInRecycleBin = false
-                    searchInTemplates = false
-                }, null, max)
+        return mSearchHelper.createVirtualGroupWithSearchResult(
+            database = this,
+            searchParameters = searchParameters,
+            fromGroup = null,
+            max = max
+        )
     }
 
     val tagPool: Tags

@@ -5,6 +5,9 @@ import android.view.View
 import android.view.WindowManager.LayoutParams.FLAG_SECURE
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.kunzisoft.keepass.activities.legacy.DatabaseRetrieval
 import com.kunzisoft.keepass.activities.legacy.resetAppTimeoutWhenViewTouchedOrFocused
 import com.kunzisoft.keepass.database.ContextualDatabase
@@ -12,23 +15,40 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import kotlinx.coroutines.launch
 
 abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: ContextualDatabase? = null
+    private val mDatabase: ContextualDatabase?
+        get() = mDatabaseViewModel.database
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mDatabaseViewModel.database.observe(this) { database ->
-            this.mDatabase = database
-            resetAppTimeoutOnTouchOrFocus()
-            onDatabaseRetrieved(database)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mDatabaseViewModel.actionState.collect { uiState ->
+                    when (uiState) {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                            onDatabaseActionFinished(
+                                uiState.database,
+                                uiState.actionTask,
+                                uiState.result
+                            )
+                        }
+                        else -> {}
+                    }
+                }
+            }
         }
-
-        mDatabaseViewModel.actionFinished.observe(this) { result ->
-            onDatabaseActionFinished(result.database, result.actionTask, result.result)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    database?.let {
+                        onDatabaseRetrieved(database)
+                    }
+                }
+            }
         }
     }
 
@@ -45,13 +65,14 @@ abstract class DatabaseDialogFragment : DialogFragment(), DatabaseRetrieval {
     }
 
     @Suppress("DEPRECATION")
+    @Deprecated(message = "")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         resetAppTimeoutOnTouchOrFocus()
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // Can be overridden by a subclass
     }
 

@@ -273,7 +273,7 @@
     <string name="autofill_inline_suggestions_title">Lerroko iradokizuna</string>
     <string name="autofill_manual_selection_title">Eskuzko hautatzea</string>
     <string name="autofill_inline_suggestions_summary">Betetze automatikorako gomendioak erakusten saiatzen da teklatu bateragarri baten bidez</string>
-    <string name="autofill_read_only_save">Ezin dira datuak gorde irakurketarako soilik irekitako datu-base batean.</string>
+    <string name="error_save_read_only">Ezin dira datuak gorde irakurketarako soilik irekitako datu-base batean.</string>
     <string name="autofill_block_restart">Berrabiarazi formularioa duen aplikazioa blokeoa aktibatzeko.</string>
     <string name="delete_entered_password_title">Ezabatu pasahitza</string>
     <string name="allow_no_password_summary">Baimendu \"Ireki\" botoia sakatzea kredentzialak hautatu gabe</string>
@@ -355,7 +355,6 @@
     <string name="read_only_warning">Zure fitxategi nabigatzailearen arabera, KeePassDXek ez du baimenduta datuak idaztea.</string>
     <string name="save_mode">Gorde modua</string>
     <string name="selection_mode">Hautaketa modua</string>
-    <string name="registration_mode">Erregistro-modua</string>
     <string name="remember_database_locations_title">Gogoratu datu-baseen kokalekuak</string>
     <string name="remember_database_locations_summary">Erregistratu datu-baseen kokapenak</string>
     <string name="remember_keyfile_locations_title">Gogoratu fitxategi-gakoen kokapenak</string>
@@ -575,7 +574,7 @@
     <string name="warning_database_revoked">Fitxategirako atzipena baliogabetu du fitxategi kudeatzaileak, itxi datu-basea eta berriro ireki ezazu bere lokalizaziotik.</string>
     <string name="device_unlock_prompt_store_credential_title">Gailuaren desblokeorako esteka</string>
     <string name="device_unlock_prompt_not_initialized">Ezin izan da hasieratu gailuaren desblokeatze menua.</string>
-    <string name="set_autofill_service_title">Lehenetsi betetze automatiko zerbitzua</string>
+    <string name="set_credential_provider_service_title">Lehenetsi betetze automatiko zerbitzua</string>
     <string name="content">Edukia</string>
     <string name="education_device_unlock_title">Datu-basearen desblokeatze automatikoa</string>
     <string name="screenshot_mode_banner_text">Pantaila-argazki modua</string>
@@ -621,7 +620,6 @@
     <string name="device_credential">Gailuaren kredentzialak</string>
     <string name="general">Orokor</string>
     <string name="autofill">Betetze automatikoa</string>
-    <string name="autofill_service_name">KeePassDX formularioen betetze automatikoa</string>
     <string name="autofill_select_entry">Hautatu sarrera…</string>
     <string name="education_field_copy_title">Kopiatu eremu bat</string>
     <string name="education_field_copy_summary">Kopiatutako eremuak edonon itsats daitezke.

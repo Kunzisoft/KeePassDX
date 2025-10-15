@@ -293,20 +293,22 @@ class PasswordGeneratorFragment : DatabaseFragment() {
     private fun generatePassword() {
         var password = ""
         try {
-            password = PasswordGenerator(resources).generatePassword(getPasswordLength(),
-                uppercaseCompound.isChecked,
-                lowercaseCompound.isChecked,
-                digitsCompound.isChecked,
-                minusCompound.isChecked,
-                underlineCompound.isChecked,
-                spaceCompound.isChecked,
-                specialsCompound.isChecked,
-                bracketsCompound.isChecked,
-                extendedCompound.isChecked,
-                getConsiderChars(),
-                getIgnoreChars(),
-                atLeastOneCompound.isChecked,
-                excludeAmbiguousCompound.isChecked)
+            password = PasswordGenerator(resources).generatePassword(
+                length = getPasswordLength(),
+                upperCase = uppercaseCompound.isChecked,
+                lowerCase = lowercaseCompound.isChecked,
+                digits = digitsCompound.isChecked,
+                minus = minusCompound.isChecked,
+                underline = underlineCompound.isChecked,
+                space = spaceCompound.isChecked,
+                specials = specialsCompound.isChecked,
+                brackets = bracketsCompound.isChecked,
+                extended = extendedCompound.isChecked,
+                considerChars = getConsiderChars(),
+                ignoreChars = getIgnoreChars(),
+                atLeastOneFromEach = atLeastOneCompound.isChecked,
+                excludeAmbiguousChar = excludeAmbiguousCompound.isChecked
+            )
         } catch (e: Exception) {
             Log.e(TAG, "Unable to generate a password", e)
         }
@@ -318,7 +320,7 @@ class PasswordGeneratorFragment : DatabaseFragment() {
         super.onDestroy()
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // Nothing here
     }
 

@@ -112,32 +112,32 @@ class GroupEditDialogFragment : DatabaseDialogFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
 
         mPopulateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            database.iconDrawableFactory.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconButtonView, mGroupInfo.icon)
 
-        searchableContainerView.visibility = if (database?.allowCustomSearchableGroup() == true) {
+        searchableContainerView.visibility = if (database.allowCustomSearchableGroup()) {
             View.VISIBLE
         } else {
             View.GONE
         }
 
-        if (database?.allowAutoType() == true) {
+        if (database.allowAutoType()) {
             autoTypeContainerView.visibility = View.VISIBLE
         } else {
             autoTypeContainerView.visibility = View.GONE
         }
 
-        tagsAdapter = TagsProposalAdapter(requireContext(), database?.tagPool)
+        tagsAdapter = TagsProposalAdapter(requireContext(), database.tagPool)
         tagsCompletionView.apply {
             threshold = 1
             setAdapter(tagsAdapter)
         }
-        tagsContainerView.visibility = if (database?.allowTags() == true) View.VISIBLE else View.GONE
+        tagsContainerView.visibility = if (database.allowTags()) View.VISIBLE else View.GONE
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

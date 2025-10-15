@@ -344,7 +344,6 @@
     <string name="menu_merge_from">... 로부터 병합</string>
     <string name="menu_save_copy_to">... 에 복사본 저장</string>
     <string name="menu_keystore_remove_key">고급 잠금 해제 키를 삭제</string>
-    <string name="registration_mode">등록 모드</string>
     <string name="sort_last_access_time">접근</string>
     <string name="invalid_db_same_uuid">%1$s 와 동일한 UUID %2$s 가 이미 존재합니다.</string>
     <string name="underline">밑줄</string>
@@ -385,7 +384,7 @@
     <string name="autofill_sign_in_prompt">KeePassDX로 로그인</string>
     <string name="password_size_title">생성된 비밀번호 크기</string>
     <string name="autofill_preference_title">자동 완성 설정</string>
-    <string name="set_autofill_service_title">기본 자동완성 서비스 설정</string>
+    <string name="set_credential_provider_service_title">기본 자동완성 서비스 설정</string>
     <string name="lock_database_screen_off_title">화면 꺼짐 시 잠금</string>
     <string name="device_unlock_explanation_summary">기기 잠금 방식을 사용하여 데이터베이스를 더 쉽게 여세요</string>
     <string name="biometric_unlock_enable_title">생체 인식 잠금 해제</string>

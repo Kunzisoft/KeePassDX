@@ -19,13 +19,21 @@
  */
 package com.kunzisoft.keepass.settings
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.graphics.toColorInt
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
@@ -39,19 +47,40 @@ import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
-import com.kunzisoft.keepass.database.helper.*
+import com.kunzisoft.keepass.database.helper.getLocalizedName
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.settings.preference.*
-import com.kunzisoft.keepass.settings.preferencedialogfragment.*
+import com.kunzisoft.keepass.settings.preference.DialogColorPreference
+import com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
+import com.kunzisoft.keepass.settings.preference.InputKdfNumberPreference
+import com.kunzisoft.keepass.settings.preference.InputKdfSizePreference
+import com.kunzisoft.keepass.settings.preference.InputNumberPreference
+import com.kunzisoft.keepass.settings.preference.InputTextPreference
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseColorPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDataCompressionPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDefaultUsernamePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDescriptionPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseMaxHistorySizePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseMemoryUsagePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseNamePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseParallelismPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRecycleBinGroupPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseRoundsPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseTemplatesGroupPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getSerializableCompat
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import kotlinx.coroutines.launch
 
 class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetrieval {
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabase: ContextualDatabase? = null
+    private val mDatabase: ContextualDatabase?
+        get() = mDatabaseViewModel.database
     private var mDatabaseReadOnly: Boolean = false
     private var mMergeDataAllowed: Boolean = false
     private var mDatabaseAutoSaveEnabled: Boolean = true
@@ -114,19 +143,46 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mDatabaseViewModel.actionState.collect { uiState ->
+                    when (uiState) {
+                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                            onDatabaseActionFinished(
+                                uiState.database,
+                                uiState.actionTask,
+                                uiState.result
+                            )
+                        }
+
+                        else -> {}
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    database?.let {
+                        onDatabaseRetrieved(database)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         activity?.addMenuProvider(menuProvider, viewLifecycleOwner)
-
-        mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
-            mDatabase = database
-            view.resetAppTimeoutWhenViewTouchedOrFocused(requireContext(), database?.loaded)
-            onDatabaseRetrieved(database)
-        }
-
-        mDatabaseViewModel.actionFinished.observe(viewLifecycleOwner) {
-            onDatabaseActionFinished(it.database, it.actionTask, it.result)
+        viewLifecycleOwner.lifecycleScope.launch {
+            mDatabaseViewModel.databaseState.collect { database ->
+                view.resetAppTimeoutWhenViewTouchedOrFocused(
+                    context = requireContext(),
+                    databaseLoaded = database?.loaded
+                )
+            }
         }
     }
 
@@ -167,29 +223,26 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
         mDatabaseViewModel.reloadDatabase(false)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        mDatabase = database
-        mDatabaseReadOnly = database?.isReadOnly == true
-        mMergeDataAllowed = database?.isMergeDataAllowed() == true
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        mDatabaseReadOnly = database.isReadOnly
+        mMergeDataAllowed = database.isMergeDataAllowed()
 
-        mDatabase?.let {
-            if (it.loaded) {
-                when (mScreen) {
-                    Screen.DATABASE -> {
-                        onCreateDatabasePreference(it)
-                    }
-                    Screen.DATABASE_SECURITY -> {
-                        onCreateDatabaseSecurityPreference(it)
-                    }
-                    Screen.DATABASE_MASTER_KEY -> {
-                        onCreateDatabaseMasterKeyPreference(it)
-                    }
-                    else -> {
-                    }
+        if (database.loaded) {
+            when (mScreen) {
+                Screen.DATABASE -> {
+                    onCreateDatabasePreference(database)
                 }
-            } else {
-                Log.e(javaClass.name, "Database isn't ready")
+                Screen.DATABASE_SECURITY -> {
+                    onCreateDatabaseSecurityPreference(database)
+                }
+                Screen.DATABASE_MASTER_KEY -> {
+                    onCreateDatabaseMasterKeyPreference(database)
+                }
+                else -> {
+                }
             }
+        } else {
+            Log.e(javaClass.name, "Database isn't ready")
         }
     }
 
@@ -458,7 +511,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newDefaultUsername
                                 } else {
-                                    mDatabase?.defaultUsername = oldDefaultUsername
+                                    database.defaultUsername = oldDefaultUsername
                                     oldDefaultUsername
                                 }
                         dbDefaultUsernamePref?.summary = defaultUsernameToShow
@@ -471,7 +524,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newColor
                                 } else {
-                                    mDatabase?.customColor = Color.parseColor(oldColor)
+                                    database.customColor = oldColor.toColorInt()
                                     oldColor
                                 }
                         dbCustomColorPref?.summary = defaultColorToShow
@@ -483,7 +536,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newCompression
                                 } else {
-                                    mDatabase?.compressionAlgorithm = oldCompression
+                                    database.compressionAlgorithm = oldCompression
                                     oldCompression
                                 }
                         dbDataCompressionPref?.summary = algorithmToShow?.getLocalizedName(resources)
@@ -497,7 +550,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 } else {
                                     oldRecycleBin
                                 }
-                        mDatabase?.setRecycleBin(recycleBinToShow)
+                        database.setRecycleBin(recycleBinToShow)
                         refreshRecycleBinGroup(database)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_TEMPLATES_GROUP_TASK -> {
@@ -509,7 +562,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                             } else {
                                 oldTemplatesGroup
                             }
-                        mDatabase?.setTemplatesGroup(templatesGroupToShow)
+                        database.setTemplatesGroup(templatesGroupToShow)
                         refreshTemplatesGroup(database)
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK -> {
@@ -519,7 +572,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newMaxHistoryItems
                                 } else {
-                                    mDatabase?.historyMaxItems = oldMaxHistoryItems
+                                    database.historyMaxItems = oldMaxHistoryItems
                                     oldMaxHistoryItems
                                 }
                         dbMaxHistoryItemsPref?.summary = maxHistoryItemsToShow.toString()
@@ -531,7 +584,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newMaxHistorySize
                                 } else {
-                                    mDatabase?.historyMaxSize = oldMaxHistorySize
+                                    database.historyMaxSize = oldMaxHistorySize
                                     oldMaxHistorySize
                                 }
                         dbMaxHistorySizePref?.summary = maxHistorySizeToShow.toString()
@@ -549,7 +602,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newEncryption
                                 } else {
-                                    mDatabase?.encryptionAlgorithm = oldEncryption
+                                    database.encryptionAlgorithm = oldEncryption
                                     oldEncryption
                                 }
                         mEncryptionAlgorithmPref?.summary = algorithmToShow.toString()
@@ -561,7 +614,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newKeyDerivationEngine
                                 } else {
-                                    mDatabase?.kdfEngine = oldKeyDerivationEngine
+                                    database.kdfEngine = oldKeyDerivationEngine
                                     oldKeyDerivationEngine
                                 }
                         mKeyDerivationPref?.summary = kdfEngineToShow.toString()
@@ -578,7 +631,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newIterations
                                 } else {
-                                    mDatabase?.numberKeyEncryptionRounds = oldIterations
+                                    database.numberKeyEncryptionRounds = oldIterations
                                     oldIterations
                                 }
                         mRoundPref?.summary = roundsToShow.toString()
@@ -590,7 +643,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newMemoryUsage
                                 } else {
-                                    mDatabase?.memoryUsage = oldMemoryUsage
+                                    database.memoryUsage = oldMemoryUsage
                                     oldMemoryUsage
                                 }
                         mMemoryPref?.summary = memoryToShow.toString()
@@ -602,7 +655,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment(), DatabaseRetriev
                                 if (result.isSuccess) {
                                     newParallelism
                                 } else {
-                                    mDatabase?.parallelism = oldParallelism
+                                    database.parallelism = oldParallelism
                                     oldParallelism
                                 }
                         mParallelismPref?.summary = parallelismToShow.toString()

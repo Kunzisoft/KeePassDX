@@ -298,7 +298,6 @@
     <string name="export_app_properties_summary">Gumawa ng file para i-export ang mga setting ng app</string>
     <string name="search_mode">Mode ng paghahanap</string>
     <string name="selection_mode">Mode ng pagpili</string>
-    <string name="registration_mode">Mode ng pagrehistro</string>
     <string name="remember_database_locations_summary">Sinusubaybayan kung saan naka-imbak ang mga database</string>
     <string name="remember_keyfile_locations_title">Tandaan ang mga lokasyon ng keyfile</string>
     <string name="remember_hardware_key_summary">Sinusubaybayan ang mga ginamit na hardware key</string>

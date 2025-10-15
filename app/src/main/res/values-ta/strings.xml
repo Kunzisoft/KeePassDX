@@ -73,7 +73,7 @@
     <string name="biometric_security_update_required">பயோமெட்ரிக் பாதுகாப்பு புதுப்பிப்பு தேவை.</string>
     <string name="keystore_not_accessible">கீச்டோர் சரியாக துவக்கப்படவில்லை.</string>
     <string name="menu_appearance_settings">தோற்றம்</string>
-    <string name="set_autofill_service_title">இயல்புநிலை ஆட்டோஃபில் சேவையை அமைக்கவும்</string>
+    <string name="set_credential_provider_service_title">இயல்புநிலை ஆட்டோஃபில் சேவையை அமைக்கவும்</string>
     <string name="autofill_preference_title">ஆட்டோஃபில் அமைப்புகள்</string>
     <string name="lock_database_screen_off_title">திரை பூட்டு</string>
     <string name="content">உள்ளடக்கம்</string>
@@ -414,7 +414,6 @@
     <string name="exclude_ambiguous_chars">தெளிவற்ற கதாபாத்திரங்களை விலக்கவும்</string>
     <string name="word_separator">பிரிப்பான்</string>
     <string name="screenshot_mode_banner_text">திரைக்காட்சி பயன்முறை</string>
-    <string name="registration_mode">பதிவு முறை</string>
     <string name="warning_database_info_reloaded">தரவுத்தளத்தை மீண்டும் ஏற்றுவது உள்நாட்டில் மாற்றியமைக்கப்பட்ட தரவை நீக்கும்.</string>
     <string name="disable">முடக்கு</string>
     <string name="autofill_close_database_title">தரவுத்தளத்தை மூடு</string>
@@ -476,7 +475,6 @@
     <string name="credential_before_click_device_unlock_button">கடவுச்சொல்லை தட்டச்சு செய்து, பின்னர் இந்த பொத்தானைக் சொடுக்கு செய்க.</string>
     <string name="properties">பண்புகள்</string>
     <string name="menu_appearance_settings_summary">கருப்பொருள்கள், வண்ணங்கள், பண்புக்கூறுகள்</string>
-    <string name="autofill_service_name">கீப்அச்.டி.எக்ச் படிவம் ஆட்டோஃபில்லிங்</string>
     <string name="autofill_sign_in_prompt">கீப்ஆச்டிசுடன் உள்நுழைக</string>
     <string name="list_password_generator_options_title">கடவுச்சொல் எழுத்துக்கள்</string>
     <string name="lock_database_screen_off_summary">திரை முடக்கப்பட்டவுடன் சில நொடிகளுக்குப் பிறகு தரவுத்தளத்தைப் பூட்டவும்</string>
@@ -645,7 +643,7 @@
     <string name="autofill_application_id_blocklist_title">பயன்பாட்டு பிளாக்லிச்ட்</string>
     <string name="autofill_application_id_blocklist_summary">பயன்பாடுகளை தானாக நிரப்புவதைத் தடுக்கும் பிளாக்லிச்ட்</string>
     <string name="autofill_web_domain_blocklist_summary">வலை களங்களை தானாக நிரப்புவதைத் தடுக்கும் பிளாக்லிச்ட்</string>
-    <string name="autofill_read_only_save">படிக்க மட்டும் திறக்கப்பட்ட தரவுத்தளத்திற்கு தரவு சேமிப்பு அனுமதிக்கப்படவில்லை.</string>
+    <string name="error_save_read_only">படிக்க மட்டும் திறக்கப்பட்ட தரவுத்தளத்திற்கு தரவு சேமிப்பு அனுமதிக்கப்படவில்லை.</string>
     <string name="autofill_inline_suggestions_keyboard">ஆட்டோஃபில் பரிந்துரைகள் சேர்க்கப்பட்டன.</string>
     <string name="education_new_node_summary">உங்கள் டிசிட்டல் அடையாளங்களை நிர்வகிக்க உள்ளீடுகள் உதவுகின்றன.\n\n குழுக்கள் (~ கோப்புறைகள்) உங்கள் தரவுத்தளத்தில் உள்ளீடுகளை ஒழுங்கமைக்கின்றன.</string>
     <string name="education_search_title">உள்ளீடுகள் மூலம் தேடுங்கள்</string>

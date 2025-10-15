@@ -36,11 +36,16 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    packaging {
+        // Bouncy castle bug https://github.com/bcgit/bc-java/issues/1685
+        resources.pickFirsts.add('META-INF/versions/9/OSGI-INF/MANIFEST.MF')
+    }
 }
 
 dependencies {
     // Crypto
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'org.bouncycastle:bcpkix-jdk18on:1.81'
 
     androidTestImplementation "androidx.test:runner:$android_test_version"
     testImplementation "androidx.test:runner:$android_test_version"

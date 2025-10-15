@@ -241,7 +241,6 @@
     <string name="menu_master_key_settings">Настройки на главната парола</string>
     <string name="file_browser">Управление на файлове</string>
     <string name="generate_password">Създаване на парола</string>
-    <string name="autofill_service_name">Услуга за автоматично попълване на KeePassDX</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Изисква смяна на главната парола следващия път (веднъж)</string>
     <string name="filter">Филтър</string>
     <string name="sort_db">Естествен ред</string>
@@ -288,7 +287,7 @@
     <string name="read_only">Само за четене</string>
     <string name="contains_duplicate_uuid">Хранилището съдържа повтарящ се идентификатор.</string>
     <string name="biometric">Биометричен ключ</string>
-    <string name="set_autofill_service_title">Задаване на подразбирана услуга за автоматично попълване</string>
+    <string name="set_credential_provider_service_title">Задаване на подразбирана услуга за автоматично попълване</string>
     <string name="password_size_title">Дължина на създаваните пароли</string>
     <string name="lock_database_back_root_title">Заключване при „Назад“</string>
     <string name="content">Съдържание</string>
@@ -463,7 +462,6 @@
     <string name="error_invalid_OTP">Неприемлива тайна за OTP.</string>
     <string name="error_no_name">Въведете име.</string>
     <string name="hide_broken_locations_summary">Скрива вече несъществуващи хранилища от списъка с последно отваряните</string>
-    <string name="registration_mode">Режим регистрация</string>
     <string name="remember_database_locations_title">Запомняне използваните хранилища</string>
     <string name="show_recent_files_title">Показване на последните хранилища</string>
     <string name="search_mode">Режим търсене</string>
@@ -572,7 +570,7 @@
     <string name="error_start_database_action">Възникна грешка при извършване на действие с хранилището.</string>
     <string name="keyboard_entry_timeout_title">Време за изчакване</string>
     <string name="autofill_application_id_blocklist_title">Черен списък на приложения</string>
-    <string name="autofill_read_only_save">В хранилище, отворено само за четене не могат да бъдат запазвани промени.</string>
+    <string name="error_save_read_only">В хранилище, отворено само за четене не могат да бъдат запазвани промени.</string>
     <string name="error_move_group_here">Група не може да бъде преместена тук.</string>
     <string name="keyboard_notification_entry_clear_close_title">Изчистване при затваряне</string>
     <string name="autofill_save_search_info_summary">При ръчен избор на запис прави опит за запазване на информация от търсене за по-лесно бъдещо използване</string>

@@ -21,20 +21,25 @@ package com.kunzisoft.keepass.settings
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
+import kotlinx.coroutines.launch
 
 class MainPreferenceFragment : PreferenceFragmentCompat() {
 
     private var mCallback: Callback? = null
 
     private val mDatabaseViewModel: DatabaseViewModel by activityViewModels()
-    private var mDatabaseLoaded: Boolean = false
+    private val mDatabase: ContextualDatabase?
+        get() = mDatabaseViewModel.database
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,20 +55,24 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
         mCallback = null
         super.onDetach()
     }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mDatabaseViewModel.database.observe(viewLifecycleOwner) { database ->
-            mDatabaseLoaded = database?.loaded == true
-            checkDatabaseLoaded()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                mDatabaseViewModel.databaseState.collect { database ->
+                    checkDatabaseLoaded(database?.loaded == true)
+                }
+            }
         }
-        super.onViewCreated(view, savedInstanceState)
     }
 
-    private fun checkDatabaseLoaded() {
+    private fun checkDatabaseLoaded(isDatabaseLoaded: Boolean) {
         findPreference<Preference>(getString(R.string.settings_database_key))
-            ?.isEnabled = mDatabaseLoaded
+            ?.isEnabled = isDatabaseLoaded
 
         findPreference<PreferenceCategory>(getString(R.string.settings_database_category_key))
-            ?.isVisible = mDatabaseLoaded
+            ?.isVisible = isDatabaseLoaded
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -119,7 +128,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        checkDatabaseLoaded()
+        checkDatabaseLoaded(mDatabase?.loaded == true)
     }
 
     interface Callback {

@@ -429,6 +429,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!-- Preferences -->
+    <style name="KeepassDXStyle.Text.Preferences.Explanation" parent="KeepassDXStyle.Text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
     <!-- Nodes Text Style -->
     <style name="KeepassDXStyle.Title.Entry" parent="KeepassDXStyle.Text">
         <item name="android:textColor">@color/text_primary_color</item>
@@ -567,6 +573,13 @@
         <item name="android:paddingEnd">8dp</item>
         <item name="android:textSize">16sp</item>
 	</style>
+    <style name="KeepassDXStyle.TextAppearance.TextNodePrimary" parent="KeepassDXStyle.TextAppearance.TextNode">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.TextNodeSecondary" parent="KeepassDXStyle.TextAppearance.TextNode">
+        <item name="android:textSize">14sp</item>
+    </style>
 
     <!-- Snackbar -->
     <style name="KeepassDXStyle.SnackBar" parent="Widget.Material3.Snackbar">
@@ -574,7 +587,7 @@
     </style>
 
     <!-- Transparent -->
-    <style name="Theme.Transparent" parent="Theme.Material3.DynamicColors.Dark">
+    <style name="Theme.Transparent" parent="KeepassDXStyle.Night">
         <item name="android:windowAnimationStyle">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>

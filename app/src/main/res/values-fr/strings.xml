@@ -163,9 +163,8 @@
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
-    <string name="autofill_service_name">Remplissage automatique des formulaires KeePassDX</string>
     <string name="autofill_sign_in_prompt">Se connecter avec KeePassDX</string>
-    <string name="set_autofill_service_title">Définir le service de remplissage automatique par défaut</string>
+    <string name="set_credential_provider_service_title">Définir le service de remplissage automatique par défaut</string>
     <string name="autofill_explanation_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
     <string name="autofill_select_entry">Sélectionner une entrée…</string>
     <string name="password_size_title">Taille du mot de passe généré</string>
@@ -482,7 +481,7 @@
     <string name="data">Données</string>
     <string name="show_uuid_summary">Affiche l’UUID lié à une entrée ou un groupe</string>
     <string name="show_uuid_title">Afficher l’UUID</string>
-    <string name="autofill_read_only_save">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
+    <string name="error_save_read_only">L’enregistrement des données n’est pas autorisé pour une base de données ouverte en lecture seule.</string>
     <string name="autofill_ask_to_save_data_summary">Demande de sauvegarde des données à la fin du remplissage d\'un formulaire</string>
     <string name="autofill_ask_to_save_data_title">Demander à enregistrer des données</string>
     <string name="autofill_save_search_info_summary">Essaye d’enregistrer les informations de recherche lors de la sélection manuelle d’une entrée pour faciliter les utilisations futures</string>
@@ -496,7 +495,6 @@
     <string name="notification">Notification</string>
     <string name="biometric_security_update_required">Mise à jour de sécurité biométrique requise.</string>
     <string name="warning_empty_recycle_bin">Supprimer définitivement tous les nœuds de la corbeille \?</string>
-    <string name="registration_mode">Mode enregistrement</string>
     <string name="save_mode">Mode sauvegarde</string>
     <string name="search_mode">Mode recherche</string>
     <string name="error_registration_read_only">L’enregistrement d’un nouvel élément n’est pas autorisé dans une base de données en lecture seule.</string>

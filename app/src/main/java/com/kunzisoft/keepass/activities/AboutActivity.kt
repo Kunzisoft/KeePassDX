@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.content.pm.PackageManager.NameNotFoundException
-import android.os.Build
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -32,7 +31,7 @@ import androidx.core.text.HtmlCompat
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.getPackageInfoCompat
 import org.joda.time.DateTime
 

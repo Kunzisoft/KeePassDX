@@ -316,7 +316,6 @@
     <string name="invalid_db_same_uuid">%1$s עם אותו UUID %2$s כבר קיים.</string>
     <string name="master_key_settings_summary">שינוי, חידוש</string>
     <string name="info">מידע</string>
-    <string name="registration_mode">מצב הרשמה</string>
     <string name="menu_form_filling_settings_summary">מקלדת, מילוי אוטומטי, לוח העתקה</string>
     <string name="search_mode">מצב חיפוש</string>
     <string name="remember_database_locations_title">זכור מיקומי מסדי הנתונים</string>
@@ -373,7 +372,6 @@
     <string name="menu_device_unlock_settings_summary">ביומטרי, אישור מכשיר</string>
     <string name="menu_database_settings_summary">מטא-נתונים, סל מחזור, תבניות, היסטוריה</string>
     <string name="sort_last_access_time">גישה</string>
-    <string name="autofill_service_name">מילוי טפסים אוטומטי של KeePassDX</string>
     <string name="clipboard_notifications_summary">הצג התראות לוח העתקה כדי להעתיק שדות בעת צפייה ברשומה</string>
     <string name="assign_master_key">הקצה מפתח ראשי</string>
     <string name="contains_duplicate_uuid_procedure">האם לפתור את הבעיה על ידי יצירת מזהים ייחודיים אוניברסליים עבור כפילויות כדי להמשיך?</string>
@@ -414,7 +412,7 @@
     <string name="autofill_sign_in_prompt">התחבר עם KeePassDX</string>
     <string name="general">כללי</string>
     <string name="autofill_explanation_summary">הפעל מילוי אוטומטי כדי למלא במהירות טפסים ביישומים אחרים</string>
-    <string name="set_autofill_service_title">הגדר שירות מילוי אוטומטי ברירת מחדל</string>
+    <string name="set_credential_provider_service_title">הגדר שירות מילוי אוטומטי ברירת מחדל</string>
     <string name="password_size_title">גודל סיסמה שנוצרה</string>
     <string name="password_size_summary">מגדיר גודל ברירת המחדל של הסיסמאות שנוצרו</string>
     <string name="list_password_generator_options_title">תווי סיסמה</string>
@@ -506,7 +504,7 @@
     <string name="upload_attachment">העלה %1$s</string>
     <string name="download_canceled">בוטל!</string>
     <string name="unit_byte">B</string>
-    <string name="autofill_read_only_save">שמירת נתונים אינה מורשת עבור מסד נתונים שנפתח לקריאה בלבד.</string>
+    <string name="error_save_read_only">שמירת נתונים אינה מורשת עבור מסד נתונים שנפתח לקריאה בלבד.</string>
     <string name="enter">Enter</string>
     <string name="autofill_block">חסום מילוי אוטומטי</string>
     <string name="warning_replace_file">העלאת קובץ זה תחליף את הקובץ הקיים.</string>

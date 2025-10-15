@@ -234,7 +234,6 @@
     <string name="protection">Mbrojtje</string>
     <string name="contains_duplicate_uuid">Baza e të dhënave përmban UUID-ra të përsëdytur.</string>
     <string name="selection_mode">Mënyrë përzgjedhjeje</string>
-    <string name="registration_mode">Mënyrë regjistrimi</string>
     <string name="remember_database_locations_title">Mbaj mend vendndodhje bazash të dhënash</string>
     <string name="remember_keyfile_locations_title">Mbaj mend vendndodhje kartelash kyçesh</string>
     <string name="show_recent_files_title">Shfaq kartelë të freskëta</string>
@@ -520,7 +519,6 @@
     <string name="unlock_and_link_biometric">Lidhje shkyçjeje pajisjeje</string>
     <string name="device_unlock_prompt_extract_credential_title">Njohje shkyçjeje pajisjeje</string>
     <string name="menu_appearance_settings_summary">Tema, ngjyra dhe atribute</string>
-    <string name="autofill_service_name">Vetëplotësim formularësh me KeePassDX</string>
     <string name="clipboard_notifications_title">Njoftime mbi të papastrën</string>
     <string name="clipboard_notifications_summary">Shfaq njoftime të papastre te fusha kopjimi, kur shihet një zë</string>
     <string name="lock_database_back_root_title">Shtypni “Mbrapsht”, që të kyçet</string>
@@ -570,7 +568,7 @@
     <string name="style_brightness_summary">Përzgjidhni tema të çelëta ose të errëta</string>
     <string name="icon_pack_choose_summary">Paketë ikonash të përdorura te aplikacioni</string>
     <string name="hide_expired_entries_summary">Zërat e skaduar nuk shfaqen</string>
-    <string name="set_autofill_service_title">Caktoni shërbim parazgjedhje vetëplotësimesh</string>
+    <string name="set_credential_provider_service_title">Caktoni shërbim parazgjedhje vetëplotësimesh</string>
     <string name="autofill_explanation_summary">Aktivizoni vetëplotësimet, për të plotësuar shpejt formularë në aplikacione të tjerë</string>
     <string name="autofill_preference_title">Rregullime vetëplotësimi</string>
     <string name="password_size_summary">Cakton madhësinë parazgjedhje për fjalëkalimet e prodhuar</string>
@@ -608,7 +606,7 @@
     <string name="keyboard_previous_database_credentials_summary">Kthehu automatikisht te tastiera e mëparshme, te skena e kredencialeve për bazën e të dhënave</string>
     <string name="autofill_manual_selection_summary">Shfaq mundësi për ta lënë përdoruesin të përzgjedhë zë baze të dhënash</string>
     <string name="autofill_save_search_info_summary">Provo të ruash informacion, kur bëhet një përzgjedhje dorazi e zërit, për përdorim më të kollajtë në të ardhmen</string>
-    <string name="autofill_read_only_save">S’lejohet ruajtje të dhënash për një bazë të dhënash të hapur vetëm-për-lexim.</string>
+    <string name="error_save_read_only">S’lejohet ruajtje të dhënash për një bazë të dhënash të hapur vetëm-për-lexim.</string>
     <string name="enable_auto_save_database_summary">Ruaje bazën e të dhënave pas çdo veprimi të rëndësishëm (nën mënyrën “E ndryshueshme”)</string>
     <string name="enable_keep_screen_on_summary">Mbaje hapur ekranin, kur shihet ose përpunohet një zë</string>
     <string name="enable_screenshot_mode_summary">Lejo aplikacione palësh të treta të regjistrojnë, ose bëjnë foto ekrani të aplikacionit</string>

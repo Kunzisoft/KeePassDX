@@ -20,6 +20,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/general">
+        <SwitchPreferenceCompat
+            android:key="@string/subdomain_search_key"
+            android:title="@string/subdomain_search_title"
+            android:summary="@string/subdomain_search_summary"
+            android:defaultValue="@bool/subdomain_search_default"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/keyboard">
         <Preference
             android:key="@string/magic_keyboard_explanation_key"
@@ -34,16 +43,23 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/autofill_key"
-        android:title="@string/autofill">
+        android:key="@string/credential_provider_key"
+        android:title="@string/credential_provider">
+        <SwitchPreferenceCompat
+            android:key="@string/settings_credential_provider_enable_key"
+            android:title="@string/set_credential_provider_service_title"
+            android:defaultValue="@bool/settings_credential_provider_enable_default"/>
+        <Preference
+            android:key="@string/passkeys_explanation_key"
+            android:icon="@drawable/prefs_info_24dp"
+            android:summary="@string/passkeys_explanation_summary"/>
+        <Preference
+            android:key="@string/settings_passkeys_key"
+            android:title="@string/passkeys_preference_title" />
         <Preference
             android:key="@string/autofill_explanation_key"
             android:icon="@drawable/prefs_info_24dp"
             android:summary="@string/autofill_explanation_summary"/>
-        <SwitchPreferenceCompat
-            android:key="@string/settings_autofill_enable_key"
-            android:title="@string/set_autofill_service_title"
-            android:defaultValue="@bool/settings_autofill_enable_default"/>
         <Preference
             android:key="@string/settings_autofill_key"
             android:title="@string/autofill_preference_title" />

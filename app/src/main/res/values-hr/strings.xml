@@ -177,8 +177,7 @@
     <string name="menu_appearance_settings">Izgled</string>
     <string name="general">Opće</string>
     <string name="autofill">Automatsko ispunjavanje</string>
-    <string name="autofill_service_name">Automatsko ispunjavanje KeePassDX obrasca</string>
-    <string name="set_autofill_service_title">Postavi standardnu uslugu automatskog ispunjavanja</string>
+    <string name="set_credential_provider_service_title">Postavi standardnu uslugu automatskog ispunjavanja</string>
     <string name="list_password_generator_options_title">Znakovi lozinke</string>
     <string name="list_password_generator_options_summary">Postavi dozvoljene znakove za generiranje lozinke</string>
     <string name="database_opened">Baza podataka otvorena</string>
@@ -462,7 +461,7 @@
     <string name="autofill_save_search_info_summary">Pokušaj spremiti podatke prilikom odabira ručnog unosa za jednostavniju buduću upotrebu</string>
     <string name="notification">Obavijest</string>
     <string name="error_registration_read_only">Nije dopušteno spremati novi element u zaštićenoj bazi podataka.</string>
-    <string name="autofill_read_only_save">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
+    <string name="error_save_read_only">Spremanje podataka nije dopušteno za bazu podataka koja je otvorena u zaštićenom stanju.</string>
     <string name="show_uuid_summary">Prikazuje UUID povezan s unosom ili grupom</string>
     <string name="show_uuid_title">Prikaži UUID</string>
     <string name="autofill_ask_to_save_data_summary">Zatraži spremanje podataka kad se obrazac ispuni</string>
@@ -477,7 +476,6 @@
     <string name="warning_empty_recycle_bin">Trajno izbrisati sve čvorove iz smeća\?</string>
     <string name="biometric_security_update_required">Potrebno je aktualizirati biometrijsku zaštitu.</string>
     <string name="configure_biometric">Ne postoji biometrijski ključ niti podaci za prijavu uređaja.</string>
-    <string name="registration_mode">Modus registracije</string>
     <string name="save_mode">Modus spremanja</string>
     <string name="search_mode">Modus pretrage</string>
     <string name="error_field_name_already_exists">Ime polja već postoji.</string>

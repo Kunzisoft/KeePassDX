@@ -322,7 +322,6 @@
     <string name="search_mode">Режим претраге</string>
     <string name="save_mode">Режим чувања</string>
     <string name="selection_mode">Режим избора</string>
-    <string name="registration_mode">Режим регистрације</string>
     <string name="hide_broken_locations_title">Сакриј неисправне везе базе података</string>
     <string name="hide_broken_locations_summary">Сакријте покварене везе на листи недавних база података</string>
     <string name="import_app_properties_title">Увезите подешавања апликације</string>

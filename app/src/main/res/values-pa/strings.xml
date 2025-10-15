@@ -266,7 +266,7 @@
     <string name="lock_database_back_root_title">ਲਾਕ ਕਰਨ ਲਈ \'ਪਿੱਛੇ\' ਨੂੰ ਦਬਾਓ</string>
     <string name="lock_database_screen_off_summary">ਜਦੋਂ ਸਕਰੀਨ ਬੰਦ ਹੋ ਜਾਵੇ ਤਾਂ ਡਾਟਾਬੇਸ ਨੂੰ ਲਾਕ ਕਰੋ</string>
     <string name="clipboard_notifications_title">ਕਲਿੱਪਬੋਰਡ ਨੋਟੀਫਿਕੇਸ਼ਨ</string>
-    <string name="set_autofill_service_title">ਮੂਲ ਆਪੇ-ਭਰਨ ਸੇਵਾ ਵਜੋਂ ਸੈੱਟ ਕਰੋ</string>
+    <string name="set_credential_provider_service_title">ਮੂਲ ਆਪੇ-ਭਰਨ ਸੇਵਾ ਵਜੋਂ ਸੈੱਟ ਕਰੋ</string>
     <string name="configure_biometric">ਕੋਈ ਬਾਇਓਮੈਟਰਿਕ ਜਾਂ ਡਿਵਾਈਸ ਸਨਦ ਦਾਖਲ ਨਹੀਂ ਕੀਤੀ ਹੈ।</string>
     <string name="warning_sure_remove_data">ਇਹ ਡਾਟਾ ਕਿਵੇਂ ਵੀ ਹਟਾਉਣਾ ਹੈ\?</string>
     <string name="warning_sure_add_file">ਕਿਵੇਂ ਵੀ ਫ਼ਾਇਲ ਜੋੜਨੀ ਹੈ\?</string>
@@ -291,7 +291,6 @@
     <string name="upload_attachment">%1$s ਅੱਪਲੋਡ ਕਰੋ</string>
     <string name="show_uuid_summary">ਐਂਟਰੀ ਨਾਲ ਸੰਬੰਧਿਤ UUID ਦਿਖਾਉਂਦਾ ਹੈ</string>
     <string name="encryption_explanation">ਸਾਰੇ ਡਾਟੇ ਲਈ ਡਾਟਾਬੇਸ ਇੰਕ੍ਰਿਪਸ਼ਨ ਐਲਗੋਰਿਥਮ ਵਰਤਿਆ ਗਿਆ ਹੈ।</string>
-    <string name="registration_mode">ਰਜਿਸਟਰੇਸ਼ਨ ਢੰਗ</string>
     <string name="save_mode">ਸੰਭਾਲਣ ਢੰਗ</string>
     <string name="search_mode">ਖੋਜਣ ਢੰਗ</string>
     <string name="keystore_not_accessible">ਕੀ-ਸਟੋਰ ਠੀਕ ਢੰਗ ਨਾਲ ਸ਼ੁਰੂ ਨਹੀਂ ਹੋਇਆ ਹੈ।</string>

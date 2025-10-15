@@ -19,12 +19,20 @@
  */
 package com.kunzisoft.keepass.database.exception
 
+import android.content.res.Resources
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import java.io.PrintStream
 import java.io.PrintWriter
 
-abstract class DatabaseException : Exception {
+abstract class LocalizedException : Exception {
+    constructor() : super()
+    constructor(message: String) : super(message)
+    // TODO
+    // open fun getLocalizedMessage(resources: Resources): String? = localizedMessage
+}
+
+abstract class DatabaseException : LocalizedException {
 
     var innerMessage: String? = null
     var parameters = mutableListOf<String>()
@@ -74,6 +82,8 @@ class InvalidAlgorithmDatabaseException : DatabaseInputException {
 }
 
 class UnknownDatabaseLocationException : DatabaseException()
+
+class RegisterInReadOnlyDatabaseException() : DatabaseException()
 
 class HardwareKeyDatabaseException : DatabaseException()
 

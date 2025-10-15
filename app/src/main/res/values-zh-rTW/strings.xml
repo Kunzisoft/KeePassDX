@@ -60,11 +60,10 @@
     <string name="autofill_manual_selection_summary">顯示選項讓用戶選擇資料庫條目</string>
     <string name="autofill_manual_selection_title">手動選擇</string>
     <string name="autofill_preference_title">自動填入設定</string>
-    <string name="autofill_read_only_save">以唯讀方式開啟的資料庫不允許保存資料。</string>
+    <string name="error_save_read_only">以唯讀方式開啟的資料庫不允許保存資料。</string>
     <string name="autofill_save_search_info_summary">進行手動輸入選擇時嘗試儲存搜尋信息，以便將來使用</string>
     <string name="autofill_save_search_info_title">保存搜尋資訊</string>
     <string name="autofill_select_entry">選擇項目…</string>
-    <string name="autofill_service_name">KeePassDX 自動填入</string>
     <string name="autofill_sign_in_prompt">用 KeePassDX 登入</string>
     <string name="autofill_web_domain_blocklist_summary">禁止在下列域名中自動填充憑證</string>
     <string name="autofill_web_domain_blocklist_title">網域名稱黑名單</string>
@@ -477,7 +476,6 @@
     <string name="recycle_bin_group_title">回收桶（組)</string>
     <string name="recycle_bin_summary">刪除群組和項目前先移至回收桶</string>
     <string name="recycle_bin_title">回收桶使用情況</string>
-    <string name="registration_mode">註冊模式</string>
     <string name="remember_database_locations_summary">跟蹤資料庫的存儲位置</string>
     <string name="remember_database_locations_title">記住所有資料庫的位置</string>
     <string name="remember_keyfile_locations_summary">追蹤密鑰檔案位置</string>
@@ -501,7 +499,7 @@
     <string name="select_entry">選擇條目</string>
     <string name="select_to_copy">複製%1$s到剪貼簿</string>
     <string name="selection_mode">選擇模式</string>
-    <string name="set_autofill_service_title">設置為預設的填充服務</string>
+    <string name="set_credential_provider_service_title">設置為預設的填充服務</string>
     <string name="settings">設定</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">下次強制更改主密鑰（一次）</string>
     <string name="settings_database_force_changing_master_key_next_time_title">下次強制更換</string>

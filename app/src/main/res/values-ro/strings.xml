@@ -237,10 +237,9 @@
     <string name="biometric">Biometric</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletare</string>
-    <string name="autofill_service_name">Completarea automată cu KeePassDX</string>
     <string name="autofill_sign_in_prompt">Conectați-vă cu KeePassDX</string>
     <string name="autofill_explanation_summary">Activați completarea automată pentru a completa rapid formulare în alte aplicații</string>
-    <string name="set_autofill_service_title">Setați serviciul implicit de autocompletare</string>
+    <string name="set_credential_provider_service_title">Setați serviciul implicit de autocompletare</string>
     <string name="password_size_title">Dimensiunea parolei generate</string>
     <string name="password_size_summary">Setează dimensiunea implicită a parolelor generate</string>
     <string name="list_password_generator_options_title">Caractere parolă</string>
@@ -527,7 +526,6 @@
     <string name="error_driver_required">Driver-ul pentru %1$s este necesară.</string>
     <string name="error_unable_merge_database_kdb">Nu s-a putut fuziona cu o bază de date de format kdb.</string>
     <string name="error_location_unknown">Locația bazei de date este necunoscută, acțiunea bazei de date nu poate fi efectuată.</string>
-    <string name="registration_mode">Mod de înregistrare</string>
     <string name="remember_hardware_key_title">Reține cheile hardware</string>
     <string name="remember_hardware_key_summary">Păstrează evidența cheilor hardware utilizate</string>
     <string name="import_app_properties_summary">Selectați un fișier pentru a importa setările aplicației</string>
@@ -662,7 +660,7 @@
     <string name="autofill_inline_suggestions_title">Sugestii în linie</string>
     <string name="autofill_ask_to_save_data_summary">Solicitați salvarea datelor atunci când se finalizează completarea unui formular</string>
     <string name="autofill_block_restart">Reporniți aplicația care conține formularul pentru a activa blocarea.</string>
-    <string name="autofill_read_only_save">Salvarea datelor nu este permisă pentru o bază de date deschisă ca fiind doar pentru citire.</string>
+    <string name="error_save_read_only">Salvarea datelor nu este permisă pentru o bază de date deschisă ca fiind doar pentru citire.</string>
     <string name="education_validate_entry_summary">Nu uitați să validați datele introduse și să salvați baza de date.
 \n
 \nDacă este activată o blocare automată și uitați că ați făcut o modificare, riscați să vă pierdeți datele.</string>

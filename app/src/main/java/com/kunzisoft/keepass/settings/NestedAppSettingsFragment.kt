@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -30,6 +29,7 @@ import android.view.autofill.AutofillManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
@@ -47,7 +47,7 @@ import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.services.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DurationDialogFragmentCompat
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.UriUtil.openUrl
 import com.kunzisoft.keepass.utils.UriUtil.releaseAllUnnecessaryPermissionUris
 
@@ -119,7 +119,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference: TwoStatePreference? = findPreference(getString(R.string.settings_autofill_enable_key))
+
+                // Hide Passkeys settings if needed
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    findPreference<Preference>(getString(R.string.passkeys_explanation_key))
+                        ?.isVisible = false
+                    findPreference<Preference>(getString(R.string.settings_passkeys_key))
+                        ?.isVisible = false
+                }
+
+                val autoFillEnablePreference: TwoStatePreference? = findPreference(getString(R.string.settings_credential_provider_enable_key))
                 activity.getSystemService(AutofillManager::class.java)?.let { autofillManager ->
                     if (autofillManager.hasEnabledAutofillServices())
                         autoFillEnablePreference?.isChecked = autofillManager.hasEnabledAutofillServices()
@@ -161,7 +170,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                     val intent =
                                         Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
                                     intent.data =
-                                        Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
+                                        "package:com.kunzisoft.keepass.autofill.KeeAutofillService".toUri()
                                     Log.d(javaClass.name, "Autofill enable service: intent=$intent")
                                     startActivity(intent)
                                 } else {
@@ -171,7 +180,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         }
                 }
             } else {
-                findPreference<Preference>(getString(R.string.autofill_key))?.isVisible = false
+                findPreference<Preference>(getString(R.string.credential_provider_key))?.isVisible = false
             }
         }
 
@@ -192,14 +201,28 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             false
         }
 
-        findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
-            context?.openUrl(R.string.autofill_explanation_url)
-            false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            findPreference<Preference>(getString(R.string.passkeys_explanation_key))?.setOnPreferenceClickListener {
+                context?.openUrl(R.string.passkeys_explanation_url)
+                false
+            }
+
+            findPreference<Preference>(getString(R.string.settings_passkeys_key))?.setOnPreferenceClickListener {
+                startActivity(Intent(context, PasskeysSettingsActivity::class.java))
+                false
+            }
         }
 
-        findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
-            startActivity(Intent(context, AutofillSettingsActivity::class.java))
-            false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
+                context?.openUrl(R.string.autofill_explanation_url)
+                false
+            }
+
+            findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
+                startActivity(Intent(context, AutofillSettingsActivity::class.java))
+                false
+            }
         }
 
         findPreference<Preference>(getString(R.string.clipboard_notifications_key))?.setOnPreferenceChangeListener { _, newValue ->
@@ -530,7 +553,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         super.onResume()
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                findPreference<TwoStatePreference?>(getString(R.string.settings_autofill_enable_key))?.let { autoFillEnablePreference ->
+                findPreference<TwoStatePreference?>(getString(R.string.settings_credential_provider_enable_key))?.let { autoFillEnablePreference ->
                     val autofillManager = activity.getSystemService(AutofillManager::class.java)
                     autoFillEnablePreference.isChecked = autofillManager != null
                             && autofillManager.hasEnabledAutofillServices()

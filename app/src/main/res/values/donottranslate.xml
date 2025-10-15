@@ -44,6 +44,7 @@
     <string name="device_unlock_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Device-Unlocking</string>
     <string name="magic_keyboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Magikeyboard</string>
     <string name="clipboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Clipboard</string>
+    <string name="passkeys_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Passkeys</string>
     <string name="autofill_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Autofill</string>
     <string name="file_manager_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/File-Manager-and-Sync</string>
     <string name="html_rose">--,--`--,{@</string>
@@ -126,11 +127,22 @@
     <bool name="clear_clipboard_notification_default" translatable="false">false</bool>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="clipboard_timeout_default" translatable="false">20000</string>
-    <string name="autofill_key" translatable="false">autofill_key</string>
+    <string name="credential_provider_key" translatable="false">credential_provider_key</string>
+    <string name="settings_credential_provider_enable_key" translatable="false">settings_credential_provider_enable_key</string>
+    <bool name="settings_credential_provider_enable_default" translatable="false">false</bool>
     <string name="autofill_explanation_key" translatable="false">autofill_explanation_key</string>
-    <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
-    <bool name="settings_autofill_enable_default" translatable="false">false</bool>
     <string name="settings_autofill_key" translatable="false">settings_autofill_key</string>
+    <string name="passkeys_explanation_key" translatable="false">passkeys_explanation_key</string>
+    <string name="settings_passkeys_key" translatable="false">settings_passkeys_key</string>
+    <string name="passkeys_close_database_key" translatable="false">passkeys_close_database_key</string>
+    <bool name="passkeys_close_database_default" translatable="false">true</bool>
+    <string name="passkeys_privileged_apps_key" translatable="false">passkeys_privileged_apps_key</string>
+    <string name="passkeys_auto_select_key" translatable="false">passkeys_auto_select_key</string>
+    <bool name="passkeys_auto_select_default" translatable="false">true</bool>
+    <string name="passkeys_backup_eligibility_key" translatable="false">passkeys_backup_eligibility_key</string>
+    <bool name="passkeys_backup_eligibility_default" translatable="false">true</bool>
+    <string name="passkeys_backup_state_key" translatable="false">passkeys_backup_state_key</string>
+    <bool name="passkeys_backup_state_default" translatable="false">true</bool>
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
     <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
@@ -164,7 +176,7 @@
     <string name="autofill_save_search_info_key" translatable="false">autofill_save_search_info_key</string>
     <bool name="autofill_save_search_info_default" translatable="false">true</bool>
     <string name="autofill_ask_to_save_data_key" translatable="false">autofill_ask_to_save_data_key</string>
-    <bool name="autofill_ask_to_save_data_default" translatable="false">true</bool>
+    <bool name="autofill_ask_to_save_data_default" translatable="false">false</bool>
     <string name="autofill_application_id_blocklist_key" translatable="false">autofill_application_id_blocklist_key</string>
     <string-array name="autofill_application_id_blocklist_default">
     </string-array>
@@ -237,6 +249,8 @@
     <bool name="search_option_username_default" translatable="false">true</bool>
     <string name="search_option_password_key" translatable="false">search_option_password_key</string>
     <bool name="search_option_password_default" translatable="false">false</bool>
+    <string name="search_option_application_id_key" translatable="false">search_option_application_id_key</string>
+    <bool name="search_option_application_id_default" translatable="false">false</bool>
     <string name="search_option_url_key" translatable="false">search_option_url_key</string>
     <bool name="search_option_url_default" translatable="false">true</bool>
     <string name="search_option_expired_key" translatable="false">search_option_expired_key</string>
@@ -448,7 +462,7 @@
     <string name="visual_minus" translatable="false">-</string>
     <string name="visual_underline" translatable="false">_</string>
     <string name="visual_space" translatable="false"> </string>
-    <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!*`;+</string>
+    <string name="visual_special" translatable="false">&amp;\/,^@.#&quot;:%\\='$!?*`;+\"|~</string>
     <string name="visual_brackets" translatable="false">[](){}&lt;&gt;</string>
     <string name="visual_extended" translatable="false">ñæËÌÂÝÜ...</string>
     <string-array name="list_password_generator_options_default_values">

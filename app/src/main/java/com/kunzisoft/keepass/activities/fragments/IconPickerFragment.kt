@@ -48,9 +48,9 @@ class IconPickerFragment : DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         iconPickerPagerAdapter = IconPickerPagerAdapter(this,
-            if (database?.allowCustomIcons == true) 2 else 1)
+            if (database.allowCustomIcons) 2 else 1)
         viewPager.adapter = iconPickerPagerAdapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {

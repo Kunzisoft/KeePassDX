@@ -1,13 +1,24 @@
 package com.kunzisoft.keepass.activities.legacy
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
-import com.kunzisoft.keepass.activities.helpers.TypeMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.isIntentSenderMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveRegisterInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveTypeMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.ToolbarSpecial
@@ -19,9 +30,24 @@ import com.kunzisoft.keepass.view.ToolbarSpecial
 abstract class DatabaseModeActivity : DatabaseActivity() {
 
     protected var mSpecialMode: SpecialMode = SpecialMode.DEFAULT
-    private var mTypeMode: TypeMode = TypeMode.DEFAULT
+    protected var mTypeMode: TypeMode = TypeMode.DEFAULT
 
     private var mToolbarSpecial: ToolbarSpecial? = null
+
+    /**
+     * Utility activity result launcher,
+     * Used recursively, close each activity with return data
+     */
+    protected open var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        setActivityResult(
+            lockDatabase = false,
+            resultCode = it.resultCode,
+            data = it.data
+        )
+    }
 
     open fun onDatabaseBackPressed() {
         if (mSpecialMode != SpecialMode.DEFAULT)
@@ -42,20 +68,14 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
     /**
      * Intent sender uses special retains data in callback
      */
-    private fun isIntentSender(): Boolean {
-        return (mSpecialMode == SpecialMode.SELECTION
-                && mTypeMode == TypeMode.AUTOFILL)
-                /* TODO Registration callback #765
-                || (mSpecialMode == SpecialMode.REGISTRATION
-                && mTypeMode == TypeMode.AUTOFILL
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                */
+    protected fun isIntentSender(): Boolean {
+        return isIntentSenderMode(mSpecialMode, mTypeMode)
     }
 
     fun onLaunchActivitySpecialMode() {
         if (!isIntentSender()) {
-            EntrySelectionHelper.removeModesFromIntent(intent)
-            EntrySelectionHelper.removeInfoFromIntent(intent)
+            intent.removeModes()
+            intent.removeInfo()
             finish()
         }
     }
@@ -64,8 +84,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
         if (isIntentSender()) {
             super.finish()
         } else {
-            EntrySelectionHelper.removeModesFromIntent(intent)
-            EntrySelectionHelper.removeInfoFromIntent(intent)
+            intent.removeModes()
+            intent.removeInfo()
             if (mSpecialMode != SpecialMode.DEFAULT) {
                 backToTheMainAppAndFinish()
             }
@@ -77,8 +97,8 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             // To get the app caller, only for IntentSender
             onRegularBackPressed()
         } else {
-            EntrySelectionHelper.removeModesFromIntent(intent)
-            EntrySelectionHelper.removeInfoFromIntent(intent)
+            intent.removeModes()
+            intent.removeInfo()
             if (mSpecialMode != SpecialMode.DEFAULT) {
                 backToTheMainAppAndFinish()
             }
@@ -109,17 +129,18 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             }
         })
 
-        mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
-        mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
+        mSpecialMode = intent.retrieveSpecialMode()
+        mTypeMode = intent.retrieveTypeMode()
     }
 
     override fun onResume() {
         super.onResume()
 
-        mSpecialMode = EntrySelectionHelper.retrieveSpecialModeFromIntent(intent)
-        mTypeMode = EntrySelectionHelper.retrieveTypeModeFromIntent(intent)
-        val searchInfo: SearchInfo? = EntrySelectionHelper.retrieveRegisterInfoFromIntent(intent)?.searchInfo
-                ?: EntrySelectionHelper.retrieveSearchInfoFromIntent(intent)
+        mSpecialMode = intent.retrieveSpecialMode()
+        mTypeMode = intent.retrieveTypeMode()
+        val registerInfo: RegisterInfo? = intent.retrieveRegisterInfo()
+        val searchInfo: SearchInfo? = registerInfo?.searchInfo
+                ?: intent.retrieveSearchInfo()
 
         // To show the selection mode
         mToolbarSpecial = findViewById(R.id.special_mode_view)
@@ -128,26 +149,25 @@ abstract class DatabaseModeActivity : DatabaseActivity() {
             val selectionModeStringId = when (mSpecialMode) {
                 SpecialMode.DEFAULT, // Not important because hidden
                 SpecialMode.SEARCH -> R.string.search_mode
-                SpecialMode.SAVE -> R.string.save_mode
                 SpecialMode.SELECTION -> R.string.selection_mode
-                SpecialMode.REGISTRATION -> R.string.registration_mode
+                SpecialMode.REGISTRATION -> R.string.save_mode // Save is registration mode
             }
             val typeModeStringId = when (mTypeMode) {
                 TypeMode.DEFAULT, // Not important because hidden
                 TypeMode.MAGIKEYBOARD -> R.string.magic_keyboard_title
                 TypeMode.AUTOFILL -> R.string.autofill
+                TypeMode.PASSKEY -> R.string.passkey
             }
             title = getString(selectionModeStringId)
             if (mTypeMode != TypeMode.DEFAULT)
                 title = "$title (${getString(typeModeStringId)})"
             // Populate subtitle
-            subtitle = searchInfo?.getName(resources)
+            subtitle = registerInfo?.getName(resources) ?: searchInfo?.getName(resources)
 
             // Show the toolbar or not
             visible = when (mSpecialMode) {
                 SpecialMode.DEFAULT -> false
                 SpecialMode.SEARCH -> true
-                SpecialMode.SAVE -> true
                 SpecialMode.SELECTION -> true
                 SpecialMode.REGISTRATION -> true
             }

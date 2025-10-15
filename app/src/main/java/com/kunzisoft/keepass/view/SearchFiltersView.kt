@@ -3,7 +3,6 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageView
@@ -30,8 +29,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     private var searchTitle: CompoundButton
     private var searchUsername: CompoundButton
     private var searchPassword: CompoundButton
+    private var searchApplicationId: CompoundButton
     private var searchURL: CompoundButton
     private var searchByURLDomain: Boolean = false
+    private var searchByURLSubDomain: Boolean = false
     private var searchExpired: CompoundButton
     private var searchNotes: CompoundButton
     private var searchOther: CompoundButton
@@ -50,8 +51,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
                 this.searchInTitles = searchTitle.isChecked
                 this.searchInUsernames = searchUsername.isChecked
                 this.searchInPasswords = searchPassword.isChecked
+                this.searchInAppIds = searchApplicationId.isChecked
                 this.searchInUrls = searchURL.isChecked
                 this.searchByDomain = searchByURLDomain
+                this.searchBySubDomain = searchByURLSubDomain
                 this.searchInExpired = searchExpired.isChecked
                 this.searchInNotes = searchNotes.isChecked
                 this.searchInOther = searchOther.isChecked
@@ -71,8 +74,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
             searchTitle.isChecked = value.searchInTitles
             searchUsername.isChecked = value.searchInUsernames
             searchPassword.isChecked = value.searchInPasswords
+            searchApplicationId.isChecked = value.searchInAppIds
             searchURL.isChecked = value.searchInUrls
             searchByURLDomain = value.searchByDomain
+            searchByURLSubDomain = value.searchBySubDomain
             searchExpired.isChecked = value.searchInExpired
             searchNotes.isChecked = value.searchInNotes
             searchOther.isChecked = value.searchInOther
@@ -87,7 +92,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
     var onParametersChangeListener: ((searchParameters: SearchParameters) -> Unit)? = null
     private var mOnParametersChangeListener: ((searchParameters: SearchParameters) -> Unit)? = {
         // To recalculate height
-        if (searchAdvanceFiltersContainer?.visibility == View.VISIBLE) {
+        if (searchAdvanceFiltersContainer?.visibility == VISIBLE) {
             searchAdvanceFiltersContainer?.expand(
                 false,
                 searchAdvanceFiltersContainer?.getFullHeight()
@@ -110,6 +115,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchTitle = findViewById(R.id.search_chip_title)
         searchUsername = findViewById(R.id.search_chip_username)
         searchPassword = findViewById(R.id.search_chip_password)
+        searchApplicationId = findViewById(R.id.search_chip_application_id)
         searchURL = findViewById(R.id.search_chip_url)
         searchExpired = findViewById(R.id.search_chip_expires)
         searchNotes = findViewById(R.id.search_chip_note)
@@ -125,7 +131,7 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
         // Expand menu with button
         searchExpandButton.setOnClickListener {
-            val isVisible = searchAdvanceFiltersContainer?.visibility == View.VISIBLE
+            val isVisible = searchAdvanceFiltersContainer?.visibility == VISIBLE
             if (isVisible)
                 closeAdvancedFilters()
             else
@@ -154,6 +160,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         }
         searchPassword.setOnCheckedChangeListener { _, isChecked ->
             searchParameters.searchInPasswords = isChecked
+            mOnParametersChangeListener?.invoke(searchParameters)
+        }
+        searchApplicationId.setOnCheckedChangeListener { _, isChecked ->
+            searchParameters.searchInAppIds = isChecked
             mOnParametersChangeListener?.invoke(searchParameters)
         }
         searchURL.setOnCheckedChangeListener { _, isChecked ->
@@ -200,10 +210,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchNumbers.text = SearchHelper.showNumberOfSearchResults(numbers)
     }
 
-    fun setCurrentGroupText(text: String) {
+    fun setCurrentGroupText(text: String?) {
         val maxChars = 12
         searchCurrentGroup.text = when {
-            text.isEmpty() -> context.getString(R.string.current_group)
+            text.isNullOrEmpty() -> context.getString(R.string.current_group)
             text.length > maxChars -> text.substring(0, maxChars) + "…"
             else -> text
         }
@@ -211,6 +221,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
 
     fun availableOther(available: Boolean) {
         searchOther.isVisible = available
+    }
+
+    fun availableApplicationIds(available: Boolean) {
+        searchApplicationId.isVisible = available
     }
 
     fun availableTags(available: Boolean) {
@@ -243,16 +257,20 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         )
     }
 
+    fun showSearchExpandButton(show: Boolean) {
+        searchExpandButton.isVisible = show
+    }
+
     override fun setVisibility(visibility: Int) {
         when (visibility) {
-            View.VISIBLE -> {
-                searchAdvanceFiltersContainer?.visibility = View.GONE
+            VISIBLE -> {
+                searchAdvanceFiltersContainer?.visibility = GONE
                 searchContainer.showByFading()
             }
             else -> {
                 searchContainer.hideByFading()
-                if (searchAdvanceFiltersContainer?.visibility == View.VISIBLE) {
-                    searchAdvanceFiltersContainer?.visibility = View.INVISIBLE
+                if (searchAdvanceFiltersContainer?.visibility == VISIBLE) {
+                    searchAdvanceFiltersContainer?.visibility = INVISIBLE
                     searchAdvanceFiltersContainer?.collapse()
                 }
             }

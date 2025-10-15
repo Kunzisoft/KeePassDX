@@ -67,7 +67,7 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
                 }
                 builder.setMessage(stringBuilder)
                 builder.setPositiveButton(android.R.string.ok) { _, _ ->
-                    actionDatabaseListener?.validateDatabaseChanged()
+                    actionDatabaseListener?.onDatabaseChangeValidated()
                 }
                 return builder.create()
             }
@@ -76,7 +76,7 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
     }
 
     interface ActionDatabaseChangedListener {
-        fun validateDatabaseChanged()
+        fun onDatabaseChangeValidated()
     }
 
     companion object {
@@ -86,9 +86,10 @@ class DatabaseChangedDialogFragment : DatabaseDialogFragment() {
         private const val NEW_FILE_DATABASE_INFO = "NEW_FILE_DATABASE_INFO"
         private const val READ_ONLY_DATABASE = "READ_ONLY_DATABASE"
 
-        fun getInstance(oldSnapFileDatabaseInfo: SnapFileDatabaseInfo,
-                        newSnapFileDatabaseInfo: SnapFileDatabaseInfo,
-                        readOnly: Boolean
+        fun getInstance(
+            oldSnapFileDatabaseInfo: SnapFileDatabaseInfo,
+            newSnapFileDatabaseInfo: SnapFileDatabaseInfo,
+            readOnly: Boolean
         )
         : DatabaseChangedDialogFragment {
             val fragment = DatabaseChangedDialogFragment()

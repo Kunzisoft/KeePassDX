@@ -61,6 +61,7 @@ import androidx.core.view.updatePaddingRelative
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.exception.LocalizedException
 import com.kunzisoft.keepass.database.helper.getLocalizedMessage
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -235,6 +236,17 @@ fun View.updateLockPaddingStart() {
     ).let { lockPadding ->
         updatePaddingRelative(lockPadding)
     }
+}
+
+fun Context.toastError(e: Throwable) {
+    Toast.makeText(
+        applicationContext,
+        if (e is LocalizedException)
+            e.getLocalizedMessage(resources)
+        else
+            e.localizedMessage,
+        Toast.LENGTH_LONG
+    ).show()
 }
 
 fun Context.showActionErrorIfNeeded(result: ActionRunnable.Result) {

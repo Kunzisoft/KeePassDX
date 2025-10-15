@@ -33,12 +33,16 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.model.AppOrigin
+import com.kunzisoft.keepass.model.AppOriginEntryField
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.Passkey
+import com.kunzisoft.keepass.model.PasskeyEntryFields
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
-import com.kunzisoft.keepass.utils.readParcelableCompat
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorInt
 import com.kunzisoft.keepass.utils.StringUtil.toFormattedColorString
+import com.kunzisoft.keepass.utils.readParcelableCompat
 import java.util.UUID
 
 class Entry : Node, EntryVersionedInterface<Group> {
@@ -354,6 +358,24 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return null
     }
 
+    fun getPasskey(): Passkey? {
+        entryKDBX?.let {
+            return PasskeyEntryFields.parseFields { key ->
+                it.getFieldValue(key)?.toString()
+            }
+        }
+        return null
+    }
+
+    fun getAppOrigin(): AppOrigin? {
+        entryKDBX?.let {
+            return AppOriginEntryField.parseFields { key ->
+                it.getFieldValue(key)?.toString()
+            }
+        }
+        return null
+    }
+
     fun startToManageFieldReferences(database: DatabaseKDBX) {
         entryKDBX?.startToManageFieldReferences(database)
     }
@@ -470,9 +492,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
             entryInfo.customFields = getExtraFields().toMutableList()
             // Add otpElement to generate token
             entryInfo.otpModel = getOtpElement()?.otpModel
+            // Add Passkey
+            entryInfo.passkey = getPasskey()
+            entryInfo.appOrigin = getAppOrigin()
             if (!raw) {
                 // Replace parameter fields by generated OTP fields
                 entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
+                entryInfo.customFields = PasskeyEntryFields.generateAutoFields(entryInfo.customFields)
             }
             database?.attachmentPool?.let { binaryPool ->
                 entryInfo.attachments = getAttachments(binaryPool).toMutableList()

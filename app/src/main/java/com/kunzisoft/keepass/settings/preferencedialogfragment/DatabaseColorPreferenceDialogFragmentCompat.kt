@@ -95,20 +95,16 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         return dialog
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-
-        database?.let {
-            var initColor = it.customColor
-            if (initColor != null) {
-                enableSwitchView.isChecked = true
-            } else {
-                enableSwitchView.isChecked = false
-                initColor = DEFAULT_COLOR
-            }
-            chromaColorView.currentColor = initColor
-            arguments?.putInt(ARG_INITIAL_COLOR, initColor)
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        var initColor = database.customColor
+        if (initColor != null) {
+            enableSwitchView.isChecked = true
+        } else {
+            enableSwitchView.isChecked = false
+            initColor = DEFAULT_COLOR
         }
+        chromaColorView.currentColor = initColor
+        arguments?.putInt(ARG_INITIAL_COLOR, initColor)
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

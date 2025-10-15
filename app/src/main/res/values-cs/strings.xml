@@ -179,9 +179,8 @@
     <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>
     <string name="autofill">Samovyplnění</string>
-    <string name="autofill_service_name">KeePassDX samovyplnění formulářů</string>
     <string name="autofill_sign_in_prompt">Přihlásit se s KeePassDX</string>
-    <string name="set_autofill_service_title">Nastavit výchozí službu samovyplnění</string>
+    <string name="set_credential_provider_service_title">Nastavit výchozí službu samovyplnění</string>
     <string name="autofill_explanation_summary">Zapnout samovyplnění formulářů za účelem rychlého vyplnění v ostatních aplikacích</string>
     <string name="password_size_title">Délka generovaného hesla</string>
     <string name="password_size_summary">Nastavení výchozí délky generovaných hesel</string>
@@ -466,7 +465,7 @@
     <string name="education_add_attachment_summary">Nahrát přílohu k záznamu pro uložení důležitých externích dat.</string>
     <string name="show_uuid_summary">Ukáže UUID propojené se záznamem nebo skupinou</string>
     <string name="show_uuid_title">Ukázat UUID</string>
-    <string name="autofill_read_only_save">Uložení dat není povoleno, je-li databáze v režimu pouze pro čtení.</string>
+    <string name="error_save_read_only">Uložení dat není povoleno, je-li databáze v režimu pouze pro čtení.</string>
     <string name="autofill_ask_to_save_data_summary">Po dokončení vyplnění formuláře se tázat na uložení dat</string>
     <string name="autofill_ask_to_save_data_title">Tázat se před uložením</string>
     <string name="autofill_save_search_info_summary">Pokusit se uložit údaje hledání pro příští použití, vybíráte-li záznam manuálně</string>
@@ -481,7 +480,6 @@
     <string name="biometric_security_update_required">Vyžadována aktualizace biometrického zabezpečení.</string>
     <string name="configure_biometric">Žádné přihlašovací ani biometrické údaje nejsou registrovány.</string>
     <string name="warning_empty_recycle_bin">Trvale odstranit všechny uzly z koše\?</string>
-    <string name="registration_mode">Registrace</string>
     <string name="save_mode">Režim ukládání</string>
     <string name="search_mode">Vyhledávání</string>
     <string name="error_field_name_already_exists">Jméno kolonky již existuje.</string>

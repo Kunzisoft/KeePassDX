@@ -159,6 +159,14 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_attach_file_white_24dp" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/node_passkey_icon"
+                style="@style/KeepassDXStyle.Icon.Entry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_passkey_white_24dp" />
+
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView

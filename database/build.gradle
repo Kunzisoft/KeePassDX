@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
 
 android {
     namespace 'com.kunzisoft.keepass.database'
@@ -32,6 +33,11 @@ android {
             includeAndroidResources = true
         }
     }
+
+    packaging {
+        // Bouncy castle bug https://github.com/bcgit/bc-java/issues/1685
+        resources.pickFirsts.add('META-INF/versions/9/OSGI-INF/MANIFEST.MF')
+    }
 }
 
 dependencies {
@@ -41,7 +47,7 @@ dependencies {
     implementation 'commons-io:commons-io:2.8.0'
     implementation 'commons-codec:commons-codec:1.15'
 
-    implementation project(path: ':crypto')
+    api project(path: ':crypto')
 
     // Tests
     androidTestImplementation "androidx.test:runner:$android_test_version"

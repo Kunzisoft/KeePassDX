@@ -22,9 +22,9 @@ package com.kunzisoft.keepass.database.element.node
 import android.os.Parcel
 import android.os.ParcelUuid
 import android.os.Parcelable
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.readParcelableCompat
-import com.kunzisoft.keepass.utils.UuidUtil
-import java.util.*
+import java.util.UUID
 
 class NodeIdUUID : NodeId<UUID> {
 
@@ -62,7 +62,7 @@ class NodeIdUUID : NodeId<UUID> {
     }
 
     override fun toString(): String {
-        return UuidUtil.toHexString(id) ?: id.toString()
+        return id.asHexString() ?: id.toString()
     }
 
     override fun toVisualString(): String {

@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.settings
 
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -29,6 +30,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistAppIdPreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistWebDomainPreferenceDialogFragmentCompat
 
+@RequiresApi(Build.VERSION_CODES.O)
 class AutofillSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -39,11 +41,14 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             autofillInlineSuggestionsPreference?.isVisible = false
         }
+
+        val autofillAskSaveDataPreference: TwoStatePreference? = findPreference(getString(R.string.autofill_ask_to_save_data_key))
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            autofillAskSaveDataPreference?.isVisible = false
+        }
     }
 
     override fun onDisplayPreferenceDialog(preference: Preference) {
-        var otherDialogFragment = false
-
         var dialogFragment: DialogFragment? = null
 
         when (preference.key) {
@@ -53,7 +58,7 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
             getString(R.string.autofill_web_domain_blocklist_key) -> {
                 dialogFragment = AutofillBlocklistWebDomainPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
-            else -> otherDialogFragment = true
+            else -> {}
         }
 
         if (dialogFragment != null) {
@@ -62,7 +67,7 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
             dialogFragment.show(parentFragmentManager, TAG_AUTOFILL_PREF_FRAGMENT)
         }
         // Could not be handled here. Try with the super method.
-        else if (otherDialogFragment) {
+        else {
             super.onDisplayPreferenceDialog(preference)
         }
     }

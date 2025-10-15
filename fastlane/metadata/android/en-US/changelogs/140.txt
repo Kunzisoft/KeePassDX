@@ -1,0 +1,4 @@
+ * Updated to API 35 minimum SDK 19 #2073 #2138 #2067 #2133 (Thx @Dev-ClayP)
+ * Passkeys management #1421 #2097 (Thx @cali-95)
+ * Remember last read-only state #2099 #2100 (Thx @rmacklin)
+ * Small fixes

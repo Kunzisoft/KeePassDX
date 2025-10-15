@@ -21,9 +21,16 @@ package com.kunzisoft.keepass.database.helper
 
 import android.content.Context
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil.searchSubDomains
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import mozilla.components.lib.publicsuffixlist.PublicSuffixList
 
 object SearchHelper {
 
@@ -41,38 +48,112 @@ object SearchHelper {
     }
 
     /**
-     * Utility method to perform actions if item is found or not after an auto search in [database]
+     * Get the concrete web domain AKA without sub domain if needed
      */
-    fun checkAutoSearchInfo(context: Context,
-                            database: ContextualDatabase?,
-                            searchInfo: SearchInfo?,
-                            onItemsFound: (openedDatabase: ContextualDatabase,
-                                           items: List<EntryInfo>) -> Unit,
-                            onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
-                            onDatabaseClosed: () -> Unit) {
-        if (database == null || !database.loaded) {
-            onDatabaseClosed.invoke()
-        } else if (TimeoutHelper.checkTime(context)) {
-            var searchWithoutUI = false
-            if (searchInfo != null
-                && !searchInfo.manualSelection
-                && !searchInfo.containsOnlyNullValues()) {
-                // If search provide results
-                database.createVirtualGroupFromSearchInfo(
-                        searchInfoString = searchInfo.toString(),
-                        searchInfoByDomain = searchInfo.isASearchByDomain(),
-                        max = MAX_SEARCH_ENTRY
-                )?.let { searchGroup ->
-                    if (searchGroup.numberOfChildEntries > 0) {
-                        searchWithoutUI = true
-                        onItemsFound.invoke(database,
-                                searchGroup.getChildEntriesInfo(database))
+    private fun getConcreteWebDomain(
+        context: Context,
+        webDomain: String?,
+        concreteWebDomain: (searchSubDomains: Boolean, concreteWebDomain: String?) -> Unit
+    ) {
+        val domain = webDomain
+        val searchSubDomains = searchSubDomains(context)
+        if (domain != null) {
+            // Warning, web domain can contains IP, don't crop in this case
+            if (searchSubDomains
+                || Regex(SearchInfo.WEB_IP_REGEX).matches(domain)) {
+                concreteWebDomain.invoke(searchSubDomains, webDomain)
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val publicSuffixList = PublicSuffixList(context)
+                    val publicSuffix = publicSuffixList
+                        .getPublicSuffixPlusOne(domain).await()
+                    withContext(Dispatchers.Main) {
+                        concreteWebDomain.invoke(false, publicSuffix)
                     }
                 }
             }
-            if (!searchWithoutUI) {
+        } else {
+            concreteWebDomain.invoke(searchSubDomains, null)
+        }
+    }
+
+    /**
+     * Create search parameters asynchronously from [SearchInfo]
+     */
+    fun SearchInfo.getSearchParametersFromSearchInfo(
+        context: Context,
+        callback: (SearchParameters) -> Unit
+    ) {
+        getConcreteWebDomain(
+            context,
+            webDomain
+        ) { searchSubDomains, concreteDomain ->
+            var query = this.toString()
+            if (isDomainSearch && concreteDomain != null)
+                query = concreteDomain
+            callback.invoke(
+                SearchParameters().apply {
+                    searchQuery = query
+                    allowEmptyQuery = false
+                    searchInTitles = false
+                    searchInUsernames = false
+                    searchInPasswords = false
+                    searchInAppIds = isAppIdSearch
+                    searchInUrls = isDomainSearch
+                    searchByDomain = true
+                    searchBySubDomain = searchSubDomains
+                    searchInRelyingParty = isPasskeySearch
+                    searchInNotes = false
+                    searchInOTP = isOTPSearch
+                    searchInOther = false
+                    searchInUUIDs = false
+                    searchInTags = isTagSearch
+                    searchInCurrentGroup = false
+                    searchInSearchableGroup = true
+                    searchInRecycleBin = false
+                    searchInTemplates = false
+                }
+            )
+        }
+    }
+
+    /**
+     * Utility method to perform actions if item is found or not after an auto search in [database]
+     */
+    fun checkAutoSearchInfo(
+        context: Context,
+        database: ContextualDatabase?,
+        searchInfo: SearchInfo?,
+        onItemsFound: (openedDatabase: ContextualDatabase,
+                       items: List<EntryInfo>) -> Unit,
+        onItemNotFound: (openedDatabase: ContextualDatabase) -> Unit,
+        onDatabaseClosed: () -> Unit
+    ) {
+        // Do not place coroutine at start, bug in Passkey implementation
+        if (database == null || !database.loaded) {
+            onDatabaseClosed.invoke()
+        } else if (TimeoutHelper.checkTime(context)) {
+            if (searchInfo != null
+                && !searchInfo.manualSelection
+                && !searchInfo.containsOnlyNullValues()
+            ) {
+                searchInfo.getSearchParametersFromSearchInfo(context) { searchParameters ->
+                    // If search provide results
+                    database.createVirtualGroupFromSearchInfo(
+                        searchParameters = searchParameters,
+                        max = MAX_SEARCH_ENTRY
+                    )?.let { searchGroup ->
+                        if (searchGroup.numberOfChildEntries > 0) {
+                            onItemsFound.invoke(
+                                database,
+                                searchGroup.getChildEntriesInfo(database)
+                            )
+                        } else
+                            onItemNotFound.invoke(database)
+                    } ?: onItemNotFound.invoke(database)
+                }
+            } else
                 onItemNotFound.invoke(database)
-            }
         }
     }
 }

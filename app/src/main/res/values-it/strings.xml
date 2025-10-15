@@ -178,9 +178,8 @@
     <string name="menu_appearance_settings">Aspetto</string>
     <string name="general">Generale</string>
     <string name="autofill">Autocompletamento</string>
-    <string name="autofill_service_name">Autocompletamento di KeePassDX</string>
     <string name="autofill_sign_in_prompt">Accedi con KeePassDX</string>
-    <string name="set_autofill_service_title">Servizio predefinito di autocompletamento</string>
+    <string name="set_credential_provider_service_title">Servizio predefinito di autocompletamento</string>
     <string name="autofill_explanation_summary">Attiva l\'autocompletamento per riempire velocemente i campi in altre app</string>
     <string name="password_size_title">Dimensione password generata</string>
     <string name="password_size_summary">Imposta la dimensione predefinita delle password generate</string>
@@ -468,7 +467,7 @@
     <string name="content_description_credentials_information">Info credenziali</string>
     <string name="show_uuid_summary">Visualizza l\'UUID collegato a una voce o a un gruppo</string>
     <string name="show_uuid_title">Mostra UUID</string>
-    <string name="autofill_read_only_save">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
+    <string name="error_save_read_only">Il salvataggio dei dati non è consentito per un database aperto in sola lettura.</string>
     <string name="autofill_ask_to_save_data_summary">Chiedi di salvare i dati quando l\'immissione dei dati in un form viene completata</string>
     <string name="autofill_ask_to_save_data_title">Chiedi di salvare i dati</string>
     <string name="autofill_save_search_info_summary">Provare a salvare le informazioni di ricerca quando viene selezionato manualmente un elemento per facilitarne gli utilizzi futuri</string>
@@ -482,7 +481,6 @@
     <string name="notification">Notifica</string>
     <string name="biometric_security_update_required">È necessario un aggiornamento della sicurezza biometrica.</string>
     <string name="warning_empty_recycle_bin">Eliminare definitivamente tutti i nodi dal cestino\?</string>
-    <string name="registration_mode">Modalità registrazione</string>
     <string name="save_mode">Modalità salvataggio</string>
     <string name="search_mode">Modalità ricerca</string>
     <string name="error_field_name_already_exists">Il nome del campo esiste già.</string>

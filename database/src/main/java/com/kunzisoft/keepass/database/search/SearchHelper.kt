@@ -24,8 +24,14 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.NodeHandler
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_FIELD
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.model.AppOriginEntryField.isAppId
+import com.kunzisoft.keepass.model.AppOriginEntryField.isAppIdSignature
+import com.kunzisoft.keepass.model.AppOriginEntryField.isWebDomain
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isPasskey
+import com.kunzisoft.keepass.model.PasskeyEntryFields.isRelyingParty
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOTP
+import com.kunzisoft.keepass.otp.OtpEntryFields.isOTPURIField
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.inTheSameDomainAs
 
 class SearchHelper {
@@ -121,8 +127,10 @@ class SearchHelper {
         /**
          * Return true if the search query in search parameters is found in available parameters
          */
-        fun searchInEntry(entry: Entry,
-                          searchParameters: SearchParameters): Boolean {
+        fun searchInEntry(
+            entry: Entry,
+            searchParameters: SearchParameters
+        ): Boolean {
             // Not found if the search string is empty
             if (searchParameters.searchQuery.isEmpty())
                 return searchParameters.allowEmptyQuery
@@ -146,16 +154,32 @@ class SearchHelper {
                 if (checkSearchQuery(entry.password, searchParameters))
                     return true
             }
+            if (searchParameters.searchInAppIds) {
+                if (entry.getExtraFields().any { field ->
+                        field.isAppId()
+                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                    })
+                    return true
+            }
             if (searchParameters.searchInUrls) {
                 if (checkSearchQuery(entry.url, searchParameters) { stringToCheck, word ->
-                    if (searchParameters.searchByDomain) {
-                        try {
-                            stringToCheck.inTheSameDomainAs(word, sameSubDomain = true)
-                        } catch (_: Exception) {
-                            false
+                    specialWebDomainComparison(searchParameters, stringToCheck, word)
+                }) {
+                    return true
+                } else if (entry.getExtraFields().any { field ->
+                        field.isWebDomain()
+                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters) { stringToCheck, word ->
+                            specialWebDomainComparison(searchParameters, stringToCheck, word)
                         }
-                    } else null
-                })
+                    }) {
+                    return true
+                }
+            }
+            if (searchParameters.searchInRelyingParty) {
+                if(entry.getExtraFields().any { field ->
+                        field.isRelyingParty()
+                        && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                    })
                     return true
             }
             if (searchParameters.searchInNotes) {
@@ -163,24 +187,50 @@ class SearchHelper {
                     return true
             }
             if (searchParameters.searchInUUIDs) {
-                val hexString = UuidUtil.toHexString(entry.nodeId.id) ?: ""
+                val hexString = entry.nodeId.id.asHexString() ?: ""
                 if (checkSearchQuery(hexString, searchParameters))
                     return true
             }
+            if (searchParameters.searchInOTP) {
+                if (entry.getExtraFields().any { field ->
+                    field.isOTPURIField()
+                    && checkSearchQuery(field.protectedValue.stringValue, searchParameters)
+                })
+                    return true
+            }
             if (searchParameters.searchInOther) {
-                entry.getExtraFields().forEach { field ->
-                    if (field.name != OTP_FIELD
-                            || (field.name == OTP_FIELD && searchParameters.searchInOTP)) {
-                        if (checkSearchQuery(field.protectedValue.toString(), searchParameters))
-                            return true
-                    }
-                }
+                if (entry.getExtraFields().any { field ->
+                    !field.isAppId()
+                    && !field.isAppIdSignature()
+                    && !field.isWebDomain()
+                    && !field.isOTP()
+                    && !field.isPasskey()
+                    && checkSearchQuery(field.protectedValue.toString(), searchParameters)
+                })
+                    return true
             }
             if (searchParameters.searchInTags) {
                 if (checkSearchQuery(entry.tags.toString(), searchParameters))
                     return true
             }
             return false
+        }
+
+        private fun specialWebDomainComparison(
+            searchParameters: SearchParameters,
+            stringToCheck: String,
+            word: String
+        ): Boolean? {
+            return if (searchParameters.searchByDomain) {
+                try {
+                    stringToCheck.inTheSameDomainAs(
+                        value = word,
+                        sameSubDomain = searchParameters.searchBySubDomain
+                    )
+                } catch (_: Exception) {
+                    false
+                }
+            } else null
         }
 
         private fun checkSearchQuery(

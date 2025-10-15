@@ -95,7 +95,7 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:textColor="@color/grey_blue_slighter"/>
-    <com.kunzisoft.keepass.magikeyboard.KeyboardView
+    <com.kunzisoft.keepass.credentialprovider.magikeyboard.KeyboardView
         android:id="@+id/magikeyboard_view"
         style="@style/KeepassDXStyle.Keyboard"
         android:layout_width="match_parent"

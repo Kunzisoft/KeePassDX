@@ -31,19 +31,17 @@ class DatabaseMaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePrefer
         setExplanationText(R.string.max_history_items_summary)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        database?.historyMaxItems?.let { maxItemsDatabase ->
-            inputText = maxItemsDatabase.toString()
-            setSwitchAction({ isChecked ->
-                inputText = if (!isChecked) {
-                    NONE_MAX_HISTORY_ITEMS.toString()
-                } else {
-                    DEFAULT_MAX_HISTORY_ITEMS.toString()
-                }
-                showInputText(isChecked)
-            }, maxItemsDatabase > NONE_MAX_HISTORY_ITEMS)
-        }
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        val maxItemsDatabase = database.historyMaxItems
+        inputText = maxItemsDatabase.toString()
+        setSwitchAction({ isChecked ->
+            inputText = if (!isChecked) {
+                NONE_MAX_HISTORY_ITEMS.toString()
+            } else {
+                DEFAULT_MAX_HISTORY_ITEMS.toString()
+            }
+            showInputText(isChecked)
+        }, maxItemsDatabase > NONE_MAX_HISTORY_ITEMS)
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

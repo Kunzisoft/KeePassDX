@@ -170,9 +170,8 @@
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletado</string>
-    <string name="autofill_service_name">Autocompletado de formularios de KeePassDX</string>
     <string name="autofill_sign_in_prompt">Iniciar sesión con KeePassDX</string>
-    <string name="set_autofill_service_title">Establecer servicio de autocompletado por defecto</string>
+    <string name="set_credential_provider_service_title">Establecer servicio de autocompletado por defecto</string>
     <string name="password_size_title">Tamaño de la contraseña generada</string>
     <string name="password_size_summary">Establece el tamaño predeterminado de las contraseñas generadas</string>
     <string name="list_password_generator_options_title">Caracteres de contraseña</string>
@@ -453,7 +452,6 @@
     <string name="configure_biometric">No se ha inscrito ninguna credencial biométrica o del dispositivo.</string>
     <string name="warning_empty_keyfile_explanation">El contenido del archivo de clave nunca debe modificarse y, en el mejor de los casos, debe contener datos generados al azar.</string>
     <string name="warning_empty_recycle_bin">¿Borrar permanentemente todos los nodos de la papelera de reciclaje\?</string>
-    <string name="registration_mode">Modo de registro</string>
     <string name="save_mode">Modo de guardado</string>
     <string name="search_mode">Modo de búsqueda</string>
     <string name="contains_duplicate_uuid_procedure">¿Solucionar el problema generando nuevos UUID para que los duplicados continúen?</string>
@@ -474,7 +472,7 @@
     <string name="education_setup_OTP_title">Establecer contraseña de un solo uso</string>
     <string name="education_device_unlock_summary">Vincule su contraseña con su credencial biométrica o del dispositivo escaneada para desbloquear rápidamente su base de datos.</string>
     <string name="education_device_unlock_title">Desbloqueo de la base de datos de los dispositivos</string>
-    <string name="autofill_read_only_save">No se permite guardar datos en una base de datos abierta como de solo lectura.</string>
+    <string name="error_save_read_only">No se permite guardar datos en una base de datos abierta como de solo lectura.</string>
     <string name="autofill_block_restart">Reinicia la aplicación que contiene el formulario para activar el bloqueo.</string>
     <string name="autofill_web_domain_blocklist_summary">Lista de dominios web en los que se impide el autocompletado</string>
     <string name="autofill_web_domain_blocklist_title">Lista de bloqueo de dominios web</string>

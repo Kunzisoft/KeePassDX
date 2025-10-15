@@ -178,9 +178,8 @@
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
-    <string name="autofill_service_name">Preenchimento automático do KeePassDX</string>
     <string name="autofill_sign_in_prompt">Entre com o KeePassDX</string>
-    <string name="set_autofill_service_title">Definir serviço padrão de preenchimento automático</string>
+    <string name="set_credential_provider_service_title">Definir serviço padrão de preenchimento automático</string>
     <string name="autofill_explanation_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
     <string name="password_size_title">Comprimento da senha gerada</string>
     <string name="password_size_summary">Define o tamanho padrão para senhas geradas</string>
@@ -531,7 +530,6 @@
     <string name="export_app_properties_title">Exportar as configurações do aplicativo</string>
     <string name="import_app_properties_summary">Selecione um arquivo para importar as configurações do aplicativo</string>
     <string name="import_app_properties_title">Importar as configurações do aplicativo</string>
-    <string name="registration_mode">Modo registro</string>
     <string name="save_mode">Modo salvar</string>
     <string name="search_mode">Modo busca</string>
     <string name="menu_external_icon">Ícone externo</string>
@@ -551,7 +549,7 @@
     <string name="education_device_unlock_summary">Vincule sua senha à credencial biométrica ou do dispositivo digitalizada para desbloquear rapidamente seu banco de dados.</string>
     <string name="education_device_unlock_title">Desbloqueio do banco de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Sugestões de preenchimento automático adicionadas.</string>
-    <string name="autofill_read_only_save">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
+    <string name="error_save_read_only">A salvação de dados não é permitida para um banco de dados aberto apenas como leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para salvar dados ao terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Perguntar para salvar dados</string>
     <string name="autofill_save_search_info_summary">Tente salvar informações de pesquisa ao fazer uma seleção manual de entrada para facilitar usos posteriores</string>
