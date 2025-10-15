@@ -702,4 +702,6 @@
     <string name="hide_templates_title">Cacher les gabarits</string>
     <string name="hide_templates_summary">Les gabarits ne sont pas affichés</string>
     <string name="error_otp_secret_length">La clé secrète doit avoir ai moins %1$d caractères.</string>
+    <string name="entry_application_id">ID d\'application</string>
+    <string name="warning_overwrite_data_title">Écraser les données existantes ?</string>
 </resources>
