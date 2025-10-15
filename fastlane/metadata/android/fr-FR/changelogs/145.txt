@@ -1,4 +1,8 @@
- * Gestion de Passkeys #1421
- * Ajout des flags KPEX_PASSKEY_FLAG_BE et KPEX_PASSKEY_FLAG_BS #2212
- * Correction de la recherche auto du remplissage de formulaire #2204
- * Petites corrections #2214 #2215
+ * Gestion de Passkeys #1421 #2097 (@cali-95)
+ * Confirmation de l'usage de Passkey #2165 #2124
+ * Dialogue pour la gestion des signatures manquantes #2152 #2155 #2161 #2160
+ * Capture des erreurs #2159 #2215
+ * Configuration de Passkey Backup Eligibility & Backup State #2135 #2150 #2212
+ * Paramètres de recherche #2112 #2181 #2187 #2204
+ * Refactorisation du remplissage automatique #765 #2196
+ * Corrections mineures #2157 #2164 #2171 #2122 #2180 #2209 #2214
