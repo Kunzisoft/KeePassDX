@@ -11,6 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
+import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.Companion.addHardwareKey
 import com.kunzisoft.keepass.credentialprovider.viewmodel.HardwareKeyLauncherViewModel.Companion.addSeed
@@ -21,6 +23,7 @@ import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.AppUtil.openExternalApp
+import com.kunzisoft.keepass.view.toastError
 import kotlinx.coroutines.launch
 
 /**
@@ -67,6 +70,24 @@ class HardwareKeyActivity: DatabaseModeActivity(){
                     is UIState.OnChallengeResponded -> {
                         mDatabaseViewModel.onChallengeResponded(uiState.response)
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            mHardwareKeyLauncherViewModel.credentialUiState.collect { uiState ->
+                when (uiState) {
+                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
+                        setActivityResult(
+                            lockDatabase = uiState.lockDatabase,
+                            resultCode = uiState.resultCode,
+                            data = uiState.data
+                        )
+                    }
+                    is CredentialLauncherViewModel.UIState.ShowError -> {
+                        toastError(uiState.error)
+                        mHardwareKeyLauncherViewModel.cancelResult()
+                    }
+                    else -> {}
                 }
             }
         }
