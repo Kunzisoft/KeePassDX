@@ -672,7 +672,7 @@
     <string name="later">Later</string>
     <string name="ask">Vragen</string>
     <string name="configure">Configureren</string>
-    <string name="menu_appearance_settings_summary">Thema\'s, kleuren, attributen</string>
+    <string name="menu_appearance_settings_summary">Thema\'s, kleuren, pictogrammen, lettertypen, attributen</string>
     <string name="menu_app_settings_summary">Zoeken, vergrendelen, geschiedenis, eigenschappen</string>
     <string name="menu_form_filling_settings_summary">Toetsenbord, automatisch aanvullen, klembord</string>
     <string name="info">Informatie</string>

@@ -345,7 +345,7 @@
     <string name="error_XML_malformed">XML e keqformuar.</string>
     <string name="autofill_block">Blloko vetëplotësim</string>
     <string name="allow_no_password_summary">Lejon prekjen e butoni “Hape”, nëse s’janë përzgjedhur kredenciale</string>
-    <string name="about_description">Sendërtim për Android i përgjegjësit KeePass të fjalëkalimeve</string>
+    <string name="about_description">Sendërtim për Android i përgjegjësit KeePass të fjalëkalimeve.</string>
     <string name="auto_focus_search_summary">Kërko një kërkim, kur hapet një bazë të dhënash</string>
     <string name="warning_replace_file">Ngarkimi i kësaj kartele do të zëvendësojë atë ekzistuesen.</string>
     <string name="autofill">Vetëplotësoje</string>
@@ -364,7 +364,7 @@
     <string name="style_name_simple">E thjeshtë</string>
     <string name="style_name_reply">Përgjigju</string>
     <string name="content_description_hardware_key_checkbox">Kutizë kyçi hardware</string>
-    <string name="content_description_repeat_toggle_password_visibility"/>
+    <string name="content_description_repeat_toggle_password_visibility">Përsërit ndryshim dukshmërie fjalëkalimi</string>
     <string name="content_description_entry_foreground_color">Ngjyrë e përparme e zërit</string>
     <string name="content_description_entry_background_color">Ngjyrë sfondi e zërit</string>
     <string name="navigation_drawer_open">Panel lëvizjesh i hapur</string>
@@ -382,14 +382,14 @@
     <string name="menu_form_filling_settings">Plotësim formularësh</string>
     <string name="menu_open_file_read_and_write">E ndryshueshme</string>
     <string name="search_mode">Mënyra kërkim</string>
-    <string name="save_mode"/>
+    <string name="save_mode">Mënyra Kursim</string>
     <string name="remember_keyfile_locations_summary">Ndjek se ku depozitohen kartela kyç</string>
     <string name="remember_hardware_key_title">Mbaj mend kyçe hardware</string>
     <string name="remember_hardware_key_summary">Ndjek kyçet hardware të përdorur</string>
     <string name="hide_broken_locations_summary">Fshihi lidhjen e dëmtuara te lista e bazave të të dhënave së fundi</string>
     <string name="export_app_properties_summary">Krijoni një kartelë ku të eksportohen rregullime aplikacioni</string>
     <string name="success_import_app_properties">Rregullimet e aplikacionit u importuan</string>
-    <string name="error_import_app_properties">Gabim gjatë importimit të rregullimeve të aplikacionit</string>
+    <string name="error_import_app_properties">Gabim gjatë importimit të rregullimeve të aplikacionit.</string>
     <string name="success_export_app_properties">Rregullimet e aplikacionit u eksportuan</string>
     <string name="encryption_explanation">Algoritëm fshehtëzimi të dhënash i përdorur për krejt të dhënat</string>
     <string name="rounds_explanation">Më tepër raunde fshehtëzimi furnizojnë mbrojtje më të madhe kundër sulmesh hyrjeje me zor, por mund të ngadalësojnë vërtet ngarkimin dhe ruajtjen e gjërave.</string>
@@ -428,7 +428,7 @@
     <string name="temp_device_unlock_enable_title">Shkyçje e përkohshme pajisjeje</string>
     <string name="file_manager_install_description">Që të krijohen, hapen dhe ruhen kartela bazash të dhënash, lypset një përgjegjës kartelash që pranon veprime ACTION_CREATE_DOCUMENT dhe ACTION_OPEN_DOCUMENT.</string>
     <string name="content_description_keyfile_checkbox">Kutizë për kartelë kyçi</string>
-    <string name="content_description_nav_header"/>
+    <string name="content_description_nav_header">Krye lëvizjesh</string>
     <string name="navigation_drawer_close">Panel lëvizjesh i mbyllur</string>
     <string name="searchable"/>
     <string name="search_filters">Filtra kërkimesh</string>
@@ -476,9 +476,9 @@
     <string name="error_load_database_KDF_memory">S’u ngarkua dot kyçi. Provoni të ulni “Përdorim Kujtese” KDF.</string>
     <string name="error_pass_gen_type">Duhet përzgjedhur të paktën një lloj prodhimi fjalëkalimi.</string>
     <string name="error_create_database_file">S’arrihet të krijohet bazë të dhënash me këtë fjalëkalim dhe kartelë kyç.</string>
-    <string name="error_registration_read_only">Në baza të dhënash që janë vetëm-për-lexim s’lejohet ruajtja e një objekti të ri</string>
+    <string name="error_registration_read_only">Në baza të dhënash që janë vetëm-për-lexim s’lejohet ruajtja e një objekti të ri.</string>
     <string name="error_database_uri_null">S’mund të merret URI baze të dhënash.</string>
-    <string name="error_challenge_already_requested">Sfida është kërkuar tashmë</string>
+    <string name="error_challenge_already_requested">Sfida është kërkuar tashmë.</string>
     <string name="error_response_already_provided">Përgjigja është dhënë tashmë.</string>
     <string name="error_no_response_from_challenge">S’arrihet të merret përgjigja nga sfida.</string>
     <string name="error_driver_required">Përudhësi për %1$s është i domosdoshëm.</string>
@@ -487,13 +487,13 @@
     <string name="menu_database_settings_summary">Tejtëdhëna, kosh ricklimesh, gjedhe, historik</string>
     <string name="menu_security_settings_summary">Fshehtëzim, funksion derivimi kyçesh</string>
     <string name="master_key_settings_summary">Ndryshojeni, rinovim</string>
-    <string name="menu_move"/>
+    <string name="menu_move">Lëvize</string>
     <string name="menu_merge_database">Përzieni të dhëna</string>
     <string name="menu_keystore_remove_key">Fshi kyç shkyçjeje pajisjeje</string>
     <string name="subdomain_search_title">Kërkim nënpërkatësie</string>
     <string name="read_only_warning">Në varësi të përgjegjësit tuaj të kartelave, KeePassDX-i mund të mos lejojë të shkruhet në depozitën tuaj.</string>
     <string name="remember_database_locations_summary">Ndjek se ku depozitohen bazat e të dhënave</string>
-    <string name="error_export_app_properties">Gabim gjatë eksportimit të rregullimeve të aplikacionit</string>
+    <string name="error_export_app_properties">Gabim gjatë eksportimit të rregullimeve të aplikacionit.</string>
     <string name="memory_usage_explanation">Sasi kujtese për t’u përdorur nga funksioni i derivimit të kyçeve.</string>
     <string name="command_execution">Po përmbushet urdhri…</string>
     <string name="sort_ascending">Më i ulti së pari ↓</string>
@@ -653,4 +653,5 @@
     <string name="education_device_unlock_summary">Lidheni fjalëkalimin tuaj me hollësi biometrike të skanuara, ose kredenciale pajisjeje, për të shkyçur shpejt bazën tuaj të dhënave.</string>
     <string name="warning_empty_password">Të vazhdohet pa mbrojtje shkyçjeje fjalëkalimesh?</string>
     <string name="device_unlock_prompt_not_initialized">S’arrihet të bëhet gati hapi i shkyçjes së pajisjes.</string>
+    <string name="error_otp_secret_length">Kyçi i fshehtë duhet të jetë të paktën %1$d shenja.</string>
 </resources>

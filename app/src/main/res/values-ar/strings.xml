@@ -642,7 +642,7 @@
     <string name="show_uuid_title">أظهر \"المعرّف العام المميز\" UUID</string>
     <string name="unlock_and_link_biometric">رابط فتح الجهاز</string>
     <string name="device_unlock_invalid_key">لا يمكن قراءة مفتاح فتح الجهاز. يرجى حذفه وتكرار إجراء التعرف على الفتح.</string>
-    <string name="menu_appearance_settings_summary">المظاهر والألوان والسمات</string>
+    <string name="menu_appearance_settings_summary">المظاهر والألوان والأيقونات والخطوط والسمات</string>
     <string name="autofill_explanation_summary">تمكين الملء التلقائي لملء النماذج بسرعة في التطبيقات الأخرى</string>
     <string name="device_credential_unlock_enable_summary">يتيح لك استخدام بيانات اعتماد جهازك لفتح قاعدة البيانات</string>
     <string name="unlock">فتح</string>

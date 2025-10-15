@@ -682,7 +682,7 @@
     <string name="ask">Fragen</string>
     <string name="later">Später</string>
     <string name="unlock_and_link_biometric">Geräteentsperrverknüpfung</string>
-    <string name="menu_appearance_settings_summary">Design, Farben, Attribute</string>
+    <string name="menu_appearance_settings_summary">Design, Farben, Symbole, Schriftarten, Attribute</string>
     <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
 \n
 \nWird diese Berechtigung nicht aktiviert, ist die im Hintergrund geöffnete Datenbank nicht sichtbar, wenn eine Anwendung im Vordergrund läuft.</string>

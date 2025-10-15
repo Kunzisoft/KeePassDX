@@ -637,7 +637,7 @@
     <string name="regex">Reguláris kifejezés</string>
     <string name="show_entry_colors_title">Bejegyzésszínek</string>
     <string name="passphrase">Jelmondat</string>
-    <string name="menu_appearance_settings_summary">Témák, színek, attribútumok</string>
+    <string name="menu_appearance_settings_summary">Témák, színek, ikonok, betűkészletek, attribútumok</string>
     <string name="expired">Lejárt</string>
     <string name="error_response_already_provided">A válasz már megérkezett.</string>
     <string name="colorize_password_summary">A jelszó karaktereinek színezése típus szerint</string>
