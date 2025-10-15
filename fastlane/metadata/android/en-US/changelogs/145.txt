@@ -1,3 +1,4 @@
  * Passkeys management #1421
  * Add KPEX_PASSKEY_FLAG_BE and KPEX_PASSKEY_FLAG_BS flags #2212
+ * Fix form filling auto search #2204
  * Small fixes #2214

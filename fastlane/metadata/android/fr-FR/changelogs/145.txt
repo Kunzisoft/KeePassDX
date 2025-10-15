@@ -1,3 +1,4 @@
  * Gestion de Passkeys #1421
  * Ajout des flags KPEX_PASSKEY_FLAG_BE et KPEX_PASSKEY_FLAG_BS #2212
+ * Correction de la recherche auto du remplissage de formulaire #2204
  * Petites corrections #2214

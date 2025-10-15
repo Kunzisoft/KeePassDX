@@ -53,26 +53,67 @@ object SearchHelper {
     private fun getConcreteWebDomain(
         context: Context,
         webDomain: String?,
-        concreteWebDomain: (String?) -> Unit
+        concreteWebDomain: (searchSubDomains: Boolean, concreteWebDomain: String?) -> Unit
     ) {
         val domain = webDomain
+        val searchSubDomains = searchSubDomains(context)
         if (domain != null) {
             // Warning, web domain can contains IP, don't crop in this case
-            if (searchSubDomains(context)
+            if (searchSubDomains
                 || Regex(SearchInfo.WEB_IP_REGEX).matches(domain)) {
-                concreteWebDomain.invoke(webDomain)
+                concreteWebDomain.invoke(searchSubDomains, webDomain)
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     val publicSuffixList = PublicSuffixList(context)
                     val publicSuffix = publicSuffixList
                         .getPublicSuffixPlusOne(domain).await()
                     withContext(Dispatchers.Main) {
-                        concreteWebDomain.invoke(publicSuffix)
+                        concreteWebDomain.invoke(false, publicSuffix)
                     }
                 }
             }
         } else {
-            concreteWebDomain.invoke(null)
+            concreteWebDomain.invoke(searchSubDomains, null)
+        }
+    }
+
+    /**
+     * Create search parameters asynchronously from [SearchInfo]
+     */
+    fun SearchInfo.getSearchParametersFromSearchInfo(
+        context: Context,
+        callback: (SearchParameters) -> Unit
+    ) {
+        getConcreteWebDomain(
+            context,
+            webDomain
+        ) { searchSubDomains, concreteDomain ->
+            var query = this.toString()
+            if (isDomainSearch && concreteDomain != null)
+                query = concreteDomain
+            callback.invoke(
+                SearchParameters().apply {
+                    searchQuery = query
+                    allowEmptyQuery = false
+                    searchInTitles = false
+                    searchInUsernames = false
+                    searchInPasswords = false
+                    searchInAppIds = isAppIdSearch
+                    searchInUrls = isDomainSearch
+                    searchByDomain = true
+                    searchBySubDomain = searchSubDomains
+                    searchInRelyingParty = isPasskeySearch
+                    searchInNotes = false
+                    searchInOTP = isOTPSearch
+                    searchInOther = false
+                    searchInUUIDs = false
+                    searchInTags = isTagSearch
+                    searchInCurrentGroup = false
+                    searchInSearchableGroup = true
+                    searchInRecycleBin = false
+                    searchInTemplates = false
+                }
+            )
         }
     }
 
@@ -96,36 +137,10 @@ object SearchHelper {
                 && !searchInfo.manualSelection
                 && !searchInfo.containsOnlyNullValues()
             ) {
-                getConcreteWebDomain(
-                    context,
-                    searchInfo.webDomain
-                ) { concreteDomain ->
-                    var query = searchInfo.toString()
-                    if (searchInfo.isDomainSearch && concreteDomain != null)
-                        query = concreteDomain
+                searchInfo.getSearchParametersFromSearchInfo(context) { searchParameters ->
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
-                        searchParameters = SearchParameters().apply {
-                            searchQuery = query
-                            allowEmptyQuery = false
-                            searchInTitles = false
-                            searchInUsernames = false
-                            searchInPasswords = false
-                            searchInAppIds = searchInfo.isAppIdSearch
-                            searchInUrls = searchInfo.isDomainSearch
-                            searchByDomain = true
-                            searchBySubDomain = searchSubDomains(context)
-                            searchInRelyingParty = searchInfo.isPasskeySearch
-                            searchInNotes = false
-                            searchInOTP = searchInfo.isOTPSearch
-                            searchInOther = false
-                            searchInUUIDs = false
-                            searchInTags = searchInfo.isTagSearch
-                            searchInCurrentGroup = false
-                            searchInSearchableGroup = true
-                            searchInRecycleBin = false
-                            searchInTemplates = false
-                        },
+                        searchParameters = searchParameters,
                         max = MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->
                         if (searchGroup.numberOfChildEntries > 0) {

@@ -38,6 +38,11 @@
             android:summary="@string/enable_auto_save_database_summary"
             android:defaultValue="@bool/enable_auto_save_database_default"/>
         <SwitchPreferenceCompat
+            android:key="@string/auto_focus_search_key"
+            android:title="@string/auto_focus_search_title"
+            android:summary="@string/auto_focus_search_summary"
+            android:defaultValue="@bool/auto_focus_search_default"/>
+        <SwitchPreferenceCompat
             android:key="@string/enable_keep_screen_on_key"
             android:title="@string/enable_keep_screen_on_title"
             android:summary="@string/enable_keep_screen_on_summary"
@@ -47,22 +52,6 @@
             android:title="@string/enable_screenshot_mode_title"
             android:summary="@string/enable_screenshot_mode_summary"
             android:defaultValue="@bool/enable_screenshot_mode_key_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/search">
-
-        <SwitchPreferenceCompat
-            android:key="@string/auto_focus_search_key"
-            android:title="@string/auto_focus_search_title"
-            android:summary="@string/auto_focus_search_summary"
-            android:defaultValue="@bool/auto_focus_search_default"/>
-        <SwitchPreferenceCompat
-            android:key="@string/subdomain_search_key"
-            android:title="@string/subdomain_search_title"
-            android:summary="@string/subdomain_search_summary"
-            android:defaultValue="@bool/subdomain_search_default"/>
     </PreferenceCategory>
 
     <PreferenceCategory

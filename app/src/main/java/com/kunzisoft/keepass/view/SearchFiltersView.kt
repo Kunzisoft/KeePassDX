@@ -210,10 +210,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchNumbers.text = SearchHelper.showNumberOfSearchResults(numbers)
     }
 
-    fun setCurrentGroupText(text: String) {
+    fun setCurrentGroupText(text: String?) {
         val maxChars = 12
         searchCurrentGroup.text = when {
-            text.isEmpty() -> context.getString(R.string.current_group)
+            text.isNullOrEmpty() -> context.getString(R.string.current_group)
             text.length > maxChars -> text.substring(0, maxChars) + "…"
             else -> text
         }
@@ -255,6 +255,10 @@ class SearchFiltersView @JvmOverloads constructor(context: Context,
         searchAdvanceFiltersContainer?.expand(true,
             searchAdvanceFiltersContainer?.getFullHeight()
         )
+    }
+
+    fun showSearchExpandButton(show: Boolean) {
+        searchExpandButton.isVisible = show
     }
 
     override fun setVisibility(visibility: Int) {

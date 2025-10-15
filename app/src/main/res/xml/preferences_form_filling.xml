@@ -20,6 +20,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
+        android:title="@string/general">
+        <SwitchPreferenceCompat
+            android:key="@string/subdomain_search_key"
+            android:title="@string/subdomain_search_title"
+            android:summary="@string/subdomain_search_summary"
+            android:defaultValue="@bool/subdomain_search_default"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/keyboard">
         <Preference
             android:key="@string/magic_keyboard_explanation_key"

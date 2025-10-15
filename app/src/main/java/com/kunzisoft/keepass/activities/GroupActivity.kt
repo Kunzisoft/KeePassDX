@@ -86,6 +86,7 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
+import com.kunzisoft.keepass.database.helper.SearchHelper.getSearchParametersFromSearchInfo
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.model.DataTime
@@ -173,6 +174,7 @@ class GroupActivity : DatabaseLockActivity(),
     // Manage group
     private var mSearchState: SearchState? = null
     private var mAutoSearch: Boolean = false // To mainly manage keyboard
+    private var mTempSearchInfo: Boolean = false // To manage temp search
     private var mMainGroupState: GroupState? = null // Group state, not a search
     private var mRootGroup: Group? = null // Root group in the tree
     private var mMainGroup: Group? = null // Main group currently in memory
@@ -214,6 +216,7 @@ class GroupActivity : DatabaseLockActivity(),
     private val mOnSearchActionExpandListener = object : MenuItem.OnActionExpandListener {
         override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
             searchFiltersView?.visibility = View.VISIBLE
+            searchFiltersView?.showSearchExpandButton(!mTempSearchInfo)
             searchView?.setOnQueryTextListener(mOnSearchQueryTextListener)
             searchFiltersView?.onParametersChangeListener = mOnSearchFiltersChangeListener
 
@@ -258,6 +261,7 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun removeSearch() {
         mSearchState = null
+        mTempSearchInfo = false
         intent.removeExtra(AUTO_SEARCH_KEY)
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.action = Intent.ACTION_DEFAULT
@@ -710,37 +714,34 @@ class GroupActivity : DatabaseLockActivity(),
         finishNodeAction()
     }
 
-    /**
-     * Transform the AUTO_SEARCH_KEY in ACTION_SEARCH, return true if AUTO_SEARCH_KEY was present
-     */
-    private fun transformSearchInfoIntent(intent: Intent) {
-        // To relaunch the activity as ACTION_SEARCH
-        val searchInfo: SearchInfo? = intent.retrieveSearchInfo()
-        val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
-        intent.removeExtra(AUTO_SEARCH_KEY)
-        if (searchInfo != null && autoSearch) {
-            intent.action = Intent.ACTION_SEARCH
-            intent.putExtra(SearchManager.QUERY, searchInfo.toString())
-        }
-    }
-
     private fun manageIntent(intent: Intent?) {
         intent?.let {
             if (intent.extras?.containsKey(GROUP_STATE_KEY) == true) {
                 mMainGroupState = intent.getParcelableExtraCompat(GROUP_STATE_KEY)
                 intent.removeExtra(GROUP_STATE_KEY)
             }
-            // To transform KEY_SEARCH_INFO in ACTION_SEARCH
-            transformSearchInfoIntent(intent)
+            // To get the form filling search as temp search
+            val searchInfo: SearchInfo? = intent.retrieveSearchInfo()
+            val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
             // Get search query
-            if (intent.action == Intent.ACTION_SEARCH) {
+            if (searchInfo != null && autoSearch) {
                 mAutoSearch = true
-                val stringQuery = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-                intent.action = Intent.ACTION_DEFAULT
-                intent.removeExtra(SearchManager.QUERY)
-                mSearchState = SearchState(PreferencesUtil.getDefaultSearchParameters(this).apply {
-                    searchQuery = stringQuery
-                }, mSearchState?.firstVisibleItem ?: 0)
+                mTempSearchInfo = true
+                searchInfo.getSearchParametersFromSearchInfo(this) {
+                    mSearchState = SearchState(
+                        searchParameters = it,
+                        firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                    )
+                }
+            } else if (intent.action == Intent.ACTION_SEARCH) {
+                mAutoSearch = true
+                mSearchState = SearchState(
+                    searchParameters = PreferencesUtil.getDefaultSearchParameters(this).apply {
+                        searchQuery = intent.getStringExtra(SearchManager.QUERY)
+                            ?.trim { it <= ' ' } ?: ""
+                    },
+                    firstVisibleItem = mSearchState?.firstVisibleItem ?: 0
+                )
             } else if (mRequestStartupSearch
                 && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
                 // Expand the search view if defined in settings
@@ -748,6 +749,8 @@ class GroupActivity : DatabaseLockActivity(),
                 mRequestStartupSearch = false
                 addSearch()
             }
+            intent.action = Intent.ACTION_DEFAULT
+            intent.removeExtra(SearchManager.QUERY)
         }
     }
 
@@ -772,7 +775,7 @@ class GroupActivity : DatabaseLockActivity(),
         // Assign title
         if (group?.isVirtual == true) {
             searchFiltersView?.setNumbers(group.numberOfChildEntries)
-            searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: "")
+            searchFiltersView?.setCurrentGroupText(mMainGroup?.title ?: getString(R.string.search))
             searchFiltersView?.availableOther(mDatabase?.allowEntryCustomFields() ?: false)
             searchFiltersView?.availableApplicationIds(mDatabase?.allowEntryCustomFields() ?: false)
             searchFiltersView?.availableTags(mDatabase?.allowTags() ?: false)
@@ -1150,7 +1153,9 @@ class GroupActivity : DatabaseLockActivity(),
 
         finishNodeAction()
         searchView?.setOnQueryTextListener(null)
-        searchFiltersView?.saveSearchParameters()
+        if (!mTempSearchInfo) {
+            searchFiltersView?.saveSearchParameters()
+        }
     }
 
     private fun addSearchQueryInSearchView(searchQuery: String) {
@@ -1215,7 +1220,9 @@ class GroupActivity : DatabaseLockActivity(),
                 if (searchState != null) {
                     it.expandActionView()
                     addSearchQueryInSearchView(searchState.searchParameters.searchQuery)
-                    searchFiltersView?.searchParameters = searchState.searchParameters
+                    if (mTempSearchInfo.not()) {
+                        searchFiltersView?.searchParameters = searchState.searchParameters
+                    }
                 }
             }
             if (it.isActionViewExpanded) {
