@@ -306,7 +306,6 @@
     <string name="memory_usage_explanation">Jumlah memori yang akan digunakan oleh fungsi derivasi kunci.</string>
     <string name="rounds_explanation">Putaran enkripsi tambahan memberikan perlindungan yang lebih tinggi terhadap serangan brute force, akan tetapi dapat memperlambat pemuatan dan penyimpanan.</string>
     <string name="kdf_explanation">Untuk menghasilkan kunci untuk algoritma enkripsi, kunci master diubah menggunakan fungsi derivasi randomly salted key.</string>
-    <string name="registration_mode">Mode pendaftaran</string>
     <string name="save_mode">Mode simpan</string>
     <string name="search_mode">Mode pencarian</string>
     <string name="menu_keystore_remove_key">Menghapus kunci buka kunci perangkat</string>
@@ -421,9 +420,8 @@
     <string name="device_unlock_prompt_extract_credential_message">Ekstrak kredensial basis data dengan pembuka kunci data perangkat</string>
     <string name="error_word_reserved">Kata ini telah dipakai dan tidak bisa digunakan.</string>
     <string name="credential_before_click_device_unlock_button">Ketik kata sandi, lalu klik tombol ini.</string>
-    <string name="autofill_service_name">Isi formulir KeePassDX otomatis</string>
     <string name="autofill_preference_title">Pengaturan isi otomatis</string>
-    <string name="set_autofill_service_title">Setel layanan isi otomatis secara default</string>
+    <string name="set_credential_provider_service_title">Setel layanan isi otomatis secara default</string>
     <string name="autofill_explanation_summary">Aktifkan pengisian otomatis untuk mengisi formulir dengan cepat di aplikasi lain</string>
     <string name="autofill_sign_in_prompt">Masuk dengan KeePassDX</string>
     <string name="autofill">Isi otomatis</string>
@@ -550,7 +548,7 @@
     <string name="keyboard_previous_fill_in_summary">Secara otomatis beralih kembali ke keyboard sebelumnya setelah menjalankan \"Tindakan tombol otomatis\"</string>
     <string name="keyboard_previous_database_credentials_summary">Secara otomatis beralih kembali ke keyboard sebelumnya di layar kredensial basis data</string>
     <string name="autofill_manual_selection_summary">Tampilkan opsi untuk memungkinkan pengguna memilih entri basis data</string>
-    <string name="autofill_read_only_save">Penyimpanan data tidak diperbolehkan untuk basis data yang dibuka sebagai baca-saja.</string>
+    <string name="error_save_read_only">Penyimpanan data tidak diperbolehkan untuk basis data yang dibuka sebagai baca-saja.</string>
     <string name="allow_no_password_title">Izinkan tidak ada kunci utama</string>
     <string name="allow_no_password_summary">Memungkinkan mengetuk tombol \"Buka\" jika tidak ada kredensial yang dipilih</string>
     <string name="delete_entered_password_summary">Menghapus kata sandi yang dimasukkan setelah upaya koneksi ke basis data</string>

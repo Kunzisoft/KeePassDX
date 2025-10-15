@@ -32,9 +32,8 @@ class DatabaseRoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
         explanationText = getString(R.string.rounds_explanation)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        inputText = database?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        inputText = database.numberKeyEncryptionRounds.toString()
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

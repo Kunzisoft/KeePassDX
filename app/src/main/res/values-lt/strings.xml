@@ -306,7 +306,6 @@
     <string name="subdomain_search_title">Subdomeno paieška</string>
     <string name="subdomain_search_summary">Ieškoti žiniatinklio domenuose su subdomenų apribojimais</string>
     <string name="contains_duplicate_uuid">Duomenų bazėje yra pasikartojančių UUID.</string>
-    <string name="registration_mode">Registracijos režimas</string>
     <string name="show_recent_files_title">Rodyti naujausius failus</string>
     <string name="show_recent_files_summary">Rodyti paskutinių duomenų bazių vietas</string>
     <string name="memory_usage_explanation">Atminties kiekis, kurį turi naudoti rakto išvedimo funkcija.</string>
@@ -361,7 +360,7 @@
     <string name="warning_keyfile_integrity">Failo \"hash\" reikšmė nėra garantuota, nes \"Android\" gali keisti jo duomenis. Norėdami užtikrinti teisingą vientisumą, pakeiskite failo plėtinį į .bin.</string>
     <string name="configure_biometric">Biometriniai duomenys ar prietaiso įgaliojimai neįrašomi.</string>
     <string name="autofill_preference_title">Automatinio pildymo nustatymai</string>
-    <string name="set_autofill_service_title">Nustatyti numatytąją automatinio pildymo paslaugą</string>
+    <string name="set_credential_provider_service_title">Nustatyti numatytąją automatinio pildymo paslaugą</string>
     <string name="lock_database_screen_off_title">Ekrano užraktas</string>
     <string name="biometric_unlock_enable_title">Biometrinis atrakinimas</string>
     <string name="show_uuid_title">Rodyti UUID</string>
@@ -400,7 +399,6 @@
     <string name="menu_appearance_settings_summary">Temos, spalvos, atributai</string>
     <string name="general">Bendri</string>
     <string name="autofill">Automatinis pildymas</string>
-    <string name="autofill_service_name">\"KeePassDX\" formų automatinis pildymas</string>
     <string name="autofill_sign_in_prompt">Prisijunkti naudojant \"KeePassDX</string>
     <string name="password_size_summary">Nustato numatytąjį generuojamų slaptažodžių ilgį</string>
     <string name="password_size_title">Generuojamo slaptažodžio ilgis</string>

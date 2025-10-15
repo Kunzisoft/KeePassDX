@@ -173,7 +173,6 @@
     <string name="menu_appearance_settings">外观</string>
     <string name="general">常规</string>
     <string name="autofill">自动填充</string>
-    <string name="autofill_service_name">KeePassDX 自动填充</string>
     <string name="autofill_sign_in_prompt">使用 KeePassDX 登录</string>
     <string name="clipboard">剪贴板</string>
     <string name="clipboard_notifications_title">剪贴板通知</string>
@@ -206,7 +205,7 @@
     <string name="build_label">构建 %1$s</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="unavailable">不可用</string>
-    <string name="set_autofill_service_title">设为默认自动填充服务</string>
+    <string name="set_credential_provider_service_title">设为默认自动填充服务</string>
     <string name="autofill_explanation_summary">启用自动填充功能，以快速填写其他应用中的表单</string>
     <string name="password_size_title">密码生成长度</string>
     <string name="password_size_summary">设置生成密码的默认长度</string>
@@ -464,7 +463,7 @@
     <string name="database_data_remove_unlinked_attachments_summary">删除包含于数据库中但未连接到一个条目的附件</string>
     <string name="show_uuid_summary">显示与一个条目或分组相链接的 UUID</string>
     <string name="show_uuid_title">显示 UUID</string>
-    <string name="autofill_read_only_save">以只读方式打开的数据库不允许保存数据。</string>
+    <string name="error_save_read_only">以只读方式打开的数据库不允许保存数据。</string>
     <string name="autofill_ask_to_save_data_summary">填写完表单后，询问是否保存数据</string>
     <string name="autofill_ask_to_save_data_title">询问是否保存数据</string>
     <string name="autofill_save_search_info_summary">手动选择条目时尝试保存搜索信息，以便将来使用</string>
@@ -479,7 +478,6 @@
     <string name="biometric_security_update_required">需要生物识别安全更新。</string>
     <string name="configure_biometric">未登记生物识别或设备凭证。</string>
     <string name="warning_empty_recycle_bin">从回收站永久删除所有节点？</string>
-    <string name="registration_mode">注册模式</string>
     <string name="save_mode">保存模式</string>
     <string name="search_mode">搜索模式</string>
     <string name="error_registration_read_only">只读数据库不允许保存新条目。</string>

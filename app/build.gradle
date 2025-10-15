@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 19
         targetSdkVersion 35
-        versionCode = 143
-        versionName = "4.1.9"
+        versionCode = 145
+        versionName = "4.2.0"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -33,6 +33,10 @@ android {
         release {
             minifyEnabled = false
         }
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     dependenciesInfo {
@@ -101,6 +105,11 @@ android {
     buildFeatures {
         buildConfig true
     }
+
+    packaging {
+        // Bouncy castle bug https://github.com/bcgit/bc-java/issues/1685
+        resources.pickFirsts.add('META-INF/versions/9/OSGI-INF/MANIFEST.MF')
+    }
 }
 
 def room_version = "2.5.1"
@@ -140,7 +149,10 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
     // Password generator
     implementation 'me.gosimple:nbvcxz:1.5.0'
-    
+
+    // Credentials Provider
+    implementation "androidx.credentials:credentials:1.2.2"
+
     // Modules import
     implementation project(path: ':database')
     implementation project(path: ':icon-pack')

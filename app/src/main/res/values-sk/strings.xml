@@ -303,7 +303,7 @@
     <string name="autofill_save_search_info_summary">Pokúste sa uložiť informácie o vyhľadávaní pri ručnom výbere pre jednoduchšie budúce použitie</string>
     <string name="autofill_ask_to_save_data_title">Požiadajte o uloženie údajov</string>
     <string name="autofill_ask_to_save_data_summary">Po vyplnení formulára požiadajte o uloženie údajov</string>
-    <string name="autofill_read_only_save">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
+    <string name="error_save_read_only">Ukladanie údajov nie je povolené pre databázu otvorenú len na čítanie.</string>
     <string name="autofill_inline_suggestions_keyboard">Boli pridané návrhy automatického dopĺňania.</string>
     <string name="education_new_node_title">Pridajte položky do databázy</string>
     <string name="education_device_unlock_title">Odomykanie databázy zariadenia</string>
@@ -514,7 +514,6 @@
     <string name="copy_field">Kópia %1$s</string>
     <string name="menu_security_settings">Bezpečnostné nastavenia</string>
     <string name="menu_cancel">Zrušiť</string>
-    <string name="registration_mode">Režim registrácie</string>
     <string name="show_recent_files_summary">Zobraziť umiestnenie nedávnych databáz</string>
     <string name="show_recent_files_title">Zobraziť posledné súbory</string>
     <string name="encryption_explanation">Algoritmus šifrovania databázy používaný pre všetky údaje</string>
@@ -523,7 +522,6 @@
     <string name="warning_empty_password">Pokračovať bez ochrany heslom\?</string>
     <string name="warning_empty_keyfile">Neodporúča sa pridávať prázdny súbor keyfile.</string>
     <string name="autofill">Automatické doplnenie</string>
-    <string name="autofill_service_name">Automatické dopĺňanie formulárov KeePassDX</string>
     <string name="autofill_sign_in_prompt">Prihláste sa pomocou KeePassDX</string>
     <string name="autofill_select_entry">Vybrať záznam…</string>
     <string name="lock_database_show_button_title">Zobraziť tlačidlo zámku</string>
@@ -595,7 +593,7 @@
     <string name="properties">Vlastnosti</string>
     <string name="menu_appearance_settings">Vzhľad</string>
     <string name="autofill_explanation_summary">Povoľte automatické dopĺňanie na rýchle vyplnenie formulárov v iných aplikáciách</string>
-    <string name="set_autofill_service_title">Nastavte predvolenú službu automatického dopĺňania</string>
+    <string name="set_credential_provider_service_title">Nastavte predvolenú službu automatického dopĺňania</string>
     <string name="list_password_generator_options_summary">Nastavte povolené znaky generátora hesiel</string>
     <string name="biometric_unlock_enable_summary">Umožňuje vám skenovať biometrické údaje a otvoriť databázu</string>
     <string name="max_history_items_title">Maximálny počet</string>

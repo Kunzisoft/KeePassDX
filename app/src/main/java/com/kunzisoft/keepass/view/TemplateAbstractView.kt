@@ -534,10 +534,15 @@ abstract class TemplateAbstractView<
     }
 
     protected fun getCustomField(fieldName: String): Field {
+        return getCustomFieldOrNull(fieldName)
+            ?: Field(fieldName, ProtectedString(false))
+    }
+
+    protected fun getCustomFieldOrNull(fieldName: String): Field? {
         return getCustomField(fieldName,
             templateFieldNotEmpty = false,
             retrieveDefaultValues = false
-        ) ?: Field(fieldName, ProtectedString(false))
+        )
     }
 
     private fun getCustomField(fieldName: String,

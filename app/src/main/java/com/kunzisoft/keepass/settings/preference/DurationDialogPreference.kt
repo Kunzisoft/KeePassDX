@@ -52,6 +52,7 @@ class DurationDialogPreference @JvmOverloads constructor(context: Context,
         notifyChanged()
     }
 
+    @Deprecated(message = "")
     override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         if (restorePersistedValue) {
             mDuration = getPersistedString(mDuration.toString()).toLongOrNull() ?: mDuration

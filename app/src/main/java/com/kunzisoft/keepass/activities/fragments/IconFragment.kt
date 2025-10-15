@@ -71,8 +71,8 @@ abstract class IconFragment<T: IconImageDraw> : DatabaseFragment(),
         resetAppTimeoutWhenViewFocusedOrChanged(view)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        iconPickerAdapter.iconDrawableFactory = database?.iconDrawableFactory
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        iconPickerAdapter.iconDrawableFactory = database.iconDrawableFactory
 
         CoroutineScope(Dispatchers.IO).launch {
             val populateList = launch {

@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.StreamDirection
 import com.kunzisoft.keepass.tasks.BinaryDatabaseManager
+import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
 import com.kunzisoft.keepass.utils.UriUtil.getDocumentFile
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import kotlinx.coroutines.CoroutineScope
@@ -194,7 +195,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     private fun newNotification(attachmentNotification: AttachmentNotification) {
 
         val pendingContentIntent = PendingIntent.getActivity(this,
-            0,
+            randomRequestCode(),
             Intent().apply {
                 action = Intent.ACTION_VIEW
                 setDataAndType(attachmentNotification.uri,
@@ -208,7 +209,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         )
 
         val pendingDeleteIntent =  PendingIntent.getService(this,
-                0,
+            randomRequestCode(),
                 Intent(this, AttachmentFileNotificationService::class.java).apply {
                     // No action to delete the service
                     putExtra(FILE_URI_KEY, attachmentNotification.uri)

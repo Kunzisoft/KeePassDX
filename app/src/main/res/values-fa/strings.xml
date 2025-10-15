@@ -271,7 +271,6 @@
     <string name="import_app_properties_summary">یک فایل برای وارد کردن ویژگی های برنامه انتخاب کنید</string>
     <string name="import_app_properties_title">وارد کردن ویژگی های برنامه</string>
     <string name="export_app_properties_title">صادر کردن ویژگی های برنامه</string>
-    <string name="registration_mode">حالت ثبت</string>
     <string name="save_mode">حالت ذخیره</string>
     <string name="search_mode">حالت جستجو</string>
     <string name="menu_external_icon">نماد خارجی</string>

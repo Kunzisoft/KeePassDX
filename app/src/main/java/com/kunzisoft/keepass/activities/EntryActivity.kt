@@ -50,15 +50,15 @@ import com.google.android.material.tabs.TabLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.fragments.EntryFragment
 import com.kunzisoft.keepass.activities.helpers.ExternalFileHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
 import com.kunzisoft.keepass.activities.legacy.DatabaseLockActivity
 import com.kunzisoft.keepass.adapters.TagsAdapter
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.services.AttachmentFileNotificationService
@@ -69,7 +69,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.view.WindowInsetPosition
 import com.kunzisoft.keepass.view.applyWindowInsets
@@ -264,7 +264,7 @@ class EntryActivity : DatabaseLockActivity() {
                 mIcon = entryInfo.icon
                 // Assign title text
                 val entryTitle =
-                    if (entryInfo.title.isNotEmpty()) entryInfo.title else UuidUtil.toHexString(entryInfo.id)
+                    entryInfo.title.ifEmpty { entryInfo.id.asHexString() }
                 collapsingToolbarLayout?.title = entryTitle
                 toolbar?.title = entryTitle
                 // Assign tags
@@ -312,11 +312,11 @@ class EntryActivity : DatabaseLockActivity() {
         mEntryViewModel.historySelected.observe(this) { historySelected ->
             mDatabase?.let { database ->
                 launch(
-                    this,
-                    database,
-                    historySelected.nodeId,
-                    historySelected.historyPosition,
-                    mEntryActivityResultLauncher
+                    activity = this,
+                    database = database,
+                    entryId = historySelected.nodeId,
+                    historyPosition = historySelected.historyPosition,
+                    activityResultLauncher = mEntryActivityResultLauncher
                 )
             }
         }
@@ -330,9 +330,8 @@ class EntryActivity : DatabaseLockActivity() {
         return coordinatorLayout
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
-
         mEntryViewModel.loadDatabase(database)
     }
 
@@ -478,11 +477,12 @@ class EntryActivity : DatabaseLockActivity() {
             R.id.menu_edit -> {
                 mDatabase?.let { database ->
                     mMainEntryId?.let { entryId ->
-                        EntryEditActivity.launchToUpdate(
-                            this,
-                            database,
-                            entryId,
-                            mEntryActivityResultLauncher
+                        EntryEditActivity.launch(
+                            activity = this,
+                            database = database,
+                            registrationType = EntryEditActivity.RegistrationType.UPDATE,
+                            nodeId = entryId,
+                            activityResultLauncher = mEntryActivityResultLauncher
                         )
                     }
                 }
@@ -520,7 +520,7 @@ class EntryActivity : DatabaseLockActivity() {
         // Transit data in previous Activity after an update
         Intent().apply {
             putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mMainEntryId)
-            setResult(Activity.RESULT_OK, this)
+            setResult(RESULT_OK, this)
         }
         super.finish()
     }
@@ -534,34 +534,22 @@ class EntryActivity : DatabaseLockActivity() {
         const val ENTRY_FRAGMENT_TAG = "ENTRY_FRAGMENT_TAG"
 
         /**
-         * Open standard Entry activity
+         * Open standard or history Entry activity
          */
-        fun launch(activity: Activity,
-                   database: ContextualDatabase,
-                   entryId: NodeId<UUID>,
-                   activityResultLauncher: ActivityResultLauncher<Intent>) {
+        fun launch(
+            activity: Activity,
+            database: ContextualDatabase,
+            entryId: NodeId<UUID>,
+            historyPosition: Int? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>
+        ) {
             if (database.loaded) {
                 if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                     val intent = Intent(activity, EntryActivity::class.java)
                     intent.putExtra(KEY_ENTRY, entryId)
-                    activityResultLauncher.launch(intent)
-                }
-            }
-        }
-
-        /**
-         * Open history Entry activity
-         */
-        fun launch(activity: Activity,
-                   database: ContextualDatabase,
-                   entryId: NodeId<UUID>,
-                   historyPosition: Int,
-                   activityResultLauncher: ActivityResultLauncher<Intent>) {
-            if (database.loaded) {
-                if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                    val intent = Intent(activity, EntryActivity::class.java)
-                    intent.putExtra(KEY_ENTRY, entryId)
-                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                    historyPosition?.let {
+                        intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
+                    }
                     activityResultLauncher.launch(intent)
                 }
             }

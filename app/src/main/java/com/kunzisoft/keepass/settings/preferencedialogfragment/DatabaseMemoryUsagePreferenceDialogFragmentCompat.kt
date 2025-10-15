@@ -34,15 +34,12 @@ class DatabaseMemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreference
         setExplanationText(R.string.memory_usage_explanation)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        database?.let {
-            val memoryBytes = database.memoryUsage
-            dataByte = DataByte(memoryBytes, DataByte.ByteFormat.BYTE)
-                .toBetterByteFormat()
-            inputText = dataByte.number.toString()
-            setUnitText(dataByte.format.stringId)
-        }
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        val memoryBytes = database.memoryUsage
+        dataByte = DataByte(memoryBytes, DataByte.ByteFormat.BYTE)
+            .toBetterByteFormat()
+        inputText = dataByte.number.toString()
+        setUnitText(dataByte.format.stringId)
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

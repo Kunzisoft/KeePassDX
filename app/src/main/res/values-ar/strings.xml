@@ -167,7 +167,7 @@
     <string name="general">عام</string>
     <string name="autofill">الملء التلقائي</string>
     <string name="autofill_sign_in_prompt">سجل باستخدام KeePassDX</string>
-    <string name="set_autofill_service_title">تعيين خدمة الملأ التلقائي الافتراضية</string>
+    <string name="set_credential_provider_service_title">تعيين خدمة الملأ التلقائي الافتراضية</string>
     <string name="password_size_title">حجم كلمة السر المولدة</string>
     <string name="password_size_summary">تعيين الحجم الافتراضي لكلمات السر المولدة</string>
     <string name="list_password_generator_options_title">محارف كلمة السر</string>
@@ -452,7 +452,6 @@
     <string name="menu_form_filling_settings">ملء النموذج</string>
     <string name="menu_reload_database">أعد تحميل البيانات</string>
     <string name="menu_external_icon">أيقونة خارجية</string>
-    <string name="registration_mode">وضع التسجيل</string>
     <string name="import_app_properties_title">استورد خصائص التطبيق</string>
     <string name="import_app_properties_summary">اختر ملفًا لاستيراد إعدادات التطبيق</string>
     <string name="export_app_properties_title">صدّر إعدادات التطبيق</string>
@@ -493,7 +492,7 @@
     <string name="regex">تعابير نمطية</string>
     <string name="enable_keep_screen_on_title">أبقِ الشاشة شغّالة</string>
     <string name="enable_education_screens_summary">أبرز العناصر لتعلم طريقة عمل التطبيق</string>
-    <string name="autofill_read_only_save">غير مسموح حفظ البيانات في قاعدة بيانات مفتوحة للقراءة فقط.</string>
+    <string name="error_save_read_only">غير مسموح حفظ البيانات في قاعدة بيانات مفتوحة للقراءة فقط.</string>
     <string name="autofill_inline_suggestions_keyboard">أُضيف اقتراح ملء تلقائي.</string>
     <string name="keyboard_previous_database_credentials_summary">الرجوع للوحة المفاتيح السابقة تلقائيًا في شاشة بيانات اعتماد قاعدة البيانات</string>
     <string name="autofill_manual_selection_summary">اعرض خيارًا يسمح للمستخدم باختيار مدخلة من قاعدة البيانات</string>
@@ -646,7 +645,6 @@
     <string name="menu_appearance_settings_summary">المظاهر والألوان والسمات</string>
     <string name="autofill_explanation_summary">تمكين الملء التلقائي لملء النماذج بسرعة في التطبيقات الأخرى</string>
     <string name="device_credential_unlock_enable_summary">يتيح لك استخدام بيانات اعتماد جهازك لفتح قاعدة البيانات</string>
-    <string name="autofill_service_name">KeePassDX نموذج الملء التلقائي</string>
     <string name="unlock">فتح</string>
     <string name="menu_app_settings_summary">البحث، القفل، التاريخ، الخصائص</string>
     <string name="menu_form_filling_settings_summary">لوحة المفاتيح، الملء التلقائي، الحافظة</string>

@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import java.io.Serializable
-import java.util.*
 
 // -------- Intent --------
 inline fun <reified T : Parcelable> Intent.getParcelableExtraCompat(key: String?): T? = when {
@@ -40,7 +39,7 @@ inline fun <reified T : Serializable> Intent.getSerializableExtraCompat(key: Str
     else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
 }
 
-inline fun <reified E : Parcelable> Intent.putParcelableList(key: String?, list: MutableList<E>) {
+inline fun <reified E : Parcelable> Intent.putParcelableList(key: String?, list: List<E>) {
     putExtra(key, list.toTypedArray())
 }
 

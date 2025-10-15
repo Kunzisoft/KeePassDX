@@ -347,7 +347,6 @@
     <string name="place_of_issue">Lloc d\'expedició</string>
     <string name="style_brightness_summary">Escull tema clar o fosc</string>
     <string name="hardware_key">Clau física</string>
-    <string name="registration_mode">Mode de registre</string>
     <string name="ignore_chars_filter">Ignora caràcters</string>
     <string name="ask">Pregunta</string>
     <string name="searchable">Cercable</string>
@@ -410,7 +409,7 @@
     <string name="waiting_challenge_response">Esperant la resposta de desafiament…</string>
     <string name="bank_name">Nom del banc</string>
     <string name="wireless">Wi-Fi</string>
-    <string name="set_autofill_service_title">Estableix el servei d\'emplenament automàtic predeterminat</string>
+    <string name="set_credential_provider_service_title">Estableix el servei d\'emplenament automàtic predeterminat</string>
     <string name="compression">Compressió</string>
     <string name="id_card">Targeta d\'identificació</string>
     <string name="error_hardware_key_unsupported">Clau física no suportada.</string>
@@ -595,7 +594,6 @@
     <string name="at_least_one_char">Com a mínim un caràcter de cada</string>
     <string name="show_entry_colors_summary">Mostra els colors de primer pla i de fons per a una entrada</string>
     <string name="keystore_not_accessible">El magatzem de claus no està correctament inicialitzat.</string>
-    <string name="autofill_service_name">Emplenament automàtic de formularis de KeePassDX</string>
     <string name="show_otp_token_summary">Mostra els testimonis OTP a la llista d\'entrades</string>
     <string name="show_uuid_summary">Mostra l\'UUID enllaçat a una entrada o un grup</string>
     <string name="menu_app_settings_summary">Cerca, bloqueja, historial, propietats</string>
@@ -644,7 +642,7 @@
     <string name="keyboard_previous_lock_summary">Torna automàticament al teclat anterior després de bloquejar la base de dades</string>
     <string name="select_entry">Selecciona una entrada</string>
     <string name="autofill_ask_to_save_data_summary">Demana desar les dades quan es completi l\'emplenament d\'un formulari</string>
-    <string name="autofill_read_only_save">No es permet desar dades en una base de dades oberta en mode només de lectura.</string>
+    <string name="error_save_read_only">No es permet desar dades en una base de dades oberta en mode només de lectura.</string>
     <string name="reset_education_screens_summary">Torna a mostrar tota la informació educativa</string>
     <string name="reset_education_screens_text">Reinicialitza els consells educatius</string>
     <string name="education_select_database_title">Obre una base de dades existent</string>

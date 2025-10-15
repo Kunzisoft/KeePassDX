@@ -230,7 +230,7 @@ class EntryEditFragment: DatabaseFragment() {
             val attachmentToUploadUri = it.attachmentToUploadUri
             val fileName = it.fileName
 
-            buildNewBinaryAttachment()?.let { binaryAttachment ->
+            mDatabaseViewModel.buildNewAttachment()?.let { binaryAttachment ->
                 val entryAttachment = Attachment(fileName, binaryAttachment)
                 // Ask to replace the current attachment
                 if ((!mAllowMultipleAttachments
@@ -273,13 +273,13 @@ class EntryEditFragment: DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
 
         templateView.populateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            database.iconDrawableFactory.assignDatabaseIcon(imageView, icon, mIconColor)
         }
 
-        mAllowMultipleAttachments = database?.allowMultipleAttachments == true
+        mAllowMultipleAttachments = database.allowMultipleAttachments == true
 
         attachmentsAdapter?.database = database
         attachmentsAdapter?.onListSizeChangedListener = { previousSize, newSize ->
@@ -290,12 +290,12 @@ class EntryEditFragment: DatabaseFragment() {
             }
         }
 
-        tagsAdapter = TagsProposalAdapter(requireContext(), database?.tagPool)
+        tagsAdapter = TagsProposalAdapter(requireContext(), database.tagPool)
         tagsCompletionView.apply {
             threshold = 1
             setAdapter(tagsAdapter)
         }
-        tagsContainerView.visibility = if (database?.allowTags() == true) View.VISIBLE else View.GONE
+        tagsContainerView.visibility = if (database.allowTags()) View.VISIBLE else View.GONE
     }
 
     private fun assignEntryInfo(entryInfo: EntryInfo?) {

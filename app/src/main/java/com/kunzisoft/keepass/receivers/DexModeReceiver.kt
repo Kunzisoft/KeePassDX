@@ -1,13 +1,9 @@
 package com.kunzisoft.keepass.receivers
 
 import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.util.Log
-import com.kunzisoft.keepass.magikeyboard.MagikeyboardService
-import com.kunzisoft.keepass.utils.DexUtil
 import com.kunzisoft.keepass.utils.MagikeyboardUtil
 
 class DexModeReceiver : BroadcastReceiver() {

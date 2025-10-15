@@ -187,9 +187,8 @@
     <string name="encrypted_value_stored">Krypterat lösenord sparat</string>
     <string name="general">Generellt</string>
     <string name="autofill">Autofyll</string>
-    <string name="autofill_service_name">KeePassDX autofyll formulär</string>
     <string name="autofill_sign_in_prompt">Logga in med KeePassDX</string>
-    <string name="set_autofill_service_title">Välj standardtjänst för autofyll</string>
+    <string name="set_credential_provider_service_title">Välj standardtjänst för autofyll</string>
     <string name="password_size_title">Längd på genererat lösenord</string>
     <string name="password_size_summary">Anger standardlängden för de genererade lösenorden</string>
     <string name="list_password_generator_options_title">Lösenordstecken</string>
@@ -536,7 +535,6 @@
     <string name="subdomain_search_title">Subdomänsök</string>
     <string name="subdomain_search_summary">Sök webbdomän med subdomänbegränsning</string>
     <string name="search_mode">Sökläge</string>
-    <string name="registration_mode">Registreringsläge</string>
     <string name="remember_hardware_key_title">Kom ihåg hårdvarunycklar</string>
     <string name="remember_hardware_key_summary">Kom ihåg hårdvarunycklar som används</string>
     <string name="import_app_properties_title">Importera appinställningar</string>

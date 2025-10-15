@@ -296,7 +296,6 @@
     <string name="search_mode">Рэжым пошуку</string>
     <string name="save_mode">Рэжым захавання</string>
     <string name="selection_mode">Рэжым выбару</string>
-    <string name="registration_mode">Рэжым рэгістрацыі</string>
     <string name="remember_database_locations_title">Запамінаць размяшчэнне баз дадзеных</string>
     <string name="remember_database_locations_summary">Адсочвае, дзе захоўваюцца базы дадзеных</string>
     <string name="remember_keyfile_locations_title">Запамінаць размяшчэнне файлаў ключоў</string>
@@ -400,11 +399,9 @@
     <string name="device_credential">Уліковыя дадзеныя прылады</string>
     <string name="general">Агульнае</string>
     <string name="autofill">Аўтазапаўненне</string>
-    <string name="autofill_service_name">Аўтазапаўненне формы KeePassDX</string>
     <string name="autofill_sign_in_prompt">Увайсці з дапамогай KeePassDX</string>
     <string name="autofill_explanation_summary">Уключыце аўтазапаўненне, каб хутка запаўняць формы ў іншых праграмах</string>
     <string name="autofill_select_entry">Выбраць запіс…</string>
-    <string name="set_autofill_service_title">Усталяваць службу аўтазапаўнення па змаўчанні</string>
     <string name="autofill_preference_title">Налады аўтазапаўнення</string>
     <string name="password_size_title">Памер згенераванага пароля</string>
     <string name="password_size_summary">Усталёўвае памер згенераваных пароляў па змаўчанні</string>
@@ -551,7 +548,7 @@
     <string name="autofill_web_domain_blocklist_summary">Чорны спіс, які перашкаджае аўтазапаўненню вэб-даменаў</string>
     <string name="autofill_block">Заблакаваць аўтазапаўненне</string>
     <string name="autofill_block_restart">Перазапусціце праграму, якая змяшчае форму, каб актываваць блакаванне.</string>
-    <string name="autofill_read_only_save">Захаванне дадзеных недапушчальна для базы дадзеных, адкрытай толькі для чытання.</string>
+    <string name="error_save_read_only">Захаванне дадзеных недапушчальна для базы дадзеных, адкрытай толькі для чытання.</string>
     <string name="autofill_inline_suggestions_keyboard">Прапановы аўтазапаўнення дададзены.</string>
     <string name="allow_no_password_title">Дазволіць без галоўнага ключа</string>
     <string name="allow_no_password_summary">Дазваляе націснуць кнопку Адкрыць, калі не выбраны ўліковыя дадзеныя</string>

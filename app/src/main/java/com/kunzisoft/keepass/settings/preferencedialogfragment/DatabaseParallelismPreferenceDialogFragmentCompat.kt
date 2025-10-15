@@ -31,9 +31,8 @@ class DatabaseParallelismPreferenceDialogFragmentCompat : DatabaseSavePreference
         setExplanationText(R.string.parallelism_explanation)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        inputText = database?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        inputText = database.parallelism.toString()
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

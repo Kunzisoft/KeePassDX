@@ -44,7 +44,7 @@
 			app:layout_constraintLeft_toLeftOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintRight_toRightOf="parent"
-			style="@style/KeepassDXStyle.SubTitle"/>
+			style="@style/KeepassDXStyle.Text.Preferences.Explanation"/>
 
 		<Button
 			android:id="@+id/explanation_button"

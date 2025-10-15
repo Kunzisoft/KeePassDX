@@ -178,9 +178,8 @@
     <string name="menu_appearance_settings">Udseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autoudfyld</string>
-    <string name="autofill_service_name">KeePassDX formularudfyldning</string>
     <string name="autofill_sign_in_prompt">Log ind med KeePassDX</string>
-    <string name="set_autofill_service_title">Indstil standard autoudfyldningstjeneste</string>
+    <string name="set_credential_provider_service_title">Indstil standard autoudfyldningstjeneste</string>
     <string name="autofill_explanation_summary">Aktiver autofyldning for hurtigt at udfylde formularer i andre apps</string>
     <string name="password_size_title">Genereret adgangskodelængde</string>
     <string name="password_size_summary">Angiver standardlængden for genererede adgangskoder</string>
@@ -452,7 +451,7 @@
     <string name="show_uuid_title">Vis UUID</string>
     <string name="upload_attachment">Overfør %1$s</string>
     <string name="education_add_attachment_title">Vedhæft fil</string>
-    <string name="autofill_read_only_save">Det er ikke tilladt at gemme data i en database, der er åbnet som skrivebeskyttet.</string>
+    <string name="error_save_read_only">Det er ikke tilladt at gemme data i en database, der er åbnet som skrivebeskyttet.</string>
     <string name="autofill_ask_to_save_data_summary">Spørg om du vil gemme data, når en formular er udfyldt</string>
     <string name="autofill_ask_to_save_data_title">Spørg om du vil gemme data</string>
     <string name="autofill_save_search_info_title">Gem søgeoplysninger</string>
@@ -476,7 +475,6 @@
 \n
 \nDatabasen kan blive meget stor og reducere ydeevnen med denne overførelse.</string>
     <string name="warning_empty_recycle_bin">Slet alle noder permanent fra papirkurven\?</string>
-    <string name="registration_mode">Registreringstilstand</string>
     <string name="save_mode">Gem-tilstand</string>
     <string name="search_mode">Søgetilstand</string>
     <string name="error_registration_read_only">Det er ikke tilladt at gemme et nyt element i en skrivebeskyttet database.</string>

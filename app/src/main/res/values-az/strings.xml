@@ -221,7 +221,6 @@
     <string name="device_credential">Cihazın şəxsiyyətini təsdiq edən məlumatları</string>
     <string name="general">Ümumi</string>
     <string name="autofill">Avtomatik doldurma</string>
-    <string name="autofill_service_name">KeePassDX avtomatik doldurma formu</string>
     <string name="autofill_sign_in_prompt">KeePassDX ile giriş edin</string>
     <string name="education_entry_new_field_title">Xüsusi bölmələr əlavə edin</string>
     <string name="education_add_attachment_title">Qoşma əlavə edin</string>
@@ -486,7 +485,6 @@
     <string name="search_mode">Axtarış modu</string>
     <string name="save_mode">Yadda saxlama modu</string>
     <string name="selection_mode">Seçim modu</string>
-    <string name="registration_mode">Qeydiyyat modu</string>
     <string name="remember_database_locations_title">Məlumat bazalarının yerlərini xatırlayın</string>
     <string name="remember_database_locations_summary">Məlumat bazalarının harada saxlanıldığını izlə</string>
     <string name="remember_hardware_key_summary">Aparat-təchizat açarlarının harada istifadə olunduğunu izlə</string>
@@ -518,7 +516,7 @@
     <string name="device_unlock_prompt_not_initialized">Cihaz kilid açma istəyini başlatmaq mümkün deyil.</string>
     <string name="autofill_explanation_summary">Digər tətbiqlərdə formları (anket) daha sürətli doldurmaq üçün avtomatik doldurma funksiyasını aktiv edin</string>
     <string name="autofill_select_entry">Şifrə seç .…</string>
-    <string name="set_autofill_service_title">Standart avtomatik doldurma xidmətini təyin edin</string>
+    <string name="set_credential_provider_service_title">Standart avtomatik doldurma xidmətini təyin edin</string>
     <string name="autofill_preference_title">Avtomatik doldurmanın parametrləri</string>
     <string name="password_size_title">Yaradılan şifrə həcmi</string>
     <string name="password_size_summary">Yaradılan şifrələrin standart həcmini təyin edər</string>
@@ -567,7 +565,7 @@
     <string name="autofill_web_domain_blocklist_summary">Veb domenlərin avtomatik olaraq doldurulmasını əngəlləyən bloklama siyahısı</string>
     <string name="autofill_block">Avtomatik doldurmanı blokla</string>
     <string name="autofill_block_restart">Bloklamanı aktiv etmək üçün anketin daxil olduğu tətbiqi yenidən başladın.</string>
-    <string name="autofill_read_only_save">Yazma-qorumalı (dəyişməz) olaraq açılan məlumat bazasında yeni məlumatları yadda saxlamağa icazə verilmir.</string>
+    <string name="error_save_read_only">Yazma-qorumalı (dəyişməz) olaraq açılan məlumat bazasında yeni məlumatları yadda saxlamağa icazə verilmir.</string>
     <string name="allow_no_password_summary">Əgər şəxsiyyəti təsdiq edən məlumatlar seçilməyibsə, \"Aç\" düyməsinin sıxılmasına icazə ver</string>
     <string name="delete_entered_password_title">Şifrəni sil</string>
     <string name="delete_entered_password_summary">Məlumat bazasına bağlantı cəhdindən sonra daxil edilmiş şifrəni sil</string>

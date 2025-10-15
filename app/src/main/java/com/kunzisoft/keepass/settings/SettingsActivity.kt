@@ -159,10 +159,6 @@ open class SettingsActivity
         return coordinatorLayout
     }
 
-    override fun finishActivityIfDatabaseNotLoaded(): Boolean {
-        return false
-    }
-
     override fun onDatabaseActionFinished(
         database: ContextualDatabase,
         actionTask: String,
@@ -192,7 +188,7 @@ open class SettingsActivity
     }
 
     override fun onAssignKeyDialogPositiveClick(mainCredential: MainCredential) {
-        assignPassword(mainCredential)
+        assignMainCredential(mainCredential)
     }
 
     override fun onAssignKeyDialogNegativeClick(mainCredential: MainCredential) {}

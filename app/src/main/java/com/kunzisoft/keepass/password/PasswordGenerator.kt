@@ -33,20 +33,22 @@ import java.util.*
 class PasswordGenerator(private val resources: Resources) {
 
     @Throws(IllegalArgumentException::class)
-    fun generatePassword(length: Int,
-                         upperCase: Boolean,
-                         lowerCase: Boolean,
-                         digits: Boolean,
-                         minus: Boolean,
-                         underline: Boolean,
-                         space: Boolean,
-                         specials: Boolean,
-                         brackets: Boolean,
-                         extended: Boolean,
-                         considerChars: String,
-                         ignoreChars: String,
-                         atLeastOneFromEach: Boolean,
-                         excludeAmbiguousChar: Boolean): String {
+    fun generatePassword(
+        length: Int,
+        upperCase: Boolean,
+        lowerCase: Boolean,
+        digits: Boolean,
+        minus: Boolean,
+        underline: Boolean,
+        space: Boolean,
+        specials: Boolean,
+        brackets: Boolean,
+        extended: Boolean,
+        considerChars: String,
+        ignoreChars: String,
+        atLeastOneFromEach: Boolean,
+        excludeAmbiguousChar: Boolean
+    ): String {
         // Desired password length is 0 or less
         if (length <= 0) {
             throw IllegalArgumentException(resources.getString(R.string.error_wrong_length))
@@ -228,7 +230,7 @@ class PasswordGenerator(private val resources: Resources) {
         private const val MINUS_CHAR = "-"
         private const val UNDERLINE_CHAR = "_"
         private const val SPACE_CHAR = " "
-        private const val SPECIAL_CHARS = "!\"#$%&'*+,./:;=?@\\^`"
+        private const val SPECIAL_CHARS = "&/,^@.#:%\\='$!?*`;+\"|~"
         private const val BRACKET_CHARS = "[]{}()<>"
         private const val AMBIGUOUS_CHARS = "iI|lLoO01"
 

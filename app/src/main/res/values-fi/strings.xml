@@ -237,9 +237,8 @@
     <string name="kdf_explanation">Pääavain muunnetaan käyttäen satunnaista suolattua avaimen johtamisfunktiota, jotta salausalgoritmin avain voidaan generoida.</string>
     <string name="encryption_explanation">Salasanatietokannan salausalgoritmi, jota käytetään kaikelle datalle.</string>
     <string name="password_size_title">Generoidun salasanan pituus</string>
-    <string name="set_autofill_service_title">Aseta oletus automaattiselle täytölle</string>
+    <string name="set_credential_provider_service_title">Aseta oletus automaattiselle täytölle</string>
     <string name="autofill_sign_in_prompt">Kirjaudu sisään KeePassDX:llä</string>
-    <string name="autofill_service_name">KeePassDX:n automaattinen täyttö</string>
     <string name="autofill">Automaattinen täyttö</string>
     <string name="general">Yleinen</string>
     <string name="encrypted_value_stored">Salattu salasana varastoitu</string>
@@ -432,7 +431,6 @@
     <string name="warning_large_keyfile">Ei ole suositeltavaa lisätä suurta avantiedostos, sillä se voi estää tietokantaa avautumasta.</string>
     <string name="warning_empty_keyfile_explanation">Avaintiedoston sisältöä ei tulisi koskaan muuttaa, ja parhaassa tapauksessa sen tulisi sisältää satunnaisesti tuotettua tietoa.</string>
     <string name="save_mode">Tallennustila</string>
-    <string name="registration_mode">Rekisteröintitila</string>
     <string name="export_app_properties_summary">Luo tiedosto, johon sovellusasetukset viedään</string>
     <string name="export_app_properties_title">Vie sovellusasetukset</string>
     <string name="description_app_properties">KeePassDX ominaisuudet sovellusasetusten hallintaan</string>

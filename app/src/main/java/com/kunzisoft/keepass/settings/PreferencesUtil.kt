@@ -35,8 +35,8 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.password.PassphraseGenerator
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
 import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
-import com.kunzisoft.keepass.utils.UriUtil.isContributingUser
 import java.util.Properties
 
 object PreferencesUtil {
@@ -108,7 +108,7 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.auto_focus_search_default))
     }
 
-    fun searchSubdomains(context: Context): Boolean {
+    fun searchSubDomains(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.subdomain_search_key),
             context.resources.getBoolean(R.bool.subdomain_search_default))
@@ -352,6 +352,8 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.search_option_username_default))
             searchInPasswords = prefs.getBoolean(context.getString(R.string.search_option_password_key),
                 context.resources.getBoolean(R.bool.search_option_password_default))
+            searchInAppIds = prefs.getBoolean(context.getString(R.string.search_option_application_id_key),
+                context.resources.getBoolean(R.bool.search_option_application_id_default))
             searchInUrls = prefs.getBoolean(context.getString(R.string.search_option_url_key),
                 context.resources.getBoolean(R.bool.search_option_url_default))
             searchInExpired = prefs.getBoolean(context.getString(R.string.search_option_expired_key),
@@ -389,6 +391,8 @@ object PreferencesUtil {
                 searchParameters.searchInUsernames)
             putBoolean(context.getString(R.string.search_option_password_key),
                 searchParameters.searchInPasswords)
+            putBoolean(context.getString(R.string.search_option_application_id_key),
+                searchParameters.searchInAppIds)
             putBoolean(context.getString(R.string.search_option_url_key),
                 searchParameters.searchInUrls)
             putBoolean(context.getString(R.string.search_option_expired_key),
@@ -686,6 +690,32 @@ object PreferencesUtil {
             context.resources.getBoolean(R.bool.keyboard_previous_lock_default))
     }
 
+    fun isPasskeyCloseDatabaseEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_close_database_key),
+            context.resources.getBoolean(R.bool.passkeys_close_database_default))
+    }
+
+    fun isPasskeyBackupEligibilityEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_backup_eligibility_key),
+            context.resources.getBoolean(R.bool.passkeys_backup_eligibility_default))
+    }
+
+    fun isPasskeyAutoSelectEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_auto_select_key),
+            context.resources.getBoolean(R.bool.passkeys_auto_select_default))
+    }
+
+    fun isPasskeyBackupStateEnable(context: Context): Boolean {
+        if (!isPasskeyBackupEligibilityEnable(context))
+            return false
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.passkeys_backup_state_key),
+            context.resources.getBoolean(R.bool.passkeys_backup_state_default))
+    }
+
     fun isAutofillCloseDatabaseEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_close_database_key),
@@ -821,7 +851,7 @@ object PreferencesUtil {
                 context.getString(R.string.clipboard_notifications_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.clear_clipboard_notification_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.clipboard_timeout_key) -> editor.putString(name, value.toLong().toString())
-                context.getString(R.string.settings_autofill_enable_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.settings_credential_provider_enable_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_notification_entry_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_notification_entry_clear_close_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_entry_timeout_key) -> editor.putString(name, value.toLong().toString())
@@ -834,6 +864,10 @@ object PreferencesUtil {
                 context.getString(R.string.keyboard_previous_search_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_fill_in_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.keyboard_previous_lock_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_close_database_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_auto_select_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_backup_eligibility_key) -> editor.putBoolean(name, value.toBoolean())
+                context.getString(R.string.passkeys_backup_state_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_close_database_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_inline_suggestions_key) -> editor.putBoolean(name, value.toBoolean())
                 context.getString(R.string.autofill_manual_selection_key) -> editor.putBoolean(name, value.toBoolean())

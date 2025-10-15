@@ -74,6 +74,17 @@ class ProtectedString : Parcelable {
                 return arrayOfNulls(size)
             }
         }
+
+        fun String.toBooleanCompat(): Boolean {
+            return if (this.equals("1", ignoreCase = true))
+                true
+            else
+                this.toBoolean()
+        }
+
+        fun Boolean.toFieldValue(): String {
+            return if (this) "1" else "0"
+        }
     }
 
 }

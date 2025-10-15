@@ -167,9 +167,8 @@
     <string name="encrypted_value_stored">Ο Κρυπτογραφημένος κωδικός έχει αποθηκευτεί</string>
     <string name="general">Γενικά</string>
     <string name="autofill">Αυτόματη συμπλήρωση</string>
-    <string name="autofill_service_name">Μορφή KeePassDX αυτόματης συμπλήρωσης</string>
     <string name="autofill_sign_in_prompt">Συνδεθείτε με το KeePassDX</string>
-    <string name="set_autofill_service_title">Ορίστε την προεπιλεγμένη υπηρεσία αυτόματης συμπλήρωσης</string>
+    <string name="set_credential_provider_service_title">Ορίστε την προεπιλεγμένη υπηρεσία αυτόματης συμπλήρωσης</string>
     <string name="password_size_title">Παραγόμενο μέγεθος κωδικού πρόσβασης</string>
     <string name="password_size_summary">Ορίστε το προεπιλεγμένο μέγεθος των παραγόμενων κωδικών πρόσβασης</string>
     <string name="list_password_generator_options_title">Χαρακτήρες Κωδικού Πρόσβασης</string>
@@ -465,7 +464,7 @@
     <string name="content_description_add_item">Προσθήκη είδους</string>
     <string name="show_uuid_summary">Εμφανίζει το UUID που είναι συνδεδεμένο σε μια καταχώρηση ή σε μια ομάδα</string>
     <string name="show_uuid_title">Εμφάνιση UUID</string>
-    <string name="autofill_read_only_save">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
+    <string name="error_save_read_only">Δεν επιτρέπεται η αποθήκευση δεδομένων για μια βάση δεδομένων που ανοίγει ως μόνο για ανάγνωση.</string>
     <string name="autofill_ask_to_save_data_summary">Ζητήστε αποθήκευση δεδομένων όταν ολοκληρωθεί η συμπλήρωση μιας φόρμας</string>
     <string name="autofill_ask_to_save_data_title">Ζητήστε να αποθηκεύσετε δεδομένα</string>
     <string name="autofill_save_search_info_summary">Προσπαθήστε να αποθηκεύσετε πληροφορίες αναζήτησης όταν κάνετε μια χειροκίνητη επιλογή καταχώρησης για ευκολότερες μελλοντικές χρήσεις</string>
@@ -480,7 +479,6 @@
     <string name="biometric_security_update_required">Απαιτείται ενημέρωση βιομετρικής ασφάλειας.</string>
     <string name="configure_biometric">Κανένα πιστοποιητικό βιομετρίας ή συσκευής δεν είναι εγγεγραμμένο.</string>
     <string name="warning_empty_recycle_bin">Να διαγραφούν οριστικά όλοι οι κόμβοι από τον κάδο ανακύκλωσης;</string>
-    <string name="registration_mode">Τρόπος εγγραφής</string>
     <string name="save_mode">Λειτουργία αποθήκευσης</string>
     <string name="search_mode">Λειτουργία αναζήτησης</string>
     <string name="error_registration_read_only">Η αποθήκευση ενός νέου αντικειμένου δεν επιτρέπεται σε μια βάση δεδομένων μόνο για ανάγνωση.</string>

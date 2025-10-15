@@ -174,9 +174,8 @@
     <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>
     <string name="autofill">Otomatik Doldurma</string>
-    <string name="autofill_service_name">KeePassDX formu otomatik doldurma</string>
     <string name="autofill_sign_in_prompt">KeePassDX ile giriş yap</string>
-    <string name="set_autofill_service_title">Öntanımlı otomatik doldurma hizmetini ayarla</string>
+    <string name="set_credential_provider_service_title">Öntanımlı otomatik doldurma hizmetini ayarla</string>
     <string name="autofill_explanation_summary">Diğer uygulamalardaki formları hızlı doldurmak için otomatik doldurmayı etkinleştirin</string>
     <string name="password_size_title">Oluşturulan parola boyutu</string>
     <string name="password_size_summary">Oluşturulan parolaların öntanımlı boyutunu ayarlar</string>
@@ -459,7 +458,7 @@
     <string name="database_data_remove_unlinked_attachments_summary">Veri tabanında bulunan ancak bir girdiye bağlı olmayan ekleri kaldırır</string>
     <string name="show_uuid_summary">Bir girdiye veya gruba bağlı UUID\'yi görüntüler</string>
     <string name="show_uuid_title">UUID\'yi göster</string>
-    <string name="autofill_read_only_save">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
+    <string name="error_save_read_only">Salt okunur olarak açılan bir veri tabanı için veri kaydına izin verilmiyor.</string>
     <string name="autofill_ask_to_save_data_summary">Form doldurma işlemi tamamlandığında verileri kaydetmek için sor</string>
     <string name="autofill_ask_to_save_data_title">Verileri kaydetmek için sor</string>
     <string name="autofill_save_search_info_summary">Gelecekteki daha kolay kullanımlar için el ile giriş seçimi yaparken arama bilgilerini kaydetmeyi deneyin</string>
@@ -474,7 +473,6 @@
     <string name="biometric_security_update_required">Biyometrik güvenlik güncellemesi gerekli.</string>
     <string name="configure_biometric">Biyometrik bilgiler veya aygıt kimlik doğrulama bilgileri kaydedilmedi.</string>
     <string name="warning_empty_recycle_bin">Geri dönüşüm kutusundaki tüm düğümler kalıcı olarak silinsin mi\?</string>
-    <string name="registration_mode">Kayıt modu</string>
     <string name="save_mode">Kaydetme modu</string>
     <string name="search_mode">Arama modu</string>
     <string name="error_registration_read_only">Salt okunur bir veri tabanında yeni bir öge kaydetmeye izin verilmiyor.</string>

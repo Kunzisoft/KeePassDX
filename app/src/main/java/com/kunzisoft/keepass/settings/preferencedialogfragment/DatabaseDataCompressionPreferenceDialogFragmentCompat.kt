@@ -50,16 +50,14 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         setExplanationText(R.string.database_data_compression_summary)
-
         mRecyclerView?.adapter = mCompressionAdapter
-
-        database?.let {
-            compressionSelected = it.compressionAlgorithm
-            mCompressionAdapter?.setItems(it.availableCompressionAlgorithms, compressionSelected)
-        }
+        compressionSelected = database.compressionAlgorithm
+        mCompressionAdapter?.setItems(
+            items = database.availableCompressionAlgorithms,
+            itemUsed = compressionSelected
+        )
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

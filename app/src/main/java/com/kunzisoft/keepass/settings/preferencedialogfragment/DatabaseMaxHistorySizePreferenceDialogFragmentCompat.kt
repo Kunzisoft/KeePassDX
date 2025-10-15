@@ -34,31 +34,29 @@ class DatabaseMaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePrefere
         setExplanationText(R.string.max_history_size_summary)
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-        database?.historyMaxSize?.let { maxItemsDatabase ->
-            dataByte = DataByte(maxItemsDatabase, DataByte.ByteFormat.BYTE)
-                .toBetterByteFormat()
-            inputText = dataByte.number.toString()
-            if (dataByte.number >= 0) {
-                setUnitText(dataByte.format.stringId)
-            } else {
-                unitText = null
-            }
-
-            setSwitchAction({ isChecked ->
-                if (!isChecked) {
-                    dataByte = INFINITE_MAX_HISTORY_SIZE_DATA_BYTE
-                    inputText = INFINITE_MAX_HISTORY_SIZE.toString()
-                    unitText = null
-                } else {
-                    dataByte = DEFAULT_MAX_HISTORY_SIZE_DATA_BYTE
-                    inputText = dataByte.number.toString()
-                    setUnitText(dataByte.format.stringId)
-                }
-                showInputText(isChecked)
-            }, maxItemsDatabase > INFINITE_MAX_HISTORY_SIZE)
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
+        val maxItemsDatabase = database.historyMaxSize
+        dataByte = DataByte(maxItemsDatabase, DataByte.ByteFormat.BYTE)
+            .toBetterByteFormat()
+        inputText = dataByte.number.toString()
+        if (dataByte.number >= 0) {
+            setUnitText(dataByte.format.stringId)
+        } else {
+            unitText = null
         }
+
+        setSwitchAction({ isChecked ->
+            if (!isChecked) {
+                dataByte = INFINITE_MAX_HISTORY_SIZE_DATA_BYTE
+                inputText = INFINITE_MAX_HISTORY_SIZE.toString()
+                unitText = null
+            } else {
+                dataByte = DEFAULT_MAX_HISTORY_SIZE_DATA_BYTE
+                inputText = dataByte.number.toString()
+                setUnitText(dataByte.format.stringId)
+            }
+            showInputText(isChecked)
+        }, maxItemsDatabase > INFINITE_MAX_HISTORY_SIZE)
     }
 
     override fun onDialogClosed(database: ContextualDatabase?, positiveResult: Boolean) {

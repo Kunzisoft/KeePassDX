@@ -46,6 +46,8 @@ class DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat : DatabaseSavePre
         }
     }
 
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {}
+
     companion object {
 
         fun newInstance(key: String): DatabaseRemoveUnlinkedDataPreferenceDialogFragmentCompat {

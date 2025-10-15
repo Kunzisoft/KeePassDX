@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.model.GroupInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.TimeUtil.getDateTimeString
-import com.kunzisoft.keepass.utils.UuidUtil
+import com.kunzisoft.keepass.utils.UUIDUtils.asHexString
 import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.DateTimeFieldView
 
@@ -62,14 +62,14 @@ class GroupDialogFragment : DatabaseDialogFragment() {
     private lateinit var uuidContainerView: ViewGroup
     private lateinit var uuidReferenceView: TextView
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
         mPopulateIconMethod = { imageView, icon ->
-            database?.iconDrawableFactory?.assignDatabaseIcon(imageView, icon, mIconColor)
+            database.iconDrawableFactory.assignDatabaseIcon(imageView, icon, mIconColor)
         }
         mPopulateIconMethod?.invoke(iconView, mGroupInfo.icon)
 
-        if (database?.allowCustomSearchableGroup() == true) {
+        if (database.allowCustomSearchableGroup()) {
             searchableLabelView.visibility = View.VISIBLE
             searchableView.visibility = View.VISIBLE
         } else {
@@ -155,7 +155,7 @@ class GroupDialogFragment : DatabaseDialogFragment() {
             searchableView.text = stringFromInheritableBoolean(mGroupInfo.searchable)
             autoTypeView.text = stringFromInheritableBoolean(mGroupInfo.enableAutoType,
                 mGroupInfo.defaultAutoTypeSequence)
-            val uuid = UuidUtil.toHexString(mGroupInfo.id)
+            val uuid = mGroupInfo.id?.asHexString()
             if (uuid == null || uuid.isEmpty()) {
                 uuidContainerView.visibility = View.GONE
             } else {

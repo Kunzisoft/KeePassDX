@@ -195,9 +195,8 @@
     <string name="sort_last_modify_time">Änderungsdatum</string>
     <string name="sort_last_access_time">Zugriffsdatum</string>
     <string name="autofill">Automatisches Ausfüllen</string>
-    <string name="autofill_service_name">KeePassDX Auto-Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
-    <string name="set_autofill_service_title">Standard-Autofill-Service festlegen</string>
+    <string name="set_credential_provider_service_title">Standard-Autofill-Service festlegen</string>
     <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare in anderen Apps schnell auszufüllen</string>
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
@@ -480,14 +479,13 @@
     <string name="warning_sure_add_file">Datei trotzdem hinzufügen\?</string>
     <string name="show_uuid_summary">Zeigt die mit einem Eintrag oder einer Gruppe verknüpfte UUID an</string>
     <string name="show_uuid_title">UUID anzeigen</string>
-    <string name="autofill_read_only_save">Das Speichern von Daten ist bei einer schreibgeschützt geöffneten Datenbank nicht möglich.</string>
+    <string name="error_save_read_only">Das Speichern von Daten ist bei einer schreibgeschützt geöffneten Datenbank nicht möglich.</string>
     <string name="autofill_close_database_title">Datenbank schließen</string>
     <string name="keyboard_previous_lock_summary">Nach dem Sperren der Datenbank automatisch zur vorherigen Tastatur wechseln</string>
     <string name="keyboard_previous_lock_title">Datenbank sperren</string>
     <string name="notification">Benachrichtigung</string>
     <string name="biometric_security_update_required">Biometrische Sicherheitsaktualisierung erforderlich.</string>
     <string name="configure_biometric">Es sind weder Biometrie- noch Geräteanmeldedaten registriert.</string>
-    <string name="registration_mode">Registrierungsmodus</string>
     <string name="save_mode">Speichermodus</string>
     <string name="search_mode">Suchmodus</string>
     <string name="error_registration_read_only">Speichern eines neuen Elements in einer schreibgeschützten Datenbank ist unzulässig.</string>

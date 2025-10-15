@@ -208,7 +208,6 @@
     <string name="contains_duplicate_uuid">データベースには重複する UUID が含まれています。</string>
     <string name="contains_duplicate_uuid_procedure">重複したエントリーに対する新しい UUID を生成して、問題を解決し続行しますか？</string>
     <string name="selection_mode">選択モード</string>
-    <string name="registration_mode">登録モード</string>
     <string name="remember_database_locations_title">データベースの場所を記憶</string>
     <string name="remember_database_locations_summary">データベースの保存先を保持します</string>
     <string name="remember_keyfile_locations_title">キーファイルの場所を記憶</string>
@@ -273,10 +272,9 @@
     <string name="biometric">生体認証</string>
     <string name="general">全般</string>
     <string name="autofill">自動入力</string>
-    <string name="autofill_service_name">KeePassDX フォーム自動入力</string>
     <string name="autofill_sign_in_prompt">KeePassDX でログイン</string>
     <string name="autofill_explanation_summary">自動入力を有効にして、他のアプリ内のフォームにすばやく入力します</string>
-    <string name="set_autofill_service_title">デフォルトの自動入力サービスに設定</string>
+    <string name="set_credential_provider_service_title">デフォルトの自動入力サービスに設定</string>
     <string name="autofill_preference_title">自動入力の設定</string>
     <string name="password_size_title">生成されるパスワードの長さ</string>
     <string name="password_size_summary">生成されるパスワードの長さのデフォルト値を設定します</string>
@@ -473,7 +471,7 @@
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>
     <string name="show_uuid_title">UUID を表示</string>
     <string name="show_uuid_summary">エントリーやグループにリンクされた UUID を表示します</string>
-    <string name="autofill_read_only_save">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
+    <string name="error_save_read_only">データの保存は読み取り専用として開かれたデータベースでは許可されていません。</string>
     <string name="save_mode">保存モード</string>
     <string name="search_mode">検索モード</string>
     <string name="error_field_name_already_exists">フィールド名はすでに存在します。</string>

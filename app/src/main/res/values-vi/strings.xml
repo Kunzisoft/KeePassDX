@@ -309,7 +309,6 @@
     <string name="search_mode">Chế độ tìm kiếm</string>
     <string name="save_mode">Chế độ lưu</string>
     <string name="selection_mode">Chế độ lựa chọn</string>
-    <string name="registration_mode">Chế độ đăng ký</string>
     <string name="remember_database_locations_title">Ghi nhớ vị trí cơ sở dữ liệu</string>
     <string name="remember_database_locations_summary">Theo dõi nơi cơ sở dữ liệu được lưu trữ</string>
     <string name="remember_keyfile_locations_title">Ghi nhớ vị trí của tệp khóa</string>
@@ -411,11 +410,10 @@
     <string name="device_credential">Thông tin xác thực thiết bị</string>
     <string name="general">Tổng quan</string>
     <string name="autofill">Tự động điền</string>
-    <string name="autofill_service_name">Tự động điền biểu mẫu KeePassDX</string>
     <string name="autofill_sign_in_prompt">Đăng nhập bằng KeePassDX</string>
     <string name="autofill_explanation_summary">Bật tính năng tự động điền để nhanh chóng điền vào biểu mẫu trong các ứng dụng khác</string>
     <string name="autofill_select_entry">Chọn mục…</string>
-    <string name="set_autofill_service_title">Đặt dịch vụ tự động điền mặc định</string>
+    <string name="set_credential_provider_service_title">Đặt dịch vụ tự động điền mặc định</string>
     <string name="autofill_preference_title">Thiết đặt tự động điền</string>
     <string name="password_size_title">Kích thước mật khẩu đã tạo</string>
     <string name="password_size_summary">Đặt kích thước mặc định của mật khẩu được tạo</string>
@@ -562,7 +560,7 @@
     <string name="autofill_web_domain_blocklist_summary">Danh sách chặn ngăn việc tự động điền tên miền web</string>
     <string name="autofill_block">Chặn tính năng tự động điền</string>
     <string name="autofill_block_restart">Khởi động lại ứng dụng chứa biểu mẫu để kích hoạt tính năng chặn.</string>
-    <string name="autofill_read_only_save">Không cho phép lưu dữ liệu đối với cơ sở dữ liệu được mở ở dạng chỉ đọc.</string>
+    <string name="error_save_read_only">Không cho phép lưu dữ liệu đối với cơ sở dữ liệu được mở ở dạng chỉ đọc.</string>
     <string name="autofill_inline_suggestions_keyboard">Đã thêm đề xuất tự động điền.</string>
     <string name="allow_no_password_title">Không cho phép khóa chính</string>
     <string name="allow_no_password_summary">Cho phép nhấn vào nút \"Mở\" nếu không có thông tin xác thực nào được chọn</string>

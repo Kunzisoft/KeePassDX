@@ -101,7 +101,7 @@ class ImageViewerActivity : DatabaseLockActivity() {
         return true
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         super.onDatabaseRetrieved(database)
 
         try {
@@ -119,18 +119,16 @@ class ImageViewerActivity : DatabaseLockActivity() {
                     resources.displayMetrics.heightPixels * 2
                 )
 
-                database?.let { database ->
-                    BinaryDatabaseManager.loadBitmap(
-                        database,
-                        attachment.binaryData,
-                        mImagePreviewMaxWidth
-                    ) { bitmapLoaded ->
-                        if (bitmapLoaded == null) {
-                            finish()
-                        } else {
-                            progressView.visibility = View.GONE
-                            imageView.setImageBitmap(bitmapLoaded)
-                        }
+                BinaryDatabaseManager.loadBitmap(
+                    database,
+                    attachment.binaryData,
+                    mImagePreviewMaxWidth
+                ) { bitmapLoaded ->
+                    if (bitmapLoaded == null) {
+                        finish()
+                    } else {
+                        progressView.visibility = View.GONE
+                        imageView.setImageBitmap(bitmapLoaded)
                     }
                 }
             } ?: finish()

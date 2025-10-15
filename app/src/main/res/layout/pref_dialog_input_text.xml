@@ -36,7 +36,7 @@
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		style="@style/KeepassDXStyle.SubTitle"/>
+		style="@style/KeepassDXStyle.Text.Preferences.Explanation"/>
 	<com.google.android.material.materialswitch.MaterialSwitch
 		android:id="@+id/switch_element"
 		android:layout_width="wrap_content"

@@ -34,7 +34,11 @@ class SearchParameters() : Parcelable{
     var searchInTitles = true
     var searchInUsernames = true
     var searchInPasswords = false
+    var searchInAppIds = true
     var searchInUrls = true
+    var searchByDomain = false
+    var searchBySubDomain = false
+    var searchInRelyingParty = false
     var searchInExpired = false
     var searchInNotes = true
     var searchInOTP = false
@@ -46,7 +50,6 @@ class SearchParameters() : Parcelable{
     var searchInSearchableGroup = true
     var searchInRecycleBin = false
     var searchInTemplates = false
-    var searchByDomain = false
 
     constructor(parcel: Parcel) : this() {
         searchQuery = parcel.readString() ?: searchQuery
@@ -56,7 +59,11 @@ class SearchParameters() : Parcelable{
         searchInTitles = parcel.readByte() != 0.toByte()
         searchInUsernames = parcel.readByte() != 0.toByte()
         searchInPasswords = parcel.readByte() != 0.toByte()
+        searchInAppIds = parcel.readByte() != 0.toByte()
         searchInUrls = parcel.readByte() != 0.toByte()
+        searchByDomain = parcel.readByte() != 0.toByte()
+        searchBySubDomain = parcel.readByte() != 0.toByte()
+        searchInRelyingParty = parcel.readByte() != 0.toByte()
         searchInExpired = parcel.readByte() != 0.toByte()
         searchInNotes = parcel.readByte() != 0.toByte()
         searchInOTP = parcel.readByte() != 0.toByte()
@@ -77,7 +84,11 @@ class SearchParameters() : Parcelable{
         parcel.writeByte(if (searchInTitles) 1 else 0)
         parcel.writeByte(if (searchInUsernames) 1 else 0)
         parcel.writeByte(if (searchInPasswords) 1 else 0)
+        parcel.writeByte(if (searchInAppIds) 1 else 0)
         parcel.writeByte(if (searchInUrls) 1 else 0)
+        parcel.writeByte(if (searchByDomain) 1 else 0)
+        parcel.writeByte(if (searchBySubDomain) 1 else 0)
+        parcel.writeByte(if (searchInRelyingParty) 1 else 0)
         parcel.writeByte(if (searchInExpired) 1 else 0)
         parcel.writeByte(if (searchInNotes) 1 else 0)
         parcel.writeByte(if (searchInOTP) 1 else 0)

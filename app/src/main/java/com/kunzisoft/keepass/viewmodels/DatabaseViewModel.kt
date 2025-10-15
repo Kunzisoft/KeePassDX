@@ -1,214 +1,500 @@
 package com.kunzisoft.keepass.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.net.Uri
+import android.os.Bundle
+import androidx.lifecycle.AndroidViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.DatabaseTaskProvider
+import com.kunzisoft.keepass.database.MainCredential
+import com.kunzisoft.keepass.database.ProgressMessage
 import com.kunzisoft.keepass.database.crypto.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.crypto.kdf.KdfEngine
+import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.binary.BinaryData
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.model.CipherEncryptDatabase
+import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
+import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import java.util.UUID
 
-class DatabaseViewModel: ViewModel() {
+class DatabaseViewModel(application: Application): AndroidViewModel(application) {
 
-    val database : LiveData<ContextualDatabase?> get() = _database
-    private val _database = MutableLiveData<ContextualDatabase?>()
+    private val mDatabaseState = MutableStateFlow<ContextualDatabase?>(null)
+    val databaseState: StateFlow<ContextualDatabase?> = mDatabaseState
 
-    val actionFinished : LiveData<ActionResult> get() = _actionFinished
-    private val _actionFinished = SingleLiveEvent<ActionResult>()
+    val database: ContextualDatabase?
+        get() = databaseState.value
 
-    val saveDatabase : LiveData<Boolean> get() = _saveDatabase
-    private val _saveDatabase = SingleLiveEvent<Boolean>()
+    private val mActionState = MutableStateFlow<ActionState>(ActionState.Loading)
+    val actionState: StateFlow<ActionState> = mActionState
 
-    val mergeDatabase : LiveData<Boolean> get() = _mergeDatabase
-    private val _mergeDatabase = SingleLiveEvent<Boolean>()
+    private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(
+        context = application
+    )
 
-    val reloadDatabase : LiveData<Boolean> get() = _reloadDatabase
-    private val _reloadDatabase = SingleLiveEvent<Boolean>()
+    init {
+        mDatabaseTaskProvider.onDatabaseRetrieved = { databaseRetrieved ->
+            val databaseWasReloaded = databaseRetrieved?.wasReloaded == true
+            if (databaseWasReloaded) {
+                mActionState.value = ActionState.OnDatabaseReloaded
+            }
+            if (database == null || database != databaseRetrieved || databaseWasReloaded) {
+                databaseRetrieved?.wasReloaded = false
+                mDatabaseState.value = databaseRetrieved
+            }
+        }
+        mDatabaseTaskProvider.onStartActionRequested = { bundle, actionTask ->
+            mActionState.value = ActionState.OnDatabaseActionRequested(bundle, actionTask)
+        }
+        mDatabaseTaskProvider.databaseInfoListener = object : DatabaseTaskNotificationService.DatabaseInfoListener {
+            override fun onDatabaseInfoChanged(
+                previousDatabaseInfo: SnapFileDatabaseInfo,
+                newDatabaseInfo: SnapFileDatabaseInfo,
+                readOnlyDatabase: Boolean
+            ) {
+                mActionState.value = ActionState.OnDatabaseInfoChanged(
+                    previousDatabaseInfo,
+                    newDatabaseInfo,
+                    readOnlyDatabase
+                )
+            }
+        }
+        mDatabaseTaskProvider.actionTaskListener = object : DatabaseTaskNotificationService.ActionTaskListener {
+            override fun onActionStarted(
+                database: ContextualDatabase,
+                progressMessage: ProgressMessage
+            ) {
+                mActionState.value = ActionState.OnDatabaseActionStarted(database, progressMessage)
+            }
 
-    val saveName : LiveData<SuperString> get() = _saveName
-    private val _saveName = SingleLiveEvent<SuperString>()
+            override fun onActionUpdated(
+                database: ContextualDatabase,
+                progressMessage: ProgressMessage
+            ) {
+                mActionState.value = ActionState.OnDatabaseActionUpdated(database, progressMessage)
+            }
 
-    val saveDescription : LiveData<SuperString> get() = _saveDescription
-    private val _saveDescription = SingleLiveEvent<SuperString>()
+            override fun onActionStopped(database: ContextualDatabase?) {
+                mActionState.value = ActionState.OnDatabaseActionStopped(database)
+            }
 
-    val saveDefaultUsername : LiveData<SuperString> get() = _saveDefaultUsername
-    private val _saveDefaultUsername = SingleLiveEvent<SuperString>()
+            override fun onActionFinished(
+                database: ContextualDatabase,
+                actionTask: String,
+                result: ActionRunnable.Result
+            ) {
+                mActionState.value = ActionState.OnDatabaseActionFinished(database, actionTask, result)
+            }
+        }
 
-    val saveColor : LiveData<SuperString> get() = _saveColor
-    private val _saveColor = SingleLiveEvent<SuperString>()
-
-    val saveCompression : LiveData<SuperCompression> get() = _saveCompression
-    private val _saveCompression = SingleLiveEvent<SuperCompression>()
-
-    val removeUnlinkData : LiveData<Boolean> get() = _removeUnlinkData
-    private val _removeUnlinkData = SingleLiveEvent<Boolean>()
-
-    val saveRecycleBin : LiveData<SuperGroup> get() = _saveRecycleBin
-    private val _saveRecycleBin = SingleLiveEvent<SuperGroup>()
-
-    val saveTemplatesGroup : LiveData<SuperGroup> get() = _saveTemplatesGroup
-    private val _saveTemplatesGroup = SingleLiveEvent<SuperGroup>()
-
-    val saveMaxHistoryItems : LiveData<SuperInt> get() = _saveMaxHistoryItems
-    private val _saveMaxHistoryItems = SingleLiveEvent<SuperInt>()
-
-    val saveMaxHistorySize : LiveData<SuperLong> get() = _saveMaxHistorySize
-    private val _saveMaxHistorySize = SingleLiveEvent<SuperLong>()
-
-    val saveEncryption : LiveData<SuperEncryption> get() = _saveEncryption
-    private val _saveEncryption = SingleLiveEvent<SuperEncryption>()
-
-    val saveKeyDerivation : LiveData<SuperKeyDerivation> get() = _saveKeyDerivation
-    private val _saveKeyDerivation = SingleLiveEvent<SuperKeyDerivation>()
-
-    val saveIterations : LiveData<SuperLong> get() = _saveIterations
-    private val _saveIterations = SingleLiveEvent<SuperLong>()
-
-    val saveMemoryUsage : LiveData<SuperLong> get() = _saveMemoryUsage
-    private val _saveMemoryUsage = SingleLiveEvent<SuperLong>()
-
-    val saveParallelism : LiveData<SuperLong> get() = _saveParallelism
-    private val _saveParallelism = SingleLiveEvent<SuperLong>()
-
-
-    fun defineDatabase(database: ContextualDatabase?) {
-        this._database.value = database
+        mDatabaseTaskProvider.registerProgressTask()
     }
 
-    fun onActionFinished(database: ContextualDatabase,
-                         actionTask: String,
-                         result: ActionRunnable.Result) {
-        this._actionFinished.value = ActionResult(database, actionTask, result)
+    /*
+     * Main database actions
+     */
+
+    fun loadDatabase(
+        databaseUri: Uri,
+        mainCredential: MainCredential,
+        readOnly: Boolean,
+        cipherEncryptDatabase: CipherEncryptDatabase?,
+        fixDuplicateUuid: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseLoad(
+            databaseUri,
+            mainCredential,
+            readOnly,
+            cipherEncryptDatabase,
+            fixDuplicateUuid
+        )
     }
 
-    fun saveDatabase(save: Boolean) {
-        _saveDatabase.value = save
+    fun createDatabase(
+        databaseUri: Uri,
+        mainCredential: MainCredential
+    ) {
+        mDatabaseTaskProvider.startDatabaseCreate(databaseUri, mainCredential)
     }
 
-    fun mergeDatabase(save: Boolean) {
-        _mergeDatabase.value = save
+    fun assignMainCredential(
+        databaseUri: Uri?,
+        mainCredential: MainCredential
+    ) {
+        if (databaseUri != null) {
+            mDatabaseTaskProvider.startDatabaseAssignCredential(databaseUri, mainCredential)
+        }
+    }
+
+    fun saveDatabase(save: Boolean, saveToUri: Uri? = null) {
+        mDatabaseTaskProvider.startDatabaseSave(save, saveToUri)
+    }
+
+    fun mergeDatabase(
+        save: Boolean,
+        fromDatabaseUri: Uri? = null,
+        mainCredential: MainCredential? = null
+    ) {
+        mDatabaseTaskProvider.startDatabaseMerge(save, fromDatabaseUri, mainCredential)
     }
 
     fun reloadDatabase(fixDuplicateUuid: Boolean) {
-        _reloadDatabase.value = fixDuplicateUuid
+        mDatabaseTaskProvider.askToStartDatabaseReload(
+            conditionToAsk = database?.dataModifiedSinceLastLoading != false
+        ) {
+            mDatabaseTaskProvider.startDatabaseReload(fixDuplicateUuid)
+        }
     }
 
-    fun saveName(oldValue: String,
-                 newValue: String,
-                 save: Boolean) {
-        _saveName.value = SuperString(oldValue, newValue, save)
+    fun onDatabaseChangeValidated() {
+        mDatabaseTaskProvider.onDatabaseChangeValidated()
     }
 
-    fun saveDescription(oldValue: String,
-                        newValue: String,
-                        save: Boolean) {
-        _saveDescription.value = SuperString(oldValue, newValue, save)
+    /*
+     * Nodes actions
+     */
+
+    fun createEntry(
+        newEntry: Entry,
+        parent: Group,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseCreateEntry(
+            newEntry,
+            parent,
+            save
+        )
     }
 
-    fun saveDefaultUsername(oldValue: String,
-                            newValue: String,
-                            save: Boolean) {
-        _saveDefaultUsername.value = SuperString(oldValue, newValue, save)
+    fun updateEntry(
+        oldEntry: Entry,
+        entryToUpdate: Entry,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseUpdateEntry(
+            oldEntry,
+            entryToUpdate,
+            save
+        )
     }
 
-    fun saveColor(oldValue: String,
-                  newValue: String,
-                  save: Boolean) {
-        _saveColor.value = SuperString(oldValue, newValue, save)
+    fun restoreEntryHistory(
+        mainEntryId: NodeId<UUID>,
+        entryHistoryPosition: Int,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseRestoreEntryHistory(
+            mainEntryId,
+            entryHistoryPosition,
+            save
+        )
     }
 
-    fun saveCompression(oldValue: CompressionAlgorithm,
-                        newValue: CompressionAlgorithm,
-                        save: Boolean) {
-        _saveCompression.value = SuperCompression(oldValue, newValue, save)
+    fun deleteEntryHistory(
+        mainEntryId: NodeId<UUID>,
+        entryHistoryPosition: Int,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseDeleteEntryHistory(
+            mainEntryId,
+            entryHistoryPosition,
+            save
+        )
+    }
+
+    fun createGroup(
+        newGroup: Group,
+        parent: Group,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseCreateGroup(
+            newGroup,
+            parent,
+            save
+        )
+    }
+
+    fun updateGroup(
+        oldGroup: Group,
+        groupToUpdate: Group,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseUpdateGroup(
+            oldGroup,
+            groupToUpdate,
+            save
+        )
+    }
+
+    fun copyNodes(
+        nodesToCopy: List<Node>,
+        newParent: Group,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseCopyNodes(
+            nodesToCopy,
+            newParent,
+            save
+        )
+    }
+
+    fun moveNodes(
+        nodesToMove: List<Node>,
+        newParent: Group,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseMoveNodes(
+            nodesToMove,
+            newParent,
+            save
+        )
+    }
+
+    fun deleteNodes(
+        nodes: List<Node>,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseDeleteNodes(
+            nodes,
+            save
+        )
+    }
+
+    /*
+     * Attributes
+     */
+
+    fun buildNewAttachment(): BinaryData? {
+        return database?.buildNewBinaryAttachment()
+    }
+
+    /*
+     * Settings actions
+     */
+
+    fun saveName(
+        oldValue: String,
+        newValue: String,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveName(
+            oldValue,
+            newValue,
+            save
+        )
+    }
+
+    fun saveDescription(
+        oldValue: String,
+        newValue: String,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveDescription(
+            oldValue,
+            newValue,
+            save
+        )
+    }
+
+    fun saveDefaultUsername(
+        oldValue: String,
+        newValue: String,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveDefaultUsername(
+            oldValue,
+            newValue,
+            save
+        )
+    }
+
+    fun saveColor(
+        oldValue: String,
+        newValue: String,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveColor(
+            oldValue,
+            newValue,
+            save
+        )
+    }
+
+    fun saveCompression(
+        oldValue: CompressionAlgorithm,
+        newValue: CompressionAlgorithm,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveCompression(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
     fun removeUnlinkedData(save: Boolean) {
-        _removeUnlinkData.value = save
+        mDatabaseTaskProvider.startDatabaseRemoveUnlinkedData(save)
     }
 
-    fun saveRecycleBin(oldValue: Group?,
-                       newValue: Group?,
-                       save: Boolean) {
-        _saveRecycleBin.value = SuperGroup(oldValue, newValue, save)
+    fun saveRecycleBin(
+        oldValue: Group?,
+        newValue: Group?,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveRecycleBin(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveTemplatesGroup(oldValue: Group?,
-                           newValue: Group?,
-                           save: Boolean) {
-        _saveTemplatesGroup.value = SuperGroup(oldValue, newValue, save)
+    fun saveTemplatesGroup(
+        oldValue: Group?,
+        newValue: Group?,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveTemplatesGroup(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveMaxHistoryItems(oldValue: Int,
-                            newValue: Int,
-                            save: Boolean) {
-        _saveMaxHistoryItems.value = SuperInt(oldValue, newValue, save)
+    fun saveMaxHistoryItems(
+        oldValue: Int,
+        newValue: Int,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveMaxHistoryItems(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveMaxHistorySize(oldValue: Long,
-                           newValue: Long,
-                           save: Boolean) {
-        _saveMaxHistorySize.value = SuperLong(oldValue, newValue, save)
+    fun saveMaxHistorySize(
+        oldValue: Long,
+        newValue: Long,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveMaxHistorySize(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
 
-    fun saveEncryption(oldValue: EncryptionAlgorithm,
-                       newValue: EncryptionAlgorithm,
-                       save: Boolean) {
-        _saveEncryption.value = SuperEncryption(oldValue, newValue, save)
+    fun saveEncryption(
+        oldValue: EncryptionAlgorithm,
+        newValue: EncryptionAlgorithm,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveEncryption(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveKeyDerivation(oldValue: KdfEngine,
-                          newValue: KdfEngine,
-                          save: Boolean) {
-        _saveKeyDerivation.value = SuperKeyDerivation(oldValue, newValue, save)
+    fun saveKeyDerivation(
+        oldValue: KdfEngine,
+        newValue: KdfEngine,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveKeyDerivation(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveIterations(oldValue: Long,
-                       newValue: Long,
-                       save: Boolean) {
-        _saveIterations.value = SuperLong(oldValue, newValue, save)
+    fun saveIterations(
+        oldValue: Long,
+        newValue: Long,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveIterations(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveMemoryUsage(oldValue: Long,
-                           newValue: Long,
-                           save: Boolean) {
-        _saveMemoryUsage.value = SuperLong(oldValue, newValue, save)
+    fun saveMemoryUsage(
+        oldValue: Long,
+        newValue: Long,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveMemoryUsage(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    fun saveParallelism(oldValue: Long,
-                        newValue: Long,
-                        save: Boolean) {
-        _saveParallelism.value = SuperLong(oldValue, newValue, save)
+    fun saveParallelism(
+        oldValue: Long,
+        newValue: Long,
+        save: Boolean
+    ) {
+        mDatabaseTaskProvider.startDatabaseSaveParallelism(
+            oldValue,
+            newValue,
+            save
+        )
     }
 
-    data class ActionResult(val database: ContextualDatabase,
-                            val actionTask: String,
-                            val result: ActionRunnable.Result)
-    data class SuperString(val oldValue: String,
-                           val newValue: String,
-                           val save: Boolean)
-    data class SuperInt(val oldValue: Int,
-                        val newValue: Int,
-                        val save: Boolean)
-    data class SuperLong(val oldValue: Long,
-                         val newValue: Long,
-                         val save: Boolean)
-    data class SuperMerge(val fixDuplicateUuid: Boolean,
-                          val save: Boolean)
-    data class SuperCompression(val oldValue: CompressionAlgorithm,
-                                val newValue: CompressionAlgorithm,
-                                val save: Boolean)
-    data class SuperEncryption(val oldValue: EncryptionAlgorithm,
-                               val newValue: EncryptionAlgorithm,
-                               val save: Boolean)
-    data class SuperKeyDerivation(val oldValue: KdfEngine,
-                                  val newValue: KdfEngine,
-                                  val save: Boolean)
-    data class SuperGroup(val oldValue: Group?,
-                          val newValue: Group?,
-                          val save: Boolean)
+    /*
+     * Hardware Key
+     */
 
+    fun onChallengeResponded(challengeResponse: ByteArray?) {
+        mDatabaseTaskProvider.startChallengeResponded(
+            challengeResponse ?: ByteArray(0)
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        mDatabaseTaskProvider.unregisterProgressTask()
+        mDatabaseTaskProvider.destroy()
+    }
+
+    sealed class ActionState {
+        object Loading: ActionState()
+        object OnDatabaseReloaded: ActionState()
+        data class OnDatabaseActionRequested(
+            val bundle: Bundle? = null,
+            val actionTask: String
+        ): ActionState()
+        data class OnDatabaseInfoChanged(
+            val previousDatabaseInfo: SnapFileDatabaseInfo,
+            val newDatabaseInfo: SnapFileDatabaseInfo,
+            val readOnlyDatabase: Boolean
+        ): ActionState()
+        data class OnDatabaseActionStarted(
+            var database: ContextualDatabase,
+            val progressMessage: ProgressMessage
+        ): ActionState()
+        data class OnDatabaseActionUpdated(
+            var database: ContextualDatabase,
+            val progressMessage: ProgressMessage
+        ): ActionState()
+        data class OnDatabaseActionStopped(
+            var database: ContextualDatabase?
+        ): ActionState()
+        data class OnDatabaseActionFinished(
+            var database: ContextualDatabase,
+            val actionTask: String,
+            val result: ActionRunnable.Result
+        ): ActionState()
+    }
 }

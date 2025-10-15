@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -418,6 +417,7 @@ class NodesAdapter (
                 }
             }
 
+            // OTP
             val otpElement = entry.getOtpElement()
             holder.otpContainer?.removeCallbacks(holder.otpRunnable)
             if (otpElement != null
@@ -438,7 +438,11 @@ class NodesAdapter (
                 holder.otpContainer?.visibility = View.GONE
             }
             holder.attachmentIcon?.visibility =
-                    if (entry.containsAttachment()) View.VISIBLE else View.GONE
+                if (entry.containsAttachment()) View.VISIBLE else View.GONE
+
+            // Passkey
+            holder.passkeyIcon?.visibility =
+                if (entry.getPasskey() != null) View.VISIBLE else View.GONE
 
             // Assign colors
             assignBackgroundColor(holder.container, entry)
@@ -451,6 +455,7 @@ class NodesAdapter (
                     holder.otpToken?.setTextColor(foregroundColor)
                     holder.otpProgress?.setIndicatorColor(foregroundColor)
                     holder.attachmentIcon?.setColorFilter(foregroundColor)
+                    holder.passkeyIcon?.setColorFilter(foregroundColor)
                     holder.meta.setTextColor(foregroundColor)
                     iconColor = foregroundColor
                 } else {
@@ -459,6 +464,7 @@ class NodesAdapter (
                     holder.otpToken?.setTextColor(mTextColorSecondary)
                     holder.otpProgress?.setIndicatorColor(mTextColorSecondary)
                     holder.attachmentIcon?.setColorFilter(mTextColorSecondary)
+                    holder.passkeyIcon?.setColorFilter(mTextColorSecondary)
                     holder.meta.setTextColor(mTextColor)
                 }
             } else {
@@ -467,6 +473,7 @@ class NodesAdapter (
                 holder.otpToken?.setTextColor(mColorOnSecondary)
                 holder.otpProgress?.setIndicatorColor(mColorOnSecondary)
                 holder.attachmentIcon?.setColorFilter(mColorOnSecondary)
+                holder.passkeyIcon?.setColorFilter(mColorOnSecondary)
                 holder.meta.setTextColor(mColorOnSecondary)
             }
 
@@ -611,6 +618,7 @@ class NodesAdapter (
         var otpRunnable: OtpRunnable = OtpRunnable(otpContainer)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
         var attachmentIcon: ImageView? = itemView.findViewById(R.id.node_attachment_icon)
+        var passkeyIcon: ImageView? = itemView.findViewById(R.id.node_passkey_icon)
     }
 
     companion object {

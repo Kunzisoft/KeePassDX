@@ -34,8 +34,8 @@ import androidx.appcompat.app.AlertDialog
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.SpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeModes
+import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.element.Entry
@@ -87,128 +87,44 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             deleteDatabaseNodes(nodes)
         }
 
-        mDatabaseViewModel.saveDatabase.observe(this) { save ->
-            mDatabaseTaskProvider?.startDatabaseSave(save)
-        }
-
-        mDatabaseViewModel.mergeDatabase.observe(this) { save ->
-            mDatabaseTaskProvider?.startDatabaseMerge(save)
-        }
-
-        mDatabaseViewModel.reloadDatabase.observe(this) { fixDuplicateUuid ->
-            mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
-                mDatabaseTaskProvider?.startDatabaseReload(fixDuplicateUuid)
-            }
-        }
-
-        mDatabaseViewModel.saveName.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveName(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveDescription.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveDescription(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveDefaultUsername.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveDefaultUsername(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveColor.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveColor(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveCompression.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveCompression(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.removeUnlinkData.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseRemoveUnlinkedData(it)
-        }
-
-        mDatabaseViewModel.saveRecycleBin.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveRecycleBin(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveTemplatesGroup.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveTemplatesGroup(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveMaxHistoryItems.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveMaxHistoryItems(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveMaxHistorySize.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveMaxHistorySize(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveEncryption.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveEncryption(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveKeyDerivation.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveKeyDerivation(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveIterations.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveIterations(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveMemoryUsage.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveMemoryUsage(it.oldValue, it.newValue, it.save)
-        }
-
-        mDatabaseViewModel.saveParallelism.observe(this) {
-            mDatabaseTaskProvider?.startDatabaseSaveParallelism(it.oldValue, it.newValue, it.save)
-        }
-
         mExitLock = false
     }
 
-    open fun finishActivityIfDatabaseNotLoaded(): Boolean {
-        return true
-    }
-
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
-        super.onDatabaseRetrieved(database)
-
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // End activity if database not loaded
-        if (finishActivityIfDatabaseNotLoaded() && (database == null || !database.loaded)) {
+        if (database.loaded.not())
             finish()
-        }
 
         // Focus view to reinitialize timeout,
         // view is not necessary loaded so retry later in resume
         viewToInvalidateTimeout()
-            ?.resetAppTimeoutWhenViewTouchedOrFocused(this, database?.loaded)
+            ?.resetAppTimeoutWhenViewTouchedOrFocused(this, database.loaded)
 
-        database?.let {
-            // check timeout
-            if (mTimeoutEnable) {
-                if (mLockReceiver == null) {
-                    mLockReceiver = LockReceiver {
-                        mDatabase = null
-                        closeDatabase(database)
-                        mExitLock = true
-                        closeOptionsMenu()
-                        finish()
-                    }
-                    registerLockReceiver(mLockReceiver)
+        // check timeout
+        if (mTimeoutEnable) {
+            if (mLockReceiver == null) {
+                mLockReceiver = LockReceiver {
+                    closeDatabase(database)
+                    mExitLock = true
+                    closeOptionsMenu()
+                    finish()
                 }
-
-                // After the first creation
-                // or If simply swipe with another application
-                // If the time is out -> close the Activity
-                TimeoutHelper.checkTimeAndLockIfTimeout(this)
-                // If onCreate already record time
-                if (!mExitLock)
-                    TimeoutHelper.recordTime(this, database.loaded)
+                registerLockReceiver(mLockReceiver)
             }
 
-            mDatabaseReadOnly = database.isReadOnly
-            mMergeDataAllowed = database.isMergeDataAllowed()
-
-            checkRegister()
+            // After the first creation
+            // or If simply swipe with another application
+            // If the time is out -> close the Activity
+            TimeoutHelper.checkTimeAndLockIfTimeout(this)
+            // If onCreate already record time
+            if (!mExitLock)
+                TimeoutHelper.recordTime(this, database.loaded)
         }
+
+        mDatabaseReadOnly = database.isReadOnly
+        mMergeDataAllowed = database.isMergeDataAllowed()
+
+        checkRegister()
     }
 
     override fun finish() {
@@ -227,7 +143,6 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         actionTask: String,
         result: ActionRunnable.Result
     ) {
-        super.onDatabaseActionFinished(database, actionTask, result)
         when (actionTask) {
             DatabaseTaskNotificationService.ACTION_DATABASE_MERGE_TASK,
             DatabaseTaskNotificationService.ACTION_DATABASE_RELOAD_TASK -> {
@@ -249,24 +164,15 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
         databaseUri: Uri?,
         mainCredential: MainCredential
     ) {
-        assignDatabasePassword(databaseUri, mainCredential)
+        mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
     }
 
-    private fun assignDatabasePassword(
-        databaseUri: Uri?,
-        mainCredential: MainCredential
-    ) {
-        if (databaseUri != null) {
-            mDatabaseTaskProvider?.startDatabaseAssignCredential(databaseUri, mainCredential)
-        }
-    }
-
-    fun assignPassword(mainCredential: MainCredential) {
+    fun assignMainCredential(mainCredential: MainCredential) {
         mDatabase?.let { database ->
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
                 if (database.isValidCredential(mainCredential.toMasterCredential(contentResolver))) {
-                    assignDatabasePassword(databaseUri, mainCredential)
+                    mDatabaseViewModel.assignMainCredential(databaseUri, mainCredential)
                 } else {
                     PasswordEncodingDialogFragment.getInstance(databaseUri, mainCredential)
                         .show(supportFragmentManager, "passwordEncodingTag")
@@ -276,45 +182,51 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun saveDatabase() {
-        mDatabaseTaskProvider?.startDatabaseSave(true)
+        mDatabaseViewModel.saveDatabase(save = true)
     }
 
     fun saveDatabaseTo(uri: Uri) {
-        mDatabaseTaskProvider?.startDatabaseSave(true, uri)
+        mDatabaseViewModel.saveDatabase(save = true, saveToUri = uri)
     }
 
     fun mergeDatabase() {
-        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable)
+        mDatabaseViewModel.mergeDatabase(save = mAutoSaveEnable)
     }
 
     fun mergeDatabaseFrom(uri: Uri, mainCredential: MainCredential) {
-        mDatabaseTaskProvider?.startDatabaseMerge(mAutoSaveEnable, uri, mainCredential)
+        mDatabaseViewModel.mergeDatabase(mAutoSaveEnable, uri, mainCredential)
     }
 
     fun reloadDatabase() {
-        mDatabaseTaskProvider?.askToStartDatabaseReload(mDatabase?.dataModifiedSinceLastLoading != false) {
-            mDatabaseTaskProvider?.startDatabaseReload(false)
-        }
+        mDatabaseViewModel.reloadDatabase(fixDuplicateUuid = false)
     }
 
-    fun createEntry(newEntry: Entry,
-                    parent: Group) {
-        mDatabaseTaskProvider?.startDatabaseCreateEntry(newEntry, parent, mAutoSaveEnable)
+    fun createEntry(
+        newEntry: Entry,
+        parent: Group
+    ) {
+        mDatabaseViewModel.createEntry(newEntry, parent, mAutoSaveEnable)
     }
 
-    fun updateEntry(oldEntry: Entry,
-                    entryToUpdate: Entry) {
-        mDatabaseTaskProvider?.startDatabaseUpdateEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
+    fun updateEntry(
+        oldEntry: Entry,
+        entryToUpdate: Entry
+    ) {
+        mDatabaseViewModel.updateEntry(oldEntry, entryToUpdate, mAutoSaveEnable)
     }
 
-    fun copyNodes(nodesToCopy: List<Node>,
-                  newParent: Group) {
-        mDatabaseTaskProvider?.startDatabaseCopyNodes(nodesToCopy, newParent, mAutoSaveEnable)
+    fun copyNodes(
+        nodesToCopy: List<Node>,
+        newParent: Group
+    ) {
+        mDatabaseViewModel.copyNodes(nodesToCopy, newParent, mAutoSaveEnable)
     }
 
-    fun moveNodes(nodesToMove: List<Node>,
-                  newParent: Group) {
-        mDatabaseTaskProvider?.startDatabaseMoveNodes(nodesToMove, newParent, mAutoSaveEnable)
+    fun moveNodes(
+        nodesToMove: List<Node>,
+        newParent: Group
+    ) {
+        mDatabaseViewModel.moveNodes(nodesToMove, newParent, mAutoSaveEnable)
     }
 
     private fun eachNodeRecyclable(database: ContextualDatabase, nodes: List<Node>): Boolean {
@@ -330,6 +242,7 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     fun deleteNodes(nodes: List<Node>, recycleBin: Boolean = false) {
+        // TODO Move in ViewModel
         mDatabase?.let { database ->
             // If recycle bin enabled, ensure it exists
             if (database.isRecycleBinEnabled) {
@@ -350,11 +263,14 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
     }
 
     private fun deleteDatabaseNodes(nodes: List<Node>) {
-        mDatabaseTaskProvider?.startDatabaseDeleteNodes(nodes, mAutoSaveEnable)
+        mDatabaseViewModel.deleteNodes(nodes, mAutoSaveEnable)
     }
 
-    fun createGroup(parent: Group,
-                    groupInfo: GroupInfo?) {
+    fun createGroup(
+        parent: Group,
+        groupInfo: GroupInfo?
+    ) {
+        // TODO Move in ViewModel
         // Build the group
         mDatabase?.createGroup()?.let { newGroup ->
             groupInfo?.let { info ->
@@ -362,12 +278,15 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
             }
             // Not really needed here because added in runnable but safe
             newGroup.parent = parent
-            mDatabaseTaskProvider?.startDatabaseCreateGroup(newGroup, parent, mAutoSaveEnable)
+            mDatabaseViewModel.createGroup(newGroup, parent, mAutoSaveEnable)
         }
     }
 
-    fun updateGroup(oldGroup: Group,
-                    groupInfo: GroupInfo) {
+    fun updateGroup(
+        oldGroup: Group,
+        groupInfo: GroupInfo
+    ) {
+        // TODO Move in ViewModel
         // If group updated save it in the database
         val updateGroup = Group(oldGroup).let { updateGroup ->
             updateGroup.apply {
@@ -377,27 +296,28 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 this.setGroupInfo(groupInfo)
             }
         }
-        mDatabaseTaskProvider?.startDatabaseUpdateGroup(oldGroup, updateGroup, mAutoSaveEnable)
+        mDatabaseViewModel.updateGroup(oldGroup, updateGroup, mAutoSaveEnable)
     }
 
-    fun restoreEntryHistory(mainEntryId: NodeId<UUID>,
-                            entryHistoryPosition: Int) {
-        mDatabaseTaskProvider
-            ?.startDatabaseRestoreEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
+    fun restoreEntryHistory(
+        mainEntryId: NodeId<UUID>,
+        entryHistoryPosition: Int
+    ) {
+        mDatabaseViewModel.restoreEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
-    fun deleteEntryHistory(mainEntryId: NodeId<UUID>,
-                           entryHistoryPosition: Int) {
-        mDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
+    fun deleteEntryHistory(
+        mainEntryId: NodeId<UUID>,
+        entryHistoryPosition: Int
+    ) {
+        mDatabaseViewModel.deleteEntryHistory(mainEntryId, entryHistoryPosition, mAutoSaveEnable)
     }
 
     private fun checkRegister() {
-        // If in ave or registration mode, don't allow read only
-        if ((mSpecialMode == SpecialMode.SAVE
-                    || mSpecialMode == SpecialMode.REGISTRATION)
-            && mDatabaseReadOnly) {
+        // If in registration mode, don't allow read only
+        if (mSpecialMode == SpecialMode.REGISTRATION && mDatabaseReadOnly) {
             Toast.makeText(this, R.string.error_registration_read_only , Toast.LENGTH_LONG).show()
-            EntrySelectionHelper.removeModesFromIntent(intent)
+            intent.removeModes()
             finish()
         }
     }

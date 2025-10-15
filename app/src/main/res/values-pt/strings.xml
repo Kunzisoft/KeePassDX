@@ -91,9 +91,8 @@
     <string name="list_password_generator_options_title">Caracteres das palavras-passe</string>
     <string name="password_size_summary">Define o tamanho predefinido para as palavras-passe geradas</string>
     <string name="password_size_title">Tamanho da palavra-passe gerada</string>
-    <string name="set_autofill_service_title">Definir como serviço de preenchimento automático predefinido</string>
+    <string name="set_credential_provider_service_title">Definir como serviço de preenchimento automático predefinido</string>
     <string name="autofill_sign_in_prompt">Iniciar sessão com KeePassDX</string>
-    <string name="autofill_service_name">Serviço de preenchimento automático do KeePassDX</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="general">Geral</string>
     <string name="encrypted_value_stored">Palavra-passe encriptada armazenada</string>
@@ -456,7 +455,6 @@
     <string name="warning_database_info_changed_options">Unir os dados, substituir as alterações externas guardado a base de dados ou recarregá-los com as últimas alterações.</string>
     <string name="warning_database_info_changed">A informação contida no seu ficheiro da base de dados foi alterada fora da aplicação.</string>
     <string name="warning_empty_recycle_bin">Eliminar permanentemente todos os nós do caixote da reciclagem\?</string>
-    <string name="registration_mode">Modo de registo</string>
     <string name="save_mode">Modo de guardar</string>
     <string name="search_mode">Modo de pesquisa</string>
     <string name="menu_keystore_remove_key">Eliminar a chave de desbloqueio do dispositivo</string>
@@ -485,7 +483,7 @@
     <string name="download_canceled">Cancelado!</string>
     <string name="education_device_unlock_title">Desbloqueio da base de dados do dispositivo</string>
     <string name="autofill_inline_suggestions_keyboard">Adicionadas sugestões de preenchimento automático.</string>
-    <string name="autofill_read_only_save">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
+    <string name="error_save_read_only">Não é possível guardar dados numa base de dados aberta apenas com permissão de leitura.</string>
     <string name="autofill_ask_to_save_data_summary">Pedir para guardar dados quando terminar de preencher um formulário</string>
     <string name="autofill_ask_to_save_data_title">Pedir para guardar dados</string>
     <string name="autofill_save_search_info_summary">Tentar guardar as informações de pesquisas ao fazer uma seleção de entrada manual para facilitar utilizações posteriores</string>

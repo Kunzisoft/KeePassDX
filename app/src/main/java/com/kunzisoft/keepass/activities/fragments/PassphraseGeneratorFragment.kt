@@ -244,7 +244,7 @@ class PassphraseGeneratorFragment : DatabaseFragment() {
         }
     }
 
-    override fun onDatabaseRetrieved(database: ContextualDatabase?) {
+    override fun onDatabaseRetrieved(database: ContextualDatabase) {
         // Nothing here
     }
 
