@@ -703,4 +703,5 @@
     <string name="nodes">节点</string>
     <string name="recursive_number_entries_title">条目的递归数</string>
     <string name="error_otp_secret_length">密钥长度至少为 %1$d 个字符。</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s 未经识别并试图用现有的 passkey 验证身份。</string>
 </resources>
