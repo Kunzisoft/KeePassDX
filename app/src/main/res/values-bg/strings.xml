@@ -681,4 +681,24 @@
     <string name="hide_templates_summary">Шаблоните не се показват</string>
     <string name="hide_templates_title">Скриване на шаблоните</string>
     <string name="error_otp_secret_length">Тайният ключ трябва да бъде най-малко %1$d знаци.</string>
+    <string name="entry_application_id">Идент. приложение</string>
+    <string name="warning_overwrite_data_title">Презаписване на информация?</string>
+    <string name="warning_overwrite_data_description">Чрез това действие ще бъде презаоисана информация на записа. Може да намерите старите данни ако историята е включена.</string>
+    <string name="credential_provider">Доставчик на регистрации</string>
+    <string name="passkeys">Passkeys</string>
+    <string name="passkeys_explanation_summary">Настройте Passkeys за бърз и сигурен вход без парола</string>
+    <string name="passkeys_preference_title">Настройки на Passkeys</string>
+    <string name="passkeys_close_database_title">Затваряне на хранилище</string>
+    <string name="passkeys_close_database_summary">Затваряне на хранилището след избор на passkey</string>
+    <string name="passkeys_privileged_apps_explanation">ВНИМАНИЕ: Приложението с повишени права работи като шлюз, през който се получава източника на удостоверяването. За да избегнете проблеми със сигурността подсигурете неговата автентичност.</string>
+    <string name="passkeys_privileged_apps_title">Приложения с повишени права</string>
+    <string name="passkeys_privileged_apps_summary">Управление на мрежови четци в потребителския списък с приложения с повишени права</string>
+    <string name="passkeys_privileged_apps_ask_title">Неразпознато приложение</string>
+    <string name="passkeys_privileged_apps_ask_message">Приложението „%1$s“ опитва да извърши действия с Passkeys.\n\nДа бъде ли добавено в списъка с приложения с повишени права?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Липсващ подпис</string>
+    <string name="passkeys_missing_signature_app_ask_message">Приложението „%1$s“ не е разпознато, но се опитва да извърши удостоверяване с Passkeys.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Добавяне на подпис към запис на Passkeys?</string>
+    <string name="passkeys_auto_select_title">Автоматичен избор</string>
+    <string name="passkeys_auto_select_summary">Работи при отключено хранилище, съвпадение на един запис и съвместимо запитващо приложение</string>
+    <string name="passkeys_backup_eligibility_title">Способност за резервно копие</string>
 </resources>
