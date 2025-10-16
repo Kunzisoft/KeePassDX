@@ -705,4 +705,12 @@
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
     <string name="error_otp_secret_length">Geheimschlüssel muss mindestens %1$d Zeichen lang sein.</string>
     <string name="entry_application_id">App-ID</string>
+    <string name="warning_overwrite_data_title">Bestehende Daten überschreiben?</string>
+    <string name="warning_overwrite_data_description">Diese Aktion ersetzt die bestehenden Daten im Eintrag. Die alten Daten können wiederhergestellt werden, wenn der Verlauf aktiviert ist.</string>
+    <string name="passkeys">Passkeys</string>
+    <string name="passkeys_preference_title">Passkeys-Einstellungen</string>
+    <string name="passkeys_close_database_title">Datenbank schließen</string>
+    <string name="passkeys_privileged_apps_title">Vertrauliche Apps</string>
+    <string name="passkeys_missing_signature_app_ask_title">Signatur fehlt</string>
+    <string name="passkeys_auto_select_title">Automatische Auswahl</string>
 </resources>
