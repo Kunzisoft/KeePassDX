@@ -378,7 +378,7 @@
     <string name="device_unlock">Розблокування пристрою</string>
     <string name="lock_database_show_button_summary">Показувати кнопку блокування в інтерфейсі користувача</string>
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
-    <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натисне кнопку назад на головному екрані</string>
+    <string name="lock_database_back_root_summary">Натисніть «Назад», щоб заблокувати базу даних, якщо ви перебуваєте на головному екрані бази дани</string>
     <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
     <string name="lock_database_screen_off_summary">Блокувати базу даних за кілька секунд після вимкнення екрана</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
@@ -523,7 +523,7 @@
     <string name="unit_mebibyte">МіБ</string>
     <string name="unit_kibibyte">КіБ</string>
     <string name="unit_byte">Б</string>
-    <string name="error_otp_type">Ця форма не розпізнає наявний тип OTP, його перевірка може надалі створювати не дійсний токен.</string>
+    <string name="error_otp_type">Наявний тип OTP не розпізнається цією формою, і його перевірка може більше не генерувати токен правильно.</string>
     <string name="download_canceled">Скасовано!</string>
     <string name="icon_section_custom">Власні</string>
     <string name="icon_section_standard">Стандартні</string>
