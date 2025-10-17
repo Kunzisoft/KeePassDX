@@ -704,4 +704,19 @@
     <string name="generate_keyfile">Kulcsfájl előállítása</string>
     <string name="hide_templates_title">Sablonok elrejtése</string>
     <string name="error_otp_secret_length">A titkos kulcsnak legalább %1$d karakterből kell állnia.</string>
+    <string name="entry_application_id">Alkalmazásazonosító</string>
+    <string name="warning_overwrite_data_title">Felülírja a meglévő adatokat?</string>
+    <string name="warning_overwrite_data_description">Ez a művelet felülírja a bejegyzésben található meglévő adatokat. Ha a előzmények funkció engedélyezve van, akkor a régi adatokat vissza lehet állítani.</string>
+    <string name="credential_provider">Hitelesítési adatok szolgáltatója</string>
+    <string name="passkeys">Biztonsági kulcsok</string>
+    <string name="passkeys_explanation_summary">Biztonsági kulcsok beállítása a gyors és biztonságos jelszó nélküli bejelentkezéshez</string>
+    <string name="passkeys_preference_title">Biztonsági kulcsok beállításai</string>
+    <string name="passkeys_close_database_title">Adatbázis bezárása</string>
+    <string name="passkeys_close_database_summary">Adatbázis bezárása a biztonsági kulcs kiválasztása után</string>
+    <string name="passkeys_privileged_apps_title">Emelt jogosultságú alkalmazások</string>
+    <string name="passkeys_privileged_apps_summary">A böngészők kezelése az emelt jogosultságú alkalmazások egyéni listájában</string>
+    <string name="passkeys_privileged_apps_explanation">FIGYELEM: Az emelt jogosultságú alkalmazás kapuként szolgál a hitelesítés eredetének lekéréséhez. Biztonsági okokból győződjön meg annak jogszerűségéről.</string>
+    <string name="passkeys_privileged_apps_ask_title">Az alkalmazás nem ismerhető fel</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s megkísérli végrehajtani a biztonsági kulcsműveletet.\n\nHozzáadja az emelt jogosultságú alkalmazások listájához?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Aláírás hiányzik</string>
 </resources>
