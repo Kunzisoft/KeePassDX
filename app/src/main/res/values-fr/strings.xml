@@ -319,7 +319,7 @@
     <string name="selection_mode">Mode sélection</string>
     <string name="do_not_kill_app">Ne pas fermer l\'application…</string>
     <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verrouiller</string>
-    <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
+    <string name="lock_database_back_root_summary">Appuyer sur « Retour » pour verrouiller la base de données si vous vous trouvez sur l\'écran racine de la base de données</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
     <string name="clear_clipboard_notification_summary">Verrouille la base de données lorsque la durée du presse-papier expire ou que la notification est fermée après avoir commencé à l’utiliser</string>
     <string name="recycle_bin">Corbeille</string>
@@ -539,7 +539,7 @@
     <string name="unit_mebibyte">Mébioctets</string>
     <string name="unit_kibibyte">Kibioctets</string>
     <string name="unit_byte">Octets</string>
-    <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, sa validation peut ne plus générer correctement le jeton.</string>
+    <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, et sa validation peut ne plus générer correctement le jeton.</string>
     <string name="download_canceled">Annulé !</string>
     <string name="icon_section_custom">Customisé</string>
     <string name="icon_section_standard">Standard</string>
