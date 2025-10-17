@@ -264,6 +264,9 @@ Settings Activity. This is pointed to in the service's meta-data in the applicat
         android:name="org.ironfoxoss.ironfox"
         android:maxLongVersionCode="10000000000" />
     <compatibility-package
+        android:name="org.ironfoxoss.ironfox.nightly"
+        android:maxLongVersionCode="10000000000" />
+    <compatibility-package
         android:name="org.mozilla.fenix"
         android:maxLongVersionCode="10000000000" />
     <compatibility-package
