@@ -672,7 +672,7 @@
     <string name="merge_success">マージが正常に完了しました</string>
     <string name="configure">設定する</string>
     <string name="menu_appearance_settings_summary">テーマ、色、アイコン、フォント、属性</string>
-    <string name="unlock">ロックを解除します</string>
+    <string name="unlock">ロックを解除</string>
     <string name="style_name_moon">ムーン</string>
     <string name="style_name_dark">ダーク</string>
     <string name="style_name_light">ライト</string>
