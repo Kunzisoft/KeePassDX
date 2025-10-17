@@ -335,7 +335,7 @@
     <string name="device_unlock_explanation_summary">استخدم إلغاء القفل الجهاز لفتح قاعدة البيانات بسهولة</string>
     <string name="lock_database_show_button_summary">يعرض زر القَفل في الواجهة</string>
     <string name="lock_database_show_button_title">أظهر زر القفل</string>
-    <string name="lock_database_back_root_summary">قفل قاعدة البيانات عند النقر على زر الرجوع في الشاشة الرئيسية</string>
+    <string name="lock_database_back_root_summary">اضغط على \"رجوع\" لقفل قاعدة البيانات إذا كنت في الشاشة الجذر لقاعدة البيانات</string>
     <string name="lock_database_back_root_title">اضغط على \"رجوع\" للإقفال</string>
     <string name="clipboard_explanation_summary">انسخ حقول المدخل باستخدام الحافظة</string>
     <string name="database_opened">قاعدة البيانات مفتوحة</string>
