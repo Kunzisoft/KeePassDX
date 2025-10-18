@@ -300,7 +300,7 @@
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
     <string name="do_not_kill_app">Не закрывайте приложение…</string>
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
-    <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\" на начальном экране</string>
+    <string name="lock_database_back_root_summary">Блокировка базы нажатием кнопки \"Назад\", если открыт её корневой раздел</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
     <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления после использования или истечения времени ожидания</string>
     <string name="recycle_bin">Корзина</string>
@@ -519,7 +519,7 @@
     <string name="warning_database_info_changed_options">Объединить данные, перезаписав внешние изменения, или перезагрузить её с последними изменениями.</string>
     <string name="warning_database_info_changed">Информация, содержащаяся в файле базы, была изменена вне этого приложения.</string>
     <string name="menu_reload_database">Перезагрузить данные</string>
-    <string name="error_otp_type">Существующий тип OTP не распознаётся данной формой, его проверка больше не может корректно генерировать токен.</string>
+    <string name="error_otp_type">Существующий тип OTP не распознаётся данной формой и его проверка больше не может корректно генерировать токен.</string>
     <string name="unit_gibibyte">ГиБ</string>
     <string name="unit_mebibyte">МиБ</string>
     <string name="unit_kibibyte">КиБ</string>

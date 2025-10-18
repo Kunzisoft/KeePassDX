@@ -1,4 +1,4 @@
- * Gestion de Passkeys #1421 (Thx @cali-95)
+* Gestion de Passkeys #1421 (Thx @cali-95)
  * Paramètres de recherche #2112 #2181
  * Paramètre de fermeture de la base après une sélection de Passkey #2187
  * Mise en garde lors de l'écrasement d'un Passkey existant #21124

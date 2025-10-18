@@ -19,7 +19,7 @@
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="feedback">Commentaires</string>
     <string name="homepage">Page d’accueil</string>
-    <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
+    <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass.</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
@@ -165,7 +165,7 @@
     <string name="autofill">Remplissage automatique</string>
     <string name="autofill_sign_in_prompt">Se connecter avec KeePassDX</string>
     <string name="set_credential_provider_service_title">Définir le service de remplissage automatique par défaut</string>
-    <string name="autofill_explanation_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
+    <string name="autofill_explanation_summary">Configurer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
     <string name="autofill_select_entry">Sélectionner une entrée…</string>
     <string name="password_size_title">Taille du mot de passe généré</string>
     <string name="password_size_summary">Défini la taille par défaut des mots de passe générés</string>
@@ -319,7 +319,7 @@
     <string name="selection_mode">Mode sélection</string>
     <string name="do_not_kill_app">Ne pas fermer l\'application…</string>
     <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verrouiller</string>
-    <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
+    <string name="lock_database_back_root_summary">Appuyer sur « Retour » pour verrouiller la base de données si vous vous trouvez sur l\'écran racine de la base de données</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
     <string name="clear_clipboard_notification_summary">Verrouille la base de données lorsque la durée du presse-papier expire ou que la notification est fermée après avoir commencé à l’utiliser</string>
     <string name="recycle_bin">Corbeille</string>
@@ -539,7 +539,7 @@
     <string name="unit_mebibyte">Mébioctets</string>
     <string name="unit_kibibyte">Kibioctets</string>
     <string name="unit_byte">Octets</string>
-    <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, sa validation peut ne plus générer correctement le jeton.</string>
+    <string name="error_otp_type">Le type OTP existant n\'est pas reconnu par ce formulaire, et sa validation peut ne plus générer correctement le jeton.</string>
     <string name="download_canceled">Annulé !</string>
     <string name="icon_section_custom">Customisé</string>
     <string name="icon_section_standard">Standard</string>
@@ -709,4 +709,38 @@
     <string name="passkeys_explanation_summary">Configurer des clés d\'accès pour une connexion rapide et sécurisée, sans mot de passe</string>
     <string name="passkeys_preference_title">Paramètres des clés d\'accès</string>
     <string name="passkeys_close_database_title">Fermer la base de données</string>
+    <string name="credential_provider">Fournisseur d\'authentification</string>
+    <string name="passkeys_close_database_summary">Fermer la base de données après la sélection d\'un mot de passe</string>
+    <string name="passkeys_privileged_apps_title">Applications privilégiées</string>
+    <string name="passkeys_privileged_apps_summary">Gérer les navigateurs dans la liste personnalisée des applications privilégiées</string>
+    <string name="passkeys_privileged_apps_explanation">AVERTISSEMENT : une application privilégiée sert de passerelle pour récupérer l\'origine d\'une authentification. Assurez-vous de sa légitimité afin d\'éviter tout problème de sécurité.</string>
+    <string name="passkeys_privileged_apps_ask_title">Application non reconnue</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s tente d\'effectuer une action Passkey.\n\nL\'ajouter à la liste des applications privilégiées ?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Signature manquante</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">AVERTISSEMENT : la clé d\'accès a été créée à partir d\'un autre client ou la signature a été supprimée. Assurez-vous que l\'application que vous souhaitez authentifier fait partie du même service et qu\'elle est légitime afin d\'éviter tout problème de sécurité.\nSi l\'application est un navigateur, n\'ajoutez pas sa signature à l\'entrée, mais à la liste des applications privilégiées dans les paramètres.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s n\'est pas reconnu et tente de s\'authentifier avec une clé d\'accès existante.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Ajouter la signature d\'application à l\'entrée contenant la clé d\'accès ?</string>
+    <string name="passkeys_auto_select_title">Sélection automatique</string>
+    <string name="passkeys_auto_select_summary">Sélection automatique s\'il n\'y a qu\'une seule entrée et que la base de données est ouverte, uniquement si l\'application requérante est compatible</string>
+    <string name="passkeys_backup_eligibility_title">Admissibilité à la sauvegarde</string>
+    <string name="passkeys_backup_eligibility_summary">Déterminer au moment de la création si la source d\'authentification de clé publique est autorisé à une copie de sauvegarde</string>
+    <string name="passkeys_backup_state_title">État de sauvegarde</string>
+    <string name="passkeys_backup_state_summary">Indiquer que les informations d\'authentification sont sauvegardées et protégées contre la perte d\'un seul appareil</string>
+    <string name="credential_provider_service_subtitle">Clés d\'accès, Remplissage automatique fournisseur d\'authentification</string>
+    <string name="passkey">Clé d\'accès</string>
+    <string name="passkey_service_name">KeePassDX Fournisseur d\'Authentification</string>
+    <string name="passkey_creation_description">Enregistrer la clé d\'accès dans la nouvelle entrée</string>
+    <string name="passkey_update_description">Mettre à jour la clé d\'accès dans %1$s</string>
+    <string name="passkey_selection_username">Aucune clé d\'accès trouvée</string>
+    <string name="passkey_selection_description">Sélectionner une clé d\'accès existante</string>
+    <string name="passkey_database_username">Base de données KeePassDX</string>
+    <string name="passkey_locked_database_description">Sélectionner pour déverrouiller</string>
+    <string name="passkey_username">Nom d\'Utilisateur de Clé d\'Accès</string>
+    <string name="passkey_private_key">Clé Privée de Clé d\'Accès</string>
+    <string name="passkey_credential_id">Identifiant d\'Authentification de Clé d\'Accès</string>
+    <string name="passkey_user_handle">Identifiant Utilisateur de Clé d\'Accès</string>
+    <string name="passkey_relying_party">Partie Utilisatrice de Clé d\'Accès</string>
+    <string name="passkey_backup_eligibility">Admissibilité à la Sauvegarde de Clé d\'Accès</string>
+    <string name="passkey_backup_state">État de la Sauvegarde de Clé d\'Accès</string>
+    <string name="error_passkey_result">Impossible de restituer la clé d\'accès</string>
 </resources>
