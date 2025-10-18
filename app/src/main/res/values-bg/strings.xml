@@ -283,7 +283,7 @@
     <string name="search">Търсене</string>
     <string name="uppercase">Горен регистър</string>
     <string name="warning">Внимание</string>
-    <string name="lock_database_back_root_summary">Бутонът „Назад“ на началния екран при докосване заключва хранилището</string>
+    <string name="lock_database_back_root_summary">Бутонът „Назад“ в кореновата папка заключва хранилището</string>
     <string name="read_only">Само за четене</string>
     <string name="contains_duplicate_uuid">Хранилището съдържа повтарящ се идентификатор.</string>
     <string name="biometric">Биометричен ключ</string>
