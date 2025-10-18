@@ -296,7 +296,7 @@
     <string name="keyboard_key_sound_title">Dźwięk przy naciskaniu klawiszy</string>
     <string name="do_not_kill_app">Nie zamykaj aplikacji…</string>
     <string name="lock_database_back_root_title">Naciśnij „Wstecz”, aby zablokować</string>
-    <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk „Wstecz” na ekranie głównym</string>
+    <string name="lock_database_back_root_summary">Naciśnij „Wstecz”, aby zablokować bazę danych, jeśli znajdujesz się na ekranie głównym bazy danych</string>
     <string name="clear_clipboard_notification_title">Wyczyść po zamknięciu</string>
     <string name="clear_clipboard_notification_summary">Blokowanie bazy danych po wygaśnięciu czasu trwania schowka lub zamknięciu powiadomienia po rozpoczęciu korzystania z niej</string>
     <string name="recycle_bin">Kosz</string>
@@ -517,7 +517,7 @@
     <string name="unit_mebibyte">MiB</string>
     <string name="unit_kibibyte">KiB</string>
     <string name="unit_byte">B</string>
-    <string name="error_otp_type">Istniejący typ OTP nie jest rozpoznawany przez ten formularz, jego walidacja może już nie generować poprawnie tokenu.</string>
+    <string name="error_otp_type">Istniejący typ OTP nie jest rozpoznawany przez ten formularz, a jego walidacja może już nie generować poprawnie tokenu.</string>
     <string name="download_canceled">Anulowano!</string>
     <string name="icon_section_custom">Niestandardowy</string>
     <string name="icon_section_standard">Standardowy</string>

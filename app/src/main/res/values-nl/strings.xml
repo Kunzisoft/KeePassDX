@@ -305,7 +305,7 @@
     <string name="selection_mode">Selectiemodus</string>
     <string name="do_not_kill_app">App niet afsluiten…</string>
     <string name="lock_database_back_root_title">Druk \'Terug\' om te vergrendelen</string>
-    <string name="lock_database_back_root_summary">Vergrendel de database wanneer de gebruiker in het hoofdscherm op de knop Terug klikt</string>
+    <string name="lock_database_back_root_summary">Druk \"Terug\" om de database te vergrendelen als je je op het hoofdscherm van de database bevindt</string>
     <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
     <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer het klembord verlopen is of wanneer de melding wordt gesloten nadat u deze hebt gebruikt</string>
     <string name="recycle_bin">Prullenbak</string>
@@ -526,7 +526,7 @@
     <string name="menu_reload_database">Gegevens opnieuw laden</string>
     <string name="error_rebuild_list">Kan de lijst niet correct opnieuw opbouwen.</string>
     <string name="error_database_uri_null">Database-URI kan niet worden opgehaald.</string>
-    <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier, de validatie ervan genereert het token mogelijk niet langer.</string>
+    <string name="error_otp_type">Het bestaande OTP-type wordt niet herkend door dit formulier en de validatie ervan genereert het token mogelijk niet meer correct.</string>
     <string name="icon_section_custom">Aangepast</string>
     <string name="icon_section_standard">Standaard</string>
     <string name="style_brightness_summary">Selecteer lichte of donkere thema\'s</string>

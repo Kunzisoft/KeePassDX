@@ -301,8 +301,8 @@
     <string name="html_text_dev_feature_upgrade">别忘了通过安装新版本来保持你的应用是最新的。</string>
     <string name="selection_mode">选择模式</string>
     <string name="do_not_kill_app">不要终止应用…</string>
-    <string name="lock_database_back_root_title">按返回键以锁定</string>
-    <string name="lock_database_back_root_summary">当用户单击根屏幕上的返回按钮时锁定数据库</string>
+    <string name="lock_database_back_root_title">按“返回”锁定</string>
+    <string name="lock_database_back_root_summary">如果您位于数据库的根屏幕，请按“返回”锁定数据库</string>
     <string name="clear_clipboard_notification_title">关闭应用时清空剪贴板</string>
     <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
@@ -522,7 +522,7 @@
     <string name="unit_mebibyte">兆字节</string>
     <string name="unit_kibibyte">千位字节</string>
     <string name="unit_byte">字节</string>
-    <string name="error_otp_type">现有的 OTP 类型未被此表单所识别，其验证可能不再正确生成令牌。</string>
+    <string name="error_otp_type">现有的 OTP 类型未被此表单所识别，并且其验证可能不再正确生成令牌。</string>
     <string name="download_canceled">已取消！</string>
     <string name="icon_section_custom">自定义</string>
     <string name="icon_section_standard">标准</string>
