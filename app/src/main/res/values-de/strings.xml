@@ -312,7 +312,7 @@
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
     <string name="do_not_kill_app">App nicht beenden …</string>
-    <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm befindet</string>
+    <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm der Datenbank befindet</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
