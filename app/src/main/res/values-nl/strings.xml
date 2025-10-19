@@ -305,7 +305,7 @@
     <string name="selection_mode">Selectiemodus</string>
     <string name="do_not_kill_app">App niet afsluiten…</string>
     <string name="lock_database_back_root_title">Druk \'Terug\' om te vergrendelen</string>
-    <string name="lock_database_back_root_summary">Druk \"Terug\" om de database te vergrendelen als je je op het hoofdscherm van de database bevindt</string>
+    <string name="lock_database_back_root_summary">Druk in het hoofdscherm van de database op \'Terug\' om de database te vergrendelen</string>
     <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
     <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer het klembord verlopen is of wanneer de melding wordt gesloten nadat u deze hebt gebruikt</string>
     <string name="recycle_bin">Prullenbak</string>
