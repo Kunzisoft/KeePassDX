@@ -90,7 +90,7 @@
     <string name="hint_length">Lengde</string>
     <string name="hint_pass">Passord</string>
     <string name="password">Passord</string>
-    <string name="invalid_credentials">Kunne ikke lese autentiseringsopplysningene.</string>
+    <string name="invalid_credentials">Kunne ikke lese påloggingsdata.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Fremmed databaseformat.</string>
     <string name="keyfile_is_empty">Nøkkelfilen er tom.</string>
@@ -216,7 +216,7 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillat ingen hovednøkkel</string>
-    <string name="allow_no_password_summary">Tillater å trykke på \"Åpne\"-knappen hvis ingen legitimasjon er valgt</string>
+    <string name="allow_no_password_summary">Tillater å trykke på «Åpne»-knappen hvis ingen opplysninger er valgt</string>
     <string name="enable_education_screens_title">Lærerike tips</string>
     <string name="enable_education_screens_summary">Fremhev elementer for å finne ut hvordan appen fungerer</string>
     <string name="reset_education_screens_title">Tilbakestill lærerike tips</string>
@@ -340,7 +340,7 @@
     <string name="content_description_password_checkbox">Passordsavkryssningsboks</string>
     <string name="content_description_keyfile_checkbox">Avkrysningsrute for nøkkelfil</string>
     <string name="biometric">Biometrisk</string>
-    <string name="error_disallow_no_credentials">Minst én identitetsdetalj må angis.</string>
+    <string name="error_disallow_no_credentials">Minst én påloggingsdetalj må angis.</string>
     <string name="error_copy_group_here">Du kan ikke kopiere en gruppe hit.</string>
     <string name="error_otp_secret_key">Hemmelig nøkkel må være i Base32-format.</string>
     <string name="error_otp_digits">Symbolet må inneholde %1$d til %2$d siffer.</string>
@@ -428,7 +428,7 @@
     <string name="autofill_block_restart">Start appen på nytt som inneholder skjemaet for å aktivere blokkeringen.</string>
     <string name="error_save_read_only">Datalagring er ikke tillatt for en database som er skrivebeskyttet.</string>
     <string name="autofill_inline_suggestions_keyboard">Forslag til autofyll er lagt til.</string>
-    <string name="education_device_unlock_summary">Koble passordet ditt til den skannede biometriske eller enhetslegitimasjonen for å raskt låse opp databasen din.</string>
+    <string name="education_device_unlock_summary">Koble passordet ditt til den skannede biometriske eller påloggingsinformasjonen på enheten din for å raskt låse opp databasen din.</string>
     <string name="education_setup_OTP_title">Sett opp OTP</string>
     <string name="download_canceled">Avbrutt!</string>
     <string name="error_string_type">Denne teksten samsvarer ikke med det valgte elementet.</string>
@@ -479,7 +479,7 @@
     <string name="holder">Innehaver</string>
     <string name="content_description_otp_information">Éngangspassordsinfo</string>
     <string name="template_group_name">Maler</string>
-    <string name="content_description_credentials_information">Identitetdetaljsinfo</string>
+    <string name="content_description_credentials_information">Påloggingsinformasjon</string>
     <string name="templates_group_enable_summary">Bruk dynamiske maler for å fylle inn feltene for en oppføring</string>
     <string name="templates">Maler</string>
     <string name="error_word_reserved">Dette ordet er reservert og kan ikke brukes.</string>
@@ -527,11 +527,11 @@
     <string name="device_unlock_prompt_store_credential_message">Du må fortsatt huske hovedlegitimasjonen for hvelvet selv om du bruker enhetens opplåsingsgjenkjenning.</string>
     <string name="device_unlock_not_recognized">Kunne ikke gjenkjenne enhetens oppåsningsmetode</string>
     <string name="credential_before_click_device_unlock_button">Skriv inn passordet, og klikk deretter på denne knappen.</string>
-    <string name="device_credential">Enhets-identitetsdetalj</string>
+    <string name="device_credential">Enhetens påloggingsinformasjon</string>
     <string name="autofill_select_entry">Velg oppføring …</string>
     <string name="temp_device_unlock_enable_title">Midlertidig enhets opplåsing</string>
     <string name="temp_device_unlock_timeout_title">Utløpsdato for opplåsing av enhet</string>
-    <string name="device_credential_unlock_enable_summary">Lar deg bruke din enhets-identitetsdetalj for å åpne databasen</string>
+    <string name="device_credential_unlock_enable_summary">Lar deg bruke påloggingsinformasjonen på enheten din for å åpne databasen</string>
     <string name="temp_device_unlock_timeout_summary">Varigheten av enhetens opplåsingsbruk før innholdet blir slettet</string>
     <string name="device_unlock_explanation_summary">Bruk enhetsopplåsing for å åpne en database enklere</string>
     <string name="device_credential_unlock_enable_title">Opplåsing av enhetslegitimasjon</string>
@@ -539,8 +539,8 @@
     <string name="templates_group_enable_title">Mal-bruk</string>
     <string name="database_data_remove_unlinked_attachments_summary">Fjerner vedlegg som er å finne i databasen, men som ikke er lenket til en oppføring</string>
     <string name="keyboard_save_search_info_summary">Prøv å lagre delt informasjon når du foretar en manuell oppføring for enklere fremtidig bruk</string>
-    <string name="keyboard_previous_database_credentials_title">Skjem for database-identitetsdetaljer</string>
-    <string name="keyboard_previous_database_credentials_summary">Bytt tilbake til forrige tastatur atuomatisk på skjermen for database-identitetsdetaljer</string>
+    <string name="keyboard_previous_database_credentials_title">Skjerm for påloggingsinformasjon til database</string>
+    <string name="keyboard_previous_database_credentials_summary">Bytt tilbake til forrige tastatur automatisk på skjermen for påloggingsinformasjonen til databasen</string>
     <string name="autofill_inline_suggestions_title">Forslag på linjen</string>
     <string name="autofill_inline_suggestions_summary">Prøv å vise autofullføringsforslag direkte fra et kompatibelt tastatur</string>
     <string name="autofill_manual_selection_title">Manuellt utvalg</string>
@@ -729,4 +729,10 @@
     <string name="passkey_private_key">Passnøkkel-privatnøkkel</string>
     <string name="passkey_user_handle">Passnøkkel-brukernavn</string>
     <string name="error_passkey_result">Kunne ikke returnere passnøkkelen</string>
+    <string name="credential_provider">Påloggingsinformasjons-leverandør</string>
+    <string name="passkey_service_name">Påloggingsleverandør til KeePassDX</string>
+    <string name="passkey_credential_id">Passnøkkel-ID</string>
+    <string name="passkey_relying_party">Passnøkkelens tillitspart</string>
+    <string name="passkey_backup_eligibility">Mulighet for sikkerhetskopiering av passnøkkelen</string>
+    <string name="passkey_backup_state">Tilstand til sikkerhetskopien til passnøkkelen</string>
 </resources>
