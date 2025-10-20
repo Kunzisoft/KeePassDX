@@ -1,0 +1,1 @@
+ * Correction de la recherche auto pour le Magikeyboard #2233

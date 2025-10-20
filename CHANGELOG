@@ -1,3 +1,6 @@
+KeePassDX(4.2.1)
+ * Fix Magikeyboard autosearch #2233
+
 KeePassDX(4.2.0)
  * Passkeys management #1421 #2097 (@cali-95)
  * Confirm usage of passkey #2165 #2124
