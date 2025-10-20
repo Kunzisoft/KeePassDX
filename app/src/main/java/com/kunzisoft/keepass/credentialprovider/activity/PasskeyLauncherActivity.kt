@@ -112,19 +112,19 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
         lifecycleScope.launch {
             passkeyLauncherViewModel.credentialUiState.collect { uiState ->
                 when (uiState) {
-                    is CredentialLauncherViewModel.UIState.Loading -> {}
-                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
+                    is CredentialLauncherViewModel.CredentialState.Loading -> {}
+                    is CredentialLauncherViewModel.CredentialState.SetActivityResult -> {
                         setActivityResult(
                             lockDatabase = uiState.lockDatabase,
                             resultCode = uiState.resultCode,
                             data = uiState.data
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.ShowError -> {
+                    is CredentialLauncherViewModel.CredentialState.ShowError -> {
                         toastError(uiState.error)
                         passkeyLauncherViewModel.cancelResult()
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForSelection -> {
                         GroupActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             database = uiState.database,
@@ -133,7 +133,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForRegistration -> {
                         GroupActivity.launchForRegistration(
                             context = this@PasskeyLauncherActivity,
                             database = uiState.database,
@@ -142,7 +142,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             activityResultLauncher = mPasskeyRegistrationActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForSelection -> {
                         FileDatabaseSelectActivity.launchForSelection(
                             context = this@PasskeyLauncherActivity,
                             typeMode = uiState.typeMode,
@@ -150,7 +150,7 @@ class PasskeyLauncherActivity : DatabaseLockActivity() {
                             activityResultLauncher = mPasskeySelectionActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForRegistration -> {
                         FileDatabaseSelectActivity.launchForRegistration(
                             context = this@PasskeyLauncherActivity,
                             typeMode = uiState.typeMode,

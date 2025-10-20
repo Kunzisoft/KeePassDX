@@ -915,11 +915,8 @@ class GroupActivity : DatabaseLockActivity(),
 
     private fun entrySelectedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
         removeSearch()
-        // Populate Magikeyboard with entry
-        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
-            this,
-            entry.getEntryInfo(database)
-        )
+        // Build response with the entry selected
+        this.buildSpecialModeResponseAndSetResult(entry.getEntryInfo(database))
         onValidateSpecialMode()
     }
 
@@ -1521,7 +1518,7 @@ class GroupActivity : DatabaseLockActivity(),
          * 		Search Launch
          * -------------------------
          */
-        fun launchForSearchResult(
+        fun launchForSearch(
             context: Context,
             database: ContextualDatabase,
             searchInfo: SearchInfo,
@@ -1536,13 +1533,18 @@ class GroupActivity : DatabaseLockActivity(),
             }
         }
 
+        /*
+         * -------------------------
+         * 		Selection Launch
+         * -------------------------
+         */
         fun launchForSelection(
             context: Context,
             database: ContextualDatabase,
             typeMode: TypeMode,
             searchInfo: SearchInfo? = null,
             autoSearch: Boolean = false,
-            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>?,
         ) {
             if (database.loaded) {
                 checkTimeAndBuildIntent(context, null) { intent ->
@@ -1610,7 +1612,7 @@ class GroupActivity : DatabaseLockActivity(),
                 searchAction = { searchInfo ->
                     // Search action
                     if (database.loaded) {
-                        launchForSearchResult(activity,
+                        launchForSearch(activity,
                             database,
                             searchInfo,
                             true)
@@ -1632,11 +1634,7 @@ class GroupActivity : DatabaseLockActivity(),
                                     MagikeyboardService.performSelection(
                                         items = items,
                                         actionPopulateKeyboard = { entryInfo ->
-                                            // Keyboard populated
-                                            MagikeyboardService.populateKeyboardAndMoveAppToBackground(
-                                                activity,
-                                                entryInfo
-                                            )
+                                            activity.buildSpecialModeResponseAndSetResult(items)
                                             onValidateSpecialMode()
                                         },
                                         actionEntrySelection = { autoSearch ->
@@ -1645,6 +1643,7 @@ class GroupActivity : DatabaseLockActivity(),
                                                 database = database,
                                                 typeMode = TypeMode.MAGIKEYBOARD,
                                                 searchInfo = searchInfo,
+                                                activityResultLauncher = activityResultLauncher,
                                                 autoSearch = autoSearch
                                             )
                                             onLaunchActivitySpecialMode()

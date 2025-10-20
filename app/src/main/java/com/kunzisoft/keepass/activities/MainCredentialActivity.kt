@@ -809,7 +809,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
             hardwareKey: HardwareKey?,
             typeMode: TypeMode,
             searchInfo: SearchInfo?,
-            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>?
         ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 EntrySelectionHelper.startActivityForSelectionModeResult(
@@ -831,20 +831,20 @@ class MainCredentialActivity : DatabaseModeActivity() {
         @Throws(FileNotFoundException::class)
         fun launchForRegistration(
             activity: Activity,
-            activityResultLauncher: ActivityResultLauncher<Intent>?,
             databaseFile: Uri,
             keyFile: Uri?,
             hardwareKey: HardwareKey?,
             typeMode: TypeMode,
-            registerInfo: RegisterInfo?
+            registerInfo: RegisterInfo?,
+            activityResultLauncher: ActivityResultLauncher<Intent>?
         ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 EntrySelectionHelper.startActivityForRegistrationModeResult(
                     context = activity,
-                    activityResultLauncher = activityResultLauncher,
                     intent = intent,
                     typeMode = typeMode,
-                    registerInfo = registerInfo
+                    registerInfo = registerInfo,
+                    activityResultLauncher = activityResultLauncher,
                 )
             }
         }

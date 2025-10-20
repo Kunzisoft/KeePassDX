@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.addAutof
 import com.kunzisoft.keepass.credentialprovider.viewmodel.AutofillLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
@@ -87,10 +86,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                         showBlockRestartMessage()
                         autofillLauncherViewModel.cancelResult()
                     }
-                    is AutofillLauncherViewModel.UIState.ShowReadOnlyMessage -> {
-                        showReadOnlySaveMessage()
-                        autofillLauncherViewModel.cancelResult()
-                    }
                     is AutofillLauncherViewModel.UIState.ShowAutofillSuggestionMessage -> {
                         showAutofillSuggestionMessage()
                     }
@@ -101,8 +96,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             // Retrieve the UI
             autofillLauncherViewModel.credentialUiState.collect { uiState ->
                 when (uiState) {
-                    is CredentialLauncherViewModel.UIState.Loading -> {}
-                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
+                    is CredentialLauncherViewModel.CredentialState.Loading -> {}
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForSelection -> {
                         GroupActivity.launchForSelection(
                             context = this@AutofillLauncherActivity,
                             database = uiState.database,
@@ -111,7 +106,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillSelectionActivityResultLauncher,
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForRegistration -> {
                         GroupActivity.launchForRegistration(
                             context = this@AutofillLauncherActivity,
                             database = uiState.database,
@@ -120,7 +115,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillRegistrationActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForSelection -> {
                         FileDatabaseSelectActivity.launchForSelection(
                             context = this@AutofillLauncherActivity,
                             searchInfo = uiState.searchInfo,
@@ -128,7 +123,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillSelectionActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForRegistration -> {
                         FileDatabaseSelectActivity.launchForRegistration(
                             context = this@AutofillLauncherActivity,
                             registerInfo = uiState.registerInfo,
@@ -136,14 +131,14 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillRegistrationActivityResultLauncher,
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
+                    is CredentialLauncherViewModel.CredentialState.SetActivityResult -> {
                         setActivityResult(
                             lockDatabase = uiState.lockDatabase,
                             resultCode = uiState.resultCode,
                             data = uiState.data
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.ShowError -> {
+                    is CredentialLauncherViewModel.CredentialState.ShowError -> {
                         toastError(uiState.error)
                         autofillLauncherViewModel.cancelResult()
                     }
@@ -172,10 +167,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             R.string.autofill_inline_suggestions_keyboard,
             Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun showReadOnlySaveMessage() {
-        toastError(RegisterInReadOnlyDatabaseException())
     }
 
     companion object {

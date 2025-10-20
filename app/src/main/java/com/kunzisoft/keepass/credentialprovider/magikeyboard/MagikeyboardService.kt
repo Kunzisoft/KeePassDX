@@ -462,9 +462,11 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
             KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
         }
 
-        fun performSelection(items: List<EntryInfo>,
-                             actionPopulateKeyboard: (entryInfo: EntryInfo) -> Unit,
-                             actionEntrySelection: (autoSearch: Boolean) -> Unit) {
+        fun performSelection(
+            items: List<EntryInfo>,
+            actionPopulateKeyboard: (entryInfo: EntryInfo) -> Unit,
+            actionEntrySelection: (autoSearch: Boolean) -> Unit
+        ) {
             EntrySelectionHelper.performSelection(
                 items = items,
                 actionPopulateCredentialProvider = { itemFound ->
@@ -477,16 +479,6 @@ class MagikeyboardService : InputMethodService(), KeyboardView.OnKeyboardActionL
                 },
                 actionEntrySelection = actionEntrySelection
             )
-        }
-
-        fun populateKeyboardAndMoveAppToBackground(activity: Activity,
-                                                   entry: EntryInfo,
-                                                   toast: Boolean = true) {
-            // Populate Magikeyboard with entry
-            addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
-            // Consume the selection mode
-            activity.intent.removeModes()
-            activity.moveTaskToBack(true)
         }
     }
 }

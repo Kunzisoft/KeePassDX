@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -43,6 +44,7 @@ import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
 import com.kunzisoft.keepass.utils.putEnumExtra
 import com.kunzisoft.keepass.utils.putParcelableList
+import java.io.IOException
 import java.util.UUID
 
 object EntrySelectionHelper {
@@ -234,11 +236,25 @@ object EntrySelectionHelper {
     }
 
     /**
+     * Retrieve nodes ids from [intent] and get the corresponding entry info list in [database]
+     */
+    fun Intent.retrieveAndRemoveEntries(database: ContextualDatabase): List<EntryInfo> {
+        val nodesIds = retrieveNodesIds()
+            ?: throw IOException("NodesIds is null")
+        removeNodesIds()
+        return nodesIds.mapNotNull { nodeId ->
+            database
+                .getEntryById(NodeIdUUID(nodeId))
+                ?.getEntryInfo(database)
+        }
+    }
+
+    /**
      * Intent sender uses special retains data in callback
      */
     fun isIntentSenderMode(specialMode: SpecialMode, typeMode: TypeMode): Boolean {
         return (specialMode == SpecialMode.SELECTION
-                && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
+                && (typeMode == TypeMode.MAGIKEYBOARD || typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
                 || (specialMode == SpecialMode.REGISTRATION
                 && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
     }
