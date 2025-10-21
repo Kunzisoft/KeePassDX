@@ -299,7 +299,7 @@
     <string name="selection_mode">Režim výběru</string>
     <string name="do_not_kill_app">Nezavírejte aplikaci…</string>
     <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět</string>
-    <string name="lock_database_back_root_summary">Zamknout obrazovku, pokud uživatel stiskne tlačítko Zpět v hlavním panelu</string>
+    <string name="lock_database_back_root_summary">Stiskněte „Zpět“ pro uzamčení databáze, pokud se nacházíte na hlavní obrazovce databáze</string>
     <string name="clear_clipboard_notification_title">Vymazat při ukončení</string>
     <string name="clear_clipboard_notification_summary">Uzamknout databázi, jakmile trvání schránky vyprší nebo po uzavření oznámení</string>
     <string name="recycle_bin">Koš</string>
@@ -730,4 +730,20 @@
     <string name="passkeys_backup_state_title">Stav zálohy</string>
     <string name="passkeys_backup_state_summary">Uvést, že přihlašovací údaje jsou zálohovány a chráněny proti ztrátě jednoho zařízení</string>
     <string name="credential_provider_service_subtitle">Přístupové klíče, poskytovatel automatického vyplnění</string>
+    <string name="passkey">Přístupový klíč</string>
+    <string name="passkey_service_name">Poskytovatel údajů KeePassDX</string>
+    <string name="passkey_creation_description">Uložit přístupový klíč do nového záznamu</string>
+    <string name="passkey_update_description">Aktualizovat přístupový klíč v %1$s</string>
+    <string name="passkey_selection_username">Nenalezeny žádné přístupové klíče</string>
+    <string name="passkey_selection_description">Vyberte existující přístupový klíč</string>
+    <string name="passkey_database_username">Databáze KeePassDX</string>
+    <string name="passkey_locked_database_description">Vyberte k odemčení</string>
+    <string name="passkey_username">Uživatelské jméno přístupového klíče</string>
+    <string name="passkey_private_key">Soukromý klíč přístupového klíče</string>
+    <string name="passkey_credential_id">ID údaje přístupového klíče</string>
+    <string name="passkey_user_handle">Uživatelská adresa přístupového klíče</string>
+    <string name="passkey_relying_party">Strana předávající přístupový klíč</string>
+    <string name="passkey_backup_eligibility">Způsobilost přístupového klíče k zálohování</string>
+    <string name="passkey_backup_state">Stav zálohy přístupového klíče</string>
+    <string name="error_passkey_result">Nepodařilo se vrátit přístupový klíč</string>
 </resources>
