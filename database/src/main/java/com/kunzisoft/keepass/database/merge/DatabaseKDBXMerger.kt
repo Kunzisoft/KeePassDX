@@ -575,7 +575,6 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                         database.removeGroupFrom(group, group.parent)
                         if (parentGroupToMerge != null) {
                             database.addGroupTo(groupToMerge, parentGroupToMerge)
-                            // Add each child
                         }
                     }
                 }
