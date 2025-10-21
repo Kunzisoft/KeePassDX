@@ -488,11 +488,11 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // Merge by modification time
                 if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)
                 ) {
+                    // Update entry with databaseEntryToMerge and merge history
                     addHistory(entry, entryToMerge)
                     if (parentEntryToMerge == entry.parent) {
                         entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
                     } else {
-                        // Update entry with databaseEntryToMerge and merge history
                         database.removeEntryFrom(entry, entry.parent)
                         if (parentEntryToMerge != null) {
                             database.addEntryTo(entryToMerge, parentEntryToMerge)
@@ -501,6 +501,12 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)
                 ) {
                     addHistory(entryToMerge, entry)
+                } else {
+                    // If it's the same modification time, simply move entry to the right location
+                    parentEntryToMerge?.let {
+                        database.removeEntryFrom(entry, entry.parent)
+                        database.addEntryTo(entryToMerge, parentEntryToMerge)
+                    }
                 }
             }
         }
@@ -569,6 +575,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                         database.removeGroupFrom(group, group.parent)
                         if (parentGroupToMerge != null) {
                             database.addGroupTo(groupToMerge, parentGroupToMerge)
+                            // Add each child
                         }
                     }
                 }
