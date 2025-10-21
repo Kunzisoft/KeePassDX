@@ -1,1 +1,2 @@
  * Fix Magikeyboard autosearch #2233
+ * Fix database merge #2223
