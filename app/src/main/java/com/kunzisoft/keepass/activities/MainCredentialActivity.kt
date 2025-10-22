@@ -36,7 +36,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -803,7 +802,7 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         @Throws(FileNotFoundException::class)
         fun launchForSelection(
-            activity: AppCompatActivity,
+            activity: Activity,
             databaseFile: Uri,
             keyFile: Uri?,
             hardwareKey: HardwareKey?,

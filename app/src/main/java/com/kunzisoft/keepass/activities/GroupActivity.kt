@@ -18,6 +18,7 @@
  */
 package com.kunzisoft.keepass.activities
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
@@ -41,7 +42,6 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
@@ -1592,7 +1592,7 @@ class GroupActivity : DatabaseLockActivity(),
          * -------------------------
          */
         fun launch(
-            activity: AppCompatActivity,
+            activity: Activity,
             database: ContextualDatabase,
             onValidateSpecialMode: () -> Unit,
             onCancelSpecialMode: () -> Unit,
