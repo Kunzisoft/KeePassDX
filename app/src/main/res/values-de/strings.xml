@@ -726,4 +726,6 @@
     <string name="passkey_backup_state">Passkey-Backup-Status</string>
     <string name="passkey_backup_eligibility">Passkey-Backup-Erlaubnis</string>
     <string name="passkeys_close_database_summary">Datenbank nach der Passwortauswahl schließen</string>
+    <string name="credential_provider">Anmeldeinformationsanbieter</string>
+    <string name="passkeys_explanation_summary">Passkeys für eine schnelle und sichere Anmeldung ohne Passwort konfigurieren</string>
 </resources>
