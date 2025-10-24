@@ -1,1 +1,1 @@
-Turvaline avatud lähtekoodiga salasõnalaegas ja -haldur
+Halda salasõnu ja -võtmeid avatud lähtekoodiga kohalikus salasõnalaekas

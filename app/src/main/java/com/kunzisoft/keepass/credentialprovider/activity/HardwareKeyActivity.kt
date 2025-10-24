@@ -76,14 +76,14 @@ class HardwareKeyActivity: DatabaseModeActivity(){
         lifecycleScope.launch {
             mHardwareKeyLauncherViewModel.credentialUiState.collect { uiState ->
                 when (uiState) {
-                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
+                    is CredentialLauncherViewModel.CredentialState.SetActivityResult -> {
                         setActivityResult(
                             lockDatabase = uiState.lockDatabase,
                             resultCode = uiState.resultCode,
                             data = uiState.data
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.ShowError -> {
+                    is CredentialLauncherViewModel.CredentialState.ShowError -> {
                         toastError(uiState.error)
                         mHardwareKeyLauncherViewModel.cancelResult()
                     }

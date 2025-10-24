@@ -36,7 +36,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -803,13 +802,13 @@ class MainCredentialActivity : DatabaseModeActivity() {
 
         @Throws(FileNotFoundException::class)
         fun launchForSelection(
-            activity: AppCompatActivity,
+            activity: Activity,
             databaseFile: Uri,
             keyFile: Uri?,
             hardwareKey: HardwareKey?,
             typeMode: TypeMode,
             searchInfo: SearchInfo?,
-            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>?
         ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 EntrySelectionHelper.startActivityForSelectionModeResult(
@@ -831,20 +830,20 @@ class MainCredentialActivity : DatabaseModeActivity() {
         @Throws(FileNotFoundException::class)
         fun launchForRegistration(
             activity: Activity,
-            activityResultLauncher: ActivityResultLauncher<Intent>?,
             databaseFile: Uri,
             keyFile: Uri?,
             hardwareKey: HardwareKey?,
             typeMode: TypeMode,
-            registerInfo: RegisterInfo?
+            registerInfo: RegisterInfo?,
+            activityResultLauncher: ActivityResultLauncher<Intent>?
         ) {
             buildAndLaunchIntent(activity, databaseFile, keyFile, hardwareKey) { intent ->
                 EntrySelectionHelper.startActivityForRegistrationModeResult(
                     context = activity,
-                    activityResultLauncher = activityResultLauncher,
                     intent = intent,
                     typeMode = typeMode,
-                    registerInfo = registerInfo
+                    registerInfo = registerInfo,
+                    activityResultLauncher = activityResultLauncher,
                 )
             }
         }

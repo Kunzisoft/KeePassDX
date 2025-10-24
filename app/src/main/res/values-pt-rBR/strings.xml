@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Comentários</string>
     <string name="homepage">Página inicial</string>
-    <string name="about_description">Implementação para Android do gerenciador de senhas KeePass</string>
+    <string name="about_description">Implementação para Android do gerenciador de senhas KeePass.</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
@@ -180,7 +180,7 @@
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_sign_in_prompt">Entre com o KeePassDX</string>
     <string name="set_credential_provider_service_title">Definir serviço padrão de preenchimento automático</string>
-    <string name="autofill_explanation_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
+    <string name="autofill_explanation_summary">Configure o serviço para rapidamente preencher formulários em outros aplicativos</string>
     <string name="password_size_title">Comprimento da senha gerada</string>
     <string name="password_size_summary">Define o tamanho padrão para senhas geradas</string>
     <string name="list_password_generator_options_title">Caracteres da senha</string>
@@ -303,7 +303,7 @@
     <string name="selection_mode">Modo seleção</string>
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
     <string name="lock_database_back_root_title">Pressionar \'Voltar\' para bloquear</string>
-    <string name="lock_database_back_root_summary">Tranca o banco de dados quando o usuário pressiona o botão \"Voltar\" na tela inicial</string>
+    <string name="lock_database_back_root_summary">Se estiver na tela raiz da base de dados, o botão \"Voltar\" irá trancá-la</string>
     <string name="clear_clipboard_notification_title">Limpar ao fechar</string>
     <string name="clear_clipboard_notification_summary">Bloquear o banco de dados quando a duração da área de transferência expirar ou a notificação for fechada depois do início do uso</string>
     <string name="recycle_bin">Lixeira</string>
@@ -673,7 +673,7 @@
     <string name="ask">Perguntar</string>
     <string name="configure">Configurar</string>
     <string name="unlock_and_link_biometric">Link de desbloqueio do dispositivo</string>
-    <string name="menu_appearance_settings_summary">Temas, cores, atributos</string>
+    <string name="menu_appearance_settings_summary">Temas, cores, ícones, fontes, atributos</string>
     <string name="unlock">Desbloquear</string>
     <string name="education_validate_entry_title">Validar a entrada</string>
     <string name="menu_app_settings_summary">Pesquisar, bloquear, histórico, propriedades</string>
@@ -703,4 +703,24 @@
     <string name="warning_large_keyfile">Não é recomendável adicionar um arquivo-chave grande, pois isso pode impedir a abertura do banco de dados.</string>
     <string name="hide_templates_title">Ocultar modelos</string>
     <string name="hide_templates_summary">Os modelos não são exibidos</string>
+    <string name="entry_application_id">Id do App</string>
+    <string name="error_otp_secret_length">Chave secreta deve ter pelo menos %1$d caracteres.</string>
+    <string name="warning_overwrite_data_title">Sobrescrever dados existentes?</string>
+    <string name="warning_overwrite_data_description">Esta ação irá substituir os dados existentes na entrada, você pode recuperar os dados antigos se o histórico estiver habilitado.</string>
+    <string name="credential_provider">Provedor da credencial</string>
+    <string name="passkeys_privileged_apps_summary">Gerencie navegadores na lista customizada de aplicações privilegiadas</string>
+    <string name="passkeys_privileged_apps_explanation">AVISO: Um aplicativo privilegiado age como portão para obter a origem de uma autenticação. Certifique sua legitimidade para evitar problemas de segurança.</string>
+    <string name="passkeys_privileged_apps_ask_title">App não reconhecido</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s tenta fazer uma ação de Passkey.\n\nAdicionar à lista de aplicativos privilegiados?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Assinatura faltando</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">AVISO: A Passkey foi criada de outro cliente ou a assinatura foi deletada. Certifique que o aplicativo que você quer autenticar é parte do mesmo serviço e é legítimo para evitar problemas de segurança.\nSe o aplicativo é um navegador, não adicione sua assinatura à entrada, mas à lista de aplicativos privilegiados nas configurações.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s não é reconhecido e tenta autenticar com uma Passkey existente.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Adicionar assinatura de app à entrada de Passkey?</string>
+    <string name="passkeys_auto_select_title">Auto selecionar</string>
+    <string name="passkeys_auto_select_summary">Auto selecionar se só uma entrada e a base de dados estiverem abertas, apenas se o app solicitante for compatível</string>
+    <string name="passkeys_backup_eligibility_title">Elegibilidade de Backup</string>
+    <string name="passkeys_backup_eligibility_summary">Determine no tempo de criação se é permitido que seja feito o backup da fonte da credencial de chaves públicas</string>
+    <string name="passkeys_backup_state_title">Estado do Backup</string>
+    <string name="passkey">Passkey</string>
+    <string name="passkey_service_name">Provedor de Credenciais KeePassDX</string>
 </resources>

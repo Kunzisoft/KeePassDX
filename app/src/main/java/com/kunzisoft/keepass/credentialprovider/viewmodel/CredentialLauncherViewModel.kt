@@ -25,12 +25,12 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
     protected var isResultLauncherRegistered: Boolean = false
     private var mSelectionResult: ActivityResult? = null
 
-    protected val mCredentialUiState = MutableStateFlow<UIState>(UIState.Loading)
-    val credentialUiState: StateFlow<UIState> = mCredentialUiState
+    protected val mCredentialUiState = MutableStateFlow<CredentialState>(CredentialState.Loading)
+    val credentialUiState: StateFlow<CredentialState> = mCredentialUiState
 
     fun showError(error: Throwable) {
         Log.e(TAG, "Error on credential provider launch", error)
-        mCredentialUiState.value = UIState.ShowError(error)
+        mCredentialUiState.value = CredentialState.ShowError(error)
     }
 
     open fun onResult() {
@@ -41,7 +41,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
     fun setResult(intent: Intent, lockDatabase: Boolean = false) {
         // Remove the launcher register
         onResult()
-        mCredentialUiState.value = UIState.SetActivityResult(
+        mCredentialUiState.value = CredentialState.SetActivityResult(
             lockDatabase = lockDatabase,
             resultCode = RESULT_OK,
             data = intent
@@ -50,7 +50,7 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
 
     fun cancelResult(lockDatabase: Boolean = false) {
         onResult()
-        mCredentialUiState.value = UIState.SetActivityResult(
+        mCredentialUiState.value = CredentialState.SetActivityResult(
             lockDatabase = lockDatabase,
             resultCode = RESULT_CANCELED
         )
@@ -115,34 +115,34 @@ abstract class CredentialLauncherViewModel(application: Application): AndroidVie
         database: ContextualDatabase?
     )
 
-    sealed class UIState {
-        object Loading : UIState()
+    sealed class CredentialState {
+        object Loading : CredentialState()
         data class LaunchGroupActivityForSelection(
             val database: ContextualDatabase,
             val searchInfo: SearchInfo?,
             val typeMode: TypeMode
-        ): UIState()
+        ): CredentialState()
         data class LaunchGroupActivityForRegistration(
             val database: ContextualDatabase,
             val registerInfo: RegisterInfo?,
             val typeMode: TypeMode
-        ): UIState()
+        ): CredentialState()
         data class LaunchFileDatabaseSelectActivityForSelection(
             val searchInfo: SearchInfo?,
             val typeMode: TypeMode
-        ): UIState()
+        ): CredentialState()
         data class LaunchFileDatabaseSelectActivityForRegistration(
             val registerInfo: RegisterInfo?,
             val typeMode: TypeMode
-        ): UIState()
+        ): CredentialState()
         data class SetActivityResult(
             val lockDatabase: Boolean,
             val resultCode: Int,
             val data: Intent? = null
-        ): UIState()
+        ): CredentialState()
         data class ShowError(
             val error: Throwable
-        ): UIState()
+        ): CredentialState()
     }
 
     companion object {

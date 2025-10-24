@@ -1,1 +1,1 @@
-KeePassDX - FOSS パスワードセーフ
+KeePassDX パスワード管理ツール

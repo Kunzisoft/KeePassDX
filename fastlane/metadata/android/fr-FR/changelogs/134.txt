@@ -1,4 +1,4 @@
- * Correction de la recherche URL #1940 #1946 #2003 #2040 #2044
+* Correction de la recherche URL #1940 #1946 #2003 #2040 #2044
  * Correction de la boite de dialogue de remplissage automatique #2054
  * Correction des notes de groupes #2053
  * Correction du fond de boite de dialogue #2005 #2004 (Thx @codokie)

@@ -1,1 +1,1 @@
-Veilige open-source wachtwoordkluis en -beheer
+Passkey- en wachtwoordbeheer in een lokale open-source kluis

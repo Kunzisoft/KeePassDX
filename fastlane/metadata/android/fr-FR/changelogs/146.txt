@@ -1,0 +1,5 @@
+ * Correction de la recherche auto pour le Magikeyboard #2233
+ * Correction de la fusion de bases de données #2223
+ * Correction de l'action de la base de données #2234
+ * Correction de la selection du remplissage automatique #2238 #2235
+ * Petites corrections

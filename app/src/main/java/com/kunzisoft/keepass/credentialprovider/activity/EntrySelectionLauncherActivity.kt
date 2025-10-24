@@ -22,20 +22,22 @@ package com.kunzisoft.keepass.credentialprovider.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.core.net.toUri
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
-import com.kunzisoft.keepass.credentialprovider.TypeMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
+import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
+import com.kunzisoft.keepass.credentialprovider.viewmodel.EntrySelectionViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
-import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.otp.OtpEntryFields
-import com.kunzisoft.keepass.utils.KeyboardUtil.isKeyboardActivatedInSettings
-import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.view.toastError
+import kotlinx.coroutines.launch
 
 /**
  * Activity to search or select entry in database,
@@ -43,201 +45,129 @@ import com.kunzisoft.keepass.view.toastError
  */
 class EntrySelectionLauncherActivity : DatabaseModeActivity() {
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
+    private val entrySelectionViewModel: EntrySelectionViewModel by viewModels()
 
-    override fun finishActivityIfReloadRequested(): Boolean {
-        return false
+    private var mEntrySelectionActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        this.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            entrySelectionViewModel.manageSelectionResult(it)
+        }
+
+    override fun applyCustomStyle() = false
+
+    override fun finishActivityIfReloadRequested() = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        entrySelectionViewModel.initialize()
+        lifecycleScope.launch {
+            // Initialize the parameters
+            entrySelectionViewModel.uiState.collect { uiState ->
+                when (uiState) {
+                    is EntrySelectionViewModel.UIState.Loading -> {}
+                    is EntrySelectionViewModel.UIState.PopulateKeyboard -> {
+                        MagikeyboardService.addEntryAndLaunchNotificationIfAllowed(
+                            context = this@EntrySelectionLauncherActivity,
+                            entry = uiState.entryInfo,
+                            toast = true
+                        )
+                    }
+                    is EntrySelectionViewModel.UIState.LaunchFileDatabaseSelectForSearch -> {
+                        FileDatabaseSelectActivity.launchForSearch(
+                            context = this@EntrySelectionLauncherActivity,
+                            searchInfo = uiState.searchInfo
+                        )
+                    }
+                    is EntrySelectionViewModel.UIState.LaunchGroupActivityForSearch -> {
+                        GroupActivity.launchForSearch(
+                            context = this@EntrySelectionLauncherActivity,
+                            database = uiState.database,
+                            searchInfo = uiState.searchInfo
+                        )
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            // Retrieve the UI
+            entrySelectionViewModel.credentialUiState.collect { uiState ->
+                when (uiState) {
+                    is CredentialLauncherViewModel.CredentialState.Loading -> {}
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForSelection -> {
+                        GroupActivity.launchForSelection(
+                            context = this@EntrySelectionLauncherActivity,
+                            database = uiState.database,
+                            searchInfo = uiState.searchInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = mEntrySelectionActivityResultLauncher
+                        )
+                    }
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForRegistration -> {
+                        GroupActivity.launchForRegistration(
+                            context = this@EntrySelectionLauncherActivity,
+                            database = uiState.database,
+                            registerInfo = uiState.registerInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = null // Null to not get any callback
+                        )
+                        finish()
+                    }
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForSelection -> {
+                        FileDatabaseSelectActivity.launchForSelection(
+                            context = this@EntrySelectionLauncherActivity,
+                            searchInfo = uiState.searchInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = mEntrySelectionActivityResultLauncher
+                        )
+                    }
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForRegistration -> {
+                        FileDatabaseSelectActivity.launchForRegistration(
+                            context = this@EntrySelectionLauncherActivity,
+                            registerInfo = uiState.registerInfo,
+                            typeMode = uiState.typeMode,
+                            activityResultLauncher = null // Null to not get any callback
+                        )
+                        finish()
+                    }
+                    is CredentialLauncherViewModel.CredentialState.SetActivityResult -> {
+                        setActivityResult(
+                            lockDatabase = uiState.lockDatabase,
+                            resultCode = uiState.resultCode,
+                            data = uiState.data
+                        )
+                    }
+                    is CredentialLauncherViewModel.CredentialState.ShowError -> {
+                        toastError(uiState.error)
+                        entrySelectionViewModel.cancelResult()
+                    }
+                }
+            }
+        }
     }
 
     override fun onUnknownDatabaseRetrieved(database: ContextualDatabase?) {
         super.onUnknownDatabaseRetrieved(database)
-
-        val keySelectionBundle = intent.getBundleExtra(KEY_SELECTION_BUNDLE)
-        if (keySelectionBundle != null) {
-            // To manage package name
-            var searchInfo = SearchInfo()
-            keySelectionBundle.getParcelableCompat<SearchInfo>(KEY_SEARCH_INFO)?.let { mSearchInfo ->
-                searchInfo = mSearchInfo
-            }
-            launch(database, searchInfo)
-        } else {
-            // To manage share
-            var sharedWebDomain: String? = null
-            var otpString: String? = null
-
-            when (intent?.action) {
-                Intent.ACTION_SEND -> {
-                    if ("text/plain" == intent.type) {
-                        // Retrieve web domain or OTP
-                        intent.getStringExtra(Intent.EXTRA_TEXT)?.let { extra ->
-                            if (OtpEntryFields.isOTPUri(extra))
-                                otpString = extra
-                            else
-                                sharedWebDomain = extra.toUri().host
-                        }
-                    }
-                    launchSelection(database, sharedWebDomain, otpString)
-                }
-                Intent.ACTION_VIEW -> {
-                    // Retrieve OTP
-                    intent.dataString?.let { extra ->
-                        if (OtpEntryFields.isOTPUri(extra))
-                            otpString = extra
-                    }
-                    launchSelection(database, null, otpString)
-                }
-                else -> {
-                    if (database != null) {
-                        GroupActivity.launch(this, database)
-                    } else {
-                        FileDatabaseSelectActivity.launch(this)
-                    }
-                }
-            }
-        }
-        finish()
+        entrySelectionViewModel.launchActionIfNeeded(intent, mSpecialMode, database)
     }
 
-    private fun launchSelection(database: ContextualDatabase?,
-                                sharedWebDomain: String?,
-                                otpString: String?) {
-        // Build domain search param
-        val searchInfo = SearchInfo().apply {
-            this.webDomain = sharedWebDomain
-            this.otpString = otpString
-        }
-        launch(database, searchInfo)
-    }
-
-    private fun launch(database: ContextualDatabase?,
-                       searchInfo: SearchInfo) {
-
-        // Setting to integrate Magikeyboard
-        val searchShareForMagikeyboard = isKeyboardActivatedInSettings()
-
-        // If database is open
-        val readOnly = database?.isReadOnly != false
-        SearchHelper.checkAutoSearchInfo(
-            context = this,
-            database = database,
-            searchInfo = searchInfo,
-            onItemsFound = { openedDatabase, items ->
-                // Items found
-                if (searchInfo.otpString != null) {
-                    if (!readOnly) {
-                        GroupActivity.launchForRegistration(
-                            context = this,
-                            activityResultLauncher = null,
-                            database = openedDatabase,
-                            registerInfo = searchInfo.toRegisterInfo(),
-                            typeMode = TypeMode.DEFAULT
-                        )
-                    } else {
-                        toastError(RegisterInReadOnlyDatabaseException())
-                    }
-                } else if (searchShareForMagikeyboard) {
-                    MagikeyboardService.performSelection(
-                        items,
-                        { entryInfo ->
-                            // Automatically populate keyboard
-                            MagikeyboardService.populateKeyboardAndMoveAppToBackground(
-                                this,
-                                entryInfo
-                            )
-                        },
-                        { autoSearch ->
-                            GroupActivity.launchForSelection(
-                                context = this,
-                                database = openedDatabase,
-                                typeMode = TypeMode.MAGIKEYBOARD,
-                                searchInfo = searchInfo,
-                                autoSearch = autoSearch
-                            )
-                        }
-                    )
-                } else {
-                    GroupActivity.launchForSearchResult(
-                        this,
-                        openedDatabase,
-                        searchInfo,
-                        true
-                    )
-                }
-            },
-            onItemNotFound = { openedDatabase ->
-                // Show the database UI to select the entry
-                if (searchInfo.otpString != null) {
-                    if (!readOnly) {
-                        GroupActivity.launchForRegistration(
-                            context = this,
-                            activityResultLauncher = null,
-                            database = openedDatabase,
-                            registerInfo = searchInfo.toRegisterInfo(),
-                            typeMode = TypeMode.DEFAULT
-                        )
-                    } else {
-                        toastError(RegisterInReadOnlyDatabaseException())
-                    }
-                } else if (searchShareForMagikeyboard) {
-                    GroupActivity.launchForSelection(
-                        context = this,
-                        database = openedDatabase,
-                        typeMode = TypeMode.MAGIKEYBOARD,
-                        searchInfo = searchInfo,
-                        autoSearch = false
-                    )
-                } else {
-                    GroupActivity.launchForSearchResult(
-                        this,
-                        openedDatabase,
-                        searchInfo,
-                        false
-                    )
-                }
-            },
-            onDatabaseClosed = {
-                // If database not open
-                if (searchInfo.otpString != null) {
-                    FileDatabaseSelectActivity.launchForRegistration(
-                        context = this,
-                        activityResultLauncher = null,
-                        registerInfo = searchInfo.toRegisterInfo(),
-                        typeMode = TypeMode.DEFAULT
-                    )
-                } else if (searchShareForMagikeyboard) {
-                    FileDatabaseSelectActivity.launchForSelection(
-                        context = this,
-                        typeMode = TypeMode.MAGIKEYBOARD,
-                        searchInfo = searchInfo
-                    )
-                } else {
-                    FileDatabaseSelectActivity.launchForSearchResult(
-                        this,
-                        searchInfo
-                    )
-                }
-            }
-        )
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     companion object {
 
-        private const val KEY_SELECTION_BUNDLE = "KEY_SELECTION_BUNDLE"
-        private const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
-
-        fun launch(context: Context,
-                   searchInfo: SearchInfo? = null) {
-            val intent = Intent(context, EntrySelectionLauncherActivity::class.java).apply {
-                putExtra(KEY_SELECTION_BUNDLE, Bundle().apply {
-                    putParcelable(KEY_SEARCH_INFO, searchInfo)
-                })
-            }
-            // New task needed because don't launch from an Activity context
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or
-                    Intent.FLAG_ACTIVITY_CLEAR_TASK
-            context.startActivity(intent)
+        fun launch(
+            context: Context,
+            searchInfo: SearchInfo? = null
+        ) {
+            context.startActivity(Intent(
+                context,
+                EntrySelectionLauncherActivity::class.java
+            ).apply {
+                addSearchInfo(searchInfo)
+                // New task needed because don't launch from an Activity context
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
         }
     }
 }

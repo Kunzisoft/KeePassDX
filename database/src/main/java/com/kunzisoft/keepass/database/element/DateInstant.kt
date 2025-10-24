@@ -224,6 +224,10 @@ class DateInstant : Parcelable {
         return this.mInstant.isAfter(dateInstant.mInstant)
     }
 
+    fun isEquals(dateInstant: DateInstant): Boolean {
+        return this.mInstant.isEqual(dateInstant.mInstant)
+    }
+
     fun compareTo(other: DateInstant): Int {
         return mInstant.compareTo(other.mInstant)
     }

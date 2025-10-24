@@ -1,1 +1,1 @@
-KeePassDX – FOSS-Passworttresor
+KeePassDX Pass(key-worttresor)

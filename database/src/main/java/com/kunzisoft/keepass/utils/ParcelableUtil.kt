@@ -82,6 +82,13 @@ inline fun <reified E : Parcelable> Bundle.getParcelableList(key: String?): Muta
     else -> @Suppress("DEPRECATION", "UNCHECKED_CAST") (getParcelableArray(key) as? Array<E>)?.toMutableList()
 }
 
+inline fun <reified T : Enum<T>> Bundle.putEnum(key: String?, value: T?) =
+    putString(key, value?.name)
+
+inline fun <reified T : Enum<T>> Bundle.getEnum(key: String?): T? {
+    return getString(key)?.let { enumValueOf<T>(it) }
+}
+
 // -------- Parcel --------
 
 inline fun <reified T : Parcelable> Parcel.readParcelableCompat(): T? = when {

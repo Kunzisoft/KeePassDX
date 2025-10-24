@@ -467,7 +467,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
          * -------------------------
          */
 
-        fun launchForSearchResult(
+        fun launchForSearch(
             context: Context,
             searchInfo: SearchInfo
         ) {
@@ -488,7 +488,7 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             context: Context,
             typeMode: TypeMode,
             searchInfo: SearchInfo? = null,
-            activityResultLauncher: ActivityResultLauncher<Intent>? = null,
+            activityResultLauncher: ActivityResultLauncher<Intent>?,
         ) {
             EntrySelectionHelper.startActivityForSelectionModeResult(
                 context = context,
@@ -512,10 +512,10 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         ) {
             EntrySelectionHelper.startActivityForRegistrationModeResult(
                 context = context,
-                activityResultLauncher = activityResultLauncher,
                 intent = Intent(context, FileDatabaseSelectActivity::class.java),
                 registerInfo = registerInfo,
-                typeMode = typeMode
+                typeMode = typeMode,
+                activityResultLauncher = activityResultLauncher
             )
         }
     }

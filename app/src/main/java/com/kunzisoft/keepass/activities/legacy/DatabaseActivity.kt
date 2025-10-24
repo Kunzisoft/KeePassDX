@@ -65,7 +65,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                 finish()
                             }
                         }
-
                         is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
                             if (manageDatabaseInfo()) {
                                 showDatabaseChangedDialog(
@@ -75,29 +74,21 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                 )
                             }
                         }
-
                         is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
                             startDatabasePermissionService(
                                 uiState.bundle,
                                 uiState.actionTask
                             )
                         }
-
                         is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                            if (showDatabaseDialog())
-                                startDialog(uiState.progressMessage)
+                            showDialog(uiState.progressMessage)
                         }
-
                         is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                            if (showDatabaseDialog())
-                                updateDialog(uiState.progressMessage)
+                            showDialog(uiState.progressMessage)
                         }
-
                         is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                            // Remove the progress task
-                            stopDialog()
+                            // nothing here, wait for the action to finish
                         }
-
                         is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
                             onDatabaseActionFinished(
                                 uiState.database,
@@ -203,29 +194,27 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
-    private fun startDialog(progressMessage: ProgressMessage) {
+    private fun showDialog(progressMessage: ProgressMessage) {
         lifecycleScope.launch {
-            if (progressTaskDialogFragment == null) {
-                progressTaskDialogFragment = supportFragmentManager
-                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+            if (showDatabaseDialog()) {
+                if (progressTaskDialogFragment == null) {
+                    progressTaskDialogFragment = supportFragmentManager
+                        .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+                }
+                if (progressTaskDialogFragment == null) {
+                    progressTaskDialogFragment = ProgressTaskDialogFragment()
+                    progressTaskDialogFragment?.show(
+                        supportFragmentManager,
+                        PROGRESS_TASK_DIALOG_TAG
+                    )
+                }
+                progressTaskDialogFragment?.apply {
+                    updateTitle(progressMessage.titleId)
+                    updateMessage(progressMessage.messageId)
+                    updateWarning(progressMessage.warningId)
+                    setCancellable(progressMessage.cancelable)
+                }
             }
-            if (progressTaskDialogFragment == null) {
-                progressTaskDialogFragment = ProgressTaskDialogFragment()
-                progressTaskDialogFragment?.show(
-                    supportFragmentManager,
-                    PROGRESS_TASK_DIALOG_TAG
-                )
-            }
-            updateDialog(progressMessage)
-        }
-    }
-
-    private fun updateDialog(progressMessage: ProgressMessage) {
-        progressTaskDialogFragment?.apply {
-            updateTitle(progressMessage.titleId)
-            updateMessage(progressMessage.messageId)
-            updateWarning(progressMessage.warningId)
-            setCancellable(progressMessage.cancelable)
         }
     }
 

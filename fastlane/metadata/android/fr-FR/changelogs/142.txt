@@ -1,4 +1,4 @@
- * Gestion des Passkeys #1421 #2097 (Thx @cali-95)
+* Gestion des Passkeys #1421 #2097 (Thx @cali-95)
  * Confirmation de l'usage de passkey #2165
  * Dialogue pour gérer les signatures manquantes #2152 #2155 #2161 #2160
  * Capture des erreurs #2159

@@ -1,0 +1,25 @@
+KeePassDX 是一款开源<b>通行密钥、密码管理器</b>，允许以开放的 KeePass 格式编辑<b>单文件中的加密数据</b>，并<b>以安全方式自动填充表单</b>，<b>无需互联网连接</b>且遵循 Android 设计标准。本应用<b>开源且无广告</b>。
+
+<b>功能特性</b>
+
+- 支持通行密钥身份验证，可本地存储私钥。
+- 支持生物识别快速解锁（指纹/人脸解锁等）。
+- 支持一次性密码管理（HOTP/TOTP），可用于双因素身份验证（2FA）。
+- 支持自动填充功能，便捷填写密码表单。
+- 配备魔法键盘，可高效填充任意字段。
+- 可创建加密的数据库文件。
+- 支持按条目及分组树状结构整理凭据。
+- 允许快速打开和复制 URI/URL 字段。
+- 为各类条目提供动态模板。
+- 保留每个条目的历史记录。
+- 支持精细化设置管理。
+- 采用 Material 设计风格，支持主题切换。
+- 支持 .kdb 和 .kdbx 格式文件（版本 1 至 4），兼容的加密算法包括 AES、Twofish、ChaCha20、Argon2。
+- 可与主流替代程序兼容，如 KeePass、KeePassXC、KeeWeb 等。
+- 代码采用原生语言编写，包括 Kotlin、Java、JNI、C。
+
+如需获取更优质的服务或希望加快所需功能的开发进度，您可以捐赠或购买专业版：<a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+本项目持续迭代更新，欢迎随时查看后续版本开发进度：<a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+如果遇到问题，请将问题反馈至：<a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

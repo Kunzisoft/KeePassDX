@@ -63,7 +63,6 @@ import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.buildSpecia
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveRegisterInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.TypeMode
-import com.kunzisoft.keepass.credentialprovider.magikeyboard.MagikeyboardService
 import com.kunzisoft.keepass.credentialprovider.passkey.util.PasskeyHelper.buildPasskeyResponseAndSetResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.element.Attachment
@@ -486,14 +485,12 @@ class EntryEditActivity : DatabaseLockActivity(),
     }
 
     private fun entryValidatedForKeyboardSelection(database: ContextualDatabase, entry: Entry) {
-        // Populate Magikeyboard with entry
-        MagikeyboardService.populateKeyboardAndMoveAppToBackground(
-            this,
-            entry.getEntryInfo(database)
+        // Build Magikeyboard response with the entry selected
+        this.buildSpecialModeResponseAndSetResult(
+            entryInfo = entry.getEntryInfo(database),
+            extras = buildEntryResult(entry)
         )
         onValidateSpecialMode()
-        // Don't keep activity history for entry edition
-        finishForEntryResult(entry)
     }
 
     private fun entryValidatedForAutofill(database: ContextualDatabase, entry: Entry) {

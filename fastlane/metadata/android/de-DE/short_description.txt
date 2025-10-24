@@ -1,1 +1,1 @@
-Sicherer Open-Source-Passwort-Tresor und -Manager
+Passkey/Passwort in einem lokalen Open-Source-Tresor verwalten

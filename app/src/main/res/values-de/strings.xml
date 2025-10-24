@@ -153,7 +153,7 @@
     <string name="menu_appearance_settings">Erscheinungsbild</string>
     <string name="password_size_title">Generierte Passwortlänge</string>
     <string name="password_size_summary">Legt die Standardlänge des generierten Passworts fest</string>
-    <string name="clipboard_notifications_title">Kopier-Benachrichtigung</string>
+    <string name="clipboard_notifications_title">Kopierbenachrichtigung</string>
     <string name="clipboard_notifications_summary">Benachrichtigung anzeigen, um beim Betrachten eines Eintrags Felder kopieren zu können</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank wenige Sekunden nach Bildschirmabschaltung sperren</string>
@@ -197,7 +197,7 @@
     <string name="autofill">Automatisches Ausfüllen</string>
     <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_credential_provider_service_title">Standard-Autofill-Service festlegen</string>
-    <string name="autofill_explanation_summary">Automatisches Ausfüllen aktivieren, um Formulare in anderen Apps schnell auszufüllen</string>
+    <string name="autofill_explanation_summary">Automatisches Ausfüllen konfigurieren, um Formulare in anderen Apps schnell auszufüllen</string>
     <string name="autofill_select_entry">Eintrag auswählen …</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
@@ -223,8 +223,8 @@
     <string name="reset_education_screens_summary">Alle Hilfsinfos nochmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfeanzeige zurückgesetzt</string>
     <string name="education_create_database_title">Datenbankdatei erstellen</string>
-    <string name="education_create_database_summary">Erste Datei zur Passwortverwaltung erstellen.</string>
-    <string name="education_select_database_title">Existierende Datenbank öffnen</string>
+    <string name="education_create_database_summary">Eine erste Datei zur Passwortverwaltung erstellen.</string>
+    <string name="education_select_database_title">Vorhandene Datenbank öffnen</string>
     <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiterzuverwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen, digitale Konten zu verwalten.
@@ -257,7 +257,7 @@
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der &lt;strong&gt;Pro-Version&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Durch deinen &lt;strong&gt;Beitrag&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">ermutigst du die Entwickler, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß deinen Anmerkungen &lt;strong&gt;Fehler zu beheben&lt;/strong&gt;.</string>
-    <string name="html_text_dev_feature_thanks">Vielen Dank für deine Unterstützung.</string>
+    <string name="html_text_dev_feature_thanks">Vielen Dank für die Unterstützung.</string>
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
     <string name="html_text_dev_feature_upgrade">Denke daran, die App durch die Installation neuer Versionen auf dem aktuellsten Stand zu halten.</string>
     <string name="download">Download</string>
@@ -312,7 +312,7 @@
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
     <string name="do_not_kill_app">App nicht beenden …</string>
-    <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm die Taste „Zurück“ gedrückt wird</string>
+    <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm der Datenbank befindet</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
@@ -508,7 +508,7 @@
     <string name="temp_device_unlock_timeout_title">Ablauf der Geräteentsperrung</string>
     <string name="temp_device_unlock_enable_summary">Bei Nutzung der Geräteentsperrung keine verschlüsselten Inhalte speichern</string>
     <string name="temp_device_unlock_enable_title">Zeitlich begrenzte Geräteentsperrung</string>
-    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit deinen Geräteanmeldedaten</string>
+    <string name="device_credential_unlock_enable_summary">Ermöglicht das Öffnen der Datenbank mit den persönlichen Geräteanmeldedaten</string>
     <string name="device_unlock_tap_delete">Drücken, um alle Geräteentsperrschlüssel zu löschen</string>
     <string name="content">Inhalt</string>
     <string name="device_unlock_prompt_extract_credential_title">Datenbank mit Geräteentsperrdaten öffnen</string>
@@ -536,7 +536,7 @@
     <string name="error_upload_file">Beim Hochladen der Datei ist ein Fehler aufgetreten.</string>
     <string name="import_app_properties_title">App-Einstellungen importieren</string>
     <string name="error_start_database_action">Beim Ausführen einer Aktion in der Datenbank ist ein Fehler aufgetreten.</string>
-    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, seine Validierung kann Token möglicherweise nicht mehr korrekt erzeugen.</string>
+    <string name="error_otp_type">Der vorhandene OTP-Typ wird von diesem Formular nicht erkannt, und seine Validierung kann Token möglicherweise nicht mehr korrekt erzeugen.</string>
     <string name="content_description_otp_information">Informationen zu Einmalpasswörtern</string>
     <string name="warning_database_revoked">Auf die Datei kann nicht zugegriffen werden. Bitte die Datenbank schließen und von ihrem Speicherort aus erneut öffnen.</string>
     <string name="error_export_app_properties">Fehler beim Exportieren der App-Einstellungen.</string>
@@ -682,7 +682,7 @@
     <string name="ask">Fragen</string>
     <string name="later">Später</string>
     <string name="unlock_and_link_biometric">Geräteentsperrverknüpfung</string>
-    <string name="menu_appearance_settings_summary">Design, Farben, Attribute</string>
+    <string name="menu_appearance_settings_summary">Design, Farben, Symbole, Schriftarten, Attribute</string>
     <string name="warning_database_notification_permission">Die Benachrichtigungsberechtigung ermöglicht es, den Status der Datenbank anzuzeigen und sie mit einer leicht zugänglichen Taste zu sperren.
 \n
 \nWird diese Berechtigung nicht aktiviert, ist die im Hintergrund geöffnete Datenbank nicht sichtbar, wenn eine Anwendung im Vordergrund läuft.</string>
@@ -704,4 +704,28 @@
     <string name="recursive_number_entries_title">Rekursive Anzahl der Einträge</string>
     <string name="generate_keyfile">Schlüsseldatei generieren</string>
     <string name="error_otp_secret_length">Geheimschlüssel muss mindestens %1$d Zeichen lang sein.</string>
+    <string name="entry_application_id">App-ID</string>
+    <string name="warning_overwrite_data_title">Bestehende Daten überschreiben?</string>
+    <string name="warning_overwrite_data_description">Diese Aktion ersetzt die bestehenden Daten im Eintrag. Die alten Daten können wiederhergestellt werden, wenn der Verlauf aktiviert ist.</string>
+    <string name="passkeys">Passkeys</string>
+    <string name="passkeys_preference_title">Passkeys-Einstellungen</string>
+    <string name="passkeys_close_database_title">Datenbank schließen</string>
+    <string name="passkeys_privileged_apps_title">Vertrauliche Apps</string>
+    <string name="passkeys_missing_signature_app_ask_title">Signatur fehlt</string>
+    <string name="passkeys_auto_select_title">Automatische Auswahl</string>
+    <string name="passkeys_backup_eligibility_title">Backup-Erlaubnis</string>
+    <string name="passkeys_backup_state_title">Backup-Status</string>
+    <string name="passkeys_privileged_apps_ask_title">App nicht erkannt</string>
+    <string name="passkey">Passkey</string>
+    <string name="passkey_selection_username">Kein Passkey gefunden</string>
+    <string name="passkey_creation_description">Passkey in neuem Eintrag speichern</string>
+    <string name="passkey_update_description">Passkey in %1$s aktualisieren</string>
+    <string name="passkey_selection_description">Vorhandenen Passkey auswählen</string>
+    <string name="passkey_database_username">KeePassDX-Datenbank</string>
+    <string name="passkey_username">Passkey-Benutzername</string>
+    <string name="passkey_backup_state">Passkey-Backup-Status</string>
+    <string name="passkey_backup_eligibility">Passkey-Backup-Erlaubnis</string>
+    <string name="passkeys_close_database_summary">Datenbank nach der Passwortauswahl schließen</string>
+    <string name="credential_provider">Anmeldeinformationsanbieter</string>
+    <string name="passkeys_explanation_summary">Passkeys für eine schnelle und sichere Anmeldung ohne Passwort konfigurieren</string>
 </resources>

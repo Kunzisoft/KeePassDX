@@ -403,7 +403,7 @@
     <string name="database_history">Ajalugu</string>
     <string name="properties">Omadused</string>
     <string name="menu_appearance_settings">Välimus</string>
-    <string name="menu_appearance_settings_summary">Välimus, värvid, omadused</string>
+    <string name="menu_appearance_settings_summary">Välimus, värvid, ikoonid, kirjatüübid, omadused</string>
     <string name="html_text_dev_feature_upgrade">Ära unusta paigaldada viimaseid versioone ja tagada, et rakendus on alati uuendatud.</string>
     <string name="at_least_one_char">Vähemalt üks tähemärk igast</string>
     <string name="exclude_ambiguous_chars">Välista mitmetähenduslikud tähemärgid</string>
@@ -452,7 +452,7 @@
     <string name="lock_database_screen_off_summary">Mõni sekund peale ekraani väljalülitumist lukusta andmebaas</string>
     <string name="lock_database_back_root_title">Vajuta nuppu „Tagasi“</string>
     <string name="lock_database_show_button_title">Näita lukustuse nuppu</string>
-    <string name="lock_database_back_root_summary">Lukusta andmebaas peale juurkaustas „Tagasi“ nupu klõpsimist</string>
+    <string name="lock_database_back_root_summary">Kui sa pole andmebaasi juurkasutas, siis lukusta andmebaas peale „Tagasi“ nupu klõpsimist</string>
     <string name="allow_copy_password_title">Lõikelaua usaldamine</string>
     <string name="allow_copy_password_summary">Luba sisestatud salasõna ja kaitstud väljade kopeerimise lõikelauale</string>
     <string name="education_unlock_title">Eemalda oma andmebaasi lukustus</string>
@@ -470,7 +470,7 @@
     <string name="allow_copy_password_warning">Hoiatus: süsteemiülene lõikelaud on kõikide rakenduste kasutuses. Kui sa kopeerid sinna delikaatseid andmeid, siis muu tarkvara võib seda seal näha. Kui sa kasutad KDE Connecti või muud lõikelaua jagamise teenust, siis sõltuvalt seadistustest võivad need delikaatsed andmed olla nähtavad ka muudes seadmetes.</string>
     <string name="warning_database_revoked">Failihaldur on blokeerinud ligipääsu failile. Sulge andmebaas ja ava ta uuesti oma asukohast.</string>
     <string name="autofill_sign_in_prompt">Logi sisse KeePassDX abil</string>
-    <string name="autofill_explanation_summary">Täitmaks andmevorme teistes rakenduses, luba automaattäite teenus</string>
+    <string name="autofill_explanation_summary">Täitmaks andmevorme teistes rakenduses, seadista automaattäite teenus</string>
     <string name="autofill_select_entry">Vali kirje…</string>
     <string name="set_credential_provider_service_title">Vali vaikimisi kasutatav automaattäite teenus</string>
     <string name="autofill_preference_title">Automaattäite teenuse seadistused</string>
@@ -662,4 +662,8 @@
     <string name="keyboard_previous_fill_in_summary">Peale tegevust „Automaatne võtmetoiming“ lülita automaatselt tagasi eelmisele klahvistikule</string>
     <string name="education_read_only_summary">Saad juhtida sessioonil kasutatavat avamisviisi.\n\n„Kirjutuskaitstud“ tagab, et juhuslike muudatustega ei läheks andmeid kaotsi.\n„Muudetav“ võimaldab sul lisada, kustutada või muuta kõiki andmebaasi kirjeid.</string>
     <string name="error_otp_secret_length">Salavõti peab olema vähemalt %1$d tähemärki pikk.</string>
+    <string name="entry_application_id">Rakenduse tunnus</string>
+    <string name="passkeys_close_database_title">Sulge andmebaas</string>
+    <string name="passkeys_privileged_apps_ask_title">Rakendust ei õnnestu tuvastada</string>
+    <string name="warning_overwrite_data_title">Kas soovid olemasolevad andmed üle kirjutada?</string>
 </resources>

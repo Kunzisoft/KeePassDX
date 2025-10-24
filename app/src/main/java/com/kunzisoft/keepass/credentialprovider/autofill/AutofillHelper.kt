@@ -27,6 +27,7 @@ import android.content.Intent
 import android.graphics.BlendMode
 import android.graphics.drawable.Icon
 import android.os.Build
+import android.os.Bundle
 import android.service.autofill.Dataset
 import android.service.autofill.Field
 import android.service.autofill.FillResponse
@@ -53,6 +54,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.AutofillSettingsActivity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import java.io.IOException
 import kotlin.math.min
@@ -64,20 +66,50 @@ object AutofillHelper {
     private const val EXTRA_BASE_STRUCTURE = "com.kunzisoft.keepass.autofill.BASE_STRUCTURE"
     private const val EXTRA_INLINE_SUGGESTIONS_REQUEST = "com.kunzisoft.keepass.autofill.INLINE_SUGGESTIONS_REQUEST"
 
-    fun Intent.addAutofillComponent(autofillComponent: AutofillComponent) {
-        this.putExtra(EXTRA_BASE_STRUCTURE, autofillComponent.assistStructure)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            autofillComponent.compatInlineSuggestionsRequest?.let {
-                this.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+    fun Intent.addAutofillComponent(autofillComponent: AutofillComponent?): Intent {
+        autofillComponent?.let {
+            this.putExtra(EXTRA_BASE_STRUCTURE, autofillComponent.assistStructure)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                autofillComponent.compatInlineSuggestionsRequest?.let {
+                    this.putExtra(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+                }
             }
         }
+        return this
     }
 
     fun Intent.retrieveAutofillComponent(): AutofillComponent? {
-        getParcelableExtraCompat<AssistStructure>(EXTRA_BASE_STRUCTURE)?.let { assistStructure ->
+        this.getParcelableExtraCompat<AssistStructure>(EXTRA_BASE_STRUCTURE)?.let { assistStructure ->
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                AutofillComponent(assistStructure,
-                        getParcelableExtraCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+                AutofillComponent(
+                    assistStructure,
+                    this.getParcelableExtraCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST))
+            } else {
+                AutofillComponent(assistStructure, null)
+            }
+        }
+        return null
+    }
+
+    fun Bundle.addAutofillComponent(autofillComponent: AutofillComponent?): Bundle {
+        autofillComponent?.let {
+            this.putParcelable(EXTRA_BASE_STRUCTURE, autofillComponent.assistStructure)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                autofillComponent.compatInlineSuggestionsRequest?.let {
+                    this.putParcelable(EXTRA_INLINE_SUGGESTIONS_REQUEST, it)
+                }
+            }
+        }
+        return this
+    }
+
+    fun Bundle.retrieveAutofillComponent(): AutofillComponent? {
+        this.getParcelableCompat<AssistStructure>(EXTRA_BASE_STRUCTURE)?.let { assistStructure ->
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                AutofillComponent(
+                    assistStructure,
+                    this.getParcelableCompat(EXTRA_INLINE_SUGGESTIONS_REQUEST)
+                )
             } else {
                 AutofillComponent(assistStructure, null)
             }

@@ -238,7 +238,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                                         "launch manual selection in opened database"
                             )
                             mCredentialUiState.value =
-                                CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection(
+                                CredentialState.LaunchGroupActivityForSelection(
                                     database = openedDatabase,
                                     searchInfo = searchInfo,
                                     typeMode = TypeMode.PASSKEY
@@ -247,7 +247,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                         onDatabaseClosed = {
                             Log.d(TAG, "Manual passkey selection in closed database")
                             mCredentialUiState.value =
-                                CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection(
+                                CredentialState.LaunchFileDatabaseSelectActivityForSelection(
                                     searchInfo = searchInfo,
                                     typeMode = TypeMode.PASSKEY
                                 )
@@ -426,7 +426,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                                             "but launch manual registration for a new entry"
                                 )
                                 mCredentialUiState.value =
-                                    CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration(
+                                    CredentialState.LaunchGroupActivityForRegistration(
                                         database = openedDatabase,
                                         registerInfo = registerInfo,
                                         typeMode = TypeMode.PASSKEY
@@ -435,7 +435,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                             onItemNotFound = { openedDatabase ->
                                 Log.d(TAG, "Launch new manual registration in opened database")
                                 mCredentialUiState.value =
-                                    CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration(
+                                    CredentialState.LaunchGroupActivityForRegistration(
                                         database = openedDatabase,
                                         registerInfo = registerInfo,
                                         typeMode = TypeMode.PASSKEY
@@ -444,7 +444,7 @@ class PasskeyLauncherViewModel(application: Application): CredentialLauncherView
                             onDatabaseClosed = {
                                 Log.d(TAG, "Manual passkey registration in closed database")
                                 mCredentialUiState.value =
-                                    CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration(
+                                    CredentialState.LaunchFileDatabaseSelectActivityForRegistration(
                                         registerInfo = registerInfo,
                                         typeMode = TypeMode.PASSKEY
                                     )

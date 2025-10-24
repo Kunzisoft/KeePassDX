@@ -9,8 +9,7 @@ import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.viewModelScope
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.removeNodesIds
-import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveNodesIds
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveAndRemoveEntries
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveRegisterInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.retrieveSpecialMode
@@ -21,7 +20,7 @@ import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.retrieveAutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.database.helper.SearchHelper
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
@@ -119,7 +118,7 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                     onItemNotFound = { openedDatabase ->
                         // Show the database UI to select the entry
                         mCredentialUiState.value =
-                            CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection(
+                            CredentialState.LaunchGroupActivityForSelection(
                                 database = openedDatabase,
                                 searchInfo = searchInfo,
                                 typeMode = TypeMode.AUTOFILL
@@ -128,7 +127,7 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                     onDatabaseClosed = {
                         // If database not open
                         mCredentialUiState.value =
-                            CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection(
+                            CredentialState.LaunchFileDatabaseSelectActivityForSelection(
                                 searchInfo = searchInfo,
                                 typeMode = TypeMode.AUTOFILL
                             )
@@ -156,17 +155,10 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                         Log.d(TAG, "Autofill selection result")
                         if (intent == null)
                             throw IOException("Intent is null")
-                        val nodesIds = intent.retrieveNodesIds()
-                            ?: throw IOException("NodesIds is null")
-                        intent.removeNodesIds()
+                        val entries = intent.retrieveAndRemoveEntries(database)
                         val autofillComponent = mAutofillComponent
                         if (autofillComponent == null)
                             throw IOException("Autofill component is null")
-                        val entries = nodesIds.mapNotNull { nodeId ->
-                            database
-                                .getEntryById(NodeIdUUID(nodeId))
-                                ?.getEntryInfo(database)
-                        }
                         withContext(Dispatchers.Main) {
                             AutofillHelper.buildResponse(
                                 context = getApplication(),
@@ -211,32 +203,36 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
                     if (!readOnly) {
                         // Show the database UI to select the entry
                         mCredentialUiState.value =
-                            CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration(
+                            CredentialState.LaunchGroupActivityForRegistration(
                                 database = openedDatabase,
                                 registerInfo = registerInfo,
                                 typeMode = TypeMode.AUTOFILL
                             )
                     } else {
-                        mUiState.value = UIState.ShowReadOnlyMessage
+                        mCredentialUiState.value = CredentialState.ShowError(
+                            RegisterInReadOnlyDatabaseException()
+                        )
                     }
                 },
                 onItemNotFound = { openedDatabase ->
                     if (!readOnly) {
                         // Show the database UI to select the entry
                         mCredentialUiState.value =
-                            CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration(
+                            CredentialState.LaunchGroupActivityForRegistration(
                                 database = openedDatabase,
                                 registerInfo = registerInfo,
                                 typeMode = TypeMode.AUTOFILL
                             )
                     } else {
-                        mUiState.value = UIState.ShowReadOnlyMessage
+                        mCredentialUiState.value = CredentialState.ShowError(
+                            RegisterInReadOnlyDatabaseException()
+                        )
                     }
                 },
                 onDatabaseClosed = {
                     // If database not open
                     mCredentialUiState.value =
-                        CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration(
+                        CredentialState.LaunchFileDatabaseSelectActivityForRegistration(
                             registerInfo = registerInfo,
                             typeMode = TypeMode.AUTOFILL
                         )
@@ -274,7 +270,6 @@ class AutofillLauncherViewModel(application: Application): CredentialLauncherVie
     sealed class UIState {
         object Loading: UIState()
         object ShowBlockRestartMessage: UIState()
-        object ShowReadOnlyMessage: UIState()
         object ShowAutofillSuggestionMessage: UIState()
     }
 

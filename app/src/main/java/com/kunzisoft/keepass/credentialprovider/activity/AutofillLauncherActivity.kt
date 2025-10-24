@@ -38,14 +38,17 @@ import com.kunzisoft.keepass.activities.legacy.DatabaseModeActivity
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addRegisterInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSearchInfo
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.addSpecialMode
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.getRegisterInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.getSearchInfo
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.getSpecialMode
 import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.credentialprovider.SpecialMode
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillComponent
 import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.addAutofillComponent
+import com.kunzisoft.keepass.credentialprovider.autofill.AutofillHelper.retrieveAutofillComponent
 import com.kunzisoft.keepass.credentialprovider.viewmodel.AutofillLauncherViewModel
 import com.kunzisoft.keepass.credentialprovider.viewmodel.CredentialLauncherViewModel
 import com.kunzisoft.keepass.database.ContextualDatabase
-import com.kunzisoft.keepass.database.exception.RegisterInReadOnlyDatabaseException
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.AppUtil.randomRequestCode
@@ -76,6 +79,14 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // To apply the bypass https://github.com/Kunzisoft/KeePassDX/issues/2238
+        // before managing intent in super class
+        intent.retrieveSelectionBundle()?.apply {
+            intent.addSpecialMode(getSpecialMode())
+            intent.addSearchInfo(getSearchInfo())
+            intent.addRegisterInfo(getRegisterInfo())
+            intent.addAutofillComponent(retrieveAutofillComponent())
+        }
         super.onCreate(savedInstanceState)
         autofillLauncherViewModel.initialize()
         lifecycleScope.launch {
@@ -85,10 +96,6 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                     AutofillLauncherViewModel.UIState.Loading -> {}
                     is AutofillLauncherViewModel.UIState.ShowBlockRestartMessage -> {
                         showBlockRestartMessage()
-                        autofillLauncherViewModel.cancelResult()
-                    }
-                    is AutofillLauncherViewModel.UIState.ShowReadOnlyMessage -> {
-                        showReadOnlySaveMessage()
                         autofillLauncherViewModel.cancelResult()
                     }
                     is AutofillLauncherViewModel.UIState.ShowAutofillSuggestionMessage -> {
@@ -101,8 +108,8 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             // Retrieve the UI
             autofillLauncherViewModel.credentialUiState.collect { uiState ->
                 when (uiState) {
-                    is CredentialLauncherViewModel.UIState.Loading -> {}
-                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForSelection -> {
+                    is CredentialLauncherViewModel.CredentialState.Loading -> {}
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForSelection -> {
                         GroupActivity.launchForSelection(
                             context = this@AutofillLauncherActivity,
                             database = uiState.database,
@@ -111,7 +118,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillSelectionActivityResultLauncher,
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchGroupActivityForRegistration -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchGroupActivityForRegistration -> {
                         GroupActivity.launchForRegistration(
                             context = this@AutofillLauncherActivity,
                             database = uiState.database,
@@ -120,7 +127,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillRegistrationActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForSelection -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForSelection -> {
                         FileDatabaseSelectActivity.launchForSelection(
                             context = this@AutofillLauncherActivity,
                             searchInfo = uiState.searchInfo,
@@ -128,7 +135,7 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillSelectionActivityResultLauncher
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.LaunchFileDatabaseSelectActivityForRegistration -> {
+                    is CredentialLauncherViewModel.CredentialState.LaunchFileDatabaseSelectActivityForRegistration -> {
                         FileDatabaseSelectActivity.launchForRegistration(
                             context = this@AutofillLauncherActivity,
                             registerInfo = uiState.registerInfo,
@@ -136,14 +143,14 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
                             activityResultLauncher = mAutofillRegistrationActivityResultLauncher,
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.SetActivityResult -> {
+                    is CredentialLauncherViewModel.CredentialState.SetActivityResult -> {
                         setActivityResult(
                             lockDatabase = uiState.lockDatabase,
                             resultCode = uiState.resultCode,
                             data = uiState.data
                         )
                     }
-                    is CredentialLauncherViewModel.UIState.ShowError -> {
+                    is CredentialLauncherViewModel.CredentialState.ShowError -> {
                         toastError(uiState.error)
                         autofillLauncherViewModel.cancelResult()
                     }
@@ -174,13 +181,14 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
         ).show()
     }
 
-    private fun showReadOnlySaveMessage() {
-        toastError(RegisterInReadOnlyDatabaseException())
-    }
-
     companion object {
 
+        private const val KEY_PENDING_INTENT_BUNDLE = "com.kunzisoft.keepass.extra.BUNDLE"
         private val TAG = AutofillLauncherActivity::class.java.name
+
+        fun Intent.retrieveSelectionBundle(): Bundle? {
+            return this.getBundleExtra(KEY_PENDING_INTENT_BUNDLE)
+        }
 
         fun getPendingIntentForSelection(
             context: Context,
@@ -188,15 +196,19 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             autofillComponent: AutofillComponent
         ): PendingIntent? {
             try {
+                // Doesn't work with direct extra Parcelable in Android 11 (don't know why?)
+                // https://github.com/Kunzisoft/KeePassDX/issues/2238
+                // Wrap into a bundle to bypass the problem
+                val tempBundle = Bundle().apply {
+                    addSpecialMode(SpecialMode.SELECTION)
+                    addSearchInfo(searchInfo)
+                    addAutofillComponent(autofillComponent)
+                }
                 return PendingIntent.getActivity(
                     context,
                     randomRequestCode(),
-                    // Doesn't work with direct extra Parcelable (don't know why?)
-                    // Wrap into a bundle to bypass the problem
                     Intent(context, AutofillLauncherActivity::class.java).apply {
-                        addSpecialMode(SpecialMode.SELECTION)
-                        addSearchInfo(searchInfo)
-                        addAutofillComponent(autofillComponent)
+                        putExtra(KEY_PENDING_INTENT_BUNDLE, tempBundle)
                     },
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
@@ -215,12 +227,16 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             registerInfo: RegisterInfo
         ): PendingIntent? {
             try {
+                // Bypass intent issue
+                val tempBundle = Bundle().apply {
+                    addSpecialMode(SpecialMode.REGISTRATION)
+                    addRegisterInfo(registerInfo)
+                }
                 return PendingIntent.getActivity(
                     context,
                     randomRequestCode(),
                     Intent(context, AutofillLauncherActivity::class.java).apply {
-                        addSpecialMode(SpecialMode.REGISTRATION)
-                        addRegisterInfo(registerInfo)
+                        putExtra(KEY_PENDING_INTENT_BUNDLE, tempBundle)
                     },
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT

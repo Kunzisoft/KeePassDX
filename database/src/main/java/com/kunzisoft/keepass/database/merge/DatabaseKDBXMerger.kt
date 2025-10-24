@@ -486,21 +486,25 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // Merge independently custom data
                 mergeCustomData(entry.customData, entryToMerge.customData)
                 // Merge by modification time
-                if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)
-                ) {
+                if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)) {
+                    // Update entry with databaseEntryToMerge and merge history
                     addHistory(entry, entryToMerge)
                     if (parentEntryToMerge == entry.parent) {
                         entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
                     } else {
-                        // Update entry with databaseEntryToMerge and merge history
                         database.removeEntryFrom(entry, entry.parent)
                         if (parentEntryToMerge != null) {
                             database.addEntryTo(entryToMerge, parentEntryToMerge)
                         }
                     }
-                } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)
-                ) {
+                } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)) {
                     addHistory(entryToMerge, entry)
+                } else if (entry.lastModificationTime.isEquals(entryToMerge.lastModificationTime)) {
+                    // If it's the same modification time, simply move entry to the right location
+                    parentEntryToMerge?.let {
+                        database.removeEntryFrom(entry, entry.parent)
+                        database.addEntryTo(entryToMerge, parentEntryToMerge)
+                    }
                 }
             }
         }
@@ -561,8 +565,7 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // Merge independently custom data
                 mergeCustomData(group.customData, groupToMerge.customData)
                 // Merge by modification time
-                if (group.lastModificationTime.isBefore(groupToMerge.lastModificationTime)
-                ) {
+                if (group.lastModificationTime.isBefore(groupToMerge.lastModificationTime)) {
                     if (parentGroupToMerge == group.parent) {
                         group.updateWith(groupToMerge, false)
                     } else {
@@ -570,6 +573,12 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                         if (parentGroupToMerge != null) {
                             database.addGroupTo(groupToMerge, parentGroupToMerge)
                         }
+                    }
+                } else if (group.lastModificationTime.isEquals(groupToMerge.lastModificationTime)) {
+                    // If it's the same modification time, simply move group to the right location
+                    parentGroupToMerge?.let {
+                        database.removeGroupFrom(group, group.parent)
+                        database.addGroupTo(groupToMerge, parentGroupToMerge)
                     }
                 }
             }

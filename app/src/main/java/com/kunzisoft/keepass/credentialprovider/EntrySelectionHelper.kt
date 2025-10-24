@@ -34,15 +34,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.IconCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.ContextualDatabase
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.getEnum
 import com.kunzisoft.keepass.utils.getEnumExtra
+import com.kunzisoft.keepass.utils.getParcelableCompat
 import com.kunzisoft.keepass.utils.getParcelableExtraCompat
 import com.kunzisoft.keepass.utils.getParcelableList
+import com.kunzisoft.keepass.utils.putEnum
 import com.kunzisoft.keepass.utils.putEnumExtra
 import com.kunzisoft.keepass.utils.putParcelableList
+import java.io.IOException
 import java.util.UUID
 
 object EntrySelectionHelper {
@@ -157,8 +162,19 @@ object EntrySelectionHelper {
         return this
     }
 
+    fun Bundle.addSearchInfo(searchInfo: SearchInfo?): Bundle {
+        searchInfo?.let {
+            putParcelable(KEY_SEARCH_INFO, it)
+        }
+        return this
+    }
+
     fun Intent.retrieveSearchInfo(): SearchInfo? {
         return getParcelableExtraCompat(KEY_SEARCH_INFO)
+    }
+
+    fun Bundle.getSearchInfo(): SearchInfo? {
+        return getParcelableCompat(KEY_SEARCH_INFO)
     }
 
     fun Intent.addRegisterInfo(registerInfo: RegisterInfo?): Intent {
@@ -168,8 +184,19 @@ object EntrySelectionHelper {
         return this
     }
 
+    fun Bundle.addRegisterInfo(registerInfo: RegisterInfo?): Bundle {
+        registerInfo?.let {
+            putParcelable(KEY_REGISTER_INFO, it)
+        }
+        return this
+    }
+
     fun Intent.retrieveRegisterInfo(): RegisterInfo? {
         return getParcelableExtraCompat(KEY_REGISTER_INFO)
+    }
+
+    fun Bundle.getRegisterInfo(): RegisterInfo? {
+        return getParcelableCompat(KEY_REGISTER_INFO)
     }
 
     fun Intent.removeInfo() {
@@ -182,8 +209,17 @@ object EntrySelectionHelper {
         return this
     }
 
+    fun Bundle.addSpecialMode(specialMode: SpecialMode): Bundle {
+        this.putEnum(KEY_SPECIAL_MODE, specialMode)
+        return this
+    }
+
     fun Intent.retrieveSpecialMode(): SpecialMode {
-        return getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
+        return this.getEnumExtra<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
+    }
+
+    fun Bundle.getSpecialMode(): SpecialMode {
+        return this.getEnum<SpecialMode>(KEY_SPECIAL_MODE) ?: SpecialMode.DEFAULT
     }
 
     fun Intent.addTypeMode(typeMode: TypeMode): Intent {
@@ -234,11 +270,25 @@ object EntrySelectionHelper {
     }
 
     /**
+     * Retrieve nodes ids from intent and get the corresponding entry info list in [database]
+     */
+    fun Intent.retrieveAndRemoveEntries(database: ContextualDatabase): List<EntryInfo> {
+        val nodesIds = retrieveNodesIds()
+            ?: throw IOException("NodesIds is null")
+        removeNodesIds()
+        return nodesIds.mapNotNull { nodeId ->
+            database
+                .getEntryById(NodeIdUUID(nodeId))
+                ?.getEntryInfo(database)
+        }
+    }
+
+    /**
      * Intent sender uses special retains data in callback
      */
     fun isIntentSenderMode(specialMode: SpecialMode, typeMode: TypeMode): Boolean {
         return (specialMode == SpecialMode.SELECTION
-                && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
+                && (typeMode == TypeMode.MAGIKEYBOARD || typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
                 || (specialMode == SpecialMode.REGISTRATION
                 && (typeMode == TypeMode.AUTOFILL || typeMode == TypeMode.PASSKEY))
     }
