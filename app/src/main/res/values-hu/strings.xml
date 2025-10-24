@@ -283,10 +283,10 @@
     <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális stílushoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális stílus&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
     <string name="html_text_donation">Azzal, hogy &lt;strong&gt;hozzájárul&lt;/strong&gt; a projekthez &lt;i&gt;(pénzzel, kóddal, fordítással)&lt;/i&gt;, segít abban, hogy a projekt tovább éljen és gyarapodjon, továbbá Ön jogosulttá válik a &lt;strong&gt;téma&lt;/strong&gt;feloldásának lehetősége.</string>
-    <string name="html_text_dev_feature">Ez a funkció <strong>fejlesztés alatt áll</strong>, és az Ön <strong>közreműködésére</strong> van szükség, hogy hamarosan elérhető legyen.</string>
+    <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;közreműködésére&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
     <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
-    <string name="html_text_dev_feature_contibute">A <strong>közreműködésével</strong>,</string>
-    <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy <strong>új funkciókat</strong> hozzanak létre, és <strong>hibákat javítsanak</strong> az észrevételei alapján.</string>
+    <string name="html_text_dev_feature_contibute">A &lt;strong&gt;közreműködésével&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy &lt;strong&gt;új funkciókat&lt;/strong&gt; hozzanak létre, és &lt;strong&gt;hibákat javítsanak&lt;/strong&gt; az észrevételei alapján.</string>
     <string name="html_text_dev_feature_thanks">Köszönjük a közreműködését.</string>
     <string name="html_text_dev_feature_work_hard">Keményen dolgozunk, hogy gyorsan kiadjuk ezt a funkciót.</string>
     <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>
@@ -328,7 +328,7 @@
     <string name="auto_focus_search_summary">Keresés kérése az adatbázis megnyitásakor</string>
     <string name="error_create_database">Az adatbázisfájl létrehozása sikertelen.</string>
     <string name="error_label_exists">Ez a címke már létezik.</string>
-    <string name="html_about_contribution">A <strong>szabadságunk megtartása</strong>, a <strong>hibák javítása</strong>, a <strong>funkciók hozzáadása</strong> és az <strong>állandó aktivitás</strong> érdekében számítunk a <strong>közreműködésére</strong>.</string>
+    <string name="html_about_contribution">A &lt;strong&gt;szabadságunk megtartása&lt;/strong&gt;, a &lt;strong&gt;hibák javítása&lt;/strong&gt;, a &lt;strong&gt;funkciók hozzáadása&lt;/strong&gt; és az &lt;strong&gt;állandó aktivitás&lt;/strong&gt; érdekében számítunk a &lt;strong&gt;közreműködésére&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Melléklet hozzáadása</string>
     <string name="entry_add_field">Mező hozzáadása</string>
     <string name="entry_password_generator">Jelszógenerátor</string>
