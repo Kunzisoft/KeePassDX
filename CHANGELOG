@@ -1,6 +1,7 @@
 KeePassDX(4.2.1)
  * Fix Magikeyboard autosearch #2233
  * Fix database merge #2223
+ * Fix dialog database action #2234
 
 KeePassDX(4.2.0)
  * Passkeys management #1421 #2097 (@cali-95)
