@@ -283,7 +283,7 @@
     <string name="search">Търсене</string>
     <string name="uppercase">Горен регистър</string>
     <string name="warning">Внимание</string>
-    <string name="lock_database_back_root_summary">Заключва хранилището при докосване на бутона „Назад“ на началния екран</string>
+    <string name="lock_database_back_root_summary">Бутонът „Назад“ в кореновата папка заключва хранилището</string>
     <string name="read_only">Само за четене</string>
     <string name="contains_duplicate_uuid">Хранилището съдържа повтарящ се идентификатор.</string>
     <string name="biometric">Биометричен ключ</string>
@@ -653,7 +653,7 @@
     <string name="biometric_auto_open_prompt_summary">Автоматична заявка за отключване на устройството ако хранилището се отключва с устройството</string>
     <string name="allow_copy_password_summary">Разрешава копиране на паролите и защитените полета от записите в междинната памет</string>
     <string name="error_rebuild_list">Списъкът не може да бъде изграден отново.</string>
-    <string name="error_otp_type">Формулярът не разпознава този вид OTP и може да не създава правилни кодове за достъп.</string>
+    <string name="error_otp_type">Формулярът не разпознава този вид OTP и може да не създава верни кодове за достъп.</string>
     <string name="warning_keyfile_integrity">Отпечатъкът от файла не е сигурен, защото Андроид може да променя данните в движение. Променете разширението на файла на .bin, за бъде невредим.</string>
     <string name="allow_copy_password_title">Доверяване на междинната памет</string>
     <string name="warning_exact_alarm">Приложението няма права за използване на точен будилник. В резултат на това дейностите, които зависят от него няма да се изпълняват на време.</string>

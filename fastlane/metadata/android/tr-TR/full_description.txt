@@ -2,18 +2,20 @@ KeePassDX, açık KeePass biçiminde <b>tek bir dosyada şifreli verileri</b> d�
 
 <b>Özellikler</b>
 
-- Veri tabanı dosyaları / girdileri ve grupları oluşturun.
-- AES - Twofish - ChaCha20 - Argon2 algoritması ile .kdb ve .kdbx dosyaları (sürüm 1 ile 4 arası) desteği.
-- Birçok farklı programla uyumludur (KeePass, KeePassXC, KeeWeb, …).
-- URI / URL alanlarını hızlı bir şekilde açma ve kopyalama imkanı.
+- Kimlik doğrulama ve özel anahtarların yerel depolaması için geçiş anahtarları.
 - Hızlı kilit açma için biyometrik tanıma (parmak izi / yüz tanıma / …).
 - İki aşamalı kimlik doğrulama (2FA) için tek kullanımlık şifre yönetimi (HOTP / TOTP).
-- Temalı Material tasarımı.
-- Otomatik doldurma ve bütünleşme.
-- Alan doldurma klavyesi.
-- Değişken şablonlar.
+- Parolalarla formları kolayca doldurmak için otomatik doldurma.
+- Herhangi bir alanı verimli bir şekilde doldurmak için Magikeyboard.
+- Şifreli veri tabanı dosyaları oluşturun.
+- Girdilere ve grup ağaçlarına göre kimlik bilgilerinin düzenlenmesi.
+- URI / URL alanlarını hızlı bir şekilde açma ve kopyalama imkanı.
+- Her girdi türü için değişken şablonlar.
 - Her girdinin geçmişi.
 - Ayarların hassas yönetimi.
+- Temalı Material tasarımı.
+- AES - Twofish - ChaCha20 - Argon2 algoritması ile .kdb ve .kdbx dosyaları (sürüm 1 ile 4 arası) desteği.
+- Birçok farklı programla uyumludur (KeePass, KeePassXC, KeeWeb, …).
 - Yerel dillerde (Kotlin / Java / JNI / C) yazılmış kod.
 
 Daha iyi hizmet ve istediğiniz özelliklerin hızlı bir şekilde geliştirilmesi için bağış yapabilir veya pro sürümü satın alabilirsiniz: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>

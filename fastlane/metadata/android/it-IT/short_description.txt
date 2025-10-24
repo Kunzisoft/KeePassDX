@@ -1,1 +1,1 @@
-Gestore di password sicuro e open-source
+Gestisci passkey / password in una cassaforte locale e open source

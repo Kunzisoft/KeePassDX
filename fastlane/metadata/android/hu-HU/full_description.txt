@@ -1,0 +1,25 @@
+A KeePassDX egy nyílt forráskódú <b>jelszókezelő, jelszótároló és -kezelő</b>, amely lehetővé teszi <b>titkosított adatok szerkesztését egyetlen fájlban</b> a nyílt KeePass formátumban, valamint <b>az űrlapok biztonságos kitöltését</b>, <b>nem igényel internetkapcsolatot</b> és integrálja az Android tervezési szabványokat. Az alkalmazás <b>nyílt forráskódú, reklámmentes</b>.
+
+<b>Jellemzők</b>
+
+- Jelszavak a hitelesítéshez és a privát kulcsok helyi tárolásához.
+- Biometrikus felismerés a gyors feloldáshoz (ujjlenyomat / arcfeloldás / …).
+- Egyszeri jelszókezelés (HOTP / TOTP) a kétfaktoros hitelesítéshez (2FA).
+- Automatikus kitöltés a jelszavakkal való egyszerű űrlapkitöltéshez.
+- Mágikus billentyűzet a mezők hatékony kitöltéséhez.
+- Titkosított adatbázis fájlok létrehozása.
+- Hitelesítési adatok szervezése bejegyzésenként és csoportfákban.
+- Lehetővé teszi a webcímek gyors megnyitását és másolását.
+- Dinamikus sablonok minden bejegyzés típushoz.
+- Minden bejegyzés előzményei.
+- Beállítások pontos kezelése.
+- Material témákkal.
+- .kdb és .kdbx fájlok (1-4 verzió) támogatása AES - Twofish - ChaCha20 - Argon2 algoritmussal.
+- Kompatibilis a legtöbb alternatív programmal (KeePass, KeePassXC, KeeWeb, …).
+- Natív nyelveken (Kotlin / Java / JNI / C) írt kód.
+
+Adományozhat vagy megvásárolhatja a pro verziót a jobb szolgáltatás és a kívánt funkciók gyors fejlesztése érdekében: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+A projekt folyamatosan fejlődik. Ne habozzon megnézni a következő frissítések fejlesztési állapotát: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+A problémákat itt küldheti be: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

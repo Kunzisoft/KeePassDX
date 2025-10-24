@@ -522,7 +522,7 @@
     <string name="clipboard_notifications_title">Njoftime mbi të papastrën</string>
     <string name="clipboard_notifications_summary">Shfaq njoftime të papastre te fusha kopjimi, kur shihet një zë</string>
     <string name="lock_database_back_root_title">Shtypni “Mbrapsht”, që të kyçet</string>
-    <string name="lock_database_back_root_summary">Kyçe bazën e të dhënave, kur përdoruesi klikon butonin “Mbrapsht” te skena e rrënjës</string>
+    <string name="lock_database_back_root_summary">Shtypni “Mbrapsht” për kyçje të bazës së të dhënave, nëse gjendeni te skena rrënjë e bazës së të dhënave</string>
     <string name="lock_database_show_button_summary">Bën shfaqjen të butonit të kyçjeve te ndërfaqja e përdoruesit</string>
     <string name="device_unlock_explanation_summary">Përdorni shkyçjen e pajisjes, për ta hapur më kollaj bazën e të dhënave</string>
     <string name="device_unlock_timeout">Mbarim kohe shkyçjeje pajisjeje</string>

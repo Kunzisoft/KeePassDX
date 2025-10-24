@@ -378,7 +378,7 @@
     <string name="device_unlock">Розблокування пристрою</string>
     <string name="lock_database_show_button_summary">Показувати кнопку блокування в інтерфейсі користувача</string>
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
-    <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натисне кнопку назад на головному екрані</string>
+    <string name="lock_database_back_root_summary">Натисніть «Назад», щоб заблокувати базу даних, якщо ви перебуваєте на головному екрані бази дани</string>
     <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
     <string name="lock_database_screen_off_summary">Блокувати базу даних за кілька секунд після вимкнення екрана</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
@@ -395,7 +395,7 @@
     <string name="password_size_title">Довжина створюваного пароля</string>
     <string name="autofill_preference_title">Налаштування автозаповнення</string>
     <string name="set_credential_provider_service_title">Встановити типовою службою автозаповнення</string>
-    <string name="autofill_explanation_summary">Налаштуйте автозаповнення для швидкого заповнення форм в інших програмах</string>
+    <string name="autofill_explanation_summary">Налаштуйте автозаповнення для швидкого заповнення форм в інших застосунках</string>
     <string name="autofill_sign_in_prompt">Увійти за допомогою KeePassDX</string>
     <string name="autofill">Автозаповнення</string>
     <string name="general">Загальні</string>
@@ -523,7 +523,7 @@
     <string name="unit_mebibyte">МіБ</string>
     <string name="unit_kibibyte">КіБ</string>
     <string name="unit_byte">Б</string>
-    <string name="error_otp_type">Ця форма не розпізнає наявний тип OTP, його перевірка може надалі створювати не дійсний токен.</string>
+    <string name="error_otp_type">Наявний тип OTP не розпізнається цією формою, і його перевірка може більше не генерувати токен правильно.</string>
     <string name="download_canceled">Скасовано!</string>
     <string name="icon_section_custom">Власні</string>
     <string name="icon_section_standard">Стандартні</string>
@@ -674,7 +674,7 @@
     <string name="ask">Запитувати</string>
     <string name="configure">Сконфігурувати</string>
     <string name="unlock_and_link_biometric">Посилання для розблокування пристрою</string>
-    <string name="menu_appearance_settings_summary">Теми, кольори, іконки, шрифти, атрибути</string>
+    <string name="menu_appearance_settings_summary">Теми, кольори, піктограми, шрифти, атрибути</string>
     <string name="unlock">Розблокувати</string>
     <string name="education_validate_entry_title">Перевірте запис</string>
     <string name="education_validate_entry_summary">Не забувайте перевірити свій запис і зберегти базу даних.
@@ -704,7 +704,7 @@
     <string name="hide_templates_summary">Шаблони не показано</string>
     <string name="warning_large_keyfile">Не рекомендується додавати великий файл ключа, це може завадити створенню бази даних.</string>
     <string name="error_otp_secret_length">Секретний ключ повинен містити не менше %1$d символів.</string>
-    <string name="entry_application_id">Ідентифікатор програми</string>
+    <string name="entry_application_id">ID застосунку</string>
     <string name="warning_overwrite_data_title">Перезаписати наявні дані?</string>
     <string name="warning_overwrite_data_description">Ця дія замінить наявні дані у записі. Ви можете відновити старі дані, якщо ввімкнено історію.</string>
     <string name="credential_provider">Постачальник облікових даних</string>
@@ -723,7 +723,7 @@
     <string name="passkeys_missing_signature_app_ask_message">%1$s не розпізнається і намагається пройти автентифікацію за допомогою наявного ключа доступу.</string>
     <string name="passkeys_missing_signature_app_ask_question">Додати підпис програми до запису ключа доступу?</string>
     <string name="passkeys_auto_select_title">Автоматичний вибір</string>
-    <string name="passkeys_auto_select_summary">Автоматичний вибір, якщо є тільки один запис і база даних відкрита, тільки якщо запитуючий додаток сумісний</string>
+    <string name="passkeys_auto_select_summary">Автоматичний вибір, якщо є лише один запис і база даних відкрита, лише якщо застосунок, що запитує це, сумісний</string>
     <string name="passkeys_backup_eligibility_title">Право на резервне копіювання</string>
     <string name="passkeys_backup_eligibility_summary">Визначити під час створення, чи дозволено створювати резервні копії джерела облікових даних відкритого ключа</string>
     <string name="passkeys_backup_state_title">Стан резервного копіювання</string>

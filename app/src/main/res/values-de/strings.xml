@@ -223,7 +223,7 @@
     <string name="reset_education_screens_summary">Alle Hilfsinfos nochmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfeanzeige zurückgesetzt</string>
     <string name="education_create_database_title">Datenbankdatei erstellen</string>
-    <string name="education_create_database_summary">Erste Datei zur Passwortverwaltung erstellen.</string>
+    <string name="education_create_database_summary">Eine erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Vorhandene Datenbank öffnen</string>
     <string name="education_select_database_summary">Öffnet über den Dateimanager eine früher erstellte Datenbankdatei, um sie weiterzuverwenden.</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
@@ -312,7 +312,7 @@
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Defekte Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
     <string name="do_not_kill_app">App nicht beenden …</string>
-    <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm befindet</string>
+    <string name="lock_database_back_root_summary">„Zurück“ drücken, um die Datenbank zu sperren, wenn man sich auf dem Hauptbildschirm der Datenbank befindet</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
@@ -726,4 +726,6 @@
     <string name="passkey_backup_state">Passkey-Backup-Status</string>
     <string name="passkey_backup_eligibility">Passkey-Backup-Erlaubnis</string>
     <string name="passkeys_close_database_summary">Datenbank nach der Passwortauswahl schließen</string>
+    <string name="credential_provider">Anmeldeinformationsanbieter</string>
+    <string name="passkeys_explanation_summary">Passkeys für eine schnelle und sichere Anmeldung ohne Passwort konfigurieren</string>
 </resources>

@@ -1,0 +1,1 @@
+Jelszavak és kulcsok kezelése helyi, nyílt forráskódú tárolóban
