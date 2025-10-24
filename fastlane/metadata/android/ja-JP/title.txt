@@ -1,1 +1,1 @@
-KeePassDX - パスワード管理ツール
+KeePassDX パスワード管理ツール

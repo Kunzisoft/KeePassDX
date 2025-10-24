@@ -1,1 +1,1 @@
-Güvenilir açık kaynaklı parola kasa ve yöneticisi
+Yerel ve açık kaynaklı bir kasada geçiş anahtarı / parolalarınızı yönetin

@@ -290,7 +290,7 @@
     <string name="lock_database_screen_off_title">画面ロック</string>
     <string name="lock_database_screen_off_summary">画面がオフになった数秒後に、データベースをロックします</string>
     <string name="lock_database_back_root_title">[戻る] を押してロック</string>
-    <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをタップしたとき、データベースをロックします</string>
+    <string name="lock_database_back_root_summary">データベースのルート画面にいる場合、‘戻る‘ を押してデータベースをロックしてください</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
     <string name="lock_database_show_button_summary">ユーザー インターフェースにロックボタンを表示します</string>
     <string name="device_unlock">デバイスのロック解除</string>

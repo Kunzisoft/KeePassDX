@@ -1,1 +1,1 @@
-Bezpečný open-source trezor a správce hesel
+Spravujte přístupové klíče a hesla v lokálním a open-source trezoru

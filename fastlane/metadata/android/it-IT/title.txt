@@ -1,1 +1,1 @@
-KeePassDX - gestore password
+Cassaforte di pass(key/word) KeePassDX

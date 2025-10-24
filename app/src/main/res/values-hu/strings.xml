@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="feedback">Visszajelzés</string>
-    <string name="homepage">Honlap</string>
+    <string name="homepage">Weboldal</string>
     <string name="about_description">A KeePass jelszókezelő androidos megvalósítása.</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
@@ -29,7 +29,7 @@
     <string name="application">Alkalmazás</string>
     <string name="menu_app_settings">Alkalmazásbeállítások</string>
     <string name="brackets">Zárójelek</string>
-    <string name="file_manager_install_description">Az adatbázisfájlok létrehozásához, megnyitásához és mentéséhez szükség van egy fájlkezelőre, amely képes fogadni az ACTION_CREATE_DOCUMENT és ACTION_OPEN_DOCUMENT Intenteket.</string>
+    <string name="file_manager_install_description">Az adatbázisfájlok létrehozásához, megnyitásához és mentéséhez szükség van egy fájlkezelőre, amely képes fogadni az ACTION_CREATE_DOCUMENT és ACTION_OPEN_DOCUMENT intenteket.</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólaphiba</string>
     <string name="clipboard_error">Egyes eszközök nem engedik, hogy az alkalmazások használják a vágólapot.</string>
@@ -56,7 +56,7 @@
     <string name="entry_password">Jelszó</string>
     <string name="save">Mentés</string>
     <string name="entry_title">Cím</string>
-    <string name="entry_url">URL</string>
+    <string name="entry_url">Webcím</string>
     <string name="entry_user_name">Felhasználónév</string>
     <string name="error_arc4">Az Arcfour adatfolyam-titkosítás nem támogatott.</string>
     <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePassDX-ben.</string>
@@ -83,7 +83,7 @@
     <string name="hint_length">Hossz</string>
     <string name="hint_pass">Jelszó</string>
     <string name="password">Jelszó</string>
-    <string name="invalid_credentials">A hitelesítő adatok nem olvashatók.</string>
+    <string name="invalid_credentials">A hitelesítési adatok nem olvashatók.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
     <string name="keyfile_is_empty">A kulcsfájl üres.</string>
@@ -106,11 +106,11 @@
     <string name="menu_open">Megnyitás</string>
     <string name="menu_search">Keresés</string>
     <string name="menu_showpass">Jelszó megjelenítése</string>
-    <string name="menu_url">Ugrás az URL-re</string>
+    <string name="menu_url">Ugrás a webcímre</string>
     <string name="minus">Mínusz</string>
     <string name="never">Soha</string>
     <string name="no_results">Nincs találat</string>
-    <string name="no_url_handler">Telepítsen egy webböngészőt az URL megnyitásához.</string>
+    <string name="no_url_handler">Telepítsen egy webböngészőt a webcím megnyitásához.</string>
     <string name="progress_create">Új adatbázis létrehozása…</string>
     <string name="progress_title">Feldolgozás…</string>
     <string name="protection">Védelem</string>
@@ -127,15 +127,13 @@
     <string name="search">Keresés</string>
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis-verzió.</string>
-    <string name="uppercase">Nagybetűs</string>
+    <string name="uppercase">Nagybetűk</string>
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket az adatbázis-fájlban (a nem felismert karakterek mert ugyanarra a betűre lesznek alakítva).</string>
     <string name="version_label">Verzió: %1$s</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
     <string name="unavailable">Nem érhető el</string>
-    <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
-\n
-\nKészítsen biztonsági mentést az adatbázisról minden egyes módosítás után.</string>
+    <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist. \n \nBiztonsági mentés létrehozása az adatbázisról minden egyes módosítás után.</string>
     <string-array name="list_size_options">
         <item>Kicsi</item>
         <item>Közepes</item>
@@ -184,8 +182,8 @@
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>
     <string name="autofill_sign_in_prompt">Bejelentkezés a KeePassDX-szel</string>
-    <string name="set_credential_provider_service_title">Alapértelmezett automatikus kitöltési szolgáltatás beállítása</string>
-    <string name="autofill_explanation_summary">Automatikus kitöltés engedélyezése az űrlapok gyors kitöltéséhez más alkalmazásokban</string>
+    <string name="set_credential_provider_service_title">Hitelesítő adatkezelő szolgáltatás</string>
+    <string name="autofill_explanation_summary">Automatikus kitöltés az űrlapok gyors kitöltéséhez más alkalmazásokban</string>
     <string name="password_size_title">Előállított jelszó mérete</string>
     <string name="password_size_summary">Beállítja az előállított jelszavak alapértelmezett méretét</string>
     <string name="list_password_generator_options_title">Jelszó karakterek</string>
@@ -193,7 +191,7 @@
     <string name="clipboard">Vágólap</string>
     <string name="clipboard_notifications_title">Vágólap-értesítések</string>
     <string name="clipboard_notifications_summary">Vágólap-értesítések megjelenítése a bejegyzésmezők másolásakor</string>
-    <string name="clipboard_warning">Ha a vágólap automatikus törlése meghiúsul, akkor törölje kézzel az előzményeket.</string>
+    <string name="clipboard_warning">Ha a vágólap automatikus törlése meghiúsul, akkor törölje saját kezűleg az előzményeket.</string>
     <string name="lock">Zárolás</string>
     <string name="lock_database_screen_off_title">Képernyőzár</string>
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása néhány másodperc után, ha a képernyő kikapcsol</string>
@@ -217,7 +215,7 @@
     <string name="allow_copy_password_warning">Figyelmeztetés: A vágólapon osztozik az összes alkalmazás. Ha érzékeny adatokat másol, akkor a többi szoftver is hozzáférhet.</string>
     <string name="database_name_title">Adatbázis neve</string>
     <string name="database_description_title">Adatbázis leírása</string>
-    <string name="database_version_title">Adatbázis verzió</string>
+    <string name="database_version_title">Adatbázis-verzió</string>
     <string name="text_appearance">Szöveg</string>
     <string name="application_appearance">Felhasználói felület</string>
     <string name="other">Egyéb</string>
@@ -243,7 +241,7 @@
     <string name="keyboard_key_vibrate_title">Rezgés gombnyomáskor</string>
     <string name="keyboard_key_sound_title">Hang gombnyomáskor</string>
     <string name="allow_no_password_title">Mesterkulcs elhagyásának engedélyezése</string>
-    <string name="allow_no_password_summary">A „Megnyitás” gomb engedélyezése, ha nincsenek hitelesítő adatok kiválasztva</string>
+    <string name="allow_no_password_summary">A „Megnyitás” gomb engedélyezése, ha nincsenek hitelesítési adatok kiválasztva</string>
     <string name="enable_education_screens_title">Oktatóképernyők</string>
     <string name="enable_education_screens_summary">Elemek kiemelése, hogy megtudja hogyan működik az alkalmazás</string>
     <string name="reset_education_screens_title">Oktatóképernyők visszaállítása</string>
@@ -278,18 +276,18 @@
     <string name="education_lock_summary">Zárolja gyorsan az adatbázist, beállíthatja hogy az alkalmazás lezárja egy idő után, valamint ha a képernyőt kikapcsolja.</string>
     <string name="education_sort_title">Elemek rendezése</string>
     <string name="education_sort_summary">Válasszon, hogy az elemek és csoportok hogyan legyenek rendezve.</string>
-    <string name="education_donation_title">Közreműködés</string>
+    <string name="education_donation_title">Részvétel</string>
     <string name="education_entry_edit_summary">Szerkessze a bejegyzése egyéni mezőit. Az adatok hivatkozhatóak a különböző mezők között.</string>
     <string name="education_donation_summary">Segítsen a stabilitás és a biztonság növelésében, és az új funkciók hozzáadásában.</string>
     <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
     <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális stílushoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális stílus&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
     <string name="html_text_donation">Azzal, hogy &lt;strong&gt;hozzájárul&lt;/strong&gt; a projekthez &lt;i&gt;(pénzzel, kóddal, fordítással)&lt;/i&gt;, segít abban, hogy a projekt tovább éljen és gyarapodjon, továbbá Ön jogosulttá válik a &lt;strong&gt;téma&lt;/strong&gt;feloldásának lehetősége.</string>
-    <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;támogatására&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
+    <string name="html_text_dev_feature">Ez a funkció <strong>fejlesztés alatt áll</strong>, és az Ön <strong>közreműködésére</strong> van szükség, hogy hamarosan elérhető legyen.</string>
     <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
-    <string name="html_text_dev_feature_contibute">A &lt;strong&gt;támogatással&lt;/strong&gt;</string>
-    <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy &lt;strong&gt;új funkciókat&lt;/strong&gt; készítsenek, és &lt;strong&gt;hibákat javítsanak&lt;/strong&gt; az észrevételei alapján.</string>
-    <string name="html_text_dev_feature_thanks">Köszönjük a támogatását.</string>
+    <string name="html_text_dev_feature_contibute">A <strong>közreműködésével</strong>,</string>
+    <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy <strong>új funkciókat</strong> hozzanak létre, és <strong>hibákat javítsanak</strong> az észrevételei alapján.</string>
+    <string name="html_text_dev_feature_thanks">Köszönjük a közreműködését.</string>
     <string name="html_text_dev_feature_work_hard">Keményen dolgozunk, hogy gyorsan kiadjuk ezt a funkciót.</string>
     <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>
     <string name="download">Letöltés</string>
@@ -315,7 +313,7 @@
     <string name="clear_clipboard_notification_title">Zárolás bezáráskor</string>
     <string name="lock_database_show_button_summary">Megjeleníti a zárolás gombot a felhasználói felületen</string>
     <string name="lock_database_show_button_title">Zárolás gomb megjelenítése</string>
-    <string name="lock_database_back_root_summary">Az adatbázis zárolása, ha a felhasználó a vissza gombra kattint az indítóképernyőn</string>
+    <string name="lock_database_back_root_summary">Nyomja meg a „Vissza” gombot az adatbázis zárolásához, ha az adatbázis indítóképernyőjén tartózkodik</string>
     <string name="autofill_preference_title">Automatikus kitöltés beállításai</string>
     <string name="warning_database_link_revoked">A fájlhoz történő hozzáférést visszavonta a fájlkezelő</string>
     <string name="warning_database_read_only">Fájlírási-hozzáférés megadása az adatbázis-változások mentéséhez</string>
@@ -330,7 +328,7 @@
     <string name="auto_focus_search_summary">Keresés kérése az adatbázis megnyitásakor</string>
     <string name="error_create_database">Az adatbázisfájl létrehozása sikertelen.</string>
     <string name="error_label_exists">Ez a címke már létezik.</string>
-    <string name="html_about_contribution">A &lt;strong&gt;szabadságunk megtartása&lt;/strong&gt;, a &lt;strong&gt;hibák javítása&lt;/strong&gt;, a &lt;strong&gt;funkciók hozzáadása&lt;/strong&gt; és az &lt;strong&gt;állandó aktivitás&lt;/strong&gt; érdekében számítunk a &lt;strong&gt;támogatására&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">A <strong>szabadságunk megtartása</strong>, a <strong>hibák javítása</strong>, a <strong>funkciók hozzáadása</strong> és az <strong>állandó aktivitás</strong> érdekében számítunk a <strong>közreműködésére</strong>.</string>
     <string name="entry_add_attachment">Melléklet hozzáadása</string>
     <string name="entry_add_field">Mező hozzáadása</string>
     <string name="entry_password_generator">Jelszógenerátor</string>
@@ -355,7 +353,7 @@
     <string name="enable_auto_save_database_summary">Az adatbázis mentése minden fontos művelet után („Módosítható” módban)</string>
     <string name="enable_auto_save_database_title">Adatbázis automatikus mentése</string>
     <string name="recycle_bin_group_title">Kuka csoportja</string>
-    <string name="keystore_not_accessible">Az kulcstár nincs helyesen előkészítve.</string>
+    <string name="keystore_not_accessible">A KeyStore nincs helyesen előkészítve.</string>
     <string name="warning_permanently_delete_nodes">Biztos, hogy végleg törli a kiválasztott csomópontokat\?</string>
     <string name="command_execution">Parancs végrehajtása…</string>
     <string name="menu_empty_recycle_bin">Kuka ürítése</string>
@@ -393,7 +391,7 @@
     <string name="error_otp_counter">A számlálónak %1$d és %2$d között kell lennie.</string>
     <string name="error_otp_secret_key">A titkos kulcsnak Base32 formátumban kell lennie.</string>
     <string name="error_copy_group_here">Csoport nem másolható ide.</string>
-    <string name="error_disallow_no_credentials">Legalább egy hitelesíti módot be kell állítani.</string>
+    <string name="error_disallow_no_credentials">Legalább egy hitelesítési módot be kell állítani.</string>
     <string name="error_invalid_OTP">Érvénytelen OTP titok.</string>
     <string name="entry_otp">OTP</string>
     <string name="otp_algorithm">Algoritmus</string>
@@ -421,7 +419,7 @@
     <string name="content_description_password_length">Jelszó hossza</string>
     <string name="content_description_entry_icon">Bejegyzésikon</string>
     <string name="content_description_repeat_toggle_password_visibility">Jelszó láthatóságának átváltásának megismétlése</string>
-    <string name="content_description_node_children">Csomópont gyermekei</string>
+    <string name="content_description_node_children">Alárendelt csomópontok</string>
     <string name="delete_entered_password_summary">Törli a beírt jelszót az adatbázishoz való kapcsolódási kísérlet után</string>
     <string name="delete_entered_password_title">Jelszó törlése</string>
     <string name="keyboard_selection_entry_summary">A Mágikus billentyűzet kitöltése azzal a bejegyzéssel, amelyet megtekint a KeePassDX-ben</string>
@@ -430,7 +428,7 @@
     <string name="lock_database_back_root_title">Nyomja meg a „Vissza” gombot a zároláshoz</string>
     <string name="do_not_kill_app">Ne lője ki az alkalmazást…</string>
     <string name="selection_mode">Kiválasztási mód</string>
-    <string name="keyboard_previous_database_credentials_title">Adatbázis-hitelesítőadatok képernyője</string>
+    <string name="keyboard_previous_database_credentials_title">Adatbázis-hitelesítő képernyő</string>
     <string name="keyboard_change">Billentyűzet váltása</string>
     <string name="keyboard_save_search_info_title">Megosztott információk mentése</string>
     <string name="notification">Értesítés</string>
@@ -438,7 +436,7 @@
     <string name="database_data_remove_unlinked_attachments_title">Nem összekapcsolt adatok eltávolítása</string>
     <string name="data">Adatok</string>
     <string name="biometric_security_update_required">Biometrikus biztonsági frissítés szükséges.</string>
-    <string name="configure_biometric">Nincs biometrikus vagy eszközazonosító beállítva.</string>
+    <string name="configure_biometric">Nincs biometrikus vagy eszközhitelesítési adat beállítva.</string>
     <string name="warning_empty_keyfile_explanation">A kulcsfájl tartalmának sosem szabad megváltoznia, és a legjobb esetben véletlenszerűen előállított adatokat kellene tartalmaznia.</string>
     <string name="warning_empty_keyfile">Nem ajánlott, hogy üres kulcsfájl adjon hozzá.</string>
     <string name="warning_sure_remove_data">Mindenképp törli ezeket az adatokat\?</string>
@@ -456,7 +454,7 @@
     <string name="subdomain_search_title">Aldomain keresés</string>
     <string name="error_registration_read_only">Az új elem mentése nem engedélyezett írásvédett adatbázisban.</string>
     <string name="error_string_type">A szöveg nem egyezik a kért elemmel.</string>
-    <string name="content_description_credentials_information">Hitelesítő adatok információi</string>
+    <string name="content_description_credentials_information">Hitelesítési adatok információi</string>
     <string name="content_description_add_item">Elem hozzáadása</string>
     <string name="export_app_properties_summary">Fájl létrehozása az alkalmazásbeállítások exportálásához</string>
     <string name="export_app_properties_title">Alkalmazásbeállítások exportálása</string>
@@ -473,7 +471,7 @@
     <string name="error_rebuild_list">A lista újbóli összeállítása sikertelen.</string>
     <string name="error_database_uri_null">Az adatbázis URI nem kérhető le.</string>
     <string name="error_field_name_already_exists">A mezőnév már létezik.</string>
-    <string name="error_otp_type">A meglévő OTP típus nem ismert ebben a formában, a kiértékelése nem biztos, hogy helyes tokent fog előállítani.</string>
+    <string name="error_otp_type">A meglévő OTP típus nem felismerhető ebben az űrlapban, és érvényesítése már nem biztosítja a token helyes generálását.</string>
     <string name="error_word_reserved">Ez egy foglalt szó, és nem használható.</string>
     <string name="version">Verzió</string>
     <string name="template">Sablon</string>
@@ -518,25 +516,25 @@
     <string name="autofill_select_entry">Válasszon bejegyzést…</string>
     <string name="warning_database_info_changed_options">Adatok egyesítése, majd a külső módosítások felülírása az adatbázis mentésével, vagy újratöltés a legfrissebb változtatásokkal.</string>
     <string name="device_unlock_prompt_store_credential_title">Hivatkozás az eszköz feloldásához</string>
-    <string name="device_unlock_prompt_store_credential_message">Továbbra is meg kell jegyeznie a széf fő jelszavát, ha az eszköz feloldásfelismerését használja.</string>
-    <string name="device_unlock_prompt_extract_credential_message">Adatbázis hitelesítő adatainak kinyerése az eszköz adatfeloldásával</string>
+    <string name="device_unlock_prompt_store_credential_message">Ha az eszköz feloldásának felismerését használja, akkor is meg kell jegyeznie a széf fő hitelesítési adatait.</string>
+    <string name="device_unlock_prompt_extract_credential_message">Adatbázis hitelesítési adatainak kinyerése az eszköz feloldási adatok alapján</string>
     <string name="device_unlock_invalid_key">Az eszközfeloldási kulcs nem olvasható. Törölje, és ismételje meg a feloldásfelismerési folyamatot.</string>
     <string name="device_unlock_not_recognized">Az eszközfeloldási ujjlenyomat nem ismerhető fel</string>
     <string name="device_unlock_prompt_not_initialized">Az eszközfeloldási képernyő előkészítése sikertelen.</string>
     <string name="properties">Tulajdonságok</string>
-    <string name="device_credential">Eszköz hitelesítő adatai</string>
+    <string name="device_credential">Eszköz hitelesítési adatai</string>
     <string name="temp_device_unlock_enable_summary">Ne tároljon semmilyen titkosított tartalmat az eszközfeloldás használatához</string>
     <string name="temp_device_unlock_timeout_title">Eszközfeloldás lejárati ideje</string>
     <string name="warning_database_revoked">A fájl elérését visszavonta a fájlkezelő, zárja be az adatbázist és nyissa meg újra a helyéről.</string>
     <string name="warning_exact_alarm">Nem engedélyezte az alkalmazásnak, hogy pontos riasztást használjon. Ezért az időzítőt használó funkciók nem a pontos időt fogják használni.</string>
-    <string name="device_unlock_prompt_extract_credential_title">Eszköz feloldásfelismerése</string>
+    <string name="device_unlock_prompt_extract_credential_title">Eszköz feloldásának felismerése</string>
     <string name="credential_before_click_device_unlock_button">Írja be a jelszót, majd kattintson erre a gombra.</string>
     <string name="temp_device_unlock_enable_title">Ideiglenes eszközfeloldás</string>
     <string name="permission">Engedély</string>
     <string name="content">Tartalom</string>
     <string name="device_unlock_tap_delete">Koppintson az eszközfeloldási kulcsok törléséhez</string>
-    <string name="device_credential_unlock_enable_title">Eszköz hitelesítő adataival történő feloldás</string>
-    <string name="device_credential_unlock_enable_summary">Lehetővé teszi, hogy az eszköz hitelesítő adataival nyissa meg az adatbázist</string>
+    <string name="device_credential_unlock_enable_title">Eszköz hitelesítési adataival történő feloldás</string>
+    <string name="device_credential_unlock_enable_summary">Lehetővé teszi, hogy az eszköz hitelesítési adataival nyissa meg az adatbázist</string>
     <string name="autofill_application_id_blocklist_title">Letiltott alkalmazások</string>
     <string name="menu_merge_database">Adatok egyesítése</string>
     <string name="autofill_close_database_title">Adatbázis bezárása</string>
@@ -576,7 +574,7 @@
     <string name="show_uuid_summary">Megjeleníti a bejegyzéshez vagy csoporthoz tartozó UUID-t</string>
     <string name="show_otp_token_title">OTP token megjelenítése</string>
     <string name="device_unlock_delete_all_key_warning">Törli az összes, az eszközfeloldás-felismeréshez tartozó titkosítási kulcsot\?</string>
-    <string name="keyboard_save_search_info_summary">A könnyebb jövőbeli használat érdekében próbálja menteni a megosztott információkat a kézi bejegyzéskiválasztásnál</string>
+    <string name="keyboard_save_search_info_summary">A könnyebb jövőbeli használat érdekében próbálja menteni a megosztott információkat a kézi bejegyzés kiválasztásánál</string>
     <string name="custom_fields">Egyéni mezők</string>
     <string name="back_to_previous_keyboard">Vissza az előző billentyűzethez</string>
     <string name="upload_attachment">%1$s feltöltése</string>
@@ -587,10 +585,10 @@
     <string name="autofill_web_domain_blocklist_title">Letiltott webes domainek</string>
     <string name="autofill_ask_to_save_data_title">Adatok mentésének kérése</string>
     <string name="education_device_unlock_title">Eszközadatbázis feloldása</string>
-    <string name="education_device_unlock_summary">A jelszó összekötése a leolvasott biometrikus adatokkal vagy eszköz-hitelesítőadatokkal, hogy gyorsan feloldhassa az adatbázist.</string>
+    <string name="education_device_unlock_summary">A jelszó összekapcsolása a leolvasott biometrikus adatokkal vagy eszközhitelesítő adatokkal, hogy gyorsan feloldhassa az adatbázist.</string>
     <string name="show_otp_token_summary">Megjeleníti az OTP tokeneket a bejegyzések között</string>
     <string name="education_add_attachment_title">Melléklet hozzáadása</string>
-    <string name="keyboard_previous_database_credentials_summary">Automatikus visszaváltás az előző billentyűzetre az adatbázis-hitelesítőadatok képernyőn</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatikus visszaváltás az előző billentyűzetre az adatbázis-hitelesítő adatok képernyőjén</string>
     <string name="warning_database_info_reloaded">Az adatbázis újratöltése törli a helyileg módosított adatokat.</string>
     <string name="templates">Sablonok</string>
     <string name="error_no_response_from_challenge">Nem kérhető le a válasz a kihívásból.</string>
@@ -625,13 +623,13 @@
     <string name="navigation_drawer_close">A navigációs tálca bezárása</string>
     <string name="html_about_privacy">&lt;strong&gt;Nincsenek felhasználói adatok lekérve&lt;/strong&gt;, az alkalmazás nem kapcsolódik semmilyen külső kiszolgálóhoz, csak helyben működik, és teljes mértékben tiszteletben tartja a felhasználók adatvédelmét.</string>
     <string name="enable_keep_screen_on_summary">Képernyő bekapcsolva tartása egy bejegyzés megtekintésekor vagy szerkesztésekor</string>
-    <string name="title_case">Nagy Kezdőbetűs</string>
+    <string name="title_case">Nagy kezdőbetűs</string>
     <string name="navigation_drawer_open">A navigációs tálca kinyitása</string>
     <string name="content_description_hardware_key_checkbox">Hardverkulcs jelölőnégyzete</string>
     <string name="at_least_one_char">Legalább egy karakter mindegyikből</string>
     <string name="lower_case">kisbetűk</string>
     <string name="screenshot_mode_banner_text">Képernyőképmodul</string>
-    <string name="case_sensitive">Kis- és nagybetű eltérő</string>
+    <string name="case_sensitive">Kis- és nagybetűk megkülönböztetése</string>
     <string name="error_location_unknown">Az adatbázis helye ismeretlen, az adatbázis-művelet nem hajtható végre.</string>
     <string name="content_description_passphrase_word_count">A jelmondat szószáma</string>
     <string name="regex">Reguláris kifejezés</string>
@@ -652,7 +650,7 @@
     <string name="wireless">Wi-Fi</string>
     <string name="error_hardware_key_unsupported">A hardverkulcs nem támogatott.</string>
     <string name="colorize_password_title">Jelszavak színezése</string>
-    <string name="menu_device_unlock_settings_summary">Biometrikus adatok, eszköz-hitelesítőadatok</string>
+    <string name="menu_device_unlock_settings_summary">Biometrikus adatok, eszközhitelesítési adatok</string>
     <string name="error_XML_malformed">Hibásan formázott XML.</string>
     <string name="remember_hardware_key_summary">Követi a használt hardverkulcsokat</string>
     <string name="warning_database_already_opened">Egy adatbázis már nyitva van, előbb zárja be, hogy újat nyisson meg</string>
@@ -662,11 +660,7 @@
     <string name="warning_database_notification_permission">Az értesítési engedély lehetővé teszi az adatbázis állapotának megjelenítését, és az egyszerű ikonnal történő zárolást.
 \n
 \nHa nem aktiválja az engedélyt, akkor a háttérben nyitott adatbázis nem lesz látható, ha egy másik alkalmazás van előtérben.</string>
-    <string name="device_unlock_keystore_warning">A funkció eltárolja a titkosított hitelesítőadatokat az eszköz biztonságos kulcstárában.
-\n
-\nAz operációs rendszer natív API megvalósításától függően lehet, hogy nem lesz teljes értékű.
-\n
-\nEllenőrizze a kulcstár kompatibilitását és biztonságát az eszköz gyártójánál és a használt ROM készítőjénél.</string>
+    <string name="device_unlock_keystore_warning">A funkció eltárolja a titkosított hitelesítési adatokat az eszköz biztonságos KeyStore-jában. \n \nAz operációs rendszer natív API megvalósításától függően lehet, hogy nem lesz teljes értékű. \n \nEllenőrizze a KeyStore kompatibilitását és biztonságát az eszköz gyártójánál, valamint a használt ROM készítőjénél.</string>
     <string name="show_entry_colors_summary">Megjeleníti egy bejegyzés előtér- és háttérszínét</string>
     <string name="unlock_and_link_biometric">Eszközfeloldási hivatkozás</string>
     <string name="warning_copy_permission">Az értesítési engedély szükséges a vágólap-értesítési funkció használatához.</string>
@@ -708,15 +702,41 @@
     <string name="warning_overwrite_data_title">Felülírja a meglévő adatokat?</string>
     <string name="warning_overwrite_data_description">Ez a művelet felülírja a bejegyzésben található meglévő adatokat. Ha a előzmények funkció engedélyezve van, akkor a régi adatokat vissza lehet állítani.</string>
     <string name="credential_provider">Hitelesítési adatok szolgáltatója</string>
-    <string name="passkeys">Biztonsági kulcsok</string>
-    <string name="passkeys_explanation_summary">Biztonsági kulcsok beállítása a gyors és biztonságos jelszó nélküli bejelentkezéshez</string>
-    <string name="passkeys_preference_title">Biztonsági kulcsok beállításai</string>
+    <string name="passkeys">Hozzáférési kulcsok</string>
+    <string name="passkeys_explanation_summary">Hozzáférési kulcsok beállítása a gyors és biztonságos jelszó nélküli bejelentkezéshez</string>
+    <string name="passkeys_preference_title">Hozzáférési kulcsok beállításai</string>
     <string name="passkeys_close_database_title">Adatbázis bezárása</string>
-    <string name="passkeys_close_database_summary">Adatbázis bezárása a biztonsági kulcs kiválasztása után</string>
+    <string name="passkeys_close_database_summary">Adatbázis bezárása a hozzáférési kulcs kiválasztása után</string>
     <string name="passkeys_privileged_apps_title">Emelt jogosultságú alkalmazások</string>
     <string name="passkeys_privileged_apps_summary">A böngészők kezelése az emelt jogosultságú alkalmazások egyéni listájában</string>
     <string name="passkeys_privileged_apps_explanation">FIGYELEM: Az emelt jogosultságú alkalmazás kapuként szolgál a hitelesítés eredetének lekéréséhez. Biztonsági okokból győződjön meg annak jogszerűségéről.</string>
     <string name="passkeys_privileged_apps_ask_title">Az alkalmazás nem ismerhető fel</string>
-    <string name="passkeys_privileged_apps_ask_message">%1$s megkísérli végrehajtani a biztonsági kulcsműveletet.\n\nHozzáadja az emelt jogosultságú alkalmazások listájához?</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s megkísérli végrehajtani a hozzáférési kulcsműveletet.\n\nHozzáadja az emelt jogosultságú alkalmazások listájához?</string>
     <string name="passkeys_missing_signature_app_ask_title">Aláírás hiányzik</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">FIGYELEM: A hozzáférési kulcsot egy másik kliens hozta létre, vagy az aláírás törölve lett. A biztonsági problémák elkerülése érdekében győződjön meg arról, hogy az azonosítani kívánt alkalmazás ugyanahhoz a szolgáltatáshoz tartozik, és jogszerű.\nHa az alkalmazás egy böngésző, ne adja hozzá az aláírását a bejegyzéshez, hanem a beállítások emelt jogosultságú alkalmazások listájához.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s nem ismerhető fel, és hitelesíteni próbál egy meglévő hozzáférési kulccsal.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Alkalmazás-aláírás hozzáadása a hozzáférési kulcs bejegyzéséhez?</string>
+    <string name="passkeys_auto_select_title">Automatikus kiválasztás</string>
+    <string name="passkeys_auto_select_summary">Automatikus kiválasztás, ha csak egy bejegyzés szerepel, és az adatbázis nyitva van, csak akkor, ha a kérő alkalmazás kompatibilis</string>
+    <string name="passkeys_backup_eligibility_title">Biztonsági mentéshez való jogosultság</string>
+    <string name="passkeys_backup_eligibility_summary">A biztonsági mentés létrehozáskor határozza meg, hogy a nyilvános kulcs hitelesítési adatforrása jogosult-e visszaállítani a biztonsági mentést</string>
+    <string name="passkeys_backup_state_title">Biztonsági mentés állapota</string>
+    <string name="passkeys_backup_state_summary">Jelzi, hogy a hitelesítési adatokról biztonsági másolat lett létrehozva, és azok egyetlen eszköz elvesztése esetén is védve vannak</string>
+    <string name="credential_provider_service_subtitle">Biztonsági kulcsok, automatikus kitöltés hitelesítési adat szolgáltató</string>
+    <string name="passkey">Hozzáférési kulcs</string>
+    <string name="passkey_service_name">KeePassDX hitelesítési adatok szolgáltató</string>
+    <string name="passkey_creation_description">Hozzáférési kulcs mentése új bejegyzésben</string>
+    <string name="passkey_update_description">Hozzáférési kulcs frissítése a(z) %1$s fájlban</string>
+    <string name="passkey_selection_username">Nem található hozzáférési kulcs</string>
+    <string name="passkey_selection_description">Válasszon egy meglévő hozzáférési kulcsot</string>
+    <string name="passkey_database_username">KeePassDX adatbázis</string>
+    <string name="passkey_locked_database_description">Válassza a feloldáshoz</string>
+    <string name="passkey_username">Hozzáférési kulcs felhasználóneve</string>
+    <string name="passkey_private_key">Hozzáférési kulcs privát kulcsa</string>
+    <string name="passkey_credential_id">Hozzáférési kulcs hitelesítési azonosítója</string>
+    <string name="passkey_user_handle">Hozzáférési kulcs felhasználói kezelője</string>
+    <string name="passkey_relying_party">Hozzáférési kulcs megbízható fele</string>
+    <string name="passkey_backup_eligibility">Hozzáférési kulcs mentésének jogosultsága</string>
+    <string name="passkey_backup_state">Hozzáférési kulcs mentésének állapota</string>
+    <string name="error_passkey_result">A hozzáférési kulcs visszaadása nem lehetséges</string>
 </resources>
