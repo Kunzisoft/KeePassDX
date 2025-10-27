@@ -510,54 +510,46 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 // Merge by modification time
                 if (entry.lastModificationTime.isBefore(entryToMerge.lastModificationTime)) {
                     // Update entry with databaseEntryToMerge and merge history
-                    addHistory(entry, entryToMerge)
-                    if (parentEntryToMerge == entry.parent) {
-                        // Update the current entry to keep modification
-                        entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
-                        // Move the current entry to the verified location
-                        database.removeEntryFrom(entry, entry.parent)
-                        database.addEntryTo(entry, parentEntryToMerge)
-                    } else {
-                        // Remove the current entry and add the entry to merge to the correct location
-                        database.removeEntryFrom(entry, entry.parent)
-                        database.addEntryTo(entryToMerge, parentEntryToMerge)
-                    }
+                    entryToMerge.addHistoryFrom(entry)
+                    entry.updateWith(entryToMerge, copyHistory = true, updateParents = false)
+                    // Move the current entry to the verified location
+                    database.removeEntryFrom(entry, entry.parent)
+                    database.addEntryTo(entry, parentEntryToMerge)
                 } else if (entry.lastModificationTime.isAfter(entryToMerge.lastModificationTime)) {
                     // Don't touch the location but update the entry history
-                    addHistory(entryToMerge, entry)
+                    entry.addHistoryFrom(entryToMerge)
                 } else if (entry.lastModificationTime.isEquals(entryToMerge.lastModificationTime)) {
                     // If it's the same modification time, simply move entry to the right location,
                     // Current entry and entry to merge are normally the same
                     database.removeEntryFrom(entry, entry.parent)
-                    database.addEntryTo(entryToMerge, parentEntryToMerge)
+                    database.addEntryTo(entry, parentEntryToMerge)
                 }
             }
         }
     }
 
     /**
-     * Utility method to merge an history from an [entryA] to an [entryB],
-     * [entryB] is modified
+     * Utility method to merge an history from an [entryA]
      */
-    private fun addHistory(entryA: EntryKDBX, entryB: EntryKDBX) {
+    private fun EntryKDBX.addHistoryFrom(entryA: EntryKDBX) {
         // Keep entry as history if already not present
         entryA.history.forEach { history ->
             // If history not present
-            if (!entryB.history.any {
+            if (!this.history.any {
                     it.lastModificationTime == history.lastModificationTime
                 }) {
-                entryB.addEntryToHistory(history)
+                this.addEntryToHistory(history)
             }
         }
         // Last entry not present
-        if (entryB.history.find {
+        if (this.history.find {
                 it.lastModificationTime == entryA.lastModificationTime
             } == null) {
             val history = EntryKDBX().apply {
                 updateWith(entryA, copyHistory = false, updateParents = false)
                 parent = null
             }
-            entryB.addEntryToHistory(history)
+            this.addEntryToHistory(history)
         }
     }
 
@@ -587,19 +579,16 @@ class DatabaseKDBXMerger(private var database: DatabaseKDBX) {
                 mergeCustomData(group.customData, groupToMerge.customData)
                 // Merge by modification time
                 if (group.lastModificationTime.isBefore(groupToMerge.lastModificationTime)) {
-                    if (parentGroupToMerge == group.parent) {
-                        group.updateWith(groupToMerge, updateParents = false)
-                        // Update the current group location to the verified one
-                        database.removeGroupFrom(group, group.parent)
-                        database.addGroupTo(group, parentGroupToMerge)
-                    } else {
-                        database.removeGroupFrom(group, group.parent)
-                        database.addGroupTo(groupToMerge, parentGroupToMerge)
-                    }
+                    group.updateWith(groupToMerge, updateParents = false)
+                    // Update the current group location to the verified one
+                    database.removeGroupFrom(group, group.parent)
+                    database.addGroupTo(group, parentGroupToMerge)
+                } else if (group.lastModificationTime.isAfter(group.lastModificationTime)) {
+                    // Don't touch the location
                 } else if (group.lastModificationTime.isEquals(groupToMerge.lastModificationTime)) {
                     // If it's the same modification time, simply move group to the right location
                     database.removeGroupFrom(group, group.parent)
-                    database.addGroupTo(groupToMerge, parentGroupToMerge)
+                    database.addGroupTo(group, parentGroupToMerge)
                 }
             }
         }
