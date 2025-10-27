@@ -274,6 +274,8 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupEditViewModel.selectIcon(icon)
     }
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -13,6 +13,8 @@ abstract class ExternalSettingsActivity : DatabaseModeActivity() {
 
     private var lockView: FloatingActionButton? = null
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -124,6 +124,8 @@ class MainCredentialActivity : DatabaseModeActivity() {
     private var mReadOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
 
+    override fun manageDatabaseInfo(): Boolean  = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

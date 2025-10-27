@@ -70,13 +70,11 @@ class AutofillLauncherActivity : DatabaseModeActivity() {
             autofillLauncherViewModel.manageRegistrationResult(it)
         }
 
-    override fun applyCustomStyle(): Boolean {
-        return false
-    }
+    override fun applyCustomStyle(): Boolean = false
 
-    override fun finishActivityIfReloadRequested(): Boolean {
-        return true
-    }
+    override fun finishActivityIfReloadRequested(): Boolean = true
+
+    override fun manageDatabaseInfo(): Boolean  = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // To apply the bypass https://github.com/Kunzisoft/KeePassDX/issues/2238

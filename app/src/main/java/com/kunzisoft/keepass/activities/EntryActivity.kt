@@ -125,6 +125,8 @@ class EntryActivity : DatabaseLockActivity() {
     private var mBackgroundColor: Int? = null
     private var mForegroundColor: Int? = null
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
