@@ -87,7 +87,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                             showDialog(uiState.progressMessage)
                         }
                         is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                            // nothing here, wait for the action to finish
+                            stopDialog()
                         }
                         is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
                             onDatabaseActionFinished(

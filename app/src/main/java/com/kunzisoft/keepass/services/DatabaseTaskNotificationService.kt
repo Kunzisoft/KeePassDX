@@ -262,11 +262,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     )
                 }
             } else {
+                /* Do not stopped here, service cannot be connected
                 mActionTaskListeners.forEach { actionTaskListener ->
                     actionTaskListener.onActionStopped(
                         database
                     )
-                }
+                }*/
             }
         }
     }
