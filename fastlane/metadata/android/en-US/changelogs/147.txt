@@ -1,2 +1,3 @@
  * Fix database merge algorithm #2223
  * Fix save search info #2243
+ * Fix Play Service as privileged app for Passkey Cross Device Authentication #2244
