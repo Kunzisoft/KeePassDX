@@ -1,1 +1,2 @@
  * Correction de l'algorithme de fusion des bases de données #2223
+ * Correction de la sauvegarde des infos de recherche #2243

@@ -1,5 +1,6 @@
 KeePassDX(4.2.2)
  * Fix database merge algorithm #2223
+ * Fix save search info #2243
 
 KeePassDX(4.2.1)
  * Fix Magikeyboard autosearch #2233
