@@ -1,1 +1,1 @@
-KeePassDX - FOSS 密碼管理器
+KeePassDX Pass(key/word) Vault

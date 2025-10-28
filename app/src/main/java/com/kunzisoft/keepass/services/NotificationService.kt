@@ -17,6 +17,7 @@ import android.util.TypedValue
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
@@ -112,6 +113,12 @@ abstract class NotificationService : Service() {
         } else {
             startForeground(notificationId, builder.build())
         }
+    }
+
+    protected open fun stopService() {
+        // Stop the service in all cases
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        stopSelf()
     }
 
     protected fun defineTimerJob(builder: NotificationCompat.Builder,

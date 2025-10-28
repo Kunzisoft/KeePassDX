@@ -1,0 +1,4 @@
+ * Correction de l'algorithme de fusion des bases de données #2223
+ * Correction de la sauvegarde des infos de recherche #2243
+ * Correction Play Service comme appli privilégiée pour l'authentification Passkey multi-appareils #2244
+ * Small fixes

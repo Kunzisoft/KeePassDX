@@ -121,7 +121,6 @@ class DatabaseTaskProvider(
     }
 
     private fun initServiceConnection() {
-        actionTaskListener?.onActionStopped()
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {
                 override fun onBindingDied(name: ComponentName?) {

@@ -28,6 +28,8 @@ class KeyGeneratorActivity : DatabaseLockActivity() {
     private lateinit var validationButton: View
     private var lockView: View? = null
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     private val keyGeneratorViewModel: KeyGeneratorViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

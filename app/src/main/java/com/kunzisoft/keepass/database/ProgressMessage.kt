@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 
 data class ProgressMessage(
     @StringRes
-    var titleId: Int,
+    var titleId: Int? = null,
     @StringRes
     var messageId: Int? = null,
     @StringRes

@@ -94,6 +94,8 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
+    override fun manageDatabaseInfo(): Boolean  = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -250,13 +252,13 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                         database,
                         false
                     )
+                    coordinatorLayout.showActionErrorIfNeeded(result)
                 }
                 ACTION_DATABASE_LOAD_TASK -> {
                     launchGroupActivityIfLoaded(database)
                 }
             }
         }
-        coordinatorLayout.showActionErrorIfNeeded(result)
     }
 
     /**

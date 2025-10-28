@@ -56,6 +56,8 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
 
     override fun finishActivityIfReloadRequested() = false
 
+    override fun manageDatabaseInfo(): Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         entrySelectionViewModel.initialize()

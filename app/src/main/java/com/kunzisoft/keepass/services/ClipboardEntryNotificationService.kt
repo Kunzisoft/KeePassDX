@@ -62,7 +62,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             sendBroadcast(Intent(LOCK_ACTION))
         }
         // Stop the service
-        stopSelf()
+        stopService()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

@@ -262,11 +262,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     )
                 }
             } else {
+                /* Do not stopped here, service cannot be connected
                 mActionTaskListeners.forEach { actionTaskListener ->
                     actionTaskListener.onActionStopped(
                         database
                     )
-                }
+                }*/
             }
         }
     }
@@ -338,7 +339,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val intentAction = intent?.action
 
         if (intentAction == null && !database.loaded) {
-            stopSelf()
+            stopService()
         }
 
         val actionRunnable: ActionRunnable? = when (intentAction) {
@@ -447,10 +448,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 // Stop service after save if user remove task
                                 if (save && mTaskRemovedRequested) {
-                                    actionOnLock()
+                                    stopService()
                                 } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!database.loaded) {
-                                        stopSelf()
+                                        stopService()
                                     } else {
                                         // Restart the service to open lock notification
                                         try {
@@ -535,11 +536,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(iconId)
-            intent?.let {
-                setContentTitle(getString(
-                    intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId))
-                )
-            }
+            val titleId = mProgressMessage.titleId?.let {
+                intent?.getIntExtra(DATABASE_TASK_TITLE_KEY, it)
+            } ?: R.string.app_name
+            setContentTitle(getString(titleId))
             setAutoCancel(false)
             setContentIntent(null)
         }
@@ -673,7 +673,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         updateMessage(R.string.decrypting_db)
     }
 
-    override fun actionOnLock() {
+    override fun stopService() {
         if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
             // Remove the database during the lock
@@ -685,7 +685,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Remove the lock timer (no more needed if it exists)
             TimeoutHelper.cancelLockTimer(this)
             // Service is stopped after receive the broadcast
-            super.actionOnLock()
+            super.stopService()
         }
     }
 
@@ -729,7 +729,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Close channels
             closeChallengeResponse()
             // Restore previous message
-            mProgressMessage = previousMessage
+            mProgressMessage = previousMessage.apply {
+                cancelable = null
+            }
             notifyProgressMessage()
         }
         return response

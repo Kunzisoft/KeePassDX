@@ -157,6 +157,8 @@ class EntryEditActivity : DatabaseLockActivity(),
         }
     }
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entry_edit)

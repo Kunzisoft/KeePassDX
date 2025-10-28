@@ -370,9 +370,11 @@ abstract class DatabaseLockActivity : DatabaseModeActivity(),
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(R.string.lock) { _, _ ->
                     sendBroadcast(Intent(LOCK_ACTION))
+                    finish()
                 }.create().show()
         } else {
             sendBroadcast(Intent(LOCK_ACTION))
+            finish()
         }
     }
 

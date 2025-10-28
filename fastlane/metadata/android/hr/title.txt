@@ -1,1 +1,1 @@
-KeePassDX – FOSS trezor za lozinke
+KeePassDX Pass(key/word) Vault

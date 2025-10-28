@@ -274,6 +274,8 @@ class GroupActivity : DatabaseLockActivity(),
         mGroupEditViewModel.selectIcon(icon)
     }
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -871,8 +873,9 @@ class GroupActivity : DatabaseLockActivity(),
                                         entryVersioned,
                                         searchInfo.toRegisterInfo()
                                     )
+                                } else {
+                                    entrySelectedForKeyboardSelection(database, entryVersioned)
                                 }
-                                entrySelectedForKeyboardSelection(database, entryVersioned)
                             }
                             TypeMode.PASSKEY -> {
                                 entrySelectedForPasskeySelection(database, entryVersioned)
@@ -887,8 +890,9 @@ class GroupActivity : DatabaseLockActivity(),
                                         entryVersioned,
                                         searchInfo.toRegisterInfo()
                                     )
+                                } else {
+                                    entrySelectedForAutofillSelection(database, entryVersioned)
                                 }
-                                entrySelectedForAutofillSelection(database, entryVersioned)
                             }
                         }
                         loadGroup()

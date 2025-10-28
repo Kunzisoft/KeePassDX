@@ -159,5 +159,7 @@ object AppOriginEntryField {
      */
     fun Field.isWebDomain(): Boolean {
         return this.name.startsWith(WEB_DOMAIN_FIELD_NAME)
+                || this.name.contains("_$WEB_DOMAIN_FIELD_NAME")
+                || this.name.contains("${WEB_DOMAIN_FIELD_NAME}_")
     }
 }

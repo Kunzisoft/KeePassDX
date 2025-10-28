@@ -98,25 +98,43 @@ object AppUtil {
         }
 
         val processedPackageNames = mutableSetOf<String>()
-
         for (resolveInfo in resolveInfoList) {
             val packageName = resolveInfo.activityInfo.packageName
             if (packageName != null && !processedPackageNames.contains(packageName)) {
-                try {
-                    val packageInfo = packageManager.getPackageInfo(
-                        packageName,
-                        PackageManager.GET_SIGNING_CERTIFICATES
-                    )
-                    val signatureFingerprints = packageInfo.signingInfo?.getAllFingerprints()
-                    signatureFingerprints?.let {
-                        browserList.add(AndroidPrivilegedApp(packageName, signatureFingerprints))
-                        processedPackageNames.add(packageName)
-                    }
-                } catch (e: Exception) {
-                    Log.e(AppUtil::class.simpleName, "Error processing package: $packageName", e)
+                buildAndroidPrivilegedApp(packageManager, packageName)?.let { privilegedApp ->
+                    browserList.add(privilegedApp)
+                    processedPackageNames.add(packageName)
                 }
             }
         }
+
+        // Add the Play Service
+        val gServices = "com.google.android.gms"
+        buildAndroidPrivilegedApp(packageManager, gServices)?.let { privilegedApp ->
+            browserList.add(privilegedApp)
+            processedPackageNames.add(gServices)
+        }
+
         return browserList.distinctBy { it.packageName } // Ensure uniqueness just in case
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    private fun buildAndroidPrivilegedApp(
+        packageManager: PackageManager,
+        packageName: String
+    ): AndroidPrivilegedApp? {
+        return try {
+            val packageInfo = packageManager.getPackageInfo(
+                packageName,
+                PackageManager.GET_SIGNING_CERTIFICATES
+            )
+            val signatureFingerprints = packageInfo.signingInfo?.getAllFingerprints()
+            signatureFingerprints?.let {
+                 AndroidPrivilegedApp(packageName, signatureFingerprints)
+            }
+        } catch (e: Exception) {
+            Log.e(AppUtil::class.simpleName, "Error processing package: $packageName", e)
+            null
+        }
     }
 }

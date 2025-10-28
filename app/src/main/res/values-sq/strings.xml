@@ -569,7 +569,7 @@
     <string name="icon_pack_choose_summary">Paketë ikonash të përdorura te aplikacioni</string>
     <string name="hide_expired_entries_summary">Zërat e skaduar nuk shfaqen</string>
     <string name="set_credential_provider_service_title">Caktoni shërbim parazgjedhje vetëplotësimesh</string>
-    <string name="autofill_explanation_summary">Aktivizoni vetëplotësimet, për të plotësuar shpejt formularë në aplikacione të tjerë</string>
+    <string name="autofill_explanation_summary">Formësoni vetëplotësimet, për të plotësuar shpejt formularë në aplikacione të tjerë</string>
     <string name="autofill_preference_title">Rregullime vetëplotësimi</string>
     <string name="password_size_summary">Cakton madhësinë parazgjedhje për fjalëkalimet e prodhuar</string>
     <string name="list_password_generator_options_summary">Caktoni shenja të lejuara për prodhuesin e fjalëkalimeve</string>
@@ -623,14 +623,14 @@
     <string name="education_field_copy_summary">Ç’kopjohet te fusha, mund të ngjitet kudo.\n\nPërdorni metodën mbushje formularësh, nëse parapëlqeni.</string>
     <string name="education_donation_summary">Ndihmoni të shtohet qëndrueshmëria, siguria dhe në shtimin e më tepër veçorive.</string>
     <string name="html_text_ad_free">Ndryshe nga shumë aplikacione administrimi fjalëkalimesh, ky është &lt;strong&gt;pa reklama&lt;/strong&gt;, &lt;strong&gt;<em>software</em> i lirë në <em>copylef</em>&lt;/strong&gt; dhe s’grumbullon të dhëna personale në shërbyesit e tij, pavarësisht versionit që përdorni.</string>
-    <string name="html_text_buy_pro">Duke blerë versionin Pro, do të mund të përdorni këtë &lt;strong&gt;stil pamor&lt;/strong&gt; dhe do të ndihmoni veçanërisht në &lt;strong&gt;realizimin e projekteve të bashkësisë.&lt;strong&gt;</string>
+    <string name="html_text_buy_pro">Duke blerë versionin Pro, do të mund të përdorni këtë &lt;strong&gt;stil pamor&lt;/strong&gt; dhe do të ndihmoni veçanërisht në &lt;strong&gt;realizimin e projekteve të bashkësisë.&lt;/strong&gt;</string>
     <string name="error_arc4">S’mbulohet shifër “Arcfour stream”.</string>
     <string name="warning_file_too_big">Një bazë të dhënash KeePass supozohet se përmban vetëm kartela të vockla mjetesh (b.f., kartela kyçesh PGP).\n\nMe këtë ngarkim baza juaj e të dhënave mund të bëhet shumë e madhe dhe të ulet funksionimi i saj.</string>
     <string name="education_read_only_summary">Ndryshoni mënyrë hapjeje për këtë sesion. \n \n“Mbrojtur nga shkimi” parandalon ndryshime të paqëllimta te baza e të dhënave. \n“E ndryshueshme” ju lejon të shtoni, fshini ose ndryshoni krejt elementët, sipas dëshirës.</string>
     <string name="html_text_dev_feature_encourage">po i nxisni zhvilluesit të krijojnë &lt;strong&gt;veçori të reja&lt;/strong&gt; dhe të &lt;strong&gt;ndreqin të meta&lt;/strong&gt; në përputhje me sugjerimet tuaja.</string>
     <string name="warning_large_keyfile">Nuk rekomandohet të shtohet një kartelë kyç e madhe, kjo mund të pengojë hapjen e bazës së të dhënave.</string>
     <string name="education_entry_edit_summary">Përpunojeni zërin tuaj me fusha vetjake. Pool data can be referenced between different entry fields.</string>
-    <string name="error_otp_type">Lloji OTP ekzistues s’njihet nga ky formular, vlerësimi i tij mund të mos prodhojë më saktë token-in.</string>
+    <string name="error_otp_type">Lloji OTP ekzistues s’njihet nga ky formular dhe vlerësimi i tij mund të mos prodhojë më saktë token-in.</string>
     <string name="warning_database_read_only">Akordo hyrje për shkrim kartelash, që të ruhen ndryshimet e bazës së të dhënave</string>
     <string name="warning_database_info_changed_options">Përzieni të dhënat, mbishkruani ndryshimet që nga jashtë duke e ruajtur bazën e të dhënave, ose duke e ringarkuar me ndryshimet më të reja.</string>
     <string name="warning_database_revoked">Hyrja te kartela e shfuqizuar nga përgjegjësi i kartelave, mbylleni bazën e të dhënave dhe rihapeni që prej vendndodhjes së saj.</string>

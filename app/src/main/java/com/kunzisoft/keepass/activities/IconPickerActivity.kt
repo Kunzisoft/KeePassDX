@@ -78,6 +78,8 @@ class IconPickerActivity : DatabaseLockActivity() {
 
     private var mExternalFileHelper: ExternalFileHelper? = null
 
+    override fun manageDatabaseInfo(): Boolean = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

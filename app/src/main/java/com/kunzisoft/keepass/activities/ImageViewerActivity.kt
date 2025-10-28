@@ -45,6 +45,8 @@ class ImageViewerActivity : DatabaseLockActivity() {
     private lateinit var imageView: ImageView
     private lateinit var progressView: View
 
+    override fun manageDatabaseInfo(): Boolean = false
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
