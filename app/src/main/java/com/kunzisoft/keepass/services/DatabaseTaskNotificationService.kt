@@ -339,7 +339,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         val intentAction = intent?.action
 
         if (intentAction == null && !database.loaded) {
-            stopSelf()
+            stopService()
         }
 
         val actionRunnable: ActionRunnable? = when (intentAction) {
@@ -448,10 +448,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                                 TimeoutHelper.releaseTemporarilyDisableTimeout()
                                 // Stop service after save if user remove task
                                 if (save && mTaskRemovedRequested) {
-                                    actionOnLock()
+                                    stopService()
                                 } else if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                                     if (!database.loaded) {
-                                        stopSelf()
+                                        stopService()
                                     } else {
                                         // Restart the service to open lock notification
                                         try {
@@ -673,7 +673,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         updateMessage(R.string.decrypting_db)
     }
 
-    override fun actionOnLock() {
+    override fun stopService() {
         if (!TimeoutHelper.temporarilyDisableLock) {
             closeDatabase(mDatabase)
             // Remove the database during the lock
@@ -685,7 +685,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Remove the lock timer (no more needed if it exists)
             TimeoutHelper.cancelLockTimer(this)
             // Service is stopped after receive the broadcast
-            super.actionOnLock()
+            super.stopService()
         }
     }
 

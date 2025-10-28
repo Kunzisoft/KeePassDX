@@ -165,7 +165,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     }
                 }
                 if (attachmentNotificationList.isEmpty()) {
-                    stopSelf()
+                    stopService()
                 }
             }
         }
