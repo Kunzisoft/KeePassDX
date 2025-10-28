@@ -252,13 +252,13 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
                         database,
                         false
                     )
+                    coordinatorLayout.showActionErrorIfNeeded(result)
                 }
                 ACTION_DATABASE_LOAD_TASK -> {
                     launchGroupActivityIfLoaded(database)
                 }
             }
         }
-        coordinatorLayout.showActionErrorIfNeeded(result)
     }
 
     /**
