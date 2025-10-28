@@ -735,7 +735,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             // Close channels
             closeChallengeResponse()
             // Restore previous message
-            mProgressMessage = previousMessage
+            mProgressMessage = previousMessage.apply {
+                cancelable = null
+            }
             notifyProgressMessage()
         }
         return response

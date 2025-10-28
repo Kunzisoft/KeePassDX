@@ -68,42 +68,33 @@ open class ProgressTaskDialogFragment : DialogFragment() {
 
                 isCancelable = false
 
+                lifecycleScope.launch {
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        progressTaskViewModel.progressMessageState.collect { state ->
+                            titleView?.text = state.title
+                            messageView?.text = state.message
+                            warningView?.apply {
+                                state.warning?.let { warning ->
+                                    text = warning
+                                    visibility = View.VISIBLE
+                                } ?: run {
+                                    visibility = View.GONE
+                                }
+                            }
+                            cancelButton?.isVisible = state.cancelable != null
+                            cancelButton?.setOnClickListener {
+                                state.cancelable?.invoke()
+                            }
+                        }
+                    }
+                }
+
                 return builder.create()
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to create progress dialog", e)
         }
         return super.onCreateDialog(savedInstanceState)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                progressTaskViewModel.progressMessageState.collect { state ->
-                    updateView(titleView, state.title)
-                    updateView(messageView, state.message)
-                    updateView(warningView, state.warning)
-                    activity?.lifecycleScope?.launch {
-                        cancelButton?.isVisible = state.cancelable != null
-                        cancelButton?.setOnClickListener {
-                            state.cancelable?.invoke()
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun updateView(textView: TextView?, value: String?) {
-        activity?.lifecycleScope?.launch {
-            if (value == null) {
-                textView?.visibility = View.GONE
-            } else {
-                textView?.text = value
-                textView?.visibility = View.VISIBLE
-            }
-        }
     }
 
     companion object {
