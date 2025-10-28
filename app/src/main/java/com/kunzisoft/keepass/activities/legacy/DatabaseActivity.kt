@@ -18,11 +18,11 @@ import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Co
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider.Companion.startDatabaseService
-import com.kunzisoft.keepass.database.ProgressMessage
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
+import com.kunzisoft.keepass.tasks.ProgressTaskViewModel
 import com.kunzisoft.keepass.viewmodels.DatabaseViewModel
 import kotlinx.coroutines.launch
 
@@ -32,6 +32,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     protected val mDatabase: ContextualDatabase?
         get() = mDatabaseViewModel.database
 
+    private val progressTaskViewModel: ProgressTaskViewModel by viewModels()
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
     private var databaseChangedDialogFragment: DatabaseChangedDialogFragment? = null
 
@@ -81,13 +82,13 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                             )
                         }
                         is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                            showDialog(uiState.progressMessage)
+                            progressTaskViewModel.start(uiState.progressMessage)
                         }
                         is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                            showDialog(uiState.progressMessage)
+                            progressTaskViewModel.update(uiState.progressMessage)
                         }
                         is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                            stopDialog()
+                            progressTaskViewModel.stop()
                         }
                         is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
                             onDatabaseActionFinished(
@@ -95,8 +96,20 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                 uiState.actionTask,
                                 uiState.result
                             )
-                            stopDialog()
+                            progressTaskViewModel.stop()
                         }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                progressTaskViewModel.progressTaskState.collect { state ->
+                    when (state) {
+                        ProgressTaskViewModel.ProgressTaskState.Start ->
+                            showDialog()
+                        ProgressTaskViewModel.ProgressTaskState.Stop ->
+                            stopDialog()
                     }
                 }
             }
@@ -194,7 +207,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
-    private fun showDialog(progressMessage: ProgressMessage) {
+    private fun showDialog() {
         lifecycleScope.launch {
             if (showDatabaseDialog()) {
                 if (progressTaskDialogFragment == null) {
@@ -207,12 +220,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                         supportFragmentManager,
                         PROGRESS_TASK_DIALOG_TAG
                     )
-                }
-                progressTaskDialogFragment?.apply {
-                    updateTitle(progressMessage.titleId)
-                    updateMessage(progressMessage.messageId)
-                    updateWarning(progressMessage.warningId)
-                    setCancellable(progressMessage.cancelable)
                 }
             }
         }
