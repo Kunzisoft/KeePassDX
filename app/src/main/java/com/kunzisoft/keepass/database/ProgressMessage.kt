@@ -1,8 +1,13 @@
 package com.kunzisoft.keepass.database
 
+import androidx.annotation.StringRes
+
 data class ProgressMessage(
-    var title: String,
-    var message: String? = null,
-    var warning: String? = null,
+    @StringRes
+    var titleId: Int? = null,
+    @StringRes
+    var messageId: Int? = null,
+    @StringRes
+    var warningId: Int? = null,
     var cancelable: (() -> Unit)? = null
 )

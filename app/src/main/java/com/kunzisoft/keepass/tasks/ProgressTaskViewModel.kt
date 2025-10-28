@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class ProgressTaskViewModel: ViewModel() {
 
-    private val mProgressMessageState = MutableStateFlow(ProgressMessage(""))
+    private val mProgressMessageState = MutableStateFlow(ProgressMessage())
     val progressMessageState: StateFlow<ProgressMessage> = mProgressMessageState
 
     private val mProgressTaskState = MutableStateFlow<ProgressTaskState>(ProgressTaskState.Stop)

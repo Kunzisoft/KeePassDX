@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.MainCredential
 import com.kunzisoft.keepass.database.ProgressMessage
@@ -62,6 +61,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.hardware.HardwareKey
+import com.kunzisoft.keepass.credentialprovider.activity.HardwareKeyActivity
 import com.kunzisoft.keepass.model.CipherEncryptDatabase
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -112,7 +112,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mTaskRemovedRequested = false
     private var mSaveState = false
 
-    private lateinit var mProgressMessage: ProgressMessage
+    private var mProgressMessage: ProgressMessage = ProgressMessage(R.string.database_opened)
 
     override fun retrieveChannelId(): String {
         return CHANNEL_DATABASE_ID
@@ -305,13 +305,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mResponseChallengeChannel = null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        mProgressMessage = ProgressMessage(
-            title = getString(R.string.database_opened)
-        )
-    }
-
     override fun onBind(intent: Intent): IBinder? {
         super.onBind(intent)
         return mActionTaskBinder
@@ -398,9 +391,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             TimeoutHelper.temporarilyDisableTimeout()
 
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.title)
-                                putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.message)
-                                putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warning)
+                                putExtra(DATABASE_TASK_TITLE_KEY, mProgressMessage.titleId)
+                                putExtra(DATABASE_TASK_MESSAGE_KEY, mProgressMessage.messageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, mProgressMessage.warningId)
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
@@ -513,8 +506,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             R.drawable.notification_ic_database_action
 
         // Title depending on action
-        mProgressMessage.title =
-            getString(if (intentAction == null) {
+        mProgressMessage.titleId =
+            if (intentAction == null) {
                 R.string.database_opened
             } else when (intentAction) {
                 ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
@@ -529,23 +522,24 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     else
                         R.string.command_execution
                 }
-            })
+            }
 
         // Updated later
-        mProgressMessage.message = null
+        mProgressMessage.messageId = null
 
         // Warning if data is saved
-        mProgressMessage.warning =
+        mProgressMessage.warningId =
             if (mSaveState)
-                getString(R.string.do_not_kill_app)
+                R.string.do_not_kill_app
             else
                 null
 
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(iconId)
-            intent?.let {
-                setContentTitle(intent.getStringExtra(DATABASE_TASK_TITLE_KEY))
-            }
+            val titleId = mProgressMessage.titleId?.let {
+                intent?.getIntExtra(DATABASE_TASK_TITLE_KEY, it)
+            } ?: R.string.app_name
+            setContentTitle(getString(titleId))
             setAutoCancel(false)
             setContentIntent(null)
         }
@@ -666,8 +660,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         }
     }
 
-    private fun updateMessage(@StringRes resId: Int) {
-        mProgressMessage.message = getString(resId)
+    private fun updateMessage(resId: Int) {
+        mProgressMessage.messageId = resId
         notifyProgressMessage()
     }
 
@@ -713,7 +707,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             initializeChallengeResponse()
             val previousMessage = mProgressMessage.copy()
             mProgressMessage.apply {
-                message = getString(R.string.waiting_challenge_request)
+                messageId = R.string.waiting_challenge_request
                 cancelable = {
                     cancelChallengeResponse(R.string.error_cancel_by_user)
                 }
@@ -728,7 +722,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                 )
             // Wait the response
             mProgressMessage.apply {
-                message = getString(R.string.waiting_challenge_response)
+                messageId = R.string.waiting_challenge_response
             }
             notifyProgressMessage()
             response = mResponseChallengeChannel?.receive() ?: byteArrayOf()

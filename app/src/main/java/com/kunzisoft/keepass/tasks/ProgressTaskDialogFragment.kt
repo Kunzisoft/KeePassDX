@@ -71,9 +71,12 @@ open class ProgressTaskDialogFragment : DialogFragment() {
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         progressTaskViewModel.progressMessageState.collect { state ->
-                            updateView(titleView, state.title)
-                            updateView(messageView, state.message)
-                            updateView(warningView, state.warning)
+                            updateView(titleView,
+                                state.titleId?.let { title -> getString(title) })
+                            updateView(messageView,
+                                state.messageId?.let { message -> getString(message) })
+                            updateView(warningView,
+                                state.warningId?.let { warning -> getString(warning) })
                             cancelButton?.isVisible = state.cancelable != null
                             cancelButton?.setOnClickListener {
                                 state.cancelable?.invoke()
