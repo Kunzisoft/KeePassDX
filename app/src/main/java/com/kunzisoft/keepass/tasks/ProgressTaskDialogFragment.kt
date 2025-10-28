@@ -71,16 +71,9 @@ open class ProgressTaskDialogFragment : DialogFragment() {
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         progressTaskViewModel.progressMessageState.collect { state ->
-                            titleView?.text = state.title
-                            messageView?.text = state.message
-                            warningView?.apply {
-                                state.warning?.let { warning ->
-                                    text = warning
-                                    visibility = View.VISIBLE
-                                } ?: run {
-                                    visibility = View.GONE
-                                }
-                            }
+                            updateView(titleView, state.title)
+                            updateView(messageView, state.message)
+                            updateView(warningView, state.warning)
                             cancelButton?.isVisible = state.cancelable != null
                             cancelButton?.setOnClickListener {
                                 state.cancelable?.invoke()
@@ -95,6 +88,15 @@ open class ProgressTaskDialogFragment : DialogFragment() {
             Log.e(TAG, "Unable to create progress dialog", e)
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun updateView(textView: TextView?, value: String?) {
+        if (value == null) {
+            textView?.visibility = View.GONE
+        } else {
+            textView?.text = value
+            textView?.visibility = View.VISIBLE
+        }
     }
 
     companion object {
