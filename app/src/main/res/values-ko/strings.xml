@@ -46,7 +46,7 @@
     <string name="decrypting_db">데이터베이스 컨텐츠 암호 해독 중…</string>
     <string name="default_checkbox">기본 데이터베이스로 사용</string>
     <string name="digits">단위</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft는 보증이 적용되지 않습니다; 이것은 <strong>자유 소프트웨어</strong>이며, <strong>광고가 없습니다</strong>. \n이 것은 보증 없이 있는 그대로, <strong>GPL 버전 3</strong> 라이선스로 제공됩니다.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft는 보증이 적용되지 않습니다; 이것은 &lt;strong&gt;자유 소프트웨어&lt;/strong&gt;이며, &lt;strong&gt;광고가 없습니다&lt;/strong&gt;. \n이 것은 보증 없이 있는 그대로, &lt;strong&gt;GPL 버전 3&lt;/strong&gt; 라이선스로 제공됩니다.</string>
     <string name="entry_accessed">접근됨</string>
     <string name="entry_cancel">취소</string>
     <string name="entry_notes">노트</string>
