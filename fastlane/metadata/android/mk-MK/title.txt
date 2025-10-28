@@ -1,1 +1,1 @@
-KeePassDX - Безбедносен софтвер за лозинки и е слободен софтвер
+KeePassDX Pass(key/word) Vault

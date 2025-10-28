@@ -475,7 +475,7 @@
     <string name="autofill_ask_to_save_data_summary">Запрашивать сохранение данных после завершения заполнения формы</string>
     <string name="autofill_ask_to_save_data_title">Запрос сохранения данных</string>
     <string name="autofill_close_database_summary">Закрывать базу после выбора автозаполнения</string>
-    <string name="autofill_close_database_title">Закрыть базу</string>
+    <string name="autofill_close_database_title">Закрывать базу</string>
     <string name="notification">Уведомление</string>
     <string name="biometric_security_update_required">Требуется обновление биометрической системы безопасности.</string>
     <string name="warning_empty_recycle_bin">Удалить всё содержимое корзины безвозвратно\?</string>
@@ -585,7 +585,7 @@
     <string name="show_otp_token_summary">Показывать токены OTP в списке записей</string>
     <string name="menu_external_icon">Внешний значок</string>
     <string name="autofill_select_entry">Выбор записи…</string>
-    <string name="autofill_manual_selection_summary">Показывать функцию, позволяющую пользователю вручную выбирать запись из базы</string>
+    <string name="autofill_manual_selection_summary">Показывать элемент управления для ручного выбора пользователем записи из базы</string>
     <string name="autofill_manual_selection_title">Ручной выбор</string>
     <string name="hint_icon_name">Название значка</string>
     <string name="permission">Разрешение</string>

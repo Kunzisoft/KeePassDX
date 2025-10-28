@@ -1,1 +1,1 @@
-KeePassDX - Contraseñas FOSS
+KeePassDX Pass(key/word) Vault
