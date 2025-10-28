@@ -1,1 +1,1 @@
-KeePassDX - Parola/Anahtar Kasası
+KeePassDX Pass(key/word) Vault
