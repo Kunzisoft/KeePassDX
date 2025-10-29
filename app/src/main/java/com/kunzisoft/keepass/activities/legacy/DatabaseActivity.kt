@@ -6,10 +6,12 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -58,36 +60,57 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     }
 
     /**
-     * Useful to only waiting for the activity result and prevent any parallel action
-     */
-    protected var mAllowViewModelAction = true
-
-    /**
      * Utility activity result launcher,
      * Used recursively, close each activity with return data
      */
-    protected open var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+    protected var mCredentialActivityResultLauncher: DatabaseActivityResultLauncher =
+        DatabaseActivityResultLauncher(
         registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
+                ActivityResultContracts.StartActivityForResult()
+            ) {
+                setActivityResult(
+                    lockDatabase = false,
+                    resultCode = it.resultCode,
+                    data = it.data
+                )
+            }
+        )
+
+    /**
+     * Custom ActivityResultLauncher to manage the database action
+     */
+    protected class DatabaseActivityResultLauncher(
+        val builder: ActivityResultLauncher<Intent>
+    ) : ActivityResultLauncher<Intent>() {
+
+        /**
+         * Useful to only waiting for the activity result and prevent any parallel action
+         */
+        var allowAction = true
+
+        override fun launch(
+            input: Intent?,
+            options: ActivityOptionsCompat?
         ) {
-            setActivityResult(
-                lockDatabase = false,
-                resultCode = it.resultCode,
-                data = it.data
-            )
+            allowAction = false
+            builder.launch(input, options)
         }
-        get() {
-            // Prevent parallel action
-            mAllowViewModelAction = false
-            return field
+
+        override fun unregister() {
+            builder.unregister()
         }
+
+        override fun getContract(): ActivityResultContract<Intent?, *> {
+            return builder.getContract()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDatabaseViewModel.actionState.collect { uiState ->
-                    if (mAllowViewModelAction) {
+                    if (mCredentialActivityResultLauncher.allowAction) {
                         when (uiState) {
                             is DatabaseViewModel.ActionState.Wait -> {}
                             is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
@@ -147,7 +170,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    if (mAllowViewModelAction) {
+                    if (mCredentialActivityResultLauncher.allowAction) {
                         // Nullable function
                         onUnknownDatabaseRetrieved(database)
                         database?.let {
