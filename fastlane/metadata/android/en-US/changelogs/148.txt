@@ -1,0 +1,4 @@
+ * Fix multiple Passkey selection #2253
+ * Fix database dialog subtitle #2254
+ * Fix save search info if URL present #2255
+ * Small fixes

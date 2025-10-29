@@ -4,30 +4,25 @@ import androidx.lifecycle.ViewModel
 import com.kunzisoft.keepass.database.ProgressMessage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 class ProgressTaskViewModel: ViewModel() {
 
-    private val mProgressMessageState = MutableStateFlow(ProgressMessage())
-    val progressMessageState: StateFlow<ProgressMessage> = mProgressMessageState
-
-    private val mProgressTaskState = MutableStateFlow<ProgressTaskState>(ProgressTaskState.Stop)
+    private val mProgressTaskState = MutableStateFlow<ProgressTaskState>(ProgressTaskState.Hide)
     val progressTaskState: StateFlow<ProgressTaskState> = mProgressTaskState
 
-    fun update(value: ProgressMessage) {
-        mProgressMessageState.value = value
+    fun show(value: ProgressMessage) {
+        mProgressTaskState.update { currentState ->
+            ProgressTaskState.Show(value)
+        }
     }
 
-    fun start(value: ProgressMessage) {
-        mProgressTaskState.value = ProgressTaskState.Start
-        update(value)
-    }
-
-    fun stop() {
-        mProgressTaskState.value = ProgressTaskState.Stop
+    fun hide() {
+        mProgressTaskState.value = ProgressTaskState.Hide
     }
 
     sealed class ProgressTaskState {
-        object Start: ProgressTaskState()
-        object Stop: ProgressTaskState()
+        data class Show(val value: ProgressMessage): ProgressTaskState()
+        object Hide: ProgressTaskState()
     }
 }

@@ -841,7 +841,7 @@ class GroupActivity : DatabaseLockActivity(),
                 // Open child group
                 loadMainGroup(GroupState(group.nodeId, 0))
             } catch (e: ClassCastException) {
-                Log.e(TAG, "Node can't be cast in Group")
+                Log.e(TAG, "Node can't be cast in Group", e)
             }
 
             Type.ENTRY -> try {
@@ -867,6 +867,7 @@ class GroupActivity : DatabaseLockActivity(),
                                 if (!database.isReadOnly
                                     && searchInfo != null
                                     && PreferencesUtil.isKeyboardSaveSearchInfoEnable(this@GroupActivity)
+                                    && entryVersioned.containsSearchInfo(database, searchInfo).not()
                                 ) {
                                     updateEntryWithRegisterInfo(
                                         database,
@@ -884,6 +885,7 @@ class GroupActivity : DatabaseLockActivity(),
                                 if (!database.isReadOnly
                                     && searchInfo != null
                                     && PreferencesUtil.isAutofillSaveSearchInfoEnable(this@GroupActivity)
+                                    && entryVersioned.containsSearchInfo(database, searchInfo).not()
                                 ) {
                                     updateEntryWithRegisterInfo(
                                         database,
@@ -912,7 +914,7 @@ class GroupActivity : DatabaseLockActivity(),
                             finish()
                     })
             } catch (e: ClassCastException) {
-                Log.e(TAG, "Node can't be cast in Entry")
+                Log.e(TAG, "Node can't be cast in Entry", e)
             }
         }
     }
@@ -979,6 +981,17 @@ class GroupActivity : DatabaseLockActivity(),
         entryInfo.saveRegisterInfo(database, registerInfo)
         newEntry.setEntryInfo(database, entryInfo)
         updateEntry(entry, newEntry)
+    }
+
+    private fun Entry.containsSearchInfo(
+        database: ContextualDatabase,
+        searchInfo: SearchInfo
+    ): Boolean {
+        return getEntryInfo(
+            database,
+            raw = true,
+            removeTemplateConfiguration = false
+        ).containsSearchInfo(searchInfo)
     }
 
     private fun finishNodeAction() {

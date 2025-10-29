@@ -32,7 +32,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     val database: ContextualDatabase?
         get() = databaseState.value
 
-    private val mActionState = MutableStateFlow<ActionState>(ActionState.Loading)
+    private val mActionState = MutableStateFlow<ActionState>(ActionState.Wait)
     val actionState: StateFlow<ActionState> = mActionState
 
     private var mDatabaseTaskProvider: DatabaseTaskProvider = DatabaseTaskProvider(
@@ -469,7 +469,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
     }
 
     sealed class ActionState {
-        object Loading: ActionState()
+        object Wait: ActionState()
         object OnDatabaseReloaded: ActionState()
         data class OnDatabaseActionRequested(
             val bundle: Bundle? = null,

@@ -1,13 +1,17 @@
 package com.kunzisoft.keepass.activities.legacy
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +20,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider.Companion.startDatabaseService
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -54,49 +59,104 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
+    /**
+     * Useful to only waiting for the activity result and prevent any parallel action
+     */
+    var credentialResultLaunched = false
+
+    /**
+     * Utility activity result launcher,
+     * Used recursively, close each activity with return data
+     */
+    protected var mCredentialActivityResultLauncher: CredentialActivityResultLauncher =
+        CredentialActivityResultLauncher(
+        registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) {
+                setActivityResult(
+                    lockDatabase = false,
+                    resultCode = it.resultCode,
+                    data = it.data
+                )
+            }
+        )
+
+    /**
+     * Custom ActivityResultLauncher to manage the database action
+     */
+    protected inner class CredentialActivityResultLauncher(
+        val builder: ActivityResultLauncher<Intent>
+    ) : ActivityResultLauncher<Intent>() {
+
+        override fun launch(
+            input: Intent?,
+            options: ActivityOptionsCompat?
+        ) {
+            credentialResultLaunched = true
+            builder.launch(input, options)
+        }
+
+        override fun unregister() {
+            builder.unregister()
+        }
+
+        override fun getContract(): ActivityResultContract<Intent?, *> {
+            return builder.getContract()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null
+            && savedInstanceState.containsKey(CREDENTIAL_RESULT_LAUNCHER_KEY)
+        ) {
+            credentialResultLaunched = savedInstanceState.getBoolean(CREDENTIAL_RESULT_LAUNCHER_KEY)
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDatabaseViewModel.actionState.collect { uiState ->
-                    when (uiState) {
-                        is DatabaseViewModel.ActionState.Loading -> {}
-                        is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
-                            if (finishActivityIfReloadRequested()) {
-                                finish()
+                    if (credentialResultLaunched.not()) {
+                        when (uiState) {
+                            is DatabaseViewModel.ActionState.Wait -> {}
+                            is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
+                                if (finishActivityIfReloadRequested()) {
+                                    finish()
+                                }
                             }
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
-                            if (manageDatabaseInfo()) {
-                                showDatabaseChangedDialog(
-                                    uiState.previousDatabaseInfo,
-                                    uiState.newDatabaseInfo,
-                                    uiState.readOnlyDatabase
+                            is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
+                                if (manageDatabaseInfo()) {
+                                    showDatabaseChangedDialog(
+                                        uiState.previousDatabaseInfo,
+                                        uiState.newDatabaseInfo,
+                                        uiState.readOnlyDatabase
+                                    )
+                                }
+                            }
+                            is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
+                                startDatabasePermissionService(
+                                    uiState.bundle,
+                                    uiState.actionTask
                                 )
                             }
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
-                            startDatabasePermissionService(
-                                uiState.bundle,
-                                uiState.actionTask
-                            )
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                            progressTaskViewModel.start(uiState.progressMessage)
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                            progressTaskViewModel.update(uiState.progressMessage)
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                            progressTaskViewModel.stop()
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                            onDatabaseActionFinished(
-                                uiState.database,
-                                uiState.actionTask,
-                                uiState.result
-                            )
-                            progressTaskViewModel.stop()
+                            is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
+                                progressTaskViewModel.show(uiState.progressMessage)
+                            }
+                            is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
+                                progressTaskViewModel.show(uiState.progressMessage)
+                            }
+                            is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
+                                progressTaskViewModel.hide()
+                            }
+                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                onDatabaseActionFinished(
+                                    uiState.database,
+                                    uiState.actionTask,
+                                    uiState.result
+                                )
+                                progressTaskViewModel.hide()
+                            }
                         }
                     }
                 }
@@ -106,9 +166,9 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 progressTaskViewModel.progressTaskState.collect { state ->
                     when (state) {
-                        ProgressTaskViewModel.ProgressTaskState.Start ->
-                            showDialog()
-                        ProgressTaskViewModel.ProgressTaskState.Stop ->
+                        is ProgressTaskViewModel.ProgressTaskState.Show ->
+                            startDialog()
+                        is ProgressTaskViewModel.ProgressTaskState.Hide ->
                             stopDialog()
                     }
                 }
@@ -117,14 +177,21 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    // Nullable function
-                    onUnknownDatabaseRetrieved(database)
-                    database?.let {
-                        onDatabaseRetrieved(database)
+                    if (credentialResultLaunched.not()) {
+                        // Nullable function
+                        onUnknownDatabaseRetrieved(database)
+                        database?.let {
+                            onDatabaseRetrieved(database)
+                        }
                     }
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(CREDENTIAL_RESULT_LAUNCHER_KEY, credentialResultLaunched)
+        super.onSaveInstanceState(outState)
     }
 
     /**
@@ -207,7 +274,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
-    private fun showDialog() {
+    private fun startDialog() {
         lifecycleScope.launch {
             if (showDatabaseDialog()) {
                 if (progressTaskDialogFragment == null) {
@@ -232,5 +299,9 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
 
     protected open fun showDatabaseDialog(): Boolean {
         return true
+    }
+
+    companion object {
+        const val CREDENTIAL_RESULT_LAUNCHER_KEY = "com.kunzisoft.keepass.CREDENTIAL_RESULT_LAUNCHER_KEY"
     }
 }

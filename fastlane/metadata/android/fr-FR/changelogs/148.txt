@@ -1,0 +1,4 @@
+ * Correction de la selection multiple des Passkeys #2253
+ * Correction du sous-titre du dialogue de la base de données #2254
+ * Correction de la sauvegarde des infos de recherchesi l'URL est present #2255
+ * Petites corrections

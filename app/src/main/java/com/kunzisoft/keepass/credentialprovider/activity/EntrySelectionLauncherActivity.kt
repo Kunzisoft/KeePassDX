@@ -78,6 +78,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             context = this@EntrySelectionLauncherActivity,
                             searchInfo = uiState.searchInfo
                         )
+                        finish()
                     }
                     is EntrySelectionViewModel.UIState.LaunchGroupActivityForSearch -> {
                         GroupActivity.launchForSearch(
@@ -85,6 +86,7 @@ class EntrySelectionLauncherActivity : DatabaseModeActivity() {
                             database = uiState.database,
                             searchInfo = uiState.searchInfo
                         )
+                        finish()
                     }
                 }
             }

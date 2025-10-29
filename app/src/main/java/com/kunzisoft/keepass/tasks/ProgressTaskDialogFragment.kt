@@ -70,16 +70,35 @@ open class ProgressTaskDialogFragment : DialogFragment() {
 
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        progressTaskViewModel.progressMessageState.collect { state ->
-                            updateView(titleView,
-                                state.titleId?.let { title -> getString(title) })
-                            updateView(messageView,
-                                state.messageId?.let { message -> getString(message) })
-                            updateView(warningView,
-                                state.warningId?.let { warning -> getString(warning) })
-                            cancelButton?.isVisible = state.cancelable != null
-                            cancelButton?.setOnClickListener {
-                                state.cancelable?.invoke()
+                        progressTaskViewModel.progressTaskState.collect { state ->
+                            when (state) {
+                                is ProgressTaskViewModel.ProgressTaskState.Show -> {
+                                    val value = state.value
+                                    updateView(
+                                        titleView,
+                                        value.titleId?.let { title ->
+                                            getString(title)
+                                        })
+                                    updateView(
+                                        messageView,
+                                        value.messageId?.let { message ->
+                                            getString(message)
+                                        })
+                                    updateView(
+                                        warningView,
+                                        value.warningId?.let { warning ->
+                                            getString(warning)
+                                        })
+                                    cancelButton?.apply {
+                                        isVisible = value.cancelable != null
+                                        setOnClickListener {
+                                            value.cancelable?.invoke()
+                                        }
+                                    }
+                                }
+                                else -> {
+                                    // Nothing here, this fragment is stopped externally
+                                }
                             }
                         }
                     }

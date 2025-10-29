@@ -71,7 +71,7 @@ object AppOriginEntryField {
     /**
      * Useful to detect if an other KeePass compatibility app already add a web domain or an app id
      */
-    private fun EntryInfo.containsDomainOrApplicationId(search: String): Boolean {
+    fun EntryInfo.containsDomainOrApplicationId(search: String): Boolean {
         if (url.contains(search))
             return true
         return customFields.find {
