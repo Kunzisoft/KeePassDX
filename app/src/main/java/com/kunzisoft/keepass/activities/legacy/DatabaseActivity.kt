@@ -1,9 +1,11 @@
 package com.kunzisoft.keepass.activities.legacy
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +18,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.DatabaseChangedDialogFragment.Companion.DATABASE_CHANGED_DIALOG_TAG
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.credentialprovider.EntrySelectionHelper.setActivityResult
 import com.kunzisoft.keepass.database.ContextualDatabase
 import com.kunzisoft.keepass.database.DatabaseTaskProvider.Companion.startDatabaseService
 import com.kunzisoft.keepass.model.SnapFileDatabaseInfo
@@ -54,49 +57,82 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
+    /**
+     * Useful to only waiting for the activity result and prevent any parallel action
+     */
+    protected var mAllowViewModelAction = true
+
+    /**
+     * Utility activity result launcher,
+     * Used recursively, close each activity with return data
+     */
+    protected open var mCredentialActivityResultLauncher: ActivityResultLauncher<Intent>? =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            setActivityResult(
+                lockDatabase = false,
+                resultCode = it.resultCode,
+                data = it.data
+            )
+        }
+        get() {
+            // Prevent parallel action
+            mAllowViewModelAction = false
+            return field
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDatabaseViewModel.actionState.collect { uiState ->
-                    when (uiState) {
-                        is DatabaseViewModel.ActionState.Loading -> {}
-                        is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
-                            if (finishActivityIfReloadRequested()) {
-                                finish()
+                    if (mAllowViewModelAction) {
+                        when (uiState) {
+                            is DatabaseViewModel.ActionState.Wait -> {}
+                            is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
+                                if (finishActivityIfReloadRequested()) {
+                                    finish()
+                                }
                             }
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
-                            if (manageDatabaseInfo()) {
-                                showDatabaseChangedDialog(
-                                    uiState.previousDatabaseInfo,
-                                    uiState.newDatabaseInfo,
-                                    uiState.readOnlyDatabase
+
+                            is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
+                                if (manageDatabaseInfo()) {
+                                    showDatabaseChangedDialog(
+                                        uiState.previousDatabaseInfo,
+                                        uiState.newDatabaseInfo,
+                                        uiState.readOnlyDatabase
+                                    )
+                                }
+                            }
+
+                            is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
+                                startDatabasePermissionService(
+                                    uiState.bundle,
+                                    uiState.actionTask
                                 )
                             }
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
-                            startDatabasePermissionService(
-                                uiState.bundle,
-                                uiState.actionTask
-                            )
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                            progressTaskViewModel.start(uiState.progressMessage)
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                            progressTaskViewModel.update(uiState.progressMessage)
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                            progressTaskViewModel.stop()
-                        }
-                        is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
-                            onDatabaseActionFinished(
-                                uiState.database,
-                                uiState.actionTask,
-                                uiState.result
-                            )
-                            progressTaskViewModel.stop()
+
+                            is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
+                                progressTaskViewModel.start(uiState.progressMessage)
+                            }
+
+                            is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
+                                progressTaskViewModel.update(uiState.progressMessage)
+                            }
+
+                            is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
+                                progressTaskViewModel.stop()
+                            }
+
+                            is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
+                                onDatabaseActionFinished(
+                                    uiState.database,
+                                    uiState.actionTask,
+                                    uiState.result
+                                )
+                                progressTaskViewModel.stop()
+                            }
                         }
                     }
                 }
@@ -117,10 +153,12 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    // Nullable function
-                    onUnknownDatabaseRetrieved(database)
-                    database?.let {
-                        onDatabaseRetrieved(database)
+                    if (mAllowViewModelAction) {
+                        // Nullable function
+                        onUnknownDatabaseRetrieved(database)
+                        database?.let {
+                            onDatabaseRetrieved(database)
+                        }
                     }
                 }
             }

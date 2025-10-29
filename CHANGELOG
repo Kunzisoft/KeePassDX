@@ -1,3 +1,6 @@
+KeePassDX(4.2.3)
+ * Fix multiple Passkey selection #2253
+
 KeePassDX(4.2.2)
  * Fix database merge algorithm #2223
  * Fix save search info #2243
