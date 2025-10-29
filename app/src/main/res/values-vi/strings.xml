@@ -22,7 +22,7 @@
     <string name="contribution">Đóng góp</string>
     <string name="feedback">Phản hồi</string>
     <string name="homepage">Trang chủ</string>
-    <string name="about_description">Triển khai Android của trình quản lý mật khẩu KeePass</string>
+    <string name="about_description">Phiên bản Android của trình quản lý mật khẩu KeePass</string>
     <string name="accept">Chấp nhận</string>
     <string name="add_entry">Thêm mục</string>
     <string name="edit_entry">Chỉnh sửa mục</string>
@@ -190,7 +190,7 @@
     <string name="error_otp_counter">Bộ đếm phải nằm trong khoảng từ %1$d đến %2$d.</string>
     <string name="error_otp_period">Khoảng thời gian phải nằm trong khoảng từ %1$d đến %2$d giây.</string>
     <string name="error_otp_digits">Mã thông báo phải chứa %1$d đến %2$d chữ số.</string>
-    <string name="error_otp_type">Loại OTP hiện tại không được biểu mẫu này nhận dạng, quá trình xác thực của nó có thể không tạo ra mã thông báo chính xác nữa.</string>
+    <string name="error_otp_type">Loại OTP hiện tại không thể được nhận dạng bởi biểu mẫu này, nó có khả năng không tạo ra mã thông báo chính xác nữa.</string>
     <string name="error_string_type">Văn bản này không khớp với mục được yêu cầu.</string>
     <string name="error_registration_read_only">Không được phép lưu mục mới trong cơ sở dữ liệu chỉ đọc.</string>
     <string name="error_field_name_already_exists">Tên trường đã tồn tại.</string>
@@ -206,7 +206,7 @@
     <string name="error_no_response_from_challenge">Không thể nhận được phản hồi từ thử thách.</string>
     <string name="error_cancel_by_user">Đã bị người dùng hủy.</string>
     <string name="error_driver_required">Cần có trình điều khiển cho %1$s.</string>
-    <string name="error_unable_merge_database_kdb">Không thể hợp nhất từ cơ sở dữ liệu V1.</string>
+    <string name="error_unable_merge_database_kdb">Không thể hợp nhất với cơ sở dữ liệu của tệp kdb.</string>
     <string name="error_location_unknown">Vị trí cơ sở dữ liệu không xác định, hành động cơ sở dữ liệu không thể được thực hiện.</string>
     <string name="error_hardware_key_unsupported">Khóa phần cứng không được hỗ trợ.</string>
     <string name="error_empty_key">Khóa không được để trống.</string>
@@ -260,7 +260,7 @@
     <string name="menu_device_unlock_settings_summary">Sinh trắc học, thông tin xác thực thiết bị</string>
     <string name="menu_database_settings">Thiết đặt cơ sở dữ liệu</string>
     <string name="menu_database_settings_summary">Siêu dữ liệu, thùng rác, mẫu, lịch sử</string>
-    <string name="menu_security_settings">Thiết đặt bảo mật</string>
+    <string name="menu_security_settings">Thiết lập bảo mật</string>
     <string name="menu_security_settings_summary">Mã hóa, hàm dẫn xuất khóa</string>
     <string name="menu_master_key_settings">Thiết đặt khóa chính</string>
     <string name="master_key_settings_summary">Thay đổi, gia hạn</string>
@@ -726,4 +726,7 @@
     <string name="hide_expired_entries_title">Ẩn các mục đã hết hạn</string>
     <string name="hide_expired_entries_summary">Các mục hết hạn không được hiển thị</string>
     <string name="warning_database_info_changed_options_read_only">Tải lại cơ sở dữ liệu với những thay đổi mới nhất.</string>
+    <string name="entry_application_id">ID ứng dụng</string>
+    <string name="error_otp_secret_length">Mã bí mật tối thiểu phải có %1$d ký tự.</string>
+    <string name="generate_keyfile">Tạo ra tệp khóa</string>
 </resources>
