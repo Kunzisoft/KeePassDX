@@ -60,11 +60,16 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     }
 
     /**
+     * Useful to only waiting for the activity result and prevent any parallel action
+     */
+    var credentialResultLaunched = false
+
+    /**
      * Utility activity result launcher,
      * Used recursively, close each activity with return data
      */
-    protected var mCredentialActivityResultLauncher: DatabaseActivityResultLauncher =
-        DatabaseActivityResultLauncher(
+    protected var mCredentialActivityResultLauncher: CredentialActivityResultLauncher =
+        CredentialActivityResultLauncher(
         registerForActivityResult(
                 ActivityResultContracts.StartActivityForResult()
             ) {
@@ -79,20 +84,15 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
     /**
      * Custom ActivityResultLauncher to manage the database action
      */
-    protected class DatabaseActivityResultLauncher(
+    protected inner class CredentialActivityResultLauncher(
         val builder: ActivityResultLauncher<Intent>
     ) : ActivityResultLauncher<Intent>() {
-
-        /**
-         * Useful to only waiting for the activity result and prevent any parallel action
-         */
-        var allowAction = true
 
         override fun launch(
             input: Intent?,
             options: ActivityOptionsCompat?
         ) {
-            allowAction = false
+            credentialResultLaunched = true
             builder.launch(input, options)
         }
 
@@ -107,10 +107,17 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null
+            && savedInstanceState.containsKey(CREDENTIAL_RESULT_LAUNCHER_KEY)
+        ) {
+            credentialResultLaunched = savedInstanceState.getBoolean(CREDENTIAL_RESULT_LAUNCHER_KEY)
+        }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mDatabaseViewModel.actionState.collect { uiState ->
-                    if (mCredentialActivityResultLauncher.allowAction) {
+                    if (credentialResultLaunched.not()) {
                         when (uiState) {
                             is DatabaseViewModel.ActionState.Wait -> {}
                             is DatabaseViewModel.ActionState.OnDatabaseReloaded -> {
@@ -170,7 +177,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 mDatabaseViewModel.databaseState.collect { database ->
-                    if (mCredentialActivityResultLauncher.allowAction) {
+                    if (credentialResultLaunched.not()) {
                         // Nullable function
                         onUnknownDatabaseRetrieved(database)
                         database?.let {
@@ -180,6 +187,11 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(CREDENTIAL_RESULT_LAUNCHER_KEY, credentialResultLaunched)
+        super.onSaveInstanceState(outState)
     }
 
     /**
@@ -287,5 +299,9 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
 
     protected open fun showDatabaseDialog(): Boolean {
         return true
+    }
+
+    companion object {
+        const val CREDENTIAL_RESULT_LAUNCHER_KEY = "com.kunzisoft.keepass.CREDENTIAL_RESULT_LAUNCHER_KEY"
     }
 }
