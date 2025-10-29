@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Field
 import com.kunzisoft.keepass.database.element.Tags
 import com.kunzisoft.keepass.database.element.entry.AutoType
+import com.kunzisoft.keepass.model.AppOriginEntryField.containsDomainOrApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setAppOrigin
 import com.kunzisoft.keepass.model.AppOriginEntryField.setApplicationId
 import com.kunzisoft.keepass.model.AppOriginEntryField.setWebDomain
@@ -181,6 +182,18 @@ class EntryInfo : NodeInfo {
         return this.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
         }
+    }
+
+    /**
+     * True if this entry contains domain or applicationId,
+     * OTP is ignored and considered not present
+     */
+    fun containsSearchInfo(searchInfo: SearchInfo): Boolean {
+        return searchInfo.webDomain?.let { webDomain ->
+            containsDomainOrApplicationId(webDomain)
+        } ?: searchInfo.applicationId?.let { applicationId ->
+            containsDomainOrApplicationId(applicationId)
+        } ?: false
     }
 
     /**

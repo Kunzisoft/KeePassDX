@@ -1,6 +1,7 @@
 KeePassDX(4.2.3)
  * Fix multiple Passkey selection #2253
  * Fix database dialog subtitle #2254
+ * Fix save search info if URL present #2255
 
 KeePassDX(4.2.2)
  * Fix database merge algorithm #2223
