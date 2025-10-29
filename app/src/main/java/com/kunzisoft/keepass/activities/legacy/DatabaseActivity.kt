@@ -95,7 +95,6 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                     finish()
                                 }
                             }
-
                             is DatabaseViewModel.ActionState.OnDatabaseInfoChanged -> {
                                 if (manageDatabaseInfo()) {
                                     showDatabaseChangedDialog(
@@ -105,33 +104,28 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
                                     )
                                 }
                             }
-
                             is DatabaseViewModel.ActionState.OnDatabaseActionRequested -> {
                                 startDatabasePermissionService(
                                     uiState.bundle,
                                     uiState.actionTask
                                 )
                             }
-
                             is DatabaseViewModel.ActionState.OnDatabaseActionStarted -> {
-                                progressTaskViewModel.start(uiState.progressMessage)
+                                progressTaskViewModel.show(uiState.progressMessage)
                             }
-
                             is DatabaseViewModel.ActionState.OnDatabaseActionUpdated -> {
-                                progressTaskViewModel.update(uiState.progressMessage)
+                                progressTaskViewModel.show(uiState.progressMessage)
                             }
-
                             is DatabaseViewModel.ActionState.OnDatabaseActionStopped -> {
-                                progressTaskViewModel.stop()
+                                progressTaskViewModel.hide()
                             }
-
                             is DatabaseViewModel.ActionState.OnDatabaseActionFinished -> {
                                 onDatabaseActionFinished(
                                     uiState.database,
                                     uiState.actionTask,
                                     uiState.result
                                 )
-                                progressTaskViewModel.stop()
+                                progressTaskViewModel.hide()
                             }
                         }
                     }
@@ -142,9 +136,9 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 progressTaskViewModel.progressTaskState.collect { state ->
                     when (state) {
-                        ProgressTaskViewModel.ProgressTaskState.Start ->
-                            showDialog()
-                        ProgressTaskViewModel.ProgressTaskState.Stop ->
+                        is ProgressTaskViewModel.ProgressTaskState.Show ->
+                            startDialog()
+                        is ProgressTaskViewModel.ProgressTaskState.Hide ->
                             stopDialog()
                     }
                 }
@@ -245,7 +239,7 @@ abstract class DatabaseActivity : StylishActivity(), DatabaseRetrieval {
         }
     }
 
-    private fun showDialog() {
+    private fun startDialog() {
         lifecycleScope.launch {
             if (showDatabaseDialog()) {
                 if (progressTaskDialogFragment == null) {

@@ -1,1 +1,2 @@
  * Correction de la selection multiple des Passkeys #2253
+ * Correction du sous-titre du dialogue de la base de données #2254

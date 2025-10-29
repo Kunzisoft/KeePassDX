@@ -661,7 +661,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     }
 
     private fun updateMessage(resId: Int) {
-        mProgressMessage.messageId = resId
+        mProgressMessage = mProgressMessage.copy(
+            messageId = resId
+        )
         notifyProgressMessage()
     }
 
