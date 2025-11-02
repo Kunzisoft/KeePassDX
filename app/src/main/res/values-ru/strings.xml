@@ -183,7 +183,7 @@
     <string name="autofill">Автозаполнение</string>
     <string name="autofill_sign_in_prompt">Войти с KeePassDX</string>
     <string name="autofill_explanation_summary">Настройте службу для быстрого заполнения форм в других приложениях</string>
-    <string name="set_credential_provider_service_title">Использовать службу автозаполнения</string>
+    <string name="set_credential_provider_service_title">Служба автозаполнения</string>
     <string name="password_size_title">Длина создаваемого пароля</string>
     <string name="password_size_summary">Настройка длины создаваемых паролей по умолчанию</string>
     <string name="list_password_generator_options_title">Символы пароля</string>
