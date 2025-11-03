@@ -741,6 +741,8 @@
     <string name="passkey_service_name">KeePassDX-Anmeldeungsdatenanbieter</string>
     <string name="passkey_locked_database_description">Zum Entsperren auswählen</string>
     <string name="passkey_private_key">Passkey Privater Schlüssel</string>
-    <string name="passkey_credential_id"></string>
+    <string name="passkey_credential_id">Passkey-Anmeldeinformation</string>
     <string name="error_passkey_result">Passkey kann nicht zurückgegeben werden</string>
+    <string name="passkey_user_handle">Passkey-Benutzerkennung</string>
+    <string name="passkey_relying_party">Passkey-Vertrauensstelle</string>
 </resources>
