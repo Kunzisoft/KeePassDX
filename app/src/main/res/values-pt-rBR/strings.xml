@@ -744,4 +744,5 @@
     <string name="passkey_backup_eligibility">Elegibilidade para Backup de chave de acesso</string>
     <string name="passkey_backup_state">Status de backup da chave de acesso</string>
     <string name="error_passkey_result">Incapaz de retornar a chave de acesso</string>
+    <string name="passkey_relying_party">Chave de acesso com autenticador externo</string>
 </resources>
