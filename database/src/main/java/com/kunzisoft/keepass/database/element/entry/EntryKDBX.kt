@@ -169,7 +169,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     private fun decodeRefKey(decodeRef: Boolean, key: String, recursionLevel: Int): String {
         return fields[key]?.toString()?.let { text ->
             return if (decodeRef) {
-                mDatabase?.getFieldReferenceValue(text, recursionLevel) ?: text
+                mDatabase?.getFieldReferenceValue(this, text, recursionLevel) ?: text
             } else text
         } ?: ""
     }
@@ -229,8 +229,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    fun getCustomFieldValue(label: String): String {
-        return decodeRefKey(mDecodeRef, label, 0)
+    fun getCustomFieldValue(label: String, recursionLevel: Int = 0): String {
+        return decodeRefKey(mDecodeRef, label, recursionLevel)
     }
 
     fun getSize(attachmentPool: AttachmentPool): Long {
