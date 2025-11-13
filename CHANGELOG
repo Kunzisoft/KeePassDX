@@ -1,5 +1,5 @@
 KeePassDX(4.2.4)
- *
+ * Fix remembering database location #2262
 
 KeePassDX(4.2.3)
  * Fix multiple Passkey selection #2253
