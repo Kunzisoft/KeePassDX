@@ -715,14 +715,14 @@
     <string name="passkey_backup_eligibility">Prieigos rakto atsarginės kopijos tinkamumas</string>
     <string name="passkey_backup_state">Prieigos rakto atsarginės kopijos būsena</string>
     <string name="error_passkey_result">Nepavyko grąžinti prieigos rakto</string>
-    <string name="html_about_contribution">Kad <strong>išlaikytume savo laisvę</strong>, <strong>ištaisytume klaidas</strong>, <strong>pridėtume funkcijų</strong> ir <strong>būtume visada aktyvūs</strong>, mes pasikliaujame jūsų <strong>indėliu</strong>.</string>
+    <string name="html_about_contribution">Kad &lt;strong&gt;išlaikytume savo laisvę&lt;/strong&gt;, &lt;strong&gt;ištaisytume klaidas&lt;/strong&gt;, &lt;strong&gt;pridėtume funkcijų&lt;/strong&gt; ir &lt;strong&gt;būtume visada aktyvūs&lt;/strong&gt;, mes pasikliaujame jūsų &lt;strong&gt;indėliu&lt;/strong&gt;.</string>
     <string name="education_read_only_summary">Pakeiskite atidarymo režimą sesijai.\n\n\"Raišymo apsauga\" apsaugo nuo netyčinių duomenų bazės pakeitimų.\n\"Modifikuojamas\" leidžia pridėti, ištrinti arba modifikuoti visus elementus kaip norite.</string>
-    <string name="html_text_ad_free">Skirtingai nuo daugelio slaptažodžių valdymo programų, ši yra <strong>be reklamų</strong>, <strong>copylefted libre programinė įranga</strong> ir nerenka asmeninių duomenų savo serveriuose, nesvarbu kokią versiją naudojate.</string>
-    <string name="html_text_buy_pro">Perkant pro versiją, turėsite prieigą prie šio <strong>vizualinio stiliaus</strong> ir ypač padėsite <strong>bendruomenės projektų realizacijai.</strong></string>
-    <string name="html_text_feature_generosity">Šis <strong>vizualinis stilius</strong> yra prieinamas dėka jūsų dosnumo.</string>
-    <string name="html_text_donation"><strong>Prisidėdami</strong> prie projekto <i>(pinigais, kodu, vertimu)</i>, padėsite jam gyventi ir klestėti, ir taip pat turėsite teisę į <strong>temos</strong> atrakinimo procedūrą.</string>
-    <string name="html_text_dev_feature">Ši funkcija yra <strong>kūrimo stadijoje</strong> ir reikalauja jūsų <strong>indėlio</strong>, kad būtų prieinama greitai.</string>
-    <string name="html_text_dev_feature_buy_pro">Perkant <strong>pro</strong> versiją,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Prisidėdami</strong>,</string>
-    <string name="html_text_dev_feature_encourage">skatiname kūrėjus kurti <strong>naujas funkcijas</strong> ir <strong>ištaisyti klaidas</strong> pagal jūsų pastabas.</string>
+    <string name="html_text_ad_free">Skirtingai nuo daugelio slaptažodžių valdymo programų, ši yra &lt;strong&gt;be reklamų&lt;/strong&gt;, &lt;strong&gt;copylefted libre programinė įranga&lt;/strong&gt; ir nerenka asmeninių duomenų savo serveriuose, nesvarbu kokią versiją naudojate.</string>
+    <string name="html_text_buy_pro">Perkant pro versiją, turėsite prieigą prie šio &lt;strong&gt;vizualinio stiliaus&lt;/strong&gt; ir ypač padėsite &lt;strong&gt;bendruomenės projektų realizacijai.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Šis &lt;strong&gt;vizualinis stilius&lt;/strong&gt; yra prieinamas dėka jūsų dosnumo.</string>
+    <string name="html_text_donation">&lt;strong&gt;Prisidėdami&lt;/strong&gt; prie projekto &lt;i&gt;(pinigais, kodu, vertimu)&lt;/i&gt;, padėsite jam gyventi ir klestėti, ir taip pat turėsite teisę į &lt;strong&gt;temos&lt;/strong&gt; atrakinimo procedūrą.</string>
+    <string name="html_text_dev_feature">Ši funkcija yra &lt;strong&gt;kūrimo stadijoje&lt;/strong&gt; ir reikalauja jūsų &lt;strong&gt;indėlio&lt;/strong&gt;, kad būtų prieinama greitai.</string>
+    <string name="html_text_dev_feature_buy_pro">Perkant &lt;strong&gt;pro&lt;/strong&gt; versiją,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Prisidėdami&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">skatiname kūrėjus kurti &lt;strong&gt;naujas funkcijas&lt;/strong&gt; ir &lt;strong&gt;ištaisyti klaidas&lt;/strong&gt; pagal jūsų pastabas.</string>
 </resources>
