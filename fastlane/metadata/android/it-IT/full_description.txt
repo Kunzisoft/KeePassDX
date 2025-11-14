@@ -10,6 +10,7 @@ KeePassDX è un <b>gestore di password e passkey</b> open source che permette di
 - Creazione di database crittografati.
 - Organizzazione delle credenziali per voce e strutture ad albero.
 - Apertura e copia rapida di campi URI / URL.
+- Modelli dinamici per ogni tipo di voce.
 - Cronologia di tutte le voci.
 - Gestione precisa delle impostazioni.
 - Material design con temi.

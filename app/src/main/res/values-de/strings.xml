@@ -22,7 +22,7 @@
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Kontakt</string>
-    <string name="contribution">Beiträge</string>
+    <string name="contribution">Beitrag</string>
     <string name="feedback">Feedback</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass.</string>
@@ -498,7 +498,7 @@
     <string name="keyboard_save_search_info_title">Geteilte Informationen speichern</string>
     <string name="warning_empty_recycle_bin">Alle Knoten unwiderruflich aus dem Papierkorb löschen\?</string>
     <string name="error_field_name_already_exists">Der Feldname existiert bereits.</string>
-    <string name="device_unlock_prompt_store_credential_message">Du musst dich weiterhin an deinen Hauptschlüssel erinnern, wenn du die Geräteentsperrung verwendest.</string>
+    <string name="device_unlock_prompt_store_credential_message">Falls die Geräteentsperrung verwendet wird, ist es immer noch notwendig, sich die Hauptzugangsdaten für den Tresor zu merken.</string>
     <string name="menu_keystore_remove_key">Schlüssel für Geräteentsperrung löschen</string>
     <string name="device_unlock_prompt_store_credential_title">Verknüpfung mit Geräteentsperrung</string>
     <string name="education_device_unlock_summary">Eigenes Passwort mit Biometrie- oder Geräteanmeldedaten verknüpfen, um die Datenbank schnell zu entsperren.</string>
@@ -728,4 +728,21 @@
     <string name="passkeys_close_database_summary">Datenbank nach der Passwortauswahl schließen</string>
     <string name="credential_provider">Anmeldeinformationsanbieter</string>
     <string name="passkeys_explanation_summary">Passkeys für eine schnelle und sichere Anmeldung ohne Passwort konfigurieren</string>
+    <string name="passkeys_privileged_apps_summary">Browser in der benutzerdefinierten Liste privilegierter Apps verwalten</string>
+    <string name="passkeys_privileged_apps_explanation">WARNUNG: Eine privilegierte App fungiert als Gateway, um die Herkunft einer Authentifizierung abzurufen. Zur Vermeidung von Sicherheitsproblemen ist ihre Legitimität sicherzustellen.</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s versucht, eine Passkey-Aktion auszuführen.\n\nZur Liste der privilegierten Apps hinzufügen?</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">WARNUNG: Der Passkey wurde von einem anderen Client erstellt oder die Signatur wurde gelöscht. Um Sicherheitsrisiken zu vermeiden, sollte die zu authentifizierende App zum selben Dienst gehören und legitimiert sein.\nWenn es sich bei der App um einen Browser handelt, dann die Signatur nicht zum Eintrag, sondern zur Liste der privilegierten Apps in den Einstellungen hinzufügen.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s wird nicht erkannt und versucht, sich mit einem vorhandenen Passkey zu authentifizieren.</string>
+    <string name="passkeys_missing_signature_app_ask_question">App-Signatur zum Passkey-Eintrag hinzufügen?</string>
+    <string name="passkeys_auto_select_summary">Automatische Auswahl, wenn nur ein Eintrag vorhanden und die Datenbank geöffnet ist, und nur, wenn die anfragende App kompatibel ist</string>
+    <string name="passkeys_backup_eligibility_summary">Bei der Erstellung festlegen, ob die Quelle für öffentliche Schlüssel-Anmeldeinformationen gesichert werden darf</string>
+    <string name="passkeys_backup_state_summary">Anzeigen, dass Anmeldedaten gesichert und gegen den Verlust eines einzelnen Geräts geschützt sind</string>
+    <string name="credential_provider_service_subtitle">Passkeys, Anbieter für das automatische Ausfüllen von Anmeldedaten</string>
+    <string name="passkey_service_name">KeePassDX-Anmeldeungsdatenanbieter</string>
+    <string name="passkey_locked_database_description">Zum Entsperren auswählen</string>
+    <string name="passkey_private_key">Passkey Privater Schlüssel</string>
+    <string name="passkey_credential_id">Passkey-Anmeldeinformation</string>
+    <string name="error_passkey_result">Passkey kann nicht zurückgegeben werden</string>
+    <string name="passkey_user_handle">Passkey-Benutzerkennung</string>
+    <string name="passkey_relying_party">Passkey-Vertrauensstelle</string>
 </resources>
