@@ -1,0 +1,25 @@
+KeePassDX yra atviro kodo <b>prieigos raktų, slaptažodžių seifas ir tvarkyklė</b>, leidžianti redaguoti <b>šifruotus duomenis viename faile</b> atvirame KeePass formate ir <b>saugiai užpildyti formas</b>, <b>nereikalaujanti interneto ryšio</b> ir integruojanti Android dizaino standartus. Programa yra <b>atviro kodo, be reklamų</b>.
+
+<b>Funkcijos</b>
+
+- Prieigos raktai autentifikacijai ir vietiniam privačių raktų saugojimui.
+- Biometrinis atpažinimas greitam atrakinimui (pirštų atspaudas / veido atrakinimas / …).
+- Vienkartinių slaptažodžių valdymas (HOTP / TOTP) dviejų faktorių autentifikacijai (2FA).
+- Automatinis užpildymas lengvam formų užpildymui slaptažodžiais.
+- Magikeyboard efektyviam bet kurio lauko užpildymui.
+- Šifruotų duomenų bazės failų kūrimas.
+- Kvalifikacijų organizavimas pagal įrašus ir grupių medžius.
+- Leidžia greitai atverti ir kopijuoti URI / URL laukus.
+- Dinaminiai šablonai kiekvienam įrašo tipui.
+- Kiekvieno įrašo istorija.
+- Tikslus nustatymų valdymas.
+- Material dizainas su temomis.
+- Palaikymas .kdb ir .kdbx failams (versija 1 iki 4) su AES - Twofish - ChaCha20 - Argon2 algoritmais.
+- Suderinamas su dauguma alternatyvių programų (KeePass, KeePassXC, KeeWeb, …).
+- Kodas parašytas gimtomis kalbomis (Kotlin / Java / JNI / C).
+
+Galite paaukoti arba įsigyti pro versiją geresniam aptarnavimui ir greitam norimų funkcijų kūrimui: <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</a>
+
+Projektas nuolat evoliucionuoja. Nedvejokite patikrinti kitų atnaujinimų kūrimo būsenos: <a href="https://github.com/Kunzisoft/KeePassDX/projects">https://github.com/Kunzisoft/KeePassDX/projects</a>
+
+Siųskite problemas į: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

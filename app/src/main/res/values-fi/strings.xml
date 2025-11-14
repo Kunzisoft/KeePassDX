@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">Palaute</string>
     <string name="homepage">Kotisivu</string>
-    <string name="about_description">KeePass-salasanahallintaohjelman Android-toteutus</string>
+    <string name="about_description">KeePass-salasanahallintaohjelman Android-toteutus.</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
@@ -29,7 +29,7 @@
     <string name="application">Sovellus</string>
     <string name="menu_app_settings">Ohjelman asetukset</string>
     <string name="brackets">Hakasulkeet</string>
-    <string name="file_manager_install_description">Tietokantojen avaamista, luomista ja tallentamista varten tarvitaan tiedostonhallintaohjelma, joka tukee ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT Intent-toimintoja.</string>
+    <string name="file_manager_install_description">Tietokantojen avaamista, luomista ja tallentamista varten tarvitaan tiedostonhallintaohjelma, joka tukee ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT intent-toimintoja.</string>
     <string name="clipboard_cleared">Leikepöytä tyhjennetty</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
     <string name="clipboard_error">Jotkin laitteet eivät anna sovellusten käyttää leikepöytää.</string>
@@ -145,7 +145,7 @@
     <string name="edit_entry">Muokkaa merkintää</string>
     <string name="error_disallow_no_credentials">Ainakin yksi pääsytieto tulee olla asetettuna.</string>
     <string name="error_load_database_KDF_memory">Avainta ei pystytty lataamaan. Kokeile vähentää KDF ”Muistin käyttöä”.</string>
-    <string name="error_load_database">Tietokantaa ei pystytty avaamaan.</string>
+    <string name="error_load_database">Tietokantaa ei pystytty lataamaan.</string>
     <string name="error_invalid_OTP">Virheellinen OTP salaisuus.</string>
     <string name="entry_otp">OTP</string>
     <string name="otp_algorithm">Algoritmi</string>
@@ -173,7 +173,7 @@
     <string name="content_description_repeat_toggle_password_visibility">Toista salasanan näkyvyyden vaihto</string>
     <string name="content_description_keyfile_checkbox">Avaintiedoston valintaruutu</string>
     <string name="content_description_password_checkbox">Salasanan valintaruutu</string>
-    <string name="content_description_file_information">Tietoja tiedostosta</string>
+    <string name="content_description_file_information">Tiedoston tiedot</string>
     <string name="content_description_add_item">Lisää esine</string>
     <string name="content_description_add_group">Lisää ryhmä</string>
     <string name="content_description_add_entry">Lisää kohta</string>
@@ -192,7 +192,7 @@
     <string name="menu_appearance_settings">Ulkonäkö</string>
     <string name="database_history">Historia</string>
     <string name="biometric">Biometrinen</string>
-    <string name="unavailable">Tässä salasanatietokannassa ei ole vielä pääsytietoja.</string>
+    <string name="unavailable">Ei saatavilla</string>
     <string name="keystore_not_accessible">Avainsäilöä ei ole kunnolla alustettu.</string>
     <string name="build_label">Koontiversio %1$s</string>
     <string name="warning_database_link_revoked">Tiedostoon pääsy evätty</string>
@@ -235,7 +235,7 @@
     <string name="memory_usage_explanation">Avaimen johtamisfunktion käyttämän muistin määrä.</string>
     <string name="memory_usage">Muistin käyttö</string>
     <string name="kdf_explanation">Pääavain muunnetaan käyttäen satunnaista suolattua avaimen johtamisfunktiota, jotta salausalgoritmin avain voidaan generoida.</string>
-    <string name="encryption_explanation">Salasanatietokannan salausalgoritmi, jota käytetään kaikelle datalle.</string>
+    <string name="encryption_explanation">Salasanatietokannan salausalgoritmi, jota käytetään kaikelle datalle</string>
     <string name="password_size_title">Generoidun salasanan pituus</string>
     <string name="set_credential_provider_service_title">Aseta oletus automaattiselle täytölle</string>
     <string name="autofill_sign_in_prompt">Kirjaudu sisään KeePassDX:llä</string>
@@ -257,10 +257,10 @@
     <string name="sort_menu">Järjestä</string>
     <string name="parallelism_explanation">Avaimen johtamisfunktion käyttämä rinnakkaisuuden aste (eli säikeiden määrä).</string>
     <string name="show_recent_files_title">Näytä viimeaikaiset tiedostot</string>
-    <string name="remember_keyfile_locations_summary">Muista salasanatietokantojen avaintiedostojen sijainti</string>
-    <string name="remember_keyfile_locations_title">Tallenna avaintiedostojen sijainti</string>
-    <string name="remember_database_locations_summary">Muista salasanatietokantojen sijainti</string>
-    <string name="remember_database_locations_title">Tallenna salasatietokantojen sijainti</string>
+    <string name="remember_keyfile_locations_summary">Tallentaa avaintiedostojen tiedostosijannin</string>
+    <string name="remember_keyfile_locations_title">Muista avaintiedostojen tiedostosijainnin</string>
+    <string name="remember_database_locations_summary">Tallentaa tietokantojen tiedostosijainnit</string>
+    <string name="remember_database_locations_title">Muista tietokantojen sijainnit</string>
     <string name="selection_mode">Valintatila</string>
     <string name="contains_duplicate_uuid_procedure">Ratkaise ongelma generoimalla uudet UUID:t kaksoiskappaleilla jatkaaksesi\?</string>
     <string name="contains_duplicate_uuid">Tietokanta sisältää päällekkäisiä UUID-tunnuksia.</string>
@@ -286,9 +286,9 @@
     <string name="menu_form_filling_settings">Lomakkeen täyttö</string>
     <string name="copy_field">Kopio %1$s:sta</string>
     <string name="creating_database">Luodaan tietokantaa…</string>
-    <string name="list_groups_show_number_entries_summary">Näytä tietueiden määrä ryhmässä</string>
+    <string name="list_groups_show_number_entries_summary">Näyttää tietueiden määrän ryhmässä</string>
     <string name="list_groups_show_number_entries_title">Näytä tietueiden määrä</string>
-    <string name="list_entries_show_username_summary">Näytä käyttäjänimet tietuelistoissa</string>
+    <string name="list_entries_show_username_summary">Näyttää käyttäjänimet tietuelistoissa</string>
     <string name="list_entries_show_username_title">Näytä käyttäjänimet</string>
     <string name="invalid_db_same_uuid">%1$s samalla UUID:lla %2$s on jo olemassa.</string>
     <string name="file_not_found_content">Tiedostoa ei löytynyt. Yritä avata se uudelleen tiedostoselaimessasi.</string>
@@ -367,7 +367,7 @@
     <string name="public_key">Julkinen avain</string>
     <string name="private_key">Salainen avain</string>
     <string name="error_word_reserved">Tämä sana on varattu eikä sitä voi käyttää.</string>
-    <string name="error_otp_type">Olemassaolevaa OTP-tyyppiä ei ole tunnistettu tällä lomakkeella, ja sen validointi ei välttämättä enää tuota oikein tokenia.</string>
+    <string name="error_otp_type">Olemassaolevaa OTP-tyyppiä ei ole tunnistettu tällä lomakkeella, ja sen validointi ei välttämättä enää tuota tokenia oikein.</string>
     <string name="show_uuid_summary">Näyttää tietueen tai ryhmän UUID-tunnisteen</string>
     <string name="generate_keyfile">Luo avaintiedosto</string>
     <string name="nodes">Solmut</string>
@@ -388,16 +388,16 @@
     <string name="error_database_uri_null">Tietokannan URI-osoitetta ei voi palauttaa.</string>
     <string name="error_file_to_big">Lataamasi tiedosto on liian suuri.</string>
     <string name="error_remove_file">Virhe poistaessa tiedoston tietoja.</string>
-    <string name="error_challenge_already_requested">Haaste on jo pyydetty</string>
+    <string name="error_challenge_already_requested">Haaste on jo pyydetty.</string>
     <string name="error_response_already_provided">Vastaus on jo annettu.</string>
     <string name="error_no_response_from_challenge">Vastausta haasteeseen ei voitu saada.</string>
-    <string name="error_unable_merge_database_kdb">Ei voitu yhdistää kdb-tietokantatiedostoon</string>
+    <string name="error_unable_merge_database_kdb">Ei voitu yhdistää kdb-tietokantatiedostoon.</string>
     <string name="error_location_unknown">Tietokannan sijainti ei ole tiedossa, tietokannan toimintaa ei voida suorittaa.</string>
     <string name="error_hardware_key_unsupported">Laitteistoavainta ei tueta.</string>
     <string name="error_empty_key">Avain ei voi olla tyhjä.</string>
     <string name="corrupted_file">Korruptoitunut tiedosto.</string>
     <string name="passphrase">Salalause</string>
-    <string name="error_registration_read_only">Uuden tietueen tallentaminen ei ole sallittua, kun tietokanta on vain lukutilassa</string>
+    <string name="error_registration_read_only">Uuden tietueen tallentaminen ei ole sallittua, kun tietokanta on Vain luku -tilassa.</string>
     <string name="bank_name">Pankin nimi</string>
     <string name="warning_permanently_delete_nodes">Poista pysyvästi valitut solmut?</string>
     <string name="warning_database_info_changed">Tietokantatiedoston sisältämää tietoa on muutettu sovelluksen ulkopuolella.</string>
@@ -416,10 +416,10 @@
     <string name="menu_security_settings_summary">Salaus, avaimen johtamisfunktio</string>
     <string name="master_key_settings_summary">Muutos, uudistus</string>
     <string name="remember_hardware_key_title">Muista laitteistoavaimet</string>
-    <string name="remember_hardware_key_summary">Seuraa käytettyjä laitteistoavaimia</string>
+    <string name="remember_hardware_key_summary">Tallenna käytetyt laitteistoavaimet</string>
     <string name="import_app_properties_title">Tuo sovellusasetukset</string>
     <string name="import_app_properties_summary">Valitse tiedosto tuodaksesi sovellusasetukset</string>
-    <string name="error_import_app_properties">Virhe sovellusasetuksia tuodessa</string>
+    <string name="error_import_app_properties">Virhe sovellusasetuksia tuodessa.</string>
     <string name="filter">Suodatin</string>
     <string name="warning_database_already_opened">Sulje avoinna oleva tietokanta ennen uuden avaamista</string>
     <string name="warning_empty_recycle_bin">Poista pysyvästi kaikki solmut roskakorista?</string>
@@ -435,7 +435,7 @@
     <string name="export_app_properties_title">Vie sovellusasetukset</string>
     <string name="description_app_properties">KeePassDX ominaisuudet sovellusasetusten hallintaan</string>
     <string name="success_import_app_properties">Sovellusasetukset tuotu</string>
-    <string name="error_export_app_properties">Virhe sovellusasetuksia viedessä</string>
+    <string name="error_export_app_properties">Virhe sovellusasetuksia viedessä.</string>
     <string name="success_export_app_properties">Sovellusasetukset tuotu</string>
     <string name="error_otp_secret_length">Secret key on oltava vähintään %1$d merkkiä.</string>
     <string name="warning_database_info_changed_options">Yhdistä tiedot, korvaa ulkoiset muutokset tallentamalla tietokanta tai lataa se uudelleen uusimmilla muutoksilla.</string>
@@ -463,4 +463,24 @@
     <string name="properties">Ominaisuudet</string>
     <string name="menu_appearance_settings_summary">Teemat, värit, kuvakkeet, fontit, attribuutit</string>
     <string name="device_credential">Laitteen tunnistetiedot</string>
+    <string name="entry_application_id">Sovelluksen ID</string>
+    <string name="warning_overwrite_data_title">Tallenna olemassaolevan datan päälle?</string>
+    <string name="warning_overwrite_data_description">Tämä toiminto korvaa tietueessa jo olemassa olevan datan, mutta voit palauttaa vanhan datan jos historia on otettu käyttöön.</string>
+    <string name="configure_biometric">Biometrisiä tunnistetietoja tai laitteen lukitusta ei ole otettu käyttöön.</string>
+    <string name="credential_provider">Tunnistetietojen tarjoaja</string>
+    <string name="passkeys">Pääsyavaimet</string>
+    <string name="passkeys_explanation_summary">Ota pääsyavaimet käyttöön nopeaan ja turvalliseen salasanattomaan kirjautumiseen</string>
+    <string name="passkeys_preference_title">Pääsyavainten asetukset</string>
+    <string name="passkeys_close_database_title">Sulje tietokanta</string>
+    <string name="passkeys_close_database_summary">Sulje tietokanta pääsyavaimen valitsemisen jälkeen</string>
+    <string name="passkeys_privileged_apps_title">Luotetut sovellukset</string>
+    <string name="passkeys_privileged_apps_summary">Hallinnoi selaimia luotettujen sovellustesi listassa</string>
+    <string name="passkeys_privileged_apps_explanation">VAROITUS: Luotettu sovellus toimii porttina tunnistautumisen alkuperän selvittämiseen. Varmista sen aitous välttääksesi tietoturvaongelmia.</string>
+    <string name="passkeys_privileged_apps_ask_title">Sovellusta ei tunnistettu</string>
+    <string name="passkeys_privileged_apps_ask_message">%1$s yrittää pääsyavaintoimintoa.\n\nLisätäänkö se luotettujen sovellusten listaan?</string>
+    <string name="passkeys_missing_signature_app_ask_title">Allekirjoitus puuttuu</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">VAROITUS: Pääsyavain joko luotiin toisessa ohjelmassa tai sen allekirjoitus on poistettu. Varmista, että sovellus jonka haluat todentaa on osana samaa palvelua, ja että se on aito tietoturvaongelmien välttämiseksi.\nJos sovellus on selain, älä lisää sen allekirjoitusta tietueeseen, vaan lisää se asetuksissa luotettujen sovellusten listaan.</string>
+    <string name="passkeys_missing_signature_app_ask_message">%1$s on tuntematon ja se yrittää tunnistautua jo olemassaolevalla pääsyavaimella.</string>
+    <string name="passkeys_missing_signature_app_ask_question">Lisätäänkö sovelluksen allekirjoitus pääsyavaimen tietueeseen?</string>
+    <string name="passkeys_auto_select_title">Automaattinen valinta</string>
 </resources>

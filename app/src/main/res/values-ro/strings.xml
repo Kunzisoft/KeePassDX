@@ -546,7 +546,7 @@
     <string name="error_import_app_properties">Eroare în timpul importării setărilor aplicației.</string>
     <string name="warning_exact_alarm">Nu ați permis aplicației să utilizeze o alarmă exactă. Ca urmare, funcțiile care necesită un cronometru nu se vor face cu o oră exactă.</string>
     <string name="warning_database_info_reloaded">Reîncărcarea bazei de date va șterge datele modificate local.</string>
-    <string name="menu_appearance_settings_summary">Teme, culori, atribute</string>
+    <string name="menu_appearance_settings_summary">Teme, culori, incoane, fonturi, atribute.</string>
     <string name="autofill_preference_title">Setări de autocompletare</string>
     <string name="warning_replace_file">Încărcarea acestui fișier îl va înlocui pe cel existent.</string>
     <string name="content">Conținut</string>
@@ -698,4 +698,17 @@
     <string name="hide_templates_title">Ascundeți șabloanele</string>
     <string name="hide_templates_summary">Șabloanele nu sunt afișate</string>
     <string name="error_otp_secret_length">Cheia secretă trebuie să conțină cel puțin %1$d caractere.</string>
+    <string name="entry_application_id">ID-ul Aplicației</string>
+    <string name="warning_overwrite_data_title">Suprascrii datele existente?</string>
+    <string name="warning_overwrite_data_description">Această acțiune va înlocui datele existente din intrare, puteți recupera datele vechi dacă istoricul este activat.</string>
+    <string name="credential_provider">Credențialele furnizorului</string>
+    <string name="passkeys_privileged_apps_title">Aplicații privilegiate</string>
+    <string name="passkeys_privileged_apps_summary">Gestionați browserele din lista personalizată de aplicații privilegiate</string>
+    <string name="passkeys_privileged_apps_explanation">AVERTISMENT: O aplicație privilegiată acționează ca o poartă de acces pentru a determina originea unei autentificări. Asigurați-vă că este legitimă pentru a evita probleme de securitate.</string>
+    <string name="passkeys_privileged_apps_ask_title">Aplicație nerecunoscută</string>
+    <string name="passkeys_missing_signature_app_ask_title">Lipsește semnătura</string>
+    <string name="passkeys_auto_select_title">Selectare automată</string>
+    <string name="passkeys_auto_select_summary">Selectare automată dacă există o singură intrare și baza de date este deschisă, doar dacă aplicația solicitantă este compatibilă</string>
+    <string name="passkeys_backup_eligibility_title">Eligibilitate pentru copia de siguranță</string>
+    <string name="passkey_locked_database_description">Selectează ca să deblochezi</string>
 </resources>
