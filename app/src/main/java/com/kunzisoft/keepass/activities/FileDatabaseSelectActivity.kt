@@ -55,10 +55,8 @@ import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.hardware.HardwareKey
 import com.kunzisoft.keepass.model.RegisterInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
-import com.kunzisoft.keepass.services.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.AppUtil.isContributingUser
@@ -216,6 +214,12 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
             // Retrieve settings for default database
             mAdapterDatabaseHistory?.setDefaultDatabase(it)
         }
+
+        // Remove all the remember locations if needed
+        if (PreferencesUtil.rememberDatabaseLocations(applicationContext).not()) {
+            FileDatabaseHistoryAction.getInstance(applicationContext)
+                .deleteAll()
+        }
     }
 
     override fun onDatabaseRetrieved(database: ContextualDatabase) {
@@ -228,22 +232,6 @@ class FileDatabaseSelectActivity : DatabaseModeActivity(),
         result: ActionRunnable.Result
     ) {
         if (result.isSuccess) {
-            // Update list
-            when (actionTask) {
-                ACTION_DATABASE_CREATE_TASK,
-                ACTION_DATABASE_LOAD_TASK -> {
-                    result.data?.getParcelableCompat<Uri>(DATABASE_URI_KEY)?.let { databaseUri ->
-                        val mainCredential =
-                            result.data?.getParcelableCompat(DatabaseTaskNotificationService.MAIN_CREDENTIAL_KEY)
-                                ?: MainCredential()
-                        databaseFilesViewModel.addDatabaseFile(
-                            databaseUri,
-                            mainCredential.keyFileUri,
-                            mainCredential.hardwareKey
-                        )
-                    }
-                }
-            }
             // Launch activity
             when (actionTask) {
                 ACTION_DATABASE_CREATE_TASK -> {

@@ -690,11 +690,11 @@
     <string name="passkeys_preference_title">Настройки на ключове за достъп</string>
     <string name="passkeys_close_database_title">Затваряне на хранилище</string>
     <string name="passkeys_close_database_summary">Затваряне на хранилището след избор на ключ за достъп</string>
-    <string name="passkeys_privileged_apps_explanation">ВНИМАНИЕ: Привилегированото приложение работи като шлюз, който получава източника на удостоверяването. За да избегнете проблеми със сигурността се уверете в неговата автентичност.</string>
-    <string name="passkeys_privileged_apps_title">Привилегировани приложения</string>
-    <string name="passkeys_privileged_apps_summary">Управление на мрежови четци в потребителския списък с привилегировани приложения</string>
+    <string name="passkeys_privileged_apps_explanation">ВНИМАНИЕ: Приложенията с допълнителни права играят ролята на шлюз, от който се получава произхода на удостоверяването. За да избегнете проблеми със сигурността се уверете в неговата автентичност.</string>
+    <string name="passkeys_privileged_apps_title">Приложения с допълнителни права</string>
+    <string name="passkeys_privileged_apps_summary">Управление на мрежови четци в потребителския списък на приложения с допълнителни права</string>
     <string name="passkeys_privileged_apps_ask_title">Неразпознато приложение</string>
-    <string name="passkeys_privileged_apps_ask_message">Приложението „%1$s“ опитва да извърши действия с ключ за достъп .\n\nДа бъде ли добавено в списъка с привилегировани приложения?</string>
+    <string name="passkeys_privileged_apps_ask_message">Приложението „%1$s“ опитва да извърши действия с ключ за достъп .\n\nДа бъде ли добавено в списъка на приложения с допълнителни права?</string>
     <string name="passkeys_missing_signature_app_ask_title">Липсващ подпис</string>
     <string name="passkeys_missing_signature_app_ask_message">Приложението „%1$s“ не е разпознато, но се опитва да извърши удостоверяване с ключ за достъп.</string>
     <string name="passkeys_missing_signature_app_ask_question">Добавяне на подпис към запис на ключ за достъп?</string>
@@ -721,5 +721,5 @@
     <string name="passkey_backup_state">Състояние на резервно копие на ключа за достъп</string>
     <string name="error_passkey_result">Грешка при връщане на ключ за достъп</string>
     <string name="passkey_relying_party">Доверяваща страна на ключа за достъп</string>
-    <string name="passkeys_missing_signature_app_ask_explanation">ВНИМАНИЕ: Ключът за достъп е създаден от друг клиент или подписът е премахнат. За да избегнете проблеми със сигурността се уверете, че приложението, което удостоверявате е част от същата услуга и е автентично.\nАко приложението е мрежов четец не добавяйте подписа му към записа, а в настройките го добавете в списъка с привилегировани приложения.</string>
+    <string name="passkeys_missing_signature_app_ask_explanation">ВНИМАНИЕ: Ключът за достъп е създаден от друг клиент или подписът е премахнат. За да избегнете проблеми със сигурността се уверете, че приложението, което удостоверявате е част от същата услуга и е автентично.\nАко приложението е мрежов четец не добавяйте подписа му към записа, а в настройките го добавете в списъка на приложенията с допълнителни права.</string>
 </resources>
