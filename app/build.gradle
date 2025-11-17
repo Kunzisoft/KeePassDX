@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 19
         targetSdkVersion 35
-        versionCode = 149
-        versionName = "4.2.4"
+        versionCode = 150
+        versionName = "4.3.0"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -109,6 +109,10 @@ android {
     packaging {
         // Bouncy castle bug https://github.com/bcgit/bc-java/issues/1685
         resources.pickFirsts.add('META-INF/versions/9/OSGI-INF/MANIFEST.MF')
+    }
+
+    androidResources {
+        generateLocaleConfig true
     }
 }
 
