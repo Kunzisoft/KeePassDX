@@ -154,7 +154,7 @@ class StructureParser(private val structure: AssistStructure) {
                 it.contains(View.AUTOFILL_HINT_PASSWORD, true) -> {
                     // Password Id changed if it's the second times we are here,
                     // So the last username candidate is most appropriate
-                    if (result?.passwordId != null) {
+                    if (result?.passwordId != null && usernameIdCandidate != null) {
                         result?.usernameId = usernameIdCandidate
                         result?.usernameValue = usernameValueCandidate
                     }

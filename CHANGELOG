@@ -1,5 +1,6 @@
 KeePassDX(4.3.0)
  * Manual change of app language #1884 #1990
+ * Fix autofill username detection #2276
 
 KeePassDX(4.2.4)
  * Fix remembering database location #2262

@@ -1,1 +1,2 @@
  * Changement manuel de la langue de l'appli #1884 #1990
+ * Correction de la détection du nom d'utilisateur pour le remplissage auto #2276
