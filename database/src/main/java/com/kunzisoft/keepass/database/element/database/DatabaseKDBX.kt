@@ -608,8 +608,8 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     /**
      * Retrieve the value of a field reference
      */
-    fun getFieldReferenceValue(textReference: String, recursionLevel: Int): String {
-        return mFieldReferenceEngine.compile(textReference, recursionLevel)
+    fun getFieldReferenceValue(entry: EntryKDBX, textReference: String, recursionLevel: Int): String {
+        return mFieldReferenceEngine.compile(entry, textReference, recursionLevel)
     }
 
     @Throws(IOException::class)
