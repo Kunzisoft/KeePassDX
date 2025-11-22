@@ -234,6 +234,7 @@
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
+    <string name="value">Value</string>
     <string name="nodes">Nodes</string>
     <string name="hide_password_title">Hide passwords</string>
     <string name="hide_password_summary">Mask passwords (***) by default</string>
@@ -677,6 +678,8 @@
     <string name="exclude_ambiguous_chars">Exclude ambiguous characters</string>
     <string name="consider_chars_filter">Consider characters</string>
     <string name="word_separator">Separator</string>
+    <string name="separator_custom_value">Custom Value</string>
+    <string name="separator_random_numbers">Random Numbers</string>
     <string name="ignore_chars_filter">Ignore characters</string>
     <string name="lower_case">lower case</string>
     <string name="upper_case">UPPER CASE</string>
@@ -687,6 +690,10 @@
         <item>@string/lower_case</item>
         <item>@string/upper_case</item>
         <item>@string/title_case</item>
+    </string-array>
+    <string-array name="separator_type_array">
+        <item>@string/separator_custom_value</item>
+        <item>@string/separator_random_numbers</item>
     </string-array>
     <string-array name="timeout_options">
         <item>5 seconds</item>

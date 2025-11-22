@@ -237,6 +237,10 @@
     <string name="passphrase_generator_word_case_key" translatable="false">passphrase_generator_word_case_key</string>
     <string name="passphrase_generator_separator_key" translatable="false">passphrase_generator_separator_key</string>
     <string name="passphrase_generator_separator_default" translatable="false" />
+    <string name="passphrase_generator_separator_type_key" translatable="false">passphrase_generator_separator_type_key</string>
+    <string name="passphrase_generator_separator_type_default" translatable="false">custom_value</string>
+    <string name="passphrase_generator_random_digits_count_key" translatable="false">passphrase_generator_random_digits_count_key</string>
+    <integer name="passphrase_generator_random_digits_count_default" translatable="false">1</integer>
 
     <!-- Search settings -->
     <string name="search_option_case_sensitive_key" translatable="false">search_option_case_sensitive_key</string>

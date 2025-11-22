@@ -339,6 +339,38 @@ object PreferencesUtil {
         }
     }
 
+    fun getDefaultPassphraseSeparatorType(context: Context): String {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.passphrase_generator_separator_type_key),
+            context.getString(R.string.passphrase_generator_separator_type_default)) ?: "custom_value"
+    }
+
+    fun setDefaultPassphraseSeparatorType(context: Context, separatorType: String) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putString(
+                context.getString(R.string.passphrase_generator_separator_type_key),
+                separatorType
+            )
+            apply()
+        }
+    }
+
+    fun getDefaultPassphraseRandomDigitsCount(context: Context): Int {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getInt(context.getString(R.string.passphrase_generator_random_digits_count_key),
+            context.resources.getInteger(R.integer.passphrase_generator_random_digits_count_default))
+    }
+
+    fun setDefaultPassphraseRandomDigitsCount(context: Context, digitsCount: Int) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putInt(
+                context.getString(R.string.passphrase_generator_random_digits_count_key),
+                digitsCount
+            )
+            apply()
+        }
+    }
+
     fun getDefaultSearchParameters(context: Context): SearchParameters {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return SearchParameters().apply {
@@ -900,6 +932,8 @@ object PreferencesUtil {
                 context.getString(R.string.passphrase_generator_word_count_key) -> editor.putInt(name, value.toInt())
                 context.getString(R.string.passphrase_generator_word_case_key) -> editor.putInt(name, value.toInt())
                 context.getString(R.string.passphrase_generator_separator_key) -> editor.putString(name, value)
+                context.getString(R.string.passphrase_generator_separator_type_key) -> editor.putString(name, value)
+                context.getString(R.string.passphrase_generator_random_digits_count_key) -> editor.putInt(name, value.toInt())
 
                 context.getString(R.string.sort_node_key) -> editor.putString(name, value)
                 context.getString(R.string.sort_group_before_key) -> editor.putBoolean(name, value.toBoolean())
